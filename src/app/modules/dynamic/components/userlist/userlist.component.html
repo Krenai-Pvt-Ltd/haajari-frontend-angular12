@@ -1,0 +1,102 @@
+<app-header></app-header>
+
+
+<div class="page-wrapper">
+
+    <!-- Page Content-->
+    <div class="page-content-tab">
+
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="page-title-box">
+                        <div class="float-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a routerLink="/dynamic/dashboard">Deshboard</a>
+                                </li><!--end nav-item-->
+                                <li class="breadcrumb-items active">/</li>
+                                <li class="breadcrumb-items active">User-list</li>
+                            </ol>
+                        </div>
+                        <h4 class="page-title">User List</h4>
+                    </div>
+                </div><!--end col-->
+            </div>
+            <!-- end page title end breadcrumb -->
+              
+
+            <form class="searching" role="search" (submit)="searchUsers()">
+                <div class="form-group">
+                  <input class="form-control me-2" type="search" id="searchText" placeholder="Search" (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }">
+                </div>
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                       
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th>User Id</th>
+                                        <th>Company Name</th>
+                                        <th>Slack User Id</th>
+                                        <th>Workspace Name</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor=" let i = index, let user of users | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};">
+                                        <th scope="row">{{user.id}}</th>
+                                        <td>{{user.name}}</td>
+                                        <td>{{user.slackUserId}}</td>
+                                        <td>KRENAI</td>
+                                        <!-- <td>
+                                            <button id="sb" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">ACTIVE<i class="mdi mdi-chevron-up"></i></button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" (click)="changeStatus(user.id,'ACTIVE')">ACTIVE</a>
+                                        <a class="dropdown-item" (click)="changeStatus(user.id,'INACTIVE')">INACTIVE</a>
+                                    </div>
+                                        </td> -->
+
+                                        <td class="text-center">
+                                            <div class="">
+                                                <input type="checkbox" id="switch{{user.id}}" [(ngModel)]="user.presenceStatus" (change)="changeStatus(user.id, user.presenceStatus)" class="d-none"/>
+                                                <label for="switch{{user.id}}" class="hafday">Toggle</label>
+                                            </div>
+                                        </td>
+                
+                                    </tr>
+
+                                    </tbody>
+                                </table><!--end /table-->
+                
+                                  
+                                  
+                            </div><!--end /tableresponsive-->
+
+                            
+                        </div><!--end card-body-->
+
+                        
+                    </div><!--end card-->
+                </div> <!-- end col -->
+            </div>
+
+        <div class = "pagination">
+            <pagination-controls 
+                perviousLabel="Prev"
+                nextLabel="Next"
+                (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
+        </div> 
+
+</div>
+</div>
+</div>

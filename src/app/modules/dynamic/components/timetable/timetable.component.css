@@ -1,0 +1,122 @@
+.filter{
+    display: flex;
+    grid-gap: 10px;
+    gap: 10px;
+    justify-content: end;
+}
+
+.form-control {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: auto;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #557ef8;
+    border-color: #557ef8;
+    padding: 12px 30px !important;
+}
+
+.time-table-list th td{
+    color: #8997bd;
+    font-weight: 400;
+    vertical-align: middle;
+    border-color: #e8ebf3;
+    border: 1px solid #ccc !important;
+    padding: 5px 15px;
+    text-align: center;
+}
+
+.time-table-list th h5{
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 5px;
+    /* margin-top: 0; */
+    text-align: center;
+}
+
+.time-table-list th p{
+    font-size: 12px;
+    color: #8d8d8d;
+    text-align: center;
+}
+.time-table-list td p{
+    margin-bottom: 5px;
+}
+span.first-name {
+    background-color: #444;
+    width: 30px;
+    height: 30px;
+    display: block;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.css-8mp9q7 {
+    position: sticky;
+    left: 0px;
+    min-width: 224px;
+    background-color: #fff;
+    border-bottom: 1px solid rgb(224, 224, 224);
+    text-align: left;
+    z-index: 999;
+}
+
+.css-odmd51 {
+    position: sticky;
+    right: 0px;
+    background-color: rgb(255, 255, 255);
+    border-left: 1px solid rgb(217, 217, 217) !important;
+    z-index: 999;
+
+}
+
+
+.css-4jt3ln{
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    display: table-cell;
+    vertical-align: inherit;
+  
+    border-bottom: 1px solid rgb(224, 224, 224);
+    text-align: left;
+    color: rgba(0, 0, 0, 0.87);
+    position: sticky;
+    top: 0px;
+    z-index: 2;
+    background-color: rgb(255, 255, 255);
+    min-width: 154px;
+    padding: 18px 26px;
+}
+.css-1j0jct9 {
+    min-width: 202px;
+    position: sticky;
+    right: 0px;
+    background-color: rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(217, 217, 217);
+    z-index: 999;
+}
+.absent{
+    color: red;
+    font-size: 22px;
+    padding-right: 10px;
+}
+
+.time-table-list td i{
+    font-size: 18px;
+    padding-right: 10px;
+}
+
+.today-in{
+    color: green;
+}
+#hide{
+    display: none;
+}
