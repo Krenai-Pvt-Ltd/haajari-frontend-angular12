@@ -89,6 +89,7 @@
     border: 1px solid #ebecee;
     line-height: 2px;
     color: #ebecee;
+    z-index: 99;
   }
   
   .tracing-icon.active{
@@ -118,11 +119,11 @@
   
   .tracking-item:nth-child(1)::after {
     width: 2px;
-    height: 40px;
+    height: 0px;
     background-color: #3BB77E;
-    top: 38px;
+    top: 31px;
     left: 11px;
-    z-index: 999;
+    z-index: 1;
   }
   .tracking-item::after {
     content: "";
@@ -132,20 +133,21 @@
   
   .tracking-item:nth-child(2)::after {
     width: 2px;
-    height: 40px;
+    height: 0px;
     background-color: #3BB77E;
-    top: 38px;
+    top: 31px;
     left: 11px;
-    z-index: 999;
+    z-index: 1;
   }
   .tracking-item:nth-child(3)::after {
     width: 2px;
-    height: 40px;
-    background-color: #ebecee;
-    top: 38px;
+    height: 0px;
+    background-color: #3BB77E;
+    top: 31px;
     left: 11px;
     z-index: 999;
     bottom: 0;
+    z-index: 1;
   }
   /* .tracking-item:nth-child(4)::after {
     width: 2px;
@@ -367,5 +369,40 @@ textarea.form-control {
   /* display: block; */
   text-align: center;
   font-weight: bold;
+}
+
+
+.tracking-steps::after {
+  content: '';
+  width: 2px !important;
+  height: 70% !important;
+  background-color: transparent;
+  top: 20px !important;
+  left: 27px !important;
+  z-index: -1 !important;
+  position: absolute;
+  border-left: 2px dashed #ebecee;
+}
+
+.tracking-steps{
+  position: relative;
+  height: fit-content;
+}
+
+.tracking-item::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+}
+.tracking-item.tracking-itemActive::after{
+  animation: heightanimate 1.5s linear both;
+}
+@keyframes heightanimate {
+  0%{
+    height: 0px;
+  }
+  100%{
+    height: 53px;
+  }
 }
 
