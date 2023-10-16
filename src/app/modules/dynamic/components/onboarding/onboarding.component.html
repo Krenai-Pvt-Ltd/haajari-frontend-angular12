@@ -619,7 +619,7 @@
           <div class="sidebar pt-4">
             <div class="tracking-body">
               <ul class="tracking-steps">
-                <li class="tracking-item">
+                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel==0,'newline':activeModel>1}">
                   <div class="d-flex new-stap">
                     <div
                       class="tracing-icon"
@@ -637,7 +637,7 @@
                     </div>
                   </div>
                 </li>
-                <li class="tracking-item">
+                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel==1,'newline':activeModel>2}">
                   <div class="d-flex align-items-center new-stap">
                     <div
                       class="tracing-icon"
@@ -655,7 +655,7 @@
                     </div>
                   </div>
                 </li>
-                <li class="tracking-item">
+                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel==1,'newline':activeModel>1}">
                   <div class="d-flex new-stap">
                     <div
                       class="tracing-icon"
@@ -674,7 +674,7 @@
                   </div>
                 </li>
 
-                <li class="tracking-item">
+                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel==1,'newline':activeModel>4}">
                   <div class="d-flex new-stap">
                     <div
                       class="tracing-icon"
