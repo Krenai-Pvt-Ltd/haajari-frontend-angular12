@@ -51,3 +51,7 @@
 .signin-with-email-button:hover{
     background-color: whitesmoke;
 }
+
+#registerButton:hover{
+    cursor: pointer;
+}
