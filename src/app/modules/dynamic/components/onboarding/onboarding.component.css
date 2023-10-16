@@ -137,7 +137,7 @@
     background-color: #3BB77E;
     top: 31px;
     left: 11px;
-    z-index: 999;
+    z-index: 1;
   }
   .tracking-item:nth-child(3)::after {
     width: 2px;
@@ -147,6 +147,7 @@
     left: 11px;
     z-index: 999;
     bottom: 0;
+    z-index: 1;
   }
   /* .tracking-item:nth-child(4)::after {
     width: 2px;

@@ -107,7 +107,7 @@
                         <form [formGroup]="businessInfoForm"
                         >
                           <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                               <div class="mb-3">
                                 <label
                                   for="username"
@@ -130,7 +130,7 @@
                               </div>
                             </div>
                             <!-- ####################### -->
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                               <div class="mb-3">
                                 <label
                                   for="useremail"
@@ -152,7 +152,7 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                               <div class="mb-3">
                                 <label
                                   for="userpassword"
@@ -175,7 +175,7 @@
                               </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                               <div class="mb-3">
                                 <label
                                   for="exampleFormControlSelect1"
@@ -192,7 +192,7 @@
                                   required
                                   
                                 >
-                                  <option>Select Country</option>
+                                  <option value="">Select Country</option>
                                   <option *ngFor="let c of countries" [value]="c.name">
                                     {{ c.name }}
                                   </option>
@@ -202,7 +202,7 @@
                               </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                               <div class="mb-3">
                                 <label
                                   for="exampleFormControlSelect2"
@@ -217,7 +217,7 @@
                                   formControlName="state"
                                   required
                                 >
-                                  <option>Select State</option>
+                                  <option value="">Select State</option>
                                   <option *ngFor="let s of states" [value]="s">
                                     {{ s }}
                                   </option>
@@ -227,7 +227,7 @@
                               </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                               <div class="mb-3">
                                 <label
                                   for="exampleFormControlSelect1 pb-2"
@@ -693,13 +693,11 @@
                 <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel==0,'newline':activeModel>1}">
                   <div class="d-flex new-stap">
                     <div
-                      class="tracing-icon"
-                      [ngClass]="{ 'active': activeModel > 0 }"
-                    >
+                      class="tracing-icon" [ngClass]="{ 'active': activeModel > 0 }">
                       <i class="bi bi-check2"></i>
                     </div>
                     <div class="tracking-data">
-                      <p>Business Information</p>
+                      <p>Business Information{{activeModel}}</p>
                       <div>
                         <span>
                           {{ currentDate | date : "yyyy-MM-dd" }}
