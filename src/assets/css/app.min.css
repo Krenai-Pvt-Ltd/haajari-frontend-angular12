@@ -8934,4 +8934,27 @@ display:block
     height: 45px !important;
 }
 /*# sourceMappingURL=app.min.css.map */
-
+.pt-2{
+    padding-top: 10px;
+}
+.pt-3{
+    padding-top: 15px;
+}
+.mt-2{
+    margin-top: 10px;
+}
+.mt-3{
+    margin-top: 15px;
+}
+.cusser-pointer{
+    cursor: pointer;
+}
+.text-center{
+    text-align: center;
+}
+.float-right{
+    float: right;
+}
+.float-left{
+    float: left;
+}
