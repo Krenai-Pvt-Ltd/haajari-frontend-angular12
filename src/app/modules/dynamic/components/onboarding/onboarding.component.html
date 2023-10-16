@@ -160,7 +160,7 @@
                                   >Password</label
                                 >
                                 <input
-                                  type="text"
+                                  type="password"
                                   class="form-control"
                                   id="userpassword"
                                   placeholder="Enter Password ..."
@@ -170,7 +170,7 @@
                                   
                                 />
                                 <div *ngIf="businessInfoForm.get('password')?.hasError('required') && businessInfoForm.get('password')?.touched" class="text-danger">
-                                  password is required! Min len 2.
+                                  password is required! Min len 6.
                                 </div>
                               </div>
                             </div>
@@ -322,14 +322,14 @@
                               <table class="table mb-0">
                                 <thead class="thead-light">
                                   <tr>
-                                    <th class="border-top-0 text-center">
+                                    <th class="border-top-0 text-center" style="width:25%;">
                                       In Time
                                     </th>
-                                    <th class="border-top-0 text-center">
+                                    <th class="border-top-0 text-center" style="width:25%;">
                                       Out Time
                                     </th>
                                     <!-- <th class="border-top-0 text-center">Lunch Start/End Time</th> -->
-                                    <th class="border-top-0 text-center">
+                                    <th class="border-top-0 text-center" style="width:25%;">
                                       Working Hours
                                     </th>
                                   </tr>
@@ -356,14 +356,14 @@
                               <table class="table mb-0">
                                 <thead class="thead-light">
                                   <tr>
-                                    <th class="border-top-0 text-center">
+                                    <th class="border-top-0 text-center" style="width:25%;">
                                       Lunch Start
                                     </th>
-                                    <th class="border-top-0 text-center">
+                                    <th class="border-top-0 text-center" style="width:25%;">
                                       End Time
                                     </th>
                                     <!-- <th class="border-top-0 text-center">Lunch Start/End Time</th> -->
-                                    <th class="border-top-0 text-center">
+                                    <th class="border-top-0 text-center" style="width:25%;">
                                       Total Hours
                                     </th>
                                   </tr>
@@ -665,6 +665,17 @@
                       </div>
                     </div>
                   </div>
+
+                  <div id="submitButton" class="mt-3 float-right">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="onBtnClick()"
+                      [disabled]="count < 3"
+                    >
+                      Submit
+                    </button>
+                  </div>
                 </div>
               </div>
               <!--end card-body-->
@@ -674,23 +685,14 @@
           </div>
 
         </div>
-        <div id="submitButton" class="">
-          <button
-            type="button"
-            class="btn btn-primary"
-            (click)="onBtnClick()"
-            [disabled]="count < 3"
-          >
-            Submit
-          </button>
-        </div>
+     
         <!-- [disabled]="isDisabled" -->
 <!-- ##########################################################################################################3 -->
         <div class="col-md-4 sidebar-div">
           <div class="sidebar pt-4">
             <div class="tracking-body">
               <ul class="tracking-steps">
-                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel==0,'newline':activeModel>1}">
+                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel>=1,'newline':activeModel<2}">
                   <div class="d-flex new-stap">
                     <div
                       class="tracing-icon" [ngClass]="{ 'active': activeModel > 0 }">
@@ -706,7 +708,7 @@
                     </div>
                   </div>
                 </li>
-                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel==1,'newline':activeModel>2}">
+                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel>=2,'newline':activeModel<3 }">
                   <div class="d-flex align-items-center new-stap">
                     <div
                       class="tracing-icon"
@@ -724,7 +726,7 @@
                     </div>
                   </div>
                 </li>
-                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel==1,'newline':activeModel>1}">
+                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel>=3,'newline':activeModel<4}">
                   <div class="d-flex new-stap">
                     <div
                       class="tracing-icon"
@@ -743,7 +745,7 @@
                   </div>
                 </li>
 
-                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel==1,'newline':activeModel>4}">
+                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel>=4 || activeModel==5,'newline':activeModel<5}">
                   <div class="d-flex new-stap">
                     <div
                       class="tracing-icon"
