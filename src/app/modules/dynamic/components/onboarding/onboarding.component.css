@@ -89,6 +89,7 @@
     border: 1px solid #ebecee;
     line-height: 2px;
     color: #ebecee;
+    z-index: 99;
   }
   
   .tracing-icon.active{
@@ -122,7 +123,7 @@
     background-color: #3BB77E;
     top: 31px;
     left: 11px;
-    z-index: 999;
+    z-index: 1;
   }
   .tracking-item::after {
     content: "";
