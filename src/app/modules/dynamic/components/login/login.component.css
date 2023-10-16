@@ -44,3 +44,10 @@
 .login-detail a:hover{
     color: #444 !important;
 }
+#signin-with-email{
+    display: none;
+}
+
+.signin-with-email-button:hover{
+    background-color: whitesmoke;
+}

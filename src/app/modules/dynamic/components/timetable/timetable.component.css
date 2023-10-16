@@ -120,3 +120,41 @@ span.first-name {
 #hide{
     display: none;
 }
+
+/* Style for the date picker */
+.date-picker-wrapper {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* Style for the select dropdown */
+select.form-control {
+    width: 200px;
+    margin-right: 10px;
+}
+
+/* Style for the export button */
+.btn.btn-primary.btn-sm {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+
+/* Style for the export button on hover */
+.btn.btn-primary.btn-sm:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+#date-picker-wrapper{
+    display: none;
+}
+
+#date-picker-button{
+    background-color: white;
+    border: 0.1px solid whitesmoke;
+    border-radius: 3px;
+}
+.total-day{
+    position: fixed;
+    z-index: 1001;
+}

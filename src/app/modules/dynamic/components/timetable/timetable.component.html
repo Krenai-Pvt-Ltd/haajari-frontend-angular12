@@ -13,7 +13,7 @@
                     <div class="page-title-box">
                         <div class="float-end">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a routerLink="/dynamic/dashboard">Deshboard</a>
+                                <li class="breadcrumb-item"><a routerLink="/dynamic/dashboard">Dashboard</a>
                                 </li><!--end nav-item-->
                                 <li class="breadcrumb-items active">/</li>
                                 <li class="breadcrumb-items active">Timetable</li>
@@ -35,18 +35,15 @@
 
         <div class=" d-flex align-items-center justify-content-end">
             <div class="filter">
-                <input class="form-control col-md-3"
-                        type="text"
-                        id="dateRange"
-                        autocomplete="off"
-                        class="form-control"
-                        ngxDaterangepickerMd
-                        [locale]="{ applyLabel: 'Apply', format: 'DD-MM-YYYY' }"
-                        [(ngModel)]="selected"
-                        name="daterange"
-                        (ngModelChange)="dateRangeFilter($event)"
-                        placeholder="Select date range"
-                        /> 
+              <button id="date-picker-button" class="date-picker-button" (click)="dateRangeButton()">-- Select Date Range--</button>
+              <div id="date-picker-wrapper" class="date-picker-wrapper">
+                <ngx-daterangepicker-material
+                  id="date-picker-calendar"
+                  (choosedDate)="dateRangeFilter($event)"
+                  [locale]="{ applyLabel: 'Apply', format: 'DD-MM-YYYY' }"
+                >
+                </ngx-daterangepicker-material>
+              </div>
                 <div>
                     <select class="form-control" id="idDiscount" data-choices="" data-choices-search-false="" data-choices-removeitem="">
                         <option>Project Wise Attendance</option>
@@ -122,13 +119,13 @@
 
                     <table class="table table-bordered time-table-list">
                         <thead>
-                          <tr  *ngFor="let entry of myAttendanceData | keyvalue">
+                          <tr>
                             <th scope="col" class="css-8mp9q7">
                                 <h5>Date</h5>
                             </th>
-                            <th scope="col" class="css-4jt3ln"  *ngFor="let attendance of entry.value">
-                                <h5>{{attendance.createdDate | dateFormat}}</h5>
-                                <p class="mb-0">{{attendance.createdDay}}</p>
+                            <th scope="col" class="css-4jt3ln"  *ngFor="let entry of attendanceArrayDate">
+                                <h5>{{entry.createdDate | dateFormat}}</h5>
+                                <p class="mb-0">{{entry.createdDay}}</p>
                             </th>
                             
                             <th scope="col" class="css-1j0jct9">
@@ -140,7 +137,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let entry of myAttendanceData | keyvalue">
+                          <tr *ngFor="let total = index, let entry of myAttendanceData | keyvalue">
                             <th scope="row" class="css-8mp9q7">
                                 <div >
                                     <h5 class="d-flex align-items-center justify-content-center" style="gap:10px;"> 
@@ -156,10 +153,13 @@
                                   <p><i class="bi bi-stopwatch mr-2"></i> {{ attendance.duration | durationFormat }}</p>
                                 </div>
                                 <div *ngIf="attendance.checkInTime === null">
-                                  <p><i class="bi bi-calendar-check-fill absent"></i> Absent</p>
+                                  <p><i class="bi bi-calendar-check-fill absent"></i>Absent</p>
                                 </div>
                               </td>
-                              
+                              <td class="css-odmd51">
+                                <!-- <p><i class="bi bi-stopwatch mr-2"></i> 8h 53m</p> -->
+                                <p><i class="bi bi-calendar-event"></i>{{total}} Present Days</p>
+                            </td>
                             
                           </tr>
                          

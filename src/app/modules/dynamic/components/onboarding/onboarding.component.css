@@ -357,6 +357,15 @@ textarea.form-control {
 }
 #submitButton{
   text-align: left;
-  margin-left: 5%;
+  /* margin-left: 5%; */
+}
+#zyx{
+  display: none;
+
+}
+#cba{
+  /* display: block; */
+  text-align: center;
+  font-weight: bold;
 }
 

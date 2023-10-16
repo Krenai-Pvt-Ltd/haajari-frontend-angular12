@@ -6,7 +6,34 @@
                 <h2>Welcome back</h2>
                 <p>Welcome back! Please enter your details</p>
 
-                <div class="mt-5">
+                <form id="signin-with-email">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Email address</label>
+                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="email" [ngModelOptions]="{ standalone: true }">
+                      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Password</label>
+                      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" [(ngModel)]="password" [ngModelOptions]="{ standalone: true }">
+                    </div>
+                    <br>
+                    <!-- <div class="form-group form-check">
+                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div> -->
+
+                    <div>Don't have an account? <span style="color: rgb(28, 88, 166);" (click)="redirectToRegister()">Register here</span></div>
+                    
+                    <button type="submit" class="btn btn-primary" style="padding: 10px 25px;" (click)="signIn()">Submit</button>
+                  </form>
+
+                <div id="mt-5" class="mt-5">
+                    <div class="signin-with-email-button">
+                        <button (click)="signInWithEmail()" style="width:380px; padding: 10px; border: 0.3px solid gray; border-radius: 7px; background-color: transparent;"><i class="bi bi-envelope" style="font-size:18px; margin-right:6px"></i> Sign in with <b> Email </b></button>
+                    </div>
+
+                    <div style="position:relative"><hr style="width:380px;height:1px;margin-top:24px;margin-bottom:24px;border:0;background-color:#D9D9D9"><span style="position:absolute;top:calc(50% - 12px);left:calc(50% - 23px);width:46px;font-weight:500;font-size:14px;text-align:center;background-color:#fff;color:#A4A4A4">Or</span></div>
 
                 <div class="">
                     <a href=""><img src="assets/images/slack-new.svg" style="width:30px; margin-right:6px"> Sign in with <b> Slack </b></a>
