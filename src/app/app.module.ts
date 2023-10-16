@@ -3,11 +3,15 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
+import {NgxDaterangepickerMd} from 'ngx-daterangepicker-material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {NgxDaterangepickerMd} from 'ngx-daterangepicker-material';
+import { RouterModule, Routes } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+
+
 
 @NgModule({
   declarations: [
@@ -20,7 +24,9 @@ import {NgxDaterangepickerMd} from 'ngx-daterangepicker-material';
     HttpClientModule,
     FormsModule,
     NgxPaginationModule,
-    NgxDaterangepickerMd.forRoot()
+    NgxDaterangepickerMd.forRoot(),
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

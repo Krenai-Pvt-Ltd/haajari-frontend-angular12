@@ -1,20 +1,47 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { EventEmitter, Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Organization, Users } from '../models/users';
 import { Time } from '@angular/common';
 import { Savel } from '../models/savel';
 import { AttendenceDto } from '../models/attendence-dto';
+import { OnboardingComponent } from '../modules/dynamic/components/onboarding/onboarding.component';
+import { SlackAuthComponent } from '../modules/dynamic/components/slack-auth/slack-auth.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  // id !: number;
+   
+  orgId: any;
+  constructor(private httpClient: HttpClient) { 
+    
+  }
+  // private refId = new BehaviorSubject<number | null>(null);;
 
-  constructor(private httpClient: HttpClient) { }
+  // setRefId(num: number) {
+  //   console.log('Setting organization ID:', num);
+  //   this.refId.next(num);
+  // }
+
+  // getRefId(): Observable<number | null> {
+  //   return this.refId.asObservable();
+  // }
+
+  private orgIdEmitter = new EventEmitter<number>();
+
+  setOrgId(orgId: number) {
+    this.orgIdEmitter.emit(orgId);
+  }
+
+  getOrgIdEmitter(): EventEmitter<number> {
+    return this.orgIdEmitter;
+  }
 
   private baseUrl = "http://localhost:8080/api/v1/attendance";
 
+  
   openSidebar:boolean=true;
 
   getUsersByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
@@ -30,17 +57,15 @@ export class DataService {
   }
 
 
-  registerOnboardingDetails(name: string, state: string, country: string, organizationPic: File | null, flagOrganization: boolean, flagShiftTimings: boolean, flagQuestions: boolean, flagLeave: boolean){
+  registerOnboardingDetails(name: string, email: string, password: string, state: string, country: string, organizationPic: File | null){
     const params = new HttpParams()
       .set('name', name)
+      .set('email', email)
+      .set('password', password)
       .set('state', state)
       .set('country', country)
-      .set('flagOrganization', flagOrganization)
-      .set('flagShiftTimings', flagShiftTimings)
-      .set('flagQuestions', flagQuestions)
-      .set('flagLeave', flagLeave)
 
-    const url = `http://localhost:8080/api/v1/attendance/registerOrg?${params.toString()}`;
+    const url = `http://localhost:8080/api/v1/attendance/register-org?${params.toString()}`;
 
     return this.httpClient.post(url, organizationPic);
   }
@@ -73,11 +98,35 @@ updateLeaveStatus(sav: Savel): Observable<any> {
   }
 
   saveShiftTimings(shiftTimingsData: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/save-shiftTimings`, shiftTimingsData);
+    return this.httpClient.post(`http://localhost:8080/api/v1/attendance/save-shift-timings`, shiftTimingsData);
   }
 
-  // updateOrganizationFlag(organization: Organization): Observable<any> {
-  //   return this.httpClient.put(`${this.baseUrl}/update-organization/${organization.id}`, organization);
+ 
+  saveTokenForOrganization(token: string, organizationId: any): Observable<any> {
+    const params = new HttpParams()
+    .set('token', token)
+    .set('organizationId',organizationId)
+    
+
+    const url = `${this.baseUrl}/savetoken`;
+
+    return this.httpClient.put(url, {params});
+  }
+
+  signInOrganization(email: string, password: string): Observable<any>{
+    const params = new HttpParams()
+    .set('email', email)
+    .set('password', password)
+
+    return this.httpClient.get(`${this.baseUrl}/organization/signin`, {params});
+  }
+
+  // signUpOrganization(email: string, password: string): Observable<any>{
+  //   const params = new HttpParams()
+  //   .set('email', email)
+  //   .set('password', password)
+
+  //   return this.httpClient.get(`${this.baseUrl}/create-user-firebase`, {params});
   // }
 
 }

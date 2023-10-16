@@ -1,32 +1,65 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { Component, OnInit, Output, ViewChild, EventEmitter, ElementRef } from '@angular/core';
 import { Savel } from 'src/app/models/savel';
 import { Organization } from 'src/app/models/users';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+
+
 
 @Component({
   selector: 'app-onboarding',
   templateUrl: './onboarding.component.html',
-  styleUrls: ['./onboarding.component.css']
+  styleUrls: ['./onboarding.component.css'],
 })
 export class OnboardingComponent implements OnInit {
 
-  constructor(private dataService: DataService, private router: Router) { }
+  businessInfoForm: FormGroup;
+  shiftTimingsForm: FormGroup;
+  //leavesSettingForm: FormGroup;
+  // private modalService: NgbModal,
+
+  constructor(private dataService: DataService, private router: Router, private fb: FormBuilder ) { 
+      this.businessInfoForm = this.fb.group({
+        name: ['', Validators.required],
+        email: ['', [Validators.required,Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        country: ['', Validators.required],
+        state: ['', Validators.required],
+        organizationPic: [null, Validators.required],
+      });
+  
+      this.shiftTimingsForm = this.fb.group({
+        inTime: ['', Validators.required],
+        outTime: ['', Validators.required],
+        startLunch: ['', Validators.required],
+        endLunch: ['', Validators.required]
+      });
+  
+      // this.leavesSettingForm = this.fb.group({
+      //   leaveType: ['', Validators.required],
+      //   leaveEntitled: ['', Validators.required],
+      //   leaveStatus: ['', Validators.required]
+      // });  
+  }
+  // constructor(private dataService: DataService, private router: Router, private httpClient : HttpClient) { }
 
   ngOnInit(): void {
-      this.getLeaves();
+     // this.getLeaves();
   }
 
+
   name: string = "";
-  state: string = 'Select State';
-  country: string = 'Select Country';
+  email: string= "";
+  password: string="";
+  state: string = '';
+  country: string = '';
   organizationPic: File | null = null;
-  flagOrganization= false;
-  flagShiftTimings= false;
-  flagQuestions = false;
-  flagLeave= false;
 
   states: string[] = []; 
+  organization !: Organization;
+  orgI: any;
 
   countries = [
     {
@@ -111,6 +144,7 @@ export class OnboardingComponent implements OnInit {
     },  
   ];
   
+
   updateStates() {
     const selectedCountry = this.countries.find(c => c.name === this.country);
     if (selectedCountry) {
@@ -118,31 +152,53 @@ export class OnboardingComponent implements OnInit {
     } else {
       this.states = [];
     }
-    this.state = 'Select State'; 
+   // this.state = 'Select State'; 
   }
  
   
   resetForm2() {
     this.name= '';
+    this.email= '';
+    this.password= '';
     this.state = '';
     this.country = '';
     this.organizationPic = null;
   }
- // @ViewChild('myForm', {static: false}) myForm:any= NgForm;
+ 
+  // eId:string="";
+  // pass:string="";
 
   register() {
-    this.dataService.registerOnboardingDetails(this.name, this.state, this.country, this.organizationPic, this.flagOrganization, this.flagShiftTimings, this.flagQuestions, this.flagLeave).subscribe((resultData: any) => {
+    if (this.businessInfoForm.valid) {
+    this.dataService.registerOnboardingDetails(this.name, this.email, this.password, this.state, this.country, this.organizationPic).subscribe((resultData: any) => {
       console.log(resultData);
-      alert("Organization Registered successfully");
-      this.resetForm2();
-      // const res=document.getElementById("collapseOne") as HTMLElement | null;
-      // if(res){
-      //   res!.style.display="none";
-      // }
-      //this.resetForm1();
+     this.loginArray.organizationId=resultData.id;
+     this.leaveData.orgId=resultData.id;
+    //  this.eId=resultData.email;
+    //  this.pass=resultData.password;
+    //  console.log(this.eId, this.pass);
+    //  this.signUp(this.eId, this.pass)
+    // alert("Organization Registered successfully, Please Click on Shift Timings");
+     // this.resetForm2();
+      // this.orgI = this.organization.id;
+      this.orgI = resultData.id;
+      localStorage.setItem('orgId', this.orgI);
       //window.location.reload();
     });
+    }
   }
+
+  
+
+  // signUp(eId :string , pass : string){
+  //   this.dataService.signUpOrganization(this.eId, this.pass).subscribe(data =>{
+  //     console.log(data);
+  //   }, (error) =>{
+  //     console.log(error);
+  //   })
+  // }
+
+ 
 
   loginArray: {
     inTime: string,
@@ -151,7 +207,7 @@ export class OnboardingComponent implements OnInit {
     endLunch: string,
     workingHour: string,
     totalHour: string,
-    // flagShiftTimings: any,
+    organizationId: number,
   } = {
     inTime: "",
     outTime: "",
@@ -159,7 +215,8 @@ export class OnboardingComponent implements OnInit {
     endLunch: "",
     workingHour: "",
     totalHour: "",
-    // flagShiftTimings: true,
+    organizationId: 0,
+  
   };
   
   calculateHours() {
@@ -200,55 +257,89 @@ export class OnboardingComponent implements OnInit {
     this.loginArray.workingHour = `${workingHours}:${workingMinutesRemainder}`;
     this.loginArray.totalHour = `${totalHours}:${totalMinutesRemainder}`;
   }
+
   
   addShift() {
+    if (this.shiftTimingsForm.valid) {
     this.calculateHours();
     console.log(this.loginArray);
     const result2=document.getElementById("abc") as HTMLElement | null;
      if(result2){
        result2.style.display="none";
      }
-    alert("Shift Time updated");
+    // alert("Shift Time updated");
 
     const result=document.getElementById("xyz") as HTMLElement | null;
      if(result){
       result.style.display="block";
      }
-    //  const result3=document.getElementById("shifttime") as HTMLElement | null;
-    //  if(result3){
-    //   result3.style.display="none";
-    //  }
-
-     
+    }
     
+   
   }
   
-
+  
   leaveData = {
     leaveType: '',
     leaveEntitled: '',
-    leaveStatus: ''
+    leaveStatus: '',
+    orgId: 0
   };
 
   resetForm() {
     this.leaveData = {
       leaveType: '',
       leaveEntitled: '',
-      leaveStatus: ''
+      leaveStatus: '',
+      orgId: this.leaveData.orgId
     };
   }
 
+  @ViewChild('leaveSetForm') leaveSetForm!:any;
+  @ViewChild('requestLeaveCloseModel') requestLeaveCloseModel!: ElementRef;
+  
+
+  // closePopup() {
+  //   this.modalService.dismissAll(); 
+  // }
+
+  leaveSetInvalidToggle:boolean = false;
+  //IsmodelShow=false;
+
+  // close() {
+  //   this.IsmodelShow=true;// set false while you need open your model popup
+  // }
+
+  setAct(){
+    if(this.leaveSetForm.valid){
+    // this.leaveSetForm.dismissAll;
+    // this.closePopup();
+     this.setActive(4);
+    }
+  }
   onSubmit() {
+    debugger
+    if(this.leaveSetForm.invalid){
+      this.leaveSetInvalidToggle = true;
+      return;
+    }
+    //if (this.leavesSettingForm.valid) {
     this.dataService.saveLeave(this.leaveData).subscribe(
       (response) => {
         console.log(response);
-        alert("Leave saved successfully");
         this.savel.push(response);
+        const result2=document.getElementById("cba") as HTMLElement | null;
+        if(result2){
+             result2.style.display="none";
+         }
+        const result=document.getElementById("zyx") as HTMLElement | null;
+        if(result){
+            result.style.display="block";
+        }
+        this.requestLeaveCloseModel.nativeElement.click();
+        // alert("Leave saved successfully");
         this.resetForm();
-        
        // window.location.reload();
-       //this.leaveData = {};
-
       },
       (error) => {
         console.error(error);
@@ -262,6 +353,9 @@ export class OnboardingComponent implements OnInit {
   getLeaves() {
     this.dataService.getLeave().subscribe(data => {
       this.savel = data;
+      // if(this.savel==null){
+      //   this.count=this.count-1;
+      // }
       console.log(this.savel);
     }, (error) => {
       console.log(error);
@@ -271,61 +365,50 @@ export class OnboardingComponent implements OnInit {
   updateLeaveStatus(sav: Savel) {
     this.dataService.updateLeaveStatus(sav).subscribe(() => {
       console.log(`Leave status updated for ${sav.leaveType}`);
-      alert("Leave status updated");
+     // alert("Leave status updated");
     
     }, (error) => {
       console.log(error);
     });
   }
 
-
-
-
-  // org: Organization[] = [];
-
-  // updateOrganizationFlag(organization: Organization) {
-  //   this.dataService.updateOrganizationFlag(organization).subscribe(() => {
-  //     console.log(`flag updated for ${this.org.fla}`);
-    
-  //   }, (error) => {
-  //     console.log(error);
-  //   });
-  // }
-
-
   currentDate = new Date();
 
   activeModel:number=0;
+  count:number=0;
   setActive(activeNumber:number){
+    this.count=this.count+1;
     this.activeModel = activeNumber;
-    console.log(this.activeModel);
+    console.log(this.activeModel, this.count);
   }
 
-  resetForm3() {
-    this.loginArray = {
-      inTime: "",
-      outTime: "",
-      startLunch: "",
-      endLunch: "",
-      workingHour: "",
-      totalHour: "",
-    };
-  }
+  // resetForm3() {
+  //   this.loginArray = {
+  //     inTime: "",
+  //     outTime: "",
+  //     startLunch: "",
+  //     endLunch: "",
+  //     workingHour: "",
+  //     totalHour: "",
+  //     organizationId: this.loginArray.organizationId,
+  //   };
+  // }
+
   onSaveShiftTimings() {
     this.dataService.saveShiftTimings(this.loginArray).subscribe(
       (response) => {
         console.log(response);
-        alert("Leave saved successfully");
-        this.resetForm3();
-        const result4=document.getElementById("xyz") as HTMLElement | null;
-        if(result4){
-          result4.style.display="none";
-         }
+       // alert("Shift Time saved successfully, Click on Leaves Setting");
+       // this.resetForm3();
+        // const result4=document.getElementById("xyz") as HTMLElement | null;
+        // if(result4){
+        //   result4.style.display="none";
+        //  }
 
-         const result5=document.getElementById("def") as HTMLElement | null;
-        if(result5){
-          result5.style.display="block";
-         }
+        //  const result5=document.getElementById("def") as HTMLElement | null;
+        // if(result5){
+        //   result5.style.display="block";
+        //  }
       },
       (error) => {
         console.error(error);
@@ -335,19 +418,28 @@ export class OnboardingComponent implements OnInit {
   }
 
   onBtnClick(){
-    // Navigate to /products page
-    this.router.navigate(['/dynamic/addtoslack']);
+
+    if(this.count>=3){
+       this.router.navigate(['/dynamic/login']);
+    }
   }
 
-  // setAct:any=this.setActive;
+  businessInfoCompleted: boolean = false;
+  shiftTimingsCompleted: boolean = false;
+  lockbusinessInfoCompleted: boolean = true;
 
-  // setActive2(){
-  //   if(this.setAct%2==0){
-  //      this.settracingicon='active';
-  //   }else{
-  //      this.
-  //   }
+  setBusinessInfoCompleted() {
+    this.businessInfoCompleted = true;
+  }
+  setShiftTimingsCompleted() {
+    this.shiftTimingsCompleted = true;
+  }
+  setLockbusinessInfoCompleted() {
+    this.lockbusinessInfoCompleted = false;
+  }
 
-  // }
+  
+
+  
 
 }

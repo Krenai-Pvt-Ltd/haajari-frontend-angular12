@@ -4,4 +4,5 @@ export class Savel {
     leaveEntitled!:number;
     leaveStatus!:string; 
     status!:any;
+   // orgId!:number;
 }

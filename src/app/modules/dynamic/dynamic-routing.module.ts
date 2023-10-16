@@ -29,7 +29,8 @@ const routes: Routes = [
   { path: 'payment', component: PaymentComponent },
   { path: 'userlist', component: UserlistComponent },
   {path: 'slackauth', component: SlackAuthComponent },
-  {path: 'addtoslack', component: AddToSlackComponent }
+  {path: 'addtoslack', component: AddToSlackComponent },
+  {path: '', redirectTo: 'onboarding', pathMatch:'full'}
   ];
 
 @NgModule({

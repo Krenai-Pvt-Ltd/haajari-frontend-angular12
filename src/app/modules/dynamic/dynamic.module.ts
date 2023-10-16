@@ -14,7 +14,7 @@ import { OnboardingComponent } from './components/onboarding/onboarding.componen
 import { LoginComponent } from './components/login/login.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { UserlistComponent } from './components/userlist/userlist.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SlackAuthComponent } from './components/slack-auth/slack-auth.component';
 import { AddToSlackComponent } from './components/add-to-slack/add-to-slack.component';
@@ -41,12 +41,14 @@ import { DurationFormatPipe } from './duration-format.pipe';
     AddToSlackComponent,
     DateFormatPipe,
     TimeFormatPipe,
-    DurationFormatPipe
+    DurationFormatPipe,
+
   ],
   imports: [
     DynamicRoutingModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     NgxPaginationModule,
     NgxDaterangepickerMd.forRoot()
   ]
