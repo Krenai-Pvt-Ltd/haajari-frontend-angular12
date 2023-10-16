@@ -10,6 +10,8 @@ import { DataService } from 'src/app/services/data.service';
 export class LoginComponent implements OnInit {
 email: any;
 password: any;
+  accessTokensAr: any = localStorage.getItem("accessTokens") || [];
+  accessTokenArray: any = JSON.parse(this.accessTokensAr);
 
   constructor(private dataService : DataService, private router : Router) { }
 
@@ -21,12 +23,14 @@ password: any;
     this.dataService.signInOrganization(this.email,this.password).subscribe(data =>{
       console.log(data);
 
+      this.accessTokenArray.push(data.access_token);
       debugger
-      localStorage.setItem('accessToken', data.access_token);
+      localStorage.setItem('accessTokens', JSON.stringify(this.accessTokenArray));
 
-      if(localStorage.getItem('accessToken')!==null){
+      if(this.accessTokenArray.includes(data.access_token)){
         this.router.navigate(['dynamic/dashboard']);
-            }
+      }
+      
     }, (error) =>{
       console.log(error);
     })
