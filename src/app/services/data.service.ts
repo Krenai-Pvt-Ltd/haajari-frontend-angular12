@@ -129,6 +129,13 @@ updateLeaveStatus(sav: Savel): Observable<any> {
   //   return this.httpClient.get(`${this.baseUrl}/create-user-firebase`, {params});
   // }
 
+  getAccessToken(code: string): Observable<any>{
+    const params = new HttpParams()
+    .set('code', code)
+
+    return this.httpClient.get(this.baseUrl+ '/get-token', {params});
+  }
+
 }
 
 
