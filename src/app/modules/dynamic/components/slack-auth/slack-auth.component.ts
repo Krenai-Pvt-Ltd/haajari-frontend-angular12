@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 // import { CookieService } from 'ngx-cookie-service';
 import { DataService } from 'src/app/services/data.service';
 
@@ -15,7 +16,7 @@ export class SlackAuthComponent implements OnInit{
    accessToken : any;
   // ide !:number;
   //  @Input() getIdFromOboard : any;
-  constructor(private dataService : DataService, private httpClient : HttpClient){}
+  constructor(private dataService : DataService, private httpClient : HttpClient, private router : Router){}
   ngOnInit(): void {
     debugger
     // this.dataService.getOrgIdEmitter().subscribe((orgId) => {
@@ -29,7 +30,7 @@ export class SlackAuthComponent implements OnInit{
       // this.dataService.orgId = this.id;
     }
     this.convertAccessTokenFromCode(this.orgId);
-    
+    this.router.navigate(['/dynamic/login']);
     // this.saveToken(this.orgId);
   }
   
@@ -55,7 +56,6 @@ export class SlackAuthComponent implements OnInit{
 
   saveToken(token : string, orgID : number): void {
     
-   
     // console.log(this.orgId);
     debugger
     if (!this.orgId) {
