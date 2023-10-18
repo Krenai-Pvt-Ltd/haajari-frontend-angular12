@@ -1,10 +1,11 @@
 
 import { Component, OnInit, Output, ViewChild, EventEmitter, ElementRef } from '@angular/core';
 import { Savel } from 'src/app/models/savel';
-import { Organization } from 'src/app/models/users';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { Organization } from 'src/app/models/organization';
+import { ShiftTimings } from 'src/app/models/shifttimings';
 
 
 
@@ -15,20 +16,20 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class OnboardingComponent implements OnInit {
 
-  businessInfoForm: FormGroup;
+  // businessInfoForm: FormGroup;
   shiftTimingsForm: FormGroup;
   //leavesSettingForm: FormGroup;
   // private modalService: NgbModal,
 
   constructor(private dataService: DataService, private router: Router, private fb: FormBuilder ) { 
-      this.businessInfoForm = this.fb.group({
-        name: ['', Validators.required],
-        email: ['', [Validators.required,Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        country: ['', Validators.required],
-        state: ['', Validators.required],
-        organizationPic: [null, Validators.required],
-      });
+      // this.businessInfoForm = this.fb.group({
+      //   name: ['', Validators.required],
+      //   email: ['', [Validators.required,Validators.email]],
+      //   password: ['', [Validators.required, Validators.minLength(6)]],
+      //   country: ['', Validators.required],
+      //   state: ['', Validators.required],
+      //   organizationPic: [null, Validators.required],
+      // });
   
       this.shiftTimingsForm = this.fb.group({
         inTime: ['', Validators.required],
@@ -46,7 +47,16 @@ export class OnboardingComponent implements OnInit {
   // constructor(private dataService: DataService, private router: Router, private httpClient : HttpClient) { }
 
   ngOnInit(): void {
-     // this.getLeaves();
+     this.getOrganization();
+     this.getShifts();
+     this.settingOrgId();
+     this.getLeaves();
+  //   window.addEventListener("beforeunload", function (e) {
+  //     var confirmationMessage = "\o/";
+  //     console.log("cond");
+  //     e.returnValue = confirmationMessage;     
+  //     return confirmationMessage;           
+  // });
   }
 
 
@@ -156,6 +166,7 @@ export class OnboardingComponent implements OnInit {
   }
  
   
+  
   resetForm2() {
     this.name= '';
     this.email= '';
@@ -169,7 +180,10 @@ export class OnboardingComponent implements OnInit {
   // pass:string="";
 
   register() {
-    if (this.businessInfoForm.valid) {
+    if(this.businessInfoForm.invalid){
+      this.BusinessInfoSetInvalidToggle = true;
+      return;
+    }
     this.dataService.registerOnboardingDetails(this.name, this.email, this.password, this.state, this.country, this.organizationPic).subscribe((resultData: any) => {
       console.log(resultData);
      this.loginArray.organizationId=resultData.id;
@@ -181,24 +195,119 @@ export class OnboardingComponent implements OnInit {
     // alert("Organization Registered successfully, Please Click on Shift Timings");
      // this.resetForm2();
       // this.orgI = this.organization.id;
+      this.requestBusinessInfoCloseModel.nativeElement.click();
       this.orgI = resultData.id;
       localStorage.setItem('orgId', this.orgI);
       //window.location.reload();
-    });
+
+      
+    }, (error) => {
+      console.log(error.error.message);
+      this.setAct2();
+    }
+    );
+
+
+  }
+
+  settingOrgId(){
+    let orgnIds = localStorage.getItem('orgId');
+
+    if(orgnIds){
+      this.loginArray.organizationId=+orgnIds;
+      
+      this.leaveData.orgId=+orgnIds;
+    
     }
   }
 
-  
+  setAct2(){
+    this.setActive(1);
+  }
 
-  // signUp(eId :string , pass : string){
-  //   this.dataService.signUpOrganization(this.eId, this.pass).subscribe(data =>{
-  //     console.log(data);
-  //   }, (error) =>{
+  // org: Organization[] = [];
+  org: Organization = new Organization();
+  a:number=0;
+  getOrganization() {
+    this.dataService.getOrg(localStorage.getItem('orgId')).subscribe(data => {
+      this.name = data.name;
+       this.email = data.email;
+      this.password  = data.password;
+       this.state = data.state;
+        this.country  = data.country;
+         this.organizationPic  = data.organizationPic;
+        
+        this.setActive(1);
+      if(this.a==2){
+        this.setActive(1);
+        this.setActive(2);
+      }
+      if(this.a==3){
+        this.setActive(1);
+        this.setActive(2);
+        this.setActive(4);
+      }
+      
+      if(this.a=3){
+        this.a=3;
+      }else if(this.a=2){
+        this.a=2;
+      }else{
+      this.a=1;
+      }
+      
+    }, (error) => {
+      console.log(error);
+
+    })
+  }
+
+
+  shifttimings: ShiftTimings =new ShiftTimings();
+
+  getShifts(){
+    this.dataService.getShiftTimings(localStorage.getItem('orgId')).subscribe(data =>{
+       
+      // this.setActive(1);
+        this.setActive(1);
+        this.setActive(2);
+        if(this.a==3){
+          this.setActive(1);
+          this.setActive(2);
+          this.setActive(4);
+          
+        }
+        
+      
+      this.loginArray.inTime=data.inTime;
+      this.loginArray.outTime=data.outTime;
+      this.loginArray.startLunch=data.startLunch;
+      this.loginArray.endLunch=data.endLunch;
+      this.loginArray.workingHour=data.workingHour;
+      this.loginArray.totalHour=data.totalHour;
+      if(this.a==3){
+        this.a=3;
+      }else{
+      this.a=2;
+      }
+    
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  // savel: Savel =new Savel();
+
+  // getLeaveDeatils(){
+  //   this.dataService.getSaveLeave(localStorage.getItem('orgId')).subscribe(data =>{
+  //     this.leaveData.leaveType=data.leaveType;
+  //     this.leaveData.leaveEntitled=data.leaveEntitled;
+  //     this.leaveData.leaveStatus=data.leaveStatus;
+  //   }, (error) => {
   //     console.log(error);
   //   })
   // }
 
- 
 
   loginArray: {
     inTime: string,
@@ -295,13 +404,23 @@ export class OnboardingComponent implements OnInit {
     };
   }
 
-  @ViewChild('leaveSetForm') leaveSetForm!:any;
-  @ViewChild('requestLeaveCloseModel') requestLeaveCloseModel!: ElementRef;
+  @ViewChild('businessInfoForm', { static: false })
+  businessInfoForm!: NgForm;
+  // @ViewChild('businessInfoForm') businessInfoForm!:any
+   @ViewChild('requestBusinessInfoCloseModel') requestBusinessInfoCloseModel!: ElementRef;
+
+  BusinessInfoSetInvalidToggle:boolean = false;
   
 
-  // closePopup() {
-  //   this.modalService.dismissAll(); 
-  // }
+  setAct1(){
+    if(this.businessInfoForm.valid){
+     this.setActive(1);
+    }
+  }
+
+  @ViewChild('leaveSetForm') leaveSetForm!:any;
+  @ViewChild('requestLeaveCloseModel') requestLeaveCloseModel!: ElementRef;
+
 
   leaveSetInvalidToggle:boolean = false;
   //IsmodelShow=false;
@@ -314,11 +433,11 @@ export class OnboardingComponent implements OnInit {
     if(this.leaveSetForm.valid){
     // this.leaveSetForm.dismissAll;
     // this.closePopup();
+    this.count=3;
      this.setActive(4);
     }
   }
   onSubmit() {
-    debugger
     if(this.leaveSetForm.invalid){
       this.leaveSetInvalidToggle = true;
       return;
@@ -328,14 +447,14 @@ export class OnboardingComponent implements OnInit {
       (response) => {
         console.log(response);
         this.savel.push(response);
-        const result2=document.getElementById("cba") as HTMLElement | null;
-        if(result2){
-             result2.style.display="none";
-         }
-        const result=document.getElementById("zyx") as HTMLElement | null;
-        if(result){
-            result.style.display="block";
-        }
+        // const result2=document.getElementById("cba") as HTMLElement | null;
+        // if(result2){
+        //      result2.style.display="none";
+        //  }
+        // const result=document.getElementById("zyx") as HTMLElement | null;
+        // if(result){
+        //     result.style.display="block";
+        // }
         this.requestLeaveCloseModel.nativeElement.click();
         // alert("Leave saved successfully");
         this.resetForm();
@@ -348,17 +467,36 @@ export class OnboardingComponent implements OnInit {
     );
   }
 
+  // noData:any="Please add leaves";
+
   savel: Savel[] = [];
 
   getLeaves() {
-    this.dataService.getLeave().subscribe(data => {
+    
+    this.dataService.getLeave( this.leaveData.orgId).subscribe(data => {
       this.savel = data;
-      // if(this.savel==null){
-      //   this.count=this.count-1;
-      // }
+        
+        this.setActive(1);
+        this.setActive(2);
+        this.setActive(4);
+      
       console.log(this.savel);
+      this.a=3;
+      this.count=3;
+    
     }, (error) => {
       console.log(error);
+
+      // const result4=document.getElementById("pqr") as HTMLElement | null;
+      //   if(result4){
+      //     result4.style.display="none";
+      //    }
+
+      // const result5=document.getElementById("cba") as HTMLElement | null;
+      //   if(result5){
+      //     result5.style.display="block";
+      //    }
+
     })
   }
 
@@ -377,7 +515,7 @@ export class OnboardingComponent implements OnInit {
   activeModel:number=0;
   count:number=0;
   setActive(activeNumber:number){
-    this.count=this.count+1;
+    // this.count=this.count+1;
     this.activeModel = activeNumber;
     console.log(this.activeModel, this.count);
   }
@@ -394,8 +532,10 @@ export class OnboardingComponent implements OnInit {
   //   };
   // }
 
+
   onSaveShiftTimings() {
     this.dataService.saveShiftTimings(this.loginArray).subscribe(
+
       (response) => {
         console.log(response);
        // alert("Shift Time saved successfully, Click on Leaves Setting");
@@ -424,19 +564,19 @@ export class OnboardingComponent implements OnInit {
     }
   }
 
-  businessInfoCompleted: boolean = false;
-  shiftTimingsCompleted: boolean = false;
-  lockbusinessInfoCompleted: boolean = true;
+  // businessInfoCompleted: boolean = false;
+  // shiftTimingsCompleted: boolean = false;
+  // lockbusinessInfoCompleted: boolean = true;
 
-  setBusinessInfoCompleted() {
-    this.businessInfoCompleted = true;
-  }
-  setShiftTimingsCompleted() {
-    this.shiftTimingsCompleted = true;
-  }
-  setLockbusinessInfoCompleted() {
-    this.lockbusinessInfoCompleted = false;
-  }
+  // setBusinessInfoCompleted() {
+  //   this.businessInfoCompleted = true;
+  // }
+  // setShiftTimingsCompleted() {
+  //   this.shiftTimingsCompleted = true;
+  // }
+  // setLockbusinessInfoCompleted() {
+  //   this.lockbusinessInfoCompleted = false;
+  // }
 
   
 

@@ -343,29 +343,33 @@ textarea.form-control {
   margin-top: 40px;
 }
 
-#xyz{
+/* #xyz{
   display: none;
 
 }
-#abc{
+#abc{ */
   /* display: block; */
-  text-align: center;
+  /* text-align: center;
   font-weight: bold;
 }
 #def{
    display: none;
   text-align: center;
   font-weight: bold;
-}
+} */
 #submitButton{
   text-align: left;
   /* margin-left: 5%; */
 }
-#zyx{
+/* #zyx{
   display: none;
 
+} */
+#nhj{
+  text-align: center;
+  font-weight: bold;
 }
-#cba{
+#noData{
   /* display: block; */
   text-align: center;
   font-weight: bold;

@@ -1,3 +1,5 @@
+import { Organization } from "./organization";
+
 export class Users {
     id !: number;
     name !: string;
@@ -8,13 +10,13 @@ export class Users {
     status !: Status;
 }
 
-export class Organization{
-    id !: number;
-    name !: string;
-    state !: string;
-    country !: string;
-    imageData !: ImageData;
-}
+// export class Organization{
+//     id !: number;
+//     name !: string;
+//     state !: string;
+//     country !: string;
+//     imageData !: ImageData;
+// }
 
 export class Enterprise{
     enterpriseId !: number;
@@ -29,3 +31,5 @@ export class Status{
     name !: string;
     desc !: string;
 }
+export { Organization };
+
