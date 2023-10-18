@@ -14,6 +14,7 @@ export class SlackAuthComponent implements OnInit{
 
    orgId : any;
    accessToken : any;
+   webhook : any;
   // ide !:number;
   //  @Input() getIdFromOboard : any;
   constructor(private dataService : DataService, private httpClient : HttpClient, private router : Router){}
@@ -44,9 +45,12 @@ export class SlackAuthComponent implements OnInit{
 
     this.dataService.getAccessToken(codeParam).subscribe((response : any)=>{
       // console.log(response.body);
-      this.accessToken = (JSON.parse(response.body)).access_token; 
+      this.accessToken = (JSON.parse(response.body)).access_token;
+      this.webhook = (JSON.parse(response.body)).incoming_webhook.url;  
+      // this.saveUser(this.accessToken);
+      console.log(this.webhook);
       // console.log(token);
-      this.saveToken(this.accessToken, orgI);
+      this.saveToken(this.accessToken, this.webhook, orgI);
     }, (error:any)=>{
       console.log('error fetching');
     });
@@ -54,7 +58,7 @@ export class SlackAuthComponent implements OnInit{
   }
 
 
-  saveToken(token : string, orgID : number): void {
+  saveToken(token : string, webhook: string, orgID : number): void {
     
     // console.log(this.orgId);
     debugger
@@ -63,7 +67,7 @@ export class SlackAuthComponent implements OnInit{
       return;
     }
     
-  this.dataService.saveTokenForOrganization(token, this.orgId)
+  this.dataService.saveTokenForOrganization(token, webhook, this.orgId)
     .subscribe(
       (response: any) => {
         console.log('Token saved:', response);
@@ -71,6 +75,19 @@ export class SlackAuthComponent implements OnInit{
       },
       (error: any) => {
         console.error('Error saving token:', error);
+      }
+    );
+  }
+
+  saveUser(token:any){
+    this.dataService.saveUserData(token)
+    .subscribe(
+      (response: any) => {
+        console.log('Users Data saved:', response);
+
+      },
+      (error: any) => {
+        console.error('Error saving USers Data:', error);
       }
     );
   }
