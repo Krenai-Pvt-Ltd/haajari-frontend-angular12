@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class AddToSlackComponent implements OnInit{
   
-  constructor(private dataService : DataService){}
+  constructor(private dataService : DataService, private router : Router){}
   id !: number;
   ngOnInit(): void {
     debugger
@@ -23,6 +24,7 @@ export class AddToSlackComponent implements OnInit{
       this.id = this.dataService.orgId;
       this.dataService.orgId = this.id;
     }
+    // this.router.navigate(['/dynamic/slackauth']);
   }
 
   
