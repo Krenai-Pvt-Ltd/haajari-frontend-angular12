@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 // import { CookieService } from 'ngx-cookie-service';
 import { DataService } from 'src/app/services/data.service';
 
@@ -12,9 +13,10 @@ import { DataService } from 'src/app/services/data.service';
 export class SlackAuthComponent implements OnInit{
 
    orgId : any;
+   accessToken : any;
   // ide !:number;
   //  @Input() getIdFromOboard : any;
-  constructor(private dataService : DataService, private httpClient : HttpClient){}
+  constructor(private dataService : DataService, private httpClient : HttpClient, private router : Router){}
   ngOnInit(): void {
     debugger
     // this.dataService.getOrgIdEmitter().subscribe((orgId) => {
@@ -27,19 +29,33 @@ export class SlackAuthComponent implements OnInit{
       this.orgId = localStorage.getItem('orgId');
       // this.dataService.orgId = this.id;
     }
-
-    // const cookieValue = this.cookieService.get('orgId');
-    // this.orgId = parseInt(cookieValue);
-    this.saveToken(this.orgId);
+    this.convertAccessTokenFromCode(this.orgId);
+    this.router.navigate(['/dynamic/login']);
+    // this.saveToken(this.orgId);
   }
   
-  saveToken(orgID : number): void {
+  convertAccessTokenFromCode(orgI : any){
+    debugger
     const codeParam = new URLSearchParams(window.location.search).get('code');
     if (!codeParam) {
       alert('Invalid URL: Missing code parameter');
       return;
     }
-   
+
+    this.dataService.getAccessToken(codeParam).subscribe((response : any)=>{
+      // console.log(response.body);
+      this.accessToken = (JSON.parse(response.body)).access_token; 
+      // console.log(token);
+      this.saveToken(this.accessToken, orgI);
+    }, (error:any)=>{
+      console.log('error fetching');
+    });
+
+  }
+
+
+  saveToken(token : string, orgID : number): void {
+    
     // console.log(this.orgId);
     debugger
     if (!this.orgId) {
@@ -47,7 +63,7 @@ export class SlackAuthComponent implements OnInit{
       return;
     }
     
-  this.dataService.saveTokenForOrganization(codeParam, this.orgId)
+  this.dataService.saveTokenForOrganization(token, this.orgId)
     .subscribe(
       (response: any) => {
         console.log('Token saved:', response);

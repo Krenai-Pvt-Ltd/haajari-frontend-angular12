@@ -121,9 +121,9 @@ updateLeaveStatus(sav: Savel): Observable<any> {
     .set('organizationId',organizationId)
     
 
-    const url = `${this.baseUrl}/savetoken`;
+    // const url = `${this.baseUrl}/savetoken`;
 
-    return this.httpClient.put(url, {params});
+    return this.httpClient.put(this.baseUrl+ '/savetoken', {}, {params});
   }
 
   signInOrganization(email: string, password: string): Observable<any>{
@@ -134,6 +134,13 @@ updateLeaveStatus(sav: Savel): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/organization/signin`, {params});
   }
 
+
+  getAccessToken(code: string): Observable<any>{
+    const params = new HttpParams()
+    .set('code', code)
+
+    return this.httpClient.get(this.baseUrl+ '/get-token', {params});
+  }
 
 }
 

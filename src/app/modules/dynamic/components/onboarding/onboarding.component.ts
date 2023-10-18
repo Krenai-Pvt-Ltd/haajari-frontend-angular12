@@ -560,7 +560,7 @@ export class OnboardingComponent implements OnInit {
   onBtnClick(){
 
     if(this.count>=3){
-       this.router.navigate(['/dynamic/login']);
+       this.router.navigate(['/dynamic/addtoslack']);
     }
   }
 

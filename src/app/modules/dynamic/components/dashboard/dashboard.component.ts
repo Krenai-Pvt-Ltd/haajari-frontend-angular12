@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router : Router) { }
+
+  
 
   ngOnInit(): void {
+    this.checkAccessToken();
   }
+  
 
+  checkAccessToken(){
+    const loginDetails = localStorage.getItem('loginData');
+    if (!loginDetails) {
+      this.router.navigate(['/dynamic/login']);
+    }
+  }
 }
