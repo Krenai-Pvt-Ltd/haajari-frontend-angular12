@@ -44,14 +44,15 @@ export class DataService {
   
   openSidebar:boolean=true;
 
-  getUsersByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
+  getUsersByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string, organizationId: number) : Observable<any>{
     const params = new HttpParams()
     .set("itemPerPage", itemPerPage.toString())
     .set("pageNumber", pageNumber.toString())
     .set('sortOrder', sort)
     .set('sortBy', sortBy)
     .set('search', search)
-    .set('searchBy', searchBy);
+    .set('searchBy', searchBy)
+    .set('organizationId', organizationId);
 
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-filters`, {params});
   }
@@ -90,11 +91,13 @@ updateLeaveStatus(sav: Savel): Observable<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/change-status`, params);
   }
 
-  getDurationDetails(startDateStr : string, endDateStr : string) : Observable<Record<string,AttendenceDto[]>>{
+  getDurationDetails(id : number, role : string, startDateStr : string, endDateStr : string) : Observable<any>{
     const params = new HttpParams()
+    .set('id',id)
+    .set('role', role)
     .set('startDateStr', startDateStr)
-    .set('endDateStr', endDateStr)
-    return this.httpClient.get<any>(`${this.baseUrl}/testingg`,{params});
+    .set('endDateStr', endDateStr);
+    return this.httpClient.get<any>(`${this.baseUrl}/testingg/`,{params});
   }
 
   saveShiftTimings(shiftTimingsData: any): Observable<any> {

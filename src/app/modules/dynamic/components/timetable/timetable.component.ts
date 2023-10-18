@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
-import * as dayjs from 'dayjs'; // Import dayjs
+import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
+import jwt_decode from "jwt-decode";
+
 
 @Component({
   selector: 'app-timetable',
@@ -64,8 +66,10 @@ model: any;
       const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
       const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
       
-      this.dataService.getDurationDetails(startDateStr, endDateStr).subscribe(
+      
+      this.dataService.getDurationDetails(this.getLoginDetailsId(), this.getLoginDetailsRole(), startDateStr, endDateStr).subscribe(
         (response: any) => {
+          
           this.myAttendanceData = response;
           console.log(this.myAttendanceData);
           if (this.myAttendanceData) {
@@ -107,6 +111,23 @@ model: any;
   }
 
 
-  
-  
+  getLoginDetailsRole(){
+    const loginDetails = localStorage.getItem('loginData');
+    if(loginDetails!==null){
+      const loginData = JSON.parse(loginDetails);
+      const decodedToken : any = jwt_decode(loginData.access_token);
+      return decodedToken.role;
+    }
+  }
+
+  getLoginDetailsId(){
+    const loginDetails = localStorage.getItem('loginData');
+    if(loginDetails!==null){
+      const loginData = JSON.parse(loginDetails);
+      const decodedToken : any = jwt_decode(loginData.access_token);
+      return decodedToken.organization_database_id;
+    }
+  }
+
 }
+
