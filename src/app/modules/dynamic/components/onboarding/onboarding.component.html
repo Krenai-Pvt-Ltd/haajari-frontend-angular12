@@ -1,5 +1,4 @@
 <div class="main-box">
-
   <div class="topbar navbar-custom" style="position: fixed">
     <div class="container">
       <div class="row">
@@ -70,8 +69,7 @@
       <div class="row">
         <div class="col-md-9">
           <div class="ondoarding-accodian" style="padding-top: 50px">
-
-          <div class="card">
+            <div class="card">
               <div class="card-header">
                 <h4 class="card-title">Please Fill Information</h4>
                 <p class="text-muted mb-0">
@@ -82,7 +80,7 @@
               <!--end card-header-->
               <div class="card-body">
                 <div class="accordion" id="headingOne">
-                  <div class="accordion-item" >
+                  <div class="accordion-item">
                     <h5 class="accordion-header m-0" id="headOne">
                       <button
                         class="accordion-button fw-semibold"
@@ -101,13 +99,15 @@
                     <div
                       id="collapseOne"
                       class="accordion-collapse collapse show"
-                      
                       aria-labelledby="headingOne"
                       data-bs-parent="#accordionExample"
                     >
-                    <!-- #companyForm="ngForm" name="myForm" novalidate  -->
+                      <!-- #companyForm="ngForm" name="myForm" novalidate  -->
                       <div class="accordion-body">
-                        <form #businessInfoForm="ngForm" ngNativeValidate (ngSubmit)="register()"
+                        <form
+                          #businessInfoForm="ngForm"
+                          ngNativeValidate
+                          (ngSubmit)="register()"
                         >
                           <div class="row">
                             <div class="col-md-4">
@@ -147,7 +147,6 @@
                                   placeholder="Enter email..."
                                   name="useremail"
                                   [(ngModel)]="email"
-                                  
                                   required
                                   autocomplete="email"
                                 />
@@ -158,7 +157,11 @@
                             </div>
                             <div class="col-md-4">
                               <div class="mb-3">
-                                <label for="userpassword" style="padding-bottom: 6px">Password</label>
+                                <label
+                                  for="userpassword"
+                                  style="padding-bottom: 6px"
+                                  >Password</label
+                                >
                                 <input
                                   type="password"
                                   class="form-control ng-untouched ng-pristine ng-invalid"
@@ -180,8 +183,6 @@
                                 </div> -->
                               </div>
                             </div>
-                            
-                            
 
                             <div class="col-md-4">
                               <div class="mb-3">
@@ -197,10 +198,12 @@
                                   [(ngModel)]="country"
                                   (change)="updateStates()"
                                   required
-                                  
                                 >
                                   <option value="">Select Country</option>
-                                  <option *ngFor="let c of countries" [value]="c.name">
+                                  <option
+                                    *ngFor="let c of countries"
+                                    [value]="c.name"
+                                  >
                                     {{ c.name }}
                                   </option>
                                 </select>
@@ -216,7 +219,15 @@
                                   style="padding-bottom: 6px"
                                   >State</label
                                 >
-                                <input type="text" class="form-control" id="userstate" placeholder="Enter State ..." name="userstate" [(ngModel)]="state" required />
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="userstate"
+                                  placeholder="Enter State ..."
+                                  name="userstate"
+                                  [(ngModel)]="state"
+                                  required
+                                />
 
                                 <!-- <select
                                   class="form-select"
@@ -231,12 +242,8 @@
                                     {{ s }}
                                   </option>
                                 </select> -->
-                               
-                                
                               </div>
                             </div>
-
-                          
 
                             <div class="col-md-4">
                               <div class="mb-3">
@@ -246,7 +253,7 @@
                                 >
                                   Brand Logo</label
                                 >
-                               
+
                                 <input
                                   type="file"
                                   class="form-control"
@@ -257,21 +264,19 @@
                                   [(ngModel)]="organizationPic"
                                   required
                                   style="line-height: 31px"
-                                  
-                                  
                                 />
                                 <!-- <div *ngIf="businessInfoForm.get('organizationPic')?.hasError('required') && businessInfoForm.get('organizationPic')?.touched" class="text-danger">
                                   Brand Logo is required!
                                 </div> -->
                               </div>
                             </div>
-                            
+
                             <div class="col-md-12">
                               <button
                                 type="submit"
                                 class="btn btn-primary"
-                                (click)="setAct1()"
-                           >
+                                (click)="onBusinessInfoCompleted()"
+                              >
                                 Save
                               </button>
                             </div>
@@ -282,6 +287,7 @@
                       data-bs-target="#collapseOne"
                       aria-expanded="true"
                       aria-controls="collapseOne" -->
+                      <!-- (click)="setAct1()" -->
                       <!-- [disabled]="businessInfoForm.invalid" -->
                       <!-- (click)="setBusinessInfoCompleted(); setLockbusinessInfoCompleted()"  -->
                     </div>
@@ -304,7 +310,7 @@
                     <div
                       id="collapseTwo"
                       class="accordion-collapse collapse"
-                     
+                      *ngIf="businessInfoCompleted"
                       aria-labelledby="headingTwo"
                       data-bs-parent="#accordionExample"
                     >
@@ -336,19 +342,28 @@
                             Click on add shift time button to add more time shifts!
                           </p> -->
                           <!-- id="xyz" -->
-                          <div  class="" *ngIf="loginArray.inTime">
+                          <div class="" *ngIf="loginArray.inTime">
                             <div class="table-responsive browser_users">
                               <table class="table mb-0">
                                 <thead class="thead-light">
                                   <tr>
-                                    <th class="border-top-0 text-center" style="width:25%;">
+                                    <th
+                                      class="border-top-0 text-center"
+                                      style="width: 25%"
+                                    >
                                       In Time
                                     </th>
-                                    <th class="border-top-0 text-center" style="width:25%;">
+                                    <th
+                                      class="border-top-0 text-center"
+                                      style="width: 25%"
+                                    >
                                       Out Time
                                     </th>
                                     <!-- <th class="border-top-0 text-center">Lunch Start/End Time</th> -->
-                                    <th class="border-top-0 text-center" style="width:25%;">
+                                    <th
+                                      class="border-top-0 text-center"
+                                      style="width: 25%"
+                                    >
                                       Working Hours
                                     </th>
                                   </tr>
@@ -375,14 +390,23 @@
                               <table class="table mb-0">
                                 <thead class="thead-light">
                                   <tr>
-                                    <th class="border-top-0 text-center" style="width:25%;">
+                                    <th
+                                      class="border-top-0 text-center"
+                                      style="width: 25%"
+                                    >
                                       Lunch Start
                                     </th>
-                                    <th class="border-top-0 text-center" style="width:25%;">
+                                    <th
+                                      class="border-top-0 text-center"
+                                      style="width: 25%"
+                                    >
                                       End Time
                                     </th>
                                     <!-- <th class="border-top-0 text-center">Lunch Start/End Time</th> -->
-                                    <th class="border-top-0 text-center" style="width:25%;">
+                                    <th
+                                      class="border-top-0 text-center"
+                                      style="width: 25%"
+                                    >
                                       Total Hours
                                     </th>
                                   </tr>
@@ -391,7 +415,6 @@
                                 <tbody>
                                   <tr>
                                     <td class="text-center">
-        
                                       {{ loginArray.startLunch }}
                                     </td>
                                     <td class="text-center">
@@ -414,13 +437,16 @@
                                   data-bs-target="#collapseTwo"
                                   aria-expanded="false"
                                   aria-controls="collapseTwo"
-                                  (click)=" setActive(2)"
-                                  (click)="onSaveShiftTimings()"
+                                  (click)="
+                                    onSaveShiftTimings();
+                                    onShiftTimingsCompleted()
+                                  "
                                 >
                                   Save
                                 </button>
                               </div>
                             </div>
+                            <!-- (click)=" setActive(2)" -->
                             <!-- setShiftTimingsCompleted(); -->
                             <!--end /div-->
                           </div>
@@ -436,7 +462,6 @@
                     <h5 class="accordion-header m-0" id="headingThree">
                       <button
                         class="accordion-button collapsed fw-semibold"
-                        
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#collapseThree"
@@ -540,7 +565,7 @@
                     </div>
                   </div>
 
-                 <!-- ################################################################ -->
+                  <!-- ################################################################ -->
                   <div class="accordion-item">
                     <h5 class="accordion-header m-0" id="headingfor">
                       <button
@@ -559,7 +584,7 @@
                       id="collapsefor"
                       class="accordion-collapse collapse"
                       aria-labelledby="headingfor"
-                     
+                      *ngIf="shiftTimingsCompleted"
                       data-bs-parent="#accordionExample"
                     >
                       <div class="accordion-body">
@@ -626,64 +651,76 @@
                           </p> -->
                           <div class="">
                             <div class="table-responsive browser_users">
-                              <ng-container *ngIf="savel.length > 0; else noData">
-                              <table class="table mb-0">
-                                <thead class="thead-light">
-                                  <tr>
-                                    <th class="border-top-0" style="width: 20%">
-                                      Type
-                                    </th>
-                                    <th class="border-top-0" style="width: 5%">
-                                      Paid/Unpaid
-                                    </th>
-                                    <th class="border-top-0 text-center">
-                                      Quota
-                                    </th>
-                                    <th class="border-top-0 text-left">
-                                      Status
-                                    </th>
-                                    <!-- <th class="border-top-0 text-center">Action</th> -->
-                                  </tr>
-                                  <!--end tr-->
-                                </thead>
-                                <tbody>
-                                  <tr *ngFor="let sav of savel">
-                                    <td>{{ sav.leaveType }}</td>
-                                    <td>
-                                      <span class="badge badge-soft-success">{{
-                                        sav.leaveStatus
-                                      }}</span>
-                                    </td>
-                                    <td class="text-center">
-                                      {{ sav.leaveEntitled }}
-                                    </td>
-
-                                    <td class="text-center">
-                                      <div class="">
-                                        <input
-                                          type="checkbox"
-                                          [(ngModel)]="sav.status"
-                                          (change)="updateLeaveStatus(sav)"
-                                          id="switch{{ sav.id }}"
-                                          name="leaveStatus"
-                                          class="d-none"
-                                        />
-                                        <label
-                                          for="switch{{ sav.id }}"
-                                          (click)="setActive(5)"
-                                          class="hafday"
-                                          >Toggle</label
+                              <ng-container
+                                *ngIf="savel.length > 0; else noData"
+                              >
+                                <table class="table mb-0">
+                                  <thead class="thead-light">
+                                    <tr>
+                                      <th
+                                        class="border-top-0"
+                                        style="width: 20%"
+                                      >
+                                        Type
+                                      </th>
+                                      <th
+                                        class="border-top-0"
+                                        style="width: 5%"
+                                      >
+                                        Paid/Unpaid
+                                      </th>
+                                      <th class="border-top-0 text-center">
+                                        Quota
+                                      </th>
+                                      <th class="border-top-0 text-left">
+                                        Status
+                                      </th>
+                                      <!-- <th class="border-top-0 text-center">Action</th> -->
+                                    </tr>
+                                    <!--end tr-->
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let sav of savel">
+                                      <td>{{ sav.leaveType }}</td>
+                                      <td>
+                                        <span
+                                          class="badge badge-soft-success"
+                                          >{{ sav.leaveStatus }}</span
                                         >
-                                      </div>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                              <!--end table-->
-                            </ng-container>
-                            <ng-template #noData>
-                              <p id="noData">click on the "Add New Leave" button to add leave!</p>
-                            </ng-template>
+                                      </td>
+                                      <td class="text-center">
+                                        {{ sav.leaveEntitled }}
+                                      </td>
+
+                                      <td class="text-center">
+                                        <div class="">
+                                          <input
+                                            type="checkbox"
+                                            [(ngModel)]="sav.status"
+                                            (change)="updateLeaveStatus(sav)"
+                                            id="switch{{ sav.id }}"
+                                            name="leaveStatus"
+                                            class="d-none"
+                                          />
+                                          <label
+                                            for="switch{{ sav.id }}"
+                                            (click)="setActive(5)"
+                                            class="hafday"
+                                            >Toggle</label
+                                          >
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                                <!--end table-->
+                              </ng-container>
+                              <ng-template #noData>
+                                <p id="noData">
+                                  click on the "Add New Leave" button to add
+                                  leave!
+                                </p>
+                              </ng-template>
                             </div>
                             <!--end /div-->
                           </div>
@@ -707,22 +744,28 @@
               <!--end card-body-->
             </div>
             <!--end card-->
-          
           </div>
-
         </div>
-     
+
         <!-- [disabled]="isDisabled" -->
-<!-- ##########################################################################################################3 -->
+        <!-- ##########################################################################################################3 -->
         <div class="col-md-4 sidebar-div">
           <div class="sidebar pt-4">
             <div class="tracking-body">
               <ul class="tracking-steps">
-                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel>=1,'newline':activeModel<2}">
+                <li
+                  class="tracking-item"
+                  [ngClass]="{
+                    'tracking-itemActive': activeModel >= 1,
+                    newline: activeModel < 2
+                  }"
+                >
                   <div class="d-flex new-stap">
                     <!-- {{activeModel}} -->
                     <div
-                      class="tracing-icon" [ngClass]="{ 'active': activeModel > 0 }">
+                      class="tracing-icon"
+                      [ngClass]="{ active: activeModel > 0 }"
+                    >
                       <i class="bi bi-check2"></i>
                     </div>
                     <div class="tracking-data">
@@ -735,11 +778,17 @@
                     </div>
                   </div>
                 </li>
-                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel>=2,'newline':activeModel<3 }">
+                <li
+                  class="tracking-item"
+                  [ngClass]="{
+                    'tracking-itemActive': activeModel >= 2,
+                    newline: activeModel < 3
+                  }"
+                >
                   <div class="d-flex align-items-center new-stap">
                     <div
                       class="tracing-icon"
-                      [ngClass]="{ 'active': activeModel > 1 }"
+                      [ngClass]="{ active: activeModel > 1 }"
                     >
                       <i class="bi bi-check2"></i>
                     </div>
@@ -753,11 +802,17 @@
                     </div>
                   </div>
                 </li>
-                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel>=3,'newline':activeModel<4}">
+                <li
+                  class="tracking-item"
+                  [ngClass]="{
+                    'tracking-itemActive': activeModel >= 3,
+                    newline: activeModel < 4
+                  }"
+                >
                   <div class="d-flex new-stap">
                     <div
                       class="tracing-icon"
-                      [ngClass]="{ 'active': activeModel > 2 }"
+                      [ngClass]="{ active: activeModel > 2 }"
                     >
                       <i class="bi bi-check2"></i>
                     </div>
@@ -772,12 +827,18 @@
                   </div>
                 </li>
 
-                <li class="tracking-item" [ngClass]="{'tracking-itemActive':activeModel>=4 || activeModel==5,'newline':activeModel<5}">
+                <li
+                  class="tracking-item"
+                  [ngClass]="{
+                    'tracking-itemActive': activeModel >= 4 || activeModel == 5,
+                    newline: activeModel < 5
+                  }"
+                >
                   <div class="d-flex new-stap">
                     <div
                       class="tracing-icon"
                       [ngClass]="{
-                        'active': activeModel > 3 || activeModel == 5
+                        active: activeModel > 3 || activeModel == 5
                       }"
                     >
                       <i class="bi bi-check2"></i>
@@ -796,7 +857,6 @@
             </div>
           </div>
         </div>
-        
       </div>
     </div>
   </div>
@@ -907,13 +967,19 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="requestleave" #requestleave tabindex="-1" role="dialog" aria-labelledby="requestLeave" aria-hidden="true">
+<div
+  class="modal fade"
+  id="requestleave"
+  #requestleave
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="requestLeave"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="requestLeave">
-          Request a Leave
-        </h5>
+        <h5 class="modal-title" id="requestLeave">Request a Leave</h5>
         <button
           type="button"
           class="btn-close"
@@ -924,10 +990,9 @@
         ></button>
       </div>
       <!-- #leaveForm="ngForm" novalidate -->
-      <form #leaveSetForm="ngForm" ngNativeValidate (ngSubmit)="onSubmit()" >
-      <div class="modal-body">
-        <div class="">
-          
+      <form #leaveSetForm="ngForm" ngNativeValidate (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div class="">
             <div class="mb-3">
               <label class="mb-3"> Leave Type </label>
               <!-- <br> -->
@@ -941,16 +1006,15 @@
                   placeholder="Leave Type"
                   id="leaveType"
                   [(ngModel)]="leaveData.leaveType"
-                  name="leaveType"   
-                 required             
-                 />
-                 
+                  name="leaveType"
+                  required
+                />
               </div>
             </div>
             <div class="mb-3">
               <label class="mb-3"> Leave Entitled</label>
               <!-- <br> -->
-                  <!-- <div class="text-danger">
+              <!-- <div class="text-danger">
                     *ngIf="leavesSettingForm.get('leaveEntitled')?.hasError('required') && leavesSettingForm.get('leaveEntitled')?.touched"
                     Required!
                   </div> -->
@@ -961,15 +1025,14 @@
                   placeholder="Leave Entitled"
                   id="leaveEntitled"
                   name="leaveEntitled"
-                  [(ngModel)]="leaveData.leaveEntitled" 
-                  required               
-                  />
-                  
+                  [(ngModel)]="leaveData.leaveEntitled"
+                  required
+                />
               </div>
             </div>
             <!-- <div *ngIf="leaveSetForm.submitted && leaveSetInvalidToggle" class="text-danger">
                  
-                </div> --> 
+                </div> -->
 
             <div class="mb-3">
               <div class="form-check form-check-inline">
@@ -979,13 +1042,12 @@
                   id="inlineRadio1"
                   name="radio1"
                   value="paid"
-                  [(ngModel)]="leaveData.leaveStatus"              
-                  />
-                  
-                
+                  [(ngModel)]="leaveData.leaveStatus"
+                />
+
                 <label class="form-check-label" for="inlineRadio1">Paid</label>
               </div>
-              
+
               <div class="form-check form-check-inline">
                 <input
                   class="form-check-input"
@@ -993,29 +1055,32 @@
                   id="inlineRadio2"
                   name="radio2"
                   value="unpaid"
-                  [(ngModel)]="leaveData.leaveStatus"               
-                  />
-                  
+                  [(ngModel)]="leaveData.leaveStatus"
+                />
+
                 <label class="form-check-label" for="inlineRadio2"
                   >Unpaid</label
                 >
               </div>
             </div>
-          
+          </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Cancel
-        </button>
-        <button type="submit" class="btn btn-primary" (click)="setAct()" >
-          Save
-        </button>
-        <!-- [disabled]="leavesSetForm.invalid" -->
-        <!-- data-bs-dismiss="modal" -->
-        <!-- (click)="setActive(4)" -->
-      </div>
-    </form>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary" (click)="setAct()">
+            Save
+          </button>
+          <!-- [disabled]="leavesSetForm.invalid" -->
+          <!-- data-bs-dismiss="modal" -->
+          <!-- (click)="setActive(4)" -->
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -1049,7 +1114,13 @@
             <div class="mb-3">
               <label class="mb-3"> In Time </label>
               <!-- <br> -->
-              <div *ngIf="shiftTimingsForm.get('inTime')?.hasError('required') && shiftTimingsForm.get('inTime')?.touched" class="text-danger">
+              <div
+                *ngIf="
+                  shiftTimingsForm.get('inTime')?.hasError('required') &&
+                  shiftTimingsForm.get('inTime')?.touched
+                "
+                class="text-danger"
+              >
                 Required!
               </div>
               <div class="input-group">
@@ -1061,17 +1132,21 @@
                   name="inTime"
                   [(ngModel)]="loginArray.inTime"
                   formControlName="inTime"
-                                  
-                  />
-                  
+                />
               </div>
             </div>
             <div class="mb-3">
               <label class="mb-3"> Out Time </label>
               <!-- <br> -->
-                  <div *ngIf="shiftTimingsForm.get('outTime')?.hasError('required') && shiftTimingsForm.get('outTime')?.touched" class="text-danger">
-                    Required!
-                  </div>
+              <div
+                *ngIf="
+                  shiftTimingsForm.get('outTime')?.hasError('required') &&
+                  shiftTimingsForm.get('outTime')?.touched
+                "
+                class="text-danger"
+              >
+                Required!
+              </div>
               <div class="input-group">
                 <input
                   type="time"
@@ -1080,36 +1155,43 @@
                   id="Outtime"
                   name="Outtime"
                   formControlName="outTime"
-                                  
-                  />
-                  
+                />
               </div>
             </div>
 
             <div class="mb-3">
               <label class="mb-3"> Start Lunch Time </label>
               <!-- <br> -->
-                  <div *ngIf="shiftTimingsForm.get('startLunch')?.hasError('required') && shiftTimingsForm.get('startLunch')?.touched" class="text-danger">
-                    Required!
-                  </div>
+              <div
+                *ngIf="
+                  shiftTimingsForm.get('startLunch')?.hasError('required') &&
+                  shiftTimingsForm.get('startLunch')?.touched
+                "
+                class="text-danger"
+              >
+                Required!
+              </div>
               <div class="input-group">
                 <input
                   type="time"
-              
                   class="form-control"
                   id="StartLunch"
                   name="StartLunch"
                   [(ngModel)]="loginArray.startLunch"
                   formControlName="startLunch"
-                                  
-                  />
-                  
+                />
               </div>
             </div>
 
             <div class="mb-3">
               <label class="mb-3"> End Lunch Time </label>
-              <div *ngIf="shiftTimingsForm.get('endLunch')?.hasError('required') && shiftTimingsForm.get('endLunch')?.touched" class="text-danger">
+              <div
+                *ngIf="
+                  shiftTimingsForm.get('endLunch')?.hasError('required') &&
+                  shiftTimingsForm.get('endLunch')?.touched
+                "
+                class="text-danger"
+              >
                 Required!
               </div>
               <div class="input-group">
@@ -1120,9 +1202,7 @@
                   name="endLunch"
                   [(ngModel)]="loginArray.endLunch"
                   formControlName="endLunch"
-                                  
-                  />
-                 
+                />
               </div>
             </div>
           </div>
@@ -1145,11 +1225,7 @@
             Save
           </button>
         </div>
-        
       </form>
-
     </div>
   </div>
 </div>
-
-
