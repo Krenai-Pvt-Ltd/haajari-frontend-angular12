@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
+import jwt_decode from "jwt-decode";
 
 @Component({
   selector: 'app-userlist',
@@ -25,7 +26,7 @@ export class UserlistComponent implements OnInit {
   }
 
   getUsersByFiltersFunction() {
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((data : any) => {
+    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'', this.getLoginDetailsId()).subscribe((data : any) => {
       this.users = data.users;
       this.total = data.count;
       console.log(this.users);
@@ -47,8 +48,13 @@ export class UserlistComponent implements OnInit {
   }
 
 
-  updateLeaveStatus(){
-
+  getLoginDetailsId(){
+    const loginDetails = localStorage.getItem('loginData');
+    if(loginDetails!==null){
+      const loginData = JSON.parse(loginDetails);
+      const decodedToken : any = jwt_decode(loginData.access_token);
+      return decodedToken.organization_database_id;
+    }
   }
   
 
