@@ -118,16 +118,9 @@ updateLeaveStatus(sav: Savel): Observable<any> {
   }
 
  
-  saveTokenForOrganization(token: string, webhook: string, organizationId: any): Observable<any> {
-    const params = new HttpParams()
-    .set('token', token)
-    .set('webhook', webhook)
-    .set('organizationId',organizationId)
-    
-
-    // const url = `${this.baseUrl}/savetoken`;
-
-    return this.httpClient.put(this.baseUrl+ '/savetoken', {}, {params});
+  saveTokenForOrganization(organization : Organization): Observable<any> {
+   
+    return this.httpClient.post(this.baseUrl+ '/savetoken', organization);
   }
 
   saveUserData(token: any): Observable<any> {

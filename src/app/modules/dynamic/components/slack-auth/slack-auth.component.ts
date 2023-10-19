@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Organization } from 'src/app/models/organization';
 // import { CookieService } from 'ngx-cookie-service';
 import { DataService } from 'src/app/services/data.service';
 
@@ -12,9 +13,10 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class SlackAuthComponent implements OnInit{
 
-   orgId : any;
-   accessToken : any;
-   webhook : any;
+  //  accessToken : any;
+  //  webhook : any;
+  //  name : any;
+  organization : Organization = new Organization();
   // ide !:number;
   //  @Input() getIdFromOboard : any;
   constructor(private dataService : DataService, private httpClient : HttpClient, private router : Router){}
@@ -27,15 +29,14 @@ export class SlackAuthComponent implements OnInit{
     // });
     
     if (localStorage.getItem('orgId') != undefined && localStorage.getItem('orgId') != null && localStorage.getItem('orgId') != '') {
-      this.orgId = localStorage.getItem('orgId');
+      // this.orgId = localStorage.getItem('orgId');
       // this.dataService.orgId = this.id;
     }
-    this.convertAccessTokenFromCode(this.orgId);
-    this.router.navigate(['/dynamic/login']);
+    this.convertAccessTokenFromCode();
     // this.saveToken(this.orgId);
   }
   
-  convertAccessTokenFromCode(orgI : any){
+  convertAccessTokenFromCode(){
     debugger
     const codeParam = new URLSearchParams(window.location.search).get('code');
     if (!codeParam) {
@@ -45,12 +46,14 @@ export class SlackAuthComponent implements OnInit{
 
     this.dataService.getAccessToken(codeParam).subscribe((response : any)=>{
       // console.log(response.body);
-      this.accessToken = (JSON.parse(response.body)).access_token;
-      this.webhook = (JSON.parse(response.body)).incoming_webhook.url;  
-      // this.saveUser(this.accessToken);
-      console.log(this.webhook);
+      const jsonData = (JSON.parse(response.body))
+      this.organization.appId = jsonData.app_id;
+      this.organization.token = jsonData.access_token;
+      this.organization.webhook = jsonData.incoming_webhook.url;  
+      this.organization.name = jsonData.team.name;
+
       // console.log(token);
-      this.saveToken(this.accessToken, this.webhook, orgI);
+      this.saveToken(this.organization);
     }, (error:any)=>{
       console.log('error fetching');
     });
@@ -58,16 +61,9 @@ export class SlackAuthComponent implements OnInit{
   }
 
 
-  saveToken(token : string, webhook: string, orgID : number): void {
-    
-    // console.log(this.orgId);
-    debugger
-    if (!this.orgId) {
-      alert('Organization ID not found');
-      return;
-    }
-    
-  this.dataService.saveTokenForOrganization(token, webhook, this.orgId)
+  saveToken(organization : Organization): void {
+
+   this.dataService.saveTokenForOrganization(organization)
     .subscribe(
       (response: any) => {
         console.log('Token saved:', response);
@@ -79,16 +75,16 @@ export class SlackAuthComponent implements OnInit{
     );
   }
 
-  saveUser(token:any){
-    this.dataService.saveUserData(token)
-    .subscribe(
-      (response: any) => {
-        console.log('Users Data saved:', response);
+  // saveUser(token:any){
+  //   this.dataService.saveUserData(token)
+  //   .subscribe(
+  //     (response: any) => {
+  //       console.log('Users Data saved:', response);
 
-      },
-      (error: any) => {
-        console.error('Error saving USers Data:', error);
-      }
-    );
-  }
+  //     },
+  //     (error: any) => {
+  //       console.error('Error saving Users Data:', error);
+  //     }
+  //   );
+  // }
 }

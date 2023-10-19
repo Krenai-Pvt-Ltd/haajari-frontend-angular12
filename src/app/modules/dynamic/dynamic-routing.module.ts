@@ -24,12 +24,12 @@ const routes: Routes = [
   { path: 'timetable', component: TimetableComponent, canActivate: [AuthGuard] },
   { path: 'project', component: ProjectComponent, canActivate: [AuthGuard]},
   { path: 'task-manager', component: TaskManagerComponent, canActivate: [AuthGuard] },
-  { path: 'live-manager', component: LiveManagerComponent, canActivate: [AuthGuard] },
+  { path: 'live-manager', component: LiveManagerComponent},
   { path: 'onboarding', component: OnboardingComponent },
   { path: 'login', component: LoginComponent },
   { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
-  { path: 'userlist', component: UserlistComponent, canActivate: [AuthGuard] },
-  {path: 'slackauth', component: SlackAuthComponent, canActivate: [AuthGuard] },
+  { path: 'userlist', component: UserlistComponent },
+  {path: 'slackauth', component: SlackAuthComponent},
   {path: 'addtoslack', component: AddToSlackComponent, canActivate: [AuthGuard] },
   {path: '', redirectTo: '/dynamic/login', pathMatch:'full'}
   ];
