@@ -18,19 +18,19 @@ import { AuthGuard } from 'src/app/auth/auth-guard';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent },  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
   { path: 'header', component: HeaderComponent },
   { path: 'topbar', component: TopbarComponent },
-  { path: 'timetable', component: TimetableComponent, canActivate: [AuthGuard] },
-  { path: 'project', component: ProjectComponent, canActivate: [AuthGuard]},
-  { path: 'task-manager', component: TaskManagerComponent, canActivate: [AuthGuard] },
-  { path: 'live-manager', component: LiveManagerComponent, canActivate: [AuthGuard] },
+  { path: 'timetable', component: TimetableComponent },
+  { path: 'project', component: ProjectComponent},
+  { path: 'task-manager', component: TaskManagerComponent },
+  { path: 'live-manager', component: LiveManagerComponent},
   { path: 'onboarding', component: OnboardingComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
-  { path: 'userlist', component: UserlistComponent, canActivate: [AuthGuard] },
-  {path: 'slackauth', component: SlackAuthComponent, canActivate: [AuthGuard] },
-  {path: 'addtoslack', component: AddToSlackComponent, canActivate: [AuthGuard] },
+  { path: 'payment', component: PaymentComponent },
+  { path: 'userlist', component: UserlistComponent },
+  {path: 'slackauth', component: SlackAuthComponent},
+  {path: 'addtoslack', component: AddToSlackComponent },
   {path: '', redirectTo: '/dynamic/login', pathMatch:'full'}
   ];
 

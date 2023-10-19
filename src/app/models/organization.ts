@@ -6,5 +6,9 @@ export class Organization {
     country!:number;
     state!:string; 
     organizationPic!:any;
+    token:any;
+    webhook: any;
+    appId : any;
+    
 
 }
