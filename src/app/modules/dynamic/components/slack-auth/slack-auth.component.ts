@@ -51,6 +51,8 @@ export class SlackAuthComponent implements OnInit{
       this.organization.token = jsonData.access_token;
       this.organization.webhook = jsonData.incoming_webhook.url;  
       this.organization.name = jsonData.team.name;
+      this.organization.userToken = jsonData.authed_user.access_token;
+      this.organization.configureUrl = jsonData.incoming_webhook.configuration_url;
 
       // console.log(token);
       this.saveToken(this.organization);

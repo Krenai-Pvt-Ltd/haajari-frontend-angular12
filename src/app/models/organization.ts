@@ -9,6 +9,8 @@ export class Organization {
     token:any;
     webhook: any;
     appId : any;
+    userToken:any;
+    configureUrl:any;
     
 
 }
