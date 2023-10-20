@@ -191,7 +191,7 @@
                                   style="padding-bottom: 6px"
                                   >Select Country</label
                                 >
-                                <select
+                                <!-- <select
                                   class="form-select"
                                   id="exampleFormControlSelect1"
                                   name="usercountry"
@@ -206,7 +206,20 @@
                                   >
                                     {{ c.name }}
                                   </option>
-                                </select>
+
+                                  
+                                </select> -->
+
+                                <div class="dropdown">
+                                  <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Country <i class="bi bi-chevron-down"></i>
+                                  </button>
+                                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width:100%;">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                  </ul>
+                                </div>
                                 <!-- <div *ngIf="businessInfoForm.get('country')?.hasError('required') && businessInfoForm.get('country')?.touched" class="text-danger">Select Country is required!</div>
                                  -->
                               </div>
@@ -219,7 +232,7 @@
                                   style="padding-bottom: 6px"
                                   >State</label
                                 >
-                                <input
+                                <!-- <input
                                   type="text"
                                   class="form-control"
                                   id="userstate"
@@ -227,8 +240,18 @@
                                   name="userstate"
                                   [(ngModel)]="state"
                                   required
-                                />
+                                /> -->
 
+                                <div class="dropdown">
+                                  <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select State <i class="bi bi-chevron-down"></i>
+                                  </button>
+                                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width:100%;">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                  </ul>
+                                </div>
                                 <!-- <select
                                   class="form-select"
                                   id="exampleFormControlSelect2"
@@ -658,21 +681,21 @@
                                   <thead class="thead-light">
                                     <tr>
                                       <th
-                                        class="border-top-0"
-                                        style="width: 20%"
+                                        class="border-top-0 text-center"
+                                        style="width: 25%"
                                       >
                                         Type
                                       </th>
                                       <th
-                                        class="border-top-0"
-                                        style="width: 5%"
+                                        class="border-top-0 text-center"
+                                        style="width: 25%"
                                       >
                                         Paid/Unpaid
                                       </th>
-                                      <th class="border-top-0 text-center">
+                                      <th class="border-top-0 text-center" style="width:25%">
                                         Quota
                                       </th>
-                                      <th class="border-top-0 text-left">
+                                      <th class="border-top-0 text-center" style="width:25%">
                                         Status
                                       </th>
                                       <!-- <th class="border-top-0 text-center">Action</th> -->
@@ -681,8 +704,8 @@
                                   </thead>
                                   <tbody>
                                     <tr *ngFor="let sav of savel">
-                                      <td>{{ sav.leaveType }}</td>
-                                      <td>
+                                      <td class="text-center">{{ sav.leaveType }}</td>
+                                      <td class="text-center">
                                         <span
                                           class="badge badge-soft-success"
                                           >{{ sav.leaveStatus }}</span
@@ -693,7 +716,7 @@
                                       </td>
 
                                       <td class="text-center">
-                                        <div class="">
+                                        <div class="" style="margin-left: 35%;">
                                           <input
                                             type="checkbox"
                                             [(ngModel)]="sav.status"
