@@ -61,13 +61,13 @@ export class SlackAuthComponent implements OnInit{
   }
 
 
-  saveToken(organization : Organization): void {
-
-   this.dataService.saveTokenForOrganization(organization)
-    .subscribe(
-      (response: any) => {
+  saveToken(organization : Organization) {
+    debugger
+   this.dataService.saveTokenForOrganization(organization).subscribe((response: any) => {
+        debugger
         console.log('Token saved:', response);
-
+        const id = response.id;
+        localStorage.setItem('id', id.toString());
       },
       (error: any) => {
         console.error('Error saving token:', error);

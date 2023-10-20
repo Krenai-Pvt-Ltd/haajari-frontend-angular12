@@ -134,7 +134,7 @@ export class DataService {
  
   saveTokenForOrganization(organization : Organization): Observable<any> {
    
-    return this.httpClient.post(this.baseUrl+ '/savetoken', organization);
+    return this.httpClient.post<any>(this.baseUrl+ '/savetoken', organization);
   }
 
   saveUserData(token: any): Observable<any> {
