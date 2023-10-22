@@ -52,9 +52,19 @@ export class UserlistComponent implements OnInit {
     const loginDetails = localStorage.getItem('loginData');
     if(loginDetails!==null){
       const loginData = JSON.parse(loginDetails);
-      const decodedToken : any = jwt_decode(loginData.access_token);
-      return decodedToken.organization_database_id;
+
+      return loginData.id;
+      // const decodedToken : any = jwt_decode(loginData.access_token);
+      // return decodedToken.organization_database_id;
     }
+
+    // const id = localStorage.getItem('id');
+    
+    // if(id!==null){
+    //   const idd = JSON.parse(id);
+    //   return idd;
+    // }
+    
   }
   
 

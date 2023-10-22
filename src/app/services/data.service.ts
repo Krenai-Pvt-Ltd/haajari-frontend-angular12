@@ -190,9 +190,21 @@ export class DataService {
     });
   }
 
-  getAccessToken(code: string): Observable<any> {
-    const params = new HttpParams().set("code", code);
+  // saveTokenForOrganization(organization : Organization): Observable<any> {
+   
+  //   return this.httpClient.post<any>(this.baseUrl+ '/savetoken', organization);
+  // }
 
-    return this.httpClient.get(this.baseUrl + "/get-token", { params });
+  
+  // getAccessToken(code: string): Observable<any> {
+  //   const params = new HttpParams().set("code", code);
+
+  //   return this.httpClient.get(this.baseUrl + "/get-token", { params });
+  // }
+
+  registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
+    const params = new HttpParams().set("codeParam", codeParam);
+
+    return this.httpClient.put<any>(`${this.baseUrl}/register-organization-using-code-param`, {}, {params});
   }
 }
