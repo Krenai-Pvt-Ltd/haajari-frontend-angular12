@@ -190,6 +190,11 @@ export class OnboardingComponent implements OnInit {
     },
   ];
 
+  selectCountry(selectedCountry: string) {
+    this.country = selectedCountry;
+  }
+  
+
   updateStates() {
     const selectedCountry = this.countries.find((c) => c.name === this.country);
     if (selectedCountry) {
@@ -258,6 +263,7 @@ export class OnboardingComponent implements OnInit {
           this.orgI = resultData.id;
           localStorage.setItem("orgId", this.orgI);
           //window.location.reload();
+          this.openModel2();
         },
         (error) => {
           console.log(error.error.message);

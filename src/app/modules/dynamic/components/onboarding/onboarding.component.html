@@ -212,14 +212,18 @@
 
                                 <div class="dropdown">
                                   <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Select Country <i class="bi bi-chevron-down"></i>
+                                    {{ country ? country : 'Select Country' }} <i class="bi bi-chevron-down"></i>
                                   </button>
                                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width:100%;">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    <li><a class="dropdown-item" (click)="selectCountry('India')">India</a></li>
+                                    <li><a class="dropdown-item" (click)="selectCountry('China')">China</a></li>
+                                    <li><a class="dropdown-item" (click)="selectCountry('US')">US</a></li>
+                                    <li><a class="dropdown-item" (click)="selectCountry('Canada')">Canada</a></li>
+                                    <li><a class="dropdown-item" (click)="selectCountry('Germany')">Germany</a></li>
+                                    <li><a class="dropdown-item" (click)="selectCountry('Brazil')">Brazil</a></li>
                                   </ul>
                                 </div>
+                                
                                 <!-- <div *ngIf="businessInfoForm.get('country')?.hasError('required') && businessInfoForm.get('country')?.touched" class="text-danger">Select Country is required!</div>
                                  -->
                               </div>
@@ -232,7 +236,7 @@
                                   style="padding-bottom: 6px"
                                   >State</label
                                 >
-                                <!-- <input
+                                <input
                                   type="text"
                                   class="form-control"
                                   id="userstate"
@@ -240,9 +244,9 @@
                                   name="userstate"
                                   [(ngModel)]="state"
                                   required
-                                /> -->
+                                />
 
-                                <div class="dropdown">
+                                <!-- <div class="dropdown">
                                   <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     Select State <i class="bi bi-chevron-down"></i>
                                   </button>
@@ -251,7 +255,8 @@
                                     <li><a class="dropdown-item" href="#">Another action</a></li>
                                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                                   </ul>
-                                </div>
+                                </div> -->
+                                
                                 <!-- <select
                                   class="form-select"
                                   id="exampleFormControlSelect2"
