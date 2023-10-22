@@ -410,3 +410,22 @@ textarea.form-control {
   }
 }
 
+/* .input-group1{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+}
+
+input:invalid+span:after {
+  content: '✖';
+}
+
+input:valid+span:after {
+  content: '✓';
+}
+
+.input-group2{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+} */

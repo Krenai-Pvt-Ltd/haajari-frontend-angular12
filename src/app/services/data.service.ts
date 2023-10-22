@@ -8,6 +8,8 @@ import { AttendenceDto } from "../models/attendence-dto";
 import { OnboardingComponent } from "../modules/dynamic/components/onboarding/onboarding.component";
 import { SlackAuthComponent } from "../modules/dynamic/components/slack-auth/slack-auth.component";
 import { ShiftTimings } from "../models/shifttimings";
+import { DailyQuestions } from "../models/daily-questions";
+import { DailyNotes } from "../models/daily-notes";
 
 @Injectable({
   providedIn: "root",
@@ -130,8 +132,43 @@ export class DataService {
       shiftTimingsData
     );
   }
+// #############################################################################
+  saveDailyQuestions(dailyQuestionsData: any): Observable<any> {
+    return this.httpClient.post(
+      `http://localhost:8080/api/v1/attendance/save-daily-questions`,
+      dailyQuestionsData
+    );
+  }
 
- 
+  getDailyQuestions(organId: any): Observable<any> {
+    const params = new HttpParams().set("id", organId);
+    return this.httpClient.get<DailyQuestions[]>(`${this.baseUrl}/get-daily-questions/id`, {
+      params,
+    });
+  }
+
+  deleteDailyQuestions(dailyQuestionsId: any): Observable<any> {
+    return this.httpClient.delete(
+      `${this.baseUrl}/delete-daily-questions/${dailyQuestionsId}`,
+    );
+  }
+
+  saveDailyNotes(dailyNotesData: any): Observable<any> {
+    return this.httpClient.put(
+      `http://localhost:8080/api/v1/attendance/save-daily-Notes`,
+      dailyNotesData
+    );
+  }
+
+  getDailyNotes(organiId: any): Observable<any> {
+    const params = new HttpParams().set("id", organiId);
+    return this.httpClient.get<DailyNotes[]>(`${this.baseUrl}/get-daily-Notes`, {
+      params,
+    });
+  }
+
+
+//  ###################################################################################################
   saveTokenForOrganization(organization : Organization): Observable<any> {
    
     return this.httpClient.post(this.baseUrl+ '/savetoken', organization);

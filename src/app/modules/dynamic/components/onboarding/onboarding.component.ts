@@ -7,11 +7,19 @@ import {
   ElementRef,
 } from "@angular/core";
 import { Savel } from "src/app/models/savel";
-import { FormBuilder, FormGroup, NgForm, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  NgForm,
+  Validators,
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { DataService } from "src/app/services/data.service";
 import { Organization } from "src/app/models/organization";
 import { ShiftTimings } from "src/app/models/shifttimings";
+import { DailyQuestions } from "src/app/models/daily-questions";
+import { DailyNotes } from "src/app/models/daily-notes";
 
 @Component({
   selector: "app-onboarding",
@@ -19,51 +27,40 @@ import { ShiftTimings } from "src/app/models/shifttimings";
   styleUrls: ["./onboarding.component.css"],
 })
 export class OnboardingComponent implements OnInit {
-  // businessInfoForm: FormGroup;
-  shiftTimingsForm: FormGroup;
-  //leavesSettingForm: FormGroup;
-  // private modalService: NgbModal,
+  // shiftTimingsForm: FormGroup;
 
   constructor(
     private dataService: DataService,
     private router: Router,
     private fb: FormBuilder
   ) {
-    // this.businessInfoForm = this.fb.group({
-    //   name: ['', Validators.required],
-    //   email: ['', [Validators.required,Validators.email]],
-    //   password: ['', [Validators.required, Validators.minLength(6)]],
-    //   country: ['', Validators.required],
-    //   state: ['', Validators.required],
-    //   organizationPic: [null, Validators.required],
-    // });
-
-    this.shiftTimingsForm = this.fb.group({
-      inTime: ["", Validators.required],
-      outTime: ["", Validators.required],
-      startLunch: ["", Validators.required],
-      endLunch: ["", Validators.required],
-    });
-
-    // this.leavesSettingForm = this.fb.group({
-    //   leaveType: ['', Validators.required],
-    //   leaveEntitled: ['', Validators.required],
-    //   leaveStatus: ['', Validators.required]
+    // this.shiftTimingsForm = this.fb.group({
+    //   inTime: ["", Validators.required],
+    //   outTime: ["", Validators.required],
+    //   startLunch: ["", [Validators.required]],
+    //   endLunch: ["", [Validators.required]],
     // });
   }
-  // constructor(private dataService: DataService, private router: Router, private httpClient : HttpClient) { }
 
   ngOnInit(): void {
     this.getOrganization();
     this.getShifts();
     this.settingOrgId();
+    this.getDailyQuestion();
+    this.getDailyNotes();
     this.getLeaves();
+
     //   window.addEventListener("beforeunload", function (e) {
     //     var confirmationMessage = "\o/";
     //     console.log("cond");
     //     e.returnValue = confirmationMessage;
     //     return confirmationMessage;
     // });
+  }
+
+  section3() {
+    this.getDailyNotes();
+    this.getLeaves();
   }
 
   name: string = "";
@@ -212,6 +209,7 @@ export class OnboardingComponent implements OnInit {
     this.organizationPic = null;
   }
 
+  shiftTimingsValid = false;
   // eId:string="";
   // pass:string="";
 
@@ -234,6 +232,9 @@ export class OnboardingComponent implements OnInit {
           console.log(resultData);
           this.loginArray.organizationId = resultData.id;
           this.leaveData.orgId = resultData.id;
+          this.dailyQuestionsData.organId = resultData.id;
+          this.dailyNotesData.organiId = resultData.id;
+          this.shiftTimingsValid = true;
           //  this.eId=resultData.email;
           //  this.pass=resultData.password;
           //  console.log(this.eId, this.pass);
@@ -241,9 +242,18 @@ export class OnboardingComponent implements OnInit {
           // alert("Organization Registered successfully, Please Click on Shift Timings");
           // this.resetForm2();
           // this.orgI = this.organization.id;
+          this.shiftTimesMessage();
           this.count = 1;
-         
+          this.onBusinessInfoCompleted();
+
+          // this.requestShiftTimingsCloseModel.nativeElement.setAttribute("ariaExpanded", "false");
+          debugger
+          if (resultData.minLength!==null) {
+            debugger
+            this.openModel2();
+          }
           this.requestBusinessInfoCloseModel.nativeElement.click();
+
           this.setAct1();
           this.orgI = resultData.id;
           localStorage.setItem("orgId", this.orgI);
@@ -255,7 +265,9 @@ export class OnboardingComponent implements OnInit {
         }
       );
   }
-
+   openModel2(){
+    this.requestShiftTimingsCloseModel.nativeElement.click();
+   }
   settingOrgId() {
     let orgnIds = localStorage.getItem("orgId");
 
@@ -263,6 +275,8 @@ export class OnboardingComponent implements OnInit {
       this.loginArray.organizationId = +orgnIds;
 
       this.leaveData.orgId = +orgnIds;
+      this.dailyQuestionsData.organId = +orgnIds;
+      this.dailyNotesData.organiId = +orgnIds;
     }
   }
 
@@ -283,23 +297,38 @@ export class OnboardingComponent implements OnInit {
         this.country = data.country;
         this.organizationPic = data.organizationPic;
 
-        this.setActive(1);
-        if (this.a == 2) {
-          this.setActive(1);
-          this.setActive(2);
-        }
-        if (this.a == 3) {
-          this.setActive(1);
-          this.setActive(2);
-          this.setActive(4);
-        }
-        if (data) {
-          this.onBusinessInfoCompleted();
+        if (data.organizationPic) {
+          this.organizationPic = data.organizationPic;
         }
 
-        if ((this.a = 3)) {
+        if (data.minLength !== 0) {
+          this.setActive(1);
+          if (this.a == 2) {
+            this.setActive(1);
+            this.setActive(2);
+          }
+          if (this.a == 3) {
+            this.setActive(1);
+            this.setActive(2);
+            this.setActive(3);
+          }
+          if (this.a == 4) {
+            this.setActive(1);
+            this.setActive(2);
+            this.setActive(3);
+            this.setActive(4);
+          }
+        }
+        if (data) {
+          this.shiftTimingsValid = true;
+          this.onBusinessInfoCompleted();
+          this.shiftTimesMessage();
+        }
+        if (this.a == 4) {
+          this.a = 4;
+        } else if (this.a == 3) {
           this.a = 3;
-        } else if ((this.a = 2)) {
+        } else if (this.a == 2) {
           this.a = 2;
         } else {
           this.a = 1;
@@ -318,29 +347,46 @@ export class OnboardingComponent implements OnInit {
     this.dataService.getShiftTimings(localStorage.getItem("orgId")).subscribe(
       (data) => {
         // this.setActive(1);
-        this.setActive(1);
-        this.setActive(2);
-        if (this.a == 3) {
-          this.setActive(1);
-          this.setActive(2);
-          this.setActive(4);
-        }
-        if (data) {
-          this.onBusinessInfoCompleted();
-          this.onShiftTimingsCompleted();
-        }
-
         this.loginArray.inTime = data.inTime;
         this.loginArray.outTime = data.outTime;
         this.loginArray.startLunch = data.startLunch;
         this.loginArray.endLunch = data.endLunch;
         this.loginArray.workingHour = data.workingHour;
         this.loginArray.totalHour = data.totalHour;
-        if (this.a == 3) {
+
+        if (data) {
+          this.dailyQuesValid = true;
+          this.dailyQuestMessage();
+        }
+
+        if (data.minLength !== 0) {
+          this.setActive(1);
+          this.setActive(2);
+          if (this.a == 4) {
+            this.setActive(1);
+            this.setActive(2);
+            this.setActive(3);
+            this.setActive(4);
+          }
+          if (this.a == 3) {
+            this.setActive(1);
+            this.setActive(2);
+            this.setActive(3);
+          }
+        }
+        if (data) {
+          this.onBusinessInfoCompleted();
+          this.onShiftTimingsCompleted();
+        }
+
+        if (this.a == 4) {
+          this.a = 4;
+        } else if (this.a == 3) {
           this.a = 3;
         } else {
           this.a = 2;
         }
+        this.requestShiftTimingsCloseModel.nativeElement.click();
       },
       (error) => {
         console.log(error);
@@ -387,7 +433,7 @@ export class OnboardingComponent implements OnInit {
     let endLunchTime = endLunchHours * 60 + endLunchMinutes;
 
     if (outTime < inTime) {
-      outTime += 24 * 60; 
+      outTime += 24 * 60;
     }
 
     const workingMinutes = outTime - inTime - (endLunchTime - startLunchTime);
@@ -405,21 +451,20 @@ export class OnboardingComponent implements OnInit {
     this.loginArray.totalHour = `${totalHours}:${totalMinutesRemainder}`;
   }
 
+  
+  @ViewChild("shiftForm") shiftForm!: any;
+  @ViewChild("requestShiftCloseModel") requestShiftCloseModel!: ElementRef;
+
+  shiftSetInvalidToggle: boolean = false;
+
   addShift() {
-    if (this.shiftTimingsForm.valid) {
+    if (this.shiftForm.invalid) {
+      this.shiftSetInvalidToggle = true;
+      return;
+    }
       this.calculateHours();
       console.log(this.loginArray);
-      const result2 = document.getElementById("abc") as HTMLElement | null;
-      if (result2) {
-        result2.style.display = "none";
-      }
-      // alert("Shift Time updated");
-
-      const result = document.getElementById("xyz") as HTMLElement | null;
-      if (result) {
-        result.style.display = "block";
-      }
-    }
+      this.requestShiftCloseModel.nativeElement.click();
   }
 
   leaveData = {
@@ -456,13 +501,18 @@ export class OnboardingComponent implements OnInit {
   @ViewChild("requestLeaveCloseModel") requestLeaveCloseModel!: ElementRef;
 
   leaveSetInvalidToggle: boolean = false;
- 
+
   setAct() {
     if (this.leaveSetForm.valid) {
-      this.count = 3;
       this.setActive(4);
     }
   }
+
+  @ViewChild(" requestSaveLeavCloseModel")
+  requestSaveLeavCloseModel!: ElementRef;
+
+  saveLeaveValid = false;
+
   onSubmit() {
     if (this.leaveSetForm.invalid) {
       this.leaveSetInvalidToggle = true;
@@ -472,6 +522,8 @@ export class OnboardingComponent implements OnInit {
       (response) => {
         console.log(response);
         this.savel.push(response);
+        this.count = 4;
+
         // const result2=document.getElementById("cba") as HTMLElement | null;
         // if(result2){
         //      result2.style.display="none";
@@ -500,14 +552,16 @@ export class OnboardingComponent implements OnInit {
     this.dataService.getLeave(this.leaveData.orgId).subscribe(
       (data) => {
         this.savel = data;
-
-        this.setActive(1);
-        this.setActive(2);
-        this.setActive(4);
+        if (data.minLength !== 0) {
+          this.setActive(1);
+          this.setActive(2);
+          this.setActive(3);
+          this.setActive(4);
+        }
 
         console.log(this.savel);
-        this.a = 3;
-        this.count = 3;
+        this.a = 4;
+        this.count = 4;
       },
       (error) => {
         console.log(error);
@@ -559,12 +613,27 @@ export class OnboardingComponent implements OnInit {
   //   };
   // }
 
+  @ViewChild("requestShiftTimingsCloseModel")
+  requestShiftTimingsCloseModel!: ElementRef;
+
+  dailyQuesValid = false;
+
   onSaveShiftTimings() {
     this.dataService.saveShiftTimings(this.loginArray).subscribe(
       (response) => {
+        this.dailyQuesValid = true;
         console.log(response);
         this.count = 2;
         this.setActive(2);
+        this.dailyQuestMessage();
+
+        if (response) {
+          debugger;
+          this.requestDailyQuesCloseModel.nativeElement.click();
+        }
+        this.requestShiftTimingsCloseModel.nativeElement.click();
+
+        this.onShiftTimingsCompleted();
         // alert("Shift Time saved successfully, Click on Leaves Setting");
         // this.resetForm3();
         // const result4=document.getElementById("xyz") as HTMLElement | null;
@@ -585,18 +654,264 @@ export class OnboardingComponent implements OnInit {
   }
 
   onBtnClick() {
-    if (this.count >= 3) {
+    if (this.count >= 4) {
+      localStorage.clear();
       this.router.navigate(["/dynamic/addtoslack"]);
     }
   }
 
   businessInfoCompleted: boolean = false;
   shiftTimingsCompleted: boolean = false;
+  dailyQuestionCompleted: boolean = false;
 
   onBusinessInfoCompleted() {
     this.businessInfoCompleted = true;
   }
   onShiftTimingsCompleted() {
     this.shiftTimingsCompleted = true;
+  }
+  onDailyQuestionCompleted() {
+    this.dailyQuestionCompleted = true;
+  }
+
+  dailyQuestionsData = {
+    message: "",
+    organId: 0,
+  };
+
+  resetFormd() {
+    this.dailyQuestionsData = {
+      message: "",
+      organId: this.dailyQuestionsData.organId,
+    };
+  }
+
+  @ViewChild("dailyQuestionsForm") dailyQuetsionsForm!: any;
+  @ViewChild("requestDailyQuestionsCloseModel")
+  requestDailyQuestionsCloseModel!: ElementRef;
+
+  dailyQuestionsSetInvalidToggle: boolean = false;
+
+  dailyQuestionn: DailyQuestions[] = [];
+  dailyQuesId!: number;
+
+  onSaveDailyQuestions() {
+    if (this.dailyQuetsionsForm.invalid) {
+      this.dailyQuestionsSetInvalidToggle = true;
+      return;
+    }
+    this.dataService.saveDailyQuestions(this.dailyQuestionsData).subscribe(
+      (response) => {
+        console.log(response);
+        this.dailyQuestionn.push(response);
+        this.dailyQuesId = response.id;
+        // this.saveLValid=true;
+        this.resetFormd();
+        this.requestDailyQuestionsCloseModel.nativeElement.click();
+      },
+      (error) => {
+        console.error(error);
+        alert("Error saving leave");
+      }
+    );
+  }
+
+  getDailyQuestion() {
+    this.dataService
+      .getDailyQuestions(this.dailyQuestionsData.organId)
+      .subscribe(
+        (data) => {
+          this.dailyQuestionn = data;
+          console.log(this.dailyQuestionn);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  onDeleteDailyQuestions(dailyQuesId: number) {
+    this.dataService.deleteDailyQuestions(dailyQuesId).subscribe(
+      () => {
+        console.log("Question deleted");
+        this.dailyQuestionn = this.dailyQuestionn.filter(
+          (ques) => ques.id !== dailyQuesId
+        );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  dailyNotesData: any = {
+    checkInStatus: false,
+    checkOutStatus: false,
+    organiId: 0,
+  };
+
+  @ViewChild("requestDailyQuesCloseModel")
+  requestDailyQuesCloseModel!: ElementRef;
+
+  dailyNotes: DailyNotes = new DailyNotes();
+
+  SLeaveValid = false;
+
+  onsaveDailyNotes() {
+    // this.dailyNotes = [];
+
+    this.dataService.saveDailyNotes(this.dailyNotesData).subscribe(
+      (response) => {
+        console.log(response);
+        //  this.saveLValid=true;
+        this.SLeaveValid = true;
+        this.dailyNotes = response;
+        this.SLeaveMessage();
+        this.setActive(3);
+        this.count = 3;
+        this.onDailyQuestionCompleted();
+
+        if (response) {
+          debugger;
+          this.requestSaveLeavCloseModel.nativeElement.click();
+        }
+        this.requestDailyQuesCloseModel.nativeElement.click();
+      },
+      (error) => {
+        console.error(error);
+        alert("Error saving leave");
+      }
+    );
+  }
+
+  getDailyNotes() {
+    this.dataService.getDailyNotes(localStorage.getItem("orgId")).subscribe(
+      (data) => {
+        // this.dailyNotesData=data;
+        this.dailyNotes = data;
+
+        if (data.checkInStatus) {
+          this.dailyNotesData.checkInStatus = true;
+        } else {
+          this.dailyNotesData.checkInStatus = false;
+        }
+        if (data.checkOutStatus) {
+          this.dailyNotesData.checkOutStatus = true;
+        } else {
+          this.dailyNotesData.checkOutStatus = false;
+        }
+        if (data) {
+          this.SLeaveValid = true;
+          this.SLeaveMessage();
+        }
+
+        if (data) {
+          this.onBusinessInfoCompleted();
+          this.onShiftTimingsCompleted();
+          this.onDailyQuestionCompleted();
+        }
+        debugger;
+        if (data.minLength !== 0) {
+          this.setActive(1);
+          this.setActive(2);
+          this.setActive(3);
+
+          if (this.a == 4) {
+            this.setActive(1);
+            this.setActive(2);
+            this.setActive(3);
+            this.setActive(4);
+          }
+        }
+        this.requestDailyQuesCloseModel.nativeElement.click();
+
+        this.count = 3;
+        console.log(this.dailyNotes);
+        if (this.a == 4) {
+          this.a = 4;
+        } else {
+          this.a = 3;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  // toggleCheckInStatus() {
+  //   this.dailyNotesData.checkInStatus = !this.dailyNotesData.checkInStatus;
+  // }
+
+  // // Method to toggle checkOutStatus
+  // toggleCheckOutStatus() {
+  //   this.dailyNotesData.checkOutStatus = !this.dailyNotesData.checkOutStatus;
+  // }
+
+  dailyQuesFlag: any;
+
+  dailyQuestMessage() {
+    debugger;
+    if (this.isAboveSectionValid2()) {
+      this.dailyQuesFlag = false;
+    } else {
+      this.dailyQuesFlag = true;
+    }
+    if (this.dailyQuesFlag) {
+      setTimeout(() => {
+        this.dailyQuesFlag = false;
+      }, 500); // 1000ms = 1 second
+    }
+  }
+  isAboveSectionValid2() {
+    debugger;
+    if (this.dailyQuesValid) {
+      return true;
+    }
+    return false;
+  }
+  isAboveSectionValid1() {
+    if (this.shiftTimingsValid) {
+      return true;
+    }
+    return false;
+  }
+
+  shiftTimesFlag: any;
+
+  shiftTimesMessage() {
+    if (this.isAboveSectionValid1()) {
+      this.shiftTimesFlag = false;
+    } else {
+      this.shiftTimesFlag = true;
+    }
+    if (this.shiftTimesFlag) {
+      setTimeout(() => {
+        this.shiftTimesFlag = false;
+      }, 500); // 1000ms = 1 second
+    }
+  }
+
+  SLeaveFlag: any;
+
+  SLeaveMessage() {
+    debugger;
+    if (this.isAboveSectionValid3()) {
+      this.SLeaveFlag = false;
+    } else {
+      this.SLeaveFlag = true;
+    }
+    if (this.SLeaveFlag) {
+      setTimeout(() => {
+        this.SLeaveFlag = false;
+      }, 500); // 1000ms = 1 second
+    }
+  }
+  isAboveSectionValid3() {
+    debugger;
+    if (this.SLeaveValid) {
+      return true;
+    }
+    return false;
   }
 }

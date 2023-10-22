@@ -15,14 +15,14 @@ export class DashboardComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.checkAccessToken();
+    // this.checkAccessToken();
   }
   
 
-  checkAccessToken(){
-    const loginDetails = localStorage.getItem('loginData');
-    if (!loginDetails) {
-      this.router.navigate(['/dynamic/login']);
-    }
-  }
+  // checkAccessToken(){
+  //   const loginDetails = localStorage.getItem('loginData');
+  //   if (!loginDetails) {
+  //     this.router.navigate(['/dynamic/login']);
+  //   }
+  // }
 }
