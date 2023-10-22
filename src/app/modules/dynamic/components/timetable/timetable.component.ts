@@ -115,8 +115,7 @@ model: any;
     const loginDetails = localStorage.getItem('loginData');
     if(loginDetails!==null){
       const loginData = JSON.parse(loginDetails);
-      const decodedToken : any = jwt_decode(loginData.access_token);
-      return decodedToken.role;
+      return loginData.role;
     }
   }
 
@@ -124,8 +123,7 @@ model: any;
     const loginDetails = localStorage.getItem('loginData');
     if(loginDetails!==null){
       const loginData = JSON.parse(loginDetails);
-      const decodedToken : any = jwt_decode(loginData.access_token);
-      return decodedToken.organization_database_id;
+      return loginData.id;
     }
   }
 
