@@ -19,14 +19,14 @@ import { WaitingPageComponent } from './components/waiting-page/waiting-page.com
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
-  { path: 'dashboard', component: DashboardComponent },  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
   { path: 'header', component: HeaderComponent },
   { path: 'topbar', component: TopbarComponent },
   { path: 'timetable', component: TimetableComponent },
   { path: 'project', component: ProjectComponent},
   { path: 'task-manager', component: TaskManagerComponent },
   { path: 'live-manager', component: LiveManagerComponent},
-  { path: 'onboarding', component: OnboardingComponent },
+  { path: 'onboarding', component: OnboardingComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'payment', component: PaymentComponent },
   { path: 'userlist', component: UserlistComponent },
