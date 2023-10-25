@@ -26,13 +26,17 @@ export class UserlistComponent implements OnInit {
   }
 
   getUsersByFiltersFunction() {
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'', this.getLoginDetailsId()).subscribe((data : any) => {
+    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'', this.getLoginDetailsId(), this.getLoginDetailsRole()).subscribe((data : any) => {
       this.users = data.users;
       this.total = data.count;
       console.log(this.users);
     }, (error) => {
       console.log(error);
-      console.log("-----------------------------")
+      const res = document.getElementById("error-page") as HTMLElement | null;
+
+      if(res){
+        res.style.display = "block";
+      }
     })
   }
 
@@ -47,6 +51,14 @@ export class UserlistComponent implements OnInit {
     })
   }
 
+
+  getLoginDetailsRole(){
+    const loginDetails = localStorage.getItem('loginData');
+    if(loginDetails!==null){
+      const loginData = JSON.parse(loginDetails);
+      return loginData.role;
+    }
+  }
 
   getLoginDetailsId(){
     const loginDetails = localStorage.getItem('loginData');

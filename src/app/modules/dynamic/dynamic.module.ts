@@ -22,6 +22,7 @@ import {NgxDaterangepickerMd} from 'ngx-daterangepicker-material';
 import { DateFormatPipe } from './date-format.pipe';
 import { TimeFormatPipe } from './time-format.pipe';
 import { DurationFormatPipe } from './duration-format.pipe';
+import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { DurationFormatPipe } from './duration-format.pipe';
     DateFormatPipe,
     TimeFormatPipe,
     DurationFormatPipe,
+    WaitingPageComponent,
 
   ],
   imports: [

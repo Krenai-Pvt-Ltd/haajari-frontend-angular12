@@ -50,3 +50,13 @@ input[type=checkbox]{
 	width: 130px;
 }
 
+.error-page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	color: red;
+	font-size: 18px;
+	display: none;
+  }

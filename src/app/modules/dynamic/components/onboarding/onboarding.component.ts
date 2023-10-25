@@ -63,6 +63,7 @@ export class OnboardingComponent implements OnInit {
     this.getLeaves();
   }
 
+  id: number = this.getLoginDetailsOrgRefId();
   name: string = "";
   email: string = "";
   password: string = "";
@@ -225,6 +226,7 @@ export class OnboardingComponent implements OnInit {
     }
     this.dataService
       .registerOnboardingDetails(
+        this.id,
         this.name,
         this.email,
         this.password,
@@ -661,8 +663,10 @@ export class OnboardingComponent implements OnInit {
 
   onBtnClick() {
     if (this.count >= 4) {
-      localStorage.clear();
-      this.router.navigate(["/dynamic/addtoslack"]);
+      //localStorage.clear();
+      this.router.navigate(["/dynamic/waiting"]);
+      
+      
     }
   }
 
@@ -919,5 +923,14 @@ export class OnboardingComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  // Written/modified by Shivendra
+  getLoginDetailsOrgRefId(){
+    const loginDetails = localStorage.getItem('loginData');
+    if(loginDetails!==null){
+      const loginData = JSON.parse(loginDetails);
+      return loginData.orgRefId;
+    }
   }
 }

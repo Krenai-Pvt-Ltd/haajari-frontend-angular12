@@ -15,6 +15,7 @@ import { DynamicComponent } from './dynamic.component';
 import { SlackAuthComponent } from './components/slack-auth/slack-auth.component';
 import { AddToSlackComponent } from './components/add-to-slack/add-to-slack.component';
 import { AuthGuard } from 'src/app/auth/auth-guard';
+import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'userlist', component: UserlistComponent },
   {path: 'slackauth', component: SlackAuthComponent},
   {path: 'addtoslack', component: AddToSlackComponent },
+  {path: 'waiting', component: WaitingPageComponent},
   {path: '', redirectTo: '/dynamic/login', pathMatch:'full'}
   ];
 

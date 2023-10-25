@@ -12,6 +12,24 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  name : string = this.getLoginDetailsName().toUpperCase();
+  role : string = this.getLoginDetailsRole();
   
+
+  getLoginDetailsRole(){
+    const loginDetails = localStorage.getItem('loginData');
+    if(loginDetails!==null){
+      const loginData = JSON.parse(loginDetails);
+      return loginData.role;
+    }
+  }
+
+  getLoginDetailsName(){
+    const loginDetails = localStorage.getItem('loginData');
+    if(loginDetails!==null){
+      const loginData = JSON.parse(loginDetails);
+      return loginData.name;
+    }
+  }
 
 }

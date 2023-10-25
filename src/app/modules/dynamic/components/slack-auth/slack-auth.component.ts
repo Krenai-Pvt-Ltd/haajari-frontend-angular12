@@ -29,6 +29,7 @@ export class SlackAuthComponent implements OnInit{
     }
 
     this.dataService.registerOrganizationUsingCodeParam(codeParam).subscribe((response: any) => {
+      debugger
       console.log(response);
       localStorage.setItem('loginData', JSON.stringify(response));
 

@@ -32,7 +32,7 @@ export class DataService {
 
   openSidebar: boolean = true;
 
-  getUsersByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string, organizationId: number) : Observable<any>{
+  getUsersByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string, organizationId: number, role: string) : Observable<any>{
     const params = new HttpParams()
     .set("itemPerPage", itemPerPage.toString())
     .set("pageNumber", pageNumber.toString())
@@ -40,15 +40,15 @@ export class DataService {
     .set('sortBy', sortBy)
     .set('search', search)
     .set('searchBy', searchBy)
-    .set('organizationId', organizationId);
+    .set('organizationId', organizationId)
+    .set('role', role);
 
 
-    return this.httpClient.get<any>(`${this.baseUrl}/users/by-filters`, {
-      params,
-    });
+    return this.httpClient.get<any>(`${this.baseUrl}/users/by-filters`, {params});
   }
 
   registerOnboardingDetails(
+    id: number,
     name: string,
     email: string,
     password: string,
@@ -57,6 +57,7 @@ export class DataService {
     organizationPic: File | null
   ) {
     const params = new HttpParams()
+      .set("id", id)
       .set("name", name)
       .set("email", email)
       .set("password", password)
