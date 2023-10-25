@@ -18,8 +18,9 @@ import { Router } from "@angular/router";
 import { DataService } from "src/app/services/data.service";
 import { Organization } from "src/app/models/organization";
 import { ShiftTimings } from "src/app/models/shifttimings";
-import { DailyQuestions } from "src/app/models/daily-questions";
+import { DailyQuestionsCheckout } from "src/app/models/daily-questions-check-out";
 import { DailyNotes } from "src/app/models/daily-notes";
+import { DailyQuestionsCheckIn } from "src/app/models/daily-questions-check-in";
 
 @Component({
   selector: "app-onboarding",
@@ -32,7 +33,7 @@ export class OnboardingComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {
     // this.shiftTimingsForm = this.fb.group({
     //   inTime: ["", Validators.required],
@@ -46,9 +47,11 @@ export class OnboardingComponent implements OnInit {
     this.getOrganization();
     this.getShifts();
     this.settingOrgId();
+    this.getDailyQuestionCheckIn();
     this.getDailyQuestion();
     this.getDailyNotes();
     this.getLeaves();
+  
 
     //   window.addEventListener("beforeunload", function (e) {
     //     var confirmationMessage = "\o/";
@@ -58,10 +61,6 @@ export class OnboardingComponent implements OnInit {
     // });
   }
 
-  section3() {
-    this.getDailyNotes();
-    this.getLeaves();
-  }
 
   id: number = this.getLoginDetailsOrgRefId();
   name: string = "";
@@ -191,20 +190,23 @@ export class OnboardingComponent implements OnInit {
     },
   ];
 
-  selectCountry(selectedCountry: string) {
+ selectCountry(selectedCountry: string) {
     this.country = selectedCountry;
+    this.updateStates();
   }
-  
 
+  // selectCountry(selectedCountry: string) {
+  //   this.country = selectedCountry;
+  // }
   updateStates() {
-    const selectedCountry = this.countries.find((c) => c.name === this.country);
-    if (selectedCountry) {
-      this.states = selectedCountry.states;
+    const selectedCountryData = this.countries.find((c) => c.name === this.country);
+    if (selectedCountryData) {
+      this.states = selectedCountryData.states; // Update the states based on the selected country
     } else {
-      this.states = [];
+      this.states = []; // Clear the states if no country is selected
     }
-    // this.state = 'Select State';
   }
+
 
   resetForm2() {
     this.name = "";
@@ -218,12 +220,16 @@ export class OnboardingComponent implements OnInit {
   shiftTimingsValid = false;
   // eId:string="";
   // pass:string="";
+  isSecondSectionOpen = false;
+
+  
 
   register() {
     if (this.businessInfoForm.invalid) {
       this.BusinessInfoSetInvalidToggle = true;
       return;
     }
+    
     this.dataService
       .registerOnboardingDetails(
         this.id,
@@ -239,6 +245,7 @@ export class OnboardingComponent implements OnInit {
           console.log(resultData);
           this.loginArray.organizationId = resultData.id;
           this.leaveData.orgId = resultData.id;
+          this.dailyQuestionsCheckInData.organnId=resultData.id;
           this.dailyQuestionsData.organId = resultData.id;
           this.dailyNotesData.organiId = resultData.id;
           this.shiftTimingsValid = true;
@@ -254,18 +261,16 @@ export class OnboardingComponent implements OnInit {
           this.onBusinessInfoCompleted();
 
           // this.requestShiftTimingsCloseModel.nativeElement.setAttribute("ariaExpanded", "false");
-          debugger
-          if (resultData.minLength!==null) {
-            debugger
-            this.openModel2();
-          }
+         
           this.requestBusinessInfoCloseModel.nativeElement.click();
+         
+          this.isSecondSectionOpen = true;
 
           this.setAct1();
           this.orgI = resultData.id;
           localStorage.setItem("orgId", this.orgI);
           //window.location.reload();
-          this.openModel2();
+         
         },
         (error) => {
           console.log(error.error.message);
@@ -273,9 +278,7 @@ export class OnboardingComponent implements OnInit {
         }
       );
   }
-   openModel2(){
-    this.requestShiftTimingsCloseModel.nativeElement.click();
-   }
+   
   settingOrgId() {
     let orgnIds = localStorage.getItem("orgId");
 
@@ -283,6 +286,7 @@ export class OnboardingComponent implements OnInit {
       this.loginArray.organizationId = +orgnIds;
 
       this.leaveData.orgId = +orgnIds;
+      this.dailyQuestionsCheckInData.organnId= +orgnIds;
       this.dailyQuestionsData.organId = +orgnIds;
       this.dailyNotesData.organiId = +orgnIds;
     }
@@ -311,20 +315,24 @@ export class OnboardingComponent implements OnInit {
 
         if (data.minLength !== 0) {
           this.setActive(1);
+          this.count=1;
           if (this.a == 2) {
             this.setActive(1);
             this.setActive(2);
+            this.count=2;
           }
           if (this.a == 3) {
             this.setActive(1);
             this.setActive(2);
             this.setActive(3);
+            this.count=3;
           }
           if (this.a == 4) {
             this.setActive(1);
             this.setActive(2);
             this.setActive(3);
             this.setActive(4);
+            this.count=4;
           }
         }
         if (data) {
@@ -370,16 +378,19 @@ export class OnboardingComponent implements OnInit {
         if (data.minLength !== 0) {
           this.setActive(1);
           this.setActive(2);
+          this.count=2;
           if (this.a == 4) {
             this.setActive(1);
             this.setActive(2);
             this.setActive(3);
             this.setActive(4);
+            this.count=4;
           }
           if (this.a == 3) {
             this.setActive(1);
             this.setActive(2);
             this.setActive(3);
+            this.count=3;
           }
         }
         if (data) {
@@ -389,10 +400,13 @@ export class OnboardingComponent implements OnInit {
 
         if (this.a == 4) {
           this.a = 4;
+         
         } else if (this.a == 3) {
           this.a = 3;
+          
         } else {
           this.a = 2;
+         
         }
         this.requestShiftTimingsCloseModel.nativeElement.click();
       },
@@ -555,7 +569,8 @@ export class OnboardingComponent implements OnInit {
   // noData:any="Please add leaves";
 
   savel: Savel[] = [];
-
+  
+ 
   getLeaves() {
     this.dataService.getLeave(this.leaveData.orgId).subscribe(
       (data) => {
@@ -565,11 +580,12 @@ export class OnboardingComponent implements OnInit {
           this.setActive(2);
           this.setActive(3);
           this.setActive(4);
+          this.count=4;
         }
-
+       
         console.log(this.savel);
         this.a = 4;
-        this.count = 4;
+       
       },
       (error) => {
         console.log(error);
@@ -587,6 +603,10 @@ export class OnboardingComponent implements OnInit {
     );
   }
 
+  setAce(){
+    this.setActive(5);
+    this.count=5;
+  }
   updateLeaveStatus(sav: Savel) {
     this.dataService.updateLeaveStatus(sav).subscribe(
       () => {
@@ -625,6 +645,9 @@ export class OnboardingComponent implements OnInit {
   requestShiftTimingsCloseModel!: ElementRef;
 
   dailyQuesValid = false;
+  isThirdSectionOpen = false;
+ 
+
 
   onSaveShiftTimings() {
     this.dataService.saveShiftTimings(this.loginArray).subscribe(
@@ -634,12 +657,11 @@ export class OnboardingComponent implements OnInit {
         this.count = 2;
         this.setActive(2);
         this.dailyQuestMessage();
-
-        if (response) {
-          debugger;
-          this.requestDailyQuesCloseModel.nativeElement.click();
-        }
+        debugger
         this.requestShiftTimingsCloseModel.nativeElement.click();
+        // this.isSecondSectionOpen = false;
+        
+        this.isThirdSectionOpen = true;
 
         this.onShiftTimingsCompleted();
         // alert("Shift Time saved successfully, Click on Leaves Setting");
@@ -685,13 +707,13 @@ export class OnboardingComponent implements OnInit {
   }
 
   dailyQuestionsData = {
-    message: "",
+    messageCheckOut: "",
     organId: 0,
   };
 
   resetFormd() {
     this.dailyQuestionsData = {
-      message: "",
+      messageCheckOut: "",
       organId: this.dailyQuestionsData.organId,
     };
   }
@@ -702,7 +724,7 @@ export class OnboardingComponent implements OnInit {
 
   dailyQuestionsSetInvalidToggle: boolean = false;
 
-  dailyQuestionn: DailyQuestions[] = [];
+  dailyQuestionn: DailyQuestionsCheckout[] = [];
   dailyQuesId!: number;
 
   onSaveDailyQuestions() {
@@ -721,7 +743,7 @@ export class OnboardingComponent implements OnInit {
       },
       (error) => {
         console.error(error);
-        alert("Error saving leave");
+        alert("Error saving daily quess Checkout");
       }
     );
   }
@@ -733,6 +755,7 @@ export class OnboardingComponent implements OnInit {
         (data) => {
           this.dailyQuestionn = data;
           console.log(this.dailyQuestionn);
+          this.requestDailyQuestionsCloseModel.nativeElement.click();
         },
         (error) => {
           console.log(error);
@@ -753,6 +776,80 @@ export class OnboardingComponent implements OnInit {
       }
     );
   }
+  // ###############################################3
+
+  dailyQuestionsCheckInData = {
+    messageCheckIn: "",
+    organnId: 0,
+  };
+
+  resetFormdCheckIn() {
+    this.dailyQuestionsCheckInData = {
+      messageCheckIn: "",
+      organnId: this.dailyQuestionsCheckInData.organnId,
+    };
+  }
+
+  @ViewChild("dailyQuestionsCheckInForm") dailyQuetsionsCheckInForm!: any;
+  @ViewChild("requestDailyQuestionsCheckInCloseModel")
+  requestDailyQuestionsCheckInCloseModel!: ElementRef;
+
+  dailyQuestionsCheckInSetInvalidToggle: boolean = false;
+
+  dailyQuestionnCheckIn: DailyQuestionsCheckIn[] = [];
+  dailyQuesCheckInId!: number;
+
+  onSaveDailyQuestionsCheckIn() {
+    if (this.dailyQuetsionsCheckInForm.invalid) {
+      this.dailyQuestionsCheckInSetInvalidToggle = true;
+      return;
+    }
+    this.dataService.saveDailyQuestionsCheckIn(this.dailyQuestionsCheckInData).subscribe(
+      (response) => {
+        console.log(response);
+        this.dailyQuestionnCheckIn.push(response);
+        this.dailyQuesCheckInId = response.id;
+        // this.saveLValid=true;
+        this.resetFormdCheckIn();
+        this.requestDailyQuestionsCheckInCloseModel.nativeElement.click();
+      },
+      (error) => {
+        console.error(error);
+        alert("Error saving daily Quess CheckIn");
+      }
+    );
+  }
+
+  getDailyQuestionCheckIn() {
+    this.dataService
+      .getDailyQuestionsCheckIn(this.dailyQuestionsCheckInData.organnId)
+      .subscribe(
+        (data) => {
+          this.dailyQuestionnCheckIn = data;
+          console.log(this.dailyQuestionnCheckIn);
+          this.requestDailyQuestionsCheckInCloseModel.nativeElement.click();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  onDeleteDailyQuestionsCheckIn(dailyQuesCheckInId: number) {
+    this.dataService.deleteDailyQuestionsCheckIn(dailyQuesCheckInId).subscribe(
+      () => {
+        console.log("Question deleted");
+        this.dailyQuestionnCheckIn = this.dailyQuestionnCheckIn.filter(
+          (ques) => ques.id !== dailyQuesCheckInId
+        );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  // ####################################3333
 
   dailyNotesData: any = {
     checkInStatus: false,
@@ -766,9 +863,11 @@ export class OnboardingComponent implements OnInit {
   dailyNotes: DailyNotes = new DailyNotes();
 
   SLeaveValid = false;
+  isFourthSectionOpen=false;
 
   onsaveDailyNotes() {
     // this.dailyNotes = [];
+       
 
     this.dataService.saveDailyNotes(this.dailyNotesData).subscribe(
       (response) => {
@@ -781,10 +880,12 @@ export class OnboardingComponent implements OnInit {
         this.count = 3;
         this.onDailyQuestionCompleted();
 
-        if (response) {
-          debugger;
-          this.requestSaveLeavCloseModel.nativeElement.click();
-        }
+        this.isFourthSectionOpen = true;
+
+        // if (response) {
+        //   debugger;
+        //   this.requestSaveLeavCloseModel.nativeElement.click();
+        // }
         this.requestDailyQuesCloseModel.nativeElement.click();
       },
       (error) => {
@@ -825,17 +926,20 @@ export class OnboardingComponent implements OnInit {
           this.setActive(1);
           this.setActive(2);
           this.setActive(3);
+          this.count=3;
 
           if (this.a == 4) {
             this.setActive(1);
             this.setActive(2);
             this.setActive(3);
             this.setActive(4);
+            this.count=4
           }
         }
-        this.requestDailyQuesCloseModel.nativeElement.click();
+        if(data){      
+            this.requestDailyQuesCloseModel.nativeElement.click();
+        }
 
-        this.count = 3;
         console.log(this.dailyNotes);
         if (this.a == 4) {
           this.a = 4;
@@ -845,6 +949,7 @@ export class OnboardingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
+        this.requestDailyQuesCloseModel.nativeElement.click();
       }
     );
   }

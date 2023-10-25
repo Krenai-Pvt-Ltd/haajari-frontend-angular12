@@ -8,8 +8,10 @@ import { AttendenceDto } from "../models/attendence-dto";
 import { OnboardingComponent } from "../modules/dynamic/components/onboarding/onboarding.component";
 import { SlackAuthComponent } from "../modules/dynamic/components/slack-auth/slack-auth.component";
 import { ShiftTimings } from "../models/shifttimings";
-import { DailyQuestions } from "../models/daily-questions";
+import { DailyQuestionsCheckout } from "../models/daily-questions-check-out";
 import { DailyNotes } from "../models/daily-notes";
+import { DailyQuestionsCheckIn } from "../models/daily-questions-check-in";
+
 
 @Injectable({
   providedIn: "root",
@@ -46,6 +48,7 @@ export class DataService {
 
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-filters`, {params});
   }
+  
 
   registerOnboardingDetails(
     id: number,
@@ -143,7 +146,7 @@ export class DataService {
 
   getDailyQuestions(organId: any): Observable<any> {
     const params = new HttpParams().set("id", organId);
-    return this.httpClient.get<DailyQuestions[]>(`${this.baseUrl}/get-daily-questions/id`, {
+    return this.httpClient.get<DailyQuestionsCheckout[]>(`${this.baseUrl}/get-daily-questions/id`, {
       params,
     });
   }
@@ -153,6 +156,27 @@ export class DataService {
       `${this.baseUrl}/delete-daily-questions/${dailyQuestionsId}`,
     );
   }
+  // #############################################################3
+  saveDailyQuestionsCheckIn(dailyQuestionsData: any): Observable<any> {
+    return this.httpClient.post(
+      `http://localhost:8080/api/v1/attendance/save-daily-questions-check-in`,
+      dailyQuestionsData
+    );
+  }
+
+  getDailyQuestionsCheckIn(organnId: any): Observable<any> {
+    const params = new HttpParams().set("id", organnId);
+    return this.httpClient.get<DailyQuestionsCheckIn[]>(`${this.baseUrl}/get-daily-questions-check-in/id`, {
+      params,
+    });
+  }
+
+  deleteDailyQuestionsCheckIn(dailyQuestionsId: any): Observable<any> {
+    return this.httpClient.delete(
+      `${this.baseUrl}/delete-daily-questions-check-in/${dailyQuestionsId}`,
+    );
+  }
+  // #################################333
 
   saveDailyNotes(dailyNotesData: any): Observable<any> {
     return this.httpClient.put(
