@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: 'dynamic', loadChildren: () => import('./modules/dynamic/dynamic.module').then(m => m.DynamicModule) },
-  {path: '', redirectTo: '/dynamic/login', pathMatch:'full'}
+  {path: '', redirectTo: '/dynamic/dashboard', pathMatch:'full'}
 
   ];
 

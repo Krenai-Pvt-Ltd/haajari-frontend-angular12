@@ -23,6 +23,7 @@ import { DateFormatPipe } from './date-format.pipe';
 import { TimeFormatPipe } from './time-format.pipe';
 import { DurationFormatPipe } from './duration-format.pipe';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
+import { TeamComponent } from './components/team/team.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { WaitingPageComponent } from './components/waiting-page/waiting-page.com
     TimeFormatPipe,
     DurationFormatPipe,
     WaitingPageComponent,
+    TeamComponent,
 
   ],
   imports: [
