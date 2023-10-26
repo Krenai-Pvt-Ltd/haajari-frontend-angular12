@@ -20,11 +20,9 @@ import { TeamComponent } from './components/team/team.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
-<<<<<<< HEAD
   { path: 'dashboard', component: DashboardComponent},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
-=======
-  { path: 'dashboard', component: DashboardComponent },  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
->>>>>>> d59c38495bbfa2424a99675d8f48ac9cb4a0da65
+
+
   { path: 'header', component: HeaderComponent },
   { path: 'topbar', component: TopbarComponent },
   { path: 'timetable', component: TimetableComponent },
