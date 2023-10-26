@@ -12,8 +12,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  name : string = this.getLoginDetailsName().toUpperCase();
-  role : string = this.getLoginDetailsRole();
+  // name : string = this.getLoginDetailsName()!.toUpperCase();
+  // role : string = this.getLoginDetailsRole();
   
 
   getLoginDetailsRole(){
