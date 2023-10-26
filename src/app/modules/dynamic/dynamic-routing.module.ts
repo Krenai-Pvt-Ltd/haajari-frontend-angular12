@@ -15,14 +15,18 @@ import { DynamicComponent } from './dynamic.component';
 import { SlackAuthComponent } from './components/slack-auth/slack-auth.component';
 import { AddToSlackComponent } from './components/add-to-slack/add-to-slack.component';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
+import { TeamComponent } from './components/team/team.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
-  { path: 'dashboard', component: DashboardComponent },  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
+  { path: 'dashboard', component: DashboardComponent},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
+
+
   { path: 'header', component: HeaderComponent },
   { path: 'topbar', component: TopbarComponent },
   { path: 'timetable', component: TimetableComponent },
   { path: 'project', component: ProjectComponent},
+  { path: 'team', component: TeamComponent},
   { path: 'task-manager', component: TaskManagerComponent },
   { path: 'live-manager', component: LiveManagerComponent},
   { path: 'onboarding', component: OnboardingComponent},
