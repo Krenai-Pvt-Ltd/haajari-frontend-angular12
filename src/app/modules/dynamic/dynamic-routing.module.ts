@@ -14,7 +14,6 @@ import { UserlistComponent } from './components/userlist/userlist.component';
 import { DynamicComponent } from './dynamic.component';
 import { SlackAuthComponent } from './components/slack-auth/slack-auth.component';
 import { AddToSlackComponent } from './components/add-to-slack/add-to-slack.component';
-import { AuthGuard } from 'src/app/auth/auth-guard';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 
 const routes: Routes = [
@@ -26,7 +25,7 @@ const routes: Routes = [
   { path: 'project', component: ProjectComponent},
   { path: 'task-manager', component: TaskManagerComponent },
   { path: 'live-manager', component: LiveManagerComponent},
-  { path: 'onboarding', component: OnboardingComponent, canActivate: [AuthGuard] },
+  { path: 'onboarding', component: OnboardingComponent},
   { path: 'login', component: LoginComponent },
   { path: 'payment', component: PaymentComponent },
   { path: 'userlist', component: UserlistComponent },
