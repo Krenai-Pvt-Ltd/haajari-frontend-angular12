@@ -24,6 +24,7 @@ import { TimeFormatPipe } from './time-format.pipe';
 import { DurationFormatPipe } from './duration-format.pipe';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 import { TeamComponent } from './components/team/team.component';
+import { TemporaryComponent } from './components/temporary/temporary.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { TeamComponent } from './components/team/team.component';
     DurationFormatPipe,
     WaitingPageComponent,
     TeamComponent,
+    TemporaryComponent,
 
   ],
   imports: [

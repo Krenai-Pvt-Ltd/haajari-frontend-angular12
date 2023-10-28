@@ -274,13 +274,12 @@ export class OnboardingComponent implements OnInit {
         },
         (error) => {
           console.log(error.error.message);
-          this.setAct2();
         }
       );
   }
    
   settingOrgId() {
-    let orgnIds = localStorage.getItem("orgId");
+    let orgnIds = this.getLoginDetailsOrgRefId();
 
     if (orgnIds) {
       this.loginArray.organizationId = +orgnIds;
@@ -300,7 +299,7 @@ export class OnboardingComponent implements OnInit {
   org: Organization = new Organization();
   a: number = 0;
   getOrganization() {
-    this.dataService.getOrg(localStorage.getItem("orgId")).subscribe(
+    this.dataService.getOrg(this.getLoginDetailsOrgRefId()).subscribe(
       (data) => {
         this.name = data.name;
         this.email = data.email;
@@ -313,28 +312,28 @@ export class OnboardingComponent implements OnInit {
           this.organizationPic = data.organizationPic;
         }
 
-        if (data.minLength !== 0) {
-          this.setActive(1);
-          this.count=1;
-          if (this.a == 2) {
-            this.setActive(1);
-            this.setActive(2);
-            this.count=2;
-          }
-          if (this.a == 3) {
-            this.setActive(1);
-            this.setActive(2);
-            this.setActive(3);
-            this.count=3;
-          }
-          if (this.a == 4) {
-            this.setActive(1);
-            this.setActive(2);
-            this.setActive(3);
-            this.setActive(4);
-            this.count=4;
-          }
-        }
+        // if (data.minLength !== 0) {
+        //   this.setActive(1);
+        //   this.count=1;
+        //   if (this.a == 2) {
+        //     this.setActive(1);
+        //     this.setActive(2);
+        //     this.count=2;
+        //   }
+        //   if (this.a == 3) {
+        //     this.setActive(1);
+        //     this.setActive(2);
+        //     this.setActive(3);
+        //     this.count=3;
+        //   }
+        //   if (this.a == 4) {
+        //     this.setActive(1);
+        //     this.setActive(2);
+        //     this.setActive(3);
+        //     this.setActive(4);
+        //     this.count=4;
+        //   }
+        // }
         if (data) {
           this.shiftTimingsValid = true;
           this.onBusinessInfoCompleted();
@@ -349,7 +348,7 @@ export class OnboardingComponent implements OnInit {
         } else {
           this.a = 1;
         }
-        this.requestBusinessInfoCloseModel.nativeElement.click();
+        // this.requestBusinessInfoCloseModel.nativeElement.click();
       },
       (error) => {
         console.log(error);
@@ -360,7 +359,7 @@ export class OnboardingComponent implements OnInit {
   shifttimings: ShiftTimings = new ShiftTimings();
 
   getShifts() {
-    this.dataService.getShiftTimings(localStorage.getItem("orgId")).subscribe(
+    this.dataService.getShiftTimings(this.getLoginDetailsOrgRefId()).subscribe(
       (data) => {
         // this.setActive(1);
         this.loginArray.inTime = data.inTime;
@@ -896,7 +895,7 @@ export class OnboardingComponent implements OnInit {
   }
 
   getDailyNotes() {
-    this.dataService.getDailyNotes(localStorage.getItem("orgId")).subscribe(
+    this.dataService.getDailyNotes(this.getLoginDetailsOrgRefId()).subscribe(
       (data) => {
         // this.dailyNotesData=data;
         this.dailyNotes = data;
