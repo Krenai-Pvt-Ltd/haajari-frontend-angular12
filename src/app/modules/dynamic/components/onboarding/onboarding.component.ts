@@ -60,8 +60,6 @@ export class OnboardingComponent implements OnInit {
     //     return confirmationMessage;
     // });
   }
-
-
   id: number = this.getLoginDetailsOrgRefId();
   name: string = "";
   email: string = "";

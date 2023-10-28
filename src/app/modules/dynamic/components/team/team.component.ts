@@ -31,7 +31,7 @@ export class TeamComponent implements OnInit {
       console.log(this.users);
 
        debugger
-       this.emailIdPairs = data.users.map((user: any) => ({ email: user.email, id: user.id }));
+       this.emailIdPairs = data.users.map((user: any) => ({id: user.id, userImage:user.userImage, name:user.name, email: user.email}));
        console.log(this.emailIdPairs);
 
 
