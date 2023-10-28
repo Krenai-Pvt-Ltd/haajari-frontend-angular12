@@ -26,6 +26,7 @@ import { WaitingPageComponent } from './components/waiting-page/waiting-page.com
 import { TeamComponent } from './components/team/team.component';
 import { TemporaryComponent } from './components/temporary/temporary.component';
 
+
 @NgModule({
   declarations: [
     DynamicComponent,
@@ -56,7 +57,10 @@ import { TemporaryComponent } from './components/temporary/temporary.component';
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    NgxDaterangepickerMd.forRoot()
+    NgxDaterangepickerMd.forRoot(),
+    
+
+    
   ]
 })
 export class DynamicModule { }

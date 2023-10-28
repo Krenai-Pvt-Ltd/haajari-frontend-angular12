@@ -207,6 +207,8 @@ export class OnboardingComponent implements OnInit {
     }
   }
 
+  
+
 
   resetForm2() {
     this.name = "";
@@ -243,6 +245,8 @@ export class OnboardingComponent implements OnInit {
       .subscribe(
         (resultData: any) => {
           console.log(resultData);
+          this.country = resultData.country;
+          this.state = resultData.state;
           this.loginArray.organizationId = resultData.id;
           this.leaveData.orgId = resultData.id;
           this.dailyQuestionsCheckInData.organnId=resultData.id;
@@ -291,9 +295,9 @@ export class OnboardingComponent implements OnInit {
     }
   }
 
-  setAct2() {
-    this.setActive(1);
-  }
+  // setAct2() {
+  //   this.setActive(1);
+  // }
 
   // org: Organization[] = [];
   org: Organization = new Organization();
@@ -304,36 +308,37 @@ export class OnboardingComponent implements OnInit {
         this.name = data.name;
         this.email = data.email;
         this.password = data.password;
+        debugger
         this.state = data.state;
         this.country = data.country;
         this.organizationPic = data.organizationPic;
 
-        if (data.organizationPic) {
-          this.organizationPic = data.organizationPic;
+        this.updateStates();
+        
+        if (data.email !== 0) {
+          debugger
+          this.setActive(1);
+          this.count=1;
+          if (this.a == 2) {
+            this.setActive(1);
+            this.setActive(2);
+            this.count=2;
+          }
+          if (this.a == 3) {
+            this.setActive(1);
+            this.setActive(2);
+            this.setActive(3);
+            this.count=3;
+          }
+          if (this.a == 4) {
+            this.setActive(1);
+            this.setActive(2);
+            this.setActive(3);
+            this.setActive(4);
+            this.count=4;
+          }
         }
 
-        // if (data.minLength !== 0) {
-        //   this.setActive(1);
-        //   this.count=1;
-        //   if (this.a == 2) {
-        //     this.setActive(1);
-        //     this.setActive(2);
-        //     this.count=2;
-        //   }
-        //   if (this.a == 3) {
-        //     this.setActive(1);
-        //     this.setActive(2);
-        //     this.setActive(3);
-        //     this.count=3;
-        //   }
-        //   if (this.a == 4) {
-        //     this.setActive(1);
-        //     this.setActive(2);
-        //     this.setActive(3);
-        //     this.setActive(4);
-        //     this.count=4;
-        //   }
-        // }
         if (data) {
           this.shiftTimingsValid = true;
           this.onBusinessInfoCompleted();
