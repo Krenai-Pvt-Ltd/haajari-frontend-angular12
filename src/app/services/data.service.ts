@@ -246,6 +246,13 @@ export class DataService {
     return this.httpClient.put<any>(`${this.baseUrl}/register-organization-using-code-param`, {}, {params});
   }
 
+  //Just for testing
+  getUserByUserName(name : string) : Observable<any>{
+    const params = new HttpParams().set("name", name);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/get/user`, {params});
+  }
+
 
   registerTeam(name: string, userIds: number[]): Observable<any> {
     const data = { name, userIds };
