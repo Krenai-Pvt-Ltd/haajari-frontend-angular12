@@ -48,6 +48,19 @@ export class DataService {
 
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-filters`, {params});
   }
+
+  getAllUsersByFilter(sort: string, sortBy: string, search: string, searchBy: string, organizationId: number, role: string) : Observable<any>{
+    const params = new HttpParams()
+    .set('sortOrder', sort)
+    .set('sortBy', sortBy)
+    .set('search', search)
+    .set('searchBy', searchBy)
+    .set('organizationId', organizationId)
+    .set('role', role);
+
+
+    return this.httpClient.get<any>(`${this.baseUrl}/all/users`, {params});
+  }
   
 
   registerOnboardingDetails(
@@ -232,4 +245,21 @@ export class DataService {
 
     return this.httpClient.put<any>(`${this.baseUrl}/register-organization-using-code-param`, {}, {params});
   }
+
+
+  registerTeam(name: string, userIds: number[]): Observable<any> {
+    const data = { name, userIds };
+    return this.httpClient.post(this.baseUrl+'/register-team', data);
+  }
+
+
+
+
+
+
+
+
+
+
+
 }

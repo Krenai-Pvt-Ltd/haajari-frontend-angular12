@@ -25,6 +25,7 @@ import { DurationFormatPipe } from './duration-format.pipe';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 import { TeamComponent } from './components/team/team.component';
 
+
 @NgModule({
   declarations: [
     DynamicComponent,
@@ -54,7 +55,10 @@ import { TeamComponent } from './components/team/team.component';
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    NgxDaterangepickerMd.forRoot()
+    NgxDaterangepickerMd.forRoot(),
+    
+
+    
   ]
 })
 export class DynamicModule { }
