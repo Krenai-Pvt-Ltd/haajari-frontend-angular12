@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TeamResponse } from 'src/app/models/team';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
 
@@ -15,6 +16,7 @@ export class TeamComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllUsersByFiltersFunction();
+    this.getAllUser();
   }
 
   users : Users[] = [];
@@ -105,6 +107,24 @@ export class TeamComponent implements OnInit {
     } else {
       this.selectedMembers.push(user.id);
     }
+  }
+
+  // ######################################## Home #################################
+
+  teams: TeamResponse[] = [];
+  
+ 
+  // userId = 117;
+  //  index=0;
+  
+
+  getAllUser(){
+    this.dataService.getAllTeamsWithUsersByUserId(this.getLoginDetailsId())
+    .subscribe(data => {
+      debugger
+      this.teams = data;
+      console.log(this.teams);
+    });
   }
 
   
