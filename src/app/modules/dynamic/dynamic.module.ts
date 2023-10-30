@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { DynamicRoutingModule } from './dynamic-routing.module';
 import { DynamicComponent } from './dynamic.component';
@@ -24,7 +23,13 @@ import { TimeFormatPipe } from './time-format.pipe';
 import { DurationFormatPipe } from './duration-format.pipe';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 import { TeamComponent } from './components/team/team.component';
+<<<<<<< HEAD
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
+=======
+import { TemporaryComponent } from './components/temporary/temporary.component';
+import { CommonModule } from '@angular/common';
+
+>>>>>>> 03355e9c73632491489db14a2f26d70d62c774c5
 
 @NgModule({
   declarations: [
@@ -47,16 +52,24 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
     DurationFormatPipe,
     WaitingPageComponent,
     TeamComponent,
+<<<<<<< HEAD
     TeamDetailComponent,
+=======
+    TemporaryComponent,
+>>>>>>> 03355e9c73632491489db14a2f26d70d62c774c5
 
   ],
   imports: [
-    DynamicRoutingModule,
     CommonModule,
+    DynamicRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    NgxDaterangepickerMd.forRoot()
+    NgxDaterangepickerMd.forRoot(),
+    
+    
+
+    
   ]
 })
 export class DynamicModule { }

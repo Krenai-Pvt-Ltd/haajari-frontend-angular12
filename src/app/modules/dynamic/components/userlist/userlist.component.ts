@@ -26,10 +26,17 @@ export class UserlistComponent implements OnInit {
   }
 
   getUsersByFiltersFunction() {
+    debugger
     this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'', this.getLoginDetailsId(), this.getLoginDetailsRole()).subscribe((data : any) => {
       this.users = data.users;
       this.total = data.count;
       console.log(this.users);
+
+       
+      //  const emailIdPairs = data.users.map((user: any) => ({ email: user.email, id: user.id }));
+      //  console.log(emailIdPairs);
+
+
     }, (error) => {
       console.log(error);
       const res = document.getElementById("error-page") as HTMLElement | null;

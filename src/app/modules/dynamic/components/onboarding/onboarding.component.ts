@@ -60,8 +60,6 @@ export class OnboardingComponent implements OnInit {
     //     return confirmationMessage;
     // });
   }
-
-
   id: number = this.getLoginDetailsOrgRefId();
   name: string = "";
   email: string = "";
@@ -207,6 +205,8 @@ export class OnboardingComponent implements OnInit {
     }
   }
 
+  
+
 
   resetForm2() {
     this.name = "";
@@ -243,6 +243,8 @@ export class OnboardingComponent implements OnInit {
       .subscribe(
         (resultData: any) => {
           console.log(resultData);
+          this.country = resultData.country;
+          this.state = resultData.state;
           this.loginArray.organizationId = resultData.id;
           this.leaveData.orgId = resultData.id;
           this.dailyQuestionsCheckInData.organnId=resultData.id;
@@ -274,13 +276,12 @@ export class OnboardingComponent implements OnInit {
         },
         (error) => {
           console.log(error.error.message);
-          this.setAct2();
         }
       );
   }
    
   settingOrgId() {
-    let orgnIds = localStorage.getItem("orgId");
+    let orgnIds = this.getLoginDetailsOrgRefId();
 
     if (orgnIds) {
       this.loginArray.organizationId = +orgnIds;
@@ -292,28 +293,28 @@ export class OnboardingComponent implements OnInit {
     }
   }
 
-  setAct2() {
-    this.setActive(1);
-  }
+  // setAct2() {
+  //   this.setActive(1);
+  // }
 
   // org: Organization[] = [];
   org: Organization = new Organization();
   a: number = 0;
   getOrganization() {
-    this.dataService.getOrg(localStorage.getItem("orgId")).subscribe(
+    this.dataService.getOrg(this.getLoginDetailsOrgRefId()).subscribe(
       (data) => {
         this.name = data.name;
         this.email = data.email;
         this.password = data.password;
+        debugger
         this.state = data.state;
         this.country = data.country;
         this.organizationPic = data.organizationPic;
 
-        if (data.organizationPic) {
-          this.organizationPic = data.organizationPic;
-        }
-
-        if (data.minLength !== 0) {
+        this.updateStates();
+        
+        if (data.email !== 0) {
+          debugger
           this.setActive(1);
           this.count=1;
           if (this.a == 2) {
@@ -334,7 +335,9 @@ export class OnboardingComponent implements OnInit {
             this.setActive(4);
             this.count=4;
           }
+          this.requestBusinessInfoCloseModel.nativeElement.click();
         }
+
         if (data) {
           this.shiftTimingsValid = true;
           this.onBusinessInfoCompleted();
@@ -349,7 +352,6 @@ export class OnboardingComponent implements OnInit {
         } else {
           this.a = 1;
         }
-        this.requestBusinessInfoCloseModel.nativeElement.click();
       },
       (error) => {
         console.log(error);
@@ -360,7 +362,7 @@ export class OnboardingComponent implements OnInit {
   shifttimings: ShiftTimings = new ShiftTimings();
 
   getShifts() {
-    this.dataService.getShiftTimings(localStorage.getItem("orgId")).subscribe(
+    this.dataService.getShiftTimings(this.getLoginDetailsOrgRefId()).subscribe(
       (data) => {
         // this.setActive(1);
         this.loginArray.inTime = data.inTime;
@@ -896,7 +898,7 @@ export class OnboardingComponent implements OnInit {
   }
 
   getDailyNotes() {
-    this.dataService.getDailyNotes(localStorage.getItem("orgId")).subscribe(
+    this.dataService.getDailyNotes(this.getLoginDetailsOrgRefId()).subscribe(
       (data) => {
         // this.dailyNotesData=data;
         this.dailyNotes = data;
@@ -935,10 +937,11 @@ export class OnboardingComponent implements OnInit {
             this.setActive(4);
             this.count=4
           }
+          this.requestDailyQuesCloseModel.nativeElement.click();
         }
-        if(data){      
-            this.requestDailyQuesCloseModel.nativeElement.click();
-        }
+        // if(data){      
+        //     this.requestDailyQuesCloseModel.nativeElement.click();
+        // }
 
         console.log(this.dailyNotes);
         if (this.a == 4) {
@@ -949,7 +952,6 @@ export class OnboardingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.requestDailyQuesCloseModel.nativeElement.click();
       }
     );
   }

@@ -184,13 +184,16 @@
                               </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <!-- Richa -->
+
+                            <!-- <div class="col-md-4">
                               <div class="mb-3">
                                 <label
                                   for="exampleFormControlSelect1"
                                   style="padding-bottom: 6px"
                                   >Select Country</label
-                                >
+                                > -->
+                                <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@22 -->
                                 <!-- <select
                                   class="form-select"
                                   id="exampleFormControlSelect1"
@@ -209,8 +212,9 @@
 
                                   
                                 </select> -->
+                                <!-- Richa -->
 
-                                <div class="dropdown">
+                                <!-- <div class="dropdown">
                                   <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ country ? country : 'Select Country' }} <i class="bi bi-chevron-down"></i>
                                   </button>
@@ -241,11 +245,14 @@
                                     <li><a class="dropdown-item" (click)="selectCountry('Shri Lanka')">Shri Lanka</a></li>
                                     <li><a class="dropdown-item" (click)="selectCountry('Bangladesh')">Bangladesh</a></li>
                                   </ul>
-                                </div>
+                                </div> -->
+                                <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
                                 
                                 <!-- <div *ngIf="businessInfoForm.get('country')?.hasError('required') && businessInfoForm.get('country')?.touched" class="text-danger">Select Country is required!</div>
                                  -->
-                              </div>
+
+                                 <!-- Richa -->
+                              <!-- </div>
                             </div>
 
                             <div class="col-md-4">
@@ -263,7 +270,8 @@
                                   name="userstate"
                                   [(ngModel)]="state"
                                   required
-                                />
+                                /> -->
+                                <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@222 -->
 
                                 <!-- <div class="dropdown">
                                   <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -289,11 +297,13 @@
                                     {{ s }}
                                   </option>
                                 </select> -->
-                              </div>
-                            </div>
+                              <!-- Richa -->
+                              <!-- </div>
+                            </div> -->
 
+                            <!-- Richaa -->
                             <!-- ##################################################################################333 -->
-                            <!-- <div class="col-md-4">
+                            <div class="col-md-4">
                               <div class="mb-3">
                                 <label for="exampleFormControlSelect1" style="padding-bottom: 6px">Select Country</label>
                                 <div class="dropdown">
@@ -310,11 +320,12 @@
                             <div class="col-md-4">
                               <div class="mb-3">
                                 <label for="exampleFormControlSelect2" style="padding-bottom: 6px">State</label>
-                                <select class="form-select" id="exampleFormControlSelect2" name="userstate" [(ngModel)]="state" required>
+                                <select class="form-select" id="exampleFormControlSelect2" name="state" [(ngModel)]="state" required>
                                   <option value="">Select State</option>
                                   <option *ngFor="let s of states" [value]="s">{{ s }}</option>
                                 </select>
-                              </div> -->
+                              </div>
+                            </div>
                               <!-- ##################################################################################################3333 -->
                               
 
@@ -345,7 +356,7 @@
                             </div>
 
                             <div class="col-md-12">
-                              <button type="submit" class="btn btn-primary">
+                              <button type="submit" class="btn btn-primary" >
                                 Save
                               </button>
                             </div>

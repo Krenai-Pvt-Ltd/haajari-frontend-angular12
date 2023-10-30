@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .createteam-form{
     padding: 100px;
 }
@@ -102,4 +103,20 @@ span.members-name {
     height: 18px;
     border-radius: 10px;
     margin-bottom: 5px !important;
+=======
+#user-image{
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+}
+
+#user-image > img{
+    width: 30px;
+    border-radius: 50%;
+}
+
+.user-item > img{
+    width: 30px;
+    border-radius: 50%;
+>>>>>>> 03355e9c73632491489db14a2f26d70d62c774c5
 }

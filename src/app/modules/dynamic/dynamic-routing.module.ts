@@ -16,7 +16,11 @@ import { SlackAuthComponent } from './components/slack-auth/slack-auth.component
 import { AddToSlackComponent } from './components/add-to-slack/add-to-slack.component';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 import { TeamComponent } from './components/team/team.component';
+<<<<<<< HEAD
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
+=======
+import { TemporaryComponent } from './components/temporary/temporary.component';
+>>>>>>> 03355e9c73632491489db14a2f26d70d62c774c5
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -37,7 +41,11 @@ const routes: Routes = [
   {path: 'slackauth', component: SlackAuthComponent},
   {path: 'addtoslack', component: AddToSlackComponent },
   {path: 'waiting', component: WaitingPageComponent},
+<<<<<<< HEAD
   {path: 'team-detail', component: TeamDetailComponent},
+=======
+  {path: 'temporary', component: TemporaryComponent}
+>>>>>>> 03355e9c73632491489db14a2f26d70d62c774c5
   ];
 
 @NgModule({
