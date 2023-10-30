@@ -31,7 +31,7 @@ export class TeamComponent implements OnInit {
       console.log(this.users);
 
        debugger
-       this.emailIdPairs = data.users.map((user: any) => ({id: user.id, userImage:user.userImage, name:user.name, email: user.email}));
+       this.emailIdPairs = data.users.map((user: any) => ({id: user.id, image:user.image, name:user.name, email: user.email}));
        console.log(this.emailIdPairs);
 
 
@@ -64,32 +64,50 @@ export class TeamComponent implements OnInit {
 
   searchText : string = '';
 
-
   searchUsers() {
     this.getAllUsersByFiltersFunction();
   }
 
+  // ##########################################################################
 
   name!: string;
-  userIds: number[] = [];
+  // userIds: number[] = [];
 
 
   onSubmit() {
-    this.dataService.registerTeam(this.name, this.userIds)
+    this.dataService.registerTeam(this.name, this.selectedMembers)
       .subscribe(
         (response) => {
           console.log('Team registration successful:', response);
-          
         },
         (error) => {
           console.error('Error registering team:', error);
-         
         }
       );
   }
+  
 
+  showMultiselectDropdown: boolean = true;
+  searchTxt: string = '';
 
+  selectedMembers: number[] = [];
+  filteredMembers: any[] = [];
 
+  filterMembers() {
+    this.filteredMembers = this.emailIdPairs.filter(user =>
+      user.name.toLowerCase().includes(this.searchTxt.toLowerCase())
+    );
+  }
+
+  toggleMember(user: any) {
+    if (this.selectedMembers.includes(user.id)) {
+      this.selectedMembers = this.selectedMembers.filter(id => id !== user.id);
+    } else {
+      this.selectedMembers.push(user.id);
+    }
+  }
+
+  
   
 }
 

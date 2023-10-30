@@ -335,6 +335,7 @@ export class OnboardingComponent implements OnInit {
             this.setActive(4);
             this.count=4;
           }
+          this.requestBusinessInfoCloseModel.nativeElement.click();
         }
 
         if (data) {
@@ -351,7 +352,6 @@ export class OnboardingComponent implements OnInit {
         } else {
           this.a = 1;
         }
-        // this.requestBusinessInfoCloseModel.nativeElement.click();
       },
       (error) => {
         console.log(error);
@@ -937,10 +937,11 @@ export class OnboardingComponent implements OnInit {
             this.setActive(4);
             this.count=4
           }
+          this.requestDailyQuesCloseModel.nativeElement.click();
         }
-        if(data){      
-            this.requestDailyQuesCloseModel.nativeElement.click();
-        }
+        // if(data){      
+        //     this.requestDailyQuesCloseModel.nativeElement.click();
+        // }
 
         console.log(this.dailyNotes);
         if (this.a == 4) {
@@ -951,7 +952,6 @@ export class OnboardingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.requestDailyQuesCloseModel.nativeElement.click();
       }
     );
   }
