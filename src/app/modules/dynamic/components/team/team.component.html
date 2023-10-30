@@ -534,14 +534,8 @@
 
 
 
-<<<<<<< HEAD
 <div class="modal fade" id="createteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen" role="document">
-=======
-
-<div class="modal fade" id="createteam" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
->>>>>>> 03355e9c73632491489db14a2f26d70d62c774c5
         <div class="modal-content">
           
 
@@ -549,7 +543,6 @@
             <div class="modal-header" style="background-color: #fff;">
                 <h5 class="modal-title m-0" style="color:#111; font-size: 18px;" id="exampleModalDefaultLabel">Create Team</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-<<<<<<< HEAD
             </div><!--end modal-header-->
             <div class="modal-body p-0">
                 <div class="containerhh">
@@ -715,78 +708,3 @@
         </div><!--end modal-content-->
     </div><!--end modal-dialog-->
 </div><!--end modal-->
-=======
-            </div>
-
-            <div class="modal-body">
-                <!-- <div class="form-group">
-                    <label for="teamname">Team Name</label>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="teamname" id="teamname" placeholder="Team Name">
-                    </div>
-                </div> -->
-
-                <div class="form-group">
-                    <label for="members">Members</label>
-                    <!-- <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="members" id="members" placeholder="Members" (focus)="showMultiselectDropdown = true">
-                    </div> -->
-                    <div class="input-group mb-3" *ngIf="showMultiselectDropdown" class="multiselect-dropdown">
-                        <input type="text" [(ngModel)]="searchTxt" placeholder="Search Members.." (keyup)="filterMembers()">
-                            <div *ngFor="let user of filteredMembers" (click)="toggleMember(user)" class="user-item">
-                                <img [src]="user.image" alt="" id="user-image">
-                                {{ user.name }} - {{ user.email }}
-                            </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-sm" (click)="onSubmit()">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- end modal -->
-<!-- 
-<div class="modal fade" id="createteam" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">Create Team</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="teamname">Team Name</label>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="teamname" id="teamname" placeholder="Team Name">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="members">Members</label>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="members" id="members" placeholder="Members" (focus)="showMultiselectDropdown = true">
-                    </div>
-                    <div *ngIf="showMultiselectDropdown" class="multiselect-dropdown">
-                        <input type="text" [(ngModel)]="searchText" (keyup)="filterMembers()">
-                        <ul>
-                            <li *ngFor="let user of filteredMembers" (click)="toggleMember(user)">
-                                <img [src]="user.image" alt="User Logo">
-                                {{ user.name }} - {{ user.email }}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-sm" (click)="onSubmit()">Submit</button>
-            </div>
-        </div>
-    </div>
-</div> -->
->>>>>>> 03355e9c73632491489db14a2f26d70d62c774c5

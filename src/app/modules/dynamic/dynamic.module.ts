@@ -23,13 +23,10 @@ import { TimeFormatPipe } from './time-format.pipe';
 import { DurationFormatPipe } from './duration-format.pipe';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 import { TeamComponent } from './components/team/team.component';
-<<<<<<< HEAD
-import { TeamDetailComponent } from './components/team-detail/team-detail.component';
-=======
 import { TemporaryComponent } from './components/temporary/temporary.component';
 import { CommonModule } from '@angular/common';
+import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 
->>>>>>> 03355e9c73632491489db14a2f26d70d62c774c5
 
 @NgModule({
   declarations: [
@@ -52,11 +49,8 @@ import { CommonModule } from '@angular/common';
     DurationFormatPipe,
     WaitingPageComponent,
     TeamComponent,
-<<<<<<< HEAD
     TeamDetailComponent,
-=======
     TemporaryComponent,
->>>>>>> 03355e9c73632491489db14a2f26d70d62c774c5
 
   ],
   imports: [
