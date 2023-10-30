@@ -1,0 +1,105 @@
+.createteam-form{
+    padding: 100px;
+}
+
+.create-new h4{
+    font-size: 28px;
+    color: #111;
+    font-weight: 500;
+    line-height: 25px;
+}
+
+.create-new{
+    margin-bottom: 30px;
+}
+
+.endorsed a{
+    font-size: 13px;
+    text-decoration: underline;
+    color: blue;
+    font-weight: 400;
+}
+
+ .endorsed-para{
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.team-user{
+    align-items: center;
+    background: #e6e6e6;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    height: 48px;
+    width: 48px;
+}
+
+.team-user > i{
+    font-size:28px;
+    line-height: 20px;
+}
+
+.team-user-main{
+    border-bottom: 1px solid #e6e6e6;
+    padding: 15px;
+}
+
+
+span.members-name {
+    background-color: #a69ff3;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.members-list{
+    margin-bottom: 25px;
+}
+
+.members-list P{
+    color: #111;
+}
+
+.dummy-nmae {
+    background-color: #e6e6e6 !important;
+}
+.dummy-member-nmae {
+    width: 50%;
+    background-color: #e6e6e6;
+    height: 18px;
+    border-radius: 10px;
+}
+
+.new-project{
+    background-color: #e6e6e6;
+    width: 40px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20%;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.dummy-member-new{
+    width: 70%;
+    background-color: #e6e6e6;
+    height: 18px;
+    border-radius: 10px;
+    margin-bottom: 5px !important;
+}
+
+.dummy-member-newe{
+    width: 50%;
+    background-color: #e6e6e6;
+    height: 18px;
+    border-radius: 10px;
+    margin-bottom: 5px !important;
+}
