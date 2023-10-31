@@ -1,0 +1,120 @@
+
+.team-detail-hadding h5{
+    font-size: 18px;
+}
+
+.members-add {
+    padding: 20px;
+    /* border: 1px solid #ccc; */
+    border-radius: 10px;
+    /* box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); */
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    background-color: #fff;
+}
+.add-member p{
+    color: #626262;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.add-member i{
+    color: #626262;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 20px;
+}
+.members-list{
+    margin-bottom: 25px;
+    cursor: pointer;
+}
+
+.members-list P{
+    color: #111;
+}
+
+span.members-name {
+    background-color: #a69ff3;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+span.members-names {
+    border: 1px dashed #111;
+    background-color: transparent;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.members-names i{
+    color: #626262;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 20px;
+
+}
+.members-add{
+    margin-bottom: 15px;
+}
+
+.new-add-project{
+    border: 1px dashed #111;
+    background-color: transparent;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+.new-add-projects{
+    border: 1px dashed #067fba;
+    background-color: #067fba;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+.new-add-project i{
+    font-size: 24px;
+    line-height: 20px;
+
+}
+
+.members-list:hover{
+  /* background-color: #fff;
+  border-radius: 10px; */
+}
+
+.mamber-list-ui{
+    background-color: #a69ff3;
+    width: 35px;
+    height:35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.Members-list-box{
+    margin-bottom: 15px;
+}

@@ -99,12 +99,12 @@ export class DataService {
 
   // ##################################################3
 
-  // getAllTeamsWithUsersByUserId(id: any): Observable<any> {
-  //   const params = new HttpParams().set("id", id);
-  //   return this.httpClient.get<TeamResponse[]>(`${this.baseUrl}/get-all-teams-with-users-by-user-id`, {
-  //     params,
-  //   });
-  // }
+  getTeamsById(id: any): Observable<any> {
+    const params = new HttpParams().set("id", id);
+    return this.httpClient.get<TeamResponse[]>(`${this.baseUrl}/get-team-by-team-id`, {
+      params,
+    });
+  }
 
   getAllTeamsWithUsersByUserId(userId: number): Observable<TeamResponse[]> {
     const url = `${this.baseUrl}/get-all-teams-with-users-by-user-id?userId=${userId}`;

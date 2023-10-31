@@ -25,6 +25,7 @@ import { WaitingPageComponent } from './components/waiting-page/waiting-page.com
 import { TeamComponent } from './components/team/team.component';
 import { TemporaryComponent } from './components/temporary/temporary.component';
 import { CommonModule } from '@angular/common';
+import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { CommonModule } from '@angular/common';
     DurationFormatPipe,
     WaitingPageComponent,
     TeamComponent,
+    TeamDetailComponent,
     TemporaryComponent,
 
   ],

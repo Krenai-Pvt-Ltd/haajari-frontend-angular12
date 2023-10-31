@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { TeamResponse } from 'src/app/models/team';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
@@ -12,10 +12,11 @@ import { DataService } from 'src/app/services/data.service';
 export class TeamComponent implements OnInit {
   
 
-  constructor(private router : Router, private dataService: DataService) { }
+  constructor(private router : Router, private dataService: DataService,
+    private activateRoute : ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getAllUsersByFiltersFunction();
+    // this.getAllUsersByFiltersFunction();
     this.getAllUser();
   }
 
@@ -70,7 +71,7 @@ export class TeamComponent implements OnInit {
     this.getAllUsersByFiltersFunction();
   }
 
-  // ##########################################################################
+  // ################################# MultiSelect #########################################
 
   name!: string;
   // userIds: number[] = [];
@@ -114,20 +115,33 @@ export class TeamComponent implements OnInit {
   teams: TeamResponse[] = [];
   
  
-  // userId = 117;
+  //  teamId!:any;
   //  index=0;
   
 
+  teamIds:number[]=new Array();
   getAllUser(){
-    this.dataService.getAllTeamsWithUsersByUserId(this.getLoginDetailsId())
-    .subscribe(data => {
-      debugger
+    debugger
+    this.dataService.getAllTeamsWithUsersByUserId(this.getLoginDetailsId()).subscribe(data => {
       this.teams = data;
-      console.log(this.teams);
+
+      // console.log(this.teams);
     });
   }
 
+  routeToTeamDetails(id:number){
+    let navExtra : NavigationExtras = {
+      queryParams : {"teamId" : id},
+    };
+    this.router.navigate(['/dynamic/team-detail'], navExtra);
+  }
   
+  capitalizeFirstLetter(name: string): string {
+    if (name) {
+      return name.charAt(0).toUpperCase() + name.slice(1);
+    }
+    return name; 
+  }
   
 }
 
