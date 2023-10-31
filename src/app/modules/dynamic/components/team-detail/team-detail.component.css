@@ -99,8 +99,7 @@ span.members-names {
 }
 
 .members-list:hover{
-  /* background-color: #fff;
-  border-radius: 10px; */
+  cursor: pointer;
 }
 
 .mamber-list-ui{
@@ -117,4 +116,7 @@ span.members-names {
 
 .Members-list-box{
     margin-bottom: 15px;
+}
+.add-member{
+    cursor: pointer;
 }

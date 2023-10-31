@@ -560,14 +560,39 @@
                             <div class="form-group">
                                 <label for="username" class="mb-2" style="font-size: 13px;">Team Name</label>
                                 <div class="input-group mb-3">                                                                                         
-                                    <input type="text" class="form-control" name="teamname" id="teamname" placeholder="For example: &quot;Marketing&quot; or &quot;Design&quot;">
+                                    <input type="text" class="form-control" name="teamname" id="teamname" placeholder="For example: &quot;Marketing&quot; or &quot;Design&quot;" [(ngModel)]="teamName" >
                                 </div>                                    
                             </div>
         
                             <div class="form-group">
                                 <label for="username" class="mb-2" style="font-size: 13px;"> Members </label>
                                 <div class="input-group mb-3">                                                                                         
-                                    <input type="text" class="form-control" name="members" id="members" placeholder="Add team members by name or email…">
+                                    <input type="text" class="form-control" name="members" id="members" placeholder="Add team members by name or email…" [(ngModel)]="searchQuery" (input)="searchUsers()">
+                                    <div class="user-dropdown" *ngIf="userList.length > 0">
+                                        <div id="user-item" class="user-item" *ngFor="let user of userList" (click)="toggleUserSelection(user)">
+                                            <div *ngIf="user.image===null">
+                                               
+                                            <span id="user-list-details">
+                                                <span class="members-name"  id="user-first-name-logo">{{user.name[0]}}</span>&nbsp;&nbsp;
+                                                <span class="user-name-email"><b>{{ user.name }}</b> &nbsp; {{ user.email }}</span>
+                                            </span>
+
+                                            </div>
+
+                                            <div *ngIf="user.image!==null">
+                                                <span id="user-list-details">
+                                                    <img [src]="user.image" alt="User Logo"> &nbsp;&nbsp; <b>{{ user.name }}</b> &nbsp; {{ user.email }}
+                                                </span> 
+                                            </div>
+                                          
+                                        </div>
+                                      </div>
+                                      <div class="selected-users">
+                                        <div class="selected-user" *ngFor="let selectedUser of selectedUsers">
+                                          <img [src]="selectedUsers"> {{ selectedUser.name }} - {{ selectedUser.email }}
+                                          <span class="remove-icon" (click)="removeSelectedUser(selectedUser)">✖</span>
+                                        </div>
+                                      </div>
                                 </div>                                    
                             </div>
                             <div class="form-group">
@@ -600,7 +625,7 @@
                                                                  
                             </div>
                             <div class="" >
-                                <button style="width:100%;" type="submit" class="btn btn-de-primary">Create new team</button>
+                                <button style="width:100%;" type="button" (click)="registerTeamSubmitButton()" class="btn btn-de-primary">Create new team</button>
                             </div>
                             
                         </div>

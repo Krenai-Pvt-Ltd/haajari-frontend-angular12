@@ -17,6 +17,7 @@ import { AddToSlackComponent } from './components/add-to-slack/add-to-slack.comp
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
+import { TemporaryComponent } from './components/temporary/temporary.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -38,6 +39,7 @@ const routes: Routes = [
   {path: 'addtoslack', component: AddToSlackComponent },
   {path: 'waiting', component: WaitingPageComponent},
   {path: 'team-detail', component: TeamDetailComponent},
+  {path: 'temporary', component: TemporaryComponent}
   ];
 
 @NgModule({

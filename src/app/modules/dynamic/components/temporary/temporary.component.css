@@ -4,7 +4,7 @@
     font-size: 18px;
 }
 
-#user-image > img{
+.user-info > img{
     width: 30px;
     border-radius: 50%;
 }

@@ -254,9 +254,11 @@ export class DataService {
   }
 
 
-  registerTeam(name: string, userIds: number[]): Observable<any> {
-    const data = { name, userIds };
-    return this.httpClient.post(this.baseUrl+'/register-team', data);
+  registerTeam(userIds: number[], name: string, description: string): Observable<any> {
+    const params = new HttpParams()
+    .set("name", name)
+    .set("description", description);
+    return this.httpClient.post(`${this.baseUrl}/register-team`, userIds, {params});
   }
 
 
