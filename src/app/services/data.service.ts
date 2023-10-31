@@ -11,6 +11,7 @@ import { ShiftTimings } from "../models/shifttimings";
 import { DailyQuestionsCheckout } from "../models/daily-questions-check-out";
 import { DailyNotes } from "../models/daily-notes";
 import { DailyQuestionsCheckIn } from "../models/daily-questions-check-in";
+import { TeamResponse } from "../models/team";
 
 
 @Injectable({
@@ -94,6 +95,20 @@ export class DataService {
     return this.httpClient.get<Savel[]>(`${this.baseUrl}/get-leave`, {
       params,
     });
+  }
+
+  // ##################################################3
+
+  getTeamsById(id: any): Observable<any> {
+    const params = new HttpParams().set("id", id);
+    return this.httpClient.get<TeamResponse[]>(`${this.baseUrl}/get-team-by-team-id`, {
+      params,
+    });
+  }
+
+  getAllTeamsWithUsersByUserId(userId: number): Observable<TeamResponse[]> {
+    const url = `${this.baseUrl}/get-all-teams-with-users-by-user-id?userId=${userId}`;
+    return this.httpClient.get<TeamResponse[]>(url);
   }
 
   // ##################################

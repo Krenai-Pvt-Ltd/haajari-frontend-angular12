@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+
 import { User } from 'src/app/models/user';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { TeamResponse } from 'src/app/models/team';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
 
@@ -84,78 +86,7 @@ export class TeamComponent {
     })
   }
 
-  // ngOnInit(): void {
-  //   this.getAllUsersByFiltersFunction();
-  // }
 
-  // users : Users[] = [];
-  // filteredUsers : Users[] = [];
-  // total !: number;
-  // rowNumber : number = 1;
-
-  // emailIdPairs: any[] = [];
-
-  // getAllUsersByFiltersFunction() {
-  //   debugger
-  //   this.dataService.getAllUsersByFilter('asc','id',this.searchText,'', this.getLoginDetailsId(), this.getLoginDetailsRole()).subscribe((data : any) => {
-  //     this.users = data.users;
-  //     console.log(this.users);
-
-  //      debugger
-  //      this.emailIdPairs = data.users.map((user: any) => ({id: user.id, image:user.image, name:user.name, email: user.email}));
-  //      console.log(this.emailIdPairs);
-
-
-  //   }, (error) => {
-  //     console.log(error);
-  //     const res = document.getElementById("error-page") as HTMLElement | null;
-
-  //     if(res){
-  //       res.style.display = "block";
-  //     }
-  //   })
-  // }
-
-  // getLoginDetailsRole(){
-  //   const loginDetails = localStorage.getItem('loginData');
-  //   if(loginDetails!==null){
-  //     const loginData = JSON.parse(loginDetails);
-  //     return loginData.role;
-  //   }
-  // }
-
-  // getLoginDetailsId(){
-  //   const loginDetails = localStorage.getItem('loginData');
-  //   if(loginDetails!==null){
-  //     const loginData = JSON.parse(loginDetails);
-
-  //     return loginData.id;
-  //   }
-  // }
-
-  // searchText : string = '';
-
-  // searchUsers() {
-  //   this.getAllUsersByFiltersFunction();
-  // }
-
-  // // ##########################################################################
-
-  // name!: string;
-  // // userIds: number[] = [];
-
-
-  // onSubmit() {
-  //   this.dataService.registerTeam(this.name, this.selectedMembers)
-  //     .subscribe(
-  //       (response) => {
-  //         console.log('Team registration successful:', response);
-  //       },
-  //       (error) => {
-  //         console.error('Error registering team:', error);
-  //       }
-  //     );
-  // }
   
 
   // showMultiselectDropdown: boolean = true;
@@ -178,7 +109,38 @@ export class TeamComponent {
   //   }
   // }
 
+  // ######################################## Home #################################
+
+  teams: TeamResponse[] = [];
   
+ 
+  //  teamId!:any;
+  //  index=0;
+  
+
+  // teamIds:number[]=new Array();
+  // getAllUser(){
+  //   debugger
+  //   this.dataService.getAllTeamsWithUsersByUserId(this.getLoginDetailsId()).subscribe(data => {
+  //     this.teams = data;
+
+  //     console.log(this.teams);
+  //   });
+  // }
+
+  routeToTeamDetails(id:number){
+    let navExtra : NavigationExtras = {
+      queryParams : {"teamId" : id},
+    };
+    this.router.navigate(['/dynamic/team-detail'], navExtra);
+  }
+  
+  capitalizeFirstLetter(name: string): string {
+    if (name) {
+      return name.charAt(0).toUpperCase() + name.slice(1);
+    }
+    return name; 
+  }
   
 }
 
