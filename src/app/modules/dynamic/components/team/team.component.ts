@@ -125,7 +125,7 @@ export class TeamComponent implements OnInit {
     this.dataService.getAllTeamsWithUsersByUserId(this.getLoginDetailsId()).subscribe(data => {
       this.teams = data;
 
-      // console.log(this.teams);
+      console.log(this.teams);
     });
   }
 

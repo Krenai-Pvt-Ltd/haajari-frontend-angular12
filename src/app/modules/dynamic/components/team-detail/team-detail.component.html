@@ -242,7 +242,7 @@
     
     
                 <div class="modal-header" style="background-color: #fff;">
-                    <h5 class="modal-title m-0" style="color:#111; font-size: 18px;" id="exampleModalDefaultLabel">Yogesh's First Team</h5>
+                    <h5 class="modal-title m-0" style="color:#111; font-size: 18px;" id="exampleModalDefaultLabel">{{team.name}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div><!--end modal-header-->
                 <div class="modal-body p-0">
@@ -284,46 +284,27 @@
                                         <h5>Members</h5>
                                     </div>
                                     
-                                    <div class="Members-list-box d-flex align-items-center justify-content-between">
+                                    <div class="Members-list-box d-flex align-items-center justify-content-between" *ngFor="let ul of team.userList let i = index">
                                         <div class="d-flex align-items-center" style="gap:10px;">
                                             <div>
-                                               <span class="mamber-list-ui">YK</span>
+                                                <span  *ngIf="ul.image !==null">
+                                                    <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
+                                                   </span>
+                                               <span class="mamber-list-ui" *ngIf="ul.image==null">{{ul.name[0]}}</span>
                                             </div>
                                             <div>
-                                                <h6 class="mb-0 mt-0">Yogesh Kumar</h6>
-                                                <p class="mb-0">yogesh@krenai.com</p>
+                                                <h6 class="mb-0 mt-0">{{ capitalizeFirstLetter(ul.name) }}</h6>
+                                                <p class="mb-0">{{ul.email}}</p>
                                              </div>
                                         </div>
                                         <div class="">
 
-                                            <div class="dropdown d-inline-block">
-                                                <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                            <div class="dropdown d-inline-block" >
+                                                <a class="dropdown-toggle" *ngIf="i==0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                                     Team admin <i class="bi bi-chevron-down font-14 text-muted"></i>
                                                 </a>
-                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
-                                                    <a class="dropdown-item" href="#">Open Project</a>
-                                                    <a class="dropdown-item" href="#">Edit Card</a> 
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="Members-list-box d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div>
-                                               <span class="mamber-list-ui">SY</span>
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0 mt-0">Sumit Yadav</h6>
-                                                <p class="mb-0">sumit@krenai.com</p>
-                                             </div>
-                                        </div>
-                                        <div class="">
-
-                                            <div class="dropdown d-inline-block">
-                                                <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                                    Member <i class="bi bi-chevron-down font-14 text-muted"></i>
+                                                <a class="dropdown-toggle" *ngIf="i>0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                    member <i class="bi bi-chevron-down font-14 text-muted"></i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
                                                     <a class="dropdown-item" href="#">Open Project</a>
@@ -334,33 +315,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="Members-list-box d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div>
-                                               <span class="mamber-list-ui">Sk</span>
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0 mt-0">Sunny Khatri</h6>
-                                                <p class="mb-0">sunny@krenai.com</p>
-                                             </div>
-                                        </div>
-                                        <div class="">
-
-                                            <div class="dropdown d-inline-block">
-                                                <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                                    Member <i class="bi bi-chevron-down font-14 text-muted"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
-                                                    <a class="dropdown-item" href="#">Open Project</a>
-                                                    <a class="dropdown-item" href="#">Edit Card</a> 
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                  
-
+                                    
                                 </div>
                               
                             </div>
