@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+
+
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { TeamResponse } from 'src/app/models/team';
@@ -26,11 +28,24 @@ export class TeamDetailComponent implements OnInit {
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
       };
-    }
+
+      }
+
 
   ngOnInit(): void {
     this.getAllUser();
+    // this.toggleModel();
   }
+
+//   @ViewChild("addteamModel") addteamModel!: any;
+//   @ViewChild("requestAddTeamCloseModel") requestAddTeamCloseModel!: ElementRef;
+
+//   addteamModelSetInvalidToggle: boolean = false;
+
+//   toggleModel(){
+//     debugger
+//   this.requestAddTeamCloseModel.nativeElement.click();
+// }
 
   teamId :any;
 

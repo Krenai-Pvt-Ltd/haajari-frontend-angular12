@@ -56,42 +56,56 @@
                             </div>                                                 
                             <div class="media align-items-center" >                                                
                                 <div class="img-group">
-                                    <div *ngIf="team.manager.image!==null">
+                                    <a class="user-avatar me-1" href="#" >
+                                        <img src="assets/images/user.png" alt="" class="rounded-circle thumb-md">
+                                       
+                                        <span class="avatar-badge online"></span>
+
+                                    </a>
+                                    <!-- <div *ngIf="team.manager.image!==null">
                                         <a class="user-avatar me-1" href="#" >
                                             <img src={{team.manager.image}} alt="user" class="rounded-circle thumb-md">
                                             <span class="avatar-badge online"></span>
                                         </a>
-                                    </div>
-                                    <div *ngIf="team.manager.image==null">
+                                    </div> -->
+                                    <!-- <div>
                                         <a class="user-avatar me-1" href="#" >
                                             <img src="assets/images/user.png" alt="" class="rounded-circle thumb-md">
+                                            
                                             <span class="avatar-badge online"></span>
+
                                         </a>
-                                    </div>
+                                    </div> -->
                                    
                                 </div>                                                                           
                                 <div class="media-body ms-2 align-self-center">
-                                    <h5 class="m-0">{{ capitalizeFirstLetter(team.manager.name) }}</h5>
-                                    <p class="text-muted font-12 mb-0">Team Leader</p>                                            
+                                    <h5 class="m-0">{{ capitalizeFirstLetter(team.name) }}</h5>
+                                    <p class="text-muted font-12 mb-0">Team Name</p>                                            
                                 </div>                                                                           
                             </div> 
-                            <h4 class="m-0 mt-3 font-13 mb-0 fw-bold">{{team.name}}</h4>
+                            <h4 class="m-0 mt-3 font-13 mb-0 fw-bold">{{capitalizeFirstLetter(team.manager.name)}}</h4>
+                            <p class="text-muted font-12 mb-0">Team Manager</p> 
                             <p class="text-muted mb-0 fw-semibold">{{team.description}}</p>
                             <div class="mt-3 d-flex justify-content-between">
                                 <div class="img-group">
-                                  <a class="user-avatar" href="" *ngFor="let ul of team.userList; let i = index" [ngClass]="i === 0 ? '' : 'ms-n3'">
-                                    <!-- <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle"> -->
-                                            <span   *ngIf="ul.image !==null">
-                                            <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
-                                           </span>
-                                            <span class="members-name" *ngIf="ul.image==null">{{ul.name[0]}}</span>
-                                       
-                                  </a>
-                                  <!-- href="#" -->
-                                  <a  class="user-avatar" routerLink="/dynamic/team-detail" (click)="routeToTeamDetails(team.id)">
-                                    <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold" >+{{ team.userList.length }}</span>
-                                  </a>
-                                </div>
+                                    <ng-container *ngFor="let ul of team.userList; let i = index; last as isLast">
+                                      <a class="user-avatar" href="" [ngClass]="i === 0 ? '' : 'ms-n3'" *ngIf="i<3">
+                                        <span *ngIf="ul.image !== null">
+                                          <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
+                                        </span>
+                                        <span class="members-name" *ngIf="ul.image == null">{{ ul.name[0] }}</span>
+                                      </a>
+                                      <a class="user-avatar" [routerLink]="'/dynamic/team-detail'" [queryParams]="{ teamId: team.id }" (click)="openTeamModal(team.id)">
+                                        <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold" *ngIf="isLast && i<3">+</span>
+                                      </a>
+                                    </ng-container>
+                                   
+                                        <a class="user-avatar" [routerLink]="'/dynamic/team-detail'" [queryParams]="{ teamId: team.id }" (click)="openTeamModal(team.id)" *ngIf="team.userList.length >=3 && team.userList.length >3">
+                                          <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold">+{{ team.userList.length - 3 }}</span>
+                                        </a>
+                                
+                                  </div>
+                                  
                                 <div class="align-self-center">
                                     <button type="button" class="btn btn-xs btn-light btn-round" routerLink="/dynamic/team-detail" (click)="routeToTeamDetails(team.id)">View Details <i class="mdi mdi-arrow-right"></i></button>
                                 </div> 

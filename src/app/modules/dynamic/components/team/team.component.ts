@@ -11,14 +11,19 @@ import { DataService } from 'src/app/services/data.service';
   templateUrl: './team.component.html',
   styleUrls: ['./team.component.css']
 })
-export class TeamComponent {
+export class TeamComponent implements OnInit{
   itemPerPage : number = 5;
   pageNumber : number = 1;
   total !: number;
   teamName : string = '';
   
 
-  constructor(private router : Router, private dataService: DataService) { 
+  ngOnInit(): void {
+    // this.getAllUsersByFiltersFunction();
+    this.getAllUser();
+  }
+
+  constructor(private router : Router, private dataService: DataService,  private activateRoute : ActivatedRoute) { 
     this.Settings = {
       singleSelection: false,
       text: 'Select Module',
@@ -27,6 +32,16 @@ export class TeamComponent {
       unSelectAllText: 'UnSelect All',
     };
   }
+
+  // ############################
+  
+
+  openTeamModal(teamId: number) {
+    this.router.navigate(['/dynamic/team-detail'], { queryParams: { teamId: teamId } });
+
+  }
+
+  // ###############################
 
   Settings: {
     singleSelection: boolean;
@@ -123,6 +138,33 @@ export class TeamComponent {
   //     console.log(this.teams);
   //   });
   // }
+
+  // teams: TeamResponse[] = [];
+
+
+  // userId = 117;
+  //  index=0;
+
+
+  getAllUser(){
+    this.dataService.getAllTeamsWithUsersByUserId(this.getLoginDetailsId())
+    .subscribe(data => {
+      debugger
+      this.teams = data;
+      console.log(this.teams);
+    });
+  }
+
+
+  getLoginDetailsId(){
+    const loginDetails = localStorage.getItem('loginData');
+    if(loginDetails!==null){
+      const loginData = JSON.parse(loginDetails);
+
+      return loginData.id;
+
+    }
+  }
 
   routeToTeamDetails(id:number){
     let navExtra : NavigationExtras = {
