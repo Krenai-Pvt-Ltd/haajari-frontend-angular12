@@ -36,9 +36,11 @@ export class TeamComponent implements OnInit{
 
   // ############################
   
+  addTeamFlag: boolean = false;
 
   openTeamModal(teamId: number) {
     this.router.navigate(['/dynamic/team-detail'], { queryParams: { teamId: teamId } });
+    this.addTeamFlag=true;
 
   }
 

@@ -621,7 +621,7 @@
                                 <i class="bi bi-trash menu-icon"></i>
                               </div>
                             </div>
-                            <div>
+                            <div *ngIf="dailyNotesData.checkInStatus">
                               <a
                                 href=""
                                 class="new-qustion"
@@ -631,6 +631,7 @@
                               >
                             </div>
                           </div>
+                          
                           
                        
                           
@@ -675,7 +676,7 @@
                               <i class="bi bi-trash menu-icon"></i>
                             </div>
                           </div>
-                          <div>
+                          <div *ngIf="dailyNotesData.checkOutStatus">
                             <a
                               href=""
                               class="new-qustion"

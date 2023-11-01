@@ -25,14 +25,16 @@ export class TeamDetailComponent implements OnInit {
     // this.toggleModel();
   }
 
-//   @ViewChild("addteamModel") addteamModel!: any;
-//   @ViewChild("requestAddTeamCloseModel") requestAddTeamCloseModel!: ElementRef;
+//   @ViewChild("addteam") addteam!: any;
+//   @ViewChild("requestAddTeamOpenModel") requestAddTeamOpenModel!: ElementRef;
 
-//   addteamModelSetInvalidToggle: boolean = false;
+//   addTeamFlag: boolean = true;
 
 //   toggleModel(){
 //     debugger
-//   this.requestAddTeamCloseModel.nativeElement.click();
+//    if(this.addTeamFlag){
+//   this.requestAddTeamOpenModel.nativeElement.click();
+//    }
 // }
 
   teamId :any;

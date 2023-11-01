@@ -313,7 +313,7 @@ export class OnboardingComponent implements OnInit {
 
         this.updateStates();
         
-        if (data.email !== 0) {
+        if (data.country !== null) {
           debugger
           this.setActive(1);
           this.count=1;
@@ -338,7 +338,7 @@ export class OnboardingComponent implements OnInit {
           this.requestBusinessInfoCloseModel.nativeElement.click();
         }
 
-        if (data) {
+        if (data.country!==null) {
           this.shiftTimingsValid = true;
           this.onBusinessInfoCompleted();
           this.shiftTimesMessage();

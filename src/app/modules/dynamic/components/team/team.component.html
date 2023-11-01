@@ -100,7 +100,7 @@
                                       </a>
                                     </ng-container>
                                    
-                                        <a class="user-avatar" [routerLink]="'/dynamic/team-detail'" [queryParams]="{ teamId: team.id }" (click)="openTeamModal(team.id)" *ngIf="team.userList.length >=3 && team.userList.length >3">
+                                        <a class="user-avatar" (click)="openTeamModal(team.id)" *ngIf="team.userList.length >=3 && team.userList.length >3">
                                           <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold">+{{ team.userList.length - 3 }}</span>
                                         </a>
                                 
