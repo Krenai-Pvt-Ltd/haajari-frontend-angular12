@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { TeamResponse } from 'src/app/models/team';
@@ -16,12 +16,24 @@ export class TeamDetailComponent implements OnInit {
 
       if(this.activateRoute.snapshot.queryParamMap.has('teamId')){
         this.teamId = this.activateRoute.snapshot.queryParamMap.get('teamId');
+
       }
     }
 
   ngOnInit(): void {
     this.getAllUser();
+    // this.toggleModel();
   }
+
+//   @ViewChild("addteamModel") addteamModel!: any;
+//   @ViewChild("requestAddTeamCloseModel") requestAddTeamCloseModel!: ElementRef;
+
+//   addteamModelSetInvalidToggle: boolean = false;
+
+//   toggleModel(){
+//     debugger
+//   this.requestAddTeamCloseModel.nativeElement.click();
+// }
 
   teamId :any;
 

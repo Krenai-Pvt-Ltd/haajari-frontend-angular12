@@ -22,7 +22,7 @@ import { TemporaryComponent } from './components/temporary/temporary.component';
 const routes: Routes = [
   { path: '', component: DynamicComponent },
   { path: 'dashboard', component: DashboardComponent},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
-
+  
 
   { path: 'header', component: HeaderComponent },
   { path: 'topbar', component: TopbarComponent },
