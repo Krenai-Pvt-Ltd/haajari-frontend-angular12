@@ -120,3 +120,18 @@ span.members-names {
 .add-member{
     cursor: pointer;
 }
+.user-item img{
+    width: 30px;
+    border-radius: 50%;
+}
+
+#user-first-name-logo{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+#user-list-details{
+    display: flex;
+    align-items: center;
+    line-height: 40px;
+}
