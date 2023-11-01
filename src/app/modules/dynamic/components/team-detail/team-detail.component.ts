@@ -14,7 +14,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class TeamDetailComponent implements OnInit {
 
-  constructor(private dataService: DataService, private router : Router,
+  constructor(private dataService: DataService,
     private activateRoute : ActivatedRoute) { 
 
       if(this.activateRoute.snapshot.queryParamMap.has('teamId')){

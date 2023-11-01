@@ -68,7 +68,7 @@ export class TeamComponent implements OnInit{
   }
 
   toggleUserSelection(user: User) {
-    const index = this.selectedUsers.findIndex((u) => u.id === user.id); // Adjust the condition as per your user object structure
+    const index = this.selectedUsers.findIndex((u) => u.id === user.id); 
     if (index === -1) {
       this.selectedUsers.push(user);
       this.userIds.push(user.id);
@@ -88,7 +88,7 @@ export class TeamComponent implements OnInit{
   removeSelectedUser(user: User) {
     const index = this.selectedUsers.indexOf(user);
     if (index !== -1) {
-      this.selectedUsers.splice(index, 1); // Remove the user from the selectedUsers array
+      this.selectedUsers.splice(index, 1);
     }
   }
 
