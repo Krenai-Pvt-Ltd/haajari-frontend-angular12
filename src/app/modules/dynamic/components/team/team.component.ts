@@ -15,7 +15,6 @@ export class TeamComponent implements OnInit{
   itemPerPage : number = 5;
   pageNumber : number = 1;
   total !: number;
-  rowNumber : number = 1;
   teamName : string = '';
   
 
@@ -96,10 +95,7 @@ export class TeamComponent implements OnInit{
   registerTeamSubmitButton(){
     debugger
     this.dataService.registerTeam(this.userIds,this.teamName,"NA").subscribe((data) => {
-      debugger
       console.log(data);
-    }, (error)=> {
-      console.log(error);
     })
   }
 

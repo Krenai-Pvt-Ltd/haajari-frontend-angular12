@@ -239,7 +239,7 @@
                                       </div>
                                       <div class="selected-users">
                                         <div class="selected-user" *ngFor="let selectedUser of selectedUsers">
-                                          <img [src]="selectedUsers"> {{ selectedUser.name }} - {{ selectedUser.email }}
+                                           {{ selectedUser.name }} - {{ selectedUser.email }}
                                           <span class="remove-icon" (click)="removeSelectedUser(selectedUser)">✖</span>
                                         </div>
                                       </div>

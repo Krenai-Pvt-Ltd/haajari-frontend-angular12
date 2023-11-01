@@ -269,7 +269,7 @@ export class DataService {
   }
 
 
-  registerTeam(userIds: number[], name: string, description: string): Observable<any> {
+  registerTeam(userIds: any, name: string, description: string): Observable<any> {
     const params = new HttpParams()
     .set("name", name)
     .set("description", description);
