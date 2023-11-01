@@ -2,6 +2,7 @@
 
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { TeamResponse } from 'src/app/models/team';
 import { User } from 'src/app/models/user';
@@ -15,11 +16,16 @@ import { DataService } from 'src/app/services/data.service';
 export class TeamDetailComponent implements OnInit {
 
   constructor(private dataService: DataService,
-    private activateRoute : ActivatedRoute) { 
+    private activateRoute : ActivatedRoute, private modalService: NgbModal) { 
 
       if(this.activateRoute.snapshot.queryParamMap.has('teamId')){
         this.teamId = this.activateRoute.snapshot.queryParamMap.get('teamId');
       };
+
+      // if(this.activateRoute.snapshot.queryParamMap.has('teamId','addTeamFlag')){
+      //   this.teamId = this.activateRoute.snapshot.queryParamMap.get('teamId','addTeamFlag');
+      // };
+
 
       this.Settings = {
         singleSelection: false,
@@ -31,11 +37,17 @@ export class TeamDetailComponent implements OnInit {
 
       }
 
+      
+
 
   ngOnInit(): void {
     this.getAllUser();
-    // this.toggleModel();
+    // this.openModal();
   }
+
+  // openModal() {
+  //   this.modalService.open('#addteam');
+  // }
 
 //   @ViewChild("addteam") addteam!: any;
 //   @ViewChild("requestAddTeamOpenModel") requestAddTeamOpenModel!: ElementRef;

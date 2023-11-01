@@ -5,6 +5,9 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { TeamResponse } from 'src/app/models/team';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TeamDetailComponent } from '../team-detail/team-detail.component';
+import { ModalService } from 'src/app/modal.service';
 
 @Component({
   selector: 'app-team',
@@ -16,6 +19,7 @@ export class TeamComponent implements OnInit{
   pageNumber : number = 1;
   total !: number;
   teamName : string = '';
+  teamDescription: string =''
   
 
   ngOnInit(): void {
@@ -23,7 +27,7 @@ export class TeamComponent implements OnInit{
     this.getAllUser();
   }
 
-  constructor(private router : Router, private dataService: DataService,  private activateRoute : ActivatedRoute) { 
+  constructor(private router : Router, private dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService) { 
     this.Settings = {
       singleSelection: false,
       text: 'Select Module',
@@ -39,9 +43,19 @@ export class TeamComponent implements OnInit{
 
   openTeamModal(teamId: number) {
     this.router.navigate(['/dynamic/team-detail'], { queryParams: { teamId: teamId } });
-    this.addTeamFlag=true;
+    // this.openModal();
 
   }
+
+  openModal() {
+    this.modalService.openModal();
+  }
+
+  // callModal() {
+  //   const modalRef = this.modalService.open(TeamDetailComponent,
+  //     { size: 'xl', backdrop: 'static', keyboard: false, windowClass:'modal fade'
+  //     });
+  // }
 
   // ###############################
 
@@ -88,13 +102,13 @@ export class TeamComponent implements OnInit{
   removeSelectedUser(user: User) {
     const index = this.selectedUsers.indexOf(user);
     if (index !== -1) {
-      this.selectedUsers.splice(index, 1);
+      this.selectedUsers.splice(index, 1); // Remove the user from the selectedUsers array
     }
   }
 
   registerTeamSubmitButton(){
     debugger
-    this.dataService.registerTeam(this.userIds,this.teamName,"NA").subscribe((data) => {
+    this.dataService.registerTeam(this.userIds,this.teamName,this.teamDescription).subscribe((data) => {
       console.log(data);
     })
   }

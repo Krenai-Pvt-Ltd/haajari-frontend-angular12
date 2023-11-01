@@ -606,6 +606,7 @@
                             </div>
                             
                           </div>
+                          <div *ngIf="dailyNotesData.checkInStatus">
                           <div class="daily-questionnaire mt-3">
                             <div
                               class="d-flex daily-questionnaire-question justify-content-between"
@@ -621,7 +622,7 @@
                                 <i class="bi bi-trash menu-icon"></i>
                               </div>
                             </div>
-                            <div *ngIf="dailyNotesData.checkInStatus">
+                            <div >
                               <a
                                 href=""
                                 class="new-qustion"
@@ -630,6 +631,7 @@
                                 ><i class="bi bi-plus"></i> Add New Check In Question</a
                               >
                             </div>
+                          </div>
                           </div>
                           
                           
@@ -661,6 +663,7 @@
                           </div>
                         </div>
 
+                        <div *ngIf="dailyNotesData.checkOutStatus">
                         <div class="daily-questionnaire mt-3">
                           <div
                             class="d-flex daily-questionnaire-question justify-content-between"
@@ -676,7 +679,7 @@
                               <i class="bi bi-trash menu-icon"></i>
                             </div>
                           </div>
-                          <div *ngIf="dailyNotesData.checkOutStatus">
+                          <div>
                             <a
                               href=""
                               class="new-qustion"
@@ -685,6 +688,7 @@
                               ><i class="bi bi-plus"></i> Add New Check Out Question</a
                             >
                           </div>
+                        </div>
                         </div>
                         <div class="">
                           <button
