@@ -277,7 +277,9 @@ export class DataService {
   }
 
 
-
+  sendInviteToUsers(emails : any): Observable<any>{
+    return this.httpClient.post(`${this.baseUrl}/send-invite-to-users`, emails);
+  }
 
 
 

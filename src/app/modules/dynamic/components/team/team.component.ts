@@ -110,6 +110,10 @@ export class TeamComponent implements OnInit{
     debugger
     this.dataService.registerTeam(this.userIds,this.teamName,this.teamDescription).subscribe((data) => {
       console.log(data);
+      location.reload();
+    }, (error) => {
+      location.reload();
+      console.log(error);
     })
   }
 

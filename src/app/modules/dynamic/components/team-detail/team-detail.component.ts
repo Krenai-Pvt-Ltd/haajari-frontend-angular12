@@ -105,6 +105,7 @@ export class TeamDetailComponent implements OnInit {
   userList: User[] = [];
   selectedUsers: User[] = [];
   userIds: number[] = [];
+  userEmails: string[] = [];
 
   
   searchUsers() {
@@ -116,17 +117,17 @@ export class TeamDetailComponent implements OnInit {
   }
 
   toggleUserSelection(user: User) {
-    const index = this.selectedUsers.findIndex((u) => u.id === user.id); // Adjust the condition as per your user object structure
+    const index = this.selectedUsers.findIndex((u) => u.id === user.id);
     if (index === -1) {
       this.selectedUsers.push(user);
       this.userIds.push(user.id);
+
+      this.userEmails.push(user.email);
+      
       console.log(this.userIds);
     } else {
       console.log("error!");
     }
-
-    
-    
 
     this.userList = [];
     this.searchQuery = '';
@@ -136,8 +137,23 @@ export class TeamDetailComponent implements OnInit {
   removeSelectedUser(user: User) {
     const index = this.selectedUsers.indexOf(user);
     if (index !== -1) {
-      this.selectedUsers.splice(index, 1); // Remove the user from the selectedUsers array
+      this.selectedUsers.splice(index, 1);
     }
+  }
+
+
+
+  inviteUsers(){
+    this.dataService.sendInviteToUsers(this.userEmails).subscribe((data) => {
+      debugger
+      this.userEmails = [];
+      console.log(data);
+    },(error) => {
+      debugger
+      this.userEmails = [];
+      this.selectedUsers = [];
+      console.log(error);
+    })
   }
 
 }
