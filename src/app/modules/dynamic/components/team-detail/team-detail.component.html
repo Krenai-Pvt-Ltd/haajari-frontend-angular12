@@ -87,7 +87,7 @@ ad                <div class="col-sm-12">
                                                         <span  *ngIf="ul.image !==null">
                                                         <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
                                                        </span>
-                                                        <span class="members-name" *ngIf="ul.image==null">{{ul.name[0]}}</span>
+                                                        <span class="members-name" *ngIf="ul.image===null">{{ul.name[0]}}</span>
                                                         <p class="mb-0">{{ capitalizeFirstLetter(ul.name) }} <i class="bi bi-patch-check-fill"></i></p>
                                                     </div>
                                                 </div>
@@ -329,10 +329,10 @@ ad                <div class="col-sm-12">
                                         <div class="">
 
                                             <div class="dropdown d-inline-block" >
-                                                <a class="dropdown-toggle" *ngIf="ul.name ==team.manager.name" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                <a class="dropdown-toggle" *ngIf="ul.name ===team.manager.name" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                                     Team admin <i class="bi bi-chevron-down font-14 text-muted"></i>
                                                 </a>
-                                                <a class="dropdown-toggle" *ngIf="ul.name!=team.manager.name" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                <a class="dropdown-toggle" *ngIf="ul.name!==team.manager.name" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                                     member <i class="bi bi-chevron-down font-14 text-muted"></i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
