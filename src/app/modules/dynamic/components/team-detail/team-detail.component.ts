@@ -36,8 +36,12 @@ export class TeamDetailComponent implements OnInit {
     this.getAllUser();
     // this.toggleModel();
   }
-
-//   @ViewChild("addteamModel") addteamModel!: any;
+//   ngAfterViewInit(){
+//     if(this.addteamModel!=undefined){
+//       this.addteamModel.nativeElement.click();
+//     }
+// }
+//  @ViewChild("addTeamModalButton") addteamModel!: ElementRef;
 //   @ViewChild("requestAddTeamCloseModel") requestAddTeamCloseModel!: ElementRef;
 
 //   addteamModelSetInvalidToggle: boolean = false;
