@@ -2,9 +2,7 @@
 
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { TeamResponse } from 'src/app/models/team';
 import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
 
@@ -16,16 +14,11 @@ import { DataService } from 'src/app/services/data.service';
 export class TeamDetailComponent implements OnInit {
 
   constructor(private dataService: DataService,
-    private activateRoute : ActivatedRoute, private modalService: NgbModal) { 
-
+    private activateRoute : ActivatedRoute) { 
+      debugger
       if(this.activateRoute.snapshot.queryParamMap.has('teamId')){
         this.teamId = this.activateRoute.snapshot.queryParamMap.get('teamId');
       };
-
-      // if(this.activateRoute.snapshot.queryParamMap.has('teamId','addTeamFlag')){
-      //   this.teamId = this.activateRoute.snapshot.queryParamMap.get('teamId','addTeamFlag');
-      // };
-
 
       this.Settings = {
         singleSelection: false,
@@ -35,13 +28,13 @@ export class TeamDetailComponent implements OnInit {
         unSelectAllText: 'UnSelect All',
       };
 
-      }
+  }
 
       
 
 
   ngOnInit(): void {
-    this.getAllUser();
+    this.getTeamMemberById();
     // this.openModal();
   }
 
@@ -70,7 +63,8 @@ export class TeamDetailComponent implements OnInit {
   //  index=0;
   // teamId =2
 
-  getAllUser(){
+  getTeamMemberById(){
+    debugger
     this.dataService.getTeamsById(this.teamId)
     .subscribe(data => {
       debugger

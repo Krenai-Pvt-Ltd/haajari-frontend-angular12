@@ -235,7 +235,7 @@ ad                <div class="col-sm-12">
 
 
 
-    <div class="modal fade" id="addteam" #addteam tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+    <div class="modal fade" id="addteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" style="max-width: 600px;" role="document">
             <div class="modal-content">
               
@@ -328,10 +328,10 @@ ad                <div class="col-sm-12">
                                         <div class="">
 
                                             <div class="dropdown d-inline-block" >
-                                                <a class="dropdown-toggle" *ngIf="i==0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                <a class="dropdown-toggle" *ngIf="ul.name ==team.manager.name" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                                     Team admin <i class="bi bi-chevron-down font-14 text-muted"></i>
                                                 </a>
-                                                <a class="dropdown-toggle" *ngIf="i>0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                <a class="dropdown-toggle" *ngIf="ul.name!=team.manager.name" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                                     member <i class="bi bi-chevron-down font-14 text-muted"></i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">

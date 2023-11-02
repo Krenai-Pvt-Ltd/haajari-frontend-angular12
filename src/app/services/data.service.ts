@@ -220,6 +220,14 @@ export class DataService {
     });
   }
 
+  // getUserLeaveRequests(id: any): Observable<any> {
+  //   const params = new HttpParams().set("id", id);
+  //   return this.httpClient.get<DailyNotes[]>(`${this.baseUrl}/user-leave`, {
+  //     params,
+  //   });
+  // }
+
+
 
 //  ###################################################################################################
   saveTokenForOrganization(organization : Organization): Observable<any> {
