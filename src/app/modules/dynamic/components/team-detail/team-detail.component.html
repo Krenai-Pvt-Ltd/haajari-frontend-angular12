@@ -88,7 +88,7 @@ ad                <div class="col-sm-12">
                                                         <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
                                                        </span>
                                                         <span class="members-name" *ngIf="ul.image==null">{{ul.name[0]}}</span>
-                                                        <p class="mb-0">{{ capitalizeFirstLetter(ul.name) }}</p>
+                                                        <p class="mb-0">{{ capitalizeFirstLetter(ul.name) }} <i class="bi bi-patch-check-fill"></i></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -234,6 +234,7 @@ ad                <div class="col-sm-12">
     </div>
 
 
+    <!-- <button class="d-none" data-bs-toggle="modal" data-bs-target="#addteam" #addTeamModalButton></button> -->
 
     <div class="modal fade" id="addteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" style="max-width: 600px;" role="document">

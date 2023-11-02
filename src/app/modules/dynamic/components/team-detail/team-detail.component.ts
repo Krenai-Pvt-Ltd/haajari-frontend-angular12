@@ -41,6 +41,13 @@ export class TeamDetailComponent implements OnInit {
   // openModal() {
   //   this.modalService.open('#addteam');
   // }
+//   ngAfterViewInit(){
+//     if(this.addteamModel!=undefined){
+//       this.addteamModel.nativeElement.click();
+//     }
+// }
+//  @ViewChild("addTeamModalButton") addteamModel!: ElementRef;
+//   @ViewChild("requestAddTeamCloseModel") requestAddTeamCloseModel!: ElementRef;
 
 //   @ViewChild("addteam") addteam!: any;
 //   @ViewChild("requestAddTeamOpenModel") requestAddTeamOpenModel!: ElementRef;
