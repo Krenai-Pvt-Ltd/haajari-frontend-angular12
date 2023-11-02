@@ -232,4 +232,16 @@ export class DataService {
 
     return this.httpClient.put<any>(`${this.baseUrl}/register-organization-using-code-param`, {}, {params});
   }
+
+  saveLeaveRequest(request: any): Observable<any> {
+    return this.httpClient.post( this.baseUrl+'/save-users-leave',request);
+  }
+
+  getUserLeaveRequests(id: any): Observable<any> {
+    const params = new HttpParams().set("id", id);
+    return this.httpClient.get<DailyNotes[]>(`${this.baseUrl}/user-leave`, {
+      params,
+    });
+  }
+  
 }
