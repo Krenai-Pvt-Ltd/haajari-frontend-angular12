@@ -87,8 +87,9 @@ ad                <div class="col-sm-12">
                                                         <span  *ngIf="ul.image !==null">
                                                         <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
                                                        </span>
-                                                        <span class="members-name" *ngIf="ul.image==null">{{ul.name[0]}}</span>
-                                                        <p class="mb-0">{{ capitalizeFirstLetter(ul.name) }}</p>
+
+                                                        <span class="members-name" *ngIf="ul.image===null">{{ul.name[0]}}</span>
+                                                        <p class="mb-0">{{ capitalizeFirstLetter(ul.name) }} <i class="bi bi-patch-check-fill"></i></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -335,6 +336,7 @@ ad                <div class="col-sm-12">
                                                 <!-- *ngIf="i>0" -->
                                                 <a class="dropdown-toggle"  id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                                     {{ capitalizeFirstLetterAndSmallOtherLetters(ul.role) }} <i class="bi bi-chevron-down font-14 text-muted"></i>
+
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
                                                     <a class="dropdown-item" *ngIf="ul.role=='MEMBER'">Make Manager </a>
