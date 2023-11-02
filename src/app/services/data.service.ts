@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { EventEmitter, Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { Organization, Users } from "../models/users";
-import { Time } from "@angular/common";
 import { Savel } from "../models/savel";
 import { AttendenceDto } from "../models/attendence-dto";
 import { OnboardingComponent } from "../modules/dynamic/components/onboarding/onboarding.component";
@@ -11,6 +10,7 @@ import { ShiftTimings } from "../models/shifttimings";
 import { DailyQuestionsCheckout } from "../models/daily-questions-check-out";
 import { DailyNotes } from "../models/daily-notes";
 import { DailyQuestionsCheckIn } from "../models/daily-questions-check-in";
+import { TeamResponse } from "../models/team";
 
 
 @Injectable({
@@ -48,6 +48,19 @@ export class DataService {
 
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-filters`, {params});
   }
+
+  getAllUsersByFilter(sort: string, sortBy: string, search: string, searchBy: string, organizationId: number, role: string) : Observable<any>{
+    const params = new HttpParams()
+    .set('sortOrder', sort)
+    .set('sortBy', sortBy)
+    .set('search', search)
+    .set('searchBy', searchBy)
+    .set('organizationId', organizationId)
+    .set('role', role);
+
+
+    return this.httpClient.get<any>(`${this.baseUrl}/all/users`, {params});
+  }
   
 
   registerOnboardingDetails(
@@ -81,6 +94,23 @@ export class DataService {
     return this.httpClient.get<Savel[]>(`${this.baseUrl}/get-leave`, {
       params,
     });
+  }
+
+  // ##################################################3
+
+  getTeamsById(id: any): Observable<any> {
+    const params = new HttpParams().set("id", id);
+    return this.httpClient.get<TeamResponse[]>(`${this.baseUrl}/get-team-by-team-id`, {
+      params,
+    });
+  }
+
+  getAllTeamsWithUsersByUserId(userId: number, role: string): Observable<TeamResponse[]> {
+    const params = new HttpParams()
+    .set("userId", userId)
+    .set("role", role);
+
+    return this.httpClient.get<TeamResponse[]>(`${this.baseUrl}/get-all-teams-with-users-by-user-id`, {params});
   }
 
   // ##################################
@@ -192,6 +222,14 @@ export class DataService {
     });
   }
 
+  // getUserLeaveRequests(id: any): Observable<any> {
+  //   const params = new HttpParams().set("id", id);
+  //   return this.httpClient.get<DailyNotes[]>(`${this.baseUrl}/user-leave`, {
+  //     params,
+  //   });
+  // }
+
+
 
 //  ###################################################################################################
   saveTokenForOrganization(organization : Organization): Observable<any> {
@@ -233,6 +271,7 @@ export class DataService {
     return this.httpClient.put<any>(`${this.baseUrl}/register-organization-using-code-param`, {}, {params});
   }
 
+
   saveLeaveRequest(request: any): Observable<any> {
     return this.httpClient.post( this.baseUrl+'/save-users-leave',request);
   }
@@ -244,4 +283,27 @@ export class DataService {
     });
   }
   
+
+  //Just for testing
+  getUserByUserName(name : string) : Observable<any>{
+    const params = new HttpParams().set("name", name);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/get/user`, {params});
+  }
+
+
+  registerTeam(userIds: any, name: string, description: string): Observable<any> {
+    const params = new HttpParams()
+    .set("name", name)
+    .set("description", description);
+    return this.httpClient.post(`${this.baseUrl}/register-team`, userIds, {params});
+  }
+
+
+  sendInviteToUsers(emails : any): Observable<any>{
+    return this.httpClient.post(`${this.baseUrl}/send-invite-to-users`, emails);
+  }
+
+
+
 }
