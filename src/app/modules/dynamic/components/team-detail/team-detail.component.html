@@ -88,7 +88,7 @@ ad                <div class="col-sm-12">
                                                         <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
                                                        </span>
                                                         <span class="members-name" *ngIf="ul.image==null">{{ul.name[0]}}</span>
-                                                        <p class="mb-0">{{ capitalizeFirstLetter(ul.name) }} <i class="bi bi-patch-check-fill"></i></p>
+                                                        <p class="mb-0">{{ capitalizeFirstLetter(ul.name) }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -234,7 +234,6 @@ ad                <div class="col-sm-12">
     </div>
 
 
-    <!-- <button class="d-none" data-bs-toggle="modal" data-bs-target="#addteam" #addTeamModalButton></button> -->
 
     <div class="modal fade" id="addteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" style="max-width: 600px;" role="document">
@@ -313,13 +312,14 @@ ad                <div class="col-sm-12">
                                         <h5>Members</h5>
                                     </div>
                                     
-                                    <div class="Members-list-box d-flex align-items-center justify-content-between" *ngFor="let ul of team.userList let i = index">
+                                    <div class="Members-list-box d-flex align-items-center justify-content-between"  *ngFor="let ul of team.userList let i = index" >
                                         <div class="d-flex align-items-center" style="gap:10px;">
                                             <div>
                                                 <span  *ngIf="ul.image !==null">
                                                     <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
                                                    </span>
-                                               <span class="mamber-list-ui" *ngIf="ul.image==null">{{ul.name[0]}}</span>
+                                                <span class="members-name" *ngIf="ul.image==null">{{ul.name[0]}}</span>
+                                               <!-- <span class="mamber-list-ui" *ngIf="ul.image==null">{{ul.name[0]}}</span> -->
                                             </div>
                                             <div>
                                                 <h6 class="mb-0 mt-0">{{ capitalizeFirstLetter(ul.name) }}</h6>
@@ -329,16 +329,18 @@ ad                <div class="col-sm-12">
                                         <div class="">
 
                                             <div class="dropdown d-inline-block" >
-                                                <a class="dropdown-toggle" *ngIf="ul.name ==team.manager.name" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                <!-- <a class="dropdown-toggle" *ngIf="i==0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                                     Team admin <i class="bi bi-chevron-down font-14 text-muted"></i>
-                                                </a>
-                                                <a class="dropdown-toggle" *ngIf="ul.name!=team.manager.name" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                                    member <i class="bi bi-chevron-down font-14 text-muted"></i>
+                                                </a> -->
+                                                <!-- *ngIf="i>0" -->
+                                                <a class="dropdown-toggle"  id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                    {{ capitalizeFirstLetterAndSmallOtherLetters(ul.role) }} <i class="bi bi-chevron-down font-14 text-muted"></i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
-                                                    <a class="dropdown-item" href="#">Open Project</a>
-                                                    <a class="dropdown-item" href="#">Edit Card</a> 
-                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                    <a class="dropdown-item" *ngIf="ul.role=='MEMBER'">Make Manager </a>
+                                                    <a class="dropdown-item" *ngIf="ul.role=='MANAGER'">Remove Manager</a>
+                                                    <!-- <a class="dropdown-item">Edit Card</a>  -->
+                                                    <a class="dropdown-item">Delete</a>
                                                 </div>
                                             </div>
 

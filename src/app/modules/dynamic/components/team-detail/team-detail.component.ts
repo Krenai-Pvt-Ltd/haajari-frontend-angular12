@@ -87,6 +87,13 @@ export class TeamDetailComponent implements OnInit {
     return name; 
   }
 
+  capitalizeFirstLetterAndSmallOtherLetters(name: string): string {
+    if (name) {
+      return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    }
+    return name; 
+  }
+
 
   //Shivendra
   itemPerPage : number = 5;

@@ -167,15 +167,32 @@ export class TeamComponent implements OnInit{
 
 
   getAllUser(){
-    this.dataService.getAllTeamsWithUsersByUserId(57, "ADMIN")
+    debugger
+    this.dataService.getAllTeamsWithUsersByUserId(+this.getTeamDetailByUserId(), this.getTeamDetailByUserRole())
     .subscribe(data => {
-      debugger
       console.log(this.getLoginDetailsId(), this.getLoginDetailsRole());
       this.teams = data;
       console.log(this.teams);
     });
   }
 
+  getTeamDetailByUserId(){
+    const loginDetails = localStorage.getItem('loginData');
+    if(loginDetails!==null){
+      const loginData = JSON.parse(loginDetails);
+      return loginData.id;
+    }
+  }
+
+  getTeamDetailByUserRole(){
+    const loginDetails = localStorage.getItem('loginData');
+    if(loginDetails!==null){
+      const loginData = JSON.parse(loginDetails);
+
+      return loginData.role;
+
+    }
+  }
 
   getLoginDetailsId(){
     const loginDetails = localStorage.getItem('loginData');
