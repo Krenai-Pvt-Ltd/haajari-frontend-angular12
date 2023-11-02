@@ -89,7 +89,7 @@ ad                <div class="col-sm-12">
                                                        </span>
 
                                                         <span class="members-name" *ngIf="ul.image===null">{{ul.name[0]}}</span>
-                                                        <p class="mb-0">{{ capitalizeFirstLetter(ul.name) }} <i class="bi bi-patch-check-fill"></i></p>
+                                                        <p class="mb-0">{{ capitalizeFirstLetter(ul.name) }} <i class="bi bi-patch-check-fill" *ngIf="ul.role=='MANAGER'"></i></p>
                                                     </div>
                                                 </div>
                                             </div>
