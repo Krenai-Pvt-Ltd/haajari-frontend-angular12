@@ -102,19 +102,19 @@
                                         </span>
                                         <span class="members-name" *ngIf="ul.image == null">{{ ul.name[0] }}</span>
                                       </a>
-                                      <a class="user-avatar" [routerLink]="'/dynamic/team-detail'" [queryParams]="{ teamId: team.id }" (click)="openTeamModal(team.id)">
+                                      <!-- <a class="user-avatar" [routerLink]="'/dynamic/team-detail'" [queryParams]="{ teamId: team.id }" (click)="openTeamModal(team.id)">
                                         <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold" *ngIf="isLast && i<3">+</span>
-                                      </a>
+                                      </a> -->
                                     </ng-container>
-                                   
-                                        <a class="user-avatar" [routerLink]="'/dynamic/team-detail'" [queryParams]="{ teamId: team.id }" (click)="openTeamModal(team.id)" *ngIf="team.userList.length >=3 && team.userList.length >3">
+                                    <!-- (click)="openTeamModal(team.id)" -->
+                                        <a class="user-avatar" *ngIf="team.userList.length >=3 && team.userList.length >3">
                                           <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold">+{{ team.userList.length - 3 }}</span>
                                         </a>
                                 
                                   </div>
                                   
                                 <div class="align-self-center">
-                                    <button type="button" class="btn btn-xs btn-light btn-round" routerLink="/dynamic/team-detail" (click)="routeToTeamDetails(team.id)">View Details <i class="mdi mdi-arrow-right"></i></button>
+                                    <button type="button" class="btn btn-xs btn-light btn-round" (click)="routeToTeamDetails(team.id)">View Details <i class="mdi mdi-arrow-right"></i></button>
                                 </div> 
                             </div>                                     
                            <hr class="hr-dashed my-3">
@@ -218,6 +218,12 @@
                                 <label for="username" class="mb-2" style="font-size: 13px;">Team Name</label>
                                 <div class="input-group mb-3">                                                                                         
                                     <input type="text" class="form-control" name="teamname" id="teamname" placeholder="For example: &quot;Marketing&quot; or &quot;Design&quot;" [(ngModel)]="teamName" >
+                                </div>                                    
+                            </div>
+                            <div class="form-group">
+                                <label for="username" class="mb-2" style="font-size: 13px;">Team Description</label>
+                                <div class="input-group mb-3">                                                                                         
+                                    <input type="text" class="form-control" name="teamdesc" id="teamdesc" placeholder="For example: &quot;Marketing&quot; or &quot;Design&quot;" [(ngModel)]="teamDescription" >
                                 </div>                                    
                             </div>
         

@@ -295,7 +295,7 @@
                                   <option value="">Select State</option>
                                   <option *ngFor="let s of states" [value]="s">
                                     {{ s }}
-                                  </option>
+                                  </option> 
                                 </select> -->
                               <!-- Richa -->
                               <!-- </div>
@@ -319,10 +319,10 @@
                             
                             <div class="col-md-4">
                               <div class="mb-3">
-                                <label for="exampleFormControlSelect2" style="padding-bottom: 6px">State</label>
+                                <label for="exampleFormControlSelect2" style="padding-bottom: 6px">Select State</label>
                                 <select class="form-select" id="exampleFormControlSelect2" name="state" [(ngModel)]="state" required>
                                   <option value="">Select State</option>
-                                  <option *ngFor="let s of states" [value]="s">{{ s }}</option>
+                                  <option *ngFor="let s of states" [value]="s">{{ s ? s : 'Select State' }}</option>
                                 </select>
                               </div>
                             </div>
@@ -606,6 +606,7 @@
                             </div>
                             
                           </div>
+                          <div *ngIf="dailyNotesData.checkInStatus">
                           <div class="daily-questionnaire mt-3">
                             <div
                               class="d-flex daily-questionnaire-question justify-content-between"
@@ -621,7 +622,7 @@
                                 <i class="bi bi-trash menu-icon"></i>
                               </div>
                             </div>
-                            <div>
+                            <div >
                               <a
                                 href=""
                                 class="new-qustion"
@@ -631,6 +632,8 @@
                               >
                             </div>
                           </div>
+                          </div>
+                          
                           
                        
                           
@@ -660,6 +663,7 @@
                           </div>
                         </div>
 
+                        <div *ngIf="dailyNotesData.checkOutStatus">
                         <div class="daily-questionnaire mt-3">
                           <div
                             class="d-flex daily-questionnaire-question justify-content-between"
@@ -684,6 +688,7 @@
                               ><i class="bi bi-plus"></i> Add New Check Out Question</a
                             >
                           </div>
+                        </div>
                         </div>
                         <div class="">
                           <button
@@ -1269,7 +1274,7 @@
             <div class="mb-3">
               <label class="mb-3"> In Time </label>
               <!-- <br> -->
-              <!-- <div
+              <div
                 *ngIf="
                   shiftTimingsForm.get('inTime')?.hasError('required') &&
                   shiftTimingsForm.get('inTime')?.touched
@@ -1277,7 +1282,7 @@
                 class="text-danger"
               >
                 Required!
-              </div> -->
+              </div>
               <div class="input-group">
                 <input
                   type="time"
@@ -1293,7 +1298,7 @@
             <div class="mb-3">
               <label class="mb-3"> Out Time </label>
               <!-- <br> -->
-              <!-- <div
+              <div
                 *ngIf="
                   shiftTimingsForm.get('outTime')?.hasError('required') &&
                   shiftTimingsForm.get('outTime')?.touched
@@ -1301,7 +1306,7 @@
                 class="text-danger"
               >
                 Required!
-              </div> -->
+              </div>
               <div class="input-group">
                 <input
                   type="time"
@@ -1316,16 +1321,6 @@
 
             <div class="mb-3">
               <label class="mb-3"> Start Lunch Time </label>
-              <!-- <br> -->
-              <!-- <div
-                *ngIf="
-                  shiftTimingsForm.get('startLunch')?.hasError('required') &&
-                  shiftTimingsForm.get('startLunch')?.touched
-                "
-                class="text-danger"
-              >
-                Required!
-              </div> -->
               <div class="input-group1">
                 <input
                   type="time"
@@ -1333,24 +1328,17 @@
                   id="StartLunch"
                   name="StartLunch"
                   [(ngModel)]="loginArray.startLunch"
-                  [min]="loginArray.inTime"
-                  [max]="loginArray.outTime"
                   required
                 />
+                <!-- Error message for invalid startLunch -->
+                <div class="text-danger" *ngIf="startLunchError">
+                  Start Lunch Time must be earlier than Out Time.
+                </div>
               </div>
             </div>
-
+            
             <div class="mb-3">
               <label class="mb-3"> End Lunch Time </label>
-              <!-- <div
-                *ngIf="
-                  shiftTimingsForm.get('endLunch')?.hasError('required') &&
-                  shiftTimingsForm.get('endLunch')?.touched
-                "
-                class="text-danger"
-              >
-                Required!
-              </div> -->
               <div class="input-group2">
                 <input
                   type="time"
@@ -1358,10 +1346,12 @@
                   id="endLunch"
                   name="endLunch"
                   [(ngModel)]="loginArray.endLunch"
-                  [min]="loginArray.startLunch"
-                  [max]="loginArray.outTime"
                   required
                 />
+                <!-- Error message for invalid endLunch -->
+                <div class="text-danger" *ngIf="endLunchError">
+                  End Lunch Time must be later than Start Lunch Time and earlier than Out Time.
+                </div>
               </div>
             </div>
           </div>

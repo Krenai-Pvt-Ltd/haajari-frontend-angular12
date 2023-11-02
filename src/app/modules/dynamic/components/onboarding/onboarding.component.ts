@@ -28,19 +28,19 @@ import { DailyQuestionsCheckIn } from "src/app/models/daily-questions-check-in";
   styleUrls: ["./onboarding.component.css"],
 })
 export class OnboardingComponent implements OnInit {
-  // shiftTimingsForm: FormGroup;
+  shiftTimingsForm: FormGroup;
 
   constructor(
     private dataService: DataService,
     private router: Router,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {
-    // this.shiftTimingsForm = this.fb.group({
-    //   inTime: ["", Validators.required],
-    //   outTime: ["", Validators.required],
-    //   startLunch: ["", [Validators.required]],
-    //   endLunch: ["", [Validators.required]],
-    // });
+    this.shiftTimingsForm = this.fb.group({
+      inTime: ["", Validators.required],
+      outTime: ["", Validators.required],
+      startLunch: ["", [Validators.required]],
+      endLunch: ["", [Validators.required]],
+    });
   }
 
   ngOnInit(): void {
@@ -313,7 +313,7 @@ export class OnboardingComponent implements OnInit {
 
         this.updateStates();
         
-        if (data.email !== 0) {
+        if (data.country !== null) {
           debugger
           this.setActive(1);
           this.count=1;
@@ -338,7 +338,7 @@ export class OnboardingComponent implements OnInit {
           this.requestBusinessInfoCloseModel.nativeElement.click();
         }
 
-        if (data) {
+        if (data.country!==null) {
           this.shiftTimingsValid = true;
           this.onBusinessInfoCompleted();
           this.shiftTimesMessage();
@@ -481,11 +481,36 @@ export class OnboardingComponent implements OnInit {
 
   shiftSetInvalidToggle: boolean = false;
 
+  startLunchError = false;
+  endLunchError = false;
+
+
   addShift() {
     if (this.shiftForm.invalid) {
       this.shiftSetInvalidToggle = true;
       return;
     }
+     // Add your validation condition here
+    if (this.loginArray.startLunch >= this.loginArray.outTime) {
+      this.startLunchError = true;
+      this.loginArray.startLunch="";
+    } else {
+      this.startLunchError = false;
+    }
+
+    if (this.loginArray.endLunch <= this.loginArray.startLunch || this.loginArray.endLunch > this.loginArray.outTime) {
+      this.endLunchError = true;
+      this.loginArray.endLunch="";
+    } else {
+      this.endLunchError = false;
+    }
+
+    // Check if any errors are present
+    if (this.startLunchError || this.endLunchError) {
+      return; // Prevent form submission
+    }
+
+    // Continue with form submission logic
       this.calculateHours();
       console.log(this.loginArray);
       this.requestShiftCloseModel.nativeElement.click();
