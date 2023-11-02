@@ -31,7 +31,7 @@ export class DataService {
     return this.orgIdEmitter;
   }
 
-  private baseUrl = "https://7f4b-43-230-65-2.ngrok-free.app/api/v1/attendance";
+  private baseUrl = "http://localhost:8080/api/v1/attendance";
 
   openSidebar: boolean = true;
 
