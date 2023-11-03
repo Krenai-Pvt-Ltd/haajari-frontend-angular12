@@ -2,6 +2,7 @@
 
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
@@ -156,10 +157,27 @@ export class TeamDetailComponent implements OnInit {
       debugger
       this.userEmails = [];
       console.log(data);
+      Swal.fire({
+        position: 'bottom-left',
+        icon: 'success',
+        title: 'Mail sent successfully!',
+        showConfirmButton: false,
+        timer: 1500 
+    });
     },(error) => {
       debugger
       this.userEmails = [];
       this.selectedUsers = [];
+      Swal.fire({
+        position: 'bottom-start',
+        customClass: {
+          popup: 'custom-popup', 
+        },
+        icon: 'success',
+        title: 'Mail sent successfully!',
+        showConfirmButton: false,
+        timer: 1500 
+      });
       console.log(error);
     })
   }
