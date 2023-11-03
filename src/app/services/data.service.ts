@@ -158,7 +158,7 @@ export class DataService {
     .set('role', role)
     .set('startDateStr', startDateStr)
     .set('endDateStr', endDateStr);
-    return this.httpClient.get<any>(`${this.baseUrl}/testingg/`,{params});
+    return this.httpClient.get<any>(`${this.baseUrl}/testingg`,{params});
   }
 
   saveShiftTimings(shiftTimingsData: any): Observable<any> {
@@ -293,10 +293,22 @@ export class DataService {
   }
 
 
+  assignManagerRoleToMember(teamId: number, userId: number): Observable<any>{
+    const params = new HttpParams()
+    .set("teamId", teamId)
+    .set("userId", userId);
+
+    return this.httpClient.put(`${this.baseUrl}/assign-manager-role-to-member`, {}, {params});
+  }
 
 
+  assignMemberRoleToManager(teamId: number, userId: number): Observable<any>{
+    const params = new HttpParams()
+    .set("teamId", teamId)
+    .set("userId", userId);
 
-
+    return this.httpClient.put(`${this.baseUrl}/assign-member-role-to-manager`, {}, {params});
+  }
 
 
 }

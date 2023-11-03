@@ -13,6 +13,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class TeamDetailComponent implements OnInit {
 
+
   constructor(private dataService: DataService,
     private activateRoute : ActivatedRoute) { 
       debugger
@@ -164,4 +165,20 @@ export class TeamDetailComponent implements OnInit {
     })
   }
 
+
+  assignManagerRoleToMemberMethodCall(teamId: number, userId: number) {
+    this.dataService.assignManagerRoleToMember(teamId,userId).subscribe((data) => {
+      console.log(data);
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  assignMemberRoleToManagerMethodCall(teamId: number, userId: number){
+    this.dataService.assignMemberRoleToManager(teamId,userId).subscribe((data) => {
+      console.log(data);
+    }, (error) => {
+      console.log(error);
+    })
+  }
 }

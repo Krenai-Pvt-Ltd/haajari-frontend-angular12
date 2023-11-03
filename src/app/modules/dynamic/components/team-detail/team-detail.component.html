@@ -339,8 +339,8 @@ ad                <div class="col-sm-12">
 
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
-                                                    <a class="dropdown-item" *ngIf="ul.role=='MEMBER'">Make Manager </a>
-                                                    <a class="dropdown-item" *ngIf="ul.role=='MANAGER'">Remove Manager</a>
+                                                    <a class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
+                                                    <a class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager</a>
                                                     <!-- <a class="dropdown-item">Edit Card</a>  -->
                                                     <a class="dropdown-item">Delete</a>
                                                 </div>
