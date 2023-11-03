@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { EventEmitter, Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { Organization, Users } from "../models/users";
-import { Time } from "@angular/common";
 import { Savel } from "../models/savel";
 import { AttendenceDto } from "../models/attendence-dto";
 import { OnboardingComponent } from "../modules/dynamic/components/onboarding/onboarding.component";
@@ -272,6 +271,19 @@ export class DataService {
     return this.httpClient.put<any>(`${this.baseUrl}/register-organization-using-code-param`, {}, {params});
   }
 
+
+  saveLeaveRequest(request: any): Observable<any> {
+    return this.httpClient.post( this.baseUrl+'/save-users-leave',request);
+  }
+
+  getUserLeaveRequests(id: any): Observable<any> {
+    const params = new HttpParams().set("id", id);
+    return this.httpClient.get<DailyNotes[]>(`${this.baseUrl}/user-leave`, {
+      params,
+    });
+  }
+  
+
   //Just for testing
   getUserByUserName(name : string) : Observable<any>{
     const params = new HttpParams().set("name", name);
@@ -297,7 +309,6 @@ export class DataService {
     const params = new HttpParams()
     .set("teamId", teamId)
     .set("userId", userId);
-
     return this.httpClient.put(`${this.baseUrl}/assign-manager-role-to-member`, {}, {params});
   }
 
@@ -309,6 +320,5 @@ export class DataService {
 
     return this.httpClient.put(`${this.baseUrl}/assign-member-role-to-manager`, {}, {params});
   }
-
 
 }
