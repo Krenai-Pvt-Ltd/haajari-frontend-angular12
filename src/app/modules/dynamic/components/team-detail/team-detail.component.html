@@ -75,11 +75,24 @@ ad                <div class="col-sm-12">
                                                         <span><i class="bi bi-plus-circle-dotted"></i></span>
                                                         <p class="mb-0">Add member</p>
                                                     </div> -->
-                                                    <div class="members-list d-flex align-items-center" style="gap: 10px;" data-bs-toggle="modal" data-bs-target="#addteam">
+                                                    <div class="members-list d-flex align-items-center" style="gap: 10px;" data-bs-toggle="modal" data-bs-target="#addteam" *ngIf="localStorageRoleAdminFlag==true">
                                                         <span class="members-names">
                                                             <i class="bi bi-plus"></i>
                                                         </span>
                                                         <p class="mb-0">Add member</p>
+                                                    </div>
+                                                    <div class="members-list d-flex align-items-center" style="gap: 10px;" data-bs-toggle="modal" data-bs-target="#addteam" *ngIf="managerIdFlag==true && localStorageRoleAdminFlag==false">
+                                                        <span class="members-names">
+                                                            <i class="bi bi-plus"></i>
+                                                        </span>
+                                                        <p class="mb-0">Add member</p>
+                                                    </div>
+                            
+                                                    <div class="members-list d-flex align-items-center" style="gap: 10px;" data-bs-toggle="modal" data-bs-target="#viewteam" *ngIf="managerIdFlag==false && localStorageRoleAdminFlag==false">
+                                                        <span class="members-names">
+                                                            <i class="bi bi-plus"></i>
+                                                        </span>
+                                                        <p class="mb-0">View Members</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4" *ngFor="let ul of team.userList">
@@ -274,7 +287,8 @@ ad                <div class="col-sm-12">
                                     <div class="form-group">
                                         <div class="input-group mb-3" style="gap:10px;">                                                                                         
                                             <input type="text" class="form-control" name="members" id="members" placeholder="Add team members by name or email…" [(ngModel)]="searchQuery" (input)="searchUsers()">
-                                            <button type="button" class="btn btn-de-primary" (click)="inviteUsers()">Invite</button>
+                                            <button type="button" class="btn btn-de-primary" (click)=" inviteUsers(); addUsersToTeam() ">Invite</button>
+                                            <!-- inviteUsers();  -->
                                         </div>                                    
                                     </div>
 
@@ -341,10 +355,98 @@ ad                <div class="col-sm-12">
                                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
                                                     <a class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
                                                     <a class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager</a>
-                                                    <a class="dropdown-item">Delete</a>
+                                                    <a class="dropdown-item" (click)="removeUserFromTeam(team.id,ul.id)">Delete</a>
                                                 </div>
                                             </div>
 
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                              
+                            </div>
+                            <div class="tab-pane p-3" id="members" role="tabpanel">
+                                <p class="mb-0 text-muted">
+                                    Food truck fixie locavore, accusamus mcsweeney's
+                                    single-origin coffee squid. 
+                                </p>
+                            </div>                                                
+                            <div class="tab-pane p-3" id="advanced" role="tabpanel">
+                                <p class="text-muted mb-0">
+                                    Trust fund seitan letterpress, keytar raw denim keffiyeh etsy.
+                                </p>
+                            </div>
+                           
+                        </div>        
+                    </div><!--end card-body-->
+                  
+                                                                        
+                </div>
+    
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm">Submit</button>
+                </div> -->
+                <!--end modal-footer-->
+            </div><!--end modal-content-->
+        </div><!--end modal-dialog-->
+    </div><!--end modal-->
+
+
+
+
+
+    <!-- ##########################333 view team######################################3333 -->
+
+
+    
+    <div class="modal fade" id="viewteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 600px;" role="document">
+            <div class="modal-content">
+              
+    
+    
+                <div class="modal-header" style="background-color: #fff;">
+                    <h5 class="modal-title m-0" style="color:#111; font-size: 18px;" id="exampleModalDefaultLabel">{{team.name}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div><!--end modal-header-->
+                <div class="modal-body p-0">
+
+                    <div class="card-body p-0">    
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#general" role="tab" aria-selected="true">General</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#members" role="tab" aria-selected="false">Members</a>
+                            </li>                                                
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#advanced" role="tab" aria-selected="false">Advanced</a>
+                            </li>
+                            
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane  p-3 active" id="general" role="tabpanel">
+                                <div class="">
+                                    <div class="">
+                                        <h5>Members</h5>
+                                    </div>
+                                    
+                                    <div class="Members-list-box d-flex align-items-center justify-content-between"  *ngFor="let ul of team.userList let i = index" >
+                                        <div class="d-flex align-items-center" style="gap:10px;">
+                                            <div>
+                                                <span  *ngIf="ul.image !==null">
+                                                    <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
+                                                   </span>
+                                                <span class="members-name" *ngIf="ul.image==null">{{ul.name[0]}}</span>
+                                               <!-- <span class="mamber-list-ui" *ngIf="ul.image==null">{{ul.name[0]}}</span> -->
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0 mt-0">{{ capitalizeFirstLetter(ul.name) }}</h6>
+                                                <p class="mb-0">{{ul.email}}</p>
+                                             </div>
                                         </div>
                                     </div>
                                     
