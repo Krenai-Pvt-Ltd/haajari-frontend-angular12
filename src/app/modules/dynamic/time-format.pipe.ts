@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TimeFormatPipe implements PipeTransform {
   transform(value: string | null): string {
     if (value === null) {
-      return ''; // Return an empty string or another appropriate value for null
+      return '-'; // Return an empty string or another appropriate value for null
     }
 
     // Parse the input time string
