@@ -27,7 +27,7 @@ model: any;
 
   ngOnInit(): void {
     this.getDataFromDate();
-    
+    this.checkingUserRoleMethod();
   }
 
 
@@ -68,6 +68,7 @@ model: any;
       
       
       this.dataService.getDurationDetails(this.getLoginDetailsId(), this.getLoginDetailsRole(), startDateStr, endDateStr).subscribe(
+        
         (response: any) => {
           
           this.myAttendanceData = response;
@@ -111,10 +112,14 @@ model: any;
   }
 
 
+
   getLoginDetailsRole(){
     const loginDetails = localStorage.getItem('loginData');
     if(loginDetails!==null){
       const loginData = JSON.parse(loginDetails);
+      if(this.checkingUserRoleMethod() === true){
+        return 'MANAGER';
+      }
       return loginData.role;
     }
   }
@@ -127,5 +132,15 @@ model: any;
     }
   }
 
+
+  flag !: boolean;
+
+  checkingUserRoleMethod(): boolean{ 
+    this.dataService.checkingUserRole(this.getLoginDetailsId()).subscribe((data) => {
+      this.flag = data;
+    })
+    return this.flag;
+  }
+  
 }
 

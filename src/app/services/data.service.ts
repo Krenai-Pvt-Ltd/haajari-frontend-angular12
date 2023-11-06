@@ -30,6 +30,7 @@ export class DataService {
     return this.orgIdEmitter;
   }
 
+  //private baseUrl = "http://hajiri-manager-prod-env.eba-gacpj3u4.ap-south-1.elasticbeanstalk.com/api/v1/attendance";
   private baseUrl = "http://localhost:8080/api/v1/attendance";
 
   openSidebar: boolean = true;
@@ -321,4 +322,8 @@ export class DataService {
     return this.httpClient.put(`${this.baseUrl}/assign-member-role-to-manager`, {}, {params});
   }
 
+  checkingUserRole(id : number): Observable<boolean>{
+    const params = new HttpParams().set("id", id);
+    return this.httpClient.get<boolean>(`${this.baseUrl}/checking-user-role`, {params});
+  }
 }
