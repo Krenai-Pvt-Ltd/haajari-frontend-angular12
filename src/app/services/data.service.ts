@@ -31,7 +31,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
 
-  private baseUrl = "https://7f4b-43-230-65-2.ngrok-free.app/api/v1/attendance";
+  private baseUrl =
+   "https://79b9-43-230-65-2.ngrok-free.app/api/v1/attendance";
+   
 
   openSidebar: boolean = true;
 
@@ -106,12 +108,13 @@ export class DataService {
     });
   }
 
-  getAllTeamsWithUsersByUserId(userId: number, role: string): Observable<TeamResponse[]> {
+  getAllTeamsWithUsersByUserId(userId: number, role : string): Observable<TeamResponse[]> {
     const params = new HttpParams()
     .set("userId", userId)
-    .set("role", role);
-
+    .set("role",role);
     return this.httpClient.get<TeamResponse[]>(`${this.baseUrl}/get-all-teams-with-users-by-user-id`, {params});
+
+
   }
 
   // ##################################

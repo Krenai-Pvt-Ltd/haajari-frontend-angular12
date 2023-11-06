@@ -151,7 +151,7 @@ export class TeamComponent implements OnInit{
 
 
   getAllUser(){
-    this.dataService.getAllTeamsWithUsersByUserId(57, "ADMIN")
+    this.dataService.getAllTeamsWithUsersByUserId(119, "ADMIN")
     .subscribe(data => {
       debugger
       console.log(this.getLoginDetailsId(), this.getLoginDetailsRole());
