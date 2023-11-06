@@ -40,7 +40,7 @@
             </div><!--end row-->
             <div class="row">
                 <div class="col-lg-4" *ngFor="let team of teams">
-                    <div class="card team-card" >
+                    <div class="card team-card" style="    height: 285px;" >
                         <div class="card-body">
                             <div class="float-end">                                        
                                 <div class="dropdown d-inline-block">
@@ -79,9 +79,9 @@
                                    
                                 </div>                                                                           
                                 <div class="media-body ms-2 align-self-center">
-                                    <h5 class="m-0">{{ capitalizeFirstLetter(team.name) }}</h5>
+                                    <h5 class="m-0 team-name">{{ capitalizeFirstLetter(team.name) }}</h5>
                                     <!-- <p class="text-muted font-12 mb-0">Team Name</p>  -->
-                                    <p class="text-muted mb-0 fw-semibold">{{team.description}}</p>
+                                    <p class="text-muted mb-0 fw-semibold team-description">{{team.description}}</p>
                                            
                                 </div>                                                                           
                             </div> 
@@ -94,7 +94,7 @@
                             
                             <p class="text-muted font-12 mb-0">Team Manager</p> 
                             <div class="mt-3 d-flex justify-content-between">
-                                <div class="img-group">
+                                <div class="img-group d-flex">
                                     <ng-container *ngFor="let ul of team.userList; let i = index; last as isLast">
                                       <a class="user-avatar" href="" [ngClass]="i === 0 ? '' : 'ms-n3'" *ngIf="i<3">
                                         <span *ngIf="ul.image !== null">
@@ -102,19 +102,19 @@
                                         </span>
                                         <span class="members-name" *ngIf="ul.image == null">{{ ul.name[0] }}</span>
                                       </a>
-                                      <a class="user-avatar" [routerLink]="'/dynamic/team-detail'" [queryParams]="{ teamId: team.id }" (click)="openTeamModal(team.id)">
+                                      <!-- <a class="user-avatar" [routerLink]="'/dynamic/team-detail'" [queryParams]="{ teamId: team.id }" (click)="openTeamModal(team.id)">
                                         <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold" *ngIf="isLast && i<3">+</span>
-                                      </a>
+                                      </a> -->
                                     </ng-container>
-                                   
-                                        <a class="user-avatar" [routerLink]="'/dynamic/team-detail'" [queryParams]="{ teamId: team.id }" (click)="openTeamModal(team.id)" *ngIf="team.userList.length >=3 && team.userList.length >3">
+                                    <!-- (click)="openTeamModal(team.id)" -->
+                                        <a class="user-avatar" *ngIf="team.userList.length >=3 && team.userList.length >3">
                                           <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold">+{{ team.userList.length - 3 }}</span>
                                         </a>
                                 
                                   </div>
                                   
                                 <div class="align-self-center">
-                                    <button type="button" class="btn btn-xs btn-light btn-round" routerLink="/dynamic/team-detail" (click)="routeToTeamDetails(team.id)">View Details <i class="mdi mdi-arrow-right"></i></button>
+                                    <button type="button" class="btn btn-xs btn-light btn-round" (click)="routeToTeamDetails(team.id)">View Details <i class="mdi mdi-arrow-right"></i></button>
                                 </div> 
                             </div>                                     
                            <hr class="hr-dashed my-3">
@@ -220,12 +220,18 @@
                                     <input type="text" class="form-control" name="teamname" id="teamname" placeholder="For example: &quot;Marketing&quot; or &quot;Design&quot;" [(ngModel)]="teamName" >
                                 </div>                                    
                             </div>
+                            <div class="form-group">
+                                <label for="username" class="mb-2" style="font-size: 13px;">Team Description</label>
+                                <div class="input-group mb-3">                                                                                         
+                                    <input type="text" class="form-control" name="teamdesc" id="teamdesc" placeholder="For example: &quot;Marketing&quot; or &quot;Design&quot;" [(ngModel)]="teamDescription" >
+                                </div>                                    
+                            </div>
         
                             <div class="form-group">
                                 <label for="username" class="mb-2" style="font-size: 13px;"> Members </label>
                                 <div class="input-group mb-3">                                                                                         
                                     <input type="text" class="form-control" name="members" id="members" placeholder="Add team members by name or email…" [(ngModel)]="searchQuery" (input)="searchUsers()">
-                                    <div class="user-dropdown" *ngIf="userList.length > 0">
+                                    <div class="user-dropdown new-membear-list" *ngIf="userList.length > 0">
                                         <div id="user-item" class="user-item" *ngFor="let user of userList" (click)="toggleUserSelection(user)">
                                             <div *ngIf="user.image===null">
                                                
@@ -245,9 +251,9 @@
                                         </div>
                                       </div>
                                       <div class="selected-users">
-                                        <div class="selected-user" *ngFor="let selectedUser of selectedUsers">
-                                           {{ selectedUser.name }}
-                                          <span class="remove-icon" (click)="removeSelectedUser(selectedUser)">✖</span>
+                                        <div class="d-flex selected-userss" *ngFor="let selectedUser of selectedUsers">
+                                          <p class="mb-0"> {{ selectedUser.name }} </p> 
+                                          <span class="remove-icon" style="line-height: 0px;" (click)="removeSelectedUser(selectedUser)"><i class="bi bi-x" style="color:#fff; font-size: 20px;"></i></span>
                                         </div>
                                       </div>
                                 </div>                                    

@@ -2,8 +2,8 @@
 
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
-import { TeamResponse } from 'src/app/models/team';
 import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
 
@@ -14,9 +14,10 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class TeamDetailComponent implements OnInit {
 
-  constructor(private dataService: DataService, private router : Router,
-    private activateRoute : ActivatedRoute) { 
 
+  constructor(private dataService: DataService,
+    private activateRoute : ActivatedRoute) { 
+      debugger
       if(this.activateRoute.snapshot.queryParamMap.has('teamId')){
         this.teamId = this.activateRoute.snapshot.queryParamMap.get('teamId');
       };
@@ -29,13 +30,19 @@ export class TeamDetailComponent implements OnInit {
         unSelectAllText: 'UnSelect All',
       };
 
-      }
+  }
+
+      
 
 
   ngOnInit(): void {
-    this.getAllUser();
-    // this.toggleModel();
+    this.getTeamMemberById();
+    // this.openModal();
   }
+
+  // openModal() {
+  //   this.modalService.open('#addteam');
+  // }
 //   ngAfterViewInit(){
 //     if(this.addteamModel!=undefined){
 //       this.addteamModel.nativeElement.click();
@@ -44,11 +51,16 @@ export class TeamDetailComponent implements OnInit {
 //  @ViewChild("addTeamModalButton") addteamModel!: ElementRef;
 //   @ViewChild("requestAddTeamCloseModel") requestAddTeamCloseModel!: ElementRef;
 
-//   addteamModelSetInvalidToggle: boolean = false;
+//   @ViewChild("addteam") addteam!: any;
+//   @ViewChild("requestAddTeamOpenModel") requestAddTeamOpenModel!: ElementRef;
+
+//   addTeamFlag: boolean = true;
 
 //   toggleModel(){
 //     debugger
-//   this.requestAddTeamCloseModel.nativeElement.click();
+//    if(this.addTeamFlag){
+//   this.requestAddTeamOpenModel.nativeElement.click();
+//    }
 // }
 
   teamId :any;
@@ -60,7 +72,8 @@ export class TeamDetailComponent implements OnInit {
   //  index=0;
   // teamId =2
 
-  getAllUser(){
+  getTeamMemberById(){
+    debugger
     this.dataService.getTeamsById(this.teamId)
     .subscribe(data => {
       debugger
@@ -72,6 +85,13 @@ export class TeamDetailComponent implements OnInit {
   capitalizeFirstLetter(name: string): string {
     if (name) {
       return name.charAt(0).toUpperCase() + name.slice(1);
+    }
+    return name; 
+  }
+
+  capitalizeFirstLetterAndSmallOtherLetters(name: string): string {
+    if (name) {
+      return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
     }
     return name; 
   }
@@ -138,12 +158,45 @@ export class TeamDetailComponent implements OnInit {
       debugger
       this.userEmails = [];
       console.log(data);
+      Swal.fire({
+        position: 'bottom-left',
+        icon: 'success',
+        title: 'Mail sent successfully!',
+        showConfirmButton: false,
+        timer: 1500 
+    });
     },(error) => {
       debugger
       this.userEmails = [];
       this.selectedUsers = [];
+      Swal.fire({
+        position: 'bottom-start',
+        customClass: {
+          popup: 'custom-popup', 
+        },
+        icon: 'success',
+        title: 'Mail sent successfully!',
+        showConfirmButton: false,
+        timer: 1500 
+      });
       console.log(error);
     })
   }
 
+
+  assignManagerRoleToMemberMethodCall(teamId: number, userId: number) {
+    this.dataService.assignManagerRoleToMember(teamId,userId).subscribe((data) => {
+      console.log(data);
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  assignMemberRoleToManagerMethodCall(teamId: number, userId: number){
+    this.dataService.assignMemberRoleToManager(teamId,userId).subscribe((data) => {
+      console.log(data);
+    }, (error) => {
+      console.log(error);
+    })
+  }
 }

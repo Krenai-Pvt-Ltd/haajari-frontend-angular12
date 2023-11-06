@@ -135,3 +135,20 @@ span.members-names {
     align-items: center;
     line-height: 40px;
 }
+
+.custom-popup {
+    background-color: #7B68EE; 
+    color: white;
+    height: 5rem;
+    width: 15rem;
+    border-radius: 8px; 
+    position: fixed;
+    bottom: 10px; 
+    left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  }
