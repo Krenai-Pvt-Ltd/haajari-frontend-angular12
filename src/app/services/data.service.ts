@@ -30,6 +30,8 @@ export class DataService {
     return this.orgIdEmitter;
   }
 
+  //private baseUrl = "http://hajiri-manager-prod-env.eba-gacpj3u4.ap-south-1.elasticbeanstalk.com/api/v1/attendance";
+
   private baseUrl = "http://localhost:8080/api/v1/attendance";
 
   openSidebar: boolean = true;
@@ -105,12 +107,13 @@ export class DataService {
     });
   }
 
-  getAllTeamsWithUsersByUserId(userId: number, role: string): Observable<TeamResponse[]> {
+  getAllTeamsWithUsersByUserId(userId: number, role : string): Observable<TeamResponse[]> {
     const params = new HttpParams()
     .set("userId", userId)
-    .set("role", role);
-
+    .set("role",role);
     return this.httpClient.get<TeamResponse[]>(`${this.baseUrl}/get-all-teams-with-users-by-user-id`, {params});
+
+
   }
 
   // ##################################
@@ -342,4 +345,9 @@ export class DataService {
   }
 
   
+
+  checkingUserRole(id : number): Observable<boolean>{
+    const params = new HttpParams().set("id", id);
+    return this.httpClient.get<boolean>(`${this.baseUrl}/checking-user-role`, {params});
+  }
 }

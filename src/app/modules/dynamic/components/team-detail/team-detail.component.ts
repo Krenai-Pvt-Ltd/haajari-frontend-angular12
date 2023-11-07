@@ -284,6 +284,8 @@ export class TeamDetailComponent implements OnInit {
   //   );
   // }
 
+  showErrorMessageForPresentMembersInTeam=false;
+
   addUsersToTeam() {
     if (this.userIds.length > 0) {
       const tid = +this.teamId; 
@@ -297,7 +299,8 @@ export class TeamDetailComponent implements OnInit {
             // location.reload();
           },
           (error) => {
-            console.error(error);
+            this.showErrorMessageForPresentMembersInTeam=true;
+
           }
         );
     } else {

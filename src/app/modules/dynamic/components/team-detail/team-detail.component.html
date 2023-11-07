@@ -291,8 +291,11 @@ ad                <div class="col-sm-12">
                                             <!-- inviteUsers();  -->
                                         </div>                                    
                                     </div>
-
                                 </div>
+                                <div class="text-danger" *ngIf="showErrorMessageForPresentMembersInTeam">
+                                    Selected member already present in the team!
+                                  </div>
+                                <!-- showErrorMessageForPresentMembersInTeam -->
                                 
                                 <!-- ########################################## -->
                                 <div class="user-dropdown" *ngIf="userList.length > 0">
