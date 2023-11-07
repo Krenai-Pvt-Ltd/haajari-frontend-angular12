@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DurationFormatPipe implements PipeTransform {
   transform(duration: string | null): string {
     if (duration === null) {
-      return '';
+      return '   -   ';
     }
 
     // Split the duration string into parts
