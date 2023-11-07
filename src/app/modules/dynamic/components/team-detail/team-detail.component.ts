@@ -37,8 +37,15 @@ export class TeamDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTeamMemberById();
+    this.getUsersRoleFromLocalStorage();
     // this.openModal();
   }
+
+  ngAfterViewInit() {
+    // ...
+    this.getLoginDetailsId();
+  }
+  
 
   // openModal() {
   //   this.modalService.open('#addteam');
@@ -72,14 +79,39 @@ export class TeamDetailComponent implements OnInit {
   //  index=0;
   // teamId =2
 
+  managerIdFlag=false;
+
   getTeamMemberById(){
     debugger
     this.dataService.getTeamsById(this.teamId)
     .subscribe(data => {
       debugger
       this.team = data;
+      if(data.manager!==null){
+        const managerdata = {
+          teamId: this.teamId,
+          managerId: data.manager.id,
+        };
+        localStorage.setItem('managerFunc', JSON.stringify(managerdata));
+      }
       console.log(this.team);
     });
+  }
+
+  getLoginDetailsId(){
+    const loginDetails = localStorage.getItem('loginData');
+     const managerDetails =localStorage.getItem('managerFunc');
+    if(loginDetails !== null && managerDetails !== null){
+      const loginData = JSON.parse(loginDetails);
+      const managerFunc = JSON.parse(managerDetails);
+
+      if((managerFunc.managerId==loginData.id) && (managerFunc.teamId==this.teamId)){
+        this.managerIdFlag=true;
+      }else{
+        this.managerIdFlag=false;
+      }
+
+    }
   }
 
   capitalizeFirstLetter(name: string): string {
@@ -151,7 +183,7 @@ export class TeamDetailComponent implements OnInit {
     }
   }
 
-
+ 
 
   inviteUsers(){
     this.dataService.sendInviteToUsers(this.userEmails).subscribe((data) => {
@@ -187,16 +219,108 @@ export class TeamDetailComponent implements OnInit {
   assignManagerRoleToMemberMethodCall(teamId: number, userId: number) {
     this.dataService.assignManagerRoleToMember(teamId,userId).subscribe((data) => {
       console.log(data);
+      const managerdata = {
+        teamId: this.teamId,
+        managerId: data.manager.id,
+      };
+      localStorage.setItem('managerFunc', JSON.stringify(managerdata));
     }, (error) => {
       console.log(error);
     })
   }
 
   assignMemberRoleToManagerMethodCall(teamId: number, userId: number){
+    debugger
+    if (localStorage.getItem('managerFunc')) {
+      localStorage.removeItem('managerFunc');
+      console.log('managerFunc removed from localStorage');
+    } else {
+      console.log('managerFunc not found in localStorage');
+    }  
     this.dataService.assignMemberRoleToManager(teamId,userId).subscribe((data) => {
+      // localStorage.removeItem('managerFunc');
       console.log(data);
     }, (error) => {
       console.log(error);
     })
   }
+
+  localStorageRoleAdminFlag=false;
+  
+  getUsersRoleFromLocalStorage(){
+    const loginDetails = localStorage.getItem('loginData');
+     if(loginDetails!==null){
+      const loginData = JSON.parse(loginDetails);
+
+      if(loginData.role=='ADMIN'){
+        this.localStorageRoleAdminFlag=true;
+      }else if(loginData.role=='USER'){
+        this.localStorageRoleAdminFlag=false;
+      }
+    }
+  }
+
+  removeUserFromTeam(teamId: number, userId: number) {
+    this.dataService.removeUserFromTeam(teamId, userId)
+      .subscribe(
+        response => {
+          console.log('Success:', response);
+        },
+        error => {
+          console.error('Error:', error);
+        }
+      );
+  }
+
+  // addUserToTeam(teamId: number) {
+  //   debugger
+  //   this.dataService.addUsersToTeam(teamId,this.userIds).subscribe(
+  //     response => {
+  //       console.log(response);
+  //     },
+  //     error => {
+  //       console.error(error);
+  //     }
+  //   );
+  // }
+
+  showErrorMessageForPresentMembersInTeam=false;
+
+  addUsersToTeam() {
+    if (this.userIds.length > 0) {
+      const tid = +this.teamId; 
+      this.dataService
+        .addUsersToTeam(tid, this.userIds)
+        .subscribe(
+          (result) => {
+            console.log(result);
+            this.selectedUsers = [];
+            this.userIds = [];
+            // location.reload();
+          },
+          (error) => {
+            this.showErrorMessageForPresentMembersInTeam=true;
+
+          }
+        );
+    } else {
+      console.error("No users selected for adding to the team.");
+    }
+  }
+  
+  
+
+  // addUsersToTeam(teamId: number) {
+  //   debugger
+  //   // this.userIds=[];
+  //   this.dataService
+  //     .addUsersToTeam(teamId, this.userIds)
+  //     .subscribe((result) => {
+  //       console.log(result);
+
+  //     });
+  // }
+  
+  
+  
 }

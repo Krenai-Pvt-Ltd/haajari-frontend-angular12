@@ -304,7 +304,7 @@ export class DataService {
 
 
   sendInviteToUsers(emails : any): Observable<any>{
-    return this.httpClient.post(`${this.baseUrl}/send-invite-to-users`, emails);
+    return this.httpClient.post(`${this.baseUrl}/send-invite-to-users`,emails);
   }
 
 
@@ -323,6 +323,28 @@ export class DataService {
 
     return this.httpClient.put(`${this.baseUrl}/assign-member-role-to-manager`, {}, {params});
   }
+
+  removeUserFromTeam(teamId: number, userId: number): Observable<string> {
+    const url = `${this.baseUrl}/removeUser?teamId=${teamId}&userId=${userId}`;
+    return this.httpClient.delete<string>(url);
+  }
+
+  addUsersToTeam(teamId: number, userIds: number[]): Observable<string> {
+    const url = `${this.baseUrl}/add-users-by-user-ids`;
+
+    const params = new HttpParams()
+      .set('teamId', +teamId)
+      .set('userIds', userIds.join(','));
+
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+      params: params,
+    };
+
+    return this.httpClient.post<string>(url, null, httpOptions);
+  }
+
+  
 
   checkingUserRole(id : number): Observable<boolean>{
     const params = new HttpParams().set("id", id);
