@@ -12,6 +12,7 @@ import jwt_decode from "jwt-decode";
   styleUrls: ['./timetable.component.css']
 })
 export class TimetableComponent implements OnInit {
+  abc: number[] = [];
 datesUpdated($event: TimePeriod) {
 throw new Error('Method not implemented.');
 }
@@ -60,7 +61,7 @@ model: any;
   }
 
   
-
+totalll: number = 0;
   getDataFromDate(): void {
     if (this.selected) {
       const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
@@ -71,25 +72,32 @@ model: any;
         
         (response: any) => {
           
+          debugger
           this.myAttendanceData = response;
           console.log(this.myAttendanceData);
           if (this.myAttendanceData) {
-            
-            for (const date in this.myAttendanceData) {
+            debugger
+            for (const key in this.myAttendanceData) {
       
-              if (this.myAttendanceData.hasOwnProperty(date)) {
-                const attendanceArray = this.myAttendanceData[date];
+              debugger
+              if (this.myAttendanceData.hasOwnProperty(key)) {
+                this.totalll = 0;
+                const attendanceArray = this.myAttendanceData[key];
+
+                debugger
                 this.attendanceArrayDate=attendanceArray;
                 
-                // for (const element of attendanceArray) {
-                //   if (element.checkInTime !== null) {
-                //     this.totalAttendance += 1;
-                //   }
-                // }
+                for (const element of attendanceArray) {
+                  if (element.checkInTime !== null) {
+                    debugger
+                    this.totalll += 1;
+                  }
+                }
+
+                this.abc.push(this.totalll);
               }
             }
           }
-          // console.log(this.attendanceArrayDate);
         },
         (error: any) => {
           console.error('Error fetching data:', error);
@@ -97,6 +105,7 @@ model: any;
       );
     }
   }
+  
 
   dateRangeButton(){
     const res = document.getElementById("date-picker-wrapper") as HTMLElement | null;

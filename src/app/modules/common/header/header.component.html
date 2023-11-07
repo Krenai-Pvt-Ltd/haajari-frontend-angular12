@@ -277,7 +277,7 @@
                         <img src="assets/images/user.png" alt="profile-user" class="rounded-circle me-2 thumb-sm" />
                         <div>
                             <small class="d-none d-md-block font-11">Admin</small>
-                            <span class="d-none d-md-block fw-semibold font-12">Admin<i
+                            <span class="d-none d-md-block fw-semibold font-12">USER<i
                                     class="mdi mdi-chevron-down"></i></span>
                         </div>
                     </div>
@@ -286,7 +286,7 @@
                 <a class="dropdown-item" href="pages-profile.html"><i class="ti ti-user font-16 me-1 align-text-bottom"></i> Profile</a>
                 <a class="dropdown-item" href="crypto-settings.html"><i class="ti ti-settings font-16 me-1 align-text-bottom"></i> Settings</a>
                 <div class="dropdown-divider mb-0"></div>
-                <a class="dropdown-item" href="auth-login.html"><i class="ti ti-power font-16 me-1 align-text-bottom"></i> Logout</a>
+                <a class="dropdown-item" (click)="onLogout()"><i class="ti ti-power font-16 me-1 align-text-bottom"></i> Logout</a>
             </div>
             </li><!--end topbar-profile-->
             <!-- <li class="notification-list">

@@ -4,4 +4,7 @@ export class AttendenceDto {
     checkInTime!: string | null;
     checkOutTime!: string | null;
     duration!: string | null;
+    breakCount!: number;
+    breakDuration!: string;
+    totalPresentDays!: number;
 }

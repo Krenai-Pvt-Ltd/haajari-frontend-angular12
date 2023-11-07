@@ -149,7 +149,10 @@
                             <td *ngFor="let attendance of entry.value">
                                 <div *ngIf="attendance.checkInTime !== null">
                                   <p><i class="bi bi-box-arrow-in-right mr-2 today-in"></i> {{ attendance.checkInTime | timeFormat}}</p>
+                                  <!-- *ngIf="attendance.checkOutTime !== null" -->
                                   <p><i class="bi bi-box-arrow-left mr-2"></i> {{ attendance.checkOutTime | timeFormat}}</p>
+                                  <!-- *ngIf="attendance.breakDuration !== '0 hours, 0 minutes, 0 seconds'" -->
+                                  <p ><i class="bi bi-pause-btn"></i>{{attendance.breakCount}} - ({{attendance.breakDuration | durationFormat}})</p>
                                   <p><i class="bi bi-stopwatch mr-2"></i> {{ attendance.duration | durationFormat }}</p>
                                 </div>
                                 <div *ngIf="attendance.checkInTime === null">
@@ -158,7 +161,7 @@
                               </td>
                               <td class="css-odmd51">
                                 <!-- <p><i class="bi bi-stopwatch mr-2"></i> 8h 53m</p> -->
-                                <p><i class="bi bi-calendar-event"></i>{{total}} Present Days</p>
+                                <p><i class="bi bi-calendar-event"></i>{{entry.value[0].totalPresentDays}} Present Days</p>
                             </td>
                             
                           </tr>
