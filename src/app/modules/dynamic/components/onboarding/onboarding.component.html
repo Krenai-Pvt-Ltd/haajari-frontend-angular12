@@ -582,10 +582,12 @@
                         <div class="">
                           <p>Enable Mandatory Daily Questionnaire</p>
                           <div
-                            class="d-flex align-items-center justify-content-between"
+                            class="mb-3"
                           >
+
+                          <div class="d-flex align-items-center justify-content-between">
                             <div class="">
-                              <p class="mb-3">Get Daily Notes at Check-in</p>
+                              <p class="mb-0">Get Daily Notes at Check-in</p>
                             </div>
                             <div>
                               <div class="">
@@ -604,44 +606,49 @@
                                 >
                               </div>
                             </div>
+
+                          </div>
+
+
+
+                            <div *ngIf="dailyNotesData.checkInStatus" style="border-top: 1px dashed #ccc; margin-top: 10px;">
+                              <div class="daily-questionnaire">
+                                <div
+                                  class="d-flex daily-questionnaire-question justify-content-between"
+                                  *ngFor="let dailyQuesCheckIn of dailyQuestionnCheckIn"
+                                >
+                                  <p class="mb-0">
+                                    {{ dailyQuesCheckIn.messageCheckIn }}
+                                  </p>
+                                  <div
+                                    class=""
+                                    (click)="onDeleteDailyQuestionsCheckIn(dailyQuesCheckIn.id)"
+                                  >
+                                    <i class="bi bi-trash menu-icon"></i>
+                                  </div>
+                                </div>
+                                <div >
+                                  <a
+                                    href=""
+                                    class="new-qustion"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#dailyQuestionsCheckIn"
+                                    ><i class="bi bi-plus"></i> Add New Check In Question</a
+                                  >
+                                </div>
+                              </div>
+                              </div>
                             
                           </div>
-                          <div *ngIf="dailyNotesData.checkInStatus">
-                          <div class="daily-questionnaire mt-3">
-                            <div
-                              class="d-flex daily-questionnaire-question justify-content-between"
-                              *ngFor="let dailyQuesCheckIn of dailyQuestionnCheckIn"
-                            >
-                              <p>
-                                {{ dailyQuesCheckIn.messageCheckIn }}
-                              </p>
-                              <div
-                                class=""
-                                (click)="onDeleteDailyQuestionsCheckIn(dailyQuesCheckIn.id)"
-                              >
-                                <i class="bi bi-trash menu-icon"></i>
-                              </div>
-                            </div>
-                            <div >
-                              <a
-                                href=""
-                                class="new-qustion"
-                                data-bs-toggle="modal"
-                                data-bs-target="#dailyQuestionsCheckIn"
-                                ><i class="bi bi-plus"></i> Add New Check In Question</a
-                              >
-                            </div>
-                          </div>
-                          </div>
+                        
                           
                           
                        
                           
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
-                            <div class="">
-                              <p class="mb-3">Get Daily Notes at Check-out</p>
+                          <div class=" mb-4">
+                          <div class="d-flex align-items-center justify-content-between">                          
+                              <div class="">
+                              <p class="mb-0">Get Daily Notes at Check-out</p>
                             </div>
                             <div>
                               <div class="">
@@ -661,35 +668,44 @@
                               </div>
                             </div>
                           </div>
+
+                          <div *ngIf="dailyNotesData.checkOutStatus" style="border-top: 1px dashed #ccc; margin-top: 10px;">
+                            <div class="daily-questionnaire ">
+                              <div
+                                class="d-flex daily-questionnaire-question justify-content-between"
+                                *ngFor="let dailyQues of dailyQuestionn"
+                              >
+                                <p class="mb-0">
+                                  {{ dailyQues.messageCheckOut }}
+                                </p>
+                                <div
+                                  class=""
+                                  (click)="onDeleteDailyQuestions(dailyQues.id)"
+                                >
+                                  <i class="bi bi-trash menu-icon"></i>
+                                </div>
+                              </div>
+                              <div>
+                                <a
+                                  href=""
+                                  class="new-qustion"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#dailyQuestions"
+                                  ><i class="bi bi-plus"></i> Add New Check Out Question</a
+                                >
+                              </div>
+                            </div>
+                            </div>
                         </div>
 
-                        <div *ngIf="dailyNotesData.checkOutStatus">
-                        <div class="daily-questionnaire mt-3">
-                          <div
-                            class="d-flex daily-questionnaire-question justify-content-between"
-                            *ngFor="let dailyQues of dailyQuestionn"
-                          >
-                            <p>
-                              {{ dailyQues.messageCheckOut }}
-                            </p>
-                            <div
-                              class=""
-                              (click)="onDeleteDailyQuestions(dailyQues.id)"
-                            >
-                              <i class="bi bi-trash menu-icon"></i>
-                            </div>
-                          </div>
-                          <div>
-                            <a
-                              href=""
-                              class="new-qustion"
-                              data-bs-toggle="modal"
-                              data-bs-target="#dailyQuestions"
-                              ><i class="bi bi-plus"></i> Add New Check Out Question</a
-                            >
-                          </div>
+
+
+
+
+                       
                         </div>
-                        </div>
+
+                     
                         <div class="">
                           <button
                             type="button"
@@ -1155,8 +1171,8 @@
               <!-- <div class="text-danger">
                 Required!
               </div> -->
-              <div class="input-group">
-                <input
+              <div class="input-group w-100">
+                <!-- <input
                   type="text"
                   class="form-control"
                   placeholder="Leave Type"
@@ -1164,7 +1180,18 @@
                   [(ngModel)]="leaveData.leaveType"
                   name="leaveType"
                   required
-                />
+                /> -->
+
+                <div class="dropdown" style="width: 100%;">
+                  <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Leave Type <i class="bi bi-chevron-down"></i>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
+                    <li><a class="dropdown-item" >Leave Type</a></li>
+                    <li><a class="dropdown-item" >Leave Type</a></li>
+                    <li><a class="dropdown-item" >Leave Type</a></li>
+                  </ul>
+                </div>
               </div>
             </div>
             <div class="mb-3">
