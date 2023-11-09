@@ -16,7 +16,7 @@ export class UserlistComponent implements OnInit {
 
   users : Users[] = [];
   filteredUsers : Users[] = [];
-  itemPerPage : number = 5;
+  itemPerPage : number = 10;
   pageNumber : number = 1;
   total !: number;
   rowNumber : number = 1;
