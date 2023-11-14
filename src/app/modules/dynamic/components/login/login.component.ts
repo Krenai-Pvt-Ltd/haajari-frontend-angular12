@@ -16,9 +16,9 @@ password: any;
   constructor(private dataService : DataService, private router : Router) { }
 
   ngOnInit(): void {
-    const loginData = {id: 117, name: "richa", role: "USER", orgRefId: 1, httpCustomStatus: "UPDATED"};
+    // const loginData = {id: 117, name: "richa", role: "USER", orgRefId: 1, httpCustomStatus: "UPDATED"};
 
-    localStorage.setItem('loginData', JSON.stringify(loginData));
+    // localStorage.setItem('loginData', JSON.stringify(loginData));
   }
 
   
