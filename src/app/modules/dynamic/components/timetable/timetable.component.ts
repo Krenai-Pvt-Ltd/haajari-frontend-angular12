@@ -3,7 +3,6 @@ import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
-import jwt_decode from "jwt-decode";
 
 
 @Component({

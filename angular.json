@@ -1,12 +1,9 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "cli": {
-    "analytics": "fa181e41-d521-4d89-9e57-795abc74e7a4"
-  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "hajari": {
+    "hajiri-frontend-angular12": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -20,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/hajari",
+            "outputPath": "dist/hajiri-frontend-angular12",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -30,7 +27,6 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -45,8 +41,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2mb",
-                  "maximumError": "4mb"
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
               "fileReplacements": [
@@ -72,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "hajari:build:production"
+              "browserTarget": "hajiri-frontend-angular12:build:production"
             },
             "development": {
-              "browserTarget": "hajari:build:development"
+              "browserTarget": "hajiri-frontend-angular12:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,14 +79,12 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "hajari:build"
+            "browserTarget": "hajiri-frontend-angular12:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-
-            
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
@@ -100,7 +94,6 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -109,5 +102,5 @@
       }
     }
   },
-  "defaultProject": "hajari"
+  "defaultProject": "hajiri-frontend-angular12"
 }
