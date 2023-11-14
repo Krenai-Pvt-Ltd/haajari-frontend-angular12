@@ -30,7 +30,8 @@ export class DataService {
     return this.orgIdEmitter;
   }
 
-  // private baseUrl = "http://hajiri-manager-prod-env.eba-gacpj3u4.ap-south-1.elasticbeanstalk.com/api/v1/attendance";
+
+  //private baseUrl = "http://hajiri-manager-prod-env.eba-gacpj3u4.ap-south-1.elasticbeanstalk.com/api/v1/attendance";
 
   //private baseUrl = "https://backend.hajiri.work/api/v1/attendance";
 
@@ -162,7 +163,7 @@ export class DataService {
     .set('role', role)
     .set('startDateStr', startDateStr)
     .set('endDateStr', endDateStr);
-    return this.httpClient.get<any>(`${this.baseUrl}/testingg`,{params});
+    return this.httpClient.get<any>(`${this.baseUrl}/get-attendence-details`,{params});
   }
 
   saveShiftTimings(shiftTimingsData: any): Observable<any> {
@@ -351,5 +352,9 @@ export class DataService {
   checkingUserRole(id : number): Observable<boolean>{
     const params = new HttpParams().set("id", id);
     return this.httpClient.get<boolean>(`${this.baseUrl}/checking-user-role`, {params});
+  }
+
+  getTodayEmployeesData(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/today-employees-data`);
   }
 }

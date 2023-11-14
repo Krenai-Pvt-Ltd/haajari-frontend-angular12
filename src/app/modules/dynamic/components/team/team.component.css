@@ -66,8 +66,9 @@ span.members-namess {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    font-size: 15px;
+    font-size: 12px;
     text-transform: uppercase;
+    padding-top: 1px;
 }
 
 .members-list{
@@ -194,6 +195,11 @@ span.members-namess {
     font-size: 12px;
     font-weight: 400;
     line-height: 20px;
+    overflow: hidden;
+    /* padding: 2em; */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 70px;
 }
 
 .add-team{
@@ -202,4 +208,33 @@ span.members-namess {
     color: #41CBD8;
     font-size: 12px;
     padding: 4px 12px;
+}
+
+
+/* Team Member */
+
+.members-team-member-one {
+    background-color: #7b7b7b;
+}
+
+.members-team-member-two {
+    background-color: #fda8a8;
+}
+
+.members-team-member-three {
+    background-color: #ffbff2;
+}
+
+.members-team-member-for {
+    background-color: #bfedff;
+}
+.members-team-member-five {
+    background-color: #f8ffbf;
+}
+
+/* Team Member */
+
+span.remove-icon:hover {
+    background-color: #8ca7f8;
+    border-radius: 50%;
 }

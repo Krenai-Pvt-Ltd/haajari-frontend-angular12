@@ -33,7 +33,31 @@
     <div class="col-lg-9d">
 
 
+       
+
+
         <div class=" d-flex align-items-center justify-content-end">
+
+
+            <div class="d-flex dashboadfilterbtnsbox">
+                <div class="my-auto orderdaysfilter">
+                    <button type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn dropdown-toggle calenderbtn"> Project Wise Attendance </button>
+    
+                    <div class="dropdown-menu dropdown-menuRange" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(115px, 61px, 0px);">
+                        <button type="button" class="dropdown-item"> Kernai </button>
+                        <button type="button" class="dropdown-item"> 1PYQ </button>
+                        <button type="button" class="dropdown-item"> Owm </button>
+                        <button type="button" class="dropdown-item"> credily </button>
+                        <button type="button" class="dropdown-item"> SBM </button>
+                    </div>
+                </div>
+                <div class="form-group mb-0 mt-auto mb-auto">
+                    <input type="text" id="dateRangeInput" applylabel="Okay" startkey="start" endkey="end" firstmonthdayclass="first-day" lastmonthdayclass="last-day" emptyweekrowclass="empty-week-row" emptyweekcolumnclass="empty-week-column" lastdayofpreviousmonthclass="last-previous-day" firstdayofnextmonthclass="first-next-day" name="daterange" autocomplete="off" class="inputdaterange ng-valid ng-dirty ng-touched" ng-reflect-name="daterange" >
+
+                    
+                </div>
+            </div>
+
             <div class="filter">
               <button id="date-picker-button" class="date-picker-button" (click)="dateRangeButton()">-- Select Date Range--</button>
               <div id="date-picker-wrapper" class="date-picker-wrapper">
@@ -55,9 +79,6 @@
                     </select>
                 </div>
                
-                <div>
-                    <input type="date" class="form-control">
-                </div>
               
                 <div>
                     <button type="button" class="btn btn-primary btn-sm">Export</button>     

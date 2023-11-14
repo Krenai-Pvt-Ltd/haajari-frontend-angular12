@@ -152,3 +152,181 @@ span.members-names {
     padding: 10px;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
   }
+
+
+  .selected-users {
+    display: flex;
+    grid-gap: 5px;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.selected-userss{
+    background-color: #557ef8;
+    color: #fff;
+    padding: 2px 8px 2px 2px;
+    border-radius: 15px !important;
+    margin-left: 0px;
+    margin-top: 0px;
+    position: relative;
+    display: flex;
+    grid-gap: 5px;
+    gap: 5px;
+}
+
+span.members-namess {
+    background-color: #87ade2;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 12px;
+    text-transform: uppercase;
+    padding-top: 1px;
+}
+
+.selected-users p {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 70px;
+}
+
+.new-membear-list {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e8ebf3;
+    border-top: 0px;
+}
+
+.modalnote p {
+    font-weight: 400;
+    font-size: 12px;
+    color: #eb5050;
+    background: #fcf1f1;
+    border-radius: 4px;
+    width: -moz-fit-content;
+    width: fit-content;
+    padding: 1px 10px;
+}
+
+.modalnote i {
+    font-size: 13px;
+    margin-right: 5px;
+    position: relative;
+    top: 1px;
+}
+
+span.remove-icon:hover {
+    background-color: #8ca7f8;
+    border-radius: 50%;
+}
+
+/* Team Member */
+
+.members-team-member-one {
+    background-color: #7b7b7b;
+}
+
+.members-team-member-two {
+    background-color: #fda8a8;
+}
+
+.members-team-member-three {
+    background-color: #ffbff2;
+}
+
+.members-team-member-for {
+    background-color: #bfedff;
+}
+.members-team-member-five {
+    background-color: #f8ffbf;
+}
+
+/* Team Member */
+
+.description{
+    height: 100px !important;
+}
+
+.endorsed a {
+    font-size: 13px;
+    text-decoration: underline;
+    color: blue;
+    font-weight: 400;
+}
+
+.endorsed-para{
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.icon-space {
+    padding-right: 10px;
+}
+
+.updateteam {
+    background-color: #557ef8;
+    color: #fff;
+    cursor: pointer;
+}
+
+.contant-scrool{
+    height: 400px;
+    overflow: scroll;
+}
+
+.new-deopdown{
+    display: block; 
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size: .875rem;
+    font-weight: 400;
+    height: 45px !important;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #e8ebf3;
+    color: #2d2e3e;
+}
+
+.new-deopdown i {
+    position: absolute;
+    right: 15px;
+}
+
+.members-description {
+    position: relative;
+    left: 15px;
+}
+
+.permissions {
+    background-color: #fff6ee;
+    border-radius: 6px;
+    height: 60px;
+    padding: 10px;
+}
+
+.Upgrade-text{
+    font-size: 14px;
+    color: #dc6700 !important;
+}
+
+.permissions i{
+    color: #dc6700 !important;
+    font-size: 18px;
+}
+
+.Upgrade{
+    background-color: #dc6700 !important;
+    color: #fff;
+}
+.remove-icon:hover{
+    cursor: pointer;
+}
