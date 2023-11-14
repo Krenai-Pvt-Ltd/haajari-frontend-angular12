@@ -29,6 +29,8 @@ import { DailyQuestionsCheckIn } from "src/app/models/daily-questions-check-in";
 })
 export class OnboardingComponent implements OnInit {
   shiftTimingsForm: FormGroup;
+Sick: any;
+c: any;
 
   constructor(
     private dataService: DataService,
@@ -193,9 +195,9 @@ export class OnboardingComponent implements OnInit {
     this.updateStates();
   }
 
-  // selectCountry(selectedCountry: string) {
-  //   this.country = selectedCountry;
-  // }
+  selectLeave(selectedLeave : string) {
+    this.leaveData.leaveType = selectedLeave;
+  }
   updateStates() {
     const selectedCountryData = this.countries.find((c) => c.name === this.country);
     if (selectedCountryData) {
