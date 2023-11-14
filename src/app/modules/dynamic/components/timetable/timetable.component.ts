@@ -12,7 +12,6 @@ import jwt_decode from "jwt-decode";
   styleUrls: ['./timetable.component.css']
 })
 export class TimetableComponent implements OnInit {
-  abc: number[] = [];
 datesUpdated($event: TimePeriod) {
 throw new Error('Method not implemented.');
 }
@@ -23,7 +22,7 @@ alwaysShowCalendars: boolean | undefined;
 model: any;
   constructor(private dataService: DataService) { }
 
-  selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null; // Use dayjs here
+  selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
 
   ngOnInit(): void {
@@ -61,7 +60,6 @@ model: any;
   }
 
   
-totalll: number = 0;
   getDataFromDate(): void {
     if (this.selected) {
       const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
@@ -81,20 +79,19 @@ totalll: number = 0;
       
               debugger
               if (this.myAttendanceData.hasOwnProperty(key)) {
-                this.totalll = 0;
                 const attendanceArray = this.myAttendanceData[key];
 
                 debugger
                 this.attendanceArrayDate=attendanceArray;
                 
-                for (const element of attendanceArray) {
-                  if (element.checkInTime !== null) {
-                    debugger
-                    this.totalll += 1;
-                  }
-                }
+                // for (const element of attendanceArray) {
+                //   if (element.checkInTime !== null) {
+                    
+                //     this.totalll += 1;
+                //   }
+                // }
 
-                this.abc.push(this.totalll);
+                
               }
             }
           }
