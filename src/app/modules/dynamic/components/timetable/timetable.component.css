@@ -13,9 +13,10 @@
 
 .btn-primary {
     color: #fff;
-    background-color: #557ef8;
-    border-color: #557ef8;
+    background-color: #557ef8 !important;
+    border-color: #557ef8 !important;
     padding: 12px 30px !important;
+    height: 40px;
 }
 
 .time-table-list th td{
@@ -157,4 +158,47 @@ select.form-control {
 .total-day{
     position: fixed;
     z-index: 1001;
+}
+
+.dashboadfilterbtnsbox {
+    justify-content: flex-end;
+    background-color: #fff;
+    border-radius: 6px;
+}
+
+.orderdaysfilter button {
+    height: 40px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #767474;
+    min-width: 150px;
+}
+
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+.calenderbtn {
+    border: 1px solid #cccccc;
+    border-radius: 8px 0px 0px 8px;
+    height: 40px;
+    padding: 0 20px 0;
+    font-weight: 400;
+    font-size: 12px;
+    border-right: none;
+    color: #777777 !important;
+    box-shadow: none !important;
+}
+.inputdaterange {
+    border: 1px solid #cccccc;
+    border-radius: 0px 8px 8px 0px;
+    height: 40px !important;
+    padding: 0 15px 0 !important;
+    font-weight: 400;
+    font-size: 12px !important;
+    color: #777777 !important;
+    box-shadow: none !important;
+    background-color: transparent;
+    min-width: 190px;
+    text-align: center;
 }

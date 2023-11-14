@@ -58,6 +58,19 @@ span.members-name {
     text-transform: uppercase;
 }
 
+span.members-namess {
+    background-color: #a69ff3;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 12px;
+    text-transform: uppercase;
+    padding-top: 1px;
+}
+
 .members-list{
     margin-bottom: 25px;
 }
@@ -167,8 +180,8 @@ span.members-name {
 .selected-userss{
     background-color: #557ef8;
     color: #fff;
-    padding: 2px 8px;
-    border-radius: 6px !important;
+    padding: 2px 8px 2px 2px;
+    border-radius: 15px !important;
     margin-left: 0px;
     margin-top: 0px;
     position: relative;
@@ -182,4 +195,46 @@ span.members-name {
     font-size: 12px;
     font-weight: 400;
     line-height: 20px;
+    overflow: hidden;
+    /* padding: 2em; */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 70px;
+}
+
+.add-team{
+    border: 1px solid #41CBD8;
+    background-color: transparent;
+    color: #41CBD8;
+    font-size: 12px;
+    padding: 4px 12px;
+}
+
+
+/* Team Member */
+
+.members-team-member-one {
+    background-color: #7b7b7b;
+}
+
+.members-team-member-two {
+    background-color: #fda8a8;
+}
+
+.members-team-member-three {
+    background-color: #ffbff2;
+}
+
+.members-team-member-for {
+    background-color: #bfedff;
+}
+.members-team-member-five {
+    background-color: #f8ffbf;
+}
+
+/* Team Member */
+
+span.remove-icon:hover {
+    background-color: #8ca7f8;
+    border-radius: 50%;
 }
