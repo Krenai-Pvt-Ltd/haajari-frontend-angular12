@@ -383,7 +383,7 @@ ad                <div class="col-sm-12">
                                       <div class="selected-users">
                                         <div class="d-flex selected-userss align-items-center" *ngFor="let selectedUser of selectedUsers">
 
-                                            <span class="members-namess">YK</span>
+                                            <span class="members-namess">{{selectedUser.name[0]}}</span>
                                             <p class="mb-0"> {{ selectedUser.name }} </p> 
                                             <span class="remove-icon" style="line-height: 0px;" (click)="removeSelectedUser(selectedUser)"><i class="bi bi-x" style="color:#fff; font-size: 20px;"></i></span>
                                         

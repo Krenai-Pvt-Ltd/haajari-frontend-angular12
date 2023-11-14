@@ -176,7 +176,7 @@ span.members-names {
 }
 
 span.members-namess {
-    background-color: #a69ff3;
+    background-color: #87ade2;
     width: 25px;
     height: 25px;
     display: flex;
@@ -326,4 +326,7 @@ span.remove-icon:hover {
 .Upgrade{
     background-color: #dc6700 !important;
     color: #fff;
+}
+.remove-icon:hover{
+    cursor: pointer;
 }
