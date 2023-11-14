@@ -30,9 +30,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
 
-  private baseUrl = "http://hajiri-manager-prod-env.eba-gacpj3u4.ap-south-1.elasticbeanstalk.com/api/v1/attendance";
+  //private baseUrl = "http://hajiri-manager-prod-env.eba-gacpj3u4.ap-south-1.elasticbeanstalk.com/api/v1/attendance";
 
-  //private baseUrl = "https://backend.hajiri.work/api/v1/attendance";
+  private baseUrl = "https://backend.hajiri.work/api/v1/attendance";
 
   // private baseUrl = "http://localhost:8080/api/v1/attendance";
 
