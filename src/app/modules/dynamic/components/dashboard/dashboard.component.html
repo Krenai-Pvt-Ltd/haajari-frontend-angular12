@@ -1,0 +1,892 @@
+<app-header></app-header>
+
+<app-topbar></app-topbar>
+
+<div class="page-wrapper">
+
+    <!-- Page Content-->
+    <div class="page-content-tab">
+
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="page-title-box">
+                        
+                        <h4 class="page-title">Dashboard</h4>
+                    </div><!--end page-title-box-->
+                </div><!--end col-->
+            </div>
+            <!-- end page title end breadcrumb -->
+            <div class="row mb-3">
+                <div class="col-md-6 col-lg-3 order-lg-1 order-md-1">
+                    <div class="card report-card">
+                        <div class="card-body">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col">
+                                    <p class="text-dark mb-1 fw-semibold">Live Employee</p>
+                                    <h4 class="font-22 fw-bold">{{currentDayEmployeesData.allPresentUsers}}</h4>
+                                </div>
+                                <div class="col-auto align-self-center">
+                                    <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md  rounded-circle">
+                                        <i data-feather="layers" class="align-self-center text-muted icon-sm"></i>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--end card-body--> 
+                    </div><!--end card--> 
+                    <div class="card report-card">
+                        <div class="card-body">
+                            <div class="row d-flex justify-content-center">                                                
+                                <div class="col">
+                                    <p class="text-dark mb-1 fw-semibold">No. of Leave</p>
+                                    <h4 class="font-22 fw-bold">41</h4>
+                                </div>
+                                <div class="col-auto align-self-center">
+                                    <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md  rounded-circle">
+                                        <i data-feather="check-square" class="align-self-center text-muted icon-sm"></i>  
+                                    </div>
+                                </div> 
+                            </div>
+                        </div><!--end card-body--> 
+                    </div><!--end card--> 
+                    <div class="card report-card">
+                        <div class="card-body">
+                            <div class="row d-flex justify-content-center">                                                
+                                <div class="col">
+                                    <p class="text-dark mb-1 fw-semibold">On Break</p>
+                                    <h4 class="font-22 fw-bold">{{currentDayEmployeesData.usersOnBreak}}</h4>   
+                                </div>
+                                <div class="col-auto align-self-center">
+                                    <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md  rounded-circle">
+                                        <i data-feather="dollar-sign" class="align-self-center text-muted icon-sm"></i>  
+                                    </div>
+                                </div> 
+                            </div>
+                        </div><!--end card-body--> 
+                    </div><!--end card-->
+                </div> <!--end col--> 
+                <div class="col-lg-6 order-lg-2 order-md-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">                      
+                                    <h4 class="card-title">Daily Progress Analysis</h4>                      
+                                </div><!--end col-->
+                                <div class="col-auto"> 
+                                    <div class="dropdown">
+                                        <a href="#" class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="mdi mdi-dots-horizontal text-muted"></i> 
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a class="dropdown-item" href="#">Purchases</a>
+                                            <a class="dropdown-item" href="#">Emails</a>
+                                        </div>
+                                    </div>       
+                                </div><!--end col-->
+                            </div>  <!--end row-->                                  
+                        </div><!--end card-header-->
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="chart-container" >
+                                    <!-- <canvas id="bar" height="290"></canvas>  -->
+                                    <img src="assets/images/chrt-1.jpeg" style="width: 100%;">
+                                </div>
+                            </div>                                     
+                        </div><!--end card-body--> 
+                    </div><!--end card--> 
+                </div> <!--end col--> 
+                <div class="col-lg-3 col-md-6 order-lg-3 order-md-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">                      
+                                    <h4 class="card-title">Best Performance till date</h4>                      
+                                </div><!--end col-->
+                                <div class="col-auto"> 
+                                    <div class="dropdown">
+                                        <a href="#" class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="mdi mdi-dots-horizontal text-muted"></i> 
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a class="dropdown-item" href="#">Purchases</a>
+                                            <a class="dropdown-item" href="#">Emails</a>
+                                        </div>
+                                    </div>       
+                                </div><!--end col-->
+                            </div>  <!--end row-->                                  
+                        </div><!--end card-header-->
+                        <div class="card-body">
+                            <div class="text-center">
+                                <img src="assets/images/chart-2.jpeg" style="width: 100%;">
+                                <!-- <h6 class="text-primary bg-soft-primary p-3 mb-0">
+                                    <i data-feather="calendar" class="align-self-center icon-xs me-1"></i>
+                                    01 January 2021 to 31 June 2021
+                                </h6> -->
+                            </div>                                     
+                        </div><!--end card-body--> 
+                    </div><!--end card-->                             
+                </div> <!--end col-->                  
+            </div><!--end row-->
+
+
+
+
+            <div class="row mb-3">
+
+
+                <div class="col-md-12">
+                    <div class="col mb-3">                      
+                                    <h4 class="card-title" style="font-size: 18px;">Best Performance this month</h4>                      
+                                </div>
+                </div>
+                    <div class="col-lg-4">
+                        <div class="card profile-card">
+                            <div class="card-body p-0">
+                                <div class="media p-3  align-items-center">                                                
+                                    <img src="assets/images/users/user-4.jpg" alt="user" class="rounded-circle thumb-xl">                                        
+                                    <div class="media-body ms-3 align-self-center">
+                                        <h5 class="pro-title m-0">Anchal Sharma</h5>
+                                        <p class="mb-0 text-muted">anchal-krenai.com</p>                                          
+                                    </div>
+                                    <!-- <div class="position-absolute top-0 end-0 mt-3 me-3">
+                                        <a href="#" class=""><i class="la la-pen text-secondary font-16 "></i></a>
+                                        <a href="#" class=""><i class="la la-trash-alt text-secondary font-16 "></i></a> 
+                                    </div>                                                                               -->
+                                </div>                                    
+                            </div><!--end card-body-->                 
+                        </div><!--end card--> 
+                    </div><!--end col-->
+
+                    <div class="col-lg-4">
+                        <div class="card profile-card">
+                            <div class="card-body p-0">
+                                <div class="media p-3  align-items-center">                                                
+                                    <img src="assets/images/users/user-5.jpg" alt="user" class="rounded-circle thumb-xl">                                        
+                                    <div class="media-body ms-3 align-self-center">
+                                        <h5 class="pro-title m-0">Pradeep Yadav</h5>
+                                        <p class="mb-0 text-muted">pradeep-krenai.com</p>                                 
+                                    </div>
+                                    <!-- <div class="position-absolute top-0 end-0 mt-3 me-3">
+                                        <a href="#" class=""><i class="la la-pen text-secondary font-16 "></i></a>
+                                        <a href="#" class=""><i class="la la-trash-alt text-secondary font-16 "></i></a> 
+                                    </div>                                                                               -->
+                                </div>                                    
+                            </div><!--end card-body-->                 
+                        </div><!--end card--> 
+                    </div><!--end col-->
+                    <div class="col-lg-4">
+                        <div class="card profile-card">
+                            <div class="card-body p-0">
+                                <div class="media p-3  align-items-center">                                                
+                                    <img src="assets/images/users/user-8.jpg" alt="user" class="rounded-circle thumb-xl">                                        
+                                    <div class="media-body ms-3 align-self-center">
+                                        <h5 class="pro-title m-0">Sunny Khatri</h5>
+                                        <p class="mb-0 text-muted">Sunny-krenai.com</p>                                                                                         
+                                    </div>
+                                    <!-- <div class="position-absolute top-0 end-0 mt-3 me-3">
+                                        <a href="#" class=""><i class="la la-pen text-secondary font-16 "></i></a>
+                                        <a href="#" class=""><i class="la la-trash-alt text-secondary font-16 "></i></a> 
+                                    </div>                                                                               -->
+                                </div>                                    
+                            </div><!--end card-body-->                 
+                        </div><!--end card--> 
+                    </div><!--end col-->
+                </div><!--end row-->
+
+
+          
+
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="col mb-3">                      
+                                        <h4 class="card-title" style="font-size: 18px;">Late Employee</h4>                      
+                                    </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">                                        
+                                <div class="media mb-1">
+                                    <!-- <img src="assets/images/small/project-2.jpg" alt="" class="thumb-md rounded-circle">                                       -->
+                                    <div class="media-body align-self-center text-truncate">                                            
+                                        <h4 class="m-0 fw-bold text-dark font-18">Abhijeet Verma</h4>   
+                                        <p class="text-muted  mb-0 font-13"><span class="text-dark">Projest : </span>Krenai</p>                                           
+                                    </div><!--end media-body-->
+                                </div>   
+                                <div class="d-flex justify-content-between">  
+                                    <h6 class="fw-semibold">Start : <span class="text-muted font-weight-normal"> 15 Nov 2021</span></h6>
+                                    <h6 class="fw-semibold">Deadline : <span class="text-muted font-weight-normal"> 28 Fab 2022</span></h6>                          
+                                </div> 
+                                                                                                 
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">                                        
+                                <div class="media mb-1">
+                                    <!-- <img src="assets/images/small/project-1.jpg" alt="" class="thumb-md rounded-circle">                                       -->
+                                    <div class="media-body align-self-center text-truncate">                                            
+                                        <h4 class="m-0 fw-bold text-dark font-18">Yogesh Yadav</h4>   
+                                        <p class="text-muted  mb-0 font-13"><span class="text-dark">Projest : </span>Krenai</p>                                         
+                                    </div><!--end media-body-->
+                                </div>   
+                                <div class="d-flex justify-content-between">  
+                                    <h6 class="fw-semibold">Start : <span class="text-muted font-weight-normal"> 08 Dec 2021</span></h6>
+                                    <h6 class="fw-semibold">Deadline : <span class="text-muted font-weight-normal"> 28 Fab 2022</span></h6>                          
+                                </div> 
+                                                                                                
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">                                        
+                                <div class="media mb-1">
+                                    <!-- <img src="assets/images/small/project-3.jpg" alt="" class="thumb-md rounded-circle">                                       -->
+                                    <div class="media-body align-self-center text-truncate ">                                            
+                                        <h4 class="m-0 fw-bold text-dark font-18">Suraj</h4>   
+                                        <p class="text-muted  mb-0 font-13"><span class="text-dark">Projest : </span>Krenai</p>                                           
+                                    </div><!--end media-body-->
+                                </div>   
+                                <div class="d-flex justify-content-between">  
+                                    <h6 class="fw-semibold">Date : <span class="text-muted font-weight-normal"> 15 Nov 2021</span></h6>
+                                    <h6 class="fw-semibold">Time : <span class="text-muted font-weight-normal"> 10:20AM</span></h6>                          
+                                </div>                                                            
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">                                        
+                                <div class="media mb-1">
+                                    <!-- <img src="assets/images/small/project-3.jpg" alt="" class="thumb-md rounded-circle">                                       -->
+                                    <div class="media-body align-self-center text-truncate">                                            
+                                        <h4 class="m-0 fw-bold text-dark font-18">Amit Yadav</h4>   
+                                        <p class="text-muted  mb-0 font-13"><span class="text-dark">Projest : </span>Krenai</p>                                          
+                                    </div><!--end media-body-->
+                                </div>   
+                                <div class="d-flex justify-content-between">  
+                                    <h6 class="fw-semibold">Date : <span class="text-muted font-weight-normal"> 15 Nov 2021</span></h6>
+                                    <h6 class="fw-semibold">Time : <span class="text-muted font-weight-normal"> 10:20AM</span></h6>                             
+                                </div>                                                            
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">                                        
+                                <div class="media mb-1">
+                                    <!-- <img src="assets/images/small/project-3.jpg" alt="" class="thumb-md rounded-circle">                                       -->
+                                    <div class="media-body align-self-center text-truncate">                                            
+                                        <h4 class="m-0 fw-bold text-dark font-18">Sumit </h4>   
+                                        <p class="text-muted  mb-0 font-13"><span class="text-dark">Projest : </span>Krenai</p>                                           
+                                    </div><!--end media-body-->
+                                </div>   
+                                <div class="d-flex justify-content-between">  
+                                    <h6 class="fw-semibold">Date : <span class="text-muted font-weight-normal"> 15 Nov 2021</span></h6>
+                                    <h6 class="fw-semibold">Time : <span class="text-muted font-weight-normal"> 10:20AM</span></h6>                           
+                                </div>                                                            
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">                                        
+                                <div class="media mb-1">
+                                    <!-- <img src="assets/images/small/project-3.jpg" alt="" class="thumb-md rounded-circle">                                       -->
+                                    <div class="media-body align-self-center text-truncate">                                            
+                                        <h4 class="m-0 fw-bold text-dark font-18"> Alok Prakash</h4>   
+                                        <p class="text-muted  mb-0 font-13"><span class="text-dark">Projest : </span>Krenai</p>                                         
+                                    </div><!--end media-body-->
+                                </div>   
+                                <div class="d-flex justify-content-between">  
+                                    <h6 class="fw-semibold">Date : <span class="text-muted font-weight-normal"> 15 Nov 2021</span></h6>
+                                    <h6 class="fw-semibold">Time : <span class="text-muted font-weight-normal"> 10:20AM</span></h6>                            
+                                </div>                                                            
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+                </div><!--end row-->
+
+
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="project-task-content">
+                        <div class="project-task-content-col">
+                            <div class="project-task-content-inner">                                        
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="text-uppercase font-15 font-weight-semibold mb-1">Backlog</h5>
+                                        <h6 class="m-0">3 Issues - <span class="text-muted">20 Points</span></h6>
+                                    </div><!--End Col-->
+                                    <div class="col-auto">
+                                        <div class="project-task-add-btn mt-2 me-2">
+                                            <button type="button" class="btn btn-soft-primary btn-icon-square-sm">
+                                                <i class="ti ti-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div><!--End Col-->
+                                </div><!--End Row-->
+                                <div class="progress mt-2 me-1 border-radius-tl-bl bg-pink" style="height: 2px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="project-task-box" data-simplebar="">
+                                    <div class="project-task-card mb-3">
+                                        <div class="card-body">
+                                            <div class="dropdown d-inline-block float-end">
+                                                <a class="dropdown-toggle mr-n2 mt-n2" id="drop2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                    <i class="las la-ellipsis-v font-14 text-muted"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="drop2">
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                            </div><!--end dropdown-->
+                                            <i class="mdi mdi-circle-outline mt-n2 font-14 text-warning"></i>
+                                            <span class="badge badge-soft-primary mb-2">Mobile App</span>
+                                            <h5 class="my-1 font-15">Mobile Account Setting</h5>                                                    
+                                            <p class="mb-2 text-muted fw-semibold font-13 text-break">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+                                            <hr class="hr-dashed">
+                                            <div class="row justify-content-center">
+                                                <div class="col-6 align-self-center">
+                                                    <ul class="list-inline mb-0">                                                                    
+                                                        <li class="list-item d-inline-block mr-2">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-format-list-bulleted text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">0/5</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="list-item d-inline-block">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-comment-outline text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">3</span>
+                                                            </a>                                                                               
+                                                        </li>
+                                                    </ul>
+                                                </div><!--end col-->
+                                                <div class="col-6 align-self-center">
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-1.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-9.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                </div><!--end col-->
+                                            </div><!--end row-->
+                                        </div><!--end card-body-->
+                                    </div><!--End project-task-card--> 
+                                    <div class="project-task-card mb-3">
+                                        <div class="card-body">
+                                            <div class="dropdown d-inline-block float-end">
+                                                <a class="dropdown-toggle mr-n2 mt-n2" id="drop2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                    <i class="las la-ellipsis-v font-14 text-muted"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="drop2">
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                            </div><!--end dropdown-->
+                                            <i class="mdi mdi-circle-outline mt-n2 font-14 text-warning"></i>
+                                            <span class="badge badge-soft-primary mb-2">Mobile App</span>
+                                            <h5 class="my-1 font-15">Mobile Account Setting</h5>                                                    
+                                            <p class="mb-2 text-muted fw-semibold font-13 text-break">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+                                            <hr class="hr-dashed">
+                                            <div class="row justify-content-center">
+                                                <div class="col-6 align-self-center">
+                                                    <ul class="list-inline mb-0">                                                                    
+                                                        <li class="list-item d-inline-block mr-2">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-format-list-bulleted text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">0/5</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="list-item d-inline-block">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-comment-outline text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">3</span>
+                                                            </a>                                                                               
+                                                        </li>
+                                                    </ul>
+                                                </div><!--end col-->
+                                                <div class="col-6 align-self-center">
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-1.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-9.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                </div><!--end col-->
+                                            </div><!--end row-->
+                                        </div><!--end card-body-->
+                                    </div><!--End project-task-card-->                     
+                                </div><!--End project-task-box-->                                                
+                            </div><!--End project-task-content-inner-->
+                        </div><!--End project-task-content-Col-->
+                        <div class="project-task-content-col">
+                            <div class="project-task-content-inner">                                        
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="text-uppercase font-15 font-weight-semibold mb-1">Todo</h5>
+                                        <h6 class="m-0">3 Issues - <span class="text-muted">20 Points</span></h6>
+                                    </div><!--End Col-->
+                                    <div class="col-auto">
+                                        <div class="project-task-add-btn mt-2 me-2">
+                                            <button type="button" class="btn btn-soft-primary btn-icon-square-sm">
+                                                <i class="ti ti-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div><!--End Col-->
+                                </div><!--End Row-->
+                                <div class="progress me-1 mt-2 bg-warning" style="height: 2px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="project-task-box" data-simplebar="">
+                                    <div class="project-task-card mb-3">
+                                        <div class="card-body">
+                                            <div class="dropdown d-inline-block float-end">
+                                                <a class="dropdown-toggle mr-n2 mt-n2" id="drop2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                    <i class="las la-ellipsis-v font-14 text-muted"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="drop2">
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                            </div><!--end dropdown-->
+                                            <i class="mdi mdi-circle-outline mt-n2 font-14 text-warning"></i>
+                                            <span class="badge badge-soft-primary mb-2">Mobile App</span>
+                                            <h5 class="my-1 font-15">Mobile Account Setting</h5>                                                    
+                                            <p class="mb-2 text-muted fw-semibold font-13 text-break">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+                                            <hr class="hr-dashed">
+                                            <div class="row justify-content-center">
+                                                <div class="col-6 align-self-center">
+                                                    <ul class="list-inline mb-0">                                                                    
+                                                        <li class="list-item d-inline-block mr-2">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-format-list-bulleted text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">0/5</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="list-item d-inline-block">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-comment-outline text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">3</span>
+                                                            </a>                                                                               
+                                                        </li>
+                                                    </ul>
+                                                </div><!--end col-->
+                                                <div class="col-6 align-self-center">
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-1.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-9.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                </div><!--end col-->
+                                            </div><!--end row-->
+                                        </div><!--end card-body-->
+                                    </div><!--End project-task-card--> 
+                                    <div class="project-task-card mb-3">
+                                        <div class="card-body">
+                                            <div class="dropdown d-inline-block float-end">
+                                                <a class="dropdown-toggle mr-n2 mt-n2" id="drop2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                    <i class="las la-ellipsis-v font-14 text-muted"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="drop2">
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                            </div><!--end dropdown-->
+                                            <i class="mdi mdi-circle-outline mt-n2 font-14 text-warning"></i>
+                                            <span class="badge badge-soft-primary mb-2">Mobile App</span>
+                                            <h5 class="my-1 font-15">Mobile Account Setting</h5>                                                    
+                                            <p class="mb-2 text-muted fw-semibold font-13 text-break">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+                                            <hr class="hr-dashed">
+                                            <div class="row justify-content-center">
+                                                <div class="col-6 align-self-center">
+                                                    <ul class="list-inline mb-0">                                                                    
+                                                        <li class="list-item d-inline-block mr-2">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-format-list-bulleted text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">0/5</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="list-item d-inline-block">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-comment-outline text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">3</span>
+                                                            </a>                                                                               
+                                                        </li>
+                                                    </ul>
+                                                </div><!--end col-->
+                                                <div class="col-6 align-self-center">
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-1.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-9.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                </div><!--end col-->
+                                            </div><!--end row-->
+                                        </div><!--end card-body-->
+                                    </div><!--End project-task-card--> 
+                                    <div class="project-task-card mb-3">
+                                        <div class="card-body">
+                                            <div class="dropdown d-inline-block float-end">
+                                                <a class="dropdown-toggle mr-n2 mt-n2" id="drop2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                    <i class="las la-ellipsis-v font-14 text-muted"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="drop2">
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                            </div><!--end dropdown-->
+                                            <i class="mdi mdi-circle-outline mt-n2 font-14 text-warning"></i>
+                                            <span class="badge badge-soft-primary mb-2">Mobile App</span>
+                                            <h5 class="my-1 font-15">Mobile Account Setting</h5>                                                    
+                                            <p class="mb-2 text-muted fw-semibold font-13 text-break">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+                                            <hr class="hr-dashed">
+                                            <div class="row justify-content-center">
+                                                <div class="col-6 align-self-center">
+                                                    <ul class="list-inline mb-0">                                                                    
+                                                        <li class="list-item d-inline-block mr-2">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-format-list-bulleted text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">0/5</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="list-item d-inline-block">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-comment-outline text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">3</span>
+                                                            </a>                                                                               
+                                                        </li>
+                                                    </ul>
+                                                </div><!--end col-->
+                                                <div class="col-6 align-self-center">
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-1.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-9.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                </div><!--end col-->
+                                            </div><!--end row-->
+                                        </div><!--end card-body-->
+                                    </div><!--End project-task-card-->                           
+                                </div><!--End project-task-box-->                                                
+                            </div><!--End project-task-content-inner-->
+                        </div><!--End project-task-content-Col-->
+                        <div class="project-task-content-col">
+                            <div class="project-task-content-inner">
+                                
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="text-uppercase font-15 font-weight-semibold mb-1">In Progress</h5>
+                                        <h6 class="m-0">3 Issues - <span class="text-muted">20 Points</span></h6>
+                                    </div><!--End Col-->
+                                    <div class="col-auto">
+                                        <div class="project-task-add-btn mt-2 me-2">
+                                            <button type="button" class="btn btn-soft-primary btn-icon-square-sm">
+                                                <i class="ti ti-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div><!--End Col-->
+                                </div><!--End Row-->
+                                <div class="progress me-1 mt-2 bg-success" style="height: 2px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="project-task-box" data-simplebar="">
+                                    <div class="project-task-card mb-3">
+                                        <div class="card-body">
+                                            <div class="dropdown d-inline-block float-end">
+                                                <a class="dropdown-toggle mr-n2 mt-n2" id="drop2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                    <i class="las la-ellipsis-v font-14 text-muted"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="drop2">
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                            </div><!--end dropdown-->
+                                            <i class="mdi mdi-circle-outline mt-n2 font-14 text-warning"></i>
+                                            <span class="badge badge-soft-primary mb-2">Mobile App</span>
+                                            <h5 class="my-1 font-15">Mobile Account Setting</h5>                                                    
+                                            <p class="mb-2 text-muted fw-semibold font-13 text-break">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+                                            <hr class="hr-dashed">
+                                            <div class="row justify-content-center">
+                                                <div class="col-6 align-self-center">
+                                                    <ul class="list-inline mb-0">                                                                    
+                                                        <li class="list-item d-inline-block mr-2">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-format-list-bulleted text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">0/5</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="list-item d-inline-block">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-comment-outline text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">3</span>
+                                                            </a>                                                                               
+                                                        </li>
+                                                    </ul>
+                                                </div><!--end col-->
+                                                <div class="col-6 align-self-center">
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-1.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-9.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                </div><!--end col-->
+                                            </div><!--end row-->
+                                        </div><!--end card-body-->
+                                    </div><!--End project-task-card-->                           
+                                </div><!--End project-task-box-->                                                
+                            </div><!--End project-task-content-inner-->
+                        </div><!--End project-task-content-Col-->
+                        <div class="project-task-content-col">
+                            <div class="project-task-content-inner">
+                                
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="text-uppercase font-15 font-weight-semibold mb-1">Testing</h5>
+                                        <h6 class="m-0">3 Issues - <span class="text-muted">20 Points</span></h6>
+                                    </div><!--End Col-->
+                                    <div class="col-auto">
+                                        <div class="project-task-add-btn mt-2 me-2">
+                                            <button type="button" class="btn btn-soft-primary btn-icon-square-sm">
+                                                <i class="ti ti-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div><!--End Col-->
+                                </div><!--End Row-->
+                                <div class="progress me-1 mt-2 bg-primary" style="height: 2px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="project-task-box" data-simplebar="">
+                                    <div class="project-task-card mb-3">
+                                        <div class="card-body">
+                                            <div class="dropdown d-inline-block float-end">
+                                                <a class="dropdown-toggle mr-n2 mt-n2" id="drop2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                    <i class="las la-ellipsis-v font-14 text-muted"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="drop2">
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                            </div><!--end dropdown-->
+                                            <i class="mdi mdi-circle-outline mt-n2 font-14 text-warning"></i>
+                                            <span class="badge badge-soft-primary mb-2">Mobile App</span>
+                                            <h5 class="my-1 font-15">Mobile Account Setting</h5>                                                    
+                                            <p class="mb-2 text-muted fw-semibold font-13 text-break">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+                                            <hr class="hr-dashed">
+                                            <div class="row justify-content-center">
+                                                <div class="col-6 align-self-center">
+                                                    <ul class="list-inline mb-0">                                                                    
+                                                        <li class="list-item d-inline-block mr-2">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-format-list-bulleted text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">0/5</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="list-item d-inline-block">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-comment-outline text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">3</span>
+                                                            </a>                                                                               
+                                                        </li>
+                                                    </ul>
+                                                </div><!--end col-->
+                                                <div class="col-6 align-self-center">
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-1.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-9.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                </div><!--end col-->
+                                            </div><!--end row-->
+                                        </div><!--end card-body-->
+                                    </div><!--End project-task-card--> 
+                                    <div class="project-task-card mb-3">
+                                        <div class="card-body">
+                                            <div class="dropdown d-inline-block float-end">
+                                                <a class="dropdown-toggle mr-n2 mt-n2" id="drop2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                    <i class="las la-ellipsis-v font-14 text-muted"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="drop2">
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                            </div><!--end dropdown-->
+                                            <i class="mdi mdi-circle-outline mt-n2 font-14 text-warning"></i>
+                                            <span class="badge badge-soft-primary mb-2">Mobile App</span>
+                                            <h5 class="my-1 font-15">Mobile Account Setting</h5>                                                    
+                                            <p class="mb-2 text-muted fw-semibold font-13 text-break">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+                                            <hr class="hr-dashed">
+                                            <div class="row justify-content-center">
+                                                <div class="col-6 align-self-center">
+                                                    <ul class="list-inline mb-0">                                                                    
+                                                        <li class="list-item d-inline-block mr-2">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-format-list-bulleted text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">0/5</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="list-item d-inline-block">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-comment-outline text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">3</span>
+                                                            </a>                                                                               
+                                                        </li>
+                                                    </ul>
+                                                </div><!--end col-->
+                                                <div class="col-6 align-self-center">
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-1.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-9.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                </div><!--end col-->
+                                            </div><!--end row-->
+                                        </div><!--end card-body-->
+                                    </div><!--End project-task-card-->                           
+                                </div><!--End project-task-box-->                                                
+                            </div><!--End project-task-content-inner-->
+                        </div><!--End project-task-content-Col-->
+                        <div class="project-task-content-col">
+                            <div class="project-task-content-inner">
+                                
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="text-uppercase font-15 font-weight-semibold mb-1">Done</h5>
+                                        <h6 class="m-0">3 Issues - <span class="text-muted">20 Points</span></h6>
+                                    </div><!--End Col-->
+                                    <div class="col-auto">
+                                        <div class="project-task-add-btn mt-2 me-2">
+                                            <button type="button" class="btn btn-soft-primary btn-icon-square-sm">
+                                                <i class="ti ti-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div><!--End Col-->
+                                </div><!--End Row-->
+                                <div class="progress me-1 mt-2  border-radius-tr-br bg-danger" style="height: 2px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="project-task-box" data-simplebar="">
+                                    <div class="project-task-card mb-3">
+                                        <div class="card-body">
+                                            <div class="dropdown d-inline-block float-end">
+                                                <a class="dropdown-toggle mr-n2 mt-n2" id="drop2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                    <i class="las la-ellipsis-v font-14 text-muted"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="drop2">
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                            </div><!--end dropdown-->
+                                            <i class="mdi mdi-circle-outline mt-n2 font-14 text-warning"></i>
+                                            <span class="badge badge-soft-primary mb-2">Mobile App</span>
+                                            <h5 class="my-1 font-15">Mobile Account Setting</h5>                                                    
+                                            <p class="mb-2 text-muted fw-semibold font-13 text-break">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+                                            <hr class="hr-dashed">
+                                            <div class="row justify-content-center">
+                                                <div class="col-6 align-self-center">
+                                                    <ul class="list-inline mb-0">                                                                    
+                                                        <li class="list-item d-inline-block mr-2">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-format-list-bulleted text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">0/5</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="list-item d-inline-block">
+                                                            <a class="" href="#">
+                                                                <i class="mdi mdi-comment-outline text-muted"></i>
+                                                                <span class="text-muted font-weight-bold">3</span>
+                                                            </a>                                                                               
+                                                        </li>
+                                                    </ul>
+                                                </div><!--end col-->
+                                                <div class="col-6 align-self-center">
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-1.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                    <a class="float-end" href="#">
+                                                        <img src="assets/images/users/user-9.jpg" alt="user" class="thumb-xs rounded-circle">
+                                                    </a>
+                                                </div><!--end col-->
+                                            </div><!--end row-->
+                                        </div><!--end card-body-->
+                                    </div><!--End project-task-card-->                           
+                                </div><!--End project-task-box-->                                                
+                            </div><!--End project-task-content-inner-->
+                        </div><!--End project-task-content-Col-->
+                    </div><!--End project-task-content-->
+                </div><!--End Col-->
+            </div><!--end row-->                   
+
+        </div><!-- container -->
+
+        <!--Start Rightbar-->
+        <!--Start Rightbar/offcanvas-->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="Appearance" aria-labelledby="AppearanceLabel">
+            <div class="offcanvas-header border-bottom">
+              <h5 class="m-0 font-14" id="AppearanceLabel">Appearance</h5>
+              <button type="button" class="btn-close text-reset p-0 m-0 align-self-center" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">  
+                <h6>Account Settings</h6>
+                <div class="p-2 text-start mt-3">
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="settings-switch1">
+                        <label class="form-check-label" for="settings-switch1">Auto updates</label>
+                    </div><!--end form-switch-->
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="settings-switch2" checked>
+                        <label class="form-check-label" for="settings-switch2">Location Permission</label>
+                    </div><!--end form-switch-->
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="settings-switch3">
+                        <label class="form-check-label" for="settings-switch3">Show offline Contacts</label>
+                    </div><!--end form-switch-->
+                </div><!--end /div-->
+                <h6>General Settings</h6>
+                <div class="p-2 text-start mt-3">
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="settings-switch4">
+                        <label class="form-check-label" for="settings-switch4">Show me Online</label>
+                    </div><!--end form-switch-->
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="settings-switch5" checked>
+                        <label class="form-check-label" for="settings-switch5">Status visible to all</label>
+                    </div><!--end form-switch-->
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="settings-switch6">
+                        <label class="form-check-label" for="settings-switch6">Notifications Popup</label>
+                    </div><!--end form-switch-->
+                </div><!--end /div-->               
+            </div><!--end offcanvas-body-->
+        </div>
+        <!--end Rightbar/offcanvas-->
+         <!--end Rightbar-->
+         
+        <!--Start Footer-->
+        <!-- Footer Start -->
+        <!-- <footer class="footer text-center text-sm-start">
+            &copy; <script>
+                document.write(new Date().getFullYear())
+            </script> Unikit <span class="text-muted d-none d-sm-inline-block float-end">Crafted with <i
+                    class="mdi mdi-heart text-danger"></i> by Mannatthemes</span>
+        </footer> -->
+        <!-- end Footer -->                
+        <!--end footer-->
+    </div>
+    <!-- end page content -->
+</div>
+<!-- end page-wrapper -->

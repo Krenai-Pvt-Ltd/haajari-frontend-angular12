@@ -1,0 +1,597 @@
+<app-header></app-header>
+
+<app-topbar></app-topbar>
+
+<div class="page-wrapper" >
+
+    <!-- Page Content-->
+    <div class="page-content-tab">
+
+        <div class="container-fluid pt-2" >
+            <!-- Page-Title -->
+            <!-- Page-Title -->
+            <!-- <div class="row">
+ad                <div class="col-sm-12">
+                    <div class="page-title-box">
+                        <div class="float-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a routerLink="/dynamic/dashboard">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-items active">/</li>
+                                <li class="breadcrumb-items active">Team Detaile</li>
+                            </ol>
+                        </div>
+                        <h4 class="page-title">Team Details</h4>
+                    </div>
+                </div>
+            </div> -->
+
+
+
+            <div class="row">
+                <div class="col-md-12" >
+                    <div class="team-detail-hadding d-flex align-items-center" style="gap:10px;">
+                        <h5>{{team.name}}</h5>
+
+                        <div class="dropdown d-inline-block">
+                            <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <i class="bi bi-chevron-down font-18 text-muted"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
+                                <a class="dropdown-item" href="#">Open Project</a>
+                                <a class="dropdown-item" href="#">Edit Card</a> 
+                                <a class="dropdown-item" href="#">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">    
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#overview" role="tab" aria-selected="true">Overview</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab" aria-selected="false">Messages</a>
+                            </li>                                                
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#calendar" role="tab" aria-selected="false">Calendar</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane pt-3 active" id="overview" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="members-add">
+                                            <div class="">
+                                                <h5>Members({{team.userList.length}})</h5>
+                                            </div>
+                                            
+                                            <div class="row mt-3"  >
+                                                <div class="col-md-4">
+                                                    <!-- <div class="add-member d-flex align-items-center" style="gap:10px;">
+                                                        <span><i class="bi bi-plus-circle-dotted"></i></span>
+                                                        <p class="mb-0">Add member</p>
+                                                    </div> -->
+                                                    <div class="members-list d-flex align-items-center" style="gap: 10px;" data-bs-toggle="modal" data-bs-target="#addteam" *ngIf="localStorageRoleAdminFlag==true">
+                                                        <span class="members-names">
+                                                            <i class="bi bi-plus"></i>
+                                                        </span>
+                                                        <p class="mb-0">Add member</p>
+                                                    </div>
+                                                    <div class="members-list d-flex align-items-center" style="gap: 10px;" data-bs-toggle="modal" data-bs-target="#addteam" *ngIf="managerIdFlag==true && localStorageRoleAdminFlag==false">
+                                                        <span class="members-names">
+                                                            <i class="bi bi-plus"></i>
+                                                        </span>
+                                                        <p class="mb-0">Add member</p>
+                                                    </div>
+                            
+                                                    <div class="members-list d-flex align-items-center" style="gap: 10px;" data-bs-toggle="modal" data-bs-target="#viewteam" *ngIf="managerIdFlag==false && localStorageRoleAdminFlag==false">
+                                                        <span class="members-names">
+                                                            <i class="bi bi-plus"></i>
+                                                        </span>
+                                                        <p class="mb-0">View Members</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4" *ngFor="let ul of team.userList">
+                                                    <div class="members-list d-flex align-items-center" style="gap: 10px;">
+                                                        <span  *ngIf="ul.image !==null">
+                                                        <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
+                                                       </span>
+
+                                                        <span class="members-name" *ngIf="ul.image===null">{{ul.name[0]}}</span>
+                                                        <p class="mb-0">{{ capitalizeFirstLetter(ul.name) }} <i class="bi bi-patch-check-fill" *ngIf="ul.role=='MANAGER'"></i></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- {{ul.name}} -->
+
+                                        </div>
+                                        <div class="members-add">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <h5>Projects</h5>
+
+                                              
+
+                                                <div class="dropdown d-inline-block">
+                                                    <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                        <i class="bi bi-funnel"></i> Filter
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
+                                                        <a class="dropdown-item" href="#">Open Project</a>
+                                                        <a class="dropdown-item" href="#">Edit Card</a> 
+                                                        <a class="dropdown-item" href="#">Delete</a>
+                                                    </div>
+                                            </div>
+                                            </div>
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-12">
+                                                  
+                                                    <div class="members-list d-flex align-items-center " style="gap: 15px;">
+                                                        <span class="new-add-project">
+                                                            <i class="bi bi-plus"></i>
+                                                        </span>
+                                                        <p class="mb-0">New project</p>
+                                                    </div>
+                                                   
+                                                    <div class="members-list d-flex align-items-center justify-content-between" style="gap: 15px;">
+                                                        <div class="d-flex align-items-center" style="gap: 15px;">
+                                                        <span class="new-add-projects">
+                                                            
+                                                        </span>
+                                                        <p class="mb-0">Cross-functional project plan</p>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-center" style="gap:10px">
+                                                            <div class="">
+                                                            <span class="members-name">YK</span>
+                                                            </div>
+                                                            <div class="">
+                                                                <div class="dropdown d-inline-block">
+                                                                    <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                                        <i class="las la-ellipsis-v font-24 text-muted"></i>
+                                                                    </a>
+                                                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
+                                                                        <a class="dropdown-item" href="#">Open Project</a>
+                                                                        <a class="dropdown-item" href="#">Edit Card</a> 
+                                                                        <a class="dropdown-item" href="#">Delete</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="members-list d-flex align-items-center justify-content-between" style="gap: 15px;">
+                                                        <div class="d-flex align-items-center" style="gap: 15px;">
+                                                        <span class="new-add-projects">
+                                                            
+                                                        </span>
+                                                        <p class="mb-0">Krenai</p>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-center" style="gap:10px">
+                                                            <div class="">
+                                                            <span class="members-name">YK</span>
+                                                            </div>
+                                                            <div class="">
+                                                                <div class="dropdown d-inline-block">
+                                                                    <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                                        <i class="las la-ellipsis-v font-24 text-muted"></i>
+                                                                    </a>
+                                                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
+                                                                        <a class="dropdown-item" href="#">Open Project</a>
+                                                                        <a class="dropdown-item" href="#">Edit Card</a> 
+                                                                        <a class="dropdown-item" href="#">Delete</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+
+                                            </div>
+
+                                        </div>
+                                        <div class="members-add">
+                                            <div class="">
+                                                <h5>Templates</h5>
+                                            </div>
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-12">
+                                                  
+                                                    <div class="members-list d-flex align-items-center " style="gap: 15px;">
+                                                        <span class="new-add-project">
+                                                            <i class="bi bi-plus"></i>
+                                                        </span>
+                                                        <p class="mb-0">New Template</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="members-add">
+                                            <div class="">
+                                                <h5>About Us</h5>
+
+                                                <div class="mt-3 mb-3">
+                                                   
+                                                    <textarea class="form-control" rows="5" id="message" placeholder="Click to add team description"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane p-3" id="messages" role="tabpanel">
+                                <p class="mb-0 text-muted">
+                                    Food truck fixie locavore, accusamus mcsweeney's
+                                    single-origin coffee squid. 
+                                </p>
+                            </div>                                                
+                            <div class="tab-pane p-3" id="calendar" role="tabpanel">
+                                <p class="text-muted mb-0">
+                                    Trust fund seitan letterpress, keytar raw denim keffiyeh etsy.
+                                </p>
+                            </div>
+                        </div>        
+                    </div><!--end card-body-->
+
+                </div>
+            </div>
+
+    </div>
+    </div>
+
+
+
+    <div class="modal fade" id="addteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 600px;" role="document">
+            <div class="modal-content">
+              
+    
+    
+                <div class="modal-header" style="background-color: #fff;">
+                    <h5 class="modal-title m-0" style="color:#111; font-size: 18px;" id="exampleModalDefaultLabel">{{team.name}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div><!--end modal-header-->
+                <div class="modal-body p-0 ">
+
+                    <div class="card-body p-0">    
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#general" role="tab" aria-selected="true">General</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#members-add" role="tab" aria-selected="false">Members</a>
+                            </li>                                                
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#advanced" role="tab" aria-selected="false">Advanced</a>
+                            </li>
+                            
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content contant-scrool">
+                            <div class="tab-pane  p-3 active" id="general" role="tabpanel">
+                             <div class="general-tab-design">
+                                <div class="">
+
+                                    <div class="mb-3">
+                                        <label for="username" style="padding-bottom: 6px; font-size: 13px;"> Organization </label>
+                                        <p>Krenai.com</p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="username" style="padding-bottom: 6px; font-size: 13px;"> Team name </label>
+                                        <input type="text" class="form-control" id="username" placeholder="Team name" name="username" required/>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="username" style="padding-bottom: 6px; font-size: 13px;" > Description </label>
+                                        <textarea class="form-control description" id="exampleFormControlTextarea1" placeholder="Description" rows="5"></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="username" style="padding-bottom: 6px; font-size: 13px;"> License type </label>
+                                        <p>Business</p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="username" class="mb-2" style="font-size: 13px;"> Team status </label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Endorsed <span class="endorsed"><a href="">Upgrade to Hajari Enterprise</a></span><br>
+                                                <p class="endorsed-para">Endorsed teams are recommended by admins in your organization.</p>
+                                            </label>
+                                        </div>                                   
+                                    </div>
+        
+                                    <div class="form-group">
+                                        <label for="username" class="mb-2" style="font-size: 13px;"> Team privacy </label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="" id="radio-one">
+                                            <label class="form-check-label" for="radio-one">
+                                                <i class="bi bi-envelope icon-space"></i> Membership by request<br>
+                                                <p class="endorsed-para">A member has to request to join this team</p>
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="" id="radio-two">
+                                            <label class="form-check-label" for="radio-two">
+                                                <i class="bi bi-lock icon-space"></i>  Private<br>
+                                                <p class="endorsed-para">A member must be invited to join this team</p>
+                                            </label>
+                                        </div>
+                                                                         
+                                    </div>
+
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn updateteam" type="btn">Update Team</button>
+                                    </div>
+
+                                </div>
+                             </div>
+                                
+                              
+                            </div>
+                            <div class="tab-pane p-3" id="members-add" role="tabpanel">
+                                <div class="">
+                                    <div class="">
+                                        <h5>Invite to team</h5>
+                                    </div>
+                                    <div class="">
+                                        <div class="form-group">
+                                            <div class="input-group">                                                                                         
+                                                <input type="text" class="form-control" name="members" id="members" placeholder="Add team members by name or email…" [(ngModel)]="searchQuery" (input)="searchUsers()">
+                                                <button type="button" class="btn btn-de-primary" (click)=" inviteUsers(); addUsersToTeam() ">Invite</button>
+                                                <!-- inviteUsers();  -->
+                                            </div>                                    
+                                        </div>
+                                    </div>
+                                    <div class="modalnote mt-2" *ngIf="showErrorMessageForPresentMembersInTeam">
+                                       <p><i class="bi bi-exclamation-circle"></i> Selected member already present in the team!  </p>
+                                      </div>
+                                    <!-- showErrorMessageForPresentMembersInTeam -->
+                                    
+                                    <!-- ########################################## -->
+                                    <div class="user-dropdown new-membear-list" *ngIf="userList.length > 0">
+                                        <div id="user-item" class="user-item" *ngFor="let user of userList" (click)="toggleUserSelection(user)">
+                                            <div *ngIf="user.image===null">
+                                               
+                                            <span id="user-list-details">
+                                                <span class="members-name"  id="user-first-name-logo">{{user.name[0]}}</span>&nbsp;&nbsp;
+                                                <span class="user-name-email"><b>{{ user.name }}</b> &nbsp; {{ user.email }}</span>
+                                            </span>
+    
+                                            </div>
+    
+                                            <div *ngIf="user.image!==null">
+                                                <span id="user-list-details">
+                                                    <img [src]="user.image" alt="User Logo"> &nbsp;&nbsp; <b>{{ user.name }}</b> &nbsp; {{ user.email }}
+                                                </span> 
+                                            </div>
+                                          
+                                        </div>
+                                      </div>
+                                      <div class="selected-users">
+                                        <div class="d-flex selected-userss align-items-center" *ngFor="let selectedUser of selectedUsers">
+
+                                            <span class="members-namess">{{selectedUser.name[0]}}</span>
+                                            <p class="mb-0"> {{ selectedUser.name }} </p> 
+                                            <span class="remove-icon" style="line-height: 0px;" (click)="removeSelectedUser(selectedUser)"><i class="bi bi-x" style="color:#fff; font-size: 20px;"></i></span>
+                                        
+                                        </div>
+                                      </div>
+                                    <!-- ########################################## -->
+    
+                                    <div class="">
+                                        <div class="">
+                                            <h5>Members</h5>
+                                        </div>
+                                        
+                                        <div class="Members-list-box d-flex align-items-center justify-content-between"  *ngFor="let ul of team.userList let i = index" >
+                                            <div class="d-flex align-items-center" style="gap:10px;">
+                                                <div>
+                                                    <span  *ngIf="ul.image !==null">
+                                                        <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
+                                                       </span>
+                                                    <span class="members-name" *ngIf="ul.image==null">{{ul.name[0]}}</span>
+                                                   <!-- <span class="mamber-list-ui" *ngIf="ul.image==null">{{ul.name[0]}}</span> -->
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0 mt-0">{{ capitalizeFirstLetter(ul.name) }}</h6>
+                                                    <p class="mb-0">{{ul.email}}</p>
+                                                 </div>
+                                            </div>
+                                            <div class="">
+    
+                                                <div class="dropdown d-inline-block" >
+                                                    <!-- <a class="dropdown-toggle" *ngIf="i==0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                        Team admin <i class="bi bi-chevron-down font-14 text-muted"></i>
+                                                    </a> -->
+                                                    <!-- *ngIf="i>0" -->
+                                                    <a class="dropdown-toggle"  id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                        {{ capitalizeFirstLetterAndSmallOtherLetters(ul.role) }} <i class="bi bi-chevron-down font-14 text-muted"></i>
+    
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
+                                                        <a class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
+                                                        <a class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager</a>
+                                                        <a class="dropdown-item" (click)="removeUserFromTeam(team.id,ul.id)">Delete</a>
+                                                    </div>
+                                                </div>
+    
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>                                                
+                            <div class="tab-pane p-3" id="advanced" role="tabpanel">
+                               <div class="advanced">
+                                <p style="color: #000; font-size: 15px; font-weight: 500; margin-bottom: 8px;">Editing permissions</p>
+                                <div class="mb-3">
+                                    <label class="mb-2" style="font-size: 13px;"> Who can edit the team name and description? </label>
+                                    <div class="input-group w-100">
+                                      <div class="dropdown" style="width: 100%;">
+                                        <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            All team members <i class="bi bi-chevron-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
+                                          <li>
+                                            <a class="dropdown-item" >All team members</a>
+                                            <p class="members-description">Any team member can edit the team name and description</p>
+                                          </li>
+                                          <li>
+                                            <a class="dropdown-item" >Only team admins</a>
+                                            <p class="members-description"> Team members cannot edit the team name or description</p>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="mb-3">
+                                    <label class="mb-2" style="font-size: 13px;"> Who can edit the team privacy level and delete the team? </label>
+                                    <div class="input-group w-100">
+                                      <div class="dropdown" style="width: 100%;">
+                                        <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            All team members <i class="bi bi-chevron-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
+                                            <li>
+                                                <a class="dropdown-item" >All team members</a>
+                                                <p class="pr-3 members-description">Any team member can edit the team name and description</p>
+                                              </li>
+                                              <li>
+                                                <a class="dropdown-item" >Only team admins</a>
+                                                <p class="pr-3 members-description">Team members cannot edit the team name or description</p>
+                                              </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <p style="color: #000; font-size: 15px; font-weight: 500; margin-bottom: 8px;">Membership permissions </p>
+                               
+                                  <div class="d-flex justify-content-between align-items-center permissions mt-2">
+                                    <div class="d-flex align-items-center" style="gap:10px;">
+                                        <i class="bi bi-bookmark-check"></i>
+                                        <p class="mb-0 Upgrade-text">Upgrade to Asana Enterprise to edit this team's membership permissions.</p>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn Upgrade" type="button">Upgrade</button>
+                                    </div>
+                                  </div>
+
+                               </div>
+                            </div>
+                           
+                        </div>        
+                    </div><!--end card-body-->
+                  
+                                                                        
+                </div>
+    
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm">Submit</button>
+                </div> -->
+                <!--end modal-footer-->
+            </div><!--end modal-content-->
+        </div><!--end modal-dialog-->
+    </div><!--end modal-->
+
+
+
+
+
+    <!-- ##########################333 view team######################################3333 -->
+
+
+    
+    <div class="modal fade" id="viewteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 600px;" role="document">
+            <div class="modal-content">
+              
+    
+    
+                <div class="modal-header" style="background-color: #fff;">
+                    <h5 class="modal-title m-0" style="color:#111; font-size: 18px;" id="exampleModalDefaultLabel">{{team.name}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div><!--end modal-header-->
+                <div class="modal-body p-0">
+
+                    <div class="card-body p-0">    
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#general" role="tab" aria-selected="true">General</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#members" role="tab" aria-selected="false">Members</a>
+                            </li>                                                
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#advanced" role="tab" aria-selected="false">Advanced</a>
+                            </li>
+                            
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane  p-3 active" id="general" role="tabpanel">
+                                <div class="">
+                                    <div class="">
+                                        <h5>Members</h5>
+                                    </div>
+                                    
+                                    <div class="Members-list-box d-flex align-items-center justify-content-between"  *ngFor="let ul of team.userList let i = index" >
+                                        <div class="d-flex align-items-center" style="gap:10px;">
+                                            <div>
+                                                <span  *ngIf="ul.image !==null">
+                                                    <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
+                                                   </span>
+                                                <span class="members-name" *ngIf="ul.image==null">{{ul.name[0]}}</span>
+                                               <!-- <span class="mamber-list-ui" *ngIf="ul.image==null">{{ul.name[0]}}</span> -->
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0 mt-0">{{ capitalizeFirstLetter(ul.name) }}</h6>
+                                                <p class="mb-0">{{ul.email}}</p>
+                                             </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                              
+                            </div>
+                            <div class="tab-pane p-3" id="members" role="tabpanel">
+                                <p class="mb-0 text-muted">
+                                    Food truck fixie locavore, accusamus mcsweeney's
+                                    single-origin coffee squid. 
+                                </p>
+                            </div>                                                
+                            <div class="tab-pane p-3" id="advanced" role="tabpanel">
+                                <p class="text-muted mb-0">
+                                    Trust fund seitan letterpress, keytar raw denim keffiyeh etsy.
+                                </p>
+                            </div>
+                           
+                        </div>        
+                    </div><!--end card-body-->
+                  
+                                                                        
+                </div>
+    
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm">Submit</button>
+                </div> -->
+                <!--end modal-footer-->
+            </div><!--end modal-content-->
+        </div><!--end modal-dialog-->
+    </div><!--end modal-->

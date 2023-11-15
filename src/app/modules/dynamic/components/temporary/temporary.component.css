@@ -1,0 +1,15 @@
+#user-image{
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+}
+
+.user-info > img{
+    width: 30px;
+    border-radius: 50%;
+}
+
+.user-item > img{
+    width: 30px;
+    border-radius: 50%;
+}
