@@ -357,4 +357,9 @@ export class DataService {
   getTodayEmployeesData(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/today-employees-data`);
   }
+
+  // deleteTeam(id : number): Observable<any>{
+  //   const params = new HttpParams().set("id", id);
+  //   return this.httpClient.delete(`${this.baseUrl}/deleteTeam/Id`, {params});
+  // }
 }
