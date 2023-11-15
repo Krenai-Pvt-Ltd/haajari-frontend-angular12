@@ -1,12 +1,9 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "cli": {
-    "analytics": "6b24b2dd-3560-4d53-9f1c-f085f72c5005"
-  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "hajiri-frontend-angular12": {
+    "hajiri-frontend-angular": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -20,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/hajiri-frontend-angular12",
+            "outputPath": "dist/hajiri-frontend-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -44,8 +41,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "4mb"
                 }
               ],
               "fileReplacements": [
@@ -71,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "hajiri-frontend-angular12:build:production"
+              "browserTarget": "hajiri-frontend-angular:build:production"
             },
             "development": {
-              "browserTarget": "hajiri-frontend-angular12:build:development"
+              "browserTarget": "hajiri-frontend-angular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "hajiri-frontend-angular12:build"
+            "browserTarget": "hajiri-frontend-angular:build"
           }
         },
         "test": {
@@ -105,5 +102,5 @@
       }
     }
   },
-  "defaultProject": "hajiri-frontend-angular12"
+  "defaultProject": "hajiri-frontend-angular"
 }
