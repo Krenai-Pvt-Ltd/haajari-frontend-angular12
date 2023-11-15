@@ -226,6 +226,8 @@ export class TeamDetailComponent implements OnInit {
       localStorage.setItem('managerFunc', JSON.stringify(managerdata));
     }, (error) => {
       console.log(error);
+      window.location.reload();
+
     })
   }
 
@@ -242,6 +244,8 @@ export class TeamDetailComponent implements OnInit {
       console.log(data);
     }, (error) => {
       console.log(error);
+      window.location.reload();
+
     })
   }
 

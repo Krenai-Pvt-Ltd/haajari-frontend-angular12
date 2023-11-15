@@ -25,10 +25,20 @@ model: any;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
 
   ngOnInit(): void {
+    const today = dayjs();
+    const oneWeekAgo = today.subtract(1, 'week');
+
+    this.selected = {
+      startDate: oneWeekAgo,
+      endDate: today
+    };
+    this.updateDateRangeInputValue();
     this.getDataFromDate();
     this.checkingUserRoleMethod();
   }
 
+
+  dateRangeInputValue: string = '';
 
   totalAttendance: number = 0;
   attendanceArrayDate: any = [];
@@ -46,15 +56,17 @@ model: any;
       this.selected = null;
     }
 
+    this.updateDateRangeInputValue();
+
     const res3 = document.getElementById("date-picker-wrapper") as HTMLElement | null;
     if(res3){
       res3.style.display="none";
     }
 
-    const res2 = document.getElementById("date-picker-button") as HTMLElement | null;
-    if(res2){
-      res2.style.display="block";
-    }
+    // const res2 = document.getElementById("date-picker-button") as HTMLElement | null;
+    // if(res2){
+    //   res2.style.display="block";
+    // }
 
   }
 
@@ -109,10 +121,10 @@ model: any;
       res.style.display="block";
     }
 
-    const res2 = document.getElementById("date-picker-button") as HTMLElement | null;
-    if(res2){
-      res2.style.display="none";
-    }
+    // const res2 = document.getElementById("date-picker-button") as HTMLElement | null;
+    // if(res2){
+    //   res2.style.display="none";
+    // }
 
   }
 
@@ -147,5 +159,12 @@ model: any;
     return this.flag;
   }
   
+  updateDateRangeInputValue(): void {
+    if (this.selected) {
+      this.dateRangeInputValue = `${this.selected.startDate.format('DD-MM-YYYY')} - ${this.selected.endDate.format('DD-MM-YYYY')}`;
+    } else {
+      this.dateRangeInputValue = '';
+    }
+  }
 }
 

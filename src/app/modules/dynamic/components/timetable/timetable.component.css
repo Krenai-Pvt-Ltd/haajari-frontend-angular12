@@ -150,11 +150,11 @@ select.form-control {
     display: none;
 }
 
-#date-picker-button{
+/* #date-picker-button{
     background-color: white;
     border: 0.1px solid whitesmoke;
     border-radius: 3px;
-}
+} */
 .total-day{
     position: fixed;
     z-index: 1001;

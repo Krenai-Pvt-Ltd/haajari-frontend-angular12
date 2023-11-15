@@ -52,14 +52,22 @@
                     </div>
                 </div>
                 <div class="form-group mb-0 mt-auto mb-auto">
-                    <input type="text" id="dateRangeInput" applylabel="Okay" startkey="start" endkey="end" firstmonthdayclass="first-day" lastmonthdayclass="last-day" emptyweekrowclass="empty-week-row" emptyweekcolumnclass="empty-week-column" lastdayofpreviousmonthclass="last-previous-day" firstdayofnextmonthclass="first-next-day" name="daterange" autocomplete="off" class="inputdaterange ng-valid ng-dirty ng-touched" ng-reflect-name="daterange" >
+                    <input type="text" id="dateRangeInput" applylabel="Okay" startkey="start" endkey="end" firstmonthdayclass="first-day" lastmonthdayclass="last-day" emptyweekrowclass="empty-week-row" emptyweekcolumnclass="empty-week-column" lastdayofpreviousmonthclass="last-previous-day" firstdayofnextmonthclass="first-next-day" name="daterange" autocomplete="off" class="inputdaterange ng-valid ng-dirty ng-touched" ng-reflect-name="daterange" [(ngModel)]="dateRangeInputValue" (click)="dateRangeButton()">
 
+                    <div id="date-picker-wrapper" class="date-picker-wrapper">
+                        <ngx-daterangepicker-material
+                          id="date-picker-calendar"
+                          (choosedDate)="dateRangeFilter($event)"
+                          [locale]="{ applyLabel: 'Apply', format: 'DD-MM-YYYY' }"
+                        >
+                        </ngx-daterangepicker-material>
+                      </div>
                     
                 </div>
             </div>
 
             <div class="filter">
-              <button id="date-picker-button" class="date-picker-button" (click)="dateRangeButton()">-- Select Date Range--</button>
+              <!-- <button id="date-picker-button" class="date-picker-button" (click)="dateRangeButton()">-- Select Date Range--</button>
               <div id="date-picker-wrapper" class="date-picker-wrapper">
                 <ngx-daterangepicker-material
                   id="date-picker-calendar"
@@ -67,8 +75,8 @@
                   [locale]="{ applyLabel: 'Apply', format: 'DD-MM-YYYY' }"
                 >
                 </ngx-daterangepicker-material>
-              </div>
-                <div>
+              </div> -->
+                <!-- <div>
                     <select class="form-control" id="idDiscount" data-choices="" data-choices-search-false="" data-choices-removeitem="">
                         <option>Project Wise Attendance</option>
                         <option value="all">Kernai</option>
@@ -77,8 +85,8 @@
                         <option value="all">credily</option>
                         <option value="all">SBM</option>
                     </select>
-                </div>
-               
+                </div> -->
+               <br>
               
                 <div>
                     <button type="button" class="btn btn-primary btn-sm">Export</button>     
