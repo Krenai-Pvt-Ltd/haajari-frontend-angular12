@@ -25,6 +25,7 @@ export class TeamComponent implements OnInit{
   ngOnInit(): void {
     // this.getAllUsersByFiltersFunction();
     this.getAllUser();
+    this.getUsersRoleFromLocalStorage();
   }
 
   constructor(private router : Router, private dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService) { 
@@ -224,6 +225,93 @@ export class TeamComponent implements OnInit{
     }
     return name; 
   }
+
+  //  new ############################################33
+
+  localStorageRoleAdminFlag=false;
+  
+  getUsersRoleFromLocalStorage(){
+    const loginDetails = localStorage.getItem('loginData');
+     if(loginDetails!==null){
+      const loginData = JSON.parse(loginDetails);
+
+      if(loginData.role=='ADMIN'){
+        this.localStorageRoleAdminFlag=true;
+      }else if(loginData.role=='USER'){
+        this.localStorageRoleAdminFlag=false;
+      }
+    }
+  }
+
+  capitalizeFirstLetterAndSmallOtherLetters(name: string): string {
+    if (name) {
+      return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    }
+    return name; 
+  }
+
+  assignManagerRoleToMemberMethodCall(teamId: number, userId: number) {
+    this.dataService.assignManagerRoleToMember(teamId,userId).subscribe((data) => {
+      console.log(data);
+      const managerdata = {
+        teamId: teamId,
+        managerId: data.manager.id,
+      };
+      localStorage.setItem('managerFunc', JSON.stringify(managerdata));
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  assignMemberRoleToManagerMethodCall(teamId: number, userId: number){
+    debugger
+    if (localStorage.getItem('managerFunc')) {
+      localStorage.removeItem('managerFunc');
+      console.log('managerFunc removed from localStorage');
+    } else {
+      console.log('managerFunc not found in localStorage');
+    }  
+    this.dataService.assignMemberRoleToManager(teamId,userId).subscribe((data) => {
+      // localStorage.removeItem('managerFunc');
+      console.log(data);
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  removeUserFromTeam(teamId: number, userId: number) {
+    this.dataService.removeUserFromTeam(teamId, userId)
+      .subscribe(
+        response => {
+          console.log('Success:', response);
+        },
+        error => {
+          console.error('Error:', error);
+        }
+      );
+  }
+  teamIid:any;
+  userIid:any;
+
+  toGetTeamId(teamId: number){
+    debugger
+    this.teamIid=teamId;
+    console.log(this.teamIid);
+    this.getTeamMemberById();
+
+  }
+  team:any=[];
+  
+  getTeamMemberById(){
+    debugger
+    this.dataService.getTeamsById(this.teamIid)
+    .subscribe(data => {
+      debugger
+      this.team = data;
+      console.log(this.team);
+    });
+  }
+
   
 }
 
