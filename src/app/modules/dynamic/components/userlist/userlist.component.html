@@ -28,7 +28,7 @@
 
             <form class="searching" role="search" (submit)="searchUsers()">
                 <div class="form-group">
-                  <input class="form-control me-2" type="search" id="searchText" placeholder="Search" (keyup)="searchUsers()" [(ngModel)]="searchText">
+                  <input class="form-control me-2" type="search" id="searchText" placeholder="Search" (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }">
                 </div>
                 <button class="btn btn-outline-success" type="submit">Search</button>
               </form>
