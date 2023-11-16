@@ -3,7 +3,6 @@ import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
-import jwt_decode from "jwt-decode";
 
 
 @Component({
@@ -12,7 +11,6 @@ import jwt_decode from "jwt-decode";
   styleUrls: ['./timetable.component.css']
 })
 export class TimetableComponent implements OnInit {
-  abc: number[] = [];
 datesUpdated($event: TimePeriod) {
 throw new Error('Method not implemented.');
 }
@@ -23,14 +21,24 @@ alwaysShowCalendars: boolean | undefined;
 model: any;
   constructor(private dataService: DataService) { }
 
-  selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null; // Use dayjs here
+  selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
 
   ngOnInit(): void {
+    const today = dayjs();
+    const oneWeekAgo = today.subtract(1, 'week');
+
+    this.selected = {
+      startDate: oneWeekAgo,
+      endDate: today
+    };
+    this.updateDateRangeInputValue();
     this.getDataFromDate();
     this.checkingUserRoleMethod();
   }
 
+
+  dateRangeInputValue: string = '';
 
   totalAttendance: number = 0;
   attendanceArrayDate: any = [];
@@ -48,20 +56,21 @@ model: any;
       this.selected = null;
     }
 
+    this.updateDateRangeInputValue();
+
     const res3 = document.getElementById("date-picker-wrapper") as HTMLElement | null;
     if(res3){
       res3.style.display="none";
     }
 
-    const res2 = document.getElementById("date-picker-button") as HTMLElement | null;
-    if(res2){
-      res2.style.display="block";
-    }
+    // const res2 = document.getElementById("date-picker-button") as HTMLElement | null;
+    // if(res2){
+    //   res2.style.display="block";
+    // }
 
   }
 
   
-totalll: number = 0;
   getDataFromDate(): void {
     if (this.selected) {
       const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
@@ -81,20 +90,19 @@ totalll: number = 0;
       
               debugger
               if (this.myAttendanceData.hasOwnProperty(key)) {
-                this.totalll = 0;
                 const attendanceArray = this.myAttendanceData[key];
 
                 debugger
                 this.attendanceArrayDate=attendanceArray;
                 
-                for (const element of attendanceArray) {
-                  if (element.checkInTime !== null) {
-                    debugger
-                    this.totalll += 1;
-                  }
-                }
+                // for (const element of attendanceArray) {
+                //   if (element.checkInTime !== null) {
+                    
+                //     this.totalll += 1;
+                //   }
+                // }
 
-                this.abc.push(this.totalll);
+                
               }
             }
           }
@@ -113,10 +121,10 @@ totalll: number = 0;
       res.style.display="block";
     }
 
-    const res2 = document.getElementById("date-picker-button") as HTMLElement | null;
-    if(res2){
-      res2.style.display="none";
-    }
+    // const res2 = document.getElementById("date-picker-button") as HTMLElement | null;
+    // if(res2){
+    //   res2.style.display="none";
+    // }
 
   }
 
@@ -151,5 +159,12 @@ totalll: number = 0;
     return this.flag;
   }
   
+  updateDateRangeInputValue(): void {
+    if (this.selected) {
+      this.dateRangeInputValue = `${this.selected.startDate.format('DD-MM-YYYY')} - ${this.selected.endDate.format('DD-MM-YYYY')}`;
+    } else {
+      this.dateRangeInputValue = '';
+    }
+  }
 }
 

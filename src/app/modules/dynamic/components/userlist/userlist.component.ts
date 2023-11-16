@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
-import jwt_decode from "jwt-decode";
 
 @Component({
   selector: 'app-userlist',

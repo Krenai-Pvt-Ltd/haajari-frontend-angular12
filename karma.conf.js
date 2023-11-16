@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/hajari'),
+      dir: require('path').join(__dirname, './coverage/hajiri-frontend-angular'),
       subdir: '.',
       reporters: [
         { type: 'html' },

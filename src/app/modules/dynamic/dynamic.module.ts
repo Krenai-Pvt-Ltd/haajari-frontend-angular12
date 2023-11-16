@@ -55,15 +55,11 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
   ],
   imports: [
     CommonModule,
-    DynamicRoutingModule,
     FormsModule,
+    DynamicRoutingModule,
     ReactiveFormsModule,
     NgxPaginationModule,
     NgxDaterangepickerMd.forRoot(),
-    
-    
-
-    
   ]
 })
 export class DynamicModule { }

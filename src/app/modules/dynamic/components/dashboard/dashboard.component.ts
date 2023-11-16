@@ -1,6 +1,7 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { DataService } from 'src/app/services/data.service';
 
 
 @Component({
@@ -10,12 +11,13 @@ import { Observable } from 'rxjs';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private router : Router) { }
+  constructor(private dataService : DataService, private router : Router) { }
 
-  
+  currentDayEmployeesData : any = [];
 
   ngOnInit(): void {
     // this.checkAccessToken();
+    this.getCurrentDayEmployeesData();
   }
   
 
@@ -25,4 +27,16 @@ export class DashboardComponent implements OnInit {
   //     this.router.navigate(['/dynamic/login']);
   //   }
   // }
+
+
+  getCurrentDayEmployeesData(){
+    this.dataService.getTodayEmployeesData().subscribe((data) => {
+      this.currentDayEmployeesData=data;
+      console.log(this.currentDayEmployeesData);
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+
 }
