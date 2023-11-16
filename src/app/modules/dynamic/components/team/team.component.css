@@ -45,6 +45,18 @@
     padding: 15px;
 }
 
+.members-icon{
+    background-color: #eea2cc;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
 
 span.members-name {
     background-color: #a69ff3;
@@ -153,6 +165,7 @@ span.members-namess {
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 200px;
+  font-size: 16px;
 }
 
 .team-description{
@@ -252,4 +265,16 @@ span.remove-icon:hover {
     background-color: #557ef8;
     padding: 8px 20px;
     color: #fff;
+}
+
+.img-group .avatar-badge {
+    position: absolute;
+    right: 1px;
+    width: 8px;
+    top: 0px;
+    height: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 0 0 2px #fff;
+    box-shadow: 0 0 0 2px #fff;
+    z-index: 2;
 }

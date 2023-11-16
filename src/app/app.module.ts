@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from './shared/shared.module';
 
 
 
@@ -26,7 +27,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     NgxPaginationModule,
     NgxDaterangepickerMd.forRoot(),
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

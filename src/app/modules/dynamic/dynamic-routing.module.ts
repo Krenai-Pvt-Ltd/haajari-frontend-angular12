@@ -19,12 +19,11 @@ import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 import { TemporaryComponent } from './components/temporary/temporary.component';
 import { AuthGuard } from 'src/app/auth/auth-guard';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
-  
-
   { path: 'header', component: HeaderComponent },
   { path: 'topbar', component: TopbarComponent },
   { path: 'timetable', component: TimetableComponent, canActivate: [AuthGuard] },
@@ -40,7 +39,9 @@ const routes: Routes = [
   {path: 'addtoslack', component: AddToSlackComponent, canActivate: [AuthGuard] },
   {path: 'waiting', component: WaitingPageComponent},
   {path: 'team-detail', component: TeamDetailComponent, canActivate: [AuthGuard]},
-  {path: 'temporary', component: TemporaryComponent}
+  {path: 'temporary', component: TemporaryComponent},
+  // {path: 'user-profile', component: UserProfileComponent}, 
+
   ];
 
 @NgModule({
