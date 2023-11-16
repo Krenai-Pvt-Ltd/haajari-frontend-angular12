@@ -202,3 +202,18 @@ select.form-control {
     min-width: 190px;
     text-align: center;
 }
+
+.errorboxmain {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fff;
+}
+
+.create-team{
+    background-color: #557ef8;
+    padding: 8px 20px;
+    color: #fff;
+}
