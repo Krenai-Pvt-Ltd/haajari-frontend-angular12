@@ -38,15 +38,14 @@ const routes: Routes = [
   {path: 'slackauth', component: SlackAuthComponent },
   {path: 'addtoslack', component: AddToSlackComponent},
   {path: 'waiting', component: WaitingPageComponent},
-<<<<<<< HEAD
   {path: 'team-detail', component: TeamDetailComponent, canActivate: [AuthGuard]},
   {path: 'temporary', component: TemporaryComponent},
   {path: 'user-profile', component: UserProfileComponent}, 
 
-=======
-  {path: 'team-detail', component: TeamDetailComponent},
-  {path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard]}
->>>>>>> 39086eadea062b881b253ba7f281bf51a15b1305
+
+//   {path: 'team-detail', component: TeamDetailComponent},
+//   {path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard]}
+// >>>>>>> 39086eadea062b881b253ba7f281bf51a15b1305
   ];
 
 @NgModule({
