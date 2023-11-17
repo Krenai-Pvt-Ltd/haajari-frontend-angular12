@@ -312,6 +312,17 @@ export class TeamComponent implements OnInit{
     });
   }
 
+
+  deleteTeamByTeamId(teamId: number){
+    this.dataService.deleteTeam(teamId, this.getLoginDetailsRole()).subscribe(response =>{
+        console.log("Team Deleted Successfully");
+        // location.reload();
+    },error => {
+      console.error(error);
+      // location.reload();
+    });
+  }
+
   
 }
 
