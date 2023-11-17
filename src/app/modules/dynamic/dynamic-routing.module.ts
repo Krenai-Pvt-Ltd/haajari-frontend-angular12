@@ -40,7 +40,7 @@ const routes: Routes = [
   {path: 'waiting', component: WaitingPageComponent},
   {path: 'team-detail', component: TeamDetailComponent, canActivate: [AuthGuard]},
   {path: 'temporary', component: TemporaryComponent},
-  // {path: 'user-profile', component: UserProfileComponent}, 
+  {path: 'user-profile', component: UserProfileComponent}, 
 
   ];
 
