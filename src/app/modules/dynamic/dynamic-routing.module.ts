@@ -19,6 +19,7 @@ import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 import { TemporaryComponent } from './components/temporary/temporary.component';
 import { AuthGuard } from 'src/app/auth/auth-guard';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },

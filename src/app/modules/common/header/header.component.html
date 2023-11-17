@@ -7,8 +7,8 @@
                 <img src="assets/images/logo-sm.png" alt="logo-small" class="logo-sm">
             </span> -->
             <span>
-                <img src="assets/images/hajri-logo.jpeg" alt="logo-large" class="logo-lg logo-light" style="height: 50px;">
-                <img src="assets/images/hajri-logo.jpeg" alt="logo-large" class="logo-lg logo-dark" style="height: 50px;">
+                <img src="assets/images/hajiri-white.png" alt="logo-large" class="logo-lg logo-light" style="height: 50px;">
+                <img src="assets/images/hajiri-white.png" alt="logo-large" class="logo-lg logo-dark" style="height: 50px;">
             </span>
         </a>
     </div>
@@ -36,7 +36,7 @@
                     
 
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/dynamic/timetable">
+                        <a class="nav-link" (click)="temp()" >
                             <i class="bi bi-table menu-icon"></i>
                             <span>Timetable</span>
                         </a>
@@ -44,8 +44,8 @@
                     </li><!--end nav-item-->
 
 
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/dynamic/project" >
+                    <li class="nav-item" routerLink="/dynamic/project">
+                        <a class="nav-link"  >
                             <i class="bi bi-list-task menu-icon"></i>
                             <span>Project</span>
                         </a>
@@ -53,7 +53,7 @@
                     </li><!--end nav-item-->
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/dynamic/team" >
-                            <i class="bi bi-list-task menu-icon"></i>
+                            <i class="bi bi-people-fill menu-icon"></i>
                             <span>Team</span>
                         </a>
                        
@@ -75,7 +75,9 @@
                     </li><!--end nav-item-->
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/dynamic/userlist">
-                            <i class="bi bi-person-lines-fill menu-icon"></i> <span>User List</span>
+                            <!-- <i class="bi bi-person-lines-fill "></i> -->
+                            <i class="bi bi-list-check menu-icon"></i>
+                            <span>User List</span>
                         </a>
                     </li><!--end nav-item-->
                     <li class="nav-item">

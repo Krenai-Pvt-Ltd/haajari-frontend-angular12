@@ -40,4 +40,8 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/dynamic/login']);
   }
 
+  temp(){
+    console.log("CLICKED")
+    this.router.navigate(["/dynamic/timetable"])
+  }
 }
