@@ -24,7 +24,7 @@ export class AppComponent {
   }
 
   private shouldHideHeader(url: string): boolean {
-    const urlsToHideHeader = [Key.LOGIN, Key.ONBOARDING];
+    const urlsToHideHeader = [Key.LOGIN, Key.ONBOARDING, Key.SLACKAUTH];
 
     return urlsToHideHeader.includes(url);
   }
