@@ -17,7 +17,11 @@ password: any;
 
   ngOnInit(): void {
 
+<<<<<<< HEAD
     const loginData = {id: 1, name: "richa", role: "ADMIN", orgRefId: 1, httpCustomStatus: "UPDATED"};
+=======
+    const loginData = {id: 117, name: "richa", role: "USER", orgRefId: 1, httpCustomStatus: "UPDATED"};
+>>>>>>> 39086eadea062b881b253ba7f281bf51a15b1305
     localStorage.setItem('loginData', JSON.stringify(loginData));
   }
 

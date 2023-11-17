@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 <!-- *ngIf="( !Constant.HEADER_RESTRICTION_ROUTES.includes(this._router.url.split('?')[0]))" -->
 <div class="" >
     <app-header ></app-header>
 </div>
 
+=======
+<app-header *ngIf="showHeader"></app-header>
+>>>>>>> 39086eadea062b881b253ba7f281bf51a15b1305
 <app-topbar></app-topbar>
 <router-outlet></router-outlet>
