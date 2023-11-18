@@ -22,4 +22,7 @@ export class Key{
     public static WATING = `${Key.DYNAMIC}/waiting`;
     public static TEAMDETAIL = `${Key.DYNAMIC}/team-detail`;
 
+
+
+    public static HEADER_RESTRICTION_ROUTES = ["/","/dynamic/login", "/auth/supplier-type", "/auth/industry", "/auth/register", "/auth/reset", "/auth/store-onboarding", "/auth/employee-onboarding", "/store/setting/website", "/auth/personal-details", "/auth/business-details", "/auth/payment-details"];
 }
