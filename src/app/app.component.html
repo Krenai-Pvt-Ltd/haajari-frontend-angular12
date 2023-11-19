@@ -8,5 +8,10 @@
         <app-header></app-header>
     </div>
 </div>
-<app-topbar></app-topbar>
+
+<div class="container-scroller" *ngIf="( !key.TOPBAR_RESTRICTION_ROUTES.includes(this._router.url.split('?')[0]))">
+    <div class="horizontal-menu">
+        <app-topbar></app-topbar>
+    </div>
+</div>
 <router-outlet></router-outlet>

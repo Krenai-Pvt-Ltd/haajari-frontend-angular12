@@ -1,7 +1,7 @@
 export class Key{
     public static ENDPOINT = 
-    "http://localhost:8080/api/v1/attendance"
-    // "https://backend.hajiri.work/api/v1/attendance"; 
+    //"http://localhost:8080/api/v1/attendance"
+    "https://backend.hajiri.work/api/v1/attendance"; 
 
 
     public static DYNAMIC = "/dynamic";
@@ -24,5 +24,7 @@ export class Key{
 
 
 
-    public static HEADER_RESTRICTION_ROUTES = ["/","/dynamic/login", "/auth/supplier-type", "/auth/industry", "/auth/register", "/auth/reset", "/auth/store-onboarding", "/auth/employee-onboarding", "/store/setting/website", "/auth/personal-details", "/auth/business-details", "/auth/payment-details"];
+    public static HEADER_RESTRICTION_ROUTES = ["/","/dynamic/login", "/dynamic/onboarding", "/dynamic/slackauth"];
+    
+    public static TOPBAR_RESTRICTION_ROUTES = ["/","/dynamic/login", "/dynamic/onboarding", "/dynamic/slackauth"];
 }

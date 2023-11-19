@@ -1,3 +1,4 @@
+
 import { Component, ViewChild } from '@angular/core';
 import { Router, NavigationEnd, RouterEvent } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -11,7 +12,8 @@ import { Key } from './constant/key';
 })
 export class AppComponent {
   title = 'hajari';
-  showHeader: boolean = true;
+
+  //showHeader: boolean = true;
 
   readonly key = Key;
   _router : any;
@@ -26,10 +28,11 @@ export class AppComponent {
   //     this.showHeader = !this.shouldHideHeader(event.url);
   //   });
   // }
-
   // private shouldHideHeader(url: string): boolean {
-  //   const urlsToHideHeader = [Key.LOGIN, Key.ONBOARDING];
+  //   const urlsToHideHeader = [Key.LOGIN, Key.ONBOARDING, Key.SLACKAUTH];
 
   //   return urlsToHideHeader.includes(url);
   // }
 }
+
+
