@@ -38,8 +38,8 @@ const routes: Routes = [
   {path: 'slackauth', component: SlackAuthComponent },
   {path: 'addtoslack', component: AddToSlackComponent},
   {path: 'waiting', component: WaitingPageComponent},
-  {path: 'team-detail', component: TeamDetailComponent, canActivate: [AuthGuard]},
-  {path: 'temporary', component: TemporaryComponent},
+  {path: 'team-detail', component: TeamDetailComponent},
+  {path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard]},
   {path: 'user-profile', component: UserProfileComponent}, 
 
 
