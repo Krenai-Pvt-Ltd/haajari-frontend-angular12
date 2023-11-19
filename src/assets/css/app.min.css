@@ -271,7 +271,7 @@ body.dark-topbar .app-search form .form-control:focus {
     background-color: #fff;
     border-bottom: 1px solid #eceff5;
     border-right: 1px solid #eceff5;
-    text-align: center
+    text-align: left;
 }
 
 .left-sidebar .brand .logo {
@@ -710,7 +710,8 @@ body.dark-sidebar .left-sidebar {
 body.dark-sidebar .left-sidebar .brand {
     background-color: #fff;
     border-bottom: 1px solid #fff;
-    padding-top: 20px;
+    padding-top: 10px;
+    padding-left: 20px;
 }
 
 body.dark-sidebar .left-sidebar .brand .logo .logo-lg {

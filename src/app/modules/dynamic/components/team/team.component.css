@@ -278,3 +278,17 @@ span.remove-icon:hover {
     box-shadow: 0 0 0 2px #fff;
     z-index: 2;
 }
+
+.app-emptiy-notifaction{
+    background-color: #fff;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
+
+}
+
+.app-emptiy-notifaction p{
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 23px;
+}

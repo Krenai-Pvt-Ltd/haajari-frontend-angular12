@@ -130,9 +130,11 @@
 } */
 
 .sc-485d66d8-0.sc-39e987ab-0.iZfNPZ.irmdrk.sc-3ee1404a-4.izZYaK {
-    font-size: 11px;
+    font-size: 0.625rem;
     padding-left: 12px;
     padding-bottom: 5px;
+    color: #697786;
+    font-weight: 600;
 }
 
 .menu-body.navbar-vertical {
@@ -147,8 +149,8 @@
 
 span.members-namess {
     background-color: #a69ff3;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -7,8 +7,8 @@
                 <img src="assets/images/logo-sm.png" alt="logo-small" class="logo-sm">
             </span> -->
             <span>
-                <img src="assets/images/hajiri-black.png" alt="logo-large" class="logo-lg logo-light" style="height: 30px;">
-                <img src="assets/images/hajiri-black.png" alt="logo-large" class="logo-lg logo-dark" style="height: 30px;">
+                <img src="assets/images/hajiri-black.png" alt="logo-large" class="logo-lg logo-light" style="height: 20px;">
+                <img src="assets/images/hajiri-black.png" alt="logo-large" class="logo-lg logo-dark" style="height: 20px;">
             </span>
         </a>
     </div>
@@ -24,7 +24,9 @@
                         <li class="dagRMy" routerLink="/dynamic/dashboard">
                             <a href=""  class="dashboard-list-active iUctsy">
 
-                                <span class="evIlxu"> <i class="bi bi-house-door menu-icon pr-2"></i> Dashboard</span>
+                                <span class="evIlxu"> 
+                                    <i class="bi bi-house-door menu-icon pr-2"></i>
+                                     Dashboard</span>
                             </a>
                         </li>
                     </ul>
@@ -53,7 +55,7 @@
                     <a href="" class="sc-3ee1404a-9 iUctsy-new" >
                         <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
                 </div>
-                <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-people-fill menu-icon"></i> Team</span>
+                <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-people menu-icon"></i> Team</span>
             </a>
             </li>
             <li class="sc-3ee1404a-7 dagRMy" routerLink="/dynamic/task-manager">
@@ -185,16 +187,20 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
 
-                                    
-                                    <div class="manager-list">
-                                       <a class="dropdown-item" >What's new?</a>
-                                    </div>
-                                    <div class="manager-list">
-                                        <a class="dropdown-item">Refer a friend</a>
+                                    <div class="manager-list" style="cursor: pointer;">
+                                        <a class="dropdown-item"> <i class="bi bi-gear" style="padding-right: 10px;"></i> Account Settings</a>
                                      </div>
-                                    <div class="manager-list remove-team">
+
+                                     <div class="manager-list" style="cursor: pointer;">
+                                        <a class="dropdown-item"> <i class="bi bi-rocket" style="padding-right: 10px;"></i> What's new?</a>
+                                     </div>
+                                
+                                    <div class="manager-list" style="cursor: pointer;">
+                                        <a class="dropdown-item"> <i class="bi bi-gift" style="padding-right: 10px;"></i> Refer a friend</a>
+                                     </div>
+                                    <div class="manager-list remove-team" (click)="onLogout()" style="cursor: pointer;">
                                         <a class="dropdown-item StaticMenuItemBase-button" >
-                                            <span>Log out</span></a>
+                                            <span><i class="bi bi-box-arrow-in-left"></i> Log out</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -387,7 +393,7 @@
                 </div>
             </li>
 
-            <li class="dropdown">
+            <!-- <li class="dropdown">
                 <a class="nav-link dropdown-toggle nav-user" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">
                     <div class="d-flex align-items-center">
@@ -405,7 +411,8 @@
                 <div class="dropdown-divider mb-0"></div>
                 <a class="dropdown-item" (click)="onLogout()"><i class="ti ti-power font-16 me-1 align-text-bottom"></i> Logout</a>
             </div>
-            </li><!--end topbar-profile-->
+            </li> -->
+            <!--end topbar-profile-->
             <!-- <li class="notification-list">
                 <a class="nav-link arrow-none nav-icon offcanvas-btn" href="#" data-bs-toggle="offcanvas" data-bs-target="#Appearance" role="button" aria-controls="Rightbar">
                     <i class="ti ti-settings ti-spin"></i>
