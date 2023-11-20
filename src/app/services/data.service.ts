@@ -281,10 +281,6 @@ export class DataService {
   }
 
 
-  sendInviteToUsers(emails : any): Observable<any>{
-    return this.httpClient.post(`${this.baseUrl}/send-invite-to-users`,emails);
-  }
-
 
   assignManagerRoleToMember(teamId: number, userId: number): Observable<any>{
     const params = new HttpParams()
@@ -327,6 +323,10 @@ export class DataService {
   checkingUserRole(id : number): Observable<boolean>{
     const params = new HttpParams().set("id", id);
     return this.httpClient.get<boolean>(`${this.baseUrl}/team/checking-user-role`, {params});
+  }
+
+  sendInviteToUsers(emails : any): Observable<any>{
+    return this.httpClient.post(`${this.baseUrl}/email/send-invite-to-users`, emails);
   }
 
   getTodayEmployeesData(): Observable<any>{
