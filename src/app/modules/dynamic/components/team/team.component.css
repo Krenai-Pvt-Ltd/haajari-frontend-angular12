@@ -281,9 +281,10 @@ span.remove-icon:hover {
 
 .app-emptiy-notifaction{
     background-color: #fff;
-    margin-bottom: 15px;
+    margin-bottom: 15px !important;
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 6px;
+    margin: 0px;
 
 }
 
@@ -292,3 +293,9 @@ span.remove-icon:hover {
     font-weight: 300;
     line-height: 23px;
 }
+
+.addinh-hiar {
+    font-size: 16px;
+    font-weight: 400;
+}
+

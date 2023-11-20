@@ -5,28 +5,21 @@
     <div class="page-content-tab">
 
         <div class="container-fluid">
-            <!-- Page-Title -->
-            <div class="row">
+           
+            <!-- <div class="row">
                 <div class="col-sm-12">
                     <div class="page-title-box">
-                        <div class="float-end">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a routerLink="/dynamic/dashboard">Dashboard</a>
-                                </li><!--end nav-item-->
-                                <li class="breadcrumb-items active">/</li>
-                                <li class="breadcrumb-items active">Timetable</li>
-                            </ol>
-                        </div>
-                        <h4 class="page-title">Timetable</h4>
+                       
+                        <h4 class="page-title">Attendance Summary</h4>
                     </div>
-                </div><!--end col-->
-            </div>
+                </div>
+            </div> -->
             <!-- end page title end breadcrumb -->
-<div class="row">
+<!-- <div class="row">
     <div class="col-lg-3">
         
     
-    </div><!--end col-->
+    </div>
 
     <div class="col-lg-9d">
 
@@ -65,25 +58,7 @@
             </div>
 
             <div class="filter">
-              <!-- <button id="date-picker-button" class="date-picker-button" (click)="dateRangeButton()">-- Select Date Range--</button>
-              <div id="date-picker-wrapper" class="date-picker-wrapper">
-                <ngx-daterangepicker-material
-                  id="date-picker-calendar"
-                  (choosedDate)="dateRangeFilter($event)"
-                  [locale]="{ applyLabel: 'Apply', format: 'DD-MM-YYYY' }"
-                >
-                </ngx-daterangepicker-material>
-              </div> -->
-                <!-- <div>
-                    <select class="form-control" id="idDiscount" data-choices="" data-choices-search-false="" data-choices-removeitem="">
-                        <option>Project Wise Attendance</option>
-                        <option value="all">Kernai</option>
-                        <option value="all">1PYQ</option>
-                        <option value="all">Owm</option>
-                        <option value="all">credily</option>
-                        <option value="all">SBM</option>
-                    </select>
-                </div> -->
+            
                <br>
               
                 <div>
@@ -95,58 +70,6 @@
         <div class="row mt-3">
             <div class="col-md-12">
                 <div class="timetable-box table-responsive">
-                    <!-- <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>
-                                    <h4>1 August</h4>
-                                    <p>Monday</p>
-                                </th>
-                                <th>
-                                    <h4>2 August</h4>
-                                    <p>Monday</p>
-                                </th>
-                                <th>
-                                    <h4>3 August</h4>
-                                    <p>Monday</p>
-                                </th>
-                                <th>
-                                    <h4>4 August</h4>
-                                    <p>Monday</p>
-                                </th>
-                                <th>
-                                    <h4>5 August</h4>
-                                    <p>Monday</p>
-                                </th>
-                                <th>
-                                    <h4>6 August</h4>
-                                    <p>Monday</p>
-                                </th>
-                                <th>
-                                    <h4>7 August</h4>
-                                    <p>Monday</p>
-                                </th>
-                                <th>
-                                    <h4>8 August</h4>
-                                    <p>Monday</p>
-                                </th>
-                                <th>
-                                    <h4>9 August</h4>
-                                    <p>Monday</p>
-                                </th>
-                                <th>
-                                    <h4>10 August</h4>
-                                    <p>Monday</p>
-                                </th>
-
-                            </tr>
-                        </thead>
-                    </table> -->
-
-
-
-                    
 
                     <table class="table table-bordered time-table-list">
                         <thead>
@@ -180,9 +103,9 @@
                             <td *ngFor="let attendance of entry.value">
                                 <div *ngIf="attendance.checkInTime !== null">
                                   <p><i class="bi bi-box-arrow-in-right mr-2 today-in"></i> {{ attendance.checkInTime | timeFormat}}</p>
-                                  <!-- *ngIf="attendance.checkOutTime !== null" -->
+                                 
                                   <p><i class="bi bi-box-arrow-left mr-2"></i> {{ attendance.checkOutTime | timeFormat}}</p>
-                                  <!-- *ngIf="attendance.breakDuration !== '0 hours, 0 minutes, 0 seconds'" -->
+                          
                                   <p ><i class="bi bi-pause-btn"></i>{{attendance.breakCount}} - ({{attendance.breakDuration | durationFormat}})</p>
                                   <p><i class="bi bi-stopwatch mr-2"></i> {{ attendance.duration | durationFormat }}</p>
                                 </div>
@@ -191,7 +114,7 @@
                                 </div>
                               </td>
                               <td class="css-odmd51">
-                                <!-- <p><i class="bi bi-stopwatch mr-2"></i> 8h 53m</p> -->
+                           
                                 <p><i class="bi bi-calendar-event"></i>{{entry.value[0].totalPresentDays}} Present Days</p>
                             </td>
                             
@@ -202,33 +125,25 @@
                       </table>
 
 
-                      <!-- <div class="row">
-                        <div class="col-md-12">
-                            <div class="errorboxmain text-center mb-3">
-                                <div class="errorboxinner">
-                                    <div class="errorboxplaceholder mb-2">
-                                        <img  width="70px" height="70px" src="assets/images/addnewproduct.svg" class="emptyImage change-image" alt="No Data Found">
-                                    </div>
-                                    <h4>No Deta Found</h4>
-                                    <p>Lorem Ipsum is simply dummy text of the printing</p>
-                                </div>
-    
-                            </div>
-                        </div>
-                        
-                    </div> -->
+                    
 
                     <div class="row app-emptiy-notifaction">
-                        <div class="col-md-6 d-flex align-items-center justify-content-center">
-                             <div class="">
+                        <div class="col-md-6 d-
+                        flex align-items-center justify-content-center">
+                             <div ccol-md-6la
+                             ss="">
                                 <h4>No time off requests</h4>
                                 <p>When your team submits time off requests,<br> they appear here.</p>
+
+                                <div class="mb-3">
+                                    <a href="" class="addinh-hiar">Learn about time off <i class="bi bi-arrow-up-right" style="padding-left: 8px; font-size: 12px; color: #557ef8; font-weight: bold;"></i></a>
+                                </div>
                              </div>
                         </div>
                         <div class="col-md-6">
     
                             <div class="">
-                                <img src="assets/images/time.jpg" style="width:100%;">
+                                <img src="assets/images/enpty-1.png" style="width:100%;">
                             </div>
     
                         </div>
@@ -239,8 +154,272 @@
         </div>
      
                         
-    </div><!--end col-->
+    </div>
+</div> -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="add-filtter d-flex align-items-center justify-content-end" style="gap:10px;">
+            <p>Unprocessed Logs <i class="bi bi-list-ol"></i></p>
+            <p style="color:#a1a0a0;">|</p>
+            <p>Daily Report <i class="bi bi-download"></i></p>
+            <p style="color:#a1a0a0;">|</p>
+            <p>Settings <i class="bi bi-gear"></i></p>
+        </div>
+    </div>
+
 </div>
+<div class="attendance-sheet mt-3">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="date-all-approved d-flex align-items-center" style="gap:20px">
+                <span class="approved-left active-color"><i class="bi bi-chevron-left"></i></span>
+                <h5>19 Nov 2023</h5>
+                <span class="approved-right  "><i class="bi bi-chevron-right"></i></span>
+
+                <span class="cal-icon"><i class="bi bi-calendar3"></i></span>
+            </div>
+
+        </div>
+        <div class="col-md-6 d-flex align-items-center justify-content-end">
+            <div class="all-approved">
+                <p class="mb-0"><i class="bi bi-check-circle-fill" style="padding-right: 5px;"></i> All Approved</p>
+            </div>
+        </div>
+    </div>
+    <div class="attendance-deta mb-2 mt-3 ">
+        <div class="d-flex align-items-center justify-content-between">
+        <div class="staf">
+            <p>Total Staf</p>
+            <h5>28</h5>
+        </div>
+        <div class="staf">
+            <p>Present</p>
+            <h5>22</h5>
+        </div>
+        <div class="staf">
+            <p>Absent</p>
+            <h5>2</h5>
+        </div>
+        <div class="staf">
+            <p>Half Day</p>
+            <h5>0</h5>
+        </div>
+        <div class="staf">
+            <p>OverTime Hours </p>
+            <h5>00:00</h5>
+        </div>
+        <div class="staf">
+            <p>Fine Hours</p>
+            <h5>00:00</h5>
+        </div>
+        <div class="staf">
+            <p>Paid Leave</p>
+            <h5>5</h5>
+        </div>
+    </div>
+
+    </div>
+</div>
+
+
+<div class="search-bar mt-3 mb-3">
+    <div class="row">
+       <div class="col-md-12">
+           <div class="searchbr-ui">
+            <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
+                <div class="form-group">
+                    <input type="search" id="searchText" placeholder="Search Staff By Name, Phone Number or EmployeeID" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;" >
+                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
+                </div>
+            </form>
+           </div>
+       </div>
+    </div>
+</div>
+
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <div class="monthly-heading">
+            <h5 class="d-flex align-items-center" style="gap:10px;">Monthly Regular <span class="monthly-span">2</span></h5>
+        </div>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end align-items-center">
+        <div class="row">
+            <div class="dropdown" >
+                <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                 A to Z <i class="bi bi-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
+                  <li><a class="dropdown-item">Z to A</a></li>
+                </ul>
+              </div>
+        </div>
+    </div>
+</div>
+<div class="monthly-section">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="Regular-data">
+                <h5>Yogesh Yadav <span class="attendance-id">123</span></h5>
+                <p>Not Marked</p>
+                <div class="add-note d-flex" style="gap:10px">
+                    <a href=""> Add Note</a>
+                    <a>|</a>
+                    <a href=""> View Logs</a>
+                </div>
+                
+
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="in-time">
+                       <span>In </span><span>|</span> <p class="mb-0">10:00 AM</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Out </span> <span>|</span><p class="mb-0">07:10 PM</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Total Hours </span><span>|</span> <p class="mb-0">09:00 H</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Break </span> <span>|</span><p class="mb-0">01:00 PM</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Back </span> <span>|</span><p class="mb-0">02:00 AM</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Total Hours </span><span>|</span> <p class="mb-0">01:10 PM</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div class="monthly-section">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="Regular-data">
+                <h5 routerLink="dynamic/user-profile">Yogesh Yadav <span class="attendance-id">123</span></h5>
+                <p>Not Marked</p>
+                <div class="add-note d-flex" style="gap:10px">
+                    <a href=""> Add Note</a>
+                    <a>|</a>
+                    <a href=""> View Logs</a>
+                </div>
+                
+
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="in-time">
+                       <span>In </span><span>|</span> <p class="mb-0">10:00 AM</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Out </span> <span>|</span><p class="mb-0">07:10 PM</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Total Hours </span><span>|</span> <p class="mb-0">09:00 H</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Break </span> <span>|</span><p class="mb-0">01:00 PM</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Back </span> <span>|</span><p class="mb-0">02:00 AM</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Total Hours </span><span>|</span> <p class="mb-0">01:10 PM</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div class="monthly-section">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="Regular-data" >
+                <h5 > Yogesh Yadav <span class="attendance-id">123</span></h5>
+                <p>Not Marked</p>
+                <div class="add-note d-flex" style="gap:10px">
+                    <a href=""> Add Note</a>
+                    <a>|</a>
+                    <a href=""> View Logs</a>
+                </div>
+                
+
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="in-time">
+                       <span>In </span><span>|</span> <p class="mb-0">10:00 AM</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Out </span> <span>|</span><p class="mb-0">07:10 PM</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Total Hours </span><span>|</span> <p class="mb-0">09:00 H</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Break </span> <span>|</span><p class="mb-0">01:00 PM</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Back </span> <span>|</span><p class="mb-0">02:00 AM</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="in-time">
+                        <span>Total Hours </span><span>|</span> <p class="mb-0">01:10 PM</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
 
 </div>
 </div>
