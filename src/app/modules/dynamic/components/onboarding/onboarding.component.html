@@ -103,11 +103,11 @@
                       data-bs-parent="#accordionExample"
                     >
                     <!-- #companyForm="ngForm" name="myForm" novalidate  -->
-                      <div class="accordion-body">
+                      <div class="accordion-body" >
                         <form
                           #businessInfoForm="ngForm"
                           ngNativeValidate
-                          (ngSubmit)="register()"
+                          (ngSubmit)="registerOrganizationPersonalInformationFun()"
                         >
                           <div class="row">
                             <div class="col-md-4">
@@ -123,7 +123,7 @@
                                   id="username"
                                   placeholder="Enter Company Name ..."
                                   name="username"
-                                  [(ngModel)]="name"
+                                  [(ngModel)]="organizationPersonalInformation.name"
                                   required
                                 />
                                
@@ -143,7 +143,7 @@
                                   id="useremail"
                                   placeholder="Enter email..."
                                   name="useremail"
-                                  [(ngModel)]="email"
+                                  [(ngModel)]="organizationPersonalInformation.email"
                                   required
                                   autocomplete="email"
                                 />
@@ -165,7 +165,7 @@
                                   id="userpassword"
                                   placeholder="Enter Password ..."
                                   name="userpassword"
-                                  [(ngModel)]="password"
+                                  [(ngModel)]="organizationPersonalInformation.password"
                                   required
                                   minlength="6"
                                   autocomplete="current-password"
@@ -305,7 +305,7 @@
                                 <label for="exampleFormControlSelect1" style="padding-bottom: 6px">Select Country</label>
                                 <div class="dropdown">
                                   <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ country ? country : 'Select Country' }} <i class="bi bi-chevron-down"></i>
+                                    {{ organizationPersonalInformation.country ? organizationPersonalInformation.country : 'Select Country' }} <i class="bi bi-chevron-down"></i>
                                   </button>
                                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
                                     <li *ngFor="let c of countries"><a class="dropdown-item" (click)="selectCountry(c.name)">{{ c.name }}</a></li>
@@ -317,7 +317,7 @@
                             <div class="col-md-4">
                               <div class="mb-3">
                                 <label for="exampleFormControlSelect2" style="padding-bottom: 6px">Select State</label>
-                                <select class="form-select" id="exampleFormControlSelect2" name="state" [(ngModel)]="state" required>
+                                <select class="form-select" id="exampleFormControlSelect2" name="state" [(ngModel)]="organizationPersonalInformation.state" required>
                                   <option value="">Select State</option>
                                   <option *ngFor="let s of states" [value]="s">{{ s ? s : 'Select State' }}</option>
                                 </select>
@@ -342,10 +342,12 @@
                                   aria-describedby="inputGroupFileAddon04"
                                   aria-label="Upload"
                                   name="userOrganizationPic"
-                                  [(ngModel)]="organizationPic"
-                                  required
+                                 
+                                 
                                   style="line-height: 31px"
                                 />
+                                <!-- [(ngModel)]="organizationPersonalInformation.organizationPic"
+                                required -->
                                 <!-- <div *ngIf="businessInfoForm.get('organizationPic')?.hasError('required') && businessInfoForm.get('organizationPic')?.touched" class="text-danger">
                                   Brand Logo is required!
                                 </div> -->
@@ -591,14 +593,14 @@
                                 <input
                                   type="checkbox"
                                   id="switch"
-                                  name="checkInStatus"
-                                  [(ngModel)]="dailyNotesData.checkInStatus"
+                                  name="enableCheckInQuestionnaire"
+                                  [(ngModel)]="dailyNotesData.enableCheckInQuestionnaire"
                                   class="d-none"
                                 />
                                 <label
                                   for="switch"
                                   class="hafday"
-                                  id="checkInStatus"
+                                  id="enableCheckInQuestionnaire"
                                   >Toggle</label
                                 >
                               </div>
@@ -608,7 +610,7 @@
 
 
 
-                            <div *ngIf="dailyNotesData.checkInStatus" style="border-top: 1px dashed #ccc; margin-top: 10px;">
+                            <div *ngIf="dailyNotesData.enableCheckInQuestionnaire" style="border-top: 1px dashed #ccc; margin-top: 10px;">
                               <div class="daily-questionnaire">
                                 <div
                                   class="d-flex daily-questionnaire-question justify-content-between"
@@ -652,8 +654,8 @@
                                 <input
                                   type="checkbox"
                                   id="switch2"
-                                  name="checkOutStatus"
-                                  [(ngModel)]="dailyNotesData.checkOutStatus"
+                                  name="enableCheckOutQuestionnaire"
+                                  [(ngModel)]="dailyNotesData.enableCheckOutQuestionnaire"
                                   class="d-none"
                                 />
                                 <label
@@ -666,7 +668,7 @@
                             </div>
                           </div>
 
-                          <div *ngIf="dailyNotesData.checkOutStatus" style="border-top: 1px dashed #ccc; margin-top: 10px;">
+                          <div *ngIf="dailyNotesData.enableCheckOutQuestionnaire" style="border-top: 1px dashed #ccc; margin-top: 10px;">
                             <div class="daily-questionnaire ">
                               <div
                                 class="d-flex daily-questionnaire-question justify-content-between"
@@ -694,12 +696,7 @@
                             </div>
                             </div>
                         </div>
-
-
-
-
-
-                       
+   
                         </div>
 
                      

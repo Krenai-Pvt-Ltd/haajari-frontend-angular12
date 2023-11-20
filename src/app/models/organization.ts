@@ -5,7 +5,7 @@ export class Organization {
     password!:string
     country!:number;
     state!:string; 
-    organizationPic!:any;
+    // organizationPic!:any;
     token:any;
     webhook: any;
     appId : any;

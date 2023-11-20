@@ -19,8 +19,10 @@ import { DataService } from "src/app/services/data.service";
 import { Organization } from "src/app/models/organization";
 import { ShiftTimings } from "src/app/models/shifttimings";
 import { DailyQuestionsCheckout } from "src/app/models/daily-questions-check-out";
-import { DailyNotes } from "src/app/models/daily-notes";
 import { DailyQuestionsCheckIn } from "src/app/models/daily-questions-check-in";
+import { OrganizationPersonalInformation } from "src/app/models/organization-personal-information";
+import { error } from "console";
+import { OrganizationDailyQuestion } from "src/app/models/organization-daily-question";
 
 @Component({
   selector: "app-onboarding",
@@ -46,7 +48,7 @@ c: any;
   }
 
   ngOnInit(): void {
-    this.getOrganization();
+    this. getOrganizationDetails();
     this.getShifts();
     this.settingOrgId();
     this.getDailyQuestionCheckIn();
@@ -63,15 +65,15 @@ c: any;
     // });
   }
   id: number = this.getLoginDetailsOrgRefId();
-  name: string = "";
-  email: string = "";
-  password: string = "";
-  state: string = "";
-  country: string = "";
-  organizationPic: File | null = null;
+  // name: string = "";
+  // email: string = "";
+  // password: string = "";
+  // state: string = "";
+  // country: string = "";
+  // organizationPic: File | null = null;
 
   states: string[] = [];
-  organization!: Organization;
+  // organization!: Organization;
   orgI: any;
 
   countries = [
@@ -191,7 +193,7 @@ c: any;
   ];
 
  selectCountry(selectedCountry: string) {
-    this.country = selectedCountry;
+    this.organizationPersonalInformation.country = selectedCountry;
     this.updateStates();
   }
 
@@ -199,25 +201,25 @@ c: any;
     this.leaveData.leaveType = selectedLeave;
   }
   updateStates() {
-    const selectedCountryData = this.countries.find((c) => c.name === this.country);
+    const selectedCountryData = this.countries.find((c) => c.name === this.organizationPersonalInformation.country);
     if (selectedCountryData) {
-      this.states = selectedCountryData.states; // Update the states based on the selected country
+      this.states = selectedCountryData.states; 
     } else {
-      this.states = []; // Clear the states if no country is selected
+      this.states = []; 
     }
   }
 
   
 
 
-  resetForm2() {
-    this.name = "";
-    this.email = "";
-    this.password = "";
-    this.state = "";
-    this.country = "";
-    this.organizationPic = null;
-  }
+  // resetForm2() {
+  //   this.name = "";
+  //   this.email = "";
+  //   this.password = "";
+  //   this.state = "";
+  //   this.country = "";
+  //   this.organizationPic = null;
+  // }
 
   shiftTimingsValid = false;
   // eId:string="";
@@ -226,96 +228,106 @@ c: any;
 
   
 
-  register() {
+  // register() {
+  //   if (this.businessInfoForm.invalid) {
+  //     this.BusinessInfoSetInvalidToggle = true;
+  //     return;
+  //   }
+    
+  //   this.dataService
+  //     .registerOnboardingDetails(
+  //       this.id,
+  //       this.name,
+  //       this.email,
+  //       this.password,
+  //       this.state,
+  //       this.country,
+  //       this.organizationPic
+  //     )
+  //     .subscribe(
+  //       (resultData: any) => {
+  //         console.log(resultData);
+  //         this.country = resultData.country;
+  //         this.state = resultData.state;
+  //         this.loginArray.organizationId = resultData.id;
+  //         this.leaveData.orgId = resultData.id;
+  //         this.dailyQuestionsCheckInData.organnId=resultData.id;
+  //         this.dailyQuestionsData.organId = resultData.id;
+  //         this.dailyNotesData.organiId = resultData.id;
+  //         this.shiftTimingsValid = true;
+         
+  //         this.shiftTimesMessage();
+  //         this.count = 1;
+  //         this.onBusinessInfoCompleted();
+
+          
+         
+  //         this.requestBusinessInfoCloseModel.nativeElement.click();
+         
+  //         this.isSecondSectionOpen = true;
+
+  //         this.setAct1();
+  //         this.orgI = resultData.id;
+  //         localStorage.setItem("orgId", this.orgI);
+         
+         
+  //       },
+  //       (error) => {
+  //         console.log(error.error.message);
+  //       }
+  //     );
+  // }
+
+  organizationPersonalInformation: OrganizationPersonalInformation = {
+    id: 0,
+    name: '',
+    email: '',
+    password: '',
+    state: '',
+    country: '',
+    organization: {
+      id: 0,
+      name: "",
+      email: "",
+      password: "",
+      country: 0,
+      state: "",
+      token: "",
+      webhook: "",
+      appId: "",
+      userToken: "",
+      configureUrl: ""
+    }
+  };
+  registerOrganizationPersonalInformationFun() {
+    debugger
     if (this.businessInfoForm.invalid) {
       this.BusinessInfoSetInvalidToggle = true;
       return;
     }
     
-    this.dataService
-      .registerOnboardingDetails(
-        this.id,
-        this.name,
-        this.email,
-        this.password,
-        this.state,
-        this.country,
-        this.organizationPic
-      )
-      .subscribe(
-        (resultData: any) => {
-          console.log(resultData);
-          this.country = resultData.country;
-          this.state = resultData.state;
-          this.loginArray.organizationId = resultData.id;
-          this.leaveData.orgId = resultData.id;
-          this.dailyQuestionsCheckInData.organnId=resultData.id;
-          this.dailyQuestionsData.organId = resultData.id;
-          this.dailyNotesData.organiId = resultData.id;
-          this.shiftTimingsValid = true;
-          //  this.eId=resultData.email;
-          //  this.pass=resultData.password;
-          //  console.log(this.eId, this.pass);
-          //  this.signUp(this.eId, this.pass)
-          // alert("Organization Registered successfully, Please Click on Shift Timings");
-          // this.resetForm2();
-          // this.orgI = this.organization.id;
-          this.shiftTimesMessage();
-          this.count = 1;
-          this.onBusinessInfoCompleted();
-
-          // this.requestShiftTimingsCloseModel.nativeElement.setAttribute("ariaExpanded", "false");
-         
-          this.requestBusinessInfoCloseModel.nativeElement.click();
-         
-          this.isSecondSectionOpen = true;
-
-          this.setAct1();
-          this.orgI = resultData.id;
-          localStorage.setItem("orgId", this.orgI);
-          //window.location.reload();
-         
-        },
-        (error) => {
-          console.log(error.error.message);
-        }
-      );
-  }
-   
-  settingOrgId() {
-    let orgnIds = this.getLoginDetailsOrgRefId();
-
-    if (orgnIds) {
-      this.loginArray.organizationId = +orgnIds;
-
-      this.leaveData.orgId = +orgnIds;
-      this.dailyQuestionsCheckInData.organnId= +orgnIds;
-      this.dailyQuestionsData.organId = +orgnIds;
-      this.dailyNotesData.organiId = +orgnIds;
-    }
-  }
-
-  // setAct2() {
-  //   this.setActive(1);
-  // }
-
-  // org: Organization[] = [];
-  org: Organization = new Organization();
-  a: number = 0;
-  getOrganization() {
-    this.dataService.getOrg(this.getLoginDetailsOrgRefId()).subscribe(
-      (data) => {
-        this.name = data.name;
-        this.email = data.email;
-        this.password = data.password;
-        debugger
-        this.state = data.state;
-        this.country = data.country;
-        this.organizationPic = data.organizationPic;
-
-        this.updateStates();
+    this.dataService.registerOrganizationPersonalInformation(this.organizationPersonalInformation,  this.id)
+      .subscribe(response => {
+        console.log('org registered successfully:', response.body);
+        this.organizationPersonalInformation.country = response.body.country;
+          this.organizationPersonalInformation.state = response.body.state;
         
-        if (data.country !== null) {
+      },(error) => {
+          console.log(error.error.message);
+      });
+  }
+
+  organizationDetails:any=[];
+
+  getOrganizationDetails(){
+    debugger
+    this.dataService.getOrganizationDetails(this.getLoginDetailsOrgRefId()).subscribe(
+      (data)=> {
+          this.organizationPersonalInformation = data;
+          this.updateStates();
+          
+          console.log(this.organizationPersonalInformation);
+                if (data.country !== null) {
           debugger
           this.setActive(1);
           this.count=1;
@@ -354,12 +366,90 @@ c: any;
         } else {
           this.a = 1;
         }
-      },
-      (error) => {
+      }, (error) => {
         console.log(error);
       }
-    );
+    )
   }
+   
+  settingOrgId() {
+    let orgnIds = this.getLoginDetailsOrgRefId();
+
+    if (orgnIds) {
+      this.loginArray.organizationId = +orgnIds;
+
+      this.leaveData.orgId = +orgnIds;
+      this.dailyQuestionsCheckInData.organnId= +orgnIds;
+      this.dailyQuestionsData.organId = +orgnIds;
+      this.dailyNotesData.organiId = +orgnIds;
+    }
+  }
+
+  // setAct2() {
+  //   this.setActive(1);
+  // }
+
+  // org: Organization[] = [];
+  // org: Organization = new Organization();
+  a: number = 0;
+  // getOrganization() {
+  //   this.dataService.getOrg(this.getLoginDetailsOrgRefId()).subscribe(
+  //     (data) => {
+  //       this.name = data.name;
+  //       this.email = data.email;
+  //       this.password = data.password;
+  //       debugger
+  //       this.state = data.state;
+  //       this.country = data.country;
+  //       this.organizationPic = data.organizationPic;
+
+  //       this.updateStates();
+        
+  //       if (data.country !== null) {
+  //         debugger
+  //         this.setActive(1);
+  //         this.count=1;
+  //         if (this.a == 2) {
+  //           this.setActive(1);
+  //           this.setActive(2);
+  //           this.count=2;
+  //         }
+  //         if (this.a == 3) {
+  //           this.setActive(1);
+  //           this.setActive(2);
+  //           this.setActive(3);
+  //           this.count=3;
+  //         }
+  //         if (this.a == 4) {
+  //           this.setActive(1);
+  //           this.setActive(2);
+  //           this.setActive(3);
+  //           this.setActive(4);
+  //           this.count=4;
+  //         }
+  //         this.requestBusinessInfoCloseModel.nativeElement.click();
+  //       }
+
+  //       if (data.country!==null) {
+  //         this.shiftTimingsValid = true;
+  //         this.onBusinessInfoCompleted();
+  //         this.shiftTimesMessage();
+  //       }
+  //       if (this.a == 4) {
+  //         this.a = 4;
+  //       } else if (this.a == 3) {
+  //         this.a = 3;
+  //       } else if (this.a == 2) {
+  //         this.a = 2;
+  //       } else {
+  //         this.a = 1;
+  //       }
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 
   shifttimings: ShiftTimings = new ShiftTimings();
 
@@ -569,7 +659,7 @@ c: any;
       this.leaveSetInvalidToggle = true;
       return;
     }
-    this.dataService.saveLeave(this.leaveData).subscribe(
+    this.dataService.saveLeave(this.leaveData, this.getLoginDetailsOrgRefId()).subscribe(
       (response) => {
         console.log(response);
         this.savel.push(response);
@@ -679,7 +769,7 @@ c: any;
 
 
   onSaveShiftTimings() {
-    this.dataService.saveShiftTimings(this.loginArray).subscribe(
+    this.dataService.saveShiftTimings(this.loginArray, this.getLoginDetailsOrgRefId()).subscribe(
       (response) => {
         this.dailyQuesValid = true;
         console.log(response);
@@ -881,15 +971,15 @@ c: any;
   // ####################################3333
 
   dailyNotesData: any = {
-    checkInStatus: false,
-    checkOutStatus: false,
+    enableCheckInQuestionnaire: false,
+    enableCheckOutQuestionnaire: false,
     organiId: 0,
   };
 
   @ViewChild("requestDailyQuesCloseModel")
   requestDailyQuesCloseModel!: ElementRef;
 
-  dailyNotes: DailyNotes = new DailyNotes();
+  dailyNotes: OrganizationDailyQuestion = new OrganizationDailyQuestion();
 
   SLeaveValid = false;
   isFourthSectionOpen=false;
@@ -898,7 +988,7 @@ c: any;
     // this.dailyNotes = [];
        
 
-    this.dataService.saveDailyNotes(this.dailyNotesData).subscribe(
+    this.dataService.saveDailyQuestionaire(this.dailyNotesData, this.getLoginDetailsOrgRefId()).subscribe(
       (response) => {
         console.log(response);
         //  this.saveLValid=true;
@@ -919,26 +1009,25 @@ c: any;
       },
       (error) => {
         console.error(error);
-        alert("Error saving leave");
       }
     );
   }
 
   getDailyNotes() {
-    this.dataService.getDailyNotes(this.getLoginDetailsOrgRefId()).subscribe(
+    this.dataService.getDailyQuestionaire(this.getLoginDetailsOrgRefId()).subscribe(
       (data) => {
         // this.dailyNotesData=data;
         this.dailyNotes = data;
 
-        if (data.checkInStatus) {
-          this.dailyNotesData.checkInStatus = true;
+        if (data.enableCheckInQuestionnaire) {
+          this.dailyNotesData.enableCheckInQuestionnaire = true;
         } else {
-          this.dailyNotesData.checkInStatus = false;
+          this.dailyNotesData.enableCheckInQuestionnaire = false;
         }
-        if (data.checkOutStatus) {
-          this.dailyNotesData.checkOutStatus = true;
+        if (data.enableCheckOutQuestionnaire) {
+          this.dailyNotesData.enableCheckOutQuestionnaire = true;
         } else {
-          this.dailyNotesData.checkOutStatus = false;
+          this.dailyNotesData.enableCheckOutQuestionnaire = false;
         }
         if (data) {
           this.SLeaveValid = true;
