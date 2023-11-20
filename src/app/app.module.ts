@@ -12,8 +12,9 @@ import { NavigationEnd, Router, RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 import { HeaderComponent } from './modules/common/header/header.component';
-
-
+import { AngularFireStorage } from '@angular/fire/compat/storage'
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { HeaderComponent } from './modules/common/header/header.component';
     NgxDaterangepickerMd.forRoot(),
     ReactiveFormsModule,
     NgxPaginationModule,
-    SharedModule
+    SharedModule,
+    AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [],
   bootstrap: [AppComponent]

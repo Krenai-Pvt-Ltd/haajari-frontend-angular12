@@ -88,17 +88,6 @@ export class DataService {
     return this.httpClient.put(url, organizationPic);
   }
 
-  saveLeave(leaveData: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/save-leave`, leaveData);
-  }
-
-  getLeave(orgId: any): Observable<any> {
-    const params = new HttpParams().set("id", orgId);
-    return this.httpClient.get<Savel[]>(`${this.baseUrl}/get-leave`, {
-      params,
-    });
-  }
-
   // ##################################################3
 
   getTeamsById(id: any): Observable<any> {
@@ -123,14 +112,6 @@ export class DataService {
     return this.httpClient.get<Organization[]>(this.baseUrl + "/get-org", {
       params,
     });
-  }
-
-  getShiftTimings(orgId: any): Observable<any> {
-    const params = new HttpParams().set("id", orgId);
-    return this.httpClient.get<ShiftTimings[]>(
-      this.baseUrl + "/get-shift-timings-detail",
-      { params }
-    );
   }
 
   // getSaveLeave(orgId:any): Observable<any> {
@@ -166,12 +147,6 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details`,{params});
   }
 
-  saveShiftTimings(shiftTimingsData: any): Observable<any> {
-    return this.httpClient.put(
-      `http://localhost:8080/api/v1/attendance/save-shift-timings`,
-      shiftTimingsData
-    );
-  }
 // #############################################################################
   saveDailyQuestions(dailyQuestionsData: any): Observable<any> {
     return this.httpClient.post(
@@ -357,4 +332,38 @@ export class DataService {
   getTodayEmployeesData(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/today-employees-data`);
   }
+
+  // ###################################################################
+
+  registerOrganizationPersonalInformation(personalInformation: any, organizationId: number): Observable<any> {
+    const params = new HttpParams().set("organization_id", organizationId);
+
+    return this.httpClient.put<any>(`${this.baseUrl}/organization/register`, personalInformation, {params});
+  }
+
+  saveShiftTimings(shiftTiming: any, organizationId: number): Observable<any> {
+    const params = new HttpParams().set("organization_id", organizationId);
+
+    return this.httpClient.put(`${this.baseUrl}/organization-shift-timing/register`, shiftTiming, {params});
+  }
+
+  getShiftTimings(organizationId: number): Observable<any> {
+    const params = new HttpParams().set("organization_id", organizationId);
+
+    return this.httpClient.get<ShiftTimings[]>(`${this.baseUrl}/organization-shift-timing/get/last-detail`, { params } );
+  }
+
+  saveLeave(leaveData: any, organizationId: number): Observable<any> {
+    const params = new HttpParams().set("organization_id", organizationId);
+
+    return this.httpClient.post(`${this.baseUrl}/organization-leave/register`, leaveData, {params});
+  }
+
+  getLeave(organizationId: number): Observable<any> {
+    const params = new HttpParams().set("organization_id", organizationId);
+    return this.httpClient.get<Savel[]>(`${this.baseUrl}/organization-leave/get/all`, {params});
+  }
+
+  // ###########################################################
+
 }
