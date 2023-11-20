@@ -1,6 +1,4 @@
-<app-header></app-header>
 
-<app-topbar></app-topbar>
 
 <div class="page-wrapper" >
 
@@ -37,10 +35,12 @@ ad                <div class="col-sm-12">
                             <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <i class="bi bi-chevron-down font-18 text-muted"></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
+                            <div class="dropdown-menu dropdown-menu-end add-team-detail" aria-labelledby="dLabel1">
                                 <a class="dropdown-item" href="#">Open Project</a>
                                 <a class="dropdown-item" href="#">Edit Card</a> 
-                                <a class="dropdown-item" href="#">Delete</a>
+                                <div class="remove-team">
+                                <a class="dropdown-item StaticMenuItemBase-button" href="#">Delete</a>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -103,6 +103,36 @@ ad                <div class="col-sm-12">
 
                                                         <span class="members-name" *ngIf="ul.image===null">{{ul.name[0]}}</span>
                                                         <p class="mb-0">{{ capitalizeFirstLetter(ul.name) }} <i class="bi bi-patch-check-fill" *ngIf="ul.role=='MANAGER'"></i></p>
+                                                
+
+                                                        <div class="dropdown d-inline-block" >
+                                                            <!-- <a class="dropdown-toggle" *ngIf="i==0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                                Team admin <i class="bi bi-chevron-down font-14 text-muted"></i>
+                                                            </a> -->
+                                                            <!-- *ngIf="i>0" -->
+                                                            <a class="dropdown-toggle"  id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                            <i class="bi bi-chevron-down font-14 text-muted"></i>
+            
+                                                            </a>
+                                                            <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
+        
+                                                                <div class="manager-list">
+                                                                   <a class="dropdown-item" >Make Manager </a>
+                                                                  
+                                                                </div>
+                                                                <div class="manager-list">
+                                                                   <a class="dropdown-item"  >Remove Manager</a>
+                                                                </div>
+                                                                <div class="manager-list">
+                                                                    <a class="dropdown-item">View Profile</a>
+                                                                 </div>
+                                                                <div class="manager-list remove-team">
+                                                                    <a class="dropdown-item StaticMenuItemBase-button" >
+                                                                        <span>Remove from team</span></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -410,7 +440,7 @@ ad                <div class="col-sm-12">
                                                     <p class="mb-0">{{ul.email}}</p>
                                                  </div>
                                             </div>
-                                            <div class="">
+                                            <div class="manegir-dropdown">
     
                                                 <div class="dropdown d-inline-block" >
                                                     <!-- <a class="dropdown-toggle" *ngIf="i==0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -421,10 +451,22 @@ ad                <div class="col-sm-12">
                                                         {{ capitalizeFirstLetterAndSmallOtherLetters(ul.role) }} <i class="bi bi-chevron-down font-14 text-muted"></i>
     
                                                     </a>
-                                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
-                                                        <a class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
-                                                        <a class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager</a>
-                                                        <a class="dropdown-item" (click)="removeUserFromTeam(team.id,ul.id)">Delete</a>
+                                                    <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
+
+                                                        <div class="manager-list">
+                                                           <a class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
+                                                           
+                                                        </div>
+                                                        <div class="manager-list">
+                                                           <a class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager</a>
+                                                        </div>
+                                                        <div class="manager-list">
+                                                            <a class="dropdown-item">View Profile</a>
+                                                         </div>
+                                                        <div class="manager-list remove-team">
+                                                            <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.id,ul.id)">
+                                                                <span>Remove from team</span></a>
+                                                        </div>
                                                     </div>
                                                 </div>
     
@@ -491,6 +533,51 @@ ad                <div class="col-sm-12">
                                     </div>
                                   </div>
 
+
+                                  <div class="mt-3">
+                                    <p style="color: #000; font-size: 13px; font-weight: 500; margin-bottom: 8px; color:#444">Invitations</p>
+                                     <div class="">
+                                    <div class="d-flex align-items-center mb-2" style="gap:10px">
+                                        <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                                        <p class="mb-0">New members invited to this team must be approved by a team admin</p>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2" style="gap:10px">
+                                        <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                                        <p class="mb-0">New guests invited to this team must be approved by a team admin                                        </p>
+                                    </div>
+                                   
+                                    </div>
+                                  </div>
+
+                                  <div class="mt-3 border-bottom pb-2">
+                                    <p style="color: #000; font-size: 13px; font-weight: 500; margin-bottom: 8px; color:#444">Removals</p>
+                                     <div class="">
+                                    <div class="d-flex align-items-center mb-2" style="gap:10px">
+                                        <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                                        <p class="mb-0">Only team admins can remove members or guests from this team</p>
+                                    </div>
+                                   
+                                    </div>
+                                  </div>
+
+                                  <div class="mt-3 border-bottom pb-3">
+                                    <p style="color: #000; font-size: 13px; font-weight: 500; margin-bottom: 8px; color:#444">Harvest integration</p>
+                                     <div class="">
+                                    <p>Asana works with Harvest time-tracking. Activate this integration to add a time-tracking button to the toolbar of your task details pane.</p>
+                                    <div class="form-check">
+                                        <input type="checkbox" value="" id="flexCheckDefault" class="form-check-input">
+                                        <label for="flexCheckDefault" style="padding-top: 2px;" class="form-check-label"> Enable Harvest integration for the krenai It Team
+                                        </label></div>
+                                    </div>
+                                  </div>
+                                  <div class="mt-3 pb-3">
+                                    <p style="color: #000; font-size: 13px; font-weight: 500; margin-bottom: 8px; color:#444">Time Periods</p>
+                                     <div class="">
+                                    <p>You can match your organization’s annual operating rhythm (i.e. fiscal year) in Asana for things like goal management. Your annual time periods currently start on 1 Jan. To edit this, <a href="">contact support.</a></p>
+                                   
+                                    </div>
+                                  </div>
+
                                </div>
                             </div>
                            
@@ -553,7 +640,7 @@ ad                <div class="col-sm-12">
                                     
                                     <div class="Members-list-box d-flex align-items-center justify-content-between"  *ngFor="let ul of team.userList let i = index" >
                                         <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div>
+                                            <div >
                                                 <span  *ngIf="ul.image !==null">
                                                     <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
                                                    </span>

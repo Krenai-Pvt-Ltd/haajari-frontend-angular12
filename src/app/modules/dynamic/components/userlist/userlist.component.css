@@ -60,3 +60,19 @@ input[type=checkbox]{
 	font-size: 18px;
 	display: none;
   }
+
+
+  .search-icon {
+    font-size: 12px;
+    position: absolute;
+    /* left: 13px; */
+    top: 0;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: var(--tb-secondary-color);
+}

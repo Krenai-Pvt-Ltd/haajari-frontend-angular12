@@ -32,8 +32,6 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
   declarations: [
     DynamicComponent,
     DashboardComponent,
-    HeaderComponent,
-    TopbarComponent,
     TimetableComponent,
     ProjectComponent,
     TaskManagerComponent,

@@ -11,6 +11,7 @@ import { DailyQuestionsCheckout } from "../models/daily-questions-check-out";
 import { DailyNotes } from "../models/daily-notes";
 import { DailyQuestionsCheckIn } from "../models/daily-questions-check-in";
 import { TeamResponse } from "../models/team";
+import { Key } from "../constant/key";
 
 
 @Injectable({
@@ -30,12 +31,7 @@ export class DataService {
     return this.orgIdEmitter;
   }
 
-
-  //private baseUrl = "http://hajiri-manager-prod-env.eba-gacpj3u4.ap-south-1.elasticbeanstalk.com/api/v1/attendance";
-
-  //private baseUrl = "https://backend.hajiri.work/api/v1/attendance";
-
-  private baseUrl = "http://localhost:8080/api/v1/attendance";
+  private baseUrl = Key.ENDPOINT;
 
   openSidebar: boolean = true;
 
@@ -49,7 +45,6 @@ export class DataService {
     .set('searchBy', searchBy)
     .set('organizationId', organizationId)
     .set('role', role);
-
 
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-filters`, {params});
   }
