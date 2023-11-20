@@ -264,9 +264,9 @@
                 <h5>Yogesh Yadav <span class="attendance-id">123</span></h5>
                 <p>Not Marked</p>
                 <div class="add-note d-flex" style="gap:10px">
-                    <a href=""> Add Note</a>
+                    <a href="" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center"> Add Note</a>
                     <a>|</a>
-                    <a href=""> View Logs</a>
+                    <a href="" data-bs-toggle="modal" data-bs-target=".viewlog"> View Logs</a>
                 </div>
                 
 
@@ -318,9 +318,9 @@
                 <h5 routerLink="dynamic/user-profile">Yogesh Yadav <span class="attendance-id">123</span></h5>
                 <p>Not Marked</p>
                 <div class="add-note d-flex" style="gap:10px">
-                    <a href=""> Add Note</a>
+                    <a href="" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center"> Add Note</a>
                     <a>|</a>
-                    <a href=""> View Logs</a>
+                    <a href="" data-bs-toggle="modal" data-bs-target=".viewlog"> View Logs</a>
                 </div>
                 
 
@@ -372,9 +372,9 @@
                 <h5 > Yogesh Yadav <span class="attendance-id">123</span></h5>
                 <p>Not Marked</p>
                 <div class="add-note d-flex" style="gap:10px">
-                    <a href=""> Add Note</a>
+                    <a href="" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center"> Add Note</a>
                     <a>|</a>
-                    <a href=""> View Logs</a>
+                    <a href="" data-bs-toggle="modal" data-bs-target=".viewlog"> View Logs</a>
                 </div>
                 
 
@@ -423,4 +423,54 @@
 
 </div>
 </div>
+</div>
+
+
+
+<div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalCenterTitle">Add Notes</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="">
+                    <div class="mb-3">
+                        <label for="username" style="padding-bottom: 6px;">Notes Title</label>
+                        <input type="text" id="username" placeholder="Enter title ..." name="username" required="" class="form-control ng-untouched ng-pristine ng-invalid">
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" style="padding-bottom: 6px;">Message</label>
+                        <textarea class="form-control" rows="5" id="message" style="height:100px !important; "></textarea>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-de-secondary " data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary save-changes">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade viewlog" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalCenterTitle">View Logs</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-de-secondary " data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary save-changes">Save changes</button>
+            </div>
+        </div>
+    </div>
 </div>
