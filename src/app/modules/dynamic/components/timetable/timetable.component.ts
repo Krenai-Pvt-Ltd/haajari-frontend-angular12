@@ -34,7 +34,7 @@ model: any;
     };
     this.updateDateRangeInputValue();
     this.getDataFromDate();
-    this.checkingUserRoleMethod();
+    //this.checkingUserRoleMethod();
   }
 
 
@@ -80,7 +80,6 @@ model: any;
       this.dataService.getDurationDetails(this.getLoginDetailsId(), this.getLoginDetailsRole(), startDateStr, endDateStr).subscribe(
         
         (response: any) => {
-          
           debugger
           this.myAttendanceData = response;
           console.log(this.myAttendanceData);
@@ -135,8 +134,10 @@ model: any;
     if(loginDetails!==null){
       const loginData = JSON.parse(loginDetails);
       if(this.checkingUserRoleMethod() === true){
+        debugger
         return 'MANAGER';
       }
+      debugger
       return loginData.role;
     }
   }
@@ -153,9 +154,19 @@ model: any;
   flag !: boolean;
 
   checkingUserRoleMethod(): boolean{ 
+    debugger
     this.dataService.checkingUserRole(this.getLoginDetailsId()).subscribe((data) => {
       this.flag = data;
+      debugger
+      console.log(data);
+    }, (error) => {
+      debugger
+      console.log(error);
     })
+
+    debugger
+    console.log(this.flag);
+    
     return this.flag;
   }
   

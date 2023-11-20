@@ -7,8 +7,8 @@
                 <img src="assets/images/logo-sm.png" alt="logo-small" class="logo-sm">
             </span> -->
             <span>
-                <img src="assets/images/hajiri-white.png" alt="logo-large" class="logo-lg logo-light" style="height: 50px;">
-                <img src="assets/images/hajiri-white.png" alt="logo-large" class="logo-lg logo-dark" style="height: 50px;">
+                <img src="assets/images/hajiri-black.png" alt="logo-large" class="logo-lg logo-light" style="height: 20px;">
+                <img src="assets/images/hajiri-black.png" alt="logo-large" class="logo-lg logo-dark" style="height: 20px;">
             </span>
         </a>
     </div>
@@ -18,9 +18,89 @@
     <div class="menu-content h-100" >
         <div class="menu-body navbar-vertical">
             <div class="collapse navbar-collapse tab-content" id="sidebarCollapse">
+
+                <div class="bjRpmy">
+                    <ul class="cfyCez">
+                        <li class="dagRMy" routerLink="/dynamic/dashboard">
+                            <a href=""  class="dashboard-list-active iUctsy">
+
+                                <span class="evIlxu"> 
+                                    <i class="bi bi-house-door menu-icon pr-2"></i>
+                                     Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bjRpmy">
+
+                    <div class="sc-485d66d8-0 sc-39e987ab-0 iZfNPZ irmdrk sc-3ee1404a-4 izZYaK">POEPLE</div>
+                    <ul class="cfyCez">
+                        <li class="sc-3ee1404a-7 dagRMy" routerLink="/dynamic/timetable">
+                            <a href="" class="sc-3ee1404a-9 iUctsy-new">
+                                <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+                        </div>
+                        <span class="sc-3ee1404a-10 evIlxu"> <i class="bi bi-table menu-icon"></i> Timetable</span>
+                    </a>
+                    </li>
+                    <li class="sc-3ee1404a-7 dagRMy" routerLink="/dynamic/project">
+                        <a href="" class="sc-3ee1404a-9 iUctsy-new">
+                            <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+                    </div>
+                    <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-list-task menu-icon"></i> Project</span>
+                </a>
+                </li>
+
+                <li class="sc-3ee1404a-7 dagRMy" routerLink="/dynamic/team">
+                    <a href="" class="sc-3ee1404a-9 iUctsy-new" >
+                        <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+                </div>
+                <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-people menu-icon"></i> Team</span>
+            </a>
+            </li>
+            <li class="sc-3ee1404a-7 dagRMy" routerLink="/dynamic/task-manager">
+                <a href="" class="sc-3ee1404a-9 iUctsy-new">
+                    <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+            </div>
+            <span class="sc-3ee1404a-10 evIlxu">  <i class="bi bi-person-check menu-icon"></i> Task Manager</span>
+        </a>
+        </li>
+                    </ul>
+                </div>
+
+                <div class="bjRpmy">
+
+                    <div class="sc-485d66d8-0 sc-39e987ab-0 iZfNPZ irmdrk sc-3ee1404a-4 izZYaK">MANAGEMENT</div>
+                    <ul class="cfyCez">
+                        <li class="sc-3ee1404a-7 dagRMy" routerLink="/dynamic/live-manager">
+                            <a href="" class="sc-3ee1404a-9 iUctsy-new">
+                                <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+                        </div>
+                        <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-envelope menu-icon"></i> Leave Manager</span>
+                    </a>
+                    </li>
+                    <li class="sc-3ee1404a-7 dagRMy" routerLink="/dynamic/userlist">
+                        <a class="sc-3ee1404a-9 iUctsy-new" >
+                            <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+                    </div>
+                    <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-list-check menu-icon"></i> User List</span>
+                </a>
+                </li>
+
+                <li class="sc-3ee1404a-7 dagRMy" routerLink="/dynamic/onboarding">
+                    <a class="sc-3ee1404a-9 iUctsy-new">
+                        <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+                </div>
+                <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-person-lines-fill menu-icon"></i> Onboarding</span>
+            </a>
+            </li>
+          
+                    </ul>
+                </div>
+
                 <!-- Navigation -->
-                <ul class="navbar-nav tab-pane active" id="Main" role="tabpanel">
-                    <!-- <li class="menu-label mt-0 text-primary font-12 fw-semibold">M<span>ain</span><br><span class="font-10 text-secondary fw-normal">Unique Dashboard</span></li>                     -->
+                <!-- <ul class="navbar-nav tab-pane active" id="Main" role="tabpanel">
+                  
                   
 
                   
@@ -32,32 +112,32 @@
                             <span>Dashboard</span>
                         </a>
                        
-                    </li><!--end nav-item-->
+                    </li>
                     
 
-                    <li class="nav-item">
-                        <a class="nav-link" (click)="temp()" >
+                    <li class="nav-item" style="cursor: pointer;" routerLink="/dynamic/timetable">
+                        <a class="nav-link" >
                             <i class="bi bi-table menu-icon"></i>
                             <span>Timetable</span>
                         </a>
                         
-                    </li><!--end nav-item-->
+                    </li>
 
 
-                    <li class="nav-item" routerLink="/dynamic/project">
+                    <li class="nav-item" style="cursor: pointer;" routerLink="/dynamic/project">
                         <a class="nav-link"  >
                             <i class="bi bi-list-task menu-icon"></i>
                             <span>Project</span>
                         </a>
                        
-                    </li><!--end nav-item-->
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/dynamic/team" >
                             <i class="bi bi-people-fill menu-icon"></i>
                             <span>Team</span>
                         </a>
                        
-                    </li><!--end nav-item-->
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/dynamic/task-manager">
 
@@ -65,29 +145,71 @@
                             <span>Task Manager</span>
                         </a>
                        
-                    </li><!--end nav-item-->
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/dynamic/live-manager">
                             <i class="bi bi-envelope menu-icon"></i>
                             <span>Leave Manager</span>
                         </a>
                        
-                    </li><!--end nav-item-->
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/dynamic/userlist">
-                            <!-- <i class="bi bi-person-lines-fill "></i> -->
+                            
                             <i class="bi bi-list-check menu-icon"></i>
                             <span>User List</span>
                         </a>
-                    </li><!--end nav-item-->
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/dynamic/onboarding">
                             <i class="bi bi-person-lines-fill menu-icon"></i> <span>Onboarding</span>
                         </a>
-                    </li><!--end nav-item-->
-                </ul>
+                    </li>
+                </ul> -->
+
+                <div class="log-out-btn-box">
+                    <div class="d-flex align-items-center" style="gap:20px">
+                        <div class="">
+                            <span class="members-namess">YK</span>
+                        </div>
+                        <div class="">
+                            <div class="sc-485d66d8-0 sc-e0edf03b-5 dLkVjV ddCElb">Krenai</div>
+                            <div class="sc-485d66d8-0 sc-e0edf03b-2 buCZLT eYcpQL">Krenai</div>
+                        </div>
+                        <div class="">
+                           
+
+                            <div class="dropdown d-inline-block log-btn" >
+                           
+                                <a class="dropdown-toggle"  id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <span class=""><i class="bi bi-three-dots"></i></span>
+
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
+
+                                    <div class="manager-list" style="cursor: pointer;">
+                                        <a class="dropdown-item"> <i class="bi bi-gear" style="padding-right: 10px;"></i> Account Settings</a>
+                                     </div>
+
+                                     <div class="manager-list" style="cursor: pointer;">
+                                        <a class="dropdown-item"> <i class="bi bi-rocket" style="padding-right: 10px;"></i> What's new?</a>
+                                     </div>
+                                
+                                    <div class="manager-list" style="cursor: pointer;">
+                                        <a class="dropdown-item"> <i class="bi bi-gift" style="padding-right: 10px;"></i> Refer a friend</a>
+                                     </div>
+                                    <div class="manager-list remove-team" (click)="onLogout()" style="cursor: pointer;">
+                                        <a class="dropdown-item StaticMenuItemBase-button" >
+                                            <span><i class="bi bi-box-arrow-in-left"></i> Log out</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
                 
-            </div><!--end sidebarCollapse-->
+            </div>
         </div>
     </div>    
 </div>
@@ -271,7 +393,7 @@
                 </div>
             </li>
 
-            <li class="dropdown">
+            <!-- <li class="dropdown">
                 <a class="nav-link dropdown-toggle nav-user" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">
                     <div class="d-flex align-items-center">
@@ -289,7 +411,8 @@
                 <div class="dropdown-divider mb-0"></div>
                 <a class="dropdown-item" (click)="onLogout()"><i class="ti ti-power font-16 me-1 align-text-bottom"></i> Logout</a>
             </div>
-            </li><!--end topbar-profile-->
+            </li> -->
+            <!--end topbar-profile-->
             <!-- <li class="notification-list">
                 <a class="nav-link arrow-none nav-icon offcanvas-btn" href="#" data-bs-toggle="offcanvas" data-bs-target="#Appearance" role="button" aria-controls="Rightbar">
                     <i class="ti ti-settings ti-spin"></i>

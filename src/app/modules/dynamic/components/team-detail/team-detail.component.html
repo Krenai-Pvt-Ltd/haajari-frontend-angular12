@@ -380,14 +380,14 @@ ad                <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="input-group">                                                                                         
                                                 <input type="text" class="form-control" name="members" id="members" placeholder="Add team members by name or email…" [(ngModel)]="searchQuery" (input)="searchUsers()">
-                                                <button type="button" class="btn btn-de-primary" (click)=" inviteUsers(); addUsersToTeam() ">Invite</button>
+                                                <button type="button" class="btn btn-de-primary" (click)="addUsersToTeam() ">Invite</button>
                                                 <!-- inviteUsers();  -->
                                             </div>                                    
                                         </div>
                                     </div>
                                     <div class="modalnote mt-2" *ngIf="showErrorMessageForPresentMembersInTeam">
                                        <p><i class="bi bi-exclamation-circle"></i> Selected member already present in the team!  </p>
-                                      </div>
+                                    </div>
                                     <!-- showErrorMessageForPresentMembersInTeam -->
                                     
                                     <!-- ########################################## -->

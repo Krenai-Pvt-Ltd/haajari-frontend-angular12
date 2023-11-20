@@ -289,6 +289,15 @@ export class TeamDetailComponent implements OnInit {
   // }
 
   showErrorMessageForPresentMembersInTeam=false;
+//   showErrorMessageForPresentMembersInTeamFun(){
+
+//     this.showErrorMessageForPresentMembersInTeam = true;
+//     setTimeout(() => {
+//       this.showErrorMessageForPresentMembersInTeam = false;
+//     }, 1000);
+
+// }
+
 
   addUsersToTeam() {
     if (this.userIds.length > 0) {
@@ -297,14 +306,14 @@ export class TeamDetailComponent implements OnInit {
         .addUsersToTeam(tid, this.userIds)
         .subscribe(
           (result) => {
+            // this.inviteUsers(); 
             console.log(result);
             this.selectedUsers = [];
             this.userIds = [];
-            // location.reload();
+            location.reload();
           },
           (error) => {
-            this.showErrorMessageForPresentMembersInTeam=true;
-
+            // this.showErrorMessageForPresentMembersInTeam=true;
           }
         );
     } else {
