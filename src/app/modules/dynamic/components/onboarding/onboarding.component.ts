@@ -569,7 +569,7 @@ c: any;
       this.leaveSetInvalidToggle = true;
       return;
     }
-    this.dataService.saveLeave(this.leaveData).subscribe(
+    this.dataService.saveLeave(this.leaveData, this.getLoginDetailsOrgRefId()).subscribe(
       (response) => {
         console.log(response);
         this.savel.push(response);
@@ -679,7 +679,7 @@ c: any;
 
 
   onSaveShiftTimings() {
-    this.dataService.saveShiftTimings(this.loginArray).subscribe(
+    this.dataService.saveShiftTimings(this.loginArray, this.getLoginDetailsOrgRefId()).subscribe(
       (response) => {
         this.dailyQuesValid = true;
         console.log(response);

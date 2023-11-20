@@ -13,21 +13,26 @@ import { Key } from './constant/key';
 export class AppComponent {
   title = 'hajari';
 
-  showHeader: boolean = true;
+  //showHeader: boolean = true;
 
-  constructor(private router: Router) {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: any) => {
-      this.showHeader = !this.shouldHideHeader(event.url);
-    });
+  readonly key = Key;
+  _router : any;
+  constructor(private router: Router){
+    this._router = router;
   }
 
-  private shouldHideHeader(url: string): boolean {
-    const urlsToHideHeader = [Key.LOGIN, Key.ONBOARDING, Key.SLACKAUTH];
+  // constructor(private router: Router) {
+  //   this.router.events.pipe(
+  //     filter(event => event instanceof NavigationEnd)
+  //   ).subscribe((event: any) => {
+  //     this.showHeader = !this.shouldHideHeader(event.url);
+  //   });
+  // }
+  // private shouldHideHeader(url: string): boolean {
+  //   const urlsToHideHeader = [Key.LOGIN, Key.ONBOARDING, Key.SLACKAUTH];
 
-    return urlsToHideHeader.includes(url);
-  }
+  //   return urlsToHideHeader.includes(url);
+  // }
 }
 
 

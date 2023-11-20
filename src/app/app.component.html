@@ -1,3 +1,17 @@
-<app-header *ngIf="showHeader"></app-header>
-<app-topbar></app-topbar>
+<!-- <app-header *ngIf="showHeader"></app-header> -->
+
+
+
+
+<div class="container-scroller" *ngIf="( !key.HEADER_RESTRICTION_ROUTES.includes(this._router.url.split('?')[0]))">
+    <div class="horizontal-menu">
+        <app-header></app-header>
+    </div>
+</div>
+
+<div class="container-scroller" *ngIf="( !key.TOPBAR_RESTRICTION_ROUTES.includes(this._router.url.split('?')[0]))">
+    <div class="horizontal-menu">
+        <app-topbar></app-topbar>
+    </div>
+</div>
 <router-outlet></router-outlet>

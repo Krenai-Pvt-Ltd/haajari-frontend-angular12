@@ -33,10 +33,10 @@ export class SlackAuthComponent implements OnInit{
       console.log(response);
       localStorage.setItem('loginData', JSON.stringify(response));
 
-      if(response.httpCustomStatus === ("CREATED")){
-        this.router.navigate(['/dynamic/onboarding']);
-      }else if(response.httpCustomStatus === ("UPDATED")){
+      if(response.httpCustomStatus === ("UPDATED") && response.statusType === ("ORGANIZATION_REGISTRATION_SUCCESSFULL")){
         this.router.navigate(['/dynamic/dashboard']);
+      }else{
+        this.router.navigate(['/dynamic/onboarding']);
       }
 
     }, (error) => {

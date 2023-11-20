@@ -22,4 +22,9 @@ export class Key{
     public static WATING = `${Key.DYNAMIC}/waiting`;
     public static TEAMDETAIL = `${Key.DYNAMIC}/team-detail`;
 
+
+
+    public static HEADER_RESTRICTION_ROUTES = ["/","/dynamic/login", "/dynamic/onboarding", "/dynamic/slackauth"];
+    
+    public static TOPBAR_RESTRICTION_ROUTES = ["/","/dynamic/login", "/dynamic/onboarding", "/dynamic/slackauth"];
 }
