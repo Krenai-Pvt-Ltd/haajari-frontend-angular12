@@ -311,3 +311,44 @@ span.remove-icon:hover {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.Members-list-box {
+    padding: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.Members-list-box:hover {
+    background-color: #f8f8f8;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.manegir-dropdown {
+    padding: 3px 9px;
+    border-radius: 6px;
+}
+
+.manegir-dropdown:hover {
+    background-color: #ececec;
+    padding: 3px 9px;
+    border-radius: 6px;
+}
+.manager-list a {
+    font-size: 12px !important;
+}
+
+.remove-team a:hover{
+    background-color: transparent;
+    color: #c92f54;
+  }
+  
+
+  .StaticMenuItemBase-button {
+    color: #c92f54;
+    fill: #c92f54;
+    height: 35px;
+    border-top: 1px solid #edeae9;
+    padding-top: 9px;
+}
