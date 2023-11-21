@@ -314,13 +314,14 @@ c: any;
     
     this.dataService.registerOrganizationPersonalInformation(this.organizationPersonalInformation,  this.id)
       .subscribe(response => {
-        console.log('org registered successfully:', response.body);
+        console.log('org registered successfully:', response);
         this.organizationStatusResponse= response.statusResponse;
         console.log(this.organizationStatusResponse);
         this.setAct1();
+        localStorage.setItem('statusResponse', JSON.stringify(this.organizationStatusResponse));
 
-        this.organizationPersonalInformation.country = response.body.country;
-        this.organizationPersonalInformation.state = response.body.state;
+        this.organizationPersonalInformation.country = response.country;
+        this.organizationPersonalInformation.state = response.state;
 
         this.shiftTimingsValid = true;
          
@@ -330,11 +331,7 @@ c: any;
 
         this.requestBusinessInfoCloseModel.nativeElement.click();
          
-        this.isSecondSectionOpen = true;
-
-        
-        localStorage.setItem('statusResponse', JSON.stringify(this.organizationStatusResponse));
-        
+        this.isSecondSectionOpen = true;        
       },(error) => {
           console.log(error.error.message);
       });

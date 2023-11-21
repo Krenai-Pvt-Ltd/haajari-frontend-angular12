@@ -212,6 +212,8 @@ export class TeamDetailComponent implements OnInit {
         timer: 1500 
       });
       console.log(error);
+      location.reload();
+
     })
   }
 
@@ -314,6 +316,7 @@ export class TeamDetailComponent implements OnInit {
           },
           (error) => {
             // this.showErrorMessageForPresentMembersInTeam=true;
+            this.inviteUsers();
           }
         );
     } else {

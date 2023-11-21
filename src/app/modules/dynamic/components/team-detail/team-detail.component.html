@@ -115,18 +115,23 @@ ad                <div class="col-sm-12">
             
                                                             </a>
                                                             <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
-        
+
                                                                 <div class="manager-list">
+<<<<<<< HEAD
                                                                    <a class="dropdown-item" >Make Manager </a>
+=======
+                                                                   <a class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
+                                                                   
+>>>>>>> 46583048953d48ea5e8dc1991a9d86eda1bd3a54
                                                                 </div>
                                                                 <div class="manager-list">
-                                                                   <a class="dropdown-item"  >Remove Manager</a>
+                                                                   <a class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager</a>
                                                                 </div>
                                                                 <div class="manager-list">
                                                                     <a class="dropdown-item">View Profile</a>
                                                                  </div>
                                                                 <div class="manager-list remove-team">
-                                                                    <a class="dropdown-item StaticMenuItemBase-button" >
+                                                                    <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.id,ul.id)">
                                                                         <span>Remove from team</span></a>
                                                                 </div>
                                                             </div>
