@@ -1,0 +1,193 @@
+.fixheigt-section{
+    height: 320px;
+}
+
+.fixheigt-section img{
+    width: 80%;
+}
+
+
+span.complete {
+    background-color: #10c215;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 20px;
+    font-size: 12px;
+    color: #fff;
+}
+
+span.progresss {
+    background-color: #db6e09;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 20px;
+    font-size: 12px;
+    color: #fff;
+}
+
+span.todo {
+    background-color: #cd0000;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 20px;
+    font-size: 12px;
+    color: #fff;
+}
+
+.current-projects {
+    position: relative;
+}
+.progress-div {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    border-radius: 6px;
+}
+span.complete-task {
+    width: 33.3%;
+    border-bottom: 3px solid #10c215;
+    display: flex;
+}
+span.progress-task {
+    width: 33.3%;
+    border-bottom: 3px solid #db6e09;
+    display: flex;
+}
+span.todo-task {
+    width: 33.3%;
+    border-bottom: 3px solid #cd0000;
+    display: flex;
+}
+
+
+.complete-text{
+    font-size: 11px;
+}
+.progress-text{
+    font-size: 11px;
+}
+.todo-text{
+    font-size: 11px;
+}
+
+.projest-nmae{
+    font-size: 16px;
+    font-weight: 500px;
+    color: #303e67;
+}
+.table tbody tr:hover {
+    box-shadow: none;
+}
+.monthly-report {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.monthly-report h5{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.table-light {
+    background-color: #f9fafb !important;
+}
+
+
+.day-deta th{
+    background-color: #f9fafb;
+    border: 1px solid #ccc;
+    padding: 6px;
+    font-size: 10px;
+}
+
+.day-deta td{
+    border: 1px solid #ececec;
+    padding: 6px;
+}
+
+.month-deta {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.table th {
+    color: #8997bd;
+    font-weight: 400;
+    vertical-align: middle;
+    border-color: #ececec;
+    font-size: 12px !important;
+}
+.table td {
+    font-size: 12px !important;
+}
+
+.month-d{
+    padding-right: 10px;
+    color: blue;
+    font-size: 14px;
+    font-weight: 900;
+} 
+.new-deopdown {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size:13px;
+    font-weight: 500;
+    height: 42px !important;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #e8ebf3;
+    color: #2d2e3e;
+}
+
+.new-deopdown i {
+    position: absolute;
+    right: 15px;
+}
+
+[class^="bi-"]::before, [class*=" bi-"]::before {
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: BOLD !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: text-bottom;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+/* .plandtlMain:not(.collapsed) > .plandtlMainicon i {
+    transform: rotate(180deg);
+} */
+/* .day-deta, th, td {
+    border:1px solid #ccc;
+  } */
+
+@media screen and (max-width: 2600px) {
+    .fixheigt-section img{
+        width: 58%;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+    .fixheigt-section img{
+        width: 80%;
+    }
+}

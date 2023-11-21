@@ -20,6 +20,7 @@
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     position: fixed;
     width: 100%;
+    z-index: -1;
 }
 .complete-acount.text-center {
     padding-top: 50px;
@@ -339,9 +340,9 @@ textarea.form-control {
   box-shadow: none;
 }
 
-.onboarding-section {
+/* .onboarding-section {
   margin-top: 40px;
-}
+} */
 
 /* #xyz{
   display: none;

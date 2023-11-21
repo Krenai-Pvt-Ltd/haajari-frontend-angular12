@@ -55,6 +55,7 @@ c: any;
     this.getDailyQuestion();
     this.getDailyNotes();
     this.getLeaves();
+    this.getResponseStatusFromLocalStorage();
   
 
     //   window.addEventListener("beforeunload", function (e) {
@@ -278,6 +279,11 @@ c: any;
   //     );
   // }
 
+  organizationStatusResponse="";
+  shiftTimingsStatusResponse="";
+  dailyQuestionsStatusResponse="";
+  organizationLeaveStatusResponse="";
+
   organizationPersonalInformation: OrganizationPersonalInformation = {
     id: 0,
     name: '',
@@ -309,8 +315,25 @@ c: any;
     this.dataService.registerOrganizationPersonalInformation(this.organizationPersonalInformation,  this.id)
       .subscribe(response => {
         console.log('org registered successfully:', response.body);
+        this.organizationStatusResponse= response.statusResponse;
+        console.log(this.organizationStatusResponse);
+        this.setAct1();
+
         this.organizationPersonalInformation.country = response.body.country;
-          this.organizationPersonalInformation.state = response.body.state;
+        this.organizationPersonalInformation.state = response.body.state;
+
+        this.shiftTimingsValid = true;
+         
+        this.shiftTimesMessage();
+        this.count = 1;
+        this.onBusinessInfoCompleted();
+
+        this.requestBusinessInfoCloseModel.nativeElement.click();
+         
+        this.isSecondSectionOpen = true;
+
+        
+        localStorage.setItem('statusResponse', JSON.stringify(this.organizationStatusResponse));
         
       },(error) => {
           console.log(error.error.message);
@@ -326,29 +349,30 @@ c: any;
           this.organizationPersonalInformation = data;
           this.updateStates();
           
+          
           console.log(this.organizationPersonalInformation);
                 if (data.country !== null) {
           debugger
-          this.setActive(1);
-          this.count=1;
-          if (this.a == 2) {
-            this.setActive(1);
-            this.setActive(2);
-            this.count=2;
-          }
-          if (this.a == 3) {
-            this.setActive(1);
-            this.setActive(2);
-            this.setActive(3);
-            this.count=3;
-          }
-          if (this.a == 4) {
-            this.setActive(1);
-            this.setActive(2);
-            this.setActive(3);
-            this.setActive(4);
-            this.count=4;
-          }
+          // this.setActive(1);
+          // this.count=1;
+          // if (this.a == 2) {
+          //   this.setActive(1);
+          //   this.setActive(2);
+          //   this.count=2;
+          // }
+          // if (this.a == 3) {
+          //   this.setActive(1);
+          //   this.setActive(2);
+          //   this.setActive(3);
+          //   this.count=3;
+          // }
+          // if (this.a == 4) {
+          //   this.setActive(1);
+          //   this.setActive(2);
+          //   this.setActive(3);
+          //   this.setActive(4);
+          //   this.count=4;
+          // }
           this.requestBusinessInfoCloseModel.nativeElement.click();
         }
 
@@ -357,15 +381,15 @@ c: any;
           this.onBusinessInfoCompleted();
           this.shiftTimesMessage();
         }
-        if (this.a == 4) {
-          this.a = 4;
-        } else if (this.a == 3) {
-          this.a = 3;
-        } else if (this.a == 2) {
-          this.a = 2;
-        } else {
-          this.a = 1;
-        }
+        // if (this.a == 4) {
+        //   this.a = 4;
+        // } else if (this.a == 3) {
+        //   this.a = 3;
+        // } else if (this.a == 2) {
+        //   this.a = 2;
+        // } else {
+        //   this.a = 1;
+        // }
       }, (error) => {
         console.log(error);
       }
@@ -469,39 +493,39 @@ c: any;
           this.dailyQuestMessage();
         }
 
-        if (data.minLength !== 0) {
-          this.setActive(1);
-          this.setActive(2);
-          this.count=2;
-          if (this.a == 4) {
-            this.setActive(1);
-            this.setActive(2);
-            this.setActive(3);
-            this.setActive(4);
-            this.count=4;
-          }
-          if (this.a == 3) {
-            this.setActive(1);
-            this.setActive(2);
-            this.setActive(3);
-            this.count=3;
-          }
-        }
+        // if (data.minLength !== 0) {
+        //   this.setActive(1);
+        //   this.setActive(2);
+        //   this.count=2;
+        //   if (this.a == 4) {
+        //     this.setActive(1);
+        //     this.setActive(2);
+        //     this.setActive(3);
+        //     this.setActive(4);
+        //     this.count=4;
+        //   }
+        //   if (this.a == 3) {
+        //     this.setActive(1);
+        //     this.setActive(2);
+        //     this.setActive(3);
+        //     this.count=3;
+        //   }
+        // }
         if (data) {
           this.onBusinessInfoCompleted();
           this.onShiftTimingsCompleted();
         }
 
-        if (this.a == 4) {
-          this.a = 4;
+        // if (this.a == 4) {
+        //   this.a = 4;
          
-        } else if (this.a == 3) {
-          this.a = 3;
+        // } else if (this.a == 3) {
+        //   this.a = 3;
           
-        } else {
-          this.a = 2;
+        // } else {
+        //   this.a = 2;
          
-        }
+        // }
         this.requestShiftTimingsCloseModel.nativeElement.click();
       },
       (error) => {
@@ -662,6 +686,10 @@ c: any;
     this.dataService.saveLeave(this.leaveData, this.getLoginDetailsOrgRefId()).subscribe(
       (response) => {
         console.log(response);
+        this.organizationLeaveStatusResponse= response.statusResponse;
+        console.log(this.organizationLeaveStatusResponse);
+        
+        localStorage.setItem('statusResponse', JSON.stringify(this.organizationLeaveStatusResponse));
         this.savel.push(response);
         this.count = 4;
 
@@ -694,16 +722,16 @@ c: any;
     this.dataService.getLeave(this.leaveData.orgId).subscribe(
       (data) => {
         this.savel = data;
-        if (data.minLength !== 0) {
-          this.setActive(1);
-          this.setActive(2);
-          this.setActive(3);
-          this.setActive(4);
-          this.count=4;
-        }
+        // if (data.minLength !== 0) {
+        //   this.setActive(1);
+        //   this.setActive(2);
+        //   this.setActive(3);
+        //   this.setActive(4);
+        //   this.count=4;
+        // }
        
         console.log(this.savel);
-        this.a = 4;
+        // this.a = 4;
        
       },
       (error) => {
@@ -742,6 +770,7 @@ c: any;
 
   activeModel: number = 0;
   count: number = 0;
+
   setActive(activeNumber: number) {
     // this.count=this.count+1;
     this.activeModel = activeNumber;
@@ -773,6 +802,10 @@ c: any;
       (response) => {
         this.dailyQuesValid = true;
         console.log(response);
+        this.shiftTimingsStatusResponse= response.statusResponse;
+        console.log(this.shiftTimingsStatusResponse);
+        localStorage.setItem('statusResponse', JSON.stringify(this.shiftTimingsStatusResponse));
+
         this.count = 2;
         this.setActive(2);
         this.dailyQuestMessage();
@@ -991,6 +1024,10 @@ c: any;
     this.dataService.saveDailyQuestionaire(this.dailyNotesData, this.getLoginDetailsOrgRefId()).subscribe(
       (response) => {
         console.log(response);
+        this.dailyQuestionsStatusResponse= response.statusResponse;
+        console.log(this.dailyQuestionsStatusResponse);
+        localStorage.setItem('statusResponse', JSON.stringify(this.dailyQuestionsStatusResponse));
+
         //  this.saveLValid=true;
         this.SLeaveValid = true;
         this.dailyNotes = response;
@@ -1041,18 +1078,18 @@ c: any;
         }
         debugger;
         if (data.minLength !== 0) {
-          this.setActive(1);
-          this.setActive(2);
-          this.setActive(3);
-          this.count=3;
+          // this.setActive(1);
+          // this.setActive(2);
+          // this.setActive(3);
+          // this.count=3;
 
-          if (this.a == 4) {
-            this.setActive(1);
-            this.setActive(2);
-            this.setActive(3);
-            this.setActive(4);
-            this.count=4
-          }
+          // if (this.a == 4) {
+          //   this.setActive(1);
+          //   this.setActive(2);
+          //   this.setActive(3);
+          //   this.setActive(4);
+          //   this.count=4
+          // }
           this.requestDailyQuesCloseModel.nativeElement.click();
         }
         // if(data){      
@@ -1060,11 +1097,11 @@ c: any;
         // }
 
         console.log(this.dailyNotes);
-        if (this.a == 4) {
-          this.a = 4;
-        } else {
-          this.a = 3;
-        }
+        // if (this.a == 4) {
+        //   this.a = 4;
+        // } else {
+        //   this.a = 3;
+        // }
       },
       (error) => {
         console.log(error);
@@ -1155,5 +1192,33 @@ c: any;
       const loginData = JSON.parse(loginDetails);
       return loginData.orgRefId;
     }
+  }
+
+  getResponseStatusFromLocalStorage(){
+
+    const responseStatus =localStorage.getItem('statusResponse');
+    if(responseStatus !== null){
+      const responseStat = JSON.parse(responseStatus);
+      if(responseStat=="SHIFT_TIMING"){
+       this.setActive(1);
+       this.count=1;
+      }else if(responseStat == "DAILY_QUESTION"){
+        this.setActive(1);
+        this.setActive(2);
+        this.count=2;
+      }else if(responseStat == "LEAVE_SECTION"){
+        this.setActive(1);
+        this.setActive(2);
+        this.setActive(3);
+        this.count=3;
+      }else if(responseStat == "ORGANIZATION_REGISTRATION_SUCCESSFULL"){
+        this.setActive(1);
+        this.setActive(2);
+        this.setActive(3);
+        this.setActive(4);
+        this.count=4;
+      }
+    }
+
   }
 }

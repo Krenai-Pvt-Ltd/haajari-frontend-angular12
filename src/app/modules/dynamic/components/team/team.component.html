@@ -52,29 +52,24 @@
                 </div> -->
 
                 <div class="row app-emptiy-notifaction" *ngIf="teams.length==0">
-                    <div class="col-md-6 d-flex align-items-center justify-content-center">
+                    <div class="col-md-6 d-flex align-items-center justify-content-center" style="flex-direction: column;">
                          <div class="">
                             <h4>Add a new hire to Hajiri</h4>
                             <p>New team members appear here when they<br> finish their onboarding.</p>
+
+                            <div class="mb-3">
+                                <a href="" class="addinh-hiar">Learn about adding hire <i class="bi bi-arrow-up-right" style="padding-left: 8px; font-size: 12px; color: #557ef8; font-weight: bold;"></i></a>
+                            </div>
+
+                            
+
                             <button type="button" class="btn create-team" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button>
                          </div>
                     </div>
                     <div class="col-md-6">
 
-                    <div class="row app-emptiy-notifaction">
-                        <div class="col-md-6 d-flex align-items-center justify-content-center">
-                             <div class="">
-                                <h4>Add a new hire to Hajiri</h4>
-                                <p>New team members appear here when they<br> finish their onboarding.</p>
-                                <button type="button" class="btn create-team" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button>
-                             </div>
-                        </div>
-                        <div class="col-md-6">
-    
-                            <div class="">
-                                <img src="assets/images/aap.jpg" style="width:100%;">
-                            </div>
-    
+                        <div class="">
+                            <img src="assets/images/empty-2.png" style="width:100%;">
                         </div>
                     </div>
                 </div>
@@ -101,11 +96,7 @@
                                         <!-- <img src="assets/images/user.png" alt="" class="rounded-circle thumb-md"> -->
 
 
-<<<<<<< HEAD
-                                        <span class="members-icon">{{ team.name[0] }}</span>
-=======
                                         <span class="members-icon">{{ capitalizeFirstLetter(team.name[0]) }}</span>
->>>>>>> a1b39f70482ad532ee9461c320bdf170d7e525de
 
                                        
                                         <span class="avatar-badge online"></span>

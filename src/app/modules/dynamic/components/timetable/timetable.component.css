@@ -169,7 +169,7 @@ select.form-control {
 .orderdaysfilter button {
     height: 40px;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 16px;
     color: #767474;
     min-width: 150px;
@@ -183,7 +183,7 @@ select.form-control {
     border-radius: 8px 0px 0px 8px;
     height: 40px;
     padding: 0 20px 0;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 12px;
     border-right: none;
     color: #777777 !important;
@@ -222,7 +222,7 @@ select.form-control {
     background-color: #fff;
     margin-bottom: 15px;
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 10px !important;
 
 }
 
@@ -230,4 +230,177 @@ select.form-control {
     font-size: 13px;
     font-weight: 300;
     line-height: 23px;
+}
+
+.addinh-hiar {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+
+.attendance-sheet {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.all-approved p{
+    color: green;
+    font-size: 14px;
+    font-weight: 600;
+}
+.approved-right i {
+    color: #b0b0b0;
+}
+
+.approved-left i{
+    color: #b0b0b0;
+}
+
+.active-color i{
+    color: blue !important;
+}
+
+[class^="bi-"]::before, [class*=" bi-"]::before {
+    font-weight: BOLD !important;
+}
+
+.date-all-approved h5{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.cal-icon i{
+    font-size: 14px;
+    color: #557ef8;
+}
+.attendance-deta p{
+    margin-bottom: 0px;
+    color: #929292;
+    font-size: 12px;
+}
+
+.attendance-deta h5{
+    font-size: 13px;
+    margin-bottom: 7px;
+    margin-top: 5px;
+}
+
+.attendance-deta .staf{
+    width: 14%;
+    border-right: 1px solid #f3f3f3;
+    padding: 0px 15px;
+    cursor: pointer;
+}
+
+
+.attendance-deta .staf:last-child{
+    border-right: none;
+}
+
+.search-icon {
+    font-size: 12px;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--tb-secondary-color);
+}
+.monthly-span {
+    background-color: #e9e9e9;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.monthly-section{
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.Regular-data p{
+    font-size: 13px;
+    color: red;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.add-note a {
+    font-size: 14px;
+    color: #557ef8;
+    font-weight: 500;
+}
+
+.attendance-id{
+    font-size: 12px;
+    color: #828282;
+    font-weight: 400;
+    padding-left: 5px;
+}
+
+.Regular-data h5 {
+    font-size: 16px;
+}
+
+.in-time {
+    background-color: #f5f8fa;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.in-time p {
+    font-size: 12px;
+    color: #929292;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.in-time span{
+    font-size: 12px;
+    font-weight: 500;
+}
+.add-filtter p{
+    margin-bottom: 0px;
+    color: #557ef8;
+    font-size: 15px;
+    font-weight: 500;
+   cursor: pointer;
+}
+
+.add-filtter i{
+    padding-left: 5px;
+}
+
+.new-deopdown {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size:13px;
+    font-weight: 500;
+    height: 42px !important;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #e8ebf3;
+    color: #2d2e3e;
+}
+
+.save-changes{
+    color: #fff;
+    background-color: #557ef8 !important;
+    border-color: #557ef8 !important;
+    padding: 0px 15px !important;
+    height: 36px;
 }

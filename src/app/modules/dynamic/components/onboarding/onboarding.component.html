@@ -1,5 +1,5 @@
 <div class="main-box">
-  <div class="topbar navbar-custom" style="position: fixed">
+  <div class="topbar navbar-custom" style="position:sticky;top: 0px;">
     <div class="container">
       <div class="row">
         <div class="col-md-6">
@@ -103,11 +103,11 @@
                       data-bs-parent="#accordionExample"
                     >
                     <!-- #companyForm="ngForm" name="myForm" novalidate  -->
-                      <div class="accordion-body" >
+                      <div class="accordion-body">
                         <form
                           #businessInfoForm="ngForm"
                           ngNativeValidate
-                          (ngSubmit)="registerOrganizationPersonalInformationFun()"
+                          (ngSubmit)=" registerOrganizationPersonalInformationFun()"
                         >
                           <div class="row">
                             <div class="col-md-4">
@@ -342,12 +342,12 @@
                                   aria-describedby="inputGroupFileAddon04"
                                   aria-label="Upload"
                                   name="userOrganizationPic"
-                                 
-                                 
+                                  
                                   style="line-height: 31px"
                                 />
-                                <!-- [(ngModel)]="organizationPersonalInformation.organizationPic"
+                                <!-- [(ngModel)]="organizationPic"
                                 required -->
+
                                 <!-- <div *ngIf="businessInfoForm.get('organizationPic')?.hasError('required') && businessInfoForm.get('organizationPic')?.touched" class="text-danger">
                                   Brand Logo is required!
                                 </div> -->
@@ -610,9 +610,6 @@
 
 
 
-
-                            <div *ngIf="dailyNotesData.enableCheckInQuestionnaire" style="border-top: 1px dashed #ccc; margin-top: 10px;">
-
                             <!-- <div *ngIf="dailyNotesData.checkInStatus" style="border-top: 1px dashed #ccc; margin-top: 10px;">
                               <div class="daily-questionnaire">
                                 <div
@@ -664,15 +661,12 @@
                                 <label
                                   for="switch2"
                                   class="hafday"
-                                  id="checkOutStatus"
+                                  id="enableCheckOutQuestionnaire"
                                   >Toggle</label
                                 >
                               </div>
                             </div>
                           </div>
-
-
-                          <div *ngIf="dailyNotesData.enableCheckOutQuestionnaire" style="border-top: 1px dashed #ccc; margin-top: 10px;">
 
                           <!-- <div *ngIf="dailyNotesData.checkOutStatus" style="border-top: 1px dashed #ccc; margin-top: 10px;">
                             <div class="daily-questionnaire ">
@@ -702,7 +696,12 @@
                             </div>
                             </div> -->
                         </div>
-   
+
+
+
+
+
+                       
                         </div>
 
                      
@@ -1534,4 +1533,3 @@
     </div>
   </div>
 </div>
-
