@@ -283,3 +283,55 @@ span.sc-3ee1404a-10.evIlxu {
     font-size: 13px;
     font-weight: 800;
 }
+
+span.add-project {
+    background-color: rgb(204 228 252);
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-weight: 400;
+    position: absolute;
+    right: 10px;
+    color: rgb(0, 97, 255) !important;
+}
+
+.project-name ul{
+    list-style: none;
+    padding-left: 1rem !important;
+}
+
+.project-name ul li {
+    line-height: 30px;
+    padding-left: 7px;
+    overflow: hidden;
+    /* padding: 2em; */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    margin-bottom: 4px;
+    border-radius: 6px;
+    padding: 0px 15px;
+}
+.project-name ul li:hover{
+    background-color: rgb(239, 247, 255);
+}
+
+.project-name ul li a:hover,
+.project-name ul li:hover a{
+    color: rgb(0, 97, 255) !important;
+}
+
+.project-name {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 190px;
+}
+.projectIcon{
+    transition:0.2s linear;
+    transform: rotate(90deg);
+    display: inline-block;
+}
+.projectIcon.collapsed{
+    /* transition:0.2s linear; */
+    transform: rotate(0deg);
+}
