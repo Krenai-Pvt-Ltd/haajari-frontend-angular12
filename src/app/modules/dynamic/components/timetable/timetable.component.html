@@ -193,7 +193,7 @@
           <div class="col-md-6">
             <div class="date-all-approved d-flex align-items-center" style="gap:20px">
                 <span class="approved-left active-color"><i class="bi bi-chevron-left"></i></span>
-                <input type="date">
+                <input type="date" id="input-date" [(ngModel)]="inputDate">
                 <!-- <input
                 type="text"
                 ngxDaterangepickerMd
@@ -250,12 +250,12 @@
         <div class="attendance-deta mb-2 mt-3">
           <div class="d-flex align-items-center justify-content-between">
             <div class="staf">
-              <p>Total Staf</p>
+              <p>Total Staff</p>
               <h5>28</h5>
             </div>
             <div class="staf">
               <p>Present</p>
-              <h5>22</h5>
+              <h5>{{attendanceDataByDateKey.length}}</h5>
             </div>
             <div class="staf">
               <p>Absent</p>
@@ -340,11 +340,11 @@
           </div>
         </div>
       </div>
-      <div class="monthly-section">
-        <div class="row">
+      <div class="monthly-section" *ngFor="let key of attendanceDataByDateKey">
+        <div class="row" >
           <div class="col-md-6">
             <div class="Regular-data">
-              <h5>Yogesh Yadav <span class="attendance-id">123</span></h5>
+              <h5>{{key}} <span class="attendance-id">123</span></h5>
               <p>Not Marked</p>
               <div class="add-note d-flex" style="gap: 10px">
                 <a
@@ -366,19 +366,19 @@
               <div class="col-md-4">
                 <div class="in-time">
                   <span>In </span><span>|</span>
-                  <p class="mb-0">10:00 AM</p>
+                  <p class="mb-0">{{attendanceDataByDate[key].checkInTime | timeFormat}}</p>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="in-time">
                   <span>Out </span> <span>|</span>
-                  <p class="mb-0">07:10 PM</p>
+                  <p class="mb-0">{{attendanceDataByDate[key].checkOutTime | timeFormat}}</p>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="in-time">
                   <span>Total Hours </span><span>|</span>
-                  <p class="mb-0">09:00 H</p>
+                  <p class="mb-0">{{attendanceDataByDate[key].duration| durationFormat}}</p>
                 </div>
               </div>
               <div class="col-md-4">
@@ -396,144 +396,14 @@
               <div class="col-md-4">
                 <div class="in-time">
                   <span>Total Hours </span><span>|</span>
-                  <p class="mb-0">01:10 PM</p>
+                  <p class="mb-0">{{attendanceDataByDate[key].breakDuration| durationFormat}}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="monthly-section">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="Regular-data">
-              <h5 routerLink="dynamic/user-profile">
-                Yogesh Yadav <span class="attendance-id">123</span>
-              </h5>
-              <p>Not Marked</p>
-              <div class="add-note d-flex" style="gap: 10px">
-                <a
-                  href=""
-                  data-bs-toggle="modal"
-                  data-bs-target=".bs-example-modal-center"
-                >
-                  Add Note</a
-                >
-                <a>|</a>
-                <a href="" data-bs-toggle="modal" data-bs-target=".viewlog">
-                  View Logs</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="in-time">
-                  <span>In </span><span>|</span>
-                  <p class="mb-0">10:00 AM</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="in-time">
-                  <span>Out </span> <span>|</span>
-                  <p class="mb-0">07:10 PM</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="in-time">
-                  <span>Total Hours </span><span>|</span>
-                  <p class="mb-0">09:00 H</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="in-time">
-                  <span>Break </span> <span>|</span>
-                  <p class="mb-0">01:00 PM</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="in-time">
-                  <span>Back </span> <span>|</span>
-                  <p class="mb-0">02:00 AM</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="in-time">
-                  <span>Total Hours </span><span>|</span>
-                  <p class="mb-0">01:10 PM</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="monthly-section">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="Regular-data">
-              <h5>Yogesh Yadav <span class="attendance-id">123</span></h5>
-              <p>Not Marked</p>
-              <div class="add-note d-flex" style="gap: 10px">
-                <a
-                  href=""
-                  data-bs-toggle="modal"
-                  data-bs-target=".bs-example-modal-center"
-                >
-                  Add Note</a
-                >
-                <a>|</a>
-                <a href="" data-bs-toggle="modal" data-bs-target=".viewlog">
-                  View Logs</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="in-time">
-                  <span>In </span><span>|</span>
-                  <p class="mb-0">10:00 AM</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="in-time">
-                  <span>Out </span> <span>|</span>
-                  <p class="mb-0">07:10 PM</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="in-time">
-                  <span>Total Hours </span><span>|</span>
-                  <p class="mb-0">09:00 H</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="in-time">
-                  <span>Break </span> <span>|</span>
-                  <p class="mb-0">01:00 PM</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="in-time">
-                  <span>Back </span> <span>|</span>
-                  <p class="mb-0">02:00 AM</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="in-time">
-                  <span>Total Hours </span><span>|</span>
-                  <p class="mb-0">01:10 PM</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+      
 
 <div
   class="modal fade bs-example-modal-center"

@@ -18,11 +18,11 @@ model: any;
     this.setCurrentDate();
   }
 
+
   selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
 
   ngOnInit(): void {
-    this.getAttendanceDetailsByDateMethodCall();
     const today = dayjs();
     const oneWeekAgo = today.subtract(1, 'week');
 
@@ -32,6 +32,8 @@ model: any;
     };
     this.updateDateRangeInputValue();
     this.getDataFromDate();
+    this.getAttendanceDetailsByDateMethodCall();
+
   }
 
 
@@ -218,16 +220,55 @@ model: any;
 
 
 
+  attendanceDataByDate: Record<string, AttendenceDto> = {};
+  attendanceDataByDateKey : any = [];
+  
+  inputDate = '';
   getAttendanceDetailsByDateMethodCall(){
     debugger
-    this.dataService.getAttendanceDetailsByDate(119,"USER","2023-12-22").subscribe((data) => {
-      debugger
-      console.log(data);
+
+    if(this.selected){
+
+      const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
+
+      this.dataService.getAttendanceDetailsByDate(this.getLoginDetailsId(), this.getLoginDetailsRole(), endDateStr).subscribe((data) => {
+        const keys = Object.keys(data);
+        this.attendanceDataByDateKey = keys;
+
+        this.attendanceDataByDate = data;
+        console.log(this.attendanceDataByDateKey);
     }, (error) => {
       debugger
       console.log(error);
     })
+
+    }
   }
+
+
+
+  // this.myAttendanceData = response;
+  // console.log(this.myAttendanceData);
+  // if (this.myAttendanceData) {
+    
+  //   for (const key in this.myAttendanceData) {
+      
+  //     if (this.myAttendanceData.hasOwnProperty(key)) {
+  //       const attendanceArray = this.myAttendanceData[key];
+
+  //       this.attendanceArrayDate=attendanceArray;
+        
+  //       // for (const element of attendanceArray) {
+  //       //   if (element.checkInTime !== null) {
+            
+  //       //     this.totalll += 1;
+  //       //   }
+  //       // }
+
+        
+  //     }
+  //   }
+  // }
 
 
   optionsDatePicker: any = {
