@@ -11,6 +11,12 @@ import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepi
   styleUrls: ['./timetable.component.css']
 })
 export class TimetableComponent implements OnInit {
+isNextDayDisabled() {
+throw new Error('Method not implemented.');
+}
+openCalendar() {
+throw new Error('Method not implemented.');
+}
 datesUpdated($event: TimePeriod) {
 throw new Error('Method not implemented.');
 }
@@ -19,7 +25,9 @@ throw new Error('Method not implemented.');
 }
 alwaysShowCalendars: boolean | undefined;
 model: any;
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService) { 
+    this.setCurrentDate();
+  }
 
   selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
@@ -177,5 +185,52 @@ model: any;
       this.dateRangeInputValue = '';
     }
   }
+
+
+
+
+
+  // ##########################################################################
+
+  selectedDate: string = ''; // To store the selected date
+  currentDate: string = ''; // To store the current date in the format 'DD MMM YYYY'
+
+  setCurrentDate() {
+    const today = new Date();
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+    this.currentDate = today.toLocaleDateString('en-US', options);
+    this.selectedDate = this.currentDate; // Set the selected date initially to today
+  }
+
+  onDateChange() {
+    // Handle the date change logic here
+    console.log('Selected date:', this.selectedDate);
+  }
+
+  selectPreviousDay() {
+    const currentDateObject = new Date(this.selectedDate);
+    currentDateObject.setDate(currentDateObject.getDate() - 1);
+    this.selectedDate = this.formatDate(currentDateObject);
+  }
+
+  selectNextDay() {
+    const currentDateObject = new Date(this.selectedDate);
+    const tomorrow = new Date(currentDateObject);
+    tomorrow.setDate(currentDateObject.getDate() + 1);
+
+    // Disable the right arrow if the next day is equal to or greater than today
+    if (tomorrow.toDateString() === new Date().toDateString()) {
+      return;
+    }
+
+    this.selectedDate = this.formatDate(tomorrow);
+  }
+
+  formatDate(date: Date): string {
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  }
+
+
 }
 

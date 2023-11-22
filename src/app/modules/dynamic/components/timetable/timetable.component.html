@@ -193,16 +193,30 @@
 </div>
 <div class="attendance-sheet mt-3">
     <div class="row">
-        <div class="col-md-6">
+
+
+        
+        <!-- <div class="col-md-6">
             <div class="date-all-approved d-flex align-items-center" style="gap:20px">
                 <span class="approved-left active-color"><i class="bi bi-chevron-left"></i></span>
                 <h5>19 Nov 2023</h5>
                 <span class="approved-right  "><i class="bi bi-chevron-right"></i></span>
-
                 <span class="cal-icon"><i class="bi bi-calendar3"></i></span>
             </div>
 
-        </div>
+        </div> -->
+
+
+        <div class="col-md-6">
+            <div class="date-all-approved d-flex align-items-center" style="gap:20px">
+              <span class="approved-left active-color" (click)="selectPreviousDay()"><i class="bi bi-chevron-left"></i></span>
+              <!-- <input type="text" [(ngModel)]="selectedDate" readonly> -->
+              <span class="approved-right" (click)="selectNextDay()" [class.disabled]="isNextDayDisabled()"><i class="bi bi-chevron-right"></i></span>
+              <span class="cal-icon" (click)="openCalendar()"><i class="bi bi-calendar3"></i></span>
+            </div>
+          </div>
+          
+
         <div class="col-md-6 d-flex align-items-center justify-content-end">
             <div class="all-approved">
                 <p class="mb-0"><i class="bi bi-check-circle-fill" style="padding-right: 5px;"></i> All Approved</p>
