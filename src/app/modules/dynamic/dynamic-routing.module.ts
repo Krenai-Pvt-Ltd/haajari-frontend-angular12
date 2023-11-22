@@ -20,6 +20,7 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
 import { TemporaryComponent } from './components/temporary/temporary.component';
 import { AuthGuard } from 'src/app/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -41,6 +42,7 @@ const routes: Routes = [
   {path: 'team-detail', component: TeamDetailComponent},
   {path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard]},
   {path: 'user-profile', component: UserProfileComponent}, 
+  {path: 'reports', component: ReportsComponent}, 
 
 
 //   {path: 'team-detail', component: TeamDetailComponent},
