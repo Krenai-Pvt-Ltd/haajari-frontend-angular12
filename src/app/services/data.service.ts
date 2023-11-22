@@ -255,12 +255,12 @@ export class DataService {
 
 
   saveLeaveRequest(request: any): Observable<any> {
-    return this.httpClient.post( this.baseUrl+'/save-users-leave',request);
+    return this.httpClient.post( this.baseUrl+'/user-leave/save-users-leave',request);
   }
 
   getUserLeaveRequests(id: any): Observable<any> {
     const params = new HttpParams().set("id", id);
-    return this.httpClient.get<any>(`${this.baseUrl}/user-leave`, {
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave/get-user-leave`, {
       params,
     });
   }
