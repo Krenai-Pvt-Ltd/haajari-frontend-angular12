@@ -1,12 +1,8 @@
-
 <div class="page-wrapper">
-
-    <!-- Page Content-->
-    <div class="page-content-tab">
-
-        <div class="container-fluid">
-           
-            <!-- <div class="row">
+  <!-- Page Content-->
+  <div class="page-content-tab">
+    <div class="container-fluid">
+      <!-- <div class="row">
                 <div class="col-sm-12">
                     <div class="page-title-box">
                        
@@ -14,8 +10,8 @@
                     </div>
                 </div>
             </div> -->
-            <!-- end page title end breadcrumb -->
-<!-- <div class="row">
+      <!-- end page title end breadcrumb -->
+      <!-- <div class="row">
     <div class="col-lg-3">
         
     
@@ -157,8 +153,7 @@
     </div>
 </div> -->
 
-
-<!-- <div class="row app-emptiy-notifaction">
+      <!-- <div class="row app-emptiy-notifaction">
     <div class="col-md-6 d-flex align-items-center justify-content-center">
          <div ccol-md-6la
          ss="">
@@ -179,374 +174,506 @@
     </div>
 </div> -->
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="add-filtter d-flex align-items-center justify-content-end" style="gap:10px;">
+      <div class="row">
+        <div class="col-md-12">
+          <div
+            class="add-filtter d-flex align-items-center justify-content-end"
+            style="gap: 10px"
+          >
             <a>Unprocessed Logs <i class="bi bi-list-ol"></i></a>
-            <p style="color:#a1a0a0; margin-bottom: 0px;">|</p>
+            <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
             <a>Daily Report <i class="bi bi-download"></i></a>
-            <p style="color:#a1a0a0; margin-bottom: 0px;">|</p>
+            <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
             <a>Settings <i class="bi bi-gear"></i></a>
+          </div>
         </div>
-    </div>
-
-</div>
-<div class="attendance-sheet mt-3">
-    <div class="row">
-        <div class="col-md-6">
+      </div>
+      <div class="attendance-sheet mt-3">
+        <div class="row">
+          <div class="col-md-6">
             <div class="date-all-approved d-flex align-items-center" style="gap:20px">
                 <span class="approved-left active-color"><i class="bi bi-chevron-left"></i></span>
-                <h5>19 Nov 2023</h5>
-                <span class="approved-right  "><i class="bi bi-chevron-right"></i></span>
-
+                <input type="date">
+                <!-- <input
+                type="text"
+                ngxDaterangepickerMd
+                [autoApply]="optionsDatePicker.autoApply"
+                applyLabel="Okay"
+                [locale]="{ applyLabel: 'ok', format: 'DD-MM-YYYY' }"
+                [showDropdowns]="false"
+                startKey="start"
+                endKey="end"
+                placeholder="Select Daterange"
+                [(ngModel)]="selected"
+                (ngModelChange)="onDateChange($event)"
+                [showWeekNumbers]="optionsDatePicker.showWeekNumbers"
+                [showCancel]="optionsDatePicker.showCancel"
+                [showClearButton]="optionsDatePicker.showClearButton"
+                [showISOWeekNumbers]="optionsDatePicker.showISOWeekNumbers"
+                [keepCalendarOpeningWithRange]="
+                  optionsDatePicker.keepCalendarOpeningWithRange
+                "
+                [alwaysShowCalendars]="optionsDatePicker.alwaysShowCalendars"
+                [lockStartDate]="optionsDatePicker.lockStartDate"
+                [closeOnAutoApply]="optionsDatePicker.closeOnAutoApply"
+                firstMonthDayClass="first-day"
+                lastMonthDayClass="last-day"
+                emptyWeekRowClass="empty-week-row"
+                emptyWeekColumnClass="empty-week-column"
+                lastDayOfPreviousMonthClass="last-previous-day"
+                firstDayOfNextMonthClass="first-next-day"
+                [timePicker]="false"
+                name="daterange"
+                autocomplete="off"
+              /> -->         
+              
+              <span class="approved-right  "><i class="bi bi-chevron-right"></i></span> 
                 <span class="cal-icon"><i class="bi bi-calendar3"></i></span>
             </div>
 
         </div>
-        <div class="col-md-6 d-flex align-items-center justify-content-end">
+
+          
+
+          <div class="col-md-6 d-flex align-items-center justify-content-end">
             <div class="all-approved">
-                <p class="mb-0"><i class="bi bi-check-circle-fill" style="padding-right: 5px;"></i> All Approved</p>
+              <p class="mb-0">
+                <i
+                  class="bi bi-check-circle-fill"
+                  style="padding-right: 5px"
+                ></i>
+                All Approved
+              </p>
             </div>
+          </div>
         </div>
-    </div>
-    <div class="attendance-deta mb-2 mt-3 ">
-        <div class="d-flex align-items-center justify-content-between">
-        <div class="staf">
-            <p>Total Staf</p>
-            <h5>28</h5>
+        <div class="attendance-deta mb-2 mt-3">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="staf">
+              <p>Total Staf</p>
+              <h5>28</h5>
+            </div>
+            <div class="staf">
+              <p>Present</p>
+              <h5>22</h5>
+            </div>
+            <div class="staf">
+              <p>Absent</p>
+              <h5>2</h5>
+            </div>
+            <div class="staf">
+              <p>Half Day</p>
+              <h5>0</h5>
+            </div>
+            <div class="staf">
+              <p>OverTime Hours</p>
+              <h5>00:00</h5>
+            </div>
+            <div class="staf">
+              <p>Fine Hours</p>
+              <h5>00:00</h5>
+            </div>
+            <div class="staf">
+              <p>Paid Leave</p>
+              <h5>5</h5>
+            </div>
+          </div>
         </div>
-        <div class="staf">
-            <p>Present</p>
-            <h5>22</h5>
-        </div>
-        <div class="staf">
-            <p>Absent</p>
-            <h5>2</h5>
-        </div>
-        <div class="staf">
-            <p>Half Day</p>
-            <h5>0</h5>
-        </div>
-        <div class="staf">
-            <p>OverTime Hours </p>
-            <h5>00:00</h5>
-        </div>
-        <div class="staf">
-            <p>Fine Hours</p>
-            <h5>00:00</h5>
-        </div>
-        <div class="staf">
-            <p>Paid Leave</p>
-            <h5>5</h5>
-        </div>
-    </div>
+      </div>
 
-    </div>
-</div>
-
-
-<div class="search-bar mt-3 mb-3">
-    <div class="row">
-       <div class="col-md-12">
-           <div class="searchbr-ui">
-            <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
-                <div class="form-group">
-                    <input type="search" id="searchText" placeholder="Search Staff By Name, Phone Number or EmployeeID" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;" >
-                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
-                </div>
-            </form>
-           </div>
-       </div>
-    </div>
-</div>
-
-
-<div class="row mb-3">
-    <div class="col-md-6">
-        <div class="monthly-heading">
-            <h5 class="d-flex align-items-center" style="gap:10px;">Monthly Regular <span class="monthly-span">2</span></h5>
-        </div>
-    </div>
-    <div class="col-md-6 d-flex justify-content-end align-items-center">
+      <div class="search-bar mt-3 mb-3">
         <div class="row">
-            <div class="dropdown" >
-                <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                 A to Z <i class="bi bi-chevron-down"></i>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
-                  <li><a class="dropdown-item">Z to A</a></li>
-                </ul>
+          <div class="col-md-12">
+            <div class="searchbr-ui">
+              <form
+                novalidate=""
+                role="search"
+                class="searching ng-untouched ng-pristine ng-valid"
+              >
+                <div class="form-group">
+                  <input
+                    type="search"
+                    id="searchText"
+                    placeholder="Search Staff By Name, Phone Number or EmployeeID"
+                    class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                    style="padding: 10px 30px"
+                  />
+                  <i
+                    class="bi bi-search search-icon"
+                    style="margin: auto; margin-left: 10px"
+                  ></i>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <div class="monthly-heading">
+            <h5 class="d-flex align-items-center" style="gap: 10px">
+              Monthly Regular <span class="monthly-span">2</span>
+            </h5>
+          </div>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end align-items-center">
+          <div class="row">
+            <div class="dropdown">
+              <button
+                class="btn btn-secondary dropdown-toggle new-deopdown"
+                type="button"
+                id="dropdownMenuButton1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                A to Z <i class="bi bi-chevron-down"></i>
+              </button>
+              <ul
+                class="dropdown-menu"
+                aria-labelledby="dropdownMenuButton1"
+                style="width: 100%"
+              >
+                <li><a class="dropdown-item">Z to A</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="monthly-section">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="Regular-data">
+              <h5>Yogesh Yadav <span class="attendance-id">123</span></h5>
+              <p>Not Marked</p>
+              <div class="add-note d-flex" style="gap: 10px">
+                <a
+                  href=""
+                  data-bs-toggle="modal"
+                  data-bs-target=".bs-example-modal-center"
+                >
+                  Add Note</a
+                >
+                <a>|</a>
+                <a href="" data-bs-toggle="modal" data-bs-target=".viewlog">
+                  View Logs</a
+                >
               </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>In </span><span>|</span>
+                  <p class="mb-0">10:00 AM</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Out </span> <span>|</span>
+                  <p class="mb-0">07:10 PM</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Total Hours </span><span>|</span>
+                  <p class="mb-0">09:00 H</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Break </span> <span>|</span>
+                  <p class="mb-0">01:00 PM</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Back </span> <span>|</span>
+                  <p class="mb-0">02:00 AM</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Total Hours </span><span>|</span>
+                  <p class="mb-0">01:10 PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-</div>
-<div class="monthly-section">
-    <div class="row">
-        <div class="col-md-6">
+      </div>
+      <div class="monthly-section">
+        <div class="row">
+          <div class="col-md-6">
             <div class="Regular-data">
-                <h5>Yogesh Yadav <span class="attendance-id">123</span></h5>
-                <p>Not Marked</p>
-                <div class="add-note d-flex" style="gap:10px">
-                    <a href="" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center"> Add Note</a>
-                    <a>|</a>
-                    <a href="" data-bs-toggle="modal" data-bs-target=".viewlog"> View Logs</a>
-                </div>
-                
-
+              <h5 routerLink="dynamic/user-profile">
+                Yogesh Yadav <span class="attendance-id">123</span>
+              </h5>
+              <p>Not Marked</p>
+              <div class="add-note d-flex" style="gap: 10px">
+                <a
+                  href=""
+                  data-bs-toggle="modal"
+                  data-bs-target=".bs-example-modal-center"
+                >
+                  Add Note</a
+                >
+                <a>|</a>
+                <a href="" data-bs-toggle="modal" data-bs-target=".viewlog">
+                  View Logs</a
+                >
+              </div>
             </div>
-
-        </div>
-        <div class="col-md-6">
+          </div>
+          <div class="col-md-6">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="in-time">
-                       <span>In </span><span>|</span> <p class="mb-0">10:00 AM</p>
-                    </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>In </span><span>|</span>
+                  <p class="mb-0">10:00 AM</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Out </span> <span>|</span><p class="mb-0">07:10 PM</p>
-                    </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Out </span> <span>|</span>
+                  <p class="mb-0">07:10 PM</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Total Hours </span><span>|</span> <p class="mb-0">09:00 H</p>
-                    </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Total Hours </span><span>|</span>
+                  <p class="mb-0">09:00 H</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Break </span> <span>|</span><p class="mb-0">01:00 PM</p>
-                    </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Break </span> <span>|</span>
+                  <p class="mb-0">01:00 PM</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Back </span> <span>|</span><p class="mb-0">02:00 AM</p>
-                    </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Back </span> <span>|</span>
+                  <p class="mb-0">02:00 AM</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Total Hours </span><span>|</span> <p class="mb-0">01:10 PM</p>
-                    </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Total Hours </span><span>|</span>
+                  <p class="mb-0">01:10 PM</p>
                 </div>
+              </div>
             </div>
-
+          </div>
         </div>
-    </div>
-
-</div>
-<div class="monthly-section">
-    <div class="row">
-        <div class="col-md-6">
+      </div>
+      <div class="monthly-section">
+        <div class="row">
+          <div class="col-md-6">
             <div class="Regular-data">
-                <h5 routerLink="dynamic/user-profile">Yogesh Yadav <span class="attendance-id">123</span></h5>
-                <p>Not Marked</p>
-                <div class="add-note d-flex" style="gap:10px">
-                    <a href="" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center"> Add Note</a>
-                    <a>|</a>
-                    <a href="" data-bs-toggle="modal" data-bs-target=".viewlog"> View Logs</a>
-                </div>
-                
-
+              <h5>Yogesh Yadav <span class="attendance-id">123</span></h5>
+              <p>Not Marked</p>
+              <div class="add-note d-flex" style="gap: 10px">
+                <a
+                  href=""
+                  data-bs-toggle="modal"
+                  data-bs-target=".bs-example-modal-center"
+                >
+                  Add Note</a
+                >
+                <a>|</a>
+                <a href="" data-bs-toggle="modal" data-bs-target=".viewlog">
+                  View Logs</a
+                >
+              </div>
             </div>
-
-        </div>
-        <div class="col-md-6">
+          </div>
+          <div class="col-md-6">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="in-time">
-                       <span>In </span><span>|</span> <p class="mb-0">10:00 AM</p>
-                    </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>In </span><span>|</span>
+                  <p class="mb-0">10:00 AM</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Out </span> <span>|</span><p class="mb-0">07:10 PM</p>
-                    </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Out </span> <span>|</span>
+                  <p class="mb-0">07:10 PM</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Total Hours </span><span>|</span> <p class="mb-0">09:00 H</p>
-                    </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Total Hours </span><span>|</span>
+                  <p class="mb-0">09:00 H</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Break </span> <span>|</span><p class="mb-0">01:00 PM</p>
-                    </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Break </span> <span>|</span>
+                  <p class="mb-0">01:00 PM</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Back </span> <span>|</span><p class="mb-0">02:00 AM</p>
-                    </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Back </span> <span>|</span>
+                  <p class="mb-0">02:00 AM</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Total Hours </span><span>|</span> <p class="mb-0">01:10 PM</p>
-                    </div>
+              </div>
+              <div class="col-md-4">
+                <div class="in-time">
+                  <span>Total Hours </span><span>|</span>
+                  <p class="mb-0">01:10 PM</p>
                 </div>
+              </div>
             </div>
-
+          </div>
         </div>
+      </div>
     </div>
-
+  </div>
 </div>
-<div class="monthly-section">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="Regular-data" >
-                <h5 > Yogesh Yadav <span class="attendance-id">123</span></h5>
-                <p>Not Marked</p>
-                <div class="add-note d-flex" style="gap:10px">
-                    <a href="" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center"> Add Note</a>
-                    <a>|</a>
-                    <a href="" data-bs-toggle="modal" data-bs-target=".viewlog"> View Logs</a>
-                </div>
-                
 
-            </div>
-
+<div
+  class="modal fade bs-example-modal-center"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="mySmallModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title m-0" id="exampleModalCenterTitle">Add Notes</h6>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="">
+          <div class="mb-3">
+            <label for="username" style="padding-bottom: 6px"
+              >Notes Title</label
+            >
+            <input
+              type="text"
+              id="username"
+              placeholder="Enter title ..."
+              name="username"
+              required=""
+              class="form-control ng-untouched ng-pristine ng-invalid"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="message" style="padding-bottom: 6px">Message</label>
+            <textarea
+              class="form-control"
+              rows="5"
+              id="message"
+              style="height: 100px !important"
+            ></textarea>
+          </div>
         </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="in-time">
-                       <span>In </span><span>|</span> <p class="mb-0">10:00 AM</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Out </span> <span>|</span><p class="mb-0">07:10 PM</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Total Hours </span><span>|</span> <p class="mb-0">09:00 H</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Break </span> <span>|</span><p class="mb-0">01:00 PM</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Back </span> <span>|</span><p class="mb-0">02:00 AM</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="in-time">
-                        <span>Total Hours </span><span>|</span> <p class="mb-0">01:10 PM</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-de-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-primary save-changes">
+          Submit
+        </button>
+      </div>
     </div>
-
+  </div>
 </div>
 
-
-</div>
-</div>
-</div>
-
-
-
-<div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title m-0" id="exampleModalCenterTitle">Add Notes</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="">
-                    <div class="mb-3">
-                        <label for="username" style="padding-bottom: 6px;">Notes Title</label>
-                        <input type="text" id="username" placeholder="Enter title ..." name="username" required="" class="form-control ng-untouched ng-pristine ng-invalid">
-                    </div>
-                    <div class="mb-3">
-                        <label for="message" style="padding-bottom: 6px;">Message</label>
-                        <textarea class="form-control" rows="5" id="message" style="height:100px !important; "></textarea>
-                    </div>
-                </div>
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-de-secondary " data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary save-changes">Submit</button>
-            </div>
+<div
+  class="modal fade viewlog"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="mySmallModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title m-0" id="exampleModalCenterTitle">View Logs</h6>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="">
+          <div class="">
+            <table class="table">
+              <thead class="table-light">
+                <tr>
+                  <th class="text-left">Date</th>
+                  <th class="text-left">In Time</th>
+                  <th class="text-left">Out Time</th>
+                  <th class="text-left">Total Time</th>
+                  <th class="text-left">Break</th>
+                  <th class="text-left">Back Time</th>
+                  <th class="text-left">Total Break</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-left">01-12-2023</td>
+                  <td class="text-left">10:13 AM</td>
+                  <td class="text-left">07:15 PM</td>
+                  <td class="text-left">08:50 H</td>
+                  <td class="text-left">01:10 PM</td>
+                  <td class="text-left">02:10 PM</td>
+                  <td class="text-left">01:20 H</td>
+                </tr>
+                <tr>
+                  <td class="text-left">01-12-2023</td>
+                  <td class="text-left">10:13 AM</td>
+                  <td class="text-left">07:15 PM</td>
+                  <td class="text-left">08:50 H</td>
+                  <td class="text-left">01:10 PM</td>
+                  <td class="text-left">02:10 PM</td>
+                  <td class="text-left">01:20 H</td>
+                </tr>
+                <tr>
+                  <td class="text-left">01-12-2023</td>
+                  <td class="text-left">10:13 AM</td>
+                  <td class="text-left">07:15 PM</td>
+                  <td class="text-left">08:50 H</td>
+                  <td class="text-left">01:10 PM</td>
+                  <td class="text-left">02:10 PM</td>
+                  <td class="text-left">01:20 H</td>
+                </tr>
+                <tr>
+                  <td class="text-left">01-12-2023</td>
+                  <td class="text-left">10:13 AM</td>
+                  <td class="text-left">07:15 PM</td>
+                  <td class="text-left">08:50 H</td>
+                  <td class="text-left">01:10 PM</td>
+                  <td class="text-left">02:10 PM</td>
+                  <td class="text-left">01:20 H</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-    </div>
-</div>
-
-
-<div class="modal fade viewlog" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title m-0" id="exampleModalCenterTitle">View Logs</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="">
-                    <div class="">
-                        <table class="table">
-                            <thead class="table-light">
-                                <tr>
-                                    <th class="text-left">Date</th>
-                                    <th class="text-left">In Time</th>
-                                    <th class="text-left">Out Time</th>
-                                    <th class="text-left">Total Time</th>
-                                    <th class="text-left">Break</th>
-                                    <th class="text-left">Back Time</th>
-                                    <th class="text-left">Total Break</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td class="text-left">01-12-2023</td>
-                                <td class="text-left">10:13 AM</td>
-                                <td class="text-left">07:15 PM</td>
-                                <td class="text-left">08:50 H</td>
-                                <td class="text-left">01:10 PM</td>
-                                <td class="text-left">02:10 PM</td>
-                                <td class="text-left">01:20 H</td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">01-12-2023</td>
-                                <td class="text-left">10:13 AM</td>
-                                <td class="text-left">07:15 PM</td>
-                                <td class="text-left">08:50 H</td>
-                                <td class="text-left">01:10 PM</td>
-                                <td class="text-left">02:10 PM</td>
-                                <td class="text-left">01:20 H</td>
-                            </tr> <tr>
-                                <td class="text-left">01-12-2023</td>
-                                <td class="text-left">10:13 AM</td>
-                                <td class="text-left">07:15 PM</td>
-                                <td class="text-left">08:50 H</td>
-                                <td class="text-left">01:10 PM</td>
-                                <td class="text-left">02:10 PM</td>
-                                <td class="text-left">01:20 H</td>
-                            </tr> <tr>
-                                <td class="text-left">01-12-2023</td>
-                                <td class="text-left">10:13 AM</td>
-                                <td class="text-left">07:15 PM</td>
-                                <td class="text-left">08:50 H</td>
-                                <td class="text-left">01:10 PM</td>
-                                <td class="text-left">02:10 PM</td>
-                                <td class="text-left">01:20 H</td>
-                            </tr>
-                        </tbody>
-                        </table>
-                    </div>
-                </div>
-               
-                
-            </div>
-            <!-- <div class="modal-footer">
+      </div>
+      <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-de-secondary " data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary save-changes">Submit</button>
             </div> -->
-        </div>
     </div>
+  </div>
 </div>

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TemporaryComponent } from './temporary.component';
+import { TempComponent } from './temp.component';
 
-describe('TemporaryComponent', () => {
-  let component: TemporaryComponent;
-  let fixture: ComponentFixture<TemporaryComponent>;
+describe('TempComponent', () => {
+  let component: TempComponent;
+  let fixture: ComponentFixture<TempComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TemporaryComponent ]
+      declarations: [ TempComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TemporaryComponent);
+    fixture = TestBed.createComponent(TempComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

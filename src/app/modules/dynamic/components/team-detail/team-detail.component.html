@@ -116,21 +116,17 @@ ad                <div class="col-sm-12">
                                                             </a>
                                                             <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
 
-                                                                <div class="manager-list">
-<<<<<<< HEAD
-                                                                   <a class="dropdown-item" >Make Manager </a>
-=======
+                                                                <div class="manager-list" *ngIf="localStorageRoleAdminFlag==true || (managerIdFlag==true && localStorageRoleAdminFlag==false)">
                                                                    <a class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
                                                                    
->>>>>>> 46583048953d48ea5e8dc1991a9d86eda1bd3a54
                                                                 </div>
-                                                                <div class="manager-list">
+                                                                <div class="manager-list"  *ngIf="localStorageRoleAdminFlag==true || (managerIdFlag==true && localStorageRoleAdminFlag==false)">
                                                                    <a class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager</a>
                                                                 </div>
                                                                 <div class="manager-list">
                                                                     <a class="dropdown-item">View Profile</a>
                                                                  </div>
-                                                                <div class="manager-list remove-team">
+                                                                <div class="manager-list remove-team"  *ngIf="localStorageRoleAdminFlag==true || (managerIdFlag==true && localStorageRoleAdminFlag==false)">
                                                                     <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.id,ul.id)">
                                                                         <span>Remove from team</span></a>
                                                                 </div>
@@ -229,7 +225,7 @@ ad                <div class="col-sm-12">
                                             </div>
 
                                         </div>
-                                        <!-- <div class="members-add">
+                                        <div class="members-add">
                                             <div class="">
                                                 <h5>Templates</h5>
                                             </div>
@@ -245,7 +241,7 @@ ad                <div class="col-sm-12">
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="members-add">
@@ -622,21 +618,21 @@ ad                <div class="col-sm-12">
                     <div class="card-body p-0">    
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#general" role="tab" aria-selected="true">General</a>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="tab" href="#members" role="tab" aria-selected="false">Members</a>
                             </li>                                                
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="tab" href="#advanced" role="tab" aria-selected="false">Advanced</a>
-                            </li>
+                            </li> -->
                             
                         </ul>
 
                         <!-- Tab panes -->
                         <div class="tab-content">
-                            <div class="tab-pane  p-3 active" id="general" role="tabpanel">
+                            <div class="tab-pane  p-3 active" id="members" role="tabpanel">
                                 <div class="">
                                     <div class="">
                                         <h5>Members</h5>

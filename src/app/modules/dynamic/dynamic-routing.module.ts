@@ -17,10 +17,13 @@ import { AddToSlackComponent } from './components/add-to-slack/add-to-slack.comp
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
-import { TemporaryComponent } from './components/temporary/temporary.component';
 import { AuthGuard } from 'src/app/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+<<<<<<< HEAD
 import { ReportsComponent } from './components/reports/reports.component';
+=======
+import { TempComponent } from './components/temp/temp.component';
+>>>>>>> 0e97d6ed6e830dec470ccde7750469c275f7ff77
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -40,14 +43,16 @@ const routes: Routes = [
   {path: 'addtoslack', component: AddToSlackComponent},
   {path: 'waiting', component: WaitingPageComponent},
   {path: 'team-detail', component: TeamDetailComponent},
-  {path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard]},
   {path: 'user-profile', component: UserProfileComponent}, 
+<<<<<<< HEAD
   {path: 'reports', component: ReportsComponent}, 
+=======
+  {path: 'temp', component: TempComponent}
+>>>>>>> 0e97d6ed6e830dec470ccde7750469c275f7ff77
 
 
 //   {path: 'team-detail', component: TeamDetailComponent},
 //   {path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard]}
-// >>>>>>> 39086eadea062b881b253ba7f281bf51a15b1305
   ];
 
 @NgModule({
