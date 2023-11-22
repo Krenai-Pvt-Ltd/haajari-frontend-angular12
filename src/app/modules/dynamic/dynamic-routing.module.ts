@@ -17,9 +17,9 @@ import { AddToSlackComponent } from './components/add-to-slack/add-to-slack.comp
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
-import { TemporaryComponent } from './components/temporary/temporary.component';
 import { AuthGuard } from 'src/app/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { TempComponent } from './components/temp/temp.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -39,13 +39,12 @@ const routes: Routes = [
   {path: 'addtoslack', component: AddToSlackComponent},
   {path: 'waiting', component: WaitingPageComponent},
   {path: 'team-detail', component: TeamDetailComponent},
-  {path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard]},
   {path: 'user-profile', component: UserProfileComponent}, 
+  {path: 'temp', component: TempComponent}
 
 
 //   {path: 'team-detail', component: TeamDetailComponent},
 //   {path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard]}
-// >>>>>>> 39086eadea062b881b253ba7f281bf51a15b1305
   ];
 
 @NgModule({

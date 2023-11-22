@@ -173,6 +173,16 @@ span.todo-task {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.projectdIcon{
+    transition:0.2s linear;
+    transform: rotate(90deg);
+    display: inline-block;
+}
+.projectdIcon.collapsed{
+    /* transition:0.2s linear; */
+    transform: rotate(0deg);
+}
 /* .plandtlMain:not(.collapsed) > .plandtlMainicon i {
     transform: rotate(180deg);
 } */

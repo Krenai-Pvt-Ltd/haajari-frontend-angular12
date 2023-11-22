@@ -219,7 +219,7 @@ select.form-control {
 }
 
 .app-emptiy-notifaction{
-    background-color: #fff;
+    background-color: transparent;
     margin-bottom: 15px;
     padding: 15px;
     border-radius: 10px !important;
@@ -403,4 +403,20 @@ select.form-control {
     border-color: #557ef8 !important;
     padding: 0px 15px !important;
     height: 36px;
+}
+
+.table-light {
+    background-color: #f9fafb !important;
+}
+
+.table th {
+    color: #8997bd;
+    font-weight: 400;
+    vertical-align: middle;
+    border-color: #ececec;
+    font-size: 12px !important;
+}
+
+.table td {
+    font-size: 12px !important;
 }

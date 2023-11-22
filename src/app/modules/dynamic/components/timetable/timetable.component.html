@@ -156,6 +156,29 @@
                         
     </div>
 </div> -->
+
+
+<!-- <div class="row app-emptiy-notifaction">
+    <div class="col-md-6 d-flex align-items-center justify-content-center">
+         <div ccol-md-6la
+         ss="">
+            <h4>No time off requests</h4>
+            <p>When your team submits time off requests,<br> they appear here.</p>
+
+            <div class="mb-3">
+                <a href="" class="addinh-hiar">Learn about time off <i class="bi bi-arrow-up-right" style="padding-left: 8px; font-size: 12px; color: #557ef8; font-weight: bold;"></i></a>
+            </div>
+         </div>
+    </div>
+    <div class="col-md-6">
+
+        <div class="">
+            <img src="assets/images/enpty-1.png" style="width:100%;">
+        </div>
+
+    </div>
+</div> -->
+
 <div class="row">
     <div class="col-md-12">
         <div class="add-filtter d-flex align-items-center justify-content-end" style="gap:10px;">
@@ -170,16 +193,30 @@
 </div>
 <div class="attendance-sheet mt-3">
     <div class="row">
-        <div class="col-md-6">
+
+
+        
+        <!-- <div class="col-md-6">
             <div class="date-all-approved d-flex align-items-center" style="gap:20px">
                 <span class="approved-left active-color"><i class="bi bi-chevron-left"></i></span>
                 <h5>19 Nov 2023</h5>
                 <span class="approved-right  "><i class="bi bi-chevron-right"></i></span>
-
                 <span class="cal-icon"><i class="bi bi-calendar3"></i></span>
             </div>
 
-        </div>
+        </div> -->
+
+
+        <div class="col-md-6">
+            <div class="date-all-approved d-flex align-items-center" style="gap:20px">
+              <span class="approved-left active-color" (click)="selectPreviousDay()"><i class="bi bi-chevron-left"></i></span>
+              <!-- <input type="text" [(ngModel)]="selectedDate" readonly> -->
+              <span class="approved-right" (click)="selectNextDay()" [class.disabled]="isNextDayDisabled()"><i class="bi bi-chevron-right"></i></span>
+              <span class="cal-icon" (click)="openCalendar()"><i class="bi bi-calendar3"></i></span>
+            </div>
+          </div>
+          
+
         <div class="col-md-6 d-flex align-items-center justify-content-end">
             <div class="all-approved">
                 <p class="mb-0"><i class="bi bi-check-circle-fill" style="padding-right: 5px;"></i> All Approved</p>
@@ -457,20 +494,73 @@
 
 
 <div class="modal fade viewlog" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title m-0" id="exampleModalCenterTitle">View Logs</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <div class="">
+                    <div class="">
+                        <table class="table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-left">Date</th>
+                                    <th class="text-left">In Time</th>
+                                    <th class="text-left">Out Time</th>
+                                    <th class="text-left">Total Time</th>
+                                    <th class="text-left">Break</th>
+                                    <th class="text-left">Back Time</th>
+                                    <th class="text-left">Total Break</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-left">01-12-2023</td>
+                                <td class="text-left">10:13 AM</td>
+                                <td class="text-left">07:15 PM</td>
+                                <td class="text-left">08:50 H</td>
+                                <td class="text-left">01:10 PM</td>
+                                <td class="text-left">02:10 PM</td>
+                                <td class="text-left">01:20 H</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left">01-12-2023</td>
+                                <td class="text-left">10:13 AM</td>
+                                <td class="text-left">07:15 PM</td>
+                                <td class="text-left">08:50 H</td>
+                                <td class="text-left">01:10 PM</td>
+                                <td class="text-left">02:10 PM</td>
+                                <td class="text-left">01:20 H</td>
+                            </tr> <tr>
+                                <td class="text-left">01-12-2023</td>
+                                <td class="text-left">10:13 AM</td>
+                                <td class="text-left">07:15 PM</td>
+                                <td class="text-left">08:50 H</td>
+                                <td class="text-left">01:10 PM</td>
+                                <td class="text-left">02:10 PM</td>
+                                <td class="text-left">01:20 H</td>
+                            </tr> <tr>
+                                <td class="text-left">01-12-2023</td>
+                                <td class="text-left">10:13 AM</td>
+                                <td class="text-left">07:15 PM</td>
+                                <td class="text-left">08:50 H</td>
+                                <td class="text-left">01:10 PM</td>
+                                <td class="text-left">02:10 PM</td>
+                                <td class="text-left">01:20 H</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
                
                 
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-de-secondary " data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary save-changes">Submit</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

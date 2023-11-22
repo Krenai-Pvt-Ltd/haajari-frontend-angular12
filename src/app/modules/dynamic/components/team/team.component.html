@@ -23,7 +23,7 @@
             </div> -->
             
             <!-- end page title end breadcrumb -->
-            <div class="row mt-3"  *ngIf="teams.length>0">
+            <div class="row"  *ngIf="teams.length>0">
                 <div class="col-lg-6">
                    
                 </div>
@@ -478,29 +478,29 @@
                 <div class="card-body p-0">    
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link active" data-bs-toggle="tab" href="#general" role="tab" aria-selected="true">General</a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#members-add" role="tab" aria-selected="false">Members</a>
+                            <a class="nav-link active" data-bs-toggle="tab" href="#members-add" role="tab" aria-selected="false">Members</a>
                         </li>                                                
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="tab" href="#advanced" role="tab" aria-selected="false">Advanced</a>
-                        </li>
+                        </li> -->
                         
                     </ul>
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div class="tab-pane  p-3 active" id="general" role="tabpanel">
+                        <!-- <div class="tab-pane  p-3 active" id="general" role="tabpanel">
                          <p>General</p>
                             
                           
-                        </div>
-                        <div class="tab-pane p-3" id="members-add" role="tabpanel">
+                        </div> -->
+                        <div class="tab-pane p-3 active" id="members-add" role="tabpanel">
                             <div class="">
 
-                                <!-- ########################################## -->
+                               
 
                                 <div class="">
                                     <div class="">
@@ -521,7 +521,7 @@
                                                 <p class="mb-0">{{ul.email}}</p>
                                              </div>
                                         </div>
-                                        <div class="">
+                                        <div class="manegir-dropdown">
 
                                             <div class="dropdown d-inline-block" >
                                                 <!-- <a class="dropdown-toggle" *ngIf="i==0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -532,10 +532,22 @@
                                                     {{ capitalizeFirstLetterAndSmallOtherLetters(ul.role) }} <i class="bi bi-chevron-down font-14 text-muted"></i>
 
                                                 </a>
-                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
-                                                    <a class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
+                                                <div class="dropdown-menu dropdown-menu-end manager-list" aria-labelledby="dLabel1">
+
+
+                                                    <div class="manager-list">
+                                                        <a class="dropdown-item" class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
+                                                     </div>
+                                                     <div class="manager-list">
+                                                        <a class="dropdown-item" class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager </a>
+                                                     </div>
+
+                                                     <div class="manager-list remove-team">
+                                                        <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.id,ul.id)">Remove </a>
+                                                     </div>
+                                                    <!-- <a class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
                                                     <a class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager</a>
-                                                    <a class="dropdown-item" (click)="removeUserFromTeam(team.id,ul.id)">Delete</a>
+                                                    <a class="dropdown-item" (click)="removeUserFromTeam(team.id,ul.id)">Delete</a> -->
                                                 </div>
                                             </div>
 
