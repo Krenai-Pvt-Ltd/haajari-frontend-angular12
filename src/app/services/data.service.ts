@@ -33,9 +33,9 @@ export class DataService {
 
   //private baseUrl = Key.ENDPOINT;
   
-  // private baseUrl = "http://localhost:8080/api/v2"
+  private baseUrl = "http://localhost:8080/api/v2"
 
-  private baseUrl = "https://backend.hajiri.work/api/v2";
+  //private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
 
@@ -393,5 +393,15 @@ export class DataService {
   }
 
   // ###########################################################
+  getAttendanceDetailsByDate(id : number, role : string, date : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set("id", id)
+    .set("role", role)
+    .set("date", date)
+
+    debugger
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date`, {params});
+  }
 
 }
