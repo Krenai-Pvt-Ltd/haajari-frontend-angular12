@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
-import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
+// import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 
 @Component({
@@ -11,18 +11,7 @@ import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepi
   styleUrls: ['./timetable.component.css']
 })
 export class TimetableComponent implements OnInit {
-isNextDayDisabled() {
-throw new Error('Method not implemented.');
-}
-openCalendar() {
-throw new Error('Method not implemented.');
-}
-datesUpdated($event: TimePeriod) {
-throw new Error('Method not implemented.');
-}
-openDatepicker() {
-throw new Error('Method not implemented.');
-}
+
 alwaysShowCalendars: boolean | undefined;
 model: any;
   constructor(private dataService: DataService) { 
@@ -33,6 +22,7 @@ model: any;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
 
   ngOnInit(): void {
+    this.getAttendanceDetailsByDateMethodCall();
     const today = dayjs();
     const oneWeekAgo = today.subtract(1, 'week');
 
@@ -42,7 +32,6 @@ model: any;
     };
     this.updateDateRangeInputValue();
     this.getDataFromDate();
-    //this.checkingUserRoleMethod();
   }
 
 
@@ -52,7 +41,7 @@ model: any;
   attendanceArrayDate: any = [];
 
 
-  dateRangeFilter(event: ChosenDate): void {
+  dateRangeFilter(event: any): void {
     if (event.startDate && event.endDate) {
       // Use dayjs for date conversion
       this.selected = {
@@ -88,18 +77,16 @@ model: any;
       this.dataService.getDurationDetails(this.getLoginDetailsId(), this.getLoginDetailsRole(), startDateStr, endDateStr).subscribe(
         
         (response: any) => {
-          debugger
+          
           this.myAttendanceData = response;
           console.log(this.myAttendanceData);
           if (this.myAttendanceData) {
-            debugger
+            
             for (const key in this.myAttendanceData) {
-      
-              debugger
+              
               if (this.myAttendanceData.hasOwnProperty(key)) {
                 const attendanceArray = this.myAttendanceData[key];
 
-                debugger
                 this.attendanceArrayDate=attendanceArray;
                 
                 // for (const element of attendanceArray) {
@@ -142,10 +129,9 @@ model: any;
     if(loginDetails!==null){
       const loginData = JSON.parse(loginDetails);
       if(this.checkingUserRoleMethod() === true){
-        debugger
         return 'MANAGER';
       }
-      debugger
+      
       return loginData.role;
     }
   }
@@ -162,17 +148,12 @@ model: any;
   flag !: boolean;
 
   checkingUserRoleMethod(): boolean{ 
-    debugger
     this.dataService.checkingUserRole(this.getLoginDetailsId()).subscribe((data) => {
       this.flag = data;
-      debugger
       console.log(data);
     }, (error) => {
-      debugger
       console.log(error);
     })
-
-    debugger
     console.log(this.flag);
     
     return this.flag;
@@ -190,7 +171,10 @@ model: any;
 
 
 
-  // ##########################################################################
+
+
+
+  // ###############################################################################
 
   selectedDate: string = ''; // To store the selected date
   currentDate: string = ''; // To store the current date in the format 'DD MMM YYYY'
@@ -202,9 +186,9 @@ model: any;
     this.selectedDate = this.currentDate; // Set the selected date initially to today
   }
 
-  onDateChange() {
+  onDateChange(event: any) {
     // Handle the date change logic here
-    console.log('Selected date:', this.selectedDate);
+    console.log('Selected date:', event.selectedDate);
   }
 
   selectPreviousDay() {
@@ -231,6 +215,34 @@ model: any;
     return date.toLocaleDateString('en-US', options);
   }
 
+
+
+
+  getAttendanceDetailsByDateMethodCall(){
+    debugger
+    this.dataService.getAttendanceDetailsByDate(119,"USER","2023-12-22").subscribe((data) => {
+      debugger
+      console.log(data);
+    }, (error) => {
+      debugger
+      console.log(error);
+    })
+  }
+
+
+  optionsDatePicker: any = {
+    autoApply: true,
+    alwaysShowCalendars: false,
+    showCancel: false,
+    showClearButton: false,
+    linkedCalendars: false,
+    singleDatePicker: false,
+    showWeekNumbers: false,
+    showISOWeekNumbers: false,
+    customRangeDirection: false,
+    lockStartDate: false,
+    closeOnAutoApply: true
+  };
 
 }
 
