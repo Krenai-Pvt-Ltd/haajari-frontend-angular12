@@ -35,7 +35,7 @@ export class DataService {
   
   private baseUrl = "http://localhost:8080/api/v2"
 
-  //private baseUrl = "https://backend.hajiri.work/api/v2";
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
 
@@ -331,7 +331,7 @@ export class DataService {
   }
 
   getTodayEmployeesData(): Observable<any>{
-    return this.httpClient.get<any>(`${this.baseUrl}/today-employees-data`);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/today-employees-data`);
   }
   deleteTeam(id : number, role: any): Observable<any>{
     const params = new HttpParams().set("teamId", id).set("role", role);
@@ -402,6 +402,10 @@ export class DataService {
 
     debugger
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date`, {params});
+  }
+
+  getTodaysLeaveCount(): Observable<any> {
+    return this.httpClient.get( this.baseUrl+'/user-leave/todays-leave-count');
   }
 
 }

@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     // this.checkAccessToken();
     this.getCurrentDayEmployeesData();
+    this.getTodaysLiveLeaveCount();
   }
   
 
@@ -38,5 +39,14 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  leaveCount!: number;
+  getTodaysLiveLeaveCount(){
+  this.dataService.getTodaysLeaveCount().subscribe((data) => {
+    this.leaveCount=data;
+    console.log(this.leaveCount);
+  }, (error) => {
+    console.log(error);
+  })
+}
 
 }
