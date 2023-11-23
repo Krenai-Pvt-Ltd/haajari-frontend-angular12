@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,7 @@ import { AttendenceDto } from 'src/app/models/attendence-dto';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private dataService : DataService, private router : Router) { }
+  constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe) { }
 
   currentDayEmployeesData : any = [];
   selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
@@ -49,6 +50,7 @@ export class DashboardComponent implements OnInit {
   getCurrentDayEmployeesData(){
     this.dataService.getTodayEmployeesData().subscribe((data) => {
       this.currentDayEmployeesData=data;
+      debugger
       console.log(this.currentDayEmployeesData);
     }, (error) => {
       console.log(error);
@@ -56,6 +58,7 @@ export class DashboardComponent implements OnInit {
   }
 
   leaveCount!: number;
+
   getTodaysLiveLeaveCount(){
   this.dataService.getTodaysLeaveCount().subscribe((data) => {
     this.leaveCount=data;
@@ -106,14 +109,32 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  daysInMonth(attendances: AttendenceDto[]): string[] {
+  dateInMonthList(attendances: AttendenceDto[]): string[] {
     const uniqueDays = Array.from(new Set(attendances.map(a => a.createdDay)));
     return uniqueDays;
   }
   
+  getDayFromDate(inputDate : string){
+    const date = new Date(inputDate);
+    const day = date.getDate().toString().padStart(2, '0');
+    return day;
+  }
+
+  getDayNameFromDate(dateString: string): any {
+    const date = new Date(dateString);
+    return this.datePipe.transform(date, 'EEEE');
+  }
 
   getAttendanceStatus(attendance: AttendenceDto): string {
-    return attendance.checkInTime ? 'P' : 'A';
+    if(attendance.checkInTime == null){
+        if(new Date(attendance.createdDay) > new Date()){
+          return '-';
+        } else{
+          return 'A';
+        }
+    }
+
+    return 'P';
   }
 
   getFirstName(fullName: string): string {

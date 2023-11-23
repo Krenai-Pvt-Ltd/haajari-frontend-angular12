@@ -430,8 +430,8 @@
                                                         <table class="table table-bordered day-deta">
                                                             <tr>
                                                                 <th class="text-center">Day</th>
-                                                                <ng-container *ngFor="let day of daysInMonth(entry.value)">
-                                                                    <th class="text-center">{{ day }}</th>
+                                                                <ng-container *ngFor="let day of dateInMonthList(entry.value)">
+                                                                    <th class="text-center">{{ getDayNameFromDate(day)[0] }} <br> {{getDayFromDate(day)}}</th>
                                                                 </ng-container>
                                                             </tr>
                                                             <tr>
