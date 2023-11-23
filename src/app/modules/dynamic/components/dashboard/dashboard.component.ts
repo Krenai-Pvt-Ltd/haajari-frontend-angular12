@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
   attendanceArrayDate: any = [];
+  project : boolean = false;
 
 
   ngOnInit(): void {
@@ -33,6 +34,7 @@ export class DashboardComponent implements OnInit {
     
     this.getCurrentDayEmployeesData();
     this.getDataFromDate();
+    this.getTodaysLiveLeaveCount();
   }
   
 
@@ -53,6 +55,15 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  leaveCount!: number;
+  getTodaysLiveLeaveCount(){
+  this.dataService.getTodaysLeaveCount().subscribe((data) => {
+    this.leaveCount=data;
+    console.log(this.leaveCount);
+  }, (error) => {
+    console.log(error);
+  })
+}
 
   getDataFromDate(): void {
     if (this.selected) {
@@ -95,7 +106,20 @@ export class DashboardComponent implements OnInit {
   }
 
 
+  daysInMonth(attendances: AttendenceDto[]): string[] {
+    const uniqueDays = Array.from(new Set(attendances.map(a => a.createdDay)));
+    return uniqueDays;
+  }
+  
 
+  getAttendanceStatus(attendance: AttendenceDto): string {
+    return attendance.checkInTime ? 'P' : 'A';
+  }
+
+  getFirstName(fullName: string): string {
+    const names = fullName.split(' ');
+    return names.length > 0 ? names[0] : '';
+  }
 
   getLoginDetailsRole(){
     const loginDetails = localStorage.getItem('loginData');

@@ -331,8 +331,9 @@ export class DataService {
   }
 
   getTodayEmployeesData(): Observable<any>{
-    return this.httpClient.get<any>(`${this.baseUrl}/today-employees-data`);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/current-date-employees-data`);
   }
+
   deleteTeam(id : number, role: any): Observable<any>{
     const params = new HttpParams().set("teamId", id).set("role", role);
     return this.httpClient.delete(`${this.baseUrl}/team/delete-team/Id`,{params});
@@ -402,6 +403,14 @@ export class DataService {
 
     debugger
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date`, {params});
+  }
+
+  getTodaysLeaveCount(): Observable<any> {
+    return this.httpClient.get( this.baseUrl+'/user-leave/todays-leave-count');
+  }
+
+  getActiveUsersCount(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/users/active-count`);
   }
 
 }
