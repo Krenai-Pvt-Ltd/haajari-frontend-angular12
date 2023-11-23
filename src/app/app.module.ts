@@ -31,7 +31,7 @@ import { environment } from 'src/environments/environment';
     ReactiveFormsModule,
     NgxPaginationModule,
     SharedModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    // AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [],
   bootstrap: [AppComponent]

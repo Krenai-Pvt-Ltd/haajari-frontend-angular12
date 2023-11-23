@@ -18,11 +18,21 @@ model: any;
     this.setCurrentDate();
   }
 
+
   selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
 
   ngOnInit(): void {
-    this.getAttendanceDetailsByDateMethodCall();
+  
+    const todayDate = new Date();
+    const year = todayDate.getFullYear();
+    const month = (todayDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = todayDate.getDate().toString().padStart(2, '0');
+    this.inputDate = `${year}-${month}-${day}`;
+
+
+
+
     const today = dayjs();
     const oneWeekAgo = today.subtract(1, 'week');
 
@@ -32,6 +42,8 @@ model: any;
     };
     this.updateDateRangeInputValue();
     this.getDataFromDate();
+    this.getAttendanceDetailsByDateMethodCall();
+
   }
 
 
@@ -108,6 +120,13 @@ model: any;
     }
   }
   
+  getCurrentDate(){
+    const todayDate = new Date();
+    const year = todayDate.getFullYear();
+    const month = (todayDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = todayDate.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
   dateRangeButton(){
     const res = document.getElementById("date-picker-wrapper") as HTMLElement | null;
@@ -192,42 +211,86 @@ model: any;
   }
 
   selectPreviousDay() {
-    const currentDateObject = new Date(this.selectedDate);
+    debugger
+    const currentDateObject = new Date(this.inputDate);
     currentDateObject.setDate(currentDateObject.getDate() - 1);
-    this.selectedDate = this.formatDate(currentDateObject);
+    this.inputDate = this.formatDate(currentDateObject);
+    this.getAttendanceDetailsByDateMethodCall();
+  }
+  
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   selectNextDay() {
-    const currentDateObject = new Date(this.selectedDate);
+    const currentDateObject = new Date(this.inputDate);
     const tomorrow = new Date(currentDateObject);
     tomorrow.setDate(currentDateObject.getDate() + 1);
 
     // Disable the right arrow if the next day is equal to or greater than today
-    if (tomorrow.toDateString() === new Date().toDateString()) {
+    if (tomorrow >= new Date()) {
+      debugger
       return;
     }
 
-    this.selectedDate = this.formatDate(tomorrow);
+    this.inputDate = this.formatDate(tomorrow);
+    this.getAttendanceDetailsByDateMethodCall();
   }
 
-  formatDate(date: Date): string {
-    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
-  }
+  // formatDate(date: Date): string {
+  //   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+  //   return date.toLocaleDateString('en-US', options);
+  // }
 
 
 
 
+  attendanceDataByDate: Record<string, AttendenceDto> = {};
+  attendanceDataByDateKey : any = [];
+  
+  inputDate = '';
   getAttendanceDetailsByDateMethodCall(){
-    debugger
-    this.dataService.getAttendanceDetailsByDate(119,"USER","2023-12-22").subscribe((data) => {
-      debugger
-      console.log(data);
+
+      this.dataService.getAttendanceDetailsByDate(this.getLoginDetailsId(), this.getLoginDetailsRole(), this.inputDate).subscribe((data) => {
+        const keys = Object.keys(data);
+        this.attendanceDataByDateKey = keys;
+
+        this.attendanceDataByDate = data;
+        console.log(this.attendanceDataByDateKey);
     }, (error) => {
       debugger
       console.log(error);
     })
+
   }
+
+
+
+  // this.myAttendanceData = response;
+  // console.log(this.myAttendanceData);
+  // if (this.myAttendanceData) {
+    
+  //   for (const key in this.myAttendanceData) {
+      
+  //     if (this.myAttendanceData.hasOwnProperty(key)) {
+  //       const attendanceArray = this.myAttendanceData[key];
+
+  //       this.attendanceArrayDate=attendanceArray;
+        
+  //       // for (const element of attendanceArray) {
+  //       //   if (element.checkInTime !== null) {
+            
+  //       //     this.totalll += 1;
+  //       //   }
+  //       // }
+
+        
+  //     }
+  //   }
+  // }
 
 
   optionsDatePicker: any = {

@@ -19,7 +19,7 @@ import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 import { AuthGuard } from 'src/app/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { TempComponent } from './components/temp/temp.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -40,8 +40,7 @@ const routes: Routes = [
   {path: 'waiting', component: WaitingPageComponent},
   {path: 'team-detail', component: TeamDetailComponent},
   {path: 'user-profile', component: UserProfileComponent}, 
-  {path: 'temp', component: TempComponent}
-
+  {path: 'reports', component: ReportsComponent}, 
 
 //   {path: 'team-detail', component: TeamDetailComponent},
 //   {path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard]}
