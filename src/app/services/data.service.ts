@@ -35,7 +35,7 @@ export class DataService {
   
   private baseUrl = "http://localhost:8080/api/v2"
 
-  //private baseUrl = "https://backend.hajiri.work/api/v2";
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
 

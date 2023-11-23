@@ -192,8 +192,8 @@
         <div class="row">
           <div class="col-md-6">
             <div class="date-all-approved d-flex align-items-center" style="gap:20px">
-                <span class="approved-left active-color"><i class="bi bi-chevron-left"></i></span>
-                <input type="date" id="input-date" [(ngModel)]="inputDate">
+                <span class="approved-left active-color" (click)="selectPreviousDay()"><i class="bi bi-chevron-left"></i></span>
+                <input type="date" id="input-date" [(ngModel)]="inputDate" (ngModelChange)="getAttendanceDetailsByDateMethodCall()" [max]="getCurrentDate()">
                 <!-- <input
                 type="text"
                 ngxDaterangepickerMd
@@ -227,7 +227,7 @@
                 autocomplete="off"
               /> -->         
               
-              <span class="approved-right  "><i class="bi bi-chevron-right"></i></span> 
+              <span class="approved-right active-color" (click)="selectNextDay()"><i class="bi bi-chevron-right"></i></span> 
                 <span class="cal-icon"><i class="bi bi-calendar3"></i></span>
             </div>
 
