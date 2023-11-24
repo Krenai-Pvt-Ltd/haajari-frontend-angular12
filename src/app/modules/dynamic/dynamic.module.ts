@@ -26,6 +26,7 @@ import { TeamComponent } from './components/team/team.component';
 import { CommonModule } from '@angular/common';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 import { TempComponent } from './components/temp/temp.component';
+import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { TempComponent } from './components/temp/temp.component';
     WaitingPageComponent,
     TeamComponent,
     TeamDetailComponent,
-    TempComponent
+    TempComponent,
+    EmployeeOnboardingComponent
   ],
   imports: [
     CommonModule,

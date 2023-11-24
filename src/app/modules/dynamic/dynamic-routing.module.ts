@@ -21,6 +21,7 @@ import { AuthGuard } from 'src/app/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { DatePipe } from '@angular/common';
+import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -42,6 +43,7 @@ const routes: Routes = [
   {path: 'team-detail', component: TeamDetailComponent},
   {path: 'user-profile', component: UserProfileComponent}, 
   {path: 'reports', component: ReportsComponent}, 
+  {path: 'employee-onboarding', component: EmployeeOnboardingComponent}
 
 //   {path: 'team-detail', component: TeamDetailComponent},
 //   {path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard]}
