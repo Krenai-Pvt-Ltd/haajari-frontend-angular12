@@ -15,6 +15,9 @@ import { ModalService } from 'src/app/modal.service';
   styleUrls: ['./team.component.css']
 })
 export class TeamComponent implements OnInit{
+  // slackDataSaved: boolean = false;
+  // localStorageKey: string = 'slackDataSaved';
+
   itemPerPage : number = 5;
   pageNumber : number = 1;
   total !: number;
@@ -24,8 +27,15 @@ export class TeamComponent implements OnInit{
 
   ngOnInit(): void {
     // this.getAllUsersByFiltersFunction();
+  this.getUsersRoleFromLocalStorage();
+  // const localStorageFlag = localStorage.getItem(this.localStorageKey);
+
+  // if (!localStorageFlag && this.localStorageRoleAdminFlag==true) {
+  //   this.saveSlackChannelsDataToTeam(); 
+  //   localStorage.setItem(this.localStorageKey, 'true');
+  // }
     this.getAllUser();
-    this.getUsersRoleFromLocalStorage();
+   
   }
 
   constructor(private router : Router, private dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService) { 
@@ -322,6 +332,17 @@ export class TeamComponent implements OnInit{
       // location.reload();
     });
   }
+
+  // saveSlackChannelsDataToTeam(){
+  //   debugger
+  //   this.dataService.getSlackChannelsDataToTeam().subscribe(response =>{
+  //     this.slackDataSaved = true;
+  //     console.log(this.slackDataSaved);
+  //     console.log("slack data saved to team successfully");
+  //   }, error => {
+  //     console.error(error);
+  //   })
+  // }
 
   
 }

@@ -408,4 +408,8 @@ export class DataService {
     return this.httpClient.get( this.baseUrl+'/user-leave/todays-leave-count');
   }
 
+  getSlackChannelsDataToTeam(): Observable<any> {
+    return this.httpClient.get( this.baseUrl + '/slack-channels/users')
+  }
+
 }

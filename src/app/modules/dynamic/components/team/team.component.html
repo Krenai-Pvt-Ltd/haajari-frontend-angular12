@@ -76,7 +76,7 @@
 
             <div class="row" *ngIf="teams.length>0">
                 <div class="col-lg-4" *ngFor="let team of teams">
-                    <div class="card team-card" style="    height: 285px;" >
+                    <div class="card team-card" style="height: 185px;" >
                         <div class="card-body">
                             <div class="float-end">                                        
                                 <div class="dropdown d-inline-block">
@@ -153,8 +153,9 @@
 
 
 
-
+                           
                             <div class="mt-3 d-flex justify-content-between">
+                             <!-- <div class="bottom-absolute"> -->
                                 <div class="img-group d-flex">
                                     <ng-container *ngFor="let ul of team.userList; let i = index; last as isLast">
                                       <a class="user-avatar" href="" [ngClass]="i === 0 ? '' : 'ms-n3'" *ngIf="i<3">
@@ -172,14 +173,16 @@
                                           <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold">+{{ team.userList.length - 3 }}</span>
                                         </a>
                                 
-                                  </div>
+                                </div>
                                   
                                 <div class="align-self-center">
                                     <button type="button" class="btn btn-xs btn-light btn-round" (click)="routeToTeamDetails(team.id)">View Details <i class="mdi mdi-arrow-right"></i></button>
                                 </div> 
-                            </div>                                     
-                           <hr class="hr-dashed my-3">
-                            <div class="media align-items-center">                                                
+                            <!-- </div> -->
+                            </div>
+                        </div>                                     
+                           <!-- <hr class="hr-dashed my-3"> -->
+                            <!-- <div class="media align-items-center">                                                
                                 <img src="assets/images/small/project-2.jpg" alt="" class="rounded-circle thumb-sm">
                                 <div class="media-body ms-3 align-self-center">
                                     <h6 class="m-0 font-15">Banking</h6>
@@ -196,7 +199,7 @@
                                         <div class="progress-bar bg-warning" role="progressbar" style="width: 55%;" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>                                           
                                 </div>                                                                           
-                            </div>     
+                            </div>      -->
                         </div><!--end card-body-->
                     </div><!--end card-->
                 </div><!--end col-->
