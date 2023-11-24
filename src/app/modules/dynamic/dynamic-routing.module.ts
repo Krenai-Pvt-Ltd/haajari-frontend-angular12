@@ -20,6 +20,7 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
 import { AuthGuard } from 'src/app/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { DatePipe } from '@angular/common';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -48,6 +49,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [DatePipe]
 })
 export class DynamicRoutingModule { }

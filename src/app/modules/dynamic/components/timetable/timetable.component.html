@@ -251,7 +251,7 @@
           <div class="d-flex align-items-center justify-content-between">
             <div class="staf">
               <p>Total Staff</p>
-              <h5>28</h5>
+              <h5>{{activeUsersCount}}</h5>
             </div>
             <div class="staf">
               <p>Present</p>
@@ -259,11 +259,11 @@
             </div>
             <div class="staf">
               <p>Absent</p>
-              <h5>2</h5>
+              <h5>{{activeUsersCount - attendanceDataByDateKey.length}}</h5>
             </div>
             <div class="staf">
               <p>Half Day</p>
-              <h5>0</h5>
+              <h5>{{halfDayUsers}}</h5>
             </div>
             <div class="staf">
               <p>OverTime Hours</p>
@@ -313,7 +313,7 @@
         <div class="col-md-6">
           <div class="monthly-heading">
             <h5 class="d-flex align-items-center" style="gap: 10px">
-              Monthly Regular <span class="monthly-span">2</span>
+              Present Employees: <span class="monthly-span">{{attendanceDataByDateKey.length}}</span>
             </h5>
           </div>
         </div>

@@ -24,7 +24,7 @@ export class Key{
 
 
 
-    public static HEADER_RESTRICTION_ROUTES = ["/","/dynamic/login", "/dynamic/onboarding", "/dynamic/slackauth"];
+    public static HEADER_RESTRICTION_ROUTES = ["/","/login", "/dynamic/onboarding", "/dynamic/slackauth"];
     
     public static TOPBAR_RESTRICTION_ROUTES = ["/","/dynamic/login", "/dynamic/onboarding", "/dynamic/slackauth"];
 }
