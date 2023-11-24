@@ -15,6 +15,7 @@ export class TopbarComponent implements OnInit {
 
 
   ngOnInit() {
+
     this.updateTopbarValue();
 
     this.router.events.subscribe(event => {
@@ -23,13 +24,27 @@ export class TopbarComponent implements OnInit {
   }
 
   private updateTopbarValue() {
-    const currentRoute = this.router.url;
+    let routeValue = this.extractValueFromRoute(this.router.url);
 
-    this.topbarValue = this.extractValueFromRoute(currentRoute);
+    if(routeValue === "timetable"){
+      routeValue = "Attendance Details";
+    }
+
+    this.topbarValue = this.capitalizeFirstLetter(routeValue);
   }
 
   private extractValueFromRoute(route: string): string {
     return route.substring(1);
   }
+
+  capitalizeFirstLetter(input: string): string {
+    if (!input || input.length === 0) {
+        return input;
+    }
+
+    return input.charAt(0).toUpperCase() + input.slice(1);
+  }
+
+  
 
 }
