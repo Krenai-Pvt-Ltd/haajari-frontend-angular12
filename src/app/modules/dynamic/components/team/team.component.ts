@@ -14,6 +14,8 @@ import { ModalService } from 'src/app/modal.service';
   templateUrl: './team.component.html',
   styleUrls: ['./team.component.css']
 })
+
+
 export class TeamComponent implements OnInit{
   // slackDataSaved: boolean = false;
   // localStorageKey: string = 'slackDataSaved';
