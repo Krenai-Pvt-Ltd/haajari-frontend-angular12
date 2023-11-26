@@ -34,9 +34,9 @@ export class SlackAuthComponent implements OnInit{
       localStorage.setItem('loginData', JSON.stringify(response));
 
       if(response.httpCustomStatus === ("UPDATED") && response.statusResponse === ("ORGANIZATION_REGISTRATION_SUCCESSFULL")){
-        this.router.navigate(['/dynamic/dashboard']);
+        this.router.navigate(['/dashboard']);
       }else{
-        this.router.navigate(['/dynamic/onboarding']);
+        this.router.navigate(['/onboarding']);
       }
 
     }, (error) => {

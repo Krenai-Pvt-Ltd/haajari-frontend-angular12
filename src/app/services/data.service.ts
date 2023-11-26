@@ -409,12 +409,26 @@ export class DataService {
     return this.httpClient.get( this.baseUrl+'/user-leave/todays-leave-count');
   }
 
-  getSlackChannelsDataToTeam(): Observable<any> {
-    return this.httpClient.get( this.baseUrl + '/slack-channels/users')
+
+  getSlackChannelsDataToTeam(organizationId: number): Observable<any> {
+    const params = new HttpParams().set("organization_id", organizationId);
+    return this.httpClient.get<any>(`${this.baseUrl}/team/users`, {params});
   }
-  
+
   getActiveUsersCount(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/users/active-count`);
+  }
+
+  getTeamsByFilter(userId: number, role: string, itemPerPage: number, pageNumber: number, search: string, searchBy: string): Observable<any> {
+    const params = new HttpParams()
+      .set("user_id", userId.toString())
+      .set("role", role)
+      .set("item_per_page", itemPerPage.toString())
+      .set("page_number", pageNumber.toString())
+      .set("search", search)
+      .set("search_by", searchBy);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/team/get/teams/by-filters`, { params });
   }
 
 }

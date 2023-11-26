@@ -24,9 +24,29 @@
             
             <!-- end page title end breadcrumb -->
             <div class="row"  *ngIf="teams.length>0">
-                <div class="col-lg-6">
-                   
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-7"></div>
+                        <div class="col-md-5">
+                            <form class="searching" role="search" (submit)="searchTeams()">
+                                <div class="form-group" style="width: 250px;">
+                                  <input class="form-control me-2" type="search" id="searchText" placeholder="Search" (keyup)="searchTeams()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 5px 15px;">
+        
+                                  <!-- <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i> -->
+                                </div>
+                                <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
+                              </form>
+                        </div>
+                       
+                    </div>
                 </div>
+                <div></div>
+                <div class="col-lg-6">
+                    <div class="col-lg-6 text-start">
+                        <button type="button" class="btn btn-primary mb-3" (click)="saveSlackChannelsDataToTeam()">Load Data</button>                      
+                    </div>
+                </div>
+
 
                 <div class="col-lg-6 text-end">
                     <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button>                      
@@ -74,11 +94,12 @@
                     </div>
                 </div>
 
-            <div class="row" *ngIf="teams.length>0">
-                <div class="col-lg-4" *ngFor="let team of teams">
+            <div class="row" *ngIf="teams.length>0" >
+
+                <div class="col-lg-4" *ngFor="let i = index, let team of teamsNew | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};" >
                     <div class="card team-card" style="height: 185px;" >
                         <div class="card-body">
-                            <div class="float-end">                                        
+                            <div class="float-end" *ngIf="localStorageRoleAdminFlag==true">                                        
                                 <div class="dropdown d-inline-block">
                                     <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                         <i class="las la-ellipsis-v font-24 text-muted"></i>
@@ -202,8 +223,16 @@
                             </div>      -->
                         </div><!--end card-body-->
                     </div><!--end card-->
+                    <div class = "pagination">
+                        <pagination-controls 
+                            perviousLabel="Prev"
+                            nextLabel="Next"
+                            (pageChange)="onTableDataChange($event)">
+                        </pagination-controls>
+                    </div> 
                 </div><!--end col-->
         </div><!-- container -->
+
 
         <!--Start Rightbar-->
         <!--Start Rightbar/offcanvas-->
