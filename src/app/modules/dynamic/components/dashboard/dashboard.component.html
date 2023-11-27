@@ -137,14 +137,19 @@
                                     <h4 class="card-title" style="font-size: 18px;">Best Performance this month</h4>                      
                                 </div>
                 </div>
+
+
+
+
+                <div class="row mb-3" *ngFor="let entry of myAttendanceData | keyvalue">
                     <div class="col-lg-4">
                         <div class="card profile-card">
                             <div class="card-body p-0">
                                 <div class="media p-3  align-items-center">                                                
                                     <img src="assets/images/users/user-4.jpg" alt="user" class="rounded-circle thumb-xl">                                        
                                     <div class="media-body ms-3 align-self-center">
-                                        <h5 class="pro-title m-0">Anchal Sharma</h5>
-                                        <p class="mb-0 text-muted">Anchal</p>                                          
+                                        <h5 class="pro-title m-0">{{entry.key}}</h5>
+                                        <p class="mb-0 text-muted">Error:)</p>                                          
                                     </div>
                                     <!-- <div class="position-absolute top-0 end-0 mt-3 me-3">
                                         <a href="#" class=""><i class="la la-pen text-secondary font-16 "></i></a>
@@ -155,41 +160,14 @@
                         </div><!--end card--> 
                     </div>
 
-                    <div class="col-lg-4">
-                        <div class="card profile-card">
-                            <div class="card-body p-0">
-                                <div class="media p-3  align-items-center">                                                
-                                    <img src="assets/images/users/user-5.jpg" alt="user" class="rounded-circle thumb-xl">                                        
-                                    <div class="media-body ms-3 align-self-center">
-                                        <h5 class="pro-title m-0">Pradeep Yadav</h5>
-                                        <p class="mb-0 text-muted">pradeep</p>                                 
-                                    </div>
-                                    <!-- <div class="position-absolute top-0 end-0 mt-3 me-3">
-                                        <a href="#" class=""><i class="la la-pen text-secondary font-16 "></i></a>
-                                        <a href="#" class=""><i class="la la-trash-alt text-secondary font-16 "></i></a> 
-                                    </div>                                                                               -->
-                                </div>                                    
-                            </div>                 
-                        </div><!--end card--> 
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card profile-card">
-                            <div class="card-body p-0">
-                                <div class="media p-3  align-items-center">                                                
-                                    <img src="assets/images/users/user-8.jpg" alt="user" class="rounded-circle thumb-xl">                                        
-                                    <div class="media-body ms-3 align-self-center">
-                                        <h5 class="pro-title m-0">Sunny Khatri</h5>
-                                        <p class="mb-0 text-muted">Sunny</p>                                                                                         
-                                    </div>
-                                    <!-- <div class="position-absolute top-0 end-0 mt-3 me-3">
-                                        <a href="#" class=""><i class="la la-pen text-secondary font-16 "></i></a>
-                                        <a href="#" class=""><i class="la la-trash-alt text-secondary font-16 "></i></a> 
-                                    </div>                                                                               -->
-                                </div>                                    
-                            </div>                 
-                        </div><!--end card--> 
-                    </div>
+                    
                 </div>
+                    
+
+
+                </div>
+
+                
 
 
           
