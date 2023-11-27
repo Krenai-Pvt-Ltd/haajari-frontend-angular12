@@ -352,3 +352,9 @@ span.remove-icon:hover {
     border-top: 1px solid #edeae9;
     padding-top: 9px;
 }
+
+.bottom-absolute{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+}

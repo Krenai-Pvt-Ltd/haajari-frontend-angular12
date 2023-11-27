@@ -26,7 +26,8 @@ import { TeamComponent } from './components/team/team.component';
 import { CommonModule } from '@angular/common';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 import { TempComponent } from './components/temp/temp.component';
-
+import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';
+import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { TempComponent } from './components/temp/temp.component';
     WaitingPageComponent,
     TeamComponent,
     TeamDetailComponent,
-    TempComponent
+    TempComponent,
+    EmployeeOnboardingComponent
   ],
   imports: [
     CommonModule,
@@ -57,6 +59,7 @@ import { TempComponent } from './components/temp/temp.component';
     ReactiveFormsModule,
     NgxPaginationModule,
     NgxDaterangepickerMd.forRoot(),
+    NgxShimmerLoadingModule
   ]
 })
 export class DynamicModule { }

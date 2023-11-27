@@ -12,26 +12,33 @@ import { AttendenceDto } from 'src/app/models/attendence-dto';
 })
 export class TimetableComponent implements OnInit {
 
-alwaysShowCalendars: boolean | undefined;
-model: any;
+  alwaysShowCalendars: boolean | undefined;
+  model: any;
   constructor(private dataService: DataService) { 
-    this.setCurrentDate();
+
   }
+
 
   selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
 
   ngOnInit(): void {
-    this.getAttendanceDetailsByDateMethodCall();
+  
+    this.inputDate = this.getCurrentDate();
+
+
     const today = dayjs();
     const oneWeekAgo = today.subtract(1, 'week');
-
     this.selected = {
       startDate: oneWeekAgo,
       endDate: today
     };
+
+
     this.updateDateRangeInputValue();
     this.getDataFromDate();
+    this.getAttendanceDetailsByDateMethodCall();
+    this.getActiveUsersCountMethodCall();
   }
 
 
@@ -43,7 +50,6 @@ model: any;
 
   dateRangeFilter(event: any): void {
     if (event.startDate && event.endDate) {
-      // Use dayjs for date conversion
       this.selected = {
         startDate: dayjs(event.startDate),
         endDate: dayjs(event.endDate)
@@ -59,11 +65,6 @@ model: any;
     if(res3){
       res3.style.display="none";
     }
-
-    // const res2 = document.getElementById("date-picker-button") as HTMLElement | null;
-    // if(res2){
-    //   res2.style.display="block";
-    // }
 
   }
 
@@ -88,15 +89,7 @@ model: any;
                 const attendanceArray = this.myAttendanceData[key];
 
                 this.attendanceArrayDate=attendanceArray;
-                
-                // for (const element of attendanceArray) {
-                //   if (element.checkInTime !== null) {
-                    
-                //     this.totalll += 1;
-                //   }
-                // }
-
-                
+              
               }
             }
           }
@@ -108,17 +101,19 @@ model: any;
     }
   }
   
+  getCurrentDate(){
+    const todayDate = new Date();
+    const year = todayDate.getFullYear();
+    const month = (todayDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = todayDate.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
   dateRangeButton(){
     const res = document.getElementById("date-picker-wrapper") as HTMLElement | null;
     if(res){
       res.style.display="block";
     }
-
-    // const res2 = document.getElementById("date-picker-button") as HTMLElement | null;
-    // if(res2){
-    //   res2.style.display="none";
-    // }
 
   }
 
@@ -169,80 +164,102 @@ model: any;
 
 
 
-
-
-
-
-
   // ###############################################################################
 
-  selectedDate: string = ''; // To store the selected date
-  currentDate: string = ''; // To store the current date in the format 'DD MMM YYYY'
-
-  setCurrentDate() {
-    const today = new Date();
-    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-    this.currentDate = today.toLocaleDateString('en-US', options);
-    this.selectedDate = this.currentDate; // Set the selected date initially to today
-  }
-
-  onDateChange(event: any) {
-    // Handle the date change logic here
-    console.log('Selected date:', event.selectedDate);
-  }
-
   selectPreviousDay() {
-    const currentDateObject = new Date(this.selectedDate);
+    debugger
+    const currentDateObject = new Date(this.inputDate);
     currentDateObject.setDate(currentDateObject.getDate() - 1);
-    this.selectedDate = this.formatDate(currentDateObject);
+    this.inputDate = this.formatDate(currentDateObject);
+    this.getAttendanceDetailsByDateMethodCall();
+  }
+  
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   selectNextDay() {
-    const currentDateObject = new Date(this.selectedDate);
+    const currentDateObject = new Date(this.inputDate);
     const tomorrow = new Date(currentDateObject);
     tomorrow.setDate(currentDateObject.getDate() + 1);
 
-    // Disable the right arrow if the next day is equal to or greater than today
-    if (tomorrow.toDateString() === new Date().toDateString()) {
+    if (tomorrow >= new Date()) {
+      debugger
       return;
     }
 
-    this.selectedDate = this.formatDate(tomorrow);
+    this.inputDate = this.formatDate(tomorrow);
+    this.getAttendanceDetailsByDateMethodCall();
   }
 
-  formatDate(date: Date): string {
-    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
-  }
+  // formatDate(date: Date): string {
+  //   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+  //   return date.toLocaleDateString('en-US', options);
+  // }
 
 
 
+
+  attendanceDataByDate: Record<string, AttendenceDto> = {};
+  attendanceDataByDateKey : any = [];
+  attendanceDataByDateValue : any = [];
+  inputDate = '';
+  halfDayUsers : number = 0;
 
   getAttendanceDetailsByDateMethodCall(){
-    debugger
-    this.dataService.getAttendanceDetailsByDate(119,"USER","2023-12-22").subscribe((data) => {
-      debugger
-      console.log(data);
+
+      this.dataService.getAttendanceDetailsByDate(this.getLoginDetailsId(), this.getLoginDetailsRole(), this.inputDate).subscribe((data) => {
+        this.attendanceDataByDateKey = Object.keys(data);
+        this.attendanceDataByDateValue = Object.values(data);
+
+        this.attendanceDataByDate = data;
+        console.log(this.attendanceDataByDateKey);
+        console.log(this.attendanceDataByDate);
+
+        for(let i=0; i<this.attendanceDataByDateValue.length; i++){
+          if(+(this.attendanceDataByDateValue[i].duration[0]) < 7){
+            this.halfDayUsers++;
+          }
+        }
+
     }, (error) => {
       debugger
+      console.log(error);
+    })
+
+  }
+
+
+  activeUsersCount : number = 0;
+
+  getActiveUsersCountMethodCall(){
+
+    this.dataService.getActiveUsersCount().subscribe((data) => {
+      console.log(data);
+      this.activeUsersCount = data;
+    }, (error) => {
       console.log(error);
     })
   }
 
 
-  optionsDatePicker: any = {
-    autoApply: true,
-    alwaysShowCalendars: false,
-    showCancel: false,
-    showClearButton: false,
-    linkedCalendars: false,
-    singleDatePicker: false,
-    showWeekNumbers: false,
-    showISOWeekNumbers: false,
-    customRangeDirection: false,
-    lockStartDate: false,
-    closeOnAutoApply: true
-  };
+
+  // optionsDatePicker: any = {
+  //   autoApply: true,
+  //   alwaysShowCalendars: false,
+  //   showCancel: false,
+  //   showClearButton: false,
+  //   linkedCalendars: false,
+  //   singleDatePicker: false,
+  //   showWeekNumbers: false,
+  //   showISOWeekNumbers: false,
+  //   customRangeDirection: false,
+  //   lockStartDate: false,
+  //   closeOnAutoApply: true
+  // };
 
 }
 

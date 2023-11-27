@@ -705,7 +705,7 @@ c: any;
       },
       (error) => {
         console.error(error);
-        alert("Error saving leave");
+        // alert("Error saving leave");
       }
     );
   }
@@ -835,7 +835,7 @@ c: any;
   onBtnClick() {
     if (this.count >= 4) {
       //localStorage.clear();
-      this.router.navigate(["/dynamic/waiting"]);
+      this.router.navigate(["/waiting"]);
       
       
     }

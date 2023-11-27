@@ -22,7 +22,7 @@
                             <div class="row d-flex justify-content-center">
                                 <div class="col">
                                     <p class="text-dark mb-1 fw-semibold">Live Employee</p>
-                                    <h4 class="font-22 fw-bold">{{currentDayEmployeesData.allPresentUsers}} 3</h4>
+                                    <h4 class="font-22 fw-bold">{{currentDayEmployeesData.allPresentUsers}}</h4>
                                 </div>
                                 <div class="col-auto align-self-center">
                                     <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md  rounded-circle">
@@ -37,7 +37,7 @@
                             <div class="row d-flex justify-content-center">                                                
                                 <div class="col">
                                     <p class="text-dark mb-1 fw-semibold">On Break</p>
-                                    <h4 class="font-22 fw-bold">41</h4>
+                                    <h4 class="font-22 fw-bold">{{currentDayEmployeesData.usersOnBreak}}</h4>
                                 </div>
                                 <div class="col-auto align-self-center">
                                     <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md  rounded-circle">
@@ -52,7 +52,7 @@
                             <div class="row d-flex justify-content-center">                                                
                                 <div class="col">
                                     <p class="text-dark mb-1 fw-semibold">On Leave</p>
-                                    <h4 class="font-22 fw-bold">{{currentDayEmployeesData.usersOnBreak}}444</h4>   
+                                    <h4 class="font-22 fw-bold">{{leaveCount}}</h4>   
                                 </div>
                                 <div class="col-auto align-self-center">
                                     <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md  rounded-circle">
@@ -259,7 +259,7 @@
                     
                 </div>
 
-                <div class="row mb-3">
+                <div class="row mb-3" *ngIf="project===true">
                     <div class="col-md-12">
                         <div class="col mb-3">                      
                                         <h4 class="card-title" style="font-size: 18px;">Current Projects</h4>                      
@@ -351,7 +351,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6 d-flex align-items-center">
                                 <div class="col">                      
-                                    <h4 class="card-title" style="font-size: 18px;">Attendance Muster Roll Reports</h4>                      
+                                    <h4 class="card-title" style="font-size: 18px;">Attendance Master Roll Reports</h4>                      
                             </div>
                             </div>
                             <div class="col-md-6">
@@ -408,270 +408,47 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                           <td class="text-center plandtlMainicon" > <i class="bi bi-chevron-right month-d projectdIcon collapsed" data-bs-toggle="collapse" href="#collapseExamplesheet" role="button" aria-expanded="false" aria-controls="collapseExamplesheet"></i> Yogesh Yadav </td>
-                                           <td class="text-center">20</td>
-                                           <td class="text-center">2 </td>
-                                           <td class="text-center"> 1 </td>
-                                           <td class="text-center">   1  </td>
-                                           <td class="text-center">  10 </td>
-                                           <td class="text-center"> -  </td>
-                                           <td class="text-center"> - </td>
-                                           <td class="text-center"> 20 </td>
-                                        </tr>
-                                        <tr class="collapse" id="collapseExamplesheet">
-                                            <td colspan="9" class="p-1">
-                                                <div class="month-deta">
-                                                    <table class="table table-bordered day-deta">
-                                                        <tr>
-                                                            <th class="text-center">Day</th>
-                                                            <th class="text-center">M <br> 1</th>
-                                                            <th class="text-center">T <br> 2</th>
-                                                            <th class="text-center">W <br> 3</th>
-                                                            <th class="text-center" >T <br> 4</th>
-                                                            <th class="text-center">F <br> 5</th>
-                                                            <th class="text-center">S <br> 6</th>
-                                                            <th class="text-center">S <br> 7</th>
-                                                            <th class="text-center">M<br> 8</th>
-                                                            <th class="text-center">T <br>9</th>
-                                                            <th class="text-center">W<br>10</th>
-                                                            <th class="text-center">T<br>11</th>
-                                                            <th class="text-center">F<br>12</th>
-                                                            <th class="text-center">S<br>13</th>
-                                                            <th class="text-center">S<br>14</th>
-                                                            <th class="text-center">M<br>15</th>
-                                                            <th class="text-center">T<br>16</th>
-                                                            <th class="text-center">W<br>17</th>
-                                                            <th class="text-center">T<br>18</th>
-                                                            <th class="text-center">F<br>19</th>
-                                                            <th class="text-center">S<br>20</th>
-                                                            <th class="text-center">S<br>21</th>
-                                                            <th class="text-center">M<br>22</th>
-                                                            <th class="text-center">T<br>23</th>
-                                                            <th class="text-center">W<br>24</th>
-                                                            <th class="text-center">T<br>25</th>
-                                                            <th class="text-center">F<br>26</th>
-                                                            <th class="text-center">S<br>27</th>
-                                                            <th class="text-center">S<br>28</th>
-                                                            <th class="text-center">M<br>29</th>
-                                                            <th class="text-center">T<br>30</th>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> A</td>
-                                                            <td class="text-center">  P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center">  A</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center">P</td>
-                                                            <td class="text-center"> A</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center">H</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center">P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-                                                            <td class="text-center"> P</td>
-
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center" data-bs-toggle="collapse" href="#collapseExample-2" role="button" aria-expanded="false" aria-controls="collapseExample-2"> <i class="bi bi-chevron-right month-d" ></i> Yogesh Yadav </td>
-                                            <td class="text-center"> -</td>
-                                            <td class="text-center"> - </td>
-                                            <td class="text-center"> - </td>
-                                            <td class="text-center">   -  </td>
-                                            <td class="text-center">  10 </td>
-                                            <td class="text-center"> -  </td>
-                                            <td class="text-center"> - </td>
-                                            <td class="text-center"> 29 </td>
-                                         </tr>
-                                         <tr class="collapse" id="collapseExample-2">
-                                            <td colspan="9" class="p-1">
-                                                <div class="month-deta">
-                                                    <table class="table table-bordered day-deta">
-                                                        <tr>
-                                                            <th class="text-center">Day</th>
-                                                            <th class="text-center">M <br> 1</th>
-                                                            <th class="text-center">T <br> 2</th>
-                                                            <th class="text-center">W <br> 3</th>
-                                                            <th class="text-center" >T <br> 4</th>
-                                                            <th class="text-center">F <br> 5</th>
-                                                            <th class="text-center">S <br> 6</th>
-                                                            <th class="text-center">S <br> 7</th>
-                                                            <th class="text-center">M<br> 8</th>
-                                                            <th class="text-center">T <br>9</th>
-                                                            <th class="text-center">W<br>10</th>
-                                                            <th class="text-center">T<br>11</th>
-                                                            <th class="text-center">F<br>12</th>
-                                                            <th class="text-center">S<br>13</th>
-                                                            <th class="text-center">S<br>14</th>
-                                                            <th class="text-center">M<br>15</th>
-                                                            <th class="text-center">T<br>16</th>
-                                                            <th class="text-center">W<br>17</th>
-                                                            <th class="text-center">T<br>18</th>
-                                                            <th class="text-center">F<br>19</th>
-                                                            <th class="text-center">S<br>20</th>
-                                                            <th class="text-center">S<br>21</th>
-                                                            <th class="text-center">M<br>22</th>
-                                                            <th class="text-center">T<br>23</th>
-                                                            <th class="text-center">W<br>24</th>
-                                                            <th class="text-center">T<br>25</th>
-                                                            <th class="text-center">F<br>26</th>
-                                                            <th class="text-center">S<br>27</th>
-                                                            <th class="text-center">S<br>28</th>
-                                                            <th class="text-center">M<br>29</th>
-                                                            <th class="text-center">T<br>30</th>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center">  -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center">  -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                         <tr>
-                                            <td class="text-center" data-bs-toggle="collapse" href="#collapseExample-3" role="button" aria-expanded="false" aria-controls="collapseExample-3"> <i class="bi bi-chevron-right month-d" ></i> Yogesh Yadav </td>
-                                            <td class="text-center"> -</td>
-                                            <td class="text-center"> - </td>
-                                            <td class="text-center"> - </td>
-                                            <td class="text-center">   -  </td>
-                                            <td class="text-center">  10 </td>
-                                            <td class="text-center"> -  </td>
-                                            <td class="text-center"> - </td>
-                                            <td class="text-center"> 29 </td>
-                                         </tr>
-                                         <tr class="collapse" id="collapseExample-3">
-                                            <td colspan="9" class="p-1">
-                                                <div class="month-deta">
-                                                    <table class="table table-bordered day-deta">
-                                                        <tr>
-                                                            <th class="text-center">Day</th>
-                                                            <th class="text-center">M <br> 1</th>
-                                                            <th class="text-center">T <br> 2</th>
-                                                            <th class="text-center">W <br> 3</th>
-                                                            <th class="text-center" >T <br> 4</th>
-                                                            <th class="text-center">F <br> 5</th>
-                                                            <th class="text-center">S <br> 6</th>
-                                                            <th class="text-center">S <br> 7</th>
-                                                            <th class="text-center">M<br> 8</th>
-                                                            <th class="text-center">T <br>9</th>
-                                                            <th class="text-center">W<br>10</th>
-                                                            <th class="text-center">T<br>11</th>
-                                                            <th class="text-center">F<br>12</th>
-                                                            <th class="text-center">S<br>13</th>
-                                                            <th class="text-center">S<br>14</th>
-                                                            <th class="text-center">M<br>15</th>
-                                                            <th class="text-center">T<br>16</th>
-                                                            <th class="text-center">W<br>17</th>
-                                                            <th class="text-center">T<br>18</th>
-                                                            <th class="text-center">F<br>19</th>
-                                                            <th class="text-center">S<br>20</th>
-                                                            <th class="text-center">S<br>21</th>
-                                                            <th class="text-center">M<br>22</th>
-                                                            <th class="text-center">T<br>23</th>
-                                                            <th class="text-center">W<br>24</th>
-                                                            <th class="text-center">T<br>25</th>
-                                                            <th class="text-center">F<br>26</th>
-                                                            <th class="text-center">S<br>27</th>
-                                                            <th class="text-center">S<br>28</th>
-                                                            <th class="text-center">M<br>29</th>
-                                                            <th class="text-center">T<br>30</th>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center">  -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center">  -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-                                                            <td class="text-center"> -</td>
-
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        <ng-container *ngFor="let entry of myAttendanceData | keyvalue; let i = index">
+                                            <tr>
+                                                <td class="text-left plandtlMainicon">
+                                                    <i class="bi bi-chevron-right month-d projectdIcon collapsed"
+                                                        data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i"
+                                                        role="button" aria-expanded="false" aria-controls="collapseExamplesheet"></i> {{getFirstName(entry.key)}}
+                                                </td>
+                                                <td class="text-center">{{entry.value[0].totalPresentDays || 0}}</td>
+                                                <td class="text-center"> 2 </td>
+                                                <td class="text-center"> 1 </td>
+                                                <td class="text-center"> 1 </td>
+                                                <td class="text-center"> 10 </td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> 20 </td>
+                                            </tr>
+                                            <tr class="collapse" [attr.id]="'collapseExamplesheet' + i">
+                                                <td colspan="9" class="p-1">
+                                                    <div class="month-deta">
+                                                        <table class="table table-bordered day-deta">
+                                                            <tr>
+                                                                <th class="text-center">Day</th>
+                                                                <ng-container *ngFor="let day of dateInMonthList(entry.value)">
+                                                                    <th class="text-center">{{ getDayNameFromDate(day)[0] }} <br> {{getDayFromDate(day)}}</th>
+                                                                </ng-container>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <ng-container *ngFor="let attendance of entry.value">
+                                                                    <td class="text-center">{{ getAttendanceStatus(attendance) }}</td>
+                                                                </ng-container>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
                                     </tbody>
                                 </table>
                             </div>
+                            
 
                            </div>
                         </div>
