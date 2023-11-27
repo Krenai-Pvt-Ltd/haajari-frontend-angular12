@@ -19,11 +19,7 @@ import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 import { AuthGuard } from 'src/app/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-<<<<<<< HEAD
 import { ReportsComponent } from './components/reports/reports.component';
-=======
-import { TempComponent } from './components/temp/temp.component';
->>>>>>> 0e97d6ed6e830dec470ccde7750469c275f7ff77
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -44,11 +40,7 @@ const routes: Routes = [
   {path: 'waiting', component: WaitingPageComponent},
   {path: 'team-detail', component: TeamDetailComponent},
   {path: 'user-profile', component: UserProfileComponent}, 
-<<<<<<< HEAD
   {path: 'reports', component: ReportsComponent}, 
-=======
-  {path: 'temp', component: TempComponent}
->>>>>>> 0e97d6ed6e830dec470ccde7750469c275f7ff77
 
 
 //   {path: 'team-detail', component: TeamDetailComponent},
