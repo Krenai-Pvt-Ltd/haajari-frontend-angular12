@@ -17,8 +17,8 @@ password: any;
 
   ngOnInit(): void {
 
-    // const loginData = {id: 1, name: "richa", role: "ADMIN", orgRefId: 1, httpCustomStatus: "UPDATED"};
-    // localStorage.setItem('loginData', JSON.stringify(loginData));
+    const loginData = {id: 1, name: "richa", role: "ADMIN", orgRefId: 1, httpCustomStatus: "UPDATED"};
+    localStorage.setItem('loginData', JSON.stringify(loginData));
   }
 
   
@@ -35,7 +35,7 @@ password: any;
       // }
 
       localStorage.setItem('loginData',JSON.stringify(data));
-      this.router.navigate(['dynamic/dashboard']);
+      this.router.navigate(['/dashboard']);
       
     }, (error) =>{
       console.log(error);
@@ -56,7 +56,7 @@ password: any;
   }
 
   redirectToRegister(){
-    this.router.navigate(['dynamic/onboarding']);
+    this.router.navigate(['/onboarding']);
 
   }
 

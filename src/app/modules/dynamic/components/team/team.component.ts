@@ -14,18 +14,39 @@ import { ModalService } from 'src/app/modal.service';
   templateUrl: './team.component.html',
   styleUrls: ['./team.component.css']
 })
+
+
 export class TeamComponent implements OnInit{
-  itemPerPage : number = 5;
-  pageNumber : number = 1;
-  total !: number;
+  // slackDataSaved: boolean = false;
+  // localStorageKey: string = 'slackDataSaved';
+
+  // itemPerPage : number = 5;
+  // pageNumber : number = 1;
+  // total !: number;
   teamName : string = '';
   teamDescription: string =''
+
+  teamsNew : TeamResponse[] = [];
+  filteredUsers : Users[] = [];
+  itemPerPage : number = 6;
+  pageNumber : number = 1;
+  total !: number;
+  rowNumber : number = 1;
   
 
   ngOnInit(): void {
-    // this.getAllUsersByFiltersFunction();
-    this.getAllUser();
-    this.getUsersRoleFromLocalStorage();
+  // this.getAllUsersByFiltersFunction();
+  this.getAllUser();
+  this. getTeamsByFiltersFunction();
+  this.getUsersRoleFromLocalStorage();
+  // const localStorageFlag = localStorage.getItem(this.localStorageKey);
+
+  // if (!localStorageFlag && this.localStorageRoleAdminFlag==true) {
+  //   this.saveSlackChannelsDataToTeam(); 
+  //   localStorage.setItem(this.localStorageKey, 'true');
+  // }
+   
+   
   }
 
   constructor(private router : Router, private dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService) { 
@@ -43,7 +64,7 @@ export class TeamComponent implements OnInit{
   addTeamFlag: boolean = false;
 
   openTeamModal(teamId: number) {
-    this.router.navigate(['/dynamic/team-detail'], { queryParams: { teamId: teamId } });
+    this.router.navigate(['/team-detail'], { queryParams: { teamId: teamId } });
     // this.openModal();
 
   }
@@ -216,7 +237,7 @@ export class TeamComponent implements OnInit{
     let navExtra : NavigationExtras = {
       queryParams : {"teamId" : id},
     };
-    this.router.navigate(['/dynamic/team-detail'], navExtra);
+    this.router.navigate(['/team-detail'], navExtra);
   }
   
   capitalizeFirstLetter(name: string): string {
@@ -322,6 +343,62 @@ export class TeamComponent implements OnInit{
       // location.reload();
     });
   }
+
+  saveSlackChannelsDataToTeam(){
+    debugger
+    this.dataService.getSlackChannelsDataToTeam(this.getLoginDetailsId()).subscribe(response =>{
+      console.log("slack data saved to team successfully");
+      location.reload();
+    }, error => {
+      console.error(error);
+    })
+  }
+
+  // #########################################33 pagination
+
+  
+
+  // team.component.ts
+
+getTeamsByFiltersFunction() {
+  this.dataService.getTeamsByFilter(
+    this.getLoginDetailsId(),
+    this.getLoginDetailsRole(),
+    this.itemPerPage,
+    this.pageNumber,
+    this.searchText,
+    "name"
+  ).subscribe((data: any) => {
+    if (data && data.teams) {
+      console.log(data);
+      this.teamsNew = data.teams;
+      this.total = data.count;
+      console.log(this.teamsNew);
+      console.log(this.total);
+    } else {
+      // Handle the case where the expected data structure is not received
+      console.error("Invalid data format received from the server");
+    }
+  }, (error) => {
+    console.log(error);
+  });
+}
+
+
+  
+  onTableDataChange(event : any)
+  {
+    this.pageNumber=event;
+    this.getTeamsByFiltersFunction();
+  }
+
+
+  searchText : string = '';
+
+  searchTeams() {
+    this.getTeamsByFiltersFunction();
+  }
+
 
   
 }

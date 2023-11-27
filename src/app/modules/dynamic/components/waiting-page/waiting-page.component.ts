@@ -12,7 +12,7 @@ export class WaitingPageComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.router.navigate(["/dynamic/dashboard"]);
+      this.router.navigate(["/dashboard"]);
     }, 3000)
   }
 
