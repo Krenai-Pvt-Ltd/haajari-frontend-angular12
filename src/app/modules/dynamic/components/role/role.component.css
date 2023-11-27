@@ -1,0 +1,278 @@
+.nav-tabs {
+    box-shadow: none !important;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.nav-tabs .nav-item {
+    margin-bottom: -1px;
+    margin-right: 1rem;
+}
+
+.nav-tabs .nav-link.active {
+    border-bottom: 2px solid #4660f6;
+    color: #4660f6;
+    background-color: transparent;
+}
+.nav-tabs .nav-link {
+    font-style: normal;
+    border-radius: 0px 0 0 0;
+    border: none;
+    padding: 7px 15px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #404040;
+}
+
+.rules-main{
+    padding: 15px;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size: .875rem;
+    font-weight: 400;
+    height: 40px !important;
+}
+
+.search-icon{
+    font-size: 12px;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--tb-secondary-color);
+}
+
+.gap-3 {
+    grid-gap: 1rem!important;
+    gap: 1rem!important;
+}
+
+.text-decoration-underline {
+    text-decoration: underline!important;
+}
+
+tbody tr{
+    border-bottom: 1px solid #ececec;
+}
+tbody tr:last-child{
+    border-bottom: none;
+}
+.rolemodalinner > h5 {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 26px;
+    color: #1f2a37;
+    margin-bottom: 15px;
+}
+
+.accordion-header {
+    background-color: #fafaf9;
+    padding: 0 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.accordion-button {
+    background-color: transparent!important;
+    border-bottom: 1px solid #f3f4f6;
+    border-bottom-right-radius: 0!important;
+    box-shadow: unset!important;
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+}
+
+
+.accesstitle p {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 21px;
+    color: #000;
+}
+
+.accesspermissioninner {
+    grid-gap: 15px;
+    gap: 15px;
+}
+
+.custom-radiocheck label {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 19px;
+    color: #374151;
+    width: -moz-fit-content;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.gap-2 {
+    grid-gap: 0.5rem!important;
+    gap: 0.5rem!important;
+}
+
+.form-check-input[type=radio] {
+    border-radius: 50%;
+}
+
+.accordion-button::after {
+    display: none;
+}
+
+
+.custom-radiocheck label span {
+    border: 1px solid #9ca3af;
+    width: 20px;
+    text-align: center;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 0;
+    transition: .2s linear;
+    color: #fff;
+    line-height: 19px;
+}
+
+
+.custom-radiocheck label {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 19px;
+    color: #374151;
+    width: -moz-fit-content;
+    width: fit-content;
+    cursor: pointer;
+}
+
+
+
+.expand-accord i.collapsed {
+    transform: rotate(0);
+}
+
+.expand-accord i {
+    transform: rotate(180deg);
+}
+
+.expand-accord i {
+    color: #333;
+    cursor: pointer;
+    transition: .1s linear;
+    display: inline-block;
+}
+
+.custom-radiocheck input[type=radio]:checked~label span {
+    background-color: #0070d2;
+    border: 1px solid #0070d2;
+    font-size: 14px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,.12));
+}
+
+.expand-accord{
+    line-height: 20px;
+}
+.accordion-item{
+    border: none;
+}
+
+.badge-grey {
+    background: #f3f4f6;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+    color: #111928;
+}
+
+.statusactive {
+    background-color: #def7ec;
+    color: #03543f;
+}
+
+.statusactive, .statusinactive {
+    display: inline-block;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    padding: 3px 14px;
+}
+
+input[type=checkbox] {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
+input:checked + label {
+    background: #3BB77E;
+}
+.hafday {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 45px;
+    height: 25px;
+    background: grey;
+    display: block;
+    border-radius: 100px;
+    position: relative;
+}
+
+input:checked + label:after {
+    left: calc(100% - 5px);
+    transform: translateX(-100%);
+}
+
+.hafday:after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border-radius: 90px;
+    transition: 0.3s;
+}
+
+.new-deopdown{
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size: .875rem;
+    font-weight: 400;
+    height: 45px !important;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #e8ebf3;
+    color: #2d2e3e;
+}
+
+.new-deopdown i {
+    position: absolute;
+    right: 15px;
+}
+
+.userdetails p {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #111928;
+    min-width: 150px;
+}
+
+
+.userdetails p:last-child {
+    font-weight: 300;
+    margin-left: 5px;
+}

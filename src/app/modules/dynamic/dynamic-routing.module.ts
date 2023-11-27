@@ -20,11 +20,12 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
 import { AuthGuard } from 'src/app/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ReportsComponent } from './components/reports/reports.component';
-<<<<<<< HEAD
-=======
 import { DatePipe } from '@angular/common';
 import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';
->>>>>>> 667d6c97f4843c146be0a2e79ad9e6f337b3e636
+import { AttendanceSettingComponent } from './components/attendance-setting/attendance-setting.component';
+import { CompanySettingComponent } from './components/company-setting/company-setting.component';
+import { SelerySettingComponent } from './components/selery-setting/selery-setting.component';
+import { RoleComponent } from './components/role/role.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -46,11 +47,12 @@ const routes: Routes = [
   {path: 'team-detail', component: TeamDetailComponent},
   {path: 'user-profile', component: UserProfileComponent}, 
   {path: 'reports', component: ReportsComponent}, 
-<<<<<<< HEAD
+  {path: 'employee-onboarding', component: EmployeeOnboardingComponent},
+  {path: 'attendance-setting', component: AttendanceSettingComponent},
+  {path: 'company-setting', component: CompanySettingComponent},
+  {path: 'selery-setting', component: SelerySettingComponent},
+  {path: 'role', component: RoleComponent}
 
-=======
-  {path: 'employee-onboarding', component: EmployeeOnboardingComponent}
->>>>>>> 667d6c97f4843c146be0a2e79ad9e6f337b3e636
 
 //   {path: 'team-detail', component: TeamDetailComponent},
 //   {path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard]}

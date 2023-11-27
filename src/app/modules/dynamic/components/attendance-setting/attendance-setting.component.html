@@ -1,0 +1,429 @@
+<div class="page-wrapper">
+
+    <!-- Page Content-->
+    <div class="page-content-tab">
+
+        <div class="container-fluid">
+
+
+<div class="row monthly-report">
+
+    <div class="col-md-12">
+        <!-- <div class="attendance-setting ">
+            <h5>Attendance Setting</h5>
+        </div> -->
+        <div class="">
+            <div class="d-flex align-items-center justify-content-between attendance-box">
+                <div class="attendance-setting-hedding">
+                    <h6 data-bs-toggle="modal" data-bs-target="#attendance-setting">Attendance Mode</h6>
+                    
+                </div>
+                <div class="attend-location">
+                    <p class="mb-0">Selfie & Location</p>
+                </div>
+                <div class="atten-icon">
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-between attendance-box">
+                <div class="attendance-setting-hedding">
+                    <h6 data-bs-toggle="modal" data-bs-target="#create-shift">Shift Settings</h6>
+                </div>
+                <div class="attend-location">
+                    <p class="mb-0">No Shift Added</p>
+                </div>
+                <div class="atten-icon d-flex justify-content-end" style="gap:10px;">
+                    <button class="btn new-featucher-btn" type="button">New Feature</button>
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-between attendance-box">
+                <div class="attendance-setting-hedding">
+                    <!-- automation-rules  -->
+                    <h6 data-bs-toggle="modal" data-bs-target="#rules-value">Automation Rules</h6>
+                </div>
+                <div class="attend-location">
+                    <p class="mb-0">Track Late Entery, Breaks, Early out, Overtime & Early Overtime</p>
+                </div>
+                <div class="atten-icon d-flex justify-content-end" style="gap:10px;">
+                    <button class="btn new-featucher-btn" type="button">New Feature</button>
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+
+
+<div class="modal fade" id="attendance-setting" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">Manual Attendance</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div><!--end modal-header-->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="attendance-settin-list">
+
+                            <div class="categryCustomizecard d-flex pointer">
+                                <div class="categryCustomizeinput">
+                                    <input type="radio" name="customizeimagesize" id="customizeimagesize315">
+                                </div>
+                                <div  class="categryCustomizeinfo">
+                                    <label for="customizecategory1" class="mb-0">
+                                        <h3> Manual Attendance</h3>
+                                        <p> Large images are best for products where every detail is a part of the product’s value.</p>
+                                    </label>
+                                 </div>
+                            </div>
+
+                            <div class="categryCustomizecard d-flex pointer">
+                                <div class="categryCustomizeinput">
+                                    <input type="radio" name="customizeimagesize" id="customizeimagesize315">
+                                </div>
+                                <div  class="categryCustomizeinfo">
+                                    <label for="customizecategory1" class="mb-0">
+                                        <h3> Staff Attendance With Location </h3>
+                                        <p> Large images are best for products where every detail is a part of the product’s value.</p>
+                                    </label>
+                                 </div>
+                            </div>
+
+
+                            <div class="categryCustomizecard d-flex pointer">
+                                <div class="categryCustomizeinput">
+                                    <input type="radio" name="customizeimagesize" id="customizeimagesize315">
+                                </div>
+                                <div  class="categryCustomizeinfo">
+                                    <label for="customizecategory1" class="mb-0">
+                                        <h3> Staff Attendance With Selfie & Location</h3>
+                                        <p> Large images are best for products where every detail is a part of the product’s value.</p>
+                                    </label>
+                                 </div>
+                            </div>
+
+                        </div>
+                    </div>
+                   
+                </div><!--end row-->                                                      
+            </div><!--end modal-body-->
+            <div class="modal-footer d-flex align-items-center justify-content-center">
+                <button type="button" class="btn btn-primary" style="width:100%;">Save & Contnue</button>
+            </div><!--end modal-footer-->
+        </div><!--end modal-content-->
+    </div><!--end modal-dialog-->
+</div><!--end modal-->
+
+
+
+
+
+<div class="modal fade" id="create-shift" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Create Shift</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div><!--end modal-header-->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="pb-2">Shift Type</label>
+
+                            <div class="dropdown" style="width: 100%;">
+                  
+                                <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Shift Type <i class="bi bi-chevron-down"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
+                                  <li><a class="dropdown-item">Day</a></li>
+                                  <li><a class="dropdown-item">Night</a></li>
+                                  
+                                </ul>
+                              </div>
+                          
+                            
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="pb-2">Shift Name</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="pb-2">Shift Time (start & end time)</label>
+                            <div class="d-flex" style="gap:20px">
+                            <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="Start Time">
+
+                            <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="End Time">
+                        </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="pb-2">Unpaid Braak</label>
+                            <div class="d-flex" style="gap:20px">
+                              <div class="">
+                                <button class="btn new-featucher-btn" type="button">Add</button>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                   
+                </div>                                                      
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="automation-rules" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Automation Rules </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div><!--end modal-header-->
+            <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class=" d-flex align-items-center attendance-boxx">
+                        <div class="late-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div class="late-rule">
+                            <h5>Late Entry Rules</h5>
+                            <p class="mb-0">Automate Late fine for employee who are</p>
+                        </div>
+                        <div class="late-btn d-flex" style="gap:10px;">
+
+                            <a href="" class="create-rule"> Create your first rule</a>
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </div>
+                    </div>
+                    <div class=" d-flex align-items-center attendance-boxx">
+                        <div class="late-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div class="late-rule">
+                            <h5>Late Entry Rules</h5>
+                            <p class="mb-0">Automate Late fine for employee who are </p>
+                        </div>
+                        <div class="late-btn d-flex" style="gap:10px;">
+
+                            <a href="" class="create-rule"> Create your first rule</a>
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </div>
+                    </div>
+                    <div class=" d-flex align-items-center attendance-boxx">
+                        <div class="late-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div class="late-rule">
+                            <h5>Late Entry Rules</h5>
+                            <p class="mb-0">Automate Late fine for employee who are </p>
+                        </div>
+                        <div class="late-btn d-flex" style="gap:10px;">
+
+                            <a href="" class="create-rule"> Create your first rule</a>
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </div>
+                    </div>
+                    <div class=" d-flex align-items-center attendance-boxx">
+                        <div class="late-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div class="late-rule">
+                            <h5>Late Entry Rules</h5>
+                            <p class="mb-0">Automate Late fine for employee who are </p>
+                        </div>
+                        <div class="late-btn d-flex" style="gap:10px;">
+
+                            <a href="" class="create-rule"> Create your first rule</a>
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </div>
+                    </div>
+                    <div class=" d-flex align-items-center attendance-boxx">
+                        <div class="late-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div class="late-rule">
+                            <h5>Late Entry Rules</h5>
+                            <p class="mb-0">Automate Late fine for employee who are </p>
+                        </div>
+                        <div class="late-btn d-flex" style="gap:10px;">
+
+                            <a href="" class="create-rule"> Create your first rule</a>
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="rule-section">
+                       <div class="rule-main-div">
+                        <h5>1. Create your first rule</h5>
+                        <p class="mb-0">Automate Late fine for employee who are coming late to work</p>
+                       </div>
+
+                       <div class="rule-main-divv">
+                        <h5>2. Set a rule value</h5>
+                        <p class="mb-0">Automate Late fine for employee who are coming late to work</p>
+                       </div>
+                    </div>
+                  </div>
+                </div>                                                      
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="rules-value" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Set a rule value </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div><!--end modal-header-->
+            <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-8">
+                   <div class="">
+
+                    <ul id="myTab" role="tablist" class="nav nav-tabs">
+                        <li role="presentation" class="nav-item">
+                            <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" class="nav-link active">Rules</button>
+                        </li>
+                            <li role="presentation" class="nav-item">
+                                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link">Staff selection</button>
+                            </li>
+                    </ul>
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel">
+                            <div class="rules-main">
+                                <div class="form-check pb-3">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked="">
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Deduct selery if staff is late by more then
+                                    </label>
+                                </div>
+
+                                <div class="dudtion-type">
+                                    <div class="d-flex align-items-center" style="gap:20px">
+                                        <div class="if-late">
+                                            <label for="exampleInputEmail1" class="pb-2">If staff is late by</label>
+                                            <div class="d-flex" style="gap:20px">
+                                                <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="Start Time">
+                                            </div>
+                                        </div>
+                                        <div class="dudct-type">
+                                            <label for="exampleInputEmail1" class="pb-2">Deduction Type</label>
+                                            <div class="dropdown" style="width: 100%;">
+                  
+                                                <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Deduction Type <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
+                                                  <li><a class="dropdown-item">Half</a></li>
+                                                  <li><a class="dropdown-item">Full</a></li>
+                                                  
+                                                </ul>
+                                              </div>
+                                        </div>
+                                        <div class="delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </div>
+                                    </div>
+                                    <div class="pt-3 pb-2">
+                                        <a href="" class="add-time-range">Add Time Range</a>
+                                    </div>
+
+                                    <div class="">
+                                        <div class="form-check ">
+                                            <input class="form-check-input" type="checkbox" value="" id="Occurrences" >
+                                            <label class="form-check-label" for="Occurrences">
+                                                Set Occurrences
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="mt-2">
+                                    <div class="form-check pb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="staff" >
+                                        <label class="form-check-label" for="staff">
+                                            Deduct half day selery if staff is late by more then
+                                        </label>
+                                    </div>
+                                    <div class="form-check pb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="selery" >
+                                        <label class="form-check-label" for="selery">
+                                            Deduct half day selery if staff is late by more then
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel">
+
+                        </div>
+
+                    </div>
+
+                   </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="rule-section">
+                       <div class="rule-main-div">
+                        <h5>1. Create your first rule</h5>
+                        <p class="mb-0">Automate Late fine for employee who are coming late to work</p>
+                       </div>
+
+                       <div class="rule-main-divv">
+                        <h5>2. Set a rule value</h5>
+                        <p class="mb-0">Automate Late fine for employee who are coming late to work</p>
+                       </div>
+                    </div>
+                  </div>
+                </div>                                                      
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
