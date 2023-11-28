@@ -175,4 +175,24 @@ export class DashboardComponent implements OnInit {
     
     return this.flag;
   }
+
+
+  calculateTotalDuration(attendances: AttendenceDto[]): number {
+    return attendances.reduce((totalDuration, attendance) => {
+      if (attendance.duration) {
+        const durationParts = attendance.duration
+          .split(" ")
+          .filter((part) => !isNaN(Number(part)));
+        const durationInSeconds = durationParts.reduce(
+          (acc, part) => acc + Number(part),
+          0
+        );
+        return totalDuration + durationInSeconds;
+      }
+      return totalDuration;
+    }, 0);
+  }
+
+
+  
 }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Organization } from 'src/app/models/organization';
 // import { CookieService } from 'ngx-cookie-service';
 import { DataService } from 'src/app/services/data.service';
+import { jwtDecode } from "jwt-decode";
 
 
 @Component({
@@ -29,11 +30,14 @@ export class SlackAuthComponent implements OnInit{
     }
 
     this.dataService.registerOrganizationUsingCodeParam(codeParam).subscribe((response: any) => {
-      debugger
       console.log(response);
-      localStorage.setItem('loginData', JSON.stringify(response));
 
-      if(response.httpCustomStatus === ("UPDATED") && response.statusResponse === ("ORGANIZATION_REGISTRATION_SUCCESSFULL")){
+      localStorage.setItem('token', JSON.stringify(response.access_token));
+      localStorage.setItem('refresh_token', JSON.stringify(response.refresh_token));
+
+      const decodedValue = this.decodeFirebaseAccessToken(response.access_token);
+
+      if(decodedValue.httpCustomStatus === ("UPDATED") && decodedValue.statusResponse === ("ORGANIZATION_REGISTRATION_SUCCESSFULL")){
         this.router.navigate(['/dashboard']);
       }else{
         this.router.navigate(['/onboarding']);
@@ -44,6 +48,14 @@ export class SlackAuthComponent implements OnInit{
     })
   }
 
+
+  decodeFirebaseAccessToken(access_token: string){
+    const decodedToken : any = jwtDecode(access_token);
+
+    debugger
+    console.log(decodedToken);
+    return decodedToken;
+  }
 
 
   // organization: Organization = new Organization();
@@ -102,3 +114,5 @@ export class SlackAuthComponent implements OnInit{
   //   );
   // }
 }
+
+
