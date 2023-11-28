@@ -22,13 +22,10 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { ReportsComponent } from './components/reports/reports.component';
 import { DatePipe } from '@angular/common';
 import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';
-<<<<<<< HEAD
-=======
 import { AttendanceSettingComponent } from './components/attendance-setting/attendance-setting.component';
 import { CompanySettingComponent } from './components/company-setting/company-setting.component';
 import { SelerySettingComponent } from './components/selery-setting/selery-setting.component';
 import { RoleComponent } from './components/role/role.component';
->>>>>>> 7c7985b308fb2c0d363efd6c64540d543714b9f2
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -50,15 +47,11 @@ const routes: Routes = [
   {path: 'team-detail', component: TeamDetailComponent},
   {path: 'user-profile', component: UserProfileComponent}, 
   {path: 'reports', component: ReportsComponent}, 
-<<<<<<< HEAD
-  {path: 'employee-onboarding', component: EmployeeOnboardingComponent}
-=======
   {path: 'employee-onboarding', component: EmployeeOnboardingComponent},
   {path: 'attendance-setting', component: AttendanceSettingComponent},
   {path: 'company-setting', component: CompanySettingComponent},
   {path: 'selery-setting', component: SelerySettingComponent},
   {path: 'role', component: RoleComponent}
->>>>>>> 7c7985b308fb2c0d363efd6c64540d543714b9f2
 
 
 //   {path: 'team-detail', component: TeamDetailComponent},
