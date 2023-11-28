@@ -32,15 +32,17 @@
                                 <div class="form-group" style="width: 250px;">
                                   <input class="form-control me-2" type="search" id="searchText" placeholder="Search" (keyup)="searchTeams()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 5px 15px;">
         
-                                  <!-- <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i> -->
+                                 
                                 </div>
-                                <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
+                                
                               </form>
                         </div>
                        
                     </div>
                 </div>
-                <div></div>
+                <div>
+
+                </div>
                 <div class="col-lg-6">
                     <div class="col-lg-6 text-start">
                         <button type="button" class="btn btn-primary mb-3" (click)="saveSlackChannelsDataToTeam()">Load Data</button>                      
@@ -54,22 +56,7 @@
             </div>
 
 
-                <!-- <div class="row">
-                    <div class="col-md-12">
-                        <div class="errorboxmain text-center mb-3">
-                            <div class="errorboxinner">
-                                <div class="errorboxplaceholder mb-2">
-                                    <img  width="70px" height="70px" src="assets/images/addnewproduct.svg" class="emptyImage change-image" alt="No Data Found">
-                                </div>
-                                <h4>What is Lorem Ipsum?</h4>
-                                <p>Lorem Ipsum is simply dummy text of the printing</p>
-                                <button type="button" class="btn create-team">Add new hire</button>
-                            </div>
-
-                        </div>
-                    </div>
-                    
-                </div> -->
+              
 
                 <div class="row app-emptiy-notifaction" *ngIf="teams.length==0">
                     <div class="col-md-6 d-flex align-items-center justify-content-center" style="flex-direction: column;">
@@ -91,6 +78,19 @@
                         <div class="">
                             <img src="assets/images/empty-2.png" style="width:100%;">
                         </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-4">
+
                     </div>
                 </div>
 

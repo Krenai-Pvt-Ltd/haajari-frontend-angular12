@@ -190,6 +190,10 @@ span.todo-task {
     border:1px solid #ccc;
   } */
 
+  .errorboxmain {
+    padding: 30px;
+}
+
 @media screen and (max-width: 2600px) {
     .fixheigt-section img{
         width: 58%;

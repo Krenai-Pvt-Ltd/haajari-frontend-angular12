@@ -28,6 +28,10 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
 import { TempComponent } from './components/temp/temp.component';
 import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';
 import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
+import { AttendanceSettingComponent } from './components/attendance-setting/attendance-setting.component';
+import { CompanySettingComponent } from './components/company-setting/company-setting.component';
+import { SelerySettingComponent } from './components/selery-setting/selery-setting.component';
+import { RoleComponent } from './components/role/role.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +54,11 @@ import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
     TeamComponent,
     TeamDetailComponent,
     TempComponent,
-    EmployeeOnboardingComponent
+    EmployeeOnboardingComponent,
+    AttendanceSettingComponent,
+    CompanySettingComponent,
+    SelerySettingComponent,
+    RoleComponent
   ],
   imports: [
     CommonModule,
