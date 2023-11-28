@@ -32,6 +32,7 @@ import { AttendanceSettingComponent } from './components/attendance-setting/atte
 import { CompanySettingComponent } from './components/company-setting/company-setting.component';
 import { SelerySettingComponent } from './components/selery-setting/selery-setting.component';
 import { RoleComponent } from './components/role/role.component';
+import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { RoleComponent } from './components/role/role.component';
     AttendanceSettingComponent,
     CompanySettingComponent,
     SelerySettingComponent,
-    RoleComponent
+    RoleComponent,
+    EmployeeOnboardingFormComponent
   ],
   imports: [
     CommonModule,
