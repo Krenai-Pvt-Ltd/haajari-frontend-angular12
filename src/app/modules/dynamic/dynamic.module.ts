@@ -33,6 +33,7 @@ import { CompanySettingComponent } from './components/company-setting/company-se
 import { SelerySettingComponent } from './components/selery-setting/selery-setting.component';
 import { RoleComponent } from './components/role/role.component';
 import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
+import { EmployeeOnboardingSidebarComponent } from '../common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { EmployeeOnboardingFormComponent } from './components/employee-onboardin
     CompanySettingComponent,
     SelerySettingComponent,
     RoleComponent,
-    EmployeeOnboardingFormComponent
+    EmployeeOnboardingFormComponent,
+    EmployeeOnboardingSidebarComponent
   ],
   imports: [
     CommonModule,

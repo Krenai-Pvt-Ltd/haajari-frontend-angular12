@@ -15,6 +15,7 @@ import { HeaderComponent } from './modules/common/header/header.component';
 import { AngularFireStorage } from '@angular/fire/compat/storage'
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
+import { EmployeeOnboardingSidebarComponent } from './modules/common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 
 @NgModule({
   declarations: [
