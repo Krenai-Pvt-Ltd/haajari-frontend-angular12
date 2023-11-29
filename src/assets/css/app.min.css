@@ -8960,3 +8960,11 @@ display:block
 .float-left{
     float: left;
 }
+
+label {
+    font-size: 13px !important;
+}
+
+.abcd .ngx-shimmer {
+    border-radius: 50% !important;
+}
