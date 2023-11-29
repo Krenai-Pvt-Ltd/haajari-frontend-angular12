@@ -28,6 +28,12 @@ import { SelerySettingComponent } from './components/selery-setting/selery-setti
 import { RoleComponent } from './components/role/role.component';
 import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
 import { EmployeeOnboardingSidebarComponent } from '../common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
+import { EmployeeAddressDetailComponent } from './components/employee-address-detail/employee-address-detail.component';
+import { EmployeeDocumentComponent } from './components/employee-document/employee-document.component';
+import { AcadmicComponent } from './components/acadmic/acadmic.component';
+import { EmployeeExperienceComponent } from './components/employee-experience/employee-experience.component';
+import { BankDetailsComponent } from './components/bank-details/bank-details.component';
+import { EmergencyContactComponent } from './components/emergency-contact/emergency-contact.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -55,7 +61,13 @@ const routes: Routes = [
   {path: 'selery-setting', component: SelerySettingComponent},
   {path: 'role', component: RoleComponent},
   {path: 'employee-onboarding-form', component: EmployeeOnboardingFormComponent},
-  {path: 'employee-onboarding-sidebar', component: EmployeeOnboardingSidebarComponent}
+  {path: 'employee-onboarding-sidebar', component: EmployeeOnboardingSidebarComponent},
+  {path: 'employee-address-detail', component: EmployeeAddressDetailComponent},
+  {path: 'employee-document', component: EmployeeDocumentComponent},
+  {path: 'acadmic', component: AcadmicComponent},
+  {path: 'employee-experience', component: EmployeeExperienceComponent},
+  {path: 'bank-details', component: BankDetailsComponent},
+  {path: 'emergency-contact', component: EmergencyContactComponent}
   
 
 //   {path: 'team-detail', component: TeamDetailComponent},

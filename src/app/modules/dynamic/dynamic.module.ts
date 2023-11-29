@@ -34,6 +34,12 @@ import { SelerySettingComponent } from './components/selery-setting/selery-setti
 import { RoleComponent } from './components/role/role.component';
 import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
 import { EmployeeOnboardingSidebarComponent } from '../common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
+import { EmployeeAddressDetailComponent } from './components/employee-address-detail/employee-address-detail.component';
+import { EmployeeDocumentComponent } from './components/employee-document/employee-document.component';
+import { AcadmicComponent } from './components/acadmic/acadmic.component';
+import { EmployeeExperienceComponent } from './components/employee-experience/employee-experience.component';
+import { BankDetailsComponent } from './components/bank-details/bank-details.component';
+import { EmergencyContactComponent } from './components/emergency-contact/emergency-contact.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +68,13 @@ import { EmployeeOnboardingSidebarComponent } from '../common/employee-onboardin
     SelerySettingComponent,
     RoleComponent,
     EmployeeOnboardingFormComponent,
-    EmployeeOnboardingSidebarComponent
+    EmployeeOnboardingSidebarComponent,
+    EmployeeAddressDetailComponent,
+    EmployeeDocumentComponent,
+    AcadmicComponent,
+    EmployeeExperienceComponent,
+    BankDetailsComponent,
+    EmergencyContactComponent,
   ],
   imports: [
     CommonModule,
