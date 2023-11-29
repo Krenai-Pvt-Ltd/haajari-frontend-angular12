@@ -129,12 +129,13 @@ export class TeamComponent implements OnInit{
   }
 
   registerTeamSubmitButton(){
-    debugger
     this.dataService.registerTeam(this.userIds,this.teamName,this.teamDescription).subscribe((data) => {
       console.log(data);
-      location.reload();
+
+      debugger
+      // location.reload();
     }, (error) => {
-      location.reload();
+      // location.reload();
       console.log(error);
     })
   }
