@@ -364,3 +364,29 @@ span.remove-icon:hover {
     align-items: center;
     text-align: center;
 }
+
+.searching{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size: .875rem;
+    font-weight: 400;
+    height: 40px !important;
+}
+.cusser{
+    cursor: pointer;
+}
+.search-icon {
+    font-size: 12px;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--tb-secondary-color);
+}
