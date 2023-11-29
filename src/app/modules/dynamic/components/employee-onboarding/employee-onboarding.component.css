@@ -1,0 +1,187 @@
+
+.employe-onbording{
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.075);
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.orderpcardleft{
+    width: 80%;
+}
+
+.orderpcardlefth6{
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 22px;
+    text-transform: uppercase;
+    color: #878a9a;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.orderpcardleft h5{
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 30px;
+    color: #444444;
+    margin-bottom: 0px;
+    text-align: left;
+    margin-top: 10px;
+}
+
+.orderpcardright{
+    margin: auto 0;
+    width: 20%;
+}
+
+.total-employ-icon{
+    background-color: #fdcd;
+    border-radius: 6px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-size: 25px;
+    line-height: 20px;
+    color: #ff915c;
+    padding: 15px;
+}
+
+.on-leave-section{
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.075);
+}
+
+.thumb-xl {
+    height: 50px;
+    width:50px;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.rounded-circle {
+    border-radius: 50%!important;
+}
+
+
+.on-leave h5 {
+    margin-bottom: 3px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 1px;
+}
+
+.on-leave p {
+    margin-bottom: 0px;
+    font-size: 12px;
+}
+
+.on-leave {
+    width: 33.3%;
+    border-right: 1px solid #eee;
+    padding-right: 16px;
+}
+
+.on-leave:last-child {
+    width: 33.3%;
+    border-right: none;
+    padding-right: 16px;
+}
+
+.on-leaves {
+    border-right: 1px solid #eee !important;
+    padding-right: 16px;
+}
+
+.on-leaves:last-child {
+    border-right: none;
+}
+
+.on-leaves h5 {
+    margin-bottom: 3px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 1px;
+}
+
+.on-leaves p {
+    margin-bottom: 0px;
+    font-size: 12px;
+}
+
+.on-leave-section h5 {
+    margin-top: 0px;
+}
+
+.obboard-employee-list {
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 15px;
+}
+
+.onboarding-date p {
+    font-size: 16px !important;
+    font-weight: 500;
+}
+
+.onboarding-date i{
+    font-size: 20px;
+    color: #557ef8;
+    line-height: 0px;
+}
+
+.arrow-leftee i{
+    font-size: 20px;
+    color: #444;
+    line-height: 0px;
+}
+
+.table .thead-light th {
+    color: #8997bd;
+    background-color: #f9fafb;
+    border-color: #e8ebf3;
+    border-bottom: none;
+    font-size: 13px;
+}
+
+.full-per{
+    background-color: green;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+}
+
+.half-per{
+    background-color: orange;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+}
+
+
+.weekly-pro{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 150px;
+}
+
+tbody tr {
+    border-bottom: 1px solid #ececec;
+}
+
+.week {
+    background-color: transparent;
+    color: #557ef8;
+    padding: 5px 23px;
+    border: 1px solid #557ef8;
+}
+
+.week:hover {
+    background-color: #557ef8;
+    color: #fff;
+    padding: 5px 23px;
+    border: 1px solid #557ef8;
+}

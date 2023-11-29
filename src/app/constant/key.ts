@@ -24,7 +24,7 @@ export class Key{
 
 
 
-    public static HEADER_RESTRICTION_ROUTES = ["/","/login", "/onboarding", "/slackauth"];
+    public static HEADER_RESTRICTION_ROUTES = ["/","/login", "/onboarding", "/slackauth", "/employee-onboarding-form"];
     
-    public static TOPBAR_RESTRICTION_ROUTES = ["/","/login", "/onboarding", "/slackauth"];
+    public static TOPBAR_RESTRICTION_ROUTES = ["/","/login", "/onboarding", "/slackauth", "/employee-onboarding-form"];
 }
