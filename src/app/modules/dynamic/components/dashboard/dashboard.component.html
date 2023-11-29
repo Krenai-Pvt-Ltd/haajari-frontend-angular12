@@ -134,6 +134,19 @@
                 <h4 class="card-title" style="font-size: 18px;">Best Performance this month</h4>                      
             </div>
         </div>
+        <div class="mt-3 dashnodata" *ngIf="(responseDto.attendanceTopPerformers).length==0">
+            <div class="errorboxmain">
+                <div class="errorboxinner text-center">
+                  <div class="errorboxplaceholder mb-2">
+                    <img src="assets/images/addnewproduct.svg" style="width:80px;" />
+                  </div>
+    
+                  <h4>No Data Found</h4>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="(responseDto.attendanceLatePerformers).length!=0">
         <div class="row mb-3">
             <div class="col-lg-4" *ngFor="let performer of responseDto.attendanceTopPerformers">
                 <div class="card profile-card" >
@@ -156,14 +169,30 @@
                 </div><!--end card--> 
             </div>  
         </div>
+        </div>
     </div>
 
+   
+   
         <div class="row mb-3">
             <div class="col-md-12">
                 <div class="col mb-3">                      
                      <h4 class="card-title" style="font-size: 18px;">Late Employee</h4>                      
                 </div>
             </div>
+            <div class="mt-3 dashnodata" *ngIf="(responseDto.attendanceLatePerformers).length==0">
+                <div class="errorboxmain">
+                    <div class="errorboxinner text-center">
+                      <div class="errorboxplaceholder mb-2">
+                        <img src="assets/images/addnewproduct.svg" style="width:80px;" />
+                      </div>
+        
+                      <h4>No Data Found</h4>
+                      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    </div>
+                </div>
+            </div>
+         <div *ngIf="(responseDto.attendanceLatePerformers).length!=0">
             <div class="col-lg-4"*ngFor="let performer of responseDto.attendanceLatePerformers">
                 <div class="card" >
                     <div class="card-body">                                        
@@ -184,6 +213,7 @@
             </div>
             
         </div>
+    </div>
    </div>
 
 
@@ -335,7 +365,7 @@
                                 </div>
                             </div>
 
-
+                        <div *ngIf="(myAttendanceData | json )!= '{}'">
                             <h5>Monthly Regular</h5>
 
 
@@ -397,6 +427,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
                             
 
                            </div>

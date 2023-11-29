@@ -53,12 +53,12 @@
                 </div> -->
             </div>
 
-            <div class="row mb-3 mt-2">
+            <div class="row mb-3 mt-2" *ngIf="teams.length>0">
                 <div class="col-md-5">
 
-                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
+                    <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchTeams()">
                         <div class="form-group" style="width: 250px;">
-                            <input type="search" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;">
+                            <input type="search" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchTeams()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px;">
                             <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
                         </div>
                     </form>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-md-7">
                  <div class="d-flex justify-content-end align-items-center" style="gap:10px;">
-                    <div class="cusser">
+                    <div class="cusser"  (click)="saveSlackChannelsDataToTeam()">
                         <i class="bi bi-arrow-clockwise" style="    font-size: 20px; color: #557ef8;"></i>
                     </div>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button>     
@@ -115,145 +115,196 @@
                     </div>
                 </div>
 
-            <div class="row" *ngIf="teams.length>0" >
+                <div class="row" *ngIf="teams.length>0" >
 
-                <div class="col-lg-4" *ngFor="let i = index, let team of teamsNew | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};" >
-                    <div class="card team-card" style="height: 185px;" >
-                        <div class="card-body">
-                            <div class="float-end" *ngIf="localStorageRoleAdminFlag==true">                                        
-                                <div class="dropdown d-inline-block">
-                                    <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                        <i class="las la-ellipsis-v font-24 text-muted"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
-                                        <a class="dropdown-item" href="#">Open Project</a>
-                                        <a class="dropdown-item" href="#">Edit Card</a> 
-                                        <a class="dropdown-item" (click)=" deleteTeamByTeamId(team.id)">Delete</a>
+                    <div class="col-lg-4" *ngFor="let i = index, let team of teamsNew | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};" >
+                        <div class="card team-card" style="height: 185px;" >
+                            <div class="card-body">
+                                <div class="float-end" *ngIf="localStorageRoleAdminFlag==true">                                        
+                                    <div class="dropdown d-inline-block">
+                                        <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                            <i class="las la-ellipsis-v font-24 text-muted"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
+                                            <a class="dropdown-item" href="#">Open Project</a>
+                                            <a class="dropdown-item" href="#">Edit Card</a> 
+                                            <a class="dropdown-item" (click)=" deleteTeamByTeamId(team.id)">Delete</a>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>                                                 
-                            <div class="media align-items-center" >                                                
-                                <div class="img-group">
-                                    <a class="user-avatar me-1" href="#" >
-                                        <!-- <img src="assets/images/user.png" alt="" class="rounded-circle thumb-md"> -->
-
-
-                                        <span class="members-icon">{{ capitalizeFirstLetter(team.name[0]) }}</span>
-
-                                       
-                                        <span class="avatar-badge online"></span>
-
-                                    </a>
-                                    <!-- <div *ngIf="team.manager.image!==null">
+                                </div>                                                 
+                                <div class="media align-items-center" >                                                
+                                    <div class="img-group">
                                         <a class="user-avatar me-1" href="#" >
-                                            <img src={{team.manager.image}} alt="user" class="rounded-circle thumb-md">
-                                            <span class="avatar-badge online"></span>
-                                        </a>
-                                    </div> -->
-                                    <!-- <div>
-                                        <a class="user-avatar me-1" href="#" >
-                                            <img src="assets/images/user.png" alt="" class="rounded-circle thumb-md">
-                                            
-                                            <span class="avatar-badge online"></span>
-
-                                        </a>
-                                    </div> -->
-                                   
-                                </div>                                                                           
-                                <div class="media-body ms-2 align-self-center">
-                                    <h5 class="m-0 team-name">{{ capitalizeFirstLetter(team.name) }}</h5>
-                                    <!-- <p class="text-muted font-12 mb-0">Team Name</p>  -->
-                                    <p class="text-muted mb-0 fw-semibold team-description" style="font-size: 12px; padding-top: 2px; font-weight: 400 !important;">{{team.description}}</p>
+                                            <!-- <img src="assets/images/user.png" alt="" class="rounded-circle thumb-md"> -->
+    
+    
+                                            <span class="members-icon">{{ capitalizeFirstLetter(team.name[0]) }}</span>
+    
                                            
-                                </div>                                                                           
-                            </div> 
-                           
-
-
-
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="" *ngIf="team.manager !== null">
-                                <!-- <div *ngIf="team.manager === null">
-                                    <p class="m-0 mt-3 font-12 mb-0" style="color: red;">Manager isn't assigned yet!</p>
-                                </div> -->
-                            <div>
-                                <h4 class="m-0 mt-3 font-13 mb-0 fw-bold">{{capitalizeFirstLetter(team.manager.name)}}</h4>
-                            </div>
-                            
-                            <p class="text-muted font-12 mb-0">Team Manager</p> 
-                           </div>
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between" style="gap: 10px; margin-top: 15px;" data-bs-toggle="modal" data-bs-target="#addteam" *ngIf="localStorageRoleAdminFlag==true && team.manager==null">
-                            <div class="">
-                                <button class="btn add-team" type="button" (click)="toGetTeamId(team.id)">Assign Manager</button>
-                            </div>
-                        </div>
-
-
-                        
-
-
-
-                           
-                            <div class="mt-3 d-flex justify-content-between">
-                             <!-- <div class="bottom-absolute"> -->
-                                <div class="img-group d-flex">
-                                    <ng-container *ngFor="let ul of team.userList; let i = index; last as isLast">
-                                      <a class="user-avatar" href="" [ngClass]="i === 0 ? '' : 'ms-n3'" *ngIf="i<3">
-                                        <span *ngIf="ul.image !== null">
-                                          <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
-                                        </span>
-                                        <span class="members-name" *ngIf="ul.image == null">{{ ul.name[0] }}</span>
-                                      </a>
-                                      <!-- <a class="user-avatar" [routerLink]="'/dynamic/team-detail'" [queryParams]="{ teamId: team.id }" (click)="openTeamModal(team.id)">
-                                        <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold" *ngIf="isLast && i<3">+</span>
-                                      </a> -->
-                                    </ng-container>
-                                    <!-- (click)="openTeamModal(team.id)" -->
-                                        <a class="user-avatar" *ngIf="team.userList.length >=3 && team.userList.length >3">
-                                          <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold">+{{ team.userList.length - 3 }}</span>
+                                            <span class="avatar-badge online"></span>
+    
                                         </a>
-                                
-                                </div>
-                                  
-                                <div class="align-self-center">
-                                    <button type="button" class="btn btn-xs btn-light btn-round" (click)="routeToTeamDetails(team.id)">View Details <i class="mdi mdi-arrow-right"></i></button>
-                                </div> 
-                            <!-- </div> -->
-                            </div>
-                        </div>                                     
-                           <!-- <hr class="hr-dashed my-3"> -->
-                            <!-- <div class="media align-items-center">                                                
-                                <img src="assets/images/small/project-2.jpg" alt="" class="rounded-circle thumb-sm">
-                                <div class="media-body ms-3 align-self-center">
-                                    <h6 class="m-0 font-15">Banking</h6>
-                                    <div class="d-flex justify-content-between">
-                                        <span>
-                                            <a class="" href="#">
-                                                <i class="mdi mdi-format-list-bulleted text-success"></i>
-                                                <span class="text-muted">50/100</span>
+                                        <!-- <div *ngIf="team.manager.image!==null">
+                                            <a class="user-avatar me-1" href="#" >
+                                                <img src={{team.manager.image}} alt="user" class="rounded-circle thumb-md">
+                                                <span class="avatar-badge online"></span>
                                             </a>
-                                        </span>
-                                        <span class="text-muted">55% Complete</span>
+                                        </div> -->
+                                        <!-- <div>
+                                            <a class="user-avatar me-1" href="#" >
+                                                <img src="assets/images/user.png" alt="" class="rounded-circle thumb-md">
+                                                
+                                                <span class="avatar-badge online"></span>
+    
+                                            </a>
+                                        </div> -->
+                                       
+                                    </div>                                                                           
+                                    <div class="media-body ms-2 align-self-center">
+                                        <h5 class="m-0 team-name">{{ capitalizeFirstLetter(team.name) }}</h5>
+                                        <!-- <p class="text-muted font-12 mb-0">Team Name</p>  -->
+                                        <p class="text-muted mb-0 fw-semibold team-description" style="font-size: 12px; padding-top: 2px; font-weight: 400 !important;">{{team.description}}</p>
+                                               
+                                    </div>                                                                           
+                                </div> 
+                               
+    
+    
+    
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="" *ngIf="team.manager !== null">
+                                    <!-- <div *ngIf="team.manager === null">
+                                        <p class="m-0 mt-3 font-12 mb-0" style="color: red;">Manager isn't assigned yet!</p>
+                                    </div> -->
+                                <div>
+                                    <h4 class="m-0 mt-3 font-13 mb-0 fw-bold">{{capitalizeFirstLetter(team.manager.name)}}</h4>
+                                </div>
+                                
+                                <p class="text-muted font-12 mb-0">Team Manager</p> 
+                               </div>
+                            </div>
+    
+                            <div class="d-flex align-items-center justify-content-between" style="gap: 10px; margin-top: 15px;" data-bs-toggle="modal" data-bs-target="#addteam" *ngIf="localStorageRoleAdminFlag==true && team.manager==null">
+                                <div class="">
+                                    <button class="btn add-team" type="button" (click)="toGetTeamId(team.id)">Assign Manager</button>
+                                </div>
+                            </div>
+    
+    
+                            
+    
+    
+    
+                               
+                                <div class="mt-3 d-flex justify-content-between">
+                                 <!-- <div class="bottom-absolute"> -->
+                                    <div class="img-group d-flex">
+                                        <ng-container *ngFor="let ul of team.userList; let i = index; last as isLast">
+                                          <a class="user-avatar" href="" [ngClass]="i === 0 ? '' : 'ms-n3'" *ngIf="i<3">
+                                            <span *ngIf="ul.image !== null">
+                                              <img src="{{ ul.image }}" alt="u" class="thumb-xs rounded-circle">
+                                            </span>
+                                            <span class="members-name" *ngIf="ul.image == null">{{ ul.name[0] }}</span>
+                                          </a>
+                                          <!-- <a class="user-avatar" [routerLink]="'/dynamic/team-detail'" [queryParams]="{ teamId: team.id }" (click)="openTeamModal(team.id)">
+                                            <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold" *ngIf="isLast && i<3">+</span>
+                                          </a> -->
+                                        </ng-container>
+                                        <!-- (click)="openTeamModal(team.id)" -->
+                                            <a class="user-avatar" *ngIf="team.userList.length >=3 && team.userList.length >3">
+                                              <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold">+{{ team.userList.length - 3 }}</span>
+                                            </a>
+                                    
                                     </div>
-                                    <div class="progress mt-0" style="height:3px;">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 55%;" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>                                           
-                                </div>                                                                           
-                            </div>      -->
-                        </div><!--end card-body-->
-                    </div><!--end card-->
-                    <div class = "pagination">
-                        <pagination-controls 
-                            perviousLabel="Prev"
-                            nextLabel="Next"
-                            (pageChange)="onTableDataChange($event)">
-                        </pagination-controls>
-                    </div> 
-                </div><!--end col-->
-        </div><!-- container -->
-
+                                      
+                                    <div class="align-self-center">
+                                        <button type="button" class="btn btn-xs btn-light btn-round" (click)="routeToTeamDetails(team.id)">View Details <i class="mdi mdi-arrow-right"></i></button>
+                                    </div> 
+                                <!-- </div> -->
+                                </div>
+                            </div>                                     
+                               <!-- <hr class="hr-dashed my-3"> -->
+                                <!-- <div class="media align-items-center">                                                
+                                    <img src="assets/images/small/project-2.jpg" alt="" class="rounded-circle thumb-sm">
+                                    <div class="media-body ms-3 align-self-center">
+                                        <h6 class="m-0 font-15">Banking</h6>
+                                        <div class="d-flex justify-content-between">
+                                            <span>
+                                                <a class="" href="#">
+                                                    <i class="mdi mdi-format-list-bulleted text-success"></i>
+                                                    <span class="text-muted">50/100</span>
+                                                </a>
+                                            </span>
+                                            <span class="text-muted">55% Complete</span>
+                                        </div>
+                                        <div class="progress mt-0" style="height:3px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 55%;" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>                                           
+                                    </div>                                                                           
+                                </div>      -->
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                        <!-- <div class = "pagination">
+                            <pagination-controls 
+                                perviousLabel="Prev"
+                                nextLabel="Next"
+                                (pageChange)="onTableDataChange($event)">
+                            </pagination-controls>
+                        </div>  -->
+                        <!-- <div class="row">
+                            <div class="col-md-12">
+                              <nav aria-label="Page navigation example">
+                               
+                                <ul class="pagination justify-content-end">
+                                  <span class="justify-content-start">Showing 6 of 18 </span>
+                                  <li class="page-item" [class.disabled]="pageNumber == 1">
+                                    <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
+                                      <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                  </li>
+                                  <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                                    <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
+                                  </li>
+                                  <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                                    <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
+                                      <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                  </li>
+                               
+                                </ul>
+                           
+                              </nav>
+                            </div>
+                          </div> -->
+    
+                          <div class="pagination">
+                          <p class="mb-2">&nbsp;&nbsp;Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
+                          <div class="row">
+                            <div class="col-md-12">
+                             
+                              <nav aria-label="Page navigation example">
+                               
+                                <ul class="pagination justify-content-end">
+                                  <li class="page-item" [class.disabled]="pageNumber == 1">
+                                    <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
+                                      <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                  </li>
+                                  <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                                    <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
+                                  </li>
+                                  <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                                    <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
+                                      <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </nav>
+                            </div>
+                          </div>
+                        </div>
+                    </div><!--end col-->
+            </div><!-- container -->
 
         <!--Start Rightbar-->
         <!--Start Rightbar/offcanvas-->
