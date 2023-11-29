@@ -12,6 +12,7 @@ import { DailyQuestionsCheckIn } from "../models/daily-questions-check-in";
 import { TeamResponse } from "../models/team";
 import { Key } from "../constant/key";
 import { OrganizationPersonalInformation } from "../models/organization-personal-information";
+import { AttendanceWithTopPerformerResponseDto } from "../models/Attendance.model";
 
 
 @Injectable({
@@ -33,9 +34,9 @@ export class DataService {
 
   //private baseUrl = Key.ENDPOINT;
   
-  // private baseUrl = "http://localhost:8080/api/v2"
+  private baseUrl = "http://localhost:8080/api/v2"
 
-  private baseUrl = "https://backend.hajiri.work/api/v2";
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
 
@@ -274,10 +275,11 @@ export class DataService {
   }
 
 
-  registerTeam(userIds: any, name: string, description: string): Observable<any> {
+  registerTeam(userIds: any, name: string, description: string, organizationId:number): Observable<any> {
     const params = new HttpParams()
     .set("name", name)
-    .set("description", description);
+    .set("description", description)
+    .set("organizationId", organizationId);
     return this.httpClient.post(`${this.baseUrl}/team/register`, userIds, {params});
   }
 
@@ -429,6 +431,18 @@ export class DataService {
       .set("search_by", searchBy);
 
     return this.httpClient.get<any>(`${this.baseUrl}/team/get/teams/by-filters`, { params });
+  }
+
+
+  getAttendanceTopAndLatePerformers(id: number, role: string, startDate: string, endDate: string): Observable<AttendanceWithTopPerformerResponseDto> {
+
+    const params = new HttpParams()
+      .set("id", id.toString())
+      .set("role", role)
+      .set("startDate", startDate)
+      .set("endDate", endDate)
+
+    return this.httpClient.get<AttendanceWithTopPerformerResponseDto>(`${this.baseUrl}/attendance/get-attendance-top-late-performers-details`, {params});
   }
 
 }

@@ -358,3 +358,9 @@ span.remove-icon:hover {
     bottom: 0;
     display: flex;
 }
+.pagination{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}

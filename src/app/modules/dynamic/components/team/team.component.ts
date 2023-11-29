@@ -129,8 +129,9 @@ export class TeamComponent implements OnInit{
   }
 
   registerTeamSubmitButton(){
+    console.log(+this.getLoginDetailsOrgRefId());
     debugger
-    this.dataService.registerTeam(this.userIds,this.teamName,this.teamDescription).subscribe((data) => {
+    this.dataService.registerTeam(this.userIds,this.teamName,this.teamDescription, +this.getLoginDetailsOrgRefId()).subscribe((data) => {
       console.log(data);
       location.reload();
     }, (error) => {
@@ -140,6 +141,13 @@ export class TeamComponent implements OnInit{
   }
 
 
+  getLoginDetailsOrgRefId(){
+    const loginDetails = localStorage.getItem('loginData');
+    if(loginDetails!==null){
+      const loginData = JSON.parse(loginDetails);
+      return loginData.orgRefId;
+    }
+  }
   
 
   // showMultiselectDropdown: boolean = true;
@@ -399,6 +407,35 @@ getTeamsByFiltersFunction() {
     this.getTeamsByFiltersFunction();
   }
 
+
+
+changePage(page: number | string) {
+  if (typeof page === 'number') {
+    this.pageNumber = page;
+  } else if (page === 'prev' && this.pageNumber > 1) {
+    this.pageNumber--;
+  } else if (page === 'next' && this.pageNumber < this.totalPages) {
+    this.pageNumber++;
+  }
+  this.getTeamsByFiltersFunction();
+}
+
+getPages(): number[] {
+  const totalPages = Math.ceil(this.total / this.itemPerPage);
+  return Array.from({ length: totalPages }, (_, index) => index + 1);
+}
+
+get totalPages(): number {
+  return Math.ceil(this.total / this.itemPerPage);
+}
+
+getStartIndex(): number {
+  return (this.pageNumber - 1) * this.itemPerPage + 1;
+}
+getEndIndex(): number {
+  const endIndex = this.pageNumber * this.itemPerPage;
+  return endIndex > this.total ? this.total : endIndex;
+}
 
   
 }
