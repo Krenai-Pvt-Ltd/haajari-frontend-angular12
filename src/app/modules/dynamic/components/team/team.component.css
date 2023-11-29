@@ -391,3 +391,10 @@ span.remove-icon:hover {
     align-items: center;
     color: var(--tb-secondary-color);
 }
+.shimmer-box{
+    margin-bottom: 15px;
+    background-color: #fff;
+    border: none;
+    -webkit-box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+}
