@@ -23,6 +23,7 @@ import { DailyQuestionsCheckIn } from "src/app/models/daily-questions-check-in";
 import { OrganizationPersonalInformation } from "src/app/models/organization-personal-information";
 import { error } from "console";
 import { OrganizationDailyQuestion } from "src/app/models/organization-daily-question";
+import { HelperService } from "src/app/services/helper.service";
 
 @Component({
   selector: "app-onboarding",
@@ -31,11 +32,13 @@ import { OrganizationDailyQuestion } from "src/app/models/organization-daily-que
 })
 export class OnboardingComponent implements OnInit {
   shiftTimingsForm: FormGroup;
-Sick: any;
-c: any;
+  Sick: any;
+  c: any;
+  loginDetails = this.helperService.getDecodedValueFromToken();
 
   constructor(
     private dataService: DataService,
+    private helperService: HelperService,
     private router: Router,
     private fb: FormBuilder
   ) {
@@ -56,7 +59,7 @@ c: any;
     this.getDailyNotes();
     this.getLeaves();
     this.getResponseStatusFromLocalStorage();
-  
+    console.log(this.loginDetails);  
 
     //   window.addEventListener("beforeunload", function (e) {
     //     var confirmationMessage = "\o/";
