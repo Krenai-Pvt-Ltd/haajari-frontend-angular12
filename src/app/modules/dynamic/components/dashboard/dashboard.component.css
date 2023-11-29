@@ -191,7 +191,7 @@ span.todo-task {
   } */
 
   .errorboxmain{
-    min-height: 60vh;
+    min-height: 40vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -201,6 +201,10 @@ span.todo-task {
 
   .errorboxmain {
     padding: 30px;
+}
+
+.abcd .ngx-shimmer {
+    border-radius: 50% !important;
 }
 
 .icons i{

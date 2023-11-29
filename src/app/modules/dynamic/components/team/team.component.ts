@@ -354,9 +354,15 @@ export class TeamComponent implements OnInit{
     });
   }
 
+  rotateToggle:boolean = false
   saveSlackChannelsDataToTeam(){
     debugger
+    this.rotateToggle = true;
+    setTimeout(()=>{
+      this.rotateToggle = false;
+    }, 500)
     this.dataService.getSlackChannelsDataToTeam(this.getLoginDetailsId()).subscribe(response =>{
+      
       console.log("slack data saved to team successfully");
       location.reload();
     }, error => {
