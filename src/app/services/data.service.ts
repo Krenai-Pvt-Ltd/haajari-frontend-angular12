@@ -13,6 +13,7 @@ import { TeamResponse } from "../models/team";
 import { Key } from "../constant/key";
 import { OrganizationPersonalInformation } from "../models/organization-personal-information";
 import { AttendanceWithTopPerformerResponseDto } from "../models/Attendance.model";
+import { RoleRequest } from "../models/role-request";
 
 
 @Injectable({
@@ -446,7 +447,7 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/role/get/all`, {params});
 
   }
-  
+
   getAttendanceTopAndLatePerformers(id: number, role: string, startDate: string, endDate: string): Observable<AttendanceWithTopPerformerResponseDto> {
 
     const params = new HttpParams()
@@ -456,6 +457,20 @@ export class DataService {
       .set("endDate", endDate)
 
     return this.httpClient.get<AttendanceWithTopPerformerResponseDto>(`${this.baseUrl}/attendance/get-attendance-top-late-performers-details`, {params});
+  }
+
+  getSubModuleByRole(roleId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set("role_id", roleId);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/role/sub-module`, {params});
+
+  }
+
+  updateRolePermissions(roleRequest : RoleRequest): Observable<any> {
+
+    return this.httpClient.put<any>(`${this.baseUrl}/role/update`, roleRequest);
   }
 
 }

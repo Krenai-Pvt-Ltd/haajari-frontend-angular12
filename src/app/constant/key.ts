@@ -3,6 +3,11 @@ export class Key{
     //"http://localhost:8080/api/v1/attendance"
     "https://backend.hajiri.work/api/v1/attendance"; 
 
+     
+    public static PRIVILEGE_VIEW = 1;
+    public static PRIVILEGE_MANAGE = 2;
+    public static PRIVILEGE_ACCESS = 3;
+
 
     public static DYNAMIC = "/dynamic";
     public static LOGIN = `${Key.DYNAMIC}/login`;

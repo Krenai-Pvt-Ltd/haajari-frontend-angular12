@@ -60,7 +60,8 @@
                                                 <td>
                                                     <div class="hstack gap-3 justify-content-end">
                                                         <a href="javascript:void(0);" class="link-primary text-decoration-underline" data-bs-toggle="modal" data-bs-target="#role-details"  >View</a>
-                                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#update-role" class="link-success text-decoration-underline">Manage</a></div>
+                                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#update-role" class="link-success text-decoration-underline" 
+                                                        (click)="showDataToModal(role)">Manage</a></div>
                                                 </td>
                                                 
                         
@@ -229,226 +230,87 @@
             <div class="modal-body">
                 <div class="row">
 
-                    
-
                     <div class="">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="pb-2">Name</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Role Name">
+                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Role Name" [(ngModel)]="roleRequest.name">
                         </div>
 
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="pb-2">Description</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Description">
+                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Description" [(ngModel)]="roleRequest.description">
                         </div>
                     </div>
 
                     <div class="rolemodalinner border-top-0">
                         <h5>Access Control</h5>
 
-                       
-
-
-                        <div class="accordion" id="accordionExample">
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="headingOne">
-                                <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    <div clss="accesstitle">
-                                        <p class="mb-0">Role</p>
-                                    </div>
-
-                                 <div class="accesspermission">
-                                    <div class="accesspermissioninner d-flex">
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault0">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault0">
-                                            <span><i class="bi bi-check2"></i></span>Access </label>
-                                        </div>
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault1">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault1">
-                                            <span><i class="bi bi-check2"></i></span>View </label>
-                                        </div>
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault3">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault3">
-                                            <span><i class="bi bi-check2"></i></span>Manage  </label>
-                                        </div>
-
-                                        <div class="expand-accord">
-                                            <i data-bs-toggle="collapse" aria-expanded="true" class="bi bi-chevron-down collapsed" data-bs-target="#collapse0" aria-controls="collapse0"></i></div>
-                                    </div>
-                                </div>
-                                </div>
-
+                        <div class="accordion" id="accordionExample" >
+                            <div class="accordion-item" *ngFor="let module of moduleResponse; let i = index">
                                 
-                              </h2>
-                              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                <div class="accordion-button p-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    <div clss="accesstitle">
-                                        <p class="mb-0">role</p>
-                                    </div>
-
-                                 <div class="accesspermission">
-                                    <div class="accesspermissioninner d-flex">
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault4">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault4">
-                                            <span><i class="bi bi-check2"></i></span>Access </label>
-                                        </div>
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault5">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault5">
-                                            <span><i class="bi bi-check2"></i></span>View </label>
-                                        </div>
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault6">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault6">
-                                            <span><i class="bi bi-check2"></i></span>Manage  </label>
+                                <h2 class="accordion-header" id="headingOne">
+                                    <div class="accordion-button" type="button">
+                                        <div clss="accesstitle">
+                                            <p class="mb-0">{{module.name}}</p>
                                         </div>
 
-                                        <div class="expand-accord">
-                                           
+                                    <div class="accesspermission">
+                                        <div class="accesspermissioninner d-flex">
+                                            <div class="custom-radiocheck">
+                                                <input type="radio" class="form-check-input d-none" [checked]="module.privilegeId==1" name="viewModule{{i}}" id="viewModule{{i}}">
+                                                <label class="form-check-label d-flex align-items-center gap-2" for="viewModule{{i}}" (click)="module.privilegeId=1">
+                                                    <span><i class="bi bi-check2"></i></span>View 
+                                                </label>
+                                            </div>
+                                            <div class="custom-radiocheck">
+                                                <input type="radio" class="form-check-input d-none" [checked]="module.privilegeId==2" name="manageModule{{i}}" id="manageModule{{i}}">
+                                                <label class="form-check-label d-flex align-items-center gap-2" for="manageModule{{i}}" (click)="module.privilegeId=2">
+                                                    <span><i class="bi bi-check2"></i></span>Manage 
+                                                </label>
+                                            </div>
+
+                                            <div class="expand-accord">
+                                                <i data-bs-toggle="collapse" aria-expanded="true" class="bi bi-chevron-down collapsed" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                    
+                                </h2>
+
+                                <div [attr.id]="'collapse' + i" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" *ngFor="let submodule of module.subModules; let j=index">
+                                    <div class="accordion-button p-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <div clss="accesstitle">
+                                            <p class="mb-0">{{submodule.name}}</p>
+                                        </div>
+
+                                        <div class="accesspermission">
+                                            <div class="accesspermissioninner d-flex">
+                                                <div class="custom-radiocheck">
+                                                    <input type="radio" class="form-check-input d-none" [checked]="submodule.privilegeId==1" name="viewSubModule{{i}}{{j}}" id="viewSubModule{{i}}{{j}}">
+                                                    <label class="form-check-label d-flex align-items-center gap-2" for="viewSubModule{{i}}{{j}}" (click)="submodule.privilegeId=1">
+                                                        <span><i class="bi bi-check2"></i></span>View 
+                                                    </label>
+                                                </div>
+                                                <div class="custom-radiocheck">
+                                                    <input type="radio" class="form-check-input d-none" [checked]="submodule.privilegeId==2" name="manageSubModule{{i}}{{j}}" id="manageSubModule{{i}}{{j}}">
+                                                    <label class="form-check-label d-flex align-items-center gap-2" for="manageSubModule{{i}}{{j}}" (click)="submodule.privilegeId=2">
+                                                        <span><i class="bi bi-check2"></i></span>Manage  
+                                                    </label>
+                                                </div>
+
+                                                <div class="expand-accord">
+                                                
+                                            </div>
+                                        </div>
+                                        </div>
                                     </div>
                                 </div>
-                                </div>
-                              </div>
-                            </div>
                            
-                          </div>
-
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingtwo">
-                                <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                    <div clss="accesstitle">
-                                        <p class="mb-0">User</p>
-                                    </div>
-
-                                 <div class="accesspermission">
-                                    <div class="accesspermissioninner d-flex">
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault0">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault0">
-                                            <span><i class="bi bi-check2"></i></span>Access </label>
-                                        </div>
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault1">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault1">
-                                            <span><i class="bi bi-check2"></i></span>View </label>
-                                        </div>
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault3">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault3">
-                                            <span><i class="bi bi-check2"></i></span>Manage  </label>
-                                        </div>
-
-                                        <div class="expand-accord">
-                                            <i data-bs-toggle="collapse" aria-expanded="true" class="bi bi-chevron-down collapsed" data-bs-target="#collapse0" aria-controls="collapse0"></i></div>
-                                    </div>
-                                </div>
-                                </div>
-
-                                
-                              </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                <div class="accordion-button p-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                    <div clss="accesstitle">
-                                        <p class="mb-0">user</p>
-                                    </div>
-
-                                 <div class="accesspermission">
-                                    <div class="accesspermissioninner d-flex">
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault4">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault4">
-                                            <span><i class="bi bi-check2"></i></span>Access </label>
-                                        </div>
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault5">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault5">
-                                            <span><i class="bi bi-check2"></i></span>View </label>
-                                        </div>
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault6">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault6">
-                                            <span><i class="bi bi-check2"></i></span>Manage  </label>
-                                        </div>
-
-                                        <div class="expand-accord">
-                                           
-                                    </div>
-                                </div>
-                                </div>
-                              </div>
                             </div>
-                          </div>
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="collapseThree">
-                                <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                                    <div clss="accesstitle">
-                                        <p class="mb-0">Corporate</p>
-                                    </div>
 
-                                 <div class="accesspermission">
-                                    <div class="accesspermissioninner d-flex">
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault0">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault0">
-                                            <span><i class="bi bi-check2"></i></span>Access </label>
-                                        </div>
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault1">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault1">
-                                            <span><i class="bi bi-check2"></i></span>View </label>
-                                        </div>
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault3">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault3">
-                                            <span><i class="bi bi-check2"></i></span>Manage  </label>
-                                        </div>
-
-                                        <div class="expand-accord">
-                                            <i data-bs-toggle="collapse" aria-expanded="true" class="bi bi-chevron-down collapsed" data-bs-target="#collapse0" aria-controls="collapse0"></i></div>
-                                    </div>
-                                </div>
-                                </div>
-
-                                
-                              </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                <div class="accordion-button p-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                                    <div clss="accesstitle">
-                                        <p class="mb-0">corporate</p>
-                                    </div>
-
-                                 <div class="accesspermission">
-                                    <div class="accesspermissioninner d-flex">
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault4">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault4">
-                                            <span><i class="bi bi-check2"></i></span>Access </label>
-                                        </div>
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault5">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault5">
-                                            <span><i class="bi bi-check2"></i></span>View </label>
-                                        </div>
-                                        <div class="custom-radiocheck">
-                                            <input type="radio" class="form-check-input d-none" name="CLIA_ACCESS0" id="accessRadioDefault6">
-                                            <label class="form-check-label d-flex align-items-center gap-2" for="accessRadioDefault6">
-                                            <span><i class="bi bi-check2"></i></span>Manage  </label>
-                                        </div>
-
-                                        <div class="expand-accord">
-                                           
-                                    </div>
-                                </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                    </div>
+                        </div>
                     </div>
                     
                    
