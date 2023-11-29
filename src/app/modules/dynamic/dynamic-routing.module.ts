@@ -26,6 +26,8 @@ import { AttendanceSettingComponent } from './components/attendance-setting/atte
 import { CompanySettingComponent } from './components/company-setting/company-setting.component';
 import { SelerySettingComponent } from './components/selery-setting/selery-setting.component';
 import { RoleComponent } from './components/role/role.component';
+import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
+import { EmployeeOnboardingSidebarComponent } from '../common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -51,8 +53,10 @@ const routes: Routes = [
   {path: 'attendance-setting', component: AttendanceSettingComponent},
   {path: 'company-setting', component: CompanySettingComponent},
   {path: 'selery-setting', component: SelerySettingComponent},
-  {path: 'role', component: RoleComponent}
-
+  {path: 'role', component: RoleComponent},
+  {path: 'employee-onboarding-form', component: EmployeeOnboardingFormComponent},
+  {path: 'employee-onboarding-sidebar', component: EmployeeOnboardingSidebarComponent}
+  
 
 //   {path: 'team-detail', component: TeamDetailComponent},
 //   {path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard]}
