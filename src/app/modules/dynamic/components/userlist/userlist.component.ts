@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-userlist',
@@ -11,8 +12,9 @@ import { DataService } from 'src/app/services/data.service';
 export class UserlistComponent implements OnInit {
 
 
-  constructor(private dataService : DataService, private router : Router) { }
+  constructor(private dataService : DataService, private router : Router, private helperService : HelperService) { }
 
+  loginDetails = this.helperService.getDecodedValueFromToken();
   users : Users[] = [];
   filteredUsers : Users[] = [];
   itemPerPage : number = 10;
@@ -25,8 +27,10 @@ export class UserlistComponent implements OnInit {
   }
 
   getUsersByFiltersFunction() {
+    const role = this.loginDetails.role;
     debugger
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'', this.getLoginDetailsId(), this.getLoginDetailsRole()).subscribe((data : any) => {
+    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'', this.getLoginDetailsId(), this.loginDetails.role).subscribe((data : any) => {
+      debugger
       this.users = data.users;
       this.total = data.count;
       console.log(this.users);

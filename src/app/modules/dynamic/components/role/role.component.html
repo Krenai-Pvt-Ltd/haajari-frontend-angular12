@@ -24,7 +24,7 @@
                                     <div class="col-md-6">
                                         <div class="">
                                             <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
-                                                <div class="form-group" style="width: 350px;"><input type="search" id="searchText" placeholder="Search by role name " class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;" >
+                                                <div class="form-group" style="width: 350px;"><input type="search" id="searchText" placeholder="Search by role name " class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;" (keyup)="searchUsers()">
                                                 <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i></div></form>
                                         </div>
                                     </div>
@@ -49,13 +49,13 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr >
-                                                <td scope="row">Corporate Manager</td>
+                                            <tr *ngFor="let role of roles | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};">
+                                                <td scope="row">{{role.name}}</td>
                                                 <td>
-                                                    this is a corporate manager profile
+                                                    {{role.description}}
                                                 </td>
                                                 <td>
-                                                    <span class="badge-grey">20-Nov-23 09:10 PM (EST)</span>
+                                                    <span class="badge-grey">{{role.updatedDate | dateFormat}}</span>
                                                 </td>
                                                 <td>
                                                     <div class="hstack gap-3 justify-content-end">
@@ -66,57 +66,6 @@
                         
                                             </tr>
 
-                                            <tr >
-                                                <td scope="row">Corporate Admin</td>
-                                                <td>
-                                                    this is a corporate admin profile
-                                                </td>
-                                                <td>
-                                                    <span class="badge-grey">20-Nov-23 09:10 PM (EST)</span>
-                                                </td>
-                                                <td>
-                                                    <div class="hstack gap-3 justify-content-end">
-                                                        <a href="javascript:void(0);" class="link-primary text-decoration-underline">View</a>
-                                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#update-role" class="link-success text-decoration-underline">Manage</a></div>
-                                                </td>
-                                                
-                        
-                                            </tr>
-
-                                            <tr >
-                                                <td scope="row">Relationship Manager</td>
-                                                <td>
-                                                    this is a relationship manager profile
-                                                </td>
-                                                <td>
-                                                    <span class="badge-grey">20-Nov-23 09:10 PM (EST)</span>
-                                                </td>
-                                                <td>
-                                                    <div class="hstack gap-3 justify-content-end">
-                                                        <a href="javascript:void(0);" class="link-primary text-decoration-underline">View</a>
-                                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#update-role" class="link-success text-decoration-underline">Manage</a></div>
-                                                </td>
-                                                
-                        
-                                            </tr>
-
-                                            <tr >
-                                                <td scope="row">Branch Manager</td>
-                                                <td>
-                                                    this is a branch manager profile
-                                                </td>
-                                                <td>
-                                                    <span class="badge-grey">20-Nov-23 09:10 PM (EST)</span>
-                                                </td>
-                                                <td>
-                                                    <div class="hstack gap-3 justify-content-end">
-                                                        <a href="javascript:void(0);" class="link-primary text-decoration-underline">View</a>
-                                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#update-role" class="link-success text-decoration-underline">Manage</a></div>
-                                                </td>
-                                                
-                        
-                                            </tr>
-        
                                             </tbody>
                                         </table><!--end /table-->
                         
@@ -754,5 +703,18 @@
                 <button type="button" class="btn btn-de-secondary">Cancel</button>
             </div><!--end modal-footer-->
         </div><!--end modal-content-->
+
+        
+
     </div><!--end modal-dialog-->
+
+    
 </div><!--end modal-->
+
+<div class = "pagination">
+    <pagination-controls 
+        perviousLabel="Prev"
+        nextLabel="Next"
+        (pageChange)="onTableDataChange($event)">
+    </pagination-controls>
+</div> 
