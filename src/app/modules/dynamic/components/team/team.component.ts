@@ -133,9 +133,11 @@ export class TeamComponent implements OnInit{
     debugger
     this.dataService.registerTeam(this.userIds,this.teamName,this.teamDescription, +this.getLoginDetailsOrgRefId()).subscribe((data) => {
       console.log(data);
-      location.reload();
+
+      debugger
+      // location.reload();
     }, (error) => {
-      location.reload();
+      // location.reload();
       console.log(error);
     })
   }

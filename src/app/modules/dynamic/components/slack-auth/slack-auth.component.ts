@@ -35,8 +35,12 @@ export class SlackAuthComponent implements OnInit{
       localStorage.setItem('token', JSON.stringify(response.access_token));
       localStorage.setItem('refresh_token', JSON.stringify(response.refresh_token));
 
+      debugger
       const decodedValue = this.decodeFirebaseAccessToken(response.access_token);
 
+      debugger
+      console.log(decodedValue);
+      
       if(decodedValue.httpCustomStatus === ("UPDATED") && decodedValue.statusResponse === ("ORGANIZATION_REGISTRATION_SUCCESSFULL")){
         this.router.navigate(['/dashboard']);
       }else{

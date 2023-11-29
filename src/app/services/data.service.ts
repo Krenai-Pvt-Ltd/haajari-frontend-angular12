@@ -433,7 +433,20 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/team/get/teams/by-filters`, { params });
   }
 
+  getAllRoles(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string, ownerRoleId: number) : Observable<any>{
+    const params = new HttpParams()
+    .set("item_per_page", itemPerPage.toString())
+    .set("page_number", pageNumber.toString())
+    .set('sort_order', sort)
+    .set('sort_by', sortBy)
+    .set('search', search)
+    .set('search_by', searchBy)
+    .set('owner_role_id', ownerRoleId);
 
+    return this.httpClient.get<any>(`${this.baseUrl}/role/get/all`, {params});
+
+  }
+  
   getAttendanceTopAndLatePerformers(id: number, role: string, startDate: string, endDate: string): Observable<AttendanceWithTopPerformerResponseDto> {
 
     const params = new HttpParams()
