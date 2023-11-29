@@ -173,10 +173,7 @@ span.members-namess {
 
 .tracking-body {
     padding: 15px;
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 
@@ -192,7 +189,7 @@ span.members-namess {
 .persnol-details {
     background-color: #fff;
     padding: 30px;
-    margin: 40px;
+    margin: 40px 80px;
     border-radius: 14px;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
@@ -245,14 +242,14 @@ span.members-namess {
 
 .importfilebox label {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     background: #f9faff;
     border: 1px dashed #878a9a;
     border-radius: 6px;
-    height: 140px;
+    height: 100px;
     cursor: pointer;
+    gap: 20px;
 }
 
 .importfilebox label span {
@@ -261,7 +258,7 @@ span.members-namess {
     line-height: 24px;
     text-align: center;
     color: #444444;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
 }
 
 .importfilebox label button {
@@ -276,4 +273,14 @@ span.members-namess {
     outline: none;
     padding: 5px 15px;
     min-width: 110px;
+}
+
+a.select-file {
+    color: #557ef8;
+}
+
+.back-btn {
+    color: #557ef8;
+    border: 1px solid #557ef8;
+    background-color: #ecf1ff;
 }

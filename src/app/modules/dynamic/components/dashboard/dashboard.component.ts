@@ -5,6 +5,7 @@ import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { DatePipe } from '@angular/common';
+import { AttendanceWithTopPerformerResponseDto } from 'src/app/models/Attendance.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,6 +25,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     // this.checkAccessToken();
+    this.getAttendanceTopAndLatePerformerDeatails();
     const today = dayjs();
     const firstDayOfMonth = today.startOf('month');
     const lastDayOfMonth = today.endOf('month');
@@ -79,7 +81,7 @@ export class DashboardComponent implements OnInit {
         (response: any) => {
           
           this.myAttendanceData = response;
-          console.log(this.myAttendanceData);
+          console.log("this.myAttendanceData" + this.myAttendanceData);
           if (this.myAttendanceData) {
             
             for (const key in this.myAttendanceData) {
@@ -193,6 +195,25 @@ export class DashboardComponent implements OnInit {
     }, 0);
   }
 
+  responseDto: AttendanceWithTopPerformerResponseDto = {
+    attendanceTopPerformers: [],
+    attendanceLatePerformers: []
+  };
+  
+  // responseDto!: AttendanceWithTopPerformerResponseDto;
 
+  getAttendanceTopAndLatePerformerDeatails(){
+    debugger
+    this.dataService.getAttendanceTopAndLatePerformers(1, 'ADMIN', '2023-11-27', '2023-11-30').subscribe(
+      (data) => {
+        console.log(data);
+        this.responseDto = data;
+        console.log(this.responseDto); 
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
   
 }

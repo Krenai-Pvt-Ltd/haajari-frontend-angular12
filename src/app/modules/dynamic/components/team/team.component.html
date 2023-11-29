@@ -24,7 +24,7 @@
             
             <!-- end page title end breadcrumb -->
             <div class="row"  *ngIf="teams.length>0">
-                <div class="card-header">
+                <!-- <div class="card-header">
                     <div class="row">
                         <div class="col-md-7"></div>
                         <div class="col-md-5">
@@ -39,11 +39,9 @@
                         </div>
                        
                     </div>
-                </div>
-                <div>
-
-                </div>
-                <div class="col-lg-6">
+                </div> -->
+         
+                <!-- <div class="col-lg-6">
                     <div class="col-lg-6 text-start">
                         <button type="button" class="btn btn-primary mb-3" (click)="saveSlackChannelsDataToTeam()">Load Data</button>                      
                     </div>
@@ -51,7 +49,30 @@
 
 
                 <div class="col-lg-6 text-end">
-                    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button>                      
+                                    
+                </div> -->
+            </div>
+
+            <div class="row mb-3 mt-2">
+                <div class="col-md-5">
+
+                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
+                        <div class="form-group" style="width: 250px;">
+                            <input type="search" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;">
+                            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="col-md-7">
+                 <div class="d-flex justify-content-end align-items-center" style="gap:10px;">
+                    <div class="cusser">
+                        <i class="bi bi-arrow-clockwise" style="    font-size: 20px; color: #557ef8;"></i>
+                    </div>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button>     
+                 </div>
+
+
                 </div>
             </div>
 

@@ -205,3 +205,18 @@ span.todo-task {
         width: 80%;
     }
 }
+
+
+span.members-name {
+    background-color: #9fccf3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+    text-transform: uppercase;
+    height: 78px;
+    width: 78px;
+    font-size: 32px;
+    font-weight: 700;
+}
