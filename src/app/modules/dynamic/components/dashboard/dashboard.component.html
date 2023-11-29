@@ -322,7 +322,7 @@
                             
                            <div class="monthly-report">
 
-                            <div class="mt-3 dashnodata" *ngIf="myAttendanceData==null">
+                            <div class="mt-3 dashnodata" *ngIf="(myAttendanceData | json )== '{}'">
                                 <div class="errorboxmain">
                                     <div class="errorboxinner text-center">
                                       <div class="errorboxplaceholder mb-2">

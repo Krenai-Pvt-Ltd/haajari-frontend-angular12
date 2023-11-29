@@ -80,8 +80,11 @@ export class DashboardComponent implements OnInit {
         
         (response: any) => {
           
+          debugger
           this.myAttendanceData = response;
-          console.log("this.myAttendanceData" + this.myAttendanceData);
+
+          debugger
+          console.log("this.myAttendanceData" + response);
           if (this.myAttendanceData) {
             
             for (const key in this.myAttendanceData) {
