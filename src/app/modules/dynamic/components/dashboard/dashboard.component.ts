@@ -81,7 +81,7 @@ export class DashboardComponent implements OnInit {
         (response: any) => {
           
           this.myAttendanceData = response;
-          console.log(this.myAttendanceData);
+          console.log("this.myAttendanceData" + this.myAttendanceData);
           if (this.myAttendanceData) {
             
             for (const key in this.myAttendanceData) {
@@ -204,7 +204,7 @@ export class DashboardComponent implements OnInit {
 
   getAttendanceTopAndLatePerformerDeatails(){
     debugger
-    this.dataService.getAttendanceTopAndLatePerformers(1, 'ADMIN', '2023-11-27', '2023-11-28').subscribe(
+    this.dataService.getAttendanceTopAndLatePerformers(1, 'ADMIN', '2023-11-27', '2023-11-30').subscribe(
       (data) => {
         console.log(data);
         this.responseDto = data;
