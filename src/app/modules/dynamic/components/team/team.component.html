@@ -57,7 +57,7 @@
                 <div class="col-md-5">
 
                     <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchTeams()">
-                        <div class="form-group" style="width: 250px;">
+                        <div class="form-group" style="width: 300px;">
                             <input type="search" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchTeams()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px;">
                             <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
                         </div>
@@ -77,7 +77,46 @@
             </div>
 
 
-              
+            <div class="row mb-3 mt-3" >
+                <div class="col-md-4" *ngFor="let item of [].constructor(6)">
+
+                    <div class="bg-white p-3 shimmer-box">
+
+                        <div class="row">
+                            <div class="col-md-2" >
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 50%;"></ngx-shimmer-loading>
+                            </div>
+                            <div class="col-md-8">
+                                <ngx-shimmer-loading [width]="'50%'" [height]="'20px'"></ngx-shimmer-loading>
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"></ngx-shimmer-loading>
+                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'30px'"></ngx-shimmer-loading>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-end">
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'20px'"></ngx-shimmer-loading>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>
 
                 <div class="row app-emptiy-notifaction" *ngIf="teams.length==0">
                     <div class="col-md-6 d-flex align-items-center justify-content-center" style="flex-direction: column;">
@@ -103,17 +142,7 @@
                 </div>
 
 
-                <div class="row">
-                    <div class="col-md-4">
-
-                    </div>
-                    <div class="col-md-4">
-
-                    </div>
-                    <div class="col-md-4">
-
-                    </div>
-                </div>
+               
 
                 <div class="row" *ngIf="teams.length>0" >
 
@@ -277,8 +306,8 @@
                             </div>
                           </div> -->
     
-                          <div class="pagination">
-                          <p class="mb-2">&nbsp;&nbsp;Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
+                          <div class="pagination pl-3">
+                          <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
                           <div class="row">
                             <div class="col-md-12">
                              
