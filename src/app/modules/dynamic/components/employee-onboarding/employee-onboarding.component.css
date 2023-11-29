@@ -185,3 +185,17 @@ tbody tr {
     padding: 5px 23px;
     border: 1px solid #557ef8;
 }
+
+
+.errorboxmain{
+    min-height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fff;
+}
+
+  .errorboxmain {
+    padding: 30px;
+}

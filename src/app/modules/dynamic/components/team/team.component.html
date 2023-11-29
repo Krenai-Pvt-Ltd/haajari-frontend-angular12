@@ -23,7 +23,7 @@
             </div> -->
             
             <!-- end page title end breadcrumb -->
-            <div class="row"  *ngIf="teams.length>0">
+            <div class="row"  >
                 <!-- <div class="card-header">
                     <div class="row">
                         <div class="col-md-7"></div>
@@ -53,7 +53,7 @@
                 </div> -->
             </div>
 
-            <div class="row mb-3 mt-2" *ngIf="teams.length>0">
+            <div class="row mb-3 mt-2">
                 <div class="col-md-5">
 
                     <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchTeams()">
@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-md-7">
                  <div class="d-flex justify-content-end align-items-center" style="gap:10px;">
-                    <div class="cusser"  (click)="saveSlackChannelsDataToTeam()">
+                    <div class="cusser rotate"  (click)="saveSlackChannelsDataToTeam()">
                         <i class="bi bi-arrow-clockwise" style="    font-size: 20px; color: #557ef8;"></i>
                     </div>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button>     
@@ -77,7 +77,7 @@
             </div>
 
 
-            <div class="row mb-3 mt-3" >
+            <div class="row mb-3 mt-3" *ngIf="isShimmer">
                 <div class="col-md-4" *ngFor="let item of [].constructor(6)">
 
                     <div class="bg-white p-3 shimmer-box">
@@ -117,8 +117,31 @@
 
                 </div>
             </div>
+            <div class="row app-emptiy-notifaction" *ngIf="!isShimmer && total==0">
+                <div class="col-md-6 d-flex align-items-center justify-content-center" style="flex-direction: column;">
+                     <div class="">
+                        <h4>Team not found</h4>
+                            <p>Create new team<br>by clicking on Create Team button</p>
 
-                <div class="row app-emptiy-notifaction" *ngIf="teams.length==0">
+                            <div class="mb-3">
+                                <a href="" class="addinh-hiar">Learn about adding hire <i class="bi bi-arrow-up-right" style="padding-left: 8px; font-size: 12px; color: #557ef8; font-weight: bold;"></i></a>
+                            </div>
+
+                        
+
+                        <!-- <button type="button" class="btn create-team" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button> -->
+                     </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="">
+                        <img src="assets/images/empty-2.png" style="width:100%;">
+                    </div>
+                </div>
+            </div>
+
+<!-- TO DO -->
+                <!-- <div class="row app-emptiy-notifaction"  *ngIf="total == 0">
                     <div class="col-md-6 d-flex align-items-center justify-content-center" style="flex-direction: column;">
                          <div class="">
                             <h4>Add a new hire to Hajiri</h4>
@@ -139,12 +162,12 @@
                             <img src="assets/images/empty-2.png" style="width:100%;">
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 
                
 
-                <div class="row" *ngIf="teams.length>0" >
+                <div class="row" *ngIf="!isShimmer && teamsNew.length>0 " >
 
                     <div class="col-lg-4" *ngFor="let i = index, let team of teamsNew | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};" >
                         <div class="card team-card" style="height: 185px;" >
@@ -306,7 +329,7 @@
                             </div>
                           </div> -->
     
-                          <div class="pagination pl-3">
+                          <div class="pagination pl-3" *ngIf="isShimmer==false && total!==0">
                           <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
                           <div class="row">
                             <div class="col-md-12">

@@ -190,8 +190,23 @@ span.todo-task {
     border:1px solid #ccc;
   } */
 
+  .errorboxmain{
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fff;
+}
+
   .errorboxmain {
     padding: 30px;
+}
+
+.icons i{
+    font-size: 22px;
+    line-height: 20px;
+    color: #4f5eee;
 }
 
 @media screen and (max-width: 2600px) {
