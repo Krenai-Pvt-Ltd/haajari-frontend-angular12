@@ -408,3 +408,10 @@ span.remove-icon:hover {
     -webkit-transform:rotate(360deg);
     transform:rotate(360deg);
 }
+
+.loading-btn {
+    border: 1px solid #557ef8;
+    background-color: #fff;
+    padding: 2px 15px;
+    border-radius: 6px;
+}

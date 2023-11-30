@@ -151,14 +151,14 @@
     background-color: green;
     color: #fff;
     padding: 10px 20px;
-    border-radius: 6px;
+    text-align: center;
 }
 
 .half-per{
     background-color: orange;
     color: #fff;
     padding: 10px 20px;
-    border-radius: 6px;
+    text-align: center;
 }
 
 
@@ -166,7 +166,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 150px;
+  width: 170px;
 }
 
 tbody tr {
@@ -199,4 +199,10 @@ tbody tr {
 
   .errorboxmain {
     padding: 30px;
+}
+.table-design tr td{
+    border: 1px solid #e0e0e0;
+}
+.table-design tr th{
+    border: 1px solid #e0e0e0;
 }

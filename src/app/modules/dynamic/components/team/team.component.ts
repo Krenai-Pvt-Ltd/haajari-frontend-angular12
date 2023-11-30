@@ -28,7 +28,7 @@ export class TeamComponent implements OnInit{
 
   teamsNew : TeamResponse[] = [];
   filteredUsers : Users[] = [];
-  itemPerPage : number = 6;
+  itemPerPage : number = 12;
   pageNumber : number = 1;
   total !: number;
   rowNumber : number = 1;

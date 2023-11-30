@@ -19,7 +19,7 @@ import { EmployeeOnboardingSidebarComponent } from './modules/common/employee-on
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
