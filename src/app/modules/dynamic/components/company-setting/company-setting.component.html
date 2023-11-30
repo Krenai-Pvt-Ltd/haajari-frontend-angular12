@@ -5,14 +5,20 @@
 
             <div class="company-settinh">
 
-               <div class="mb-3 border-buttom-setting">
-                <h5>Company Setting</h5>
+               <div class="mb-3 border-buttom-setting d-flex align-items-center justify-content-between" >
+                <h5>Company Profile</h5>
+
+                <!-- <div class="d-flex align-items-center justify-content-end pb-2" style="gap:10px;">
+                    <button type="button" class="btn btn-de-secondary">Cancel</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div> -->
+                  
                </div>
 
 
             <div class="row">
 
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                    <div class="mb-3">
                        <label for="exampleInputEmail1" class="pb-2">First Name</label>
                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="First name">
@@ -56,7 +62,73 @@
                 <button type="button" class="btn btn-primary">Save</button>
                     </div>
 
+                </div> -->
+
+
+                <div class="col-md-5 ">
+                    <div class="form-roe-data">
+                        <h5>Company Name </h5>
+                        <p>This will be displayed on your profile.</p>
+                    </div>
                 </div>
+
+                <div class="col-md-6">
+                    <div class="form-fild">
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Company name">
+                    </div>
+                </div>
+
+                
+                    <div class="col-md-5 mt-3">
+                        <div class="form-roe-data">
+                            <h5>Tagline </h5>
+                            <p>A quick snapshot of your company.</p>
+                        </div>
+                    </div>
+    
+                    <div class="col-md-6 mt-3">
+                        <div class="form-fild">
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Tag line">
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 mt-3">
+                        <div class="form-roe-data">
+                            <h5>Company Logo </h5>
+                            <p>Update your company logoand then choose<br> where you want it to display.</p>
+                        </div>
+                    </div>
+    
+                    <div class="col-md-6 mt-3">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <div class="">
+                                    <img src="assets/images/hajiri_logo.png" style="height: 60px;">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-fild">
+                                    <div  class="importfilebox">
+                                        <input  id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input">
+                                        <label  for="fileSelect">
+                                            <i class="bi bi-cloud-arrow-up"></i>
+                                            <span >Click to upload <br> SVG, PNG, JPG or GIF (max. 800px*400px)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+    
+
+                    <div class="col-md-11 mt-4 ">
+                        <div class="d-flex align-items-center justify-content-end" style="gap:10px;">
+                            <button type="button" class="btn btn-de-secondary">Cancel</button>
+                            <button type="button" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+               
 
                    
 

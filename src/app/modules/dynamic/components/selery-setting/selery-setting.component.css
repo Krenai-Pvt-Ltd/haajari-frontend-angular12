@@ -2,6 +2,7 @@
     background-color: #fff;
     padding: 15px;
     border-radius: 6px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .attendance-setting-hedding{

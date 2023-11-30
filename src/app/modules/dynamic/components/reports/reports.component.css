@@ -6,7 +6,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .Attendance-report-deta h5{
@@ -53,12 +53,12 @@
 }
 .report-download {
     min-height: 100vh;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     position: sticky;
     bottom: 0;
     top: 0;
     z-index: 1001;
     padding: 15px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 
