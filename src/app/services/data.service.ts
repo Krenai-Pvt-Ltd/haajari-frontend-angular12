@@ -348,50 +348,50 @@ export class DataService {
   // }SS
   // ###################################################################
 
-  registerOrganizationPersonalInformation(personalInformation: any, organizationId: number): Observable<any> {
-    const params = new HttpParams().set("organization_id", organizationId);
+  registerOrganizationPersonalInformation(personalInformation: any, organizationUuid: string): Observable<any> {
+    const params = new HttpParams().set("uuid", organizationUuid);
 
     return this.httpClient.put<any>(`${this.baseUrl}/organization-personal-information/register`, personalInformation, {params});
   }
 
-  getOrganizationDetails(organizationId: number): Observable<any> {
-    const params = new HttpParams().set("organization_id", organizationId);
+  getOrganizationDetails(organizationUuid: string): Observable<any> {
+    const params = new HttpParams().set("uuid", organizationUuid);
 
     return this.httpClient.get<any>(`${this.baseUrl}/organization-personal-information/get`, { params } );
   }
 
-  saveShiftTimings(shiftTiming: any, organizationId: number): Observable<any> {
-    const params = new HttpParams().set("organization_id", organizationId);
+  saveShiftTimings(shiftTiming: any, organizationUuid: string): Observable<any> {
+    const params = new HttpParams().set("organization_uuid", organizationUuid);
 
     return this.httpClient.put(`${this.baseUrl}/organization-shift-timing/register`, shiftTiming, {params});
   }
 
-  getShiftTimings(organizationId: number): Observable<any> {
-    const params = new HttpParams().set("organization_id", organizationId);
+  getShiftTimings(organizationUuid: string): Observable<any> {
+    const params = new HttpParams().set("organization_uuid", organizationUuid);
 
     return this.httpClient.get<ShiftTimings[]>(`${this.baseUrl}/organization-shift-timing/get/last-detail`, { params } );
   }
 
-  saveDailyQuestionaire(dailyQuestions: any, organizationId: number): Observable<any> {
-    const params = new HttpParams().set("organization_id", organizationId);
+  saveDailyQuestionaire(dailyQuestions: any, organizationUuid: string): Observable<any> {
+    const params = new HttpParams().set("uuid", organizationUuid);
 
     return this.httpClient.put(`${this.baseUrl}/organization-daily-question/register`, dailyQuestions, {params});
   }
 
-  getDailyQuestionaire(organizationId: number): Observable<any> {
-    const params = new HttpParams().set("organization_id", organizationId);
+  getDailyQuestionaire(organizationUuid: string): Observable<any> {
+    const params = new HttpParams().set("uuid", organizationUuid);
 
     return this.httpClient.get(`${this.baseUrl}/organization-daily-question/get`,{params});
   }
 
-  saveLeave(leaveData: any, organizationId: number): Observable<any> {
-    const params = new HttpParams().set("organization_id", organizationId);
+  saveLeave(leaveData: any, organizationUuid: string): Observable<any> {
+    const params = new HttpParams().set("uuid", organizationUuid);
 
     return this.httpClient.post(`${this.baseUrl}/organization-leave/register`, leaveData, {params});
   }
 
-  getLeave(organizationId: number): Observable<any> {
-    const params = new HttpParams().set("organization_id", organizationId);
+  getLeave(organizationUuid: string): Observable<any> {
+    const params = new HttpParams().set("organization_uuid", organizationUuid);
     return this.httpClient.get<Savel[]>(`${this.baseUrl}/organization-leave/get/all`, {params});
   }
 

@@ -35,6 +35,13 @@ export class OnboardingComponent implements OnInit {
   Sick: any;
   c: any;
   loginDetails = this.helperService.getDecodedValueFromToken();
+  role:string = this.loginDetails.role;
+  userUuid: string = this.loginDetails.uuid;
+  id:string = this.loginDetails.orgRefId;
+
+
+  // loginDetails = this.helperService.getDecodedValueFromToken();
+  // const role = this.loginDetails.role;
 
   constructor(
     private dataService: DataService,
@@ -53,7 +60,7 @@ export class OnboardingComponent implements OnInit {
   ngOnInit(): void {
     this. getOrganizationDetails();
     this.getShifts();
-    this.settingOrgId();
+    // this.settingOrgId();
     this.getDailyQuestionCheckIn();
     this.getDailyQuestion();
     this.getDailyNotes();
@@ -68,7 +75,7 @@ export class OnboardingComponent implements OnInit {
     //     return confirmationMessage;
     // });
   }
-  id: number = this.getLoginDetailsOrgRefId();
+  // id: number = this.getLoginDetailsOrgRefId();
   // name: string = "";
   // email: string = "";
   // password: string = "";
@@ -344,7 +351,7 @@ export class OnboardingComponent implements OnInit {
 
   getOrganizationDetails(){
     debugger
-    this.dataService.getOrganizationDetails(this.getLoginDetailsOrgRefId()).subscribe(
+    this.dataService.getOrganizationDetails(this.id).subscribe(
       (data)=> {
           this.organizationPersonalInformation = data;
           this.updateStates();
@@ -396,18 +403,18 @@ export class OnboardingComponent implements OnInit {
     )
   }
    
-  settingOrgId() {
-    let orgnIds = this.getLoginDetailsOrgRefId();
+  // settingOrgId() {
+  //   let orgnIds = this.loginDetails.orgRefId;;
 
-    if (orgnIds) {
-      this.loginArray.organizationId = +orgnIds;
+  //   if (orgnIds) {
+  //     this.loginArray.organizationId = orgnIds;
 
-      this.leaveData.orgId = +orgnIds;
-      this.dailyQuestionsCheckInData.organnId= +orgnIds;
-      this.dailyQuestionsData.organId = +orgnIds;
-      this.dailyNotesData.organiId = +orgnIds;
-    }
-  }
+  //     this.leaveData.orgId = orgnIds;
+  //     // this.dailyQuestionsCheckInData.organnId= orgnIds;
+  //     // this.dailyQuestionsData.organId = orgnIds;
+  //     this.dailyNotesData.organiId = orgnIds;
+  //   }
+  // }
 
   // setAct2() {
   //   this.setActive(1);
@@ -478,7 +485,7 @@ export class OnboardingComponent implements OnInit {
   shifttimings: ShiftTimings = new ShiftTimings();
 
   getShifts() {
-    this.dataService.getShiftTimings(this.getLoginDetailsOrgRefId()).subscribe(
+    this.dataService.getShiftTimings(this.id).subscribe(
       (data) => {
         // this.setActive(1);
         this.loginArray.inTime = data.inTime;
@@ -636,7 +643,6 @@ export class OnboardingComponent implements OnInit {
     leaveType: "",
     leaveEntitled: "",
     leaveStatus: "",
-    orgId: 0,
   };
 
   resetForm() {
@@ -644,7 +650,6 @@ export class OnboardingComponent implements OnInit {
       leaveType: "",
       leaveEntitled: "",
       leaveStatus: "",
-      orgId: this.leaveData.orgId,
     };
   }
 
@@ -683,7 +688,7 @@ export class OnboardingComponent implements OnInit {
       this.leaveSetInvalidToggle = true;
       return;
     }
-    this.dataService.saveLeave(this.leaveData, this.getLoginDetailsOrgRefId()).subscribe(
+    this.dataService.saveLeave(this.leaveData, this.id).subscribe(
       (response) => {
         console.log(response);
         this.organizationLeaveStatusResponse= response.statusResponse;
@@ -719,7 +724,7 @@ export class OnboardingComponent implements OnInit {
   
  
   getLeaves() {
-    this.dataService.getLeave(this.leaveData.orgId).subscribe(
+    this.dataService.getLeave(this.id).subscribe(
       (data) => {
         this.savel = data;
         // if (data.minLength !== 0) {
@@ -798,7 +803,7 @@ export class OnboardingComponent implements OnInit {
 
 
   onSaveShiftTimings() {
-    this.dataService.saveShiftTimings(this.loginArray, this.getLoginDetailsOrgRefId()).subscribe(
+    this.dataService.saveShiftTimings(this.loginArray, this.id).subscribe(
       (response) => {
         this.dailyQuesValid = true;
         console.log(response);
@@ -1006,7 +1011,6 @@ export class OnboardingComponent implements OnInit {
   dailyNotesData: any = {
     enableCheckInQuestionnaire: false,
     enableCheckOutQuestionnaire: false,
-    organiId: 0,
   };
 
   @ViewChild("requestDailyQuesCloseModel")
@@ -1021,7 +1025,7 @@ export class OnboardingComponent implements OnInit {
     // this.dailyNotes = [];
        
 
-    this.dataService.saveDailyQuestionaire(this.dailyNotesData, this.getLoginDetailsOrgRefId()).subscribe(
+    this.dataService.saveDailyQuestionaire(this.dailyNotesData, this.id).subscribe(
       (response) => {
         console.log(response);
         this.dailyQuestionsStatusResponse= response.statusResponse;
@@ -1051,7 +1055,7 @@ export class OnboardingComponent implements OnInit {
   }
 
   getDailyNotes() {
-    this.dataService.getDailyQuestionaire(this.getLoginDetailsOrgRefId()).subscribe(
+    this.dataService.getDailyQuestionaire(this.id).subscribe(
       (data) => {
         // this.dailyNotesData=data;
         this.dailyNotes = data;

@@ -27,7 +27,7 @@ export class UserlistComponent implements OnInit {
   }
 
   getUsersByFiltersFunction() {
-    const role = this.loginDetails;
+    const role = this.loginDetails.role;
     debugger
     this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'', this.getLoginDetailsId(), this.loginDetails.role).subscribe((data : any) => {
       debugger
