@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModuleResponse } from 'src/app/models/module-response';
 import { Role } from 'src/app/models/role';
+import { RoleRequest } from 'src/app/models/role-request';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -22,6 +24,7 @@ export class RoleComponent implements OnInit {
   ngOnInit(): void {
 
     this.getAllRolesMethodCall();
+    this.getSubModuleByRoleMethodCall();
   }
 
   getAllRolesMethodCall(){
@@ -46,5 +49,39 @@ export class RoleComponent implements OnInit {
   {
     this.pageNumber=event;
     this.getAllRolesMethodCall();
+  }
+
+
+
+  // # Modal Data
+  name : string = '';
+  description : string = '';
+  moduleResponse : ModuleResponse[] = [];
+  roleRequest : RoleRequest = new RoleRequest();
+
+  showDataToModal(role : any){
+    this.roleRequest.name = role.name;
+    this.roleRequest.description = role.description;
+  }
+
+  getSubModuleByRoleMethodCall(){
+    this.dataService.getSubModuleByRole(1).subscribe((data) => {
+
+      this.moduleResponse = data;
+      console.log(this.moduleResponse);
+    }, (error) => {
+
+      console.log(error);
+    })
+  }
+
+  updateRolePermissionsMethodCall(){
+    this.dataService.updateRolePermissions(this.roleRequest).subscribe((data) => {
+
+      console.log(data);
+    }, (error) => {
+
+      console.log(error);
+    })
   }
 }

@@ -25,8 +25,10 @@
                                     <h4 class="font-22 fw-bold">{{currentDayEmployeesData.allPresentUsers}}</h4>
                                 </div>
                                 <div class="col-auto align-self-center">
-                                    <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md  rounded-circle">
-                                        <i data-feather="layers" class="align-self-center text-muted icon-sm"></i>  
+                                    <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md icons rounded-circle">
+                                        <!-- <i data-feather="layers" class="align-self-center text-muted icon-sm"></i>  -->
+                                       
+                                        <i class="bi bi-people"></i>
                                     </div>
                                 </div>
                             </div>
@@ -40,8 +42,8 @@
                                     <h4 class="font-22 fw-bold">{{currentDayEmployeesData.usersOnBreak}}</h4>
                                 </div>
                                 <div class="col-auto align-self-center">
-                                    <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md  rounded-circle">
-                                        <i data-feather="check-square" class="align-self-center text-muted icon-sm"></i>  
+                                    <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md icons rounded-circle">
+                                        <i class="bi bi-cup"></i>
                                     </div>
                                 </div> 
                             </div>
@@ -55,8 +57,8 @@
                                     <h4 class="font-22 fw-bold">{{leaveCount}}</h4>   
                                 </div>
                                 <div class="col-auto align-self-center">
-                                    <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md  rounded-circle">
-                                        <i data-feather="dollar-sign" class="align-self-center text-muted icon-sm"></i>  
+                                    <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md icons rounded-circle">
+                                        <i class="bi bi-calendar-week"></i>
                                     </div>
                                 </div> 
                             </div>
@@ -146,19 +148,49 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="(responseDto.attendanceLatePerformers).length!=0">
-        <div class="row mb-3">
-            <div class="col-lg-4" *ngFor="let performer of responseDto.attendanceTopPerformers">
+        <!-- *ngIf="(responseDto.attendanceLatePerformers).length!=0" -->
+        <!-- *ngFor="let performer of responseDto.attendanceTopPerformers" -->
+        <div >
+
+            <div class="row mt-3">
+                <div class="col-md-4" *ngFor="let item of [].constructor(6)">
+                    <div class="card profile-card p-3">
+
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <ngx-shimmer-loading [width]="'60px'" [height]="'60px'" class="abcd"></ngx-shimmer-loading>
+                            </div>
+                            <div class="col-md-8">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'15px'"></ngx-shimmer-loading>
+                                <ngx-shimmer-loading [width]="'80%'" [height]="'10px'"></ngx-shimmer-loading>
+                            </div>
+
+                          
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        <div class="row mb-3 mt-3">
+            <div class="col-lg-4" >
                 <div class="card profile-card" >
                     <div class="card-body p-0">
                         <div class="media p-3  align-items-center">  
-                            <span *ngIf="performer.image != null">
+                            <img src="" alt="user" class="rounded-circle thumb-xl">
+
+                            <!-- <span *ngIf="performer.image != null">
                                 <img src={{performer.image}} alt="user" class="rounded-circle thumb-xl">
                             </span>
-                            <span class="members-name" *ngIf="performer.image == null">{{ performer.name[0] }}</span>                                    
-                            <div class="media-body ms-3 align-self-center">
+                            <span class="members-name" *ngIf="performer.image == null">{{ performer.name[0] }}</span>                                     -->
+                            <!-- <div class="media-body ms-3 align-self-center">
                                 <h5 class="pro-title m-0">{{performer.name}}</h5>
                                 <p class="mb-0 text-muted">{{performer.email}}</p>                                          
+                            </div> -->
+                            <div class="media-body ms-3 align-self-center">
+                                <h5 class="pro-title m-0">Richa Dixit</h5>
+                                <p class="mb-0 text-muted">richa@krenai.com</p>                                          
                             </div>
                             <!-- <div class="position-absolute top-0 end-0 mt-3 me-3">
                                 <a href="#" class=""><i class="la la-pen text-secondary font-16 "></i></a>
@@ -192,14 +224,49 @@
                     </div>
                 </div>
             </div>
-         <div *ngIf="(responseDto.attendanceLatePerformers).length!=0">
-            <div class="col-lg-4"*ngFor="let performer of responseDto.attendanceLatePerformers">
+
+
+
+            <div class="row mt-3">
+                <div class="col-md-4" *ngFor="let item of [].constructor(6)">
+                    <div class="card profile-card p-3">
+
+                        <div class="row align-items-center">
+                            
+                            <div class="col-md-12">
+                                <ngx-shimmer-loading [width]="'40%'" [height]="'15px'"></ngx-shimmer-loading>
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <div class="text-start">
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <div class="text-end">
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </div>
+                                
+                            </div>
+
+                          
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- *ngIf="(responseDto.attendanceLatePerformers).length!=0" -->
+         <div >
+            <!-- *ngFor="let performer of responseDto.attendanceLatePerformers" -->
+            <div class="col-lg-4 mt-3">
                 <div class="card" >
                     <div class="card-body">                                        
                         <div class="media mb-1">
                             <!-- <img src="assets/images/small/project-2.jpg" alt="" class="thumb-md rounded-circle">                                       -->
                             <div class="media-body align-self-center text-truncate">                                            
-                                <h4 class="m-0 projest-nmae">{{performer.name}}</h4>   
+                                <h4 class="m-0 projest-nmae">Richa Dixit</h4>   
                                 <p class="text-muted  mb-0 font-13 mt-2"><span class="text-dark">Project : </span>Krenai</p>                                           
                             </div><!--end media-body-->
                         </div>   
@@ -386,6 +453,37 @@
                                             <th class="text-center">Total Attendance</th>
                                         </tr>
                                     </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of [].constructor(6)">
+                                            <td class="text-center">
+                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                            </td>
+                                            <td class="text-center">
+                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                            </td>
+                                            <td class="text-center">
+                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                            </td>
+                                            <td class="text-center">
+                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                            </td>
+                                            <td class="text-center">
+                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                            </td>
+                                            <td class="text-center">
+                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                            </td>
+                                            <td class="text-center">
+                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                            </td>
+                                            <td class="text-center">
+                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                            </td>
+                                            <td class="text-center">
+                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                     <tbody>
                                         <ng-container *ngFor="let entry of myAttendanceData | keyvalue; let i = index">
                                             <tr>

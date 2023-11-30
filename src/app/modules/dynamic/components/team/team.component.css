@@ -398,3 +398,13 @@ span.remove-icon:hover {
     -webkit-box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
+.rotate {
+    -moz-transition: all .5s linear;
+    -webkit-transition: all .5s linear;
+    transition: all .5s linear;
+}
+.rotate.down {
+    -moz-transform:rotate(360deg);
+    -webkit-transform:rotate(360deg);
+    transform:rotate(360deg);
+}

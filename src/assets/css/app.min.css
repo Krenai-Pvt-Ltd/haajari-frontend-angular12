@@ -8964,3 +8964,7 @@ display:block
 label {
     font-size: 13px !important;
 }
+
+.abcd .ngx-shimmer {
+    border-radius: 50% !important;
+}

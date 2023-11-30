@@ -36,7 +36,7 @@ export class TeamComponent implements OnInit{
 
   ngOnInit(): void {
   // this.getAllUsersByFiltersFunction();
-  this.getAllUser();
+  // this.getAllUser();
   this. getTeamsByFiltersFunction();
   this.getUsersRoleFromLocalStorage();
   // const localStorageFlag = localStorage.getItem(this.localStorageKey);
@@ -201,9 +201,9 @@ export class TeamComponent implements OnInit{
   getAllUser(){
     this.dataService.getAllTeamsWithUsersByUserId(+this.getTeamDetailByUserId(), this.getTeamDetailByUserRole())
     .subscribe(data => {
-      console.log(this.getLoginDetailsId(), this.getLoginDetailsRole());
+      // console.log(this.getLoginDetailsId(), this.getLoginDetailsRole());
       this.teams = data;
-      console.log(this.teams);
+      // console.log(this.teams);
     });
   }
 
@@ -354,9 +354,15 @@ export class TeamComponent implements OnInit{
     });
   }
 
+  rotateToggle:boolean = false
   saveSlackChannelsDataToTeam(){
     debugger
+    this.rotateToggle = true;
+    setTimeout(()=>{
+      this.rotateToggle = false;
+    }, 500)
     this.dataService.getSlackChannelsDataToTeam(this.getLoginDetailsId()).subscribe(response =>{
+      
       console.log("slack data saved to team successfully");
       location.reload();
     }, error => {
@@ -370,7 +376,11 @@ export class TeamComponent implements OnInit{
 
   // team.component.ts
 
+  isShimmer: boolean=false;
+  isPlaceholder: boolean=false;
+
 getTeamsByFiltersFunction() {
+  this.isShimmer=true;
   this.dataService.getTeamsByFilter(
     this.getLoginDetailsId(),
     this.getLoginDetailsRole(),
@@ -379,18 +389,22 @@ getTeamsByFiltersFunction() {
     this.searchText,
     "name"
   ).subscribe((data: any) => {
-    if (data && data.teams) {
-      console.log(data);
+    if (data) {
       this.teamsNew = data.teams;
       this.total = data.count;
-      console.log(this.teamsNew);
-      console.log(this.total);
+      if(this.teamsNew == null){
+        this.teamsNew = [];
+        this.total = 0;
+      }
     } else {
+      this.teamsNew = [];
+      this.total = 0;
       // Handle the case where the expected data structure is not received
       console.error("Invalid data format received from the server");
     }
+    this.isShimmer=false;
   }, (error) => {
-    console.log(error);
+    this.isShimmer=false;
   });
 }
 
@@ -438,6 +452,7 @@ getEndIndex(): number {
   const endIndex = this.pageNumber * this.itemPerPage;
   return endIndex > this.total ? this.total : endIndex;
 }
+
 
   
 }

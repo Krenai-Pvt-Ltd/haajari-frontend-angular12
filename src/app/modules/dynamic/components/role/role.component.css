@@ -72,6 +72,18 @@ tbody tr:last-child{
     color: #1f2a37;
     margin-bottom: 15px;
 }
+.errorboxmain{
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fff;
+}
+
+  .errorboxmain {
+    padding: 30px;
+}
 
 .accordion-header {
     background-color: #fafaf9;
@@ -214,9 +226,9 @@ input[type=checkbox] {
     visibility: hidden;
 }
 
-input:checked + label {
+/* input:checked + label {
     background: #3BB77E;
-}
+} */
 .hafday {
     cursor: pointer;
     text-indent: -9999px;
