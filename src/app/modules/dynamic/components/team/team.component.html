@@ -53,7 +53,7 @@
                 </div> -->
             </div>
 
-            <div class="row mb-3 mt-2">
+            <div class="row mb-3 mt-2 align-items-center">
                 <div class="col-md-5">
 
                     <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchTeams()">
@@ -66,12 +66,18 @@
                 </div>
                 <div class="col-md-7">
                  <div class="d-flex justify-content-end align-items-center" style="gap:10px;">
-                    <div class="loading-btn">
+                    <!-- <div class="loading-btn">
                         <div class="cusser " [ngClass]="{'rotate down':rotateToggle}" (click)="saveSlackChannelsDataToTeam()">
                         <i class="bi bi-arrow-clockwise" style="font-size: 20px; color: #557ef8;"></i>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button>     
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button>    -->
+                    
+                    <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px;">
+                        <a ><i class="bi bi-arrow-clockwise" style="font-size: 16px; color: #557ef8;" (click)="saveSlackChannelsDataToTeam()" [ngClass]="{'rotate down':rotateToggle}" ></i> Page load  </a>
+                        <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
+                        <a data-bs-toggle="modal" data-bs-target="#createteam" type="button"><i class="bi bi-plus-circle"></i> Create Team </a>
+                    </div>
                  </div>
 
 

@@ -276,14 +276,14 @@ select.form-control {
 }
 .attendance-deta p{
     margin-bottom: 0px;
-    color: #929292;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .attendance-deta h5{
-    font-size: 13px;
+    font-size: 14px;
     margin-bottom: 7px;
     margin-top: 5px;
+    font-weight: bold;
 }
 
 .attendance-deta .staf{

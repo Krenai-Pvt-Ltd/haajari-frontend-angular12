@@ -461,3 +461,12 @@ input:checked + .slider:before {
 .remove-icon:hover{
     cursor: pointer;
 }
+
+
+.add-filtter a {
+    margin-bottom: 0px;
+    color: #557ef8;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}

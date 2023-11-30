@@ -115,3 +115,16 @@
     line-height: 25px;
     cursor: pointer;
 }
+
+.errorboxmain{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fff;
+}
+
+  .errorboxmain {
+    padding: 30px;
+}
