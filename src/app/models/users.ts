@@ -3,6 +3,7 @@ import { Organization } from "./organization";
 export class Users {
     id !: number;
     name !: string;
+    uuid !: string;
     slackUserId !: string;
     userImage!:String;
     enterprise !: Enterprise;

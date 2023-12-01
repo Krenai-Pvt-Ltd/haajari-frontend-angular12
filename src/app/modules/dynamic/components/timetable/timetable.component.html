@@ -315,7 +315,7 @@
       </div>
 
 
-      <div class="mt-3 dashnodata">
+      <div class="mt-3 dashnodata" *ngIf="attendanceDataByDateKey.length==0 && !isShimer">
         <div class="errorboxmain">
             <div class="errorboxinner text-center">
               <div class="errorboxplaceholder mb-2">
@@ -329,6 +329,7 @@
     </div>
 
 
+    <div *ngIf="isShimer">
     <div class="monthly-section mt-3" *ngFor="let item of [].constructor(6)">
       <div class="row">
         <div class="col-md-6">
@@ -354,7 +355,7 @@
         </div>
 
       </div>
-      
+      </div>
     </div>
 
       <div class="monthly-section mt-3" *ngFor="let key of attendanceDataByDateKey">

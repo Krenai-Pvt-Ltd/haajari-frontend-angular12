@@ -77,8 +77,8 @@
 
                                         <td class="text-center">
                                             <div class="">
-                                                <input type="checkbox" id="switch{{user.id}}" [(ngModel)]="user.presenceStatus" (change)="changeStatus(user.id, user.presenceStatus)" class="d-none"/>
-                                                <label for="switch{{user.id}}" class="hafday">Toggle</label>
+                                                <input type="checkbox" id="switch{{user.uuid}}" [(ngModel)]="user.presenceStatus" (change)="changeStatus(user.uuid, user.presenceStatus)" class="d-none"/>
+                                                <label for="switch{{user.uuid}}" class="hafday">Toggle</label>
                                             </div>
                                         </td>
                 

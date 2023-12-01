@@ -53,21 +53,32 @@
                 </div> -->
             </div>
 
-            <div class="row mb-3 mt-2">
-                <div class="col-md-5">
+            <div class="row mb-3 mt-2" *ngIf="!isShimmer && teamsNew.length>0 || !isShimmer && total==0 && searchTeamPlaceholderFlag">
+                <div class="col-md-5" >
 
                     <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchTeams()">
+                        <div class="form-group" style="width: 300px;">
+                            <input type="search" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                                   (keyup)="searchTeams()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px;"
+                                   (search)="reloadPage()">
+                            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
+                        </div>
+                    </form>
+                    
+                    <!-- <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchTeams()">
                         <div class="form-group" style="width: 300px;">
                             <input type="search" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchTeams()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px;">
                             <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
                         </div>
-                    </form>
+                    </form> -->
 
                 </div>
                 <div class="col-md-7">
                  <div class="d-flex justify-content-end align-items-center" style="gap:10px;">
-                    <div class="cusser " [ngClass]="{'rotate down':rotateToggle}" (click)="saveSlackChannelsDataToTeam()">
-                        <i class="bi bi-arrow-clockwise" style="    font-size: 20px; color: #557ef8;"></i>
+                    <div class="cusser " (click)="saveSlackChannelsDataToTeam()">
+                        <!-- <i class="bi bi-arrow-clockwise" style="font-size: 20px; color: #557ef8;"  ></i> -->
+                        <i  style="font-size: 20px; color: #557ef8; height: 1.5rem; width:1.5rem" [ngClass]="{'spinner-border':rotateToggle,'bi bi-arrow-clockwise':!rotateToggle }"></i>
+
                     </div>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button>     
                  </div>
@@ -117,7 +128,7 @@
 
                 </div>
             </div>
-            <div class="row app-emptiy-notifaction" *ngIf="!isShimmer && total==0">
+            <div class="row app-emptiy-notifaction" *ngIf="!isShimmer && total==0 && searchTeamPlaceholderFlag">
                 <div class="col-md-6 d-flex align-items-center justify-content-center" style="flex-direction: column;">
                      <div class="">
                         <h4>Team not found</h4>
@@ -141,7 +152,7 @@
             </div>
 
 <!-- TO DO -->
-                <!-- <div class="row app-emptiy-notifaction"  *ngIf="total == 0">
+                <div class="row app-emptiy-notifaction"  *ngIf="!isShimmer && total==0 && !searchTeamPlaceholderFlag">
                     <div class="col-md-6 d-flex align-items-center justify-content-center" style="flex-direction: column;">
                          <div class="">
                             <h4>Add a new hire to Hajiri</h4>
@@ -162,7 +173,7 @@
                             <img src="assets/images/empty-2.png" style="width:100%;">
                         </div>
                     </div>
-                </div> -->
+                </div>
 
 
                
@@ -238,7 +249,7 @@
     
                             <div class="d-flex align-items-center justify-content-between" style="gap: 10px; margin-top: 15px;" data-bs-toggle="modal" data-bs-target="#addteam" *ngIf="localStorageRoleAdminFlag==true && team.manager==null">
                                 <div class="">
-                                    <button class="btn add-team" type="button" (click)="toGetTeamId(team.id)">Assign Manager</button>
+                                    <button class="btn add-team" type="button" (click)="toGetTeamId(team.uuid)">Assign Manager</button>
                                 </div>
                             </div>
     
@@ -270,7 +281,7 @@
                                     </div>
                                       
                                     <div class="align-self-center">
-                                        <button type="button" class="btn btn-xs btn-light btn-round" (click)="routeToTeamDetails(team.id)">View Details <i class="mdi mdi-arrow-right"></i></button>
+                                        <button type="button" class="btn btn-xs btn-light btn-round" (click)="routeToTeamDetails(team.uuid)">View Details <i class="mdi mdi-arrow-right"></i></button>
                                     </div> 
                                 <!-- </div> -->
                                 </div>
@@ -692,14 +703,14 @@
 
 
                                                     <div class="manager-list">
-                                                        <a class="dropdown-item" class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
+                                                        <a class="dropdown-item" class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.uuid,ul.uuid)">Make Manager </a>
                                                      </div>
                                                      <div class="manager-list">
-                                                        <a class="dropdown-item" class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager </a>
+                                                        <a class="dropdown-item" class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.uuid,ul.uuid)">Remove Manager </a>
                                                      </div>
 
                                                      <div class="manager-list remove-team">
-                                                        <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.id,ul.id)">Remove </a>
+                                                        <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.uuid,ul.uuid)">Remove </a>
                                                      </div>
                                                     <!-- <a class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
                                                     <a class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager</a>

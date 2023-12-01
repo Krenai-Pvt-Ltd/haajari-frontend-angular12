@@ -136,7 +136,7 @@
                 <h4 class="card-title" style="font-size: 18px;">Best Performance this month</h4>                      
             </div>
         </div>
-        <div class="mt-3 dashnodata" *ngIf="(responseDto.attendanceTopPerformers).length==0">
+        <div class="mt-3 dashnodata" *ngIf="(responseDto.attendanceTopPerformers).length==0 && !isShimer">
             <div class="errorboxmain">
                 <div class="errorboxinner text-center">
                   <div class="errorboxplaceholder mb-2">
@@ -152,7 +152,7 @@
         <!-- *ngFor="let performer of responseDto.attendanceTopPerformers" -->
         <div >
 
-            <div class="row mt-3">
+            <div class="row mt-3" *ngIf="isShimer">
                 <div class="col-md-4" *ngFor="let item of [].constructor(6)">
                     <div class="card profile-card p-3">
 
@@ -173,25 +173,26 @@
                 </div>
 
             </div>
-        <div class="row mb-3 mt-3">
-            <div class="col-lg-4" >
+             <!-- *ngIf="(responseDto.attendanceLatePerformers).length!=0" -->
+        <!-- *ngFor="let performer of responseDto.attendanceTopPerformers" -->
+        <div class="row mb-3 mt-3" *ngIf="(responseDto.attendanceLatePerformers).length!=0">
+            <div class="col-lg-4" *ngFor="let performer of responseDto.attendanceTopPerformers" >
                 <div class="card profile-card" >
                     <div class="card-body p-0">
                         <div class="media p-3  align-items-center">  
-                            <img src="" alt="user" class="rounded-circle thumb-xl">
-
-                            <!-- <span *ngIf="performer.image != null">
+                            <!-- <img src="" alt="user" class="rounded-circle thumb-xl"> -->
+                            <span *ngIf="performer.image != null">
                                 <img src={{performer.image}} alt="user" class="rounded-circle thumb-xl">
                             </span>
-                            <span class="members-name" *ngIf="performer.image == null">{{ performer.name[0] }}</span>                                     -->
-                            <!-- <div class="media-body ms-3 align-self-center">
+                            <span class="members-name" *ngIf="performer.image == null">{{ performer.name[0] }}</span>                                    
+                            <div class="media-body ms-3 align-self-center">
                                 <h5 class="pro-title m-0">{{performer.name}}</h5>
                                 <p class="mb-0 text-muted">{{performer.email}}</p>                                          
-                            </div> -->
-                            <div class="media-body ms-3 align-self-center">
+                            </div>
+                            <!-- <div class="media-body ms-3 align-self-center">
                                 <h5 class="pro-title m-0">Richa Dixit</h5>
                                 <p class="mb-0 text-muted">richa@krenai.com</p>                                          
-                            </div>
+                            </div> -->
                             <!-- <div class="position-absolute top-0 end-0 mt-3 me-3">
                                 <a href="#" class=""><i class="la la-pen text-secondary font-16 "></i></a>
                                 <a href="#" class=""><i class="la la-trash-alt text-secondary font-16 "></i></a> 
@@ -212,7 +213,7 @@
                      <h4 class="card-title" style="font-size: 18px;">Late Employee</h4>                      
                 </div>
             </div>
-            <div class="mt-3 dashnodata" *ngIf="(responseDto.attendanceLatePerformers).length==0">
+            <div class="mt-3 dashnodata" *ngIf="(responseDto.attendanceLatePerformers).length==0 && !isLateShimmer">
                 <div class="errorboxmain">
                     <div class="errorboxinner text-center">
                       <div class="errorboxplaceholder mb-2">
@@ -227,7 +228,7 @@
 
 
 
-            <div class="row mt-3">
+            <div class="row mt-3" *ngIf="isLateShimmer">
                 <div class="col-md-4" *ngFor="let item of [].constructor(6)">
                     <div class="card profile-card p-3">
 
@@ -258,15 +259,15 @@
 
             </div>
             <!-- *ngIf="(responseDto.attendanceLatePerformers).length!=0" -->
-         <div >
+         <div class="row mb-3 mt-3" *ngIf="(responseDto.attendanceLatePerformers).length!=0">
             <!-- *ngFor="let performer of responseDto.attendanceLatePerformers" -->
-            <div class="col-lg-4 mt-3">
+            <div class="col-lg-4 " *ngFor="let performer of responseDto.attendanceLatePerformers">
                 <div class="card" >
-                    <div class="card-body">                                        
+                    <div class="card-body" >                                        
                         <div class="media mb-1">
                             <!-- <img src="assets/images/small/project-2.jpg" alt="" class="thumb-md rounded-circle">                                       -->
                             <div class="media-body align-self-center text-truncate">                                            
-                                <h4 class="m-0 projest-nmae">Richa Dixit</h4>   
+                                <h4 class="m-0 projest-nmae">{{performer.name}}</h4>   
                                 <p class="text-muted  mb-0 font-13 mt-2"><span class="text-dark">Project : </span>Krenai</p>                                           
                             </div><!--end media-body-->
                         </div>   
@@ -399,10 +400,21 @@
                                       </div>
                                       <div class="dropdown col-md-3" >
                                         <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                         Nov 2023 <i class="bi bi-chevron-down"></i>
+                                         {{month ? month : 'Select Month'}} <i class="bi bi-chevron-down"></i>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
-                                          <li><a class="dropdown-item">Jan 2023</a></li>
+                                          <li><a class="dropdown-item" (click)="selectMonth('January')">Jan 2023</a></li>
+                                          <li><a class="dropdown-item" (click)="selectMonth('February')">Feb 2023</a></li>
+                                          <li><a class="dropdown-item" (click)="selectMonth('March')">Mar 2023</a></li>
+                                          <li><a class="dropdown-item" (click)="selectMonth('April')">Apr 2023</a></li>
+                                          <li><a class="dropdown-item" (click)="selectMonth('May')">May 2023</a></li>
+                                          <li><a class="dropdown-item" (click)="selectMonth('June')">Jun 2023</a></li>
+                                          <li><a class="dropdown-item" (click)="selectMonth('July')">Jul 2023</a></li>
+                                          <li><a class="dropdown-item" (click)="selectMonth('August')">Aug 2023</a></li>
+                                          <li><a class="dropdown-item" (click)="selectMonth('September')">Sep 2023</a></li>
+                                          <li><a class="dropdown-item" (click)="selectMonth('October')">Oct 2023</a></li>
+                                          <li><a class="dropdown-item" (click)="selectMonth('November')">Nov 2023</a></li>
+                                          <li><a class="dropdown-item" (click)="selectMonth('December')">Dec 2023</a></li>
                                         </ul>
                                       </div>
 
@@ -419,7 +431,7 @@
                             
                            <div class="monthly-report">
 
-                            <div class="mt-3 dashnodata" *ngIf="(myAttendanceData | json )== '{}'">
+                            <div class="mt-3 dashnodata" *ngIf="(myAttendanceData | json )== '{}' && !isAttendanceShimer">
                                 <div class="errorboxmain">
                                     <div class="errorboxinner text-center">
                                       <div class="errorboxplaceholder mb-2">
@@ -432,13 +444,10 @@
                                 </div>
                             </div>
 
-                        <div *ngIf="(myAttendanceData | json )!= '{}'">
+                        <div *ngIf="isAttendanceShimer || (myAttendanceData | json )!= '{}' && !isAttendanceShimer ">
                             <h5>Monthly Regular</h5>
 
-
-                       
-
-                            <div class="mt-3">
+                            <div class="mt-3" >
                                 <table class="table">
                                     <thead class="table-light">
                                         <tr>
@@ -453,7 +462,7 @@
                                             <th class="text-center">Total Attendance</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody *ngIf="isAttendanceShimer">
                                         <tr *ngFor="let item of [].constructor(6)">
                                             <td class="text-center">
                                                 <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
@@ -484,7 +493,7 @@
                                             </td>
                                         </tr>
                                     </tbody>
-                                    <tbody>
+                                    <tbody *ngIf="(myAttendanceData | json )!= '{}' && !isAttendanceShimer">
                                         <ng-container *ngFor="let entry of myAttendanceData | keyvalue; let i = index">
                                             <tr>
                                                 <td class="text-left plandtlMainicon">
@@ -492,6 +501,11 @@
                                                         data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i"
                                                         role="button" aria-expanded="false" aria-controls="collapseExamplesheet"></i> {{getFirstName(entry.key)}}
                                                 </td>
+                                                <!-- <td class="text-left plandtlMainicon" *ngIf="openCollapse">
+                                                    <i class="bi bi-chevron-right month-d projectdIcon"
+                                                        data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i"
+                                                        role="button" aria-expanded="true" aria-controls="collapseExamplesheet"></i> {{getFirstName(entry.key)}}
+                                                </td> -->
                                                 <td class="text-center">{{entry.value[0].totalPresentDays || 0}}</td>
                                                 <td class="text-center"> 2 </td>
                                                 <td class="text-center"> 1 </td>

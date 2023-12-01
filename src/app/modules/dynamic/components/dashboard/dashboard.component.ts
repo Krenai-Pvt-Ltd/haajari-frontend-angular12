@@ -6,6 +6,8 @@ import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { DatePipe } from '@angular/common';
 import { AttendanceWithTopPerformerResponseDto } from 'src/app/models/Attendance.model';
+import { HelperService } from 'src/app/services/helper.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,30 +16,56 @@ import { AttendanceWithTopPerformerResponseDto } from 'src/app/models/Attendance
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe) { }
+  constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService) { }
 
   currentDayEmployeesData : any = [];
-  selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
+  // selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
   attendanceArrayDate: any = [];
   project : boolean = false;
 
+  loginDetails = this.helperService.getDecodedValueFromToken();
+   role:string = this.loginDetails.role;
+   userUuid: string = this.loginDetails.uuid;
+   orgRefId:string = this.loginDetails.orgRefId;
+
+  startDateStr: string = '';
+  endDateStr: string = '';
+  month: string = '';
 
   ngOnInit(): void {
     // this.checkAccessToken();
-    this.getAttendanceTopAndLatePerformerDeatails();
-    const today = dayjs();
-    const firstDayOfMonth = today.startOf('month');
-    const lastDayOfMonth = today.endOf('month');
+   
+    // const today = dayjs();
+    // const firstDayOfMonth = today.startOf('month');
+    // const lastDayOfMonth = today.endOf('month');
 
-    this.selected = {
-      startDate: firstDayOfMonth,
-      endDate: lastDayOfMonth
-    };
+    // this.selected = {
+    //   startDate: firstDayOfMonth,
+    //   endDate: lastDayOfMonth
+    // };
+    const currentDate = moment();
+    this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
+    this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
+
+    // Set the default selected month
+    this.month = currentDate.format('MMMM');
     
     this.getCurrentDayEmployeesData();
+    this.getAttendanceTopAndLatePerformerDeatails();
     this.getDataFromDate();
     this.getTodaysLiveLeaveCount();
+  }
+
+  selectMonth(selectedMonth: string): void {
+    this.month = selectedMonth;
+    const selectedDate = moment().month(selectedMonth).startOf('month');
+    this.startDateStr = selectedDate.format('YYYY-MM-DD');
+    this.endDateStr = selectedDate.endOf('month').format('YYYY-MM-DD');
+    
+    // Fetch data using the selected start and end dates
+    this.getAttendanceTopAndLatePerformerDeatails();
+    this.getDataFromDate();
   }
   
 
@@ -70,13 +98,15 @@ export class DashboardComponent implements OnInit {
   })
 }
 
+isAttendanceShimer: boolean=false;
+
   getDataFromDate(): void {
-    if (this.selected) {
-      const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
-      const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
+    this.isAttendanceShimer=true;
+      // const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
+      // const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
       
       
-      this.dataService.getDurationDetails(this.getLoginDetailsId(), this.getLoginDetailsRole(), startDateStr, endDateStr).subscribe(
+      this.dataService.getDurationDetails(this.userUuid, this.role, this.startDateStr, this.endDateStr).subscribe(
         
         (response: any) => {
           
@@ -85,6 +115,7 @@ export class DashboardComponent implements OnInit {
 
           debugger
           console.log("this.myAttendanceData" + response);
+          this.isAttendanceShimer=false;
           if (this.myAttendanceData) {
             
             for (const key in this.myAttendanceData) {
@@ -105,12 +136,13 @@ export class DashboardComponent implements OnInit {
               }
             }
           }
+          
         },
         (error: any) => {
           console.error('Error fetching data:', error);
         }
       );
-    }
+    
   }
 
 
@@ -147,30 +179,30 @@ export class DashboardComponent implements OnInit {
     return names.length > 0 ? names[0] : '';
   }
 
-  getLoginDetailsRole(){
-    const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
-      if(this.checkingUserRoleMethod() === true){
-        return 'MANAGER';
-      }
+  // getLoginDetailsRole(){
+  //   const loginDetails = localStorage.getItem('loginData');
+  //   if(loginDetails!==null){
+  //     const loginData = JSON.parse(loginDetails);
+  //     if(this.checkingUserRoleMethod() === true){
+  //       return 'MANAGER';
+  //     }
       
-      return loginData.role;
-    }
-  }
+  //     return loginData.role;
+  //   }
+  // }
 
-  getLoginDetailsId(){
-    const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
-      return loginData.id;
-    }
-  }
+  // getLoginDetailsId(){
+  //   const loginDetails = localStorage.getItem('loginData');
+  //   if(loginDetails!==null){
+  //     const loginData = JSON.parse(loginDetails);
+  //     return loginData.id;
+  //   }
+  // }
 
   flag !: boolean;
 
   checkingUserRoleMethod(): boolean{ 
-    this.dataService.checkingUserRole(this.getLoginDetailsId()).subscribe((data) => {
+    this.dataService.checkingUserRole(this.userUuid).subscribe((data) => {
       this.flag = data;
       console.log(data);
     }, (error) => {
@@ -205,12 +237,23 @@ export class DashboardComponent implements OnInit {
   
   // responseDto!: AttendanceWithTopPerformerResponseDto;
 
+  isShimer: boolean=false;
+  isLateShimmer: boolean=false;
   getAttendanceTopAndLatePerformerDeatails(){
+    this.isShimer=true;
+    this.isLateShimmer=true;
     debugger
-    this.dataService.getAttendanceTopAndLatePerformers(1, 'ADMIN', '2023-11-27', '2023-11-30').subscribe(
+    this.dataService.getAttendanceTopAndLatePerformers(this.userUuid, this.role, this.startDateStr, this.endDateStr).subscribe(
       (data) => {
         console.log(data);
         this.responseDto = data;
+
+        if(data.attendanceTopPerformers){
+        this.isShimer=false;
+        }
+        if(data.attendanceLatePerformers){
+          this.isLateShimmer=false;
+        }
         console.log(this.responseDto); 
       },
       (error) => {
@@ -218,5 +261,60 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+
+  // month!: string
+
+  // selectMonth(selectedMonth : string) {
+  //   this.month = selectedMonth;
+  // }
+  // selectMonth(selectedMonth: string) {
+  //   this.month = selectedMonth;
+  //   if (this.month === 'January') {
+  //     this.startDateStr = '2023-01-01';
+  //     this.endDateStr = '2023-01-31';
+  //   } else if (this.month === 'February') {
+  //     this.startDateStr = '2023-02-01';
+  //     this.endDateStr = '2023-02-28' || '2023-02-29'; 
+  //   } else if (this.month === 'March') {
+  //     this.startDateStr = '2023-03-01';
+  //     this.endDateStr = '2023-03-31';
+  //   } else if (this.month === 'April') {
+  //     this.startDateStr = '2023-04-01';
+  //     this.endDateStr = '2023-04-30';
+  //   } else if (this.month === 'May') {
+  //     this.startDateStr = '2023-05-01';
+  //     this.endDateStr = '2023-05-31';
+  //   } else if (this.month === 'June') {
+  //     this.startDateStr = '2023-06-01';
+  //     this.endDateStr = '2023-06-30';
+  //   } else if (this.month === 'July') {
+  //     this.startDateStr = '2023-07-01';
+  //     this.endDateStr = '2023-07-31';
+  //   } else if (this.month === 'August') {
+  //     this.startDateStr = '2023-08-01';
+  //     this.endDateStr = '2023-08-31';
+  //   } else if (this.month === 'September') {
+  //     this.startDateStr = '2023-09-01';
+  //     this.endDateStr = '2023-09-30';
+  //   } else if (this.month === 'October') {
+  //     this.startDateStr = '2023-10-01';
+  //     this.endDateStr = '2023-10-31';
+  //   } else if (this.month === 'November') {
+  //     this.startDateStr = '2023-11-01';
+  //     this.endDateStr = '2023-11-30';
+  //   } else if (this.month === 'December') {
+  //     this.startDateStr = '2023-12-01';
+  //     this.endDateStr = '2023-12-31';
+  //   } else {
+  //     console.error('Invalid month selected');
+  //   }
+  // }
+
+  // openCollapse:boolean=false;
+
+  // hitExpandButton(){
+  //   this.openCollapse=true;
+  // }
+
   
 }

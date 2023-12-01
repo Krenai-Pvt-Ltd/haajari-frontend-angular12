@@ -8,6 +8,7 @@ import { DataService } from 'src/app/services/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeamDetailComponent } from '../team-detail/team-detail.component';
 import { ModalService } from 'src/app/modal.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-team',
@@ -28,16 +29,21 @@ export class TeamComponent implements OnInit{
 
   teamsNew : TeamResponse[] = [];
   filteredUsers : Users[] = [];
-  itemPerPage : number = 6;
+  itemPerPage : number = 12;
   pageNumber : number = 1;
   total !: number;
   rowNumber : number = 1;
+
+  loginDetails = this.helperService.getDecodedValueFromToken();
+  role:string = this.loginDetails.role;
+  userUuid: string = this.loginDetails.uuid;
+  orgRefId:string = this.loginDetails.orgRefId;
   
 
   ngOnInit(): void {
   // this.getAllUsersByFiltersFunction();
   // this.getAllUser();
-  this. getTeamsByFiltersFunction();
+  this.getTeamsByFiltersFunction();
   this.getUsersRoleFromLocalStorage();
   // const localStorageFlag = localStorage.getItem(this.localStorageKey);
 
@@ -49,7 +55,7 @@ export class TeamComponent implements OnInit{
    
   }
 
-  constructor(private router : Router, private dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService) { 
+  constructor(private router : Router, private dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService, private helperService: HelperService) { 
     this.Settings = {
       singleSelection: false,
       text: 'Select Module',
@@ -63,11 +69,11 @@ export class TeamComponent implements OnInit{
   
   addTeamFlag: boolean = false;
 
-  openTeamModal(teamId: number) {
-    this.router.navigate(['/team-detail'], { queryParams: { teamId: teamId } });
-    // this.openModal();
+  // openTeamModal(teamId: number) {
+  //   this.router.navigate(['/team-detail'], { queryParams: { teamId: teamId } });
+  //   // this.openModal();
 
-  }
+  // }
 
   openModal() {
     this.modalService.openModal();
@@ -92,11 +98,11 @@ export class TeamComponent implements OnInit{
   searchQuery: string = '';
   userList: User[] = [];
   selectedUsers: User[] = [];
-  userIds: number[] = [];
+  userIds: string[] = [];
 
   
   searchUsers() {
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchQuery,'', 1, "ADMIN").subscribe((data : any) => {
+    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchQuery,'', this.orgRefId, this.role).subscribe((data : any) => {
       this.userList = data.users;
       this.total = data.count;
       console.log(this.userList);
@@ -104,10 +110,10 @@ export class TeamComponent implements OnInit{
   }
 
   toggleUserSelection(user: User) {
-    const index = this.selectedUsers.findIndex((u) => u.id === user.id); 
+    const index = this.selectedUsers.findIndex((u) => u.uuid === user.uuid); 
     if (index === -1) {
       this.selectedUsers.push(user);
-      this.userIds.push(user.id);
+      this.userIds.push(user.uuid);
       console.log(this.userIds);
     } else {
       console.log("error!");
@@ -129,9 +135,9 @@ export class TeamComponent implements OnInit{
   }
 
   registerTeamSubmitButton(){
-    console.log(+this.getLoginDetailsOrgRefId());
+    // console.log(+this.getLoginDetailsOrgRefId());
     debugger
-    this.dataService.registerTeam(this.userIds,this.teamName,this.teamDescription, +this.getLoginDetailsOrgRefId()).subscribe((data) => {
+    this.dataService.registerTeam(this.userIds,this.teamName,this.teamDescription, this.orgRefId).subscribe((data) => {
       console.log(data);
 
       debugger
@@ -143,13 +149,13 @@ export class TeamComponent implements OnInit{
   }
 
 
-  getLoginDetailsOrgRefId(){
-    const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
-      return loginData.orgRefId;
-    }
-  }
+  // getLoginDetailsOrgRefId(){
+  //   const loginDetails = localStorage.getItem('loginData');
+  //   if(loginDetails!==null){
+  //     const loginData = JSON.parse(loginDetails);
+  //     return loginData.orgRefId;
+  //   }
+  // }
   
 
   // showMultiselectDropdown: boolean = true;
@@ -199,7 +205,7 @@ export class TeamComponent implements OnInit{
 
 
   getAllUser(){
-    this.dataService.getAllTeamsWithUsersByUserId(+this.getTeamDetailByUserId(), this.getTeamDetailByUserRole())
+    this.dataService.getAllTeamsWithUsersByUserId(this.userUuid, this.role)
     .subscribe(data => {
       // console.log(this.getLoginDetailsId(), this.getLoginDetailsRole());
       this.teams = data;
@@ -207,45 +213,45 @@ export class TeamComponent implements OnInit{
     });
   }
 
-  getTeamDetailByUserId(){
-    const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
-      return loginData.id;
-    }
-  }
+  // getTeamDetailByUserId(){
+  //   const loginDetails = localStorage.getItem('loginData');
+  //   if(loginDetails!==null){
+  //     const loginData = JSON.parse(loginDetails);
+  //     return loginData.id;
+  //   }
+  // }
 
-  getTeamDetailByUserRole(){
-    const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
+  // getTeamDetailByUserRole(){
+  //   const loginDetails = localStorage.getItem('loginData');
+  //   if(loginDetails!==null){
+  //     const loginData = JSON.parse(loginDetails);
 
-      return loginData.role;
+  //     return loginData.role;
 
-    }
-  }
+  //   }
+  // }
 
-  getLoginDetailsId(){
-    const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
+  // getLoginDetailsId(){
+  //   const loginDetails = localStorage.getItem('loginData');
+  //   if(loginDetails!==null){
+  //     const loginData = JSON.parse(loginDetails);
 
-      return loginData.id;
+  //     return loginData.id;
 
-    }
-  }
+  //   }
+  // }
 
-  getLoginDetailsRole(){
-    const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
-      return loginData.role;
-    }
-  }
+  // getLoginDetailsRole(){
+  //   const loginDetails = localStorage.getItem('loginData');
+  //   if(loginDetails!==null){
+  //     const loginData = JSON.parse(loginDetails);
+  //     return loginData.role;
+  //   }
+  // }
 
-  routeToTeamDetails(id:number){
+  routeToTeamDetails(uuid:string){
     let navExtra : NavigationExtras = {
-      queryParams : {"teamId" : id},
+      queryParams : {"teamId" : uuid},
     };
     this.router.navigate(['/team-detail'], navExtra);
   }
@@ -262,16 +268,15 @@ export class TeamComponent implements OnInit{
   localStorageRoleAdminFlag=false;
   
   getUsersRoleFromLocalStorage(){
-    const loginDetails = localStorage.getItem('loginData');
-     if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
+    // const loginDetails = localStorage.getItem('loginData');
+    //  if(loginDetails!==null){
+    //   const loginData = JSON.parse(loginDetails);
 
-      if(loginData.role=='ADMIN'){
+      if(this.role=='ADMIN'){
         this.localStorageRoleAdminFlag=true;
-      }else if(loginData.role=='USER'){
+      }else if(this.role=='USER'){
         this.localStorageRoleAdminFlag=false;
       }
-    }
   }
 
   capitalizeFirstLetterAndSmallOtherLetters(name: string): string {
@@ -281,12 +286,12 @@ export class TeamComponent implements OnInit{
     return name; 
   }
 
-  assignManagerRoleToMemberMethodCall(teamId: number, userId: number) {
+  assignManagerRoleToMemberMethodCall(teamId: string, userId: string) {
     this.dataService.assignManagerRoleToMember(teamId,userId).subscribe((data) => {
       console.log(data);
       const managerdata = {
-        teamId: teamId,
-        managerId: data.manager.id,
+        teamUuid: teamId,
+        managerId: data.manager.uuid,
       };
       localStorage.setItem('managerFunc', JSON.stringify(managerdata));
     }, (error) => {
@@ -294,7 +299,7 @@ export class TeamComponent implements OnInit{
     })
   }
 
-  assignMemberRoleToManagerMethodCall(teamId: number, userId: number){
+  assignMemberRoleToManagerMethodCall(teamId: string, userId: string){
     debugger
     if (localStorage.getItem('managerFunc')) {
       localStorage.removeItem('managerFunc');
@@ -310,7 +315,7 @@ export class TeamComponent implements OnInit{
     })
   }
 
-  removeUserFromTeam(teamId: number, userId: number) {
+  removeUserFromTeam(teamId: string, userId: string) {
     this.dataService.removeUserFromTeam(teamId, userId)
       .subscribe(
         response => {
@@ -324,9 +329,9 @@ export class TeamComponent implements OnInit{
   teamIid:any;
   userIid:any;
 
-  toGetTeamId(teamId: number){
+  toGetTeamId(teamUuid: string){
     debugger
-    this.teamIid=teamId;
+    this.teamIid=teamUuid;
     console.log(this.teamIid);
     this.getTeamMemberById();
 
@@ -345,7 +350,7 @@ export class TeamComponent implements OnInit{
 
 
   deleteTeamByTeamId(teamId: number){
-    this.dataService.deleteTeam(teamId, this.getLoginDetailsRole()).subscribe(response =>{
+    this.dataService.deleteTeam(teamId, this.role).subscribe(response =>{
         console.log("Team Deleted Successfully");
         location.reload();
     },error => {
@@ -355,16 +360,24 @@ export class TeamComponent implements OnInit{
   }
 
   rotateToggle:boolean = false
+
+  
   saveSlackChannelsDataToTeam(){
     debugger
     this.rotateToggle = true;
-    setTimeout(()=>{
-      this.rotateToggle = false;
-    }, 500)
-    this.dataService.getSlackChannelsDataToTeam(this.getLoginDetailsId()).subscribe(response =>{
+    // setTimeout(()=>{
+    //   this.rotateToggle = false;
+    // }, 100000)
+    
+    this.dataService.getSlackChannelsDataToTeam(this.orgRefId).subscribe(response =>{
       
       console.log("slack data saved to team successfully");
       location.reload();
+      if(response){
+      setTimeout(()=>{
+      this.rotateToggle = false;
+      }, 500)
+      }
     }, error => {
       console.error(error);
     })
@@ -382,8 +395,8 @@ export class TeamComponent implements OnInit{
 getTeamsByFiltersFunction() {
   this.isShimmer=true;
   this.dataService.getTeamsByFilter(
-    this.getLoginDetailsId(),
-    this.getLoginDetailsRole(),
+    this.userUuid,
+    this.role,
     this.itemPerPage,
     this.pageNumber,
     this.searchText,
@@ -395,11 +408,11 @@ getTeamsByFiltersFunction() {
       if(this.teamsNew == null){
         this.teamsNew = [];
         this.total = 0;
+        this.searchTeamPlaceholderFlag=false;
       }
     } else {
       this.teamsNew = [];
       this.total = 0;
-      // Handle the case where the expected data structure is not received
       console.error("Invalid data format received from the server");
     }
     this.isShimmer=false;
@@ -419,7 +432,9 @@ getTeamsByFiltersFunction() {
 
   searchText : string = '';
 
+  searchTeamPlaceholderFlag: boolean=false;
   searchTeams() {
+    this.searchTeamPlaceholderFlag=true;
     this.getTeamsByFiltersFunction();
   }
 
@@ -451,6 +466,9 @@ getStartIndex(): number {
 getEndIndex(): number {
   const endIndex = this.pageNumber * this.itemPerPage;
   return endIndex > this.total ? this.total : endIndex;
+}
+reloadPage() {
+  location.reload();
 }
 
 

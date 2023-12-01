@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 
 import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-team-detail',
@@ -16,11 +17,12 @@ export class TeamDetailComponent implements OnInit {
 
 
   constructor(private dataService: DataService,
-    private activateRoute : ActivatedRoute) { 
+    private activateRoute : ActivatedRoute, private helperService : HelperService) { 
       debugger
       if(this.activateRoute.snapshot.queryParamMap.has('teamId')){
         this.teamId = this.activateRoute.snapshot.queryParamMap.get('teamId');
       };
+
 
       this.Settings = {
         singleSelection: false,
@@ -47,6 +49,11 @@ export class TeamDetailComponent implements OnInit {
   }
   
 
+  loginDetails = this.helperService.getDecodedValueFromToken();
+  role:string = this.loginDetails.role;
+  userUuid: string = this.loginDetails.uuid;
+  orgRefId:string = this.loginDetails.orgRefId;
+
   // openModal() {
   //   this.modalService.open('#addteam');
   // }
@@ -70,7 +77,7 @@ export class TeamDetailComponent implements OnInit {
 //    }
 // }
 
-  teamId :any;
+  teamId: any;
 
   team:any=[];
   
@@ -89,8 +96,8 @@ export class TeamDetailComponent implements OnInit {
       this.team = data;
       if(data.manager!==null){
         const managerdata = {
-          teamId: this.teamId,
-          managerId: data.manager.id,
+          teamUuid: this.teamId,
+          managerId: data.manager.uuid,
         };
         localStorage.setItem('managerFunc', JSON.stringify(managerdata));
       }
@@ -99,13 +106,21 @@ export class TeamDetailComponent implements OnInit {
   }
 
   getLoginDetailsId(){
-    const loginDetails = localStorage.getItem('loginData');
+    debugger
+    // const loginDetails = localStorage.getItem('loginData');
      const managerDetails =localStorage.getItem('managerFunc');
-    if(loginDetails !== null && managerDetails !== null){
-      const loginData = JSON.parse(loginDetails);
+    if(managerDetails !== null){
+      // const loginData = JSON.parse(loginDetails);
       const managerFunc = JSON.parse(managerDetails);
 
-      if((managerFunc.managerId==loginData.id) && (managerFunc.teamId==this.teamId)){
+      console.log(managerFunc.managerId);
+      console.log(this.userUuid);
+      console.log(managerFunc.teamUuid);
+      console.log(this.teamId);
+
+
+
+      if((managerFunc.managerId==this.userUuid) && (managerFunc.teamUuid==this.teamId)){
         this.managerIdFlag=true;
       }else{
         this.managerIdFlag=false;
@@ -146,12 +161,12 @@ export class TeamDetailComponent implements OnInit {
   searchQuery: string = '';
   userList: User[] = [];
   selectedUsers: User[] = [];
-  userIds: number[] = [];
+  userIds: string[] = [];
   userEmails: string[] = [];
 
   
   searchUsers() {
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchQuery,'', 1, "ADMIN").subscribe((data : any) => {
+    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchQuery,'', this.orgRefId, this.role).subscribe((data : any) => {
       this.userList = data.users;
       this.total = data.count;
       console.log(this.userList);
@@ -159,10 +174,10 @@ export class TeamDetailComponent implements OnInit {
   }
 
   toggleUserSelection(user: User) {
-    const index = this.selectedUsers.findIndex((u) => u.id === user.id);
+    const index = this.selectedUsers.findIndex((u) => u.uuid === user.uuid);
     if (index === -1) {
       this.selectedUsers.push(user);
-      this.userIds.push(user.id);
+      this.userIds.push(user.uuid);
 
       this.userEmails.push(user.email);
       
@@ -218,8 +233,8 @@ export class TeamDetailComponent implements OnInit {
   }
 
 
-  assignManagerRoleToMemberMethodCall(teamId: number, userId: number) {
-    this.dataService.assignManagerRoleToMember(teamId,userId).subscribe((data) => {
+  assignManagerRoleToMemberMethodCall(teamUuid: string, userUuid: string) {
+    this.dataService.assignManagerRoleToMember(teamUuid,userUuid).subscribe((data) => {
       console.log(data);
       const managerdata = {
         teamId: this.teamId,
@@ -233,7 +248,7 @@ export class TeamDetailComponent implements OnInit {
     })
   }
 
-  assignMemberRoleToManagerMethodCall(teamId: number, userId: number){
+  assignMemberRoleToManagerMethodCall(teamUuid: string, userUuid: string){
     debugger
     if (localStorage.getItem('managerFunc')) {
       localStorage.removeItem('managerFunc');
@@ -241,7 +256,7 @@ export class TeamDetailComponent implements OnInit {
     } else {
       console.log('managerFunc not found in localStorage');
     }  
-    this.dataService.assignMemberRoleToManager(teamId,userId).subscribe((data) => {
+    this.dataService.assignMemberRoleToManager(teamUuid,userUuid).subscribe((data) => {
       // localStorage.removeItem('managerFunc');
       console.log(data);
     }, (error) => {
@@ -254,20 +269,19 @@ export class TeamDetailComponent implements OnInit {
   localStorageRoleAdminFlag=false;
   
   getUsersRoleFromLocalStorage(){
-    const loginDetails = localStorage.getItem('loginData');
-     if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
+    // const loginDetails = localStorage.getItem('loginData');
+    //  if(loginDetails!==null){
+    //   const loginData = JSON.parse(loginDetails);
 
-      if(loginData.role=='ADMIN'){
+      if(this.role=='ADMIN'){
         this.localStorageRoleAdminFlag=true;
-      }else if(loginData.role=='USER'){
+      }else if(this.role=='USER'){
         this.localStorageRoleAdminFlag=false;
       }
-    }
   }
 
-  removeUserFromTeam(teamId: number, userId: number) {
-    this.dataService.removeUserFromTeam(teamId, userId)
+  removeUserFromTeam(teamUuid: string, userUuid: string) {
+    this.dataService.removeUserFromTeam(teamUuid, userUuid)
       .subscribe(
         response => {
           console.log('Success:', response);
@@ -303,7 +317,7 @@ export class TeamDetailComponent implements OnInit {
 
   addUsersToTeam() {
     if (this.userIds.length > 0) {
-      const tid = +this.teamId; 
+      const tid = this.teamId; 
       this.dataService
         .addUsersToTeam(tid, this.userIds)
         .subscribe(

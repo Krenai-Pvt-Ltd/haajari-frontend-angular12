@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
+import { HelperService } from 'src/app/services/helper.service';
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 
@@ -14,9 +15,14 @@ export class TimetableComponent implements OnInit {
 
   alwaysShowCalendars: boolean | undefined;
   model: any;
-  constructor(private dataService: DataService) { 
+  constructor(private dataService: DataService, private helperService: HelperService) { 
 
   }
+
+   loginDetails = this.helperService.getDecodedValueFromToken();
+   role:string = this.loginDetails.role;
+   userUuid: string = this.loginDetails.uuid;
+   orgRefId:string = this.loginDetails.orgRefId;
 
 
   selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
@@ -73,9 +79,9 @@ export class TimetableComponent implements OnInit {
     if (this.selected) {
       const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
       const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
+      debugger
       
-      
-      this.dataService.getDurationDetails(this.getLoginDetailsId(), this.getLoginDetailsRole(), startDateStr, endDateStr).subscribe(
+      this.dataService.getDurationDetails(this.userUuid, this.role, startDateStr, endDateStr).subscribe(
         
         (response: any) => {
           
@@ -119,31 +125,31 @@ export class TimetableComponent implements OnInit {
 
 
 
-  getLoginDetailsRole(){
-    const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
-      if(this.checkingUserRoleMethod() === true){
-        return 'MANAGER';
-      }
+  // getLoginDetailsRole(){
+  //   const loginDetails = localStorage.getItem('loginData');
+  //   if(loginDetails!==null){
+  //     const loginData = JSON.parse(loginDetails);
+  //     if(this.checkingUserRoleMethod() === true){
+  //       return 'MANAGER';
+  //     }
       
-      return loginData.role;
-    }
-  }
+  //     return loginData.role;
+  //   }
+  // }
 
-  getLoginDetailsId(){
-    const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
-      return loginData.id;
-    }
-  }
+  // getLoginDetailsId(){
+  //   const loginDetails = localStorage.getItem('loginData');
+  //   if(loginDetails!==null){
+  //     const loginData = JSON.parse(loginDetails);
+  //     return loginData.id;
+  //   }
+  // }
 
 
   flag !: boolean;
 
   checkingUserRoleMethod(): boolean{ 
-    this.dataService.checkingUserRole(this.getLoginDetailsId()).subscribe((data) => {
+    this.dataService.checkingUserRole(this.userUuid).subscribe((data) => {
       this.flag = data;
       console.log(data);
     }, (error) => {
@@ -209,13 +215,16 @@ export class TimetableComponent implements OnInit {
   inputDate = '';
   halfDayUsers : number = 0;
 
-  getAttendanceDetailsByDateMethodCall(){
+  isShimer:boolean=false;
 
-      this.dataService.getAttendanceDetailsByDate(this.getLoginDetailsId(), this.getLoginDetailsRole(), this.inputDate).subscribe((data) => {
+  getAttendanceDetailsByDateMethodCall(){
+      this.isShimer=true;
+      this.dataService.getAttendanceDetailsByDate(this.userUuid, this.role, this.inputDate).subscribe((data) => {
         this.attendanceDataByDateKey = Object.keys(data);
         this.attendanceDataByDateValue = Object.values(data);
 
         this.attendanceDataByDate = data;
+        this.isShimer=false;
         console.log(this.attendanceDataByDateKey);
         console.log(this.attendanceDataByDate);
 
