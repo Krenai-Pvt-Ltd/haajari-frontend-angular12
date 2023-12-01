@@ -5,58 +5,124 @@
 
             <div class="company-settinh">
 
-               <div class="mb-3 border-buttom-setting">
-                <h5>Company Setting</h5>
+               <div class="mb-3 border-buttom-setting d-flex align-items-center justify-content-between" >
+                <h5 class="mt-0" style="margin-top: 10px !important; margin-bottom: 20px !important;">Company Profile</h5>
+                  
                </div>
 
 
-            <div class="row">
+            <div class="row mt-4">
+
+              
+
+       
+                <div class="col-md-5 ">
+                    <div class="form-roe-data">
+                        <h5>Company Name </h5>
+                        <p>This will be displayed on your profile.</p>
+                    </div>
+                </div>
 
                 <div class="col-md-6">
-                   <div class="mb-3">
-                       <label for="exampleInputEmail1" class="pb-2">First Name</label>
-                       <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="First name">
-                   </div>
-                </div>
-                <div class="col-md-6">
-                   <div class="mb-3">
-                       <label for="exampleInputEmail1" class="pb-2">Last Name</label>
-                       <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Last name">
-                   </div>
-                </div>
-                <div class="col-md-6">
-                   <div class="mb-3">
-                       <label for="exampleInputEmail1" class="pb-2">Email Id</label>
-                       <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                   </div>
-                </div>
-                <div class="col-md-6">
-                   <div class="mb-3">
-                       <label for="exampleInputEmail1" class="pb-2">Phone</label>
-                       <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone">
-                   </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="pb-2">Company Logo</label>
+                   
 
-                        <div  class="importfilebox">
-                            <input  id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input">
-                            <label  for="fileSelect"><img  src="assets/images/xls.png" alt="">
-                                <span >Click to upload <br> SVG, PNG, JPG or GIF (max. 800px*400px)</span><button >BROWSE</button>
-                            </label>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <div class="form-fild">
+                                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Company name">
+                            </div>
+                        </div>                      
+                             <div class="col-md-6 mt-3">
+                            <div class="form-fild">
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email Id">
+                            </div>
                         </div>
-                        
+                        <div class="col-md-6 mt-3">
+                            <div class="form-fild">
+                                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Phone number">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <div class="d-flex align-items-center justify-content-end" style="gap:10px;">
-                        <button type="button" class="btn btn-de-secondary">Cancel</button>
-                <button type="button" class="btn btn-primary">Save</button>
+                    <div class="border-box">
+
+                    </div>
+                </div>
+
+                    <div class="col-md-5 mt-3 mb-3">
+                        <div class="form-roe-data">
+                            <h5>Tagline </h5>
+                            <p>A quick snapshot of your company.</p>
+                        </div>
+                    </div>
+    
+                    <div class="col-md-6 mt-3 mb-3">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-fild">
+                                    
+
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Tag line" style="height: 100px !important;"></textarea>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
                     </div>
 
-                </div>
+                    
+
+                    <div class="col-md-12">
+                        <div class="border-box">
+    
+                        </div>
+                    </div>
+                
+                    <div class="col-md-5 mt-3">
+                        <div class="form-roe-data">
+                            <h5>Company Logo </h5>
+                            <p>Update your company logoand then choose<br> where you want it to display.</p>
+                        </div>
+                    </div>
+    
+                    <div class="col-md-6 mt-3">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <div class="">
+                                    <img src="assets/images/hajiri_logo.png" style="height: 60px;">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-fild">
+                                    <div  class="importfilebox">
+                                        <input  id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input">
+                                        <label  for="fileSelect">
+                                            <i class="bi bi-cloud-arrow-up"></i>
+                                            <span >Click to upload <br> SVG, PNG, JPG or GIF (max. 800px*400px)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-12 mt-3">
+                        <div class="border-box">
+    
+                        </div>
+                    </div>
+    
+
+                    <div class="col-md-11 mt-4 ">
+                        <div class="d-flex align-items-center justify-content-end" style="gap:10px;">
+                            <button type="button" class="btn btn-de-secondary">Cancel</button>
+                            <button type="button" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+               
 
                    
 

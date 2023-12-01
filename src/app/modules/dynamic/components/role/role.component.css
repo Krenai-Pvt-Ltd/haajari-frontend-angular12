@@ -3,7 +3,7 @@
 }
 
 .nav-tabs {
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid #f1f1f1;
 }
 
 .nav-tabs .nav-item {
@@ -287,4 +287,13 @@ input:checked + label:after {
 .userdetails p:last-child {
     font-weight: 300;
     margin-left: 5px;
+}
+
+
+.add-filtter a {
+    margin-bottom: 0px;
+    color: #557ef8;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
 }

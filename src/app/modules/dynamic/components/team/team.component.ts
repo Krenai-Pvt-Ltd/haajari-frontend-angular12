@@ -141,9 +141,9 @@ export class TeamComponent implements OnInit{
       console.log(data);
 
       debugger
-      // location.reload();
+      location.reload();
     }, (error) => {
-      // location.reload();
+      location.reload();
       console.log(error);
     })
   }
@@ -368,7 +368,7 @@ export class TeamComponent implements OnInit{
     // setTimeout(()=>{
     //   this.rotateToggle = false;
     // }, 100000)
-    
+
     this.dataService.getSlackChannelsDataToTeam(this.orgRefId).subscribe(response =>{
       
       console.log("slack data saved to team successfully");

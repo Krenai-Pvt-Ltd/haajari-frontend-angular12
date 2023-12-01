@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-live-manager',
@@ -13,7 +14,7 @@ export class LiveManagerComponent implements OnInit {
 
 
   userLeaveForm : FormGroup;
-  constructor(private dataService : DataService, private router : Router,   private fb: FormBuilder,
+  constructor(private dataService : DataService, private router : Router,   private fb: FormBuilder, private helperService: HelperService
     ) 
     {
       this.userLeaveForm = this.fb.group({
@@ -46,7 +47,10 @@ export class LiveManagerComponent implements OnInit {
 
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 
-  
+  loginDetails = this.helperService.getDecodedValueFromToken();
+  role:string = this.loginDetails.role;
+  userUuid: string = this.loginDetails.uuid;
+  orgRefId:string = this.loginDetails.orgRefId;
 
 
   resetUserLeave(){
@@ -59,7 +63,7 @@ export class LiveManagerComponent implements OnInit {
   }
 
   saveLeaveRequestUser(){
-    this.userLeaveRequest.userId=this.getLoginDetailsOrgRefId();
+    this.userLeaveRequest.userId=this.getLoginDetailsOrgRefId() ;
     debugger
     this.dataService.saveLeaveRequest(this.userLeaveRequest)
     .subscribe(data => {

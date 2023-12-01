@@ -1,9 +1,10 @@
 
 .employe-onbording{
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.075);
     background-color: #fff;
     padding: 15px;
-    border-radius: 6px;
+    border-radius: 2px;
+    border: 1px solid #f1f1f1;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .orderpcardleft{
@@ -50,9 +51,10 @@
 
 .on-leave-section{
     background-color: #fff;
-    border-radius: 6px;
+    border-radius: 2px;
+    border: 1px solid #f1f1f1;
     padding: 15px;
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.075);
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .thumb-xl {
@@ -118,8 +120,10 @@
 
 .obboard-employee-list {
     background-color: #fff;
-    border-radius: 6px;
+    border-radius: 2px;
+    border: 1px solid #f1f1f1;
     padding: 15px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .onboarding-date p {
@@ -151,14 +155,14 @@
     background-color: green;
     color: #fff;
     padding: 10px 20px;
-    border-radius: 6px;
+    text-align: center;
 }
 
 .half-per{
     background-color: orange;
     color: #fff;
     padding: 10px 20px;
-    border-radius: 6px;
+    text-align: center;
 }
 
 
@@ -166,7 +170,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 150px;
+  width: 170px;
 }
 
 tbody tr {
@@ -199,4 +203,17 @@ tbody tr {
 
   .errorboxmain {
     padding: 30px;
+}
+.table-design tr td{
+    border: 1px solid #e0e0e0;
+}
+.table-design tr th{
+    border: 1px solid #e0e0e0;
+}
+.add-filtter a {
+    margin-bottom: 0px;
+    color: #557ef8;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
 }

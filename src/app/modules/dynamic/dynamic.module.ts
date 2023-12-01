@@ -40,6 +40,8 @@ import { AcadmicComponent } from './components/acadmic/acadmic.component';
 import { EmployeeExperienceComponent } from './components/employee-experience/employee-experience.component';
 import { BankDetailsComponent } from './components/bank-details/bank-details.component';
 import { EmergencyContactComponent } from './components/emergency-contact/emergency-contact.component';
+import { ReportsComponent } from './components/reports/reports.component';
+import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +77,8 @@ import { EmergencyContactComponent } from './components/emergency-contact/emerge
     EmployeeExperienceComponent,
     BankDetailsComponent,
     EmergencyContactComponent,
+    ReportsComponent,
+    EmployeeProfileComponent,
   ],
   imports: [
     CommonModule,

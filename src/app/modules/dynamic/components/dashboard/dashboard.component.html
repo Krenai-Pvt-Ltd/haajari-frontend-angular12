@@ -15,7 +15,7 @@
                 </div>
             </div> -->
             <!-- end page title end breadcrumb -->
-            <div class="row mb-3 mt-2">
+            <div class="row mb-3 mt-4">
                 <div class="col-md-6 col-lg-3 order-lg-1 order-md-1">
                     <div class="card report-card">
                         <div class="card-body">
@@ -27,8 +27,7 @@
                                 <div class="col-auto align-self-center">
                                     <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md icons rounded-circle">
                                         <!-- <i data-feather="layers" class="align-self-center text-muted icon-sm"></i>  -->
-                                       
-                                        <i class="bi bi-people"></i>
+                                        <img src="assets/images/streaming.svg">
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +42,7 @@
                                 </div>
                                 <div class="col-auto align-self-center">
                                     <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md icons rounded-circle">
-                                        <i class="bi bi-cup"></i>
+                                        <img src="assets/images/coffee-cup.svg">
                                     </div>
                                 </div> 
                             </div>
@@ -58,7 +57,7 @@
                                 </div>
                                 <div class="col-auto align-self-center">
                                     <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md icons rounded-circle">
-                                        <i class="bi bi-calendar-week"></i>
+                                        <img src="assets/images/exit.svg">
                                     </div>
                                 </div> 
                             </div>
@@ -138,13 +137,14 @@
         </div>
         <div class="mt-3 dashnodata" *ngIf="(responseDto.attendanceTopPerformers).length==0 && !isShimer">
             <div class="errorboxmain">
-                <div class="errorboxinner text-center">
+                <div class="errorboxinner">
                   <div class="errorboxplaceholder mb-2">
-                    <img src="assets/images/addnewproduct.svg" style="width:80px;" />
+                    <img src="assets/images/empty-box.svg" style="width:80px;" />
                   </div>
-    
-                  <h4>No Data Found</h4>
-                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                 <div class="">
+                     <h4>No Data Found</h4>
+                     <p class="mb-0">Confirm that the data sources providing performance metrics are active and functioning as expected.</p>
+                </div>
                 </div>
             </div>
         </div>
@@ -213,17 +213,22 @@
                      <h4 class="card-title" style="font-size: 18px;">Late Employee</h4>                      
                 </div>
             </div>
+
             <div class="mt-3 dashnodata" *ngIf="(responseDto.attendanceLatePerformers).length==0 && !isLateShimmer">
+
                 <div class="errorboxmain">
-                    <div class="errorboxinner text-center">
+                    <div class="errorboxinner">
                       <div class="errorboxplaceholder mb-2">
-                        <img src="assets/images/addnewproduct.svg" style="width:80px;" />
+                        <img src="assets/images/signal.svg" style="width:80px;" />
                       </div>
-        
-                      <h4>No Data Found</h4>
-                      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                     <div class="">
+                         <h4>No Data Found</h4>
+                         <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    </div>
                     </div>
                 </div>
+
+                
             </div>
 
 
@@ -428,22 +433,24 @@
                         <div class="col-md-12">
 
 
-                            
-                           <div class="monthly-report">
+                            <!-- *ngIf="(myAttendanceData | json )== '{}' && !isAttendanceShimer" -->
 
-                            <div class="mt-3 dashnodata" *ngIf="(myAttendanceData | json )== '{}' && !isAttendanceShimer">
-                                <div class="errorboxmain">
-                                    <div class="errorboxinner text-center">
+                        <div class="mt-3 dashnodata">
+                                <div class="errorboxmain" *ngIf="(myAttendanceData | json )== '{}' && !isAttendanceShimer">
+                                    <div class="errorboxinner ">
                                       <div class="errorboxplaceholder mb-2">
                                         <img src="assets/images/addnewproduct.svg" style="width:80px;" />
                                       </div>
-
-                                      <h4>No Data Found</h4>
-                                      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                     <div class="">
+                                         <h4>No Data Found</h4>
+                                         <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                    </div>
                                     </div>
                                 </div>
-                            </div>
+                            
 
+
+                                <!-- *ngIf="isAttendanceShimer || (myAttendanceData | json )!= '{}' && !isAttendanceShimer " -->
                         <div *ngIf="isAttendanceShimer || (myAttendanceData | json )!= '{}' && !isAttendanceShimer ">
                             <h5>Monthly Regular</h5>
 
@@ -462,6 +469,7 @@
                                             <th class="text-center">Total Attendance</th>
                                         </tr>
                                     </thead>
+                                    <!-- *ngIf="isAttendanceShimer" -->
                                     <tbody *ngIf="isAttendanceShimer">
                                         <tr *ngFor="let item of [].constructor(6)">
                                             <td class="text-center">
@@ -542,7 +550,7 @@
                         </div>
                             
 
-                           </div>
+                   </div>
                         </div>
                     </div>
                 </div>

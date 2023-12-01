@@ -1,0 +1,163 @@
+.profile-image-name {
+    width: 35%;
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+
+}
+.profile-histery{
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 6px;
+    width: 65%;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+
+}
+
+.profile-image-name p {
+    color: #555;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.profile-image-name h5 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.sand-request {
+    background-color: #4f5eee;
+    color: #fff;
+    width: 100%;
+}
+.form-deta{
+    text-align: left;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.form-deta h6{
+    color: #555;
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+
+.form-deta h4{
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    margin-top: 6px;
+}
+
+.employ-nots {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+
+}
+
+.employ-nots ol{
+    padding-left: 15px;
+}
+
+.employ-nots ol li{
+    line-height: 24px;
+    color: #606060;
+    font-size: 12px;
+}
+.employ-nots h5{
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.document-deta {
+    border-bottom: 1px solid #e0e0e0;
+    line-height: 43px;
+}
+
+.document-deta:last-child {
+    border-bottom: none;
+}
+.download-color{
+    color: #4f5eee;
+}
+
+.delete-coloe{
+    color: red;
+}
+.onboare-deta{
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 6px;
+    width: 100%;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+
+}
+
+.nav-tabs {
+    box-shadow: none !important;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.nav-tabs .nav-item {
+    margin-bottom: -1px;
+    margin-right: 1rem;
+}
+
+.nav-tabs .nav-link.active {
+    border-bottom: 2px solid #4660f6;
+    color: #4660f6;
+    background-color: transparent;
+}
+.nav-tabs .nav-link {
+    font-style: normal;
+    border-radius: 0px 0 0 0;
+    border: none;
+    padding: 7px 15px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #404040;
+}
+
+.employ-bank-detail h6{
+    color: #555;
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+
+.employ-bank-detail h4{
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    margin-top: 6px;
+    text-transform: uppercase;
+}
+
+.table .thead-light th {
+    color: #8997bd;
+    background-color: #f9fafb;
+    border-color: #e8ebf3;
+    border-bottom: none;
+    font-size: 13px;
+}
+
+.table-design tr td{
+    border: 1px solid #e0e0e0;
+    text-align: left;
+}
+.table-design tr th{
+    border: 1px solid #e0e0e0;
+    text-align: left;
+}
