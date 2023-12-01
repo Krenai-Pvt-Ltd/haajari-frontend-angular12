@@ -153,7 +153,7 @@
     border-radius: 6px;
     padding-left: 10px;
     margin-bottom: 10px;
-    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    /* box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
     border: 1px solid #f5f5f5;
 }
 
@@ -285,16 +285,11 @@ border: none;
     position: relative;
     top: -1px;
 }
-
-
-
-
-
 .company-settinh {
     background-color: #fff;
     padding: 15px;
     border-radius: 6px;
-    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    /* box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
 }
 .border-buttom-setting {
     border-bottom: 1px solid #f5f5f5;
