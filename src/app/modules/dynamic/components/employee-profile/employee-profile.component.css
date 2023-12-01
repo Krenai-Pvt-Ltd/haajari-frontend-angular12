@@ -4,7 +4,8 @@
     background-color: #fff;
     padding: 20px;
     border-radius: 6px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+
 }
 .profile-histery{
     text-align: center;
@@ -12,7 +13,8 @@
     padding: 20px;
     border-radius: 6px;
     width: 65%;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+
 }
 
 .profile-image-name p {
@@ -56,7 +58,8 @@
     background-color: #fff;
     padding: 15px;
     border-radius: 6px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+
 }
 
 .employ-nots ol{
@@ -94,7 +97,8 @@
     padding: 20px;
     border-radius: 6px;
     width: 100%;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+
 }
 
 .nav-tabs {
