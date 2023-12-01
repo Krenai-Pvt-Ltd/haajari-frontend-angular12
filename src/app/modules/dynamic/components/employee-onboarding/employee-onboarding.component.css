@@ -1,9 +1,9 @@
 
 .employe-onbording{
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.075);
     background-color: #fff;
     padding: 15px;
     border-radius: 6px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .orderpcardleft{
@@ -52,7 +52,7 @@
     background-color: #fff;
     border-radius: 6px;
     padding: 15px;
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.075);
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .thumb-xl {
@@ -120,6 +120,7 @@
     background-color: #fff;
     border-radius: 6px;
     padding: 15px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .onboarding-date p {
