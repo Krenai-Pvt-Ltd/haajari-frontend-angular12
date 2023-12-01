@@ -473,4 +473,8 @@ export class DataService {
     return this.httpClient.put<any>(`${this.baseUrl}/role/update`, roleRequest);
   }
 
+  callingHelloWorld():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/slack/hello`);
+  }
+
 }
