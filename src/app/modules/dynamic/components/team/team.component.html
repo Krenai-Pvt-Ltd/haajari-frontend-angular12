@@ -74,9 +74,10 @@
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button>    -->
                     
                     <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px;">
-                        <a ><i class="bi bi-arrow-clockwise" style="font-size: 16px; color: #557ef8;" (click)="saveSlackChannelsDataToTeam()" [ngClass]="{'rotate down':rotateToggle}" ></i> Page load  </a>
-                        <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
                         <a data-bs-toggle="modal" data-bs-target="#createteam" type="button"><i class="bi bi-plus-circle"></i> Create Team </a>
+                        
+                        <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
+                        <a ><i class="bi bi-arrow-clockwise" style="font-size: 16px; color: #557ef8;" (click)="saveSlackChannelsDataToTeam()" [ngClass]="{'rotate down':rotateToggle}" ></i> Reload  </a>
                     </div>
                  </div>
 
