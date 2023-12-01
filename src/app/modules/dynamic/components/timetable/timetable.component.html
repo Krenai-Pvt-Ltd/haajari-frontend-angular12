@@ -193,7 +193,11 @@
           <div class="col-md-6">
             <div class="date-all-approved d-flex align-items-center" style="gap:20px">
                 <span class="approved-left active-color" (click)="selectPreviousDay()"><i class="bi bi-chevron-left"></i></span>
-                <input type="date" id="input-date" class="attendance-date" [(ngModel)]="inputDate" (ngModelChange)="getAttendanceDetailsByDateMethodCall()" [max]="getCurrentDate()">
+                <div class="text-center">
+                  <input type="date" id="input-date" class="attendance-date" [(ngModel)]="inputDate" (ngModelChange)="getAttendanceDetailsByDateMethodCall()" [max]="getCurrentDate()">
+                  <p style="font-size: 10px; position: relative; top: 0px; color: #686868; margin-bottom: 0px;">Attendance Date</p>
+                </div>
+             
                       
               
               <span class="approved-right active-color" (click)="selectNextDay()"><i class="bi bi-chevron-right"></i></span> 

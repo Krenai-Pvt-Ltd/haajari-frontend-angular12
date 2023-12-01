@@ -378,6 +378,8 @@ span.remove-icon:hover {
     font-size: .875rem;
     font-weight: 400;
     height: 40px !important;
+    border: 1px solid #ccc;
+    background-color: transparent;
 }
 .cusser{
     cursor: pointer;
@@ -414,4 +416,12 @@ span.remove-icon:hover {
     background-color: #fff;
     padding: 2px 15px;
     border-radius: 6px;
+}
+
+.add-filtter a {
+    margin-bottom: 0px;
+    color: #557ef8;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
 }

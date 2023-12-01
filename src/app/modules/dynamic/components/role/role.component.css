@@ -288,3 +288,12 @@ input:checked + label:after {
     font-weight: 300;
     margin-left: 5px;
 }
+
+
+.add-filtter a {
+    margin-bottom: 0px;
+    color: #557ef8;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
