@@ -210,6 +210,7 @@ select.form-control {
     justify-content: center;
     text-align: center;
     background-color: #fff;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .create-team{
@@ -242,6 +243,7 @@ select.form-control {
     background-color: #fff;
     padding: 15px;
     border-radius: 6px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .all-approved p{
@@ -324,7 +326,7 @@ select.form-control {
     border-radius: 6px;
     padding: 15px;
     margin-bottom: 10px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .Regular-data p{
