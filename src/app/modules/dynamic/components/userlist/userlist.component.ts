@@ -22,14 +22,19 @@ export class UserlistComponent implements OnInit {
   total !: number;
   rowNumber : number = 1;
 
+  // loginDetails = this.helperService.getDecodedValueFromToken();
+  role:string = this.loginDetails.role;
+  userUuid: string = this.loginDetails.uuid;
+  orgRefId:string = this.loginDetails.orgRefId;
+
   ngOnInit(): void {
     this.getUsersByFiltersFunction();
   }
 
   getUsersByFiltersFunction() {
-    const role = this.loginDetails.role;
+    // const role = this.loginDetails.role;
     debugger
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'', this.getLoginDetailsId(), this.loginDetails.role).subscribe((data : any) => {
+    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'', this.orgRefId, this.role).subscribe((data : any) => {
       debugger
       this.users = data.users;
       this.total = data.count;
@@ -51,7 +56,7 @@ export class UserlistComponent implements OnInit {
   }
 
   text = '';
-  changeStatus(id: number, presenceStatus : Boolean){
+  changeStatus(id: string, presenceStatus : Boolean){
     this.dataService.changeStatusById(id,presenceStatus).subscribe(data =>{
       console.log(data);
       console.log("====================");
@@ -62,23 +67,23 @@ export class UserlistComponent implements OnInit {
   }
 
 
-  getLoginDetailsRole(){
-    const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
-      return loginData.role;
-    }
-  }
+  // getLoginDetailsRole(){
+  //   const loginDetails = localStorage.getItem('loginData');
+  //   if(loginDetails!==null){
+  //     const loginData = JSON.parse(loginDetails);
+  //     return loginData.role;
+  //   }
+  // }
 
-  getLoginDetailsId(){
-    const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
+  // getLoginDetailsId(){
+  //   const loginDetails = localStorage.getItem('loginData');
+  //   if(loginDetails!==null){
+  //     const loginData = JSON.parse(loginDetails);
 
-      return loginData.id;
-      // const decodedToken : any = jwt_decode(loginData.access_token);
-      // return decodedToken.organization_database_id;
-    }
+  //     return loginData.id;
+  //     // const decodedToken : any = jwt_decode(loginData.access_token);
+  //     // return decodedToken.organization_database_id;
+  //   }
 
     // const id = localStorage.getItem('id');
     
@@ -87,7 +92,7 @@ export class UserlistComponent implements OnInit {
     //   return idd;
     // }
     
-  }
+  // }
   
 
   onTableDataChange(event : any)

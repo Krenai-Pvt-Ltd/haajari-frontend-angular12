@@ -318,10 +318,10 @@
         </div>
       </div>
 
+      <!-- *ngIf="attendanceDataByDateKey.length==0 && !isShimer" -->
+      <div class="mt-3 dashnodata" >
 
-      <!-- placeholder Need to Implemented -->
-      <!-- <div class="mt-3 dashnodata">
-        <div class="errorboxmain">
+        <div class="errorboxmain" *ngIf="attendanceDataByDateKey.length==0 && !isShimer">
             <div class="errorboxinner text-center">
               <div class="errorboxplaceholder mb-2">
                 <img src="assets/images/addnewproduct.svg" style="width:80px;" />
@@ -331,10 +331,12 @@
               <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
             </div>
         </div>
-    </div> -->
+    </div> 
 
-    <!-- loader Need to Implemented -->
-    <!-- <div class="monthly-section mt-3" *ngFor="let item of [].constructor(6)">
+    <!-- *ngIf="isShimer" -->
+  <div >
+    <div *ngIf="isShimer">
+    <div class="monthly-section mt-3" *ngFor="let item of [].constructor(6)">
       <div class="row">
         <div class="col-md-6">
           <div class="m">
@@ -358,10 +360,11 @@
           </div>
         </div>
 
-      </div>
-      
-    </div> -->
+      </div>    
+    </div>
+  </div>
 
+    <div *ngIf="attendanceDataByDateKey.length!=0">
       <div class="monthly-section mt-3" *ngFor="let key of attendanceDataByDateKey">
         <div class="row" >
           <div class="col-md-6">
@@ -425,6 +428,7 @@
           </div>
         </div>
       </div>
+    </div>
       
 
 <div
