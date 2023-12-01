@@ -1480,7 +1480,7 @@ body {
     margin: 0;
     overflow-x: hidden !important;
     font-size: .875rem;
-    background-color: #f5f8fa;
+    background-color: #fff;
     color: #000444;
     letter-spacing: .1px;
     line-height: 1.5;
@@ -1798,6 +1798,7 @@ mark {
     margin-bottom: 16px;
     background-color: #fff;
     border: none;
+    border: 1px solid #f1f1f1;
     -webkit-box-shadow: 0 0 .875rem 0 rgba(52, 58, 64, .05);
     box-shadow: 0 0 .875rem 0 rgba(52, 58, 64, .05)
 }
@@ -8967,4 +8968,8 @@ label {
 
 .abcd .ngx-shimmer {
     border-radius: 50% !important;
+}
+.search-area{
+    border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 24px;
 }

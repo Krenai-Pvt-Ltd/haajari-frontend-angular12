@@ -58,7 +58,7 @@
     top: 0;
     z-index: 1001;
     padding: 15px;
-    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    /* box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
 }
 
 
@@ -124,7 +124,9 @@
     text-align: center;
     background-color: #fff;
 }
-
   .errorboxmain {
     padding: 30px;
+}
+.heading{
+    color: #000;
 }
