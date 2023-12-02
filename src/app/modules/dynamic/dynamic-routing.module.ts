@@ -19,7 +19,6 @@ import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 import { AuthGuard } from 'src/app/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { ReportsComponent } from './components/reports/reports.component';
 import { DatePipe } from '@angular/common';
 import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';
 import { AttendanceSettingComponent } from './components/attendance-setting/attendance-setting.component';
@@ -34,6 +33,8 @@ import { AcadmicComponent } from './components/acadmic/acadmic.component';
 import { EmployeeExperienceComponent } from './components/employee-experience/employee-experience.component';
 import { BankDetailsComponent } from './components/bank-details/bank-details.component';
 import { EmergencyContactComponent } from './components/emergency-contact/emergency-contact.component';
+import { ReportsComponent } from './components/reports/reports.component';
+import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -54,7 +55,6 @@ const routes: Routes = [
   {path: 'waiting', component: WaitingPageComponent},
   {path: 'team-detail', component: TeamDetailComponent},
   {path: 'user-profile', component: UserProfileComponent}, 
-  {path: 'reports', component: ReportsComponent}, 
   {path: 'employee-onboarding', component: EmployeeOnboardingComponent},
   {path: 'attendance-setting', component: AttendanceSettingComponent},
   {path: 'company-setting', component: CompanySettingComponent},
@@ -67,7 +67,10 @@ const routes: Routes = [
   {path: 'acadmic', component: AcadmicComponent},
   {path: 'employee-experience', component: EmployeeExperienceComponent},
   {path: 'bank-details', component: BankDetailsComponent},
-  {path: 'emergency-contact', component: EmergencyContactComponent}
+  {path: 'emergency-contact', component: EmergencyContactComponent},
+  {path: 'reports', component: ReportsComponent},
+  {path: 'employee-profile', component: EmployeeProfileComponent}
+
   
 
 //   {path: 'team-detail', component: TeamDetailComponent},

@@ -21,7 +21,7 @@ import { RequestInterceptorService } from './configuration/request-interceptor.s
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

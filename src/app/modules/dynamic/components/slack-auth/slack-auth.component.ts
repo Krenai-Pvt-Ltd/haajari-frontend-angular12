@@ -22,7 +22,9 @@ export class SlackAuthComponent implements OnInit{
     this.registerOrganizationByCodeParam();
   }
   
+  
   registerOrganizationByCodeParam(){
+    debugger
     const codeParam = new URLSearchParams(window.location.search).get('code');
     if(!codeParam){
       alert('Invalid URL: Missing code parameter');

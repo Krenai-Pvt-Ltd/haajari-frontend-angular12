@@ -5,7 +5,7 @@
     <!-- Page Content-->
     <div class="page-content-tab">
 
-        <div class="container-fluid pt-2" >
+        <div class="container-fluid " >
             <!-- Page-Title -->
             <!-- Page-Title -->
             <!-- <div class="row">
@@ -28,12 +28,17 @@ ad                <div class="col-sm-12">
 
             <div class="row">
                 <div class="col-md-12" >
-                    <div class="team-detail-hadding d-flex align-items-center" style="gap:10px;">
-                        <h5>{{team.name}}</h5>
+                    <div class="team-detail-hadding d-flex align-items-center " style="gap:10px;">
+                        <div class="add-filtter" >
+                            <a routerLink="/team"> <i class="bi bi-chevron-left" ></i> </a>
+                       </div>
+                       
+                       <div class="d-flex align-items-center" style="gap:10px;">
+                        <h5 >{{team.name}}</h5>
 
                         <div class="dropdown d-inline-block">
                             <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <i class="bi bi-chevron-down font-18 text-muted"></i>
+                                <i class="bi bi-chevron-down font-16 text-muted"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end add-team-detail" aria-labelledby="dLabel1">
                                 <a class="dropdown-item" href="#">Open Project</a>
@@ -43,6 +48,8 @@ ad                <div class="col-sm-12">
                             </div>
                             </div>
                         </div>
+                    </div>
+                   
                     </div>
 
                     <div class="card-body p-0">    
@@ -102,7 +109,7 @@ ad                <div class="col-sm-12">
                                                        </span>
 
                                                         <span class="members-name" *ngIf="ul.image===null">{{ul.name[0]}}</span>
-                                                        <p class="mb-0">{{ capitalizeFirstLetter(ul.name) }} <i class="bi bi-patch-check-fill" *ngIf="ul.role=='MANAGER'"></i></p>
+                                                        <p class="mb-0">{{ capitalizeFirstLetter(ul.name) }} <i class="bi bi-patch-check-fill" *ngIf="ul.roleId==3"></i></p>
                                                 
 
                                                         <div class="dropdown d-inline-block" >
@@ -117,17 +124,17 @@ ad                <div class="col-sm-12">
                                                             <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
 
                                                                 <div class="manager-list" *ngIf="localStorageRoleAdminFlag==true || (managerIdFlag==true && localStorageRoleAdminFlag==false)">
-                                                                   <a class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
+                                                                   <a class="dropdown-item" *ngIf="ul.roleId==2" (click)="assignManagerRoleToMemberMethodCall(team.uuid,ul.uuid)">Make Manager </a>
                                                                    
                                                                 </div>
                                                                 <div class="manager-list"  *ngIf="localStorageRoleAdminFlag==true || (managerIdFlag==true && localStorageRoleAdminFlag==false)">
-                                                                   <a class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager</a>
+                                                                   <a class="dropdown-item" *ngIf="ul.roleId==3" (click)="assignMemberRoleToManagerMethodCall(team.uuid,ul.uuid)">Remove Manager</a>
                                                                 </div>
                                                                 <div class="manager-list">
                                                                     <a class="dropdown-item">View Profile</a>
                                                                  </div>
                                                                 <div class="manager-list remove-team"  *ngIf="localStorageRoleAdminFlag==true || (managerIdFlag==true && localStorageRoleAdminFlag==false)">
-                                                                    <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.id,ul.id)">
+                                                                    <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.uuid,ul.uuid)">
                                                                         <span>Remove from team</span></a>
                                                                 </div>
                                                             </div>
@@ -225,7 +232,7 @@ ad                <div class="col-sm-12">
                                             </div>
 
                                         </div>
-                                        <div class="members-add">
+                                        <!-- <div class="members-add">
                                             <div class="">
                                                 <h5>Templates</h5>
                                             </div>
@@ -241,7 +248,7 @@ ad                <div class="col-sm-12">
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="col-md-4">
                                         <div class="members-add">
@@ -447,24 +454,32 @@ ad                <div class="col-sm-12">
                                                         Team admin <i class="bi bi-chevron-down font-14 text-muted"></i>
                                                     </a> -->
                                                     <!-- *ngIf="i>0" -->
-                                                    <a class="dropdown-toggle"  id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                                        {{ capitalizeFirstLetterAndSmallOtherLetters(ul.role) }} <i class="bi bi-chevron-down font-14 text-muted"></i>
+                                                    
+                                                    <a class="dropdown-toggle"  id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" *ngIf="ul.roleId==2">
+                                                        {{ capitalizeFirstLetterAndSmallOtherLetters("MEMBER") }} <i class="bi bi-chevron-down font-14 text-muted"></i>
     
                                                     </a>
+                                                   
+                                                   
+                                                        <a class="dropdown-toggle"  id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" *ngIf="ul.roleId==3">
+                                                            {{ capitalizeFirstLetterAndSmallOtherLetters("MANAGER") }} <i class="bi bi-chevron-down font-14 text-muted"></i>
+        
+                                                        </a>
+                                                   
                                                     <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
 
                                                         <div class="manager-list">
-                                                           <a class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
+                                                           <a class="dropdown-item" *ngIf="ul.roleId==2" (click)="assignManagerRoleToMemberMethodCall(team.uuid,ul.uuid)">Make Manager </a>
                                                            
                                                         </div>
                                                         <div class="manager-list">
-                                                           <a class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager</a>
+                                                           <a class="dropdown-item" *ngIf="ul.roleId==3" (click)="assignMemberRoleToManagerMethodCall(team.uuid,ul.uuid)">Remove Manager</a>
                                                         </div>
                                                         <div class="manager-list">
                                                             <a class="dropdown-item">View Profile</a>
                                                          </div>
                                                         <div class="manager-list remove-team">
-                                                            <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.id,ul.id)">
+                                                            <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.uuid,ul.uuid)">
                                                                 <span>Remove from team</span></a>
                                                         </div>
                                                     </div>

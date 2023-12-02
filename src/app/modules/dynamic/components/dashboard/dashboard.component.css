@@ -97,6 +97,7 @@ span.todo-task {
     background-color: #fff;
     padding: 15px;
     border-radius: 6px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .monthly-report h5{
@@ -191,21 +192,17 @@ span.todo-task {
   } */
 
   .errorboxmain{
-    min-height: 40vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    min-height: 20vh;
     background-color: #fff;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    border-radius: 6px;
 }
 
   .errorboxmain {
-    padding: 30px;
+    padding: 15px;
 }
 
-.abcd .ngx-shimmer {
-    border-radius: 50% !important;
-}
+
 
 .icons i{
     font-size: 22px;
@@ -238,4 +235,10 @@ span.members-name {
     width: 78px;
     font-size: 32px;
     font-weight: 700;
+}
+
+.errorboxinner{
+    display: flex;
+    align-items: center;
+    gap:10px
 }
