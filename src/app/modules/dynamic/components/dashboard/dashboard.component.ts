@@ -5,7 +5,7 @@ import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { DatePipe } from '@angular/common';
-import { AttendanceWithTopPerformerResponseDto } from 'src/app/models/Attendance.model';
+import { AttendanceWithLatePerformerResponseDto, AttendanceWithTopPerformerResponseDto } from 'src/app/models/Attendance.model';
 import { HelperService } from 'src/app/services/helper.service';
 import * as moment from 'moment';
 
@@ -52,7 +52,8 @@ export class DashboardComponent implements OnInit {
     this.month = currentDate.format('MMMM');
     
     this.getCurrentDayEmployeesData();
-    this.getAttendanceTopAndLatePerformerDeatails();
+    this.getAttendanceTopPerformerDetails();
+    this.getAttendanceLatePerformerDetails();
     this.getDataFromDate();
     this.getTodaysLiveLeaveCount();
   }
@@ -64,7 +65,8 @@ export class DashboardComponent implements OnInit {
     this.endDateStr = selectedDate.endOf('month').format('YYYY-MM-DD');
     
     // Fetch data using the selected start and end dates
-    this.getAttendanceTopAndLatePerformerDeatails();
+    this.getAttendanceTopPerformerDetails();
+    // this.getAttendanceLatePerformerDetails();
     this.getDataFromDate();
   }
   
@@ -232,6 +234,11 @@ isAttendanceShimer: boolean=false;
 
   responseDto: AttendanceWithTopPerformerResponseDto = {
     attendanceTopPerformers: [],
+    // attendanceLatePerformers: []
+  };
+
+  responseData: AttendanceWithLatePerformerResponseDto = {
+    // attendanceTopPerformers: [],
     attendanceLatePerformers: []
   };
   
@@ -239,11 +246,11 @@ isAttendanceShimer: boolean=false;
 
   isShimer: boolean=false;
   isLateShimmer: boolean=false;
-  getAttendanceTopAndLatePerformerDeatails(){
+  getAttendanceTopPerformerDetails(){
     this.isShimer=true;
-    this.isLateShimmer=true;
+    // this.isLateShimmer=true;
     debugger
-    this.dataService.getAttendanceTopAndLatePerformers(this.startDateStr, this.endDateStr).subscribe(
+    this.dataService.getAttendanceTopPerformers(this.startDateStr, this.endDateStr).subscribe(
       (data) => {
         console.log(data);
         this.responseDto = data;
@@ -251,8 +258,28 @@ isAttendanceShimer: boolean=false;
         if(data.attendanceTopPerformers){
         this.isShimer=false;
         }
+        // if(data.attendanceLatePerformers){
+        //   this.isLateShimmer=false;
+        // }
+        console.log(this.responseDto); 
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+
+  getAttendanceLatePerformerDetails(){
+    this.isLateShimmer=true;
+    debugger
+    this.dataService.getAttendanceLatePerformers('2023-12-03', '2023-12-03').subscribe(
+      (data) => {
+        console.log(data);
+        this.responseData = data;
+
         if(data.attendanceLatePerformers){
-          this.isLateShimmer=false;
+        this.isLateShimmer=false;
         }
         console.log(this.responseDto); 
       },
@@ -262,59 +289,7 @@ isAttendanceShimer: boolean=false;
     );
   }
 
-  // month!: string
 
-  // selectMonth(selectedMonth : string) {
-  //   this.month = selectedMonth;
-  // }
-  // selectMonth(selectedMonth: string) {
-  //   this.month = selectedMonth;
-  //   if (this.month === 'January') {
-  //     this.startDateStr = '2023-01-01';
-  //     this.endDateStr = '2023-01-31';
-  //   } else if (this.month === 'February') {
-  //     this.startDateStr = '2023-02-01';
-  //     this.endDateStr = '2023-02-28' || '2023-02-29'; 
-  //   } else if (this.month === 'March') {
-  //     this.startDateStr = '2023-03-01';
-  //     this.endDateStr = '2023-03-31';
-  //   } else if (this.month === 'April') {
-  //     this.startDateStr = '2023-04-01';
-  //     this.endDateStr = '2023-04-30';
-  //   } else if (this.month === 'May') {
-  //     this.startDateStr = '2023-05-01';
-  //     this.endDateStr = '2023-05-31';
-  //   } else if (this.month === 'June') {
-  //     this.startDateStr = '2023-06-01';
-  //     this.endDateStr = '2023-06-30';
-  //   } else if (this.month === 'July') {
-  //     this.startDateStr = '2023-07-01';
-  //     this.endDateStr = '2023-07-31';
-  //   } else if (this.month === 'August') {
-  //     this.startDateStr = '2023-08-01';
-  //     this.endDateStr = '2023-08-31';
-  //   } else if (this.month === 'September') {
-  //     this.startDateStr = '2023-09-01';
-  //     this.endDateStr = '2023-09-30';
-  //   } else if (this.month === 'October') {
-  //     this.startDateStr = '2023-10-01';
-  //     this.endDateStr = '2023-10-31';
-  //   } else if (this.month === 'November') {
-  //     this.startDateStr = '2023-11-01';
-  //     this.endDateStr = '2023-11-30';
-  //   } else if (this.month === 'December') {
-  //     this.startDateStr = '2023-12-01';
-  //     this.endDateStr = '2023-12-31';
-  //   } else {
-  //     console.error('Invalid month selected');
-  //   }
-  // }
-
-  // openCollapse:boolean=false;
-
-  // hitExpandButton(){
-  //   this.openCollapse=true;
-  // }
-
+ 
   
 }

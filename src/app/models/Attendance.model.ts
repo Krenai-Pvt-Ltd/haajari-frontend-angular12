@@ -9,6 +9,18 @@ export interface AttendanceTopPerformer {
   
   export interface AttendanceWithTopPerformerResponseDto {
     attendanceTopPerformers: AttendanceTopPerformer[];
-    attendanceLatePerformers: AttendanceTopPerformer[];
+    // attendanceLatePerformers: AttendanceTopPerformer[];
+  }
+  
+  export interface AttendanceWithLatePerformerResponseDto {
+    // attendanceTopPerformers: AttendanceTopPerformer[];
+    attendanceLatePerformers: AttendanceLatePerformer[];
+  }
+
+  export interface AttendanceLatePerformer {
+    id: number;
+    name: string;
+    date: string;
+    lateTime: string;
   }
   

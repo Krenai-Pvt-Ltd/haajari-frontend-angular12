@@ -143,10 +143,10 @@
                 <div class="col-md-6 d-flex align-items-center justify-content-center" style="flex-direction: column;">
                      <div class="">
                         <h4>Team not found</h4>
-                        <p>You haven't created any teams yet. Get started by clicking the 'Create Team' button.</p>
-                            <div class="mb-3">
+                        <p>Create new team by clicking on 'Create Team' button.</p>
+                            <!-- <div class="mb-3">
                                 <a href="" class="addinh-hiar" data-bs-toggle="modal" data-bs-target="#createteam">Create Team <i class="bi bi-arrow-up-right" style="padding-left: 8px; font-size: 12px; color: #557ef8; font-weight: bold;"></i></a>
-                            </div>
+                            </div> -->
 
                         
 
@@ -699,32 +699,40 @@
                                              </div>
                                         </div>
                                         <div class="manegir-dropdown">
-
+    
                                             <div class="dropdown d-inline-block" >
                                                 <!-- <a class="dropdown-toggle" *ngIf="i==0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                                     Team admin <i class="bi bi-chevron-down font-14 text-muted"></i>
                                                 </a> -->
                                                 <!-- *ngIf="i>0" -->
-                                                <a class="dropdown-toggle"  id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                                    {{ capitalizeFirstLetterAndSmallOtherLetters(ul.role) }} <i class="bi bi-chevron-down font-14 text-muted"></i>
+                                                
+                                                <a class="dropdown-toggle"  id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" *ngIf="ul.roleId==2">
+                                                    {{ capitalizeFirstLetterAndSmallOtherLetters("MEMBER") }} <i class="bi bi-chevron-down font-14 text-muted"></i>
 
                                                 </a>
-                                                <div class="dropdown-menu dropdown-menu-end manager-list" aria-labelledby="dLabel1">
-
+                                               
+                                               
+                                                    <a class="dropdown-toggle"  id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" *ngIf="ul.roleId==3">
+                                                        {{ capitalizeFirstLetterAndSmallOtherLetters("MANAGER") }} <i class="bi bi-chevron-down font-14 text-muted"></i>
+    
+                                                    </a>
+                                               
+                                                <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
 
                                                     <div class="manager-list">
-                                                        <a class="dropdown-item" class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.uuid,ul.uuid)">Make Manager </a>
+                                                       <a class="dropdown-item" *ngIf="ul.roleId==2" (click)="assignManagerRoleToMemberMethodCall(team.uuid,ul.uuid)">Make Manager </a>
+                                                       
+                                                    </div>
+                                                    <div class="manager-list">
+                                                       <a class="dropdown-item" *ngIf="ul.roleId==3" (click)="assignMemberRoleToManagerMethodCall(team.uuid,ul.uuid)">Remove Manager</a>
+                                                    </div>
+                                                    <div class="manager-list">
+                                                        <a class="dropdown-item">View Profile</a>
                                                      </div>
-                                                     <div class="manager-list">
-                                                        <a class="dropdown-item" class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.uuid,ul.uuid)">Remove Manager </a>
-                                                     </div>
-
-                                                     <div class="manager-list remove-team">
-                                                        <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.uuid,ul.uuid)">Remove </a>
-                                                     </div>
-                                                    <!-- <a class="dropdown-item" *ngIf="ul.role=='MEMBER'" (click)="assignManagerRoleToMemberMethodCall(team.id,ul.id)">Make Manager </a>
-                                                    <a class="dropdown-item" *ngIf="ul.role=='MANAGER'" (click)="assignMemberRoleToManagerMethodCall(team.id,ul.id)">Remove Manager</a>
-                                                    <a class="dropdown-item" (click)="removeUserFromTeam(team.id,ul.id)">Delete</a> -->
+                                                    <div class="manager-list remove-team">
+                                                        <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.uuid,ul.uuid)">
+                                                            <span>Remove from team</span></a>
+                                                    </div>
                                                 </div>
                                             </div>
 
