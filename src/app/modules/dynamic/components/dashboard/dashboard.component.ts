@@ -106,7 +106,7 @@ isAttendanceShimer: boolean=false;
       // const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
       
       
-      this.dataService.getDurationDetails(this.userUuid, this.role, this.startDateStr, this.endDateStr).subscribe(
+      this.dataService.getAttendanceDetailsByDateDuration(this.startDateStr, this.endDateStr).subscribe(
         
         (response: any) => {
           
@@ -202,7 +202,7 @@ isAttendanceShimer: boolean=false;
   flag !: boolean;
 
   checkingUserRoleMethod(): boolean{ 
-    this.dataService.checkingUserRole(this.userUuid).subscribe((data) => {
+    this.dataService.checkingUserRole().subscribe((data) => {
       this.flag = data;
       console.log(data);
     }, (error) => {
@@ -243,7 +243,7 @@ isAttendanceShimer: boolean=false;
     this.isShimer=true;
     this.isLateShimmer=true;
     debugger
-    this.dataService.getAttendanceTopAndLatePerformers(this.userUuid, this.role, this.startDateStr, this.endDateStr).subscribe(
+    this.dataService.getAttendanceTopAndLatePerformers(this.startDateStr, this.endDateStr).subscribe(
       (data) => {
         console.log(data);
         this.responseDto = data;

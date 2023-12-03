@@ -81,7 +81,7 @@ export class TimetableComponent implements OnInit {
       const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
       debugger
       
-      this.dataService.getDurationDetails(this.userUuid, this.role, startDateStr, endDateStr).subscribe(
+      this.dataService.getAttendanceDetailsByDateDuration(startDateStr, endDateStr).subscribe(
         
         (response: any) => {
           
@@ -149,7 +149,7 @@ export class TimetableComponent implements OnInit {
   flag !: boolean;
 
   checkingUserRoleMethod(): boolean{ 
-    this.dataService.checkingUserRole(this.userUuid).subscribe((data) => {
+    this.dataService.checkingUserRole().subscribe((data) => {
       this.flag = data;
       console.log(data);
     }, (error) => {
@@ -219,7 +219,7 @@ export class TimetableComponent implements OnInit {
 
   getAttendanceDetailsByDateMethodCall(){
       this.isShimer=true;
-      this.dataService.getAttendanceDetailsByDate(this.userUuid, this.role, this.inputDate).subscribe((data) => {
+      this.dataService.getAttendanceDetailsByDate(this.inputDate).subscribe((data) => {
         this.attendanceDataByDateKey = Object.keys(data);
         this.attendanceDataByDateValue = Object.values(data);
 

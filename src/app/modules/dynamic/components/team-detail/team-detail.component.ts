@@ -166,7 +166,7 @@ export class TeamDetailComponent implements OnInit {
 
   
   searchUsers() {
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchQuery,'', this.orgRefId, this.role).subscribe((data : any) => {
+    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchQuery,'').subscribe((data : any) => {
       this.userList = data.users;
       this.total = data.count;
       console.log(this.userList);
