@@ -322,7 +322,7 @@ export class OnboardingComponent implements OnInit {
       return;
     }
     
-    this.dataService.registerOrganizationPersonalInformation(this.organizationPersonalInformation,  this.id)
+    this.dataService.registerOrganizationPersonalInformation(this.organizationPersonalInformation)
       .subscribe(response => {
         console.log('org registered successfully:', response);
         this.organizationStatusResponse= response.statusResponse;
@@ -351,7 +351,7 @@ export class OnboardingComponent implements OnInit {
 
   getOrganizationDetails(){
     debugger
-    this.dataService.getOrganizationDetails(this.id).subscribe(
+    this.dataService.getOrganizationDetails().subscribe(
       (data)=> {
           this.organizationPersonalInformation = data;
           this.updateStates();
@@ -485,7 +485,7 @@ export class OnboardingComponent implements OnInit {
   shifttimings: ShiftTimings = new ShiftTimings();
 
   getShifts() {
-    this.dataService.getShiftTimings(this.id).subscribe(
+    this.dataService.getShiftTimings().subscribe(
       (data) => {
         // this.setActive(1);
         this.loginArray.inTime = data.inTime;
@@ -688,7 +688,7 @@ export class OnboardingComponent implements OnInit {
       this.leaveSetInvalidToggle = true;
       return;
     }
-    this.dataService.saveLeave(this.leaveData, this.id).subscribe(
+    this.dataService.registerLeave(this.leaveData).subscribe(
       (response) => {
         console.log(response);
         this.organizationLeaveStatusResponse= response.statusResponse;
@@ -724,7 +724,7 @@ export class OnboardingComponent implements OnInit {
   
  
   getLeaves() {
-    this.dataService.getLeave(this.id).subscribe(
+    this.dataService.getLeave().subscribe(
       (data) => {
         this.savel = data;
         // if (data.minLength !== 0) {
@@ -803,7 +803,7 @@ export class OnboardingComponent implements OnInit {
 
 
   onSaveShiftTimings() {
-    this.dataService.saveShiftTimings(this.loginArray, this.id).subscribe(
+    this.dataService.registerShiftTimings(this.loginArray).subscribe(
       (response) => {
         this.dailyQuesValid = true;
         console.log(response);
@@ -1025,7 +1025,7 @@ export class OnboardingComponent implements OnInit {
     // this.dailyNotes = [];
        
 
-    this.dataService.saveDailyQuestionaire(this.dailyNotesData, this.id).subscribe(
+    this.dataService.registerDailyQuestionaire(this.dailyNotesData).subscribe(
       (response) => {
         console.log(response);
         this.dailyQuestionsStatusResponse= response.statusResponse;
@@ -1055,7 +1055,7 @@ export class OnboardingComponent implements OnInit {
   }
 
   getDailyNotes() {
-    this.dataService.getDailyQuestionaire(this.id).subscribe(
+    this.dataService.getDailyQuestionaire().subscribe(
       (data) => {
         // this.dailyNotesData=data;
         this.dailyNotes = data;

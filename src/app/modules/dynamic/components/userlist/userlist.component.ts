@@ -34,7 +34,7 @@ export class UserlistComponent implements OnInit {
   getUsersByFiltersFunction() {
     // const role = this.loginDetails.role;
     debugger
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'', this.orgRefId, this.role).subscribe((data : any) => {
+    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((data : any) => {
       debugger
       this.users = data.users;
       this.total = data.count;
@@ -56,8 +56,8 @@ export class UserlistComponent implements OnInit {
   }
 
   text = '';
-  changeStatus(id: string, presenceStatus : Boolean){
-    this.dataService.changeStatusById(id,presenceStatus).subscribe(data =>{
+  changeStatus(presenceStatus : Boolean){
+    this.dataService.changeStatusById(presenceStatus).subscribe(data =>{
       console.log(data);
       console.log("====================");
     }, (error) => {

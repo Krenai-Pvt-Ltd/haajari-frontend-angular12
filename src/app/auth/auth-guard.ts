@@ -12,10 +12,10 @@ export class AuthGuard implements CanActivate{
     
 
     canActivate(): boolean {
-        const loginDetails = localStorage.getItem('loginData');
+        const loginDetails = localStorage.getItem('token');
 
         if(!loginDetails){
-            this.router.navigate(['dynamic/login']);
+            this.router.navigate(['/login']);
             return false;
         }
         return true;

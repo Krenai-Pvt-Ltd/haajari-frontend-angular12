@@ -102,7 +102,7 @@ export class TeamComponent implements OnInit{
 
   
   searchUsers() {
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchQuery,'', this.orgRefId, this.role).subscribe((data : any) => {
+    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchQuery,'').subscribe((data : any) => {
       this.userList = data.users;
       this.total = data.count;
       console.log(this.userList);
@@ -137,7 +137,7 @@ export class TeamComponent implements OnInit{
   registerTeamSubmitButton(){
     // console.log(+this.getLoginDetailsOrgRefId());
     debugger
-    this.dataService.registerTeam(this.userIds,this.teamName,this.teamDescription, this.orgRefId).subscribe((data) => {
+    this.dataService.registerTeam(this.userIds,this.teamName,this.teamDescription).subscribe((data) => {
       console.log(data);
 
       debugger
@@ -205,7 +205,7 @@ export class TeamComponent implements OnInit{
 
 
   getAllUser(){
-    this.dataService.getAllTeamsWithUsersByUserId(this.userUuid, this.role)
+    this.dataService.getAllTeamsWithUsersByUserId()
     .subscribe(data => {
       // console.log(this.getLoginDetailsId(), this.getLoginDetailsRole());
       this.teams = data;
@@ -350,7 +350,7 @@ export class TeamComponent implements OnInit{
 
 
   deleteTeamByTeamId(teamId: number){
-    this.dataService.deleteTeam(teamId, this.role).subscribe(response =>{
+    this.dataService.deleteTeam(teamId).subscribe(response =>{
         console.log("Team Deleted Successfully");
         location.reload();
     },error => {
@@ -395,8 +395,6 @@ export class TeamComponent implements OnInit{
 getTeamsByFiltersFunction() {
   this.isShimmer=true;
   this.dataService.getTeamsByFilter(
-    this.userUuid,
-    this.role,
     this.itemPerPage,
     this.pageNumber,
     this.searchText,
