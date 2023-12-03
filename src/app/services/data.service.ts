@@ -12,7 +12,7 @@ import { DailyQuestionsCheckIn } from "../models/daily-questions-check-in";
 import { TeamResponse } from "../models/team";
 import { Key } from "../constant/key";
 import { OrganizationPersonalInformation } from "../models/organization-personal-information";
-import { AttendanceWithTopPerformerResponseDto } from "../models/Attendance.model";
+import { AttendanceWithLatePerformerResponseDto, AttendanceWithTopPerformerResponseDto } from "../models/Attendance.model";
 import { RoleRequest } from "../models/role-request";
 
 
@@ -452,7 +452,18 @@ export class DataService {
       .set("startDate", startDate)
       .set("endDate", endDate)
 
-    return this.httpClient.get<AttendanceWithTopPerformerResponseDto>(`${this.baseUrl}/attendance/get-attendance-top-late-performers-details`, {params});
+    return this.httpClient.get<AttendanceWithTopPerformerResponseDto>(`${this.baseUrl}/attendance/get-attendance-top-performers-details`, {params});
+  }
+
+  getAttendanceLatePerformers(uuid: string, role: string, startDate: string, endDate: string): Observable<AttendanceWithLatePerformerResponseDto> {
+
+    const params = new HttpParams()
+      .set("uuid", uuid)
+      .set("role", role)
+      .set("startDate", startDate)
+      .set("endDate", endDate)
+
+    return this.httpClient.get<AttendanceWithLatePerformerResponseDto>(`${this.baseUrl}/attendance/get-attendance-late-performers-details`, {params});
   }
 
   getSubModuleByRole(roleId : number): Observable<any>{
