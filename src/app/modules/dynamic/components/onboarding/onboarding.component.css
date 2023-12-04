@@ -248,9 +248,9 @@ input[type=checkbox]{
 	transition: 0.3s;
 }
 
-input:checked + label {
+/* input:checked + label {
 	background: #3BB77E;
-}
+} */
 
 input:checked + label:after {
 	left: calc(100% - 5px);
