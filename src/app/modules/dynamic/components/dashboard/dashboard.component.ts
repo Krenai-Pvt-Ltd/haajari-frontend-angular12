@@ -101,6 +101,7 @@ export class DashboardComponent implements OnInit {
 }
 
 isAttendanceShimer: boolean=false;
+errorToggleMain: boolean=false;
 
   getDataFromDate(): void {
     this.isAttendanceShimer=true;
@@ -141,6 +142,8 @@ isAttendanceShimer: boolean=false;
           
         },
         (error: any) => {
+          this.isAttendanceShimer=false;
+          this.errorToggleMain=true;
           console.error('Error fetching data:', error);
         }
       );

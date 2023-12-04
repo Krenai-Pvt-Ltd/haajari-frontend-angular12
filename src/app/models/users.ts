@@ -4,6 +4,7 @@ export class Users {
     id !: number;
     name !: string;
     uuid !: string;
+    email !: string;
     slackUserId !: string;
     userImage!:String;
     enterprise !: Enterprise;
