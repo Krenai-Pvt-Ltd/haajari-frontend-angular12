@@ -439,20 +439,20 @@
                                 <thead class="thead-light">
                                   <tr>
                                     <th
-                                      class="border-top-0 text-center"
+                                      class="border-top-0 text-left"
                                       style="width: 25%"
                                     >
                                       In Time
                                     </th>
                                     <th
-                                      class="border-top-0 text-center"
+                                      class="border-top-0 text-left"
                                       style="width: 25%"
                                     >
                                       Out Time
                                     </th>
                                     <!-- <th class="border-top-0 text-center">Lunch Start/End Time</th> -->
                                     <th
-                                      class="border-top-0 text-center"
+                                      class="border-top-0 text-left"
                                       style="width: 25%"
                                     >
                                       Working Hours
@@ -462,14 +462,14 @@
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <td class="text-center">
+                                    <td class="text-left">
                                       {{ loginArray.inTime }}
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-left">
                                       {{ loginArray.outTime }}
                                     </td>
                                     <!-- <td class="text-center"> 01:00 PM/2:00PM</td> -->
-                                    <td class="text-center">
+                                    <td class="text-left">
                                       {{ loginArray.workingHour }}
                                     </td>
                                   </tr>
@@ -482,39 +482,39 @@
                                 <thead class="thead-light">
                                   <tr>
                                     <th
-                                      class="border-top-0 text-center"
+                                      class="border-top-0 text-left"
                                       style="width: 25%"
                                     >
                                       Lunch Start
                                     </th>
                                     <th
-                                      class="border-top-0 text-center"
+                                      class="border-top-0 text-left"
                                       style="width: 25%"
                                     >
                                       End Time
                                     </th>
                                     <!-- <th class="border-top-0 text-center">Lunch Start/End Time</th> -->
                                     <th
-                                      class="border-top-0 text-center"
+                                      class="border-top-0 text-left"
                                       style="width: 25%"
                                     >
-                                      Total Hours
+                                      Break Time
                                     </th>
                                   </tr>
                                   <!--end tr-->
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <td class="text-center">
+                                    <td class="text-left">
                                       {{ loginArray.startLunch }}
                                       <!-- <div class="text-danger" *ngIf="startLunchError">{{ startLunchError }}</div> -->
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-left">
                                       {{ loginArray.endLunch }}
                                       <!-- <div class="text-danger" *ngIf="endLunchError">{{ endLunchError }}</div> -->
                                     </td>
                                     <!-- <td class="text-center"> 01:00 PM/2:00PM</td> -->
-                                    <td class="text-center">
+                                    <td class="text-left">
                                       {{ loginArray.totalHour }}
                                     </td>
                                   </tr>
@@ -829,21 +829,21 @@
                                   <thead class="thead-light">
                                     <tr>
                                       <th
-                                        class="border-top-0 text-center"
+                                        class="border-top-0 text-left"
                                         style="width: 25%"
                                       >
                                         Type
                                       </th>
                                       <th
-                                        class="border-top-0 text-center"
+                                        class="border-top-0 text-left"
                                         style="width: 25%"
                                       >
                                         Paid/Unpaid
                                       </th>
-                                      <th class="border-top-0 text-center" style="width:25%">
+                                      <th class="border-top-0 text-left" style="width:25%">
                                         Quota
                                       </th>
-                                      <th class="border-top-0 text-center" style="width:25%">
+                                      <th class="border-top-0 text-left" style="width:25%">
                                         Status
                                       </th>
                                       <!-- <th class="border-top-0 text-center">Action</th> -->
@@ -852,18 +852,18 @@
                                   </thead>
                                   <tbody>
                                     <tr *ngFor="let sav of savel">
-                                      <td class="text-center">{{ sav.leaveType }}</td>
-                                      <td class="text-center">
+                                      <td class="text-left">{{ sav.leaveType }}</td>
+                                      <td class="text-left">
                                         <span
                                           class="badge badge-soft-success"
                                           >{{ sav.leaveStatus }}</span
                                         >
                                       </td>
-                                      <td class="text-center">
+                                      <td class="text-left">
                                         {{ sav.leaveEntitled }}
                                       </td>
 
-                                      <td class="text-center">
+                                      <td class="text-left">
                                         <div class="" style="margin-left: 35%;">
                                           <input
                                             type="checkbox"

@@ -425,3 +425,18 @@ span.remove-icon:hover {
     font-weight: 500;
     cursor: pointer;
 }
+
+
+button.btn.close-btn{
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 21px;
+    box-shadow: unset!important;
+    position: absolute;
+    right: 0px;
+    top:0px; 
+    color: #557ef8;
+    cursor: pointer;
+}

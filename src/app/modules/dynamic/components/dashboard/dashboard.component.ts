@@ -277,7 +277,7 @@ isAttendanceShimer: boolean=false;
   getAttendanceLatePerformerDetails(){
     this.isLateShimmer=true;
     debugger
-    this.dataService.getAttendanceLatePerformers('2023-12-03', '2023-12-03').subscribe(
+    this.dataService.getAttendanceLatePerformers('2023-12-04', '2023-12-04').subscribe(
       (data) => {
         console.log(data);
         this.responseData = data;
@@ -285,7 +285,7 @@ isAttendanceShimer: boolean=false;
         if(data.attendanceLatePerformers){
         this.isLateShimmer=false;
         }
-        console.log(this.responseDto); 
+        console.log(this.responseDto);
       },
       (error) => {
         this.isLateShimmer = false;
