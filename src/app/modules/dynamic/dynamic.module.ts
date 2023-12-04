@@ -42,6 +42,9 @@ import { BankDetailsComponent } from './components/bank-details/bank-details.com
 import { EmergencyContactComponent } from './components/emergency-contact/emergency-contact.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
 
 @NgModule({
   declarations: [
@@ -87,7 +90,9 @@ import { EmployeeProfileComponent } from './components/employee-profile/employee
     ReactiveFormsModule,
     NgxPaginationModule,
     NgxDaterangepickerMd.forRoot(),
-    NgxShimmerLoadingModule
+    NgxShimmerLoadingModule,
+    NgbModule
+  
   ]
 })
 export class DynamicModule { }

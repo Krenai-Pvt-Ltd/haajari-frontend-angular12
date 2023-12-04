@@ -18,6 +18,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { EmployeeOnboardingSidebarComponent } from './modules/common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { RequestInterceptorService } from './configuration/request-interceptor.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { RequestInterceptorService } from './configuration/request-interceptor.s
     ReactiveFormsModule,
     NgxPaginationModule,
     SharedModule,
+    NgbModule
     // AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
