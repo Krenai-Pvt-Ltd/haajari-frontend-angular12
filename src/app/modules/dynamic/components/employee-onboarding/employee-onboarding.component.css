@@ -246,3 +246,33 @@ button.btn.close-btn{
     align-items: center;
     text-align: center;
 }
+
+
+.hafday {
+	cursor: pointer;
+	text-indent: -9999px;
+    width: 45px;
+    height: 25px;
+	background: grey;
+	display: block;
+	border-radius: 100px;
+	position: relative;
+}
+
+.hafday:after {
+	content: '';
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 15px;
+    height: 15px;
+	background: #fff;
+	border-radius: 90px;
+	transition: 0.3s;
+}
+
+
+.hafday:active:after {
+	width: 130px;
+}
+
