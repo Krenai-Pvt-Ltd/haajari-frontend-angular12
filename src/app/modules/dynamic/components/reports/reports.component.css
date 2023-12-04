@@ -6,6 +6,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border: 1px solid #f1f1f1;
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
@@ -139,4 +140,25 @@
 .downloadlog{
     margin-top: 20px;
     margin-bottom: 10px;
+}
+
+
+.report-ico p {
+    color: #557ef8;
+}
+
+.download-icon ul{
+    list-style: none;
+    margin-bottom: 0px;
+}
+.download-icon ul li{
+    display: inline-block;
+    color: #557ef8;
+    font-size: 14px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.download-icon ul li:hover{
+    color: #557ef8;
 }
