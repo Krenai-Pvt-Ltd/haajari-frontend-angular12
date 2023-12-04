@@ -133,9 +133,20 @@
                 <h4 class="card-title" style="font-size: 18px;">Best Performance this month</h4>                      
             </div>
         </div>
-        <div class="mt-3 dashnodata" *ngIf="(responseDto.attendanceTopPerformers).length==0 && !isShimer">
-            <div class="errorboxmain" >
-                <div class="errorboxinner" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <div class="mt-3 dashnodata">
+                <div class="errorboxmain" *ngIf="errorToggleTop">
+                    <div class="errorboxinner">
+                         <div class="errorboxplaceholder mb-2">
+                          <img src="assets/images/signal.svg" style="width:80px;" />
+                          </div>
+                         <div class="">
+                         <h4>No Data Found</h4>
+                         <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        </div>
+                    </div>
+                </div>
+            <div class="errorboxmain" *ngIf="responseDto.attendanceTopPerformers.length==0 && !isShimer && !errorToggleTop">
+                <div class="errorboxinner">
                     <div class="errorboxplaceholder mb-2">
                         <img src="assets/images/empty-box.svg" style="width:80px;" />
                     </div>
@@ -151,7 +162,7 @@
         <!-- *ngFor="let performer of responseDto.attendanceTopPerformers" -->
         <div >
 
-            <div class="row mt-3" *ngIf="isShimer">
+            <div class="row mt-3" *ngIf="isShimer && !errorToggleTop">
                 <div class="col-md-4" *ngFor="let item of [].constructor(6)">
                     <div class="card profile-card p-3">
 
@@ -174,7 +185,7 @@
             </div>
              <!-- *ngIf="(responseDto.attendanceLatePerformers).length!=0" -->
         <!-- *ngFor="let performer of responseDto.attendanceTopPerformers" -->
-        <div class="row mb-3 mt-3" *ngIf="(responseDto.attendanceTopPerformers).length!=0">
+        <div class="row mb-3 mt-3" *ngIf="responseDto.attendanceTopPerformers.length !=0 && !isShimer && !errorToggleTop">
             <div class="col-lg-4" *ngFor="let performer of responseDto.attendanceTopPerformers" >
                 <div class="card profile-card" >
                     <div class="card-body p-0">
@@ -213,9 +224,9 @@
                 </div>
             </div>
 
-            <div class="mt-3 dashnodata" *ngIf="(responseData.attendanceLatePerformers).length==0 && !isLateShimmer">
+            <div class="mt-3 dashnodata" >
 
-                <!-- <div class="errorboxmain">
+                <div class="errorboxmain" *ngIf="errorToggleLate">
                     <div class="errorboxinner">
                       <div class="errorboxplaceholder mb-2">
                         <img src="assets/images/signal.svg" style="width:80px;" />
@@ -225,9 +236,9 @@
                          <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                     </div>
                     </div>
-                </div> -->
-                <div class="errorboxmain" >
-                    <div class="errorboxinner" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                </div>
+                <div class="errorboxmain" *ngIf="(responseData.attendanceLatePerformers).length==0 && !isLateShimmer && !errorToggleLate">
+                    <div class="errorboxinner" >
                         <div class="errorboxplaceholder mb-2">
                             <img src="assets/images/empty-box.svg" style="width:80px;" />
                         </div>
@@ -243,7 +254,7 @@
 
 
 
-            <div class="row mt-3" *ngIf="isLateShimmer">
+            <div class="row mt-3" *ngIf="isLateShimmer && !errorToggleLate">
                 <div class="col-md-4" *ngFor="let item of [].constructor(6)">
                     <div class="card profile-card p-3">
 
@@ -274,7 +285,7 @@
 
             </div>
             <!-- *ngIf="(responseDto.attendanceLatePerformers).length!=0" -->
-         <div class="row mb-3 mt-3" *ngIf="(responseData.attendanceLatePerformers).length!=0">
+         <div class="row mb-3 mt-3" *ngIf="(responseData.attendanceLatePerformers).length!=0 && !errorToggleLate">
             <!-- *ngFor="let performer of responseDto.attendanceLatePerformers" -->
             <div class="col-lg-4 " *ngFor="let performer of responseData.attendanceLatePerformers">
                 <div class="card" >
@@ -461,7 +472,8 @@
                                     </div>
                                     </div> -->
                                     <div class="errorboxmain" >
-                                        <div class="errorboxinner" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                        <!-- style="display: flex; flex-direction: column; align-items: center; text-align: center;" -->
+                                        <div class="errorboxinner">
                                             <div class="errorboxplaceholder mb-2">
                                                 <img src="assets/images/empty-box.svg" style="width:80px;" />
                                             </div>

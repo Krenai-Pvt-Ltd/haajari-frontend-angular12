@@ -246,13 +246,15 @@ isAttendanceShimer: boolean=false;
 
   isShimer: boolean=false;
   isLateShimmer: boolean=false;
+  errorToggleTop:boolean=false;
+  errorToggleLate:boolean=false;
   getAttendanceTopPerformerDetails(){
     this.isShimer=true;
     // this.isLateShimmer=true;
     debugger
     this.dataService.getAttendanceTopPerformers(this.startDateStr, this.endDateStr).subscribe(
       (data) => {
-        console.log(data);
+        // console.log(data);
         this.responseDto = data;
 
         if(data.attendanceTopPerformers){
@@ -264,7 +266,9 @@ isAttendanceShimer: boolean=false;
         console.log(this.responseDto); 
       },
       (error) => {
-        console.error(error);
+        // console.error(error);
+        this.isShimer=false;
+        this.errorToggleTop = true;
       }
     );
   }
@@ -284,6 +288,8 @@ isAttendanceShimer: boolean=false;
         console.log(this.responseDto);
       },
       (error) => {
+        this.isLateShimmer = false;
+        this.errorToggleLate = true;
         console.error(error);
       }
     );

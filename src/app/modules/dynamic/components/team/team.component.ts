@@ -294,8 +294,10 @@ export class TeamComponent implements OnInit{
         managerId: data.manager.uuid,
       };
       localStorage.setItem('managerFunc', JSON.stringify(managerdata));
+      location.reload();
     }, (error) => {
       console.log(error);
+      location.reload();
     })
   }
 
@@ -310,8 +312,10 @@ export class TeamComponent implements OnInit{
     this.dataService.assignMemberRoleToManager(teamId,userId).subscribe((data) => {
       // localStorage.removeItem('managerFunc');
       console.log(data);
+      location.reload();
     }, (error) => {
       console.log(error);
+      location.reload();
     })
   }
 
