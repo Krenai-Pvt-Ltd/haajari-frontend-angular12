@@ -53,15 +53,17 @@
                 </div> -->
             </div>
 
-            <div class="row mb-3 mt-4 align-items-center search-area" *ngIf="!isShimmer && teamsNew.length>0 || !isShimmer && total==0 && searchTeamPlaceholderFlag">
+            <!-- *ngIf="!isShimmer && teamsNew.length>0 || !isShimmer && total==0 && searchTeamPlaceholderFlag" -->
+            <!-- <div *ngIf="!isShimmer && teamsNew.length>0 || !isShimmer && total==0"></div> -->
+            <div class="row mb-3 mt-4 align-items-center search-area" *ngIf="teamsNew.length!=0 || searchTeamPlaceholderFlag">
                 <div class="col-md-5" >
                     <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchTeams()">
                         <div class="form-group" style="width: 300px; position: relative;">
                             <input type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid"
                                    (keyup)="searchTeams()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px;"
-                                   (search)="reloadPage()">
+                                  >
 
-                                   <button type="button" class="btn close-btn"><i class="bi bi-x mt-auto mb-auto pl-3"></i></button>
+                                   <button type="button" class="btn close-btn" (click)="reloadPage()"><i class="bi bi-x mt-auto mb-auto pl-3"></i></button>
 
                             <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
                         </div>
