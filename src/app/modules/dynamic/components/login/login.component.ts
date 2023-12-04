@@ -23,18 +23,13 @@ password: any;
 
   
   signIn(){
-    this.dataService.signInOrganization(this.email,this.password).subscribe(data =>{
-      console.log(data);
+    this.dataService.loginUser(this.email,this.password).subscribe(response =>{
+      debugger
+      console.log(response);
 
-      // this.accessTokenArray.push(data.tokenResponse.access_token);
-      // debugger
-      // localStorage.setItem('accessTokens', JSON.stringify(this.accessTokenArray));
+      localStorage.setItem('token', JSON.stringify(response.access_token));
+      localStorage.setItem('refresh_token', JSON.stringify(response.refresh_token));
 
-      // if(this.accessTokenArray.includes(data.tokenResponse.access_token)){
-      //   this.router.navigate(['dynamic/dashboard']);
-      // }
-
-      localStorage.setItem('loginData',JSON.stringify(data));
       this.router.navigate(['/dashboard']);
       
     }, (error) =>{

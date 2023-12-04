@@ -304,12 +304,12 @@ export class DataService {
     return this.httpClient.post(this.baseUrl+'/save-slack-data', {params});
   }
 
-  signInOrganization(email: string, password: string): Observable<any> {
+  loginUser(email: string, password: string): Observable<any> {
     const params = new HttpParams()
       .set("email", email)
       .set("password", password);
 
-    return this.httpClient.get(`${this.baseUrl}/organization/signin`, {
+    return this.httpClient.get(`${this.baseUrl}/users/login`, {
       params,
     });
   }
