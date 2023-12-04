@@ -191,7 +191,7 @@ span.members-namess {
     padding: 30px;
     margin: 40px 80px;
     border-radius: 14px;
-    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .persnol-details p {
