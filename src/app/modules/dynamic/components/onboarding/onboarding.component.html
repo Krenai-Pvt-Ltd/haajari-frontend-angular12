@@ -423,7 +423,7 @@
                               >
                             </div>
                           </div>
-                          <p id="nhj" *ngIf="!loginArray.inTime">
+                          <p id="nhj" *ngIf="!shiftLogin.inTime">
                             Click on "Add Shift Time" button to add time shift!
                           </p>
                           <!-- <p id="abc">
@@ -433,7 +433,7 @@
                             Click on add shift time button to add more time shifts!
                           </p> -->
                           <!-- id="xyz" -->
-                          <div class="" *ngIf="loginArray.inTime">
+                          <div class="" *ngIf="shiftLogin.inTime">
                             <div class="table-responsive browser_users">
                               <table class="table mb-0">
                                 <thead class="thead-light">
@@ -463,14 +463,14 @@
                                 <tbody>
                                   <tr>
                                     <td class="text-left">
-                                      {{ loginArray.inTime }}
+                                      {{ shiftLogin.inTime }}
                                     </td>
                                     <td class="text-left">
-                                      {{ loginArray.outTime }}
+                                      {{ shiftLogin.outTime }}
                                     </td>
                                     <!-- <td class="text-center"> 01:00 PM/2:00PM</td> -->
                                     <td class="text-left">
-                                      {{ loginArray.workingHour }}
+                                      {{ shiftLogin.workingHour }}
                                     </td>
                                   </tr>
                                   <!--end tr-->
@@ -506,23 +506,23 @@
                                 <tbody>
                                   <tr>
                                     <td class="text-left">
-                                      {{ loginArray.startLunch }}
+                                      {{ shiftLogin.startLunch }}
                                       <!-- <div class="text-danger" *ngIf="startLunchError">{{ startLunchError }}</div> -->
                                     </td>
                                     <td class="text-left">
-                                      {{ loginArray.endLunch }}
+                                      {{ shiftLogin.endLunch }}
                                       <!-- <div class="text-danger" *ngIf="endLunchError">{{ endLunchError }}</div> -->
                                     </td>
                                     <!-- <td class="text-center"> 01:00 PM/2:00PM</td> -->
                                     <td class="text-left">
-                                      {{ loginArray.totalHour }}
+                                      {{ shiftLogin.totalHour }}
                                     </td>
                                   </tr>
                                   <!--end tr-->
                                 </tbody>
                               </table>
                               <!--end table-->
-                              <div class="">
+                              <!-- <div class="">
                                 <button
                                   type="button"
                                   class="btn btn-primary"
@@ -530,8 +530,9 @@
                                 >
                                   Save
                                 </button>
-                              </div>
+                              </div> -->
                             </div>
+                           
 
                             <!-- onShiftTimingsCompleted() -->
                             <!-- (click)=" setActive(2)" -->
@@ -1295,7 +1296,7 @@
       </div>
       <!-- #shiftForm="ngForm" novalidate -->
       <!-- [formGroup]="shiftTimingsForm" -->
-      <form  #shiftForm="ngForm" ngNativeValidate (ngSubmit)="addShift()">
+      <form  #shiftForm="ngForm" ngNativeValidate (ngSubmit)="combinedShiftTimings()">
         <div class="modal-body">
           <div class="">
             <div class="mb-3">
@@ -1324,25 +1325,19 @@
             </div>
             <div class="mb-3">
               <label class="mb-3"> Out Time </label>
-              <!-- <br> -->
-              <div
-                *ngIf="
-                  shiftTimingsForm.get('outTime')?.hasError('required') &&
-                  shiftTimingsForm.get('outTime')?.touched
-                "
-                class="text-danger"
-              >
-                Required!
-              </div>
-              <div class="input-group">
+              <div class="input-group1">
                 <input
                   type="time"
                   class="form-control"
                   [(ngModel)]="loginArray.outTime"
+                  (ngModelChange)="validateTime(outTimeValid,loginArray.outTime)"
                   id="Outtime"
                   name="Outtime"
                   required
                 />
+                <div class="text-danger" *ngIf="outTimeError">
+                  In Time must be earlier than Out Time.
+                </div>
               </div>
             </div>
 
@@ -1355,6 +1350,7 @@
                   id="StartLunch"
                   name="StartLunch"
                   [(ngModel)]="loginArray.startLunch"
+                  (ngModelChange)="validateTime(startLunchValid,loginArray.startLunch)"
                   required
                 />
                 <!-- Error message for invalid startLunch -->
@@ -1373,6 +1369,7 @@
                   id="endLunch"
                   name="endLunch"
                   [(ngModel)]="loginArray.endLunch"
+                  (ngModelChange)="validateTime(endLunchValid,loginArray.endLunch)"
                   required
                 />
                 <!-- Error message for invalid endLunch -->
