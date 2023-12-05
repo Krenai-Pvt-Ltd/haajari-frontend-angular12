@@ -4,6 +4,7 @@ import { HeaderComponent } from '../modules/common/header/header.component';
 import { TopbarComponent } from '../modules/common/topbar/topbar.component';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from '../app-routing.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -19,7 +20,8 @@ import { AppRoutingModule } from '../app-routing.module';
   imports: [
     CommonModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule
   ]
 })
 export class SharedModule { }

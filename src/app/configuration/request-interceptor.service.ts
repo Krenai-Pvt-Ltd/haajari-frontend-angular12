@@ -46,32 +46,27 @@ export class RequestInterceptorService implements HttpInterceptor {
 
   constructor(private dataService : DataService, private router : Router) { }
 
-  private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
-
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    debugger
     const localStorageToken = localStorage.getItem('token');
-
     const localStorageRefreshToken = localStorage.getItem('refresh_token');
-
+  
     if (localStorageToken !== null && localStorageRefreshToken !== null) {
       const token = localStorageToken.replace(/"/g, '');
-      const refreshToken = localStorageRefreshToken?.replace(/"/g, '');
-
       request = this.addTokenToHeaders(request, token);
-
-      return next.handle(request).pipe(catchError(error => {
+  
+      return next.handle(request).pipe(
+        catchError(error => {
           if (error.status === 401 || error.status === 403) {
-            return this.dataService.refreshFirebaseAccessToken(refreshToken).pipe(
+            return this.dataService.refreshFirebaseAccessToken().pipe(
               switchMap((newToken: string) => {
-                const updatedReq = this.addTokenToHeaders(request, newToken);
-                return next.handle(updatedReq);
+                if (newToken) {
+                  const updatedReq = this.addTokenToHeaders(request, newToken);
+                  return next.handle(updatedReq);
+                } else {
+                  return throwError('Failed to refresh token');
+                }
               }),
-              catchError((refreshError) => {
-                // this.router.navigate(['/login']);
+              catchError(refreshError => {
                 return throwError(refreshError);
               })
             );
@@ -81,15 +76,24 @@ export class RequestInterceptorService implements HttpInterceptor {
         })
       );
     }
-
+  
     return next.handle(request);
   }
-
+  
   private addTokenToHeaders(request: HttpRequest<any>, token: string): HttpRequest<any> {
-    return request.clone({
+    request = request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
       }
     });
+
+    request = request.clone({
+      setParams: {
+        access_token: token
+      }
+    });
+
+    return request;
   }
+  
 }

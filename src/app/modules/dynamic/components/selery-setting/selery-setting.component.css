@@ -431,3 +431,8 @@ a.add-more {
     width: 150px;
     border: 1px solid #e8ebf3;
 }
+
+.attendance-active{
+    background-color: #e9ebfe;
+    border: 1px solid #4f5eee !important;
+}

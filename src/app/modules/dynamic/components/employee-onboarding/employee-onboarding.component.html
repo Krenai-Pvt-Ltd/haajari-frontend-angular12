@@ -151,7 +151,7 @@
                </div>
             </div>
 
-            <div class="row mt-3">
+            <div class="row mt-3" >
                 <div class="col-md-12">
                     <div class="obboard-employee-list">
 
@@ -200,17 +200,49 @@
                                             <thead class="thead-light table-design" >
                                             <tr>
                                                 <th style="width:0%">Date </th>
-                                                <th style="width: 5%">Project</th>
-                                                <th style="width:10%">Category</th>
-                                                <th style="width:25%">Detail</th>
-                                                <th style="width:10%" class="text-center">Estimate Time</th>
+                                                <th style="width: 5%">Employee Name</th>
+                                                <!-- <th style="width:10%">Category</th> -->
+                                                <th style="width:25%">Email</th>
+                                                <!-- <th style="width:10%" class="text-center">Estimate Time</th> -->
+                                                <!-- <th style="width:10%" class="text-center">Extra Field</th> -->
                                                 <th style="width:3%">Complete</th>
-                                                <th style="width:10%" class="text-center">Actual Time</th>
                                                  <th style="width:15%">Comment</th> 
                                             </tr>
                                         </thead>
-
                                         <tbody >
+                                            <tr >
+                                                <td colspan="8">
+                                                    <div class="mt-3 dashnodata" >
+                                                        <div class="errorboxmain" *ngIf="errorToggleTop">
+                                                            <div class="errorboxinner">
+                                                                 <div class="errorboxplaceholder mb-2">
+                                                                  <img src="assets/images/signal.svg" style="width:80px;" />
+                                                                  </div>
+                                                                 <div class="">
+                                                                 <h4>Something went wrong</h4>
+                                                                 <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <div class="errorboxmain" *ngIf="users.length==null && !isUserShimer && placeholder">
+                                                       
+                                                            <div class="errorboxinner text-center">
+                                                              <div class="errorboxplaceholder mb-2">
+                                                                <img src="assets/images/addnewproduct.svg" style="width:80px;" />
+                                                              </div>
+                                                
+                                                              <h4>No Data Found</h4>
+                                                              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                                            </div>
+                                                       
+                                                    </div>
+                                                    
+                                                 </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                        <tbody *ngIf="isUserShimer">
                                             <tr *ngFor="let item of [].constructor(6)">
                                                 <td>
                                                     <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
@@ -237,7 +269,7 @@
                                                 </td>
                                             </tr>
                                         </tbody>
-
+<!-- 
                                         <tbody >
                                             <tr>
                                                 <td colspan="8">
@@ -255,20 +287,21 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                        </tbody>
-                                        <tbody class="table-design">
-                                            <tr>
+                                        </tbody> -->
+                                        <tbody class="table-design" *ngIf="users.length!=null && !isUserShimer">
+                                            <tr *ngFor=" let i = index, let user of users | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};">
                                                 <td>06/06/2023</td>
-                                                <td>Wekreta</td>
-                                                <td>Meeting</td>
+                                                <td>{{user.name}}</td>
+                                                <!-- <td>Meeting</td> -->
                                                 <td>
-                                                    <p class="mb-0 weekly-pro">Weekly progress meeting</p>
+                                                    <p class="mb-0 weekly-pro">{{user.email}}</p>
                                                 </td>
-                                                <td class="text-center">12</td>
+                                                <!-- <td class="text-center">12</td> -->
+                                                
+                                                <!-- <td class="text-center">13</td>  -->
                                                 <td class="half-per">
-                                                    <span class="">80%</span>
+                                                    <span class="">0%</span>
                                                 </td>
-                                                <td class="text-center">13</td> 
                                                 <td>
                                                     <div class="hstack gap-3 justify-content-center">
                                                         <a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a>
@@ -276,7 +309,7 @@
                                                     </div>
                                                 </td> 
                                             </tr>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td>06/06/2023</td>
                                                 <td>Wekreta</td>
                                                 <td>Meeting</td>
@@ -313,9 +346,35 @@
                                                         <a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline">View</a>
                                                     </div>
                                                  </td> 
-                                            </tr>
+                                            </tr> -->
                                         </tbody>
                                         </table>
+                                        <div class="pagination pl-3" *ngIf="isUserShimer==false && users.length!=0">
+                                            <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
+                                            <div class="row">
+                                              <div class="col-md-12">
+                                               
+                                                <nav aria-label="Page navigation example">
+                                                 
+                                                  <ul class="pagination justify-content-end">
+                                                    <li class="page-item" [class.disabled]="pageNumber == 1">
+                                                      <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                      </a>
+                                                    </li>
+                                                    <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                                                      <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
+                                                    </li>
+                                                    <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                                                      <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                      </a>
+                                                    </li>
+                                                  </ul>
+                                                </nav>
+                                              </div>
+                                            </div>
+                                          </div>
                                     </div>
                                 </div>
                             </div>
