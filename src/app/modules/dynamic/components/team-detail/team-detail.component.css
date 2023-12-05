@@ -1,6 +1,7 @@
 
 .team-detail-hadding h5{
     font-size: 18px;
+    text-transform: capitalize;
 }
 
 .members-add {
