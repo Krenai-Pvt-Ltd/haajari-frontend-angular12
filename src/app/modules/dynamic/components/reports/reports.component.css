@@ -137,7 +137,7 @@
 
 .report-main-div {
     margin-bottom: 15px;
-    /* border-bottom: 1px solid #f1f1f1; */
+    border-bottom: 1px solid #f1f1f1;
 }
 
 .report-main-div:first-child {
@@ -175,7 +175,7 @@
 }
 
 .attendance-log-download ul li{
-    margin-right: 3px;
+    margin-right: 7px;
     border-radius: 50%;
     /* background-color: #0d61ff; */
     padding: 4px 7px;
@@ -222,12 +222,12 @@
     justify-content: center;
     align-items: center;
     width: 35px;
-    height: 35px;
+    height: 30px;
     border-radius: 50%;
     background-color: #fff;
     border: 1px solid #9e9e9e;
     line-height: 2px;
-    color: #444;
+    color: #9e9e9e;
 }
 
 /* .tracking-item:after {
@@ -236,7 +236,7 @@
     background-color: #b6b6b6;
     top: 22px;
     bottom: 22px;
-    left: 33px;
+    left: 30px;
     z-index: 1;
 }
 
@@ -245,3 +245,14 @@
     position: absolute;
     z-index: -1;
 } */
+
+.new-stap {
+    align-items: center;
+    -moz-column-gap: 15px;
+    grid-column-gap: 15px;
+    column-gap: 15px;
+    flex-direction: row;
+    position: relative;
+    margin-bottom: 0px;
+    z-index: 99;
+}
