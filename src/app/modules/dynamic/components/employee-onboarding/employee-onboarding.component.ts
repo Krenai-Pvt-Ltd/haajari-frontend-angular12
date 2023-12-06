@@ -48,7 +48,6 @@ searchCriteria: string = 'response';
       this.users = data.users;
       this.total = data.count;
       console.log(this.users);
-      this.isUserShimer=false;
       if(this.total==null){
         this.placeholder=true;
         this.errorToggleTop=false;
@@ -56,7 +55,7 @@ searchCriteria: string = 'response';
       }else{
         this.mainPlaceholdersTableFlag=false;
       }
-     
+      this.isUserShimer=false;
        
       //  const emailIdPairs = data.users.map((user: any) => ({ email: user.email, id: user.id }));
       //  console.log(emailIdPairs);
