@@ -25,7 +25,6 @@ import { WaitingPageComponent } from './components/waiting-page/waiting-page.com
 import { TeamComponent } from './components/team/team.component';
 import { CommonModule } from '@angular/common';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
-import { TempComponent } from './components/temp/temp.component';
 import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';
 import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 import { AttendanceSettingComponent } from './components/attendance-setting/attendance-setting.component';
@@ -43,7 +42,9 @@ import { EmergencyContactComponent } from './components/emergency-contact/emerge
 import { ReportsComponent } from './components/reports/reports.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TestingComponent } from './components/testing/testing.component';
 import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
+import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
 
 
 
@@ -67,7 +68,6 @@ import { LeaveSettingComponent } from './components/leave-setting/leave-setting.
     WaitingPageComponent,
     TeamComponent,
     TeamDetailComponent,
-    TempComponent,
     EmployeeOnboardingComponent,
     AttendanceSettingComponent,
     CompanySettingComponent,
@@ -83,7 +83,9 @@ import { LeaveSettingComponent } from './components/leave-setting/leave-setting.
     EmergencyContactComponent,
     ReportsComponent,
     EmployeeProfileComponent,
+    TestingComponent,
     LeaveSettingComponent,
+    SlackDataLoadComponent,
   ],
   imports: [
     CommonModule,

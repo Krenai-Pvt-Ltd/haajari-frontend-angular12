@@ -34,8 +34,8 @@ export class SlackAuthComponent implements OnInit{
     this.dataService.registerOrganizationUsingCodeParam(codeParam).subscribe((response: any) => {
       console.log(response);
 
-      localStorage.setItem('token', JSON.stringify(response.access_token));
-      localStorage.setItem('refresh_token', JSON.stringify(response.refresh_token));
+      localStorage.setItem('token', response.access_token);
+      localStorage.setItem('refresh_token', response.refresh_token);
 
       debugger
       const decodedValue = this.decodeFirebaseAccessToken(response.access_token);

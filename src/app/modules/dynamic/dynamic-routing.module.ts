@@ -35,7 +35,9 @@ import { BankDetailsComponent } from './components/bank-details/bank-details.com
 import { EmergencyContactComponent } from './components/emergency-contact/emergency-contact.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
+import { TestingComponent } from './components/testing/testing.component';
 import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
+import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -71,8 +73,8 @@ const routes: Routes = [
   {path: 'emergency-contact', component: EmergencyContactComponent},
   {path: 'reports', component: ReportsComponent},
   {path: 'employee-profile', component: EmployeeProfileComponent},
+  {path: 'testing', component: TestingComponent},
   {path: 'leave-setting', component: LeaveSettingComponent}
-
   
 
 //   {path: 'team-detail', component: TeamDetailComponent},
