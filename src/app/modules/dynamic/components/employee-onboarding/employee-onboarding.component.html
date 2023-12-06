@@ -224,7 +224,7 @@
                                             </tr>
                                         </thead>
                                         <!-- {{mainPlaceholdersTableFlag}}{{errorToggleTop}} -->
-                                       
+                                        <!-- {{isUserShimer}} -->
                                         <tbody *ngIf="isUserShimer">
                                             <tr *ngFor="let item of [].constructor(6)">
                                                 <td>
@@ -342,7 +342,7 @@
                                             <tr >
                                                 <td colspan="8">
                                                     <div class="mt-3 dashnodata" >
-                                                        <div class="errorboxmain" *ngIf="mainPlaceholdersTableFlag && errorToggleTop">
+                                                        <!-- <div class="errorboxmain" *ngIf="mainPlaceholdersTableFlag && errorToggleTop">
                                                             <div class="errorboxinner">
                                                                  <div class="errorboxplaceholder mb-2">
                                                                   <img src="assets/images/signal.svg" style="width:80px;" />
@@ -352,7 +352,20 @@
                                                                  <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
+                                                        <div class="errorboxmain"  *ngIf="mainPlaceholdersTableFlag && errorToggleTop">
+                                                       
+                                                            <div class="errorboxinner text-center">
+                                                              <div class="errorboxplaceholder mb-2">
+                                                                <img src="assets/images/signal.svg" style="width:80px;" />
+                                                              </div>
+                                                               <div class="">
+                                                              <h4>Something went wrong</h4>
+                                                              <p>An error occurred while processing your request. Please refresh the page and try again.</p>
+                                                              </div>
+                                                            </div>
+                                                       
+                                                    </div>
                                                     <div class="errorboxmain" *ngIf="placeholder && total==null && !isUserShimer && mainPlaceholdersTableFlag">
                                                        
                                                             <div class="errorboxinner text-center">
@@ -372,7 +385,7 @@
                                         </tbody>
 
                                         </table>
-                                        <div class="pagination pl-3" *ngIf="isUserShimer==false && users.length!=0">
+                                        <div class="pagination pl-3" *ngIf="!isUserShimer && users.length!=0">
                                             <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
                                             <div class="row">
                                               <div class="col-md-12">
