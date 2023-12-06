@@ -65,7 +65,23 @@
                     <h5>Latest Joining - Pending Verification</h5>
 
                     <div class="d-flex align-items-center mt-4" style="gap:10px;">
-                        <div class="on-leave" >
+                        <div class="on-leave" *ngFor="let statusUsers of employeeStatus.last3PendingUsers">
+                            <div class="d-flex align-items-center" style="gap:10px;">
+                            <div class="">
+                                <span *ngIf="statusUsers.image !== null">
+                                    <img src="{{statusUsers.image}}" class="rounded-circle thumb-xl">
+                                  </span>
+                                <span class="members-name" *ngIf="statusUsers.image == null">{{ statusUsers.name[0] }}</span>
+                                <!-- <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl"> -->
+                            </div>
+
+                            <div class="">
+                                <h5>{{statusUsers.name}}</h5>
+                                <p class="mb-0">{{statusUsers.email}}</p>
+                            </div>
+                        </div>
+                        </div>
+                        <!-- <div class="on-leave" >
                             <div class="d-flex align-items-center" style="gap:10px;">
                             <div class="">
                                 <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl">
@@ -88,19 +104,7 @@
                                 <p class="mb-0">Website Designer</p>
                             </div>
                         </div>
-                        </div>
-                        <div class="on-leave" >
-                            <div class="d-flex align-items-center" style="gap:10px;">
-                            <div class="">
-                                <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl">
-                            </div>
-
-                            <div class="">
-                                <h5>Yogesh Yadav</h5>
-                                <p class="mb-0">Website Designer</p>
-                            </div>
-                        </div>
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>
@@ -199,7 +203,7 @@
                                         <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
                                     </div>
                                 </form> -->
-                                <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchUsers()">
+                                <!-- <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchUsers()">
                                     <div class="form-group" style="width: 300px; position: relative;">
                                         <input type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid"
                                                (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px;"
@@ -209,7 +213,22 @@
             
                                         <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
                                     </div>
-                                </form>
+                                </form> -->
+
+                                <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchUsers()">
+                                    <div class="form-group" style="width: 300px; position: relative;">
+                                      <!-- <select [(ngModel)]="searchCriteria">
+                                        <option value="name">Name</option>
+                                        <option value="{{employeeStatus.employeeOnboardingStatus.response}}">Role</option>
+                                      </select> -->
+                                      <input type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                                        (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px;">
+                                      <button type="button" class="btn close-btn" (click)="reloadPage()" *ngIf="crossFlag"><i class="bi bi-x mt-auto mb-auto pl-3"></i></button>
+                                      <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
+                                    </div>
+                                  </form>
+                                  
+                                  
                                 
 
                              
@@ -240,39 +259,8 @@
                                                  <th style="width:15%">Comment</th> 
                                             </tr>
                                         </thead>
-                                        <tbody *ngIf="users.length==null && !isUserShimer" >
-                                            <tr >
-                                                <td colspan="8">
-                                                    <div class="mt-3 dashnodata" >
-                                                        <!-- <div class="errorboxmain" *ngIf="errorToggleTop">
-                                                            <div class="errorboxinner">
-                                                                 <div class="errorboxplaceholder mb-2">
-                                                                  <img src="assets/images/signal.svg" style="width:80px;" />
-                                                                  </div>
-                                                                 <div class="">
-                                                                 <h4>Something went wrong</h4>
-                                                                 <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div> -->
-                                                    <div class="errorboxmain" *ngIf="placeholder">
-                                                       
-                                                            <div class="errorboxinner text-center">
-                                                              <div class="errorboxplaceholder mb-2">
-                                                                <img src="assets/images/addnewproduct.svg" style="width:80px;" />
-                                                              </div>
-                                                
-                                                              <h4>No Data Found</h4>
-                                                              <p>We're unable to locate a record associated with the information you entered.</p>
-                                                            </div>
-                                                       
-                                                    </div>
-                                                    
-                                                 </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-
+                                        <!-- {{mainPlaceholdersTableFlag}}{{errorToggleTop}} -->
+                                       
                                         <tbody *ngIf="isUserShimer">
                                             <tr *ngFor="let item of [].constructor(6)">
                                                 <td>
@@ -320,9 +308,9 @@
                                                 </td>
                                             </tr>
                                         </tbody> -->
-                                        <tbody class="table-design" *ngIf="users.length!=null && !isUserShimer">
+                                        <tbody class="table-design" *ngIf="users.length!=null && !isUserShimer && !mainPlaceholdersTableFlag">
                                             <tr *ngFor=" let i = index, let user of users | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};">
-                                                <td>06/06/2023</td>
+                                                <td>{{user.onboardingStatusUpdateDate.toString() | dateFormat}}</td>
                                                 <td>{{user.name}}</td>
                                                 <!-- <td>Meeting</td> -->
                                                 <td>
@@ -386,6 +374,39 @@
                                                  </td> 
                                             </tr> -->
                                         </tbody>
+                                        <tbody >
+                                            <tr >
+                                                <td colspan="8">
+                                                    <div class="mt-3 dashnodata" >
+                                                        <div class="errorboxmain" *ngIf="mainPlaceholdersTableFlag && errorToggleTop">
+                                                            <div class="errorboxinner">
+                                                                 <div class="errorboxplaceholder mb-2">
+                                                                  <img src="assets/images/signal.svg" style="width:80px;" />
+                                                                  </div>
+                                                                 <div class="">
+                                                                 <h4>Something went wrong</h4>
+                                                                 <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <div class="errorboxmain" *ngIf="placeholder && total==null && !isUserShimer && mainPlaceholdersTableFlag">
+                                                       
+                                                            <div class="errorboxinner text-center">
+                                                              <div class="errorboxplaceholder mb-2">
+                                                                <img src="assets/images/addnewproduct.svg" style="width:80px;" />
+                                                              </div>
+                                                
+                                                              <h4>No Data Found</h4>
+                                                              <p>We're unable to locate a record associated with the information you entered.</p>
+                                                            </div>
+                                                       
+                                                    </div>
+                                                    
+                                                 </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
                                         </table>
                                         <div class="pagination pl-3" *ngIf="isUserShimer==false && users.length!=0">
                                             <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>

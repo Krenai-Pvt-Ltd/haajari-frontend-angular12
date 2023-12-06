@@ -29,8 +29,9 @@ export class DataService {
   }
   //private baseUrl = Key.ENDPOINT;
   
-  // private baseUrl = "http://localhost:8080/api/v2"
-  private baseUrl = "https://backend.hajiri.work/api/v2";
+  private baseUrl = "http://localhost:8080/api/v2"
+
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
     const params = new HttpParams().set("code_param", codeParam);
@@ -331,9 +332,12 @@ export class DataService {
   getTodaysLeaveCount(): Observable<any> {
     return this.httpClient.get( this.baseUrl+'/user-leave/todays-leave-count');
   }
+
+  slackDataPlaceholderFlag:boolean=false;
   getSlackChannelsDataToTeam(organizationUuid: string): Observable<any> {
     const params = new HttpParams().set("organization_uuid", organizationUuid);
     return this.httpClient.get<any>(`${this.baseUrl}/team/users`, {params});
+    
   }
   
   
@@ -365,4 +369,15 @@ export class DataService {
   callingHelloWorld():Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/slack/hello`);
   }
+
+  getEmployeesStatus():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-employee-onboarding-status`);
+  }
+
+  
+  getLastApprovedAndLastRejecetd():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-status`);
+  }
+
+  
 }

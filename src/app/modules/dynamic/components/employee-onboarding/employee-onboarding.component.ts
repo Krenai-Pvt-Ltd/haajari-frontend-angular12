@@ -33,7 +33,12 @@ export class EmployeeOnboardingComponent implements OnInit {
 
   isUserShimer:boolean=false;
   placeholder:boolean=false;
-  // errorToggleTop:boolean=false;
+  errorToggleTop:boolean=false;
+  mainPlaceholdersTableFlag:boolean=false;
+
+
+searchCriteria: string = 'response'; 
+
   getUsersByFiltersFunction() {
     // const role = this.loginDetails.role;
     this.isUserShimer=true;
@@ -46,6 +51,10 @@ export class EmployeeOnboardingComponent implements OnInit {
       this.isUserShimer=false;
       if(this.total==null){
         this.placeholder=true;
+        this.errorToggleTop=false;
+        this.mainPlaceholdersTableFlag=true;
+      }else{
+        this.mainPlaceholdersTableFlag=false;
       }
      
        
@@ -55,7 +64,8 @@ export class EmployeeOnboardingComponent implements OnInit {
 
     }, (error) => {
       this.isUserShimer=false;
-      // this.errorToggleTop=true;
+      this.errorToggleTop=true;
+      this.mainPlaceholdersTableFlag=true;
       console.log(error);
       const res = document.getElementById("error-page") as HTMLElement | null;
 
