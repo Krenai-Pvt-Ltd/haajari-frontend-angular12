@@ -242,3 +242,25 @@ span.members-name {
     align-items: center;
     gap:10px
 }
+
+.attendance-name{
+    padding-left: 28px;
+    font-size: 12px;
+    color: #878a99;
+    margin-bottom: 0px;
+}
+
+.absent{
+   background-color: rgb(255, 183, 183);
+   color: red;
+}
+
+.half-day {
+    background-color: #fbba7d;
+    color: #db6e09;
+}
+
+.present{
+    background-color: rgb(162, 255, 162);
+    columns: green;
+}

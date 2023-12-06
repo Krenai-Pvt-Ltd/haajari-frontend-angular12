@@ -35,11 +35,7 @@ import { BankDetailsComponent } from './components/bank-details/bank-details.com
 import { EmergencyContactComponent } from './components/emergency-contact/emergency-contact.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
-<<<<<<< HEAD
 import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
-=======
-import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
->>>>>>> e480106b2d9491341a9e43a19198fdc9aca1033d
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -75,11 +71,7 @@ const routes: Routes = [
   {path: 'emergency-contact', component: EmergencyContactComponent},
   {path: 'reports', component: ReportsComponent},
   {path: 'employee-profile', component: EmployeeProfileComponent},
-<<<<<<< HEAD
   {path: 'leave-setting', component: LeaveSettingComponent}
-=======
- 
->>>>>>> e480106b2d9491341a9e43a19198fdc9aca1033d
 
   
 

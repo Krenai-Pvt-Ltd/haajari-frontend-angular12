@@ -167,17 +167,15 @@ errorToggleMain: boolean=false;
     return this.datePipe.transform(date, 'EEEE');
   }
 
-  getAttendanceStatus(attendance: AttendenceDto): string {
-    if(attendance.checkInTime == null){
-        if(new Date(attendance.createdDay) > new Date()){
-          return '-';
-        } else{
-          return 'A';
-        }
+  attendanceString:string='';
+  today:Date=new Date();
+  convertStringToDate(attendance: AttendenceDto){
+    if(attendance.converterDate==undefined){
+      attendance.converterDate = new Date(attendance.createdDay)
     }
-
-    return 'P';
+    return attendance.converterDate;
   }
+  
 
   getFirstName(fullName: string): string {
     const names = fullName.split(' ');

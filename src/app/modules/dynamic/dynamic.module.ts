@@ -43,11 +43,7 @@ import { EmergencyContactComponent } from './components/emergency-contact/emerge
 import { ReportsComponent } from './components/reports/reports.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-<<<<<<< HEAD
 import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
-=======
-import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
->>>>>>> e480106b2d9491341a9e43a19198fdc9aca1033d
 
 
 
@@ -87,11 +83,7 @@ import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.compon
     EmergencyContactComponent,
     ReportsComponent,
     EmployeeProfileComponent,
-<<<<<<< HEAD
     LeaveSettingComponent,
-=======
-    SlackDataLoadComponent,
->>>>>>> e480106b2d9491341a9e43a19198fdc9aca1033d
   ],
   imports: [
     CommonModule,
