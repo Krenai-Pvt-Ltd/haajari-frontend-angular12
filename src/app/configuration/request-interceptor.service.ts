@@ -47,12 +47,10 @@ export class RequestInterceptorService implements HttpInterceptor {
   constructor(private dataService : DataService, private router : Router) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const localStorageToken = localStorage.getItem('token');
-    const localStorageRefreshToken = localStorage.getItem('refresh_token');
+    const token = localStorage.getItem('token');
   
     debugger
-    if (localStorageToken !== null && localStorageRefreshToken !== null) {
-      const token = localStorageToken.replace(/"/g, '');
+    if (token !== null && token !== null) {
       request = this.addTokenToHeaders(request, token);
   
       return next.handle(request).pipe(

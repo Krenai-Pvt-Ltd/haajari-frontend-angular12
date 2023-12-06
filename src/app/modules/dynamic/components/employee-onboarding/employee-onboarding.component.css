@@ -158,6 +158,14 @@
     text-align: center;
 }
 
+
+.rej-per{
+    background-color: red;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+}
+
 .half-per{
     background-color: orange;
     color: #fff;
@@ -190,8 +198,24 @@ tbody tr {
     padding: 5px 23px;
     border: 1px solid #557ef8;
 }
+/* 
+.errorboxmain{
+    min-height: 20vh;
+    background-color: #fff;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    border-radius: 6px;
+}
+
+  .errorboxmain {
+    padding: 15px;
+} */
 
 
+.errorboxinner{
+    display: flex;
+    align-items: center;
+    gap:10px
+}
 .errorboxmain{
     min-height: 30vh;
     display: flex;

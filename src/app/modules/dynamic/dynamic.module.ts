@@ -43,6 +43,8 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestingComponent } from './components/testing/testing.component';
+import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
+import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
 
 
 
@@ -82,6 +84,8 @@ import { TestingComponent } from './components/testing/testing.component';
     ReportsComponent,
     EmployeeProfileComponent,
     TestingComponent,
+    LeaveSettingComponent,
+    SlackDataLoadComponent,
   ],
   imports: [
     CommonModule,

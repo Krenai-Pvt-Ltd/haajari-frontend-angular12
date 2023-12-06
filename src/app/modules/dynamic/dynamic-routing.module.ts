@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from '../common/header/header.component';
 import { TopbarComponent } from '../common/topbar/topbar.component';
@@ -36,6 +36,8 @@ import { EmergencyContactComponent } from './components/emergency-contact/emerge
 import { ReportsComponent } from './components/reports/reports.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { TestingComponent } from './components/testing/testing.component';
+import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
+import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -46,7 +48,7 @@ const routes: Routes = [
   { path: 'project', component: ProjectComponent},
   { path: 'team', component: TeamComponent},
   { path: 'task-manager', component: TaskManagerComponent},
-  { path: 'live-manager', component: LiveManagerComponent},
+  { path: ' ', component: LiveManagerComponent},
   { path: 'onboarding', component: OnboardingComponent},
   { path: 'login', component: LoginComponent },
   { path: 'payment', component: PaymentComponent },
@@ -71,8 +73,8 @@ const routes: Routes = [
   {path: 'emergency-contact', component: EmergencyContactComponent},
   {path: 'reports', component: ReportsComponent},
   {path: 'employee-profile', component: EmployeeProfileComponent},
-  {path: 'testing', component: TestingComponent}
-
+  {path: 'testing', component: TestingComponent},
+  {path: 'leave-setting', component: LeaveSettingComponent}
   
 
 //   {path: 'team-detail', component: TeamDetailComponent},

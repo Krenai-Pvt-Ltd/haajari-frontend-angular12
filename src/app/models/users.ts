@@ -11,6 +11,8 @@ export class Users {
     organization !: Organization;
     presenceStatus !: Boolean;
     status !: Status;
+    onboardingStatusUpdateDate!: Date
+    employeeOnboardingStatus!: Status
 }
 
 // export class Organization{
@@ -33,6 +35,7 @@ export class Status{
     id !: number;
     name !: string;
     desc !: string;
+    response !: string;
 }
 export { Organization };
 

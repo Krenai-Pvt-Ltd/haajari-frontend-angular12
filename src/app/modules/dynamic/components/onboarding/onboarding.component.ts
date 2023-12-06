@@ -482,18 +482,37 @@ export class OnboardingComponent implements OnInit {
   //   );
   // }
 
+  
+  shiftLogin: {
+    inTime: string;
+    outTime: string;
+    startLunch: string;
+    endLunch: string;
+    workingHour: string;
+    totalHour: string;
+    organizationId: number;
+  } = {
+    inTime: "",
+    outTime: "",
+    startLunch: "",
+    endLunch: "",
+    workingHour: "",
+    totalHour: "",
+    organizationId: 0,
+  };
+
   shifttimings: ShiftTimings = new ShiftTimings();
 
   getShifts() {
     this.dataService.getShiftTimings().subscribe(
       (data) => {
         // this.setActive(1);
-        this.loginArray.inTime = data.inTime;
-        this.loginArray.outTime = data.outTime;
-        this.loginArray.startLunch = data.startLunch;
-        this.loginArray.endLunch = data.endLunch;
-        this.loginArray.workingHour = data.workingHour;
-        this.loginArray.totalHour = data.totalHour;
+        this.shiftLogin.inTime = data.inTime;
+        this.shiftLogin.outTime = data.outTime;
+        this.shiftLogin.startLunch = data.startLunch;
+        this.shiftLogin.endLunch = data.endLunch;
+        this.shiftLogin.workingHour = data.workingHour;
+        this.shiftLogin.totalHour = data.totalHour;
 
         if (data) {
           this.dailyQuesValid = true;
@@ -533,7 +552,7 @@ export class OnboardingComponent implements OnInit {
         //   this.a = 2;
          
         // }
-        this.requestShiftTimingsCloseModel.nativeElement.click();
+        // this.requestShiftTimingsCloseModel.nativeElement.click();
       },
       (error) => {
         console.log(error);
@@ -604,38 +623,44 @@ export class OnboardingComponent implements OnInit {
 
   shiftSetInvalidToggle: boolean = false;
 
+  outTimeError = false;
   startLunchError = false;
   endLunchError = false;
 
-
+  saveShiftFlagError = false;
+ 
   addShift() {
     if (this.shiftForm.invalid) {
       this.shiftSetInvalidToggle = true;
       return;
     }
-     // Add your validation condition here
-    if (this.loginArray.startLunch >= this.loginArray.outTime) {
-      this.startLunchError = true;
-      this.loginArray.startLunch="";
-    } else {
-      this.startLunchError = false;
-    }
+    // if(this.loginArray.inTime > this.loginArray.outTime){
+    //   this.outTimeError = true;
+    //   this.saveShiftFlagError = true;
+    // }
+    // if (this.loginArray.startLunch >= this.loginArray.outTime) {
+    //   this.startLunchError = true;
+    //   this.saveShiftFlagError = true;
+    //   // this.loginArray.startLunch="";
+    // } else {
+    //   this.startLunchError = false;
+    // }
 
-    if (this.loginArray.endLunch <= this.loginArray.startLunch || this.loginArray.endLunch > this.loginArray.outTime) {
-      this.endLunchError = true;
-      this.loginArray.endLunch="";
-    } else {
-      this.endLunchError = false;
-    }
+    // if (this.loginArray.endLunch <= this.loginArray.startLunch || this.loginArray.endLunch > this.loginArray.outTime) {
+    //   this.endLunchError = true;
+    //   this.saveShiftFlagError = true;
+    //   // this.loginArray.endLunch="";
+    // } else {
+    //   this.endLunchError = false;
+    // }
 
-    // Check if any errors are present
-    if (this.startLunchError || this.endLunchError) {
-      return; // Prevent form submission
-    }
-
-    // Continue with form submission logic
+    // if (this.startLunchError || this.endLunchError || this.outTimeError) {
+    //   this.saveShiftFlagError = true;
+    //   return; // Prevent form submission
+    // }
       this.calculateHours();
       console.log(this.loginArray);
+      this.onSaveShiftTimings();
       this.requestShiftCloseModel.nativeElement.click();
   }
 
@@ -800,9 +825,15 @@ export class OnboardingComponent implements OnInit {
   dailyQuesValid = false;
   isThirdSectionOpen = false;
  
+ combinedShiftTimings(){
 
+  this.addShift();
+  // this.onSaveShiftTimings();
+  this.getShifts();
+ }
 
   onSaveShiftTimings() {
+   
     this.dataService.registerShiftTimings(this.loginArray).subscribe(
       (response) => {
         this.dailyQuesValid = true;
@@ -835,9 +866,10 @@ export class OnboardingComponent implements OnInit {
       },
       (error) => {
         console.error(error);
-        alert("Error saving leave");
+        // alert("Error saving leave");
       }
     );
+
   }
 
   onBtnClick() {
@@ -1222,6 +1254,76 @@ export class OnboardingComponent implements OnInit {
         this.setActive(4);
         this.count=4;
       }
+    }
+
+  }
+
+  shiftSaveCount=0;
+
+  outTimeValid:string="OutTime";
+  startLunchValid:string="StartLunch";
+  endLunchValid:string="EndLunch";
+
+  validateTime(type:string,value:string){
+
+  if(type == this.outTimeValid){
+    if(this.loginArray.inTime > value){
+      this.outTimeError = true;
+      this.saveShiftFlagError = true;
+      // this.leaveSetInvalidToggle = true;
+    }else{
+      this.outTimeError = false;
+      // this.leaveSetInvalidToggle = false;
+
+    }
+  }else{
+    this.saveShiftFlagError = false;
+    // this.leaveSetInvalidToggle = false;
+
+  }
+
+  if(type == this.startLunchValid){
+    if (value >= this.loginArray.outTime) {
+      this.startLunchError = true;
+      this.saveShiftFlagError = true;
+      // this.leaveSetInvalidToggle = true;
+      // this.loginArray.startLunch="";
+    } else {
+      this.startLunchError = false;
+      // this.leaveSetInvalidToggle = false;
+    }
+  }else{
+    this.saveShiftFlagError = false;
+    // this.leaveSetInvalidToggle = false;
+
+  }
+
+  if(type == this.endLunchValid){
+    if (value <= this.loginArray.startLunch || value > this.loginArray.outTime) {
+      this.endLunchError = true;
+      this.saveShiftFlagError = true;
+      // this.leaveSetInvalidToggle = true;
+      // this.loginArray.endLunch="";
+    } else {
+      this.endLunchError = false;
+      // this.leaveSetInvalidToggle = false;
+
+    }
+  }else{
+    this.saveShiftFlagError = false;
+    // this.leaveSetInvalidToggle = false;
+  }
+
+    if (this.startLunchError || this.endLunchError || this.outTimeError) {
+      this.leaveSetInvalidToggle = true;
+      this.saveShiftFlagError = true;
+      this.shiftSaveCount = 1;
+      return; 
+    }else{
+      this.saveShiftFlagError = false;
+      this.leaveSetInvalidToggle = false;
+      this.shiftSaveCount = 2;
+
     }
 
   }

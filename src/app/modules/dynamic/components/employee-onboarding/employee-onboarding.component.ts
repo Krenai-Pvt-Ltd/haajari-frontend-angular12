@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/user';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -19,14 +20,25 @@ export class EmployeeOnboardingComponent implements OnInit {
   total !: number;
   rowNumber : number = 1;
 
+  pendingResponse ="PENDING"
+  approvedResponse = "APPROVED"
+  rejectedResponse = "REJECTED"
+
 
   ngOnInit(): void {
     this.getUsersByFiltersFunction();
+    this.getEmployeesOnboardingStatus();
+    this.getEmpLastApprovedAndLastRejecetdStatus();
   }
 
   isUserShimer:boolean=false;
   placeholder:boolean=false;
   errorToggleTop:boolean=false;
+  mainPlaceholdersTableFlag:boolean=false;
+
+
+searchCriteria: string = 'response'; 
+
   getUsersByFiltersFunction() {
     // const role = this.loginDetails.role;
     this.isUserShimer=true;
@@ -39,7 +51,12 @@ export class EmployeeOnboardingComponent implements OnInit {
       this.isUserShimer=false;
       if(this.total==null){
         this.placeholder=true;
+        this.errorToggleTop=false;
+        this.mainPlaceholdersTableFlag=true;
+      }else{
+        this.mainPlaceholdersTableFlag=false;
       }
+     
        
       //  const emailIdPairs = data.users.map((user: any) => ({ email: user.email, id: user.id }));
       //  console.log(emailIdPairs);
@@ -48,6 +65,7 @@ export class EmployeeOnboardingComponent implements OnInit {
     }, (error) => {
       this.isUserShimer=false;
       this.errorToggleTop=true;
+      this.mainPlaceholdersTableFlag=true;
       console.log(error);
       const res = document.getElementById("error-page") as HTMLElement | null;
 
@@ -78,9 +96,13 @@ export class EmployeeOnboardingComponent implements OnInit {
 
   searchText : string = '';
 
-
+  crossFlag:boolean=false;
   searchUsers() {
+    this.crossFlag=true;
     this.getUsersByFiltersFunction();
+    if(this.searchText== ''){
+      this.crossFlag=false;
+    }
   }
 
   reloadPage(){
@@ -117,6 +139,47 @@ getStartIndex(): number {
 getEndIndex(): number {
   const endIndex = this.pageNumber * this.itemPerPage;
   return endIndex > this.total ? this.total : endIndex;
+}
+
+
+verificationCount: any = {};
+
+getEmployeesOnboardingStatus(){
+  debugger
+  this.dataService.getEmployeesStatus().subscribe(data =>{
+    console.log(data);
+    this.verificationCount = data;
+
+    console.log("====================");
+  }, (error) => {
+    console.log(error);
+    console.log("-------------------------------")
+  })
+}
+
+
+
+employeeStatus: any = {};
+
+// lastApproved: User[] = [];
+// lastRejected: User[] = [];
+
+getEmpLastApprovedAndLastRejecetdStatus(){
+  debugger
+  this.dataService.getLastApprovedAndLastRejecetd().subscribe(data =>{
+    console.log(data);
+    this.employeeStatus = data;
+    console.log(this.employeeStatus);
+    // if(this.employeeStatus!=null){
+    //  this.lastApproved= this.employeeStatus.lastApprovedUser;
+    //  this.lastRejected= this.employeeStatus.lastRejectedUser;
+    // }
+    // console.log(this.lastApproved);
+    // console.log(this.lastRejected);
+
+  }, (error) => {
+    console.log(error);
+  })
 }
 
 }
