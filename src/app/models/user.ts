@@ -5,4 +5,14 @@ export class User {
     uuid!: string;
     email!: string;
     image!: string;
+    slackUserId!: string;
+    presenceStatus!: string
+    onboardingStatusUpdateDate!: Date
+    employeeOnboardingStatus!: Status
+}
+
+export class Status{
+    id !: number;
+    name !: string;
+    desc !: string;
 }
