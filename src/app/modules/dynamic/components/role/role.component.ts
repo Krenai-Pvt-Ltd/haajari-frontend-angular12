@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { error } from 'console';
 import { ModuleRequest } from 'src/app/models/module-request';
 import { ModuleResponse } from 'src/app/models/module-response';
 import { Role } from 'src/app/models/role';
@@ -23,8 +24,6 @@ export class RoleComponent implements OnInit {
   searchText : string = '';
 
   ngOnInit(): void {
-
-
     this.call();
     this.getAllRolesMethodCall();
     this.getSubModuleByRoleMethodCall();
@@ -53,8 +52,6 @@ export class RoleComponent implements OnInit {
     this.pageNumber=event;
     this.getAllRolesMethodCall();
   }
-
-
 
   // # Modal Data
   name : string = '';
@@ -127,9 +124,6 @@ export class RoleComponent implements OnInit {
 
   }
 
-
-
-
   handleRadioClick(privilegeId: number, subModule: any) {
     if (subModule.privilegeId === privilegeId) {
         subModule.privilegeId = null;
@@ -138,13 +132,13 @@ export class RoleComponent implements OnInit {
     }
 
     this.settingModuleRequestValue(privilegeId, subModule);
-}
+  }
 
-    call(){
-      this.dataService.callingHelloWorld().subscribe((data) => {
-        console.log(data);
-      }, (error) => {
-        console.log(error);
-      })
-    }
+  call(){
+    this.dataService.callingHelloWorld().subscribe((data) => {
+      console.log(data.text);
+    }, (error) => {
+      console.log(error);
+    })
+  }
 }

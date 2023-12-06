@@ -50,6 +50,7 @@ export class RequestInterceptorService implements HttpInterceptor {
     const localStorageToken = localStorage.getItem('token');
     const localStorageRefreshToken = localStorage.getItem('refresh_token');
   
+    debugger
     if (localStorageToken !== null && localStorageRefreshToken !== null) {
       const token = localStorageToken.replace(/"/g, '');
       request = this.addTokenToHeaders(request, token);
@@ -71,6 +72,7 @@ export class RequestInterceptorService implements HttpInterceptor {
               })
             );
           } else {
+            console.log("Firebase Error Checking: " + error.status);
             return throwError(error);
           }
         })

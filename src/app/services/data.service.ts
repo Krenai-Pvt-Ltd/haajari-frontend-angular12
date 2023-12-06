@@ -29,8 +29,8 @@ export class DataService {
   }
   //private baseUrl = Key.ENDPOINT;
   
-  // private baseUrl = "http://localhost:8080/api/v2"
-  private baseUrl = "https://backend.hajiri.work/api/v2";
+  private baseUrl = "http://localhost:8080/api/v2"
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
     const params = new HttpParams().set("code_param", codeParam);
@@ -388,7 +388,10 @@ export class DataService {
   updateRolePermissions(roleRequest : RoleRequest): Observable<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/role/update`, roleRequest);
   }
+  
+  //Just for testing purpose
   callingHelloWorld():Observable<any>{
+    debugger
     return this.httpClient.get<any>(`${this.baseUrl}/slack/hello`);
   }
 }
