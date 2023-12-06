@@ -57,7 +57,7 @@ export class RequestInterceptorService implements HttpInterceptor {
   
       return next.handle(request).pipe(
         catchError(error => {
-          if (error.status === 401 || error.status === 403) {
+          if (error.status === 401 || error.status === 403 || error.status === 400) {
             return this.dataService.refreshFirebaseAccessToken().pipe(
               switchMap((newToken: string) => {
                 if (newToken) {

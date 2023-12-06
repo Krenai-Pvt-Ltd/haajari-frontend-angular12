@@ -35,6 +35,7 @@ import { BankDetailsComponent } from './components/bank-details/bank-details.com
 import { EmergencyContactComponent } from './components/emergency-contact/emergency-contact.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
+import { TestingComponent } from './components/testing/testing.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -69,7 +70,8 @@ const routes: Routes = [
   {path: 'bank-details', component: BankDetailsComponent},
   {path: 'emergency-contact', component: EmergencyContactComponent},
   {path: 'reports', component: ReportsComponent},
-  {path: 'employee-profile', component: EmployeeProfileComponent}
+  {path: 'employee-profile', component: EmployeeProfileComponent},
+  {path: 'testing', component: TestingComponent}
 
   
 

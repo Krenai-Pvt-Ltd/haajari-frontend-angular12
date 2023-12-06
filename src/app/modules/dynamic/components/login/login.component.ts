@@ -27,8 +27,8 @@ password: any;
       debugger
       console.log(response);
 
-      localStorage.setItem('token', JSON.stringify(response.access_token));
-      localStorage.setItem('refresh_token', JSON.stringify(response.refresh_token));
+      localStorage.setItem('token', response.access_token);
+      localStorage.setItem('refresh_token', response.refresh_token);
 
       this.router.navigate(['/dashboard']);
       
