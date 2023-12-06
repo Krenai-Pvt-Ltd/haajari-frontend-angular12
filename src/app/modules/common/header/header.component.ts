@@ -34,10 +34,8 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogout(){
-    localStorage.removeItem('loginData');
-    localStorage.removeItem('managerFunc');
-    localStorage.removeItem('orgId');
-    this.router.navigate(['/dynamic/login']);
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 
 }

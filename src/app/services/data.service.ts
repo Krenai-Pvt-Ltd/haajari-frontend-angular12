@@ -134,6 +134,21 @@ export class DataService {
     
     return this.httpClient.get<TeamResponse[]>(`${this.baseUrl}/team/get-all-teams-with-users-by-user-id`);
   }
+
+  // Firebase access token from refresh token
+  refreshFirebaseAccessToken(): Observable<any> {
+
+    const refreshToken = localStorage.getItem('refresh_token');
+
+    if(refreshToken === null || refreshToken === undefined) {
+      throw new Error("Refresh token not found");
+    }
+    
+    const params = new HttpParams().set("refresh_token", refreshToken);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/firebase/refresh-access-token`, {params});
+  }
+
   registerOnboardingDetails(
     id: number,
     name: string,
@@ -254,6 +269,17 @@ export class DataService {
       params,
     });
   }
+
+  logoutUser(email : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set("email", email);
+
+    return this.httpClient.get(`${this.baseUrl}/users/logout`, {
+      params,
+    })
+  }
+
   // saveTokenForOrganization(organization : Organization): Observable<any> {
    
   //   return this.httpClient.post<any>(this.baseUrl+ '/savetoken', organization);
@@ -366,7 +392,10 @@ export class DataService {
   updateRolePermissions(roleRequest : RoleRequest): Observable<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/role/update`, roleRequest);
   }
+  
+  //Just for testing purpose
   callingHelloWorld():Observable<any>{
+    debugger
     return this.httpClient.get<any>(`${this.baseUrl}/slack/hello`);
   }
 
