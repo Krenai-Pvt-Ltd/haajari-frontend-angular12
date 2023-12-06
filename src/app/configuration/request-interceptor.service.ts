@@ -57,9 +57,9 @@ export class RequestInterceptorService implements HttpInterceptor {
         catchError(error => {
           if (error.status === 401 || error.status === 403 || error.status === 400) {
             return this.dataService.refreshFirebaseAccessToken().pipe(
-              switchMap((newToken: string) => {
+              switchMap((newToken: any) => {
                 if (newToken) {
-                  const updatedReq = this.addTokenToHeaders(request, newToken);
+                  const updatedReq = this.addTokenToHeaders(request, newToken.access_token);
                   return next.handle(updatedReq);
                 } else {
                   return throwError('Failed to refresh token');
