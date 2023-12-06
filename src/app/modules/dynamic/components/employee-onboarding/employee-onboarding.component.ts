@@ -41,13 +41,16 @@ searchCriteria: string = 'response';
 
   getUsersByFiltersFunction() {
     // const role = this.loginDetails.role;
+    
     this.isUserShimer=true;
+
     debugger
     this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((data : any) => {
       debugger
       this.users = data.users;
       this.total = data.count;
       console.log(this.users);
+     
       if(this.total==null){
         this.placeholder=true;
         this.errorToggleTop=false;
@@ -55,11 +58,10 @@ searchCriteria: string = 'response';
       }else{
         this.mainPlaceholdersTableFlag=false;
       }
-      this.isUserShimer=false;
        
       //  const emailIdPairs = data.users.map((user: any) => ({ email: user.email, id: user.id }));
       //  console.log(emailIdPairs);
-
+      this.isUserShimer=false;
 
     }, (error) => {
       this.isUserShimer=false;
