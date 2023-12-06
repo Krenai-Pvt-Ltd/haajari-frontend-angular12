@@ -35,6 +35,7 @@ import { BankDetailsComponent } from './components/bank-details/bank-details.com
 import { EmergencyContactComponent } from './components/emergency-contact/emergency-contact.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
+import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -45,7 +46,7 @@ const routes: Routes = [
   { path: 'project', component: ProjectComponent},
   { path: 'team', component: TeamComponent},
   { path: 'task-manager', component: TaskManagerComponent},
-  { path: 'live-manager', component: LiveManagerComponent},
+  { path: ' ', component: LiveManagerComponent},
   { path: 'onboarding', component: OnboardingComponent},
   { path: 'login', component: LoginComponent },
   { path: 'payment', component: PaymentComponent },
@@ -69,7 +70,8 @@ const routes: Routes = [
   {path: 'bank-details', component: BankDetailsComponent},
   {path: 'emergency-contact', component: EmergencyContactComponent},
   {path: 'reports', component: ReportsComponent},
-  {path: 'employee-profile', component: EmployeeProfileComponent}
+  {path: 'employee-profile', component: EmployeeProfileComponent},
+  {path: 'leave-setting', component: LeaveSettingComponent}
 
   
 

@@ -43,6 +43,7 @@ import { EmergencyContactComponent } from './components/emergency-contact/emerge
 import { ReportsComponent } from './components/reports/reports.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
 
 
 
@@ -82,6 +83,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     EmergencyContactComponent,
     ReportsComponent,
     EmployeeProfileComponent,
+    LeaveSettingComponent,
   ],
   imports: [
     CommonModule,
