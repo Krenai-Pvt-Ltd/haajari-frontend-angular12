@@ -178,7 +178,7 @@
 
 .attendance-date {
     border: none;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 /* .table-padding tr td{
@@ -263,3 +263,91 @@
 .leves-type-s h5{
     font-size: 15px;
 }
+
+.profile-date{
+    margin-bottom: 0px;
+    /* position: absolute;
+    top: 2px;
+    right: 2px; */
+    color: #fff;
+    font-size: 9px;
+    background-color: #7681e9;
+    padding: 1px;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    line-height: 28px;
+    margin: 0 auto;
+    margin-top: 5px;
+    text-transform: uppercase;
+}
+
+
+
+
+.table-padding tr td{
+    position: relative;
+}
+
+.absent{
+    background-color: rgb(248, 215, 215);
+    color: #eb5050!important;
+    border: 1px solid #eb5050;
+ }
+ 
+ .half-day {
+     color: #f9af47!important;
+     background-color: #faf5ee!important;
+     border: 1px solid #f9af47;
+ }
+ 
+ .present{
+     background-color: #e0ffe0!important;
+     color: #3e993e!important;
+     border: 1px solid #3e993e;
+ }
+
+ .approved{
+    background-color: #e0ffe0!important;
+    color: #3e993e!important;
+    border: 1px solid #3e993e;
+ }
+ .rejected{
+    background-color: rgb(248, 215, 215);
+    color: #eb5050!important;
+    border: 1px solid #eb5050;
+ }
+
+ .approved:hover{
+    background-color: #3e993e!important;
+    color: #fff!important;
+    border: 1px solid #3e993e;
+ }
+ .rejected:hover{
+    background-color: #eb5050;
+    color: #fff!important;
+    border: 1px solid #eb5050;
+ }
+
+ span.edit-profile {
+    position: absolute;
+    top: 30px;
+    right: 75px;
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    border: 1px solid #4f5eee;
+    border-radius: 50px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    cursor: pointer;
+    font-size: 10px;
+}
+/* 
+span.edit-profile:hover{
+    background-color: #adb5ff;
+} */
