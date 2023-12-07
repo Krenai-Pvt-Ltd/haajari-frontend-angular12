@@ -98,11 +98,12 @@ export class EmployeeOnboardingComponent implements OnInit {
   }
 
   text = '';
-  changeStatus(presenceStatus: Boolean) {
-    this.dataService.changeStatusById(presenceStatus).subscribe(
+  changeStatus(presenceStatus: Boolean, uuid:string) {
+    this.dataService.changeStatusById(presenceStatus, uuid).subscribe(
       (data) => {
         console.log(data);
         console.log('====================');
+        location.reload();
       },
       (error) => {
         console.log(error);

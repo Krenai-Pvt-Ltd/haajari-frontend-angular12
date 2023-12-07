@@ -108,10 +108,11 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/all/by-filters`, {params});
   }
   
-  changeStatusById(presenceStatus: Boolean): Observable<any> {
+  changeStatusById(presenceStatus: Boolean, userUuid:string): Observable<any> {
     const params = new HttpParams()
-      .set("presenceStatus", presenceStatus.toString());
-    return this.httpClient.put<any>(`${this.baseUrl}/users/change-status`, params);
+      .set("presenceStatus", presenceStatus.toString())
+      .set("userUuid", userUuid );
+    return this.httpClient.put<any>(`${this.baseUrl}/users/change-status`,{},{params});
   }
   getActiveUsersCount(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/users/active-count`);
