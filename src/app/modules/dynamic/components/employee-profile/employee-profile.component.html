@@ -59,8 +59,8 @@
 
                                 <div class="mt-1">
                                     <div class="d-flex" style="gap:10px">
-                                        <button class="btn sand-request approved" type="button" routerLink="/employee-onboarding-form">Approved</button>
-                                        <button class="btn sand-request rejected" type="button" routerLink="/employee-onboarding-form">Rejected</button>
+                                        <button class="btn sand-request approved" type="button" (click)="updateStatusUserByUuid(user.uuid,'APPROVED')">Approved</button>
+                                        <button class="btn sand-request rejected" type="button" (click)="updateStatusUserByUuid(user.uuid,'REJECTED')">Rejected</button>
                                     </div>
 
                                 </div>

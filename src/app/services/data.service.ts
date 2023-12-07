@@ -14,6 +14,7 @@ import { Key } from "../constant/key";
 import { OrganizationPersonalInformation } from "../models/organization-personal-information";
 import { AttendanceWithLatePerformerResponseDto, AttendanceWithTopPerformerResponseDto } from "../models/Attendance.model";
 import { RoleRequest } from "../models/role-request";
+import { User } from "../models/user";
 @Injectable({
   providedIn: "root",
 })
@@ -413,6 +414,15 @@ export class DataService {
     const params = new HttpParams()
     .set("uuid", userUuid);
     return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-user-by-uuid`, {params});
+  }
+
+   
+  updateStatusUser(userUuid:string, statusType:string):Observable<any>{
+    const params = new HttpParams()
+    .set("user_uuid", userUuid)
+    .set("status_type", statusType);
+    debugger
+    return this.httpClient.put<any>(`${this.baseUrl}/employee-onboarding-status/change-employee-onboarding-status`,{}, {params});
   }
 
   
