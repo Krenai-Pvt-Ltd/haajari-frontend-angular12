@@ -34,6 +34,10 @@ export class TopbarComponent implements OnInit {
       routeValue = "Team Details";
     }
 
+    if(routeValue.includes("employee-profile")){
+      routeValue = "Employee Profile";
+    }
+
     this.topbarValue = this.capitalizeFirstLetter(routeValue);
   }
 
