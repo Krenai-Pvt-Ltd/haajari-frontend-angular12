@@ -181,7 +181,7 @@
         <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
       </div>
     </form>
-      <div class="" style="width: 200px; position: relative;">
+      <!-- <div class="" style="width: 200px; position: relative;">
         <div class="dropdown" style="width: 100%;">
           <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
             class="btn btn-secondary dropdown-toggle new-deopdown">{{ searchCriteria }} <i class="bi bi-chevron-down"
@@ -192,7 +192,7 @@
             </li>
           </ul>
         </div>
-      </div>
+      </div> -->
     
   </div>
   
@@ -204,21 +204,21 @@
                         </div>
                     <!-- </div> -->
 
-                        <div class="row mt-3">
-                            <div class="col-md-12">
+                            <div class="col-md-12 mt-3">
                                 <div class="">
                                     <div class="table-responsive bg-white">
                                         <table class="table">
                                             <thead class="thead-light table-design" >
                                             <tr>
                                                 <th style="width:10%">Date </th>
-                                                <th style="width: 20%">Employee Name</th>
+                                                <th style="width: 25%">Employee Name</th>
                                                 <!-- <th style="width:10%">Category</th> -->
                                                 <th style="width:20%">Email</th>
                                                 <!-- <th style="width:10%" class="text-center">Estimate Time</th> -->
                                                 <!-- <th style="width:10%" class="text-center">Extra Field</th> -->
-                                                <th style="width:3%">Complete</th>
-                                                 <th style="width:15%">Comment</th> 
+                                                <th style="width:3%">Accessibility</th>
+                                                <th style="width:3%">Status</th>
+                                                 <th style="width:15%">Action</th> 
                                             </tr>
                                         </thead>
                                         <!-- {{mainPlaceholdersTableFlag}}{{errorToggleTop}} -->
@@ -280,7 +280,12 @@
                                                 <td>
                                                     <p class="mb-0 weekly-pro">{{user.email}}</p>
                                                 </td>
-                                                <!-- <td class="text-center">12</td> -->
+                                                <td class="text-center">
+                                                    <div class="material-switch">
+                                                        <input type="checkbox" id="customSwitch0">
+                                                        <label for="customSwitch0" class="label-success"></label>
+                                                    </div>
+                                                </td>
                                                 
                                                 <!-- <td class="text-center">13</td>  -->
                                                 <td class="half-per" *ngIf="(user.employeeOnboardingStatus.response)== pendingResponse">
@@ -289,6 +294,8 @@
                                                 <td class="full-per" *ngIf="(user.employeeOnboardingStatus.response)== approvedResponse">
                                                     <span class="">{{user.employeeOnboardingStatus.response}}</span>
                                                 </td>
+                                              
+                                                
                                                 <td class="rej-per" *ngIf="(user.employeeOnboardingStatus.response)== rejectedResponse">
                                                     <span class="">{{user.employeeOnboardingStatus.response}}</span>
                                                 </td>
@@ -414,7 +421,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

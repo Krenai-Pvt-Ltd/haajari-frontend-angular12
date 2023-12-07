@@ -194,7 +194,7 @@
 
 
 .table>:not(caption)>*>* {
-    padding: 9px 15px !important;
+    padding: 9px 15px;
 }
 
 .table tbody tr:hover {
@@ -285,18 +285,19 @@ span.members-name {
     top: 2px;
     right: 2px; */
     color: #fff;
-    font-size: 9px;
+    font-size: 14px;
     background-color: #7681e9;
     padding: 1px;
-    width: 15px;
-    height: 15px;
+    width: 25px;
+    height: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50px;
     line-height: 28px;
     margin: 0 auto;
-    margin-top: 5px;
+    margin-top: 10px;
+    margin-bottom: 8px;
     text-transform: uppercase;
 }
 
@@ -310,7 +311,7 @@ span.members-name {
 .absent{
     background-color: rgb(248, 215, 215);
     color: #eb5050!important;
-    border: 1px solid #eb5050;
+    /* border: 1px solid #eb5050; */
  }
  
  .half-day {
@@ -322,7 +323,7 @@ span.members-name {
  .present{
      background-color: #e0ffe0!important;
      color: #3e993e!important;
-     border: 1px solid #3e993e;
+     /* border: 1px solid #3e993e; */
  }
 
  .approved{
@@ -366,3 +367,38 @@ span.members-name {
 span.edit-profile:hover{
     background-color: #adb5ff;
 } */
+
+
+.attendance-dates {
+    position: absolute;
+    top: 1px;
+    left: 7px;
+    font-size: 11px;
+    color: #444;
+}
+
+.table-padding td{
+   height: 60px;
+}
+
+th.text-left {
+    text-align: left;
+}
+
+
+td.text-right {
+    text-align: right;
+}
+
+.profile-deta tr th{
+    color: #303e67;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0px !important;
+}
+
+.profile-deta tr td{
+    color: #555;
+    font-size: 12px;
+    font-weight: 400;
+}
