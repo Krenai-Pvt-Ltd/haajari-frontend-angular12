@@ -41,4 +41,15 @@ getUserByUuid(){
 
 
 
+updateStatusUserByUuid(userUuid:string, type:string){
+  debugger
+  this.dataService.updateStatusUser(userUuid, type).subscribe(data =>{
+   console.log("status updated:" + type);
+
+  }, (error) => {
+    console.log(error);
+  })
+}
+
+
 }

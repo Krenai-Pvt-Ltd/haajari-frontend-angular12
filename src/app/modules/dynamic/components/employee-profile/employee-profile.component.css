@@ -351,3 +351,18 @@
 span.edit-profile:hover{
     background-color: #adb5ff;
 } */
+
+
+
+span.members-name {
+    background-color: #a69ff3;
+    width: 33px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+    text-transform: uppercase;
+    box-shadow: 0 0 0 2px #f9fafb;
+}
