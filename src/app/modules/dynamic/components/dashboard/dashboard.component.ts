@@ -117,7 +117,7 @@ errorToggleMain: boolean=false;
           this.myAttendanceData = response;
 
           debugger
-          console.log("this.myAttendanceData" + response);
+          console.log(this.myAttendanceData);
           this.isAttendanceShimer=false;
           if (this.myAttendanceData) {
             
@@ -151,6 +151,18 @@ errorToggleMain: boolean=false;
   }
 
 
+  extractFirstNameFromEmail(email: string): string {
+    const pattern = /^(.+)@.+/;
+    const matches = email.match(pattern);
+
+    if (matches) {
+        const namePart = matches[1];
+        const firstName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+        return firstName;
+    } 
+
+    return email;
+}
   dateInMonthList(attendances: AttendenceDto[]): string[] {
     const uniqueDays = Array.from(new Set(attendances.map(a => a.createdDay)));
     return uniqueDays;

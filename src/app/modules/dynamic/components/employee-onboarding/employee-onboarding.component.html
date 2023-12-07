@@ -168,38 +168,36 @@
                         <div class="onboard-add row align-items-center">
                             <!-- <div *ngIf="users.length!=0"> -->
                          <div class="col-md-8 d-flex" style="gap:20px" *ngIf="users.length!=null">
-                                <div class="onboarding-date d-flex align-items-center" style="gap:10px">
-                                  
+                               <!-- Your component.html file -->
 
-                                <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchUsers()">
-                                    <div class="form-group" style="width: 300px; position: relative;">
-                                     
-                                      <input type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid"
-                                        (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px;">
-                                      <button type="button" class="btn close-btn" (click)="reloadPage()" *ngIf="crossFlag"><i class="bi bi-x mt-auto mb-auto pl-3"></i></button>
-                                      <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
-                                    </div>
-                                  </form>
-                                  
-
-<div class="" style="width: 150px; position: relative;">
-                                  <div class="dropdown" style="width: 100%;">
-                                    <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Approved <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button>
-                                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
-                                        <li><a class="dropdown-item">Approved</a></li>
-                                    <li><a class="dropdown-item">Pending</a></li>
-                                </ul>
-                                </div>         
-                                
-                            </div>
-                                  
-                                
-
-                             
-                            </div>
-                            
+<div class="onboarding-date d-flex align-items-center" style="gap:10px">
+    <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchUsers()">
+      <div class="form-group" style="width: 300px; position: relative;">
+        <input type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid"
+          (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px;">
+        <button type="button" class="btn close-btn" (click)="reloadPage()" *ngIf="crossFlag">
+          <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+        </button>
+        <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
+      </div>
+    </form>
+      <div class="" style="width: 150px; position: relative;">
+        <div class="dropdown" style="width: 100%;">
+          <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+            class="btn btn-secondary dropdown-toggle new-deopdown">{{ searchCriteria }} <i class="bi bi-chevron-down"
+              style="color: #444; font-size: 15px;"></i></button>
+          <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+            <li *ngFor="let option of searchOptions" (click)="selectSearchCriteria(option)">
+              <a class="dropdown-item">{{ option }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    
+  </div>
+  
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" *ngIf="users.length!=null">
                             <div class="add-filtter text-end">
                                 <a data-bs-toggle="modal" data-bs-target="#add-employee" type="button"><i class="bi bi-plus" style="font-size: 23px;"></i> Invite New Members</a>
                             </div>
@@ -272,7 +270,7 @@
                                                 </td>
                                             </tr>
                                         </tbody> -->
-                                        <tbody class="table-design" *ngIf="users.length!=null && !isUserShimer && !mainPlaceholdersTableFlag">
+                                        <tbody class="table-design" *ngIf="users.length!=null && !isUserShimer">
                                             <tr *ngFor=" let i = index, let user of users | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};">
                                                 <td>{{user.onboardingStatusUpdateDate.toString() | dateFormat}}</td>
                                                 <td>{{user.name}}</td>
@@ -295,7 +293,7 @@
                                                 <td>
                                                     <div class="hstack gap-3 justify-content-center">
                                                         <a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a>
-                                                        <a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline">View</a>
+                                                        <a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline" (click)="routeToUserDetails(user.uuid)">View</a>
                                                     </div>
                                                 </td> 
                                             </tr>
@@ -353,7 +351,7 @@
                                                                 </div>
                                                             </div>
                                                         </div> -->
-                                                        <div class="errorboxmain"  *ngIf="mainPlaceholdersTableFlag && errorToggleTop">
+                                                        <div class="errorboxmain"  *ngIf="errorToggleTop">
                                                        
                                                             <div class="errorboxinner text-center">
                                                               <div class="errorboxplaceholder mb-2">
@@ -366,7 +364,7 @@
                                                             </div>
                                                        
                                                     </div>
-                                                    <div class="errorboxmain" *ngIf="placeholder && total==null && !isUserShimer && mainPlaceholdersTableFlag">
+                                                    <div class="errorboxmain" *ngIf="placeholder && total==null && !isUserShimer">
                                                        
                                                             <div class="errorboxinner text-center">
                                                               <div class="errorboxplaceholder mb-2">
@@ -385,7 +383,7 @@
                                         </tbody>
 
                                         </table>
-                                        <div class="pagination pl-3" *ngIf="!isUserShimer && users.length!=0">
+                                        <div class="pagination pl-3" *ngIf="!isUserShimer && users.length!=0 && total > 10">
                                             <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
                                             <div class="row">
                                               <div class="col-md-12">
@@ -410,7 +408,7 @@
                                                 </nav>
                                               </div>
                                             </div>
-                                          </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -29,9 +29,9 @@ export class DataService {
   }
   //private baseUrl = Key.ENDPOINT;
   
-  // private baseUrl = "http://localhost:8080/api/v2"
+  private baseUrl = "http://localhost:8080/api/v2"
 
-   private baseUrl = "https://backend.hajiri.work/api/v2";
+  //  private baseUrl = "https://backend.hajiri.work/api/v2";
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
     const params = new HttpParams().set("code_param", codeParam);
@@ -406,6 +406,13 @@ export class DataService {
   
   getLastApprovedAndLastRejecetd():Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-status`);
+  }
+
+  
+  getUserByUuid(userUuid:any):Observable<any>{
+    const params = new HttpParams()
+    .set("uuid", userUuid);
+    return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-user-by-uuid`, {params});
   }
 
   
