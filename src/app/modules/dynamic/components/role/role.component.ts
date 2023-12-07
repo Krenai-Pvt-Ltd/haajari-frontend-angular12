@@ -98,8 +98,7 @@ export class RoleComponent implements OnInit {
     })
   }
 
-  settingModuleRequestValue(privilegeId : number, subModule : any){
-    debugger
+  settingSubModuleRequestValue(privilegeId : number, subModule : any){
 
     const moduleRequest : ModuleRequest = new ModuleRequest();
     moduleRequest.subModuleId = subModule.id;
@@ -124,15 +123,33 @@ export class RoleComponent implements OnInit {
 
   }
 
-  handleRadioClick(privilegeId: number, subModule: any) {
+  handleRadioClickForSubModule(privilegeId: number, subModule: any) {
     if (subModule.privilegeId === privilegeId) {
         subModule.privilegeId = null;
     } else {
         subModule.privilegeId = privilegeId;
     }
 
-    this.settingModuleRequestValue(privilegeId, subModule);
+    this.settingSubModuleRequestValue(privilegeId, subModule);
   }
+
+  handleRadioClickForModule(privilegeId: number, module: any){
+    debugger
+    if (module.privilegeId === privilegeId) {
+      module.privilegeId = null;
+    } else {
+      module.privilegeId = privilegeId;
+    }
+
+    const subModules = module.subModules;
+
+    for(let i of subModules){
+      this.handleRadioClickForSubModule(module.privilegeId, i);
+    }
+    // console.log(subModules);
+
+  // this.settingSubModuleRequestValue(privilegeId, module);
+}
 
   call(){
     this.dataService.callingHelloWorld().subscribe((data) => {

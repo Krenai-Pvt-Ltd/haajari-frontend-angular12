@@ -310,14 +310,14 @@
                                     <div class="accesspermission">
                                         <div class="accesspermissioninner d-flex">
                                             <div class="custom-radiocheck">
-                                                <input type="radio" class="form-check-input d-none" [checked]="module.privilegeId==1" name="viewModule{{i}}" id="viewModule{{i}}">
-                                                <label class="form-check-label d-flex align-items-center gap-2" for="viewModule{{i}}" (click)="module.privilegeId=1">
+                                                <input type="radio" class="form-check-input d-none" [checked]="module.privilegeId==1" name="viewModule{{i}}" id="viewModule{{i}}" (click)="handleRadioClickForModule(1, module)">
+                                                <label class="form-check-label d-flex align-items-center gap-2" for="viewModule{{i}}">
                                                     <span><i class="bi bi-check2"></i></span>View 
                                                 </label>
                                             </div>
                                             <div class="custom-radiocheck">
-                                                <input type="radio" class="form-check-input d-none" [checked]="module.privilegeId==2" name="manageModule{{i}}" id="manageModule{{i}}">
-                                                <label class="form-check-label d-flex align-items-center gap-2" for="manageModule{{i}}" (click)="module.privilegeId=2">
+                                                <input type="radio" class="form-check-input d-none" [checked]="module.privilegeId==2" name="manageModule{{i}}" id="manageModule{{i}}" (click)="handleRadioClickForModule(2, module)">
+                                                <label class="form-check-label d-flex align-items-center gap-2" for="manageModule{{i}}">
                                                     <span><i class="bi bi-check2"></i></span>Manage 
                                                 </label>
                                             </div>
@@ -333,12 +333,6 @@
 
 
 
-
-
-
-
-
-
                                 <div [attr.id]="'collapse' + i" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" *ngFor="let submodule of module.subModules; let j=index">
                                     <div class="accordion-button p-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                         <div class="accesstitle">
@@ -348,13 +342,13 @@
                                         <div class="accesspermission">
                                             <div class="accesspermissioninner d-flex">
                                                 <div class="custom-radiocheck">
-                                                    <input type="radio" class="form-check-input d-none" [checked]="submodule.privilegeId==1" name="viewSubModule{{i}}{{j}}" id="viewSubModule{{i}}{{j}}" (click)="handleRadioClick(1, submodule)">
+                                                    <input type="radio" class="form-check-input d-none" [checked]="submodule.privilegeId==1" name="viewSubModule{{i}}{{j}}" id="viewSubModule{{i}}{{j}}" (click)="handleRadioClickForSubModule(1, submodule)">
                                                     <label class="form-check-label d-flex align-items-center gap-2" for="viewSubModule{{i}}{{j}}">
                                                         <span><i class="bi bi-check2"></i></span>View 
                                                     </label>
                                                 </div>
                                                 <div class="custom-radiocheck">
-                                                    <input type="radio" class="form-check-input d-none" [checked]="submodule.privilegeId==2" name="manageSubModule{{i}}{{j}}" id="manageSubModule{{i}}{{j}}" (click)="handleRadioClick(2, submodule)">
+                                                    <input type="radio" class="form-check-input d-none" [checked]="submodule.privilegeId==2" name="manageSubModule{{i}}{{j}}" id="manageSubModule{{i}}{{j}}" (click)="handleRadioClickForSubModule(2, submodule)">
                                                     <label class="form-check-label d-flex align-items-center gap-2" for="manageSubModule{{i}}{{j}}">
                                                         <span><i class="bi bi-check2"></i></span>Manage  
                                                     </label>
