@@ -212,12 +212,12 @@ tbody tr {
     padding: 15px;
 } */
 
-
+/* 
 .errorboxinner{
     display: flex;
     align-items: center;
     gap:10px
-}
+} */
 .errorboxmain{
     min-height: 30vh;
     display: flex;
@@ -226,10 +226,10 @@ tbody tr {
     text-align: center;
     background-color: #fff;
 }
-
   .errorboxmain {
     padding: 30px;
 }
+
 .table-design tr td{
     border: 1px solid #e0e0e0;
 }

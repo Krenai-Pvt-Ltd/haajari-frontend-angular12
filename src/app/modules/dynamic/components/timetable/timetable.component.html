@@ -321,8 +321,29 @@
 
       <!-- *ngIf="attendanceDataByDateKey.length==0 && !isShimer" -->
       <div class="mt-3 dashnodata" >
+        <div
+        class="errorboxmain"
+        *ngIf="errorToggleTimetable"
+      >
+        <div class="errorboxinner text-center">
+          <div class="errorboxplaceholder mb-2">
+            <img
+              src="assets/images/signal.svg"
+              style="width: 80px"
+            />
+          </div>
+          <div class="">
+            <h4>Something went wrong</h4>
+            <p>
+              An error occurred while processing your
+              request. Please refresh the page and try
+              again.
+            </p>
+          </div>
+        </div>
+      </div>
 
-        <div class="errorboxmain" *ngIf="attendanceDataByDateKey.length==0 && !isShimer">
+        <div class="errorboxmain" *ngIf="attendanceDataByDateKey.length==0 && !isShimer && placeholder">
             <div class="errorboxinner text-center">
               <div class="errorboxplaceholder mb-2">
                 <img src="assets/images/addnewproduct.svg" style="width:80px;" />

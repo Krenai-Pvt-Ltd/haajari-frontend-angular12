@@ -19,7 +19,7 @@ export class EmployeeOnboardingComponent implements OnInit {
   ) {}
   users: Users[] = [];
   filteredUsers: Users[] = [];
-  itemPerPage: number = 20;
+  itemPerPage: number = 12;
   pageNumber: number = 1;
   total!: number;
   rowNumber: number = 1;
@@ -28,9 +28,9 @@ export class EmployeeOnboardingComponent implements OnInit {
   approvedResponse = 'APPROVED';
   rejectedResponse = 'REJECTED';
 
-  searchCriteria: string = 'Select Search';
+  searchCriteria: string = '';
 
-  searchOptions: string[] = ['name', 'employeeOnboardingStatus'];
+  searchOptions: string[] = ['PENDING', 'APPROVED', 'REJECTED'];
 
   routeToUserDetails(uuid: string) {
     let navExtra: NavigationExtras = {
@@ -50,9 +50,9 @@ export class EmployeeOnboardingComponent implements OnInit {
   placeholder: boolean = false;
   errorToggleTop: boolean = false;
 
-  selectSearchCriteria(option: string) {
-    this.searchCriteria = option;
-  }
+  // selectSearchCriteria(option: string) {
+  //   this.searchCriteria = option;
+  // }
 
   getUsersByFiltersFunction() {
     this.isUserShimer = true;
@@ -116,16 +116,62 @@ export class EmployeeOnboardingComponent implements OnInit {
     this.getUsersByFiltersFunction();
   }
 
-  searchText: string = '';
+  selectedStatus: string | null = null;
 
+selectStatus(status: string) {
+  this.selectedStatus = status;
+  this.searchUsers(status);
+}
+
+  searchText: string = '';
+  search:string='';
   crossFlag: boolean = false;
-  searchUsers() {
+  searchUsers(searchString: string) {
     this.crossFlag = true;
+  
+    if (searchString === 'any') {
+      this.searchText = this.search;
+      this.searchCriteria = '';
+    } else {
+      this.searchText = searchString;
+      this.searchCriteria = 'employeeOnboardingStatus';
+    }
+  
     this.getUsersByFiltersFunction();
-    if (this.searchText == '') {
+    if (this.searchText === '') {
       this.crossFlag = false;
     }
+  
+    // if ((this.searchText === '' )||(this.searchText=="APPROVED") || (this.searchText=="PENDING" ) ||(this.searchText =="REJECTED")) {
+    //   this.crossFlag = false;
+    // }
   }
+  
+  // searchUsers(searchString:string) {
+  //   this.crossFlag = true;
+  //   if(searchString=='A'){
+  //   this.searchText= "APPROVED"
+  //   this.searchCriteria = "employeeOnboardingStatus"
+  //   this.getUsersByFiltersFunction();
+  // }else if(searchString=='P'){
+  //   this.searchText= "PENDING"
+  //   this.searchCriteria = "employeeOnboardingStatus"
+  //   this.getUsersByFiltersFunction();
+  // }else if(searchString=='R'){
+  //   this.searchText= "REJECTED"
+  //   this.searchCriteria = "employeeOnboardingStatus"
+  //   this.getUsersByFiltersFunction();
+  // }if(searchString=='any'){
+  //   this.searchText= this.search
+  //   this.searchCriteria = '';
+  //   this.getUsersByFiltersFunction();
+  // }
+  //   // this.getUsersByFiltersFunction();
+  //   if (this.searchText == '') {
+  //     this.crossFlag = false;
+  //   }
+  // }
+ 
 
   reloadPage() {
     location.reload();

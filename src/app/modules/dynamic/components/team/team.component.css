@@ -517,3 +517,14 @@ button.btn.close-btn{
   flex-direction: column;
 }
 
+.errorboxmain{
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fff;
+}
+  .errorboxmain {
+    padding: 30px;
+}

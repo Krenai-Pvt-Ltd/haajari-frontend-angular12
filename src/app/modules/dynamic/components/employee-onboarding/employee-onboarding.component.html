@@ -64,15 +64,15 @@
               >
                 <div class="d-flex align-items-center" style="gap: 10px">
                   <div class="">
-                    <span *ngIf="statusUsers.image !== null">
+                    <span *ngIf="statusUsers?.image !== null">
                       <img
-                        src="{{ statusUsers.image }}"
+                        src="{{ statusUsers?.image }}"
                         class="rounded-circle thumb-xl"
                       />
                     </span>
                     <span
                       class="members-name"
-                      *ngIf="statusUsers.image == null"
+                      *ngIf="statusUsers?.image == null"
                       >{{ statusUsers.name[0] }}</span
                     >
                     <!-- <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl"> -->
@@ -123,26 +123,26 @@
                   <div class="d-flex align-items-center j" style="gap: 10px">
                     <div class="">
                       <span
-                        *ngIf="employeeStatus!.lastApprovedUser.image !== null"
+                        *ngIf="employeeStatus!.lastApprovedUser?.image !== null"
                       >
                         <img
-                          src="{{ employeeStatus.lastApprovedUser.image }}"
+                          src="{{ employeeStatus!.lastApprovedUser?.image }}"
                           class="rounded-circle thumb-xl"
                         />
                       </span>
                       <span
                         class="members-name"
-                        *ngIf="employeeStatus.lastApprovedUser.image == null"
-                        >{{ employeeStatus.lastApprovedUser.name[0] }}</span
+                        *ngIf="employeeStatus!.lastApprovedUser?.image == null"
+                        >{{ employeeStatus!.lastApprovedUser?.name[0] }}</span
                       >
                     </div>
 
                     <div class="">
                       <h5 class="joining-name">
-                        {{ employeeStatus.lastApprovedUser.name }}
+                        {{ employeeStatus!.lastApprovedUser?.name }}
                       </h5>
                       <p class="mb-0 joining-email">
-                        {{ employeeStatus.lastApprovedUser.email }}
+                        {{ employeeStatus!.lastApprovedUser?.email }}
                       </p>
                     </div>
                   </div>
@@ -154,26 +154,26 @@
                   <div class="d-flex align-items-center" style="gap: 10px">
                     <div class="">
                       <span
-                        *ngIf="employeeStatus.lastRejectedUser.image !== null"
+                        *ngIf="employeeStatus!.lastRejectedUser?.image !== null"
                       >
                         <img
-                          src="{{ employeeStatus.lastRejectedUser.image }}"
+                          src="{{ employeeStatus!.lastRejectedUser?.image }}"
                           class="rounded-circle thumb-xl"
                         />
                       </span>
                       <span
                         class="members-name"
-                        *ngIf="employeeStatus.lastRejectedUser.image == null"
-                        >{{ employeeStatus.lastRejectedUser.name[0] }}</span
+                        *ngIf="employeeStatus!.lastRejectedUser?.image == null"
+                        >{{ employeeStatus!.lastRejectedUser?.name[0] }}</span
                       >
                     </div>
 
                     <div class="">
                       <h5 class="joining-name">
-                        {{ employeeStatus.lastRejectedUser.name }}
+                        {{ employeeStatus!.lastRejectedUser?.name }}
                       </h5>
                       <p class="mb-0 joining-email">
-                        {{ employeeStatus.lastRejectedUser.email }}
+                        {{ employeeStatus!.lastRejectedUser?.email }}
                       </p>
                     </div>
                   </div>
@@ -192,11 +192,43 @@
               <div
                 class="col-md-8 d-flex"
                 style="gap: 20px"
-                *ngIf="users.length != null"
+                *ngIf="users.length >0"
               >
                 <!-- Your component.html file -->
 
-                <div
+                <div class="onboarding-date d-flex align-items-center" style="gap:10px">
+                                  
+
+                    <form role="search" class="searching ng-untouched ng-pristine ng-valid">
+                        <div class="form-group" style="width: 300px; position: relative;">
+                         
+                          <input type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                            (keyup)="searchUsers('any')" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px;">
+                          <button type="button" class="btn close-btn" (click)="reloadPage()" *ngIf="crossFlag"><i class="bi bi-x mt-auto mb-auto pl-3"></i></button>
+                          <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
+                        </div>
+                      </form> 
+                      
+                      <div class="" style="width: 150px; position: relative;">
+                        <div class="dropdown" style="width: 100%;">
+                          <button
+                            type="button"
+                            id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            class="btn btn-secondary dropdown-toggle new-deopdown"
+                          >
+                            {{ selectedStatus || 'Select Search' }} <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                          </button>
+                          <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                            <li><a class="dropdown-item" (click)="selectStatus('APPROVED')">APPROVED</a></li>
+                            <li><a class="dropdown-item" (click)="selectStatus('PENDING')">PENDING</a></li>
+                            <li><a class="dropdown-item" (click)="selectStatus('REJECTED')">REJECTED</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                </div>
+                <!-- <div
                   class="onboarding-date d-flex align-items-center"
                   style="gap: 10px"
                 >
@@ -262,9 +294,9 @@
                       </ul>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
-              <div class="col-md-4" *ngIf="users.length != null">
+              <div class="col-md-4" *ngIf="users.length >0">
                 <div class="add-filtter text-end">
                   <a
                     data-bs-toggle="modal"
@@ -284,7 +316,7 @@
                       <table class="table">
                         <thead class="thead-light table-design">
                           <tr>
-                            <th style="width: 10%">Date11</th>
+                            <th style="width: 10%">Date</th>
                             <th style="width: 20%">Employee Name</th>
                             <!-- <th style="width:10%">Category</th> -->
                             <th style="width: 20%">Email</th>
@@ -528,7 +560,7 @@
                       </table>
                       <div
                         class="pagination pl-3"
-                        *ngIf="!isUserShimer && users.length != 0 && total > 10"
+                        *ngIf="!isUserShimer && users.length > 0 && total > 10"
                       >
                         <p class="mb-0" style="padding-left: 15px">
                           Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
