@@ -205,6 +205,7 @@
     border: 1px solid #f1f1f1;
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     padding: 5px 15px;
+    cursor: pointer;
 }
 
 .acitivity-timeline-2 {
@@ -256,6 +257,7 @@
     border: 1px solid #f1f1f1;
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     padding: 15px;
+    
 }
 
 .leves-type-s h5{

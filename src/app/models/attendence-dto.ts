@@ -7,4 +7,5 @@ export class AttendenceDto {
     breakCount!: number;
     breakDuration!: string;
     totalPresentDays!: number;
+    converterDate!: Date; //used for storing createdDate as an Date object
 }

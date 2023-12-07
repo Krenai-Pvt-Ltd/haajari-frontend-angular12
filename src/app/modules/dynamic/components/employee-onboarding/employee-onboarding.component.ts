@@ -24,7 +24,8 @@ export class EmployeeOnboardingComponent implements OnInit {
   approvedResponse = "APPROVED"
   rejectedResponse = "REJECTED"
 
-  searchCriteria: string = 'employeeOnboardingStatus'; 
+  searchCriteria: string = 'Select Search'; 
+  
   searchOptions: string[] = ['name', 'employeeOnboardingStatus'];
 
 
@@ -41,8 +42,10 @@ export class EmployeeOnboardingComponent implements OnInit {
   placeholder:boolean=false;
   errorToggleTop:boolean=false;
 
+  selectSearchCriteria(option: string) {
+    this.searchCriteria = option;
+  }
 
-// searchCriteria: string = 'response'; 
 
 getUsersByFiltersFunction() {
   this.isUserShimer = true;
