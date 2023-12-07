@@ -213,6 +213,21 @@
     position: relative;
 }
 
+span.members-name {
+    background-color: #A69FF3;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 40px;
+    text-transform: uppercase;
+    box-shadow: 0 0 0 2px #F9FAFB;
+    margin: 0 auto;
+    /* /* color: #fff;  */
+}
+
 
 .acitivity-timeline-2 li {
     padding-bottom: 1.5rem;

@@ -181,7 +181,7 @@
         <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
       </div>
     </form>
-      <div class="" style="width: 150px; position: relative;">
+      <div class="" style="width: 200px; position: relative;">
         <div class="dropdown" style="width: 100%;">
           <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
             class="btn btn-secondary dropdown-toggle new-deopdown">{{ searchCriteria }} <i class="bi bi-chevron-down"
@@ -211,10 +211,10 @@
                                         <table class="table">
                                             <thead class="thead-light table-design" >
                                             <tr>
-                                                <th style="width:0%">Date </th>
-                                                <th style="width: 15%">Employee Name</th>
+                                                <th style="width:10%">Date </th>
+                                                <th style="width: 20%">Employee Name</th>
                                                 <!-- <th style="width:10%">Category</th> -->
-                                                <th style="width:25%">Email</th>
+                                                <th style="width:20%">Email</th>
                                                 <!-- <th style="width:10%" class="text-center">Estimate Time</th> -->
                                                 <!-- <th style="width:10%" class="text-center">Extra Field</th> -->
                                                 <th style="width:3%">Complete</th>
@@ -272,7 +272,9 @@
                                         </tbody> -->
                                         <tbody class="table-design" *ngIf="users.length!=null && !isUserShimer">
                                             <tr *ngFor=" let i = index, let user of users | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};">
-                                                <td>{{user.onboardingStatusUpdateDate.toString() | dateFormat}}</td>
+                                                <td>
+                                                    <p class="mb-0 weekly-pro"> {{user.onboardingStatusUpdateDate.toString() | dateFormat}}</p>
+                                                   </td>
                                                 <td>{{user.name}}</td>
                                                 <!-- <td>Meeting</td> -->
                                                 <td>

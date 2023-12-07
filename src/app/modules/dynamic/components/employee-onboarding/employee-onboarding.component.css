@@ -178,7 +178,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 170px;
+  width: 190px;
+  font-size: 12px;
+  color: #878a9a;
 }
 
 tbody tr {
@@ -359,4 +361,21 @@ span.members-name {
 .last-client{
     width: 50%;
     padding-right: 16px;
+}
+
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1rem;
+    clear: both;
+    font-weight: 400;
+    color: #000444;
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    font-size: 13px;
+    color: #3e3e3e;
 }
