@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
@@ -12,7 +12,7 @@ import { HelperService } from 'src/app/services/helper.service';
 })
 export class EmployeeOnboardingComponent implements OnInit {
 
-  constructor(private dataService : DataService, private router : Router, private helperService : HelperService) { }
+  constructor(private dataService : DataService, private activateRoute : ActivatedRoute, private router : Router, private helperService : HelperService) { }
   users : Users[] = [];
   filteredUsers : Users[] = [];
   itemPerPage : number = 20;
@@ -27,6 +27,15 @@ export class EmployeeOnboardingComponent implements OnInit {
   searchCriteria: string = 'Select Search'; 
   
   searchOptions: string[] = ['name', 'employeeOnboardingStatus'];
+
+
+  
+  routeToUserDetails(uuid:string){
+    let navExtra : NavigationExtras = {
+      queryParams : {"userId" : uuid},
+    };
+    this.router.navigate(['/employee-profile'], navExtra);
+  }
 
 
 

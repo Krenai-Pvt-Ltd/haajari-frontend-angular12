@@ -409,4 +409,11 @@ export class DataService {
   }
 
   
+  getUserByUuid(userUuid:any):Observable<any>{
+    const params = new HttpParams()
+    .set("uuid", userUuid);
+    return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-user-by-uuid`, {params});
+  }
+
+  
 }
