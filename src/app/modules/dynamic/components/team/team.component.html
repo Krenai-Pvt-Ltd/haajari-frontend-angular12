@@ -393,7 +393,7 @@
                             </div>
                           </div> -->
     
-                          <div class="pagination pl-3" *ngIf="isShimmer==false && total!==0">
+                          <div class="pagination pl-3" *ngIf="isShimmer==false && teamsNew.length>0 && total>12">
                           <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
                           <div class="row">
                             <div class="col-md-12">

@@ -15,7 +15,7 @@ export class EmployeeOnboardingComponent implements OnInit {
   constructor(private dataService : DataService, private router : Router, private helperService : HelperService) { }
   users : Users[] = [];
   filteredUsers : Users[] = [];
-  itemPerPage : number = 10;
+  itemPerPage : number = 20;
   pageNumber : number = 1;
   total !: number;
   rowNumber : number = 1;
@@ -24,57 +24,63 @@ export class EmployeeOnboardingComponent implements OnInit {
   approvedResponse = "APPROVED"
   rejectedResponse = "REJECTED"
 
+  searchCriteria: string = 'Select Search'; 
+  
+  searchOptions: string[] = ['name', 'employeeOnboardingStatus'];
+
+
 
   ngOnInit(): void {
-    this.getUsersByFiltersFunction();
+    this.isUserShimer=true;
     this.getEmployeesOnboardingStatus();
     this.getEmpLastApprovedAndLastRejecetdStatus();
+    this.getUsersByFiltersFunction();
+
   }
 
   isUserShimer:boolean=false;
   placeholder:boolean=false;
   errorToggleTop:boolean=false;
-  mainPlaceholdersTableFlag:boolean=false;
 
-
-searchCriteria: string = 'response'; 
-
-  getUsersByFiltersFunction() {
-    // const role = this.loginDetails.role;
-    
-    this.isUserShimer=true;
-
-    debugger
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((data : any) => {
-      debugger
-      this.users = data.users;
-      this.total = data.count;
-      console.log(this.users);
-     
-      if(this.total==null){
-        this.placeholder=true;
-        this.errorToggleTop=false;
-        this.mainPlaceholdersTableFlag=true;
-      }else{
-        this.mainPlaceholdersTableFlag=false;
-      }
-       
-      //  const emailIdPairs = data.users.map((user: any) => ({ email: user.email, id: user.id }));
-      //  console.log(emailIdPairs);
-      this.isUserShimer=false;
-
-    }, (error) => {
-      this.isUserShimer=false;
-      this.errorToggleTop=true;
-      this.mainPlaceholdersTableFlag=true;
-      console.log(error);
-      const res = document.getElementById("error-page") as HTMLElement | null;
-
-      if(res){
-        res.style.display = "block";
-      }
-    })
+  selectSearchCriteria(option: string) {
+    this.searchCriteria = option;
   }
+
+
+getUsersByFiltersFunction() {
+  this.isUserShimer = true;
+  this.dataService.getUsersByFilter(
+    this.itemPerPage, 
+    this.pageNumber,
+    'asc',
+    'id',
+    this.searchText,
+    this.searchCriteria
+  ).subscribe((data: any) => {
+    this.users = data.users;
+    this.total = data.count;
+    console.log(this.users);
+   
+    if (this.total == null) {
+      this.placeholder = true;
+      this.errorToggleTop = false;
+    } else {
+      // Additional logic if needed
+    }
+
+    this.isUserShimer = false;
+  }, (error) => {
+    this.isUserShimer = false;
+    this.errorToggleTop = true;
+    console.log(error);
+    const res = document.getElementById("error-page") as HTMLElement | null;
+
+    if (res) {
+      res.style.display = "block";
+    }
+  })
+}
+
 
   text = '';
   changeStatus(presenceStatus : Boolean){
