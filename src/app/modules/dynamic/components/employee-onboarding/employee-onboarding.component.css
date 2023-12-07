@@ -94,8 +94,8 @@
 }
 
 .on-leaves {
-    border-right: 1px solid #eee !important;
     padding-right: 16px;
+   
 }
 
 .on-leaves:last-child {
@@ -198,13 +198,24 @@ tbody tr {
     padding: 5px 23px;
     border: 1px solid #557ef8;
 }
-
 /* 
+.errorboxmain{
+    min-height: 20vh;
+    background-color: #fff;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    border-radius: 6px;
+}
+
+  .errorboxmain {
+    padding: 15px;
+} */
+
+
 .errorboxinner{
     display: flex;
     align-items: center;
     gap:10px
-} */
+}
 .errorboxmain{
     min-height: 30vh;
     display: flex;
@@ -213,6 +224,7 @@ tbody tr {
     text-align: center;
     background-color: #fff;
 }
+
   .errorboxmain {
     padding: 30px;
 }
@@ -320,25 +332,31 @@ button.btn.close-btn{
     overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 130px;
+  width: 115px;
 }
 
 .joining-name{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 130px;
+    width: 100px;
 }
 
 span.members-name {
     background-color: #a69ff3;
-    width: 33px;
-    height: 33px;
+    width: 52px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    font-size: 18px;
+    font-size: 24px;
     text-transform: uppercase;
-    box-shadow: 0 0 0 2px #f9fafb;
+    color: #fff;
+}
+
+
+.last-client{
+    width: 50%;
+    padding-right: 16px;
 }
