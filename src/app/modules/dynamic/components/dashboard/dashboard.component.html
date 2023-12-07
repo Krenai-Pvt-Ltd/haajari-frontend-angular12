@@ -506,15 +506,15 @@
                                 <table class="table">
                                     <thead class="table-light">
                                         <tr>
-                                            <th class="text-center">Staff Name</th>
-                                            <th class="text-center">Present</th>
-                                            <th class="text-center">Absent</th>
-                                            <th class="text-center">Half Day</th>
-                                            <th class="text-center">Paid Leave</th>
-                                            <th class="text-center">Unmarked</th>
-                                            <th class="text-center">Overtime</th>
-                                            <th class="text-center">Fine</th>
-                                            <th class="text-center">Total Attendance</th>
+                                            <th class="text-left">Staff Name</th>
+                                            <th class="text-left">Present</th>
+                                            <th class="text-left">Absent</th>
+                                            <th class="text-left">Half Day</th>
+                                            <th class="text-left">Paid Leave</th>
+                                            <th class="text-left">Unmarked</th>
+                                            <th class="text-left">Overtime</th>
+                                            <th class="text-left">Fine</th>
+                                            <th class="text-left">Total Attendance</th>
                                         </tr>
                                     </thead>
                                     <!-- *ngIf="isAttendanceShimer" -->
@@ -552,10 +552,13 @@
                                     <tbody *ngIf="(myAttendanceData | json )!= '{}' && !isAttendanceShimer">
                                         <ng-container *ngFor="let entry of myAttendanceData | keyvalue; let i = index">
                                             <tr>
+                                                
                                                 <td class="text-left plandtlMainicon">
                                                     <i class="bi bi-chevron-right month-d projectdIcon collapsed"
-                                                        data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i"
-                                                        role="button" aria-expanded="false" aria-controls="collapseExamplesheet"></i> {{getFirstName(entry.key)}}
+                                                    data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i"
+                                                    role="button" aria-expanded="false" aria-controls="collapseExamplesheet"></i>
+                                                     {{getFirstName(entry.key)}}
+                                                        <p class="attendance-name" >yogesh@krenai.com</p>
                                                 </td>
                                                 <!-- <td class="text-left plandtlMainicon" *ngIf="openCollapse">
                                                     <i class="bi bi-chevron-right month-d projectdIcon"
@@ -582,10 +585,12 @@
                                                                 </ng-container>
                                                             </tr>
                                                             <tr>
+                
                                                                 <td></td>
                                                                 <ng-container *ngFor="let attendance of entry.value">
-                                                                    <td class="text-center">{{ getAttendanceStatus(attendance) }}</td>
+                                                                    <td class="text-center" [ngClass]="{'absent': (attendance.checkInTime==null && convertStringToDate(attendance)<today), 'present': attendance.checkInTime!=null }">{{( attendance.checkInTime==null && convertStringToDate(attendance) < today )?'A':(attendance.checkInTime != null )?'P':'-' }}</td>
                                                                 </ng-container>
+                                                                
                                                             </tr>
                                                         </table>
                                                     </div>
