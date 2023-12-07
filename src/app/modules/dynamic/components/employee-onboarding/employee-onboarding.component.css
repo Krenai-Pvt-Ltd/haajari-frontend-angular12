@@ -298,7 +298,6 @@ button.btn.close-btn{
     color: var(--tb-secondary-color) !important;
 }
 
-<<<<<<< HEAD
 .new-deopdown{
     display: block;
     width: 100%;
@@ -329,8 +328,7 @@ button.btn.close-btn{
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 130px;
-=======
-
+}
 
 span.members-name {
     background-color: #a69ff3;
@@ -343,5 +341,4 @@ span.members-name {
     font-size: 18px;
     text-transform: uppercase;
     box-shadow: 0 0 0 2px #f9fafb;
->>>>>>> 3309183ef5cad73cf725ef70b749dc8362d74224
 }
