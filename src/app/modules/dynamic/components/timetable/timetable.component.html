@@ -234,9 +234,10 @@
               <p>Absent</p>
               <h5>{{activeUsersCount - attendanceDataByDateKey.length}}</h5>
             </div>
-            <div class="staf">
+            <div class="staf" style="text-align: center;">
               <p>Half Day</p>
-              <h5>{{halfDayUsers}}</h5>
+              <h5>-</h5>
+              <!-- <h5>{{halfDayUsers}}</h5> -->
             </div>
             <div class="staf">
               <p>OverTime Hours</p>
@@ -320,8 +321,29 @@
 
       <!-- *ngIf="attendanceDataByDateKey.length==0 && !isShimer" -->
       <div class="mt-3 dashnodata" >
+        <div
+        class="errorboxmain"
+        *ngIf="errorToggleTimetable"
+      >
+        <div class="errorboxinner text-center">
+          <div class="errorboxplaceholder mb-2">
+            <img
+              src="assets/images/signal.svg"
+              style="width: 80px"
+            />
+          </div>
+          <div class="">
+            <h4>Something went wrong</h4>
+            <p>
+              An error occurred while processing your
+              request. Please refresh the page and try
+              again.
+            </p>
+          </div>
+        </div>
+      </div>
 
-        <div class="errorboxmain" *ngIf="attendanceDataByDateKey.length==0 && !isShimer">
+        <div class="errorboxmain" *ngIf="attendanceDataByDateKey.length==0 && !isShimer && placeholder">
             <div class="errorboxinner text-center">
               <div class="errorboxplaceholder mb-2">
                 <img src="assets/images/addnewproduct.svg" style="width:80px;" />
@@ -408,14 +430,14 @@
               </div>
               <div class="col-md-4">
                 <div class="in-time">
-                  <span>Break </span> <span>|</span>
-                  <p class="mb-0">01:00 PM</p>
+                  <span>Total Break</span> <span>|</span>
+                  <p class="mb-0">({{attendanceDataByDate[key].breakCount}}) &nbsp; &nbsp;<i style="color: black;" class="bi bi-chevron-down"></i></p>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="in-time">
-                  <span>Back </span> <span>|</span>
-                  <p class="mb-0">02:00 AM</p>
+                  <span>Back Timings</span> <span>|</span>
+                  <p class="mb-0">-</p>
                 </div>
               </div>
               <div class="col-md-4">
@@ -436,8 +458,7 @@
   tabindex="-1"
   role="dialog"
   aria-labelledby="mySmallModalLabel"
-  aria-hidden="true"
->
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">

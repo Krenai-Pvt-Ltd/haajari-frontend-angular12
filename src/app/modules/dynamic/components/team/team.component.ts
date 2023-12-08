@@ -55,7 +55,7 @@ export class TeamComponent implements OnInit{
    
   }
 
-  constructor(private router : Router, private dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService, private helperService: HelperService) { 
+  constructor(private router : Router, public dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService, private helperService: HelperService) { 
     this.Settings = {
       singleSelection: false,
       text: 'Select Module',
@@ -102,7 +102,7 @@ export class TeamComponent implements OnInit{
 
   
   searchUsers() {
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchQuery,'').subscribe((data : any) => {
+    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchQuery,'name').subscribe((data : any) => {
       this.userList = data.users;
       this.total = data.count;
       console.log(this.userList);
@@ -364,18 +364,21 @@ export class TeamComponent implements OnInit{
   }
 
   rotateToggle:boolean = false
-
+  newRotateToggle: boolean = false;
   
   saveSlackChannelsDataToTeam(){
     debugger
     this.rotateToggle = true;
+    this.newRotateToggle = true;
+    this.dataService.slackDataPlaceholderFlag = true;
     // setTimeout(()=>{
     //   this.rotateToggle = false;
     // }, 100000)
 
     this.dataService.getSlackChannelsDataToTeam(this.orgRefId).subscribe(response =>{
-      
       console.log("slack data saved to team successfully");
+      this.newRotateToggle = false;
+      this.dataService.slackDataPlaceholderFlag = false;
       location.reload();
       if(response){
       setTimeout(()=>{
@@ -395,6 +398,7 @@ export class TeamComponent implements OnInit{
 
   isShimmer: boolean=false;
   isPlaceholder: boolean=false;
+  errorToggleTeam:boolean=false;
 
 getTeamsByFiltersFunction() {
   this.isShimmer=true;
@@ -418,8 +422,10 @@ getTeamsByFiltersFunction() {
       console.error("Invalid data format received from the server");
     }
     this.isShimmer=false;
+    // this.crossFlag=false;
   }, (error) => {
     this.isShimmer=false;
+    this.errorToggleTeam=true;
   });
 }
 
@@ -435,9 +441,14 @@ getTeamsByFiltersFunction() {
   searchText : string = '';
 
   searchTeamPlaceholderFlag: boolean=false;
+  crossFlag: boolean = false;
   searchTeams() {
+    this.crossFlag=true;
     this.searchTeamPlaceholderFlag=true;
     this.getTeamsByFiltersFunction();
+    if(this.searchText== ''){
+      this.crossFlag=false;
+    }
   }
 
 
@@ -471,6 +482,7 @@ getEndIndex(): number {
 }
 reloadPage() {
   location.reload();
+  this.crossFlag=false;
 }
 
 

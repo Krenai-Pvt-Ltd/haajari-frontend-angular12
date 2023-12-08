@@ -57,7 +57,8 @@ export class UserlistComponent implements OnInit {
 
   text = '';
   changeStatus(presenceStatus : Boolean){
-    this.dataService.changeStatusById(presenceStatus).subscribe(data =>{
+    // this.userUuid is error remove
+    this.dataService.changeStatusById(presenceStatus, this.userUuid).subscribe(data =>{
       console.log(data);
       console.log("====================");
     }, (error) => {

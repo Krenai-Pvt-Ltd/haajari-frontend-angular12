@@ -1,0 +1,183 @@
+.company-settinh {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.border-buttom-setting {
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.table .thead-light th {
+    color: #444;
+    border-bottom: 1px solid #f5f5f5;
+   background-color: transparent;
+    font-size: 13px;
+}
+
+.table tbody tr:hover {
+    box-shadow: none;
+}
+
+
+.new-deopdown{
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size: .875rem;
+    font-weight: 400;
+    height: 40px!important;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #e8ebf3;
+    color: #2d2e3e;
+}
+
+.new-deopdown i {
+    position: absolute;
+    right: 15px;
+}
+
+.leave-cat-box{
+    border-radius: 2px;
+    border: 1px solid #f1f1f1;
+    box-shadow: 0 0 0.875rem #343a400d;
+}
+
+.add-filtter a {
+    margin-bottom: 0;
+    color: #557ef8;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+[class^=bi-]:before, [class*=" bi-"]:before {
+    display: inline-block;
+    font-family: bootstrap-icons!important;
+    font-style: normal;
+    font-weight: 600!important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: text-bottom;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.leave-delet-btn {
+    position: absolute;
+    top: 35px;
+}
+
+
+.border-box{
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.form-roe-data h5 {
+    font-size: 14px;
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+.form-roe-data p {
+    font-size: 12px;
+    margin-bottom: 10px;
+    color: #6a7886;
+}
+
+.TotalAmountOrder {
+    border-radius: 2px;
+    align-items: center;
+    padding: 3px;
+    position: relative;
+
+}
+.currenttab{
+    border: 1px solid #aeaeae;
+    border-radius: 2px;
+    align-items: center;
+    position: relative;
+}
+
+.count-box label{
+    border: 1px solid #e8ebf3;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0px;
+    padding: 5px 20px;
+    transition: 0.1s linear;
+}
+
+.count-box p{
+    color: #444;
+    font-size: 13px;
+}
+
+.TotalAmountOrder.TotalAmountOrderactive:before {
+    left: 50%!important;
+    width: 49%;
+}
+
+.TotalAmountOrder:before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
+    width: 48%;
+    transition: .2s linear;
+    border: 1px solid #4f5eee;
+    z-index: 0;
+    border-radius: 2px;
+}
+
+.TotalAmountOrder p, .TotalAmountOrder h6 {
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 30px;
+    color: #444;
+    margin-bottom: 0;
+    min-width: 100px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    height: 30px;
+}
+
+/* .TotalAmountOrder p.currenttabactive {
+    color: #4f5eee;
+} */
+
+#mnthlyRadio1:checked ~ label,
+#mnthlyRadio2:checked ~ label{
+    border-color: #4f5eee;  
+    color: #4f5eee; 
+}
+
+#ingnoe1:checked ~ label,
+#ingnoe2:checked ~ label{
+    border-color: #4f5eee;  
+    color: #4f5eee; 
+}
+
+.company-save-btn {
+    font-size: 1.125rem;
+    line-height: 1.625rem;
+    font-weight: 500;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: #fff;
+    background-color: #4660f6;
+    width: 150px;
+}
+
+.leave-delet-btn i{
+    color: #eb5050;
+}

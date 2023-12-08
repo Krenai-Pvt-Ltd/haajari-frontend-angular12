@@ -117,7 +117,7 @@ errorToggleMain: boolean=false;
           this.myAttendanceData = response;
 
           debugger
-          console.log("this.myAttendanceData" + response);
+          console.log(this.myAttendanceData);
           this.isAttendanceShimer=false;
           if (this.myAttendanceData) {
             
@@ -151,6 +151,18 @@ errorToggleMain: boolean=false;
   }
 
 
+  extractFirstNameFromEmail(email: string): string {
+    const pattern = /^(.+)@.+/;
+    const matches = email.match(pattern);
+
+    if (matches) {
+        const namePart = matches[1];
+        const firstName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+        return firstName;
+    } 
+
+    return email;
+}
   dateInMonthList(attendances: AttendenceDto[]): string[] {
     const uniqueDays = Array.from(new Set(attendances.map(a => a.createdDay)));
     return uniqueDays;
@@ -167,17 +179,15 @@ errorToggleMain: boolean=false;
     return this.datePipe.transform(date, 'EEEE');
   }
 
-  getAttendanceStatus(attendance: AttendenceDto): string {
-    if(attendance.checkInTime == null){
-        if(new Date(attendance.createdDay) > new Date()){
-          return '-';
-        } else{
-          return 'A';
-        }
+  attendanceString:string='';
+  today:Date=new Date();
+  convertStringToDate(attendance: AttendenceDto){
+    if(attendance.converterDate==undefined){
+      attendance.converterDate = new Date(attendance.createdDay)
     }
-
-    return 'P';
+    return attendance.converterDate;
   }
+  
 
   getFirstName(fullName: string): string {
     const names = fullName.split(' ');

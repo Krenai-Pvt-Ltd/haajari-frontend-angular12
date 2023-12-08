@@ -94,8 +94,8 @@
 }
 
 .on-leaves {
-    border-right: 1px solid #eee !important;
     padding-right: 16px;
+   
 }
 
 .on-leaves:last-child {
@@ -158,6 +158,14 @@
     text-align: center;
 }
 
+
+.rej-per{
+    background-color: red;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+}
+
 .half-per{
     background-color: orange;
     color: #fff;
@@ -170,7 +178,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 170px;
+  width: 190px;
+  font-size: 12px;
+  color: #878a9a;
 }
 
 tbody tr {
@@ -190,8 +200,24 @@ tbody tr {
     padding: 5px 23px;
     border: 1px solid #557ef8;
 }
+/* 
+.errorboxmain{
+    min-height: 20vh;
+    background-color: #fff;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    border-radius: 6px;
+}
 
+  .errorboxmain {
+    padding: 15px;
+} */
 
+/* 
+.errorboxinner{
+    display: flex;
+    align-items: center;
+    gap:10px
+} */
 .errorboxmain{
     min-height: 30vh;
     display: flex;
@@ -200,10 +226,10 @@ tbody tr {
     text-align: center;
     background-color: #fff;
 }
-
   .errorboxmain {
     padding: 30px;
 }
+
 .table-design tr td{
     border: 1px solid #e0e0e0;
 }
@@ -284,4 +310,156 @@ button.btn.close-btn{
     display: flex;
     align-items: center;
     color: var(--tb-secondary-color) !important;
+}
+
+.new-deopdown{
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size: .875rem;
+    font-weight: 400;
+    height: 40px!important;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #e8ebf3;
+    color: #2d2e3e;
+}
+
+.new-deopdown i {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+}
+.joining-email{
+    overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 115px;
+}
+
+.joining-name{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100px;
+}
+
+span.members-name {
+    background-color: #a69ff3;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+
+.last-client{
+    width: 50%;
+    padding-right: 16px;
+}
+
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1rem;
+    clear: both;
+    font-weight: 400;
+    color: #000444;
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    font-size: 13px;
+    color: #3e3e3e;
+}
+
+/* input[type=checkbox][_ngcontent-xtk-c133] {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
+.hafday {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 45px;
+    height: 25px;
+    background: grey;
+    display: block;
+    border-radius: 100px;
+    position: relative;
+}
+
+.hafday:after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border-radius: 90px;
+    transition: 0.3s;
+} */
+
+.material-switch > input[type="checkbox"] {
+    display: none;
+}
+
+input, textarea {
+    background: #f4f4f4 !important;
+    border: 1px solid #d7d7d7 !important;
+    border-radius: 6px;
+    height: 45px;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 18px;
+    color: #445059;
+    box-shadow: none;
+}
+
+.material-switch > label {
+    cursor: pointer;
+    height: 0px;
+    position: relative;
+    width: 40px;
+    margin-top: 0px;
+    top: -13px;
+}
+
+.material-switch > label::before {
+    background: #f56061;
+    border-radius: 20px;
+    content: "";
+    height: 19px;
+    position: absolute;
+    opacity: 1;
+    transition: all 0.4s ease-in-out;
+    width: 35px;
+    right: 0;
+}.material-switch > label::after {
+    background: rgb(255, 255, 255);
+    border-radius: 50%;
+    content: "";
+    height: 15px;
+    left: 7px;
+    position: absolute;
+    transition: all 0.3s ease-in-out;
+    width: 15px;
+    margin-top: 2px;
+}
+
+.material-switch > input[type="checkbox"]:checked + label::after {
+    left: 22px;
+}
+
+.material-switch > input[type="checkbox"]:checked + label::before {
+    background: #79af79;
 }

@@ -30,6 +30,10 @@ export class TopbarComponent implements OnInit {
       routeValue = "Attendance Details";
     }
 
+    if(routeValue.includes("team-detail")){
+      routeValue = "Team Details";
+    }
+
     this.topbarValue = this.capitalizeFirstLetter(routeValue);
   }
 

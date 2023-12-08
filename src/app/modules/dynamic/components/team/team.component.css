@@ -440,3 +440,91 @@ button.btn.close-btn{
     color: #557ef8;
     cursor: pointer;
 }
+
+.waiting-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+
+
+  .loader{
+    width: 300px;
+    height: 23px;
+    margin: 0 15px;
+    border-radius: 100px;
+    position: relative;
+    top: 0px;
+    left: -5px;
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    grid-column-gap: 15px;
+    grid-column-gap: 15px;
+    column-gap: 15px;
+    /* background-color: #f8f8f8; */
+    color: #353535;
+  }
+  
+
+
+  .loaderIcon {
+    font-size: 17px;
+    animation: iconMove 4s linear infinite;
+    position: absolute;
+    left: -20%;
+    top: -2px;
+    bottom: 0;
+}
+  .loaderIcon:nth-child(1){
+    animation-delay: 1s;
+  }
+  .loaderIcon:nth-child(2){
+    animation-delay: 2s;
+  }
+  .loaderIcon:nth-child(3){
+    animation-delay: 3s;
+  }
+  .loaderIcon:nth-child(4){
+    animation-delay: 4s;
+  }
+  @keyframes iconMove{
+    0%{
+      left: -10%;
+    }
+    15%{
+      left: 0%;
+    }
+    50%{
+      left: 50%;
+    }
+    75%{
+      left: 75%;
+    }
+    100%{
+      left: 100%;
+    }
+  }
+ 
+
+.detaworkspace{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.errorboxmain{
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fff;
+}
+  .errorboxmain {
+    padding: 30px;
+}

@@ -14,6 +14,7 @@ import { Key } from "../constant/key";
 import { OrganizationPersonalInformation } from "../models/organization-personal-information";
 import { AttendanceWithLatePerformerResponseDto, AttendanceWithTopPerformerResponseDto } from "../models/Attendance.model";
 import { RoleRequest } from "../models/role-request";
+import { User } from "../models/user";
 @Injectable({
   providedIn: "root",
 })
@@ -30,7 +31,9 @@ export class DataService {
   //private baseUrl = Key.ENDPOINT;
   
   private baseUrl = "http://localhost:8080/api/v2"
+
   // private baseUrl = "https://backend.hajiri.work/api/v2";
+
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
     const params = new HttpParams().set("code_param", codeParam);
@@ -43,6 +46,17 @@ export class DataService {
     .set('end_date', endDate);
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date-duration`,{params});
   }
+
+  getUserAttendanceDetailsByDateDuration(userUuid:string, role:string, startDate : string, endDate : string) : Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('user_role', role)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-for-user-by-date-duration`,{params});
+  }
+
+
   getAttendanceDetailsByDate(date : string): Observable<any>{
     const params = new HttpParams()
     .set("date", date)
@@ -106,10 +120,11 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/all/by-filters`, {params});
   }
   
-  changeStatusById(presenceStatus: Boolean): Observable<any> {
+  changeStatusById(presenceStatus: Boolean, userUuid:string): Observable<any> {
     const params = new HttpParams()
-      .set("presenceStatus", presenceStatus.toString());
-    return this.httpClient.put<any>(`${this.baseUrl}/users/change-status`, params);
+      .set("presenceStatus", presenceStatus.toString())
+      .set("userUuid", userUuid );
+    return this.httpClient.put<any>(`${this.baseUrl}/users/change-status`,{},{params});
   }
   getActiveUsersCount(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/users/active-count`);
@@ -133,6 +148,21 @@ export class DataService {
     
     return this.httpClient.get<TeamResponse[]>(`${this.baseUrl}/team/get-all-teams-with-users-by-user-id`);
   }
+
+  // Firebase access token from refresh token
+  refreshFirebaseAccessToken(): Observable<any> {
+
+    const refreshToken = localStorage.getItem('refresh_token');
+
+    if(refreshToken === null || refreshToken === undefined) {
+      throw new Error("Refresh token not found");
+    }
+    
+    const params = new HttpParams().set("refresh_token", refreshToken);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/firebase/refresh-access-token`, {params});
+  }
+
   registerOnboardingDetails(
     id: number,
     name: string,
@@ -253,6 +283,17 @@ export class DataService {
       params,
     });
   }
+
+  logoutUser(email : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set("email", email);
+
+    return this.httpClient.get(`${this.baseUrl}/users/logout`, {
+      params,
+    })
+  }
+
   // saveTokenForOrganization(organization : Organization): Observable<any> {
    
   //   return this.httpClient.post<any>(this.baseUrl+ '/savetoken', organization);
@@ -331,9 +372,12 @@ export class DataService {
   getTodaysLeaveCount(): Observable<any> {
     return this.httpClient.get( this.baseUrl+'/user-leave/todays-leave-count');
   }
+
+  slackDataPlaceholderFlag:boolean=false;
   getSlackChannelsDataToTeam(organizationUuid: string): Observable<any> {
     const params = new HttpParams().set("organization_uuid", organizationUuid);
     return this.httpClient.get<any>(`${this.baseUrl}/team/users`, {params});
+    
   }
   
   
@@ -362,7 +406,37 @@ export class DataService {
   updateRolePermissions(roleRequest : RoleRequest): Observable<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/role/update`, roleRequest);
   }
+  
+  //Just for testing purpose
   callingHelloWorld():Observable<any>{
+    debugger
     return this.httpClient.get<any>(`${this.baseUrl}/slack/hello`);
   }
+
+  getEmployeesStatus():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-employee-onboarding-status`);
+  }
+
+  
+  getLastApprovedAndLastRejecetd():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-status`);
+  }
+
+  
+  getUserByUuid(userUuid:any):Observable<any>{
+    const params = new HttpParams()
+    .set("uuid", userUuid);
+    return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-user-by-uuid`, {params});
+  }
+
+   
+  updateStatusUser(userUuid:string, statusType:string):Observable<any>{
+    const params = new HttpParams()
+    .set("user_uuid", userUuid)
+    .set("status_type", statusType);
+    debugger
+    return this.httpClient.put<any>(`${this.baseUrl}/employee-onboarding-status/change-employee-onboarding-status`,{}, {params});
+  }
+
+  
 }

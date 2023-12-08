@@ -10,7 +10,7 @@
                         <div class="orderpcardinfo d-flex justify-content-between">
                             <div class="orderpcardleft">
                                 <h6>Pending Verification</h6>
-                                <h5>20</h5>
+                                <h5>{{ verificationCount.pendingEmployees || 0 }}</h5>
                             </div>
 
                             <div class="orderpcardright">
@@ -27,7 +27,7 @@
                         <div class="orderpcardinfo d-flex justify-content-between">
                             <div class="orderpcardleft">
                                 <h6>Verified</h6>
-                                <h5>20</h5>
+                                <h5>{{ verificationCount.approvedEmployees || 0 }}</h5>
                             </div>
 
                             <div class="orderpcardright">
@@ -44,7 +44,7 @@
                         <div class="orderpcardinfo d-flex justify-content-between">
                             <div class="orderpcardleft">
                                 <h6> Rejected</h6>
-                                <h5>20</h5>
+                                <h5>{{ verificationCount.rejectedEmployees || 0 }}</h5>
                             </div>
 
                             <div class="orderpcardright">
@@ -65,7 +65,23 @@
                     <h5>Latest Joining - Pending Verification</h5>
 
                     <div class="d-flex align-items-center mt-4" style="gap:10px;">
-                        <div class="on-leave" >
+                        <div class="on-leave" *ngFor="let statusUsers of employeeStatus.last3PendingUsers">
+                            <div class="d-flex align-items-center" style="gap:10px;">
+                            <div class="">
+                                <span *ngIf="statusUsers?.image !== null">
+                                    <img src="{{statusUsers?.image}}" class="rounded-circle thumb-xl">
+                                  </span>
+                                <span class="members-name" *ngIf="statusUsers?.image == null">{{ statusUsers?.name[0] }}</span>
+                                <!-- <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl"> -->
+                            </div>
+
+                            <div class="">
+                                <h5 class="joining-name">{{statusUsers?.name}}</h5>
+                                <p class="mb-0 joining-email">{{statusUsers?.email}}</p>
+                            </div>
+                        </div>
+                        </div>
+                        <!-- <div class="on-leave" >
                             <div class="d-flex align-items-center" style="gap:10px;">
                             <div class="">
                                 <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl">
@@ -88,19 +104,7 @@
                                 <p class="mb-0">Website Designer</p>
                             </div>
                         </div>
-                        </div>
-                        <div class="on-leave" >
-                            <div class="d-flex align-items-center" style="gap:10px;">
-                            <div class="">
-                                <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl">
-                            </div>
-
-                            <div class="">
-                                <h5>Yogesh Yadav</h5>
-                                <p class="mb-0">Website Designer</p>
-                            </div>
-                        </div>
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>
@@ -108,35 +112,41 @@
                <div class="col-md-5">
                 <div class="on-leave-section">
 
-                    <div class="d-flex align-items-center justify-content-between ">
+                    <div class="d-flex align-items-center justify-content-between " *ngIf="employeeStatus">
 
-                      <div class="">
+                      <div class="last-client">
 
                         <h5>Last Approved</h5>
-                        <div class="on-leaves mt-4" >
+                        <div class="on-leaves mt-4">
                             <div class="d-flex align-items-center j" style="gap:10px;">
-                            <div class="">
-                                <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl">
+                            <div class=""> 
+                                <span *ngIf="employeeStatus!.lastApprovedUser?.image !== null">
+                                    <img src="{{employeeStatus!.lastApprovedUser?.image}}" class="rounded-circle thumb-xl">
+                                  </span>
+                                <span class="members-name" *ngIf="employeeStatus!.lastApprovedUser?.image == null">{{ employeeStatus!.lastApprovedUser?.name[0] }}</span>
                             </div>
 
                             <div class="">
-                                <h5>Yogesh Yadav</h5>
-                                <p class="mb-0">Website Designer</p>
+                                <h5 class="joining-name">{{employeeStatus!.lastApprovedUser?.name}}</h5>
+                                <p class="mb-0 joining-email">{{employeeStatus!.lastApprovedUser?.email}}</p>
                             </div>
-                        </div>
+                          </div>
                         </div>
                       </div>
                       <div class="">
                         <h5>Last Rejected</h5>
-                        <div class="on-leaves mt-4" >
+                        <div class="on-leaves mt-4">
                             <div class="d-flex align-items-center" style="gap:10px;">
                             <div class="">
-                                <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl">
+                                <span *ngIf="employeeStatus!.lastRejectedUser?.image !== null">
+                                    <img src="{{employeeStatus!.lastRejectedUser?.image}}" class="rounded-circle thumb-xl">
+                                  </span>
+                                <span class="members-name" *ngIf="employeeStatus!.lastRejectedUser?.image == null">{{ employeeStatus!.lastRejectedUser?.name[0] }}</span>
                             </div>
 
                             <div class="">
-                                <h5>Yogesh Yadav</h5>
-                                <p class="mb-0">Website Designer</p>
+                                <h5 class="joining-name">{{employeeStatus!.lastRejectedUser?.name}}</h5>
+                                <p class="mb-0 joining-email">{{employeeStatus!.lastRejectedUser?.email}}</p>
                             </div>
                         </div>
                         </div>
@@ -156,103 +166,70 @@
                     <div class="obboard-employee-list">
 
                         <div class="onboard-add row align-items-center">
-                            <div class="col-md-8 d-flex" style="gap:20px">
-                                <div class="onboarding-date d-flex align-items-center" style="gap:10px">
-                                    <!-- <span class="arrow-lefte">
-                                        <i class="bi bi-chevron-left"></i>
-                                    </span>
-                                    <div class="text-center">
-                                        <p class="mb-0">6-12-2023</p>
-                                        <span style="font-size: 10px; position: relative; top: -5px; color: #686868;">Onboarding Date</span>
-                                    </div>
-                                   
+                            <!-- <div *ngIf="users.length!=0"> -->
+                         <div class="col-md-8 d-flex" style="gap:20px" *ngIf="users.length>0">
+                               <!-- Your component.html file -->
 
-                                    <span class="arrow-leftee">
-                                        <i class="bi bi-chevron-right"></i>
-                                    </span>
-                                </div>
+                               <div class="onboarding-date d-flex align-items-center" style="gap:10px">
+                                  
 
-                                <div class="d-flex align-items-center add-filtter" style="gap:10px;">
-                                   
-                                       
-                                        <a >Week</a>
-                                        <p class="mb-0">|</p>
-                                        <a >Month</a>
-                                 
-                                </div> -->
-
-                                <form role="search" class="searching ng-untouched ng-pristine ng-valid" >
+                                <form role="search" class="searching ng-untouched ng-pristine ng-valid">
                                     <div class="form-group" style="width: 300px; position: relative;">
-                                        <input type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;" >
-            
-                                               <button type="button" class="btn close-btn">
-                                                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                                            </button>
-            
-                                        <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
+                                     
+                                      <input type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                                        (keyup)="searchUsers('any')" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px;">
+                                      <button type="button" class="btn close-btn" (click)="reloadPage()" *ngIf="crossFlag"><i class="bi bi-x mt-auto mb-auto pl-3"></i></button>
+                                      <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
                                     </div>
-                                </form>
-
-                             
+                                  </form> 
+                                  
+                                  <div class="" style="width: 150px; position: relative;">
+                                    <div class="dropdown" style="width: 100%;">
+                                      <button
+                                        type="button"
+                                        id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                        class="btn btn-secondary dropdown-toggle new-deopdown"
+                                      >
+                                        {{ selectedStatus || 'Select Search' }} <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                                      </button>
+                                      <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                                        <li><a class="dropdown-item" (click)="selectStatus('APPROVED')">APPROVED</a></li>
+                                        <li><a class="dropdown-item" (click)="selectStatus('PENDING')">PENDING</a></li>
+                                        <li><a class="dropdown-item" (click)="selectStatus('REJECTED')">REJECTED</a></li>
+                                      </ul>
+                                    </div>
+                                  </div>
                             </div>
-                            
+  
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" *ngIf="users.length>0">
                             <div class="add-filtter text-end">
                                 <a data-bs-toggle="modal" data-bs-target="#add-employee" type="button"><i class="bi bi-plus" style="font-size: 23px;"></i> Invite New Members</a>
                             </div>
                         </div>
+                    <!-- </div> -->
 
-                        <div class="row mt-3">
-                            <div class="col-md-12">
+                            <div class="col-md-12 mt-3">
                                 <div class="">
                                     <div class="table-responsive bg-white">
                                         <table class="table">
                                             <thead class="thead-light table-design" >
                                             <tr>
-                                                <th style="width:0%">Date </th>
-                                                <th style="width: 15%">Employee Name</th>
+                                                <th style="width:10%">Date </th>
+                                                <th style="width: 20%">Employee Name</th>
                                                 <!-- <th style="width:10%">Category</th> -->
-                                                <th style="width:25%">Email</th>
+                                                <th style="width:20%">Email</th>
                                                 <!-- <th style="width:10%" class="text-center">Estimate Time</th> -->
                                                 <!-- <th style="width:10%" class="text-center">Extra Field</th> -->
-                                                <th style="width:3%">Complete</th>
-                                                 <th style="width:15%">Comment</th> 
+                                                <th style="width:3%">Accessibility</th>
+                                                <th style="width:3%">Status</th>
+                                                 <th style="width:15%">Action</th> 
                                             </tr>
                                         </thead>
-                                        <tbody *ngIf="users.length==null && !isUserShimer" >
-                                            <tr >
-                                                <td colspan="8">
-                                                    <div class="mt-3 dashnodata" >
-                                                        <div class="errorboxmain" *ngIf="errorToggleTop">
-                                                            <div class="errorboxinner">
-                                                                 <div class="errorboxplaceholder mb-2">
-                                                                  <img src="assets/images/signal.svg" style="width:80px;" />
-                                                                  </div>
-                                                                 <div class="">
-                                                                 <h4>Something went wrong</h4>
-                                                                 <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    <div class="errorboxmain" *ngIf="placeholder">
-                                                       
-                                                            <div class="errorboxinner text-center">
-                                                              <div class="errorboxplaceholder mb-2">
-                                                                <img src="assets/images/addnewproduct.svg" style="width:80px;" />
-                                                              </div>
-                                                
-                                                              <h4>No Data Found</h4>
-                                                              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                                            </div>
-                                                       
-                                                    </div>
-                                                    
-                                                 </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-
+                                        <!-- {{mainPlaceholdersTableFlag}}{{errorToggleTop}} -->
+                                        <!-- {{isUserShimer}} -->
                                         <tbody *ngIf="isUserShimer">
                                             <tr *ngFor="let item of [].constructor(6)">
                                                 <td>
@@ -261,20 +238,21 @@
                                                 <td>
                                                     <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                </td>
+                                                </td> -->
                                                 <td>
                                                     <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <ngx-shimmer-loading [width]="'30%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                </td>  <td>
+                                                </td>  -->
+                                                 <td>
                                                     <ngx-shimmer-loading [width]="'70%'" [height]="'30px'"></ngx-shimmer-loading>
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <ngx-shimmer-loading [width]="'30%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                </td>
+                                                </td> -->
                                                 <td>
                                                     <ngx-shimmer-loading [width]="'50%'" [height]="'10px'"></ngx-shimmer-loading>
                                                 </td>
@@ -299,24 +277,39 @@
                                                 </td>
                                             </tr>
                                         </tbody> -->
-                                        <tbody class="table-design" *ngIf="users.length!=null && !isUserShimer">
+                                        <tbody class="table-design" *ngIf="users.length>0 && !isUserShimer">
                                             <tr *ngFor=" let i = index, let user of users | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};">
-                                                <td>06/06/2023</td>
+                                                <td>
+                                                    <p class="mb-0 weekly-pro"> {{user.onboardingStatusUpdateDate.toString() | dateFormat}}</p>
+                                                   </td>
                                                 <td>{{user.name}}</td>
                                                 <!-- <td>Meeting</td> -->
                                                 <td>
                                                     <p class="mb-0 weekly-pro">{{user.email}}</p>
                                                 </td>
-                                                <!-- <td class="text-center">12</td> -->
+                                               
+                                                <td class="text-center">
+                                                    <div class="material-switch">
+                                                        <input type="checkbox" id="switch{{user.uuid}}" [(ngModel)]="user.presenceStatus" (change)="changeStatus(user.presenceStatus, user.uuid)">
+                                                        <label for="switch{{user.uuid}}" class="label-success"></label></div>
+                                                </td>
                                                 
                                                 <!-- <td class="text-center">13</td>  -->
-                                                <td class="half-per">
-                                                    <span class="">0%</span>
+                                                <td class="half-per" *ngIf="(user.employeeOnboardingStatus.response)== pendingResponse">
+                                                    <span class="">{{user.employeeOnboardingStatus.response}}</span>
+                                                </td>
+                                                <td class="full-per" *ngIf="(user.employeeOnboardingStatus.response)== approvedResponse">
+                                                    <span class="">{{user.employeeOnboardingStatus.response}}</span>
+                                                </td>
+                                              
+                                                
+                                                <td class="rej-per" *ngIf="(user.employeeOnboardingStatus.response)== rejectedResponse">
+                                                    <span class="">{{user.employeeOnboardingStatus.response}}</span>
                                                 </td>
                                                 <td>
                                                     <div class="hstack gap-3 justify-content-center">
                                                         <a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a>
-                                                        <a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline">View</a>
+                                                        <a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline" (click)="routeToUserDetails(user.uuid)">View</a>
                                                     </div>
                                                 </td> 
                                             </tr>
@@ -359,8 +352,54 @@
                                                  </td> 
                                             </tr> -->
                                         </tbody>
+                                        <tbody >
+                                            <tr >
+                                                <td colspan="8">
+                                                    <div class="mt-3 dashnodata" >
+                                                        <!-- <div class="errorboxmain" *ngIf="mainPlaceholdersTableFlag && errorToggleTop">
+                                                            <div class="errorboxinner">
+                                                                 <div class="errorboxplaceholder mb-2">
+                                                                  <img src="assets/images/signal.svg" style="width:80px;" />
+                                                                  </div>
+                                                                 <div class="">
+                                                                 <h4>Something went wrong</h4>
+                                                                 <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div> -->
+                                                        <div class="errorboxmain"  *ngIf="errorToggleTop">
+                                                       
+                                                            <div class="errorboxinner text-center">
+                                                              <div class="errorboxplaceholder mb-2">
+                                                                <img src="assets/images/signal.svg" style="width:80px;" />
+                                                              </div>
+                                                               <div class="">
+                                                              <h4>Something went wrong</h4>
+                                                              <p>An error occurred while processing your request. Please refresh the page and try again.</p>
+                                                              </div>
+                                                            </div>
+                                                       
+                                                    </div>
+                                                    <div class="errorboxmain" *ngIf="placeholder && total==null && !isUserShimer">
+                                                       
+                                                            <div class="errorboxinner text-center">
+                                                              <div class="errorboxplaceholder mb-2">
+                                                                <img src="assets/images/addnewproduct.svg" style="width:80px;" />
+                                                              </div>
+                                                
+                                                              <h4>No Data Found</h4>
+                                                              <p>We're unable to locate a record associated with the information you entered.</p>
+                                                            </div>
+                                                       
+                                                    </div>
+                                                    
+                                                 </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
                                         </table>
-                                        <div class="pagination pl-3" *ngIf="isUserShimer==false && users.length!=0">
+                                        <div class="pagination pl-3" *ngIf="!isUserShimer && users.length>0 && total > 10">
                                             <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
                                             <div class="row">
                                               <div class="col-md-12">
@@ -385,11 +424,10 @@
                                                 </nav>
                                               </div>
                                             </div>
-                                          </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
