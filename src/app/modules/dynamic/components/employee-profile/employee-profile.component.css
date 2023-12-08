@@ -402,3 +402,130 @@ td.text-right {
     font-size: 12px;
     font-weight: 400;
 }
+
+.total-holiday {
+    font-size: 11px;
+    text-align: center;
+}
+.Approved p{
+    color: #3e993e;
+    font-weight: 700;
+}
+.Approved span{
+    color: #3e993e !important;
+}
+.Approved{
+    border-right: 1px solid #f1f1f1;
+    width: 100px;
+}
+
+
+
+
+.rejected-css p{
+    color: #eb5050;
+}
+
+.rejected-css span{
+    color: #eb5050 !important;
+}
+
+
+.pending-css p{
+    color: orange;
+}
+
+.pending-css span{
+    color: orange !important;
+}
+
+
+.remaining-css p{
+    color: #557ef8;
+}
+
+.remaining-css span{
+    color: #557ef8 !important;
+}
+.Approved:last-child{
+    border-right: none;
+}
+
+.add-filtter a {
+    margin-bottom: 0px;
+    color: #557ef8;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+[class^="bi-"]::before, [class*=" bi-"]::before {
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: bold !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: text-bottom;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.new-deopdown i {
+    position: absolute;
+    right: 15px;
+    top: 8px;
+}
+
+.new-deopdown {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size:13px;
+    font-weight: 500;
+    height: 40px !important;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #e8ebf3;
+    color: #2d2e3e;
+}
+
+span.optional {
+    color: #8997bd;
+    font-size: 12px;
+}
+.apply-leave-main-box{
+    height: 400px;
+    overflow: auto;
+}
+
+.apply-leave-main-box::-webkit-scrollbar{
+    display: none;
+}
+
+.border-buttom-setting {
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.back-btns-box {
+    background-color: #fff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    line-height: 16px;
+    border: 1px solid #557ef8;
+}
+
+.back-btns-box i {
+    margin-bottom: 0px;
+    color: #557ef8;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    top: -1px;
+}

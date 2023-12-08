@@ -414,8 +414,8 @@ span.members-name {
 }
 
 input, textarea {
-    background: #f4f4f4 !important;
-    border: 1px solid #d7d7d7 !important;
+    background: #fff !important;
+    border: 1px solid #e8ebf3 !important;
     border-radius: 6px;
     height: 45px;
     font-weight: 400 !important;
