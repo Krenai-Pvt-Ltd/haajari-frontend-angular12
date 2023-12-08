@@ -45,6 +45,17 @@ export class DataService {
     .set('end_date', endDate);
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date-duration`,{params});
   }
+
+  getUserAttendanceDetailsByDateDuration(userUuid:string, role:string, startDate : string, endDate : string) : Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('user_role', role)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-for-user-by-date-duration`,{params});
+  }
+
+
   getAttendanceDetailsByDate(date : string): Observable<any>{
     const params = new HttpParams()
     .set("date", date)
