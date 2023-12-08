@@ -414,8 +414,8 @@ span.members-name {
 }
 
 input, textarea {
-    background: #f4f4f4 !important;
-    border: 1px solid #d7d7d7 !important;
+    background: #fff !important;
+    border: 1px solid #e8ebf3 !important;
     border-radius: 6px;
     height: 45px;
     font-weight: 400 !important;
@@ -462,4 +462,16 @@ input, textarea {
 
 .material-switch > input[type="checkbox"]:checked + label::before {
     background: #79af79;
+}
+.new-deopdown {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size:13px;
+    font-weight: 500;
+    height: 40px !important;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #e8ebf3;
+    color: #2d2e3e;
 }

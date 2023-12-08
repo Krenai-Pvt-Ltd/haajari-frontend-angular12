@@ -64,7 +64,50 @@
 
                     <h5>Latest Joining - Pending Verification</h5>
 
-                    <div class="d-flex align-items-center mt-4" style="gap:10px;">
+                    <div class="row mt-4 " *ngIf="isPendingShimmer">
+                        <div class="col-md-4">
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
+                                </div>
+                                <div class="col-md-6">
+                                    <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </div>
+                            </div>
+
+                           
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
+                                </div>
+                                <div class="col-md-6">
+                                    <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
+                                </div>
+                                <div class="col-md-6">
+                                    <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mt-4" style="gap:10px;" *ngIf="!isPendingShimmer">
+                        
                         <div class="on-leave" *ngFor="let statusUsers of employeeStatus.last3PendingUsers">
                             <div class="d-flex align-items-center" style="gap:10px;">
                             <div class="">
@@ -109,6 +152,8 @@
 
                 </div>
                </div>
+
+
                <div class="col-md-5">
                 <div class="on-leave-section">
 
@@ -117,7 +162,24 @@
                       <div class="last-client">
 
                         <h5>Last Approved</h5>
-                        <div class="on-leaves mt-4">
+
+
+
+                        <div class="row mt-4 " *ngIf="isPendingShimmer">
+                            <div class="col-md-12">
+    
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="on-leaves mt-4" *ngIf="!isPendingShimmer">
                             <div class="d-flex align-items-center j" style="gap:10px;">
                             <div class=""> 
                                 <span *ngIf="employeeStatus!.lastApprovedUser?.image !== null">
@@ -135,7 +197,22 @@
                       </div>
                       <div class="">
                         <h5>Last Rejected</h5>
-                        <div class="on-leaves mt-4">
+
+                        <div class="row mt-4 " *ngIf="isPendingShimmer">
+                            <div class="col-md-12">
+    
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="on-leaves mt-4" *ngIf="!isPendingShimmer">
                             <div class="d-flex align-items-center" style="gap:10px;">
                             <div class="">
                                 <span *ngIf="employeeStatus!.lastRejectedUser?.image !== null">
@@ -195,9 +272,9 @@
                                         {{ selectedStatus || 'Select Search' }} <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
                                       </button>
                                       <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
-                                        <li><a class="dropdown-item" (click)="selectStatus('APPROVED')">APPROVED</a></li>
-                                        <li><a class="dropdown-item" (click)="selectStatus('PENDING')">PENDING</a></li>
-                                        <li><a class="dropdown-item" (click)="selectStatus('REJECTED')">REJECTED</a></li>
+                                        <li><a class="dropdown-item" (click)="selectStatus('APPROVED')">Approved</a></li>
+                                        <li><a class="dropdown-item" (click)="selectStatus('PENDING')">Pending</a></li>
+                                        <li><a class="dropdown-item" (click)="selectStatus('REJECTED')">Rejected</a></li>
                                       </ul>
                                     </div>
                                   </div>
@@ -247,6 +324,9 @@
                                                 <!-- <td>
                                                     <ngx-shimmer-loading [width]="'30%'" [height]="'10px'"></ngx-shimmer-loading>
                                                 </td>  -->
+                                                <td>
+                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'30px'"></ngx-shimmer-loading>
+                                                </td>
                                                  <td>
                                                     <ngx-shimmer-loading [width]="'70%'" [height]="'30px'"></ngx-shimmer-loading>
                                                 </td>

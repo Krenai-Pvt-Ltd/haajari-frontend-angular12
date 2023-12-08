@@ -14,10 +14,13 @@ import { RequestInterceptorService } from './configuration/request-interceptor.s
 import { SharedModule } from './shared/shared.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    NotifactionTostComponent,
   ],
   imports: [
     BrowserModule,
