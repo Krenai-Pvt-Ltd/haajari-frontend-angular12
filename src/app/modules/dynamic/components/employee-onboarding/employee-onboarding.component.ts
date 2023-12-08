@@ -107,6 +107,7 @@ export class EmployeeOnboardingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
+        location.reload();
         console.log('-------------------------------');
       }
     );
