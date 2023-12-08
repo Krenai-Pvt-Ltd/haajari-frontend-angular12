@@ -257,7 +257,7 @@
 
       <div class="search-bar mt-3 mb-3">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-9">
             <div class="searchbr-ui">
               <form
                 novalidate=""
@@ -279,6 +279,29 @@
                 </div>
               </form>
             </div>
+          </div>
+          <div class="col-md-3">
+            <div class="">
+              <div class="" style="width: 100%; position: relative;">
+                <div class="dropdown" style="width: 100%;">
+                  <button
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    class="btn btn-secondary dropdown-toggle new-deopdown"
+                  >
+                  Present <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                  </button>
+                  <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                    <li><a class="dropdown-item">Present</a></li>
+                    <li><a class="dropdown-item">Absent</a></li>
+                    <li><a class="dropdown-item">Half Day</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -321,8 +344,29 @@
 
       <!-- *ngIf="attendanceDataByDateKey.length==0 && !isShimer" -->
       <div class="mt-3 dashnodata" >
+        <div
+        class="errorboxmain"
+        *ngIf="errorToggleTimetable"
+      >
+        <div class="errorboxinner text-center">
+          <div class="errorboxplaceholder mb-2">
+            <img
+              src="assets/images/signal.svg"
+              style="width: 80px"
+            />
+          </div>
+          <div class="">
+            <h4>Something went wrong</h4>
+            <p>
+              An error occurred while processing your
+              request. Please refresh the page and try
+              again.
+            </p>
+          </div>
+        </div>
+      </div>
 
-        <div class="errorboxmain" *ngIf="attendanceDataByDateKey.length==0 && !isShimer">
+        <div class="errorboxmain" *ngIf="attendanceDataByDateKey.length==0 && !isShimer && placeholder">
             <div class="errorboxinner text-center">
               <div class="errorboxplaceholder mb-2">
                 <img src="assets/images/addnewproduct.svg" style="width:80px;" />
@@ -371,6 +415,7 @@
           <div class="col-md-6">
             <div class="Regular-data">
               <h5>{{extractFirstNameFromEmail(key)}} <span class="attendance-id">123</span></h5>
+
               <p>Not Marked</p>
               <div class="add-note d-flex" style="gap: 10px">
                 <a
@@ -388,7 +433,7 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="row">
+            <div class="row position-relative">
               <div class="col-md-4">
                 <div class="in-time">
                   <span>In </span><span>|</span>
@@ -410,13 +455,44 @@
               <div class="col-md-4">
                 <div class="in-time">
                   <span>Total Break</span> <span>|</span>
-                  <p class="mb-0">({{attendanceDataByDate[key].breakCount}}) &nbsp; &nbsp;<i style="color: black;" class="bi bi-chevron-down"></i></p>
+                  <p class="mb-0">({{attendanceDataByDate[key].breakCount}}) </p>
+
+                 
                 </div>
+
+
+              
               </div>
+
+
+             
+
               <div class="col-md-4">
-                <div class="in-time">
-                  <span>Back Timings</span> <span>|</span>
-                  <p class="mb-0">-</p>
+                <div class="in-time total-break-time-box position-relativ">
+                  <span>Break Timings</span> <span>|</span>
+                  <p class="mb-0">&nbsp; &nbsp;<i style="color: black;" class="bi bi-chevron-down"></i></p>
+
+
+
+                  <div class="total-braek-time">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                      <p>Break - 01:26 AM</p>
+                      <p>-</p>
+                      <p>Break Back - 02:17 AM</p>
+                    </div>
+  
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                      <p>Break - 04:37 AM</p>
+                      <p>-</p>
+                      <p>Break Back - 05:11 AM</p>
+                    </div>
+  
+                    <div class="d-flex align-items-center justify-content-between">
+                      <p>Break - 06:37 AM</p>
+                      <p>-</p>
+                      <p>Break Back - 06:45 AM</p>
+                    </div>
+                </div>
                 </div>
               </div>
               <div class="col-md-4">

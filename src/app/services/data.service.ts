@@ -14,6 +14,7 @@ import { Key } from "../constant/key";
 import { OrganizationPersonalInformation } from "../models/organization-personal-information";
 import { AttendanceWithLatePerformerResponseDto, AttendanceWithTopPerformerResponseDto } from "../models/Attendance.model";
 import { RoleRequest } from "../models/role-request";
+import { User } from "../models/user";
 @Injectable({
   providedIn: "root",
 })
@@ -29,9 +30,9 @@ export class DataService {
   }
   //private baseUrl = Key.ENDPOINT;
   
-  private baseUrl = "http://localhost:8080/api/v2"
+  // private baseUrl = "http://localhost:8080/api/v2"
 
-  //  private baseUrl = "https://backend.hajiri.work/api/v2";
+   private baseUrl = "https://backend.hajiri.work/api/v2";
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
     const params = new HttpParams().set("code_param", codeParam);
@@ -44,6 +45,17 @@ export class DataService {
     .set('end_date', endDate);
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date-duration`,{params});
   }
+
+  getUserAttendanceDetailsByDateDuration(userUuid:string, role:string, startDate : string, endDate : string) : Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('user_role', role)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-for-user-by-date-duration`,{params});
+  }
+
+
   getAttendanceDetailsByDate(date : string): Observable<any>{
     const params = new HttpParams()
     .set("date", date)
@@ -107,10 +119,11 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/all/by-filters`, {params});
   }
   
-  changeStatusById(presenceStatus: Boolean): Observable<any> {
+  changeStatusById(presenceStatus: Boolean, userUuid:string): Observable<any> {
     const params = new HttpParams()
-      .set("presenceStatus", presenceStatus.toString());
-    return this.httpClient.put<any>(`${this.baseUrl}/users/change-status`, params);
+      .set("presenceStatus", presenceStatus.toString())
+      .set("userUuid", userUuid );
+    return this.httpClient.put<any>(`${this.baseUrl}/users/change-status`,{},{params});
   }
   getActiveUsersCount(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/users/active-count`);
@@ -423,6 +436,14 @@ export class DataService {
     .set("user_id", Number(userId))
     .set("role_id", Number(roleId));
     return this.httpClient.post<any>(`${this.baseUrl}/user-and-control/register`,{}, {params});
+  }
+   
+  updateStatusUser(userUuid:string, statusType:string):Observable<any>{
+    const params = new HttpParams()
+    .set("user_uuid", userUuid)
+    .set("status_type", statusType);
+    debugger
+    return this.httpClient.put<any>(`${this.baseUrl}/employee-onboarding-status/change-employee-onboarding-status`,{}, {params});
   }
 
   

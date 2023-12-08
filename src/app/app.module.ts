@@ -19,10 +19,12 @@ import { environment } from 'src/environments/environment';
 import { EmployeeOnboardingSidebarComponent } from './modules/common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { RequestInterceptorService } from './configuration/request-interceptor.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NotifactionTostComponent,
   ],
   imports: [
     BrowserModule,

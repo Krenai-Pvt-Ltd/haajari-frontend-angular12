@@ -167,6 +167,28 @@
             </div>
 
 <!-- TO DO -->
+<div>
+<div
+class="errorboxmain"
+*ngIf="errorToggleTeam"
+>
+<div class="errorboxinner text-center">
+  <div class="errorboxplaceholder mb-2">
+    <img
+      src="assets/images/signal.svg"
+      style="width: 80px"
+    />
+  </div>
+  <div class="">
+    <h4>Something went wrong</h4>
+    <p>
+      An error occurred while processing your
+      request. Please refresh the page and try
+      again.
+    </p>
+  </div>
+</div>
+</div>
     
                 <div class="row app-emptiy-notifaction"  *ngIf="!isShimmer && total ==0 && !searchTeamPlaceholderFlag && !dataService.slackDataPlaceholderFlag">
                     <div class="col-md-6 d-flex align-items-center justify-content-center" style="flex-direction: column;">
@@ -194,6 +216,7 @@
                         </div>
                     </div>
                 </div>  
+            </div>
 
 <div class="detaworkspace" *ngIf="dataService.slackDataPlaceholderFlag" style="height: 100vh; background-color: #fff;">
 
@@ -479,7 +502,9 @@
 
 
             <div class="modal-header" style="background-color: #fff;">
-                <h5 class="modal-title m-0" style="color:#111; font-size: 18px;" id="exampleModalDefaultLabel">Create Team</h5>
+                <h5 class="modal-title m-0" style="color:#111; font-size: 18px;" id="exampleModalDefaultLabel">
+                   <div class="back-btns-box"data-bs-dismiss="modal" aria-label="Close" > <i class="bi bi-chevron-left" ></i></div>
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div><!--end modal-header-->
             <div class="modal-body p-0">
@@ -490,7 +515,7 @@
 
 
                             <div class="create-new mt-3">
-                                <h4>Create a new team</h4>
+                                <h4> Create a new team</h4>
                             </div>
 
                             <div class="mt-3">

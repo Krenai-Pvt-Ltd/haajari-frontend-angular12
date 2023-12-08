@@ -216,12 +216,20 @@ export class TimetableComponent implements OnInit {
   halfDayUsers : number = 0;
 
   isShimer:boolean=false;
+  errorToggleTimetable:boolean=false;
+  placeholder:boolean=false;
 
   getAttendanceDetailsByDateMethodCall(){
       this.isShimer=true;
       this.dataService.getAttendanceDetailsByDate(this.inputDate).subscribe((data) => {
         this.attendanceDataByDateKey = Object.keys(data);
         this.attendanceDataByDateValue = Object.values(data);
+
+        if(this.attendanceDataByDateKey!=null){
+          this.placeholder=true;
+        }else{
+          this.placeholder=false;
+        }
 
         this.attendanceDataByDate = data;
         this.isShimer=false;
@@ -235,6 +243,9 @@ export class TimetableComponent implements OnInit {
         }
 
     }, (error) => {
+      this.isShimer=false;
+      this.placeholder=false;
+      this.errorToggleTimetable=true;
       debugger
       console.log(error);
     })

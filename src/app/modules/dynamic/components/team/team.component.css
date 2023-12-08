@@ -418,6 +418,9 @@ span.remove-icon:hover {
     border-radius: 6px;
 }
 
+
+
+
 .add-filtter a {
     margin-bottom: 0px;
     color: #557ef8;
@@ -425,6 +428,8 @@ span.remove-icon:hover {
     font-weight: 500;
     cursor: pointer;
 }
+
+
 
 
 button.btn.close-btn{
@@ -517,3 +522,37 @@ button.btn.close-btn{
   flex-direction: column;
 }
 
+.errorboxmain{
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fff;
+}
+  .errorboxmain {
+    padding: 30px;
+}
+
+
+.back-btns-box{
+    background-color: #fff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    line-height: 16px;
+    border: 1px solid #557ef8;
+}
+
+.back-btns-box i{
+    margin-bottom: 0px;
+    color: #557ef8;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    top: -1px;
+}

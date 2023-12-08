@@ -398,6 +398,7 @@ export class TeamComponent implements OnInit{
 
   isShimmer: boolean=false;
   isPlaceholder: boolean=false;
+  errorToggleTeam:boolean=false;
 
 getTeamsByFiltersFunction() {
   this.isShimmer=true;
@@ -424,6 +425,7 @@ getTeamsByFiltersFunction() {
     // this.crossFlag=false;
   }, (error) => {
     this.isShimmer=false;
+    this.errorToggleTeam=true;
   });
 }
 
