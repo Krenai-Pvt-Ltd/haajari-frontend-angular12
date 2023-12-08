@@ -254,6 +254,18 @@ export class TimetableComponent implements OnInit {
     })
   }
 
+  extractFirstNameFromEmail(email: string): string {
+    const pattern = /^(.+)@.+/;
+    const matches = email.match(pattern);
+
+    if (matches) {
+        const namePart = matches[1];
+        const firstName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+        return firstName;
+    } 
+
+    return email;
+}
 
 
   // optionsDatePicker: any = {

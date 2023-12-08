@@ -385,11 +385,14 @@ export class DataService {
     return this.httpClient.get<AttendanceWithLatePerformerResponseDto>(`${this.baseUrl}/attendance/get-attendance-late-performers-details`, {params});
   }
   getSubModuleByRole(roleId : number): Observable<any>{
-    const params = new HttpParams()
-    .set("role_id", roleId);
+    const params = new HttpParams().set("role_id", roleId);
     return this.httpClient.get<any>(`${this.baseUrl}/role/sub-module`, {params});
   }
-  updateRolePermissions(roleRequest : RoleRequest): Observable<any> {
+
+  createRoleWithPermissions(roleRequest : RoleRequest): Observable<any>{
+    return this.httpClient.post<any>(`${this.baseUrl}/role/register`, roleRequest);
+  }
+  updateRoleWithPermissions(roleRequest : RoleRequest): Observable<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/role/update`, roleRequest);
   }
   
@@ -413,6 +416,13 @@ export class DataService {
     const params = new HttpParams()
     .set("uuid", userUuid);
     return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-user-by-uuid`, {params});
+  }
+
+  assignRoleToUserInUserAndControl(userId: any, roleId: any): Observable<any>{
+    const params = new HttpParams()
+    .set("user_id", Number(userId))
+    .set("role_id", Number(roleId));
+    return this.httpClient.post<any>(`${this.baseUrl}/user-and-control/register`,{}, {params});
   }
 
   

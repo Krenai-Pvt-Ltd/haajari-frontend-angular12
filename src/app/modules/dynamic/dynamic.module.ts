@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 import { DynamicRoutingModule } from './dynamic-routing.module';
 import { DynamicComponent } from './dynamic.component';
@@ -45,6 +45,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestingComponent } from './components/testing/testing.component';
 import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
 import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 
 
 
@@ -86,6 +88,7 @@ import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.compon
     TestingComponent,
     LeaveSettingComponent,
     SlackDataLoadComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -95,8 +98,11 @@ import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.compon
     NgxPaginationModule,
     NgxDaterangepickerMd.forRoot(),
     NgxShimmerLoadingModule,
-    NgbModule
+    NgbModule,
+    MatFormFieldModule
   
-  ]
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+
 })
 export class DynamicModule { }

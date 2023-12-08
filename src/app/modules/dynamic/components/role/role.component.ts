@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { error } from 'console';
 import { ModuleRequest } from 'src/app/models/module-request';
 import { ModuleResponse } from 'src/app/models/module-response';
 import { Role } from 'src/app/models/role';
 import { RoleRequest } from 'src/app/models/role-request';
+import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -22,13 +23,26 @@ export class RoleComponent implements OnInit {
   total !: number;
   rowNumber : number = 1;
   searchText : string = '';
+  users : User[] = [];
 
   ngOnInit(): void {
+    this.getUsersByFilterMethodCall();
     this.call();
     this.getAllRolesMethodCall();
-    this.getSubModuleByRoleMethodCall();
   }
 
+  selectedRole: any;
+  selectedUser: any;
+
+  // Method to update selectedRole
+  selectRole(role: any) {
+    this.selectedRole = role;
+  }
+
+  selectUser(user: any) {
+    this.selectedUser = user;
+  }
+  // # Data Table of roles
   getAllRolesMethodCall(){
 
     this.dataService.getAllRoles(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'', 0).subscribe((data) => {
@@ -61,13 +75,25 @@ export class RoleComponent implements OnInit {
   moduleRequestList : ModuleRequest[] = [];
 
   showDataToModal(role : any){
-    this.roleRequest.id = role.id;
-    this.roleRequest.name = role.name;
-    this.roleRequest.description = role.description;
+    debugger
+
+    if(role === null || role === undefined){
+      this.roleRequest.id = 0;
+    } else {
+      this.roleRequest.id = role.id;
+      this.roleRequest.name = role.name;
+      this.roleRequest.description = role.description;
+    }
+
+    this.getSubModuleByRoleMethodCall();
+
   }
 
   getSubModuleByRoleMethodCall(){
-    this.dataService.getSubModuleByRole(1).subscribe((data) => {
+
+    debugger;
+    console.log(this.roleRequest.id);
+    this.dataService.getSubModuleByRole(this.roleRequest.id).subscribe((data) => {
 
       this.moduleResponse = data;
 
@@ -89,8 +115,33 @@ export class RoleComponent implements OnInit {
     })
   }
 
-  updateRolePermissionsMethodCall(){
-    this.dataService.updateRolePermissions(this.roleRequest).subscribe((data) => {
+
+  createRoleWithPermissionsMethodCall(){
+    for(let i of this.moduleRequestList){
+      if(i.privilegeId === null || i.privilegeId === 0){
+        this.moduleRequestList.splice(this.moduleRequestList.indexOf(i), 1);
+      }
+    }
+ 
+    debugger
+    console.log(this.moduleRequestList);
+    this.dataService.createRoleWithPermissions(this.roleRequest).subscribe((data) => {
+      console.log(data);
+    }, (error) => {
+
+      console.log(error);
+    })
+  }
+  updateRoleWithPermissionsMethodCall(){
+    for(let i of this.moduleRequestList){
+      if(i.privilegeId === null || i.privilegeId === 0){
+        this.moduleRequestList.splice(this.moduleRequestList.indexOf(i), 1);
+      }
+    }
+ 
+    debugger
+    console.log(this.moduleRequestList);
+    this.dataService.updateRoleWithPermissions(this.roleRequest).subscribe((data) => {
       console.log(data);
     }, (error) => {
 
@@ -156,6 +207,31 @@ export class RoleComponent implements OnInit {
       console.log(data.text);
     }, (error) => {
       console.log(error);
+    })
+  }
+
+
+  getUsersByFilterMethodCall(){
+    debugger
+    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'name').subscribe((data) => {
+      this.users = data.users;
+      this.total = data.count;
+
+      console.log(this.users,this.total);
+    })
+  }
+
+  @ViewChild('assignroleModalClose') assignroleModalClose !: ElementRef; 
+
+  assignRoleToUserInUserAndControlMethodCall(){
+    console.log("value======",this.selectedUser.id,"----------", this.selectedRole.id)
+    this.dataService.assignRoleToUserInUserAndControl((this.selectedUser.id), (this.selectedRole.id)).subscribe((data) => {
+      // console.log(data);
+      
+      this.assignroleModalClose.nativeElement.click();
+    }, (error) => {
+      console.log(error);
+      this.assignroleModalClose.nativeElement.click();
     })
   }
 }
