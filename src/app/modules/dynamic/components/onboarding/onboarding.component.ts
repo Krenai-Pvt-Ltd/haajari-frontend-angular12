@@ -1,28 +1,23 @@
 import {
   Component,
-  OnInit,
-  Output,
-  ViewChild,
-  EventEmitter,
   ElementRef,
+  OnInit,
+  ViewChild
 } from "@angular/core";
-import { Savel } from "src/app/models/savel";
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
   NgForm,
-  Validators,
+  Validators
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { DataService } from "src/app/services/data.service";
-import { Organization } from "src/app/models/organization";
-import { ShiftTimings } from "src/app/models/shifttimings";
-import { DailyQuestionsCheckout } from "src/app/models/daily-questions-check-out";
 import { DailyQuestionsCheckIn } from "src/app/models/daily-questions-check-in";
-import { OrganizationPersonalInformation } from "src/app/models/organization-personal-information";
-import { error } from "console";
+import { DailyQuestionsCheckout } from "src/app/models/daily-questions-check-out";
 import { OrganizationDailyQuestion } from "src/app/models/organization-daily-question";
+import { OrganizationPersonalInformation } from "src/app/models/organization-personal-information";
+import { Savel } from "src/app/models/savel";
+import { ShiftTimings } from "src/app/models/shifttimings";
+import { DataService } from "src/app/services/data.service";
 import { HelperService } from "src/app/services/helper.service";
 
 @Component({

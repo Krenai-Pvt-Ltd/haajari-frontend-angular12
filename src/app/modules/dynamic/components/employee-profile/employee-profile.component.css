@@ -20,6 +20,13 @@
 
 }
 
+::ng-deep .cal-month-view .cal-events {
+    display: none !important;
+}
+::ng-deep .cal-month-view .cal-day-badge{
+    background-color: #13C56B !important;
+}
+
 .profile-image-name p {
     color: #555;
     font-size: 12px;

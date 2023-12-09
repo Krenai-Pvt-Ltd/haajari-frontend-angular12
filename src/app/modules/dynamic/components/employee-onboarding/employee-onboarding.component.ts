@@ -232,12 +232,17 @@ selectStatus(status: string) {
   // lastApproved: User[] = [];
   // lastRejected: User[] = [];
 
+  isPendingShimmer:Boolean=false;
+
   getEmpLastApprovedAndLastRejecetdStatus() {
+    this.isPendingShimmer=true;
     debugger;
     this.dataService.getLastApprovedAndLastRejecetd().subscribe(
       (data) => {
         console.log(data);
         this.employeeStatus = data;
+        this.isPendingShimmer=false;
+
         console.log(this.employeeStatus);
         // if(this.employeeStatus!=null){
         //  this.lastApproved= this.employeeStatus.lastApprovedUser;

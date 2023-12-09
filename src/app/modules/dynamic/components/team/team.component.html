@@ -95,7 +95,7 @@
                         <a data-bs-toggle="modal" data-bs-target="#createteam" type="button"><i class="bi bi-plus-circle"></i> Create Team </a>
                         
                         <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
-                        <a ><i style="font-size: 16px; color: #557ef8; height: 1.0rem; width:1.0rem" (click)="saveSlackChannelsDataToTeam()" [ngClass]="{'spinner-border':rotateToggle,'bi bi-arrow-clockwise':!rotateToggle }" ></i> Reload  </a>
+                        <a (click)="saveSlackChannelsDataToTeam()"><i style="font-size: 16px; color: #557ef8; height: 1.0rem; width:1.0rem"  [ngClass]="{'spinner-border':rotateToggle,'bi bi-arrow-clockwise':!rotateToggle }" ></i> Reload  </a>
                     </div>
                  </div>
 

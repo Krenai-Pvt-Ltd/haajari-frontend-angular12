@@ -38,6 +38,7 @@ export class DataService {
     const params = new HttpParams().set("code_param", codeParam);
     return this.httpClient.put<any>(`${this.baseUrl}/organization/register-organization-using-code-param`, {}, {params});
   }
+  
   //Attendance module
   getAttendanceDetailsByDateDuration(startDate : string, endDate : string) : Observable<any>{
     const params = new HttpParams()

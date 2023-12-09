@@ -6,6 +6,12 @@ import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { User } from 'src/app/models/user';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
+import {
+  CalendarEvent,
+  CalendarMonthViewDay,
+  DateAdapter,
+} from 'angular-calendar';
+
 
 @Component({
   selector: 'app-employee-profile',
@@ -14,10 +20,14 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class EmployeeProfileComponent implements OnInit {
 
-  constructor(private dataService: DataService, private datePipe : DatePipe, private activateRoute : ActivatedRoute) {  if(this.activateRoute.snapshot.queryParamMap.has('userId')){
+  constructor(private dataService: DataService, private datePipe : DatePipe, private activateRoute : ActivatedRoute, private dateAdapter: DateAdapter) {  if(this.activateRoute.snapshot.queryParamMap.has('userId')){
     this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
   };
 }
+
+viewDate: Date = new Date();
+selected: { startDate: moment.Moment, endDate: moment.Moment } = { startDate: moment(this.viewDate).startOf('month'), endDate: moment(this.viewDate).endOf('month') };
+
 
 userId: any;
   ngOnInit(): void {
@@ -46,12 +56,21 @@ getUserByUuid(){
 }
 
 
+// approvedFlag:boolean=false;
+// rejectedFlag:boolean=false;
 
-
-updateStatusUserByUuid(userUuid:string, type:string){
+updateStatusUserByUuid(type:string){
+  // if(type=='APPROVED'){
+  //   this.approvedFlag=true;
+  // }else if(type='REJECTED'){
+  //   this.rejectedFlag=true;
+  // }
   debugger
-  this.dataService.updateStatusUser(userUuid, type).subscribe(data =>{
+  this.dataService.updateStatusUser(this.userId, type).subscribe(data =>{
    console.log("status updated:" + type);
+   location.reload();
+
+
 
   }, (error) => {
     console.log(error);
@@ -134,6 +153,17 @@ getDayNameFromDate(dateString: string): any {
   return this.datePipe.transform(date, 'EEEE');
 }
 
+  events: CalendarEvent[] = [
+    {
+      title: 'Event 1',
+      start: new Date(),
+      color: { primary: '#ad2121', secondary: '#FAE3E3' },
+    },
+  ];
+
+  dayClicked(day: CalendarMonthViewDay): void {
+    console.log('Day clicked', day);
+  }
 
 
 }
