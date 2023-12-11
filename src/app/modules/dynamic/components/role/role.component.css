@@ -334,3 +334,15 @@ button.btn.close-btn{
     position: absolute;
     right: 15px;
 }
+
+.pagination-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.pagination{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}

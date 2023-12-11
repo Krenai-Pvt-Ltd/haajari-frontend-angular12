@@ -15,6 +15,7 @@ import { OrganizationPersonalInformation } from "../models/organization-personal
 import { AttendanceWithLatePerformerResponseDto, AttendanceWithTopPerformerResponseDto } from "../models/Attendance.model";
 import { RoleRequest } from "../models/role-request";
 import { User } from "../models/user";
+import { AdditionalNotes } from "../models/additional-notes";
 @Injectable({
   providedIn: "root",
 })
@@ -30,9 +31,9 @@ export class DataService {
   }
   //private baseUrl = Key.ENDPOINT;
   
-  // private baseUrl = "http://localhost:8080/api/v2"
+  private baseUrl = "http://localhost:8080/api/v2"
 
-   private baseUrl = "https://backend.hajiri.work/api/v2";
+  //  private baseUrl = "https://backend.hajiri.work/api/v2";
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
     const params = new HttpParams().set("code_param", codeParam);
@@ -403,7 +404,7 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/role/sub-module`, {params});
   }
 
-  createRoleWithPermissions(roleRequest : RoleRequest): Observable<any>{
+  createRole(roleRequest : RoleRequest): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/role/register`, roleRequest);
   }
   updateRoleWithPermissions(roleRequest : RoleRequest): Observable<any> {
@@ -447,5 +448,23 @@ export class DataService {
     return this.httpClient.put<any>(`${this.baseUrl}/employee-onboarding-status/change-employee-onboarding-status`,{}, {params});
   }
 
+  getUserAndControlRolesByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string):Observable<any>{
+    const params = new HttpParams()
+    .set("item_per_page", itemPerPage.toString())
+    .set("page_number", pageNumber.toString())
+    .set('sort', sort)
+    .set('sort_by', sortBy)
+    .set('search', search)
+    .set('search_by', searchBy);
+    debugger
+    return this.httpClient.get<any>(`${this.baseUrl}/user-and-control/get-all`, {params});
+  }
+
+  addAdditionalNotes(additionalNotes: AdditionalNotes, email: string): Observable<any>{
+    const params = new HttpParams()
+    .set("email", email);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/additional-notes/add`, additionalNotes, {params});
+  }
   
 }

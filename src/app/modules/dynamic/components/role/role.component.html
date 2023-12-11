@@ -1,76 +1,86 @@
 <div class="page-wrapper">
     <div class="page-content-tab">
         <div class="container-fluid">
-
-
             <div class="pt-3 pb-3">
                 <div class="">
-
                     <ul id="myTab" role="tablist" class="nav nav-tabs">
                         <li role="presentation" class="nav-item">
-                            <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#user-controls" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link active">Users And Controls </button>
+                            <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#user-controls" type="button"
+                                role="tab" aria-controls="profile" aria-selected="false" class="nav-link active" (click)="getUserAndControlRolesByFilterMethodCall()">
+                                Users And Controls
+                            </button>
                         </li>
                         <li role="presentation" class="nav-item">
-                            <button id="home-tab" data-bs-toggle="tab" data-bs-target="#role-security" type="button" role="tab" aria-controls="home" aria-selected="true" class="nav-link ">Roles And Security</button>
+                            <button id="home-tab" data-bs-toggle="tab" data-bs-target="#role-security" type="button"
+                                role="tab" aria-controls="home" aria-selected="true" class="nav-link" (click)="getAllRolesMethodCall()">
+                                Roles And Security
+                            </button>
                         </li>
-                            
                     </ul>
 
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active mt-3" id="user-controls" role="tabpanel">
-
                             <div class="">
-
                                 <div class="row align-items-center">
                                     <div class="col-md-6">
                                         <div class="">
-                                            <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
-                                                <div class="form-group" style="width: 350px; position: relative;">
-                                                    <input type="text" id="searchText" placeholder="Search by name and role" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;" >
-                                                    <button type="button" class="btn close-btn"><i class="bi bi-x mt-auto mb-auto pl-3"></i></button>
-                                                <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i></div></form>
+                                            <form novalidate="" role="search" (submit)="searchUsers()"
+                                                class="searching ng-untouched ng-pristine ng-valid">
+                                                <div class="form-group" style="width: 350px; position: relative">
+                                                    <input type="text" id="searchText"
+                                                        placeholder="Search by name and role"
+                                                        class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                                                        (keyup)="searchUsers()"
+                                                        [(ngModel)]="searchText"
+                                                        [ngModelOptions]="{ standalone: true }"
+                                                        style="padding: 10px 30px" />
+                                                    <button type="button" class="btn close-btn">
+                                                        <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                                                    </button>
+                                                    <i class="bi bi-search search-icon"
+                                                        style="margin: auto; margin-left: 10px"></i>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="text-end add-filtter">
                                             <!-- <button type="button" class="btn btn-primary" >Create New User</button> -->
 
-                                            <a data-bs-toggle="modal" data-bs-target="#assignrole" type="btn"> <i class="bi bi-plus-circle"></i> Assign Role to User</a>
+                                            <a data-bs-toggle="modal" data-bs-target="#assignrole" type="btn" (click)="getUsersByFilterMethodCall()">
+                                                <i class="bi bi-plus-circle"></i> Assign Role to User</a>
                                         </div>
                                     </div>
-
                                 </div>
 
                                 <div class="mt-3">
-
                                     <div class="table-responsive bg-white">
                                         <table class="table mb-0">
                                             <thead class="thead-light">
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Mobile</th>
-                                                <th>Email</th>
-                                                <th>Status</th>
-                                                <th>Roles</th>
-                                                <th>Roles</th>
-                                                <th>Created By</th>
-                                                <th>Active</th>
-                                                <th>Manage</th>
-                                            </tr>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Role</th>
+                                                    <th style="text-align: right">Manage</th>
+                                                </tr>
                                             </thead>
 
-                                            <tbody >
-                                                <tr *ngIf="(users === null || users === undefined || users.length === 0)">
+                                            <tbody>
+                                                <tr *ngIf="userAndControlRoles === null || userAndControlRoles === undefined || userAndControlRoles.length === 0">
                                                     <td colspan="9">
-                                                        <div class="mt-3 dashnodata" >
+                                                        <div class="mt-3 dashnodata">
                                                             <div class="errorboxmain">
                                                                 <div class="errorboxinner text-center">
-                                                                  <div class="errorboxplaceholder mb-2">
-                                                                    <img src="assets/images/addnewproduct.svg" style="width:80px;" />
-                                                                  </div>
-                                                    
-                                                                  <h4>No Data Found</h4>
-                                                                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                                                    <div class="errorboxplaceholder mb-2">
+                                                                        <img src="assets/images/addnewproduct.svg"
+                                                                            style="width: 80px" />
+                                                                    </div>
+
+                                                                    <h4>No Data Found</h4>
+                                                                    <p>
+                                                                        Lorem Ipsum is simply dummy text of the
+                                                                        printing and typesetting industry.
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -78,145 +88,119 @@
                                                 </tr>
                                             </tbody>
 
-
                                             <tbody>
-                                            <tr >
-                                                <td scope="row">Yogesh Yadav</td>
-                                                <td>
-                                                   9549901868
-                                                </td>
-                                                <td>yogesh@krenai.com 
-                                                </td>
-                                                <td>Active</td>
-                                                <td>	Branch Manager</td>
-                                                <td>not applicable</td>
-
-                                                <td>	Tarun Kumar</td>
-                                                <td>
+                                                <tr *ngFor="let userAndControl of userAndControlRoles | paginate : {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}">
+                                                    <td scope="row">{{ userAndControl.user.name }}</td>
+                                                    <td>
+                                                        {{ userAndControl.user.email }}
+                                                    </td>
+                                                    <td>{{ userAndControl.role.name }}</td>
+                                                    <!-- <td>
 
                                                     <div >
                                                         <input type="checkbox" id="switch2" name="enableCheckOutQuestionnaire" class="d-none ng-untouched ng-valid ng-dirty" >
                                                         <label for="switch2" id="enableCheckOutQuestionnaire" class="hafday">Toggle</label>
                                                     </div>
-                                                </td>
-                                                <td>
-                                                    <div class="hstack gap-3 justify-content-end">
-                                                        <a href="javascript:void(0);" class="link-primary text-decoration-underline" data-bs-toggle="modal" data-bs-target="#information"  >View</a>
-                                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#newuser" class="link-success text-decoration-underline">Edit</a></div>
-                                                </td>
-                        
-                                            </tr>
-
-                                            <tr >
-                                                <td scope="row">Yogesh Yadav</td>
-                                                <td>
-                                                   9549901868
-                                                </td>
-                                                <td>yogesh@krenai.com 
-                                                </td>
-                                                <td>Active</td>
-                                                <td>	Branch Manager</td>
-                                                <td>not applicable</td>
-
-                                                <td>	Tarun Kumar</td>
-                                                <td>
-                                                    <div >
-                                                        <input type="checkbox" id="switch3" name="enableCheckOutQuestionnaire" class="d-none ng-untouched ng-valid ng-dirty" >
-                                                        <label for="switch3" id="enableCheckOutQuestionnaire" class="hafday">Toggle</label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="hstack gap-3 justify-content-end">
-                                                        <a href="javascript:void(0);" class="link-primary text-decoration-underline" data-bs-toggle="modal" data-bs-target="#information"  >View</a>
-                                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#newuser" class="link-success text-decoration-underline">Edit</a></div>
-                                                </td>
-                        
-                                            </tr>
-                                            <tr >
-                                                <td scope="row">Yogesh Yadav</td>
-                                                <td>
-                                                   9549901868
-                                                </td>
-                                                <td>yogesh@krenai.com 
-                                                </td>
-                                                <td>Active</td>
-                                                <td>	Branch Manager</td>
-                                                <td>not applicable</td>
-
-                                                <td>	Tarun Kumar</td>
-                                                <td>
-                                                     <div >
-                                                        <input type="checkbox" id="switch4" name="enableCheckOutQuestionnaire" class="d-none ng-untouched ng-valid ng-dirty" >
-                                                        <label for="switch4" id="enableCheckOutQuestionnaire" class="hafday">Toggle</label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="hstack gap-3 justify-content-end">
-                                                        <a href="javascript:void(0);" class="link-primary text-decoration-underline" data-bs-toggle="modal" data-bs-target="#information"  >View</a>
-                                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#newuser" class="link-success text-decoration-underline">Edit</a></div>
-                                                </td>
-                        
-                                            </tr>
-
-                                          
-
-                                         
-        
+                                                </td> -->
+                                                    <td>
+                                                        <div class="hstack gap-3 justify-content-end">
+                                                            <a href="javascript:void(0);"
+                                                                class="link-primary text-decoration-underline"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#information" (click)="userAndControlDetailMethod(userAndControl)">View</a>
+                                                            <a href="javascript:void(0);" data-bs-toggle="modal"
+                                                                data-bs-target="#assignrole"
+                                                                class="link-success text-decoration-underline"
+                                                                (click)="selectUserAndControl(userAndControl)">Edit</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             </tbody>
-                                        </table><!--end /table-->
-                        
-                                          
-                                          
+                                        </table>
+                                        <!--end /table-->
                                     </div>
-
                                 </div>
-
                             </div>
 
-                            
-                           
+            <div class="pagination pl-3" *ngIf="userAndControlRoles.length > 10">
+                <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
+                <div class="row">
+                  <div class="col-md-12">
+                   
+                    <nav aria-label="Page navigation example">
+                     
+                      <ul class="pagination justify-content-end">
+                        <li class="page-item" [class.disabled]="pageNumber == 1">
+                          <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                        <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                          <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
+                        </li>
+                        <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                          <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+            </div>
                         </div>
+
+
+                        <!-- role-security modal -->
                         <div class="tab-pane fade mt-3" id="role-security" role="tabpanel">
-
                             <div class="">
-
                                 <div class="row align-items-center">
                                     <div class="col-md-6">
                                         <div class="">
-                                            <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
-                                                <div class="form-group" style="width: 350px; position: relative;">
-                                                    <input type="text" id="searchText" placeholder="Search by name and role" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;" >
-                                                    <button type="button" class="btn close-btn"><i class="bi bi-x mt-auto mb-auto pl-3"></i></button>
-                                                <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i></div></form>
+                                            <form novalidate="" role="search"
+                                                class="searching ng-untouched ng-pristine ng-valid">
+                                                <!-- <div class="form-group" style="width: 350px; position: relative">
+                                                    <input type="text" id="searchText"
+                                                        placeholder="Search by name and role"
+                                                        class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                                                        style="padding: 10px 30px" />
+                                                    <button type="button" class="btn close-btn">
+                                                        <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                                                    </button>
+                                                    <i class="bi bi-search search-icon"
+                                                        style="margin: auto; margin-left: 10px"></i>
+                                                </div> -->
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="text-end add-filtter">
                                             <!-- <button type="button" class="btn btn-primary" >Create New User</button> -->
 
-                                            <a data-bs-toggle="modal" data-bs-target="#newuser" type="btn"> <i class="bi bi-plus-circle"></i> Create New Role</a>
+                                            <a data-bs-toggle="modal" data-bs-target="#newuser" type="btn">
+                                                <i class="bi bi-plus-circle"></i> Create New Role</a>
                                         </div>
                                     </div>
-
                                 </div>
 
-
                                 <div class="mt-3">
-
                                     <div class="table-responsive bg-white">
-
                                         <tbody *ngIf="roles.length == 0">
                                             <tr>
                                                 <td colspan="4">
-                                                    <div class="mt-3 dashnodata" >
+                                                    <div class="mt-3 dashnodata">
                                                         <div class="errorboxmain">
                                                             <div class="errorboxinner text-center">
-                                                              <div class="errorboxplaceholder mb-2">
-                                                                <img src="assets/images/addnewproduct.svg" style="width:80px;" />
-                                                              </div>
-                                                
-                                                              <h4>No Data Found</h4>
-                                                              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                                                <div class="errorboxplaceholder mb-2">
+                                                                    <img src="assets/images/addnewproduct.svg"
+                                                                        style="width: 80px" />
+                                                                </div>
+
+                                                                <h4>No Data Found</h4>
+                                                                <p>
+                                                                    Lorem Ipsum is simply dummy text of the
+                                                                    printing and typesetting industry.
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -234,288 +218,338 @@
                                                 </tr>
                                             </thead>
 
-                                            
                                             <tbody>
-                                            <tr *ngFor="let role of roles | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};">
-                                                <td scope="row">{{role.name}}</td>
-                                                <td>
-                                                    {{role.description}}
-                                                </td>
-                                                <td>
-                                                    <span class="badge-grey">{{role.updatedDate | dateFormat}}</span>
-                                                </td>
-                                                <td>
-                                                    <div class="hstack gap-3 justify-content-end">
-                                                        <a href="javascript:void(0);" class="link-primary text-decoration-underline" data-bs-toggle="modal" data-bs-target="#role-details"  >View</a>
-                                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#update-role" class="link-success text-decoration-underline" 
-                                                        (click)="showDataToModal(role)">Manage</a></div>
-                                                </td>
-                                                
-                        
-                                            </tr>
-
+                                                <tr *ngFor="let role of roles | paginate : {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}">
+                                                    <td scope="row">{{ role.name }}</td>
+                                                    <td>
+                                                        {{ role.description }}
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge-grey">{{
+                                                            role.updatedDate | dateFormat
+                                                            }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="hstack gap-3 justify-content-end">
+                                                            <a href="javascript:void(0);"
+                                                                class="link-primary text-decoration-underline"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#role-details">View</a>
+                                                            <a href="javascript:void(0);" data-bs-toggle="modal"
+                                                                data-bs-target="#update-role"
+                                                                class="link-success text-decoration-underline"
+                                                                (click)="showDataToModal(role)">Manage</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             </tbody>
-                                        </table><!--end /table-->
-                        
-                                          
-                                          
+                                        </table>
+                                        <!--end /table-->
                                     </div>
-
                                 </div>
                             </div>
-                           
-                          
-
+                            <div class="pagination pl-3" *ngIf="getAllRolesMethodCall.length > 10">
+                                <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
+                                <div class="row">
+                                  <div class="col-md-12">
+                                   
+                                    <nav aria-label="Page navigation example">
+                                     
+                                      <ul class="pagination justify-content-end">
+                                        <li class="page-item" [class.disabled]="pageNumber == 1">
+                                          <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
+                                            <span aria-hidden="true">&laquo;</span>
+                                          </a>
+                                        </li>
+                                        <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                                          <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
+                                        </li>
+                                        <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                                          <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
+                                            <span aria-hidden="true">&raquo;</span>
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </nav>
+                                  </div>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
-
-                   </div>
+                </div>
             </div>
+            
+
+            <!-- <div class="pagination-container">
+                <div>
+                    <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
+                </div>
+                <div class = "pagination-controls">
+                    <pagination-controls 
+                        perviousLabel="Prev"
+                        nextLabel="Next"
+                        (pageChange)="onTableDataChange($event)">
+                    </pagination-controls>
+                </div>
+            </div> -->
+
+            
+             
 
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="update-role" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+<div class="modal fade" id="update-role" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Update Role </h6>
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+                    Update Role
+                </h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div><!--end modal-header-->
+            </div>
+            <!--end modal-header-->
             <div class="modal-body">
                 <div class="row">
-
                     <div class="">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="pb-2">Name</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Role Name" [(ngModel)]="roleRequest.name">
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Role Name" [(ngModel)]="roleRequest.name" />
                         </div>
 
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="pb-2">Description</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Description" [(ngModel)]="roleRequest.description">
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Description"
+                                [(ngModel)]="roleRequest.description" />
                         </div>
                     </div>
 
                     <div class="rolemodalinner border-top-0">
                         <h5>Access Control</h5>
 
-                        <div class="accordion" id="accordionExample" >
+                        <div class="accordion" id="accordionExample">
                             <div class="accordion-item" *ngFor="let module of moduleResponse; let i = index">
-                                
                                 <h2 class="accordion-header" id="headingOne">
                                     <div class="accordion-button" type="button">
                                         <div clss="accesstitle">
-                                            <p class="mb-0">{{module.name}}</p>
-
+                                            <p class="mb-0">{{ module.name }}</p>
                                         </div>
 
-                                    <div class="accesspermission">
-                                        <div class="accesspermissioninner d-flex">
-                                            <div class="custom-radiocheck">
-                                                <input type="radio" class="form-check-input d-none" [checked]="module.privilegeId==1" name="viewModule{{i}}" id="viewModule{{i}}" (click)="handleRadioClickForModule(1, module)">
-                                                <label class="form-check-label d-flex align-items-center gap-2" for="viewModule{{i}}">
-                                                    <span><i class="bi bi-check2"></i></span>View 
-                                                </label>
-                                            </div>
-                                            <div class="custom-radiocheck">
-                                                <input type="radio" class="form-check-input d-none" [checked]="module.privilegeId==2" name="manageModule{{i}}" id="manageModule{{i}}" (click)="handleRadioClickForModule(2, module)">
-                                                <label class="form-check-label d-flex align-items-center gap-2" for="manageModule{{i}}">
-                                                    <span><i class="bi bi-check2"></i></span>Manage 
-                                                </label>
-                                            </div>
-
-                                            <div class="expand-accord">
-                                                <i data-bs-toggle="collapse" aria-expanded="true" class="bi bi-chevron-down collapsed" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
- 
-                                </h2>
-
-
-
-                                <div [attr.id]="'collapse' + i" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" *ngFor="let submodule of module.subModules; let j=index">
-                                    <div class="accordion-button p-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        <div class="accesstitle">
-                                            <p class="mb-0">{{submodule.name}}</p>
-                                        </div>
-                                
                                         <div class="accesspermission">
                                             <div class="accesspermissioninner d-flex">
                                                 <div class="custom-radiocheck">
-                                                    <input type="radio" class="form-check-input d-none" [checked]="submodule.privilegeId==1" name="viewSubModule{{i}}{{j}}" id="viewSubModule{{i}}{{j}}" (click)="handleRadioClickForSubModule(1, submodule)">
-                                                    <label class="form-check-label d-flex align-items-center gap-2" for="viewSubModule{{i}}{{j}}">
-                                                        <span><i class="bi bi-check2"></i></span>View 
+                                                    <input type="radio" class="form-check-input d-none"
+                                                        [checked]="module.privilegeId == 1" name="viewModule{{ i }}"
+                                                        id="viewModule{{ i }}"
+                                                        (click)="handleRadioClickForModule(1, module)" />
+                                                    <label class="form-check-label d-flex align-items-center gap-2"
+                                                        for="viewModule{{ i }}">
+                                                        <span><i class="bi bi-check2"></i></span>View
                                                     </label>
                                                 </div>
                                                 <div class="custom-radiocheck">
-                                                    <input type="radio" class="form-check-input d-none" [checked]="submodule.privilegeId==2" name="manageSubModule{{i}}{{j}}" id="manageSubModule{{i}}{{j}}" (click)="handleRadioClickForSubModule(2, submodule)">
-                                                    <label class="form-check-label d-flex align-items-center gap-2" for="manageSubModule{{i}}{{j}}">
-                                                        <span><i class="bi bi-check2"></i></span>Manage  
+                                                    <input type="radio" class="form-check-input d-none"
+                                                        [checked]="module.privilegeId == 2" name="manageModule{{ i }}"
+                                                        id="manageModule{{ i }}"
+                                                        (click)="handleRadioClickForModule(2, module)" />
+                                                    <label class="form-check-label d-flex align-items-center gap-2"
+                                                        for="manageModule{{ i }}">
+                                                        <span><i class="bi bi-check2"></i></span>Manage
                                                     </label>
                                                 </div>
-                                
+
+                                                <div class="expand-accord">
+                                                    <i data-bs-toggle="collapse" aria-expanded="true"
+                                                        class="bi bi-chevron-down collapsed"
+                                                        [attr.href]="'#collapse' + i"
+                                                        [attr.aria-controls]="'collapse' + i"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </h2>
+
+                                <div [attr.id]="'collapse' + i" class="accordion-collapse collapse"
+                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample"
+                                    *ngFor="let submodule of module.subModules; let j = index">
+                                    <div class="accordion-button p-3" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <div class="accesstitle">
+                                            <p class="mb-0">{{ submodule.name }}</p>
+                                        </div>
+
+                                        <div class="accesspermission">
+                                            <div class="accesspermissioninner d-flex">
+                                                <div class="custom-radiocheck">
+                                                    <input type="radio" class="form-check-input d-none"
+                                                        [checked]="submodule.privilegeId == 1"
+                                                        name="viewSubModule{{ i }}{{ j }}"
+                                                        id="viewSubModule{{ i }}{{ j }}"
+                                                        (click)="handleRadioClickForSubModule(1, submodule)" />
+                                                    <label class="form-check-label d-flex align-items-center gap-2"
+                                                        for="viewSubModule{{ i }}{{ j }}">
+                                                        <span><i class="bi bi-check2"></i></span>View
+                                                    </label>
+                                                </div>
+                                                <div class="custom-radiocheck">
+                                                    <input type="radio" class="form-check-input d-none"
+                                                        [checked]="submodule.privilegeId == 2"
+                                                        name="manageSubModule{{ i }}{{ j }}"
+                                                        id="manageSubModule{{ i }}{{ j }}"
+                                                        (click)="handleRadioClickForSubModule(2, submodule)" />
+                                                    <label class="form-check-label d-flex align-items-center gap-2"
+                                                        for="manageSubModule{{ i }}{{ j }}">
+                                                        <span><i class="bi bi-check2"></i></span>Manage
+                                                    </label>
+                                                </div>
+
                                                 <div class="expand-accord"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            
-                           
                             </div>
-
                         </div>
                     </div>
-                    
-                   
-                </div><!--end row-->                                                      
-            </div><!--end modal-body-->
+                </div>
+                <!--end row-->
+            </div>
+            <!--end modal-body-->
             <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" (click)="updateRoleWithPermissionsMethodCall()">Update</button>
-            </div><!--end modal-footer-->
-        </div><!--end modal-content-->
-    </div><!--end modal-dialog-->
-</div><!--end modal-->
+                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="updateRoleWithPermissionsMethodCall()">
+                    Update
+                </button>
+            </div>
+            <!--end modal-footer-->
+        </div>
+        <!--end modal-content-->
+    </div>
+    <!--end modal-dialog-->
+</div>
+<!--end modal-->
 
-
-
-
-
-
-
-
-
-<div class="modal fade" id="role-details" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+<div class="modal fade" id="role-details" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Role Details
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+                    Role Details
                 </h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div><!--end modal-header-->
+            </div>
+            <!--end modal-header-->
             <div class="modal-body">
                 <div class="row">
-
                     <div class="">
                         <div class="table-responsive bg-white">
                             <table class="table mb-0">
                                 <thead class="thead-light">
-                                <tr>
-                                    <th>Role Name</th>
-                                    <th>Role Description</th>
-                                    <th>Created Date</th>
-                                    <th>Created By</th>
-                                </tr>
+                                    <tr>
+                                        <th>Role Name</th>
+                                        <th>Role Description</th>
+                                        <th>Created Date</th>
+                                        <th>Created By</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr >
-                                    <td scope="row">Corporate Manager</td>
-                                    <td>
-                                        this is a corporate manager profile
-                                    </td>
-                                    <td>
-                                        <span class="badge-grey">20-Nov-23 09:10 PM (EST)</span>
-                                    </td>
-                                    <td>
-                                       
-                                    </td>
-                                    
-            
-                                </tr>
-
-                           
-
-                               
-
+                                    <tr>
+                                        <td scope="row">Corporate Manager</td>
+                                        <td>this is a corporate manager profile</td>
+                                        <td>
+                                            <span class="badge-grey">20-Nov-23 09:10 PM (EST)</span>
+                                        </td>
+                                        <td></td>
+                                    </tr>
                                 </tbody>
-                            </table><!--end /table-->
-            
-                              
-                              
+                            </table>
+                            <!--end /table-->
                         </div>
 
                         <div class="table-responsive bg-white mt-3">
                             <table class="table mb-0">
                                 <thead class="thead-light">
-                                <tr>
-                                    <th>Modules</th>
-                                    <th>Status</th>
-                                    <th>Default Access</th>
-                                </tr>
+                                    <tr>
+                                        <th>Modules</th>
+                                        <th>Status</th>
+                                        <th>Default Access</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr >
-                                    <td scope="row">Corporate </td>
-                                    <td>
-                                        <span _ngcontent-len-c58="" class="statusactive">Active</span>
-                                    </td>
-                                    <td>
-                                        View
-                                    </td>
-                                    
-            
-                                </tr>
-
-                           
-
-                               
-
+                                    <tr>
+                                        <td scope="row">Corporate</td>
+                                        <td>
+                                            <span _ngcontent-len-c58="" class="statusactive">Active</span>
+                                        </td>
+                                        <td>View</td>
+                                    </tr>
                                 </tbody>
-                            </table><!--end /table-->
-            
-                              
-                              
+                            </table>
+                            <!--end /table-->
                         </div>
                     </div>
-
-                </div><!--end row-->                                                      
-            </div><!--end modal-body-->
+                </div>
+                <!--end row-->
+            </div>
+            <!--end modal-body-->
             <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-de-secondary">Cancel</button>
-            </div><!--end modal-footer-->
-        </div><!--end modal-content-->
-    </div><!--end modal-dialog-->
-</div><!--end modal-->
+                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+            <!--end modal-footer-->
+        </div>
+        <!--end modal-content-->
+    </div>
+    <!--end modal-dialog-->
+</div>
+<!--end modal-->
 
-
-
-
-<div class="modal fade" id="assignrole" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+<div class="modal fade" id="assignrole" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Select user and role
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+                    Select user and role
                 </h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  #assignroleModalClose></button>
-            </div><!--end modal-header-->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    #assignroleModalClose></button>
+            </div>
+            <!--end modal-header-->
             <div class="modal-body">
                 <div class="row">
-
                     <div class="col-md-12">
-                        <div class="mb-3" >
+                        <div class="mb-3">
                             <label for="exampleInputEmail1" class="pb-2">User</label>
-                            <div class="dropdown" style="width: 100%;">
-                                <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; color: black; border-color: #ced4da; width: 100%;">
-                                    {{ selectedUser ? selectedUser.name : 'Select a user' }} <i class="bi bi-chevron-down"></i>
+                            <div class="dropdown" style="width: 100%">
+                                <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
+                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
+                    background-color: white;
+                    color: black;
+                    border-color: #ced4da;
+                    width: 100%;
+                  ">
+                                    {{ selectedUser ? selectedUser.name : "Select a user" }}
+                                    <i class="bi bi-chevron-down"></i>
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
                                     <li *ngFor="let user of users">
-                                        <a class="dropdown-item" (click)="selectUser(user)">{{ user.name }}</a>
+                                        <a class="dropdown-item" (click)="selectUser(user)">{{
+                                            user.name
+                                            }}</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
-
-
-                    
-                    
                     <!-- <div class="col-md-12">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="pb-2">Role</label>
@@ -531,191 +565,161 @@
                             </div>
                         </div>
                     </div> -->
-                    
+
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="pb-2">Role</label>
-                            <div class="dropdown" style="width: 100%;">
-                                <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; color: black; border-color: #ced4da; width: 100%; text-align: left;">
-                                    {{ selectedRole ? selectedRole.name : 'Select a role' }} <i class="bi bi-chevron-down" text-align="right"></i>
+                            <div class="dropdown" style="width: 100%">
+                                <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
+                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
+                    background-color: white;
+                    color: black;
+                    border-color: #ced4da;
+                    width: 100%;
+                    text-align: left;
+                  ">
+                                    {{ selectedRole ? selectedRole.name : "Select a role" }}
+                                    <i class="bi bi-chevron-down" text-align="right"></i>
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
                                     <li *ngFor="let role of roles">
-                                        <a class="dropdown-item" (click)="selectRole(role)">{{ role.name }}</a>
+                                        <a class="dropdown-item" (click)="selectRole(role)">{{
+                                            role.name
+                                            }}</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-
-                </div><!--end row-->                                                      
-            </div><!--end modal-body-->
+                </div>
+                <!--end row-->
+            </div>
+            <!--end modal-body-->
             <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal"   >Cancel</button>
+                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
 
-                <button type="button" class="btn btn-primary" (click)="assignRoleToUserInUserAndControlMethodCall()">Assign</button>
-            </div><!--end modal-footer-->
-        </div><!--end modal-content-->
-    </div><!--end modal-dialog-->
-</div><!--end modal-->
+                <button type="button" class="btn btn-primary" (click)="assignRoleToUserInUserAndControlMethodCall()">
+                    Assign
+                </button>
+            </div>
+            <!--end modal-footer-->
+        </div>
+        <!--end modal-content-->
+    </div>
+    <!--end modal-dialog-->
+</div>
+<!--end modal-->
 
-
-
-
-<div class="modal fade" id="newuser" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Create a New User
-                </h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div><!--end modal-header-->
-            <div class="modal-body">
-                <div class="row">
-
-                 <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="pb-2">First Name</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="First name">
-                    </div>
-                 </div>
-                 <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="pb-2">Last Name</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Last name">
-                    </div>
-                 </div>
-                 <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="pb-2">Email Id</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                    </div>
-                 </div>
-                 <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="pb-2">Phone</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone">
-                    </div>
-                 </div>
-                 <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="pb-2">Password</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter password">
-                    </div>
-                 </div>
-                 <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="pb-2">Role</label>
-                        <div class="dropdown" style="width: 100%;">
-                  
-                            <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Role <i class="bi bi-chevron-down"></i>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
-                              <li><a class="dropdown-item">Branch Manager</a></li>
-                              <li><a class="dropdown-item">	Corporate Admin</a></li>
-                              
-                            </ul>
-                          </div>
-                    </div>
-                 </div>
-
-                    
-
-                    
-                   
-                </div><!--end row-->                                                      
-            </div><!--end modal-body-->
-            <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-de-secondary">Cancel</button>
-
-                <button type="button" class="btn btn-primary">Create</button>
-            </div><!--end modal-footer-->
-        </div><!--end modal-content-->
-    </div><!--end modal-dialog-->
-</div><!--end modal-->
-
-
-<div class="modal fade" id="information" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+<div class="modal fade" id="newuser" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Yogesh Yadav Information
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+                    Create a New User
                 </h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div><!--end modal-header-->
+            </div>
+            <!--end modal-header-->
             <div class="modal-body">
-
-                <div class="userdetails">
-                    <div class="d-flex align-items-center">
-                        <p class="text-end">First Name : </p>
-                        <p class="text-start">
-                            <span>Yogesh</span>
-                        </p></div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="pb-2">Role Name</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="First name" [(ngModel)]="roleRequest.name"  />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="pb-2">Description</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Description" [(ngModel)]="roleRequest.description" />
+                        </div>
+                    </div>
+                    
                 </div>
-                <div class="userdetails">
-                    <div class="d-flex align-items-center">
-                        <p class="text-end">Last Name  : </p>
-                        <p class="text-start">
-                            <span>Yadav</span>
-                        </p></div>
-                </div>
-                <div class="userdetails">
-                    <div class="d-flex align-items-center">
-                        <p class="text-end">Mobile : </p>
-                        <p class="text-start">
-                            <span>9549901868</span>
-                        </p></div>
-                </div>
-                <div class="userdetails">
-                    <div class="d-flex align-items-center">
-                        <p class="text-end">E-mail : </p>
-                        <p class="text-start">
-                            <span>dcec@gmail.com</span>
-                        </p></div>
-                </div>
-                <div class="userdetails">
-                    <div class="d-flex align-items-center">
-                        <p class="text-end">Status : </p>
-                        <p class="text-start">
-                            <span>Active</span>
-                        </p></div>
-                </div>
-                <div class="userdetails">
-                    <div class="d-flex align-items-center">
-                        <p class="text-end">Role : </p>
-                        <p class="text-start">
-                            <span>
-                                Branch Manager</span>
-                        </p></div>
-                </div>
-                <div class="userdetails">
-                    <div class="d-flex align-items-center">
-                        <p class="text-end">Created Date : </p>
-                        <p class="text-start">
-                            <span>
-                                22-Nov-23 05:04 PM</span>
-                        </p></div>
-                </div>
-
-                                                                  
-            </div><!--end modal-body-->
+                <!--end row-->
+            </div>
+            <!--end modal-body-->
             <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-de-secondary">Cancel</button>
-            </div><!--end modal-footer-->
-        </div><!--end modal-content-->
+                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close" #createRoleModalClose>Cancel</button>
 
-        
+                <button type="button" class="btn btn-primary" (click)="createRoleMethodCall()">Create</button>
+            </div>
+            <!--end modal-footer-->
+        </div>
+        <!--end modal-content-->
+    </div>
+    <!--end modal-dialog-->
+</div>
+<!--end modal-->
 
-    </div><!--end modal-dialog-->
+<div class="modal fade" id="information" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+                    {{ userAndControlDetailVariable?.user?.name }}
+                </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!--end modal-header-->
+            <div class="modal-body">
+                <div class="userdetails">
+                    <div class="d-flex align-items-center">
+                        <p class="text-end">First Name :</p>
+                        <p class="text-start">
+                            <span>{{ userAndControlDetailVariable?.user?.name }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="userdetails">
+                    <div class="d-flex align-items-center">
+                        <p class="text-end">Email :</p>
+                        <p class="text-start">
+                            <span>{{ userAndControlDetailVariable?.user?.email }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="userdetails">
+                    <div class="d-flex align-items-center">
+                        <p class="text-end">Role :</p>
+                        <p class="text-start">
+                            <span>{{userAndControlDetailVariable?.role?.name}}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="userdetails">
+                    <div class="d-flex align-items-center">
+                        <p class="text-end">Status :</p>
+                        <p class="text-start">
+                            <span>{{userAndControlDetailVariable?.presenceStatus ? 'Active' : 'Inactive'}}</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="userdetails">
+                    <div class="d-flex align-items-center">
+                        <p class="text-end">Updated Date :</p>
+                        <p class="text-start">
+                            <span>{{userAndControlDetailVariable.updatedDate | dateFormat}}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!--end modal-body-->
+            <div class="modal-footer d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+            <!--end modal-footer-->
+        </div>
+        <!--end modal-content-->
+    </div>
+    <!--end modal-dialog-->
+</div>
+<!--end modal-->
 
-    
-</div><!--end modal-->
-
-<div class = "pagination">
-    <pagination-controls 
-        perviousLabel="Prev"
-        nextLabel="Next"
-        (pageChange)="onTableDataChange($event)">
-    </pagination-controls>
-</div> 
