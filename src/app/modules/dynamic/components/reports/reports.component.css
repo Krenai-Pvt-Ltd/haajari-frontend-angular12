@@ -352,11 +352,22 @@ span.members-name {
 
 .downlord-report{
     background-color: #fff;
-    padding: 10px 15px;
+    /* padding: 10px 15px; */
     margin-bottom: 10px;
     border-radius: 6px;
     
-    border: 1px solid #f1f1f1;
-    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    /* border: 1px solid #f1f1f1;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
 }
 
+
+.excel-box{
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    align-items: center;
+    display: flex;
+    border: 1px solid #f1f1f1;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    justify-content: center;
+}
