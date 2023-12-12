@@ -7,6 +7,7 @@
     align-items: center;
     justify-content: space-between;
     border: 1px solid #f1f1f1;
+    cursor: pointer;
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
@@ -25,7 +26,6 @@
     border-radius: 50%;
     color: #2f2f2f;
     padding: 2px 5px;
-    
 }
 
 .report-icon i{

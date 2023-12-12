@@ -48,6 +48,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { TimeFormatPipe } from './time-format.pipe';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { SupportComponent } from './components/support/support.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 
@@ -103,13 +104,8 @@ import { SupportComponent } from './components/support/support.component';
     NgxShimmerLoadingModule,
     NgbModule,
     MatFormFieldModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
-  
+    FullCalendarModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
-
 })
 export class DynamicModule { }

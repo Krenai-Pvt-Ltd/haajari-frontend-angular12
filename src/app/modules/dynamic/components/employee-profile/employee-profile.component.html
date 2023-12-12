@@ -2,17 +2,19 @@
     <div class="page-content-tab">
         <div class="container-fluid">
 
-            <div class="mb-4 mt-3 pb-3 border-buttom-setting d-flex align-items-center" style="gap:20px">
+            <!-- <div class="mb-4 mt-3 pb-3 border-buttom-setting d-flex align-items-center" style="gap:20px">
                 <div class="back-btns-box" routerLink="/employee-onboarding"> <i class="bi bi-chevron-left" ></i></div>
                 <h5 class="mt-0" style="margin-top: 10px !important;">Employee Profile</h5>
                   
-               </div>
+               </div> -->
 
             <div class="row mt-3">
                 <div class="col-md-9">
                     <div class="employee-profile-deta">
                           <div class="d-flex" style="gap:10px">
                             <div class="profile-image-name position-relative">
+
+                                <div class="back-btns-box" routerLink="/employee-onboarding"> <i class="bi bi-chevron-left" ></i></div>
                                
                              
                             <span *ngIf="user?.image !== null">
@@ -38,7 +40,7 @@
                                         </tr>
                                         <tr>
                                             <th class="text-left">Gender - </th>
-                                            <td class="text-right">{{user.Gender || 'N/A'}}</td>
+                                            <td class="text-right">{{user.gender || 'N/A'}}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">Father Name - </th>
@@ -73,7 +75,7 @@
 
                                 </div>
                             </div>
-                            <div class="profile-histery">
+                           
                                 <!-- <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-deta">
@@ -125,23 +127,23 @@
                                     </div>
                                 </div> -->
 
-                                <div class="d-flex justify-content-between align-items-center">
+                            <div class="profile-histery">
+                                <!-- <div class="d-flex justify-content-between align-items-center">
                                     <div class="">
-                                        <h5 class="m-0">December <span>2023</span></h5>
+                                        <h5 class="m-0">DEC  <span>2023</span></h5>
                                     </div>
                                     <div class="">
                                         <div class="date-all-approved d-flex align-items-center" style="gap: 10px;">
-                                            <span class="approved-left active-color"><i class="bi bi-chevron-left"></i></span>
+                                            <span class="approved-left active-color" ><i class="bi bi-chevron-left"></i></span>
                                             <div class="text-center">
                                                 <input type="date" id="input-date" class="attendance-date ng-untouched ng-pristine ng-valid" >
                                                 </div>
-                                                <span class="approved-right active-color"><i class="bi bi-chevron-right"></i></span>
+                                                <span class="approved-right active-color" ><i class="bi bi-chevron-right"></i></span>
                                             </div>
                                     </div>
-                                </div>
-
-                                <div class="mt-3">
-                                    <div class="">
+                                </div> -->
+                            <!-- <div class="mt-3"> -->
+                                    <!-- <div class="">
                                         <table class="table" >
                                             <thead class="table-design table-padding">
                                                 <tr>
@@ -302,10 +304,24 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                    </div> -->
+                                <!-- </div> -->
+                                <div class="mt-3">
+                               <div class="d-flex justify-content-between align-items-center">
+                                    <div class="">
+                                        <div class="date-all-approved d-flex align-items-center" style="gap: 10px;">
+                                            <span class="approved-left active-color" (click)="goBackward()" ><i class="bi bi-chevron-left"></i></span>
+                                            <span class="approved-right active-color" (click)="goforward()" ><i class="bi bi-chevron-right"></i></span>
+                                            </div>
                                     </div>
                                 </div>
-                               <!-- calendar table code  -->
-                               
+                                    <!-- <button class="btn btn-primary" >next</button>
+                                    <button class="btn btn-primary" >previous</button> -->
+                                    <full-calendar [options]="calendarOptions" id="calendar" #calendar></full-calendar>
+                                
+                                
+                                </div>
+                                
                                 <!-- <div class="mt-3">
                                     <mwl-calendar-month-view
                                       [viewDate]="viewDate"
@@ -313,9 +329,12 @@
                                       (dayClicked)="dayClicked($event.day)"
                                     >
                                     </mwl-calendar-month-view>
-                                  </div> -->
-                                  
+                                </div> -->
+
                             </div>
+                                
+                                  
+
                           </div>
 
                           <div class="mt-3">
@@ -331,7 +350,7 @@
                                             <button id="home-tab" data-bs-toggle="tab" data-bs-target="#pending-employee" type="button" role="tab" aria-controls="pending-employee" aria-selected="true" class="nav-link">Address Details  </button>
                                         </li>
                                             <li role="presentation" class="nav-item">
-                                                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#verify-employee" type="button" role="tab" aria-controls="verify-employee" aria-selected="false" class="nav-link"> Employee Eexperience </button>
+                                                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#verify-employee" type="button" role="tab" aria-controls="verify-employee" aria-selected="false" class="nav-link"> Employee Experience </button>
                                             </li>
                                             <li role="presentation" class="nav-item">
                                                 <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#not-verify-employee" type="button" role="tab" aria-controls="not-verify-employee" aria-selected="false" class="nav-link"> Employee Eduction </button>
@@ -351,32 +370,32 @@
                                                     <a class="btn"  data-bs-toggle="modal" data-bs-target=".apply-leave"><i class="bi bi-plus" style="font-size: 20px;"></i> Apply for a Leave</a>
                                                 </div>
                                                
-                                                                <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
+                                                                <div class="d-flex align-items-center justify-content-between leves-type-s mb-2" *ngFor="let ul of userLeave">
                                                                     <div class="">
-                                                                        <h5>Casual Leave</h5>
+                                                                        <h5>{{ul?.leaveType}}</h5>
                                                                     </div>
                                                                     <div class="d-flex align-items-center" >
                                                                         <div class="Approved">
-                                                                           <p class="mb-0">5 </p>
+                                                                           <p class="mb-0">{{ul?.approved}}</p>
                                                                            <span class="total-holiday">Approved</span>
                                                                         </div>
                                                                         
                                                                         <div class="Approved rejected-css">
-                                                                            <p class="mb-0">2 </p>
-                                                                            <span class="total-holiday">Rejected</span>
+                                                                            <p class="mb-0">{{ul?.totalQuota}}</p>
+                                                                            <span class="total-holiday">Total</span>
                                                                          </div>
                                                                         <div class="Approved pending-css">
-                                                                            <p class="mb-0">7 </p>
+                                                                            <p class="mb-0">{{ul?.applied}}</p>
                                                                             <span class="total-holiday">Pending</span>
                                                                          </div>
                                                                         <div class="Approved remaining-css">
-                                                                            <p class="mb-0">12 </p>
+                                                                            <p class="mb-0">{{ul?.remainingQuota}}</p>
                                                                             <span class="total-holiday">Remaining</span>
                                                                          </div>
                                                                     </div>
                                                                 </div>
                                                          
-                                                                <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
+                                                                <!-- <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
                                                                     <div class="">
                                                                         <h5>Sick Leave</h5>
                                                                     </div>
@@ -424,7 +443,7 @@
                                                                             <span class="total-holiday">Remaining</span>
                                                                          </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
                                                         
                                             </div>
 
@@ -466,18 +485,19 @@
                                                 <table class="table">
                                                     <thead class="thead-light table-design">
                                                         <tr>
-                                                            <th>Village </th>
-                                                            <th>City</th>
+                                                            <th>Country </th>
+                                                           
                                                             <th>State</th>
-                                                            <th>Country</th>
+                                                            <th>City</th>
+                                                            <th>Full Adreess</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="table-design">
                                                         <tr>
-                                                            <td> Chhatarpur </td>
-                                                            <td> New Delhi</td>
-                                                            <td> Delhi</td>
-                                                            <td> India</td>
+                                                            <td>{{addressEmployee?.currentCountry || 'N/A'}} </td>
+                                                            <td>{{addressEmployee?.currentState || 'N/A'}}</td>
+                                                            <td>{{addressEmployee?.currentCity || 'N/A'}}</td>
+                                                            <td>{{addressEmployee?.currentAddress || 'N/A'}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -486,28 +506,28 @@
                                           
                                            
                                         </div>
-                                        <div class="tab-pane fade mt-3" id="verify-employee" role="tabpanel">
+                                        <div class="tab-pane fade mt-3" id="verify-employee" role="tabpanel" >
                 
                                             <div class="">
-                                                <table class="table">
+                                                <table class="table" >
                                                     <thead class="thead-light table-design">
                                                         <tr>
                                                             <th>Company Name </th>
                                                             <th>Exp. Year</th>
-                                                            <th>Joining Date</th>
+                                                            <!-- <th>Joining Date</th> -->
                                                             <th>Department</th>
                                                             <th>Last Salary</th>
                                                             <th>Position</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody class="table-design">
+                                                    <tbody class="table-design" *ngFor="let exp of experienceEmployee">
                                                         <tr>
-                                                            <td> Krenai Service </td>
-                                                            <td> 1 Year</td>
-                                                            <td> 27-03-2022</td>
-                                                            <td> IT </td>
-                                                            <td> 27K</td>
-                                                            <td> Front Development</td>
+                                                            <td>{{exp.companyName}}</td>
+                                                            <td>{{exp.employementDuration}}</td>
+                                                            <!-- <td>{{exp.companyName}}</td> -->
+                                                            <td>{{exp.jobResponisibilities}} </td>
+                                                            <td>{{exp.lastSalary}}</td>
+                                                            <td>{{exp.jobTitle }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -520,24 +540,24 @@
                                                 <table class="table">
                                                     <thead class="thead-light table-design">
                                                         <tr>
-                                                            <th>Id </th>
+                                                            <!-- <th>Id </th> -->
                                                             <th>Quallfication</th>
-                                                            <th>High School Mark</th>
-                                                            <th>High School Passing Year</th>
-                                                            <th>Intermediate Passing Year</th>
-                                                            <th>Gradution Mark</th>
+                                                            <th>Branch</th>
+                                                            <th>CGPA/Percentage</th>
                                                             <th>Gradution Passing Year</th>
+                                                            <th>Highest Education</th>
+                                                            <th>Institution Name</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="table-design">
                                                         <tr>
-                                                            <td> Adhar Card </td>
-                                                            <td> Graduate</td>
-                                                            <td> 85%</td>
-                                                            <td> 2012-2013</td>
-                                                            <td> 2010-2011</td>
-                                                            <td> 65%</td>
-                                                            <td> 2010-2011</td>
+                                                            <td>{{academicEmployee?.degreeObtained || 'N/A'}}</td>
+                                                            <td> {{academicEmployee?.fieldOfStudy || 'N/A'}}</td>
+                                                            <td> {{academicEmployee?.grade || 'N/A'}}</td>
+                                                            <td> {{academicEmployee?.greaduationYear || 'N/A'}}</td>
+                                                            <td>{{academicEmployee?.highestEducationalLevel || 'N/A'}}</td>
+                                                            <!-- <td> {{academicEmployee.degreeObtained}}</td> -->
+                                                            <td>{{academicEmployee?.institutionName || 'N/A'}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -550,22 +570,22 @@
                                                 <table class="table">
                                                     <thead class="thead-light table-design">
                                                         <tr>
-                                                            <th>Father Name </th>
-                                                            <th>Father Phone Number</th>
-                                                            <th>Mother Name</th>
-                                                            <th>Mother Phone Number</th>
-                                                            <th>Guardian Name </th>
-                                                            <th>Guardian Phone Number</th>
+                                                            <th>Contact Name </th>
+                                                            <th>Relation</th>
+                                                            <!-- <th>Mother Name</th> -->
+                                                            <th>Contact Number</th>
+                                                            <th>Medical Info</th>
+                                                            <!-- <th>Guardian Phone Number</th> -->
                                                         </tr>
                                                     </thead>
-                                                    <tbody class="table-design">
+                                                    <tbody class="table-design" *ngFor="let cn of contactsEmployee">
                                                         <tr>
-                                                            <td> Abcd </td>
-                                                            <td> 9876543210</td>
-                                                            <td> Asdfght Fghr</td>
-                                                            <td> 9876543210</td>
-                                                            <td> Djkgb Dkhj</td>
-                                                            <td> 9876543210</td>
+                                                            <td>{{cn.contactName }}</td>
+                                                            <td>{{cn.relationWithEmployee}}</td>
+                                                            <td>{{cn.contactNumber}}</td>
+                                                            <td>{{cn.medicalInfo}}</td>
+                                                            <!-- <td>{{cn.contactName}}</td> -->
+                                                            <!-- <td>{{cn.contactName}}</td> -->
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -591,15 +611,19 @@
                             <div class="pt-1 employ-bank-detail">
                                 <div class="">
                                     <h6>Name</h6>
-                                    <h4>Yogesh Yadav</h4>
+                                    <h4>{{bankDetailsEmployee?.accountHolderName || 'N/A'}}</h4>
                                 </div>
                                 <div class="pt-1">
                                     <h6>IFSC Code</h6>
-                                    <h4>ICIPK1232ID</h4>
+                                    <h4>{{bankDetailsEmployee?.ifsc || 'N/A'}}</h4>
                                 </div>
                                 <div class="pt-1">
                                     <h6>Account Number</h6>
-                                    <h4>2241001000182087</h4>
+                                    <h4>{{bankDetailsEmployee?.accountNumber || 'N/A'}}</h4>
+                                </div>
+                                <div class="pt-1">
+                                    <h6>Bank Name</h6>
+                                    <h4>{{bankDetailsEmployee?.bankNameaccount || 'N/A'}}</h4>
                                 </div>
                             </div>
 
@@ -664,8 +688,9 @@
                     </div>
                 </div>
             </div>
-
+       
         </div>
+
     </div>
 </div>
 
@@ -686,8 +711,10 @@
         <button
           type="button"
           class="btn-close"
+          id="requestLeaveCloseModel"
           data-bs-dismiss="modal"
           aria-label="Close"
+          #requestLeaveCloseModel
         ></button>
       </div>
       <div class="modal-body">
@@ -696,28 +723,30 @@
             <div class="mb-2">
                 <p class="mb-0" style="color: #000444;">Please fill out the following fields:</p>
             </div>
+         <form [formGroup]="userLeaveForm">
           <div class="mb-2">
             <label for="username" style="padding-bottom: 6px"
               >Pick a starting date</label>
-            <input type="date" id="username" placeholder="Enter title ..." name="username" required="" class="form-control ng-untouched ng-pristine ng-invalid"/>
+            <input type="date" id="username" placeholder="Enter title ..." name="username" required="" class="form-control ng-untouched ng-pristine ng-invalid" formControlName="startDate" [(ngModel)]="userLeaveRequest.startDate"/>
           </div>
+          
           <div class="mb-2">
             <label for="username" style="padding-bottom: 6px"
               >Pick an ending date <span class="optional">(optional)</span></label>
-            <input type="date" id="username" placeholder="Enter title ..." name="username" required="" class="form-control ng-untouched ng-pristine ng-invalid"/>
+            <input type="date" id="username" placeholder="Enter title ..." name="username" required="" class="form-control ng-untouched ng-pristine ng-invalid" formControlName="endDate" [(ngModel)]="userLeaveRequest.endDate"/>
           </div>
           <div class="mb-2">
             <label for="username" style="padding-bottom: 6px"
               >Select the type of leave you want to request</label>
               <div class="" style="width: 100%; position: relative;">
                 <div class="dropdown" style="width: 100%;">
-                  <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select leave type <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
-                  </button>
-                  <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
-                    <li><a class="dropdown-item">Present</a></li>
-                    <li><a class="dropdown-item">Absent</a></li>
-                    <li><a class="dropdown-item">Half Day</a></li>
-                  </ul>
+                  <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select leave type <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                  </button> -->
+                  <select class="form-select" name = "leaveType" id="exampleFormControlSelect1" formControlName="leaveType" [(ngModel)]="userLeaveRequest.leaveType">
+                    <option value="">Select Leave Type</option>
+                    <option *ngFor="let ul of userLeave">
+                        {{ul.leaveType}}</option>
+                </select>
                 </div>
               </div>
           </div>
@@ -734,23 +763,23 @@
               >Select user to request the leave from</label>
               <div class="" style="width: 100%; position: relative;">
                 <div class="dropdown" style="width: 100%;">
-                  <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select a user <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
-                  </button>
-                  <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
-                    <li><a class="dropdown-item">Pushpendra</a></li>
-                    <li><a class="dropdown-item">Anchal Sharma</a></li>
-                    <li><a class="dropdown-item">Shivendra Shrivastwa</a></li>
-                    <li><a class="dropdown-item"> Lakshay Gautam</a></li>
-                    <li><a class="dropdown-item"> krishan.ramawat</a></li>
-                  </ul>
+                  <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select a user <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                  </button> -->
+                  <select class="form-select" id="exampleFormControlSelect1" name="managerId" formControlName="managerId" [(ngModel)]="userLeaveRequest.managerId">
+                    <option value="">Select User</option>
+                    <option>27</option>
+                    <option>4</option>
+               
+                </select>
                 </div>
               </div>
           </div>
           <div class="mb-2">
             <label for="username" style="padding-bottom: 6px"
               >Notes <span class="optional">(optional)</span></label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Nots" rows="3" style="height:100px !important;"> </textarea>
+              <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Nots" rows="3" style="height:100px !important;" formControlName="optNotes" [(ngModel)]="userLeaveRequest.optNotes"> </textarea>
           </div>
+         </form>
         </div>
       </div>
       <div class="modal-footer">
@@ -761,10 +790,11 @@
         >
           Close
         </button>
-        <button type="button" class="btn btn-primary save-changes">
+        <button type="button" class="btn btn-primary save-changes"  [disabled]="userLeaveForm.invalid" (click)="saveLeaveRequestUser()">
           Submit
         </button>
       </div>
     </div>
   </div>
 </div>
+

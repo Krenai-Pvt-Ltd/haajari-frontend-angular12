@@ -2,7 +2,7 @@
     width: 35%;
     text-align: center;
     background-color: #fff;
-    padding: 20px;
+    padding: 15px;
     border-radius: 6px;
     border: 1px solid #f1f1f1;
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
@@ -20,11 +20,15 @@
 
 }
 
-::ng-deep .cal-month-view .cal-events {
+/* ::ng-deep .cal-month-view .cal-events {
     display: none !important;
-}
+} */
 ::ng-deep .cal-month-view .cal-day-badge{
     background-color: #13C56B !important;
+    display: none !important;
+}
+::ng-deep .cal-month-view .cal-event {
+content: "present"!important;
 }
 
 .profile-image-name p {
@@ -430,11 +434,11 @@ td.text-right {
 
 
 .rejected-css p{
-    color: #eb5050;
+    color: #dceb50;
 }
 
 .rejected-css span{
-    color: #eb5050 !important;
+    color: #dceb50 !important;
 }
 
 
@@ -534,5 +538,8 @@ span.optional {
     font-weight: 500;
     cursor: pointer;
     position: relative;
-    top: -1px;
+    top: 0px;
+}
+::ng-deep .fc .fc-button-group {
+    display: none!important;
 }
