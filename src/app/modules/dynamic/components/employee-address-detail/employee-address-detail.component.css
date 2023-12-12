@@ -284,3 +284,7 @@ a.select-file {
     border: 1px solid #557ef8;
     background-color: #ecf1ff;
 }
+
+.current-address{
+    font-size: 15px;
+}

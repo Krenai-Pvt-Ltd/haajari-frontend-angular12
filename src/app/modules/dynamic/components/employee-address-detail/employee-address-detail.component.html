@@ -12,8 +12,12 @@
                     <h5>Address Details</h5>
                     <p class="mb-0">Fields with are mandatory </p>
 
-                    <div class="persnol-info mt-4">
+                    <div class="persnol-info mt-2">
                         <div class="row">
+
+                            <div class="mb-2">
+                                <h6 class="current-address">Current Address</h6>
+                            </div>
 
                             <div class="col-md-12">
                                <div class="mb-3">
@@ -21,6 +25,13 @@
                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Village name">
                                </div>
                             </div>
+
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="pb-2">Pincode</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pincode">
+                                </div>
+                             </div>
 
                            
                             <div class="col-md-12">
@@ -68,6 +79,83 @@
                                     </div>
                                 </div>
                              </div>
+
+                             <div class="col-md-12 mt-3 mb-3">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1" [checked]="!isPermanent" (click)="showPermanent()">
+                                    <label class="form-check-label" for="exampleCheck1"> is your current address same as permanent address.</label>
+                                  </div>
+                             </div>
+
+                             <div class="row" *ngIf="isPermanent">
+
+                                <div class="mb-2">
+                                    <h6 class="current-address">Permanent Address</h6>
+                                </div>
+    
+                                <div class="col-md-12">
+                                   <div class="mb-3">
+                                       <label for="exampleInputEmail1" class="pb-2">Village</label>
+                                       <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Village name">
+                                   </div>
+                                </div>
+    
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="pb-2">Pincode</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pincode">
+                                    </div>
+                                 </div>
+    
+                               
+                                <div class="col-md-12">
+                                   <div class="mb-3">
+                                       <label for="exampleInputEmail1" class="pb-2">City</label>
+                                       <div class="dropdown" style="width: 100%;">
+                                        <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select City 
+                                            <i class="bi bi-chevron-down"></i>
+                                        </button>
+                                        <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                                            <li><a class="dropdown-item">Delhi</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                   </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="pb-2">State</label>
+                                        <div class="dropdown" style="width: 100%;">
+                                            <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select State 
+                                                <i class="bi bi-chevron-down"></i>
+                                            </button>
+                                            <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                                                <li><a class="dropdown-item">Delhi</a></li>
+                                              
+                                            </ul>
+                                        </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-12">
+                                   
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="pb-2">Country</label>
+                                        <div class="dropdown" style="width: 100%;">
+                                            <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select Country 
+                                                <i class="bi bi-chevron-down"></i>
+                                            </button>
+                                            <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                                                <li><a class="dropdown-item">India</a></li>
+                                                <li><a class="dropdown-item">Pakistan</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                 </div>
+                             </div>
+
+
                             
 
                              <div class="col-md-12 d-flex justify-content-between mt-3">
@@ -79,6 +167,8 @@
                                 </div>
                              </div>
                         </div>
+
+                        
                     </div>
                 </div>
             </div>

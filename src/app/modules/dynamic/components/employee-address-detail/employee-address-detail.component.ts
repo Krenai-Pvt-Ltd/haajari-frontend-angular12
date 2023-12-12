@@ -12,4 +12,9 @@ export class EmployeeAddressDetailComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isPermanent:boolean=false;
+  showPermanent(){
+    this.isPermanent= this.isPermanent == true ? false:true;
+  }
+
 }
