@@ -45,6 +45,7 @@ import { DynamicRoutingModule } from './dynamic-routing.module';
 import { DynamicComponent } from './dynamic.component';
 import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
 import { TimeFormatPipe } from './time-format.pipe';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 
@@ -101,7 +102,7 @@ import { TimeFormatPipe } from './time-format.pipe';
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-  
+    FullCalendarModule
   ]
 })
 export class DynamicModule { }

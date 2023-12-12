@@ -15,7 +15,7 @@ import { SharedModule } from './shared/shared.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
-
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
   declarations: [
@@ -34,11 +34,12 @@ import { NotifactionTostComponent } from './modules/common/notifaction-tost/noti
     NgxPaginationModule,
     SharedModule,
     NgbModule,
+    FullCalendarModule
 
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
+    // CalendarModule.forRoot({
+    //   provide: DateAdapter,
+    //   useFactory: adapterFactory,
+    // }),
     // AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
