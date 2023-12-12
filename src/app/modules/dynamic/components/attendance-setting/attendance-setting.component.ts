@@ -12,4 +12,34 @@ export class AttendanceSettingComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isFull:boolean=false;
+  showFullDay(){
+    this.isFull= this.isFull == true ? false:true;
+  }
+
+  isHalf:boolean=false;
+  showHalfDay(){
+    this.isHalf= this.isHalf == true ? false:true;
+  }
+
+  isBreak:boolean=false;
+  showBreak(){
+    this.isBreak= this.isBreak == true ? false:true;
+  }
+  
+
+
+
+  isdeductHalf:boolean=false;
+  showeDeductHalf(){
+    this.isdeductHalf= this.isdeductHalf == true ? false:true;
+  }
+
+  isfullDayy:boolean=false;
+  showFullDayy(){
+    this.isfullDayy= this.isfullDayy == true ? false:true;
+  }
+
+
+  
 }

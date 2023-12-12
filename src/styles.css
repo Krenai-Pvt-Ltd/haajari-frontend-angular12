@@ -34,3 +34,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     left: auto !important;
     /* width: 650px !important; */
 }
+
+.btn-primary {
+    color: #fff;
+    background-color: #4660f6;
+    border-color: #4660f6;
+}
