@@ -543,3 +543,32 @@ span.optional {
 ::ng-deep .fc .fc-button-group {
     display: none!important;
 }
+
+
+.date-all-approved{
+    gap: 10px;
+    /* position: absolute;
+    right: 95px;
+    top: 29px; */
+    position: relative;
+}
+
+.errorboxmain{
+    min-height: 20vh;
+    background-color: #fff;
+}
+
+  .errorboxmain {
+    padding: 15px;
+}
+.approved-left{
+    position: absolute;
+    left: 0px;
+    top: 6px;
+}
+
+.approved-right{
+    position: absolute;
+    left: 160px;
+    top: 6px;
+}
