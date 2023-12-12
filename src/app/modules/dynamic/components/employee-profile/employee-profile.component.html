@@ -2,7 +2,11 @@
     <div class="page-content-tab">
         <div class="container-fluid">
 
-
+            <div class="mb-4 mt-3 pb-3 border-buttom-setting d-flex align-items-center" style="gap:20px">
+                <div class="back-btns-box" routerLink="/employee-onboarding"> <i class="bi bi-chevron-left" ></i></div>
+                <h5 class="mt-0" style="margin-top: 10px !important;">Employee Profile</h5>
+                  
+               </div>
 
             <div class="row mt-3">
                 <div class="col-md-9">
@@ -324,16 +328,36 @@
                 
                                     <div class="tab-content" id="myTabContent">
 
-                                        <div class="tab-pane fade show active mt-3" id="leave-setting" role="tabpanel">
+                                        <div class="tab-pane fade show active mt-2" id="leave-setting" role="tabpanel">
 
                                             <div class="">
+
+                                                <div class="align-items-center d-flex justify-content-end add-filtter mb-2">
+                                                    <a class="btn"  data-bs-toggle="modal" data-bs-target=".apply-leave"><i class="bi bi-plus" style="font-size: 20px;"></i> Apply for a Leave</a>
+                                                </div>
                                                
                                                                 <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
                                                                     <div class="">
                                                                         <h5>Casual Leave</h5>
                                                                     </div>
-                                                                    <div class="">
-                                                                        <p class="mb-0">5/12</p>
+                                                                    <div class="d-flex align-items-center" >
+                                                                        <div class="Approved">
+                                                                           <p class="mb-0">5 </p>
+                                                                           <span class="total-holiday">Approved</span>
+                                                                        </div>
+                                                                        
+                                                                        <div class="Approved rejected-css">
+                                                                            <p class="mb-0">2 </p>
+                                                                            <span class="total-holiday">Rejected</span>
+                                                                         </div>
+                                                                        <div class="Approved pending-css">
+                                                                            <p class="mb-0">7 </p>
+                                                                            <span class="total-holiday">Pending</span>
+                                                                         </div>
+                                                                        <div class="Approved remaining-css">
+                                                                            <p class="mb-0">12 </p>
+                                                                            <span class="total-holiday">Remaining</span>
+                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                          
@@ -341,8 +365,24 @@
                                                                     <div class="">
                                                                         <h5>Sick Leave</h5>
                                                                     </div>
-                                                                    <div class="">
-                                                                        <p class="mb-0">5/12</p>
+                                                                    <div class="d-flex align-items-center" >
+                                                                        <div class="Approved">
+                                                                           <p class="mb-0">5 </p>
+                                                                           <span class="total-holiday">Approved</span>
+                                                                        </div>
+                                                                        
+                                                                        <div class="Approved rejected-css">
+                                                                            <p class="mb-0">2 </p>
+                                                                            <span class="total-holiday">Rejected</span>
+                                                                         </div>
+                                                                        <div class="Approved pending-css">
+                                                                            <p class="mb-0">7 </p>
+                                                                            <span class="total-holiday">Pending</span>
+                                                                         </div>
+                                                                        <div class="Approved remaining-css">
+                                                                            <p class="mb-0">12 </p>
+                                                                            <span class="total-holiday">Remaining</span>
+                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                            
@@ -350,8 +390,24 @@
                                                                     <div class="">
                                                                         <h5>Annual Leave</h5>
                                                                     </div>
-                                                                    <div class="">
-                                                                        <p class="mb-0">5/16</p>
+                                                                    <div class="d-flex align-items-center" >
+                                                                        <div class="Approved">
+                                                                           <p class="mb-0">5 </p>
+                                                                           <span class="total-holiday">Approved</span>
+                                                                        </div>
+                                                                        
+                                                                        <div class="Approved rejected-css">
+                                                                            <p class="mb-0">2 </p>
+                                                                            <span class="total-holiday">Rejected</span>
+                                                                         </div>
+                                                                        <div class="Approved pending-css">
+                                                                            <p class="mb-0">7 </p>
+                                                                            <span class="total-holiday">Pending</span>
+                                                                         </div>
+                                                                        <div class="Approved remaining-css">
+                                                                            <p class="mb-0">16 </p>
+                                                                            <span class="total-holiday">Remaining</span>
+                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                         
@@ -596,4 +652,104 @@
 
         </div>
     </div>
+</div>
+
+
+
+
+
+<div
+  class="modal fade apply-leave"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="mySmallModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title m-0" id="exampleModalCenterTitle">Apply for a Leave</h6>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="apply-leave-main-box">
+            <div class="mb-2">
+                <p class="mb-0" style="color: #000444;">Please fill out the following fields:</p>
+            </div>
+          <div class="mb-2">
+            <label for="username" style="padding-bottom: 6px"
+              >Pick a starting date</label>
+            <input type="date" id="username" placeholder="Enter title ..." name="username" required="" class="form-control ng-untouched ng-pristine ng-invalid"/>
+          </div>
+          <div class="mb-2">
+            <label for="username" style="padding-bottom: 6px"
+              >Pick an ending date <span class="optional">(optional)</span></label>
+            <input type="date" id="username" placeholder="Enter title ..." name="username" required="" class="form-control ng-untouched ng-pristine ng-invalid"/>
+          </div>
+          <div class="mb-2">
+            <label for="username" style="padding-bottom: 6px"
+              >Select the type of leave you want to request</label>
+              <div class="" style="width: 100%; position: relative;">
+                <div class="dropdown" style="width: 100%;">
+                  <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select leave type <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                  </button>
+                  <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                    <li><a class="dropdown-item">Present</a></li>
+                    <li><a class="dropdown-item">Absent</a></li>
+                    <li><a class="dropdown-item">Half Day</a></li>
+                  </ul>
+                </div>
+              </div>
+          </div>
+          <div class="mb-2">
+            <label for="username" style="padding-bottom: 6px"
+              >Select if you are requesting Half Leave <span class="optional">(optional)</span></label>
+              <div class="">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" style="padding-left: 10px;" for="exampleCheck1">Half Leave</label>
+            </div>
+          </div>
+          <div class="mb-2">
+            <label for="username" style="padding-bottom: 6px"
+              >Select user to request the leave from</label>
+              <div class="" style="width: 100%; position: relative;">
+                <div class="dropdown" style="width: 100%;">
+                  <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select a user <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                  </button>
+                  <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                    <li><a class="dropdown-item">Pushpendra</a></li>
+                    <li><a class="dropdown-item">Anchal Sharma</a></li>
+                    <li><a class="dropdown-item">Shivendra Shrivastwa</a></li>
+                    <li><a class="dropdown-item"> Lakshay Gautam</a></li>
+                    <li><a class="dropdown-item"> krishan.ramawat</a></li>
+                  </ul>
+                </div>
+              </div>
+          </div>
+          <div class="mb-2">
+            <label for="username" style="padding-bottom: 6px"
+              >Notes <span class="optional">(optional)</span></label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Nots" rows="3" style="height:100px !important;"> </textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-de-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-primary save-changes">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

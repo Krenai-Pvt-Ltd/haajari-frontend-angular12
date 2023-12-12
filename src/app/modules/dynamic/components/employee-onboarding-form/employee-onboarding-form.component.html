@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-md-12">
                 <div class="persnol-details">
-                    <h5>Persnaol Information</h5>
+                    <h5>Personal Information</h5>
                     <p class="mb-0">Fields with are mandatory </p>
 
                     <div class="persnol-info mt-4">
@@ -18,7 +18,7 @@
                             <div class="col-md-12">
                                <div class="mb-3">
                                    <label for="exampleInputEmail1" class="pb-2">Name</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name">
+                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userPersonalInformationRequest.name">
                                </div>
                             </div>
 
@@ -44,50 +44,99 @@
                             <div class="col-md-6">
                                <div class="mb-3">
                                    <label for="exampleInputEmail1" class="pb-2">Email Id</label>
-                                   <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                   <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="userPersonalInformationRequest.email">
                                </div>
                             </div>
                             <div class="col-md-6">
                                <div class="mb-3">
                                    <label for="exampleInputEmail1" class="pb-2">Phone</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone">
+                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone" [(ngModel)]="userPersonalInformationRequest.phoneNumber">
                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="pb-2">DOB</label>
-                                    <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter DOB">
+                                    <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter DOB" [(ngModel)]="userPersonalInformationRequest.dob">
                                 </div>
                              </div>
                              <div class="col-md-6">
                                
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Gendder</label>
+                                    <label for="genderDropdown" class="pb-2">Gender</label>
                                     <div class="dropdown" style="width: 100%;">
-                                        <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select Gendder 
-                                            <i class="bi bi-chevron-down"></i>
-                                        </button>
-                                        <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
-                                            <li><a class="dropdown-item">Male</a></li>
-                                            <li><a class="dropdown-item">Female</a>
-                                            </li>
-                                        </ul>
+                                      <button type="button" id="genderDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                                        {{ userPersonalInformationRequest.gender || 'Select Gender' }}
+                                        <i class="bi bi-chevron-down"></i>
+                                      </button>
+                                      <ul aria-labelledby="genderDropdown" class="dropdown-menu" style="width: 100%;">
+                                        <li><a class="dropdown-item" (click)="userPersonalInformationRequest.gender = 'Male'">Male</a></li>
+                                        <li><a class="dropdown-item" (click)="userPersonalInformationRequest.gender = 'Female'">Female</a></li>
+                                      </ul>
                                     </div>
-                                </div>
+                                  </div>
+                                  
                              </div>
                              <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="pb-2">Father's Name</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter father name">
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter father name" [(ngModel)]="userPersonalInformationRequest.fatherName">
                                 </div>
                              </div>
+                             <div class="col-md-6">
+                                <div class="mb-3">
+                                  <label for="maritalStatusDropdown" class="pb-2">Marital Status</label>
+                                  <div class="dropdown" style="width: 100%;">
+                                    <button type="button" id="maritalStatusDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                                      {{ userPersonalInformationRequest.maritalStatus || 'Select Marital Status' }}
+                                      <i class="bi bi-chevron-down"></i>
+                                    </button>
+                                    <ul aria-labelledby="maritalStatusDropdown" class="dropdown-menu" style="width: 100%;">
+                                      <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Single'">Single</a></li>
+                                      <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Married'">Married</a></li>
+                                    </ul>
+                                  </div>
+                                </div>                      
+                             </div>
 
+                             <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="pb-2">Joining Date</label>
+                                    <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter joining date" [(ngModel)]="userPersonalInformationRequest.joiningDate">
+                                </div>
+                             </div>
+                             <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="pb-2">Current Salary</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Enter current salary" [(ngModel)]="userPersonalInformationRequest.currentSalary">
+                                </div>
+                             </div>
+                             <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="pb-2">Department</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Enter department" [(ngModel)]="userPersonalInformationRequest.department">
+                                </div>
+                             </div>
+                             <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="pb-2">Current Position</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Enter current position" [(ngModel)]="userPersonalInformationRequest.position">
+                                </div>
+                             </div>
+                            <div class="col-md-6">
+                               <div class="mb-3">
+                                   <label for="exampleInputEmail1" class="pb-2">Nationality</label>
+                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Enter nationality" [(ngModel)]="userPersonalInformationRequest.nationality">
+                               </div>
+                            </div>
                              <div class="col-md-12 d-flex justify-content-between mt-3">
                                 <div class="info-btn d-flex justify-content-start">
-                                    <button class="btn btn-primary back-btn" type="button"><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
+                                    <button class="btn btn-primary back-btn" type="button" ><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
                                 </div>
                                 <div class="info-btn d-flex justify-content-end">
-                                    <button class="btn btn-primary" type="button">Next <i class="bi bi-arrow-right" style="padding-left: 8px; "></i></button>
+                                    <button class="btn btn-primary" type="button" (click)="setEmployeePersonalDetailsMethodCall()" aria-label="Next Step">
+                                        Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                      </button>
+                                      
                                 </div>
                              </div>
                         </div>
