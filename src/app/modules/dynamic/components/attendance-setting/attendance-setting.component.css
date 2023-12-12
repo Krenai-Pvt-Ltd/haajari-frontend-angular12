@@ -545,3 +545,31 @@
     margin-bottom: 0;
 }
 
+
+.table .thead-light th {
+    color: #8997bd;
+    background-color: #f9fafb;
+    border-color: #e8ebf3;
+    border-bottom: none;
+    font-size: 13px;
+}
+
+
+.table-design tr th {
+    border: 1px solid #e0e0e0;
+}
+
+.table-design tr td {
+    border: 1px solid #e0e0e0;
+}
+
+.staf-names{
+    font-size: 13px;
+    margin-top: 0px;
+    color: #000444;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100px;
+  overflow: hidden;
+    
+}
