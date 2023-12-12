@@ -65,7 +65,7 @@ export class LiveManagerComponent implements OnInit {
   saveLeaveRequestUser(){
     this.userLeaveRequest.userId=this.getLoginDetailsOrgRefId() ;
     debugger
-    this.dataService.saveLeaveRequest(this.userLeaveRequest)
+    this.dataService.saveLeaveRequest("dfghjhgfdfbnm",this.userLeaveRequest)
     .subscribe(data => {
      
       debugger

@@ -303,11 +303,12 @@ export class DataService {
   //   return this.httpClient.get(this.baseUrl + "/get-token", { params });
   // }
   
-  saveLeaveRequest(request: any): Observable<any> {
-    return this.httpClient.post( this.baseUrl+'/user-leave/save-users-leave',request);
+  saveLeaveRequest(userUuid:string, request: any): Observable<any> {
+    const params = new HttpParams().set("uuid", userUuid);
+    return this.httpClient.post( this.baseUrl+'/user-leave/save-users-leave',request,  {params});
   }
-  getUserLeaveRequests(id: any): Observable<any> {
-    const params = new HttpParams().set("id", id);
+  getUserLeaveRequests(uuid: string): Observable<any> {
+    const params = new HttpParams().set("userUuid", uuid);
     return this.httpClient.get<any>(`${this.baseUrl}/user-leave/get-user-leave`, {
       params,
     });
@@ -435,6 +436,56 @@ export class DataService {
     .set("status_type", statusType);
     debugger
     return this.httpClient.put<any>(`${this.baseUrl}/employee-onboarding-status/change-employee-onboarding-status`,{}, {params});
+  }
+
+  
+  getEmployeeAdressDetails(userUuid:string):Observable<any>{
+    const params = new HttpParams()
+    .set("userUuid", userUuid)
+   
+    return this.httpClient.get<any>(`${this.baseUrl}/user-address/get/user-address`, {params});
+  }
+
+  getEmployeeExperiencesDetails(userUuid:string):Observable<any>{
+    const params = new HttpParams()
+    .set("userUuid", userUuid)
+   
+    return this.httpClient.get<any>(`${this.baseUrl}/user-experiences/getExperiences`, {params});
+  }
+
+  getEmployeeAcademicDetails(userUuid:string):Observable<any>{
+    const params = new HttpParams()
+    .set("userUuid", userUuid)
+   
+    return this.httpClient.get<any>(`${this.baseUrl}/user-academics/user/getUserAcademics`, {params});
+  }
+
+  getEmployeeContactsDetails(userUuid:string):Observable<any>{
+    const params = new HttpParams()
+    .set("userUuid", userUuid)
+   
+    return this.httpClient.get<any>(`${this.baseUrl}/user-emergency-contacts/get/emergency-contacts`, {params});
+  }
+
+  getEmployeeBankDetails(userUuid:string):Observable<any>{
+    const params = new HttpParams()
+    .set("userUuid", userUuid)
+   
+    return this.httpClient.get<any>(`${this.baseUrl}/user-bank-details/get/bank-details`, {params});
+  }
+
+  getUserLeaveLog(userUuid:string):Observable<any>{
+    const params = new HttpParams()
+    .set("userUuid", userUuid)
+   
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave/users-leave-log`, {params});
+  }
+
+  getOrganizationOnboardingDate(userUuid:string):Observable<any>{
+    const params = new HttpParams()
+    .set("uuid", userUuid)
+   
+    return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-organization-onboarding-date`, {params});
   }
 
   
