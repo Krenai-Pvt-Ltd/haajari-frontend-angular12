@@ -520,7 +520,6 @@
                                                 <div style="text-align: left;">
                                                     <h5 class="mb-3">Leaves Logs</h5>
 
-<<<<<<< HEAD
 
                                                     <div class="errorboxmain text-center"  >
                                                         <div class="errorboxinner" >
@@ -536,12 +535,8 @@
 
 
 
-
+                                                   <div *ngFor="let leaves of userLeaveLog">
                                                     <ul class="acitivity-timeline-2 list-unstyled mb-0">
-=======
-                                                 <div *ngFor="let leaves of userLeaveLog">
-                                                    <ul class="acitivity-timeline-2 list-unstyled mb-0" >
->>>>>>> 3c8624ebefa0d5e14b0d0d61982e80bccea91bfd
                                                         <li>
                                                             <h6 class="fs-md mt-0"> Apply {{leaves.leaveType}} | 
                                                                 <span *ngIf="leaves.status=='approved'" style="color:green">{{capitalizeFirstLetter(leaves.status)}}</span>
@@ -567,11 +562,12 @@
                                                                 <p class="text-muted mb-0">Subscription Invoice generated for As and sent to nelyqiri@clout.wiki</p>
                                                             </li> -->
                                                     </ul>
+                                                   </div>
                                                 </div>
 
 
                                                     
-                                                </div>
+                                            
                                             </div>
                                             </div>
                                         <div class="tab-pane fade show mt-3" id="pending-employee" role="tabpanel">
