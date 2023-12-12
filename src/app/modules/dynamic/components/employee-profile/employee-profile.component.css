@@ -434,11 +434,11 @@ td.text-right {
 
 
 .rejected-css p{
-    color: #dceb50;
+    color: black;
 }
 
 .rejected-css span{
-    color: #dceb50 !important;
+    color: black !important;
 }
 
 

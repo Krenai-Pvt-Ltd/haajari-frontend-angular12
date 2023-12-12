@@ -38,21 +38,22 @@ export class EmployeeProfileComponent implements OnInit {
         optNotes: [""],
       }); }
 
-      // get StartDate() {
-      //   return this.userLeaveForm.get("startDate")
-      // }
-      // get EndDate() {
-      //   return this.userLeaveForm.get("endDate")
-      // }
-      // get LeaveType() {
-      //   return this.userLeaveForm.get("leaveType")
-      // }
-      // get ManagerId() {
-      //   return this.userLeaveForm.get("managerId")
-      // }
-      // get OptNotes() {
-      //   return this.userLeaveForm.get("optNotes")
-      // }
+  }
+
+  get StartDate() {
+    return this.userLeaveForm.get("startDate")
+  }
+  get EndDate() {
+    return this.userLeaveForm.get("endDate")
+  }
+  get LeaveType() {
+    return this.userLeaveForm.get("leaveType")
+  }
+  get ManagerId() {
+    return this.userLeaveForm.get("managerId")
+  }
+  get OptNotes() {
+    return this.userLeaveForm.get("optNotes")
   }
 
   events: any[] = [];
@@ -283,6 +284,8 @@ export class EmployeeProfileComponent implements OnInit {
      
       console.log(data);
       console.log(data.body);
+      this. getUserLeaveLogByUuid() ;
+      this. getUserLeaveReq();
       this.resetUserLeave();
       this.requestLeaveCloseModel.nativeElement.click();
     }, (error)=>{
@@ -320,6 +323,16 @@ export class EmployeeProfileComponent implements OnInit {
       }
     );
   }
+
+
+  calculateDateDifference(endDate: string, startDate: string): number {
+    const end = new Date(endDate);
+    const start = new Date(startDate);
+    const timeDifference = end.getTime() - start.getTime();
+    const daysDifference = timeDifference / (1000 * 3600 * 24);
+    return daysDifference;
+  }
+  
 
   // #################################################################33
 
@@ -403,6 +416,11 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   // #################################################################333333
-
+  capitalizeFirstLetter(name: string): string {
+    if (name) {
+      return name.charAt(0).toUpperCase() + name.slice(1);
+    }
+    return name; 
+  }
 
 }

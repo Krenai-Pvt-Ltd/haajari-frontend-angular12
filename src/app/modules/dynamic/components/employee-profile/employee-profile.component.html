@@ -375,15 +375,16 @@
                                                                         <h5>{{ul?.leaveType}}</h5>
                                                                     </div>
                                                                     <div class="d-flex align-items-center" >
-                                                                        <div class="Approved">
-                                                                           <p class="mb-0">{{ul?.approved}}</p>
-                                                                           <span class="total-holiday">Approved</span>
-                                                                        </div>
-                                                                        
+                                                                         
                                                                         <div class="Approved rejected-css">
                                                                             <p class="mb-0">{{ul?.totalQuota}}</p>
                                                                             <span class="total-holiday">Total</span>
                                                                          </div>
+                                                                        <div class="Approved">
+                                                                           <p class="mb-0">{{ul?.approved}}</p>
+                                                                           <span class="total-holiday">Approved</span>
+                                                                        </div>
+                                                                       
                                                                         <div class="Approved pending-css">
                                                                             <p class="mb-0">{{ul?.applied}}</p>
                                                                             <span class="total-holiday">Pending</span>
@@ -453,18 +454,24 @@
                                                 <div style="text-align: left;">
                                                     <h5 class="mb-3">Leaves Logs</h5>
 
-
-                                                    <ul class="acitivity-timeline-2 list-unstyled mb-0">
+                                                 <div *ngFor="let leaves of userLeaveLog">
+                                                    <ul class="acitivity-timeline-2 list-unstyled mb-0" >
                                                         <li>
-                                                            <h6 class="fs-md mt-0"> Apply casual Leave</h6>
-                                                            <div class="d-flex align-items-center mb-2 gap-3">
-                                                                <p class="mb-0">
-                                                                    <i class="bi bi-calendar align-baseline me-1"></i> 30-11-2023 
+                                                            <h6 class="fs-md mt-0"> Apply {{leaves.leaveType}} | 
+                                                                <span *ngIf="leaves.status=='approved'" style="color:green">{{capitalizeFirstLetter(leaves.status)}}</span>
+                                                                <span *ngIf="leaves.status=='pending'" style="color:orange">{{capitalizeFirstLetter(leaves.status)}}</span>
+                                                                <span *ngIf="leaves.status=='rejected'" style="color:red">{{capitalizeFirstLetter(leaves.status)}}</span>
+                                                            </h6>
+                                                               <div class="d-flex align-items-center mb-2 gap-3">
+                                                                <p class="mb-0"> 
+                                                                    <i class="bi bi-calendar align-baseline me-1"></i> {{leaves.startDate || 'N/A'}} <span><b>Start Date</b></span> | {{leaves.endDate || 'N/A'}} <span><b>End Date</b></span> |  {{calculateDateDifference(leaves.endDate, leaves.startDate) || 'N/A'}} <span><b>Total</b></span> | {{leaves.leaveDate || 'N/A'}} <span><b>Apply Leave Date</b></span>
                                                                 </p>
+                                                   
                                                                 </div>
-                                                                <p class="text-muted mb-0">Anchal Sharma chose Subscription plan of 8999.0/year against email:- nelyqiri@clout.wiki</p>
+                            
+                                                                <p class="text-muted mb-0">{{leaves.optNotes || 'N/A'}}</p>
                                                             </li>
-                                                            <li>
+                                                            <!-- <li>
                                                                 <h6 class="fs-md mt-0"> Apply casual Leave</h6>
                                                                 <div class="d-flex align-items-center mb-2 gap-3">
                                                                     <p class="mb-0">
@@ -472,8 +479,9 @@
                                                                     </p>
                                                                 </div>
                                                                 <p class="text-muted mb-0">Subscription Invoice generated for As and sent to nelyqiri@clout.wiki</p>
-                                                            </li>
-                                                            </ul>
+                                                            </li> -->
+                                                    </ul>
+                                                </div>
 
 
                                                     
@@ -728,6 +736,9 @@
             <label for="username" style="padding-bottom: 6px"
               >Pick a starting date</label>
             <input type="date" id="username" placeholder="Enter title ..." name="username" required="" class="form-control ng-untouched ng-pristine ng-invalid" formControlName="startDate" [(ngModel)]="userLeaveRequest.startDate"/>
+            <div class="form-text text-danger" *ngIf="StartDate?.errors?.['required'] && (StartDate?.touched || StartDate?.dirty)">
+                Start Date is Required.
+            </div> 
           </div>
           
           <div class="mb-2">
@@ -747,6 +758,9 @@
                     <option *ngFor="let ul of userLeave">
                         {{ul.leaveType}}</option>
                 </select>
+                <div class="form-text text-danger" *ngIf="LeaveType?.errors?.['required'] && (LeaveType?.touched || LeaveType?.dirty)">
+                    Leave Type Required.
+               </div>
                 </div>
               </div>
           </div>
@@ -771,6 +785,9 @@
                     <option>4</option>
                
                 </select>
+                <div class="form-text text-danger" *ngIf="ManagerId?.errors?.['required'] && (ManagerId?.touched || ManagerId?.dirty)">
+                    Select User to Request Leave Required.
+                </div>
                 </div>
               </div>
           </div>
