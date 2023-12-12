@@ -85,7 +85,6 @@ isShimmer: boolean = true;
   moduleRequestList : ModuleRequest[] = [];
 
   showDataToModal(role : any){
-    debugger
 
     if(role === null || role === undefined){
       this.roleRequest.id = 0;
@@ -101,14 +100,13 @@ isShimmer: boolean = true;
 
   getSubModuleByRoleMethodCall(){
 
-    debugger;
     console.log(this.roleRequest.id);
     this.dataService.getSubModuleByRole(this.roleRequest.id).subscribe((data) => {
 
       this.moduleResponse = data;
 
       for(let i of this.moduleResponse){
-        debugger
+        
         const submodules = i.subModules;
 
         for(let j of submodules){
@@ -136,14 +134,25 @@ isShimmer: boolean = true;
     })
   }
   updateRoleWithPermissionsMethodCall(){
-    for(let i of this.moduleRequestList){
-      if(i.privilegeId === null || i.privilegeId === 0){
-        this.moduleRequestList.splice(this.moduleRequestList.indexOf(i), 1);
+    console.log(this.moduleRequestList);
+
+    const uniqueModuleRequestList = [];
+
+    for (let i of this.moduleRequestList) {
+      if (i.privilegeId !== null && i.privilegeId !== 0) {
+        const existingIndex = uniqueModuleRequestList.findIndex(
+          (item) => item.subModuleId === i.subModuleId && item.privilegeId === i.privilegeId
+        );
+    
+        if (existingIndex === -1) {
+          uniqueModuleRequestList.push(i);
+        }
       }
     }
+    
+    console.log(uniqueModuleRequestList);
+    this.roleRequest.moduleRequestList = uniqueModuleRequestList;
  
-    debugger
-    console.log(this.moduleRequestList);
     this.dataService.updateRoleWithPermissions(this.roleRequest).subscribe((data) => {
       console.log(data);
     }, (error) => {
@@ -188,7 +197,6 @@ isShimmer: boolean = true;
   }
 
   handleRadioClickForModule(privilegeId: number, module: any){
-    debugger
     if (module.privilegeId === privilegeId) {
       module.privilegeId = null;
     } else {
@@ -215,7 +223,7 @@ isShimmer: boolean = true;
 
 
   getUsersByFilterMethodCall(){
-    debugger
+    
     this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'name').subscribe((data) => {
       this.users = data.users;
       // this.total = data.count;
@@ -243,10 +251,11 @@ isShimmer: boolean = true;
   userAndControlRolesTotalCount : number = 0;
   getUserAndControlRolesByFilterMethodCall(){
     this.dataService.getUserAndControlRolesByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((data) => {
-      debugger
+      
       this.userAndControlRoles = data.object;
       this.total = data.totalItems;
 
+      
       console.log(this.userAndControlRoles,this.total);
     }, (error) => {
       console.log(error);

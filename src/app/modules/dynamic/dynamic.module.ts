@@ -46,6 +46,8 @@ import { DynamicComponent } from './dynamic.component';
 import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TimeFormatPipe } from './time-format.pipe';
+import { PrivacyComponent } from './components/privacy/privacy.component';
+import { SupportComponent } from './components/support/support.component';
 
 
 
@@ -87,6 +89,8 @@ import { TimeFormatPipe } from './time-format.pipe';
     TestingComponent,
     LeaveSettingComponent,
     SlackDataLoadComponent,
+    PrivacyComponent,
+    SupportComponent,
 
   ],
   imports: [

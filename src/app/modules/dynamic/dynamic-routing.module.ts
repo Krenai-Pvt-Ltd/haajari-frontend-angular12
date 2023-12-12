@@ -38,6 +38,8 @@ import { EmployeeProfileComponent } from './components/employee-profile/employee
 import { TestingComponent } from './components/testing/testing.component';
 import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
 import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
+import { PrivacyComponent } from './components/privacy/privacy.component';
+import { SupportComponent } from './components/support/support.component';
 
 const routes: Routes = [
   { path: '', component: DynamicComponent },
@@ -74,7 +76,9 @@ const routes: Routes = [
   {path: 'reports', component: ReportsComponent},
   {path: 'employee-profile', component: EmployeeProfileComponent},
   {path: 'testing', component: TestingComponent},
-  {path: 'leave-setting', component: LeaveSettingComponent}
+  {path: 'leave-setting', component: LeaveSettingComponent},
+  {path: 'privacy', component: PrivacyComponent},
+  {path: 'support', component: SupportComponent}
   
 
 //   {path: 'team-detail', component: TeamDetailComponent},
