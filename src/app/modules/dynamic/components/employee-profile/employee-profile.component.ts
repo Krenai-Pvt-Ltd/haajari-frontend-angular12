@@ -309,6 +309,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   saveLeaveRequestUser(){
+    this.userLeaveRequest.managerId = this.selectedManagerId;
     this.dataService.saveLeaveRequest(this.userId, this.userLeaveRequest)
     .subscribe(data => {
      
@@ -338,7 +339,7 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
-selectedStatus: string | undefined;
+selectedStatus!: string;
 
 getUserLeaveLogByUuid() {
   this.isLeaveShimmer = true;
@@ -557,5 +558,10 @@ getUserLeaveLogByUuid() {
     }
     return name; 
   }
+
+  selectStatus(status: string): void {
+    this.selectedStatus = status;
+    this.getUserLeaveLogByUuid();
+}
 
 }

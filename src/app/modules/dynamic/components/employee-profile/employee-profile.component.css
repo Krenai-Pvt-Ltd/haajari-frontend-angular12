@@ -6,6 +6,7 @@
     border-radius: 6px;
     border: 1px solid #f1f1f1;
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    overflow: hidden;
 
 }
 .profile-histery{
@@ -241,6 +242,7 @@ span.members-name {
 
 
 .acitivity-timeline-2 li {
+    padding-bottom: 0;
     padding-bottom: 1.5rem;
     border-left: 1px solid #abaaed;
     position: relative;
@@ -274,16 +276,31 @@ span.members-name {
     color: #878a99;
 }
 
-.acitivity-timeline-2 li:last-child {
+/* .acitivity-timeline-2 li {
     border: 0;
     padding-bottom: 0;
+    padding-bottom: 1.5rem;
+    border-left: 1px solid #abaaed;
+    position: relative;
+    padding-left: 20px;
+    margin-left: 10px;
 }
+*/
+
+.acitivity-timeline-2:last-child li{
+    border-left: none;
+} 
 
 .logs-box{
     border: 1px solid #f1f1f1;
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     padding: 15px;
     
+}
+
+.space-box{
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .leves-type-s h5{
@@ -361,8 +378,8 @@ span.members-name {
 
  span.edit-profile {
     position: absolute;
-    top: 47px;
-    right: 80px;
+    top: 20px;
+    right: 78px;
     background-color: #fff;
     width: 25px;
     height: 25px;
@@ -571,4 +588,50 @@ span.optional {
     position: absolute;
     left: 160px;
     top: 6px;
+}
+
+.profile-image-name-span{
+    top: -52px;
+    right: -49px;
+    bottom: 0;
+    z-index: 99;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    transform: rotate(44deg);
+    background-color: #3e993e;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid #3e993e; */
+}
+.profile-image-name-span-reject{
+    top: -52px;
+    right: -49px;
+    bottom: 0;
+    z-index: 99;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    transform: rotate(44deg);
+    background-color: red;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid #3e993e; */
+}
+.profile-image-name-span i{
+    top: 63px;
+    position: absolute;
+    transform: rotate(311deg);
+    font-size: 22px;
+}
+
+.profile-image-name-span-reject i{
+    top: 63px;
+    position: absolute;
+    transform: rotate(316deg);
+    font-size: 22px;
 }
