@@ -455,7 +455,7 @@
               <div class="col-md-4">
                 <div class="in-time">
                   <span>Total Break</span> <span>|</span>
-                  <p class="mb-0">({{attendanceDataByDate[key].breakCount}}) &nbsp; &nbsp;<i style="color: black;" class="bi bi-chevron-down"></i></p>
+                  <p class="mb-0">({{attendanceDataByDate[key].breakCount}}) </p>
 
                  
                 </div>
@@ -470,12 +470,12 @@
               <div class="col-md-4">
                 <div class="in-time total-break-time-box position-relativ">
                   <span>Back Timings</span> <span>|</span>
-                  <p class="mb-0">-</p>
+                  <p class="mb-0"> &nbsp; &nbsp;<i style="color: black;" class="bi bi-chevron-down"></i></p>
 
 
 
                   <div class="total-braek-time">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
+                    <!-- <div class="d-flex align-items-center justify-content-between mb-2">
                       <p>Break - 01:26 AM</p>
                       <p>-</p>
                       <p>Break Back - 02:17 AM</p>
@@ -491,6 +491,22 @@
                       <p>Break - 06:37 AM</p>
                       <p>-</p>
                       <p>Break Back - 06:45 AM</p>
+                    </div> -->
+                    <div class="">
+                      <table class="table">
+                        <thead class="table-light">
+                          <tr>
+                            <th class="text-left">Break</th>
+                            <th class="text-left">Back</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-left">01:14 PM</td>
+                            <td class="text-left">02:06 PM</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                 </div>
                 </div>
