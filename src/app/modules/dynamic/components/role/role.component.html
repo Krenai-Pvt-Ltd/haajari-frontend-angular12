@@ -6,13 +6,15 @@
                     <ul id="myTab" role="tablist" class="nav nav-tabs">
                         <li role="presentation" class="nav-item">
                             <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#user-controls" type="button"
-                                role="tab" aria-controls="profile" aria-selected="false" class="nav-link active" (click)="getUserAndControlRolesByFilterMethodCall()">
+                                role="tab" aria-controls="profile" aria-selected="false" class="nav-link active"
+                                (click)="getUserAndControlRolesByFilterMethodCall()">
                                 Users And Controls
                             </button>
                         </li>
                         <li role="presentation" class="nav-item">
                             <button id="home-tab" data-bs-toggle="tab" data-bs-target="#role-security" type="button"
-                                role="tab" aria-controls="home" aria-selected="true" class="nav-link" (click)="getAllRolesMethodCall()">
+                                role="tab" aria-controls="home" aria-selected="true" class="nav-link"
+                                (click)="getAllRolesMethodCall()">
                                 Roles And Security
                             </button>
                         </li>
@@ -30,8 +32,7 @@
                                                     <input type="text" id="searchText"
                                                         placeholder="Search by name and role"
                                                         class="form-control me-2 ng-untouched ng-pristine ng-valid"
-                                                        (keyup)="searchUsers()"
-                                                        [(ngModel)]="searchText"
+                                                        (keyup)="searchUsers()" [(ngModel)]="searchText"
                                                         [ngModelOptions]="{ standalone: true }"
                                                         style="padding: 10px 30px" />
                                                     <button type="button" class="btn close-btn">
@@ -47,7 +48,8 @@
                                         <div class="text-end add-filtter">
                                             <!-- <button type="button" class="btn btn-primary" >Create New User</button> -->
 
-                                            <a data-bs-toggle="modal" data-bs-target="#assignrole" type="btn" (click)="getUsersByFilterMethodCall()">
+                                            <a data-bs-toggle="modal" data-bs-target="#assignrole" type="btn"
+                                                (click)="getUsersByFilterMethodCall()">
                                                 <i class="bi bi-plus-circle"></i> Assign Role to User</a>
                                         </div>
                                     </div>
@@ -66,7 +68,11 @@
                                             </thead>
 
                                             <tbody>
-                                                <tr *ngIf="userAndControlRoles === null || userAndControlRoles === undefined || userAndControlRoles.length === 0">
+                                                <tr *ngIf="
+                            userAndControlRoles === null ||
+                            userAndControlRoles === undefined ||
+                            userAndControlRoles.length === 0
+                          ">
                                                     <td colspan="9">
                                                         <div class="mt-3 dashnodata">
                                                             <div class="errorboxmain">
@@ -89,7 +95,15 @@
                                             </tbody>
 
                                             <tbody>
-                                                <tr *ngFor="let userAndControl of userAndControlRoles | paginate : {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}">
+                                                <tr *ngFor="
+                            let userAndControl of userAndControlRoles
+                              | paginate
+                                : {
+                                    itemsPerPage: itemPerPage,
+                                    currentPage: pageNumber,
+                                    totalItems: total
+                                  }
+                          ">
                                                     <td scope="row">{{ userAndControl.user.name }}</td>
                                                     <td>
                                                         {{ userAndControl.user.email }}
@@ -106,8 +120,10 @@
                                                         <div class="hstack gap-3 justify-content-end">
                                                             <a href="javascript:void(0);"
                                                                 class="link-primary text-decoration-underline"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#information" (click)="userAndControlDetailMethod(userAndControl)">View</a>
+                                                                data-bs-toggle="modal" data-bs-target="#information"
+                                                                (click)="
+                                  userAndControlDetailMethod(userAndControl)
+                                ">View</a>
                                                             <a href="javascript:void(0);" data-bs-toggle="modal"
                                                                 data-bs-target="#assignrole"
                                                                 class="link-success text-decoration-underline"
@@ -122,34 +138,38 @@
                                 </div>
                             </div>
 
-            <div class="pagination pl-3" *ngIf="userAndControlRoles.length > 10">
-                <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
-                <div class="row">
-                  <div class="col-md-12">
-                   
-                    <nav aria-label="Page navigation example">
-                     
-                      <ul class="pagination justify-content-end">
-                        <li class="page-item" [class.disabled]="pageNumber == 1">
-                          <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
-                            <span aria-hidden="true">&laquo;</span>
-                          </a>
-                        </li>
-                        <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-                          <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
-                        </li>
-                        <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                          <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
-                            <span aria-hidden="true">&raquo;</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
-                </div>
-            </div>
+                            <div class="pagination pl-3" *ngIf="userAndControlRoles.length > 10">
+                                <p class="mb-0" style="padding-left: 15px">
+                                    Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                                    {{ total }} teams
+                                </p>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination justify-content-end">
+                                                <li class="page-item" [class.disabled]="pageNumber == 1">
+                                                    <a class="page-link" href="javascript:void(0);"
+                                                        aria-label="Previous" (click)="changePage('prev')">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item" *ngFor="let page of getPages()"
+                                                    [class.active]="pageNumber == page">
+                                                    <a class="page-link" href="javascript:void(0);"
+                                                        (click)="changePage(page)">{{ page }}</a>
+                                                </li>
+                                                <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                                                    <a class="page-link" href="javascript:void(0);" aria-label="Next"
+                                                        (click)="changePage('next')">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
 
                         <!-- role-security modal -->
                         <div class="tab-pane fade mt-3" id="role-security" role="tabpanel">
@@ -219,7 +239,15 @@
                                             </thead>
 
                                             <tbody>
-                                                <tr *ngFor="let role of roles | paginate : {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}">
+                                                <tr *ngFor="
+                            let role of roles
+                              | paginate
+                                : {
+                                    itemsPerPage: itemPerPage,
+                                    currentPage: pageNumber,
+                                    totalItems: total
+                                  }
+                          ">
                                                     <td scope="row">{{ role.name }}</td>
                                                     <td>
                                                         {{ role.description }}
@@ -249,36 +277,40 @@
                                 </div>
                             </div>
                             <div class="pagination pl-3" *ngIf="getAllRolesMethodCall.length > 10">
-                                <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
+                                <p class="mb-0" style="padding-left: 15px">
+                                    Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                                    {{ total }} teams
+                                </p>
                                 <div class="row">
-                                  <div class="col-md-12">
-                                   
-                                    <nav aria-label="Page navigation example">
-                                     
-                                      <ul class="pagination justify-content-end">
-                                        <li class="page-item" [class.disabled]="pageNumber == 1">
-                                          <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
-                                            <span aria-hidden="true">&laquo;</span>
-                                          </a>
-                                        </li>
-                                        <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-                                          <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
-                                        </li>
-                                        <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                                          <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
-                                            <span aria-hidden="true">&raquo;</span>
-                                          </a>
-                                        </li>
-                                      </ul>
-                                    </nav>
-                                  </div>
+                                    <div class="col-md-12">
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination justify-content-end">
+                                                <li class="page-item" [class.disabled]="pageNumber == 1">
+                                                    <a class="page-link" href="javascript:void(0);"
+                                                        aria-label="Previous" (click)="changePage('prev')">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item" *ngFor="let page of getPages()"
+                                                    [class.active]="pageNumber == page">
+                                                    <a class="page-link" href="javascript:void(0);"
+                                                        (click)="changePage(page)">{{ page }}</a>
+                                                </li>
+                                                <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                                                    <a class="page-link" href="javascript:void(0);" aria-label="Next"
+                                                        (click)="changePage('next')">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
 
             <!-- <div class="pagination-container">
                 <div>
@@ -292,10 +324,6 @@
                     </pagination-controls>
                 </div>
             </div> -->
-
-            
-             
-
         </div>
     </div>
 </div>
@@ -501,7 +529,9 @@
             </div>
             <!--end modal-body-->
             <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">
+                    Cancel
+                </button>
             </div>
             <!--end modal-footer-->
         </div>
@@ -534,8 +564,7 @@
                     background-color: white;
                     color: black;
                     border-color: #ced4da;
-                    width: 100%;
-                  ">
+                    width: 100%;">
                                     {{ selectedUser ? selectedUser.name : "Select a user" }}
                                     <i class="bi bi-chevron-down"></i>
                                 </button>
@@ -629,25 +658,30 @@
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="pb-2">Role Name</label>
                             <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder="First name" [(ngModel)]="roleRequest.name"  />
+                                aria-describedby="emailHelp" placeholder="First name" [(ngModel)]="roleRequest.name" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="pb-2">Description</label>
                             <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder="Description" [(ngModel)]="roleRequest.description" />
+                                aria-describedby="emailHelp" placeholder="Description"
+                                [(ngModel)]="roleRequest.description" />
                         </div>
                     </div>
-                    
                 </div>
                 <!--end row-->
             </div>
             <!--end modal-body-->
             <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close" #createRoleModalClose>Cancel</button>
+                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close"
+                    #createRoleModalClose>
+                    Cancel
+                </button>
 
-                <button type="button" class="btn btn-primary" (click)="createRoleMethodCall()">Create</button>
+                <button type="button" class="btn btn-primary" (click)="createRoleMethodCall()">
+                    Create
+                </button>
             </div>
             <!--end modal-footer-->
         </div>
@@ -689,7 +723,7 @@
                     <div class="d-flex align-items-center">
                         <p class="text-end">Role :</p>
                         <p class="text-start">
-                            <span>{{userAndControlDetailVariable?.role?.name}}</span>
+                            <span>{{ userAndControlDetailVariable?.role?.name }}</span>
                         </p>
                     </div>
                 </div>
@@ -697,23 +731,31 @@
                     <div class="d-flex align-items-center">
                         <p class="text-end">Status :</p>
                         <p class="text-start">
-                            <span>{{userAndControlDetailVariable?.presenceStatus ? 'Active' : 'Inactive'}}</span>
+                            <span>{{
+                                userAndControlDetailVariable?.presenceStatus
+                                ? "Active"
+                                : "Inactive"
+                                }}</span>
                         </p>
                     </div>
                 </div>
-                
+
                 <div class="userdetails">
                     <div class="d-flex align-items-center">
                         <p class="text-end">Updated Date :</p>
                         <p class="text-start">
-                            <span>{{userAndControlDetailVariable.updatedDate | dateFormat}}</span>
+                            <span>{{
+                                userAndControlDetailVariable.updatedDate | dateFormat
+                                }}</span>
                         </p>
                     </div>
                 </div>
             </div>
             <!--end modal-body-->
             <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">
+                    Cancel
+                </button>
             </div>
             <!--end modal-footer-->
         </div>
@@ -722,4 +764,3 @@
     <!--end modal-dialog-->
 </div>
 <!--end modal-->
-

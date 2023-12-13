@@ -571,5 +571,8 @@
   white-space: nowrap;
   width: 100px;
   overflow: hidden;
-    
+}
+
+#amount-in-rupees{
+    display: none;
 }

@@ -204,9 +204,28 @@
          <div class="col-md-6 mt-3 mb-3">
             <div class="add-filtter d-flex align-items-center justify-content-between">
 
-              <a class="" style="font-size: 16px; color: #557ef8;" data-bs-toggle="modal" data-bs-target="#automation-rules"><i class="bi bi-list"></i> Automation Rules</a>                
+              <a class="" style="font-size: 16px; color: #557ef8;" data-bs-toggle="modal" data-bs-target="#automation-rules" (click)="getAttendanceRuleByOrganizationMethodCall()"><i class="bi bi-list"></i> Automation Rules</a>                
               <a class="" style="font-size: 16px; color: #557ef8;" data-bs-toggle="modal" data-bs-target="#rules-value"><i class="bi bi-pencil-square"></i> Edit Rules </a>                
 
+            </div>
+
+            <div class="mt-3" *ngFor="let iterator of registeredAttendanceRuleResponseList">
+                <div class=" d-flex align-items-center attendance-boxx">
+                    <div class="late-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div class="late-rule">
+                        <h5>{{iterator.name}}</h5>
+                        <p class="mb-0">{{iterator.description}}</p>
+                    </div>
+                    <div class="late-btn d-flex align-items-center" style="gap:10px;">
+
+                        <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"> Create your first rule</a>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </div>
+                </div>
             </div>
              
          </div>
@@ -411,92 +430,28 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Automation Rules </h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #attendanceRuleDefinitionModalClose></button>
             </div><!--end modal-header-->
             <div class="modal-body">
                 <div class="row">
-                  <div class="col-md-8">
+                  <div class="col-md-8" *ngFor="let attendanceRuleResponse of attendanceRuleResponseList">
                     <div class=" d-flex align-items-center attendance-boxx">
                         <div class="late-icon">
                             <i class="bi bi-person"></i>
                         </div>
                         <div class="late-rule">
-                            <h5>Late Entry Rules</h5>
-                            <p class="mb-0">Automate Late fine for employee who are</p>
+                            <h5>{{attendanceRuleResponse.name}}</h5>
+                            <p class="mb-0">{{attendanceRuleResponse.description}}</p>
                         </div>
-                        <div class="late-btn d-flex" style="gap:10px;" >
+                        <div class="late-btn d-flex "  style="gap:10px;">
 
-                            <a href="" class="create-rule" data-bs-toggle="modal" data-bs-target="#rules-value"> Create your first rule</a>
-                            <i class="bi bi-chevron-right"></i>
-
-                        </div>
-                    </div>
-                    <div class=" d-flex align-items-center attendance-boxx">
-                        <div class="late-icon">
-                            <i class="bi bi-person"></i>
-                        </div>
-                        <div class="late-rule">
-                            <h5>Break Rules</h5>
-                            <p class="mb-0">Automate Late fine for employee who are </p>
-                        </div>
-                        <div class="late-btn d-flex" style="gap:10px;">
-
-                            <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"> Create your first rule</a>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule" (click)="openAttendanceRuleResponseModal(attendanceRuleResponse)" (click)="getDeductionTypeMethodCall()"> Create your first rule</a>
 
                             <i class="bi bi-chevron-right"></i>
 
                         </div>
                     </div>
-                    <div class=" d-flex align-items-center attendance-boxx">
-                        <div class="late-icon">
-                            <i class="bi bi-person"></i>
-                        </div>
-                        <div class="late-rule">
-                            <h5>Entry Exit Rules</h5>
-                            <p class="mb-0">Automate Late fine for employee who are </p>
-                        </div>
-                        <div class="late-btn d-flex" style="gap:10px;">
-
-                            <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"> Create your first rule</a>
-
-                            <i class="bi bi-chevron-right"></i>
-
-                        </div>
-                    </div>
-
-                    <div class=" d-flex align-items-center attendance-boxx">
-                        <div class="late-icon">
-                            <i class="bi bi-person"></i>
-                        </div>
-                        <div class="late-rule">
-                            <h5>Overtime Rule</h5>
-                            <p class="mb-0">Automate Late fine for employee who are </p>
-                        </div>
-                        <div class="late-btn d-flex" style="gap:10px;">
-
-                            <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"> Create your first rule</a>
-
-                            <i class="bi bi-chevron-right"></i>
-
-                        </div>
-                    </div>
-
-                    <div class=" d-flex align-items-center attendance-boxx">
-                        <div class="late-icon">
-                            <i class="bi bi-person"></i>
-                        </div>
-                        <div class="late-rule">
-                            <h5>Early Overtime Rules</h5>
-                            <p class="mb-0">Automate Late fine for employee who are </p>
-                        </div>
-                        <div class="late-btn d-flex" style="gap:10px;">
-
-                            <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"> Create your first rule</a>
-
-                            <i class="bi bi-chevron-right"></i>
-
-                        </div>
-                    </div>
+                    
                     
                   </div>
                   <div class="col-md-4">
@@ -627,7 +582,7 @@
                 </div>                                                      
             </div>
             <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-primary" >Submit</button>
             </div>
         </div>
     </div>
@@ -638,8 +593,8 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Set a rule value </h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> {{attendanceRuleResponse.name}} </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #attendanceRuleDefinitionModalClose></button>
             </div><!--end modal-header-->
             <div class="modal-body">
                 <div class="row">
@@ -651,7 +606,7 @@
                             <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" class="nav-link active">Rules</button>
                         </li>
                             <li role="presentation" class="nav-item">
-                                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link">Staff selection</button>
+                                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" (click)="getUserByFiltersMethodCall()">Staff selection</button>
                             </li>
                     </ul>
 
@@ -661,31 +616,49 @@
                                 <div class="form-check pb-3">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked="">
                                     <label class="form-check-label" for="flexCheckChecked">
-                                        Deduct selery if staff is late by more then
+                                        Custom salary deduction rule
                                     </label>
                                 </div>
 
+
+  
                                 <div class="dudtion-type">
                                     <div class="d-flex align-items-center" style="gap:20px">
                                         <div class="if-late">
                                             <label for="exampleInputEmail1" class="pb-2">If staff is late by</label>
-                                            <div class="d-flex" style="gap:20px">
-                                                <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="Start Time">
+                                            <div class="d-flex" style="gap:20px" *ngIf="attendanceRuleDefinitionRequest?.customSalaryDeduction">
+                                                <input type="time" name="duration" class="form-control" aria-describedby="emailHelp" placeholder="Start Time" [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration">
                                             </div>
                                         </div>
+
+                                        
                                         <div class="dudct-type">
                                             <label for="exampleInputEmail1" class="pb-2">Deduction Type</label>
-                                            <div class="dropdown" style="width: 100%;">
-                  
-                                                <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Deduction Type <i class="bi bi-chevron-down"></i>
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
+                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
+                                                                                                                        background-color: white;
+                                                                                                                        color: black;
+                                                                                                                        border-color: #ced4da;
+                                                                                                                        width: 100%;">
+                                                    {{ selectedDeductionType ? selectedDeductionType.type : "Select deduction type" }}
+                                                    <i class="bi bi-chevron-down"></i>
                                                 </button>
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
-                                                  <li><a class="dropdown-item">Per minutes</a></li>
-                                                  <li><a class="dropdown-item">Fixed amount</a></li>
-                                                  
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
+                                                    <li *ngFor="let deductionType of deductionTypeList">
+                                                        <a class="dropdown-item" (click)="selectDeductionType(deductionType)">{{
+                                                            deductionType.type
+                                                            }}</a>
+                                                    </li>
                                                 </ul>
-                                              </div>
+                                            </div>
+                                        </div>
+                                        <div id="amount-in-rupees">
+                                            <label for="exampleInputEmail1" class="pb-2">Amount in rupees:</label>
+                                            <div class="d-flex" style="gap:20px">
+
+                                                <input type="number" class="form-control" aria-describedby="emailHelp" placeholder="Enter the amount here" [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.amountInRupees">
+                                            </div>
                                         </div>
                                         <!-- <div class="delete-btn">
                                             <i class="bi bi-trash"></i>
@@ -703,11 +676,11 @@
                                         <div class="d-flex align-items-center mt-2" style="gap:10px;" *ngIf="isFull">
                                             <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;">
                                                 <label for="exampleInputEmail1" class="">Count</label>
-                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count">
+                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count" [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.occurenceCount">
                                             </div>
                                             <div class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;">
                                                 <label for="exampleInputEmail1" class="">Time</label>
-                                                <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                                <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.occurenceDuration">
                                             </div>
                                         </div>
                                     </div>
@@ -718,7 +691,7 @@
                                     <div class="form-check pb-3">
                                         <input class="form-check-input" type="checkbox" value="" id="staff" [checked]="isdeductHalf" (click)="showeDeductHalf()">
                                         <label class="form-check-label" for="staff"> 
-                                            Deduct half day selery if staff is late by more then
+                                            Half day salary deduction rule
                                         </label>
                                     </div>
 
@@ -727,7 +700,7 @@
                                             <div class="if-late">
                                                 <label for="exampleInputEmail1" class="pb-2">If staff is late by</label>
                                                 <div class="d-flex" style="gap:20px">
-                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="Start Time">
+                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="Start Time" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration">
                                                 </div>
                                             </div>
 <!--                                            
@@ -746,11 +719,11 @@
                                             <div class="d-flex align-items-center mt-2" style="gap:10px;" *ngIf="isHalf">
                                                 <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;">
                                                     <label for="exampleInputEmail1" class="">Count</label>
-                                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count">
+                                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurenceCount">
                                                 </div>
                                                 <div class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;">
                                                     <label for="exampleInputEmail1" class="">Time</label>
-                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurenceDuration">
                                                 </div>
                                             </div>
                                         </div>
@@ -759,7 +732,7 @@
                                     <div class="form-check pb-3">
                                         <input class="form-check-input" type="checkbox" value="" id="selery" [checked]="isfullDayy" (click)="showFullDayy()">
                                         <label class="form-check-label" for="selery">
-                                            Deduct half day selery if staff is late by more then
+                                            Full day salary deduction rule
                                         </label>
                                     </div>
 
@@ -768,7 +741,7 @@
                                             <div class="if-late">
                                                 <label for="exampleInputEmail1" class="pb-2">If staff is late by</label>
                                                 <div class="d-flex" style="gap:20px">
-                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="Start Time">
+                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="Start Time" [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration">
                                                 </div>
                                             </div>
                                             <!-- <div class="dudct-type">
@@ -800,11 +773,11 @@
                                             <div class="d-flex align-items-center mt-2" style="gap:10px;" *ngIf="isBreak">
                                                 <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;">
                                                     <label for="exampleInputEmail1" class="">Count</label>
-                                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count">
+                                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count" [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurenceCount">
                                                 </div>
                                                 <div class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;">
                                                     <label for="exampleInputEmail1" class="">Time</label>
-                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurenceDuration">
                                                 </div>
                                             </div>
                                         </div>
@@ -815,42 +788,62 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel">
-
+                        <div class="tab-pane fade show active" id="profile" role="tabpanel">
                             <div class="staf-list-box mt-3">
-                                <table class="table">
-                                    <thead class="thead-light table-design">
-                                        <tr>
-                                            <th style="width:10%;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" name="chk_child" class="form-check-input">
-                                                    <label class="form-check-label"></label>
-                                                </div>
+                                <h3>Userlist</h3>
+                        
+                                <div class="row mb-3">
+                                    <div class="col-md-8">
+                                        <form novalidate="" role="search" (submit)="searchUsers()"
+                                              class="searching ng-untouched ng-pristine ng-valid">
+                                            <div class="form-group" style="position: relative">
+                                                <input type="text" id="searchText"
+                                                       placeholder="Search by name and role"
+                                                       class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                                                       (keyup)="searchUsers()"
+                                                       [(ngModel)]="searchText"
+                                                       [ngModelOptions]="{ standalone: true }"
+                                                       style="padding: 10px 50px 10px 30px;">
+                                                <button type="button" class="btn close-btn"
+                                                        style="position: absolute; top: 50%; transform: translateY(-50%); right: 40px; border: none; background: none;">
+                                                    <i class="bi bi-x"></i>
+                                                </button>
+                                                <i class="bi bi-search search-icon"
+                                                   style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                        
+                                <table class="table" style="border-collapse: collapse; margin: 25px 0; font-size: 0.9em; min-width: 400px; border-radius: 5px 5px 0 0; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.15);">
+                                    <thead class="thead-light">
+                                        <tr style="background-color: #009879; color: #ffffff; text-align: left;">
+                                            <th style="width:25%; padding: 12px 15px;">Name</th>
+                                            <th style="width:25%; padding: 12px 15px;">Email</th>
+                                            <th style="width:25%; text-align:right;">
+                                                <span>Select All</span>
+                                                <input type="checkbox" name="chk_all" class="form-check-input" style="margin-left: 10px;">
                                             </th>
-                                            <th style="width:10%;">Name</th>
-                                            <th style="width:10%;">Email</th>
-                                            <th style="width:10%;">Phone</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="table-design">
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" name="chk_child" class="form-check-input">
-                                                    <label class="form-check-label"></label>
+                                    <tbody>
+                                        <tr *ngFor="let user of users" style="border-bottom: 1px solid #dddddd;">
+                                            <td style="padding: 12px 15px;">{{ user.name }}</td>
+                                            <td style="padding: 12px 15px;">{{ user.email }}</td>
+                                            <td style="text-align:right; padding: 12px 15px;">
+                                                <div class="form-check" style="padding-right: 10px;">
+                                                    <input type="checkbox" [name]="'chk_' + user.id" class="form-check-input" [(ngModel)]="user.selected">
+                                                    <label class="form-check-label" [for]="'chk_' + user.id"></label>
                                                 </div>
                                             </td>
-                                            <td><h4 class="mb-0 staf-names">Yogesh Kumar</h4></td>
-                                            <td class="staf-names">Yogesh@krenai.com</td>
-                                            <td class="staf-names">9549901868</td>
                                         </tr>
+                                        <!-- Repeat the row for other entries -->
                                     </tbody>
-
                                 </table>
-
                             </div>
-
                         </div>
+                        
+                        
 
                     </div>
 
@@ -929,7 +922,7 @@
                 </div>                                                      
             </div>
             <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-primary" (click)="registerAttendanceRuleDefinitionMethodCall()">Submit</button>
             </div>
         </div>
     </div>
