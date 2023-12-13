@@ -31,9 +31,9 @@ export class DataService {
   }
   //private baseUrl = Key.ENDPOINT;
   
-  // private baseUrl = "http://localhost:8080/api/v2"
+  private baseUrl = "http://localhost:8080/api/v2"
 
-   private baseUrl = "https://backend.hajiri.work/api/v2";
+  //  private baseUrl = "https://backend.hajiri.work/api/v2";
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
     const params = new HttpParams().set("code_param", codeParam);
@@ -485,11 +485,9 @@ export class DataService {
 
   getUserLeaveLogByStatus(userUuid: string, status?: string): Observable<any> {
     let params = new HttpParams().set("userUuid", userUuid);
-
     if (status) {
       params = params.set("status", status);
     }
-
     return this.httpClient.get<any>(`${this.baseUrl}/user-leave-logs/leave-log-by-status`, { params });
   }
   

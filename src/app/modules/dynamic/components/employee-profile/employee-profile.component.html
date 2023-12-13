@@ -450,6 +450,16 @@
                                                         
                                             </div>
 
+                                               <div>
+                                                <select [(ngModel)]="selectedStatus" (change)="getUserLeaveLogByUuid()">
+                                                    <option value="" selected>All</option>
+                                                    <option value="approved">Approved</option>
+                                                    <option value="pending">Applied</option>
+                                                    <option value="rejected">Rejected</option>
+                                                </select>
+                                                </div>
+
+
 
                                             <div class="mt-3 logs-box">
 
@@ -535,16 +545,9 @@
                                                         </div>
                                                     </div>
 
-
+                                                   
                                                   <div *ngIf="!isLeaveShimmer && !isLeavePlaceholder">
-                                                          <select [(ngModel)]="selectedStatus" (change)="getUserLeaveLogByUuid()">
-                                                                  <option value="" selected>All</option>
-                                                                  <option value="approved">Approved</option>
-                                                                  <option value="pending">Applied</option>
-                                                                  <option value="rejected">Rejected</option>
-                                                         </select>
-  
-  
+
                                                    <div *ngFor="let leaves of userLeaveLog">
                                                     <ul class="acitivity-timeline-2 list-unstyled mb-0">
                                                         <li>
