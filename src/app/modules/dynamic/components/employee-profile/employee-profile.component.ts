@@ -204,15 +204,17 @@ export class EmployeeProfileComponent implements OnInit {
     
   };
 
-  forwordFlag:boolean=true;
+  forwordFlag:boolean=false;
 
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
   goforward() {
     const calendarApi = this.calendarComponent.getApi();
     if(calendarApi.getDate().getMonth()<new Date().getMonth()){
-    // this.forwordFlag=true;
-    // this.backwardFlag=true;
     calendarApi.next();
+    this.forwordFlag=true;
+    this.backwardFlag=true;
+    }else{
+      this.forwordFlag=false;
     }
 
     // if(calendarApi.getDate().getMonth()==new Date().getMonth()){
@@ -225,10 +227,13 @@ export class EmployeeProfileComponent implements OnInit {
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
     var month = date.getMonth();
-    if (
-      calendarApi.getDate().getMonth() > month
-    )   
+    if (calendarApi.getDate().getMonth() > month)   {
      calendarApi.prev();
+     this.backwardFlag=true;
+     this.forwordFlag=true;
+    }else{
+      this.backwardFlag=false;
+    }
 
     //  if(calendarApi.getDate().getMonth() == month){
     //   this.backwardFlag=false;
@@ -299,7 +304,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.userLeaveRequest.leaveType="";
     this.userLeaveRequest.managerId=0;
     this.userLeaveRequest.optNotes="";
-    this.selectedManagerId = undefined;
+    // this.selectedManagerId = undefined;
     
   }
 
@@ -333,34 +338,69 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
+selectedStatus: string | undefined;
+
+getUserLeaveLogByUuid() {
+  this.isLeaveShimmer = true;
+
+  if (this.selectedStatus) {
+    this.dataService.getUserLeaveLogByStatus(this.userId, this.selectedStatus).subscribe(
+      (data) => {
+        this.userLeaveLog = data;
+        this.isLeaveShimmer = false;
+        this.isLeavePlaceholder = !data || data.length === 0;
+        console.log(data);
+      },
+      (error) => {
+        this.isLeaveShimmer = false;
+        console.log(error);
+      }
+    );
+  } else {
+
+    this.dataService.getUserLeaveLog(this.userId).subscribe(
+      (data) => {
+        this.userLeaveLog = data;
+        this.isLeaveShimmer = false;
+        this.isLeavePlaceholder = !data || data.length === 0;
+        console.log(data);
+      },
+      (error) => {
+        this.isLeaveShimmer = false;
+        console.log(error);
+      }
+    );
+  }
+}
+
   
   userLeaveLog: any;
 
   isLeaveShimmer:boolean=false;
   isLeavePlaceholder:boolean=false;
 
-  getUserLeaveLogByUuid() {
-    this.isLeaveShimmer=true;
-    this.dataService.getUserLeaveLog(this.userId).subscribe(
-      (data) => {
-       this.userLeaveLog=data;
-       this.isLeaveShimmer=false;
-       if(data==null || data.length==0){
-        this.isLeavePlaceholder=true;
-       }
-       console.log(data);
-      },
-      (error) => {
-        this.isLeaveShimmer=false;
-        // this.isLeavePlaceholder=true;
-        console.log(error);
-      }
-    );
-  }
+  // getUserLeaveLogByUuid() {
+  //   this.isLeaveShimmer=true;
+  //   this.dataService.getUserLeaveLog(this.userId).subscribe(
+  //     (data) => {
+  //      this.userLeaveLog=data;
+  //      this.isLeaveShimmer=false;
+  //      if(data==null || data.length==0){
+  //       this.isLeavePlaceholder=true;
+  //      }
+  //      console.log(data);
+  //     },
+  //     (error) => {
+  //       this.isLeaveShimmer=false;
+  //       // this.isLeavePlaceholder=true;
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 
   // managerNames: string[] = [];
   managers: UserDto[] = [];
-  selectedManagerId: number | undefined;
+  selectedManagerId!: number;
 
   fetchManagerNames() {
     debugger
@@ -373,6 +413,18 @@ export class EmployeeProfileComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+   formatDate(date:Date) {
+    const dateObject = new Date(date);
+    const formattedDate = this.datePipe.transform(dateObject, 'yyyy-MM-dd');
+    return formattedDate;
+  }
+
+ formatTime(date:Date) {
+    const dateObject = new Date(date);
+    const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
+    return formattedTime;
   }
 
 
