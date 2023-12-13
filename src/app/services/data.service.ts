@@ -15,6 +15,7 @@ import { OrganizationPersonalInformation } from "../models/organization-personal
 import { AttendanceWithLatePerformerResponseDto, AttendanceWithTopPerformerResponseDto } from "../models/Attendance.model";
 import { RoleRequest } from "../models/role-request";
 import { User } from "../models/user";
+import { UserDto } from "../models/user-dto.model";
 @Injectable({
   providedIn: "root",
 })
@@ -30,9 +31,9 @@ export class DataService {
   }
   //private baseUrl = Key.ENDPOINT;
   
-  // private baseUrl = "http://localhost:8080/api/v2"
+  private baseUrl = "http://localhost:8080/api/v2"
 
-   private baseUrl = "https://backend.hajiri.work/api/v2";
+  //  private baseUrl = "https://backend.hajiri.work/api/v2";
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
     const params = new HttpParams().set("code_param", codeParam);
@@ -488,5 +489,11 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-organization-onboarding-date`, {params});
   }
 
+  getEmployeeManagerDetails(userUuid:string):Observable<any>{
+    const params = new HttpParams()
+    .set("uuid", userUuid)
+   
+    return this.httpClient.get<UserDto[]>(`${this.baseUrl}/employee-onboarding-status/get-manager`, {params});
+  }
   
 }
