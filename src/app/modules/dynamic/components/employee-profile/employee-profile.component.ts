@@ -85,7 +85,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getEmployeeBankDetailsByUuid();
     this. getUserLeaveReq();
     this. getUserLeaveLogByUuid();
-    this.goforward();
+    // this.goforward();
   }
 
   prevDate!:Date;
@@ -98,7 +98,7 @@ export class EmployeeProfileComponent implements OnInit {
         this.prevDate=data;
         this.newDate = moment(data).format('YYYY-MM-DD');
         this.getUserAttendanceDataFromDate();
-        this.goBackward();
+        // this.goBackward();
       },
       (error) => {
         console.log(error);
@@ -215,10 +215,10 @@ export class EmployeeProfileComponent implements OnInit {
     calendarApi.next();
     }
 
-    if(calendarApi.getDate().getMonth()==new Date().getMonth()){
-     this.forwordFlag=false;
-     this.backwardFlag=true;
-    }
+    // if(calendarApi.getDate().getMonth()==new Date().getMonth()){
+    //  this.forwordFlag=false;
+    //  this.backwardFlag=true;
+    // 
   }
   backwardFlag:boolean=true;
   goBackward(){
@@ -230,10 +230,13 @@ export class EmployeeProfileComponent implements OnInit {
     )   
      calendarApi.prev();
 
-     if(calendarApi.getDate().getMonth() == month){
-      this.backwardFlag=false;
-      this.forwordFlag=true;
-     }
+    //  if(calendarApi.getDate().getMonth() == month){
+    //   this.backwardFlag=false;
+    //   this.forwordFlag=true;
+    //  }else{
+    //   this.backwardFlag=true;
+    //   this.forwordFlag=false;
+    //  }
   }
   
 //   calendarOptions: CalendarOptions = {
