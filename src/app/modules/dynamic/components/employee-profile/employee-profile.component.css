@@ -361,8 +361,8 @@ span.members-name {
 
  span.edit-profile {
     position: absolute;
-    top: 30px;
-    right: 75px;
+    top: 47px;
+    right: 80px;
     background-color: #fff;
     width: 25px;
     height: 25px;
@@ -434,11 +434,11 @@ td.text-right {
 
 
 .rejected-css p{
-    color: #dceb50;
+    color: black;
 }
 
 .rejected-css span{
-    color: #dceb50 !important;
+    color: black !important;
 }
 
 
@@ -542,4 +542,33 @@ span.optional {
 }
 ::ng-deep .fc .fc-button-group {
     display: none!important;
+}
+
+
+.date-all-approved{
+    gap: 10px;
+    /* position: absolute;
+    right: 95px;
+    top: 29px; */
+    position: relative;
+}
+
+.errorboxmain{
+    min-height: 20vh;
+    background-color: #fff;
+}
+
+  .errorboxmain {
+    padding: 15px;
+}
+.approved-left{
+    position: absolute;
+    left: 0px;
+    top: 6px;
+}
+
+.approved-right{
+    position: absolute;
+    left: 160px;
+    top: 6px;
 }

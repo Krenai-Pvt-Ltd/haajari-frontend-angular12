@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AttendanceRuleDefinitionRequest } from 'src/app/models/attendance-rule-definition-request';
 import { AttendanceRuleResponse } from 'src/app/models/attendance-rule-response';
 import { DeductionType } from 'src/app/models/deduction-type';
+import { Staff } from 'src/app/models/staff';
 import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
 
@@ -21,6 +22,8 @@ throw new Error('Method not implemented.');
 
   ngOnInit(): void {
     this.getRegisteredAttendanceRuleByOrganizationMethodCall();
+    console.log(this.selectedStaffs);
+    // this.updateSelectedStaffs();
   }
 
   isFull:boolean=false;
@@ -108,11 +111,11 @@ throw new Error('Method not implemented.');
   total !: number;
   rowNumber : number = 1;
   searchText : string = '';
-  users : User[] = [];
+  staffs : Staff[] = [];
 
   getUserByFiltersMethodCall(){
     this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((response) => {
-      this.users = response.users;
+      this.staffs = response.users;
       console.log(response);
 
     }, (error) => {
@@ -147,8 +150,50 @@ throw new Error('Method not implemented.');
     } else{
       res.style.display = 'none';
     }
-
-
   }
+
+
+
+  // Staff selection:
+  // selectedStaffs: Staff[] = [];
+
+  // updateSelectedStaffs() {
+  //   this.selectedStaffs = this.staffs.filter(staff => staff.selected);
+  // }
+
+  // selectAll(event: Event) {
+  //   const input = event.target as HTMLInputElement;
+  //   const isChecked = input.checked;
+  //   this.staffs.forEach(staff => staff.selected = isChecked);
+  //   this.updateSelectedStaffs();
+  //   console.log(this.selectedStaffs);
+  // }
+  
+
+  selectedStaffsUuids : string[] = [];
+  selectedStaffs: Staff[] = [];
+  isAllSelected: boolean = false;
+  updateSelectedStaffs() {
+    this.selectedStaffs = this.staffs.filter(staff => staff.selected);
+    this.isAllSelected = this.selectedStaffs.length === this.staffs.length;
+
+    for(let staff of this.selectedStaffs){
+      this.selectedStaffsUuids.push(staff.uuid);
+    }
+    this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
+    console.log(this.selectedStaffs);
+  }
+
+  selectAll(checked: boolean) {
+    this.isAllSelected = checked;
+    this.staffs.forEach(staff => staff.selected = checked);
+    this.updateSelectedStaffs();
+  }
+
+  checkIndividualSelection() {
+    this.isAllSelected = this.staffs.every(staff => staff.selected);
+    this.updateSelectedStaffs();
+  }
+
 
 }

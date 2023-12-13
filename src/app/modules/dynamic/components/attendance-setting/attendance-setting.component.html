@@ -624,12 +624,15 @@
   
                                 <div class="dudtion-type">
                                     <div class="d-flex align-items-center" style="gap:20px">
-                                        <div class="if-late">
-                                            <label for="exampleInputEmail1" class="pb-2">If staff is late by</label>
-                                            <div class="d-flex" style="gap:20px" *ngIf="attendanceRuleDefinitionRequest?.customSalaryDeduction">
-                                                <input type="time" name="duration" class="form-control" aria-describedby="emailHelp" placeholder="Start Time" [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration">
+                                        <div class="if-late" *ngIf="attendanceRuleDefinitionRequest?.customSalaryDeduction">
+                                            <label for="hoursInput" class="pb-2">If staff is late by</label>
+                                            <div class="input-group" style="width: auto; gap: 10px;">
+                                              <input type="number" id="hoursInput" name="hours" class="form-control" min="0" max="24" placeholder="Hours" style="width: 80px; padding: 5px; text-align: center;">
+                                              <input type="number" id="minutesInput" name="minutes" class="form-control" min="0" max="59" placeholder="Minutes" style="width: 80px; padding: 5px; text-align: center;">
+                                              <span class="input-group-text">Hrs.</span>
                                             </div>
-                                        </div>
+                                          </div>
+                                          
 
                                         
                                         <div class="dudct-type">
@@ -637,6 +640,8 @@
                                             <div class="dropdown">
                                                 <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
                                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
+                                                    
+                                                                                                                        text-align: right;
                                                                                                                         background-color: white;
                                                                                                                         color: black;
                                                                                                                         border-color: #ced4da;
@@ -815,29 +820,29 @@
                                     </div>
                                 </div>
                         
-                                <table class="table" style="border-collapse: collapse; margin: 25px 0; font-size: 0.9em; min-width: 400px; border-radius: 5px 5px 0 0; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.15);">
+                                <table class="table">
                                     <thead class="thead-light">
-                                        <tr style="background-color: #009879; color: #ffffff; text-align: left;">
+                                        <tr>
+                                            <th style="width:25%; padding: 12px 15px;">S. No.</th>
                                             <th style="width:25%; padding: 12px 15px;">Name</th>
                                             <th style="width:25%; padding: 12px 15px;">Email</th>
-                                            <th style="width:25%; text-align:right;">
+                                            <th style="text-align:right;">
                                                 <span>Select All</span>
-                                                <input type="checkbox" name="chk_all" class="form-check-input" style="margin-left: 10px;">
-                                            </th>
+                                                <input type="checkbox" class="form-check-input" [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)">
+                                              </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let user of users" style="border-bottom: 1px solid #dddddd;">
-                                            <td style="padding: 12px 15px;">{{ user.name }}</td>
-                                            <td style="padding: 12px 15px;">{{ user.email }}</td>
-                                            <td style="text-align:right; padding: 12px 15px;">
-                                                <div class="form-check" style="padding-right: 10px;">
-                                                    <input type="checkbox" [name]="'chk_' + user.id" class="form-check-input" [(ngModel)]="user.selected">
-                                                    <label class="form-check-label" [for]="'chk_' + user.id"></label>
+                                        <tr *ngFor="let staff of staffs; let i = index" style="border-bottom: 1px solid #dddddd;">
+                                            <td style="padding: 12px 15px;">{{ i+1 }}</td>
+                                            <td style="padding: 12px 15px;">{{ staff.name }}</td>
+                                            <td style="padding: 12px 15px;">{{ staff.email }}</td>
+                                            <td style="text-align:right;">
+                                                <div class="form-check">
+                                                  <input type="checkbox" class="form-check-input" [(ngModel)]="staff.selected" (change)="checkIndividualSelection()">
                                                 </div>
-                                            </td>
+                                              </td>
                                         </tr>
-                                        <!-- Repeat the row for other entries -->
                                     </tbody>
                                 </table>
                             </div>

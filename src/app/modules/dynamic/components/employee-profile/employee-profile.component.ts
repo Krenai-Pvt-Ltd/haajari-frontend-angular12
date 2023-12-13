@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
+import { UserDto } from 'src/app/models/user-dto.model';
 
 @Component({
   selector: 'app-employee-profile',
@@ -38,21 +39,22 @@ export class EmployeeProfileComponent implements OnInit {
         optNotes: [""],
       }); }
 
-      // get StartDate() {
-      //   return this.userLeaveForm.get("startDate")
-      // }
-      // get EndDate() {
-      //   return this.userLeaveForm.get("endDate")
-      // }
-      // get LeaveType() {
-      //   return this.userLeaveForm.get("leaveType")
-      // }
-      // get ManagerId() {
-      //   return this.userLeaveForm.get("managerId")
-      // }
-      // get OptNotes() {
-      //   return this.userLeaveForm.get("optNotes")
-      // }
+  }
+
+  get StartDate() {
+    return this.userLeaveForm.get("startDate")
+  }
+  get EndDate() {
+    return this.userLeaveForm.get("endDate")
+  }
+  get LeaveType() {
+    return this.userLeaveForm.get("leaveType")
+  }
+  get ManagerId() {
+    return this.userLeaveForm.get("managerId")
+  }
+  get OptNotes() {
+    return this.userLeaveForm.get("optNotes")
   }
 
   events: any[] = [];
@@ -74,6 +76,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.endDateStr = moment(new Date()).format('YYYY-MM-DD')
     // this.month = currentDate.format('MMMM');
     // this.getUserAttendanceDataFromDate();
+    this.fetchManagerNames();
     this.getUserByUuid();
     this.getEmployeeAdressDetailsByUuid();
     this. getEmployeeExperiencesDetailsByUuid();
@@ -82,6 +85,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getEmployeeBankDetailsByUuid();
     this. getUserLeaveReq();
     this. getUserLeaveLogByUuid();
+    // this.goforward();
   }
 
   prevDate!:Date;
@@ -94,7 +98,7 @@ export class EmployeeProfileComponent implements OnInit {
         this.prevDate=data;
         this.newDate = moment(data).format('YYYY-MM-DD');
         this.getUserAttendanceDataFromDate();
-        this.goBackward();
+        // this.goBackward();
       },
       (error) => {
         console.log(error);
@@ -164,9 +168,9 @@ export class EmployeeProfileComponent implements OnInit {
           );
 
           for (let i = 0; i < this.attendances.length; i++) {
-            const title = this.attendances[i].checkInTime != null ? 'Present' : 'Absent';
+            const title = this.attendances[i].checkInTime != null ? 'P' : 'A';
             const date = moment(this.attendances[i].createdDate).format('YYYY-MM-DD');
-            var color = title=='Present'?'#e0ffe0':title=='Absent'?'#f8d7d7':'';
+            var color = title=='P'?'#e0ffe0':title=='A'?'#f8d7d7':'';
             var tempEvent:{title:string,date:string,color:string}={title:title,date:date,color:color};
             this.events.push(tempEvent);
             if(i==this.attendances.length-1){
@@ -179,6 +183,9 @@ export class EmployeeProfileComponent implements OnInit {
               };
             }
           }
+          // var date = new Date(this.endDateStr);
+          // var month = date.getMonth();
+          // if(new)
 
           console.log(this.events);
         
@@ -197,13 +204,23 @@ export class EmployeeProfileComponent implements OnInit {
     
   };
 
+  forwordFlag:boolean=true;
+
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
   goforward() {
     const calendarApi = this.calendarComponent.getApi();
-    if(calendarApi.getDate().getMonth()<new Date().getMonth())
+    if(calendarApi.getDate().getMonth()<new Date().getMonth()){
+    // this.forwordFlag=true;
+    // this.backwardFlag=true;
     calendarApi.next();
-  }
+    }
 
+    // if(calendarApi.getDate().getMonth()==new Date().getMonth()){
+    //  this.forwordFlag=false;
+    //  this.backwardFlag=true;
+    // 
+  }
+  backwardFlag:boolean=true;
   goBackward(){
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
@@ -212,6 +229,14 @@ export class EmployeeProfileComponent implements OnInit {
       calendarApi.getDate().getMonth() > month
     )   
      calendarApi.prev();
+
+    //  if(calendarApi.getDate().getMonth() == month){
+    //   this.backwardFlag=false;
+    //   this.forwordFlag=true;
+    //  }else{
+    //   this.backwardFlag=true;
+    //   this.forwordFlag=false;
+    //  }
   }
   
 //   calendarOptions: CalendarOptions = {
@@ -274,6 +299,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.userLeaveRequest.leaveType="";
     this.userLeaveRequest.managerId=0;
     this.userLeaveRequest.optNotes="";
+    this.selectedManagerId = undefined;
     
   }
 
@@ -283,6 +309,8 @@ export class EmployeeProfileComponent implements OnInit {
      
       console.log(data);
       console.log(data.body);
+      this.getUserLeaveLogByUuid() ;
+      this.getUserLeaveReq();
       this.resetUserLeave();
       this.requestLeaveCloseModel.nativeElement.click();
     }, (error)=>{
@@ -308,12 +336,38 @@ export class EmployeeProfileComponent implements OnInit {
   
   userLeaveLog: any;
 
+  isLeaveShimmer:boolean=false;
+  isLeavePlaceholder:boolean=false;
 
   getUserLeaveLogByUuid() {
+    this.isLeaveShimmer=true;
     this.dataService.getUserLeaveLog(this.userId).subscribe(
       (data) => {
        this.userLeaveLog=data;
+       this.isLeaveShimmer=false;
+       if(data==null || data.length==0){
+        this.isLeavePlaceholder=true;
+       }
        console.log(data);
+      },
+      (error) => {
+        this.isLeaveShimmer=false;
+        // this.isLeavePlaceholder=true;
+        console.log(error);
+      }
+    );
+  }
+
+  // managerNames: string[] = [];
+  managers: UserDto[] = [];
+  selectedManagerId: number | undefined;
+
+  fetchManagerNames() {
+    debugger
+    this.dataService.getEmployeeManagerDetails(this.userId).subscribe(
+      (data: UserDto[]) => {
+        this.managers = data;
+        console.log(data);
       },
       (error) => {
         console.log(error);
@@ -321,18 +375,38 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
+
+  calculateDateDifference(endDate: string, startDate: string): number {
+    const end = new Date(endDate);
+    const start = new Date(startDate);
+    const timeDifference = end.getTime() - start.getTime();
+    const daysDifference = timeDifference / (1000 * 3600 * 24);
+    return daysDifference;
+  }
+  
+
   // #################################################################33
 
 
   addressEmployee:any;
+  // isAddressShimmer:boolean=false;
+  isAddressPlaceholder:boolean=false;
   getEmployeeAdressDetailsByUuid() {
+    // this.isAddressShimmer=true;
+    debugger
     this.dataService.getEmployeeAdressDetails(this.userId).subscribe(
       (data) => {
         console.log(data);
         this.addressEmployee = data;
+        // this.isAddressShimmer=false;
+        if(data==null || data.length==0){
+          this.isAddressPlaceholder=true;
+        }
         console.log(this.addressEmployee.data);
       },
       (error) => {
+        this.isAddressPlaceholder=true;
+        // this.isAddressShimmer=false;
         console.log(error);
       }
     );
@@ -341,14 +415,19 @@ export class EmployeeProfileComponent implements OnInit {
   
 
   experienceEmployee:any;
+  isCompanyPlaceholder:boolean=false;
   getEmployeeExperiencesDetailsByUuid() {
     this.dataService.getEmployeeExperiencesDetails(this.userId).subscribe(
       (data) => {
         console.log(data);
         this.experienceEmployee = data;
+        if(data==null || data.length==0){
+          this.isCompanyPlaceholder=true;
+        }
         console.log(this.experienceEmployee.data);
       },
       (error) => {
+        this.isCompanyPlaceholder=true;
         console.log(error);
       }
     );
@@ -356,14 +435,20 @@ export class EmployeeProfileComponent implements OnInit {
 
 
   academicEmployee:any;
+  isAcademicPlaceholder:boolean=false;
+
   getEmployeeAcademicDetailsByUuid() {
     this.dataService.getEmployeeAcademicDetails(this.userId).subscribe(
       (data) => {
         console.log(data);
         this.academicEmployee = data;
+        if(data==null || data.length==0){
+          this.isAcademicPlaceholder=true;
+        }
         console.log(this.academicEmployee.data);
       },
       (error) => {
+        this.isAcademicPlaceholder=true;
         console.log(error);
       }
     );
@@ -372,14 +457,19 @@ export class EmployeeProfileComponent implements OnInit {
   
 
   contactsEmployee:any;
+  isContactPlaceholder:boolean=false;
   getEmployeeContactsDetailsByUuid() {
     this.dataService.getEmployeeContactsDetails(this.userId).subscribe(
       (data) => {
         console.log(data);
         this.contactsEmployee = data;
+        if(data==null || data.length==0){
+          this.isContactPlaceholder=true;
+        }
         console.log(this.contactsEmployee.data);
       },
       (error) => {
+        this.isContactPlaceholder=true;
         console.log(error);
       }
     );
@@ -389,20 +479,31 @@ export class EmployeeProfileComponent implements OnInit {
 
 
   bankDetailsEmployee:any;
+  isBankShimmer:boolean=false;
   getEmployeeBankDetailsByUuid() {
+    this.isBankShimmer=true;
     this.dataService.getEmployeeBankDetails(this.userId).subscribe(
       (data) => {
         console.log(data);
         this.bankDetailsEmployee = data;
+        
+          this.isBankShimmer=false;
+        
         console.log(this.bankDetailsEmployee.data);
       },
       (error) => {
+        this.isBankShimmer=false;
         console.log(error);
       }
     );
   }
 
   // #################################################################333333
-
+  capitalizeFirstLetter(name: string): string {
+    if (name) {
+      return name.charAt(0).toUpperCase() + name.slice(1);
+    }
+    return name; 
+  }
 
 }

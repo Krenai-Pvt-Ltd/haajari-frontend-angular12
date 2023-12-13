@@ -10,7 +10,6 @@ export class User {
     presenceStatus!: string
     onboardingStatusUpdateDate!: Date
     employeeOnboardingStatus!: Status
-    selected!: any;
 }
 
 export class Status{
