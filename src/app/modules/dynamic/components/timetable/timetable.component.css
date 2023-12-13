@@ -420,10 +420,14 @@ select.form-control {
     vertical-align: middle;
     border-color: #ececec;
     font-size: 12px !important;
+    padding: 13px;
+    text-align: center;
 }
 
 .table td {
     font-size: 12px !important;
+    padding: 13px;
+    text-align: center;
 }
 
 .attendance-date {
@@ -438,9 +442,9 @@ select.form-control {
 }
 
 .total-braek-time {
-    width: 320px;
+    width: 160px;
     border: 1px solid #f1f1f1;
-    padding: 15px;
+  
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     position: absolute;
     z-index: 999;
@@ -452,12 +456,13 @@ select.form-control {
     transform: translateY(15px);
   transition: 0.2s linear;
   border-radius: 10px;
+  visibility: hidden;
 }
 
 
 .total-braek-time p {
     margin-bottom: 0px;
-    font-size: 12px;
+    font-size: 11px;
     color: #000444;
     font-weight: 400;
 }
@@ -465,9 +470,10 @@ select.form-control {
 .total-break-time-box:hover .total-braek-time{
     opacity: 1 !important;
     transform: translateY(0px);
+    visibility: visible;
 }
 
-.total-braek-time:before {
+/* .total-braek-time:before {
     content: "";
     position: absolute;
     width: 0;
@@ -477,7 +483,7 @@ select.form-control {
     border: 8px solid transparent;
     border-bottom-color: #ffffff;
 
-  }
+  } */
 
   .total-break-time-box:hover{
     background-color: #def2ff;
