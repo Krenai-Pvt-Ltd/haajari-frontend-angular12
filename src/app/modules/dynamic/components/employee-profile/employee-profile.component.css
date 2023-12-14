@@ -635,3 +635,12 @@ span.optional {
     transform: rotate(316deg);
     font-size: 22px;
 }
+
+.scroll-box-logs{
+    height: 300px;
+    overflow-x: auto;
+}
+
+.scroll-box-logs::-webkit-scrollbar{
+    display: none;
+}
