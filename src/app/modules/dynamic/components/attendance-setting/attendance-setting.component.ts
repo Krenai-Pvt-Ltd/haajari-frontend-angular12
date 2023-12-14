@@ -97,7 +97,7 @@ throw new Error('Method not implemented.');
   registerAttendanceRuleDefinitionMethodCall(){
     this.dataService.registerAttendanceRuleDefinition(this.attendanceRuleDefinitionRequest).subscribe((response) => {
       console.log(response);
-      location.reload();
+      // location.reload();
       this.attendanceRuleDefinitionModalClose.nativeElement.click();
     }, (error) =>{
       console.log(error);
