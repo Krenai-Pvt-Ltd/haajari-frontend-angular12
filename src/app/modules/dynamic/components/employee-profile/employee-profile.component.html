@@ -54,15 +54,15 @@
                                         </tr>
                                         <tr>
                                             <th class="text-left">Marital Status - </th>
-                                            <td class="text-right"> N/A </td>
+                                            <td class="text-right">{{user.maritalStatus || 'N/A'}}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-left"> Department - </th>
-                                            <td class="text-right"> IT</td>
+                                            <td class="text-right">{{user.department || 'N/A'}}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">  Nationality - </th>
-                                            <td class="text-right">India</td>
+                                            <td class="text-right">{{user.nationality || 'N/A'}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -493,7 +493,7 @@
                                                             <option value="rejected">Rejected</option>
                                                    </select> -->
 
-                                                   <div class="dropdown" style="width: 100%;">
+                                                   <div class="dropdown" style="width: 100%;" *ngIf="selectStatusFlag">
                                                     <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
                                                         {{  capitalizeFirstLetter(selectedStatus) || 'Leave Status' }} <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
                                                     </button>
@@ -574,7 +574,17 @@
     
                                                     </div>
 
-
+                                                    <div class="errorboxmain text-center" *ngIf="!isLeaveShimmer && isLeaveErrorPlaceholder" >
+                                                        <div class="errorboxinner" >
+                                                            <div class="errorboxplaceholder mb-2">
+                                                                <img src="assets/images/signal.svg" style="width:80px;" />
+                                                            </div>
+                                                            <div class="">
+                                                                <h4>Something went wrong!</h4>
+                                                                <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="errorboxmain text-center" *ngIf="!isLeaveShimmer && isLeavePlaceholder" >
                                                         <div class="errorboxinner" >
                                                             <div class="errorboxplaceholder mb-2">
@@ -644,6 +654,26 @@
                                                             <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
                                                             <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
                                                             <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                        </tr>
+                                                    </tbody> -->
+
+                                                    
+
+                                                    <!-- <tbody *ngIf="isAddressPlaceholder">
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <div class="errorboxmain text-center" *ngIf="isAddressErrorPlaceholder" >
+                                                                    <div class="errorboxinner" >
+                                                                        <div class="errorboxplaceholder mb-2">
+                                                                            <img src="assets/images/signal.svg" style="width:80px;" />
+                                                                        </div>
+                                                                        <div class="">
+                                                                            <h4>Something went wrong!</h4>
+                                                                            <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                     </tbody> -->
 
@@ -860,7 +890,7 @@
                         
 
                         <div class="employ-nots">
-                            <h5>Bank Details</h5>
+                            <h5>Primary Bank Details</h5>
                             <div class="pt-1 employ-bank-detail">
                                 <div class="">
                                     <h6>Name</h6>
@@ -993,7 +1023,7 @@
           <div class="mb-2">
             <label for="username" style="padding-bottom: 6px"
               >Pick an ending date </label>
-            <input type="date" id="username" placeholder="Enter title ..." required="" class="form-control ng-untouched ng-pristine ng-invalid" formControlName="endDate" [(ngModel)]="userLeaveRequest.endDate"/>
+            <input type="date" id="username" placeholder="Enter title ..." class="form-control ng-untouched ng-pristine ng-invalid" formControlName="endDate" [(ngModel)]="userLeaveRequest.endDate"/>
           </div>
           <div class="mb-2">
             <label for="username" style="padding-bottom: 6px"
