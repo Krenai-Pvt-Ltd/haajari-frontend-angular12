@@ -1441,12 +1441,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade show active" id="profile" role="tabpanel">
+                        <div class="tab-pane fade" id="profile" role="tabpanel">
                             <div class="staf-list-box mt-3">
-                                <h3>Userlist</h3>
+                               
                         
                                 <div class="row mb-3">
-                                    <div class="col-md-8">
+
+                                    <div class="col-md-6">
+                                       <div>
+                                        <h5 style="color: #4761f6;">Userlist</h5>
+                                       </div>
+                                    </div>
+                                    <div class="col-md-6">
                                         <form novalidate="" role="search" (submit)="searchUsers()"
                                               class="searching ng-untouched ng-pristine ng-valid">
                                             <div class="form-group" style="position: relative">
@@ -1457,8 +1463,7 @@
                                                        [(ngModel)]="searchText"
                                                        [ngModelOptions]="{ standalone: true }"
                                                        style="padding: 10px 50px 10px 30px;">
-                                                <button type="button" class="btn close-btn"
-                                                        style="position: absolute; top: 50%; transform: translateY(-50%); right: 40px; border: none; background: none;">
+                                                <button type="button" class="btn close-btn" >
                                                     <i class="bi bi-x"></i>
                                                 </button>
                                                 <i class="bi bi-search search-icon"
@@ -1471,25 +1476,26 @@
                                 <table class="table">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th style="width:25%; padding: 12px 15px;">S. No.</th>
-                                            <th style="width:25%; padding: 12px 15px;">Name</th>
-                                            <th style="width:25%; padding: 12px 15px;">Email</th>
-                                            <th style="text-align:right;">
-                                                <span>Select All</span>
+                                            <th style="width:0%;">
                                                 <input type="checkbox" class="form-check-input" [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)">
                                               </th>
+                                            <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                                            <th style="width:25%; padding: 12px 15px;">Name</th>
+                                            <th style="width:25%; padding: 12px 15px;">Email</th>
+                                          
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let staff of staffs; let i = index" style="border-bottom: 1px solid #dddddd;">
-                                            <td style="padding: 12px 15px;">{{ i+1 }}</td>
-                                            <td style="padding: 12px 15px;">{{ staff.name }}</td>
-                                            <td style="padding: 12px 15px;">{{ staff.email }}</td>
-                                            <td style="text-align:right;">
+                                            <td>
                                                 <div class="form-check">
                                                   <input type="checkbox" class="form-check-input" [(ngModel)]="staff.selected" (change)="checkIndividualSelection()">
                                                 </div>
                                               </td>
+                                            <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                                            <td style="padding: 12px 15px;">{{ staff.name }}</td>
+                                            <td style="padding: 12px 15px;">{{ staff.email }}</td>
+                                            
                                         </tr>
                                     </tbody>
                                 </table>
