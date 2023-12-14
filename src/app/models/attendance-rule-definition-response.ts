@@ -9,4 +9,5 @@ export class AttendanceRuleDefinitionResponse {
     halfDaySalaryDeduction : HalfDaySalaryDeductionRequest = new HalfDaySalaryDeductionRequest();
     fullDaySalaryDeduction : FullDaySalaryDeductionRequest = new FullDaySalaryDeductionRequest();
     deductionType : DeductionType = new DeductionType();
+    attendanceRuleId : number = 0;
 }

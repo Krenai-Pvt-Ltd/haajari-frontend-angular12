@@ -145,6 +145,7 @@ export class EmployeeProfileComponent implements OnInit {
   attendanceDetails: any;
   attendances: any = [];
   eventsFlag:boolean=false;
+  // isCalendarFlag:boolean=false;
  
   getUserAttendanceDataFromDate(): void {
     debugger;
@@ -158,6 +159,10 @@ export class EmployeeProfileComponent implements OnInit {
       .subscribe(
         (response) => {
           this.events = [];
+
+          // if(response==null){
+          //   this.isCalendarErrorFlag=true;
+          // }
 
           this.attendanceDetails = Object.values(response);
           this.attendances = this.attendanceDetails[0];
@@ -208,12 +213,15 @@ export class EmployeeProfileComponent implements OnInit {
 
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
   goforward() {
+    debugger
     const calendarApi = this.calendarComponent.getApi();
-    if(calendarApi.getDate().getMonth()<new Date().getMonth()){
+    if(calendarApi.getDate().getMonth()<new Date().getMonth()-1){
     calendarApi.next();
     this.forwordFlag=true;
     this.backwardFlag=true;
+ 
     }else{
+      calendarApi.next();
       this.forwordFlag=false;
     }
 
@@ -224,14 +232,16 @@ export class EmployeeProfileComponent implements OnInit {
   }
   backwardFlag:boolean=true;
   goBackward(){
+    debugger
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
     var month = date.getMonth();
-    if (calendarApi.getDate().getMonth() > month)   {
+    if (calendarApi.getDate().getMonth() > month+1)   {
      calendarApi.prev();
      this.backwardFlag=true;
      this.forwordFlag=true;
     }else{
+      calendarApi.prev();
       this.backwardFlag=false;
     }
 
@@ -304,7 +314,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.userLeaveRequest.leaveType="";
     this.userLeaveRequest.managerId=0;
     this.userLeaveRequest.optNotes="";
-    // this.selectedManagerId = undefined;
+    this.selectedManagerId = 0;
     
   }
 
@@ -340,10 +350,12 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
 selectedStatus!: string;
-
+selectStatusFlag:boolean=false;
+isLeaveErrorPlaceholder:boolean=false;
 getUserLeaveLogByUuid() {
   this.isLeaveShimmer = true;
-
+  // this.selectStatusFlag=true;
+   
   if (this.selectedStatus) {
     this.dataService.getUserLeaveLogByStatus(this.userId, this.selectedStatus).subscribe(
       (data) => {
@@ -363,10 +375,17 @@ getUserLeaveLogByUuid() {
       (data) => {
         this.userLeaveLog = data;
         this.isLeaveShimmer = false;
-        this.isLeavePlaceholder = !data || data.length === 0;
+        if(data==null || data.length==0){
+          this.isLeavePlaceholder=true;
+          this.selectStatusFlag=false;
+        }else{
+          this.selectStatusFlag=true;
+        }
+        // this.isLeavePlaceholder = !data || data.length === 0;
         console.log(data);
       },
       (error) => {
+        this.isLeaveErrorPlaceholder=true;
         this.isLeaveShimmer = false;
         console.log(error);
       }
