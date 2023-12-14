@@ -131,7 +131,7 @@ ad                <div class="col-sm-12">
                                                                    <a class="dropdown-item" *ngIf="ul.roleId==3" (click)="assignMemberRoleToManagerMethodCall(team.uuid,ul.uuid)">Remove Manager</a>
                                                                 </div>
                                                                 <div class="manager-list">
-                                                                    <a class="dropdown-item">View Profile</a>
+                                                                    <a class="dropdown-item" (click)="routeToUserDetails(ul.uuid)">View Profile</a>
                                                                  </div>
                                                                 <div class="manager-list remove-team"  *ngIf="localStorageRoleAdminFlag==true || (managerIdFlag==true && localStorageRoleAdminFlag==false)">
                                                                     <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.uuid,ul.uuid)">
@@ -476,7 +476,7 @@ ad                <div class="col-sm-12">
                                                            <a class="dropdown-item" *ngIf="ul.roleId==3" (click)="assignMemberRoleToManagerMethodCall(team.uuid,ul.uuid)">Remove Manager</a>
                                                         </div>
                                                         <div class="manager-list">
-                                                            <a class="dropdown-item">View Profile</a>
+                                                            <a class="dropdown-item" (click)="routeToUserDetails(ul.uuid)">View Profile</a>
                                                          </div>
                                                         <div class="manager-list remove-team">
                                                             <a class="dropdown-item StaticMenuItemBase-button" (click)="removeUserFromTeam(team.uuid,ul.uuid)">

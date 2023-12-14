@@ -337,9 +337,10 @@ export class DataService {
     return this.httpClient.put(`${this.baseUrl}/team/assign-member-role-to-manager`, {}, {params});
   }
   removeUserFromTeam(teamUuid: string, userUuid: string): Observable<string> {
-    const url = `${this.baseUrl}/team/removeUser?teamId=${teamUuid}&userId=${userUuid}`;
+    const url = `${this.baseUrl}/team/removeUser?teamUuid=${teamUuid}&userUuid=${userUuid}`;
     return this.httpClient.delete<string>(url);
   }
+
   addUsersToTeam(teamUuid: string, userUuid: string[]): Observable<string> {
     const url = `${this.baseUrl}/team/add-users-by-user-ids`;
     const params = new HttpParams()
@@ -509,9 +510,17 @@ export class DataService {
     const params = new HttpParams()
     .set("userUuid", userUuid)
    
-    return this.httpClient.get<any>(`${this.baseUrl}/user-leave/users-leave-log`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave-logs/leave-log`, {params});
   }
 
+  getUserLeaveLogByStatus(userUuid: string, status?: string): Observable<any> {
+    let params = new HttpParams().set("userUuid", userUuid);
+    if (status) {
+      params = params.set("status", status);
+    }
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave-logs/leave-log-by-status`, { params });
+  }
+  
   getOrganizationOnboardingDate(userUuid:string):Observable<any>{
     const params = new HttpParams()
     .set("uuid", userUuid)
