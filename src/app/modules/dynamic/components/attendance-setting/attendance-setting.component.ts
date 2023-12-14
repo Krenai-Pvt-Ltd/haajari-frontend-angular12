@@ -90,6 +90,7 @@ throw new Error('Method not implemented.');
   openAttendanceRuleResponseModal(attendanceRuleResponse : AttendanceRuleResponse){
     this.attendanceRuleResponse = attendanceRuleResponse;
     this.attendanceRuleDefinitionRequest.attendanceRuleId = attendanceRuleResponse.id;
+    this.getDeductionTypeMethodCall();
   }
 
   @ViewChild('attendanceRuleDefinitionModalClose') attendanceRuleDefinitionModalClose !: ElementRef;
@@ -97,7 +98,7 @@ throw new Error('Method not implemented.');
   registerAttendanceRuleDefinitionMethodCall(){
     this.dataService.registerAttendanceRuleDefinition(this.attendanceRuleDefinitionRequest).subscribe((response) => {
       console.log(response);
-      // location.reload();
+      location.reload();
       this.attendanceRuleDefinitionModalClose.nativeElement.click();
     }, (error) =>{
       console.log(error);
@@ -120,6 +121,7 @@ throw new Error('Method not implemented.');
     this.getDeductionTypeMethodCall();
     this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
     this.selectDeductionType(attendanceRuleDefinitionResponse.deductionType);
+    debugger
     this.isFull = true;
     this.isHalf = true;
     this.isBreak = true;
