@@ -55,7 +55,7 @@
 
             <!-- *ngIf="!isShimmer && teamsNew.length>0 || !isShimmer && total==0 && searchTeamPlaceholderFlag" -->
             <!-- <div *ngIf="!isShimmer && teamsNew.length>0 || !isShimmer && total==0"></div> -->
-            <div class="row mb-3 mt-4 align-items-center search-area" *ngIf="(teamsNew.length!=0 && !dataService.slackDataPlaceholderFlag) || searchTeamPlaceholderFlag ">
+            <div class="row mb-3 mt-4 align-items-center search-area" *ngIf="(teamsNew.length!=0 && !slackDataPlaceholderFlag) || searchTeamPlaceholderFlag ">
                 <div class="col-md-5" >
                     <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchTeams()">
                         <div class="form-group" style="width: 300px; position: relative;">
@@ -190,7 +190,7 @@ class="errorboxmain"
 </div>
 </div>
     
-                <div class="row app-emptiy-notifaction"  *ngIf="!isShimmer && total ==0 && !searchTeamPlaceholderFlag && !dataService.slackDataPlaceholderFlag">
+                <div class="row app-emptiy-notifaction"  *ngIf="!isShimmer && total ==0 && !searchTeamPlaceholderFlag && !slackDataPlaceholderFlag">
                     <div class="col-md-6 d-flex align-items-center justify-content-center" style="flex-direction: column;">
                          <div class="">
                             <h4>Add a new hire to Hajiri</h4>
@@ -218,7 +218,7 @@ class="errorboxmain"
                 </div>  
             </div>
 
-<div class="detaworkspace" *ngIf="dataService.slackDataPlaceholderFlag" style="height: 100vh; background-color: #fff;">
+<div class="detaworkspace" *ngIf="slackDataPlaceholderFlag" style="height: 100vh; background-color: #fff;">
 
     <div class="d-flex align-items-center position-relative">
         <div class="">
@@ -254,7 +254,7 @@ class="errorboxmain"
 
                
 
-                <div class="row" *ngIf="!isShimmer && teamsNew.length>0 && !dataService.slackDataPlaceholderFlag " >
+                <div class="row" *ngIf="!isShimmer && teamsNew.length>0 && !slackDataPlaceholderFlag " >
 
                     <div class="col-lg-4" *ngFor="let i = index, let team of teamsNew | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};" >
                         <div class="card team-card" style="height: 185px;" >

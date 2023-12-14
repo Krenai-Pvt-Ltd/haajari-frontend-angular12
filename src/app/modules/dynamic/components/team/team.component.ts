@@ -9,6 +9,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeamDetailComponent } from '../team-detail/team-detail.component';
 import { ModalService } from 'src/app/modal.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-team',
@@ -55,7 +57,7 @@ export class TeamComponent implements OnInit{
    
   }
 
-  constructor(private router : Router, public dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService, private helperService: HelperService) { 
+  constructor(private router : Router, public dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService, private helperService: HelperService, private db: AngularFireDatabase) { 
     this.Settings = {
       singleSelection: false,
       text: 'Select Module',
@@ -365,20 +367,22 @@ export class TeamComponent implements OnInit{
 
   rotateToggle:boolean = false
   newRotateToggle: boolean = false;
+  slackDataPlaceholderFlag:boolean=false;
   
   saveSlackChannelsDataToTeam(){
     debugger
     this.rotateToggle = true;
     this.newRotateToggle = true;
-    this.dataService.slackDataPlaceholderFlag = true;
+    // this.dataService.slackDataPlaceholderFlag = true;
     // setTimeout(()=>{
     //   this.rotateToggle = false;
     // }, 100000)
-
-    this.dataService.getSlackChannelsDataToTeam(this.orgRefId).subscribe(response =>{
+   this.uniqueUuid= uuid.v4();
+   this.getFirebase();
+    this.dataService.getSlackChannelsDataToTeam(this.uniqueUuid).subscribe(response =>{
       console.log("slack data saved to team successfully");
       this.newRotateToggle = false;
-      this.dataService.slackDataPlaceholderFlag = false;
+      // this.dataService.slackDataPlaceholderFlag = false;
       location.reload();
       if(response){
       setTimeout(()=>{
@@ -388,6 +392,30 @@ export class TeamComponent implements OnInit{
     }, error => {
       console.error(error);
     })
+  }
+
+  uniqueUuid:string='';
+  // basePath:"haziri_notific"+"/"+"organi_"+uuid+"/"+"user"+uuid+"/"+uniquesUUid
+ toggle:boolean=false;
+  getFirebase()
+  {
+    this.slackDataPlaceholderFlag=true;
+    // console.log(bulkId)
+    this.db.object("hajiri_notification"+"/"+"organization_"+this.orgRefId+"/"+"user_"+this.userUuid+"/"+this.uniqueUuid).valueChanges()
+      .subscribe(async res => {
+        console.log("res", res)
+
+        //@ts-ignore
+        var res = res;
+        //@ts-ignore
+        if (res != undefined && res != null) {
+
+           //@ts-ignore
+          if(res.flag==1){
+            this.slackDataPlaceholderFlag=false;
+          }
+        }
+      });
   }
 
   // #########################################33 pagination
