@@ -15,6 +15,8 @@ import { OrganizationPersonalInformation } from "../models/organization-personal
 import { AttendanceWithLatePerformerResponseDto, AttendanceWithTopPerformerResponseDto } from "../models/Attendance.model";
 import { RoleRequest } from "../models/role-request";
 import { User } from "../models/user";
+import { AdditionalNotes } from "../models/additional-notes";
+import { AttendanceRuleDefinitionRequest } from "../models/attendance-rule-definition-request";
 import { UserDto } from "../models/user-dto.model";
 @Injectable({
   providedIn: "root",
@@ -39,6 +41,7 @@ export class DataService {
     const params = new HttpParams().set("code_param", codeParam);
     return this.httpClient.put<any>(`${this.baseUrl}/organization/register-organization-using-code-param`, {}, {params});
   }
+  
   //Attendance module
   getAttendanceDetailsByDateDuration(startDate : string, endDate : string) : Observable<any>{
     const params = new HttpParams()
@@ -401,11 +404,14 @@ export class DataService {
     return this.httpClient.get<AttendanceWithLatePerformerResponseDto>(`${this.baseUrl}/attendance/get-attendance-late-performers-details`, {params});
   }
   getSubModuleByRole(roleId : number): Observable<any>{
-    const params = new HttpParams()
-    .set("role_id", roleId);
+    const params = new HttpParams().set("role_id", roleId);
     return this.httpClient.get<any>(`${this.baseUrl}/role/sub-module`, {params});
   }
-  updateRolePermissions(roleRequest : RoleRequest): Observable<any> {
+
+  createRole(roleRequest : RoleRequest): Observable<any>{
+    return this.httpClient.post<any>(`${this.baseUrl}/role/register`, roleRequest);
+  }
+  updateRoleWithPermissions(roleRequest : RoleRequest): Observable<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/role/update`, roleRequest);
   }
   
@@ -431,6 +437,12 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-user-by-uuid`, {params});
   }
 
+  assignRoleToUserInUserAndControl(userId: any, roleId: any): Observable<any>{
+    const params = new HttpParams()
+    .set("user_id", Number(userId))
+    .set("role_id", Number(roleId));
+    return this.httpClient.post<any>(`${this.baseUrl}/user-and-control/register`,{}, {params});
+  }
    
   updateStatusUser(userUuid:string, statusType:string):Observable<any>{
     const params = new HttpParams()
@@ -440,6 +452,24 @@ export class DataService {
     return this.httpClient.put<any>(`${this.baseUrl}/employee-onboarding-status/change-employee-onboarding-status`,{}, {params});
   }
 
+  getUserAndControlRolesByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string):Observable<any>{
+    const params = new HttpParams()
+    .set("item_per_page", itemPerPage.toString())
+    .set("page_number", pageNumber.toString())
+    .set('sort', sort)
+    .set('sort_by', sortBy)
+    .set('search', search)
+    .set('search_by', searchBy);
+    debugger
+    return this.httpClient.get<any>(`${this.baseUrl}/user-and-control/get-all`, {params});
+  }
+
+  addAdditionalNotes(additionalNotes: AdditionalNotes, email: string): Observable<any>{
+    const params = new HttpParams()
+    .set("email", email);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/additional-notes/add`, additionalNotes, {params});
+  }
   
   getEmployeeAdressDetails(userUuid:string):Observable<any>{
     const params = new HttpParams()
@@ -497,6 +527,42 @@ export class DataService {
    
     return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-organization-onboarding-date`, {params});
   }
+
+  getAttendanceRuleByOrganization(){
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/get`);
+  }
+
+  getRegisteredAttendanceRuleByOrganization(){
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/get/registered-response`);
+  }
+
+  registerAttendanceRuleDefinition(attendanceRuleDefinitionRequest : AttendanceRuleDefinitionRequest):Observable<any>{
+    return this.httpClient.post<any>(`${this.baseUrl}/attendance/rule/definition/register`, attendanceRuleDefinitionRequest);
+  }
+
+  getAttendanceRuleWithAttendanceRuleDefinition(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/with/attendance/rule/definition/get`);
+  }
+
+  getAttendanceRuleDefinitionById(attendanceRuleDefinitionId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set("attendance_rule_definition_id", attendanceRuleDefinitionId);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/get/by/id`, {params});
+  }
+
+  getAttendanceRuleDefinition(attendanceRuleId : number): Observable<any>{
+    const params = new HttpParams()
+    .set("attendance_rule_id", attendanceRuleId);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/get`,{params});
+  }
+
+  getDeductionType():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/deduction-type/get`);
+  }
+
+
 
   getEmployeeManagerDetails(userUuid:string):Observable<any>{
     const params = new HttpParams()

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { HelperService } from 'src/app/services/helper.service';
+import { AdditionalNotes } from 'src/app/models/additional-notes';
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 
@@ -265,7 +266,43 @@ export class TimetableComponent implements OnInit {
     })
   }
 
+  extractFirstNameFromEmail(email: string): string {
+    const pattern = /^(.+)@.+/;
+    
+    const matches = email.match(pattern);
 
+    if (matches) {
+        const namePart = matches[1];
+        const firstName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+        return firstName;
+    } 
+
+    return email;
+}
+
+
+  // Additional section:
+  additionalNotes : AdditionalNotes = new AdditionalNotes();
+  additionalNotesUserEmail !: string;
+
+  @ViewChild('addNotesModalClose') addNotesModalClose !: ElementRef; 
+
+  addAdditionalNotesMethodCall(){
+    this.dataService.addAdditionalNotes(this.additionalNotes, this.additionalNotesUserEmail).subscribe((data) => {
+      console.log(data);
+      this.addNotesModalClose.nativeElement.click();
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  // --------------------------------------------------------
+  viewLogsAttendanceDataKey !: string;
+  viewLogsAttendanceDataValue !: AttendenceDto;
+  viewLogs(key : string, value: AttendenceDto){
+    this.viewLogsAttendanceDataKey = key;
+    this.viewLogsAttendanceDataValue = value;
+  }
 
   // optionsDatePicker: any = {
   //   autoApply: true,

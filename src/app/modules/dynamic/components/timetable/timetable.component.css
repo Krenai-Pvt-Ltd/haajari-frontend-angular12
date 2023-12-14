@@ -444,7 +444,7 @@ select.form-control {
 .total-braek-time {
     width: 160px;
     border: 1px solid #f1f1f1;
-  
+    /* padding : 15px; */
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     position: absolute;
     z-index: 999;
@@ -473,6 +473,7 @@ select.form-control {
     visibility: visible;
 }
 
+
 /* .total-braek-time:before {
     content: "";
     position: absolute;
@@ -482,7 +483,6 @@ select.form-control {
     top: 0px;
     border: 8px solid transparent;
     border-bottom-color: #ffffff;
-
   } */
 
   .total-break-time-box:hover{

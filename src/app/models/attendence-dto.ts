@@ -1,3 +1,5 @@
+import { BreakTimings } from "./break-timings";
+
 export class AttendenceDto {
     createdDate!: string;
     createdDay!: string;
@@ -6,6 +8,7 @@ export class AttendenceDto {
     duration!: string | null;
     breakCount!: number;
     breakDuration!: string;
+    breakTimings!: BreakTimings[];
     totalPresentDays!: number;
     converterDate!: Date; //used for storing createdDate as an Date object
 }

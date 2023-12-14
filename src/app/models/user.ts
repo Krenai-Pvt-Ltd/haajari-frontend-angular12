@@ -4,6 +4,7 @@ export class User {
     name!: string;
     uuid!: string;
     email!: string;
+    phoneNumber!: string;
     image!: string;
     slackUserId!: string;
     presenceStatus!: string

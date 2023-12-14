@@ -29,7 +29,7 @@ export class Key{
 
 
 
-    public static HEADER_RESTRICTION_ROUTES = ["/","/login", "/onboarding", "/slackauth", "/employee-onboarding-form", "/employee-address-detail", "/employee-document", "/acadmic", "/employee-experience", "/bank-details", "/emergency-contact", "/waiting" , "/testing"];
+    public static HEADER_RESTRICTION_ROUTES = ["/","/login", "/onboarding", "/slackauth", "/employee-onboarding-form", "/employee-address-detail", "/employee-document", "/acadmic", "/employee-experience", "/bank-details", "/emergency-contact", "/waiting" , "/testing", "/privacy", "/support"];
     
-    public static TOPBAR_RESTRICTION_ROUTES = ["/","/login", "/onboarding", "/slackauth", "/employee-onboarding-form", "/employee-address-detail", "/employee-document", "/acadmic", "/employee-experience", "/bank-details", "/emergency-contact", "/waiting", "/testing"];
+    public static TOPBAR_RESTRICTION_ROUTES = ["/","/login", "/onboarding", "/slackauth", "/employee-onboarding-form", "/employee-address-detail", "/employee-document", "/acadmic", "/employee-experience", "/bank-details", "/emergency-contact", "/waiting", "/testing", "/privacy", "/support"];
 }

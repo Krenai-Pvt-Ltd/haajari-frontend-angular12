@@ -264,4 +264,9 @@ span.members-name {
     background-color: #e0ffe0!important;
     color: #3e993e!important;
 }
-
+.pagination{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}

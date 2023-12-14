@@ -576,8 +576,30 @@
   white-space: nowrap;
   width: 100px;
   overflow: hidden;
-    
 }
+
+#amount-in-rupees{
+    display: none;
+}
+
+.if-late .input-group {
+    display: flex;
+    align-items: center;
+  }
+  
+  .if-late .input-group .form-control {
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+  }
+  
+  .if-late .input-group .input-group-text {
+    background-color: #eeeeee;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+  }
+  
+  
 
 .in-time {
     background-color: #f5f8fa;
@@ -616,4 +638,11 @@
 
 .border-bottom-class {
     border-bottom: 1px solid #f5f5f5;
+}
+
+#occurrence-type-count{
+    display: none;
+}
+#occurrence-type-duration{
+    display: none;
 }

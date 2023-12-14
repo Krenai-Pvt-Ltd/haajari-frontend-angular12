@@ -18,6 +18,14 @@ export class DashboardComponent implements OnInit {
 
   constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService) { }
 
+
+  itemPerPage : number = 5;
+  pageNumber : number = 1;
+  total !: number;
+  rowNumber : number = 1;
+  searchText : string = '';
+
+
   currentDayEmployeesData : any = [];
   // selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
@@ -308,6 +316,34 @@ errorToggleMain: boolean=false;
     );
   }
 
+
+   // ##### Pagination ############
+   changePage(page: number | string) {
+    if (typeof page === 'number') {
+      this.pageNumber = page;
+    } else if (page === 'prev' && this.pageNumber > 1) {
+      this.pageNumber--;
+    } else if (page === 'next' && this.pageNumber < this.totalPages) {
+      this.pageNumber++;
+    }
+    this.getDataFromDate();
+  }
+
+  getPages(): number[] {
+    const totalPages = Math.ceil(this.total / this.itemPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.total / this.itemPerPage);
+  }
+  getStartIndex(): number {
+    return (this.pageNumber - 1) * this.itemPerPage + 1;
+  }
+  getEndIndex(): number {
+    const endIndex = this.pageNumber * this.itemPerPage;
+    return endIndex > this.total ? this.total : endIndex;
+  }
 
  
   
