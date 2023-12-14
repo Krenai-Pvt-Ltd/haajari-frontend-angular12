@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AttendanceRuleDefinitionRequest } from 'src/app/models/attendance-rule-definition-request';
+import { AttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-definition-response';
 import { AttendanceRuleResponse } from 'src/app/models/attendance-rule-response';
+import { AttendanceRuleWithAttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-with-attendance-rule-definition-response';
 import { DeductionType } from 'src/app/models/deduction-type';
 import { Staff } from 'src/app/models/staff';
 import { User } from 'src/app/models/user';
@@ -13,6 +15,7 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./attendance-setting.component.css']
 })
 export class AttendanceSettingComponent implements OnInit {
+
 selectedFilter: any;
 filterUsers() {
 throw new Error('Method not implemented.');
@@ -21,8 +24,10 @@ throw new Error('Method not implemented.');
   constructor(private dataService : DataService, private router: Router) { }
 
   ngOnInit(): void {
-    this.getRegisteredAttendanceRuleByOrganizationMethodCall();
-    console.log(this.selectedStaffs);
+    this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
+    // this.getRegisteredAttendanceRuleByOrganizationMethodCall();
+    // this.getAttendanceRuleDefinitionMethodCall();
+    // console.log(this.selectedStaffs);
     // this.updateSelectedStaffs();
   }
 
@@ -58,7 +63,6 @@ throw new Error('Method not implemented.');
   attendanceRuleResponseList : AttendanceRuleResponse[] = [];
   getAttendanceRuleByOrganizationMethodCall(){
     this.dataService.getAttendanceRuleByOrganization().subscribe((response) => {
-
       this.attendanceRuleResponseList = response;
       console.log(response);
     }, (error)=>{
@@ -69,9 +73,13 @@ throw new Error('Method not implemented.');
 
   registeredAttendanceRuleResponseList : AttendanceRuleResponse[] = [];
   getRegisteredAttendanceRuleByOrganizationMethodCall(){
+    debugger
     this.dataService.getRegisteredAttendanceRuleByOrganization().subscribe((response) => {
       console.log(response);
       this.registeredAttendanceRuleResponseList = response;
+      for(let attendanceRuleResponse of this.registeredAttendanceRuleResponseList){
+        this.getAttendanceRuleDefinitionMethodCall(attendanceRuleResponse.id);
+      }
     }, (error)=>{
       console.log(error);
     });
@@ -96,11 +104,44 @@ throw new Error('Method not implemented.');
     })
   }
 
-  getAttendanceRuleDefinitionMethodCall(){
-    this.dataService.getAttendanceRuleDefinition(this.attendanceRuleResponse.id).subscribe((response) => {
-      this.attendanceRuleDefinitionRequest = response;
-      console.log(response);
+  attendanceRuleDefinitionResponseList : AttendanceRuleDefinitionResponse[] = [];
+  getAttendanceRuleDefinitionMethodCall(attendanceRuleId : number){
+    this.dataService.getAttendanceRuleDefinition(attendanceRuleId).subscribe((response) => {
+      this.attendanceRuleDefinitionResponseList = response;
+      console.log(this.attendanceRuleDefinitionResponseList);
     }, (error) =>{
+      console.log(error);
+    }) 
+  }
+
+
+  attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse = new AttendanceRuleDefinitionResponse();  
+  updateAttendenceRuleDefinition(attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse){
+    this.getDeductionTypeMethodCall();
+    this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
+    this.selectDeductionType(attendanceRuleDefinitionResponse.deductionType);
+    this.isFull = true;
+    this.isHalf = true;
+    this.isBreak = true;
+    this.isdeductHalf = true;
+    this.isfullDayy = true;
+    // this.selectCountDurationDropdown(attendanceRuleDefinitionResponse)
+  }
+
+  getAttendanceRuleDefinitionByIdMethodCall(){
+    this.dataService.getAttendanceRuleDefinitionById(this.attendanceRuleDefinitionResponse.id).subscribe((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  attendanceRuleWithAttendanceRuleDefinitionResponseList : AttendanceRuleWithAttendanceRuleDefinitionResponse[] = [];
+  getAttendanceRuleWithAttendanceRuleDefinitionMethodCall(){
+    this.dataService.getAttendanceRuleWithAttendanceRuleDefinition().subscribe((response) => {
+      this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response;
+      console.log(response);
+    }, (error) => {
       console.log(error);
     })
   }
@@ -122,6 +163,7 @@ throw new Error('Method not implemented.');
       console.log(error);
     })
   }
+
   searchUsers(){
     this.getUserByFiltersMethodCall();
   }
@@ -134,8 +176,10 @@ throw new Error('Method not implemented.');
       console.log(response);
     }, (error)=>{
 
+      console.log(error);
     })
   }
+  
 
   selectedDeductionType : DeductionType = new DeductionType();
 
@@ -153,6 +197,27 @@ throw new Error('Method not implemented.');
   }
 
 
+
+  //Extra
+  countDurationDropdownList : string[] = ["Count", "Duration"];
+  // selectedCountDurationDropdown : string = '';
+  selectedOccurenceDropdownForCustomSalrayDeduction : string = '';
+  selectedOccurenceDropdownForHalfDaySalrayDeduction : string = '';
+  selectedOccurenceDropdownForFullDaySalrayDeduction : string = '';
+
+  // selectCountDurationDropdown(countDurationDropdown: string) {
+  //   this.selectedCountDurationDropdown = countDurationDropdown;
+  // }
+
+  selectOccurenceDropdownForCustomSalrayDeduction(_t350: string) {
+    this.selectedOccurenceDropdownForCustomSalrayDeduction = _t350;
+  }
+  selectOccurenceDropdownForHalfDaySalrayDeduction(_t395: string) {
+    this.selectedOccurenceDropdownForHalfDaySalrayDeduction = _t395;
+  }
+  selectOccurenceDropdownForFullDaySalrayDeduction(_t439: string) {
+    this.selectedOccurenceDropdownForFullDaySalrayDeduction = _t439;
+  }
 
   // Staff selection:
   // selectedStaffs: Staff[] = [];
@@ -178,6 +243,9 @@ throw new Error('Method not implemented.');
     this.isAllSelected = this.selectedStaffs.length === this.staffs.length;
 
     for(let staff of this.selectedStaffs){
+      if(this.selectedStaffsUuids.includes(staff.uuid)){
+        continue;
+      }
       this.selectedStaffsUuids.push(staff.uuid);
     }
     this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;

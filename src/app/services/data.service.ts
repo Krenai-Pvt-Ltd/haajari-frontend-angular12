@@ -531,8 +531,22 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/attendance/rule/definition/register`, attendanceRuleDefinitionRequest);
   }
 
+  getAttendanceRuleWithAttendanceRuleDefinition(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/with/attendance/rule/definition/get`);
+  }
+
+  getAttendanceRuleDefinitionById(attendanceRuleDefinitionId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set("attendance_rule_definition_id", attendanceRuleDefinitionId);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/get/by/id`, {params});
+  }
+
   getAttendanceRuleDefinition(attendanceRuleId : number): Observable<any>{
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/get/${attendanceRuleId}`);
+    const params = new HttpParams()
+    .set("attendance_rule_id", attendanceRuleId);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/get`,{params});
   }
 
   getDeductionType():Observable<any>{

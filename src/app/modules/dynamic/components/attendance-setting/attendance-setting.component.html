@@ -203,29 +203,542 @@
 
          <div class="col-md-6 mt-3 mb-3">
             <div class="add-filtter d-flex align-items-center justify-content-between">
-
-              <a class="" style="font-size: 16px; color: #557ef8;" data-bs-toggle="modal" data-bs-target="#automation-rules" (click)="getAttendanceRuleByOrganizationMethodCall()"><i class="bi bi-list"></i> Automation Rules</a>                
-              <a class="" style="font-size: 16px; color: #557ef8;" data-bs-toggle="modal" data-bs-target="#rules-value"><i class="bi bi-pencil-square"></i> Edit Rules </a>                
+                <a class="" style="font-size: 16px; color: #557ef8;" data-bs-toggle="modal" data-bs-target="#automation-rules" (click)="getAttendanceRuleByOrganizationMethodCall()"><i class="bi bi-list"></i> Automation Rules</a>                
+                <!-- <a class="" style="font-size: 16px; color: #557ef8;" data-bs-toggle="modal" data-bs-target="#rules-value"><i class="bi bi-pencil-square"></i> Edit Rules </a>                 -->
 
             </div>
 
-            <div class="mt-3" *ngFor="let iterator of registeredAttendanceRuleResponseList">
+            <!-- *ngFor="let iterator of registeredAttendanceRuleResponseList" -->
+            <div class="mt-3" *ngFor="let attendanceRuleWithAttendanceRuleDefinitionResponse of attendanceRuleWithAttendanceRuleDefinitionResponseList">
+                <div class="rule-main-box">
                 <div class=" d-flex align-items-center attendance-boxx">
                     <div class="late-icon">
                         <i class="bi bi-person"></i>
                     </div>
                     <div class="late-rule">
-                        <h5>{{iterator.name}}</h5>
-                        <p class="mb-0">{{iterator.description}}</p>
+
+                        <h5>{{attendanceRuleWithAttendanceRuleDefinitionResponse.name}}</h5>
+                        <p class="mb-0">{{attendanceRuleWithAttendanceRuleDefinitionResponse.description}}</p>
                     </div>
-                    <div class="late-btn d-flex align-items-center" style="gap:10px;">
+                    <div class="late-btn d-flex align-items-center justify-content-end" style="gap:20px;    margin-right: 23px;">
 
-                        <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"> Create your first rule</a>
 
-                        <i class="bi bi-chevron-right"></i>
+                        <a href="" class="delete-rule"><i class="bi bi-trash" ></i></a>
+
+                    </div>
+                    
+                   
+                </div>
+
+                <div class="row p-2" *ngFor="let attendanceRuleDefinitionResponse of attendanceRuleWithAttendanceRuleDefinitionResponse.attendanceRuleDefinitionResponseList; let i = index">
+                    <div class="col-md-12 d-flex justify-content-between align-items-center">
+                        <p class="mb-0 mb-2" style="font-size: 12px; font-weight: 500;">Rule ({{i+1}})</p>
+                        <div class="late-btn d-flex align-items-center justify-content-end mb-2" style="gap: 20px;    margin-right: 15px;">
+
+                            <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule" (click)="updateAttendenceRuleDefinition(attendanceRuleDefinitionResponse)"><i class="bi bi-pencil-square"></i></a>
+    
+                            <a href="" class="delete-rule"><i class="bi bi-trash" ></i></a>
+    
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#557ef8;">Custom Salary Deduction Rules</p>
+                      <div class="in-time">
+                        <div class="duration">
+                            <span >Duration </span>
+                            <span> | </span>
+                            <span style="color: #009688;">{{attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration}}</span>
+                        </div>
+                        <div class="duration">
+                            <span >Deduction </span>
+                            <span> | </span>
+                            <span style="color: #009688;">{{attendanceRuleDefinitionResponse.deductionType.type}}</span>
+                        </div>
+                        <div class="duration">
+                            <span >Occurrences </span>
+                            <span> | </span>
+                            <span style="color: #009688;">{{attendanceRuleDefinitionResponse.customSalaryDeduction.occurenceCount}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#557ef8;">Half Day Salary Deduction Rules</p>
+                        <div class="in-time">
+                            <div class="duration">
+                                <span >Duration </span>
+                                <span> | </span>
+                                <span style="color: #009688;">{{attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration}}</span>
+                            </div>
+                            <div class="duration">
+                                <span >Occurrences </span>
+                                <span> | </span>
+                                <span style="color: #009688;">{{attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurenceCount}}</span>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#557ef8;">Full Day Salary Deduction Rules</p>
+                        <div class="in-time">
+                            <div class="duration">
+                                <span>Duration </span>
+                                <span> | </span>
+                                <span style="color: #009688;"> {{attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration}}</span>
+                            </div>
+                            <div class="duration">
+                                <span>Occurrences </span>
+                                <span> | </span>
+                                <span style="color: #009688;"> {{attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurenceCount}}</span>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                <hr class="m-0">
+
+
+
+
+
+
+
+
+
+                <!-- <div class="row p-2">
+                    <div class="col-md-12 d-flex justify-content-between align-items-center">
+                        <p class="mb-0 mb-2" style="font-size: 12px; color:#557ef8; font-weight: 500;">Late Entry Rules (2)</p>
+                        <div class="late-btn d-flex align-items-center justify-content-end mb-2" style="gap: 20px;    margin-right: 15px;">
+
+                            <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"><i class="bi bi-pencil-square"></i></a>
+    
+                            <a href="" class="delete-rule"><i class="bi bi-trash" ></i></a>
+    
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Custom Entry Rules</p>
+                      <div class="in-time">
+                        <div class="duration-box">
+                            <span >Duration </span>
+                            <span> | </span>
+                            <p class="mb-0">11:04 AM </p>
+                        </div>
+                        <div class="duration-box">
+                            <span >Deduction </span>
+                            <span> | </span>
+                            <p class="mb-0">Fixed amount  </p>
+                        </div>
+                        <div class="duration-box">
+                            <span >Occurrences </span>
+                            <span> | </span>
+                            <p class="mb-0">07:00 Hrs. </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Full Day Entry Rules</p>
+                        <div class="in-time">
+                            <div class="duration-box">
+                                <span >Duration </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Deduction </span>
+                                <span> | </span>
+                                <p class="mb-0">Per minutes  </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Occurrences </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Half Day Entry Rules</p>
+                        <div class="in-time">
+                            <div class="duration-box">
+                                <span >Duration </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Deduction </span>
+                                <span> | </span>
+                                <p class="mb-0">Per minutes  </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Occurrences </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                          </div>
+                    </div>
+                </div> -->
+            </div>
+            <!-- <div class="rule-main-box">
+                <div class=" d-flex align-items-center attendance-boxx">
+                    <div class="late-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div class="late-rule">
+                        <h5>Break Rules</h5>
+                        <p class="mb-0">Automate Late fine for employee who are </p>
+                    </div>
+                    <div class="late-btn d-flex align-items-center justify-content-end" style="gap:20px;    margin-right: 23px;">
+
+                        
+
+                        <a href="" class="delete-rule"><i class="bi bi-trash" ></i></a>
 
                     </div>
                 </div>
+
+                <div class="row p-2">
+                    <div class="col-md-12 d-flex justify-content-between align-items-center">
+                        <p class="mb-0 mb-2" style="font-size: 12px; color:#557ef8; font-weight: 500;">Late Entry Rules (1)</p>
+                        <div class="late-btn d-flex align-items-center justify-content-end mb-2" style="gap: 20px;    margin-right: 15px;">
+
+                            <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"><i class="bi bi-pencil-square"></i></a>
+    
+                            <a href="" class="delete-rule"><i class="bi bi-trash" ></i></a>
+    
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Custom Entry Rules</p>
+                      <div class="in-time">
+                        <div class="duration-box">
+                            <span >Duration </span>
+                            <span> | </span>
+                            <p class="mb-0">11:04 AM </p>
+                        </div>
+                        <div class="duration-box">
+                            <span >Deduction </span>
+                            <span> | </span>
+                            <p class="mb-0">Fixed amount  </p>
+                        </div>
+                        <div class="duration-box">
+                            <span >Occurrences </span>
+                            <span> | </span>
+                            <p class="mb-0">07:00 Hrs. </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Full Day Entry Rules</p>
+                        <div class="in-time">
+                            <div class="duration-box">
+                                <span >Duration </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Deduction </span>
+                                <span> | </span>
+                                <p class="mb-0">Per minutes  </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Occurrences </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Half Day Entry Rules</p>
+                        <div class="in-time">
+                            <div class="duration-box">
+                                <span >Duration </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Deduction </span>
+                                <span> | </span>
+                                <p class="mb-0">Per minutes  </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Occurrences </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                </div> -->
+                <!-- <div class="rule-main-box">
+                <div class=" d-flex align-items-center attendance-boxx">
+                    <div class="late-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div class="late-rule">
+                        <h5>Entry Exit Rules</h5>
+                        <p class="mb-0">Automate Late fine for employee who are </p>
+                    </div>
+                    <div class="late-btn d-flex  align-items-center justify-content-end pr-2" style="gap:20px;     margin-right: 23px;">
+
+                      
+
+                        <a href="" class="delete-rule"><i class="bi bi-trash" ></i></a>
+
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col-md-12 d-flex justify-content-between align-items-center">
+                        <p class="mb-0 mb-2" style="font-size: 12px; color:#557ef8; font-weight: 500;">Late Entry Rules (1)</p>
+                        <div class="late-btn d-flex align-items-center justify-content-end mb-2" style="gap: 20px;    margin-right: 15px;">
+
+                            <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"> <i class="bi bi-pencil-square"></i></a>
+    
+                            <a href="" class="delete-rule"><i class="bi bi-trash" ></i></a>
+    
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Custom Entry Rules</p>
+                      <div class="in-time">
+                        <div class="duration-box">
+                            <span >Duration </span>
+                            <span> | </span>
+                            <p class="mb-0">11:04 AM </p>
+                        </div>
+                        <div class="duration-box">
+                            <span >Deduction </span>
+                            <span> | </span>
+                            <p class="mb-0">Fixed amount  </p>
+                        </div>
+                        <div class="duration-box">
+                            <span >Occurrences </span>
+                            <span> | </span>
+                            <p class="mb-0">07:00 Hrs. </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Full Day Entry Rules</p>
+                        <div class="in-time">
+                            <div class="duration-box">
+                                <span >Duration </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Deduction </span>
+                                <span> | </span>
+                                <p class="mb-0">Per minutes  </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Occurrences </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Half Day Entry Rules</p>
+                        <div class="in-time">
+                            <div class="duration-box">
+                                <span >Duration </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Deduction </span>
+                                <span> | </span>
+                                <p class="mb-0">Per minutes  </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Occurrences </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                </div>
+                <div class="rule-main-box">
+
+                <div class=" d-flex align-items-center attendance-boxx">
+                    <div class="late-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div class="late-rule">
+                        <h5>Overtime Rule</h5>
+                        <p class="mb-0">Automate Late fine for employee who are </p>
+                    </div>
+                    <div class="late-btn d-flex align-items-center justify-content-end" style="gap:20px;    margin-right: 23px;">
+
+                       
+
+                        <a href="" class="delete-rule"><i class="bi bi-trash" ></i></a>
+
+                    </div>
+                </div>
+
+                <div class="row p-2">
+                    <div class="col-md-12 d-flex justify-content-between align-items-center">
+                        <p class="mb-0 mb-2" style="font-size: 12px; color:#557ef8; font-weight: 500;">Late Entry Rules (1)</p>
+                        <div class="late-btn d-flex align-items-center justify-content-end mb-2" style="gap: 20px;    margin-right: 15px;">
+
+                            <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"> <i class="bi bi-pencil-square"></i></a>
+    
+                            <a href="" class="delete-rule"><i class="bi bi-trash" ></i></a>
+    
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Custom Entry Rules</p>
+                      <div class="in-time">
+                        <div class="duration-box">
+                            <span >Duration </span>
+                            <span> | </span>
+                            <p class="mb-0">11:04 AM </p>
+                        </div>
+                        <div class="duration-box">
+                            <span >Deduction </span>
+                            <span> | </span>
+                            <p class="mb-0">Fixed amount  </p>
+                        </div>
+                        <div class="duration-box">
+                            <span >Occurrences </span>
+                            <span> | </span>
+                            <p class="mb-0">07:00 Hrs. </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Full Day Entry Rules</p>
+                        <div class="in-time">
+                            <div class="duration-box">
+                                <span >Duration </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Deduction </span>
+                                <span> | </span>
+                                <p class="mb-0">Per minutes  </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Occurrences </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Half Day Entry Rules</p>
+                        <div class="in-time">
+                            <div class="duration-box">
+                                <span >Duration </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Deduction </span>
+                                <span> | </span>
+                                <p class="mb-0">Per minutes  </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Occurrences </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                </div>
+                <div class="rule-main-box">
+
+                <div class=" d-flex align-items-center attendance-boxx">
+                    <div class="late-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div class="late-rule">
+                        <h5>Early Overtime Rules</h5>
+                        <p class="mb-0">Automate Late fine for employee who are </p>
+                    </div>
+                    <div class="late-btn d-flex align-items-center justify-content-end"  style="gap:20px; margin-right: 23px;">
+
+                       
+
+                        <a href="" class="delete-rule"><i class="bi bi-trash" ></i></a>
+
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col-md-12 d-flex justify-content-between align-items-center">
+                        <p class="mb-0 mb-2" style="font-size: 12px; color:#557ef8; font-weight: 500;">Late Entry Rules (1)</p>
+                        <div class="late-btn d-flex align-items-center justify-content-end mb-2" style="gap: 20px;    margin-right: 15px;">
+
+                            <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"><i class="bi bi-pencil-square"></i></a>
+    
+                            <a href="" class="delete-rule"><i class="bi bi-trash" ></i></a>
+    
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Custom Entry Rules</p>
+                      <div class="in-time">
+                        <div class="duration-box">
+                            <span >Duration </span>
+                            <span> | </span>
+                            <p class="mb-0">11:04 AM </p>
+                        </div>
+                        <div class="duration-box">
+                            <span >Deduction </span>
+                            <span> | </span>
+                            <p class="mb-0">Fixed amount  </p>
+                        </div>
+                        <div class="duration-box">
+                            <span >Occurrences </span>
+                            <span> | </span>
+                            <p class="mb-0">07:00 Hrs. </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Full Day Entry Rules</p>
+                        <div class="in-time">
+                            <div class="duration-box">
+                                <span >Duration </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Deduction </span>
+                                <span> | </span>
+                                <p class="mb-0">Per minutes  </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Occurrences </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-0 mb-2" style="font-size: 11px; color:#009688;">Half Day Entry Rules</p>
+                        <div class="in-time">
+                            <div class="duration-box">
+                                <span >Duration </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Deduction </span>
+                                <span> | </span>
+                                <p class="mb-0">Per minutes  </p>
+                            </div>
+                            <div class="duration-box">
+                                <span >Occurrences </span>
+                                <span> | </span>
+                                <p class="mb-0">11:04 AM </p>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                </div> -->
             </div>
              
          </div>
@@ -626,11 +1139,13 @@
                                     <div class="d-flex align-items-center" style="gap:20px">
                                         <div class="if-late" *ngIf="attendanceRuleDefinitionRequest?.customSalaryDeduction">
                                             <label for="hoursInput" class="pb-2">If staff is late by</label>
-                                            <div class="input-group" style="width: auto; gap: 10px;">
+                                            <!-- <div class="input-group" style="width: auto; gap: 10px;">
                                               <input type="number" id="hoursInput" name="hours" class="form-control" min="0" max="24" placeholder="Hours" style="width: 80px; padding: 5px; text-align: center;">
                                               <input type="number" id="minutesInput" name="minutes" class="form-control" min="0" max="59" placeholder="Minutes" style="width: 80px; padding: 5px; text-align: center;">
                                               <span class="input-group-text">Hrs.</span>
-                                            </div>
+                                            </div> -->
+                                            <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.occurenceDuration">
+
                                           </div>
                                           
 
@@ -679,12 +1194,33 @@
                                         </div>
 
                                         <div class="d-flex align-items-center mt-2" style="gap:10px;" *ngIf="isFull">
-                                            <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;">
-                                                <label for="exampleInputEmail1" class="">Count</label>
+
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
+                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
+                                                    
+                                                                                                                        text-align: right;
+                                                                                                                        background-color: white;
+                                                                                                                        color: black;
+                                                                                                                        border-color: #ced4da;
+                                                                                                                        width: 100%;">
+                                                    {{ selectedOccurenceDropdownForCustomSalrayDeduction ? selectedOccurenceDropdownForCustomSalrayDeduction : "Select occurrence type" }}
+                                                    <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
+                                                    <li *ngFor="let countDurationDropdown of countDurationDropdownList">
+                                                        <a class="dropdown-item" (click)="selectOccurenceDropdownForCustomSalrayDeduction(countDurationDropdown)">{{
+                                                            countDurationDropdown
+                                                            }}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;" *ngIf="selectedOccurenceDropdownForCustomSalrayDeduction === 'Count'">
+                                                <!-- <label for="exampleInputEmail1" class="">Count</label> -->
                                                 <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count" [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.occurenceCount">
                                             </div>
-                                            <div class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;">
-                                                <label for="exampleInputEmail1" class="">Time</label>
+                                            <div id="occurrence-type-duration" class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;" *ngIf="selectedOccurenceDropdownForCustomSalrayDeduction === 'Duration'">
+                                                <!-- <label for="exampleInputEmail1" class="">Time</label> -->
                                                 <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.occurenceDuration">
                                             </div>
                                         </div>
@@ -722,14 +1258,38 @@
                                                 </label>
                                             </div>
                                             <div class="d-flex align-items-center mt-2" style="gap:10px;" *ngIf="isHalf">
-                                                <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;">
-                                                    <label for="exampleInputEmail1" class="">Count</label>
+
+
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
+                                                        id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
+                                                        
+                                                                                                                            text-align: right;
+                                                                                                                            background-color: white;
+                                                                                                                            color: black;
+                                                                                                                            border-color: #ced4da;
+                                                                                                                            width: 100%;">
+                                                        {{ selectedOccurenceDropdownForHalfDaySalrayDeduction ? selectedOccurenceDropdownForHalfDaySalrayDeduction : "Select occurrence type" }}
+                                                        <i class="bi bi-chevron-down"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
+                                                        <li *ngFor="let countDurationDropdown of countDurationDropdownList">
+                                                            <a class="dropdown-item" (click)="selectOccurenceDropdownForHalfDaySalrayDeduction(countDurationDropdown)">{{
+                                                                countDurationDropdown
+                                                                }}</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;" *ngIf="selectedOccurenceDropdownForHalfDaySalrayDeduction === 'Count'">
+                                                    <!-- <label for="exampleInputEmail1" class="">Count</label> -->
                                                     <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurenceCount">
                                                 </div>
-                                                <div class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;">
-                                                    <label for="exampleInputEmail1" class="">Time</label>
+                                                <div id="occurrence-type-duration" class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;" *ngIf="selectedOccurenceDropdownForHalfDaySalrayDeduction === 'Duration'">
+                                                    <!-- <label for="exampleInputEmail1" class="">Time</label> -->
                                                     <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurenceDuration">
                                                 </div>
+
+                                                
                                             </div>
                                         </div>
     
@@ -776,14 +1336,36 @@
                                                 </label>
                                             </div>
                                             <div class="d-flex align-items-center mt-2" style="gap:10px;" *ngIf="isBreak">
-                                                <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;">
-                                                    <label for="exampleInputEmail1" class="">Count</label>
-                                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count" [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurenceCount">
+
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
+                                                        id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
+                                                        
+                                                                                                                            text-align: right;
+                                                                                                                            background-color: white;
+                                                                                                                            color: black;
+                                                                                                                            border-color: #ced4da;
+                                                                                                                            width: 100%;">
+                                                        {{ selectedOccurenceDropdownForFullDaySalrayDeduction ? selectedOccurenceDropdownForFullDaySalrayDeduction : "Select occurrence type" }}
+                                                        <i class="bi bi-chevron-down"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
+                                                        <li *ngFor="let countDurationDropdown of countDurationDropdownList">
+                                                            <a class="dropdown-item" (click)="selectOccurenceDropdownForFullDaySalrayDeduction(countDurationDropdown)">{{
+                                                                countDurationDropdown
+                                                                }}</a>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                                                <div class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;">
-                                                    <label for="exampleInputEmail1" class="">Time</label>
-                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurenceDuration">
+                                                <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;" *ngIf="selectedOccurenceDropdownForFullDaySalrayDeduction === 'Count'">
+                                                    <!-- <label for="exampleInputEmail1" class="">Count</label> -->
+                                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count" [(ngModel)]="attendanceRuleDefinitionRequest!.fullDaySalaryDeduction!.occurenceCount">
                                                 </div>
+                                                <div class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;" *ngIf="selectedOccurenceDropdownForFullDaySalrayDeduction === 'Duration'">
+                                                    <!-- <label for="exampleInputEmail1" class="">Time</label> -->
+                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest!.fullDaySalaryDeduction!.occurenceDuration">
+                                                </div>
+                                                
                                             </div>
                                         </div>
     
@@ -928,6 +1510,290 @@
             </div>
             <div class="modal-footer d-flex align-items-center justify-content-end">
                 <button type="button" class="btn btn-primary" (click)="registerAttendanceRuleDefinitionMethodCall()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="create-rule" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">   Late Entry Rules </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div><!--end modal-header-->
+            <div class="modal-body">
+                <!-- <div class="row">
+                  <div class="col-md-8">
+                   <div class="">
+
+                    <ul id="myTab" role="tablist" class="nav nav-tabs">
+                        <li role="presentation" class="nav-item">
+                            <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" class="nav-link active">Rules</button>
+                        </li>
+                            <li role="presentation" class="nav-item">
+                                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link">Staff selection</button>
+                            </li>
+                    </ul>
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel">
+                            <div class="rules-main">
+                                <div class="form-check pb-3">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked="">
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Deduct selery if staff is late by more then
+                                    </label>
+                                </div>
+
+                                <div class="dudtion-type">
+                                    <div class="d-flex align-items-center" style="gap:20px">
+                                        <div class="if-late">
+                                            <label for="exampleInputEmail1" class="pb-2">If staff is late by</label>
+                                            <div class="d-flex" style="gap:20px">
+                                                <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="Start Time">
+                                            </div>
+                                        </div>
+                                        <div class="dudct-type">
+                                            <label for="exampleInputEmail1" class="pb-2">Deduction Type</label>
+                                            <div class="dropdown" style="width: 100%;">
+                  
+                                                <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Deduction Type <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
+                                                  <li><a class="dropdown-item">Per minutes</a></li>
+                                                  <li><a class="dropdown-item">Fixed amount</a></li>
+                                                  
+                                                </ul>
+                                              </div>
+                                        </div>
+                                       
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <div class="form-check " >
+                                            <input class="form-check-input" type="checkbox" value="" id="Occurrences" [checked]="isFull" (click)="showFullDay()">
+                                            <label class="form-check-label" #Occurrences for="Occurrences"  >
+                                                Set Occurrences
+                                            </label>
+                                        </div>
+
+                                        <div class="d-flex align-items-center mt-2" style="gap:10px;" *ngIf="isFull">
+                                            <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;">
+                                                <label for="exampleInputEmail1" class="">Count</label>
+                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count">
+                                            </div>
+                                            <div class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;">
+                                                <label for="exampleInputEmail1" class="">Time</label>
+                                                <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="mt-2">
+                                    <div class="form-check pb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="staff" [checked]="isdeductHalf" (click)="showeDeductHalf()">
+                                        <label class="form-check-label" for="staff"> 
+                                            Deduct half day selery if staff is late by more then
+                                        </label>
+                                    </div>
+
+                                    <div class="dudtion-type" *ngIf="isdeductHalf">
+                                        <div class="d-flex align-items-center" style="gap:20px">
+                                            <div class="if-late">
+                                                <label for="exampleInputEmail1" class="pb-2">If staff is late by</label>
+                                                <div class="d-flex" style="gap:20px">
+                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="Start Time">
+                                                </div>
+                                            </div>
+
+                                        </div>
+    
+                                        <div class="mt-3">
+                                            <div class="form-check ">
+                                                <input class="form-check-input" type="checkbox" value="" id="Occurrences2" [checked]="isHalf" (click)="showHalfDay()">
+                                                <label class="form-check-label" for="Occurrences2">
+                                                    Set Occurrences
+                                                </label>
+                                            </div>
+                                            <div class="d-flex align-items-center mt-2" style="gap:10px;" *ngIf="isHalf">
+                                                <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;">
+                                                    <label for="exampleInputEmail1" class="">Count</label>
+                                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count">
+                                                </div>
+                                                <div class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;">
+                                                    <label for="exampleInputEmail1" class="">Time</label>
+                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                    <div class="form-check pb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="selery" [checked]="isfullDayy" (click)="showFullDayy()">
+                                        <label class="form-check-label" for="selery">
+                                            Deduct half day selery if staff is late by more then
+                                        </label>
+                                    </div>
+
+                                    <div class="dudtion-type" *ngIf="isfullDayy">
+                                        <div class="d-flex align-items-center" style="gap:20px">
+                                            <div class="if-late">
+                                                <label for="exampleInputEmail1" class="pb-2">If staff is late by</label>
+                                                <div class="d-flex" style="gap:20px">
+                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="Start Time">
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+    
+                                        <div class="mt-3">
+                                            <div class="form-check ">
+                                                <input class="form-check-input" type="checkbox" value="" id="Occurrences3" [checked]="isBreak" (click)="showBreak()">
+                                                <label class="form-check-label" for="Occurrences3">
+                                                    Set Occurrences
+                                                </label>
+                                            </div>
+                                            <div class="d-flex align-items-center mt-2" style="gap:10px;" *ngIf="isBreak">
+                                                <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;">
+                                                    <label for="exampleInputEmail1" class="">Count</label>
+                                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count">
+                                                </div>
+                                                <div class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;">
+                                                    <label for="exampleInputEmail1" class="">Time</label>
+                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel">
+
+                            <div class="staf-list-box mt-3">
+                                <table class="table">
+                                    <thead class="thead-light table-design">
+                                        <tr>
+                                            <th style="width:10%;">
+                                                <div class="form-check">
+                                                    <input type="checkbox" name="chk_child" class="form-check-input">
+                                                    <label class="form-check-label"></label>
+                                                </div>
+                                            </th>
+                                            <th style="width:10%;">Name</th>
+                                            <th style="width:10%;">Email</th>
+                                            <th style="width:10%;">Phone</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-design">
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input type="checkbox" name="chk_child" class="form-check-input">
+                                                    <label class="form-check-label"></label>
+                                                </div>
+                                            </td>
+                                            <td><h4 class="mb-0 staf-names">Yogesh Kumar</h4></td>
+                                            <td class="staf-names">Yogesh@krenai.com</td>
+                                            <td class="staf-names">9549901868</td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                   </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="rule-section">
+                        <div class="rule-box">
+                            <input type="radio" name="customizeimagesize" id="customizeimagesize366" class="d-none">
+                            <label class="d-flex categryCustomizecard align-items-start">
+                              
+                              
+                                    <div class="">
+                                        <div class="slect-radio planselected d-flex position-relative">
+                                          
+                                            <img src="assets/images/slect-radio.svg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <div class="categryCustomizeinfo">
+                                            <label for="customizeimagesize366" class="mb-0">
+                                                <h3>Create your first rule</h3>
+                                                <p>Automate Late fine for employee who are coming late to work</p>
+                                            </label>
+                                        </div>
+                                    </div>
+                            </label>
+                            </div>
+    
+    
+                            <div class="rule-box">
+                                <input type="radio" name="customizeimagesize" id="customizeimagesize367" class="d-none">
+                                <label class="d-flex categryCustomizecard align-items-start">
+                                  
+                                  
+                                        <div class="">
+                                            <div class="slect-radio planselected d-flex position-relative">
+                                            
+                                                <img src="assets/images/slect-radio.svg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <div class="categryCustomizeinfo">
+                                                <label for="customizeimagesize367" class="mb-0">
+                                                    <h3>Set a rule value</h3>
+                                                    <p>Set a value for your rule type.</p>
+                                                </label>
+                                            </div>
+                                        </div>
+                                </label>
+                                </div>
+    
+                                <div class="rule-box">
+                                    <input type="radio" name="customizeimagesize" id="customizeimagesize368" class="d-none">
+                                    <label class="d-flex categryCustomizecard align-items-start">
+                                      
+                                      
+                                            <div class="">
+                                                <div class="slect-radio planselected d-flex position-relative">
+                                               
+                                                    <img src="assets/images/slect-radio.svg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <div class="categryCustomizeinfo">
+                                                    <label for="customizeimagesize368" class="mb-0">
+                                                        <h3> Assign Staff</h3>
+                                                        <p>Automate Late fine for employee who are coming late to work</p>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                    </label>
+                                    </div>
+                    </div>
+                  </div>
+                </div>                                                       -->
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </div>
