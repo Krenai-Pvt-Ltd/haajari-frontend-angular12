@@ -49,6 +49,12 @@ import { TimeFormatPipe } from './time-format.pipe';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { SupportComponent } from './components/support/support.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from "@angular/fire/compat";
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
+import { AngularFireMessagingModule } from "@angular/fire/compat/messaging";
+import { AngularFireStorage, AngularFireStorageModule } from "@angular/fire/compat/storage";
 
 
 
@@ -104,7 +110,12 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     NgxShimmerLoadingModule,
     NgbModule,
     MatFormFieldModule,
-    FullCalendarModule
+    FullCalendarModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule,
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    AngularFireMessagingModule,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
