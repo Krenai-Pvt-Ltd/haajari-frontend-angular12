@@ -79,7 +79,7 @@
     height: 20px;
     top: 2px;
     margin-right: 0px;
-    accent-color: #6666f3;
+    accent-color: #4660f6;
 }
 .rule-box >input[type="radio"]:checked ~ label .slect-radio img{
     opacity: 1;
@@ -144,7 +144,7 @@
 }
 
 .late-btn a{
-    color: #6666f3;
+    color: #557ef8;
     font-size: 16px;
     font-weight: 500;
     /* margin-right: 18px; */
@@ -220,8 +220,8 @@
 }
 
 .nav-tabs .nav-link.active {
-    border-bottom: 2px solid #6666f3;
-    color: #6666f3;
+    border-bottom: 2px solid #4660f6;
+    color: #4660f6;
     background-color: transparent;
 }
 .nav-tabs .nav-link {
@@ -256,7 +256,7 @@
 }
 
 .add-time-range{
-    color: #6666f3;
+    color: #557ef8;
     font-size: 13px;
     font-weight: 400;
 }
@@ -340,7 +340,7 @@
 }
 
 .importfilebox label button {
-    background: #6666f3;
+    background: #4660f6;
     border-radius: 4px;
     font-weight: 500;
     font-size: 14px;
@@ -373,7 +373,7 @@
 
 .add-filtter a {
     margin-bottom: 0px;
-    color: #6666f3;
+    color: #557ef8;
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
@@ -450,7 +450,7 @@
     padding-left: 1rem;
     padding-right: 1rem;
     color: #fff;
-    background-color: #6666f3;
+    background-color: #4660f6;
     width: 150px;
 }
 
@@ -657,7 +657,7 @@ button.btn.close-btn {
     position: absolute;
     right: 0px;
     top: 0px;
-    color: #6666f3;
+    color: #557ef8;
     cursor: pointer;
 }
 
@@ -672,154 +672,4 @@ button.btn.close-btn {
     vertical-align: text-bottom;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-.tracking-body {
-    padding: 15px;
-  }
-  
-  .tracking-steps {
-    padding-left: 1rem;
-    position: relative;
-
-  }
-  
-  .tracking-item {
-    align-items: center;
-    column-gap: 15px;
-    flex-direction: row;
-    position: relative;
-    margin-bottom: 0px;
-    padding-bottom: 15px;
-    list-style: none;
-  }
-  
-  .tracking-item.statusdone::before, .tracking-item.statusdone::after {
-    background-color: #3BB77E !important;
-  }
-  /* .tracking-item::before {
-    content: "";
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #808191;
-    border-radius: 50%;
-    left: -30px;
-    top:20px;
-  } */
-  
-  .tracking-data span{
-    font-size: 12px;
-      color: #8e8e8e;
-  }
-  
-  .logiest-name {
-    font-size: 14px !important;
-  }
-  
-  .tracking-item.statusdone .tracing-icon {
-    background-color: #3BB77E;
-  }
-  .tracing-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background-color: #fff;
-    border: 1px solid #ebecee;
-    line-height: 2px;
-    color: #ebecee;
-    z-index: 99;
-  }
-  
-  .tracing-icon.active{
-    background-color: #3BB77E;
-    border: 1px solid #3BB77E;
-    color: #fff;
-  }
-  
-  .tracking-data p {
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 22px;
-      color: #444 !important;
-      margin-bottom: 0;
-  }
-  
-  .tracking-item.statusdone .tracking-data p, .tracking-item.statusdone .tracking-data span {
-    color: #8e8e8e;
-  }
-  p {
-    margin-top: 0;
-  }
-  
-  .tracking-item.statusdone::before, .tracking-item.statusdone::after {
-    background-color: #3BB77E;
-  }
-  
-  .tracking-item:nth-child(1)::after {
-    width: 2px;
-    height: 0px;
-    background-color: #3BB77E;
-    top: 31px;
-    left: 11px;
-    z-index: 1;
-  }
-  .tracking-item::after {
-    content: "";
-    position: absolute;
-    z-index: -1;
-  }
-  
-  .tracking-item:nth-child(2)::after {
-    width: 2px;
-    height: 0px;
-    background-color: #3BB77E;
-    top: 31px;
-    left: 11px;
-    z-index: 1;
-  }
-  .tracking-item:nth-child(3)::after {
-    width: 2px;
-    height: 0px;
-    background-color: #3BB77E;
-    top: 31px;
-    left: 11px;
-    z-index: 999;
-    bottom: 0;
-    z-index: 1;
-  }
-  /* .tracking-item:nth-child(4)::after {
-    width: 2px;
-    width: 2px;
-    height: 40px;
-    background-color: #ebecee;
-    top: 38px;
-    left: 11px;
-    z-index: 999;
-    bottom: 0;
-  } */
-
-  .new-stap{
-    align-items: center;
-    grid-column-gap: 15px;
-    -moz-column-gap: 15px;
-    column-gap: 15px;
-    flex-direction: row;
-    position: relative;
-    margin-bottom: 15px;
-}
-
-.tracking-steps::after {
-    content: '';
-    width: 2px !important;
-    height: 70% !important;
-    background-color: transparent;
-    top: 20px !important;
-    left: 27px !important;
-    z-index: 9 !important;
-    position: absolute;
-    border-left: 2px dashed #ebecee;
 }
