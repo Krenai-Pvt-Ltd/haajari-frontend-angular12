@@ -320,8 +320,8 @@ textarea.form-control {
     text-align: center;
     line-height: 25px;
     background-color: #eef1ff;
-    border: 1px solid #4660f6;
-    color: #4660f6;
+    border: 1px solid #6666f3;
+    color: #6666f3;
     font-size: 12px;
     border-radius: 6px;
     margin-right: 10px;
@@ -372,7 +372,7 @@ h3.price {
 }
 .plan-enable {
 border-radius: 6px;
-background: #4660F6;
+background: #6666f3;
 color: #fff;
 }
 .plan-current{
