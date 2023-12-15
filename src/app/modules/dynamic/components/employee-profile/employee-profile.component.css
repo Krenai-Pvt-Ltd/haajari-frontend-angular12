@@ -45,7 +45,7 @@ content: "present"!important;
 }
 
 .sand-request {
-    background-color: #4f5eee;
+    background-color: #6666f3;
     color: #fff;
     width: 100%;
 }
@@ -101,7 +101,7 @@ content: "present"!important;
     border-bottom: none;
 }
 .download-color{
-    color: #4f5eee;
+    color: #6666f3;
 }
 
 .delete-coloe{
@@ -132,8 +132,8 @@ content: "present"!important;
 }
 
 .nav-tabs .nav-link.active {
-    border-bottom: 2px solid #4660f6;
-    color: #4660f6;
+    border-bottom: 2px solid #6666f3;
+    color: #6666f3;
     background-color: transparent;
 }
 .nav-tabs .nav-link {
@@ -182,7 +182,7 @@ content: "present"!important;
 
 
 .active-color i {
-    color: blue !important;
+    color: #6666f3 !important;
 }
 .approved-left i{
     color: #b0b0b0;
@@ -383,7 +383,7 @@ span.members-name {
     background-color: #fff;
     width: 25px;
     height: 25px;
-    border: 1px solid #4f5eee;
+    border: 1px solid #6666f3;
     border-radius: 50px;
     align-items: center;
     justify-content: center;
@@ -469,11 +469,11 @@ td.text-right {
 
 
 .remaining-css p{
-    color: #557ef8;
+    color: #6666f3;
 }
 
 .remaining-css span{
-    color: #557ef8 !important;
+    color: #6666f3 !important;
 }
 .Approved:last-child{
     border-right: none;
@@ -481,7 +481,7 @@ td.text-right {
 
 .add-filtter a {
     margin-bottom: 0px;
-    color: #557ef8;
+    color: #6666f3;
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
@@ -545,12 +545,12 @@ span.optional {
     justify-content: center;
     display: flex;
     line-height: 16px;
-    border: 1px solid #557ef8;
+    border: 1px solid #6666f3;
 }
 
 .back-btns-box i {
     margin-bottom: 0px;
-    color: #557ef8;
+    color: #6666f3;
     font-size: 18px;
     font-weight: 500;
     cursor: pointer;
@@ -561,6 +561,15 @@ span.optional {
     display: none!important;
 }
 
+::ng-deep .fc-toolbar-chunk .fc-today-button{
+    display: none!important;
+}
+
+.today-btn{
+    position: absolute;
+    right: 30px;
+    top: 20px;
+}
 
 .date-all-approved{
     gap: 10px;
@@ -643,4 +652,33 @@ span.optional {
 
 .scroll-box-logs::-webkit-scrollbar{
     display: none;
+}
+/* ##############################3333 */
+
+.date-time-info {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.calendar-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: #007bff;
+    border-radius: 50%;
+    color: white;
+    margin-right: 10px;
+}
+
+.date-time-text {
+    color: #333;
+}
+
+/* ############ */
+::ng-deep .fc-today-button .fc-button .fc-button-primary{
+    display: none!important;
 }

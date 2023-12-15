@@ -48,6 +48,11 @@ export class TeamComponent implements OnInit{
   this.getTeamsByFiltersFunction();
   this.getUsersRoleFromLocalStorage();
   // const localStorageFlag = localStorage.getItem(this.localStorageKey);
+    const localStorageUniqueUuid = localStorage.getItem('uniqueId');
+    if(localStorageUniqueUuid){
+      this.uniqueUuid = localStorageUniqueUuid;
+      this.getFirebase();
+    }
 
   // if (!localStorageFlag && this.localStorageRoleAdminFlag==true) {
   //   this.saveSlackChannelsDataToTeam(); 
@@ -378,6 +383,7 @@ export class TeamComponent implements OnInit{
     //   this.rotateToggle = false;
     // }, 100000)
    this.uniqueUuid= uuid.v4();
+   localStorage.setItem("uniqueId", this.uniqueUuid);
    this.getFirebase();
     this.dataService.getSlackChannelsDataToTeam(this.uniqueUuid).subscribe(response =>{
       console.log("slack data saved to team successfully");
@@ -413,6 +419,7 @@ export class TeamComponent implements OnInit{
            //@ts-ignore
           if(res.flag==1){
             this.slackDataPlaceholderFlag=false;
+            localStorage.removeItem('uniqueId');
           }
         }
       });
