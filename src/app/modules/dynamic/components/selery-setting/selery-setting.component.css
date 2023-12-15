@@ -84,7 +84,7 @@
     height: 20px;
     top: 2px;
     margin-right: 0px;
-    accent-color: #6666f3;
+    accent-color: #4660f6;
 }
 
 .categryCustomizeinfo label{
@@ -147,7 +147,7 @@
 }
 
 .late-btn a{
-    color: #6666f3;
+    color: #557ef8;
     font-size: 13px;
     font-weight: 400;
 }
@@ -219,8 +219,8 @@ border: none;
 }
 
 .nav-tabs .nav-link.active {
-    border-bottom: 2px solid #6666f3;
-    color: #6666f3;
+    border-bottom: 2px solid #4660f6;
+    color: #4660f6;
     background-color: transparent;
 }
 .nav-tabs .nav-link {
@@ -255,7 +255,7 @@ border: none;
 }
 
 .add-time-range{
-    color: #6666f3;
+    color: #557ef8;
     font-size: 13px;
     font-weight: 400;
 }
@@ -315,7 +315,7 @@ border: none;
 }
 
 a.add-more {
-    background-color: #6666f3;
+    background-color: #557ef8;
     padding: 9px 15px;
     border-radius: 6px;
     color: #fff;
@@ -373,7 +373,7 @@ a.add-more {
 }
 
 .importfilebox label button {
-    background: #6666f3;
+    background: #4660f6;
     border-radius: 4px;
     font-weight: 500;
     font-size: 14px;
@@ -413,7 +413,7 @@ a.add-more {
     padding-left: 1rem;
     padding-right: 1rem;
     color: #fff;
-    background-color: #6666f3;
+    background-color: #4660f6;
     width: 150px;
 }
 

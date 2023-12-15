@@ -28,7 +28,7 @@
 }
 
 .iUctsy {
-    color: rgb(102 102 243) !important;
+    color: rgb(0, 97, 255) !important;
     font-size: 14px !important;
     font-weight: 400 !important;
 }
@@ -48,7 +48,7 @@
     opacity: 1;
     z-index: 1;
     transition: padding 350ms ease 0s;
-    background: rgb(240 240 255);
+    background: rgb(239, 247, 255);
     border-radius: 12px;
 }
 
@@ -102,8 +102,8 @@
     z-index: 1;
     transition: padding 350ms ease 0s;
     border-radius: 12px;
-    background: rgb(240 240 255);
-    color: rgb(102 102 243) !important;
+    background: rgb(239, 247, 255);
+    color: rgb(0, 97, 255) !important;
 }
 
 
@@ -115,7 +115,7 @@
     transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
     transition-duration: 0.35s;
     border-radius: 12px;
-    background: rgb(240 240 255);
+    background: rgb(239, 247, 255);
     width: calc(90% - 0px);
     left: 16px;
     right: auto;
@@ -281,14 +281,14 @@ span.sc-3ee1404a-10.evIlxu {
 }
 
 span.add-project {
-    background-color: rgb(215 215 255);
+    background-color: rgb(204 228 252);
     font-size: 12px;
     padding: 2px 10px;
     border-radius: 6px;
     font-weight: 400;
     position: absolute;
     right: 10px;
-    color: rgb(102 102 243) !important;
+    color: rgb(0, 97, 255) !important;
 }
 
 .project-name ul{
@@ -314,13 +314,13 @@ span.add-project {
     padding: 5px;
 }
 .project-name ul li:hover{
-    background-color: rgb(240 240 255);
+    background-color: rgb(239, 247, 255);
     padding: 5px;
 }
 
 .project-name ul li a:hover,
 .project-name ul li:hover a{
-    color: rgb(102 102 243) !important;
+    color: rgb(0, 97, 255) !important;
 }
 
 .project-name {

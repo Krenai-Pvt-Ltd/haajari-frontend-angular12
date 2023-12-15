@@ -793,36 +793,3 @@ button.btn.close-btn{
   font-weight: 300;
   line-height: normal;
 }
-
-.progress {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 20px;
-  overflow: hidden;
-  font-size: .65625rem;
-  background-color: #f1f5fa;
-  border-radius: 0.25rem;
-}
-
-
-.progress-bar {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  overflow: hidden;
-  color: #fff;
-  text-align: center;
-  white-space: nowrap;
-  background-color: #bbbbfe;
-  -webkit-transition: width .6s ease;
-  -o-transition: width .6s ease;
-  transition: width .6s ease;
-}
