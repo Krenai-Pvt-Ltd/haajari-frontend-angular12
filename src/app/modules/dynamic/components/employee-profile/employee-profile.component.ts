@@ -8,7 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { DataService } from 'src/app/services/data.service';
 import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { UserDto } from 'src/app/models/user-dto.model';
 
@@ -244,6 +244,7 @@ export class EmployeeProfileComponent implements OnInit {
       calendarApi.prev();
       this.backwardFlag=false;
     }
+    
 
     //  if(calendarApi.getDate().getMonth() == month){
     //   this.backwardFlag=false;
@@ -252,6 +253,15 @@ export class EmployeeProfileComponent implements OnInit {
     //   this.backwardFlag=true;
     //   this.forwordFlag=false;
     //  }
+  }
+
+  goToday() {
+    const calendarApi = this.calendarComponent.getApi();
+    calendarApi.today();
+    // If the current month is the same as today's month, disable the forward button
+    this.forwordFlag = calendarApi.getDate().getMonth() < new Date().getMonth();
+    // The backward button is always enabled when we go to today
+    this.backwardFlag = true;
   }
   
 //   calendarOptions: CalendarOptions = {
@@ -307,6 +317,8 @@ export class EmployeeProfileComponent implements OnInit {
   @ViewChild("requestLeaveCloseModel")
   requestLeaveCloseModel!: ElementRef;
 
+  // @ViewChild('userLeaveForm') userLeaveForm: NgForm;
+
   
   resetUserLeave(){
     this.userLeaveRequest.startDate=new Date();
@@ -329,6 +341,7 @@ export class EmployeeProfileComponent implements OnInit {
       this.getUserLeaveReq();
       this.resetUserLeave();
       this.requestLeaveCloseModel.nativeElement.click();
+      location.reload();
     }, (error)=>{
       console.log(error.body);
     })
@@ -348,6 +361,8 @@ export class EmployeeProfileComponent implements OnInit {
       }
     );
   }
+
+  
 
 selectedStatus!: string;
 selectStatusFlag:boolean=false;
