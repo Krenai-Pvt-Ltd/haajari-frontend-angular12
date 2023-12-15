@@ -167,7 +167,7 @@ span.members-names {
 }
 
 .selected-userss{
-    background-color: #557ef8;
+    background-color: #6666f3;
     color: #fff;
     padding: 2px 8px 2px 2px;
     border-radius: 15px !important;
@@ -277,7 +277,7 @@ span.remove-icon:hover {
 }
 
 .updateteam {
-    background-color: #557ef8;
+    background-color: #6666f3;
     color: #fff;
     cursor: pointer;
 }
@@ -469,7 +469,7 @@ input:checked + .slider:before {
 
 .add-filtter a {
     margin-bottom: 0px;
-    color: #557ef8;
+    color: #6666f3;
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;

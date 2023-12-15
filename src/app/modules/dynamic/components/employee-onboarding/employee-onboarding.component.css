@@ -133,7 +133,7 @@
 
 .onboarding-date i{
     font-size: 20px;
-    color: #557ef8;
+    color: #6666f3;
     line-height: 0px;
 }
 
@@ -189,16 +189,16 @@ tbody tr {
 
 .week {
     background-color: transparent;
-    color: #557ef8;
+    color: #6666f3;
     padding: 5px 23px;
-    border: 1px solid #557ef8;
+    border: 1px solid #6666f3;
 }
 
 .week:hover {
-    background-color: #557ef8;
+    background-color: #6666f3;
     color: #fff;
     padding: 5px 23px;
-    border: 1px solid #557ef8;
+    border: 1px solid #6666f3;
 }
 /* 
 .errorboxmain{
@@ -238,7 +238,7 @@ tbody tr {
 }
 .add-filtter a {
     margin-bottom: 0px;
-    color: #557ef8;
+    color: #6666f3;
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
@@ -261,7 +261,7 @@ button.btn.close-btn{
     position: absolute;
     right: 0px;
     top:0px; 
-    color: #557ef8;
+    color: #6666f3;
     cursor: pointer;
 }
 
