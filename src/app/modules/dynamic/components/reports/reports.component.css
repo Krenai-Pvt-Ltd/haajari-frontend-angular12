@@ -149,7 +149,7 @@
 
 
 .report-ico p {
-    color: #557ef8;
+    color: #6666f3;
 }
 
 .download-icon ul{
@@ -158,14 +158,14 @@
 }
 .download-icon ul li{
     display: inline-block;
-    color: #557ef8;
+    color: #6666f3;
     font-size: 14px;
     padding-right: 10px;
     cursor: pointer;
 }
 
 .download-icon ul li:hover{
-    color: #557ef8;
+    color: #6666f3;
 }
 
 .attendance-log-download ul{
