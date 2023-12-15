@@ -96,6 +96,9 @@ throw new Error('Method not implemented.');
   @ViewChild('attendanceRuleDefinitionModalClose') attendanceRuleDefinitionModalClose !: ElementRef;
   attendanceRuleDefinitionRequest : AttendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
   registerAttendanceRuleDefinitionMethodCall(){
+    
+    this.preRegisterAttendanceRuleDefinitionMethodCall();
+
     this.dataService.registerAttendanceRuleDefinition(this.attendanceRuleDefinitionRequest).subscribe((response) => {
       console.log(response);
       location.reload();
@@ -103,6 +106,26 @@ throw new Error('Method not implemented.');
     }, (error) =>{
       console.log(error);
     })
+  }
+
+  preRegisterAttendanceRuleDefinitionMethodCall(){
+    if(this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceType == "Count"){
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDuration = '';
+    }else{
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceCount = 0;
+    }
+
+    if(this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceType == "Count"){
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDuration = '';
+    }else{
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceCount = 0;
+    }
+
+    if(this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceType == "Count"){
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDuration = '';
+    }else{
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceCount = 0;
+    }
   }
 
   attendanceRuleDefinitionResponseList : AttendanceRuleDefinitionResponse[] = [];
@@ -228,20 +251,14 @@ throw new Error('Method not implemented.');
   selectOccurenceDropdownForCustomSalrayDeduction(occurrenceType: string) {
     this.selectedOccurenceDropdownForCustomSalrayDeduction = occurrenceType;
     this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceType = occurrenceType;
-    this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceCount = 0;
-    this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDuration = '';
   }
   selectOccurenceDropdownForHalfDaySalrayDeduction(occurrenceType: string) {
     this.selectedOccurenceDropdownForHalfDaySalrayDeduction = occurrenceType;
     this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceType = occurrenceType;
-    this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceCount = 0;
-    this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDuration = '';
   }
   selectOccurenceDropdownForFullDaySalrayDeduction(occurrenceType: string) {
     this.selectedOccurenceDropdownForFullDaySalrayDeduction = occurrenceType;
     this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceType = occurrenceType;
-    this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceCount = 0;
-    this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDuration = '';
   }
 
   // Staff selection:

@@ -488,3 +488,244 @@ select.form-control {
   .total-break-time-box:hover{
     background-color: #def2ff;
   }
+
+  .acitivity-timeline-2 {
+    border-radius: 12px;
+    position: relative;
+}
+
+span.members-name {
+    background-color: #A69FF3;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 40px;
+    text-transform: uppercase;
+    box-shadow: 0 0 0 2px #F9FAFB;
+    margin: 0 auto;
+    /* /* color: #fff;  */
+}
+
+
+.acitivity-timeline-2 li {
+    padding-bottom: 0;
+    padding-bottom: 1.5rem;
+    border-left: 1px solid #abaaed ;
+    position: relative;
+    padding-left: 20px;
+    margin-left: 10px;
+}
+
+.acitivity-timeline-2 li:before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border: 1px solid #3762ea;
+    -webkit-box-shadow: 3px 3px 0 #c1cff9;
+    box-shadow: 3px 3px 0 #c1cff9;
+    box-shadow: 3px 3px 0 #c1cff9;
+    border-radius: 50%;
+    position: absolute;
+    left: -8px;
+    top: 0;
+}
+
+
+.gap-3 {
+    gap: 1rem !important;
+}
+
+
+.text-muted {
+    --tb-text-opacity: 1;
+    color: #878a99;
+}
+
+/* .acitivity-timeline-2 li {
+    border: 0;
+    padding-bottom: 0;
+    padding-bottom: 1.5rem;
+    border-left: 1px solid #abaaed;
+    position: relative;
+    padding-left: 20px;
+    margin-left: 10px;
+}
+*/
+
+.acitivity-timeline-2:last-child li{
+    border-left: none;
+} 
+
+.logs-box{
+    border: 1px solid #f1f1f1;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    padding: 15px;
+    
+}
+
+.space-box{
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.leves-type-s h5{
+    font-size: 15px;
+}
+
+.profile-date{
+    margin-bottom: 0px;
+    /* position: absolute;
+    top: 2px;
+    right: 2px; */
+    color: #fff;
+    font-size: 14px;
+    background-color: #7681e9;
+    padding: 1px;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    line-height: 28px;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+
+
+
+.table-padding tr td{
+    position: relative;
+}
+
+.absent{
+    background-color: rgb(248, 215, 215);
+    color: #eb5050!important;
+    /* border: 1px solid #eb5050; */
+ }
+ 
+ .half-day {
+     color: #f9af47!important;
+     background-color: #faf5ee!important;
+     border: 1px solid #f9af47;
+ }
+ 
+ .present{
+     background-color: #e0ffe0!important;
+     color: #3e993e!important;
+     /* border: 1px solid #3e993e; */
+ }
+
+ .approved{
+    background-color: #e0ffe0!important;
+    color: #3e993e!important;
+    border: 1px solid #3e993e;
+ }
+ .rejected{
+    background-color: rgb(248, 215, 215);
+    color: #eb5050!important;
+    border: 1px solid #eb5050;
+ }
+
+ .approved:hover{
+    background-color: #3e993e!important;
+    color: #fff!important;
+    border: 1px solid #3e993e;
+ }
+ .rejected:hover{
+    background-color: #eb5050;
+    color: #fff!important;
+    border: 1px solid #eb5050;
+ }
+
+ span.edit-profile {
+    position: absolute;
+    top: 20px;
+    right: 78px;
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    border: 1px solid #6666f3;
+    border-radius: 50px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    cursor: pointer;
+    font-size: 10px;
+}
+/* 
+span.edit-profile:hover{
+    background-color: #adb5ff;
+} */
+
+
+.attendance-dates {
+    position: absolute;
+    top: 1px;
+    left: 7px;
+    font-size: 11px;
+    color: #444;
+}
+
+.table-padding td{
+   height: 60px;
+}
+
+th.text-left {
+    text-align: left;
+}
+
+
+td.text-right {
+    text-align: right;
+}
+
+.profile-deta tr th{
+    color: #303e67;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0px !important;
+}
+
+.profile-deta tr td{
+    color: #555;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.total-holiday {
+    font-size: 11px;
+    text-align: center;
+}
+.Approved p{
+    color: #3e993e;
+    font-weight: 700;
+}
+.Approved span{
+    color: #3e993e !important;
+}
+.Approved{
+    border-right: 1px solid #f1f1f1;
+    width: 100px;
+}
+
+
+.acitivity-timeline-2 li:before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border: 1px solid #3762ea;
+    box-shadow: 3px 3px #c1cff9;
+    border-radius: 50%;
+    position: absolute;
+    left: -8px;
+    top: 0;
+}
