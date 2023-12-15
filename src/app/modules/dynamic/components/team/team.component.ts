@@ -402,6 +402,7 @@ export class TeamComponent implements OnInit{
 
   uniqueUuid:string='';
   // basePath:"haziri_notific"+"/"+"organi_"+uuid+"/"+"user"+uuid+"/"+uniquesUUid
+  percentage!:number;
  toggle:boolean=false;
   getFirebase()
   {
@@ -413,8 +414,16 @@ export class TeamComponent implements OnInit{
 
         //@ts-ignore
         var res = res;
+
+        
+        //@ts-ignore
+        this.percentage = res.percentage; 
+
+
         //@ts-ignore
         if (res != undefined && res != null) {
+
+          
 
            //@ts-ignore
           if(res.flag==1){

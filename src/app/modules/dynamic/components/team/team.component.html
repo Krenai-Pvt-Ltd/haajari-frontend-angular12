@@ -241,6 +241,13 @@
                   the page and try again.
                 </p>
               </div>
+              <button
+              type="button"
+              class="btn create-team-on-slack"
+              (click)="saveSlackChannelsDataToTeam()"
+            >
+             Slack Data Sync ...
+            </button>
             </div>
           </div>
   
@@ -296,7 +303,7 @@
                     class="btn create-team-on-slack"
                     (click)="saveSlackChannelsDataToTeam()"
                   >
-                    Load Slack Channel's Data to Team
+                   Slack Data Sync ...
                   </button>
                 </div>
               </div>
@@ -341,8 +348,8 @@
           </div>
           <div class="progress-main text-center">
             <div class="containerr">
-              <div class="progressBar" style="width: 0%">
-                <div class="progressNumber">0%</div>
+              <div class="progressBar" [style.width]="percentage+'%'"> 
+                <div class="progressNumber">{{percentage}}%</div>
               </div>
             </div>
   

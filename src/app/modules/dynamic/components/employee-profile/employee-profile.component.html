@@ -506,6 +506,8 @@
                                                         <li><a class="dropdown-item" (click)="selectStatus('approved')">Approved</a></li>
                                                         <li><a class="dropdown-item" (click)="selectStatus('pending')">Applied</a></li>
                                                         <li><a class="dropdown-item" (click)="selectStatus('rejected')">Rejected</a></li>
+                                                        <li><a class="dropdown-item" (click)="selectStatus('requested')">Requested</a></li>
+
                                                     </ul>
                                                 </div>
                                                 
@@ -610,6 +612,8 @@
                                                                 <span *ngIf="leaves.status=='approved'" style="color:green">{{capitalizeFirstLetter(leaves.status)}}<span> By </span></span>
                                                                 <span *ngIf="leaves.status=='pending'" style="color:orange">{{capitalizeFirstLetter('applied')}}<span> To </span></span>
                                                                 <span *ngIf="leaves.status=='rejected'" style="color:red">{{capitalizeFirstLetter(leaves.status)}}<span> By </span></span>
+                                                                <span *ngIf="leaves.status=='requested'" style="color:rgb(161, 205, 241)">{{capitalizeFirstLetter(leaves.status)}}<span> To </span></span>
+
                                                                 <span> - </span><span style="color:cadetblue">{{leaves.manager.name}}</span>
                                                             </h6>
                                                             <div style="display: block; margin-top: 5px; color: #6c757d;">
