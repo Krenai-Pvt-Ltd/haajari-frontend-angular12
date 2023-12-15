@@ -1,5 +1,6 @@
 export class FullDaySalaryDeductionRequest {
     lateDuration !: string;
-    occurenceCount !: number;
-    occurenceDuration !: string;
+    occurrenceType : string = 'Count';
+    occurrenceCount !: number;
+    occurrenceDuration !: string;
 }

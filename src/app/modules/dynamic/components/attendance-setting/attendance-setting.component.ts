@@ -115,18 +115,32 @@ throw new Error('Method not implemented.');
     }) 
   }
 
+  deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionId : number){
+    debugger
+    this.dataService.deleteAttendanceRuleDefinition(attendanceRuleDefinitionId).subscribe((response) => {
+      console.log(response);
+      location.reload();
+    }, (error) =>{
+      console.log(error);
+    })
+  }
+
 
   attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse = new AttendanceRuleDefinitionResponse();  
   updateAttendenceRuleDefinition(attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse){
     this.getDeductionTypeMethodCall();
     this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
     this.selectDeductionType(attendanceRuleDefinitionResponse.deductionType);
-    debugger
+    
     this.isFull = true;
     this.isHalf = true;
     this.isBreak = true;
     this.isdeductHalf = true;
     this.isfullDayy = true;
+
+    this.selectedOccurenceDropdownForCustomSalrayDeduction = attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceType;
+    this.selectedOccurenceDropdownForHalfDaySalrayDeduction = attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceType;
+    this.selectedOccurenceDropdownForFullDaySalrayDeduction = attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceType;
     // this.selectCountDurationDropdown(attendanceRuleDefinitionResponse)
   }
 
@@ -203,22 +217,31 @@ throw new Error('Method not implemented.');
   //Extra
   countDurationDropdownList : string[] = ["Count", "Duration"];
   // selectedCountDurationDropdown : string = '';
-  selectedOccurenceDropdownForCustomSalrayDeduction : string = '';
-  selectedOccurenceDropdownForHalfDaySalrayDeduction : string = '';
-  selectedOccurenceDropdownForFullDaySalrayDeduction : string = '';
+  selectedOccurenceDropdownForCustomSalrayDeduction : string = 'Count';
+  selectedOccurenceDropdownForHalfDaySalrayDeduction : string = 'Count';
+  selectedOccurenceDropdownForFullDaySalrayDeduction : string = 'Count';
 
   // selectCountDurationDropdown(countDurationDropdown: string) {
   //   this.selectedCountDurationDropdown = countDurationDropdown;
   // }
 
-  selectOccurenceDropdownForCustomSalrayDeduction(_t350: string) {
-    this.selectedOccurenceDropdownForCustomSalrayDeduction = _t350;
+  selectOccurenceDropdownForCustomSalrayDeduction(occurrenceType: string) {
+    this.selectedOccurenceDropdownForCustomSalrayDeduction = occurrenceType;
+    this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceType = occurrenceType;
+    this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceCount = 0;
+    this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDuration = '';
   }
-  selectOccurenceDropdownForHalfDaySalrayDeduction(_t395: string) {
-    this.selectedOccurenceDropdownForHalfDaySalrayDeduction = _t395;
+  selectOccurenceDropdownForHalfDaySalrayDeduction(occurrenceType: string) {
+    this.selectedOccurenceDropdownForHalfDaySalrayDeduction = occurrenceType;
+    this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceType = occurrenceType;
+    this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceCount = 0;
+    this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDuration = '';
   }
-  selectOccurenceDropdownForFullDaySalrayDeduction(_t439: string) {
-    this.selectedOccurenceDropdownForFullDaySalrayDeduction = _t439;
+  selectOccurenceDropdownForFullDaySalrayDeduction(occurrenceType: string) {
+    this.selectedOccurenceDropdownForFullDaySalrayDeduction = occurrenceType;
+    this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceType = occurrenceType;
+    this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceCount = 0;
+    this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDuration = '';
   }
 
   // Staff selection:

@@ -1,6 +1,7 @@
 export class CustomSalaryDeductionRequest {
     lateDuration : string = '';
-    occurenceCount : number = 0;
-    occurenceDuration : string = '';
+    occurrenceType : string = 'Count';
+    occurrenceCount : number = 0;
+    occurrenceDuration : string = '';
     amountInRupees : number = 0;
 }
