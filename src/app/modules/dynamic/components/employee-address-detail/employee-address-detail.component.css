@@ -262,7 +262,7 @@ span.members-namess {
 }
 
 .importfilebox label button {
-    background: #6666f3;
+    background: #4660f6;
     border-radius: 4px;
     font-weight: 500;
     font-size: 14px;
@@ -276,12 +276,12 @@ span.members-namess {
 }
 
 a.select-file {
-    color: #6666f3;
+    color: #557ef8;
 }
 
 .back-btn {
-    color: #6666f3;
-    border: 1px solid #6666f3;
+    color: #557ef8;
+    border: 1px solid #557ef8;
     background-color: #ecf1ff;
 }
 
