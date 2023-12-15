@@ -257,7 +257,7 @@
                         <div class="duration">
                             <span >Occurrences </span>
                             <span> | </span>
-                            <span style="color: #009688;">{{attendanceRuleDefinitionResponse.customSalaryDeduction.occurenceCount}}</span>
+                            <span style="color: #009688;">{{attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceCount}}</span>
                         </div>
                       </div>
                     </div>
@@ -272,7 +272,7 @@
                             <div class="duration">
                                 <span >Occurrences </span>
                                 <span> | </span>
-                                <span style="color: #009688;">{{attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurenceCount}}</span>
+                                <span style="color: #009688;">{{attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceCount}}</span>
                             </div>
                           </div>
                     </div>
@@ -287,7 +287,7 @@
                             <div class="duration">
                                 <span>Occurrences </span>
                                 <span> | </span>
-                                <span style="color: #009688;"> {{attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurenceCount}}</span>
+                                <span style="color: #009688;"> {{attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceCount}}</span>
                             </div>
                           </div>
                     </div>
@@ -1210,7 +1210,7 @@
                                               <input type="number" id="minutesInput" name="minutes" class="form-control" min="0" max="59" placeholder="Minutes" style="width: 80px; padding: 5px; text-align: center;">
                                               <span class="input-group-text">Hrs.</span>
                                             </div> -->
-                                            <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.occurenceDuration">
+                                            <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.occurrenceDuration">
 
                                           </div>
                                           
@@ -1283,11 +1283,11 @@
                                             </div>
                                             <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;" *ngIf="selectedOccurenceDropdownForCustomSalrayDeduction === 'Count'">
                                                 <!-- <label for="exampleInputEmail1" class="">Count</label> -->
-                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count" [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.occurenceCount">
+                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count" [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.occurrenceCount">
                                             </div>
                                             <div id="occurrence-type-duration" class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;" *ngIf="selectedOccurenceDropdownForCustomSalrayDeduction === 'Duration'">
                                                 <!-- <label for="exampleInputEmail1" class="">Time</label> -->
-                                                <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.occurenceDuration">
+                                                <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.occurrenceDuration">
                                             </div>
                                         </div>
                                     </div>
@@ -1348,11 +1348,11 @@
                                                 </div>
                                                 <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;" *ngIf="selectedOccurenceDropdownForHalfDaySalrayDeduction === 'Count'">
                                                     <!-- <label for="exampleInputEmail1" class="">Count</label> -->
-                                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurenceCount">
+                                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceCount">
                                                 </div>
                                                 <div id="occurrence-type-duration" class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;" *ngIf="selectedOccurenceDropdownForHalfDaySalrayDeduction === 'Duration'">
                                                     <!-- <label for="exampleInputEmail1" class="">Time</label> -->
-                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurenceDuration">
+                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDuration">
                                                 </div>
 
                                                 
@@ -1425,11 +1425,11 @@
                                                 </div>
                                                 <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;" *ngIf="selectedOccurenceDropdownForFullDaySalrayDeduction === 'Count'">
                                                     <!-- <label for="exampleInputEmail1" class="">Count</label> -->
-                                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count" [(ngModel)]="attendanceRuleDefinitionRequest!.fullDaySalaryDeduction!.occurenceCount">
+                                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count" [(ngModel)]="attendanceRuleDefinitionRequest!.fullDaySalaryDeduction!.occurrenceCount">
                                                 </div>
                                                 <div class="dudct-type d-flex align-items-center" style="width: 150px; gap:10px;" *ngIf="selectedOccurenceDropdownForFullDaySalrayDeduction === 'Duration'">
                                                     <!-- <label for="exampleInputEmail1" class="">Time</label> -->
-                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest!.fullDaySalaryDeduction!.occurenceDuration">
+                                                    <input type="time" class="form-control" aria-describedby="emailHelp" placeholder="" [(ngModel)]="attendanceRuleDefinitionRequest!.fullDaySalaryDeduction!.occurrenceDuration">
                                                 </div>
                                                 
                                             </div>

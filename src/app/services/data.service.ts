@@ -563,6 +563,12 @@ export class DataService {
   }
 
 
+  deleteAttendanceRuleDefinition(attendanceRuleDefinitionId : number): Observable<any>{
+    const params = new HttpParams()
+    .set("attendance_rule_definition_id",attendanceRuleDefinitionId);
+
+    return this.httpClient.delete<any>(`${this.baseUrl}/attendance/rule/definition/delete`,{params});
+  }
 
   getEmployeeManagerDetails(userUuid:string):Observable<any>{
     const params = new HttpParams()
