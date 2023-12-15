@@ -682,3 +682,11 @@ span.optional {
 ::ng-deep .fc-today-button .fc-button .fc-button-primary{
     display: none!important;
 }
+
+
+.culender-today-btn{
+    background: rgb(240 240 255);
+    color: rgb(102 102 243) !important;
+    border-color: #fff;
+    font-size: .875rem;
+}
