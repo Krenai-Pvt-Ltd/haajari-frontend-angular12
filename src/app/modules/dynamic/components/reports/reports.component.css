@@ -149,7 +149,7 @@
 
 
 .report-ico p {
-    color: #557ef8;
+    color: #6666f3;
 }
 
 .download-icon ul{
@@ -158,14 +158,14 @@
 }
 .download-icon ul li{
     display: inline-block;
-    color: #557ef8;
+    color: #6666f3;
     font-size: 14px;
     padding-right: 10px;
     cursor: pointer;
 }
 
 .download-icon ul li:hover{
-    color: #557ef8;
+    color: #6666f3;
 }
 
 .attendance-log-download ul{
@@ -178,14 +178,14 @@
     border-radius: 50%;
     /* background-color: #0d61ff; */
     padding: 4px 7px;
-    color: rgb(0, 97, 255) !important;
+    color: rgb(102 102 243) !important;
     display: inline-flex;
     align-items: center;
     justify-content: center;
  }
 
  /* .attendance-log-download ul li:hover{
-    background-color:  rgb(0, 97, 255) !important;
+    background-color:  rgb(102 102 243) !important;
     color:  #fff !important;
  }
 
@@ -209,7 +209,7 @@
 
 
 /* .active-log-download {
-    background-color:  rgb(0, 97, 255) !important;
+    background-color:  rgb(102 102 243) !important;
 }
 
 .active-log-download a {

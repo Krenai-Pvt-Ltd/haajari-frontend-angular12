@@ -108,6 +108,7 @@ throw new Error('Method not implemented.');
     })
   }
 
+  
   preRegisterAttendanceRuleDefinitionMethodCall(){
     if(this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceType == "Count"){
       this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDuration = '';
