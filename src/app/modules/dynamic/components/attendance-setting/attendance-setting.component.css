@@ -212,7 +212,7 @@
     border-radius: 6px;
     margin-bottom: 15px;
 }
-.dudct-type {
+.dudct-type, .overtime-type {
     width: 200px;
 }
 .add-time-range{
