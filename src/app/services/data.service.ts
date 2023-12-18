@@ -33,10 +33,14 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = "http://localhost:8080/api/v2"
+  // private baseUrl = "http://localhost:8080/api/v2"
 
+<<<<<<< HEAD
+   private baseUrl = "https://backend.hajiri.work/api/v2";
+=======
   //  private baseUrl = "https://backend.hajiri.work/api/v2";
   
+>>>>>>> 4798e03894afecc19d7534fb8a3fade6caae74cd
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
     const params = new HttpParams().set("code_param", codeParam);
