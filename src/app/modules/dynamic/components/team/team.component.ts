@@ -392,6 +392,7 @@ export class TeamComponent implements OnInit{
     debugger
     this.rotateToggle = true;
     this.newRotateToggle = true;
+    this.percentage=0;
     // this.dataService.slackDataPlaceholderFlag = true;
     // setTimeout(()=>{
     //   this.rotateToggle = false;

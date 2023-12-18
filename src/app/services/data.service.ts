@@ -45,7 +45,13 @@ export class DataService {
   
   // private baseUrl = "http://localhost:8080/api/v2"
 
+<<<<<<< HEAD
   private baseUrl = "https://backend.hajiri.work/api/v2";
+=======
+
+
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
+>>>>>>> f3c77fd0cdec926c411f4538cafab45ef31d8e43
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -321,6 +327,14 @@ export class DataService {
     const params = new HttpParams().set("uuid", userUuid);
     return this.httpClient.post( this.baseUrl+'/user-leave/save-users-leave',request,  {params});
   }
+
+  // TODO
+  getPendingLeaveFlag(userUuid:string, request: any): Observable<any> {
+    const params = new HttpParams()
+    .set("userUuid", userUuid)
+    return this.httpClient.get<any>( this.baseUrl+'/user-leave/todays-pending-leave-count',request);
+  }
+
   getUserLeaveRequests(uuid: string): Observable<any> {
     const params = new HttpParams().set("userUuid", uuid);
     return this.httpClient.get<any>(`${this.baseUrl}/user-leave/get-user-leave`, {
