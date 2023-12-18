@@ -49,7 +49,6 @@ export class DataService {
 
   private baseUrl = "https://backend.hajiri.work/api/v2";
 
-
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
     const params = new HttpParams().set("code_param", codeParam);
