@@ -347,6 +347,19 @@ export class EmployeeProfileComponent implements OnInit {
     })
   }
 
+  pendingFlag:boolean=true;
+
+  getIsPendingLeave(leaveType:string){
+    debugger
+    this.userLeaveRequest.uuid = this.userId;
+    this.userLeaveRequest.leaveType= leaveType;
+    this.dataService.getPendingLeaveFlag(this.userLeaveRequest).subscribe(data =>{
+       this.pendingFlag=data;
+    },(error)=>{
+      console.log(error);
+    })
+  }
+
   
   userLeave:any=[];
 
