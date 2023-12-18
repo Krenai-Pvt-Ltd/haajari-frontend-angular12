@@ -6,6 +6,7 @@ export class AttendanceRuleDefinitionRequest {
 
     id : number=0;
     deductionTypeId ?: number;
+    overtimeTypeId ?: number;
     attendanceRuleId ?: number;
     customSalaryDeduction : CustomSalaryDeductionRequest = new CustomSalaryDeductionRequest();
     halfDaySalaryDeduction : HalfDaySalaryDeductionRequest = new HalfDaySalaryDeductionRequest();

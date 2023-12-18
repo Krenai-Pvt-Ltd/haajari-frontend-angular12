@@ -34,8 +34,6 @@ export class TeamDetailComponent implements OnInit {
 
   }
 
-      
-
 
   ngOnInit(): void {
     this.getTeamMemberById();

@@ -35,7 +35,8 @@ export class DataService {
   
   private baseUrl = "http://localhost:8080/api/v2"
 
-  //  private baseUrl = "https://ba`ckend.hajiri.work/api/v2";
+  //  private baseUrl = "https://backend.hajiri.work/api/v2";
+  
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
     const params = new HttpParams().set("code_param", codeParam);
@@ -561,6 +562,9 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/deduction-type/get`);
   }
 
+  getOvertimeType():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/overtime-type/get`);
+  }
 
   deleteAttendanceRuleDefinition(attendanceRuleDefinitionId : number): Observable<any>{
     const params = new HttpParams()
@@ -575,5 +579,6 @@ export class DataService {
    
     return this.httpClient.get<UserDto[]>(`${this.baseUrl}/employee-onboarding-status/get-manager`, {params});
   }
+  
   
 }
