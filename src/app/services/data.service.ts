@@ -27,6 +27,7 @@ import { UserEmergencyContactDetailsRequest } from "../models/user-emergency-con
 import { AdditionalNotes } from "../models/additional-notes";
 import { AttendanceRuleDefinitionRequest } from "../models/attendance-rule-definition-request";
 import { UserDto } from "../models/user-dto.model";
+import { UserLeaveRequest } from "../models/user-leave-request";
 
 @Injectable({
   providedIn: "root",
@@ -325,11 +326,16 @@ export class DataService {
   }
 
   // TODO
-  getPendingLeaveFlag(userUuid:string, request: any): Observable<any> {
-    const params = new HttpParams()
-    .set("userUuid", userUuid)
-    return this.httpClient.get<any>( this.baseUrl+'/user-leave/todays-pending-leave-count',request);
+  getPendingLeaveFlag(request: UserLeaveRequest ): Observable<any> {
+    // const params = new HttpParams()
+    // .set("userUuid", userUuid)
+    return this.httpClient.post<any>( this.baseUrl+'/user-leave/todays-pending-leave-count',request);
   }
+
+  // getPendingLeaveFlag(userUuid:string, request: any, status:string): Observable<any> {
+  //   const params = new HttpParams().set("uuid", userUuid).set("status", status);
+  //   return this.httpClient.post<any>( this.baseUrl+'/user-leave/save-users-leave',request,  {params});
+  // }
 
   getUserLeaveRequests(uuid: string): Observable<any> {
     const params = new HttpParams().set("userUuid", uuid);
