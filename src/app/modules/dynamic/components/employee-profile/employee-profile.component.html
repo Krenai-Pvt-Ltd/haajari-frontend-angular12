@@ -1032,6 +1032,9 @@
                 <p class="mb-0" style="color: #000444;">Please fill out the following fields:</p>
             </div>
          <form [formGroup]="userLeaveForm">
+            <div class="text-danger" *ngIf="!pendingFlag">
+                You can not apply to this leave, for selected dates your leave qouta is exhausted.
+              </div>
           <div class="mb-2">
             <label for="username" style="padding-bottom: 6px"
               >Pick a starting date</label>
@@ -1039,6 +1042,7 @@
             <div class="form-text text-danger" *ngIf="StartDate?.errors?.['required'] && (StartDate?.touched || StartDate?.dirty)">
                 Start Date is Required.
             </div> 
+            
           </div>
           <!-- <span class="optional">(optional)</span> -->
           <div class="mb-2">
@@ -1053,7 +1057,7 @@
                 <div class="dropdown" style="width: 100%;">
                   <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select leave type <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
                   </button> -->
-                  <select class="form-select" id="exampleFormControlSelect1" formControlName="leaveType" [(ngModel)]="userLeaveRequest.leaveType">
+                  <select class="form-select" id="exampleFormControlSelect1" formControlName="leaveType" [(ngModel)]="userLeaveRequest.leaveType" (ngModelChange)="getIsPendingLeave(userLeaveRequest.leaveType)">
                     <option value="">Select Leave Type</option>
                     <option *ngFor="let ul of userLeave">
                         {{ul.leaveType}}</option>
@@ -1115,9 +1119,12 @@
         >
           Close
         </button>
-        <button type="button" class="btn btn-primary save-changes"  [disabled]="userLeaveForm.invalid" (click)="saveLeaveRequestUser()">
-          Submit
-        </button>
+        <button type="button" class="btn btn-primary save-changes"
+        [disabled]="userLeaveForm.invalid || !pendingFlag"
+        (click)="saveLeaveRequestUser()">
+  Submit
+</button>
+
       </div>
     </div>
   </div>
