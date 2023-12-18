@@ -2682,7 +2682,8 @@ thead>tr th:last-child {
 }
 
 .progress {
-    background-color: #f1f5fa
+    background-color: #f1f5fa;
+    height: 20px;
 }
 
 .progress-vertical {
