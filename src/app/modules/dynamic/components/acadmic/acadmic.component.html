@@ -9,42 +9,33 @@
             <div class="row">
                 <div class="col-md-12">
                 <div class="persnol-details">
-                    <h5>Acadmic</h5>
-                    <p class="mb-0">Fields with are mandatory </p>
+                    <h5>Academic Details</h5>
+                    <p class="mb-0">Fields with * are mandatory </p>
 
                     <div class="persnol-info mt-4">
                         <div class="row">
 
-                         
-
-                            <div class="col-md-6">
-                               <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2">Id (adhar card)</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Id">
-                               </div>
-                            </div>
-
                            
                             <div class="col-md-6">
                                <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2">Higtest Quallfication</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Higtest quallfication">
+                                   <label for="exampleInputEmail1" class="pb-2">Higtest Qualification</label>
+                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Please Enter Highest Qualification" [(ngModel)]="userAcademicsDetailRequest.highestEducationalLevel">
                                   
                                </div>
                             </div>
                             
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">High School Mark</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="High school mark">
+                                    <label for="exampleInputEmail1" class="pb-2">Degree/Diploma Obtained</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Please Enter Degree/Diploma Obtained" [(ngModel)]="userAcademicsDetailRequest.degreeObtained">
                                   
                                 </div>
                              </div>
                              <div class="col-md-6">
                                
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">High School Passing Year</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="High school passing year">
+                                    <label for="exampleInputEmail1" class="pb-2">Field of Study</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Please Enter Field of Study" [(ngModel)]="userAcademicsDetailRequest.fieldOfStudy">
                                   
                                 </div>
                              </div>
@@ -52,8 +43,8 @@
                              <div class="col-md-6">
                                
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Intermediate Passing Year</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Intermediate passing year">
+                                    <label for="exampleInputEmail1" class="pb-2">Institution Name</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Please Enter Institution Name" [(ngModel)]="userAcademicsDetailRequest.institutionName">
                                    
                                 </div>
                              </div>
@@ -61,8 +52,8 @@
                              <div class="col-md-6">
                                
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Gradution Mark</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Gradution mark">
+                                    <label for="exampleInputEmail1" class="pb-2">Grade/CGPA</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Please Enter Obtained Grade/CGPA" [(ngModel)]="userAcademicsDetailRequest.grade">
                                     
                                 </div>
                              </div>
@@ -70,8 +61,8 @@
                              <div class="col-md-6">
                                
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Gradution Passing Year</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Gradution passing year">
+                                    <label for="exampleInputEmail1" class="pb-2">Graduating Year</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Please Enter Passing Year" [(ngModel)]="userAcademicsDetailRequest.greaduationYear">
                                     
                                 </div>
                              </div>
@@ -79,10 +70,10 @@
 
                              <div class="col-md-12 d-flex justify-content-between mt-3">
                                 <div class="info-btn d-flex justify-content-start">
-                                    <button class="btn btn-primary back-btn" type="button"><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
+                                    <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()"><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
                                 </div>
                                 <div class="info-btn d-flex justify-content-end">
-                                    <button class="btn btn-primary" type="button">Next <i class="bi bi-arrow-right" style="padding-left: 8px; "></i></button>
+                                    <button class="btn btn-primary" type="button" (click)="setEmployeeAcademicsMethodCall(); routeToUserDetails()">Next <i class="bi bi-arrow-right" style="padding-left: 8px; "></i></button>
                                 </div>
                              </div>
                         </div>

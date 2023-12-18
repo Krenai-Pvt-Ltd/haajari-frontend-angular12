@@ -20,21 +20,28 @@
                             <div class="col-md-12">
                                <div class="mb-3">
                                    <label for="exampleInputEmail1" class="pb-2">Account Holder Name</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Account holder name">
+                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Account holder name" [(ngModel)]="userBankDetailRequest.accountHolderName">
                                </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="pb-2">Bank Name</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Bank name" [(ngModel)]="userBankDetailRequest.bankName">
+                                  
+                                </div>
+                             </div>
 
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="pb-2">Account Number</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Account number">
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Account number" [(ngModel)]="userBankDetailRequest.accountNumber">
                                   
                                 </div>
                              </div>
                             <div class="col-md-12">
                                <div class="mb-3">
                                    <label for="exampleInputEmail1" class="pb-2"> IFSC Number </label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="IFSC number">
+                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="IFSC number" [(ngModel)]="userBankDetailRequest.ifsc">
                                   
                                </div>
                             </div>
@@ -42,10 +49,10 @@
 
                              <div class="col-md-12 d-flex justify-content-between mt-3">
                                 <div class="info-btn d-flex justify-content-start">
-                                    <button class="btn btn-primary back-btn" type="button"><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
+                                    <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()"><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
                                 </div>
                                 <div class="info-btn d-flex justify-content-end">
-                                    <button class="btn btn-primary" type="button">Next <i class="bi bi-arrow-right" style="padding-left: 8px; "></i></button>
+                                    <button class="btn btn-primary" type="button" (click)="setEmployeeBankDetailsMethodCall(); routeToUserDetails()">Next <i class="bi bi-arrow-right" style="padding-left: 8px; "></i></button>
                                 </div>
                              </div>
                         </div>

@@ -179,3 +179,29 @@ span.members-namess {
     margin-top: 20px;
 }
 
+.completed i {
+    color: green; 
+    font-size: 20px; 
+    font-weight: bold;
+}
+/* Example of targeting the line after a completed step */
+.tracking-item.completed::after {
+    background-color: green;
+    /* Other styles for the line (e.g., dotted style, width, etc.) */
+}
+  
+  .completed span {
+    display: none;
+  }
+
+  .line {
+    /* Style for the default state of the line */
+    border-left: 2px dotted #ccc; /* Example for a vertical line */
+    height: 20px; /* Adjust the height as needed */
+  }
+  
+  .line-completed {
+    /* Style for the line when the step is completed */
+    border-left-color: green;
+  }
+  

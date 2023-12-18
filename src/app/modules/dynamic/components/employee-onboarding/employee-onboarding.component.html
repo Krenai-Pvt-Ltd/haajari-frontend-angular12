@@ -553,26 +553,26 @@
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="pb-2"> Name</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Name">
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Name" [(ngModel)]="userPersonalInformationRequest.name">
                     </div>
                  </div>
                  <div class="col-md-12">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="pb-2">Email Id</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email id">
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email id" [(ngModel)]="userPersonalInformationRequest.email">
                     </div>
                  </div>
                  <div class="col-md-12">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="pb-2">Phone Number</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Phone number">
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Phone number" [(ngModel)]="userPersonalInformationRequest.phoneNumber">
                     </div>
                  </div>
               </div>                          
             </div><!--end modal-body-->
             <div class="modal-footer d-flex align-items-center justify-content-end">
                 <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-primary" (click)="setEmployeePersonalDetailsMethodCall()">Submit</button>
             </div><!--end modal-footer-->
         </div><!--end modal-content-->
     </div><!--end modal-dialog-->

@@ -181,3 +181,36 @@
 .leave-delet-btn i{
     color: #eb5050;
 }
+
+.rule-main-box {
+    border-radius: 6px;
+    border: 1px solid #f5f5f5;
+    margin-bottom: 10px;
+}
+
+.attendance-boxx{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.late-rule {
+    width: 70%;
+}
+
+.late-rule h5 {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.late-rule p {
+    font-size: 12px;
+}
+.leave-apply{
+    width: 30%;
+    text-align: right;
+    padding-right: 20px;
+}
