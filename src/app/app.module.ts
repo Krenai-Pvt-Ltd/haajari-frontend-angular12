@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { Compiler, NgModule } from '@angular/core';
+
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
@@ -17,6 +17,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -24,8 +26,9 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
     NotifactionTostComponent,
   ],
   imports: [
-    BrowserModule,
     RouterModule,
+    CommonModule,
+    BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
@@ -47,7 +50,8 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
       {provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptorService,
       multi: true},
-      AngularFireStorage
+      AngularFireStorage,
+      Compiler
   ],
   bootstrap: [AppComponent]
 })

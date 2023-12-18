@@ -284,3 +284,12 @@ a.select-file {
     border: 1px solid #6666f3;
     background-color: #ecf1ff;
 }
+
+#imagePreview {
+    display: block;
+    width: 100px; /* Default width, can be adjusted */
+    height: 100px; /* Default height, can be adjusted */
+    border: 1px solid #000000; /* Optional border for visibility */
+    object-fit: cover; /* To keep aspect ratio */
+  }
+  
