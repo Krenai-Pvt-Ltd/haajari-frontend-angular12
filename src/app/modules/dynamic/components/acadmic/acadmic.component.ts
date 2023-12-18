@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
+import { UserAcademicsDetailRequest } from 'src/app/models/user-academics-detail-request';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-acadmic',
@@ -6,10 +9,65 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./acadmic.component.css']
 })
 export class AcadmicComponent implements OnInit {
+  userAcademicsDetailRequest: UserAcademicsDetailRequest = new UserAcademicsDetailRequest();
 
-  constructor() { }
+  constructor(private dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
+    this.getUserAcademicDetailsMethodCall();
+  }
+  backRedirectUrl(){
+    let navExtra: NavigationExtras = {
+      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+    };
+    this.router.navigate(['/employee-document'], navExtra);
   }
 
+  routeToUserDetails() {
+    let navExtra: NavigationExtras = {
+      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+    };
+    this.router.navigate(['/employee-experience'], navExtra);
+  }
+
+  userAcademicDetailsStatus = "";
+
+  setEmployeeAcademicsMethodCall() {
+    
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
+    this.dataService.markStepAsCompleted(3);
+    this.dataService.setEmployeeAcademics(this.userAcademicsDetailRequest, userUuid)
+      .subscribe(
+        (response: UserAcademicsDetailRequest) => {
+          console.log(response);  
+          this.userAcademicDetailsStatus = response.statusResponse;
+          // localStorage.setItem('statusResponse', JSON.stringify(this.userAcademicDetailsStatus));
+          // this.router.navigate(['/employee-experience']);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  }
+
+  getUserAcademicDetailsMethodCall() {
+    debugger
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+  
+    if (userUuid) {
+      this.dataService.getUserAcademicDetails(userUuid).subscribe(
+        (response: UserAcademicsDetailRequest) => {
+          this.userAcademicsDetailRequest = response;
+          this.dataService.markStepAsCompleted(3);
+        },
+        (error: any) => {
+          console.error('Error fetching user details:', error);
+          
+        }
+      );
+    } else {
+      console.error('uuidNewUser not found in localStorage');
+      
+    }
+  } 
 }

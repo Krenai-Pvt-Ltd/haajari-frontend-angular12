@@ -293,3 +293,13 @@ a.select-file {
     font-weight: 500;
     cursor: pointer;
 }
+
+.text-add, .text-delete {
+    color: #ff3e3e; /* Primary color, adjust as needed */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.text-add:hover, .text-delete:hover {
+    color: #ff0000; /* Darker shade for hover effect */
+}

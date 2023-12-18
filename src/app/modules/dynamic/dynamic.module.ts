@@ -3,8 +3,6 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
@@ -109,7 +107,6 @@ import { AngularFireStorage, AngularFireStorageModule } from "@angular/fire/comp
     NgxDaterangepickerMd.forRoot(),
     NgxShimmerLoadingModule,
     NgbModule,
-    MatFormFieldModule,
     FullCalendarModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
