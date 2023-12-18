@@ -343,3 +343,17 @@ span.add-project {
   white-space: nowrap;
   width: 140px;
 }
+
+@media screen  and (max-width: 2600px) {
+    .menu-body.navbar-vertical {
+        overflow-x: visible;
+        height: 690px;
+    }
+}
+
+@media screen  and (max-width: 1300px){
+    .menu-body.navbar-vertical {
+        overflow-x: auto;
+        height: 600px;
+    }
+}

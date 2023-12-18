@@ -723,3 +723,69 @@ button.btn.close-btn {
     position: absolute;
     border-left: 2px dashed #ebecee;
 }
+
+.shift-modal tr th{
+    font-size: 12px;
+    padding: 15px;
+}
+.shift-modal tr td{
+    font-size: 12px;
+    padding: 15px;
+}
+
+.table .thead-light th {
+    color: #8997bd;
+    background-color: #f9fafb;
+    border-color: #e8ebf3;
+    border-bottom: none;
+    font-size: 13px;
+}
+
+.table-design tr th {
+    border: 1px solid #e0e0e0;
+}
+.table-design tr td {
+    border: 1px solid #e0e0e0;
+}
+
+.shift-deta p{
+    font-size: 10px;
+}
+
+.shift-deta{
+    background-color: #f5f8fa;
+    border-radius: 2px;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.new-dropdown i {
+    position: absolute;
+    right: 15px;
+}
+
+.without_ampm::-webkit-datetime-edit-ampm-field {
+    display: none;
+  }
+  input[type=time]::-webkit-clear-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    -ms-appearance:none;
+    appearance: none;
+    margin: -10px; 
+  }
+
+  input[type=time]::-webkit-datetime-edit-ampm-field {
+    display: none;
+    }
+
+    .custom-time-input {
+        display: flex;
+        align-items: center;
+    }
+
+    select {
+        margin-right: 5px;
+    }
