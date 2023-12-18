@@ -2,19 +2,25 @@
     <div class="page-content-tab">
         <div class="container-fluid">
 
-            <!-- <div class="mb-4 mt-3 pb-3 border-buttom-setting d-flex align-items-center" style="gap:20px">
+            <div class="mb-4 mt-3 pb-3 border-buttom-setting d-flex align-items-center" style="gap:20px">
                 <div class="back-btns-box" routerLink="/employee-onboarding"> <i class="bi bi-chevron-left" ></i></div>
-                <h5 class="mt-0" style="margin-top: 10px !important;">Employee Profile</h5>
+                <h5 class="mt-0" style="margin-top: 10px !important;">{{user?.name}}</h5>
                   
-               </div> -->
+               </div>
 
             <div class="row mt-3">
                 <div class="col-md-9">
                     <div class="employee-profile-deta">
                           <div class="d-flex" style="gap:10px">
                             <div class="profile-image-name position-relative">
+                                <span class="profile-image-name-span" *ngIf="(user!.employeeOnboardingStatus?.response=='APPROVED')">
+                                    <i class="bi bi-check2"></i>
+                                </span>
+                                <span class="profile-image-name-span-reject" *ngIf="(user!.employeeOnboardingStatus?.response=='REJECTED')">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                </span>
 
-                                <div class="back-btns-box" routerLink="/employee-onboarding"> <i class="bi bi-chevron-left" ></i></div>
+                                
                                
                              
                             <span *ngIf="user?.image !== null">
@@ -46,6 +52,18 @@
                                             <th class="text-left">Father Name - </th>
                                             <td class="text-right">{{user.fatherName || 'N/A'}}</td>
                                         </tr>
+                                        <tr>
+                                            <th class="text-left">Marital Status - </th>
+                                            <td class="text-right">{{user.maritalStatus || 'N/A'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left"> Department - </th>
+                                            <td class="text-right">{{user.department || 'N/A'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left">  Nationality - </th>
+                                            <td class="text-right">{{user.nationality || 'N/A'}}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -68,10 +86,10 @@
                                         <button class="btn sand-request approved" type="button" (click)="updateStatusUserByUuid('APPROVED')">Approved</button>
                                         <button class="btn sand-request rejected" type="button" (click)="updateStatusUserByUuid('REJECTED')">Rejected</button>
                                     </div>
-                                    <div class="d-flex" style="gap:10px" *ngIf="(user!.employeeOnboardingStatus?.response!='PENDING')">
+                                    <!-- <div class="d-flex" style="gap:10px" *ngIf="(user!.employeeOnboardingStatus?.response!='PENDING')">
                                         <button class="btn sand-request approved" type="button" *ngIf="(user!.employeeOnboardingStatus?.response=='APPROVED')">{{user!.employeeOnboardingStatus?.response}}</button>
                                         <button class="btn sand-request rejected" type="button" *ngIf="(user!.employeeOnboardingStatus?.response=='REJECTED')">{{user!.employeeOnboardingStatus?.response}}</button>
-                                    </div>
+                                    </div> -->
 
                                 </div>
                             </div>
@@ -306,21 +324,25 @@
                                         </table>
                                     </div> -->
                                 <!-- </div> -->
-                                <div class="mt-3">
+                            <div class="">
                                <div class="d-flex justify-content-between align-items-center">
                                     <div class="">
-                                        <div class="date-all-approved d-flex align-items-center" style="gap: 10px;">
-                                            <span class="approved-left active-color" (click)="goBackward()" ><i class="bi bi-chevron-left"></i></span>
-                                            <span class="approved-right active-color" (click)="goforward()" ><i class="bi bi-chevron-right"></i></span>
-                                            </div>
+                                        <div class="date-all-approved d-flex align-items-center">
+                                            <span class="approved-left active-color" (click)="goBackward()" *ngIf="backwardFlag"><i class="bi bi-chevron-left"></i></span>
+                                            <span class="approved-right active-color" (click)="goforward()" *ngIf="forwordFlag"><i class="bi bi-chevron-right"></i></span>
+                                        </div>
+        
                                     </div>
+                                    <div class="today-btn">
+                                          <button class="btn btn-primary" type="button" (click)="goToday()">Today</button>
+                                     </div>
                                 </div>
-                                    <!-- <button class="btn btn-primary" >next</button>
-                                    <button class="btn btn-primary" >previous</button> -->
-                                    <full-calendar [options]="calendarOptions" id="calendar" #calendar></full-calendar>
-                                
+                                <!-- <button class="btn btn-primary; justify-content-right-end align-items-right-end" (click)="goToday()">Today</button> -->
+                                <full-calendar [options]="calendarOptions" id="calendar" #calendar></full-calendar>
                                 
                                 </div>
+                               
+
                                 
                                 <!-- <div class="mt-3">
                                     <mwl-calendar-month-view
@@ -368,22 +390,25 @@
 
                                                 <div class="align-items-center d-flex justify-content-end add-filtter mb-2">
                                                     <a class="btn"  data-bs-toggle="modal" data-bs-target=".apply-leave"><i class="bi bi-plus" style="font-size: 20px;"></i> Apply for a Leave</a>
-                                                </div>
+                                                </div>  
+
                                                
-                                                                <div class="d-flex align-items-center justify-content-between leves-type-s mb-2" *ngFor="let ul of userLeave">
+                                               
+                                                <div class="d-flex align-items-center justify-content-between leves-type-s mb-2" *ngFor="let ul of userLeave">
                                                                     <div class="">
                                                                         <h5>{{ul?.leaveType}}</h5>
                                                                     </div>
                                                                     <div class="d-flex align-items-center" >
-                                                                        <div class="Approved">
-                                                                           <p class="mb-0">{{ul?.approved}}</p>
-                                                                           <span class="total-holiday">Approved</span>
-                                                                        </div>
-                                                                        
+                                                                         
                                                                         <div class="Approved rejected-css">
                                                                             <p class="mb-0">{{ul?.totalQuota}}</p>
                                                                             <span class="total-holiday">Total</span>
                                                                          </div>
+                                                                        <div class="Approved">
+                                                                           <p class="mb-0">{{ul?.approved}}</p>
+                                                                           <span class="total-holiday">Approved</span>
+                                                                        </div>
+                                                                       
                                                                         <div class="Approved pending-css">
                                                                             <p class="mb-0">{{ul?.applied}}</p>
                                                                             <span class="total-holiday">Pending</span>
@@ -393,7 +418,7 @@
                                                                             <span class="total-holiday">Remaining</span>
                                                                          </div>
                                                                     </div>
-                                                                </div>
+                                                </div>
                                                          
                                                                 <!-- <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
                                                                     <div class="">
@@ -447,24 +472,172 @@
                                                         
                                             </div>
 
+                                               <!-- <div>
+                                                <select [(ngModel)]="selectedStatus" (change)="getUserLeaveLogByUuid()">
+                                                    <option value="" selected>All</option>
+                                                    <option value="approved">Approved</option>
+                                                    <option value="pending">Applied</option>
+                                                    <option value="rejected">Rejected</option>
+                                                </select>
+                                                </div> -->
+
+
 
                                             <div class="mt-3 logs-box">
 
                                                 <div style="text-align: left;">
+                                                    <div class="d-flex align-items-center justify-content-between">
                                                     <h5 class="mb-3">Leaves Logs</h5>
 
+                                                    <div class="" style="width: 175px;">
+                                                        <!-- <select [(ngModel)]="selectedStatus" (change)="getUserLeaveLogByUuid()">
+                                                            <option value="" selected>All</option>
+                                                            <option value="approved">Approved</option>
+                                                            <option value="pending">Applied</option>
+                                                            <option value="rejected">Rejected</option>
+                                                   </select> -->
 
-                                                    <ul class="acitivity-timeline-2 list-unstyled mb-0">
-                                                        <li>
-                                                            <h6 class="fs-md mt-0"> Apply casual Leave</h6>
-                                                            <div class="d-flex align-items-center mb-2 gap-3">
-                                                                <p class="mb-0">
-                                                                    <i class="bi bi-calendar align-baseline me-1"></i> 30-11-2023 
-                                                                </p>
+                                                   <div class="dropdown" style="width: 100%;" *ngIf="selectStatusFlag">
+                                                    <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                                                        {{  capitalizeFirstLetter(selectedStatus) || 'Leave Status' }} <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                                                    </button>
+                                                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                                                        <li><a class="dropdown-item" (click)="selectStatus('')">All</a></li>
+                                                        <li><a class="dropdown-item" (click)="selectStatus('approved')">Approved</a></li>
+                                                        <li><a class="dropdown-item" (click)="selectStatus('pending')">Applied</a></li>
+                                                        <li><a class="dropdown-item" (click)="selectStatus('rejected')">Rejected</a></li>
+                                                        <li><a class="dropdown-item" (click)="selectStatus('requested')">Requested</a></li>
+
+                                                    </ul>
+                                                </div>
+                                                
+                                                    </div>
+                                                </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12" *ngIf="isLeaveShimmer">
+                                                            <div class="leves-type-s mb-2">
+                                                                <div class="row">
+                                                                   <div class="col-md-4">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                   <div class="col-md-2">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                   <div class="col-md-2">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                   <div class="col-md-2">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                   <div class="col-md-2">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
                                                                 </div>
-                                                                <p class="text-muted mb-0">Anchal Sharma chose Subscription plan of 8999.0/year against email:- nelyqiri@clout.wiki</p>
+    
+                                                            </div>
+                                                            <div class="leves-type-s mb-2">
+                                                                <div class="row">
+                                                                   <div class="col-md-4">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                   <div class="col-md-2">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                   <div class="col-md-2">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                   <div class="col-md-2">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                   <div class="col-md-2">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                </div>
+    
+                                                            </div>
+                                                            <div class="leves-type-s mb-2">
+                                                                <div class="row">
+                                                                   <div class="col-md-4">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                   <div class="col-md-2">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                   <div class="col-md-2">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                   <div class="col-md-2">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                   <div class="col-md-2">
+                                                                    <h4><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                                                   </div>
+                                                                </div>
+    
+                                                            </div>
+                                                        </div>
+    
+                                                    </div>
+
+                                                    <div class="errorboxmain text-center" *ngIf="!isLeaveShimmer && isLeaveErrorPlaceholder" >
+                                                        <div class="errorboxinner" >
+                                                            <div class="errorboxplaceholder mb-2">
+                                                                <img src="assets/images/signal.svg" style="width:80px;" />
+                                                            </div>
+                                                            <div class="">
+                                                                <h4>Something went wrong!</h4>
+                                                                <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="errorboxmain text-center" *ngIf="!isLeaveShimmer && isLeavePlaceholder" >
+                                                        <div class="errorboxinner" >
+                                                            <div class="errorboxplaceholder mb-2">
+                                                                <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                                            </div>
+                                                            <div class="">
+                                                                <h4>No Data Found</h4>
+                                                                <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                  <div *ngIf="!isLeaveShimmer && !isLeavePlaceholder" class="mt-2">
+                                                   <div class ="scroll-box-logs">
+                                                    <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="let leaves of userLeaveLog">
+                                                        <li>
+                                                            <h6 class="fs-md mt-0">{{leaves.leaveType}} | 
+                                                                <span *ngIf="leaves.status=='approved'" style="color:green">{{capitalizeFirstLetter(leaves.status)}}<span> By </span></span>
+                                                                <span *ngIf="leaves.status=='pending'" style="color:orange">{{capitalizeFirstLetter('applied')}}<span> To </span></span>
+                                                                <span *ngIf="leaves.status=='rejected'" style="color:red">{{capitalizeFirstLetter(leaves.status)}}<span> By </span></span>
+                                                                <span *ngIf="leaves.status=='requested'" style="color:rgb(161, 205, 241)">{{capitalizeFirstLetter(leaves.status)}}<span> To </span></span>
+
+                                                                <span> - </span><span style="color:cadetblue">{{leaves.manager.name}}</span>
+                                                            </h6>
+                                                            <div style="display: block; margin-top: 5px; color: #6c757d;">
+                                                                <span style="font-size: 13px; font-weight: 600; vertical-align: middle;">
+                                                                    <i class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                                    {{formatDate(leaves.leaveDate) || 'N/A'}}&nbsp;<span>{{formatTime(leaves.leaveDate) || 'N/A'}}</span>
+                                                                </span>
+                                                                <!-- <span style="font-size: 14px; margin-left: 5px;">
+                                                                    
+                                                                </span> -->
+                                                            </div>
+                                                                <div class="d-flex align-items-center mb-2 gap-3">
+                                                                 <p class="mb-0" style="font-size: 12px;"> 
+                                                                   <span><b>Duration</b></span><span> : </span> {{leaves.startDate || 'N/A'}} - {{leaves.endDate || 'N/A'}} <span class="space-box">|</span><span><b>Total Days Count</b></span> : {{calculateDateDifference(leaves.endDate, leaves.startDate) || 'N/A'}}
+                                                                 </p>
+                                                                <!-- <p class="mb-0" style="font-size: 12px;"> 
+                                                                    <i class="bi bi-calendar align-baseline me-1"></i> {{leaves.startDate || 'N/A'}} - <span><b>Start Date</b></span> <span class="space-box"> | </span> {{leaves.endDate || 'N/A'}} - <span><b>End Date</b></span> <span class="space-box"> | </span>  {{calculateDateDifference(leaves.endDate, leaves.startDate) || 'N/A'}} - <span><b>Total Leave</b></span> <span class="space-box"> | </span> {{formatDate(leaves.leaveDate) || 'N/A'}} <span> | </span> {{formatTime(leaves.leaveDate) || 'N/A'}} -  <span><b>Apply Date</b></span> 
+                                                                </p>
+                                                    -->
+                                                                </div>
+                            
+                                                                <p class="text-muted mb-0"><b>Reason : </b>{{leaves.optNotes || 'N/A'}}</p>
                                                             </li>
-                                                            <li>
+                                                            <!-- <li>
                                                                 <h6 class="fs-md mt-0"> Apply casual Leave</h6>
                                                                 <div class="d-flex align-items-center mb-2 gap-3">
                                                                     <p class="mb-0">
@@ -472,12 +645,15 @@
                                                                     </p>
                                                                 </div>
                                                                 <p class="text-muted mb-0">Subscription Invoice generated for As and sent to nelyqiri@clout.wiki</p>
-                                                            </li>
-                                                            </ul>
+                                                            </li> -->
+                                                    </ul>
+                                                   </div>
+                                                   </div>
+                                                </div>
 
 
                                                     
-                                                </div>
+                                            
                                             </div>
                                             </div>
                                         <div class="tab-pane fade show mt-3" id="pending-employee" role="tabpanel">
@@ -492,12 +668,59 @@
                                                             <th>Full Adreess</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody class="table-design">
+
+                                                    <!-- <tbody class="table-design" *ngIf="isAddressShimmer">
                                                         <tr>
-                                                            <td>{{addressEmployee?.currentCountry || 'N/A'}} </td>
-                                                            <td>{{addressEmployee?.currentState || 'N/A'}}</td>
-                                                            <td>{{addressEmployee?.currentCity || 'N/A'}}</td>
-                                                            <td>{{addressEmployee?.currentAddress || 'N/A'}}</td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                        </tr>
+                                                    </tbody> -->
+
+                                                    
+
+                                                    <!-- <tbody *ngIf="isAddressPlaceholder">
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <div class="errorboxmain text-center" *ngIf="isAddressErrorPlaceholder" >
+                                                                    <div class="errorboxinner" >
+                                                                        <div class="errorboxplaceholder mb-2">
+                                                                            <img src="assets/images/signal.svg" style="width:80px;" />
+                                                                        </div>
+                                                                        <div class="">
+                                                                            <h4>Something went wrong!</h4>
+                                                                            <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody> -->
+
+                                                    <tbody *ngIf="isAddressPlaceholder">
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <div class="errorboxmain" >
+                                                                    <div class="errorboxinner" >
+                                                                        <div class="errorboxplaceholder mb-2">
+                                                                            <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                                                        </div>
+                                                                        <div class="">
+                                                                            <h4>No Data Found</h4>
+                                                                            <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody class="table-design" *ngIf="!isAddressPlaceholder">
+                                                        <tr>
+                                                            <td>{{addressEmployee?.currentCountry}} </td>
+                                                            <td>{{addressEmployee?.currentState}}</td>
+                                                            <td>{{addressEmployee?.currentCity}}</td>
+                                                            <td>{{addressEmployee?.currentAddress}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -520,8 +743,36 @@
                                                             <th>Position</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody class="table-design" *ngFor="let exp of experienceEmployee">
+
+                                                    <!-- <tbody class="table-design">
                                                         <tr>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                        </tr>
+                                                    </tbody> -->
+
+                                                    <tbody *ngIf="isCompanyPlaceholder">
+                                                        <tr>
+                                                            <td colspan="5">
+                                                                <div class="errorboxmain" >
+                                                                    <div class="errorboxinner" >
+                                                                        <div class="errorboxplaceholder mb-2">
+                                                                            <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                                                        </div>
+                                                                        <div class="">
+                                                                            <h4>No Data Found</h4>
+                                                                            <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody class="table-design" *ngIf="!isCompanyPlaceholder">
+                                                        <tr *ngFor="let exp of experienceEmployee">
                                                             <td>{{exp.companyName}}</td>
                                                             <td>{{exp.employementDuration}}</td>
                                                             <!-- <td>{{exp.companyName}}</td> -->
@@ -549,7 +800,35 @@
                                                             <th>Institution Name</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody class="table-design">
+                                                    <!-- <tbody class="table-design">
+                                                        <tr>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                        </tr>
+                                                    </tbody> -->
+
+                                                    <tbody *ngIf="isAcademicPlaceholder">
+                                                        <tr>
+                                                            <td colspan="6">
+                                                                <div class="errorboxmain" >
+                                                                    <div class="errorboxinner" >
+                                                                        <div class="errorboxplaceholder mb-2">
+                                                                            <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                                                        </div>
+                                                                        <div class="">
+                                                                            <h4>No Data Found</h4>
+                                                                            <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody class="table-design" *ngIf="!isAcademicPlaceholder">
                                                         <tr>
                                                             <td>{{academicEmployee?.degreeObtained || 'N/A'}}</td>
                                                             <td> {{academicEmployee?.fieldOfStudy || 'N/A'}}</td>
@@ -578,14 +857,39 @@
                                                             <!-- <th>Guardian Phone Number</th> -->
                                                         </tr>
                                                     </thead>
-                                                    <tbody class="table-design" *ngFor="let cn of contactsEmployee">
+                                                    <!-- <tbody class="table-design" >
                                                         <tr>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                            <td><ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading></td>
+                                                        </tr>
+                                                    </tbody> -->
+
+                                                    <tbody *ngIf="isContactPlaceholder">
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <div class="errorboxmain" >
+                                                                    <div class="errorboxinner" >
+                                                                        <div class="errorboxplaceholder mb-2">
+                                                                            <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                                                        </div>
+                                                                        <div class="">
+                                                                            <h4>No Data Found</h4>
+                                                                            <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    
+                                                    <tbody class="table-design" *ngIf="!isContactPlaceholder">
+                                                        <tr *ngFor="let cn of contactsEmployee">
                                                             <td>{{cn.contactName }}</td>
                                                             <td>{{cn.relationWithEmployee}}</td>
                                                             <td>{{cn.contactNumber}}</td>
                                                             <td>{{cn.medicalInfo}}</td>
-                                                            <!-- <td>{{cn.contactName}}</td> -->
-                                                            <!-- <td>{{cn.contactName}}</td> -->
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -607,23 +911,27 @@
                         
 
                         <div class="employ-nots">
-                            <h5>Bank Details</h5>
+                            <h5>Primary Bank Details</h5>
                             <div class="pt-1 employ-bank-detail">
                                 <div class="">
                                     <h6>Name</h6>
-                                    <h4>{{bankDetailsEmployee?.accountHolderName || 'N/A'}}</h4>
+                                    <h4 class="mt-2" *ngIf="isBankShimmer"> <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                    <h4 *ngIf="!isBankShimmer">{{bankDetailsEmployee?.accountHolderName || 'N/A'}}</h4>
                                 </div>
                                 <div class="pt-1">
                                     <h6>IFSC Code</h6>
-                                    <h4>{{bankDetailsEmployee?.ifsc || 'N/A'}}</h4>
+                                    <h4 class="mt-2" *ngIf="isBankShimmer"><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                    <h4 *ngIf="!isBankShimmer">{{bankDetailsEmployee?.ifsc || 'N/A'}}</h4>
                                 </div>
                                 <div class="pt-1">
                                     <h6>Account Number</h6>
-                                    <h4>{{bankDetailsEmployee?.accountNumber || 'N/A'}}</h4>
+                                    <h4 class="mt-2" *ngIf="isBankShimmer"><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                    <h4 *ngIf="!isBankShimmer">{{bankDetailsEmployee?.accountNumber || 'N/A'}}</h4>
                                 </div>
                                 <div class="pt-1">
                                     <h6>Bank Name</h6>
-                                    <h4>{{bankDetailsEmployee?.bankNameaccount || 'N/A'}}</h4>
+                                    <h4 class="mt-2" *ngIf="isBankShimmer"><ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading></h4>
+                                    <h4 *ngIf="!isBankShimmer">{{bankDetailsEmployee?.bankName || 'N/A'}}</h4>
                                 </div>
                             </div>
 
@@ -727,13 +1035,16 @@
           <div class="mb-2">
             <label for="username" style="padding-bottom: 6px"
               >Pick a starting date</label>
-            <input type="date" id="username" placeholder="Enter title ..." name="username" required="" class="form-control ng-untouched ng-pristine ng-invalid" formControlName="startDate" [(ngModel)]="userLeaveRequest.startDate"/>
+            <input type="date" id="username" placeholder="Enter title ..." required="" class="form-control ng-untouched ng-pristine ng-invalid" formControlName="startDate" [(ngModel)]="userLeaveRequest.startDate"/>
+            <div class="form-text text-danger" *ngIf="StartDate?.errors?.['required'] && (StartDate?.touched || StartDate?.dirty)">
+                Start Date is Required.
+            </div> 
           </div>
-          
+          <!-- <span class="optional">(optional)</span> -->
           <div class="mb-2">
             <label for="username" style="padding-bottom: 6px"
-              >Pick an ending date <span class="optional">(optional)</span></label>
-            <input type="date" id="username" placeholder="Enter title ..." name="username" required="" class="form-control ng-untouched ng-pristine ng-invalid" formControlName="endDate" [(ngModel)]="userLeaveRequest.endDate"/>
+              >Pick an ending date </label>
+            <input type="date" id="username" placeholder="Enter title ..." class="form-control ng-untouched ng-pristine ng-invalid" formControlName="endDate" [(ngModel)]="userLeaveRequest.endDate"/>
           </div>
           <div class="mb-2">
             <label for="username" style="padding-bottom: 6px"
@@ -742,11 +1053,14 @@
                 <div class="dropdown" style="width: 100%;">
                   <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select leave type <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
                   </button> -->
-                  <select class="form-select" name = "leaveType" id="exampleFormControlSelect1" formControlName="leaveType" [(ngModel)]="userLeaveRequest.leaveType">
+                  <select class="form-select" id="exampleFormControlSelect1" formControlName="leaveType" [(ngModel)]="userLeaveRequest.leaveType">
                     <option value="">Select Leave Type</option>
                     <option *ngFor="let ul of userLeave">
                         {{ul.leaveType}}</option>
                 </select>
+                <div class="form-text text-danger" *ngIf="LeaveType?.errors?.['required'] && (LeaveType?.touched || LeaveType?.dirty)">
+                    Leave Type Required.
+               </div>
                 </div>
               </div>
           </div>
@@ -765,19 +1079,30 @@
                 <div class="dropdown" style="width: 100%;">
                   <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select a user <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
                   </button> -->
-                  <select class="form-select" id="exampleFormControlSelect1" name="managerId" formControlName="managerId" [(ngModel)]="userLeaveRequest.managerId">
+                  <!-- <select class="form-select" id="exampleFormControlSelect1" name="managerId" formControlName="managerId" [(ngModel)]="userLeaveRequest.managerId">
                     <option value="">Select User</option>
                     <option>27</option>
                     <option>4</option>
                
                 </select>
+                <div class="form-text text-danger" *ngIf="ManagerId?.errors?.['required'] && (ManagerId?.touched || ManagerId?.dirty)">
+                    Select User to Request Leave Required.
+                </div> -->
+                <select class="form-select" id="manager" formControlName="managerId" [(ngModel)]="selectedManagerId">
+                    <option [ngValue]="undefined">Select Manager</option>
+                    <option *ngFor="let manager of managers" [ngValue]="manager.id">{{ manager.name }}</option>
+                  </select>
+                  
+                  <div class="form-text text-danger" *ngIf="ManagerId?.errors?.['required'] && (ManagerId?.touched || ManagerId?.dirty)">
+                    Select User to Request Leave Required.
+                  </div>
                 </div>
               </div>
           </div>
           <div class="mb-2">
             <label for="username" style="padding-bottom: 6px"
               >Notes <span class="optional">(optional)</span></label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Nots" rows="3" style="height:100px !important;" formControlName="optNotes" [(ngModel)]="userLeaveRequest.optNotes"> </textarea>
+              <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Notes" rows="3" style="height:100px !important;" formControlName="optNotes" [(ngModel)]="userLeaveRequest.optNotes"> </textarea>
           </div>
          </form>
         </div>

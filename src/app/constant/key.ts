@@ -9,6 +9,9 @@ export class Key{
     public static PRIVILEGE_ACCESS = 3;
 
 
+    public static OVERTIME_RULE = 4;
+
+
     public static DYNAMIC = "/dynamic";
     public static LOGIN = `${Key.DYNAMIC}/login`;
     public static ONBOARDING = `${Key.DYNAMIC}/onboarding`;
@@ -29,7 +32,7 @@ export class Key{
 
 
 
-    public static HEADER_RESTRICTION_ROUTES = ["/","/login", "/onboarding", "/slackauth", "/employee-onboarding-form", "/employee-address-detail", "/employee-document", "/acadmic", "/employee-experience", "/bank-details", "/emergency-contact", "/waiting" , "/testing"];
+    public static HEADER_RESTRICTION_ROUTES = ["/","/login", "/onboarding", "/slackauth", "/employee-onboarding-form", "/employee-address-detail", "/employee-document", "/acadmic", "/employee-experience", "/bank-details", "/emergency-contact", "/waiting" , "/testing", "/privacy", "/support"];
     
-    public static TOPBAR_RESTRICTION_ROUTES = ["/","/login", "/onboarding", "/slackauth", "/employee-onboarding-form", "/employee-address-detail", "/employee-document", "/acadmic", "/employee-experience", "/bank-details", "/emergency-contact", "/waiting", "/testing"];
+    public static TOPBAR_RESTRICTION_ROUTES = ["/","/login", "/onboarding", "/slackauth", "/employee-onboarding-form", "/employee-address-detail", "/employee-document", "/acadmic", "/employee-experience", "/bank-details", "/emergency-contact", "/waiting", "/testing", "/privacy", "/support"];
 }

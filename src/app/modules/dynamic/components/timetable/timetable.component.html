@@ -132,7 +132,7 @@
                                 <p>When your team submits time off requests,<br> they appear here.</p>
 
                                 <div class="mb-3">
-                                    <a href="" class="addinh-hiar">Learn about time off <i class="bi bi-arrow-up-right" style="padding-left: 8px; font-size: 12px; color: #557ef8; font-weight: bold;"></i></a>
+                                    <a href="" class="addinh-hiar">Learn about time off <i class="bi bi-arrow-up-right" style="padding-left: 8px; font-size: 12px; color: #6666f3; font-weight: bold;"></i></a>
                                 </div>
                              </div>
                         </div>
@@ -161,7 +161,7 @@
             <p>When your team submits time off requests,<br> they appear here.</p>
 
             <div class="mb-3">
-                <a href="" class="addinh-hiar">Learn about time off <i class="bi bi-arrow-up-right" style="padding-left: 8px; font-size: 12px; color: #557ef8; font-weight: bold;"></i></a>
+                <a href="" class="addinh-hiar">Learn about time off <i class="bi bi-arrow-up-right" style="padding-left: 8px; font-size: 12px; color: #6666f3; font-weight: bold;"></i></a>
             </div>
          </div>
     </div>
@@ -409,24 +409,25 @@
     </div>
   </div>
 
-    <div *ngIf="attendanceDataByDateKey.length!=0">
+    <div *ngIf="attendanceDataByDateKey.length!==0">
       <div class="monthly-section mt-3" *ngFor="let key of attendanceDataByDateKey">
         <div class="row" >
           <div class="col-md-6">
             <div class="Regular-data">
-              <h5>{{key}} </h5>
-              <!-- <span class="attendance-id">123</span> -->
+              <h5>{{extractFirstNameFromEmail(key)}} <span class="attendance-id">123</span></h5>
+
               <p>Not Marked</p>
               <div class="add-note d-flex" style="gap: 10px">
                 <a
                   href=""
                   data-bs-toggle="modal"
-                  data-bs-target=".bs-example-modal-center"
+                  data-bs-target="#addnotes"
+                  (click)="additionalNotesUserEmail=key"
                 >
                   Add Note</a
                 >
                 <a>|</a>
-                <a href="" data-bs-toggle="modal" data-bs-target=".viewlog">
+                <a href="" data-bs-toggle="modal" data-bs-target="#viewlog" (click)="viewLogs(key,attendanceDataByDate[key])">
                   View Logs</a
                 >
               </div>
@@ -455,7 +456,7 @@
               <div class="col-md-4">
                 <div class="in-time">
                   <span>Total Break</span> <span>|</span>
-                  <p class="mb-0">({{attendanceDataByDate[key].breakCount}}) &nbsp; &nbsp;<i style="color: black;" class="bi bi-chevron-down"></i></p>
+                  <p class="mb-0">({{attendanceDataByDate[key].breakCount}}) </p>
 
                  
                 </div>
@@ -469,32 +470,36 @@
 
               <div class="col-md-4">
                 <div class="in-time total-break-time-box position-relativ">
-                  <span>Back Timings</span> <span>|</span>
-                  <p class="mb-0">-</p>
-
-
-
+                  <span>Break Timings</span> <span>|</span>
+                  <p class="mb-0">&nbsp; &nbsp;<i style="color: black;" id="dropdownMenuButton" class="bi bi-chevron-down"></i></p>
                   <div class="total-braek-time">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                      <p>Break - 01:26 AM</p>
-                      <p>-</p>
-                      <p>Break Back - 02:17 AM</p>
+
+                    <div *ngIf="attendanceDataByDate[key].breakTimings.length!==0; else noBreaks;">
+
+                    <!-- <div class=""> -->
+                      <table class="table">
+                        <thead class="table-light">
+                          <tr>
+                            <th class="text-left">Break</th>
+                            <th class="text-left">Back</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let breakTimingsIterator of attendanceDataByDate[key].breakTimings">
+                            <td class="text-left">{{breakTimingsIterator.breakTime | timeFormat}}</td>
+                            <td class="text-left">{{breakTimingsIterator.backTime | timeFormat}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
-  
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                      <p>Break - 04:37 AM</p>
-                      <p>-</p>
-                      <p>Break Back - 05:11 AM</p>
-                    </div>
-  
-                    <div class="d-flex align-items-center justify-content-between">
-                      <p>Break - 06:37 AM</p>
-                      <p>-</p>
-                      <p>Break Back - 06:45 AM</p>
-                    </div>
+
+                    <ng-template #noBreaks>
+                      <p style="color: #009688; padding: 15px;">No breaks taken! 😐</p>
+                    </ng-template>
                 </div>
                 </div>
               </div>
+
               <div class="col-md-4">
                 <div class="in-time">
                   <span>Total Hours </span><span>|</span>
@@ -510,6 +515,7 @@
 
 <div
   class="modal fade bs-example-modal-center"
+  id="addnotes"
   tabindex="-1"
   role="dialog"
   aria-labelledby="mySmallModalLabel"
@@ -538,6 +544,7 @@
               name="username"
               required=""
               class="form-control ng-untouched ng-pristine ng-invalid"
+              [(ngModel)]="additionalNotes.title"
             />
           </div>
           <div class="mb-3">
@@ -547,6 +554,7 @@
               rows="5"
               id="message"
               style="height: 100px !important"
+              [(ngModel)]="additionalNotes.message"
             ></textarea>
           </div>
         </div>
@@ -556,10 +564,11 @@
           type="button"
           class="btn btn-de-secondary"
           data-bs-dismiss="modal"
+          #addNotesModalClose
         >
           Close
         </button>
-        <button type="button" class="btn btn-primary save-changes">
+        <button type="button" class="btn btn-primary save-changes" (click)="addAdditionalNotesMethodCall()">
           Submit
         </button>
       </div>
@@ -567,85 +576,154 @@
   </div>
 </div>
 
-<div
-  class="modal fade viewlog"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="mySmallModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title m-0" id="exampleModalCenterTitle">View Logs</h6>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <div class="">
-          <div class="">
-            <table class="table">
-              <thead class="table-light">
-                <tr>
-                  <th class="text-left">Date</th>
-                  <th class="text-left">In Time</th>
-                  <th class="text-left">Out Time</th>
-                  <th class="text-left">Total Time</th>
-                  <th class="text-left">Break</th>
-                  <th class="text-left">Back Time</th>
-                  <th class="text-left">Total Break</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="text-left">01-12-2023</td>
-                  <td class="text-left">10:13 AM</td>
-                  <td class="text-left">07:15 PM</td>
-                  <td class="text-left">08:50 H</td>
-                  <td class="text-left">01:10 PM</td>
-                  <td class="text-left">02:10 PM</td>
-                  <td class="text-left">01:20 H</td>
-                </tr>
-                <tr>
-                  <td class="text-left">01-12-2023</td>
-                  <td class="text-left">10:13 AM</td>
-                  <td class="text-left">07:15 PM</td>
-                  <td class="text-left">08:50 H</td>
-                  <td class="text-left">01:10 PM</td>
-                  <td class="text-left">02:10 PM</td>
-                  <td class="text-left">01:20 H</td>
-                </tr>
-                <tr>
-                  <td class="text-left">01-12-2023</td>
-                  <td class="text-left">10:13 AM</td>
-                  <td class="text-left">07:15 PM</td>
-                  <td class="text-left">08:50 H</td>
-                  <td class="text-left">01:10 PM</td>
-                  <td class="text-left">02:10 PM</td>
-                  <td class="text-left">01:20 H</td>
-                </tr>
-                <tr>
-                  <td class="text-left">01-12-2023</td>
-                  <td class="text-left">10:13 AM</td>
-                  <td class="text-left">07:15 PM</td>
-                  <td class="text-left">08:50 H</td>
-                  <td class="text-left">01:10 PM</td>
-                  <td class="text-left">02:10 PM</td>
-                  <td class="text-left">01:20 H</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+
+
+<div class="modal fade" id="viewlog" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+                    Attendance Log
+                </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- modal-header -->
+            <div class="modal-body" *ngIf="viewLogsAttendanceDataValue !== null && viewLogsAttendanceDataValue !== undefined">
+              
+                <!-- <div class="userdetails">
+                    <div class="d-flex align-items-center">
+                        <p class="text-end fw-bold">Name:</p>
+                        <p class="text-start">{{extractFirstNameFromEmail(viewLogsAttendanceDataKey)}}</p>
+                    </div>
+                </div>
+                <div class="userdetails">
+                    <div class="d-flex align-items-center">
+                        <p class="text-end fw-bold">Email:</p>
+                        <p class="text-start">{{viewLogsAttendanceDataKey}}</p>
+                    </div>
+                </div>
+                <div class="userdetails">
+                  <div class="d-flex align-items-center">
+                      <p class="text-end fw-bold">Date:</p>
+                      <p class="text-start">{{viewLogsAttendanceDataValue.createdDate | dateFormat}}</p>
+                  </div>
+              </div>
+                <div class="userdetails">
+                    <div class="d-flex align-items-center">
+                        <p class="text-end fw-bold">Check In Time:</p>
+                        <p class="text-start">{{viewLogsAttendanceDataValue.checkInTime | timeFormat}}</p>
+                    </div>
+                </div>
+                <div class="userdetails">
+                    <div class="d-flex align-items-center">
+                        <p class="text-end fw-bold">Check Out Time:</p>
+                        <p class="text-start">{{viewLogsAttendanceDataValue.checkOutTime | timeFormat}}</p>
+                    </div>
+                </div>
+                <div class="userdetails">
+                    <div class="d-lg-flex">
+                        <p class="text-end fw-bold">Breaks:</p>
+                        <table class="table" *ngIf="viewLogsAttendanceDataValue.breakTimings.length !== 0; else noBreaks;">
+                          
+                            <tbody>
+                               
+                                <tr *ngFor="let break of viewLogsAttendanceDataValue.breakTimings; let i = index;">
+                                    <td>({{(i+1)}}). {{ break.breakTime | timeFormat }} to {{ break.backTime | timeFormat}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ng-template #noBreaks>
+                          <p>No breaks taken! 😐</p>
+                        </ng-template>
+                    </div>
+                </div>
+                
+
+                <div class="userdetails">
+                    <div class="d-flex align-items-center">
+                        <p class="text-end fw-bold">Total Break Duration:</p>
+                        <p class="text-start">{{viewLogsAttendanceDataValue.breakDuration | durationFormat}}</p>
+                    </div>
+                </div>
+                <div class="userdetails">
+                    <div class="d-flex align-items-center">
+                        <p class="text-end fw-bold">Total Work Duration:</p>
+                        <p class="text-start">{{viewLogsAttendanceDataValue.duration | durationFormat}}</p>
+                    </div>
+                </div> -->
+
+                <div class="">
+                  <div  class="mt-2">
+                    <div class="scroll-box-logs">
+                     <ul class="acitivity-timeline-2 list-unstyled mb-0" >
+                         <li>
+                             <h6 class="fs-md mt-0">Check In 
+                             </h6>
+                             <div style="display: block; margin-top: 5px; color: #6c757d;">
+                                 <span style="font-size: 13px; font-weight: 600; vertical-align: middle;">
+                                     <i class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                     10:31 AM
+                                 </span>
+                             </div>
+                                 <div class="d-flex align-items-center mb-2 mt-2 gap-3">
+                                  <p class="mb-0" style="font-size: 14px;"> 
+                                    <span><b>Date</b></span><span> : </span>  December 15, 2023 
+                                  </p>
+                                 </div>
+                             </li>
+                     </ul>
+                     <ul class="acitivity-timeline-2 list-unstyled mb-0" >
+                      <li>
+                          <h6 class="fs-md mt-0">Check In 
+                          </h6>
+                          <div style="display: block; margin-top: 5px; color: #6c757d;">
+                              <span style="font-size: 13px; font-weight: 600; vertical-align: middle;">
+                                  <i class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                  10:31 AM
+                              </span>
+                          </div>
+                              <div class="d-flex align-items-center mb-2 mt-2 gap-3">
+                               <p class="mb-0" style="font-size: 14px;"> 
+                                 <span><b>Date</b></span><span> : </span>  December 15, 2023 
+                               </p>
+                              </div>
+                          </li>
+                  </ul>
+                  <ul class="acitivity-timeline-2 list-unstyled mb-0" >
+                    <li>
+                        <h6 class="fs-md mt-0">Check In 
+                        </h6>
+                        <div style="display: block; margin-top: 5px; color: #6c757d;">
+                            <span style="font-size: 13px; font-weight: 600; vertical-align: middle;">
+                                <i class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                10:31 AM
+                            </span>
+                        </div>
+                            <div class="d-flex align-items-center mb-2 mt-2 gap-3">
+                             <p class="mb-0" style="font-size: 14px;"> 
+                               <span><b>Date</b></span><span> : </span>  December 15, 2023 
+                             </p>
+                            </div>
+                        </li>
+                </ul>
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- modal-body -->
+            <div class="modal-footer d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+            <!-- modal-footer -->
         </div>
-      </div>
-      <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-de-secondary " data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary save-changes">Submit</button>
-            </div> -->
+        <!-- modal-content -->
+    </div>
+    <!-- modal-dialog -->
+</div>
+<!-- modal -->
+
     </div>
   </div>
 </div>

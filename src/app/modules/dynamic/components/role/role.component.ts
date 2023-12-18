@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModuleRequest } from 'src/app/models/module-request';
+import { UserAndControl } from 'src/app/models/user-and-control';
 import { ModuleResponse } from 'src/app/models/module-response';
 import { Role } from 'src/app/models/role';
 import { RoleRequest } from 'src/app/models/role-request';
+import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -12,22 +14,49 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./role.component.css']
 })
 export class RoleComponent implements OnInit {
+isShimmer: boolean = true;
+
 
   constructor(private dataService : DataService, private router : Router) { }
 
   roles : Role[] = [];
-  itemPerPage : number = 10;
+  itemPerPage : number = 5;
   pageNumber : number = 1;
   total !: number;
   rowNumber : number = 1;
   searchText : string = '';
+  users : User[] = [];
+  
 
   ngOnInit(): void {
+    this.getUserAndControlRolesByFilterMethodCall();
+    // this.getUsersByFilterMethodCall();
     this.call();
-    this.getAllRolesMethodCall();
-    this.getSubModuleByRoleMethodCall();
+    // this.getAllRolesMethodCall();
   }
 
+  selectedRole: any;
+  selectedUser: any;
+
+  // Method to update selectedRole
+  selectRole(role: any) {
+    this.selectedRole = role;
+  }
+
+  selectUser(user: any) {
+    this.selectedUser = user;
+  }
+
+  selectUserAndControl(userAndControl: UserAndControl) {
+    this.selectedUser = userAndControl.user;
+    this.selectedRole = userAndControl.role;
+  }
+
+  userAndControlDetailVariable : UserAndControl = new UserAndControl();
+  userAndControlDetailMethod(userAndControl : UserAndControl){
+    this.userAndControlDetailVariable = userAndControl;
+  }
+  // # Data Table of roles
   getAllRolesMethodCall(){
 
     this.dataService.getAllRoles(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'', 0).subscribe((data) => {
@@ -43,14 +72,10 @@ export class RoleComponent implements OnInit {
   }
 
   searchUsers(){
-    this.getAllRolesMethodCall();
+    this.getUserAndControlRolesByFilterMethodCall();
   }
 
-  onTableDataChange(event : any)
-  {
-    this.pageNumber=event;
-    this.getAllRolesMethodCall();
-  }
+  
 
   // # Modal Data
   name : string = '';
@@ -60,18 +85,28 @@ export class RoleComponent implements OnInit {
   moduleRequestList : ModuleRequest[] = [];
 
   showDataToModal(role : any){
-    this.roleRequest.id = role.id;
-    this.roleRequest.name = role.name;
-    this.roleRequest.description = role.description;
+
+    if(role === null || role === undefined){
+      this.roleRequest.id = 0;
+    } else {
+      this.roleRequest.id = role.id;
+      this.roleRequest.name = role.name;
+      this.roleRequest.description = role.description;
+    }
+
+    this.getSubModuleByRoleMethodCall();
+
   }
 
   getSubModuleByRoleMethodCall(){
-    this.dataService.getSubModuleByRole(1).subscribe((data) => {
+
+    console.log(this.roleRequest.id);
+    this.dataService.getSubModuleByRole(this.roleRequest.id).subscribe((data) => {
 
       this.moduleResponse = data;
 
       for(let i of this.moduleResponse){
-        debugger
+        
         const submodules = i.subModules;
 
         for(let j of submodules){
@@ -88,8 +123,37 @@ export class RoleComponent implements OnInit {
     })
   }
 
-  updateRolePermissionsMethodCall(){
-    this.dataService.updateRolePermissions(this.roleRequest).subscribe((data) => {
+
+  @ViewChild('createRoleModalClose') createRoleModalClose !: ElementRef;
+  createRoleMethodCall(){
+    this.dataService.createRole(this.roleRequest).subscribe((data) => {
+      console.log(data);
+      this.createRoleModalClose.nativeElement.click();
+    }, (error)=>{
+      console.log(error);
+    })
+  }
+  updateRoleWithPermissionsMethodCall(){
+    console.log(this.moduleRequestList);
+
+    const uniqueModuleRequestList = [];
+
+    for (let i of this.moduleRequestList) {
+      if (i.privilegeId !== null && i.privilegeId !== 0) {
+        const existingIndex = uniqueModuleRequestList.findIndex(
+          (item) => item.subModuleId === i.subModuleId && item.privilegeId === i.privilegeId
+        );
+    
+        if (existingIndex === -1) {
+          uniqueModuleRequestList.push(i);
+        }
+      }
+    }
+    
+    console.log(uniqueModuleRequestList);
+    this.roleRequest.moduleRequestList = uniqueModuleRequestList;
+ 
+    this.dataService.updateRoleWithPermissions(this.roleRequest).subscribe((data) => {
       console.log(data);
     }, (error) => {
 
@@ -97,8 +161,7 @@ export class RoleComponent implements OnInit {
     })
   }
 
-  settingModuleRequestValue(privilegeId : number, subModule : any){
-    debugger
+  settingSubModuleRequestValue(privilegeId : number, subModule : any){
 
     const moduleRequest : ModuleRequest = new ModuleRequest();
     moduleRequest.subModuleId = subModule.id;
@@ -123,15 +186,32 @@ export class RoleComponent implements OnInit {
 
   }
 
-  handleRadioClick(privilegeId: number, subModule: any) {
+  handleRadioClickForSubModule(privilegeId: number, subModule: any) {
     if (subModule.privilegeId === privilegeId) {
         subModule.privilegeId = null;
     } else {
         subModule.privilegeId = privilegeId;
     }
 
-    this.settingModuleRequestValue(privilegeId, subModule);
+    this.settingSubModuleRequestValue(privilegeId, subModule);
   }
+
+  handleRadioClickForModule(privilegeId: number, module: any){
+    if (module.privilegeId === privilegeId) {
+      module.privilegeId = null;
+    } else {
+      module.privilegeId = privilegeId;
+    }
+
+    const subModules = module.subModules;
+
+    for(let i of subModules){
+      this.handleRadioClickForSubModule(module.privilegeId, i);
+    }
+    // console.log(subModules);
+
+  // this.settingSubModuleRequestValue(privilegeId, module);
+}
 
   call(){
     this.dataService.callingHelloWorld().subscribe((data) => {
@@ -139,5 +219,81 @@ export class RoleComponent implements OnInit {
     }, (error) => {
       console.log(error);
     })
+  }
+
+
+  getUsersByFilterMethodCall(){
+    
+    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'name').subscribe((data) => {
+      this.users = data.users;
+      // this.total = data.count;
+
+      console.log(this.users,this.total);
+    })
+  }
+
+  @ViewChild('assignroleModalClose') assignroleModalClose !: ElementRef; 
+
+  assignRoleToUserInUserAndControlMethodCall(){
+    this.dataService.assignRoleToUserInUserAndControl((this.selectedUser.id), (this.selectedRole.id)).subscribe((data) => {
+      // console.log(data);
+      
+      this.assignroleModalClose.nativeElement.click();
+    }, (error) => {
+      console.log(error);
+      this.assignroleModalClose.nativeElement.click();
+    })
+  }
+
+
+
+  userAndControlRoles : UserAndControl[] = [];
+  userAndControlRolesTotalCount : number = 0;
+  getUserAndControlRolesByFilterMethodCall(){
+    this.dataService.getUserAndControlRolesByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((data) => {
+      
+      this.userAndControlRoles = data.object;
+      this.total = data.totalItems;
+
+      
+      console.log(this.userAndControlRoles,this.total);
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+
+  // ##### Pagination ############
+  changePage(page: number | string) {
+    if (typeof page === 'number') {
+      this.pageNumber = page;
+    } else if (page === 'prev' && this.pageNumber > 1) {
+      this.pageNumber--;
+    } else if (page === 'next' && this.pageNumber < this.totalPages) {
+      this.pageNumber++;
+    }
+    this.getUserAndControlRolesByFilterMethodCall();
+  }
+
+  getPages(): number[] {
+    const totalPages = Math.ceil(this.total / this.itemPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.total / this.itemPerPage);
+  }
+  getStartIndex(): number {
+    return (this.pageNumber - 1) * this.itemPerPage + 1;
+  }
+  getEndIndex(): number {
+    const endIndex = this.pageNumber * this.itemPerPage;
+    return endIndex > this.total ? this.total : endIndex;
+  }
+
+  onTableDataChange(event : any)
+  {
+    this.pageNumber=event;
+    this.getAllRolesMethodCall();
   }
 }

@@ -1,7 +1,7 @@
 
 
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { User } from 'src/app/models/user';
@@ -17,7 +17,7 @@ export class TeamDetailComponent implements OnInit {
 
 
   constructor(private dataService: DataService,
-    private activateRoute : ActivatedRoute, private helperService : HelperService) { 
+    private activateRoute : ActivatedRoute, private helperService : HelperService,  private router: Router) { 
       debugger
       if(this.activateRoute.snapshot.queryParamMap.has('teamId')){
         this.teamId = this.activateRoute.snapshot.queryParamMap.get('teamId');
@@ -33,8 +33,6 @@ export class TeamDetailComponent implements OnInit {
       };
 
   }
-
-      
 
 
   ngOnInit(): void {
@@ -285,6 +283,7 @@ export class TeamDetailComponent implements OnInit {
       .subscribe(
         response => {
           console.log('Success:', response);
+          location.reload();
         },
         error => {
           console.error('Error:', error);
@@ -352,5 +351,13 @@ export class TeamDetailComponent implements OnInit {
   // }
   
   
+
+  routeToUserDetails(uuid: string) {
+    let navExtra: NavigationExtras = {
+      queryParams: { userId: uuid },
+    };
+    this.router.navigate(['/employee-profile'], navExtra);
+  }
+
   
 }

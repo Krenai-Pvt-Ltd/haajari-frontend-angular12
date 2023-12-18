@@ -12,8 +12,8 @@
 }
 
 .nav-tabs .nav-link.active {
-    border-bottom: 2px solid #4660f6;
-    color: #4660f6;
+    border-bottom: 2px solid #6666f3;
+    color: #6666f3;
     background-color: transparent;
 }
 .nav-tabs .nav-link {
@@ -292,7 +292,7 @@ input:checked + label:after {
 
 .add-filtter a {
     margin-bottom: 0px;
-    color: #557ef8;
+    color: #6666f3;
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
@@ -308,6 +308,41 @@ button.btn.close-btn{
     position: absolute;
     right: 0px;
     top:0px; 
-    color: #557ef8;
+    color: #6666f3;
     cursor: pointer;
+}
+
+.new-deopdown i{
+    position: absolute;
+    right: 15px;
+    top: 12px;
+}
+
+.new-dropdown {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size: .875rem;
+    font-weight: 400;
+    height: 40px!important;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #e8ebf3;
+    color: #2d2e3e;
+}
+.new-dropdown i {
+    position: absolute;
+    right: 15px;
+}
+
+.pagination-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.pagination{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
 }

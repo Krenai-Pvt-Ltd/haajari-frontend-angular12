@@ -16,6 +16,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
   providers: [
       {provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptorService,
-      multi: true}
+      multi: true},
+      AngularFireStorage
   ],
   bootstrap: [AppComponent]
 })

@@ -6,6 +6,7 @@
     border-radius: 6px;
     border: 1px solid #f1f1f1;
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    overflow: hidden;
 
 }
 .profile-histery{
@@ -44,7 +45,7 @@ content: "present"!important;
 }
 
 .sand-request {
-    background-color: #4f5eee;
+    background-color: #6666f3;
     color: #fff;
     width: 100%;
 }
@@ -100,7 +101,7 @@ content: "present"!important;
     border-bottom: none;
 }
 .download-color{
-    color: #4f5eee;
+    color: #6666f3;
 }
 
 .delete-coloe{
@@ -131,8 +132,8 @@ content: "present"!important;
 }
 
 .nav-tabs .nav-link.active {
-    border-bottom: 2px solid #4660f6;
-    color: #4660f6;
+    border-bottom: 2px solid #6666f3;
+    color: #6666f3;
     background-color: transparent;
 }
 .nav-tabs .nav-link {
@@ -181,7 +182,7 @@ content: "present"!important;
 
 
 .active-color i {
-    color: blue !important;
+    color: #6666f3 !important;
 }
 .approved-left i{
     color: #b0b0b0;
@@ -241,6 +242,7 @@ span.members-name {
 
 
 .acitivity-timeline-2 li {
+    padding-bottom: 0;
     padding-bottom: 1.5rem;
     border-left: 1px solid #abaaed;
     position: relative;
@@ -274,16 +276,31 @@ span.members-name {
     color: #878a99;
 }
 
-.acitivity-timeline-2 li:last-child {
+/* .acitivity-timeline-2 li {
     border: 0;
     padding-bottom: 0;
+    padding-bottom: 1.5rem;
+    border-left: 1px solid #abaaed;
+    position: relative;
+    padding-left: 20px;
+    margin-left: 10px;
 }
+*/
+
+.acitivity-timeline-2:last-child li{
+    border-left: none;
+} 
 
 .logs-box{
     border: 1px solid #f1f1f1;
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     padding: 15px;
     
+}
+
+.space-box{
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .leves-type-s h5{
@@ -361,12 +378,12 @@ span.members-name {
 
  span.edit-profile {
     position: absolute;
-    top: 30px;
-    right: 75px;
+    top: 20px;
+    right: 78px;
     background-color: #fff;
     width: 25px;
     height: 25px;
-    border: 1px solid #4f5eee;
+    border: 1px solid #6666f3;
     border-radius: 50px;
     align-items: center;
     justify-content: center;
@@ -434,11 +451,11 @@ td.text-right {
 
 
 .rejected-css p{
-    color: #dceb50;
+    color: black;
 }
 
 .rejected-css span{
-    color: #dceb50 !important;
+    color: black !important;
 }
 
 
@@ -452,11 +469,11 @@ td.text-right {
 
 
 .remaining-css p{
-    color: #557ef8;
+    color: #6666f3;
 }
 
 .remaining-css span{
-    color: #557ef8 !important;
+    color: #6666f3 !important;
 }
 .Approved:last-child{
     border-right: none;
@@ -464,7 +481,7 @@ td.text-right {
 
 .add-filtter a {
     margin-bottom: 0px;
-    color: #557ef8;
+    color: #6666f3;
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
@@ -528,12 +545,12 @@ span.optional {
     justify-content: center;
     display: flex;
     line-height: 16px;
-    border: 1px solid #557ef8;
+    border: 1px solid #6666f3;
 }
 
 .back-btns-box i {
     margin-bottom: 0px;
-    color: #557ef8;
+    color: #6666f3;
     font-size: 18px;
     font-weight: 500;
     cursor: pointer;
@@ -541,5 +558,127 @@ span.optional {
     top: 0px;
 }
 ::ng-deep .fc .fc-button-group {
+    display: none!important;
+}
+
+::ng-deep .fc-toolbar-chunk .fc-today-button{
+    display: none!important;
+}
+
+.today-btn{
+    position: absolute;
+    right: 30px;
+    top: 20px;
+}
+
+.date-all-approved{
+    gap: 10px;
+    /* position: absolute;
+    right: 95px;
+    top: 29px; */
+    position: relative;
+}
+
+.errorboxmain{
+    min-height: 20vh;
+    background-color: #fff;
+}
+
+  .errorboxmain {
+    padding: 15px;
+}
+.approved-left{
+    position: absolute;
+    left: 0px;
+    top: 6px;
+}
+
+.approved-right{
+    position: absolute;
+    left: 160px;
+    top: 6px;
+}
+
+.profile-image-name-span{
+    top: -52px;
+    right: -49px;
+    bottom: 0;
+    z-index: 99;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    transform: rotate(44deg);
+    background-color: #3e993e;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid #3e993e; */
+}
+.profile-image-name-span-reject{
+    top: -52px;
+    right: -49px;
+    bottom: 0;
+    z-index: 99;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    transform: rotate(44deg);
+    background-color: red;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid #3e993e; */
+}
+.profile-image-name-span i{
+    top: 63px;
+    position: absolute;
+    transform: rotate(311deg);
+    font-size: 22px;
+}
+
+.profile-image-name-span-reject i{
+    top: 63px;
+    position: absolute;
+    transform: rotate(316deg);
+    font-size: 22px;
+}
+
+.scroll-box-logs{
+    height: 300px;
+    overflow-x: auto;
+}
+
+.scroll-box-logs::-webkit-scrollbar{
+    display: none;
+}
+/* ##############################3333 */
+
+.date-time-info {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.calendar-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: #007bff;
+    border-radius: 50%;
+    color: white;
+    margin-right: 10px;
+}
+
+.date-time-text {
+    color: #333;
+}
+
+/* ############ */
+::ng-deep .fc-today-button .fc-button .fc-button-primary{
     display: none!important;
 }

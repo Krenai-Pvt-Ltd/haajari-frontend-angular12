@@ -78,6 +78,7 @@ export class EmployeeOnboardingComponent implements OnInit {
           if (this.total == null) {
             this.placeholder = true;
             this.errorToggleTop = false;
+            this.searchUserPlaceholderFlag=false;
           } else {
             // Additional logic if needed
           }
@@ -130,9 +131,10 @@ selectStatus(status: string) {
   searchText: string = '';
   search:string='';
   crossFlag: boolean = false;
+  searchUserPlaceholderFlag: boolean=false;
   searchUsers(searchString: string) {
     this.crossFlag = true;
-  
+    this.searchUserPlaceholderFlag=true;
     if (searchString === 'any') {
       this.searchText = this.search;
       this.searchCriteria = '';
