@@ -64,7 +64,7 @@
 
                     <h5>Latest Joining - Pending Verification</h5>
 
-                    <!-- <div class="row mt-4 ">
+                    <div class="row mt-4 " *ngIf="isPendingShimmer">
                         <div class="col-md-4">
 
                             <div class="row">
@@ -104,9 +104,9 @@
                             </div>
 
                         </div>
-                    </div> -->
+                    </div>
 
-                    <div class="d-flex align-items-center mt-4" style="gap:10px;">
+                    <div class="d-flex align-items-center mt-4" style="gap:10px;" *ngIf="!isPendingShimmer">
                         
                         <div class="on-leave" *ngFor="let statusUsers of employeeStatus.last3PendingUsers">
                             <div class="d-flex align-items-center" style="gap:10px;">
@@ -152,6 +152,8 @@
 
                 </div>
                </div>
+
+
                <div class="col-md-5">
                 <div class="on-leave-section">
 
@@ -163,7 +165,7 @@
 
 
 
-                        <!-- <div class="row mt-4 ">
+                        <div class="row mt-4 " *ngIf="isPendingShimmer">
                             <div class="col-md-12">
     
                                 <div class="row">
@@ -176,8 +178,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
-                        <div class="on-leaves mt-4">
+                        </div>
+                        <div class="on-leaves mt-4" *ngIf="!isPendingShimmer">
                             <div class="d-flex align-items-center j" style="gap:10px;">
                             <div class=""> 
                                 <span *ngIf="employeeStatus!.lastApprovedUser?.image !== null">
@@ -195,8 +197,8 @@
                       </div>
                       <div class="">
                         <h5>Last Rejected</h5>
-<!-- 
-                        <div class="row mt-4 ">
+
+                        <div class="row mt-4 " *ngIf="isPendingShimmer">
                             <div class="col-md-12">
     
                                 <div class="row">
@@ -209,8 +211,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
-                        <div class="on-leaves mt-4">
+                        </div>
+                        <div class="on-leaves mt-4" *ngIf="!isPendingShimmer">
                             <div class="d-flex align-items-center" style="gap:10px;">
                             <div class="">
                                 <span *ngIf="employeeStatus!.lastRejectedUser?.image !== null">
@@ -529,26 +531,26 @@
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="pb-2"> Name</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Name">
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Name" [(ngModel)]="userPersonalInformationRequest.name">
                     </div>
                  </div>
                  <div class="col-md-12">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="pb-2">Email Id</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email id">
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email id" [(ngModel)]="userPersonalInformationRequest.email">
                     </div>
                  </div>
                  <div class="col-md-12">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="pb-2">Phone Number</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Phone number">
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Phone number" [(ngModel)]="userPersonalInformationRequest.phoneNumber">
                     </div>
                  </div>
               </div>                          
             </div><!--end modal-body-->
             <div class="modal-footer d-flex align-items-center justify-content-end">
                 <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-primary" (click)="setEmployeePersonalDetailsMethodCall()">Submit</button>
             </div><!--end modal-footer-->
         </div><!--end modal-content-->
     </div><!--end modal-dialog-->

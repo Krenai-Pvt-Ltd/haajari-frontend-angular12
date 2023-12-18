@@ -284,3 +284,22 @@ a.select-file {
     border: 1px solid #557ef8;
     background-color: #ecf1ff;
 }
+
+
+.add-filtter a {
+    margin-bottom: 0px;
+    color: #557ef8;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.text-add, .text-delete {
+    color: #ff3e3e; /* Primary color, adjust as needed */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.text-add:hover, .text-delete:hover {
+    color: #ff0000; /* Darker shade for hover effect */
+}

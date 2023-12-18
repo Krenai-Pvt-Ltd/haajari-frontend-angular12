@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { error } from 'console';
 import { ModuleRequest } from 'src/app/models/module-request';
 import { ModuleResponse } from 'src/app/models/module-response';
 import { Role } from 'src/app/models/role';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { UserAcademicsDetailRequest } from 'src/app/models/user-academics-detail-request';
 import { DataService } from 'src/app/services/data.service';
 
@@ -17,17 +17,32 @@ export class AcadmicComponent implements OnInit {
     this.getUserAcademicDetailsMethodCall();
   }
   backRedirectUrl(){
-    this.router.navigate(['/employee-document']);
+    let navExtra: NavigationExtras = {
+      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+    };
+    this.router.navigate(['/employee-document'], navExtra);
   }
+
+  routeToUserDetails() {
+    let navExtra: NavigationExtras = {
+      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+    };
+    this.router.navigate(['/employee-experience'], navExtra);
+  }
+
+  userAcademicDetailsStatus = "";
+
   setEmployeeAcademicsMethodCall() {
     
-    let userUuid = localStorage.getItem('uuidNewUser') || '';
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
+    this.dataService.markStepAsCompleted(3);
     this.dataService.setEmployeeAcademics(this.userAcademicsDetailRequest, userUuid)
       .subscribe(
         (response: UserAcademicsDetailRequest) => {
           console.log(response);  
-          
-          this.router.navigate(['/employee-experience']);
+          this.userAcademicDetailsStatus = response.statusResponse;
+          // localStorage.setItem('statusResponse', JSON.stringify(this.userAcademicDetailsStatus));
+          // this.router.navigate(['/employee-experience']);
         },
         (error) => {
           console.error(error);
@@ -37,12 +52,13 @@ export class AcadmicComponent implements OnInit {
 
   getUserAcademicDetailsMethodCall() {
     debugger
-    const userUuid = localStorage.getItem('uuidNewUser');
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
   
     if (userUuid) {
-      this.dataService.getNewUserPersonalInformation(userUuid).subscribe(
+      this.dataService.getUserAcademicDetails(userUuid).subscribe(
         (response: UserAcademicsDetailRequest) => {
           this.userAcademicsDetailRequest = response;
+          this.dataService.markStepAsCompleted(3);
         },
         (error: any) => {
           console.error('Error fetching user details:', error);

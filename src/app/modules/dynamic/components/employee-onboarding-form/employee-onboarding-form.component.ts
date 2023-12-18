@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { DataService } from 'src/app/services/data.service';
 
@@ -12,16 +12,27 @@ export class EmployeeOnboardingFormComponent implements OnInit {
 
   userPersonalInformationRequest: UserPersonalInformationRequest = new UserPersonalInformationRequest();
 
-  constructor(private dataService: DataService, private router: Router) { }
+  constructor(private dataService: DataService, private router: Router, private activateRoute: ActivatedRoute,
+) { }
 
   ngOnInit(): void {
     this.getNewUserPersonalInformationMethodCall();
   }
 
+
+  routeToUserDetails() {
+    let navExtra: NavigationExtras = {
+      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+    };
+    this.router.navigate(['/employee-address-detail'], navExtra);
+  }
+
+  
+   userPersonalDetailsStatus = "";
   setEmployeePersonalDetailsMethodCall() {
     
-    let userUuid = localStorage.getItem('uuidNewUser') || '';
-  
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
+    this.dataService.markStepAsCompleted(0);
    
     this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
       .subscribe(
@@ -29,11 +40,14 @@ export class EmployeeOnboardingFormComponent implements OnInit {
           console.log(response);  
           
           if (!userUuid) {
-            localStorage.setItem('uuidNewUser', response.userUuid);
+            // localStorage.setItem('uuidNewUser', response.uuid);
             this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
+            // this.userPersonalDetailsStatus = response.statusResponse;
+            // localStorage.setItem('statusResponse', JSON.stringify(this.userPersonalDetailsStatus));
+            this.dataService.markStepAsCompleted(0);
           }  
           
-          this.router.navigate(['/employee-address-detail']);
+          // this.router.navigate(['/employee-address-detail']);
         },
         (error) => {
           console.error(error);
@@ -45,12 +59,13 @@ export class EmployeeOnboardingFormComponent implements OnInit {
 
   getNewUserPersonalInformationMethodCall() {
     debugger
-    const userUuid = localStorage.getItem('uuidNewUser');
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
   
     if (userUuid) {
       this.dataService.getNewUserPersonalInformation(userUuid).subscribe(
         (response: UserPersonalInformationRequest) => {
           this.userPersonalInformationRequest = response;
+          this.dataService.markStepAsCompleted(0);
         },
         (error: any) => {
           console.error('Error fetching user details:', error);
@@ -63,5 +78,8 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     }
   } 
 
+  changeMethodCall(file : Event){
+    console.log(file);
+  }
   
 }

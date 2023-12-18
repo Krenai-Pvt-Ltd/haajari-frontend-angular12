@@ -1,89 +1,119 @@
 <app-employee-onboarding-sidebar></app-employee-onboarding-sidebar>
 
-
-
 <div class="page-wrapper">
     <div class="page-content-tab">
         <div class="container-fluid">
-
             <div class="row">
                 <div class="col-md-12">
-                <div class="persnol-details">
-                    <h5>Employee Emergency Contact</h5>
-                    <p class="mb-0">Fields with are mandatory </p>
+                    <div class="persnol-details">
+                        <h5>Employee Emergency Contact</h5>
+                        <p class="mb-0">Fields with * are mandatory</p>
 
-                    <div class="persnol-info mt-4">
-                        <div class="row">
+                        <div class="persnol-info mt-4">
+                            <div *ngFor="let contact of userEmergencyContactDetails; let i = index">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="name{{i}}" class="pb-2">Name</label>
+                                            <input type="text" class="form-control" id="name{{i}}" placeholder="Enter Name" [(ngModel)]="contact.contactName">
+                                        </div>
+                                    </div>
+                                    <!-- Other form fields for emergency contact -->
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                          <label for="relation{{i}}" class="pb-2">Relation with Employee</label>
+                                          <select class="form-control" id="relation{{i}}" [(ngModel)]="contact.relationWithEmployee">
+                                            <option value="" disabled>Select Relation</option>
+                                            <option value="spouse">Spouse</option>
+                                            <option value="parent">Father</option>
+                                            <option value="parent">Mother</option>
+                                            <option value="child">Child</option>
+                                            <option value="sibling">Sibling</option>
+                                            <option value="relative">Relative</option>
+                                            <option value="friend">Friend</option>
+                                            <option value="colleague">Colleague</option>
+                                            <!-- Add more options as needed -->
+                                          </select>
+                                        </div>
+                                      </div>
+                                      
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="phoneNumber{{i}}" class="pb-2">Phone Number</label>
+                                            <input type="text" class="form-control" id="phoneNumber{{i}}" placeholder="Enter Phone Number" [(ngModel)]="contact.contactNumber">
+                                        </div>
+                                    </div>
 
-                         
-
-                            <div class="col-md-6">
-                               <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2">Father Name</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Father name">
-                               </div>
+                                    <div class="col-md-12">
+                                        <span class="delete-icon" (click)="deleteEmergencyContact(i)">
+                                            <i class="bi bi-trash-fill" style="color: red;"></i> Delete
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="add-more">
+                                        <span (click)="addEmergencyContact()">
+                                            <i class="bi bi-plus" style="margin-bottom: 14px;"></i> Add More
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Father Phone Number</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Father phone number">
-                                  
+                            <!-- Confirmation Modal -->
+                            <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="confirmationModalLabel">Confirm Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to save these details?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <!-- Button to trigger success message -->
+                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()">Save Changes</button>
+                                        </div>
+                                    </div>
                                 </div>
-                             </div>
-                             <div class="col-md-12">
-                                <div style="position: relative;"><hr style="height: 1px; margin-top: 15px; margin-bottom: 15px; border: 0; background-color: #f3f3f3;"><span style="position: absolute; top: calc(50% - 12px); left: calc(50% - 23px); width: 46px; font-weight: 500; font-size: 14px; text-align: center; background-color: #fff; color: #A4A4A4;">Or</span></div>
-                             </div>
-                            <div class="col-md-6">
-                               <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2"> Mother Name </label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Mother name ">
-                                  
-                               </div>
                             </div>
+<!-- Success Message Modal -->
+<div class="modal" *ngIf="displaySuccessModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <i class="bi bi-check-circle" style="font-size: 48px; color: green;"></i>
+                <p class="mt-2">You have successfully registered</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Mother Phone Number</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Mother phone number">
-                                  
-                                </div>
-                             </div>
 
-                             <div class="col-md-12">
-                                <div style="position: relative;"><hr style="height: 1px; margin-top: 15px; margin-bottom: 215x; border: 0; background-color: #f3f3f3;"><span style="position: absolute; top: calc(50% - 12px); left: calc(50% - 23px); width: 46px; font-weight: 500; font-size: 14px; text-align: center; background-color: #fff; color: #A4A4A4;">Or</span></div>
-                             </div>
-                            
-                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2"> Guardian Name </label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Guardian name">
-                                   
-                                </div>
-                             </div>
- 
-                             <div class="col-md-6">
-                                 <div class="mb-3">
-                                     <label for="exampleInputEmail1" class="pb-2">Guardian Phone Number</label>
-                                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Guardian phone number">
-                                   
-                                 </div>
-                              </div>
 
-                             <div class="col-md-12 d-flex justify-content-between mt-3">
-                                <div class="info-btn d-flex justify-content-start">
-                                    <button class="btn btn-primary back-btn" type="button"><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
-                                </div>
-                                <div class="info-btn d-flex justify-content-end">
-                                    <button class="btn btn-primary" type="button">Next <i class="bi bi-arrow-right" style="padding-left: 8px; "></i></button>
-                                </div>
-                             </div>
+<div class="row">
+    <div class="col-md-12 d-flex justify-content-between mt-3">
+      <div class="info-btn d-flex justify-content-start">
+        <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()">
+          <i class="bi bi-arrow-left" style="padding-right: 8px;"></i> Back
+        </button>
+      </div>
+      <!-- Removed the unnecessary col-md-12 div -->
+      <div class="info-btn d-flex justify-content-end">
+        <!-- Button to trigger confirmation modal -->
+        <button type="button" class="btn btn-primary" (click)="setEmployeeEmergencyContactDetailsMethodCall()" data-bs-toggle="modal" data-bs-target="#confirmationModal">
+          Save <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+        </button>
+      </div>
+    </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
-
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 export class UserPersonalInformationRequest {
         name!: string;
         email!: string;
-        userUuid!: string;
+        uuid!: string;
         fatherName!: string;
         phoneNumber!: any;
         dob!: Date;
@@ -12,4 +12,5 @@ export class UserPersonalInformationRequest {
         position!: string;
         nationality!: string;
         maritalStatus!: string;
+        statusResponse!: string;
 }

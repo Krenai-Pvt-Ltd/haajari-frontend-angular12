@@ -41,6 +41,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="pb-2">File</label>
+                                    <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Select File" (change)="changeMethodCall($event)">
+                                </div>
+                             </div>
                             <div class="col-md-6">
                                <div class="mb-3">
                                    <label for="exampleInputEmail1" class="pb-2">Email Id</label>
@@ -93,6 +99,10 @@
                                     <ul aria-labelledby="maritalStatusDropdown" class="dropdown-menu" style="width: 100%;">
                                       <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Single'">Single</a></li>
                                       <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Married'">Married</a></li>
+                                      <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Divorced'">Divorced</a></li>
+                                      <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Widowed'">Widowed</a></li>
+                                      <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Seperated'">Seperated</a></li>
+
                                     </ul>
                                   </div>
                                 </div>                      
@@ -128,12 +138,12 @@
                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Enter nationality" [(ngModel)]="userPersonalInformationRequest.nationality">
                                </div>
                             </div>
-                             <div class="col-md-12 d-flex justify-content-between mt-3">
-                                <div class="info-btn d-flex justify-content-start">
+                             <div class="col-md-12 d-flex justify-content-end mt-3">
+                                <!-- <div class="info-btn d-flex justify-content-start">
                                     <button class="btn btn-primary back-btn" type="button" ><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
-                                </div>
-                                <div class="info-btn d-flex justify-content-end">
-                                    <button class="btn btn-primary" type="button" (click)="setEmployeePersonalDetailsMethodCall()" aria-label="Next Step">
+                                </div> -->
+                                <div class="info-btn">
+                                    <button class="btn btn-primary" type="button" (click)="routeToUserDetails(); setEmployeePersonalDetailsMethodCall()" aria-label="Next Step">
                                         Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                                       </button>
                                       

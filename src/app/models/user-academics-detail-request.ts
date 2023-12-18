@@ -4,6 +4,6 @@ export class UserAcademicsDetailRequest {
     fieldOfStudy!: string;
     institutionName!: string;
     greaduationYear!: string;
-    sameAddress!: boolean;
     grade!: string;
+    statusResponse!: string;
 }

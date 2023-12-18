@@ -1,96 +1,85 @@
 <app-employee-onboarding-sidebar></app-employee-onboarding-sidebar>
 
-
-
 <div class="page-wrapper">
     <div class="page-content-tab">
         <div class="container-fluid">
-
             <div class="row">
                 <div class="col-md-12">
-                <div class="persnol-details">
-                    <h5>Employee Eexperience</h5>
-                    <p class="mb-0">Fields with are mandatory </p>
+                    <div class="personal-details">
+                        <h5>Employee Experience</h5>
+                        <p class="mb-0">Fields with * are mandatory</p>
 
-                    <div class="persnol-info mt-4">
+                        <div *ngFor="let experience of userExperiences; let i = index" class="personal-info mt-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="companyName{{i}}" class="pb-2">Company Name</label>
+                                        <input type="text" class="form-control" id="companyName{{i}}" placeholder="Company name" [(ngModel)]="experience.companyName">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="employementDuration{{i}}" class="pb-2">Exp. Year</label>
+                                        <input type="text" class="form-control" id="employementDuration{{i}}" placeholder="Exp. Year" [(ngModel)]="experience.employementDuration">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="lastJobDepartment{{i}}" class="pb-2">Department</label>
+                                        <input type="text" class="form-control" id="lastJobDepartment{{i}}" placeholder="Department" [(ngModel)]="experience.lastJobDepartment">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="lastSalary{{i}}" class="pb-2">Last Salary</label>
+                                        <input type="text" class="form-control" id="lastSalary{{i}}" placeholder="Last salary" [(ngModel)]="experience.lastSalary">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="lastJobPosition{{i}}" class="pb-2">Position</label>
+                                        <input type="text" class="form-control" id="lastJobPosition{{i}}" placeholder="Position" [(ngModel)]="experience.lastJobPosition">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="lastJobResponsibilities{{i}}" class="pb-2">Responsibilities</label>
+                                        <input type="text" class="form-control" id="lastJobResponsibilities{{i}}" placeholder="Responsibilities" [(ngModel)]="experience.jobResponisibilities">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <span class="delete-icon" (click)="deleteExperience(i)">
+                                        <i class="bi bi-trash" style="color: red;"></i> Delete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
-
-                         
-
-                            <div class="col-md-6">
-                               <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2">Id (adhar card)</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Id">
-                               </div>
+                            <div class="col-md-12">
+                                <span class="add-more" (click)="addExperience()">
+                                    <i class="bi bi-plus" style="margin-bottom: 14px;"></i> Add More
+                                </span>
                             </div>
+                        </div>
 
-                           
-                            <div class="col-md-6">
-                               <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2">Company Name</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Company name">
-                                  
-                               </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Exp. Year</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Exp. Year">
-                                  
-                                </div>
-                             </div>
-                             <div class="col-md-6">
-                               
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Joining Date</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Joining date">
-                                  
-                                </div>
-                             </div>
-
-                             <div class="col-md-6">
-                               
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Department</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Department">
-                                   
-                                </div>
-                             </div>
-
-                             <div class="col-md-6">
-                               
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Last Salary</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Last salary">
-                                    
-                                </div>
-                             </div>
-
-                             <div class="col-md-6">
-                               
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Position</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Position">
-                                    
-                                </div>
-                             </div>
-                            
-
-                             <div class="col-md-12 d-flex justify-content-between mt-3">
+                        <div class="row">
+                            <div class="col-md-12 d-flex justify-content-between mt-3">
                                 <div class="info-btn d-flex justify-content-start">
-                                    <button class="btn btn-primary back-btn" type="button"><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
+                                    <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()">
+                                        <i class="bi bi-arrow-left" style="padding-right: 8px;"></i> Back
+                                    </button>
                                 </div>
                                 <div class="info-btn d-flex justify-content-end">
-                                    <button class="btn btn-primary" type="button">Next <i class="bi bi-arrow-right" style="padding-left: 8px; "></i></button>
+                                    <button class="btn btn-primary" type="button" (click)="setEmployeeExperienceDetailsMethodCall(); routeToUserDetails()">
+                                        Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                    </button>
                                 </div>
-                             </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
-
         </div>
     </div>
 </div>

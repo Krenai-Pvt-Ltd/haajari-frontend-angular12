@@ -1,25 +1,21 @@
-import { NgModule, ViewChild } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { NgxPaginationModule } from 'ngx-pagination';
-import {NgxDaterangepickerMd} from 'ngx-daterangepicker-material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavigationEnd, Router, RouterModule, Routes } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from './shared/shared.module';
-import { HeaderComponent } from './modules/common/header/header.component';
-import { AngularFireStorage } from '@angular/fire/compat/storage'
-import { AngularFireModule } from '@angular/fire/compat';
-import { environment } from 'src/environments/environment';
-import { EmployeeOnboardingSidebarComponent } from './modules/common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { RequestInterceptorService } from './configuration/request-interceptor.service';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from './shared/shared.module';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
   declarations: [
@@ -37,7 +33,13 @@ import { NotifactionTostComponent } from './modules/common/notifaction-tost/noti
     ReactiveFormsModule,
     NgxPaginationModule,
     SharedModule,
-    NgbModule
+    NgbModule,
+    FullCalendarModule
+
+    // CalendarModule.forRoot({
+    //   provide: DateAdapter,
+    //   useFactory: adapterFactory,
+    // }),
     // AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [

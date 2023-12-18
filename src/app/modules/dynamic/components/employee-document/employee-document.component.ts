@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-employee-document',
@@ -8,14 +9,29 @@ import { Router } from '@angular/router';
 })
 export class EmployeeDocumentComponent implements OnInit {
 
-  constructor(private router : Router) { }
+  constructor(private router : Router, private dataService : DataService) { }
 
   ngOnInit(): void {
   }
+  
   backRedirectUrl(){
-    this.router.navigate(['/employee-address-detail']);
+    let navExtra: NavigationExtras = {
+      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+    };
+    this.router.navigate(['/employee-address-detail'], navExtra);
   }
+
+  userDocumentsStatus = "";
+
   nextRedirectUrl(){
-    this.router.navigate(['/acadmic']);
+    // this.router.navigate(['/acadmic']);
+    this.dataService.markStepAsCompleted(2);
+  }
+
+  routeToUserDetails() {
+    let navExtra: NavigationExtras = {
+      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+    };
+    this.router.navigate(['/acadmic'], navExtra);
   }
 }
