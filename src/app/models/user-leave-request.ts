@@ -3,6 +3,7 @@ export class UserLeaveRequest {
     startDate !: Date;
     endDate !: Date;
     leaveType !: string;
+    uuid !: string;
     status !: string;
     managerId !: number;
     optNotes !: string;

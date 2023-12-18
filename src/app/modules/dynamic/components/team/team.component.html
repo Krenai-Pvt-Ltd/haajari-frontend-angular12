@@ -128,7 +128,7 @@
                 </a>
   
                 <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
-                <a (click)="saveSlackChannelsDataToTeam()"
+                <a (click)="saveSlackChannelsDataToTeam()" [ngClass]="{'disabled-lnk':rotateToggle}"
                   ><i
                     style="
                       font-size: 16px;
@@ -260,7 +260,7 @@
               class="btn create-team-on-slack"
               (click)="getFlagOfSlackPlaceholder()"
             >
-             Slack Data Sync ...
+             Reload
             </button>
             </div>
           </div>

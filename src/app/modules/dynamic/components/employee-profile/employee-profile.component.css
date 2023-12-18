@@ -682,3 +682,10 @@ span.optional {
 ::ng-deep .fc-today-button .fc-button .fc-button-primary{
     display: none!important;
 }
+
+
+.today{
+    background: rgba(85, 126, 248, .1);
+    color: #6666f3;
+    font-size: 14px;
+}
