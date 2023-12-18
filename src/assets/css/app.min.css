@@ -2682,7 +2682,8 @@ thead>tr th:last-child {
 }
 
 .progress {
-    background-color: #f1f5fa
+    background-color: #f1f5fa;
+    height: 20px;
 }
 
 .progress-vertical {
@@ -8991,3 +8992,7 @@ ul.pagination.justify-content-end {
     border: 0;
     cursor: pointer !important;
 }
+
+input[type=time]::-webkit-datetime-edit-ampm-field {
+    display: none;
+    }   
