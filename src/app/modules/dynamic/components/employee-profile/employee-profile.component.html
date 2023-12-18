@@ -609,17 +609,17 @@
                                                     <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="let leaves of userLeaveLog">
                                                         <li>
                                                             <h6 class="fs-md mt-0">{{leaves.leaveType}} | 
-                                                                <span *ngIf="leaves.status=='approved'" style="color:green">{{capitalizeFirstLetter(leaves.status)}}<span> By </span></span>
+                                                                <span *ngIf="leaves.status=='approved'" style="color:green">{{capitalizeFirstLetter(leaves?.status)}}<span> By </span></span>
                                                                 <span *ngIf="leaves.status=='pending'" style="color:orange">{{capitalizeFirstLetter('applied')}}<span> To </span></span>
-                                                                <span *ngIf="leaves.status=='rejected'" style="color:red">{{capitalizeFirstLetter(leaves.status)}}<span> By </span></span>
-                                                                <span *ngIf="leaves.status=='requested'" style="color:rgb(161, 205, 241)">{{capitalizeFirstLetter(leaves.status)}}<span> To </span></span>
+                                                                <span *ngIf="leaves.status=='rejected'" style="color:red">{{capitalizeFirstLetter(leaves?.status)}}<span> By </span></span>
+                                                                <span *ngIf="leaves.status=='requested'" style="color:rgb(161, 205, 241)">{{capitalizeFirstLetter(leaves?.status)}}<span> To </span></span>
 
-                                                                <span> - </span><span style="color:cadetblue">{{leaves.manager.name}}</span>
+                                                                <span> - </span><span style="color:cadetblue">{{leaves!.manager?.name}}</span>
                                                             </h6>
                                                             <div style="display: block; margin-top: 5px; color: #6c757d;">
                                                                 <span style="font-size: 13px; font-weight: 600; vertical-align: middle;">
                                                                     <i class="bi bi-calendar3" style="margin-right: 5px;"></i>
-                                                                    {{formatDate(leaves.leaveDate) || 'N/A'}}&nbsp;<span>{{formatTime(leaves.leaveDate) || 'N/A'}}</span>
+                                                                    {{formatDate(leaves?.leaveDate) || 'N/A'}}&nbsp;<span>{{formatTime(leaves?.leaveDate) || 'N/A'}}</span>
                                                                 </span>
                                                                 <!-- <span style="font-size: 14px; margin-left: 5px;">
                                                                     
@@ -627,7 +627,7 @@
                                                             </div>
                                                                 <div class="d-flex align-items-center mb-2 gap-3">
                                                                  <p class="mb-0" style="font-size: 12px;"> 
-                                                                   <span><b>Duration</b></span><span> : </span> {{leaves.startDate || 'N/A'}} - {{leaves.endDate || 'N/A'}} <span class="space-box">|</span><span><b>Total Days Count</b></span> : {{calculateDateDifference(leaves.endDate, leaves.startDate) || 'N/A'}}
+                                                                   <span><b>Duration</b></span><span> : </span> {{leaves?.startDate || 'N/A'}} - {{leaves?.endDate || 'N/A'}} <span class="space-box">|</span><span><b>Total Days Count</b></span> : {{calculateDateDifference(leaves.endDate, leaves.startDate) || 'N/A'}}
                                                                  </p>
                                                                 <!-- <p class="mb-0" style="font-size: 12px;"> 
                                                                     <i class="bi bi-calendar align-baseline me-1"></i> {{leaves.startDate || 'N/A'}} - <span><b>Start Date</b></span> <span class="space-box"> | </span> {{leaves.endDate || 'N/A'}} - <span><b>End Date</b></span> <span class="space-box"> | </span>  {{calculateDateDifference(leaves.endDate, leaves.startDate) || 'N/A'}} - <span><b>Total Leave</b></span> <span class="space-box"> | </span> {{formatDate(leaves.leaveDate) || 'N/A'}} <span> | </span> {{formatTime(leaves.leaveDate) || 'N/A'}} -  <span><b>Apply Date</b></span> 
@@ -635,7 +635,7 @@
                                                     -->
                                                                 </div>
                             
-                                                                <p class="text-muted mb-0"><b>Reason : </b>{{leaves.optNotes || 'N/A'}}</p>
+                                                                <p class="text-muted mb-0"><b>Reason : </b>{{leaves?.optNotes || 'N/A'}}</p>
                                                             </li>
                                                             <!-- <li>
                                                                 <h6 class="fs-md mt-0"> Apply casual Leave</h6>
