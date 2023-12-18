@@ -44,3 +44,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .fc-toolbar-chunk {
     padding-left: 25px;
 }
+.disabled-lnk{
+    pointer-events: none;
+}
