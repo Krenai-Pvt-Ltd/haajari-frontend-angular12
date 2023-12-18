@@ -1,5 +1,5 @@
 export class DeductionType {
-    id !: number;
-    type !: string;
-    description !: string;
+    id : number = 0;
+    type : string = '';
+    description : string = '';
 }

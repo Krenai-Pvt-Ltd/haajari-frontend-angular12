@@ -9,6 +9,9 @@ export class Key{
     public static PRIVILEGE_ACCESS = 3;
 
 
+    public static OVERTIME_RULE = 4;
+
+
     public static DYNAMIC = "/dynamic";
     public static LOGIN = `${Key.DYNAMIC}/login`;
     public static ONBOARDING = `${Key.DYNAMIC}/onboarding`;

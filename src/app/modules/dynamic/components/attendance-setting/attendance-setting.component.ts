@@ -1,10 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Key } from 'src/app/constant/key';
 import { AttendanceRuleDefinitionRequest } from 'src/app/models/attendance-rule-definition-request';
 import { AttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-definition-response';
 import { AttendanceRuleResponse } from 'src/app/models/attendance-rule-response';
 import { AttendanceRuleWithAttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-with-attendance-rule-definition-response';
 import { DeductionType } from 'src/app/models/deduction-type';
+import { OvertimeType } from 'src/app/models/overtime-type';
 import { Staff } from 'src/app/models/staff';
 import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
@@ -16,10 +18,8 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class AttendanceSettingComponent implements OnInit {
 
-selectedFilter: any;
-filterUsers() {
-throw new Error('Method not implemented.');
-}
+
+  OVERTIME_RULE : number = Key.OVERTIME_RULE;
 
   constructor(private dataService : DataService, private router: Router) { }
 
@@ -63,6 +63,7 @@ throw new Error('Method not implemented.');
   attendanceRuleResponseList : AttendanceRuleResponse[] = [];
   getAttendanceRuleByOrganizationMethodCall(){
     this.dataService.getAttendanceRuleByOrganization().subscribe((response) => {
+      debugger
       this.attendanceRuleResponseList = response;
       console.log(response);
     }, (error)=>{
@@ -77,9 +78,6 @@ throw new Error('Method not implemented.');
     this.dataService.getRegisteredAttendanceRuleByOrganization().subscribe((response) => {
       console.log(response);
       this.registeredAttendanceRuleResponseList = response;
-      for(let attendanceRuleResponse of this.registeredAttendanceRuleResponseList){
-        this.getAttendanceRuleDefinitionMethodCall(attendanceRuleResponse.id);
-      }
     }, (error)=>{
       console.log(error);
     });
@@ -91,6 +89,7 @@ throw new Error('Method not implemented.');
     this.attendanceRuleResponse = attendanceRuleResponse;
     this.attendanceRuleDefinitionRequest.attendanceRuleId = attendanceRuleResponse.id;
     this.getDeductionTypeMethodCall();
+    this.getOvertimeTypeMethodCall();
   }
 
   @ViewChild('attendanceRuleDefinitionModalClose') attendanceRuleDefinitionModalClose !: ElementRef;
@@ -153,8 +152,10 @@ throw new Error('Method not implemented.');
   attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse = new AttendanceRuleDefinitionResponse();  
   updateAttendenceRuleDefinition(attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse){
     this.getDeductionTypeMethodCall();
+    this.getOvertimeTypeMethodCall();
     this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
     this.selectDeductionType(attendanceRuleDefinitionResponse.deductionType);
+    this.selectOvertimeType(attendanceRuleDefinitionResponse.overtimeType);
     
     this.isFull = true;
     this.isHalf = true;
@@ -219,6 +220,15 @@ throw new Error('Method not implemented.');
       console.log(error);
     })
   }
+
+  overtimeTypeList : OvertimeType[] = [];
+  getOvertimeTypeMethodCall(){
+    this.dataService.getOvertimeType().subscribe((response) => {
+      this.overtimeTypeList = response;
+    }, (error) => {
+      console.log(error);
+    })
+  }
   
 
   selectedDeductionType : DeductionType = new DeductionType();
@@ -237,6 +247,20 @@ throw new Error('Method not implemented.');
   }
 
 
+  selectedOvertimeType : OvertimeType = new OvertimeType();
+
+  selectOvertimeType(overtimeType : OvertimeType){
+    this.selectedOvertimeType = overtimeType;
+    this.attendanceRuleDefinitionRequest.overtimeTypeId = overtimeType.id;
+
+    const res = document.getElementById('amount-in-rupees') as HTMLElement;
+
+    if(this.selectedOvertimeType.type === "FIXED AMOUNT"){
+      res.style.display = 'block';
+    } else{
+      res.style.display = 'none';
+    }
+  }
 
   //Extra
   countDurationDropdownList : string[] = ["Count", "Duration"];
@@ -292,7 +316,6 @@ throw new Error('Method not implemented.');
       this.selectedStaffsUuids.push(staff.uuid);
     }
     this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
-    console.log(this.selectedStaffs);
   }
 
   selectAll(checked: boolean) {
