@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { User } from 'src/app/models/user';
+import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -11,6 +12,7 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./employee-onboarding.component.css'],
 })
 export class EmployeeOnboardingComponent implements OnInit {
+  userPersonalInformationRequest: UserPersonalInformationRequest = new UserPersonalInformationRequest();
   constructor(
     private dataService: DataService,
     private activateRoute: ActivatedRoute,
@@ -256,6 +258,33 @@ selectStatus(status: string) {
       (error) => {
         console.log(error);
       }
+
     );
   }
+
+  // setEmployeePersonalDetailsMethodCall(){
+  //   debugger
+  //   const userUuid = '';
+  //   this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid )
+  // }
+
+
+
+
+  setEmployeePersonalDetailsMethodCall() {
+    
+   
+    this.dataService.setEmployeeByAdmin(this.userPersonalInformationRequest)
+      .subscribe(
+        (response: UserPersonalInformationRequest) => {
+          console.log(response);  
+        
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  }
+  
+
 }

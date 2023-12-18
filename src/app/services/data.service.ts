@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
 import { EventEmitter, Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { BehaviorSubject, Observable, Subject, throwError } from "rxjs";
 import { Organization, Users } from "../models/users";
 import { Savel } from "../models/savel";
 import { AttendenceDto } from "../models/attendence-dto";
@@ -15,6 +15,15 @@ import { OrganizationPersonalInformation } from "../models/organization-personal
 import { AttendanceWithLatePerformerResponseDto, AttendanceWithTopPerformerResponseDto } from "../models/Attendance.model";
 import { RoleRequest } from "../models/role-request";
 import { User } from "../models/user";
+import { UserPersonalInformationRequest } from "../models/user-personal-information-request";
+import { catchError } from "rxjs/operators";
+import { UserAddressDetailsRequest } from "../models/user-address-details-request";
+import { UserDocumentsRequest } from "../models/user-documents-request";
+import { UserAcademicsDetailRequest } from "../models/user-academics-detail-request";
+import { UserExperienceDetailRequest } from "../models/user-experience-detail-request";
+import { UserExperience } from "../models/user-experience";
+import { UserBankDetailRequest } from "../models/user-bank-detail-request";
+import { UserEmergencyContactDetailsRequest } from "../models/user-emergency-contact-details-request";
 import { AdditionalNotes } from "../models/additional-notes";
 import { AttendanceRuleDefinitionRequest } from "../models/attendance-rule-definition-request";
 import { UserDto } from "../models/user-dto.model";
@@ -23,6 +32,7 @@ import { UserDto } from "../models/user-dto.model";
   providedIn: "root",
 })
 export class DataService {
+  private stepsCompletionStatus = new BehaviorSubject<boolean[]>([false, false, false, false, false, false, false]);
   orgId: any;
   constructor(private httpClient: HttpClient) {}
   private orgIdEmitter = new EventEmitter<number>();
@@ -35,7 +45,9 @@ export class DataService {
   
   private baseUrl = "http://localhost:8080/api/v2"
 
-  //  private baseUrl = "https://backend.hajiri.work/api/v2";
+
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
+
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
     const params = new HttpParams().set("code_param", codeParam);
@@ -459,6 +471,33 @@ export class DataService {
     return this.httpClient.put<any>(`${this.baseUrl}/employee-onboarding-status/change-employee-onboarding-status`,{}, {params});
   }
 
+  setEmployeePersonalDetails(userPersonalInformationRequest: UserPersonalInformationRequest, userUuid: string): Observable<any> {
+    debugger
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    console.log("save")
+    return this.httpClient.put<any>(`${this.baseUrl}/users/save/employeePersonalDetails`, userPersonalInformationRequest, {params})
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeePersonalDetails:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  setEmployeeByAdmin(userPersonalInformationRequest: UserPersonalInformationRequest): Observable<any> {
+    debugger
+    // const params = new HttpParams()
+    // .set("userUuid", userUuid);
+   
+    return this.httpClient.put<any>(`${this.baseUrl}/users/save/employeePersonalDetails`, userPersonalInformationRequest)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeePersonalDetails:', error);
+          return throwError(error);
+        })
+      );
+    }
   getUserAndControlRolesByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string):Observable<any>{
     const params = new HttpParams()
     .set("item_per_page", itemPerPage.toString())
@@ -478,12 +517,92 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/additional-notes/add`, additionalNotes, {params});
   }
   
+  
+
+  getNewUserPersonalInformation(userUuid: string): Observable<any> {
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    const url = `${this.baseUrl}/users/get/employeePersonalDetails`;
+    return this.httpClient.get(url, {params});
+  }
+  
+  setEmployeeAddressDetails(userAddressDetailsRequest: UserAddressDetailsRequest, userUuid: string): Observable<any> {
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    return this.httpClient.put<any>(`${this.baseUrl}/user-address/save/user-address`, userAddressDetailsRequest, {params})
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeePersonalDetails:', error);
+          return throwError(error);
+        })
+      );
+  }
+  
+  getNewUserAddressDetails(userUuid: string): Observable<any> {
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    const url = `${this.baseUrl}/user-address/get/user-address`;
+    return this.httpClient.get(url, {params});
+  }
+
+  setEmployeeDocuments(userDocumentsRequest: UserDocumentsRequest, userUuid: string): Observable<any> {
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    return this.httpClient.put<any>(`${this.baseUrl}/user-address/save/user-address`, userDocumentsRequest, {params})
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeePersonalDetails:', error);
+          return throwError(error);
+        })
+      );
+  }
+  getEmployeeDocuments(userUuid: string): Observable<any> {
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    const url = `${this.baseUrl}/user-address/get/user-address`;
+    return this.httpClient.get(url, {params});
+  }
+  setEmployeeAcademics(userAcademicsDetailRequest: UserAcademicsDetailRequest, userUuid: string): Observable<any> {
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    return this.httpClient.put<any>(`${this.baseUrl}/user-academics/save/user-academics`, userAcademicsDetailRequest, {params})
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeePersonalDetails:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  getUserAcademicDetails(userUuid: string): Observable<any> {
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    const url = `${this.baseUrl}/user-academics/get/user-academics`;
+    return this.httpClient.get(url, {params});
+  }
+
   getEmployeeAdressDetails(userUuid:string):Observable<any>{
     const params = new HttpParams()
     .set("userUuid", userUuid)
    
     return this.httpClient.get<any>(`${this.baseUrl}/user-address/get/user-address`, {params});
   }
+
+  setEmployeeExperienceDetails(experiences: UserExperience[], userUuid: string): Observable<any> {
+    const params = new HttpParams().set("userUuid", userUuid);
+    return this.httpClient.put<any>(`${this.baseUrl}/user-experiences/save/experience`, experiences, { params })
+        .pipe(
+            catchError((error: HttpErrorResponse) => {
+                console.error('Error in setEmployeeExperienceDetails:', error);
+                return throwError(error);
+            })
+        );
+}
+getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperience[]> {
+  const params = new HttpParams().set("userUuid", userUuid);
+  return this.httpClient.get<UserExperience[]>(`${this.baseUrl}/user-experiences/getExperiences`, { params });
+}
+
 
   getEmployeeExperiencesDetails(userUuid:string):Observable<any>{
     const params = new HttpParams()
@@ -492,6 +611,8 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/user-experiences/getExperiences`, {params});
   }
 
+  
+
   getEmployeeAcademicDetails(userUuid:string):Observable<any>{
     const params = new HttpParams()
     .set("userUuid", userUuid)
@@ -499,13 +620,35 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/user-academics/user/getUserAcademics`, {params});
   }
 
-  getEmployeeContactsDetails(userUuid:string):Observable<any>{
+  setEmployeeEmergencyContactDetails(userEmergencyContactDetailsRequest: UserEmergencyContactDetailsRequest[], userUuid: string): Observable<any> {
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    return this.httpClient.put<any>(`${this.baseUrl}/user-emergency-contacts/save/emergency-contacts`, userEmergencyContactDetailsRequest, {params})
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeePersonalDetails:', error);
+          return throwError(error);
+        })
+      );
+  }
+  getEmployeeContactsDetails(userUuid:string):Observable<UserEmergencyContactDetailsRequest[]>{
     const params = new HttpParams()
     .set("userUuid", userUuid)
    
-    return this.httpClient.get<any>(`${this.baseUrl}/user-emergency-contacts/get/emergency-contacts`, {params});
+    return this.httpClient.get<UserEmergencyContactDetailsRequest[]>(`${this.baseUrl}/user-emergency-contacts/get/emergency-contacts`, {params});
   }
 
+  setEmployeeBankDetails(userBankDetailRequest: UserBankDetailRequest, userUuid: string): Observable<any> {
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    return this.httpClient.put<any>(`${this.baseUrl}/user-bank-details/save/bank-details`, userBankDetailRequest, {params})
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeePersonalDetails:', error);
+          return throwError(error);
+        })
+      );
+  }
   getEmployeeBankDetails(userUuid:string):Observable<any>{
     const params = new HttpParams()
     .set("userUuid", userUuid)
@@ -534,6 +677,18 @@ export class DataService {
    
     return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-organization-onboarding-date`, {params});
   }
+
+  get stepsCompletionStatus$() {
+    return this.stepsCompletionStatus.asObservable();
+  }
+
+  markStepAsCompleted(stepIndex: number): void {
+    const currentStatus = this.stepsCompletionStatus.value;
+    currentStatus[stepIndex] = true;
+    this.stepsCompletionStatus.next(currentStatus);
+    console.log("shared step")
+  }
+
 
   getAttendanceRuleByOrganization(){
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/get`);
