@@ -8992,3 +8992,7 @@ ul.pagination.justify-content-end {
     border: 0;
     cursor: pointer !important;
 }
+
+input[type=time]::-webkit-datetime-edit-ampm-field {
+    display: none;
+    }   

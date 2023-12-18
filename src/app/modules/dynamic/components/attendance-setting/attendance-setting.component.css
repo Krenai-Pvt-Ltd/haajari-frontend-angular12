@@ -759,3 +759,33 @@ button.btn.close-btn {
     cursor: pointer;
     margin-bottom: 10px;
 }
+
+.new-dropdown i {
+    position: absolute;
+    right: 15px;
+}
+
+.without_ampm::-webkit-datetime-edit-ampm-field {
+    display: none;
+  }
+  input[type=time]::-webkit-clear-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    -ms-appearance:none;
+    appearance: none;
+    margin: -10px; 
+  }
+
+  input[type=time]::-webkit-datetime-edit-ampm-field {
+    display: none;
+    }
+
+    .custom-time-input {
+        display: flex;
+        align-items: center;
+    }
+
+    select {
+        margin-right: 5px;
+    }

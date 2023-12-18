@@ -207,37 +207,37 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
-                                            <p class="mb-0">Shift Type - Day</p>
+                                            <p class="mb-0">Shift Type | <span style="color: #009688;">Day</span></p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
-                                            <p class="mb-0">In Time - 10:00 AM</p>
+                                            <p class="mb-0">In Time | <span style="color: #009688;">10:00 AM</span> </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
-                                            <p class="mb-0">Out Time - 07:00 PM</p>
+                                            <p class="mb-0">Out Time | <span style="color: #009688;">07:00 PM</span> </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
-                                            <p class="mb-0">Working Hours - 08:00</p>
+                                            <p class="mb-0">Working Hours | <span style="color: #009688;">08:00</span> </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
-                                            <p class="mb-0">Break Time - 01:00 PM</p>
+                                            <p class="mb-0">Break Time | <span style="color: #009688;">01:00 PM</span> </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
-                                            <p class="mb-0">Back Time - 012:00 PM</p>
+                                            <p class="mb-0">Back Time | <span style="color: #009688;">12:00 PM</span> </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
-                                            <p class="mb-0">Total Break Hours - 01:00</p>
+                                            <p class="mb-0">Total Break Hours | <span style="color: #009688;"> 01:00</span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -830,8 +830,8 @@
                                               <span class="input-group-text">Hrs.</span>
                                             </div> -->
                                                     <div class="d-flex" style="justify-content: center; align-items: center; width: 135px; gap:10px">
-                                                        <input type="time" class="form-control" aria-describedby="emailHelp"
-                                                        placeholder=""
+                                                        <input type="time" class="form-control without_ampm" id="hoursInput" aria-describedby="emailHelp"  
+                                                        placeholder="" 
                                                         [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration">
                                                         <span>hrs.</span>
                                                     </div>
@@ -879,13 +879,7 @@
                                                             <button class="btn btn-secondary dropdown-toggle new-dropdown"
                                                                 type="button" id="dropdownMenuButton1"
                                                                 data-bs-toggle="dropdown" aria-expanded="false"
-                                                                style="
-                                                        
-                                                                                                                            text-align: right;
-                                                                                                                            background-color: white;
-                                                                                                                            color: black;
-                                                                                                                            border-color: #ced4da;
-                                                                                                                            width: 100%;">
+                                                                style=" text-align: left; background-color: white; color: black; border-color: #ced4da; width: 100%;">
                                                                 {{ selectedDeductionType ? selectedDeductionType.type :
                                                                 "Select deduction type" }}
                                                                 <i class="bi bi-chevron-down"></i>
