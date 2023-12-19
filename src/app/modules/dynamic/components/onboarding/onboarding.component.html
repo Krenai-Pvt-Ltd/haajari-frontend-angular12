@@ -865,7 +865,7 @@
                                       </td>
 
                                       <td class="text-left">
-                                        <div class="" style="margin-left: 35%;">
+                                        <!-- <div class="" >
                                           <input
                                             type="checkbox"
                                             [(ngModel)]="sav.status"
@@ -880,6 +880,10 @@
                                             class="hafday"
                                             >Toggle</label
                                           >
+                                        </div> -->
+                                        <div class="material-switch">
+                                          <input  type="checkbox" [(ngModel)]="sav.status" (change)="updateLeaveStatus(sav)" id="switch{{ sav.id }}" name="leaveStatus" class="ng-untouched ng-pristine ng-valid">
+                                          <label class="label-success"  for="switch{{ sav.id }}" (click)="setAce()"></label>
                                         </div>
                                       </td>
                                     </tr>
