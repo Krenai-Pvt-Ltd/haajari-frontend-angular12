@@ -45,6 +45,7 @@ import { SharedModule } from './shared/shared.module';
     // AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
+    
       {provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptorService,
       multi: true},

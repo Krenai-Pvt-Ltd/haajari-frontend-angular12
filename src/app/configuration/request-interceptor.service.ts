@@ -48,7 +48,7 @@ export class RequestInterceptorService implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('token');
-  
+  console.log("token is ",token)
     debugger
     if (token !== null && token !== null) {
       request = this.addTokenToHeaders(request, token);
