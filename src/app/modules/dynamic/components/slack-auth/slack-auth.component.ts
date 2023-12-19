@@ -5,6 +5,7 @@ import { Organization } from 'src/app/models/organization';
 // import { CookieService } from 'ngx-cookie-service';
 import { DataService } from 'src/app/services/data.service';
 import { jwtDecode } from "jwt-decode";
+import { Key } from 'src/app/constant/key';
 
 
 @Component({
@@ -39,6 +40,8 @@ export class SlackAuthComponent implements OnInit{
 
       debugger
       const decodedValue = this.decodeFirebaseAccessToken(response.access_token);
+
+      Key.LOGGED_IN_USER = decodedValue;
 
       debugger
       console.log(decodedValue);

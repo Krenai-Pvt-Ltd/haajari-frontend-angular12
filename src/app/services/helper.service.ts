@@ -40,5 +40,18 @@ export class HelperService {
       
     }
   }
+
+
+  getFirstAndLastLetterFromName(name: string): string {
+    let words = name.split(' ');
+
+    if (words.length >= 2) {
+        let firstLetter = words[0].charAt(0);
+        let lastLetter = words[words.length - 1].charAt(0);
+        return firstLetter + lastLetter;
+    } else {
+        return "";
+    }
+  }
   
 }

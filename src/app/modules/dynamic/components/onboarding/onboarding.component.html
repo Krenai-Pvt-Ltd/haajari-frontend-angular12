@@ -31,9 +31,9 @@
                       class="rounded-circle me-2 thumb-sm"
                     />
                     <div>
-                      <small class="d-none d-md-block font-11">Admin</small
+                      <small class="d-none d-md-block font-11">{{loggedInUser.role}}</small
                       ><span class="d-none d-md-block fw-semibold font-12"
-                        >Yogesh Yadav <i class="mdi mdi-chevron-down"></i
+                        >{{loggedInUser.name}}<i class="mdi mdi-chevron-down"></i
                       ></span>
                     </div>
                   </div>
@@ -50,7 +50,7 @@
                     Settings</a
                   >
                   <div class="dropdown-divider mb-0"></div>
-                  <a href="auth-login.html" class="dropdown-item"
+                  <a class="dropdown-item" (click)="onLogout()"
                     ><i class="ti ti-power font-16 me-1 align-text-bottom"></i>
                     Logout</a
                   >
@@ -590,7 +590,7 @@
                               <p class="mb-0">Get Daily Notes at Check-in</p>
                             </div>
                             <div>
-                              <div class="">
+                              <!-- <div class="">
                                 <input
                                   type="checkbox"
                                   id="switch"
@@ -604,6 +604,10 @@
                                   id="enableCheckInQuestionnaire"
                                   >Toggle</label
                                 >
+                              </div> -->
+                              <div class="material-switch">
+                                <input  type="checkbox" [(ngModel)]="dailyNotesData.enableCheckInQuestionnaire" name="enableCheckInQuestionnaire" id="switch" class="ng-untouched ng-pristine ng-valid">
+                                <label class="label-success" id="enableCheckInQuestionnaire" for="switch"></label>
                               </div>
                             </div>
 
@@ -651,7 +655,7 @@
                               <p class="mb-0">Get Daily Notes at Check-out</p>
                             </div>
                             <div>
-                              <div class="">
+                              <!-- <div class="">
                                 <input
                                   type="checkbox"
                                   id="switch2"
@@ -665,6 +669,10 @@
                                   id="enableCheckOutQuestionnaire"
                                   >Toggle</label
                                 >
+                              </div> -->
+                              <div class="material-switch">
+                                <input  type="checkbox" [(ngModel)]="dailyNotesData.enableCheckOutQuestionnaire" name="enableCheckOutQuestionnaire" id="switchnew" class="ng-untouched ng-pristine ng-valid">
+                                <label class="label-success" id="enableCheckOutQuestionnaire" for="switchnew"></label>
                               </div>
                             </div>
                           </div>
@@ -883,7 +891,7 @@
                                         </div> -->
                                         <div class="material-switch">
                                           <input  type="checkbox" [(ngModel)]="sav.status" (change)="updateLeaveStatus(sav)" id="switch{{ sav.id }}" name="leaveStatus" class="ng-untouched ng-pristine ng-valid">
-                                          <label class="label-success"  for="switch{{ sav.id }}" (click)="setAce()"></label>
+                                          <label class="label-success" id="switch{{ sav.id }}" for="switch{{sav.id}}" (click)="setAce()"></label>
                                         </div>
                                       </td>
                                     </tr>

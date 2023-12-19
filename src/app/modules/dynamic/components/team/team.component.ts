@@ -60,6 +60,11 @@ export class TeamComponent implements OnInit{
       this.getFirebaseDataOfReload();
     }
 
+    // const localStorageRotateToggle = localStorage.getItem('rotateToggle');
+    // if(localStorageRotateToggle){
+    //   this.rotateToggle = true;
+    // }
+
 
 
   // if (!localStorageFlag && this.localStorageRoleAdminFlag==true) {
@@ -391,6 +396,7 @@ export class TeamComponent implements OnInit{
   saveSlackChannelsDataToTeam(){
     debugger
     this.rotateToggle = true;
+    // localStorage.setItem("rotateToggle", this.rotateToggle.toString());
     this.newRotateToggle = true;
     this.percentage=0;
     // this.dataService.slackDataPlaceholderFlag = true;
@@ -412,12 +418,22 @@ export class TeamComponent implements OnInit{
       console.log("slack data saved to team successfully");
       this.newRotateToggle = false;
       // this.dataService.slackDataPlaceholderFlag = false;
-      location.reload();
       if(response){
-      setTimeout(()=>{
-      this.rotateToggle = false;
-      }, 500)
+        setTimeout(()=>{
+        this.rotateToggle = false;
+        // localStorage.removeItem('rotateToggle');
+        }, 500)
+        }
+      this.getTeamsByFiltersFunction();
+      // location.reload();
+      if(localStorage.getItem('uniqueId')){
+      localStorage.removeItem('uniqueId');
       }
+      if(localStorage.getItem('uniqueUuid')){
+      localStorage.removeItem('uniqueUuid');
+      }
+
+     
     }, error => {
       console.error(error);
     })
@@ -462,6 +478,7 @@ export class TeamComponent implements OnInit{
   getFirebaseDataOfReload()
   {
     this.firebaseDataReloadFlag=true;
+    this.rotateToggle=true;
     // console.log(bulkId)
     this.db.object("hajiri_notification"+"/"+"organization_"+this.orgRefId+"/"+"user_"+this.userUuid+"/"+this.uniqueUuid).valueChanges()
       .subscribe(async res => {
@@ -483,6 +500,7 @@ export class TeamComponent implements OnInit{
            //@ts-ignore
           if(res.flag==1){
             this.firebaseDataReloadFlag=false;
+            this.rotateToggle=false;
             localStorage.removeItem('uniqueUuid');
           }
         }
