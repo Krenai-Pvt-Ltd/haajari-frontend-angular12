@@ -32,12 +32,12 @@
 // }
 
 
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, filter, switchMap, take } from 'rxjs/operators';
-import { DataService } from '../services/data.service';
 import { Router } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
+import { DataService } from '../services/data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +48,7 @@ export class RequestInterceptorService implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('token');
-  
+  console.log("token is ",token)
     debugger
     if (token !== null && token !== null) {
       request = this.addTokenToHeaders(request, token);

@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
+import { CommonModule } from '@angular/common';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RequestInterceptorService } from './configuration/request-interceptor.service';
-import { SharedModule } from './shared/shared.module';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -24,8 +24,9 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
     NotifactionTostComponent,
   ],
   imports: [
-    BrowserModule,
     RouterModule,
+    CommonModule,
+    BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
@@ -44,10 +45,12 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
     // AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
+    
       {provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptorService,
       multi: true},
-      AngularFireStorage
+      AngularFireStorage,
+      // Compiler
   ],
   bootstrap: [AppComponent]
 })
