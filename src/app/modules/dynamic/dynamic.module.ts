@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
@@ -101,7 +100,6 @@ import { TimeFormatPipe } from './time-format.pipe';
   ],
   imports: [
     CommonModule,
-    HttpClientModule,
     FormsModule,
     DynamicRoutingModule,
     ReactiveFormsModule,
@@ -117,6 +115,7 @@ import { TimeFormatPipe } from './time-format.pipe';
     AngularFireMessagingModule,
   ],
   providers: [
+    
     DataService,
     
   ],

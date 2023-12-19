@@ -1,24 +1,22 @@
-import { Compiler, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
+import { CommonModule } from '@angular/common';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RequestInterceptorService } from './configuration/request-interceptor.service';
-import { SharedModule } from './shared/shared.module';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -51,7 +49,7 @@ import { BrowserModule } from '@angular/platform-browser';
       useClass: RequestInterceptorService,
       multi: true},
       AngularFireStorage,
-      Compiler
+      // Compiler
   ],
   bootstrap: [AppComponent]
 })
