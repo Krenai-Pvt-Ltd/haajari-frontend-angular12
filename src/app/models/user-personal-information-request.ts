@@ -13,4 +13,5 @@ export class UserPersonalInformationRequest {
         nationality!: string;
         maritalStatus!: string;
         statusResponse!: string;
+        image!: string;
 }
