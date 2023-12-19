@@ -35,7 +35,7 @@ export class AcadmicComponent implements OnInit {
   setEmployeeAcademicsMethodCall() {
     
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
-    this.dataService.markStepAsCompleted(3);
+    this.dataService.markStepAsCompleted(4);
     this.dataService.setEmployeeAcademics(this.userAcademicsDetailRequest, userUuid)
       .subscribe(
         (response: UserAcademicsDetailRequest) => {
@@ -58,7 +58,7 @@ export class AcadmicComponent implements OnInit {
       this.dataService.getUserAcademicDetails(userUuid).subscribe(
         (response: UserAcademicsDetailRequest) => {
           this.userAcademicsDetailRequest = response;
-          this.dataService.markStepAsCompleted(3);
+          this.dataService.markStepAsCompleted(4);
         },
         (error: any) => {
           console.error('Error fetching user details:', error);

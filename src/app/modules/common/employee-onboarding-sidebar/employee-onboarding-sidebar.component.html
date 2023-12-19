@@ -10,11 +10,11 @@
             <div class="mt-3">
                 <div class="tracking-body">
                     <ul class="tracking-steps">
-                        <li class="tracking-item" (click)="navigateTo('employee-onboarding-form', 0)">
+                        <li class="tracking-item " [ngClass]="{'tracking-itemActive newline': isStepCompleted(1) }" (click)="navigateTo('employee-onboarding-form', 0)">
                             <div class="d-flex new-stap">
-                                <div class="tracing-icon" [ngClass]="{'completed': isStepCompleted(0)}">
-                                    <i class="bi bi-check2" *ngIf="isStepCompleted(0)"></i>
-                                    <span *ngIf="!isStepCompleted(0)">1</span>
+                                <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(1)}">
+                                    <i class="bi bi-check2" *ngIf="isStepCompleted(1)"></i>
+                                    <span *ngIf="!isStepCompleted(1)">1</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Personal Info</p>
@@ -23,11 +23,11 @@
                         </li>
                         <!-- Repeat for each step, changing the index number in isStepCompleted() and the displayed number -->
                         <!-- Placeholder for Address Details -->
-                        <li class="tracking-item newline" (click)="navigateTo('employee-address-detail', 1)">
+                        <li class="tracking-item " [ngClass]="{'tracking-itemActive newline': isStepCompleted(2) }" (click)="navigateTo('employee-address-detail', 1)">
                             <div class="d-flex new-stap">
-                                <div class="tracing-icon" [ngClass]="{'completed': isStepCompleted(1)}">
-                                    <i class="bi bi-check2" *ngIf="isStepCompleted(1)"></i>
-                                    <span *ngIf="!isStepCompleted(1)">2</span>
+                                <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(2)}">
+                                    <i class="bi bi-check2" *ngIf="isStepCompleted(2)"></i>
+                                    <span *ngIf="!isStepCompleted(2)">2</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Address Details</p>
@@ -35,11 +35,11 @@
                             </div>
                         </li>
                         <!-- Placeholder for Documents -->
-                        <li class="tracking-item newline" (click)="navigateTo('employee-document', 2)">
+                        <li class="tracking-item " [ngClass]="{'tracking-itemActive newline': isStepCompleted(3) }" (click)="navigateTo('employee-document', 2)">
                             <div class="d-flex new-stap">
-                                <div class="tracing-icon" [ngClass]="{'completed': isStepCompleted(2)}">
-                                    <i class="bi bi-check2" *ngIf="isStepCompleted(2)"></i>
-                                    <span *ngIf="!isStepCompleted(2)">3</span>
+                                <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(3)}">
+                                    <i class="bi bi-check2" *ngIf="isStepCompleted(3)"></i>
+                                    <span *ngIf="!isStepCompleted(3)">3</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Documents</p>
@@ -47,11 +47,11 @@
                             </div>
                         </li>
                         <!-- Placeholder for Academic -->
-                        <li class="tracking-item newline" (click)="navigateTo('acadmic', 3)">
+                        <li class="tracking-item " [ngClass]="{'tracking-itemActive newline': isStepCompleted(4) }" (click)="navigateTo('acadmic', 3)">
                             <div class="d-flex new-stap">
-                                <div class="tracing-icon" [ngClass]="{'completed': isStepCompleted(3)}">
-                                    <i class="bi bi-check2" *ngIf="isStepCompleted(3)"></i>
-                                    <span *ngIf="!isStepCompleted(3)">4</span>
+                                <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(4)}">
+                                    <i class="bi bi-check2" *ngIf="isStepCompleted(4)"></i>
+                                    <span *ngIf="!isStepCompleted(4)">4</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Academics</p>
@@ -59,11 +59,11 @@
                             </div>
                         </li>
                         <!-- Placeholder for Experience -->
-                        <li class="tracking-item newline" (click)="navigateTo('employee-experience', 4)">
+                        <li class="tracking-item " [ngClass]="{'tracking-itemActive newline': isStepCompleted(5) }" (click)="navigateTo('employee-experience', 4)">
                             <div class="d-flex new-stap">
-                                <div class="tracing-icon" [ngClass]="{'completed': isStepCompleted(4)}">
-                                    <i class="bi bi-check2" *ngIf="isStepCompleted(4)"></i>
-                                    <span *ngIf="!isStepCompleted(4)">5</span>
+                                <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(5)}">
+                                    <i class="bi bi-check2" *ngIf="isStepCompleted(5)"></i>
+                                    <span *ngIf="!isStepCompleted(5)">5</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Experience</p>
@@ -71,11 +71,11 @@
                             </div>
                         </li>
                         <!-- Placeholder for Bank Details -->
-                        <li class="tracking-item newline" (click)="navigateTo('bank-details', 5)">
+                        <li class="tracking-item " [ngClass]="{'tracking-itemActive newline': isStepCompleted(6) }" (click)="navigateTo('bank-details', 6)">
                             <div class="d-flex new-stap">
-                                <div class="tracing-icon" [ngClass]="{'completed': isStepCompleted(5)}">
-                                    <i class="bi bi-check2" *ngIf="isStepCompleted(5)"></i>
-                                    <span *ngIf="!isStepCompleted(5)">6</span>
+                                <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(6)}">
+                                    <i class="bi bi-check2" *ngIf="isStepCompleted(6)"></i>
+                                    <span *ngIf="!isStepCompleted(6)">6</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Bank Details</p>
@@ -84,11 +84,11 @@
                             
                         </li>
                         <!-- Placeholder for Emergency Contact -->
-                        <li class="tracking-item newline" (click)="navigateTo('emergency-contact', 6)">
+                        <li class="tracking-item " (click)="navigateTo('emergency-contact', 7)">
                             <div class="d-flex new-stap">
-                                <div class="tracing-icon" [ngClass]="{'completed': isStepCompleted(6)}">
-                                    <i class="bi bi-check2" *ngIf="isStepCompleted(6)"></i>
-                                    <span *ngIf="!isStepCompleted(6)">7</span>
+                                <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(7)}">
+                                    <i class="bi bi-check2" *ngIf="isStepCompleted(7)"></i>
+                                    <span *ngIf="!isStepCompleted(7)">7</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Emergency Contacts</p>

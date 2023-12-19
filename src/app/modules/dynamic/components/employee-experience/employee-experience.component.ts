@@ -79,7 +79,7 @@
   // }
   setEmployeeExperienceDetailsMethodCall() {
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
-    this.dataService.markStepAsCompleted(4);
+    this.dataService.markStepAsCompleted(5);
     if (!userUuid) {
       console.error('User UUID is not available in localStorage.');
       return;
@@ -108,7 +108,7 @@
           (experiences) => {
             if (experiences && experiences.length > 0) {
               this.userExperiences = experiences;
-              this.dataService.markStepAsCompleted(4);
+              this.dataService.markStepAsCompleted(5);
             } else {
               this.addExperience(); // Call addExperience if experiences is null or empty
             }

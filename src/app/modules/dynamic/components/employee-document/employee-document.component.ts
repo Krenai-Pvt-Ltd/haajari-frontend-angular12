@@ -121,7 +121,7 @@ export class EmployeeDocumentComponent implements OnInit {
     }
   
     
-    this.dataService.markStepAsCompleted(2);
+    this.dataService.markStepAsCompleted(3);
   
     
     this.dataService.setEmployeeDocumentsDetails(this.userDocumentsDetailsRequest, userUuid)
@@ -174,7 +174,7 @@ export class EmployeeDocumentComponent implements OnInit {
         (response: UserDocumentsDetailsRequest) => {
           this.userDocumentsDetailsRequest = response;
           console.log(response);
-          this.dataService.markStepAsCompleted(2);
+          this.dataService.markStepAsCompleted(3);
         },
         (error: any) => {
           console.error('Error fetching user details:', error);
