@@ -444,7 +444,8 @@ input, textarea {
     transition: all 0.4s ease-in-out;
     width: 35px;
     right: 0;
-}.material-switch > label::after {
+}
+.material-switch > label::after {
     background: rgb(255, 255, 255);
     border-radius: 50%;
     content: "";
@@ -457,7 +458,7 @@ input, textarea {
 }
 
 .material-switch > input[type="checkbox"]:checked + label::after {
-    left: 22px;
+    left: 22px !important;
 }
 
 .material-switch > input[type="checkbox"]:checked + label::before {
@@ -475,3 +476,4 @@ input, textarea {
     border: 1px solid #e8ebf3;
     color: #2d2e3e;
 }
+
