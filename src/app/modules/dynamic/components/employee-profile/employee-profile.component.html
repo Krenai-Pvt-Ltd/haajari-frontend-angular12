@@ -611,10 +611,10 @@
                                                             <h6 class="fs-md mt-0">{{leaves.leaveType}} | 
                                                                 <span *ngIf="leaves.status=='approved'" style="color:green">{{capitalizeFirstLetter(leaves?.status)}}<span> By </span></span>
                                                                 <span *ngIf="leaves.status=='pending'" style="color:orange">{{capitalizeFirstLetter('applied')}}<span> To </span></span>
-                                                                <span *ngIf="leaves.status=='rejected'" style="color:red">{{capitalizeFirstLetter(leaves.status)}}<span> By </span></span>
-                                                                <span *ngIf="leaves.status=='requested'" style="color:rgb(102 102 243)">{{capitalizeFirstLetter(leaves.status)}}<span> To </span></span>
+                                                                <span *ngIf="leaves.status=='rejected'" style="color:red">{{capitalizeFirstLetter(leaves?.status)}}<span> By </span></span>
+                                                                <span *ngIf="leaves.status=='requested'" style="color:rgb(102 102 243)">{{capitalizeFirstLetter(leaves?.status)}}<span> To </span></span>
 
-                                                                <span> - </span><span style="color:#38e69d;">{{leaves.manager.name}}</span>
+                                                                <span> - </span><span style="color:#38e69d;">{{leaves!.manager?.name}}</span>
                                                             </h6>
                                                             <div style="display: block; margin-top: 5px; color: #6c757d;">
                                                                 <span style="font-size: 13px; font-weight: 600; vertical-align: middle;">

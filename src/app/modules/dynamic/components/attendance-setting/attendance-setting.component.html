@@ -802,7 +802,7 @@
                                 <li role="presentation" class="nav-item">
                                     <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
                                         type="button" role="tab" aria-controls="profile" aria-selected="false"
-                                        class="nav-link" (click)="getUserByFiltersMethodCall()">Staff selection</button>
+                                        class="nav-link" (click)="trueActiveModel();getUserByFiltersMethodCall()">Staff selection</button>
                                 </li>
                             </ul>
 
@@ -1233,10 +1233,11 @@
                         <div class="rule-section">
 
                             <div class="tracking-body">
-                                <ul class="tracking-steps">
-                                    <li class="tracking-item">
+                                <ul class="tracking-steps ">
+                                    <li class="tracking-item tracking-itemActive newline">
                                         <div class="d-flex new-stap">
-                                            <div class="tracing-icon" style="background-color: #3BB77E;"><i class="bi bi-check2"></i></div>
+                                            <div class="tracing-icon active">                        
+                                                <i class="bi bi-check2"></i></div>
                                             <div class="tracking-data">
                                                 <p>Create your first rule</p>
                                                 <div>
@@ -1247,9 +1248,21 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="tracking-item">
+                                    <!-- <li class="tracking-item" [ngClass]="tracking-itemActive newline: activeModel"> -->
+                                    <li class="tracking-item" [ngClass]="{'tracking-itemActive newline': activeModel}">
                                         <div class="d-flex align-items-center new-stap">
-                                            <div class="tracing-icon" style="background-color: #ff9f43;"><i class="bi bi-check2"></i></div>
+                                            <div
+                      class="tracing-icon"
+                      [ngClass]="{ active: activeModel}"
+                    >
+                    <span *ngIf="activeModel">
+                      <i class="bi bi-check2"></i>
+                    </span>
+                    <span *ngIf="!activeModel">2</span>
+                    </div>
+                                            <!-- <div class="tracing-icon">2 -->
+                                                <!-- <i class="bi bi-check2"></i> -->
+                                            <!-- </div> -->
                                             <div class="tracking-data">
                                                 <p>Set a rule value</p>
                                                 <div>
@@ -1260,7 +1273,18 @@
                                     </li>
                                     <li class="tracking-item">
                                         <div class="d-flex new-stap">
-                                            <div class="tracing-icon"><i class="bi bi-check2"></i></div>
+                                            <div
+                      class="tracing-icon"
+                      [ngClass]="{ active: activeModel2}"
+                    >
+                    <span *ngIf="activeModel2">
+                      <i class="bi bi-check2"></i>
+                    </span>
+                    <span *ngIf="!activeModel">3</span>
+                    </div>
+                                            <!-- <div class="tracing-icon">3 -->
+                                                <!-- <i class="bi bi-check2"></i> -->
+                                            <!-- </div> -->
                                             <div class="tracking-data">
                                                 <p>Assign Staff</p>
                                                 <div>
