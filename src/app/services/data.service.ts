@@ -591,7 +591,7 @@ export class DataService {
       );
   }
 
-  getEmployeeDocumentsDetails(userUuid: string): Observable<any> {
+  getEmployeeDocumentDetails(userUuid: string): Observable<any> {
     debugger
     const params = new HttpParams()
     .set("userUuid", userUuid);

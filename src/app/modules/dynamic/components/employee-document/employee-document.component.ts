@@ -170,7 +170,7 @@ export class EmployeeDocumentComponent implements OnInit {
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
   
     if (userUuid) {
-      this.dataService.getEmployeeDocumentsDetails(userUuid).subscribe(
+      this.dataService.getEmployeeDocumentDetails(userUuid).subscribe(
         (response: UserDocumentsDetailsRequest) => {
           this.userDocumentsDetailsRequest = response;
           console.log(response);
