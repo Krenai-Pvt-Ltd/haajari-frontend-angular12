@@ -41,7 +41,7 @@ export class EmergencyContactComponent implements OnInit {
 
   setEmployeeEmergencyContactDetailsMethodCall() {
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
-    this.dataService.markStepAsCompleted(6);
+    this.dataService.markStepAsCompleted(7);
     if (!userUuid) {
       console.error('User UUID is not available in localStorage.');
       return;
@@ -68,7 +68,7 @@ export class EmergencyContactComponent implements OnInit {
         (contacts) => {
           if (contacts && contacts.length > 0) {
           this.userEmergencyContactDetails = contacts;
-          this.dataService.markStepAsCompleted(6);
+          this.dataService.markStepAsCompleted(7);
         } else {
           this.addEmergencyContact();
         }

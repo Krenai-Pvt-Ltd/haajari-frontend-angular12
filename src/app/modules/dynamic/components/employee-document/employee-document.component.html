@@ -35,49 +35,31 @@
                                 </div>
                             </div> -->
 
-                            <div class="col-md-12">
-                               <!-- <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2">Pan Card</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pen number">
-                               </div> -->
-                               <div class="mb-3">
-                                <label for="exampleInputEmail1" class="pb-2">10th Marksheet</label>
-
+                            <div class="mb-3">
+                                <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet</label>
                                 <div class="importfilebox">
-                                    <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input">
-                                    <label for="fileSelect">
-
-                                     
-                                        <!--  -->
-                                        <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a> </b> PDF </span>
-                                        <!-- <button>BROWSE</button> -->
-                                    </label>
+                                  <input id="secondarySchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')">
+                                  <label for="secondarySchoolCertificateFile">
+                                    <span *ngIf="!selectedFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
+                                    <span *ngIf="selectedFileName">{{ selectedFileName }}</span>
+                                  </label>
                                 </div>
-                            </div>
-                            </div>
+                              </div>
+                              
 
-                           
-                            <div class="col-md-12">
-                               <!-- <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2">Addhar Card</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pen number">
-                                  
-                               </div> -->
-                               <div class="mb-3">
-                                <label for="exampleInputEmail1" class="pb-2">12th Marksheet</label>
-
-                                <div class="importfilebox">
-                                    <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input">
-                                    <label for="fileSelect">
-
-                                      
-                                        <!--  -->
-                                        <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a> </b> PDF </span>
-                                        <!-- <button>BROWSE</button> -->
+                              <div class="col-md-12">
+                                <div class="mb-3">
+                                  <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet</label>
+                                  <div class="importfilebox">
+                                    <input id="highSchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')">
+                                    <label for="highSchoolCertificateFile">
+                                      <span *ngIf="!selectedHighSchoolFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
+                                      <span *ngIf="selectedHighSchoolFileName">{{ selectedHighSchoolFileName }}</span>
                                     </label>
+                                  </div>
                                 </div>
-                            </div>
-                            </div>
+                              </div>
+                              
                             
                             <div class="col-md-12">
                                 <!-- <div class="mb-3">
@@ -86,28 +68,33 @@
                                   
                                 </div> -->
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Highest Qualification Degree</label>
-
+                                    <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree</label>
                                     <div class="importfilebox">
-                                        <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input">
-                                        <label for="fileSelect">
-
-                                            
-                                            <!-- <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a> </b><br> SVG, PNG, JPG or GIF (max. 800px*400px)</span> -->
-                                            <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a> </b> PDF </span>
-                                            <!-- <button>BROWSE</button> -->
-                                        </label>
+                                      <input id="highestQualificationDegreeFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')">
+                                      <label for="highestQualificationDegreeFile">
+                                        <span *ngIf="!selectedHighestQualificationDegreeFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
+                                        <span *ngIf="selectedHighestQualificationDegreeFileName">{{ selectedHighestQualificationDegreeFileName }}</span>
+                                      </label>
                                     </div>
-                                </div>
-                             </div>
-                             <div class="col-md-12">
-                               
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Testimonials/Reccomendation</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter testimonials/reccomendation">
+                                  </div>
                                   
-                                </div>
-                             </div>
+                             <div class="col-md-12">
+                                <!-- <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="pb-2">High School Mark</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter high school mark">
+                                  
+                                </div> -->
+                                <div class="mb-3">
+                                    <label for="testimonialReccomendationFile" class="pb-2">Testimonials/Recommendation</label>
+                                    <div class="importfilebox">
+                                      <input id="testimonialReccomendationFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'testimonialReccomendation')">
+                                      <label for="testimonialReccomendationFile">
+                                        <span *ngIf="!selectedTestimonialReccomendationFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
+                                        <span *ngIf="selectedTestimonialReccomendationFileName">{{ selectedTestimonialReccomendationFileName }}</span>
+                                      </label>
+                                    </div>
+                                  </div>
+                                  
 
                              <div class="col-md-12">
                                
@@ -117,30 +104,32 @@
                                    
                                 </div>
                              </div>
+                             <div class="row">
                              <div class="col-md-3">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="pb-2">Name</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your name ">
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name " [(ngModel)]="userDocumentsDetailsRequest.guarantorName1">
                                 </div>
                              </div>
                              <div class="col-md-3">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="pb-2">Relation</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter relation">
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest.guarantorRelation1">
                                 </div>
                              </div>
                              <div class="col-md-3">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="pb-2">Phone Number</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone number">
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantorPhoneNumber1">
                                 </div>
                              </div>
                              <div class="col-md-3">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="pb-2">Email</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email">
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail1">
                                 </div>
                              </div>
+                            </div>
 <!-- 
                              <div class="col-md-12">
                                
@@ -150,14 +139,38 @@
                                     
                                 </div>
                              </div> -->
-                            
-
+                             <div class="row">
+                             <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="pb-2">Name</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name " [(ngModel)]="userDocumentsDetailsRequest.guarantorName2">
+                                </div>
+                             </div>
+                             <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="pb-2">Relation</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest.guarantorRelation2">
+                                </div>
+                             </div>
+                             <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="pb-2">Phone Number</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantorPhoneNumber2">
+                                </div>
+                             </div>
+                             <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="pb-2">Email</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail2">
+                                </div>
+                             </div>
+                            </div>
                              <div class="col-md-12 d-flex justify-content-between mt-3">
                                 <div class="info-btn d-flex justify-content-start">
                                     <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()"><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
                                 </div>
                                 <div class="info-btn d-flex justify-content-end">
-                                    <button class="btn btn-primary" type="button" (click)="nextRedirectUrl(); routeToUserDetails()">Next <i class="bi bi-arrow-right" style="padding-left: 8px; "></i></button>
+                                    <button class="btn btn-primary" type="button" (click)="setEmployeeDocumentsDetailsMethodCall(); routeToUserDetails()">Next <i class="bi bi-arrow-right" style="padding-left: 8px; "></i></button>
                                 </div>
                              </div>
                         </div>
