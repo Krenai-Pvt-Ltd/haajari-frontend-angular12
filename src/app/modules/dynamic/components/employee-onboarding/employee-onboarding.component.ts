@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/models/user';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { Users } from 'src/app/models/users';
@@ -12,12 +13,16 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./employee-onboarding.component.css'],
 })
 export class EmployeeOnboardingComponent implements OnInit {
+  @ViewChild('inviteNewMember') inviteNewMemberModal!: ElementRef;
+  private modalRef: any;
+
   userPersonalInformationRequest: UserPersonalInformationRequest = new UserPersonalInformationRequest();
   constructor(
     private dataService: DataService,
     private activateRoute: ActivatedRoute,
     private router: Router,
-    private helperService: HelperService
+    private helperService: HelperService,
+    private modalService: NgbModal
   ) {}
   users: Users[] = [];
   filteredUsers: Users[] = [];
@@ -273,18 +278,31 @@ selectStatus(status: string) {
 
   setEmployeePersonalDetailsMethodCall() {
     
-   
+   debugger
     this.dataService.setEmployeeByAdmin(this.userPersonalInformationRequest)
       .subscribe(
         (response: UserPersonalInformationRequest) => {
           console.log(response);  
-        
+          this.clearForm();
+          this.closeModal();
         },
         (error) => {
           console.error(error);
         }
       );
   }
+
+  clearForm() {
+    this.userPersonalInformationRequest = new UserPersonalInformationRequest();
+    
+  }
+
+  closeModal() {
+    if (this.modalRef) {
+      this.modalRef.close();
+    }
+  }
+  
   
 
 }
