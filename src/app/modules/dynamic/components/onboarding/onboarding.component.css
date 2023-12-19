@@ -292,7 +292,7 @@ textarea.form-control {
 }
 
 .new-qustion{
-    color: cornflowerblue;
+    color: #6666f3;
 }
 
 .new-qustion i{
@@ -450,3 +450,58 @@ input:valid+span:after {
   right: 15px;
 }
 
+
+.material-switch > input[type="checkbox"] {
+  display: none;
+}
+
+/* input, textarea {
+  background: #fff !important;
+  border: 1px solid #e8ebf3 !important;
+  border-radius: 6px;
+  height: 45px;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 18px;
+  color: #445059;
+  box-shadow: none;
+} */
+
+.material-switch > label {
+  cursor: pointer;
+  height: 0px;
+  position: relative;
+  width: 40px;
+  margin-top: 0px;
+  top: -13px;
+}
+
+.material-switch > label::before {
+  background: #f56061;
+  border-radius: 20px;
+  content: "";
+  height: 19px;
+  position: absolute;
+  opacity: 1;
+  transition: all 0.4s ease-in-out;
+  width: 35px;
+  right: 0;
+}.material-switch > label::after {
+  background: rgb(255, 255, 255);
+  border-radius: 50%;
+  content: "";
+  height: 15px;
+  left: 7px;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+  width: 15px;
+  margin-top: 2px;
+}
+
+.material-switch > input[type="checkbox"]:checked + label::after {
+  left: 37px !important;
+}
+
+.material-switch > input[type="checkbox"]:checked + label::before {
+  background: #79af79;
+}

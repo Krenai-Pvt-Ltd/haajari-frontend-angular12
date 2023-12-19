@@ -329,7 +329,7 @@
 
 <div class="col-md-12">
     <div class="add-filtter">
-        <a class="add-filtter"><i class="bi bi-plus" style="font-size: 23px;"></i>  Add Leave Category</a>
+        <a class="add-filtter" data-bs-toggle="modal" data-bs-target="#requestleave"><i class="bi bi-plus" style="font-size: 23px;"></i>  Add Leave Category</a>
     </div>
     <div class="rule-main-box mt-3">
         <div class="d-flex align-items-center attendance-boxx">
@@ -638,3 +638,130 @@
           </div>
         </div>
       </div>
+
+      <div
+  class="modal fade"
+  id="requestleave"
+  #requestleave
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="requestLeave"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="requestLeave">Request a Leave</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          id="requestLeaveCloseModel"
+          #requestLeaveCloseModel
+        ></button>
+      </div>
+      <!-- #leaveForm="ngForm" novalidate -->
+      <form #leaveSetForm="ngForm" >
+        <div class="modal-body">
+          <div class="">
+            <div class="mb-3">
+              <label class="mb-3"> Leave Type </label>
+              <!-- <br> -->
+              <!-- <div class="text-danger">
+                Required!
+              </div> -->
+              <div class="input-group w-100">
+                <!-- <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Leave Type"
+                  id="leaveType"
+                  [(ngModel)]="leaveData.leaveType"
+                  name="leaveType"
+                  required
+                /> -->
+
+                <div class="dropdown" style="width: 100%;">
+                  
+                  <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                   Leave Type<i class="bi bi-chevron-down"></i>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
+                    <li><a class="dropdown-item"  >Sick Leave</a></li>
+                    <li><a class="dropdown-item" >Annual Leave</a></li>
+                    <li><a class="dropdown-item">Casual Leave</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="mb-3"> Leave Entitled</label>
+              <!-- <br> -->
+              <!-- <div class="text-danger">
+                    *ngIf="leavesSettingForm.get('leaveEntitled')?.hasError('required') && leavesSettingForm.get('leaveEntitled')?.touched"
+                    Required!
+                  </div> -->
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Leave Entitled"
+                  id="leaveEntitled"
+                  name="leaveEntitled"
+                  required
+                />
+              </div>
+            </div>
+            <!-- <div *ngIf="leaveSetForm.submitted && leaveSetInvalidToggle" class="text-danger">
+                 
+                </div> -->
+
+            <div class="mb-3">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="inlineRadio1"
+                  name="radio1"
+                  value="paid"
+                />
+
+                <label class="form-check-label" for="inlineRadio1">Paid</label>
+              </div>
+
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="inlineRadio2"
+                  name="radio2"
+                  value="unpaid"
+                />
+
+                <label class="form-check-label" for="inlineRadio2"
+                  >Unpaid</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Save
+          </button>
+          <!-- [disabled]="leavesSetForm.invalid" -->
+          <!-- data-bs-dismiss="modal" -->
+          <!-- (click)="setActive(4)" -->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
