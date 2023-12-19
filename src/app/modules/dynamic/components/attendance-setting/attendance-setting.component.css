@@ -811,3 +811,9 @@ button.btn.close-btn {
         position: absolute;
         z-index: -1;
       }
+
+    i.bi.bi-plus {
+        font-size: 20px;
+    }
+    
+  
