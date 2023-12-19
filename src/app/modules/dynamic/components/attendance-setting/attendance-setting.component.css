@@ -667,7 +667,7 @@ button.btn.close-btn {
     background-color: #3BB77E;
     top: 31px;
     left: 11px;
-    z-index: 1;
+    z-index: 99;
   }
   .tracking-item::after {
     content: "";
@@ -681,7 +681,7 @@ button.btn.close-btn {
     background-color: #3BB77E;
     top: 31px;
     left: 11px;
-    z-index: 1;
+    z-index: 99;
   }
   .tracking-item:nth-child(3)::after {
     width: 2px;
@@ -691,7 +691,7 @@ button.btn.close-btn {
     left: 11px;
     z-index: 999;
     bottom: 0;
-    z-index: 1;
+    z-index:99;
   }
   /* .tracking-item:nth-child(4)::after {
     width: 2px;
@@ -790,9 +790,30 @@ button.btn.close-btn {
         margin-right: 5px;
     }
 
+    .tracking-item.tracking-itemActive::after{
+        animation: heightanimate 1.5s linear both;
+      }
+      @keyframes heightanimate {
+        0%{
+          height: 0px;
+        }
+        100%{
+          height: 53px;
+        }
+      }
+
+      .tracking-steps{
+        position: relative;
+        height: fit-content;
+      }
+      .tracking-item::after {
+        content: "";
+        position: absolute;
+        z-index: -1;
+      }
 
     i.bi.bi-plus {
         font-size: 20px;
     }
     
-    
+  

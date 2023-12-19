@@ -29,6 +29,10 @@ export class AttendanceSettingComponent implements OnInit {
     // this.getAttendanceRuleDefinitionMethodCall();
     // console.log(this.selectedStaffs);
     // this.updateSelectedStaffs();
+    
+    if(localStorage.getItem("staffSelectionActive")=="true"){
+      this.activeModel=true;
+    }
   }
 
   isFull:boolean=false;
@@ -92,15 +96,21 @@ export class AttendanceSettingComponent implements OnInit {
     this.getOvertimeTypeMethodCall();
   }
 
+  activeModel2:boolean=false;
   @ViewChild('attendanceRuleDefinitionModalClose') attendanceRuleDefinitionModalClose !: ElementRef;
   attendanceRuleDefinitionRequest : AttendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
   registerAttendanceRuleDefinitionMethodCall(){
+
+    this.activeModel2=true;
     
     this.preRegisterAttendanceRuleDefinitionMethodCall();
 
     this.dataService.registerAttendanceRuleDefinition(this.attendanceRuleDefinitionRequest).subscribe((response) => {
       console.log(response);
+      
+      localStorage.removeItem("staffSelectionActive");
       location.reload();
+      this.activeModel2=false;
       this.attendanceRuleDefinitionModalClose.nativeElement.click();
     }, (error) =>{
       console.log(error);
@@ -335,5 +345,12 @@ export class AttendanceSettingComponent implements OnInit {
     this.updateSelectedStaffs();
   }
 
+  activeModel:boolean=false;
+  trueActiveModel(){
+    
+    this.activeModel=true;
+    localStorage.setItem("staffSelectionActive", this.activeModel.toString());
+
+  }
 
 }
