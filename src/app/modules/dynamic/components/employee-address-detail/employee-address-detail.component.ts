@@ -43,7 +43,7 @@ export class EmployeeAddressDetailComponent implements OnInit {
   setEmployeeAddressDetailsMethodCall() {
     debugger
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
-    this.dataService.markStepAsCompleted(1);
+    this.dataService.markStepAsCompleted(2);
     if (!this.userUuid) {
       console.error('User UUID is not available in localStorage.');
       return;
@@ -74,7 +74,7 @@ export class EmployeeAddressDetailComponent implements OnInit {
       this.dataService.getNewUserAddressDetails(userUuid).subscribe(
         (response: UserAddressDetailsRequest) => {
           this.userAddressDetailsRequest = response;
-          this.dataService.markStepAsCompleted(1);
+          this.dataService.markStepAsCompleted(2);
           if(this.userAddressDetailsRequest==null){
             this.userAddressDetailsRequest = new UserAddressDetailsRequest();
           }

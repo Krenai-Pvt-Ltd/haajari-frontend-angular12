@@ -28,6 +28,7 @@ import { AdditionalNotes } from "../models/additional-notes";
 import { AttendanceRuleDefinitionRequest } from "../models/attendance-rule-definition-request";
 import { UserDto } from "../models/user-dto.model";
 import { UserLeaveRequest } from "../models/user-leave-request";
+import { UserDocumentsDetailsRequest } from "../models/user-documents-details-request";
 
 @Injectable({
   providedIn: "root",
@@ -45,6 +46,7 @@ export class DataService {
   }
   
   private baseUrl = "http://localhost:8080/api/v2"
+
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
@@ -550,23 +552,6 @@ export class DataService {
     return this.httpClient.get(url, {params});
   }
 
-  setEmployeeDocuments(userDocumentsRequest: UserDocumentsRequest, userUuid: string): Observable<any> {
-    const params = new HttpParams()
-    .set("userUuid", userUuid);
-    return this.httpClient.put<any>(`${this.baseUrl}/user-address/save/user-address`, userDocumentsRequest, {params})
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          console.error('Error in setEmployeePersonalDetails:', error);
-          return throwError(error);
-        })
-      );
-  }
-  getEmployeeDocuments(userUuid: string): Observable<any> {
-    const params = new HttpParams()
-    .set("userUuid", userUuid);
-    const url = `${this.baseUrl}/user-address/get/user-address`;
-    return this.httpClient.get(url, {params});
-  }
   setEmployeeAcademics(userAcademicsDetailRequest: UserAcademicsDetailRequest, userUuid: string): Observable<any> {
     const params = new HttpParams()
     .set("userUuid", userUuid);
@@ -591,6 +576,27 @@ export class DataService {
     .set("userUuid", userUuid)
    
     return this.httpClient.get<any>(`${this.baseUrl}/user-address/get/user-address`, {params});
+  }
+  
+  setEmployeeDocumentsDetails(userDocumentsDetailsRequest: UserDocumentsDetailsRequest, userUuid: string): Observable<any> {
+    
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    return this.httpClient.put<any>(`${this.baseUrl}/user-documents-details/save/user-documents`, userDocumentsDetailsRequest, {params})
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeePersonalDetails:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  getEmployeeDocumentsDetails(userUuid: string): Observable<any> {
+    debugger
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    const url = `${this.baseUrl}/user-documents-details/get/user-documents`;
+    return this.httpClient.get(url, {params});
   }
 
   setEmployeeExperienceDetails(experiences: UserExperience[], userUuid: string): Observable<any> {
@@ -640,7 +646,7 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     const params = new HttpParams()
     .set("userUuid", userUuid)
    
-    return this.httpClient.get<UserEmergencyContactDetailsRequest[]>(`${this.baseUrl}/user-emergency-contacts/get/emergency-contacts`, {params});
+    return this.httpClient.get<UserEmergencyContactDetailsRequest[]>(`${this.baseUrl}/user-emergency-contacts/get/emergency-contacts-new`, {params});
   }
 
   setEmployeeBankDetails(userBankDetailRequest: UserBankDetailRequest, userUuid: string): Observable<any> {
