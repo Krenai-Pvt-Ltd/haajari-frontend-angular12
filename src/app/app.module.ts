@@ -17,11 +17,13 @@ import { AppComponent } from './app.component';
 import { RequestInterceptorService } from './configuration/request-interceptor.service';
 import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
 import { SharedModule } from './shared/shared.module';
+import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotifactionTostComponent,
+    ErrorPageComponent,
   ],
   imports: [
     RouterModule,
