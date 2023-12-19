@@ -1,11 +1,20 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { AngularFireModule } from "@angular/fire/compat";
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
+import { AngularFireMessagingModule } from "@angular/fire/compat/messaging";
+import { AngularFireStorageModule } from "@angular/fire/compat/storage";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import { DataService } from 'src/app/services/data.service';
+import { environment } from 'src/environments/environment';
 import { EmployeeOnboardingSidebarComponent } from '../common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { AcadmicComponent } from './components/acadmic/acadmic.component';
 import { AddToSlackComponent } from './components/add-to-slack/add-to-slack.component';
@@ -25,11 +34,13 @@ import { LiveManagerComponent } from './components/live-manager/live-manager.com
 import { LoginComponent } from './components/login/login.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { PrivacyComponent } from './components/privacy/privacy.component';
 import { ProjectComponent } from './components/project/project.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { RoleComponent } from './components/role/role.component';
 import { SelerySettingComponent } from './components/selery-setting/selery-setting.component';
 import { SlackAuthComponent } from './components/slack-auth/slack-auth.component';
+import { SupportComponent } from './components/support/support.component';
 import { TaskManagerComponent } from './components/task-manager/task-manager.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 import { TeamComponent } from './components/team/team.component';
@@ -42,17 +53,7 @@ import { DurationFormatPipe } from './duration-format.pipe';
 import { DynamicRoutingModule } from './dynamic-routing.module';
 import { DynamicComponent } from './dynamic.component';
 import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { TimeFormatPipe } from './time-format.pipe';
-import { PrivacyComponent } from './components/privacy/privacy.component';
-import { SupportComponent } from './components/support/support.component';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { environment } from 'src/environments/environment';
-import { AngularFireModule } from "@angular/fire/compat";
-import { AngularFireAuthModule } from "@angular/fire/compat/auth";
-import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
-import { AngularFireMessagingModule } from "@angular/fire/compat/messaging";
-import { AngularFireStorage, AngularFireStorageModule } from "@angular/fire/compat/storage";
 
 
 
@@ -100,6 +101,7 @@ import { AngularFireStorage, AngularFireStorageModule } from "@angular/fire/comp
   ],
   imports: [
     CommonModule,
+    HttpClientModule,
     FormsModule,
     DynamicRoutingModule,
     ReactiveFormsModule,
@@ -108,12 +110,17 @@ import { AngularFireStorage, AngularFireStorageModule } from "@angular/fire/comp
     NgxShimmerLoadingModule,
     NgbModule,
     FullCalendarModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebase, "cloud"),
     AngularFireStorageModule,
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireMessagingModule,
   ],
+  providers: [
+    DataService,
+    
+  ],
+  // bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class DynamicModule { }
