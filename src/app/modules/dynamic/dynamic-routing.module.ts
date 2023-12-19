@@ -41,48 +41,51 @@ import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.compon
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { SupportComponent } from './components/support/support.component';
 
-const routes: Routes = [
-  { path: '', component: DynamicComponent },
-  { path: 'dashboard', component: DashboardComponent},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
-  { path: 'header', component: HeaderComponent },
-  { path: 'topbar', component: TopbarComponent },
-  { path: 'timetable', component: TimetableComponent},
-  { path: 'project', component: ProjectComponent},
-  { path: 'team', component: TeamComponent},
-  { path: 'task-manager', component: TaskManagerComponent},
-  { path: ' ', component: LiveManagerComponent},
-  { path: 'onboarding', component: OnboardingComponent},
-  { path: 'login', component: LoginComponent },
-  { path: 'payment', component: PaymentComponent },
-  { path: 'userlist', component: UserlistComponent },
-  {path: 'slackauth', component: SlackAuthComponent },
-  {path: 'addtoslack', component: AddToSlackComponent},
-  {path: 'waiting', component: WaitingPageComponent},
-  {path: 'team-detail', component: TeamDetailComponent},
-  {path: 'user-profile', component: UserProfileComponent}, 
-  {path: 'employee-onboarding', component: EmployeeOnboardingComponent},
-  {path: 'attendance-setting', component: AttendanceSettingComponent},
-  {path: 'company-setting', component: CompanySettingComponent},
-  {path: 'selery-setting', component: SelerySettingComponent},
-  {path: 'role', component: RoleComponent},
-  {path: 'employee-onboarding-form', component: EmployeeOnboardingFormComponent},
-  {path: 'employee-onboarding-sidebar', component: EmployeeOnboardingSidebarComponent},
-  {path: 'employee-address-detail', component: EmployeeAddressDetailComponent},
-  {path: 'employee-document', component: EmployeeDocumentComponent},
-  {path: 'acadmic', component: AcadmicComponent},
-  {path: 'employee-experience', component: EmployeeExperienceComponent},
-  {path: 'bank-details', component: BankDetailsComponent},
-  {path: 'emergency-contact', component: EmergencyContactComponent},
-  {path: 'reports', component: ReportsComponent},
-  {path: 'employee-profile', component: EmployeeProfileComponent},
-  {path: 'testing', component: TestingComponent},
-  {path: 'leave-setting', component: LeaveSettingComponent},
-  {path: 'privacy', component: PrivacyComponent},
-  {path: 'support', component: SupportComponent}
-  
 
-//   {path: 'team-detail', component: TeamDetailComponent},
-//   {path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard]}
+
+
+
+
+  const routes: Routes = [
+    { path: '', component: DynamicComponent,
+  children:[
+    { path: 'dashboard', component: DashboardComponent},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
+    { path: 'header', component: HeaderComponent },
+    { path: 'topbar', component: TopbarComponent },
+    { path: 'timetable', component: TimetableComponent},
+    { path: 'project', component: ProjectComponent},
+    { path: 'team', component: TeamComponent},
+    { path: 'task-manager', component: TaskManagerComponent},
+    { path: ' ', component: LiveManagerComponent},
+    { path: 'onboarding', component: OnboardingComponent},
+    { path: 'login', component: LoginComponent },
+    { path: 'payment', component: PaymentComponent },
+    { path: 'userlist', component: UserlistComponent },
+    {path: 'slackauth', component: SlackAuthComponent },
+    {path: 'addtoslack', component: AddToSlackComponent},
+    {path: 'waiting', component: WaitingPageComponent},
+    {path: 'team-detail', component: TeamDetailComponent},
+    {path: 'user-profile', component: UserProfileComponent}, 
+    {path: 'employee-onboarding', component: EmployeeOnboardingComponent},
+    {path: 'attendance-setting', component: AttendanceSettingComponent},
+    {path: 'company-setting', component: CompanySettingComponent},
+    {path: 'selery-setting', component: SelerySettingComponent},
+    {path: 'role', component: RoleComponent},
+    {path: 'employee-onboarding-form', component: EmployeeOnboardingFormComponent},
+    {path: 'employee-onboarding-sidebar', component: EmployeeOnboardingSidebarComponent},
+    {path: 'employee-address-detail', component: EmployeeAddressDetailComponent},
+    {path: 'employee-document', component: EmployeeDocumentComponent},
+    {path: 'acadmic', component: AcadmicComponent},
+    {path: 'employee-experience', component: EmployeeExperienceComponent},
+    {path: 'bank-details', component: BankDetailsComponent},
+    {path: 'emergency-contact', component: EmergencyContactComponent},
+    {path: 'reports', component: ReportsComponent},
+    {path: 'employee-profile', component: EmployeeProfileComponent},
+    {path: 'testing', component: TestingComponent},
+    {path: 'leave-setting', component: LeaveSettingComponent},
+    {path: 'privacy', component: PrivacyComponent},
+    {path: 'support', component: SupportComponent}
+  ] }
   ];
 
 @NgModule({
