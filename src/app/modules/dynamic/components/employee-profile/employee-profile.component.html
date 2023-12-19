@@ -773,12 +773,12 @@
                                                     </tbody>
                                                     <tbody class="table-design" *ngIf="!isCompanyPlaceholder">
                                                         <tr *ngFor="let exp of experienceEmployee">
-                                                            <td>{{exp.companyName}}</td>
-                                                            <td>{{exp.employementDuration}}</td>
+                                                            <td>{{exp.companyName || 'N/A'}}</td>
+                                                            <td>{{exp.employementDuration || 'N/A'}}</td>
                                                             <!-- <td>{{exp.companyName}}</td> -->
-                                                            <td>{{exp.jobResponisibilities}} </td>
-                                                            <td>{{exp.lastSalary}}</td>
-                                                            <td>{{exp.jobTitle }}</td>
+                                                            <td>{{exp.jobResponisibilities || 'N/A'}} </td>
+                                                            <td>{{exp.lastSalary || 'N/A'}}</td>
+                                                            <td>{{exp.lastJobPosition || 'N/A'}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -886,10 +886,10 @@
                                                     
                                                     <tbody class="table-design" *ngIf="!isContactPlaceholder">
                                                         <tr *ngFor="let cn of contactsEmployee">
-                                                            <td>{{cn.contactName }}</td>
-                                                            <td>{{cn.relationWithEmployee}}</td>
-                                                            <td>{{cn.contactNumber}}</td>
-                                                            <td>{{cn.medicalInfo}}</td>
+                                                            <td>{{cn.contactName || 'N/A'}}</td>
+                                                            <td>{{cn.relationWithEmployee || 'N/A'}}</td>
+                                                            <td>{{cn.contactNumber || 'N/A'}}</td>
+                                                            <td>{{cn.medicalInfo || 'N/A'}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

@@ -752,6 +752,13 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
    
     return this.httpClient.get<UserDto[]>(`${this.baseUrl}/employee-onboarding-status/get-manager`, {params});
   }
+
+  getEmployeeDocumentsDetails(userUuid:string):Observable<any>{
+    const params = new HttpParams()
+    .set("userUuid", userUuid)
+   
+    return this.httpClient.get<UserDto[]>(`${this.baseUrl}/user-documents-details/get/user-documents`, {params});
+  }
   
   
 }

@@ -83,6 +83,7 @@ export class EmployeeProfileComponent implements OnInit {
     this. getEmployeeAcademicDetailsByUuid();
     this.getEmployeeContactsDetailsByUuid();
     this.getEmployeeBankDetailsByUuid();
+    this.getEmployeeDocumentsDetailsByUuid();
     this. getUserLeaveReq();
     this. getUserLeaveLogByUuid();
     // this.goforward();
@@ -593,6 +594,27 @@ getUserLeaveLogByUuid() {
       },
       (error) => {
         this.isBankShimmer=false;
+        console.log(error);
+      }
+    );
+  }
+
+  
+  documentsEmployee:any;
+  // isDocumentsShimmer:boolean=false;
+  getEmployeeDocumentsDetailsByUuid() {
+    // this.isDocumentsShimmer=true;
+    this.dataService.getEmployeeDocumentsDetails(this.userId).subscribe(
+      (data) => {
+        console.log(data);
+        this.documentsEmployee = data;
+        
+          // this.isDocumentsShimmer=false;
+        
+        console.log(this.bankDetailsEmployee.data);
+      },
+      (error) => {
+        // this.isDocumentsShimmer=false;
         console.log(error);
       }
     );
