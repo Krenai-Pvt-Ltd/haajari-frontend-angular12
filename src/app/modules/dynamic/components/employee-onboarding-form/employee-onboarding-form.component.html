@@ -23,30 +23,23 @@
                             </div>
 
                             <div class="col-md-12">
-
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Profile Picture</label>
+                                  <label for="profilePicture" class="pb-2">Profile Picture</label>
+                                  <div class="importfilebox">
+                                    <input id="profilePicture" type="file" name="img" accept="image/*" class="input" (change)="onFileSelected($event)">
+                                    <label for="profilePicture">
+                                      <!-- Image Preview -->
+                                      <img id="imagePreview" src="assets/images/user.png" alt="Profile Preview" style="max-width: 100px; max-height: 100px;"/>
 
-                                    <div class="importfilebox">
-                                        <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input">
-                                        <label for="fileSelect">
-
-                                            <div class="">
-                                                <img src="assets/images/user.png" alt="" style="width:60px;">
-                                            </div>
-                                            <!--  -->
-                                            <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a> </b><br> SVG, PNG, JPG or GIF (max. 800px*400px)</span>
-                                            <!-- <button>BROWSE</button> -->
-                                        </label>
-                                    </div>
+                                      <!-- <img id="imagePreview" src="assets/images/user.png" alt="" style="width:60px;"> -->
+                              
+                                      <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> SVG, PNG, JPG or GIF (max. 800px*400px)</span>
+                                    </label>
+                                  </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">File</label>
-                                    <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Select File" (change)="changeMethodCall($event)">
-                                </div>
-                             </div>
+                              </div>
+                              
+                              
                             <div class="col-md-6">
                                <div class="mb-3">
                                    <label for="exampleInputEmail1" class="pb-2">Email Id</label>
