@@ -150,7 +150,8 @@ export class AttendanceSettingComponent implements OnInit {
 
 
   attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse = new AttendanceRuleDefinitionResponse();  
-  updateAttendenceRuleDefinition(attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse){
+  updateAttendenceRuleDefinition(attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse, attendanceRuleResponse : AttendanceRuleResponse){
+    this.attendanceRuleResponse = attendanceRuleResponse;
     this.getDeductionTypeMethodCall();
     this.getOvertimeTypeMethodCall();
     this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
