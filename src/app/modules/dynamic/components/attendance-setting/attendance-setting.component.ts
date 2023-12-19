@@ -29,6 +29,10 @@ export class AttendanceSettingComponent implements OnInit {
     // this.getAttendanceRuleDefinitionMethodCall();
     // console.log(this.selectedStaffs);
     // this.updateSelectedStaffs();
+    
+    if(localStorage.getItem("staffSelectionActive")=="true"){
+      this.activeModel=true;
+    }
   }
 
   isFull:boolean=false;
@@ -92,15 +96,21 @@ export class AttendanceSettingComponent implements OnInit {
     this.getOvertimeTypeMethodCall();
   }
 
+  activeModel2:boolean=false;
   @ViewChild('attendanceRuleDefinitionModalClose') attendanceRuleDefinitionModalClose !: ElementRef;
   attendanceRuleDefinitionRequest : AttendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
   registerAttendanceRuleDefinitionMethodCall(){
+
+    this.activeModel2=true;
     
     this.preRegisterAttendanceRuleDefinitionMethodCall();
 
     this.dataService.registerAttendanceRuleDefinition(this.attendanceRuleDefinitionRequest).subscribe((response) => {
       console.log(response);
+      
+      localStorage.removeItem("staffSelectionActive");
       location.reload();
+      this.activeModel2=false;
       this.attendanceRuleDefinitionModalClose.nativeElement.click();
     }, (error) =>{
       console.log(error);
@@ -150,13 +160,19 @@ export class AttendanceSettingComponent implements OnInit {
 
 
   attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse = new AttendanceRuleDefinitionResponse();  
-  updateAttendenceRuleDefinition(attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse){
-    this.getDeductionTypeMethodCall();
-    this.getOvertimeTypeMethodCall();
+  updateAttendenceRuleDefinition(attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse, attendanceRuleResponse : AttendanceRuleResponse){
+    this.attendanceRuleResponse = attendanceRuleResponse;
     this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
-    this.selectDeductionType(attendanceRuleDefinitionResponse.deductionType);
-    this.selectOvertimeType(attendanceRuleDefinitionResponse.overtimeType);
-    
+
+    debugger
+    if(attendanceRuleDefinitionResponse.deductionType === null){
+      this.getOvertimeTypeMethodCall();
+      this.selectOvertimeType(attendanceRuleDefinitionResponse.overtimeType);
+    } else{
+      this.getDeductionTypeMethodCall();
+      this.selectDeductionType(attendanceRuleDefinitionResponse.deductionType);
+    }
+
     this.isFull = true;
     this.isHalf = true;
     this.isBreak = true;
@@ -329,5 +345,12 @@ export class AttendanceSettingComponent implements OnInit {
     this.updateSelectedStaffs();
   }
 
+  activeModel:boolean=false;
+  trueActiveModel(){
+    
+    this.activeModel=true;
+    localStorage.setItem("staffSelectionActive", this.activeModel.toString());
+
+  }
 
 }

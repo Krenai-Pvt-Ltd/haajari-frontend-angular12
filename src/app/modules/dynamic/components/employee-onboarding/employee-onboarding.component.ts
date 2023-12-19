@@ -13,9 +13,8 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./employee-onboarding.component.css'],
 })
 export class EmployeeOnboardingComponent implements OnInit {
-  @ViewChild('inviteNewMember') inviteNewMemberModal!: ElementRef;
-  private modalRef: any;
-
+  @ViewChild ('inviteModal') inviteModal!: ElementRef;
+  @ViewChild('closeInviteModal') closeInviteModal!: ElementRef;
   userPersonalInformationRequest: UserPersonalInformationRequest = new UserPersonalInformationRequest();
   constructor(
     private dataService: DataService,
@@ -291,18 +290,13 @@ selectStatus(status: string) {
         }
       );
   }
-
   clearForm() {
     this.userPersonalInformationRequest = new UserPersonalInformationRequest();
     
-  }
+  } 
 
-  closeModal() {
-    if (this.modalRef) {
-      this.modalRef.close();
-    }
+  closeModal(){
+    this.closeInviteModal.nativeElement.click();
   }
-  
-  
 
 }

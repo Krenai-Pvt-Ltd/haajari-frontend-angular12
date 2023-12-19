@@ -540,8 +540,8 @@
     </div>
 </div>
 
-<ng-template #inviteNewMember let-modal>
-<div #inviteNewMember class="modal fade" id="add-employee" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+
+<div #inviteModal class="modal fade" id="add-employee" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
     <div class="modal-dialog " role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -571,10 +571,9 @@
               </div>                          
             </div><!--end modal-body-->
             <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close" #closeInviteModal>Cancel</button>
                 <button type="button" class="btn btn-primary" (click)="setEmployeePersonalDetailsMethodCall()">Submit</button>
             </div><!--end modal-footer-->
         </div><!--end modal-content-->
     </div><!--end modal-dialog-->
 </div><!--end modal-->
-</ng-template>

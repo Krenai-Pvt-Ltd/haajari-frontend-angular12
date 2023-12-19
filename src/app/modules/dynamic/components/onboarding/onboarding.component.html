@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="col-md-6">
-          <nav id=" d-flex justify-content-between" class="navbar-custom">
+          <nav id=" d-flex justify-content-between" class="">
             <ul class="list-unstyled topbar-nav float-end mb-0">
               <li class="dropdown">
                 <a
@@ -343,7 +343,7 @@
                                   aria-label="Upload"
                                   name="userOrganizationPic"
                                   
-                                  style="line-height: 31px"
+                                  style="line-height: 25px; height: 40px !important; "
                                 />
                                 <!-- [(ngModel)]="organizationPic"
                                 required -->
@@ -865,7 +865,7 @@
                                       </td>
 
                                       <td class="text-left">
-                                        <div class="" style="margin-left: 35%;">
+                                        <!-- <div class="" >
                                           <input
                                             type="checkbox"
                                             [(ngModel)]="sav.status"
@@ -880,6 +880,10 @@
                                             class="hafday"
                                             >Toggle</label
                                           >
+                                        </div> -->
+                                        <div class="material-switch">
+                                          <input  type="checkbox" [(ngModel)]="sav.status" (change)="updateLeaveStatus(sav)" id="switch{{ sav.id }}" name="leaveStatus" class="ng-untouched ng-pristine ng-valid">
+                                          <label class="label-success"  for="switch{{ sav.id }}" (click)="setAce()"></label>
                                         </div>
                                       </td>
                                     </tr>
