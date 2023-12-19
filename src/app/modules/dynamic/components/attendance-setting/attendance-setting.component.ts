@@ -160,13 +160,19 @@ export class AttendanceSettingComponent implements OnInit {
 
 
   attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse = new AttendanceRuleDefinitionResponse();  
-  updateAttendenceRuleDefinition(attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse){
-    this.getDeductionTypeMethodCall();
-    this.getOvertimeTypeMethodCall();
+  updateAttendenceRuleDefinition(attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse, attendanceRuleResponse : AttendanceRuleResponse){
+    this.attendanceRuleResponse = attendanceRuleResponse;
     this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
-    this.selectDeductionType(attendanceRuleDefinitionResponse.deductionType);
-    this.selectOvertimeType(attendanceRuleDefinitionResponse.overtimeType);
-    
+
+    debugger
+    if(attendanceRuleDefinitionResponse.deductionType === null){
+      this.getOvertimeTypeMethodCall();
+      this.selectOvertimeType(attendanceRuleDefinitionResponse.overtimeType);
+    } else{
+      this.getDeductionTypeMethodCall();
+      this.selectDeductionType(attendanceRuleDefinitionResponse.deductionType);
+    }
+
     this.isFull = true;
     this.isHalf = true;
     this.isBreak = true;
