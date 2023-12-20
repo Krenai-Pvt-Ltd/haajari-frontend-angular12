@@ -338,6 +338,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   saveLeaveRequestUser(){
     this.userLeaveRequest.managerId = this.selectedManagerId;
+    this.userLeaveRequest.halfDayLeave = false;
     this.dataService.saveLeaveRequest(this.userId, this.userLeaveRequest)
     .subscribe(data => {
      
