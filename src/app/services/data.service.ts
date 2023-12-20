@@ -45,9 +45,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  // private baseUrl = "http://localhost:8080/api/v2"
+  private baseUrl = "http://localhost:8080/api/v2"
 
-  private baseUrl = "https://backend.hajiri.work/api/v2";
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -477,12 +477,12 @@ export class DataService {
     return this.httpClient.put<any>(`${this.baseUrl}/employee-onboarding-status/change-employee-onboarding-status`,{}, {params});
   }
 
-  setEmployeePersonalDetails(userPersonalInformationRequest: UserPersonalInformationRequest, userUuid: string): Observable<any> {
+  setEmployeePersonalDetails(formData: FormData, userUuid: string): Observable<any> {
     debugger
     const params = new HttpParams()
     .set("userUuid", userUuid);
     console.log("save")
-    return this.httpClient.put<any>(`${this.baseUrl}/users/save/employeePersonalDetails`, userPersonalInformationRequest, {params})
+    return this.httpClient.put<any>(`${this.baseUrl}/users/save/employeePersonalDetails`, formData, {params})
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Error in setEmployeePersonalDetails:', error);
@@ -609,6 +609,7 @@ export class DataService {
         );
 }
 getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperience[]> {
+  debugger
   const params = new HttpParams().set("userUuid", userUuid);
   return this.httpClient.get<UserExperience[]>(`${this.baseUrl}/user-experiences/getExperiences`, { params });
 }

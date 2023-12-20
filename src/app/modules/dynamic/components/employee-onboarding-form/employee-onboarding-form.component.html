@@ -11,16 +11,20 @@
                 <div class="persnol-details">
                     <h5>Personal Information</h5>
                     <p class="mb-0">Fields with are mandatory </p>
-
+                    <form [formGroup]="registerForm" (ngSubmit)="registerSubmited">
                     <div class="persnol-info mt-4">
                         <div class="row">
-
-                            <div class="col-md-12">
-                               <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2">Name</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userPersonalInformationRequest.name" disabled>
-                               </div>
+                          
+                          <div class="col-md-12">
+                            <div class="mb-3">
+                              <label for="name" class="pb-2">Name</label>
+                              <input type="text" class="form-control" id="name" placeholder="Enter name" formControlName="name" [disabled]="true">
+                              <div *ngIf="name.errors?.['required'] && (name.dirty || name.touched)" class="form-text text-danger">
+                                Name is required.
+                              </div>
                             </div>
+                          </div>
+                          
 
                             <div class="col-md-12">
                                 <div class="mb-3">
@@ -36,107 +40,144 @@
                                       <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> SVG, PNG, JPG or GIF (max. 800px*400px)</span>
                                     </label>
                                   </div>
+                                  <div *ngIf="!isFileSelected" class="form-text text-danger">
+                                    Profile picture is required.
+                                  </div>
                                 </div>
                               </div>
                               
                               
-                            <div class="col-md-6">
-                               <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2">Email Id</label>
-                                   <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="userPersonalInformationRequest.email" disabled>
-                               </div>
-                            </div>
+                              <div class="col-md-6">
+                                <div class="mb-3">
+                                  <label for="emailField" class="pb-2">Email Id</label>
+                                  <input type="email" class="form-control" id="emailField" aria-describedby="emailHelp" placeholder="Enter email" formControlName="email" [disabled]="true">
+                                  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="form-text text-danger">
+                                    <div *ngIf="email.errors?.['required']">Email is required.</div>
+                                    <div *ngIf="email.errors?.['email']">Please enter a valid email address.</div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+
                             <div class="col-md-6">
                                <div class="mb-3">
                                    <label for="exampleInputEmail1" class="pb-2">Phone</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone" [(ngModel)]="userPersonalInformationRequest.phoneNumber" disabled>
+                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone" formControlName="phoneNumber">
+                                   
+                                   <div class="form-text text-danger" *ngIf="phoneNumber.errors?.['required'] && (phoneNumber.dirty ||phoneNumber.touched)">
+                                    Phone Number is Required
+                                   </div>
+                                   <div class="form-text text-danger" *ngIf="phoneNumber.errors?.['pattern'] && (phoneNumber.dirty ||phoneNumber.touched)">
+                                    Phone Number is Invalid
+                                   </div>
+                                   <div class="form-text text-danger" *ngIf="phoneNumber.errors?.['minlength'] && (phoneNumber.dirty ||phoneNumber.touched)">
+                                    Phone Number is Shorter than 10 Digits
+                                   </div>
+                                   <div class="form-text text-danger" *ngIf="phoneNumber.errors?.['maxlength'] && (phoneNumber.dirty ||phoneNumber.touched)">
+                                    Phone Number is Longer than 10 Digits
+                                   </div>
                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="pb-2">DOB</label>
-                                    <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter DOB" [(ngModel)]="userPersonalInformationRequest.dob">
+                                    <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter DOB" formControlName="dob">
                                 </div>
                              </div>
                              <div class="col-md-6">
                                
-                                <div class="mb-3">
-                                    <label for="genderDropdown" class="pb-2">Gender</label>
-                                    <div class="dropdown" style="width: 100%;">
-                                      <button type="button" id="genderDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                                        {{ userPersonalInformationRequest.gender || 'Select Gender' }}
-                                        <i class="bi bi-chevron-down"></i>
-                                      </button>
-                                      <ul aria-labelledby="genderDropdown" class="dropdown-menu" style="width: 100%;">
-                                        <li><a class="dropdown-item" (click)="userPersonalInformationRequest.gender = 'Male'">Male</a></li>
-                                        <li><a class="dropdown-item" (click)="userPersonalInformationRequest.gender = 'Female'">Female</a></li>
-                                      </ul>
-                                    </div>
-                                  </div>
+                              <div class="mb-3">
+                                <label for="gender" class="pb-2">Gender</label>
+                                <select class="form-control" id="gender" formControlName="gender">
+                                    <option value="" disabled>Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Female">Transgender</option>
+                                    
+                                </select>
+                                <div class="form-text text-danger" *ngIf="gender.errors?.['required'] && (gender.dirty || gender.touched)">
+                                    Gender is required.
+                                </div>
+                            </div>
+                            
                                   
                              </div>
                              <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="pb-2">Father's Name</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter father name" [(ngModel)]="userPersonalInformationRequest.fatherName">
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter father name" formControlName="fatherName" >
                                 </div>
                              </div>
                              <div class="col-md-6">
-                                <div class="mb-3">
-                                  <label for="maritalStatusDropdown" class="pb-2">Marital Status</label>
-                                  <div class="dropdown" style="width: 100%;">
-                                    <button type="button" id="maritalStatusDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                                      {{ userPersonalInformationRequest.maritalStatus || 'Select Marital Status' }}
-                                      <i class="bi bi-chevron-down"></i>
-                                    </button>
-                                    <ul aria-labelledby="maritalStatusDropdown" class="dropdown-menu" style="width: 100%;">
-                                      <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Single'">Single</a></li>
-                                      <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Married'">Married</a></li>
-                                      <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Divorced'">Divorced</a></li>
-                                      <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Widowed'">Widowed</a></li>
-                                      <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Seperated'">Seperated</a></li>
-
-                                    </ul>
+                              <div class="mb-3">
+                                  <label for="maritalStatus" class="pb-2">Marital Status</label>
+                                  <select class="form-control" id="maritalStatus" formControlName="maritalStatus">
+                                      <option value="" disabled>Select Marital Status</option>
+                                      <option value="Single">Single</option>
+                                      <option value="Married">Married</option>
+                                      <option value="Divorced">Divorced</option>
+                                      <option value="Widowed">Widowed</option>
+                                      <option value="Separated">Separated</option>
+                                      
+                                  </select>
+                                  <div class="form-text text-danger" *ngIf="maritalStatus.errors?.['required'] && (maritalStatus.dirty || maritalStatus.touched)">
+                                      Marital status is required.
                                   </div>
-                                </div>                      
-                             </div>
+                              </div>
+                          </div>
+                          
 
-                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Joining Date</label>
-                                    <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter joining date" [(ngModel)]="userPersonalInformationRequest.joiningDate">
-                                </div>
-                             </div>
-                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Current Salary</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Enter current salary" [(ngModel)]="userPersonalInformationRequest.currentSalary">
-                                </div>
-                             </div>
-                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Department</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Enter department" [(ngModel)]="userPersonalInformationRequest.department">
-                                </div>
-                             </div>
-                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Current Position</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Enter current position" [(ngModel)]="userPersonalInformationRequest.position">
-                                </div>
-                             </div>
-                            <div class="col-md-6">
-                               <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2">Nationality</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Enter nationality" [(ngModel)]="userPersonalInformationRequest.nationality">
-                               </div>
+                          <div class="col-md-6">
+                            <div class="mb-3">
+                              <label for="joiningDate" class="pb-2">Joining Date</label>
+                              <input type="date" class="form-control" id="joiningDate" placeholder="Enter joining date" formControlName="joiningDate">
+                              <div *ngIf="joiningDate.invalid && (joiningDate.dirty || joiningDate.touched)" class="form-text text-danger">
+                                Joining date is required.
+                              </div>
                             </div>
+                          </div>
+                          
+                          <div class="col-md-6">
+                            <div class="mb-3">
+                              <label for="currentSalary" class="pb-2">Current Salary</label>
+                              <input type="text" class="form-control" id="currentSalary" placeholder="Enter current salary" formControlName="currentSalary">
+                              <div *ngIf="currentSalary.errors?.['required'] && (currentSalary.dirty || currentSalary.touched)" class="form-text text-danger">
+                                Current Salary is required.
+                              </div>
+                              <div *ngIf="currentSalary.errors?.['pattern'] && (currentSalary.dirty || currentSalary.touched)" class="form-text text-danger">
+                                Current Salary must be numeric.
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div class="col-md-6">
+                            <div class="mb-3">
+                              <label for="position" class="pb-2">Current Position</label>
+                              <input type="text" class="form-control" id="position" placeholder="Enter current position" formControlName="position">
+                              <div *ngIf="position.errors?.['required'] && (position.dirty || position.touched)" class="form-text text-danger">
+                                Position is required.
+                              </div>
+                            </div>
+                          </div>
+                          
+                          
+                          <div class="col-md-6">
+                            <div class="mb-3">
+                              <label for="nationality" class="pb-2">Nationality</label>
+                              <input type="text" class="form-control" id="nationality" placeholder="Enter nationality" formControlName="nationality">
+                              <div *ngIf="nationality.errors?.['required'] && (nationality.dirty || nationality.touched)" class="form-text text-danger">
+                                Nationality is required.
+                              </div>
+                            </div>
+                          </div>
+                          
+                          
                              <div class="col-md-12 d-flex justify-content-end mt-3">
                                 <!-- <div class="info-btn d-flex justify-content-start">
                                     <button class="btn btn-primary back-btn" type="button" ><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
                                 </div> -->
                                 <div class="info-btn">
-                                    <button class="btn btn-primary" type="button" (click)="routeToUserDetails(); setEmployeePersonalDetailsMethodCall()" aria-label="Next Step">
+                                    <button class="btn btn-primary" type="button" [disabled]="registerForm.invalid" (click)="routeToUserDetails(); setEmployeePersonalDetailsMethodCall();" aria-label="Next Step">
                                         Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                                       </button>
                                       
@@ -144,6 +185,7 @@
                              </div>
                         </div>
                     </div>
+                  </form>
                 </div>
             </div>
             </div>

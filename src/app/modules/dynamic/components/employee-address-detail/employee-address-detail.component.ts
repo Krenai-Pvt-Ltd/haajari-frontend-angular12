@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { DataService } from 'src/app/services/data.service';
@@ -98,4 +99,91 @@ export class EmployeeAddressDetailComponent implements OnInit {
     }
   }
 
+
+  registerForm = new FormGroup({
+    // ... existing form controls ...
+  
+    currentAddress: new FormControl('', [Validators.required]),
+    currentPincode: new FormControl('', [Validators.required, Validators.pattern("[0-9]*"), Validators.minLength(6), Validators.maxLength(6)]),
+    currentCity: new FormControl('', [Validators.required]),
+    currentState: new FormControl('', [Validators.required]),
+    currentCountry: new FormControl('', [Validators.required]),
+    sameAddress: new FormControl(true),  // Assuming this is a checkbox for same address
+    permanentAddress: new FormControl(''),
+    permanentPincode: new FormControl('', [Validators.pattern("[0-9]*"), Validators.minLength(6), Validators.maxLength(6)]),
+    permanentCity: new FormControl(''),
+    permanentState: new FormControl(''),
+    permanentCountry: new FormControl('')
+  });
+  
+  
+  // Getters for the current address form controls
+get currentAddress(): FormControl {
+  return this.registerForm.get('currentAddress') as FormControl;
+}
+
+get currentPincode(): FormControl {
+  return this.registerForm.get('currentPincode') as FormControl;
+}
+
+get currentCity(): FormControl {
+  return this.registerForm.get('currentCity') as FormControl;
+}
+
+get currentState(): FormControl {
+  return this.registerForm.get('currentState') as FormControl;
+}
+
+get currentCountry(): FormControl {
+  return this.registerForm.get('currentCountry') as FormControl;
+}
+
+// Getters for the permanent address form controls
+get permanentAddress(): FormControl {
+  return this.registerForm.get('permanentAddress') as FormControl;
+}
+
+get permanentPincode(): FormControl {
+  return this.registerForm.get('permanentPincode') as FormControl;
+}
+
+get permanentCity(): FormControl {
+  return this.registerForm.get('permanentCity') as FormControl;
+}
+
+get permanentState(): FormControl {
+  return this.registerForm.get('permanentState') as FormControl;
+}
+
+get permanentCountry(): FormControl {
+  return this.registerForm.get('permanentCountry') as FormControl;
+}
+
+
+get sameAddress(): FormControl {
+  return this.registerForm.get('sameAddress') as FormControl;
+}
+
+  
+  // ... similarly for the other fields ...
+  
+  // onSameAddressChange() {
+  //   const permanentAddressControls = [
+  //     'permanentAddress',
+  //     'permanentPincode',
+  //     'permanentCity',
+  //     'permanentState',
+  //     'permanentCountry'
+  //   ];
+  
+  //   if (this.registerForm.get('sameAddress').value) {
+  //     permanentAddressControls.forEach(field => {
+  //       this.registerForm.get(field).disable();
+  //       this.registerForm.get(field).reset();
+  //     });
+  //   } else {
+  //     permanentAddressControls.forEach(field => this.registerForm.get(field).enable());
+  //   }
+  // }
+  
 }

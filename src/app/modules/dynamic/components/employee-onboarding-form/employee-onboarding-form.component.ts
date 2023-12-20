@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
@@ -28,10 +29,13 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     this.router.navigate(['/employee-address-detail'], navExtra);
   }
 
+  isFileSelected = false;
+
   onFileSelected(event: Event): void {
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
     if (fileList) {
+      this.isFileSelected = true;
       const file = fileList[0];
       const reader = new FileReader();
   
@@ -43,6 +47,8 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   
       reader.readAsDataURL(file);
       this.uploadFile(file);
+    } else {
+      this.isFileSelected = false;
     }
   }
   
@@ -71,15 +77,16 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     this.dataService.markStepAsCompleted(1);
-   
-    this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
+    if (this.registerForm.valid) {
+    const formData = this.registerForm.value;
+    this.dataService.setEmployeePersonalDetails(formData, userUuid)
       .subscribe(
         (response: UserPersonalInformationRequest) => {
           console.log(response);  
           
           if (!userUuid) {
             // localStorage.setItem('uuidNewUser', response.uuid);
-            this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
+            this.dataService.setEmployeePersonalDetails(formData, userUuid)
             // this.userPersonalDetailsStatus = response.statusResponse;
             // localStorage.setItem('statusResponse', JSON.stringify(this.userPersonalDetailsStatus));
             this.dataService.markStepAsCompleted(1);
@@ -89,8 +96,11 @@ export class EmployeeOnboardingFormComponent implements OnInit {
         },
         (error) => {
           console.error(error);
-        }
-      );
+        })
+      } else {
+        // Handle invalid form case
+      }
+      ;
   }
   
 
@@ -102,7 +112,8 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     if (userUuid) {
       this.dataService.getNewUserPersonalInformation(userUuid).subscribe(
         (response: UserPersonalInformationRequest) => {
-          this.userPersonalInformationRequest = response;
+          // this.userPersonalInformationRequest = response;
+          this.registerForm.patchValue(response);
           this.dataService.markStepAsCompleted(1);
         },
         (error: any) => {
@@ -116,8 +127,76 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     }
   } 
 
-  changeMethodCall(file : Event){
-    console.log(file);
+  registerForm = new FormGroup({
+    name: new FormControl({value: '', disabled: true}, [Validators.required]),
+    image: new FormControl(""),
+    email: new FormControl({value: '', disabled: true}, [Validators.required, Validators.email]),
+    phoneNumber: new FormControl("", [Validators.required,Validators.pattern("[0-9]*"), Validators.minLength(10), Validators.maxLength(10)]),
+    dob: new FormControl("", [Validators.required]),
+    gender: new FormControl("", [Validators.required]),
+    fatherName: new FormControl("", [Validators.required]),
+    maritalStatus: new FormControl("", [Validators.required]),
+    joiningDate: new FormControl("", [Validators.required]),
+    currentSalary: new FormControl("", [Validators.required,Validators.pattern("[0-9]*")]),
+    department: new FormControl("", [Validators.required]),
+    position: new FormControl("", [Validators.required]),
+    nationality: new FormControl("", [Validators.required])
+  });
+  
+  registerSubmited(){
+    console.log(this.registerForm);
+  }
+
+  get name(): FormControl{
+    return this.registerForm.get("name") as FormControl;
+  }
+
+  get email(): FormControl{
+    return this.registerForm.get("email") as FormControl;
+  }
+
+  get image(): FormControl{
+    return this.registerForm.get("image") as FormControl;
+  }
+
+  get phoneNumber(): FormControl{
+    return this.registerForm.get("phoneNumber") as FormControl;
+  }
+
+  get dob(): FormControl {
+    return this.registerForm.get("dob") as FormControl;
+  }
+  
+  get gender(): FormControl {
+    return this.registerForm.get("gender") as FormControl;
+  }
+  
+  get fatherName(): FormControl {
+    return this.registerForm.get("fatherName") as FormControl;
+  }
+  
+  get maritalStatus(): FormControl {
+    return this.registerForm.get("maritalStatus") as FormControl;
+  }
+  
+  get joiningDate(): FormControl {
+    return this.registerForm.get("joiningDate") as FormControl;
+  }
+  
+  get currentSalary(): FormControl {
+    return this.registerForm.get("currentSalary") as FormControl;
+  }
+  
+  get department(): FormControl {
+    return this.registerForm.get("department") as FormControl;
+  }
+  
+  get position(): FormControl {
+    return this.registerForm.get("position") as FormControl;
+  }
+  
+  get nationality(): FormControl {
+    return this.registerForm.get("nationality") as FormControl;
   }
   
 }
