@@ -657,33 +657,35 @@
                                             
                                             </div>
                                             </div>
-                                        <div class="tab-pane fade show mt-3" id="pending-employee" role="tabpanel">
-                                            <div class="">
+                                        <div class="tab-pane fade show mt-3" id="pending-employee" role="tabpanel" >
+                                            <div class="" >
 
-                                                <div class="row">
+                                                <div *ngIf="!isAddressPlaceholder">
+
+                                                <div class="row" >
                                                     <div class="col-md-9">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Complete Address - A-75 B- Block New Ashok Neger, New Delhi.</p>
+                                                            <p class="mb-0">Complete Address - {{addressEmployee?.currentAddress || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Pincode - 110096</p>
+                                                            <p class="mb-0">Pincode - {{addressEmployee?.currentPincode || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">City - Delhi</p>
+                                                            <p class="mb-0">City - {{addressEmployee?.currentCity || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">State - Delhi</p>
+                                                            <p class="mb-0">State - {{addressEmployee?.currentState || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Country - India</p>
+                                                            <p class="mb-0">Country - {{addressEmployee?.currentCountry || 'N/A'}}</p>
                                                         </div>
                                                     </div>
 
@@ -697,30 +699,31 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Complete Address - A-75 B- Block New Ashok Neger, New Delhi.</p>
+                                                            <p class="mb-0">Complete Address - {{addressEmployee?.permanentAddress || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Pincode - 110096</p>
+                                                            <p class="mb-0">Pincode - {{addressEmployee?.permanentPincode || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">City - Delhi</p>
+                                                            <p class="mb-0">City - {{addressEmployee?.permanentCity || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">State - Delhi</p>
+                                                            <p class="mb-0">State - {{addressEmployee?.permanentState || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Country - India</p>
+                                                            <p class="mb-0">Country - {{addressEmployee?.permanentCountry || 'N/A'}}</p>
                                                         </div>
                                                     </div>
 
+                                                </div>
                                                 </div>
 
 
@@ -773,37 +776,37 @@
 
 
 
-                                            <div class="">
+                                            <div class="" *ngIf="!isCompanyPlaceholder">
 
-                                                <div class="row">
+                                                <div class="row" *ngFor="let exp of experienceEmployee">
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Company Name - Krenai </p>
+                                                            <p class="mb-0">Company Name - {{exp.companyName || 'N/A'}} </p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Duration - 22-10-2022 to 21-12-2023</p>
+                                                            <p class="mb-0">Duration - {{exp.employementDuration || 'N/A'}} </p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Department - IT</p>
+                                                            <p class="mb-0">Department - {{exp.lastJobDepartment || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Last Salary - 27000</p>
+                                                            <p class="mb-0">Last Salary - {{exp.lastSalary || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Position - Frontend Developer</p>
+                                                            <p class="mb-0">Position - {{exp.lastJobPosition || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Responisibilities -  N/A</p>
+                                                            <p class="mb-0">Responisibilities -  {{exp.jobResponisibilities || 'N/A'}}</p>
                                                         </div>
                                                     </div>
 
@@ -865,40 +868,40 @@
                                             </div>
                 
                                         </div>
-                                        <div class="tab-pane fade mt-3" id="not-verify-employee" role="tabpanel">
+                                        <div class="tab-pane fade mt-3" id="not-verify-employee" role="tabpanel" >
 
                                             <div class="">
-                                                <div class="">
+                                                <div class="" *ngIf="!isAcademicPlaceholder">
 
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <div class="detail-deta">
-                                                                <p class="mb-0">Highest Qualification - BA </p>
+                                                                <p class="mb-0">Highest Qualification - {{academicEmployee?.highestEducationalLevel || 'N/A'}} </p>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="detail-deta">
-                                                                <p class="mb-0">Degree / Diploma Obtained - Yes</p>
+                                                                <p class="mb-0">Degree / Diploma Obtained - {{academicEmployee?.degreeObtained || 'N/A'}}</p>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="detail-deta">
-                                                                <p class="mb-0">Field of Study - B-Tech</p>
+                                                                <p class="mb-0">Field of Study - {{academicEmployee?.fieldOfStudy || 'N/A'}}</p>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="detail-deta">
-                                                                <p class="mb-0">Institution Name - AKTU </p>
+                                                                <p class="mb-0">Institution Name - {{academicEmployee?.institutionName || 'N/A'}} </p>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="detail-deta">
-                                                                <p class="mb-0">Grade / CGPA - 85%</p>
+                                                                <p class="mb-0">Grade / CGPA - {{academicEmployee?.grade || 'N/A'}}</p>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="detail-deta">
-                                                                <p class="mb-0">Graduating Year -  2022</p>
+                                                                <p class="mb-0">Graduating Year -  {{academicEmployee?.greaduationYear || 'N/A'}}</p>
                                                             </div>
                                                         </div>
     
@@ -967,22 +970,22 @@
 
 
                                             <div class="">
-                                                <div class="">
+                                                <div class="" *ngIf="!isContactPlaceholder">
 
-                                                    <div class="row">
+                                                    <div class="row" *ngFor="let cn of contactsEmployee">
                                                         <div class="col-md-4">
                                                             <div class="detail-deta">
-                                                                <p class="mb-0">Name - Yogesh Yadav </p>
+                                                                <p class="mb-0">Name - {{cn.contactName || 'N/A'}} </p>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="detail-deta">
-                                                                <p class="mb-0">Relation With Employee - Father</p>
+                                                                <p class="mb-0">Relation With Employee - {{cn.relationWithEmployee || 'N/A'}}</p>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="detail-deta">
-                                                                <p class="mb-0">Phone Number - 9549901868</p>
+                                                                <p class="mb-0">Phone Number - {{cn.contactNumber || 'N/A'}}</p>
                                                             </div>
                                                         </div>
                                                        
@@ -1084,8 +1087,10 @@
 
                         <div class="employ-nots mt-2">
                             <h5>Documents</h5>
+
+                            <!-- {{isDocsPlaceholder}} -->
                            
-                            <div class="pt-1">
+                            <div class="pt-1" *ngIf="!isDocsPlaceholder">
                             <div class="d-flex align-items-center justify-content-between document-deta">
                                 <div class="d-flex align-items-center ">
                                     <div class="d-flex align-items-center " style="gap:10px;">
@@ -1142,6 +1147,28 @@
                                     <i class="bi bi-download download-color" (click)="downloadSingleImage((documentsEmployee?.testimonialReccomendation).toString())"></i>
                                 </div>
                             </div>
+                           </div>
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody *ngIf="isDocsPlaceholder">
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="errorboxmain" style="text-align: center;">
+                                                <div class="errorboxinner" >
+                                                    <div class="errorboxplaceholder mb-2">
+                                                        <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                                    </div>
+                                                    <div class="">
+                                                        <h4>No Data Found</h4>
+                                                        <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
 
 
