@@ -47,12 +47,7 @@ export class DataService {
   
   // private baseUrl = "http://localhost:8080/api/v2"
 
-<<<<<<< HEAD
   private baseUrl = "https://backend.hajiri.work/api/v2";
-=======
-
-  // private baseUrl = "https://backend.hajiri.work/api/v2";
->>>>>>> 2e2a9f136b024592f4de085047208f106bdebfe6
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
