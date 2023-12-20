@@ -376,7 +376,8 @@ export class TeamComponent implements OnInit{
   deleteTeamByTeamId(teamId: number){
     this.dataService.deleteTeam(teamId).subscribe(response =>{
         console.log("Team Deleted Successfully");
-        location.reload();
+        this.getTeamsByFiltersFunction();
+        // location.reload();
     },error => {
       console.error(error);
       // location.reload();
@@ -386,6 +387,10 @@ export class TeamComponent implements OnInit{
   slackFirstPlaceholderFlag:boolean=false;
   getFlagOfSlackPlaceholder(){
     this.slackFirstPlaceholderFlag=true;
+    this.saveSlackChannelsDataToTeam();
+  }
+  getFlagOfSlackPlaceholder2(){
+    this.slackFirstPlaceholderFlag=false;
     this.saveSlackChannelsDataToTeam();
   }
 
@@ -407,6 +412,7 @@ export class TeamComponent implements OnInit{
    if(this.slackFirstPlaceholderFlag==true){
    localStorage.setItem("uniqueId", this.uniqueUuid);
    this.getFirebase();
+   this.slackDataPlaceholderFlag==false;
    }else if(this.slackFirstPlaceholderFlag===false){
    localStorage.setItem("uniqueUuid", this.uniqueUuid);
    this.getFirebaseDataOfReload();
@@ -428,6 +434,7 @@ export class TeamComponent implements OnInit{
       // location.reload();
       if(localStorage.getItem('uniqueId')){
       localStorage.removeItem('uniqueId');
+      this.slackDataPlaceholderFlag==false;
       }
       if(localStorage.getItem('uniqueUuid')){
       localStorage.removeItem('uniqueUuid');
@@ -523,7 +530,9 @@ getTeamsByFiltersFunction() {
     this.itemPerPage,
     this.pageNumber,
     this.searchText,
-    "name"
+    "name",
+    "name",
+    "ASC"
   ).subscribe((data: any) => {
     if (data) {
       this.teamsNew = data.teams;
