@@ -13,6 +13,7 @@ import {
 import { Router } from "@angular/router";
 import { DailyQuestionsCheckIn } from "src/app/models/daily-questions-check-in";
 import { DailyQuestionsCheckout } from "src/app/models/daily-questions-check-out";
+import { LoggedInUser } from "src/app/models/logged-in-user";
 import { OrganizationDailyQuestion } from "src/app/models/organization-daily-question";
 import { OrganizationPersonalInformation } from "src/app/models/organization-personal-information";
 import { Savel } from "src/app/models/savel";
@@ -26,6 +27,15 @@ import { HelperService } from "src/app/services/helper.service";
   styleUrls: ["./onboarding.component.css"],
 })
 export class OnboardingComponent implements OnInit {
+  getLoggedInUserDetails(){
+    this.loggedInUser = this.helperService.getDecodedValueFromToken();
+  }
+
+  getFirstAndLastLetterFromName(name : string){
+    this.helperService.getFirstAndLastLetterFromName(name);
+  }
+
+  loggedInUser : LoggedInUser = new LoggedInUser();
   shiftTimingsForm: FormGroup;
   Sick: any;
   c: any;
@@ -61,6 +71,7 @@ export class OnboardingComponent implements OnInit {
     this.getDailyNotes();
     this.getLeaves();
     this.getResponseStatusFromLocalStorage();
+    this.getLoggedInUserDetails();
     console.log(this.loginDetails);  
 
     //   window.addEventListener("beforeunload", function (e) {
@@ -1321,5 +1332,10 @@ export class OnboardingComponent implements OnInit {
 
     }
 
+  }
+
+  onLogout(){
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

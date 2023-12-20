@@ -35,7 +35,7 @@ export class BankDetailsComponent implements OnInit {
   setEmployeeBankDetailsMethodCall() {
     
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
-    this.dataService.markStepAsCompleted(5);
+    this.dataService.markStepAsCompleted(6);
     this.dataService.setEmployeeBankDetails(this.userBankDetailRequest, userUuid)
       .subscribe(
         (response: UserBankDetailRequest) => {
@@ -58,7 +58,7 @@ export class BankDetailsComponent implements OnInit {
       this.dataService.getEmployeeBankDetails(userUuid).subscribe(
         (response: UserBankDetailRequest) => {
           this.userBankDetailRequest = response;
-          this.dataService.markStepAsCompleted(5);
+          this.dataService.markStepAsCompleted(6);
         },
         (error: any) => {
           console.error('Error fetching user details:', error);

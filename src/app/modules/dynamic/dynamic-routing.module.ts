@@ -40,6 +40,7 @@ import { LeaveSettingComponent } from './components/leave-setting/leave-setting.
 import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { SupportComponent } from './components/support/support.component';
+import { ErrorPageComponent } from '../common/error-page/error-page.component';
 
 
 
@@ -49,7 +50,7 @@ import { SupportComponent } from './components/support/support.component';
   const routes: Routes = [
     { path: '', component: DynamicComponent,
   children:[
-    { path: 'dashboard', component: DashboardComponent},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
     { path: 'header', component: HeaderComponent },
     { path: 'topbar', component: TopbarComponent },
     { path: 'timetable', component: TimetableComponent},
@@ -84,7 +85,8 @@ import { SupportComponent } from './components/support/support.component';
     {path: 'testing', component: TestingComponent},
     {path: 'leave-setting', component: LeaveSettingComponent},
     {path: 'privacy', component: PrivacyComponent},
-    {path: 'support', component: SupportComponent}
+    {path: 'support', component: SupportComponent},
+    {path: 'error-page', component: ErrorPageComponent}
   ] }
   ];
 

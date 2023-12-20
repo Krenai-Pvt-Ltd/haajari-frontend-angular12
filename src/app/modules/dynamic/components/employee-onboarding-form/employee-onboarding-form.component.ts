@@ -70,7 +70,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   setEmployeePersonalDetailsMethodCall() {
     
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
-    this.dataService.markStepAsCompleted(0);
+    this.dataService.markStepAsCompleted(1);
    
     this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
       .subscribe(
@@ -82,7 +82,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
             this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
             // this.userPersonalDetailsStatus = response.statusResponse;
             // localStorage.setItem('statusResponse', JSON.stringify(this.userPersonalDetailsStatus));
-            this.dataService.markStepAsCompleted(0);
+            this.dataService.markStepAsCompleted(1);
           }  
           
           // this.router.navigate(['/employee-address-detail']);
@@ -103,7 +103,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
       this.dataService.getNewUserPersonalInformation(userUuid).subscribe(
         (response: UserPersonalInformationRequest) => {
           this.userPersonalInformationRequest = response;
-          this.dataService.markStepAsCompleted(0);
+          this.dataService.markStepAsCompleted(1);
         },
         (error: any) => {
           console.error('Error fetching user details:', error);

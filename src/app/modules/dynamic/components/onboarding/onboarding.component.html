@@ -31,9 +31,9 @@
                       class="rounded-circle me-2 thumb-sm"
                     />
                     <div>
-                      <small class="d-none d-md-block font-11">Admin</small
+                      <small class="d-none d-md-block font-11">{{loggedInUser.role}}</small
                       ><span class="d-none d-md-block fw-semibold font-12"
-                        >Yogesh Yadav <i class="mdi mdi-chevron-down"></i
+                        >{{loggedInUser.name}}<i class="mdi mdi-chevron-down"></i
                       ></span>
                     </div>
                   </div>
@@ -50,7 +50,7 @@
                     Settings</a
                   >
                   <div class="dropdown-divider mb-0"></div>
-                  <a href="auth-login.html" class="dropdown-item"
+                  <a class="dropdown-item" (click)="onLogout()"
                     ><i class="ti ti-power font-16 me-1 align-text-bottom"></i>
                     Logout</a
                   >
