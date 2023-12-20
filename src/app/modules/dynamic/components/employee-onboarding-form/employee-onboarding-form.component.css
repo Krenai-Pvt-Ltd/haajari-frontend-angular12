@@ -242,21 +242,22 @@ span.members-namess {
 
 .importfilebox label {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     background: #f9faff;
     border: 1px dashed #878a9a;
     border-radius: 6px;
-    height: 100px;
+    height: 90px;
     cursor: pointer;
     gap: 20px;
+    padding-left: 20px;
 }
 
 .importfilebox label span {
     font-weight: 400;
     font-size: 12px;
     line-height: 24px;
-    text-align: center;
+    text-align: left;
     color: #444444;
     margin-bottom: 0px;
 }
@@ -289,7 +290,6 @@ a.select-file {
     display: block;
     width: 100px; /* Default width, can be adjusted */
     height: 100px; /* Default height, can be adjusted */
-    border: 1px solid #000000; /* Optional border for visibility */
     object-fit: cover; /* To keep aspect ratio */
   }
   

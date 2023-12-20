@@ -15,29 +15,36 @@
                     <div class="persnol-info mt-4">
                         <div class="row">
 
-                            <div class="col-md-12">
-                               <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2">Name</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userPersonalInformationRequest.name" disabled>
-                               </div>
-                            </div>
+                           
 
-                            <div class="col-md-12">
+                            <div class="col-md-9">
                                 <div class="mb-3">
                                   <label for="profilePicture" class="pb-2">Profile Picture</label>
                                   <div class="importfilebox">
                                     <input id="profilePicture" type="file" name="img" accept="image/*" class="input" (change)="onFileSelected($event)">
-                                    <label for="profilePicture">
+                                    <label for="profilePicture pl-3">
                                       <!-- Image Preview -->
-                                      <img id="imagePreview" src="assets/images/user.png" alt="Profile Preview" style="max-width: 100px; max-height: 100px;"/>
+                                      
 
                                       <!-- <img id="imagePreview" src="assets/images/user.png" alt="" style="width:60px;"> -->
                               
-                                      <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> SVG, PNG, JPG or GIF (max. 800px*400px)</span>
+                                      <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> SVG, PNG, JPG or GIF (max. 100px*100px)</span>
                                     </label>
                                   </div>
                                 </div>
                               </div>
+                              <div class="col-md-3">
+                                 <div class="" style="text-align: center; margin-top: 30px; display: flex; align-items: center; justify-content: center;">
+                                  <img id="imagePreview" src="assets/images/user.png" alt="Profile Preview" style="max-width: 100px; max-height: 100px;"/>
+                                 </div>
+
+                              </div>
+                              <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="pb-2">Name</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userPersonalInformationRequest.name" disabled>
+                                </div>
+                             </div>
                               
                               
                             <div class="col-md-6">

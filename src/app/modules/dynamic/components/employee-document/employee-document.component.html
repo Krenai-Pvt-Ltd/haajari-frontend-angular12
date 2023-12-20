@@ -34,20 +34,22 @@
                                     </div>
                                 </div>
                             </div> -->
-
-                            <div class="mb-3">
-                                <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet</label>
-                                <div class="importfilebox">
-                                  <input id="secondarySchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')">
-                                  <label for="secondarySchoolCertificateFile">
-                                    <span *ngIf="!selectedFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
-                                    <span *ngIf="selectedFileName">{{ selectedFileName }}</span>
-                                  </label>
-                                </div>
-                              </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet</label>
+                                    <div class="importfilebox">
+                                      <input id="secondarySchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')">
+                                      <label for="secondarySchoolCertificateFile">
+                                        <span *ngIf="!selectedFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
+                                        <span *ngIf="selectedFileName">{{ selectedFileName }}</span>
+                                      </label>
+                                    </div>
+                                  </div>
+                            </div>
+                           
                               
 
-                              <div class="col-md-12">
+                              <div class="col-md-6">
                                 <div class="mb-3">
                                   <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet</label>
                                   <div class="importfilebox">
@@ -61,7 +63,7 @@
                               </div>
                               
                             
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <!-- <div class="mb-3">
                                     <label for="exampleInputEmail1" class="pb-2">High School Mark</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter high school mark">
@@ -77,8 +79,9 @@
                                       </label>
                                     </div>
                                   </div>
+                                  </div>
                                   
-                             <div class="col-md-12">
+                             <div class="col-md-6">
                                 <!-- <div class="mb-3">
                                     <label for="exampleInputEmail1" class="pb-2">High School Mark</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter high school mark">
@@ -93,6 +96,7 @@
                                         <span *ngIf="selectedTestimonialReccomendationFileName">{{ selectedTestimonialReccomendationFileName }}</span>
                                       </label>
                                     </div>
+                                  </div>
                                   </div>
                                   
 
