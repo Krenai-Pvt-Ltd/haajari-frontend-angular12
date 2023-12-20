@@ -689,3 +689,27 @@ span.optional {
     color: #6666f3;
     font-size: 14px;
 }
+
+.detail-deta {
+    text-align: left;
+    background-color: #f5f8fa;
+    border-radius: 2px;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+
+.detail-deta p{
+    font-size: 12px;
+
+}
+
+
+.text-lineclamp{
+    overflow: hidden;
+    /* padding: 2em; */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 135px;
+}
