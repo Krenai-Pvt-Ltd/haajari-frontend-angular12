@@ -53,6 +53,7 @@ import { DynamicRoutingModule } from './dynamic-routing.module';
 import { DynamicComponent } from './dynamic.component';
 import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
 import { TimeFormatPipe } from './time-format.pipe';
+import { SafePipe } from 'src/app/pipe/safe.pipe';
 
 
 
@@ -96,6 +97,7 @@ import { TimeFormatPipe } from './time-format.pipe';
     SlackDataLoadComponent,
     PrivacyComponent,
     SupportComponent,
+    SafePipe
 
   ],
   imports: [

@@ -47,3 +47,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .disabled-lnk{
     pointer-events: none;
 }
+
+:ng-deep .fc-view-harness{
+    min-height: 452px !important;
+}
