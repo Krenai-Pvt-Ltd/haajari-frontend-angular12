@@ -11,6 +11,9 @@ import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { UserDto } from 'src/app/models/user-dto.model';
+import { saveAs } from 'file-saver';
+import { HttpClient } from '@angular/common/http';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'app-employee-profile',
@@ -24,6 +27,8 @@ export class EmployeeProfileComponent implements OnInit {
     private datePipe: DatePipe,
     private activateRoute: ActivatedRoute,
     private fb: FormBuilder,
+    private http: HttpClient,
+    private firebaseStorage: AngularFireStorage
 
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
@@ -601,6 +606,10 @@ getUserLeaveLogByUuid() {
 
   
   documentsEmployee:any;
+  highSchoolCertificate:string='';
+  degreeCert:string='';
+  intermediateCertificate:string='';
+  testimonialsString:string='';
   // isDocumentsShimmer:boolean=false;
   getEmployeeDocumentsDetailsByUuid() {
     // this.isDocumentsShimmer=true;
@@ -608,10 +617,14 @@ getUserLeaveLogByUuid() {
       (data) => {
         console.log(data);
         this.documentsEmployee = data;
-        
+        this.highSchoolCertificate = data.highSchoolCertificate;
+        this.degreeCert=data.highestQualificationDegree;
+        this.intermediateCertificate=data.secondarySchoolCertificate;
+        this.testimonialsString=data.testimonialReccomendation;
           // this.isDocumentsShimmer=false;
         
         console.log(this.bankDetailsEmployee.data);
+        console.log('hsdhjklkjhgf'+this.highSchoolCertificate);
       },
       (error) => {
         // this.isDocumentsShimmer=false;
@@ -632,5 +645,85 @@ getUserLeaveLogByUuid() {
     this.selectedStatus = status;
     this.getUserLeaveLogByUuid();
 }
+
+  previewString:string=''
+  @ViewChild('openViewModal') openViewModal !: ElementRef;
+  openPdfModel(viewString:string){
+     if(viewString=="highschool"){
+      this.previewString=this.highSchoolCertificate;
+     }else if(viewString=="degree"){
+      this.previewString=this.degreeCert;
+     }else if(viewString=="secondaryschool"){
+      this.previewString=this.intermediateCertificate;
+     }else if(viewString=="testimonial"){
+      this.previewString=this.testimonialsString;
+     }
+    debugger
+    this.openViewModal.nativeElement.click();
+  }
+
+
+  // downloadSingleImage(imageUrl: any){
+  //   debugger
+  //    var blob =null;
+  //    var splittedUrl=imageUrl.split("/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/");
+  //    splittedUrl=splittedUrl[1].split("?alt");
+  //    splittedUrl=splittedUrl[0].replace("https://","");
+  //    splittedUrl=decodeURIComponent(splittedUrl);
+  //   this.firebaseStorage.storage.ref(splittedUrl).getDownloadURL().then((url:any) => {
+  //     // This can be downloaded directly:
+  //     var xhr = new XMLHttpRequest();
+  //     xhr.responseType = 'blob';
+  //     xhr.onload = (event) => {
+  //        blob = xhr.response;
+  //       console.log(blob);
+  //       saveAs(blob, "Docs");
+     
+  //     };
+  //     xhr.open('GET', url);
+  //     xhr.send();
+  //   })
+  //   .catch((error: any) => {
+  //     console.log(error);
+  //     // Handle any errors
+  //   });
+  // }
+
+  downloadSingleImage(imageUrl: any) {
+    if (!imageUrl) {
+      console.error('Image URL is undefined or null');
+      return;
+    }
+  
+    var blob = null;
+    var splittedUrl = imageUrl.split("/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/");
+    
+    if (splittedUrl.length < 2) {
+      console.error('Invalid image URL format');
+      return;
+    }
+    
+    splittedUrl = splittedUrl[1].split("?alt");
+    splittedUrl = splittedUrl[0].replace("https://", "");
+    splittedUrl = decodeURIComponent(splittedUrl);
+  
+    this.firebaseStorage.storage.ref(splittedUrl).getDownloadURL().then((url: any) => {
+      // This can be downloaded directly:
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = (event) => {
+        blob = xhr.response;
+        console.log(blob);
+        saveAs(blob, "Docs");
+      };
+      xhr.open('GET', url);
+      xhr.send();
+    })
+    .catch((error: any) => {
+      console.error(error);
+      // Handle any errors
+    });
+  }
+  
 
 }

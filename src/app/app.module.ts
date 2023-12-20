@@ -17,7 +17,11 @@ import { AppComponent } from './app.component';
 import { RequestInterceptorService } from './configuration/request-interceptor.service';
 import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
 import { SharedModule } from './shared/shared.module';
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from 'src/environments/environment';
+
 import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
+
 
 @NgModule({
   declarations: [
@@ -38,7 +42,7 @@ import { ErrorPageComponent } from './modules/common/error-page/error-page.compo
     NgxPaginationModule,
     SharedModule,
     NgbModule,
-    FullCalendarModule
+    FullCalendarModule,
 
     // CalendarModule.forRoot({
     //   provide: DateAdapter,
