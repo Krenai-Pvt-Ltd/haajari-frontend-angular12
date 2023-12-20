@@ -23,15 +23,16 @@
                                 
                                
                              
-                            <span *ngIf="user?.image !== null">
-                                <img src="{{user?.image}}" style="width:100px; border-radius: 50%;">
-                            </span>
-                            <span class="members-name" *ngIf="user?.image == null">{{ user?.name[0] }}</span>
+                                <span *ngIf="user?.image !== null">
+                                    <img src="{{user?.image}}" style="width:100px; border-radius: 50%;">
+                                </span>
+
+                                <span class="members-name" *ngIf="user?.image == null">{{ user?.name[0] || 'na'}}</span>
                                 <span class="edit-profile" routerLink="/employee-onboarding-form" *ngIf="(user!.employeeOnboardingStatus?.response!='APPROVED')"><i class="bi bi-pencil"></i></span>
                                 <div class="pt-2 pb-2">
-                                <h5>{{user?.name}}</h5>
-                                <p class="mb-0">{{user?.email}}</p>
-                            </div>
+                                    <h5>{{user?.name || 'N/A'}}</h5>
+                                    <p class="mb-0">{{user?.email || 'N/A'}}</p>
+                                </div>
 
                             <div class="mt-3">
                                 <table class="table profile-deta">
@@ -945,48 +946,56 @@
                                 <div class="d-flex align-items-center ">
                                     <div class="d-flex align-items-center " style="gap:10px;">
                                         <i class="bi bi-file-earmark-text"></i>
-                                        <p class="mb-0">file_name.pdf</p>
+                                        <p class="mb-0" *ngIf="documentsEmployee?.highSchoolCertificate">10th_Cert.pdf</p>
+                                        <!-- <p class="mb-0" *ngIf="documentsEmployee.highestQualificationDegree">Graduation_Cert.pdf</p>
+                                        <p class="mb-0" *ngIf="documentsEmployee.secondarySchoolCertificate">12th_Cert.pdf</p>
+                                        <p class="mb-0" *ngIf="documentsEmployee.testimonialReccomendation">Testimonial.pdf</p> -->
+
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-end" style="gap:10px; cursor: pointer;">
-                                    <i class="bi bi-trash delete-coloe"></i>
-                                    <i class="bi bi-download download-color"></i>
+                                    <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                    <i class="bi bi-eye pointer" (click)="openPdfModel('highschool')"></i>
+                                    <i class="bi bi-download download-color" (click)="downloadSingleImage((documentsEmployee.highSchoolCertificate).toString())"></i>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center justify-content-between document-deta">
                                 <div class="d-flex align-items-center ">
                                     <div class="d-flex align-items-center " style="gap:10px;">
                                         <i class="bi bi-file-earmark-text"></i>
-                                        <p class="mb-0">file_name.pdf</p>
+                                         <p class="mb-0" *ngIf="documentsEmployee?.highestQualificationDegree">Graduation_Cert.pdf</p>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-end" style="gap:10px; cursor: pointer;">
-                                    <i class="bi bi-trash delete-coloe"></i>
-                                    <i class="bi bi-download download-color"></i>
+                                    <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                    <i class="bi bi-eye pointer" (click)="openPdfModel('degree')"></i>
+                                    <i class="bi bi-download download-color" (click)="downloadSingleImage((documentsEmployee?.highestQualificationDegree).toString())"></i>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center justify-content-between document-deta">
                                 <div class="d-flex align-items-center ">
                                     <div class="d-flex align-items-center " style="gap:10px;">
                                         <i class="bi bi-file-earmark-text"></i>
-                                        <p class="mb-0">file_name.pdf</p>
+                                        <p class="mb-0" *ngIf="documentsEmployee?.secondarySchoolCertificate">12th_Cert.pdf</p>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-end" style="gap:10px; cursor: pointer;">
-                                    <i class="bi bi-trash delete-coloe"></i>
-                                    <i class="bi bi-download download-color"></i>
+                                    <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                    <i class="bi bi-eye pointer" (click)="openPdfModel('secondaryschool')"></i>
+                                    <i class="bi bi-download download-color" (click)="downloadSingleImage((documentsEmployee?.secondarySchoolCertificate).toString())"></i>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center justify-content-between document-deta">
                                 <div class="d-flex align-items-center ">
                                     <div class="d-flex align-items-center " style="gap:10px;">
                                         <i class="bi bi-file-earmark-text"></i>
-                                        <p class="mb-0">file_name.pdf</p>
+                                        <p class="mb-0" *ngIf="documentsEmployee?.testimonialReccomendation">Testimonial.pdf</p>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-end" style="gap:10px; cursor: pointer;">
-                                    <i class="bi bi-trash delete-coloe"></i>
-                                    <i class="bi bi-download download-color"></i>
+                                    <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                    <i class="bi bi-eye pointer" (click)="openPdfModel('testimonial')"></i>
+                                    <i class="bi bi-download download-color" (click)="downloadSingleImage((documentsEmployee?.testimonialReccomendation).toString())"></i>
                                 </div>
                             </div>
                         </div>
@@ -1001,8 +1010,6 @@
 
     </div>
 </div>
-
-
 
 
 
@@ -1125,3 +1132,19 @@
   </div>
 </div>
 
+
+<!-- show image modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showImageModal" #openViewModal id="openViewModal"></button>
+<div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">PDF</h5>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close"> Close <i class="bi bi-x"></i> </button>
+            </div>
+            <div class="modal-body text-center" style="overflow: scroll;min-height: 350px;">
+                <iframe [src]="previewString | safe" style="width:100%; height:100vh;" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
