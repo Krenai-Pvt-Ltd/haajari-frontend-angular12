@@ -47,7 +47,6 @@ export class DataService {
   
   // private baseUrl = "http://localhost:8080/api/v2"
 
-
   private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
@@ -152,12 +151,12 @@ export class DataService {
     .set("description", description)
     return this.httpClient.post(`${this.baseUrl}/team/register`, userIds, {params});
   }
-  getTeamsByFilter(itemPerPage: number, pageNumber: number, search: string, searchBy: string): Observable<any> {
+  getTeamsByFilter(itemPerPage: number, pageNumber: number, search: string, searchBy: string, sortBy:string, sortOrder:string): Observable<any> {
     const params = new HttpParams()
       .set("item_per_page", itemPerPage.toString())
       .set("page_number", pageNumber.toString())
       .set("search", search)
-      .set("search_by", searchBy);
+      .set("search_by", searchBy).set("sort_by", sortBy).set("sort_order", sortOrder);
     return this.httpClient.get<any>(`${this.baseUrl}/team/get-all-by-filters`, { params });
   }
   getAllTeamsWithUsersByUserId(): Observable<TeamResponse[]> {

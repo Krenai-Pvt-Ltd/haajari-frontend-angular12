@@ -110,14 +110,14 @@
 .left-folder{
   position: absolute;
   top: 130px;
-  left: -80px;
+  left: -63px;
   z-index: 9;
 }
 
 .right-folder{
   position: absolute;
   top: 130px;
-  right: -80px;
+  right: -63px;
   z-index: 9;
 }
 
@@ -132,7 +132,7 @@
 } */
 
 .arc {
-  width:470px;
+  width:415px;
   aspect-ratio:2/1;
   border:3px dashed #DFE8FF;
   border-bottom:0;
@@ -168,8 +168,8 @@
 }
 
 @keyframes a{ /* 115px = (250px - 20px)/2 */
-  from {transform:rotate(-180deg) translate(230px)}
-  to   {transform:rotate(   0deg) translate(230px)}
+  from {transform:rotate(-180deg) translate(207px)}
+  to   {transform:rotate(   0deg) translate(207px)}
 }
 
 .arc:before {
@@ -180,7 +180,7 @@
 }
 
 .progress-main{
-  width: 480px;
+  width: 400px;
   margin-top: 80px;
 }
 

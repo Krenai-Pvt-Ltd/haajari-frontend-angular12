@@ -54,8 +54,7 @@ import { DynamicComponent } from './dynamic.component';
 import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
 import { TimeFormatPipe } from './time-format.pipe';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-
-
+import { SafePipe } from 'src/app/pipe/safe.pipe';
 
 
 @NgModule({
@@ -98,6 +97,7 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     SlackDataLoadComponent,
     PrivacyComponent,
     SupportComponent,
+    SafePipe
 
   ],
   imports: [

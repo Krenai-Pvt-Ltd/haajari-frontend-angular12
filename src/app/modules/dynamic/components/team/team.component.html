@@ -128,7 +128,7 @@
                 </a>
   
                 <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
-                <a (click)="saveSlackChannelsDataToTeam()" [ngClass]="{'disabled-lnk':rotateToggle}"
+                <a (click)="getFlagOfSlackPlaceholder2()" [ngClass]="{'disabled-lnk':rotateToggle}"
                   ><i
                     style="
                       font-size: 16px;
@@ -331,9 +331,7 @@
         </div>
   
         <div
-          class="detaworkspace"
-          *ngIf="slackDataPlaceholderFlag && !searchTeamPlaceholderFlag"
-          style="height: 100vh; background-color: #fff"
+          class="detaworkspace" *ngIf="slackDataPlaceholderFlag && !searchTeamPlaceholderFlag" style="height: 80vh; background-color: #fff"
         >
           <div class="d-flex align-items-center position-relative">
             <div class="left-folder">
@@ -341,22 +339,22 @@
                 src="assets/images/slack-img.svg"
                 alt="logo-large"
                 class="logo-lg logo-light"
-                style="height: 150px"
+                style="height: 110px"
               />
             </div>
   
             <div class="arc">
-              <img class="" src="assets/images/google-docs 2.svg" />
-              <img class="" src="assets/images/user.svg" />
-              <img class="" src="assets/images/team.svg" />
+              <img class="image-rotate" src="assets/images/google-docs 2.svg"  />
+              <img class="image-rotate" src="assets/images/group-team.svg" style="width:40px" />
+              <img class="image-rotate" src="assets/images/file-deta.svg" style="width:40px"/>
             </div>
   
             <div class="right-folder">
               <img
-                src="assets/images/hajiri-img.svg"
+                src="assets/images/folder.svg"
                 alt="logo-large"
                 class="logo-lg logo-light"
-                style="height: 150px"
+                style="height: 110px"
               />
             </div>
           </div>

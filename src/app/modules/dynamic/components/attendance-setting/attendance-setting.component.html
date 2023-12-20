@@ -129,12 +129,30 @@
                             </div>
 
                         </div> -->
+                          
+
+                        <div class="empty-file">
+
+                            <div class="errorboxmain" >
+                                <div class="errorboxinner">
+                                    <div class="errorboxplaceholder mb-2">
+                                        <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                    </div>
+                                    <div class="">
+                                        <p class="mb-0">Shift Settings Not Found</p>
+                                    </div>
+                                     <div class="add-filtter mt-2 mb-3" style="text-align: center;">
+                                         <a class="" style="font-size: 14px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#shiftTime"><i class="bi bi-plus"></i> Add Shift Time </a>                
+                                     </div>
+                                </div>
+                            </div>
+
+                        </div>
+
 
                         <div class="">
-                            <div class="add-filtter d-flex align-items-center justify-content-between">
-                                <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#shiftTime"
-                                    (click)="getAttendanceRuleByOrganizationMethodCall()"><i class="bi bi-list"></i>
-                                    Shift Time</a>
+                            <div class="add-filtter d-flex align-items-center justify-content-end">
+                              
                                <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#shiftTime"><i class="bi bi-plus"></i> Add Shift Time </a>                
     
                             </div>
@@ -144,53 +162,10 @@
                                 <div class="d-flex align-items-center attendance-boxx">
                                     <div class="late-rule" style="width:70%">
                                         <h5> Shift Type</h5>
-                                        <!-- <p class="mb-0"> Define the late entry rules for the employees</p> -->
                                     </div>
-                                    <!-- <div class="leave-apply" style="width:30%; text-align: right; padding-right: 20px;">
-                                        <div class="add-filtter">
-                                            <a class="add-filtter" style="font-size: 12px;"> 16</a>
-                                        </div>
-                                    </div> -->
-                                    <!-- <div class="late-btn d-flex align-items-center justify-content-end mb-2"
-                                     style="width:30%; text-align: right; padding-right: 20px; gap:20px;">
-
-                                    <a href="" data-bs-toggle="modal" data-bs-target="#shiftTime"
-                                        class="create-rule"
-                                        (click)="updateAttendenceRuleDefinition(attendanceRuleDefinitionResponse)"><i
-                                            class="bi bi-pencil-square"></i></a>
-
-                                    <a href="" class="delete-rule"><i class="bi bi-trash"></i></a>
-
-                                </div> -->
+                                  
                                 </div>
-                                <!-- <div class="table-responsive mt-2">
-                                    <table class="table">
-                                        <thead class="shift-modal thead-light table-design">
-                                            <tr>
-                                                <th style="width:10%;">Shift Type</th>
-                                                <th style="width:10%;">In Time</th>
-                                                <th style="width:10%;">Out Time</th>
-                                                <th style="width:10%;">Working Hours</th>
-                                                <th style="width:10%;">Break Time</th>
-                                                <th style="width:10%;">Break End Time</th>
-                                                <th style="width:10%;">Total Break Hours</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody class="shift-modal table-design">
-                                            <tr>
-                                                <td>Day</td>
-                                                <td>07:00 PM</td>
-                                                <td>01:00 PM</td>
-                                                <td>02:00 PM</td>
-                                                <td>01:00 Hrs</td>
-                                                <td>01:00 Hrs</td>
-                                                <td>01:00 Hrs</td>
-
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div> -->
+                              
 
 
                                 <div class="row mt-2 p-2">
@@ -205,11 +180,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="shift-deta">
-                                            <p class="mb-0">Shift Type | <span style="color: #009688;">Day</span></p>
-                                        </div>
-                                    </div>
+                                   
                                     <div class="col-md-4">
                                         <div class="shift-deta">
                                             <p class="mb-0">In Time | <span style="color: #009688;">10:00 AM</span> </p>
@@ -267,16 +238,31 @@
                     </div>
 
                     <div class="col-md-6 mt-3 mb-3">
-                        <div class="add-filtter d-flex align-items-center justify-content-between">
-                            <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal"
-                                data-bs-target="#automation-rules"
-                                (click)="getAttendanceRuleByOrganizationMethodCall()"><i class="bi bi-list"></i>
-                                Automation Rules</a>
-                           <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#automation-rules" (click)="getAttendanceRuleByOrganizationMethodCall()"><i class="bi bi-plus"></i> Add Rules </a>                
+
+
+                        <div class="empty-file">
+
+                            <div class="errorboxmain" >
+                                <div class="errorboxinner">
+                                    <div class="errorboxplaceholder mb-2">
+                                        <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                    </div>
+                                    <div class="">
+                                        <p class="mb-0">Automation Rules Not Found</p>
+                                    </div>
+                                     <div class="add-filtter mt-2 mb-3" style="text-align: center;">
+                                        <a class="" style="font-size: 14px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#automation-rules" (click)="getAttendanceRuleByOrganizationMethodCall()"><i class="bi bi-plus"></i> Add Automation Rules </a>           
+                                     </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
+                          
+                           <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#automation-rules" (click)="getAttendanceRuleByOrganizationMethodCall()"><i class="bi bi-plus"></i> Add Automation Rules </a>                
 
                         </div>
 
-                        <!-- *ngFor="let iterator of registeredAttendanceRuleResponseList" -->
                         <div class="mt-3"
                             *ngFor="let attendanceRuleWithAttendanceRuleDefinitionResponse of attendanceRuleWithAttendanceRuleDefinitionResponseList">
                             <div class="rule-main-box">
@@ -680,7 +666,7 @@
 
 <div class="modal fade" id="shiftTime" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Shift Time </h6>
@@ -688,7 +674,24 @@
                     #attendanceRuleDefinitionModalClose></button>
             </div><!--end modal-header-->
             <div class="modal-body">
-                 <div class="row">
+
+               <div class="">
+
+                <ul id="myTab" role="tablist" class="nav nav-tabs">
+                    <li role="presentation" class="nav-item">
+                        <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button"
+                            role="tab" aria-controls="shiftime" aria-selected="true"
+                            class="nav-link active">Shift Time</button>
+                    </li>
+                    <li role="presentation" class="nav-item">
+                        <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#stafselection"
+                            type="button" role="tab" aria-controls="stafselection" aria-selected="false"
+                            class="nav-link">Staff selection</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="shiftime" role="tabpanel">
+                        <div class="row p-3">
                             <div class="col-md-6">
                                 <div class="form-fild">
                                     <label for="exampleInputEmail1" class="pb-2">Shift Type</label>
@@ -772,6 +775,82 @@
                             </div>
 
                         </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="stafselection" role="tabpanel">
+
+
+ <div class="staf-list-box mt-3">
+
+
+                                        <div class="row mb-3">
+
+                                            <div class="col-md-6">
+                                                <div>
+                                                    <h5 style="color: #4761f6;">Userlist</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <form role="search"
+                                                    class="searching ng-untouched ng-pristine ng-valid">
+                                                    <div class="form-group" style="position: relative">
+                                                        <input type="text" id="searchText"
+                                                            placeholder="Search by name and role"
+                                                            class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                                                            style="padding: 10px 50px 10px 30px;">
+                                                        <button type="button" class="btn close-btn">
+                                                            <i class="bi bi-x"></i>
+                                                        </button>
+                                                        <i class="bi bi-search search-icon"
+                                                            style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <table class="table">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th style="width:0%;">
+                                                        <input type="checkbox" style="cursor: pointer;" class="form-check-input" >
+                                                    </th>
+                                                    <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                                                    <th style="width:25%; padding: 12px 15px;">Name</th>
+                                                    <th style="width:25%; padding: 12px 15px;">Email</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="border-bottom: 1px solid #dddddd;">
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input type="checkbox" style="cursor: pointer;" class="form-check-input">
+                                                        </div>
+                                                    </td>
+                                                    <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                                                    <td style="padding: 12px 15px;">Yogesh Yadav</td>
+                                                    <td style="padding: 12px 15px;">yogesh@krenai.com</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                        
+                    </div>
+
+
+                
+                </div>
+
+               </div>
+
+
+
+
+
+
+
+              
              
             </div>
             <div class="modal-footer">
