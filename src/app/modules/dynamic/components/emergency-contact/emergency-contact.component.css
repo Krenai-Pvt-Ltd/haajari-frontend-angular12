@@ -284,3 +284,11 @@ a.select-file {
     border: 1px solid #6666f3;
     background-color: #ecf1ff;
 }
+
+.add-filtter a {
+    margin-bottom: 0px;
+    color: #6666f3;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}

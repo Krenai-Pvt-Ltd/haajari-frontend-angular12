@@ -12,14 +12,8 @@
                         <div class="persnol-info mt-4">
                             <div *ngFor="let contact of userEmergencyContactDetails; let i = index">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label for="name{{i}}" class="pb-2">Name</label>
-                                            <input type="text" class="form-control" id="name{{i}}" placeholder="Enter Name" [(ngModel)]="contact.contactName">
-                                        </div>
-                                    </div>
-                                    <!-- Other form fields for emergency contact -->
-                                    <div class="col-md-12">
+
+                                    <div class="col-md-4">
                                         <div class="mb-3">
                                           <label for="relation{{i}}" class="pb-2">Relation with Employee</label>
                                           <select class="form-control" id="relation{{i}}" [(ngModel)]="contact.relationWithEmployee">
@@ -36,28 +30,53 @@
                                           </select>
                                         </div>
                                       </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="name{{i}}" class="pb-2">Name</label>
+                                            <input type="text" class="form-control" id="name{{i}}" placeholder="Enter Name" [(ngModel)]="contact.contactName">
+                                        </div>
+                                    </div>
+                                    <!-- Other form fields for emergency contact -->
+                                   
                                       
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
                                         <div class="mb-3">
                                             <label for="phoneNumber{{i}}" class="pb-2">Phone Number</label>
                                             <input type="text" class="form-control" id="phoneNumber{{i}}" placeholder="Enter Phone Number" [(ngModel)]="contact.contactNumber">
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12">
+                                    <!-- <div class="col-md-12">
                                         <span class="delete-icon" (click)="deleteEmergencyContact(i)">
                                             <i class="bi bi-trash-fill" style="color: red;"></i> Delete
                                         </span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-md-12">
                                     <div class="add-more">
                                         <span (click)="addEmergencyContact()">
                                             <i class="bi bi-plus" style="margin-bottom: 14px;"></i> Add More
                                         </span>
                                     </div>
+                                </div>
+                            </div> -->
+
+                            <div class="row align-items-center" >
+                                <div class="col-md-6">
+                                    <div class="add-filtter">
+                                        <a type="button" (click)="addEmergencyContact()"><i class="bi bi-plus" style="font-size: 23px;"></i> Add More</a>
+                                    </div>
+                                    <!-- <span class="add-more" (click)="addExperience()">
+                                        <i class="bi bi-plus" style="margin-bottom: 14px;"></i> Add More
+                                    </span> -->
+                                </div>
+                                <div class="col-md-6" style="text-align: right;">
+                                    <div class="add-filtter">
+                                        <a type="button"  style="color: red;"><i class="bi bi-trash" style="font-size: 16px;"></i> Delete</a>
+                                    </div>
+                                   
                                 </div>
                             </div>
 
