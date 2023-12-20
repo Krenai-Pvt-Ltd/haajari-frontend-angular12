@@ -41,6 +41,7 @@ import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.compon
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { SupportComponent } from './components/support/support.component';
 import { ErrorPageComponent } from '../common/error-page/error-page.component';
+import { HajiriPageLoaderComponent } from '../common/hajiri-page-loader/hajiri-page-loader.component';
 
 
 
@@ -86,7 +87,8 @@ import { ErrorPageComponent } from '../common/error-page/error-page.component';
     {path: 'leave-setting', component: LeaveSettingComponent},
     {path: 'privacy', component: PrivacyComponent},
     {path: 'support', component: SupportComponent},
-    {path: 'error-page', component: ErrorPageComponent}
+    {path: 'error-page', component: ErrorPageComponent},
+    {path: 'hajiri-page-loader', component: HajiriPageLoaderComponent}
   ] }
   ];
 
