@@ -65,10 +65,10 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.leave-delet-btn {
+/* .leave-delet-btn {
     position: absolute;
     top: 35px;
-}
+} */
 
 
 .border-box{
@@ -110,6 +110,7 @@
     margin-bottom: 0px;
     padding: 5px 20px;
     transition: 0.1s linear;
+    border-radius: 0.25rem;
 }
 
 .count-box p{
@@ -213,4 +214,77 @@
     width: 30%;
     text-align: right;
     padding-right: 20px;
+}
+
+.nav-tabs .nav-link {
+    font-style: normal;
+    border-radius: 0px 0 0 0;
+    border: none;
+    padding: 7px 15px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #404040;
+}
+
+.nav-tabs .nav-link.active {
+    border-bottom: 2px solid #6666f3;
+    color: #6666f3;
+    background-color: transparent;
+}
+.leave-delet-btn{
+    padding-top: 12px;
+}
+
+.rule-main-box {
+    border-radius: 6px;
+    border: 1px solid #f5f5f5;
+    margin-bottom: 10px;
+}
+.attendance-boxx {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    border-bottom: 1px solid #f5f5f5;
+}
+.late-rule h5 {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.late-btn {
+    width: 30%;
+    text-align: right;
+}
+
+.late-btn a {
+    color: #6666f3;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.delete-rule {
+    color: red !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}
+
+.shift-deta {
+    background-color: #f5f8fa;
+    border-radius: 2px;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.shift-deta p {
+    font-size: 10px;
+}
+
+.page-sepresen{
+    border-bottom: 1px solid #f5f5f5;
+    padding: 0px;
+    margin: 0px;
 }
