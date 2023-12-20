@@ -604,7 +604,7 @@ getUserLeaveLogByUuid() {
     );
   }
 
-  
+  isDocsPlaceholder:boolean=false;
   documentsEmployee:any;
   highSchoolCertificate:string='';
   degreeCert:string='';
@@ -613,6 +613,7 @@ getUserLeaveLogByUuid() {
   // isDocumentsShimmer:boolean=false;
   getEmployeeDocumentsDetailsByUuid() {
     // this.isDocumentsShimmer=true;
+    debugger
     this.dataService.getEmployeeDocumentsDetails(this.userId).subscribe(
       (data) => {
         console.log(data);
@@ -622,11 +623,15 @@ getUserLeaveLogByUuid() {
         this.intermediateCertificate=data.secondarySchoolCertificate;
         this.testimonialsString=data.testimonialReccomendation;
           // this.isDocumentsShimmer=false;
+          if(this.highSchoolCertificate==null || data.length==0){
+            this.isDocsPlaceholder=true;
+          }
         
         console.log(this.bankDetailsEmployee.data);
         console.log('hsdhjklkjhgf'+this.highSchoolCertificate);
       },
       (error) => {
+        this.isDocsPlaceholder=true;
         // this.isDocumentsShimmer=false;
         console.log(error);
       }
