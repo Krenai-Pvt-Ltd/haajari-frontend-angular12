@@ -19,12 +19,14 @@ import { DataService } from 'src/app/services/data.service';
 export class AttendanceSettingComponent implements OnInit {
 
 
-  OVERTIME_RULE : number = Key.OVERTIME_RULE;
+  readonly OVERTIME_RULE = Key.OVERTIME_RULE;
 
   constructor(private dataService : DataService, private router: Router) { }
 
   ngOnInit(): void {
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
+    this.updateDuration();
+
     // this.getRegisteredAttendanceRuleByOrganizationMethodCall();
     // this.getAttendanceRuleDefinitionMethodCall();
     // console.log(this.selectedStaffs);
@@ -33,6 +35,37 @@ export class AttendanceSettingComponent implements OnInit {
     if(localStorage.getItem("staffSelectionActive")=="true"){
       this.activeModel=true;
     }
+  }
+
+  //input for selecting duration:
+  hours: number[] = Array.from({ length: 24 }, (_, i) => i);
+  minutes: number[] = Array.from({ length: 60 }, (_, i) => i);
+  selectedHours: number = 0;
+  selectedMinutes: number = 0;
+  duration : string = '';
+  selectedTime : string = '20:00';
+  readonly DEDUCTION_TYPE_PER_MINUTE = Key.DEDUCTION_TYPE_PER_MINUTE;
+  readonly OVERTIME_TYPE_FIXED_AMOUNT = Key.OVERTIME_TYPE_FIXED_AMOUNT;
+
+
+  selectHours(hour: number) {
+    this.selectedHours = hour;
+  }
+
+  selectMinutes(minute: number) {
+    this.selectedMinutes = minute;
+  }
+
+  updateDuration(): void {
+    const formattedHours = this.selectedHours.toString().padStart(2, '0');
+    const formattedMinutes = this.selectedMinutes.toString().padStart(2, '0');
+
+    debugger
+    this.duration = `${formattedHours}:${formattedMinutes}`;
+  }
+
+  onTimeChange(): void {
+    this.updateDuration();
   }
 
   isFull:boolean=false;

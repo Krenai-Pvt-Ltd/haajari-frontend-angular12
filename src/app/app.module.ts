@@ -19,6 +19,7 @@ import { NotifactionTostComponent } from './modules/common/notifaction-tost/noti
 import { SharedModule } from './shared/shared.module';
 import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +39,7 @@ import { ErrorPageComponent } from './modules/common/error-page/error-page.compo
     NgxPaginationModule,
     SharedModule,
     NgbModule,
-    FullCalendarModule
+    FullCalendarModule,
 
     // CalendarModule.forRoot({
     //   provide: DateAdapter,

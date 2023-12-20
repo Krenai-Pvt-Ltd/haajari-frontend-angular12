@@ -313,63 +313,164 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <p class="mb-0 mb-2" style="font-size: 11px; color:#6666f3;">Custom Salary
-                                            Deduction Rules</p>
-                                        <div class="in-time">
-                                            <div class="duration">
-                                                <span>Duration </span>
-                                                <span> | </span>
-                                                <span
-                                                    style="color: #009688;">{{attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration}}</span>
-                                            </div>
-                                            <div class="duration">
-                                                <span>Deduction </span>
-                                                <span> | </span>
-                                                <span
-                                                    style="color: #009688;">{{attendanceRuleDefinitionResponse?.deductionType?.type}}</span>
-                                            </div>
-                                            <div class="duration">
-                                                <span>Occurrences </span>
-                                                <span> | </span>
-                                                <span
-                                                    style="color: #009688;">{{attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceCount}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <p class="mb-0 mb-2" style="font-size: 11px; color:#6666f3;">Half Day Salary
-                                            Deduction Rules</p>
-                                        <div class="in-time">
-                                            <div class="duration">
-                                                <span>Duration </span>
-                                                <span> | </span>
-                                                <span
-                                                    style="color: #009688;">{{attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration}}</span>
-                                            </div>
-                                            <div class="duration">
-                                                <span>Occurrences </span>
-                                                <span> | </span>
-                                                <span
-                                                    style="color: #009688;">{{attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceCount}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <p class="mb-0 mb-2" style="font-size: 11px; color:#6666f3;">Full Day Salary
-                                            Deduction Rules</p>
+                                        <ng-container *ngIf="attendanceRuleDefinitionResponse.attendanceRuleId !== OVERTIME_RULE; else others">
+                                            <p class="mb-0 mb-2" style="font-size: 11px; color:#6666f3;">Custom Salary Deduction Rules</p>
+                                        </ng-container>
+                                        <ng-template #others>
+                                            <p class="mb-0 mb-2" style="font-size: 11px; color:#6666f3;">Custom Salary Overtime Pay Rules</p>
+                                        </ng-template>
                                         <div class="in-time">
                                             <div class="duration">
                                                 <span>Duration </span>
                                                 <span> | </span>
                                                 <span style="color: #009688;">
-                                                    {{attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration}}</span>
+                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration !== null; else na">
+                                                        <span>{{attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration}}</span>
+                                                        <span style="color: black;"> hrs.</span>
+                                                    </ng-container>
+                                                    <ng-template #na>
+                                                        <span>NA</span>
+                                                    </ng-template>
+                                                </span>
+                                            </div>
+                                            <div class="duration">
+                                                <ng-container *ngIf="attendanceRuleDefinitionResponse.attendanceRuleId !== OVERTIME_RULE; else overtime">
+                                                    <span>Deduction Type</span>
+                                                    <span> | </span>
+                                                    <span style="color: #009688;">
+                                                        <ng-container *ngIf="attendanceRuleDefinitionResponse?.deductionType?.id === DEDUCTION_TYPE_PER_MINUTE; else fixedAmountOrNA">
+                                                            <span>{{attendanceRuleDefinitionResponse?.deductionType?.type}}</span>
+                                                        </ng-container>
+                                                        <ng-template #fixedAmountOrNA>
+                                                            <ng-container *ngIf="attendanceRuleDefinitionResponse?.deductionType?.type; else na">
+                                                                <span>{{attendanceRuleDefinitionResponse?.deductionType?.type}}</span>
+                                                                <span> (Rs. {{attendanceRuleDefinitionResponse.customSalaryDeduction.amountInRupees}})</span>
+                                                            </ng-container>
+                                                        </ng-template>
+                                                        <ng-template #na>
+                                                            <span>NA</span>
+                                                        </ng-template>
+                                                    </span>
+                                                </ng-container>
+                                                <ng-template #overtime>
+                                                    <span>Overtime Type</span>
+                                                    <span> | </span>
+                                                    <span style="color: #009688;">
+                                                        <ng-container *ngIf="attendanceRuleDefinitionResponse?.overtimeType?.id === OVERTIME_TYPE_FIXED_AMOUNT; else overtimeTypeOrNA">
+                                                            <span>{{attendanceRuleDefinitionResponse?.overtimeType?.type}}</span>
+                                                            <span> (Rs. {{attendanceRuleDefinitionResponse.customSalaryDeduction.amountInRupees}})</span>
+                                                        </ng-container>
+                                                        <ng-template #overtimeTypeOrNA>
+                                                            <ng-container *ngIf="attendanceRuleDefinitionResponse?.overtimeType?.type; else na">
+                                                                <span>{{attendanceRuleDefinitionResponse?.overtimeType?.type}}</span>
+                                                            </ng-container>
+                                                        </ng-template>
+                                                        <ng-template #na>
+                                                            <span>NA</span>
+                                                        </ng-template>
+                                                    </span>
+                                                </ng-template>
+                                                
                                             </div>
                                             <div class="duration">
                                                 <span>Occurrences </span>
                                                 <span> | </span>
                                                 <span style="color: #009688;">
-                                                    {{attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceCount}}</span>
+                                                  <ng-container *ngIf="attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceCount !== 0; else customSalaryDurationOrNA">
+                                                    <span>{{ attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceCount }}</span>
+                                                    <span style="color: black;"> times</span>
+                                                </ng-container>
+                                                  <ng-template #customSalaryDurationOrNA>
+                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceDuration; else na">
+                                                      <span>{{ attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceDuration }}</span>
+                                                      <span style="color: black;"> hrs.</span>
+                                                    </ng-container>
+                                                  </ng-template>
+                                                  <ng-template #na>N/A</ng-template>
+                                                </span>
+                                            </div> 
+                                              
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ng-container *ngIf="attendanceRuleDefinitionResponse.attendanceRuleId !== OVERTIME_RULE; else others2">
+                                            <p class="mb-0 mb-2" style="font-size: 11px; color:#6666f3;">Half Day Salary Deduction Rules</p>
+                                        </ng-container>
+                                        <ng-template #others2>
+                                            <p class="mb-0 mb-2" style="font-size: 11px; color:#6666f3;">Half Day Salary Overtime Pay Rules</p>
+                                        </ng-template>
+                                        <p class="mb-0 mb-2" style="font-size: 11px; color:#6666f3;"></p>
+                                        <div class="in-time">
+                                            <div class="duration">
+                                                <span>Duration </span>
+                                                <span> | </span>
+                                                <span style="color: #009688;">
+                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration !== null; else na">
+                                                        <span>{{attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration}}</span>
+                                                        <span style="color: black;"> hrs.</span>
+                                                    </ng-container>
+                                                    <ng-template #na>
+                                                        <span>NA</span>
+                                                    </ng-template>
+                                                </span>
                                             </div>
+                                            <div class="duration">
+                                                <span>Occurrences </span>
+                                                <span> | </span>
+                                                <span style="color: #009688;">
+                                                  <ng-container *ngIf="attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceCount !== 0; else halfDayOccurrenceDurationOrNA">
+                                                    <span>{{ attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceCount }}</span>
+                                                    <span style="color: black;"> times</span>
+                                                </ng-container>
+                                                  <ng-template #halfDayOccurrenceDurationOrNA>
+                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceDuration; else na">
+                                                      <span>{{ attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceDuration }}</span>
+                                                      <span style="color: black;"> hrs.</span>
+                                                    </ng-container>
+                                                  </ng-template>
+                                                  <ng-template #na>N/A</ng-template>
+                                                </span>
+                                            </div>   
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ng-container *ngIf="attendanceRuleDefinitionResponse.attendanceRuleId !== OVERTIME_RULE; else others3">
+                                            <p class="mb-0 mb-2" style="font-size: 11px; color:#6666f3;">Full Day Salary Deduction Rules</p>
+                                        </ng-container>
+                                        <ng-template #others3>
+                                            <p class="mb-0 mb-2" style="font-size: 11px; color:#6666f3;">Full Day Salary Overtime Pay Rules</p>
+                                        </ng-template>
+                                        <div class="in-time">
+                                            <div class="duration">
+                                                <span>Duration </span>
+                                                <span> | </span>
+                                                <span style="color: #009688;">
+                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration !== null; else na">
+                                                        <span>{{attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration}}</span>
+                                                        <span style="color: black;"> hrs.</span>
+                                                    </ng-container>
+                                                    <ng-template #na>
+                                                        <span>NA</span>
+                                                    </ng-template>
+                                                </span>
+                                            </div>
+                                            <div class="duration">
+                                                <span>Occurrences </span>
+                                                <span> | </span>
+                                                <span style="color: #009688;">
+                                                  <ng-container *ngIf="attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceCount !== 0; else fullDayOccurrenceDurationOrNA">
+                                                    <span>{{ attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceCount }}</span>
+                                                    <span style="color: black;"> times</span>
+                                                </ng-container>
+                                                  <ng-template #fullDayOccurrenceDurationOrNA>
+                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceDuration; else na">
+                                                      <span>{{ attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceDuration }}</span>
+                                                      <span style="color: black;"> hrs.</span>
+                                                    </ng-container>
+                                                  </ng-template>
+                                                  <ng-template #na>N/A</ng-template>
+                                                </span>
+                                            </div>                                              
                                         </div>
                                     </div>
                                 </div>
@@ -726,7 +827,7 @@
                                     <ul class="tracking-steps">
                                         <li class="tracking-item">
                                             <div class="d-flex new-stap">
-                                                <div class="tracing-icon" style="background-color: #ff9f43;"><i class="bi bi-check2"></i></div>
+                                                <div class="tracing-icon"><i class="bi bi-check2"></i></div>
                                                 <div class="tracking-data">
                                                     <p>Create your first rule</p>
                                                     <div>
@@ -823,10 +924,11 @@
                                                 <div class="if-late">
                                                     <label for="hoursInput" class="pb-2">{{attendanceRuleResponse.ruleSubHeader}}</label>
                                                     <!-- <div class="input-group" style="width: auto; gap: 10px;">
-                                              <input type="number" id="hoursInput" name="hours" class="form-control" min="0" max="24" placeholder="Hours" style="width: 80px; padding: 5px; text-align: center;">
-                                              <input type="number" id="minutesInput" name="minutes" class="form-control" min="0" max="59" placeholder="Minutes" style="width: 80px; padding: 5px; text-align: center;">
-                                              <span class="input-group-text">Hrs.</span>
-                                            </div> -->
+                                                        <input type="number" id="hoursInput" name="hours" class="form-control" min="0" max="24" placeholder="Hours" style="width: 80px; padding: 5px; text-align: center;">
+                                                        <input type="number" id="minutesInput" name="minutes" class="form-control" min="0" max="59" placeholder="Minutes" style="width: 80px; padding: 5px; text-align: center;">
+                                                        <span class="input-group-text">Hrs.</span>
+                                                    </div> -->
+                                            
                                                     <div class="d-flex" style="justify-content: center; align-items: center; width: 135px; gap:10px">
                                                         <input type="time" class="form-control without_ampm" id="hoursInput" aria-describedby="emailHelp"  
                                                         placeholder="" 
@@ -834,11 +936,26 @@
                                                         <span>hrs.</span>
                                                     </div>
                                                     
-                                                    
+
+                                                    <!-- <div class="input-group">
+                                                        <select id="hoursInput" name="hours" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="selectedHours" (change)="onTimeChange()">
+                                                          <option value="0">HH</option>
+                                                          <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
+                                                        </select>
+                                                        <span style="background-color: #fff;">:</span>
+                                                                                
+                                                        <select id="minutesInput" name="minutes" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="selectedMinutes" (change)="onTimeChange()">
+                                                          <option value="0">MM</option>
+                                                          <option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</option>
+                                                        </select>
+                                                                                
+                                                        <span><b>hrs.</b></span>
+                                                    </div> -->
+
+                                                    <!-- <input [ngxTimepicker]="picker">
+                                                    <ngx-material-timepicker #picker></ngx-material-timepicker>      -->
 
                                                 </div>
-
-                                                
 
                                                 <div class="overtime-type" *ngIf="attendanceRuleResponse.id == OVERTIME_RULE; else deductionType">
                                                     <label for="exampleInputEmail1" class="pb-2">Overtime Type</label>
