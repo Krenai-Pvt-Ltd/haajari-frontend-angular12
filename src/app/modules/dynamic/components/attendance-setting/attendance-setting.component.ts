@@ -23,29 +23,13 @@ export class AttendanceSettingComponent implements OnInit {
   constructor(private dataService : DataService, private router: Router, private el: ElementRef) { }
 
   ngOnInit(): void {
-    this.getUserByFiltersMethodCall();
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
-
-    // this.getRegisteredAttendanceRuleByOrganizationMethodCall();
-    // this.getAttendanceRuleDefinitionMethodCall();
-    // console.log(this.selectedStaffs);
-    // this.updateSelectedStaffs();
     
     if(localStorage.getItem("staffSelectionActive")=="true"){
       this.activeModel=true;
     }
 
-
-    // const timePicker = new TimePicker(this.el.nativeElement, {
-    //   lang: 'en',
-    //   theme: 'dark'
-    // });
-
-    // timePicker.on('change', (evt) => {
-    //   const value = (evt.hour || '00') + ':' + (evt.minute || '00');
-    //   this.el.nativeElement.value = value;
-    // });
   }
 
   //input for selecting duration:
@@ -273,18 +257,6 @@ export class AttendanceSettingComponent implements OnInit {
   //   })
   // }
 
-  // getUserByFiltersMethodCall() {
-  //   this.dataService.getUsersByFilter(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '').subscribe((response) => {
-  //     // Assume response.users is an array of Staff
-  //     this.staffs = response.users.map((staff: Staff) => ({
-  //       ...staff,
-  //       selected: this.selectedStaffsUuids.includes(staff.uuid)
-  //     }));
-  //     this.total = response.count;
-  //   }, (error) => {
-  //     console.error(error);
-  //   });
-  // }
 
   
 
@@ -387,19 +359,6 @@ export class AttendanceSettingComponent implements OnInit {
   selectedStaffs: Staff[] = [];
   isAllSelected: boolean = false;
 
-  // getUserByFiltersMethodCall() {
-  //   this.dataService.getUsersByFilter(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '').subscribe((response) => {
-  //     // Assume response.users is an array of Staff
-  //     this.staffs = response.users.map((staff: Staff) => ({
-  //       ...staff,
-  //       selected: this.selectedStaffsUuids.includes(staff.uuid)
-  //     }));
-  //     this.total = response.count;
-  //   }, (error) => {
-  //     console.error(error);
-  //   });
-  // }
-
   getUserByFiltersMethodCall() {
     this.dataService.getUsersByFilter(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '').subscribe((response) => {
       this.staffs = response.users.map((staff: Staff) => ({
@@ -418,12 +377,6 @@ export class AttendanceSettingComponent implements OnInit {
     this.isAllSelected = this.staffs.every(staff => staff.selected);
     this.updateSelectedStaffs();
   }
-
-  // selectAll(checked: boolean) {
-  //   this.isAllSelected = checked;
-  //   this.staffs.forEach(staff => staff.selected = checked);
-  //   this.updateSelectedStaffs();
-  // }
 
   selectAll(checked: boolean) {
     this.isAllSelected = checked;
@@ -452,41 +405,44 @@ export class AttendanceSettingComponent implements OnInit {
     }
   }
 
-  // updateSelectedStaffs() {
-  //   // Update the list of selected UUIDs based on the current page's staff selections
-  //   this.staffs.forEach((staff: Staff) => {
-  //     if (staff.selected && !this.selectedStaffsUuids.includes(staff.uuid)) {
-  //       this.selectedStaffsUuids.push(staff.uuid);
-  //     } else if (!staff.selected && this.selectedStaffsUuids.includes(staff.uuid)) {
-  //       this.selectedStaffsUuids = this.selectedStaffsUuids.filter(uuid => uuid !== staff.uuid);
-  //     }
-  //   });
-  // }
-  
-  
-  // updateSelectedStaffs() {
-  //   this.selectedStaffs = this.staffs.filter(staff => staff.selected);
-  //   this.isAllSelected = this.selectedStaffs.length === this.staffs.length;
-
-  //   for(let staff of this.selectedStaffs){
-  //     if(this.selectedStaffsUuids.includes(staff.uuid)){
-  //       continue;
-  //     }
-  //     this.selectedStaffsUuids.push(staff.uuid);
-  //   }
-  //   this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
-  //   console.log(this.attendanceRuleDefinitionRequest.userUuids);
-  // }
-
-  
-
-  // checkIndividualSelection() {
-  //   this.isAllSelected = this.staffs.every(staff => staff.selected);
-  //   this.updateSelectedStaffs();
-  // }
 
 
-  
+
+  // #####################################################
+  // New property to track the select all state
+isAllUsersSelected: boolean = false;
+
+// Method to toggle all users' selection
+selectAllUsers(checked: boolean) {
+  this.isAllUsersSelected = checked;
+  this.isAllSelected = checked; // This ensures the current page reflects the state of the select all users
+  if (checked) {
+    // If selecting all, add all user UUIDs to the selectedStaffsUuids list
+    this.getAllUsersUuids().then(allUuids => {
+      this.selectedStaffsUuids = allUuids;
+      this.staffs.forEach(staff => staff.selected = checked);
+      this.activeModel2 = true; // assuming this is used to track if selection modal should be active
+    });
+  } else {
+    // If deselecting all, clear the selectedStaffsUuids list
+    this.selectedStaffsUuids = [];
+    this.staffs.forEach(staff => staff.selected = checked);
+    this.activeModel2 = false;
+  }
+}
+
+// Asynchronous function to get all user UUIDs
+async getAllUsersUuids(): Promise<string[]> {
+  // Replace with your actual API call to get all users
+  const response = await this.dataService.getAllUsers('asc', 'id', this.searchText, '').toPromise();
+  return response.users.map((user: { uuid: any; }) => user.uuid);
+}
+
+// Call this method when the select all users checkbox value changes
+onSelectAllUsersChange(event : any) {
+  this.selectAllUsers(event.target.checked);
+}
+
 
   activeModel:boolean=false;
   trueActiveModel(){

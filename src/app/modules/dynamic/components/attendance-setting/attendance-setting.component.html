@@ -1049,7 +1049,6 @@
 
                                                     <button (click)="timePicker.open()">Open Timepicker</button>-->
 
-                                                    <app-duration-picker></app-duration-picker>
 
                                                 </div>
 
@@ -1416,6 +1415,9 @@
                                                 </form>
                                             </div>
                                         </div>
+
+                                        <!-- Place this somewhere appropriate in your template -->
+                                        <input type="checkbox" [(ngModel)]="isAllUsersSelected" (change)="onSelectAllUsersChange($event)">
 
                                         <table class="table">
                                             <thead class="thead-light">

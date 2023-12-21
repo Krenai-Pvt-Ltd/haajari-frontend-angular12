@@ -126,7 +126,7 @@ export class DataService {
     .set('search_by', searchBy);
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {params});
   }
-  getAllUsersByFilter(sort: string, sortBy: string, search: string, searchBy: string, organizationUuid: string, role: string) : Observable<any>{
+  getAllUsers(sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
     const params = new HttpParams()
     .set('sortOrder', sort)
     .set('sortBy', sortBy)
