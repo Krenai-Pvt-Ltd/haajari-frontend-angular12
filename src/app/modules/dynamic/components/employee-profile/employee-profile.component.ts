@@ -42,6 +42,9 @@ export class EmployeeProfileComponent implements OnInit {
         leaveType: ["", Validators.required],
         managerId: ["", Validators.required],
         optNotes: [""],
+        halfDayLeave: [false],
+        dayShift: [false],
+        eveningShift: [false],
       }); }
 
   }
@@ -329,6 +332,9 @@ export class EmployeeProfileComponent implements OnInit {
   resetUserLeave(){
     this.userLeaveRequest.startDate=new Date();
     this.userLeaveRequest.endDate=new Date();
+    this.userLeaveRequest.halfDayLeave=false;
+    this.userLeaveRequest.dayShift=false;
+    this.userLeaveRequest.eveningShift=false;
     this.userLeaveRequest.leaveType="";
     this.userLeaveRequest.managerId=0;
     this.userLeaveRequest.optNotes="";
@@ -338,7 +344,9 @@ export class EmployeeProfileComponent implements OnInit {
 
   saveLeaveRequestUser(){
     this.userLeaveRequest.managerId = this.selectedManagerId;
-    this.userLeaveRequest.halfDayLeave = false;
+    this.userLeaveRequest.dayShift=this.dayShiftToggle;
+    this.userLeaveRequest.eveningShift=this.eveningShiftToggle;
+    // this.userLeaveRequest.halfDayLeave = false;
     this.dataService.saveLeaveRequest(this.userId, this.userLeaveRequest)
     .subscribe(data => {
      
@@ -352,6 +360,30 @@ export class EmployeeProfileComponent implements OnInit {
     }, (error)=>{
       console.log(error.body);
     })
+  }
+
+  dayShiftToggle:boolean=false;
+  eveningShiftToggle:boolean=false;
+
+  dayShiftToggleFun(shift:string){
+    debugger
+    
+    if(shift=='day'){
+      this.dayShiftToggle=true;
+      this.eveningShiftToggle=false;
+      
+    }else if(shift=='evening'){
+      this.eveningShiftToggle=true;
+    this.dayShiftToggle==false
+    }
+    console.log("day" + this.dayShiftToggle + "evening" + this.eveningShiftToggle);
+  }
+
+
+  halfDayLeaveShiftToggle: boolean=false;
+
+  halfLeaveShiftToggle(){
+    this.halfDayLeaveShiftToggle= this.halfDayLeaveShiftToggle==true ? false:true;
   }
 
   pendingFlag:boolean=true;
