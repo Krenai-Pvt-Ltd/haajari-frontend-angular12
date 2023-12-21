@@ -242,14 +242,15 @@ span.members-namess {
 
 .importfilebox label {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     background: #f9faff;
     border: 1px dashed #878a9a;
     border-radius: 6px;
-    height: 100px;
+    height: 60px;
     cursor: pointer;
     gap: 20px;
+    padding-left: 20px;
 }
 
 .importfilebox label span {

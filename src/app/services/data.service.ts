@@ -477,12 +477,12 @@ export class DataService {
     return this.httpClient.put<any>(`${this.baseUrl}/employee-onboarding-status/change-employee-onboarding-status`,{}, {params});
   }
 
-  setEmployeePersonalDetails(formData: FormData, userUuid: string): Observable<any> {
+  setEmployeePersonalDetails(userPersonalInformationRequest: UserPersonalInformationRequest, userUuid: string): Observable<any> {
     debugger
     const params = new HttpParams()
     .set("userUuid", userUuid);
     console.log("save")
-    return this.httpClient.put<any>(`${this.baseUrl}/users/save/employeePersonalDetails`, formData, {params})
+    return this.httpClient.put<any>(`${this.baseUrl}/users/save/employeePersonalDetails`, userPersonalInformationRequest, {params})
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Error in setEmployeePersonalDetails:', error);
@@ -526,6 +526,7 @@ export class DataService {
   
 
   getNewUserPersonalInformation(userUuid: string): Observable<any> {
+    debugger
     const params = new HttpParams()
     .set("userUuid", userUuid);
     const url = `${this.baseUrl}/users/get/employeePersonalDetails`;

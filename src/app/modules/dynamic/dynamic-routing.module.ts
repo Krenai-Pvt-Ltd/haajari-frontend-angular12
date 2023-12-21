@@ -41,6 +41,7 @@ import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.compon
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { SupportComponent } from './components/support/support.component';
 import { ErrorPageComponent } from '../common/error-page/error-page.component';
+import { HajiriPageLoaderComponent } from '../common/hajiri-page-loader/hajiri-page-loader.component';
 
 
 
@@ -53,24 +54,24 @@ import { ErrorPageComponent } from '../common/error-page/error-page.component';
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
     { path: 'header', component: HeaderComponent },
     { path: 'topbar', component: TopbarComponent },
-    { path: 'timetable', component: TimetableComponent},
+    { path: 'timetable', component: TimetableComponent, canActivate: [AuthGuard]},
     { path: 'project', component: ProjectComponent},
-    { path: 'team', component: TeamComponent},
-    { path: 'task-manager', component: TaskManagerComponent},
-    { path: ' ', component: LiveManagerComponent},
-    { path: 'onboarding', component: OnboardingComponent},
+    { path: 'team', component: TeamComponent, canActivate: [AuthGuard]},
+    { path: 'task-manager', component: TaskManagerComponent, canActivate: [AuthGuard]},
+    { path: ' ', component: LiveManagerComponent, canActivate: [AuthGuard]},
+    { path: 'onboarding', component: OnboardingComponent, canActivate: [AuthGuard]},
     { path: 'login', component: LoginComponent },
-    { path: 'payment', component: PaymentComponent },
-    { path: 'userlist', component: UserlistComponent },
+    { path: 'payment', component: PaymentComponent , canActivate: [AuthGuard]},
+    { path: 'userlist', component: UserlistComponent , canActivate: [AuthGuard]},
     {path: 'slackauth', component: SlackAuthComponent },
     {path: 'addtoslack', component: AddToSlackComponent},
     {path: 'waiting', component: WaitingPageComponent},
-    {path: 'team-detail', component: TeamDetailComponent},
-    {path: 'user-profile', component: UserProfileComponent}, 
-    {path: 'employee-onboarding', component: EmployeeOnboardingComponent},
-    {path: 'attendance-setting', component: AttendanceSettingComponent},
-    {path: 'company-setting', component: CompanySettingComponent},
-    {path: 'selery-setting', component: SelerySettingComponent},
+    {path: 'team-detail', component: TeamDetailComponent, canActivate: [AuthGuard]},
+    {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]}, 
+    {path: 'employee-onboarding', component: EmployeeOnboardingComponent, canActivate: [AuthGuard]},
+    {path: 'attendance-setting', component: AttendanceSettingComponent, canActivate: [AuthGuard]},
+    {path: 'company-setting', component: CompanySettingComponent, canActivate: [AuthGuard]},
+    {path: 'selery-setting', component: SelerySettingComponent, canActivate: [AuthGuard]},
     {path: 'role', component: RoleComponent},
     {path: 'employee-onboarding-form', component: EmployeeOnboardingFormComponent},
     {path: 'employee-onboarding-sidebar', component: EmployeeOnboardingSidebarComponent},
@@ -83,10 +84,11 @@ import { ErrorPageComponent } from '../common/error-page/error-page.component';
     {path: 'reports', component: ReportsComponent},
     {path: 'employee-profile', component: EmployeeProfileComponent},
     {path: 'testing', component: TestingComponent},
-    {path: 'leave-setting', component: LeaveSettingComponent},
+    {path: 'leave-setting', component: LeaveSettingComponent , canActivate: [AuthGuard]},
     {path: 'privacy', component: PrivacyComponent},
     {path: 'support', component: SupportComponent},
-    {path: 'error-page', component: ErrorPageComponent}
+    {path: 'error-page', component: ErrorPageComponent},
+    {path: 'hajiri-page-loader', component: HajiriPageLoaderComponent}
   ] }
   ];
 
