@@ -338,6 +338,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   saveLeaveRequestUser(){
     this.userLeaveRequest.managerId = this.selectedManagerId;
+    this.userLeaveRequest.halfDayLeave = false;
     this.dataService.saveLeaveRequest(this.userId, this.userLeaveRequest)
     .subscribe(data => {
      
@@ -357,7 +358,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   getIsPendingLeave(leaveType:string){
     debugger
-    // this.userLeaveRequest.uuid = this.userId;
+    this.userLeaveRequest.uuid = this.userId;
     // this.userLeaveRequest.leaveType= leaveType;
     this.dataService.getPendingLeaveFlag(this.userLeaveRequest).subscribe(data =>{
        this.pendingFlag=data;
