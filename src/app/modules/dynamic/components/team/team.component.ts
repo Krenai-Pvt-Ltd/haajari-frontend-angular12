@@ -475,15 +475,18 @@ export class TeamComponent implements OnInit{
           if(res.flag==1){
             this.slackDataPlaceholderFlag=false;
             localStorage.removeItem('uniqueId');
+            this.getTeamsByFiltersFunction();
           }
         }
       });
   }
 
   firebaseDataReloadFlag=false;
+  showNotification=false;
 
   getFirebaseDataOfReload()
   {
+    this.showNotification=false;
     this.firebaseDataReloadFlag=true;
     this.rotateToggle=true;
     // console.log(bulkId)
@@ -509,6 +512,12 @@ export class TeamComponent implements OnInit{
             this.firebaseDataReloadFlag=false;
             this.rotateToggle=false;
             localStorage.removeItem('uniqueUuid');
+            this.showNotification=true;
+            setTimeout(()=>{
+              this.showNotification=false;
+            }, 2000)
+            
+            this.getTeamsByFiltersFunction();
           }
         }
       });

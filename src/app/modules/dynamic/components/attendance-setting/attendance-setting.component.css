@@ -1,3 +1,4 @@
+/* styles.css */
 .monthly-report {
     background-color: #fff;
     padding: 15px;
@@ -821,9 +822,24 @@ button.btn.close-btn {
 #minutesInput{
     border-left: none;
 }
-
-  
     
   .errorboxmain{
     text-align: center;
   }
+
+.pagination-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.pagination{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+#back-and-submit{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

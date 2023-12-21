@@ -4,5 +4,5 @@ export class Staff {
     uuid!: string;
     email!: string;
     phoneNumber!: string;
-    selected : boolean = false;
+    selected ?: boolean;
 }
