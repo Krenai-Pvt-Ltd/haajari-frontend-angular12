@@ -779,7 +779,8 @@
 
                                             <div class="" *ngIf="!isCompanyPlaceholder">
 
-                                                <div class="row" *ngFor="let exp of experienceEmployee">
+                                                <div class="row" *ngFor="let exp of experienceEmployee; let i= index">
+                                                    <h5 *ngIf="i>0" style="text-align: left;">Experience - {{i+1}}</h5>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
                                                             <p class="mb-0">Company Name - {{exp.companyName || 'N/A'}} </p>
@@ -973,7 +974,8 @@
                                             <div class="">
                                                 <div class="" *ngIf="!isContactPlaceholder">
 
-                                                    <div class="row" *ngFor="let cn of contactsEmployee">
+                                                    <div class="row" *ngFor="let cn of contactsEmployee; let i=index;">
+                                                        <h5 *ngIf="i>0" style="text-align: left;">Contact Details - {{i+1}}</h5>
                                                         <div class="col-md-4">
                                                             <div class="detail-deta">
                                                                 <p class="mb-0">Name - {{cn.contactName || 'N/A'}} </p>
