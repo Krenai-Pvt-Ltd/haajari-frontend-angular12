@@ -526,6 +526,7 @@ export class DataService {
   
 
   getNewUserPersonalInformation(userUuid: string): Observable<any> {
+    debugger
     const params = new HttpParams()
     .set("userUuid", userUuid);
     const url = `${this.baseUrl}/users/get/employeePersonalDetails`;
@@ -609,6 +610,7 @@ export class DataService {
         );
 }
 getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperience[]> {
+  debugger
   const params = new HttpParams().set("userUuid", userUuid);
   return this.httpClient.get<UserExperience[]>(`${this.baseUrl}/user-experiences/getExperiences`, { params });
 }

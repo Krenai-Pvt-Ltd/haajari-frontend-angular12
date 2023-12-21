@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
@@ -11,6 +12,7 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./employee-onboarding-form.component.css']
 })
 export class EmployeeOnboardingFormComponent implements OnInit {
+ 
 
   userPersonalInformationRequest: UserPersonalInformationRequest = new UserPersonalInformationRequest();
 
@@ -28,26 +30,32 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     this.router.navigate(['/employee-address-detail'], navExtra);
   }
 
+  isFileSelected = false;
+
   onFileSelected(event: Event): void {
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
-    if (fileList) {
+    if (fileList && fileList.length > 0) {
       const file = fileList[0];
+      this.selectedFile = file;
+
       const reader = new FileReader();
-  
       reader.onload = (e: any) => {
-        // Get the image element and set the src to the file reader result
         const imagePreview: HTMLImageElement = document.getElementById('imagePreview') as HTMLImageElement;
         imagePreview.src = e.target.result;
       };
-  
       reader.readAsDataURL(file);
-      this.uploadFile(file);
+
+      this.uploadFile(file); 
+    } else {
+      this.isFileSelected = false;
     }
   }
+
   
   
   uploadFile(file: File): void {
+    debugger
     const filePath = `uploads/${new Date().getTime()}_${file.name}`;
     const fileRef = this.afStorage.ref(filePath);
     const task = this.afStorage.upload(filePath, file);
@@ -56,27 +64,42 @@ export class EmployeeOnboardingFormComponent implements OnInit {
       finalize(() => {
         fileRef.getDownloadURL().subscribe(url => {
           console.log("File URL:", url);
-          this.userPersonalInformationRequest.image = url; // Save the file URL
+
+          // Correctly update the image URL in the form group
+          // this.userPersonalInformationRequest.image // Use patchValue to update the form control
+
           // After upload, update personal details
-          this.setEmployeePersonalDetailsMethodCall();
+          // this.setEmployeePersonalDetailsMethodCall();
         });
       })
     ).subscribe();
-  }
-  
+}
 
   
+
+
+
+
    userPersonalDetailsStatus = "";
+   selectedFile: File | null = null;
+   toggle = false;
   setEmployeePersonalDetailsMethodCall() {
-    
+
+    // if(this.personalInformationForm.invalid) {
+    //   this.personalInformationFormFlag = true;
+    //   return;
+    // }
+    // this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     this.dataService.markStepAsCompleted(1);
-   
+    if(this.selectedFile) {
+      this.uploadFile(this.selectedFile);
+    }
     this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
       .subscribe(
         (response: UserPersonalInformationRequest) => {
           console.log(response);  
-          
+          // this.toggle = false
           if (!userUuid) {
             // localStorage.setItem('uuidNewUser', response.uuid);
             this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
@@ -86,11 +109,17 @@ export class EmployeeOnboardingFormComponent implements OnInit {
           }  
           
           // this.router.navigate(['/employee-address-detail']);
+          this.routeToUserDetails();
+          
         },
         (error) => {
           console.error(error);
-        }
-      );
+          // this.toggle = false
+        })
+      // } else {
+      //   // Handle invalid form case
+      // }
+      ;
   }
   
 
@@ -98,11 +127,13 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   getNewUserPersonalInformationMethodCall() {
     debugger
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-  
+    // console.log(this.userPersonalInformationRequest);  
     if (userUuid) {
       this.dataService.getNewUserPersonalInformation(userUuid).subscribe(
         (response: UserPersonalInformationRequest) => {
           this.userPersonalInformationRequest = response;
+          // this.registerForm.patchValue(response);
+          console.log(response);
           this.dataService.markStepAsCompleted(1);
         },
         (error: any) => {
@@ -116,8 +147,5 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     }
   } 
 
-  changeMethodCall(file : Event){
-    console.log(file);
-  }
   
 }
