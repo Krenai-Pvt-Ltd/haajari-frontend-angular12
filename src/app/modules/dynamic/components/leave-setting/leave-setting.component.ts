@@ -12,4 +12,6 @@ export class LeaveSettingComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  leaveSettingPlaceholder:boolean=false;
+
 }
