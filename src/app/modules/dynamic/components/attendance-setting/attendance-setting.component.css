@@ -1,3 +1,4 @@
+/* styles.css */
 .monthly-report {
     background-color: #fff;
     padding: 15px;
@@ -836,4 +837,9 @@ button.btn.close-btn {
     justify-content: space-between;
     align-items: center;
     text-align: center;
+}
+#back-and-submit{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
