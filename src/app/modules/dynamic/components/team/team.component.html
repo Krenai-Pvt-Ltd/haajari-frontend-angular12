@@ -148,7 +148,7 @@
           </div>
         </div>
         <!-- *ngIf="firebaseDataReloadFlag && teamsNew.length > 0" -->
-        <div class="mt-3 row" >
+        <div class="mt-3 row" *ngIf="firebaseDataReloadFlag && teamsNew.length > 0" >
           <div class="col-md-6 mb-3" >
             <!-- <div class="progress">
               <div class="progress-bar progress-bar-striped" role="progressbar" [style.width]="percentage+'%'" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">{{percentage}}%</div>
@@ -177,12 +177,22 @@
             
           </div>
           <div class="col-md-6">
-            <div class="text-end">
-            <p>Please wait, while processing your request...</p>
+            <div class="text-end" style="color:#6666f3;font-weight:bold">
+            <p>Hang tight, we're getting your Slack channel's data...</p>
             </div>
         
         </div>
         </div>
+
+        <!-- ********* -->
+        <div class="mt-3 row" *ngIf="showNotification">
+        <div class="col-md-12">
+          <div class="text-center" style="color: green;text-align: center;font-weight:bold">
+          <p>You're good to go – Slack Channel's data loaded!"</p>
+          </div>
+        </div>
+      </div>
+
   
         <div class="row mb-3 mt-3" *ngIf="isShimmer && !slackDataPlaceholderFlag">
           <div class="col-md-4" *ngFor="let item of [].constructor(6)">
