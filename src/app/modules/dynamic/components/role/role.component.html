@@ -239,15 +239,7 @@
                                             </thead>
 
                                             <tbody>
-                                                <tr *ngFor="
-                            let role of roles
-                              | paginate
-                                : {
-                                    itemsPerPage: itemPerPage,
-                                    currentPage: pageNumber,
-                                    totalItems: total
-                                  }
-                          ">
+                                                <tr *ngFor="let role of roles | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}">
                                                     <td scope="row">{{ role.name }}</td>
                                                     <td>
                                                         {{ role.description }}

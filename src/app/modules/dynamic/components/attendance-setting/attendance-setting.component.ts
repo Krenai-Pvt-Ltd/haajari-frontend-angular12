@@ -24,6 +24,7 @@ export class AttendanceSettingComponent implements OnInit {
   constructor(private dataService : DataService, private router: Router) { }
 
   ngOnInit(): void {
+    this.getUserByFiltersMethodCall();
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
 
@@ -123,8 +124,10 @@ export class AttendanceSettingComponent implements OnInit {
 
   attendanceRuleResponse : AttendanceRuleResponse = new AttendanceRuleResponse();
   openAttendanceRuleResponseModal(attendanceRuleResponse : AttendanceRuleResponse){
+    this.clearModel();
     this.attendanceRuleResponse = attendanceRuleResponse;
     this.attendanceRuleDefinitionRequest.attendanceRuleId = attendanceRuleResponse.id;
+    this.getUserByFiltersMethodCall();
     this.getDeductionTypeMethodCall();
     this.getOvertimeTypeMethodCall();
   }
@@ -197,6 +200,8 @@ export class AttendanceSettingComponent implements OnInit {
     this.attendanceRuleResponse = attendanceRuleResponse;
     this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
 
+    this.getUserByFiltersMethodCall();
+
     debugger
     if(attendanceRuleDefinitionResponse.deductionType === null){
       this.getOvertimeTypeMethodCall();
@@ -237,7 +242,7 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
 
-  itemPerPage : number = 5;
+  itemPerPage : number = 10;
   pageNumber : number = 1;
   total !: number;
   rowNumber : number = 1;
@@ -246,7 +251,9 @@ export class AttendanceSettingComponent implements OnInit {
 
   getUserByFiltersMethodCall(){
     this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((response) => {
+      debugger;
       this.staffs = response.users;
+      this.total = response.count;
       console.log(response);
 
     }, (error) => {
@@ -386,4 +393,47 @@ export class AttendanceSettingComponent implements OnInit {
 
   }
 
+  clearModel(){
+    this.attendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
+  }
+
+  @ViewChild("staffActiveTab") staffActiveTab !: ElementRef;
+
+  staffActiveTabMethod(){
+    this.staffActiveTab.nativeElement.click();
+  }
+
+
+  // ##### Pagination ############
+  changePage(page: number | string) {
+    if (typeof page === 'number') {
+      this.pageNumber = page;
+    } else if (page === 'prev' && this.pageNumber > 1) {
+      this.pageNumber--;
+    } else if (page === 'next' && this.pageNumber < this.totalPages) {
+      this.pageNumber++;
+    }
+    this.getUserByFiltersMethodCall();
+  }
+
+  getPages(): number[] {
+    const totalPages = Math.ceil(this.total / this.itemPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.total / this.itemPerPage);
+  }
+  getStartIndex(): number {
+    return (this.pageNumber - 1) * this.itemPerPage + 1;
+  }
+  getEndIndex(): number {
+    const endIndex = this.pageNumber * this.itemPerPage;
+    return endIndex > this.total ? this.total : endIndex;
+  }
+
+  onTableDataChange(event : any)
+  {
+    this.pageNumber=event;
+  }
 }
