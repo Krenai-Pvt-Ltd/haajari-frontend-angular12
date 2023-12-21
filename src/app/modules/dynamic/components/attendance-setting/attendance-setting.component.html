@@ -131,7 +131,7 @@
                         </div> -->
                           
 
-                        <div class="empty-file">
+                        <!-- <div class="empty-file">
 
                             <div class="errorboxmain" >
                                 <div class="errorboxinner">
@@ -147,7 +147,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> -->
 
 
                         <div class="">
@@ -686,7 +686,7 @@
                     <li role="presentation" class="nav-item">
                         <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#stafselection"
                             type="button" role="tab" aria-controls="stafselection" aria-selected="false"
-                            class="nav-link" #staffActiveTab>Staff selection</button>
+                            class="nav-link" >Staff selection</button>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -975,12 +975,12 @@
                                 <li role="presentation" class="nav-item">
                                     <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
                                         role="tab" aria-controls="home" aria-selected="true"
-                                        class="nav-link active">Rules</button>
+                                        class="nav-link active" #ruleActiveTab>Rules</button>
                                 </li>
                                 <li role="presentation" class="nav-item">
                                     <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
                                         type="button" role="tab" aria-controls="profile" aria-selected="false"
-                                        class="nav-link" (click)="trueActiveModel();">Staff selection</button>
+                                        class="nav-link" (click)="trueActiveModel();" #staffActiveTab>Staff selection</button>
                                 </li>
                             </ul>
 
@@ -1033,6 +1033,16 @@
 
                                                     <!-- <input [ngxTimepicker]="picker">
                                                     <ngx-material-timepicker #picker></ngx-material-timepicker>      -->
+                                                    <!-- app.component.html -->
+                                                    <!-- <input [ngxTimepicker]="timePicker" [format]="24" readonly>
+                                                    <ngx-material-timepicker #timePicker></ngx-material-timepicker> -->
+                                                    <!-- Your component's HTML template -->
+                                                    <!-- <input type="text" id="time" placeholder="Time" appTimePicker> -->
+                                                    <!-- <input [ngxTimepicker]="timePicker" readonly>
+                                                    <ngx-material-timepicker #timePicker></ngx-material-timepicker>
+
+                                                    <button (click)="timePicker.open()">Open Timepicker</button>
+ -->
 
                                                 </div>
 
@@ -1042,15 +1052,8 @@
                                                         <button class="btn btn-secondary dropdown-toggle new-dropdown"
                                                             type="button" id="dropdownMenuButton1"
                                                             data-bs-toggle="dropdown" aria-expanded="false"
-                                                            style="
-                                                    
-                                                                                                                        text-align: right;
-                                                                                                                        background-color: white;
-                                                                                                                        color: black;
-                                                                                                                        border-color: #ced4da;
-                                                                                                                        width: 100%;">
-                                                            {{ selectedOvertimeType ? selectedOvertimeType.type :
-                                                            "Select overtime type" }}
+                                                            style=" text-align: left; background-color: white; color: black; border-color: #ced4da; width: 100%;">
+                                                            {{ selectedOvertimeType?.type || "Select overtime type" }}
                                                             <i class="bi bi-chevron-down"></i>
                                                         </button>
                                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
@@ -1067,7 +1070,7 @@
 
                                                 <ng-template #deductionType>
 
-                                                    <div class="dudct-type" >
+                                                    <!-- <div class="dudct-type" >
                                                         <label for="exampleInputEmail1" class="pb-2">Deduction Type</label>
                                                         <div class="dropdown">
                                                             <button class="btn btn-secondary dropdown-toggle new-dropdown"
@@ -1088,7 +1091,28 @@
                                                                 </li>
                                                             </ul>
                                                         </div>
+                                                    </div> -->
+
+                                                    <div class="dudct-type" >
+                                                        <label for="exampleInputEmail1" class="pb-2">Deduction Type</label>
+                                                        <div class="dropdown">
+                                                          <button class="btn btn-secondary dropdown-toggle new-dropdown"
+                                                              type="button" id="dropdownMenuButton1"
+                                                              data-bs-toggle="dropdown" aria-expanded="false"
+                                                              style=" text-align: left; background-color: white; color: black; border-color: #ced4da; width: 100%;">
+                                                              {{ selectedDeductionType?.type || "Select deduction type" }}
+                                                              <i class="bi bi-chevron-down"></i>
+                                                          </button>
+                                                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
+                                                            <li *ngFor="let deductionType of deductionTypeList">
+                                                              <a class="dropdown-item" (click)="selectDeductionType(deductionType)">
+                                                                {{ deductionType.type }}
+                                                              </a>
+                                                            </li>
+                                                          </ul>
+                                                        </div>
                                                     </div>
+                                                      
                                                 </ng-template>
 
                                                 
@@ -1344,17 +1368,15 @@
                                                                 [(ngModel)]="attendanceRuleDefinitionRequest!.fullDaySalaryDeduction!.occurrenceDuration">
                                                                 <span>hrs.</span>
                                                         </div>
-
                                                     </div>
                                                 </div>
-
                                             </div>
 
 
                                         </div>
                                     </div>
                                     <div class="modal-footer d-flex align-items-center justify-content-end">
-                                        <button type="button" class="btn btn-primary" (click)="staffActiveTabMethod()">Next</button>
+                                        <button type="button" class="btn btn-outline-primary" (click)="staffActiveTabMethod()">Next</button>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="profile" role="tabpanel">
@@ -1452,9 +1474,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer d-flex align-items-center justify-content-end">
-                                        <button type="button" class="btn btn-primary"
-                                            (click)="registerAttendanceRuleDefinitionMethodCall()">Submit</button>
+                                    <div id="back-and-submit">
+                                        <div class="modal-footer d-flex align-items-center justify-content-end">
+                                            <button type="button" class="btn btn-outline-primary" (click)="ruleActiveTabMethod()">Back</button>
+                                        </div>
+                                        <div class="modal-footer d-flex align-items-center justify-content-end">
+                                            <button type="button" class="btn btn-primary"
+                                                (click)="registerAttendanceRuleDefinitionMethodCall()">Submit</button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -1487,11 +1514,11 @@
                                     <li class="tracking-item" [ngClass]="{'tracking-itemActive newline': activeModel}">
                                         <div class="d-flex align-items-center new-stap">
                                             <div
-                                                class="tracing-icon" [ngClass]="{ active: activeModel}">
+                                                class="tracing-icon" [ngClass]="{active: activeModel}">
                                                 <span *ngIf="activeModel">
                                                 <i class="bi bi-check2"></i>
                                                 </span>
-                                                <span *ngIf="!activeModel">2</span>
+                                                   <span *ngIf="!activeModel">2</span>
                                                 </div>
                                             <!-- <div class="tracing-icon">2 -->
                                                 <!-- <i class="bi bi-check2"></i> -->
@@ -1513,7 +1540,7 @@
                     <span *ngIf="activeModel2">
                       <i class="bi bi-check2"></i>
                     </span>
-                    <span *ngIf="!activeModel">3</span>
+                    <span *ngIf="!activeModel2">3</span>
                     </div>
                                             <!-- <div class="tracing-icon">3 -->
                                                 <!-- <i class="bi bi-check2"></i> -->
@@ -1534,10 +1561,10 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer d-flex align-items-center justify-content-end">
+            <!-- <div class="modal-footer d-flex align-items-center justify-content-end">
                 <button type="button" class="btn btn-primary"
                     (click)="registerAttendanceRuleDefinitionMethodCall()">Submit</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

@@ -19,7 +19,6 @@ import { NotifactionTostComponent } from './modules/common/notifaction-tost/noti
 import { SharedModule } from './shared/shared.module';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
-
 import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
 import { HajiriPageLoaderComponent } from './modules/common/hajiri-page-loader/hajiri-page-loader.component';
 

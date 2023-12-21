@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Directive,Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { AttendanceRuleDefinitionRequest } from 'src/app/models/attendance-rule-definition-request';
@@ -18,10 +18,9 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class AttendanceSettingComponent implements OnInit {
 
-
   readonly OVERTIME_RULE = Key.OVERTIME_RULE;
 
-  constructor(private dataService : DataService, private router: Router) { }
+  constructor(private dataService : DataService, private router: Router, private el: ElementRef) { }
 
   ngOnInit(): void {
     this.getUserByFiltersMethodCall();
@@ -36,6 +35,17 @@ export class AttendanceSettingComponent implements OnInit {
     if(localStorage.getItem("staffSelectionActive")=="true"){
       this.activeModel=true;
     }
+
+
+    // const timePicker = new TimePicker(this.el.nativeElement, {
+    //   lang: 'en',
+    //   theme: 'dark'
+    // });
+
+    // timePicker.on('change', (evt) => {
+    //   const value = (evt.hour || '00') + ':' + (evt.minute || '00');
+    //   this.el.nativeElement.value = value;
+    // });
   }
 
   //input for selecting duration:
@@ -83,9 +93,6 @@ export class AttendanceSettingComponent implements OnInit {
   showBreak(){
     this.isBreak= this.isBreak == true ? false:true;
   }
-  
-
-
 
   isdeductHalf:boolean=false;
   showeDeductHalf(){
@@ -137,8 +144,10 @@ export class AttendanceSettingComponent implements OnInit {
   attendanceRuleDefinitionRequest : AttendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
   registerAttendanceRuleDefinitionMethodCall(){
 
-    this.activeModel2=true;
-    
+    debugger
+    console.log(this.selectedStaffsUuids);
+
+    this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
     this.preRegisterAttendanceRuleDefinitionMethodCall();
 
     this.dataService.registerAttendanceRuleDefinition(this.attendanceRuleDefinitionRequest).subscribe((response) => {
@@ -197,6 +206,9 @@ export class AttendanceSettingComponent implements OnInit {
 
   attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse = new AttendanceRuleDefinitionResponse();  
   updateAttendenceRuleDefinition(attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse, attendanceRuleResponse : AttendanceRuleResponse){
+    this.activeModel = true;
+    this.activeModel2 = true;
+    
     this.attendanceRuleResponse = attendanceRuleResponse;
     this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
 
@@ -242,25 +254,47 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
 
-  itemPerPage : number = 10;
+  itemPerPage : number = 8;
   pageNumber : number = 1;
   total !: number;
   rowNumber : number = 1;
   searchText : string = '';
   staffs : Staff[] = [];
 
-  getUserByFiltersMethodCall(){
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((response) => {
-      debugger;
-      this.staffs = response.users;
-      this.total = response.count;
-      console.log(response);
+  // getUserByFiltersMethodCall(){
+  //   this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((response) => {
+  //     debugger;
+  //     this.staffs = response.users;
+  //     this.total = response.count;
+  //     console.log(response);
 
-    }, (error) => {
-      console.log(error);
-    })
+  //   }, (error) => {
+  //     console.log(error);
+  //   })
+  // }
+
+  // getUserByFiltersMethodCall() {
+  //   this.dataService.getUsersByFilter(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '').subscribe((response) => {
+  //     // Assume response.users is an array of Staff
+  //     this.staffs = response.users.map((staff: Staff) => ({
+  //       ...staff,
+  //       selected: this.selectedStaffsUuids.includes(staff.uuid)
+  //     }));
+  //     this.total = response.count;
+  //   }, (error) => {
+  //     console.error(error);
+  //   });
+  // }
+
+  
+
+
+  // Function to handle time change
+  onTimeSet(time: string) {
+    this.selectedTime = time;
   }
-
+  
+  
   searchUsers(){
     this.getUserByFiltersMethodCall();
   }
@@ -292,15 +326,11 @@ export class AttendanceSettingComponent implements OnInit {
   selectDeductionType(deductionType: DeductionType) {
     this.selectedDeductionType = deductionType;
     this.attendanceRuleDefinitionRequest.deductionTypeId = deductionType.id;
-
+  
     const res = document.getElementById('amount-in-rupees') as HTMLElement;
-
-    if(this.selectedDeductionType.type === "FIXED AMOUNT"){
-      res.style.display = 'block';
-    } else{
-      res.style.display = 'none';
-    }
+    res.style.display = this.selectedDeductionType?.type === "FIXED AMOUNT" ? 'block' : 'none';
   }
+  
 
 
   selectedOvertimeType : OvertimeType = new OvertimeType();
@@ -310,12 +340,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.attendanceRuleDefinitionRequest.overtimeTypeId = overtimeType.id;
 
     const res = document.getElementById('amount-in-rupees') as HTMLElement;
-
-    if(this.selectedOvertimeType.type === "FIXED AMOUNT"){
-      res.style.display = 'block';
-    } else{
-      res.style.display = 'none';
-    }
+    res.style.display = this.selectedOvertimeType?.type === "FIXED AMOUNT" ? 'block' : 'none';
   }
 
   //Extra
@@ -361,29 +386,107 @@ export class AttendanceSettingComponent implements OnInit {
   selectedStaffsUuids : string[] = [];
   selectedStaffs: Staff[] = [];
   isAllSelected: boolean = false;
-  updateSelectedStaffs() {
-    this.selectedStaffs = this.staffs.filter(staff => staff.selected);
-    this.isAllSelected = this.selectedStaffs.length === this.staffs.length;
 
-    for(let staff of this.selectedStaffs){
-      if(this.selectedStaffsUuids.includes(staff.uuid)){
-        continue;
-      }
-      this.selectedStaffsUuids.push(staff.uuid);
-    }
-    this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
+  // getUserByFiltersMethodCall() {
+  //   this.dataService.getUsersByFilter(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '').subscribe((response) => {
+  //     // Assume response.users is an array of Staff
+  //     this.staffs = response.users.map((staff: Staff) => ({
+  //       ...staff,
+  //       selected: this.selectedStaffsUuids.includes(staff.uuid)
+  //     }));
+  //     this.total = response.count;
+  //   }, (error) => {
+  //     console.error(error);
+  //   });
+  // }
+
+  getUserByFiltersMethodCall() {
+    this.dataService.getUsersByFilter(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '').subscribe((response) => {
+      this.staffs = response.users.map((staff: Staff) => ({
+        ...staff,
+        selected: this.selectedStaffsUuids.includes(staff.uuid)
+      }));
+      this.total = response.count;
+  
+      this.isAllSelected = this.staffs.every(staff => staff.selected);
+    }, (error) => {
+      console.error(error);
+    });
   }
+  
+  checkIndividualSelection() {
+    this.isAllSelected = this.staffs.every(staff => staff.selected);
+    this.updateSelectedStaffs();
+  }
+
+  // selectAll(checked: boolean) {
+  //   this.isAllSelected = checked;
+  //   this.staffs.forEach(staff => staff.selected = checked);
+  //   this.updateSelectedStaffs();
+  // }
 
   selectAll(checked: boolean) {
     this.isAllSelected = checked;
     this.staffs.forEach(staff => staff.selected = checked);
     this.updateSelectedStaffs();
   }
-
-  checkIndividualSelection() {
-    this.isAllSelected = this.staffs.every(staff => staff.selected);
-    this.updateSelectedStaffs();
+  
+  checkAndUpdateAllSelected() {
+    this.isAllSelected = this.staffs.length > 0 && this.staffs.every(staff => staff.selected);
   }
+  
+  updateSelectedStaffs() {
+    this.staffs.forEach(staff => {
+      if (staff.selected && !this.selectedStaffsUuids.includes(staff.uuid)) {
+        this.selectedStaffsUuids.push(staff.uuid);
+      } else if (!staff.selected && this.selectedStaffsUuids.includes(staff.uuid)) {
+        this.selectedStaffsUuids = this.selectedStaffsUuids.filter(uuid => uuid !== staff.uuid);
+      }
+    });
+
+    this.checkAndUpdateAllSelected();
+    this.activeModel2=true;
+
+    if(this.selectedStaffsUuids.length === 0){
+      this.activeModel2 = false;
+    }
+  }
+
+  // updateSelectedStaffs() {
+  //   // Update the list of selected UUIDs based on the current page's staff selections
+  //   this.staffs.forEach((staff: Staff) => {
+  //     if (staff.selected && !this.selectedStaffsUuids.includes(staff.uuid)) {
+  //       this.selectedStaffsUuids.push(staff.uuid);
+  //     } else if (!staff.selected && this.selectedStaffsUuids.includes(staff.uuid)) {
+  //       this.selectedStaffsUuids = this.selectedStaffsUuids.filter(uuid => uuid !== staff.uuid);
+  //     }
+  //   });
+  // }
+  
+  
+  // updateSelectedStaffs() {
+  //   this.selectedStaffs = this.staffs.filter(staff => staff.selected);
+  //   this.isAllSelected = this.selectedStaffs.length === this.staffs.length;
+
+  //   for(let staff of this.selectedStaffs){
+  //     if(this.selectedStaffsUuids.includes(staff.uuid)){
+  //       continue;
+  //     }
+  //     this.selectedStaffsUuids.push(staff.uuid);
+  //   }
+  //   this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
+  //   console.log(this.attendanceRuleDefinitionRequest.userUuids);
+  // }
+
+  
+
+  // checkIndividualSelection() {
+  //   this.isAllSelected = this.staffs.every(staff => staff.selected);
+  //   this.updateSelectedStaffs();
+  // }
+
+
+  
 
   activeModel:boolean=false;
   trueActiveModel(){
@@ -394,13 +497,56 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   clearModel(){
-    this.attendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
+    this.attendanceRuleDefinitionRequest = {
+      id : 0,
+      deductionTypeId : 0,
+      overtimeTypeId : 0,
+      attendanceRuleId : 0,
+      userUuids : [],
+      customSalaryDeduction: {
+        lateDuration : '',
+        occurrenceType : 'Count',
+        occurrenceCount : 0,
+        occurrenceDuration : '',
+        amountInRupees : 0
+      },
+      halfDaySalaryDeduction: {
+        lateDuration: '',
+        occurrenceType : '',
+        occurrenceCount: 0,
+        occurrenceDuration: ''
+      },
+      fullDaySalaryDeduction: {
+        lateDuration: '',
+        occurrenceType : '',
+        occurrenceCount: 0,
+        occurrenceDuration: ''
+      }
+    };    
+
+    this.activeModel = false;
+    this.activeModel2 = false;
+
+    this.isFull = false;
+    this.isHalf = false;
+    this.isBreak = false;
+    this.isdeductHalf = false;
+    this.isfullDayy = false;
+
+    this.selectedDeductionType = new DeductionType();
+
   }
 
   @ViewChild("staffActiveTab") staffActiveTab !: ElementRef;
 
   staffActiveTabMethod(){
     this.staffActiveTab.nativeElement.click();
+  }
+
+  @ViewChild("ruleActiveTab") ruleActiveTab !: ElementRef;
+
+  ruleActiveTabMethod(){
+    this.ruleActiveTab.nativeElement.click();
   }
 
 

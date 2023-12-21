@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { AngularFireModule } from "@angular/fire/compat";
@@ -55,6 +55,8 @@ import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.compon
 import { TimeFormatPipe } from './time-format.pipe';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { SafePipe } from 'src/app/pipe/safe.pipe';
+import { AppComponent } from 'src/app/app.component';
+import { registerLocaleData } from '@angular/common';
 
 
 @NgModule({
@@ -117,12 +119,8 @@ import { SafePipe } from 'src/app/pipe/safe.pipe';
     AngularFireMessagingModule,
     NgxMaterialTimepickerModule
   ],
-  providers: [
-    
-    DataService,
-    
-  ],
-  // bootstrap: [AppComponent],
+  providers: [DataService,{ provide: LOCALE_ID, useValue: 'en-US' }],
+  bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class DynamicModule { }
