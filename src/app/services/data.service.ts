@@ -45,9 +45,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  // private baseUrl = "http://localhost:8080/api/v2"
+  private baseUrl = "http://localhost:8080/api/v2"
 
-  private baseUrl = "https://backend.hajiri.work/api/v2";
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -526,6 +526,7 @@ export class DataService {
   
 
   getNewUserPersonalInformation(userUuid: string): Observable<any> {
+    debugger
     const params = new HttpParams()
     .set("userUuid", userUuid);
     const url = `${this.baseUrl}/users/get/employeePersonalDetails`;
@@ -609,6 +610,7 @@ export class DataService {
         );
 }
 getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperience[]> {
+  debugger
   const params = new HttpParams().set("userUuid", userUuid);
   return this.httpClient.get<UserExperience[]>(`${this.baseUrl}/user-experiences/getExperiences`, { params });
 }
