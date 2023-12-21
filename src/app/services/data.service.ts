@@ -45,9 +45,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = "http://localhost:8080/api/v2"
+  // private baseUrl = "http://localhost:8080/api/v2"
 
-  // private baseUrl = "https://backend.hajiri.work/api/v2";
+  private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -759,5 +759,11 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.get<UserDto[]>(`${this.baseUrl}/user-documents-details/get/user-documents`, {params});
   }
   
-  
+  selectUserForAttendanceRule(isSelectedForAttendanceRule : boolean, userUuid : string): Observable<any>{
+    const params = new HttpParams()
+    .set("is_selected_for_attendance_rule", isSelectedForAttendanceRule.toString())
+    .set("user_uuid", userUuid);
+
+    return this.httpClient.put<any>(`${this.baseUrl}/users/select-for-attendance-rule`, {}, {params});
+  }
 }
