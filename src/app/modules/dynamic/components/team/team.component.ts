@@ -475,6 +475,7 @@ export class TeamComponent implements OnInit{
           if(res.flag==1){
             this.slackDataPlaceholderFlag=false;
             localStorage.removeItem('uniqueId');
+            this.getTeamsByFiltersFunction();
           }
         }
       });
@@ -509,6 +510,7 @@ export class TeamComponent implements OnInit{
             this.firebaseDataReloadFlag=false;
             this.rotateToggle=false;
             localStorage.removeItem('uniqueUuid');
+            this.getTeamsByFiltersFunction();
           }
         }
       });
