@@ -139,8 +139,8 @@ export class AttendanceSettingComponent implements OnInit {
       
       localStorage.removeItem("staffSelectionActive");
       location.reload();
-      this.activeModel2=false;
       this.attendanceRuleDefinitionModalClose.nativeElement.click();
+      this.activeModel2=false;
     }, (error) =>{
       console.log(error);
     })
@@ -196,6 +196,9 @@ export class AttendanceSettingComponent implements OnInit {
     this.attendanceRuleResponse = attendanceRuleResponse;
     this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
 
+    console.log(this.attendanceRuleDefinitionResponse);
+
+    debugger
     this.getUserByFiltersMethodCall();
 
     debugger
@@ -374,18 +377,14 @@ export class AttendanceSettingComponent implements OnInit {
   }
   
   checkIndividualSelection() {
-    this.isAllSelected = this.staffs.every(staff => staff.selected);
-    this.updateSelectedStaffs();
-  }
-
-  selectAll(checked: boolean) {
-    this.isAllSelected = checked;
-    this.staffs.forEach(staff => staff.selected = checked);
+    this.isAllUsersSelected = this.staffs.every(staff => staff.selected);
+    this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
   }
   
   checkAndUpdateAllSelected() {
     this.isAllSelected = this.staffs.length > 0 && this.staffs.every(staff => staff.selected);
+    this.isAllUsersSelected = this.selectedStaffsUuids.length === this.total;
   }
   
   updateSelectedStaffs() {
@@ -398,6 +397,7 @@ export class AttendanceSettingComponent implements OnInit {
     });
 
     this.checkAndUpdateAllSelected();
+    
     this.activeModel2=true;
 
     if(this.selectedStaffsUuids.length === 0){
@@ -409,27 +409,54 @@ export class AttendanceSettingComponent implements OnInit {
 
 
   // #####################################################
-  // New property to track the select all state
 isAllUsersSelected: boolean = false;
 
 // Method to toggle all users' selection
-selectAllUsers(checked: boolean) {
-  this.isAllUsersSelected = checked;
-  this.isAllSelected = checked; // This ensures the current page reflects the state of the select all users
-  if (checked) {
+selectAllUsers(event: Event) {
+  
+  const inputElement = event.target as HTMLInputElement;
+  const isChecked = inputElement ? inputElement.checked : false;
+  this.isAllUsersSelected = isChecked;
+  this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
+  this.staffs.forEach(staff => staff.selected = isChecked); // Update each staff's selected property
+  
+  if (isChecked) {
     // If selecting all, add all user UUIDs to the selectedStaffsUuids list
+    this.activeModel2 = true;
     this.getAllUsersUuids().then(allUuids => {
       this.selectedStaffsUuids = allUuids;
-      this.staffs.forEach(staff => staff.selected = checked);
-      this.activeModel2 = true; // assuming this is used to track if selection modal should be active
+      // this.activeModel2 = true; // assuming this is used to track if selection modal should be active
     });
   } else {
     // If deselecting all, clear the selectedStaffsUuids list
     this.selectedStaffsUuids = [];
-    this.staffs.forEach(staff => staff.selected = checked);
     this.activeModel2 = false;
   }
+
 }
+
+selectAll(checked: boolean) {
+  this.isAllSelected = checked;
+  this.staffs.forEach(staff => staff.selected = checked);
+  
+  // Update the selectedStaffsUuids based on the current page selection
+  if (checked) {
+    this.activeModel2 = true;
+    this.staffs.forEach(staff => {
+      if (!this.selectedStaffsUuids.includes(staff.uuid)) {
+        this.selectedStaffsUuids.push(staff.uuid);
+      }
+    });
+  } else {
+    this.staffs.forEach(staff => {
+      if (this.selectedStaffsUuids.includes(staff.uuid)) {
+        this.selectedStaffsUuids = this.selectedStaffsUuids.filter(uuid => uuid !== staff.uuid);
+      }
+    });
+  }
+}
+
+
 
 // Asynchronous function to get all user UUIDs
 async getAllUsersUuids(): Promise<string[]> {
@@ -446,7 +473,6 @@ onSelectAllUsersChange(event : any) {
 
   activeModel:boolean=false;
   trueActiveModel(){
-    
     this.activeModel=true;
     localStorage.setItem("staffSelectionActive", this.activeModel.toString());
 

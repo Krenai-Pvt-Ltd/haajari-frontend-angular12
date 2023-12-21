@@ -316,7 +316,7 @@
                                                 <span>Duration </span>
                                                 <span> | </span>
                                                 <span style="color: #009688;">
-                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration !== null; else na">
+                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration !== null && attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration !== ''; else na">
                                                         <span>{{attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration}}</span>
                                                         <span style="color: black;"> hrs.</span>
                                                     </ng-container>
@@ -334,12 +334,12 @@
                                                             <span>{{attendanceRuleDefinitionResponse?.deductionType?.type}}</span>
                                                         </ng-container>
                                                         <ng-template #fixedAmountOrNA>
-                                                            <ng-container *ngIf="attendanceRuleDefinitionResponse?.deductionType?.type; else na">
+                                                            <ng-container *ngIf="attendanceRuleDefinitionResponse?.deductionType?.type; else na2">
                                                                 <span>{{attendanceRuleDefinitionResponse?.deductionType?.type}}</span>
                                                                 <span> (Rs. {{attendanceRuleDefinitionResponse.customSalaryDeduction.amountInRupees}})</span>
                                                             </ng-container>
                                                         </ng-template>
-                                                        <ng-template #na>
+                                                        <ng-template #na2>
                                                             <span>NA</span>
                                                         </ng-template>
                                                     </span>
@@ -353,11 +353,11 @@
                                                             <span> (Rs. {{attendanceRuleDefinitionResponse.customSalaryDeduction.amountInRupees}})</span>
                                                         </ng-container>
                                                         <ng-template #overtimeTypeOrNA>
-                                                            <ng-container *ngIf="attendanceRuleDefinitionResponse?.overtimeType?.type; else na">
+                                                            <ng-container *ngIf="attendanceRuleDefinitionResponse?.overtimeType?.type; else na3">
                                                                 <span>{{attendanceRuleDefinitionResponse?.overtimeType?.type}}</span>
                                                             </ng-container>
                                                         </ng-template>
-                                                        <ng-template #na>
+                                                        <ng-template #na3>
                                                             <span>NA</span>
                                                         </ng-template>
                                                     </span>
@@ -373,12 +373,12 @@
                                                     <span style="color: black;"> times</span>
                                                 </ng-container>
                                                   <ng-template #customSalaryDurationOrNA>
-                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceDuration; else na">
+                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceDuration; else na4">
                                                       <span>{{ attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceDuration }}</span>
                                                       <span style="color: black;"> hrs.</span>
                                                     </ng-container>
                                                   </ng-template>
-                                                  <ng-template #na>N/A</ng-template>
+                                                  <ng-template #na4>N/A</ng-template>
                                                 </span>
                                             </div> 
                                               
@@ -397,11 +397,11 @@
                                                 <span>Duration </span>
                                                 <span> | </span>
                                                 <span style="color: #009688;">
-                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration !== null; else na">
+                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration !== null && attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration !== ''; else na5">
                                                         <span>{{attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration}}</span>
                                                         <span style="color: black;"> hrs.</span>
                                                     </ng-container>
-                                                    <ng-template #na>
+                                                    <ng-template #na5>
                                                         <span>NA</span>
                                                     </ng-template>
                                                 </span>
@@ -415,12 +415,12 @@
                                                     <span style="color: black;"> times</span>
                                                 </ng-container>
                                                   <ng-template #halfDayOccurrenceDurationOrNA>
-                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceDuration; else na">
+                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceDuration; else na6">
                                                       <span>{{ attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceDuration }}</span>
                                                       <span style="color: black;"> hrs.</span>
                                                     </ng-container>
                                                   </ng-template>
-                                                  <ng-template #na>N/A</ng-template>
+                                                  <ng-template #na6>N/A</ng-template>
                                                 </span>
                                             </div>   
                                         </div>
@@ -437,12 +437,12 @@
                                                 <span>Duration </span>
                                                 <span> | </span>
                                                 <span style="color: #009688;">
-                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration !== null; else na">
+                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration !== null && attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration != ''; else na7">
                                                         <span>{{attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration}}</span>
                                                         <span style="color: black;"> hrs.</span>
                                                     </ng-container>
-                                                    <ng-template #na>
-                                                        <span>NA</span>
+                                                    <ng-template #na7>
+                                                        <span>N/A</span>
                                                     </ng-template>
                                                 </span>
                                             </div>
@@ -455,12 +455,12 @@
                                                     <span style="color: black;"> times</span>
                                                 </ng-container>
                                                   <ng-template #fullDayOccurrenceDurationOrNA>
-                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceDuration; else na">
+                                                    <ng-container *ngIf="attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceDuration; else na8">
                                                       <span>{{ attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceDuration }}</span>
                                                       <span style="color: black;"> hrs.</span>
                                                     </ng-container>
                                                   </ng-template>
-                                                  <ng-template #na>N/A</ng-template>
+                                                  <ng-template #na8>N/A</ng-template>
                                                 </span>
                                             </div>                                              
                                         </div>
@@ -1416,8 +1416,14 @@
                                             </div>
                                         </div>
 
-                                        <!-- Place this somewhere appropriate in your template -->
-                                        <input type="checkbox" [(ngModel)]="isAllUsersSelected" (change)="onSelectAllUsersChange($event)">
+                                        <th style="width:0%;">
+                                            <input type="checkbox" style="cursor: pointer;" class="form-check-input"
+                                                   [(ngModel)]="isAllUsersSelected"
+                                                   (change)="selectAllUsers($event)">
+                                          </th>
+                                          
+                                          
+                                          
 
                                         <table class="table">
                                             <thead class="thead-light">

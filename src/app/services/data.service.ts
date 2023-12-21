@@ -721,6 +721,7 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     const params = new HttpParams()
     .set("attendance_rule_definition_id", attendanceRuleDefinitionId);
 
+    debugger
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/get/by/id`, {params});
   }
 
