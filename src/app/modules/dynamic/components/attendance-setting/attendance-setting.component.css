@@ -815,6 +815,14 @@ button.btn.close-btn {
     i.bi.bi-plus {
         font-size: 20px;
     }
+#hoursInput{
+    border-right: none;
+}
+#minutesInput{
+    border-left: none;
+}
+
+  
     
   .errorboxmain{
     text-align: center;

@@ -11,8 +11,6 @@ export class Key{
     public static PRIVILEGE_ACCESS = 3;
 
 
-    public static OVERTIME_RULE = 4;
-
 
     public static DYNAMIC = "/dynamic";
     public static LOGIN = `${Key.DYNAMIC}/login`;
@@ -84,4 +82,18 @@ export class Key{
     ];
     
 
+
+    // Deduction Ids
+    public static DEDUCTION_TYPE_PER_MINUTE = 1;
+    public static DEDUCTION_TYPE_FIXED_AMOUNT = 2;
+
+    // Overtime Ids
+    public static OVERTIME_TYPE_PER_MINUTE = 1;
+    public static OVERTIME_TYPE_FIXED_AMOUNT = 2;
+
+    // Attendance Defintion rules Ids
+    public static LATE_ENTRY_RULE = 1;
+    public static BREAK_RULE = 2;
+    public static EARLY_EXIT_RULE = 3;
+    public static OVERTIME_RULE = 4;
 }
