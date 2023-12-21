@@ -53,10 +53,9 @@ import { DynamicRoutingModule } from './dynamic-routing.module';
 import { DynamicComponent } from './dynamic.component';
 import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
 import { TimeFormatPipe } from './time-format.pipe';
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { SafePipe } from 'src/app/pipe/safe.pipe';
 import { AppComponent } from 'src/app/app.component';
-import { registerLocaleData } from '@angular/common';
+import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
 
 
 @NgModule({
@@ -117,7 +116,7 @@ import { registerLocaleData } from '@angular/common';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireMessagingModule,
-    NgxMaterialTimepickerModule
+    
   ],
   providers: [DataService,{ provide: LOCALE_ID, useValue: 'en-US' }],
   bootstrap: [AppComponent],

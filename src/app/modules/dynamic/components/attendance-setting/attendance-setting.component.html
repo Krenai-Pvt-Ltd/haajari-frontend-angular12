@@ -240,28 +240,34 @@
                     <div class="col-md-6 mt-3 mb-3">
 
 
-                        <div class="empty-file" *ngIf="attendanceRuleWithAttendanceRuleDefinitionResponseList.length === 0">
+                        <ng-container *ngIf="attendanceRuleWithAttendanceRuleDefinitionResponseList.length === 0; else attendanceRuleWithDefinitionData">
+                            <div class="empty-file">
 
-                            <div class="errorboxmain" >
-                                <div class="errorboxinner">
-                                    <div class="errorboxplaceholder mb-2">
-                                        <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                <div class="errorboxmain" >
+                                    <div class="errorboxinner">
+                                        <div class="errorboxplaceholder mb-2">
+                                            <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-0">Automation Rules Not Found</p>
+                                        </div>
+                                         <div class="add-filtter mt-2 mb-3" style="text-align: center;">
+                                            <a class="" style="font-size: 14px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#automation-rules" (click)="getAttendanceRuleByOrganizationMethodCall()"><i class="bi bi-plus"></i> Add Automation Rules </a>           
+                                         </div>
                                     </div>
-                                    <div class="">
-                                        <p class="mb-0">Automation Rules Not Found</p>
-                                    </div>
-                                     <div class="add-filtter mt-2 mb-3" style="text-align: center;">
-                                        <a class="" style="font-size: 14px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#automation-rules" (click)="getAttendanceRuleByOrganizationMethodCall()"><i class="bi bi-plus"></i> Add Automation Rules </a>           
-                                     </div>
                                 </div>
+    
                             </div>
-
-                        </div>
-                        <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
+                        </ng-container>
+                        <ng-template #attendanceRuleWithDefinitionData>
+                            <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
                           
-                           <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#automation-rules" (click)="getAttendanceRuleByOrganizationMethodCall()"><i class="bi bi-plus"></i> Add Automation Rules </a>                
-
-                        </div>
+                                <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#automation-rules" (click)="getAttendanceRuleByOrganizationMethodCall()"><i class="bi bi-plus"></i> Add Automation Rules </a>                
+     
+                             </div>
+                        </ng-template>
+                        
+                        
 
                         <div class="mt-3"
                             *ngFor="let attendanceRuleWithAttendanceRuleDefinitionResponse of attendanceRuleWithAttendanceRuleDefinitionResponseList">
@@ -1041,8 +1047,9 @@
                                                     <!-- <input [ngxTimepicker]="timePicker" readonly>
                                                     <ngx-material-timepicker #timePicker></ngx-material-timepicker>
 
-                                                    <button (click)="timePicker.open()">Open Timepicker</button>
- -->
+                                                    <button (click)="timePicker.open()">Open Timepicker</button>-->
+
+                                                    <app-duration-picker></app-duration-picker>
 
                                                 </div>
 

@@ -21,6 +21,8 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
 import { HajiriPageLoaderComponent } from './modules/common/hajiri-page-loader/hajiri-page-loader.component';
+import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/slack-data-loader.component';
+import { DurationPickerComponent } from './modules/common/duration-picker/duration-picker.component';
 
 
 @NgModule({
@@ -29,6 +31,8 @@ import { HajiriPageLoaderComponent } from './modules/common/hajiri-page-loader/h
     NotifactionTostComponent,
     ErrorPageComponent,
     HajiriPageLoaderComponent,
+    SlackDataLoaderComponent,
+    DurationPickerComponent,
   ],
   imports: [
     RouterModule,
