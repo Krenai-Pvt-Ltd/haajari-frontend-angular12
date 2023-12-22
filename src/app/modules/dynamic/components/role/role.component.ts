@@ -223,7 +223,6 @@ isShimmer: boolean = true;
 
 
   getUsersByFilterMethodCall(){
-    
     this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'name').subscribe((data) => {
       this.users = data.users;
       // this.total = data.count;
@@ -232,7 +231,7 @@ isShimmer: boolean = true;
     })
   }
 
-  @ViewChild('assignroleModalClose') assignroleModalClose !: ElementRef; 
+  @ViewChild('assignroleModalClose') assignroleModalClose !: ElementRef;
 
   assignRoleToUserInUserAndControlMethodCall(){
     this.dataService.assignRoleToUserInUserAndControl((this.selectedUser.id), (this.selectedRole.id)).subscribe((data) => {
