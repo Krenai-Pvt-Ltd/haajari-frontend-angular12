@@ -31,21 +31,24 @@ export class BankDetailsComponent implements OnInit {
   }
 
   userBankDetailsStatus = "";
-
+  toggle = false;
   setEmployeeBankDetailsMethodCall() {
-    
+    this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     this.dataService.markStepAsCompleted(6);
     this.dataService.setEmployeeBankDetails(this.userBankDetailRequest, userUuid)
       .subscribe(
         (response: UserBankDetailRequest) => {
           console.log(response);  
+          this.routeToUserDetails();
           this.userBankDetailsStatus = response.statusResponse;
+          this.toggle = false;
           // localStorage.setItem('statusResponse', JSON.stringify(this.userBankDetailsStatus));
           // this.router.navigate(['/emergency-contact']);
         },
         (error) => {
           console.error(error);
+          this.toggle = false;
         }
       );
   }

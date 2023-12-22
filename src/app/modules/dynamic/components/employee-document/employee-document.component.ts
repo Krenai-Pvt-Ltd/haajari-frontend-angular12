@@ -89,7 +89,7 @@ export class EmployeeDocumentComponent implements OnInit {
         
           this.assignDocumentUrl(documentType, url);
           
-          this.setEmployeeDocumentsDetailsMethodCall();
+          // this.setEmployeeDocumentsDetailsMethodCall();
         });
       })
     ).subscribe();
@@ -112,9 +112,35 @@ export class EmployeeDocumentComponent implements OnInit {
       
     }
   }
-  
+
+  selectedFile: File | null = null;
+  toggle = false;
   setEmployeeDocumentsDetailsMethodCall(): void {
+    debugger
+    this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
+    if(this.selectedFile) {
+      // Replace 'yourDocumentType' with the actual document type string
+      this.uploadFile(this.selectedFile, 'string');
+  }
+
+  this.dataService.setEmployeeDocumentsDetails(this.userDocumentsDetailsRequest, userUuid)
+    
+  .subscribe(
+    (response: UserDocumentsDetailsRequest) => {
+      console.log('Response:', response);
+      console.log(this.userDocumentsDetailsRequest);
+      this.toggle = false
+      // Perform further actions like navigation or state updates
+      this.routeToUserDetails();
+    },
+    (error) => {
+      console.error('Error occurred:', error);
+      this.toggle = false
+    }
+    
+  );
+
     if (!userUuid) {
       console.error('User UUID is missing.');
       return;
@@ -124,16 +150,7 @@ export class EmployeeDocumentComponent implements OnInit {
     this.dataService.markStepAsCompleted(3);
   
     
-    this.dataService.setEmployeeDocumentsDetails(this.userDocumentsDetailsRequest, userUuid)
-      .subscribe(
-        (response: UserDocumentsDetailsRequest) => {
-          console.log('Response:', response);
-          // Perform further actions like navigation or state updates
-        },
-        (error) => {
-          console.error('Error occurred:', error);
-        }
-      );
+    
   }
   
 
