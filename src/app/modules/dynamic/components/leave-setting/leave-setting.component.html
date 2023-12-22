@@ -137,7 +137,7 @@
              
             </div>
 
-            <div class="empty-file">
+            <div class="empty-file" *ngIf="leaveSettingPlaceholder">
 
                 <div class="errorboxmain" >
                     <div class="errorboxinner">
@@ -810,7 +810,7 @@
                                       <div class="count-box">
                                       <input type="radio" name="customizeimagesize" id="mnthlyRadio1" class="d-none">
                                       <label for="mnthlyRadio1">
-                                       Montly
+                                       Monthly
                                       </label>
                                      </div>
               
@@ -844,8 +844,9 @@
                                   <div class="dropdown" style="width: 100%;">
                                       <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> All at once <i class="bi bi-chevron-down"></i></button>
                                       <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
-                                          <li><a class="dropdown-item">Day</a></li>
-                                      <li><a class="dropdown-item">Night</a></li>
+                                          <li><a class="dropdown-item">No Accrual</a></li>
+                                      <li><a class="dropdown-item">Month Start</a></li>
+                                      <li><a class="dropdown-item">Month End</a></li>
                                   </ul>
                                   </div>
               
@@ -855,7 +856,7 @@
                             </div>
                             <div class="col-md-6 mt-3">
                               <div class="">
-                                  <label for="exampleInputEmail1" class="pb-2">Sandwi Leaves</label>
+                                  <label for="exampleInputEmail1" class="pb-2">Sandwich Leaves</label>
                                  
               
                                   <div class="d-flex " style="gap:5px">
@@ -869,7 +870,7 @@
                                      <div class="count-box">
                                       <input type="radio" name="customizeimagesize" id="ingnoe2" class="d-none">
                                       <label for="ingnoe2">
-                                          Ingnor
+                                          Ignore
                                       </label>
                                      </div>
                                   </div>
@@ -899,19 +900,21 @@
           
             <div class="col-md-3">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="pb-2">Unusead Leave Rule</label>
+                    <label for="exampleInputEmail1" class="pb-2">Unused Leave Rule</label>
                     <div class="dropdown" style="width: 100%;">
-                        <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Lapse <i class="bi bi-chevron-down"></i></button>
+                        <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">Lapse Leaves<i class="bi bi-chevron-down"></i></button>
                         <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
-                            <li><a class="dropdown-item">Day</a></li>
-                        <li><a class="dropdown-item">Night</a></li>
+                            <!-- <li><a class="dropdown-item"></a></li> -->
+                        <li><a class="dropdown-item"><h6>Lapse</h6><span>Leaves will be cancelled after the cycle ends</span></a></li>
+                        <li><a class="dropdown-item"><h6>Carry Forward</h6><span>Leaves will be added to next month's balance</span></a></li>
+                        <li><a class="dropdown-item"><h6>Encash</h6></a><span>Leaves can be encashed at the end of the cycle</span></li>
                     </ul>
                     </div>
                 </div>
             </div>
             <div class="col-md-3 d-flex align-items-center justify-content-center"  style="gap:10px;">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="pb-2">Carry Forward Limit</label>
+                    <label for="exampleInputEmail1" class="pb-2">Encashment/Carry Forward Limit</label>
                     <input type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Days" class="form-control">
                 </div>
                 <div class="leave-delet-btn">

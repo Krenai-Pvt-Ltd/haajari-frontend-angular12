@@ -3,7 +3,7 @@ export class UserPersonalInformationRequest {
         email!: string;
         uuid!: string;
         fatherName!: string;
-        phoneNumber!: any;
+        phoneNumber!: string;
         dob!: Date;
         gender!: string;
         joiningDate!: Date;

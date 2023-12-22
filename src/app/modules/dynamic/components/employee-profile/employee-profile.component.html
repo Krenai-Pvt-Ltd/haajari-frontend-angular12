@@ -779,7 +779,8 @@
 
                                             <div class="" *ngIf="!isCompanyPlaceholder">
 
-                                                <div class="row" *ngFor="let exp of experienceEmployee">
+                                                <div class="row" *ngFor="let exp of experienceEmployee; let i= index">
+                                                    <h5 *ngIf="i>0" style="text-align: left;">Experience - {{i+1}}</h5>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
                                                             <p class="mb-0">Company Name - {{exp.companyName || 'N/A'}} </p>
@@ -973,7 +974,8 @@
                                             <div class="">
                                                 <div class="" *ngIf="!isContactPlaceholder">
 
-                                                    <div class="row" *ngFor="let cn of contactsEmployee">
+                                                    <div class="row" *ngFor="let cn of contactsEmployee; let i=index;">
+                                                        <h5 *ngIf="i>0" style="text-align: left;">Contact Details - {{i+1}}</h5>
                                                         <div class="col-md-4">
                                                             <div class="detail-deta">
                                                                 <p class="mb-0">Name - {{cn.contactName || 'N/A'}} </p>
@@ -1092,11 +1094,11 @@
                             <!-- {{isDocsPlaceholder}} -->
                            
                             <div class="pt-1" *ngIf="!isDocsPlaceholder">
-                            <div class="d-flex align-items-center justify-content-between document-deta">
+                            <div class="d-flex align-items-center justify-content-between document-deta" *ngIf="documentsEmployee?.highSchoolCertificate">
                                 <div class="d-flex align-items-center ">
                                     <div class="d-flex align-items-center " style="gap:10px;">
                                         <i class="bi bi-file-earmark-text"></i>
-                                        <p class="mb-0 text-lineclamp" *ngIf="documentsEmployee?.highSchoolCertificate">10th_Cert.pdf</p>
+                                        <p class="mb-0 text-lineclamp">10th_Cert.pdf</p>
                                         <!-- <p class="mb-0" *ngIf="documentsEmployee.highestQualificationDegree">Graduation_Cert.pdf</p>
                                         <p class="mb-0" *ngIf="documentsEmployee.secondarySchoolCertificate">12th_Cert.pdf</p>
                                         <p class="mb-0" *ngIf="documentsEmployee.testimonialReccomendation">Testimonial.pdf</p> -->
@@ -1109,11 +1111,11 @@
                                     <i class="bi bi-download download-color" (click)="downloadSingleImage((documentsEmployee.highSchoolCertificate).toString())"></i>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between document-deta">
+                            <div class="d-flex align-items-center justify-content-between document-deta" *ngIf="documentsEmployee?.highestQualificationDegree">
                                 <div class="d-flex align-items-center ">
                                     <div class="d-flex align-items-center " style="gap:10px;">
                                         <i class="bi bi-file-earmark-text"></i>
-                                         <p class="mb-0 text-lineclamp" *ngIf="documentsEmployee?.highestQualificationDegree">Graduation_Cert.pdf</p>
+                                         <p class="mb-0 text-lineclamp" >Graduation_Cert.pdf</p>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-end" style="gap:10px; cursor: pointer;">
@@ -1122,11 +1124,11 @@
                                     <i class="bi bi-download download-color" (click)="downloadSingleImage((documentsEmployee?.highestQualificationDegree).toString())"></i>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between document-deta">
+                            <div class="d-flex align-items-center justify-content-between document-deta" *ngIf="documentsEmployee?.secondarySchoolCertificate">
                                 <div class="d-flex align-items-center ">
                                     <div class="d-flex align-items-center " style="gap:10px;">
                                         <i class="bi bi-file-earmark-text"></i>
-                                        <p class="mb-0 text-lineclamp" *ngIf="documentsEmployee?.secondarySchoolCertificate">12th_Cert.pdf</p>
+                                        <p class="mb-0 text-lineclamp" >12th_Cert.pdf</p>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-end" style="gap:10px; cursor: pointer;">
@@ -1135,11 +1137,11 @@
                                     <i class="bi bi-download download-color" (click)="downloadSingleImage((documentsEmployee?.secondarySchoolCertificate).toString())"></i>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between document-deta">
+                            <div class="d-flex align-items-center justify-content-between document-deta" *ngIf="documentsEmployee?.testimonialReccomendation">
                                 <div class="d-flex align-items-center ">
                                     <div class="d-flex align-items-center " style="gap:10px;">
                                         <i class="bi bi-file-earmark-text"></i>
-                                        <p class="mb-0 text-lineclamp" *ngIf="documentsEmployee?.testimonialReccomendation">Testimonial.pdf</p>
+                                        <p class="mb-0 text-lineclamp" >Testimonial.pdf</p>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-end" style="gap:10px; cursor: pointer;">
@@ -1242,14 +1244,33 @@
                 </div>
               </div>
           </div>
-          <div class="mb-2">
+          <!-- <div class="mb-2">
             <label for="username" style="padding-bottom: 6px"
               >Select if you are requesting Half Leave <span class="optional">(optional)</span></label>
               <div class="">
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" style="padding-left: 10px;" for="exampleCheck1">Half Leave</label>
             </div>
+          </div> -->
+          <div class="mb-2">
+            <label for="username" style="padding-bottom: 6px">Select if you are requesting Half Leave <span class="optional">(optional)</span></label>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="halfLeaveToggle" [checked]="halfDayLeaveShiftToggle" formControlName="halfDayLeave" [(ngModel)]="userLeaveRequest.halfDayLeave" (click)="halfLeaveShiftToggle()">
+              <label class="form-check-label" for="halfLeaveToggle">Half Day Leave</label>
+            </div>
           </div>
+          <div class="mb-2" *ngIf="halfDayLeaveShiftToggle">
+            <label style="padding-bottom: 6px">Select Shift:</label>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" id="dayShiftType" [checked]="dayShiftToggle"  (change)="dayShiftToggleFun('day')">
+              <label class="form-check-label" for="dayShiftType">Day Shift</label>
+            </div>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" id="eveningShiftType" [checked]="eveningShiftToggle"  (change)="dayShiftToggleFun('evening')">
+              <label class="form-check-label" for="eveningShiftType">Night Shift</label>
+            </div>
+          </div>
+          
           <div class="mb-2">
             <label for="username" style="padding-bottom: 6px"
               >Select user to request the leave from</label>

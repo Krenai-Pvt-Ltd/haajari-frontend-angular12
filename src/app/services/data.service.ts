@@ -126,7 +126,7 @@ export class DataService {
     .set('search_by', searchBy);
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {params});
   }
-  getAllUsersByFilter(sort: string, sortBy: string, search: string, searchBy: string, organizationUuid: string, role: string) : Observable<any>{
+  getAllUsers(sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
     const params = new HttpParams()
     .set('sortOrder', sort)
     .set('sortBy', sortBy)
@@ -526,6 +526,7 @@ export class DataService {
   
 
   getNewUserPersonalInformation(userUuid: string): Observable<any> {
+    debugger
     const params = new HttpParams()
     .set("userUuid", userUuid);
     const url = `${this.baseUrl}/users/get/employeePersonalDetails`;
@@ -609,6 +610,7 @@ export class DataService {
         );
 }
 getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperience[]> {
+  debugger
   const params = new HttpParams().set("userUuid", userUuid);
   return this.httpClient.get<UserExperience[]>(`${this.baseUrl}/user-experiences/getExperiences`, { params });
 }
@@ -721,6 +723,7 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     const params = new HttpParams()
     .set("attendance_rule_definition_id", attendanceRuleDefinitionId);
 
+    debugger
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/get/by/id`, {params});
   }
 

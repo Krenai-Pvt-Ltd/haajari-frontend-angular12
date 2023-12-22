@@ -346,8 +346,8 @@ span.add-project {
 
 @media screen  and (max-width: 2600px) {
     .menu-body.navbar-vertical {
-        overflow-x: visible;
-        height: 690px;
+        overflow-x: auto;
+        height: 640px;
     }
 }
 

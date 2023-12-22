@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { DataService } from 'src/app/services/data.service';
@@ -94,8 +95,30 @@ export class EmployeeAddressDetailComponent implements OnInit {
   showPermanent(){
     this.isPermanent= this.isPermanent == true ? false:true;
     if(!this.isPermanent){
-      this.userAddressDetailsRequest.sameAddress=false;
+      // this.registerForm.sameAddress=false;
     }
   }
 
+
+  // registerForm = new FormGroup({
+  
+  //   currentAddress: new FormControl('', [Validators.required]),
+  //   currentPincode: new FormControl('', [Validators.required, Validators.pattern("[0-9]*"), Validators.minLength(6), Validators.maxLength(6)]),
+  //   currentCity: new FormControl('', [Validators.required]),
+  //   currentState: new FormControl('', [Validators.required]),
+  //   currentCountry: new FormControl('', [Validators.required]),
+  //   sameAddress: new FormControl("true"),  
+  //   permanentAddress: new FormControl(''),
+  //   permanentPincode: new FormControl('', [Validators.pattern("[0-9]*"), Validators.minLength(6), Validators.maxLength(6)]),
+  //   permanentCity: new FormControl(''),
+  //   permanentState: new FormControl(''),
+  //   permanentCountry: new FormControl('')
+  // });
+  
+  
+  
+  // ... similarly for the other fields ...
+  
+  
+  
 }
