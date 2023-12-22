@@ -39,7 +39,9 @@ export class EmergencyContactComponent implements OnInit {
 
   userEmergencyContactDetailsStatus = "";
 
+  toggle = false;
   setEmployeeEmergencyContactDetailsMethodCall() {
+    this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     this.dataService.markStepAsCompleted(7);
     if (!userUuid) {
@@ -51,12 +53,14 @@ export class EmergencyContactComponent implements OnInit {
       .subscribe(
         (response) => { 
           console.log('Response:', response);
+          this.toggle = false;
           this.userEmergencyContactDetailsStatus = response.statusResponse;
             // localStorage.setItem('statusResponse', JSON.stringify(this.userEmergencyContactDetailsStatus));
           // this.router.navigate(['/next-route']); // Update the route as needed
         },
         (error) => {
           console.error('Error occurred:', error);
+          this.toggle = false;
         }
       );
   }

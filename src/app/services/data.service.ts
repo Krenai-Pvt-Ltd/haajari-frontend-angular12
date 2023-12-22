@@ -579,7 +579,7 @@ export class DataService {
   }
   
   setEmployeeDocumentsDetails(userDocumentsDetailsRequest: UserDocumentsDetailsRequest, userUuid: string): Observable<any> {
-    
+    debugger
     const params = new HttpParams()
     .set("userUuid", userUuid);
     return this.httpClient.put<any>(`${this.baseUrl}/user-documents-details/save/user-documents`, userDocumentsDetailsRequest, {params})

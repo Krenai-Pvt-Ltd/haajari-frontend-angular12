@@ -31,21 +31,24 @@ export class AcadmicComponent implements OnInit {
   }
 
   userAcademicDetailsStatus = "";
-
+  toggle = false;
   setEmployeeAcademicsMethodCall() {
-    
+    this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     this.dataService.markStepAsCompleted(4);
     this.dataService.setEmployeeAcademics(this.userAcademicsDetailRequest, userUuid)
       .subscribe(
         (response: UserAcademicsDetailRequest) => {
           console.log(response);  
+          this.toggle = false
+          this.routeToUserDetails();
           this.userAcademicDetailsStatus = response.statusResponse;
           // localStorage.setItem('statusResponse', JSON.stringify(this.userAcademicDetailsStatus));
           // this.router.navigate(['/employee-experience']);
         },
         (error) => {
           console.error(error);
+          this.toggle = false
         }
       );
   }
