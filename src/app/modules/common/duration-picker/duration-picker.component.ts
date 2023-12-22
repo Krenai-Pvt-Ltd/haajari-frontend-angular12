@@ -17,12 +17,13 @@ export class DurationPickerComponent implements AfterViewInit {
   ngAfterViewInit() {
     const timepicker = new TimePicker(this.timeInput.nativeElement, {
       lang: 'en',
-      theme: 'dark'
+      theme: 'dark',
     });
     timepicker.on('change', (evt : any) => {
       const value = (evt.hour || '00') + ':' + (evt.minute || '00');
       this.timeInput.nativeElement.value = value;
     });
   }
+
 }
 

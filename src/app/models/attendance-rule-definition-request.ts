@@ -11,6 +11,6 @@ export class AttendanceRuleDefinitionRequest {
     customSalaryDeduction : CustomSalaryDeductionRequest = new CustomSalaryDeductionRequest();
     halfDaySalaryDeduction : HalfDaySalaryDeductionRequest = new HalfDaySalaryDeductionRequest();
     fullDaySalaryDeduction : FullDaySalaryDeductionRequest = new FullDaySalaryDeductionRequest();
-    userUuids ?: string[];
+    userUuids : string[] = [];
     
 }
