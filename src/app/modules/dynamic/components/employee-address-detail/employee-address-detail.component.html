@@ -9,11 +9,8 @@
                         <h5>Address Details</h5>
                         <p class="mb-0">Fields with * are mandatory</p>
 
-                        <div class="personal-info mt-4">
+                        <div class="personal-info mt-4" >
                             <div class="row">
-                                <!-- <div class="mb-2">
-                                    <h6 class="current-address">Current Address</h6>
-                                </div> -->
 
                                 <!-- Current Address Inputs -->
                                 <div class="col-md-12">
@@ -54,7 +51,7 @@
                                 <!-- Checkbox for Permanent Address -->
                                 <div class="col-md-12 mt-3 mb-3">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1" [checked]="!isPermanent" (click)="showPermanent()">
+                                        <input type="checkbox" class="form-check-input" id="exampleCheck1" [checked]="!isPermanent" (click)="showPermanent()" formControlName="sameAddress">
                                         <label class="form-check-label" for="exampleCheck1">Is your current address the same as the permanent address?</label>
                                     </div>
                                 </div>
