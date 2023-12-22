@@ -1023,13 +1023,13 @@
                                                     
 
                                                     <div class="input-group">
-                                                        <select id="hoursInput" name="hours" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.hours" (change)="onTimeChange(attendanceRuleDefinitionRequest.customSalaryDeduction)">
+                                                        <select id="hoursInput" name="hours" class="form-control" style="width: 40px; padding: 0px; text-align: center; margin-right: 0px; border-radius: 6px 0px 0px 6px; " [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.hours" (change)="onTimeChange(attendanceRuleDefinitionRequest.customSalaryDeduction)">
                                                           <option value="0">HH</option>
                                                           <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
                                                         </select>
-                                                        <span style="background-color: #fff;">:</span>
+                                                        <span style="background-color: #fff; height: 40px; line-height: 34px;">:</span>
                                                                                 
-                                                        <select id="minutesInput" name="minutes" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.minutes" (change)="onTimeChange(attendanceRuleDefinitionRequest.customSalaryDeduction)">
+                                                        <select id="minutesInput" name="minutes" class="form-control" style=" width: 40px; padding: 0px; text-align: center; border-radius: 0px 6px 6px 0px;" [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.minutes" (change)="onTimeChange(attendanceRuleDefinitionRequest.customSalaryDeduction)">
                                                           <option value="0">MM</option>
                                                           <option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</option>
                                                         </select>
@@ -1189,15 +1189,15 @@
                                                     
                                                     <div id="occurrence-type-duration"
                                                         class="dudct-type d-flex align-items-center"
-                                                        style="width: 135px; gap:10px;"
+                                                        style="width: 135px; "
                                                         *ngIf="selectedOccurenceDropdownForCustomSalrayDeduction === 'Duration'">
-                                                        <select id="hoursInput" name="hours" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDurationHours" (change)="onTimeChangeForOccerrenceDuration(attendanceRuleDefinitionRequest.customSalaryDeduction)">
+                                                        <select id="hoursInput" name="hours" class="form-control" style=" width: 40px; padding: 0px; text-align: center; margin-right: 0px; border-radius: 6px 0px 0px 6px;" [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDurationHours" (change)="onTimeChangeForOccerrenceDuration(attendanceRuleDefinitionRequest.customSalaryDeduction)">
                                                             <option value="0">HH</option>
                                                             <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
                                                           </select>
-                                                          <span style="background-color: #fff;">:</span>
+                                                          <span style="background-color: #fff; height: 40px; line-height: 34px;">:</span>
                                                                                   
-                                                          <select id="minutesInput" name="minutes" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDurationMinutes" (change)="onTimeChangeForOccerrenceDuration(attendanceRuleDefinitionRequest.customSalaryDeduction)">
+                                                          <select id="minutesInput" name="minutes" class="form-control" style="width: 40px; padding: 0px; text-align: center; border-radius: 0px 6px 6px 0px;" [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDurationMinutes" (change)="onTimeChangeForOccerrenceDuration(attendanceRuleDefinitionRequest.customSalaryDeduction)">
                                                             <option value="0">MM</option>
                                                             <option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</option>
                                                           </select>
@@ -1230,13 +1230,13 @@
                                                         </div> -->
 
                                                         <div class="input-group">
-                                                            <select id="hoursInput" name="hours" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.hours" (change)="onTimeChange(attendanceRuleDefinitionRequest.halfDaySalaryDeduction)">
+                                                            <select id="hoursInput" name="hours" class="form-control" style="width: 40px; padding: 0px; text-align: center; margin-right: 0px; border-radius: 6px 0px 0px 6px;" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.hours" (change)="onTimeChange(attendanceRuleDefinitionRequest.halfDaySalaryDeduction)">
                                                               <option value="0">HH</option>
                                                               <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
                                                             </select>
-                                                            <span style="background-color: #fff;">:</span>
+                                                            <span style="background-color: #fff; height: 40px; line-height: 34px;">:</span>
                                                                                     
-                                                            <select id="minutesInput" name="minutes" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.minutes" (change)="onTimeChange(attendanceRuleDefinitionRequest.halfDaySalaryDeduction)">
+                                                            <select id="minutesInput" name="minutes" class="form-control" style="width: 40px; padding: 0px; text-align: center; border-radius: 0px 6px 6px 0px;" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.minutes" (change)="onTimeChange(attendanceRuleDefinitionRequest.halfDaySalaryDeduction)">
                                                               <option value="0">MM</option>
                                                               <option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</option>
                                                             </select>
@@ -1299,16 +1299,16 @@
                                                         </div>
                                                         <div id="occurrence-type-duration"
                                                             class="dudct-type d-flex align-items-center"
-                                                            style="width: 135px; gap:10px;"
+                                                            style="width: 135px; "
                                                             *ngIf="selectedOccurenceDropdownForHalfDaySalrayDeduction === 'Duration'">
                                                             <!-- <label for="exampleInputEmail1" class="">Time</label> -->
-                                                            <select id="hoursInput" name="hours" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDurationHours" (change)="onTimeChangeForOccerrenceDuration(attendanceRuleDefinitionRequest.halfDaySalaryDeduction)">
+                                                            <select id="hoursInput" name="hours" class="form-control" style="width: 40px; padding: 0px; text-align: center; margin-right: 0px; border-radius: 6px 0px 0px 6px;" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDurationHours" (change)="onTimeChangeForOccerrenceDuration(attendanceRuleDefinitionRequest.halfDaySalaryDeduction)">
                                                                 <option value="0">HH</option>
                                                                 <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
                                                               </select>
-                                                              <span style="background-color: #fff;">:</span>
+                                                              <span style="background-color: #fff; height: 40px; line-height: 34px;">:</span>
                                                                                       
-                                                              <select id="minutesInput" name="minutes" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDurationMinutes" (change)="onTimeChangeForOccerrenceDuration(attendanceRuleDefinitionRequest.halfDaySalaryDeduction)">
+                                                              <select id="minutesInput" name="minutes" class="form-control" style="width: 40px; padding: 0px; text-align: center; border-radius: 0px 6px 6px 0px;" [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDurationMinutes" (change)="onTimeChangeForOccerrenceDuration(attendanceRuleDefinitionRequest.halfDaySalaryDeduction)">
                                                                 <option value="0">MM</option>
                                                                 <option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</option>
                                                               </select>
@@ -1341,13 +1341,13 @@
                                                         </div> -->
                                                         
                                                         <div class="input-group">
-                                                            <select id="hoursInput" name="hours" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.hours" (change)="onTimeChange(attendanceRuleDefinitionRequest.fullDaySalaryDeduction)">
+                                                            <select id="hoursInput" name="hours" class="form-control" style="width: 40px; padding: 0px; text-align: center; margin-right: 0px; border-radius: 6px 0px 0px 6px;" [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.hours" (change)="onTimeChange(attendanceRuleDefinitionRequest.fullDaySalaryDeduction)">
                                                               <option value="0">HH</option>
                                                               <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
                                                             </select>
-                                                            <span style="background-color: #fff;">:</span>
+                                                            <span style="background-color: #fff; height: 40px; line-height: 34px;">:</span>
                                                                                     
-                                                            <select id="minutesInput" name="minutes" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.minutes" (change)="onTimeChange(attendanceRuleDefinitionRequest.fullDaySalaryDeduction)">
+                                                            <select id="minutesInput" name="minutes" class="form-control" style="width: 40px; padding: 0px; text-align: center; border-radius: 0px 6px 6px 0px;" [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.minutes" (change)="onTimeChange(attendanceRuleDefinitionRequest.fullDaySalaryDeduction)">
                                                               <option value="0">MM</option>
                                                               <option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</option>
                                                             </select>
@@ -1411,13 +1411,13 @@
                                                             style="width: 135px; gap:10px;"
                                                             *ngIf="selectedOccurenceDropdownForFullDaySalrayDeduction === 'Duration'">
                                                             <!-- <label for="exampleInputEmail1" class="">Time</label> -->
-                                                            <select id="hoursInput" name="hours" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDurationHours" (change)="onTimeChangeForOccerrenceDuration(attendanceRuleDefinitionRequest.fullDaySalaryDeduction)">
+                                                            <select id="hoursInput" name="hours" class="form-control" style="width: 40px; padding: 0px; text-align: center; margin-right: 0px; border-radius: 6px 0px 0px 6px;" [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDurationHours" (change)="onTimeChangeForOccerrenceDuration(attendanceRuleDefinitionRequest.fullDaySalaryDeduction)">
                                                                 <option value="0">HH</option>
                                                                 <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
                                                               </select>
-                                                              <span style="background-color: #fff;">:</span>
+                                                              <span style="background-color: #fff; height: 40px; line-height: 34px;">:</span>
                                                                                       
-                                                              <select id="minutesInput" name="minutes" class="form-control" style="width: 40px; padding: 5px; text-align: center;" [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDurationMinutes" (change)="onTimeChangeForOccerrenceDuration(attendanceRuleDefinitionRequest.fullDaySalaryDeduction)">
+                                                              <select id="minutesInput" name="minutes" class="form-control" style="width: 40px; padding: 0px; text-align: center; border-radius: 0px 6px 6px 0px;" [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDurationMinutes" (change)="onTimeChangeForOccerrenceDuration(attendanceRuleDefinitionRequest.fullDaySalaryDeduction)">
                                                                 <option value="0">MM</option>
                                                                 <option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</option>
                                                               </select>
