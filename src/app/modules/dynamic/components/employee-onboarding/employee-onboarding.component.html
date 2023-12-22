@@ -540,7 +540,8 @@
     </div>
 </div>
 
-
+<form #personalInformationForm="ngForm" ngNativeValidate (ngSubmit)="setEmployeePersonalDetailsMethodCall()">
+    <div class="form-group">
 <div #inviteModal class="modal fade" id="add-employee" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
     <div class="modal-dialog " role="document">
         <div class="modal-content">
@@ -552,28 +553,67 @@
               <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="pb-2"> Name</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" Name" [(ngModel)]="userPersonalInformationRequest.name">
+                      <label for="name" class="pb-2">Name <span class="text-optional">*</span></label>
+                      <input type="text" class="form-control" id="name" name="name" placeholder="Name" [(ngModel)]="userPersonalInformationRequest.name" required #nameField="ngModel">
+                      <!-- Error Message for Name -->
+                      <div *ngIf="nameField.touched && nameField.errors?.required">
+                        <p class="errortxt mt-2 mb-0" style="color:red">
+                          <i class="bi bi-exclamation-circle"></i>
+                          Name is required.
+                        </p>
+                      </div>
                     </div>
-                 </div>
-                 <div class="col-md-12">
+                  </div>
+                  
+                  <div class="col-md-12">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="pb-2">Email Id</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email id" [(ngModel)]="userPersonalInformationRequest.email">
+                      <label for="email" class="pb-2">Email Id <span class="text-optional">*</span></label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="Email id" [(ngModel)]="userPersonalInformationRequest.email" required email #emailField="ngModel">
+                      <!-- Error Message for Email -->
+                      <div *ngIf="emailField.touched && emailField.errors?.required">
+                        <p class="errortxt mt-2 mb-0" style="color:red">
+                          <i class="bi bi-exclamation-circle"></i>
+                          Email Id is required.
+                        </p>
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="emailField.errors?.email">
+                            <i class="bi bi-exclamation-circle"></i>
+                            Please enter a valid email address.
+                        </p>
+                      </div>
                     </div>
-                 </div>
-                 <div class="col-md-12">
+                  </div>
+                  
+                  <div class="col-md-12">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="pb-2">Phone Number</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Phone number" [(ngModel)]="userPersonalInformationRequest.phoneNumber">
+                      <label for="phoneNumber" class="pb-2">Phone Number <span class="text-optional"> (Optional)</span></label>
+                      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone number" [(ngModel)]="userPersonalInformationRequest.phoneNumber" pattern="^\d{10}$" #phoneNumberField="ngModel">
+                      <!-- Error Message for Phone Number -->
+                      <div *ngIf="phoneNumberField.touched && phoneNumberField.errors?.pattern">
+                        <p class="errortxt mt-2 mb-0" style="color:red">
+                          <i class="bi bi-exclamation-circle"></i>
+                          Enter a valid 10-digit phone number.
+                        </p>
+                      </div>
                     </div>
-                 </div>
+                  </div>
+                  
               </div>                          
             </div><!--end modal-body-->
             <div class="modal-footer d-flex align-items-center justify-content-end">
                 <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close" #closeInviteModal>Cancel</button>
-                <button type="button" class="btn btn-primary" (click)="setEmployeePersonalDetailsMethodCall()">Submit</button>
+                <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
+                    <div *ngIf="toggle" class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span *ngIf="!toggle">
+                        Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                    </span>
+                </button>
             </div><!--end modal-footer-->
         </div><!--end modal-content-->
     </div><!--end modal-dialog-->
 </div><!--end modal-->
+    </div>
+</form>
