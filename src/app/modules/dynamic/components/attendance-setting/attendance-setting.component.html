@@ -1468,17 +1468,17 @@
 
                                         <div style="display: flex; justify-content: space-between; align-items : center;">
 
-                                            <th style="width:0%; ">
+                                            <!-- <th style="width:0%; ">
                                                 <input type="checkbox" style="cursor: pointer;" class="form-check-input"
                                                        [(ngModel)]="isAllUsersSelected"
                                                        (change)="selectAllUsers($event)">
-                                            </th>
+                                            </th> -->
                                             <div *ngIf="selectedStaffsUuids.length > 0">
                                                 <ng-container *ngIf="selectedStaffsUuids.length === total; else elseCondition2">
                                                     <span (click)="unselectAllUsers()">Clear all users</span>
                                                 </ng-container>
                                                 <ng-template #elseCondition2>
-                                                    <span (change)="selectAllUsers($event)">Select all {{total}} users</span>
+                                                    <span (click)="selectAllUsers(true)">Select all {{total}} users</span>
                                                 </ng-template>
                                             </div>
 
