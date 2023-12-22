@@ -23,29 +23,13 @@ export class AttendanceSettingComponent implements OnInit {
   constructor(private dataService : DataService, private router: Router, private el: ElementRef) { }
 
   ngOnInit(): void {
-    this.getUserByFiltersMethodCall();
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
-
-    // this.getRegisteredAttendanceRuleByOrganizationMethodCall();
-    // this.getAttendanceRuleDefinitionMethodCall();
-    // console.log(this.selectedStaffs);
-    // this.updateSelectedStaffs();
     
     if(localStorage.getItem("staffSelectionActive")=="true"){
       this.activeModel=true;
     }
 
-
-    // const timePicker = new TimePicker(this.el.nativeElement, {
-    //   lang: 'en',
-    //   theme: 'dark'
-    // });
-
-    // timePicker.on('change', (evt) => {
-    //   const value = (evt.hour || '00') + ':' + (evt.minute || '00');
-    //   this.el.nativeElement.value = value;
-    // });
   }
 
   //input for selecting duration:
@@ -75,8 +59,12 @@ export class AttendanceSettingComponent implements OnInit {
     this.duration = `${formattedHours}:${formattedMinutes}`;
   }
 
-  onTimeChange(): void {
-    this.updateDuration();
+  onTimeChange(salaryDeduction : any){
+    salaryDeduction.updateLateDuration();
+  }
+
+  onTimeChangeForOccerrenceDuration(salaryDeduction : any){
+    salaryDeduction.updateOccurrenceDuration();
   }
 
   isFull:boolean=false;
@@ -155,8 +143,8 @@ export class AttendanceSettingComponent implements OnInit {
       
       localStorage.removeItem("staffSelectionActive");
       location.reload();
-      this.activeModel2=false;
       this.attendanceRuleDefinitionModalClose.nativeElement.click();
+      this.activeModel2=false;
     }, (error) =>{
       console.log(error);
     })
@@ -210,8 +198,66 @@ export class AttendanceSettingComponent implements OnInit {
     this.activeModel2 = true;
     
     this.attendanceRuleResponse = attendanceRuleResponse;
+
+    debugger
     this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
 
+    if(attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration){
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.hours  = parseInt(attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration.split(':')[0], 10);
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.minutes = parseInt(attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration.split(':')[1], 10);
+    } else{
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.hours  = 0;
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.minutes = 0;
+    }
+
+    if(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration){
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.hours  = parseInt(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration.split(':')[0], 10);
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.minutes = parseInt(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration.split(':')[1], 10);
+    } else{
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.hours  = 0;
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.minutes = 0;
+    }
+
+    if(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration){
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.hours  = parseInt(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration.split(':')[0], 10);
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.minutes = parseInt(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration.split(':')[1], 10);
+    } else{
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.hours  = 0;
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.minutes = 0;
+    }
+    
+
+    
+
+    if(attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceDuration){
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDurationHours  = parseInt(attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceDuration.split(':')[0], 10);
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDurationMinutes = parseInt(attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceDuration.split(':')[1], 10);
+    } else{
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDurationHours  = 0;
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDurationMinutes = 0;
+    }
+
+    if(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceDuration){
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDurationHours  = parseInt(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceDuration.split(':')[0], 10);
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDurationMinutes = parseInt(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceDuration.split(':')[1], 10);
+    } else{
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDurationHours  = 0;
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDurationMinutes = 0;
+    }
+
+    if(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceDuration){
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDurationHours  = parseInt(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceDuration.split(':')[0], 10);
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDurationMinutes = parseInt(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceDuration.split(':')[1], 10);
+    } else{
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDurationHours  = 0;
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDurationMinutes = 0;
+    }
+    
+    
+    
+    console.log(this.attendanceRuleDefinitionRequest);
+
+    debugger
     this.getUserByFiltersMethodCall();
 
     debugger
@@ -273,18 +319,6 @@ export class AttendanceSettingComponent implements OnInit {
   //   })
   // }
 
-  // getUserByFiltersMethodCall() {
-  //   this.dataService.getUsersByFilter(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '').subscribe((response) => {
-  //     // Assume response.users is an array of Staff
-  //     this.staffs = response.users.map((staff: Staff) => ({
-  //       ...staff,
-  //       selected: this.selectedStaffsUuids.includes(staff.uuid)
-  //     }));
-  //     this.total = response.count;
-  //   }, (error) => {
-  //     console.error(error);
-  //   });
-  // }
 
   
 
@@ -387,19 +421,6 @@ export class AttendanceSettingComponent implements OnInit {
   selectedStaffs: Staff[] = [];
   isAllSelected: boolean = false;
 
-  // getUserByFiltersMethodCall() {
-  //   this.dataService.getUsersByFilter(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '').subscribe((response) => {
-  //     // Assume response.users is an array of Staff
-  //     this.staffs = response.users.map((staff: Staff) => ({
-  //       ...staff,
-  //       selected: this.selectedStaffsUuids.includes(staff.uuid)
-  //     }));
-  //     this.total = response.count;
-  //   }, (error) => {
-  //     console.error(error);
-  //   });
-  // }
-
   getUserByFiltersMethodCall() {
     this.dataService.getUsersByFilter(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '').subscribe((response) => {
       this.staffs = response.users.map((staff: Staff) => ({
@@ -415,24 +436,14 @@ export class AttendanceSettingComponent implements OnInit {
   }
   
   checkIndividualSelection() {
-    this.isAllSelected = this.staffs.every(staff => staff.selected);
-    this.updateSelectedStaffs();
-  }
-
-  // selectAll(checked: boolean) {
-  //   this.isAllSelected = checked;
-  //   this.staffs.forEach(staff => staff.selected = checked);
-  //   this.updateSelectedStaffs();
-  // }
-
-  selectAll(checked: boolean) {
-    this.isAllSelected = checked;
-    this.staffs.forEach(staff => staff.selected = checked);
+    this.isAllUsersSelected = this.staffs.every(staff => staff.selected);
+    this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
   }
   
   checkAndUpdateAllSelected() {
     this.isAllSelected = this.staffs.length > 0 && this.staffs.every(staff => staff.selected);
+    this.isAllUsersSelected = this.selectedStaffsUuids.length === this.total;
   }
   
   updateSelectedStaffs() {
@@ -445,6 +456,7 @@ export class AttendanceSettingComponent implements OnInit {
     });
 
     this.checkAndUpdateAllSelected();
+    
     this.activeModel2=true;
 
     if(this.selectedStaffsUuids.length === 0){
@@ -452,77 +464,118 @@ export class AttendanceSettingComponent implements OnInit {
     }
   }
 
-  // updateSelectedStaffs() {
-  //   // Update the list of selected UUIDs based on the current page's staff selections
-  //   this.staffs.forEach((staff: Staff) => {
-  //     if (staff.selected && !this.selectedStaffsUuids.includes(staff.uuid)) {
-  //       this.selectedStaffsUuids.push(staff.uuid);
-  //     } else if (!staff.selected && this.selectedStaffsUuids.includes(staff.uuid)) {
-  //       this.selectedStaffsUuids = this.selectedStaffsUuids.filter(uuid => uuid !== staff.uuid);
-  //     }
-  //   });
-  // }
+
+
+
+  // #####################################################
+isAllUsersSelected: boolean = false;
+
+// Method to toggle all users' selection
+selectAllUsers(event: Event) {
   
+  const inputElement = event.target as HTMLInputElement;
+  const isChecked = inputElement ? inputElement.checked : false;
+  this.isAllUsersSelected = isChecked;
+  this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
+  this.staffs.forEach(staff => staff.selected = isChecked); // Update each staff's selected property
   
-  // updateSelectedStaffs() {
-  //   this.selectedStaffs = this.staffs.filter(staff => staff.selected);
-  //   this.isAllSelected = this.selectedStaffs.length === this.staffs.length;
+  if (isChecked) {
+    // If selecting all, add all user UUIDs to the selectedStaffsUuids list
+    this.activeModel2 = true;
+    this.getAllUsersUuids().then(allUuids => {
+      this.selectedStaffsUuids = allUuids;
+    });
+  } else {
+    this.selectedStaffsUuids = [];
+    this.activeModel2 = false;
+  }
 
-  //   for(let staff of this.selectedStaffs){
-  //     if(this.selectedStaffsUuids.includes(staff.uuid)){
-  //       continue;
-  //     }
-  //     this.selectedStaffsUuids.push(staff.uuid);
-  //   }
-  //   this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
-  //   console.log(this.attendanceRuleDefinitionRequest.userUuids);
-  // }
+}
 
+selectAll(checked: boolean) {
+  this.isAllSelected = checked;
+  this.staffs.forEach(staff => staff.selected = checked);
   
+  // Update the selectedStaffsUuids based on the current page selection
+  if (checked) {
+    this.activeModel2 = true;
+    this.staffs.forEach(staff => {
+      if (!this.selectedStaffsUuids.includes(staff.uuid)) {
+        this.selectedStaffsUuids.push(staff.uuid);
+      }
+    });
+  } else {
+    this.staffs.forEach(staff => {
+      if (this.selectedStaffsUuids.includes(staff.uuid)) {
+        this.selectedStaffsUuids = this.selectedStaffsUuids.filter(uuid => uuid !== staff.uuid);
+      }
+    });
+  }
+}
 
-  // checkIndividualSelection() {
-  //   this.isAllSelected = this.staffs.every(staff => staff.selected);
-  //   this.updateSelectedStaffs();
-  // }
 
 
-  
+// Asynchronous function to get all user UUIDs
+async getAllUsersUuids(): Promise<string[]> {
+  // Replace with your actual API call to get all users
+  const response = await this.dataService.getAllUsers('asc', 'id', this.searchText, '').toPromise();
+  return response.users.map((user: { uuid: any; }) => user.uuid);
+}
+
+// Call this method when the select all users checkbox value changes
+onSelectAllUsersChange(event : any) {
+  this.selectAllUsers(event.target.checked);
+}
+
+unselectAllUsers() {
+  this.isAllUsersSelected = false;
+  this.isAllSelected = false;
+  this.staffs.forEach(staff => staff.selected = false);
+  this.selectedStaffsUuids = [];
+  this.activeModel2 = false;
+}
 
   activeModel:boolean=false;
   trueActiveModel(){
-    
     this.activeModel=true;
     localStorage.setItem("staffSelectionActive", this.activeModel.toString());
 
   }
 
   clearModel(){
-    this.attendanceRuleDefinitionRequest = {
-      id : 0,
-      deductionTypeId : 0,
-      overtimeTypeId : 0,
-      attendanceRuleId : 0,
-      userUuids : [],
-      customSalaryDeduction: {
-        lateDuration : '',
-        occurrenceType : 'Count',
-        occurrenceCount : 0,
-        occurrenceDuration : '',
-        amountInRupees : 0
-      },
-      halfDaySalaryDeduction: {
-        lateDuration: '',
-        occurrenceType : '',
-        occurrenceCount: 0,
-        occurrenceDuration: ''
-      },
-      fullDaySalaryDeduction: {
-        lateDuration: '',
-        occurrenceType : '',
-        occurrenceCount: 0,
-        occurrenceDuration: ''
-      }
-    };    
+    this.attendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
+    // this.attendanceRuleDefinitionRequest = {
+    //   id : 0,
+    //   deductionTypeId : 0,
+    //   overtimeTypeId : 0,
+    //   attendanceRuleId : 0,
+    //   userUuids : [],
+    //   customSalaryDeduction: {
+    //     hours : 0,
+    //     minutes : 0,
+    //     lateDuration : '',
+    //     occurrenceType : 'Count',
+    //     occurrenceCount : 0,
+    //     occurrenceDuration : '',
+    //     amountInRupees : 0
+    //   },
+    //   halfDaySalaryDeduction: {
+    //     hours : 0,
+    //     minutes : 0,
+    //     lateDuration: '',
+    //     occurrenceType : '',
+    //     occurrenceCount: 0,
+    //     occurrenceDuration: ''
+    //   },
+    //   fullDaySalaryDeduction: {
+    //     hours : 0,
+    //     minutes : 0,
+    //     lateDuration: '',
+    //     occurrenceType : '',
+    //     occurrenceCount: 0,
+    //     occurrenceDuration: ''
+    //   }
+    // };    
 
     this.activeModel = false;
     this.activeModel2 = false;

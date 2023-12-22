@@ -45,9 +45,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = "http://localhost:8080/api/v2"
+  // private baseUrl = "http://localhost:8080/api/v2"
 
-  // private baseUrl = "https://backend.hajiri.work/api/v2";
+  private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -126,7 +126,7 @@ export class DataService {
     .set('search_by', searchBy);
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {params});
   }
-  getAllUsersByFilter(sort: string, sortBy: string, search: string, searchBy: string, organizationUuid: string, role: string) : Observable<any>{
+  getAllUsers(sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
     const params = new HttpParams()
     .set('sortOrder', sort)
     .set('sortBy', sortBy)
@@ -723,6 +723,7 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     const params = new HttpParams()
     .set("attendance_rule_definition_id", attendanceRuleDefinitionId);
 
+    debugger
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/get/by/id`, {params});
   }
 

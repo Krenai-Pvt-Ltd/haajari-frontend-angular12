@@ -12,4 +12,5 @@ export class AttendanceRuleDefinitionResponse {
     deductionType : DeductionType = new DeductionType();
     overtimeType : OvertimeType = new OvertimeType();
     attendanceRuleId : number = 0;
+    userUuids : string[] = [];
 }
