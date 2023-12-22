@@ -59,8 +59,12 @@ export class AttendanceSettingComponent implements OnInit {
     this.duration = `${formattedHours}:${formattedMinutes}`;
   }
 
-  onTimeChange(): void {
-    this.updateDuration();
+  onTimeChange(salaryDeduction : any){
+    salaryDeduction.updateLateDuration();
+  }
+
+  onTimeChangeForOccerrenceDuration(salaryDeduction : any){
+    salaryDeduction.updateOccurrenceDuration();
   }
 
   isFull:boolean=false;
@@ -194,9 +198,64 @@ export class AttendanceSettingComponent implements OnInit {
     this.activeModel2 = true;
     
     this.attendanceRuleResponse = attendanceRuleResponse;
+
+    debugger
     this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
 
-    console.log(this.attendanceRuleDefinitionResponse);
+    if(attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration){
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.hours  = parseInt(attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration.split(':')[0], 10);
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.minutes = parseInt(attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration.split(':')[1], 10);
+    } else{
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.hours  = 0;
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.minutes = 0;
+    }
+
+    if(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration){
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.hours  = parseInt(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration.split(':')[0], 10);
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.minutes = parseInt(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration.split(':')[1], 10);
+    } else{
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.hours  = 0;
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.minutes = 0;
+    }
+
+    if(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration){
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.hours  = parseInt(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration.split(':')[0], 10);
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.minutes = parseInt(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration.split(':')[1], 10);
+    } else{
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.hours  = 0;
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.minutes = 0;
+    }
+    
+
+    
+
+    if(attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceDuration){
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDurationHours  = parseInt(attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceDuration.split(':')[0], 10);
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDurationMinutes = parseInt(attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceDuration.split(':')[1], 10);
+    } else{
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDurationHours  = 0;
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDurationMinutes = 0;
+    }
+
+    if(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceDuration){
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDurationHours  = parseInt(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceDuration.split(':')[0], 10);
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDurationMinutes = parseInt(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceDuration.split(':')[1], 10);
+    } else{
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDurationHours  = 0;
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDurationMinutes = 0;
+    }
+
+    if(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceDuration){
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDurationHours  = parseInt(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceDuration.split(':')[0], 10);
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDurationMinutes = parseInt(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceDuration.split(':')[1], 10);
+    } else{
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDurationHours  = 0;
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDurationMinutes = 0;
+    }
+    
+    
+    
+    console.log(this.attendanceRuleDefinitionRequest);
 
     debugger
     this.getUserByFiltersMethodCall();
@@ -425,10 +484,8 @@ selectAllUsers(event: Event) {
     this.activeModel2 = true;
     this.getAllUsersUuids().then(allUuids => {
       this.selectedStaffsUuids = allUuids;
-      // this.activeModel2 = true; // assuming this is used to track if selection modal should be active
     });
   } else {
-    // If deselecting all, clear the selectedStaffsUuids list
     this.selectedStaffsUuids = [];
     this.activeModel2 = false;
   }
@@ -470,6 +527,13 @@ onSelectAllUsersChange(event : any) {
   this.selectAllUsers(event.target.checked);
 }
 
+unselectAllUsers() {
+  this.isAllUsersSelected = false;
+  this.isAllSelected = false;
+  this.staffs.forEach(staff => staff.selected = false);
+  this.selectedStaffsUuids = [];
+  this.activeModel2 = false;
+}
 
   activeModel:boolean=false;
   trueActiveModel(){
@@ -479,32 +543,39 @@ onSelectAllUsersChange(event : any) {
   }
 
   clearModel(){
-    this.attendanceRuleDefinitionRequest = {
-      id : 0,
-      deductionTypeId : 0,
-      overtimeTypeId : 0,
-      attendanceRuleId : 0,
-      userUuids : [],
-      customSalaryDeduction: {
-        lateDuration : '',
-        occurrenceType : 'Count',
-        occurrenceCount : 0,
-        occurrenceDuration : '',
-        amountInRupees : 0
-      },
-      halfDaySalaryDeduction: {
-        lateDuration: '',
-        occurrenceType : '',
-        occurrenceCount: 0,
-        occurrenceDuration: ''
-      },
-      fullDaySalaryDeduction: {
-        lateDuration: '',
-        occurrenceType : '',
-        occurrenceCount: 0,
-        occurrenceDuration: ''
-      }
-    };    
+    this.attendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
+    // this.attendanceRuleDefinitionRequest = {
+    //   id : 0,
+    //   deductionTypeId : 0,
+    //   overtimeTypeId : 0,
+    //   attendanceRuleId : 0,
+    //   userUuids : [],
+    //   customSalaryDeduction: {
+    //     hours : 0,
+    //     minutes : 0,
+    //     lateDuration : '',
+    //     occurrenceType : 'Count',
+    //     occurrenceCount : 0,
+    //     occurrenceDuration : '',
+    //     amountInRupees : 0
+    //   },
+    //   halfDaySalaryDeduction: {
+    //     hours : 0,
+    //     minutes : 0,
+    //     lateDuration: '',
+    //     occurrenceType : '',
+    //     occurrenceCount: 0,
+    //     occurrenceDuration: ''
+    //   },
+    //   fullDaySalaryDeduction: {
+    //     hours : 0,
+    //     minutes : 0,
+    //     lateDuration: '',
+    //     occurrenceType : '',
+    //     occurrenceCount: 0,
+    //     occurrenceDuration: ''
+    //   }
+    // };    
 
     this.activeModel = false;
     this.activeModel2 = false;
