@@ -29,6 +29,7 @@ import { AttendanceRuleDefinitionRequest } from "../models/attendance-rule-defin
 import { UserDto } from "../models/user-dto.model";
 import { UserLeaveRequest } from "../models/user-leave-request";
 import { UserDocumentsDetailsRequest } from "../models/user-documents-details-request";
+import { ObserveOnMessage } from "rxjs/internal/operators/observeOn";
 
 @Injectable({
   providedIn: "root",
@@ -45,9 +46,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  // private baseUrl = "http://localhost:8080/api/v2"
+  private baseUrl = "http://localhost:8080/api/v2"
 
-  private baseUrl = "https://backend.hajiri.work/api/v2";
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -115,6 +116,15 @@ export class DataService {
   getShiftTimings(): Observable<any> {
     return this.httpClient.get<ShiftTimings[]>(`${this.baseUrl}/organization-shift-timing/get/last-detail`);
   }
+
+  getAllShiftTimings(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/get/all`);
+  }
+
+  getAllShiftType(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/shift-type-get-all`);
+  }
+  
   //User module
   getUsersByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
     const params = new HttpParams()
@@ -769,4 +779,6 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
 
     return this.httpClient.put<any>(`${this.baseUrl}/users/select-for-attendance-rule`, {}, {params});
   }
+
+  
 }

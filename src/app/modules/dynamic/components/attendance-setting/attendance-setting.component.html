@@ -153,24 +153,24 @@
                         <div class="">
                             <div class="add-filtter d-flex align-items-center justify-content-end">
                               
-                               <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#shiftTime"><i class="bi bi-plus"></i> Add Shift Time </a>                
+                               <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="getShiftTypeMethodCall()"><i class="bi bi-plus"></i> Add Shift Time </a>                
     
                             </div>
 
 
-                            <div class="rule-main-box mt-3">
+                            <div class="rule-main-box mt-3" *ngFor="let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList">
                                 <div class="d-flex align-items-center attendance-boxx">
                                     <div class="late-rule" style="width:70%">
-                                        <h5> Shift Type</h5>
+                                        <h5>{{organizationShiftTimingWithShiftTypeResponse.shiftType.name}}</h5>
                                     </div>
                                   
                                 </div>
                               
 
 
-                                <div class="row mt-2 p-2">
+                                <div class="row mt-2 p-2" *ngFor="let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList">
                                     <div class="col-md-12 d-flex justify-content-between align-items-center">
-                                        <p class="mb-0 mb-2" style="font-size: 12px; font-weight: 500;">Shift Name </p>
+                                        <p class="mb-0 mb-2" style="font-size: 12px; font-weight: 500;">{{organizationShiftTimingResponse.name}}</p>
                                         <div class="late-btn d-flex align-items-center justify-content-end mb-2"
                                             style="gap: 20px;    margin-right: 15px;">
 
@@ -183,32 +183,32 @@
                                    
                                     <div class="col-md-4">
                                         <div class="shift-deta">
-                                            <p class="mb-0">In Time | <span style="color: #009688;">10:00 AM</span> </p>
+                                            <p class="mb-0">In Time | <span style="color: #009688;">{{organizationShiftTimingResponse.inTime}}</span> </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
-                                            <p class="mb-0">Out Time | <span style="color: #009688;">07:00 PM</span> </p>
+                                            <p class="mb-0">Out Time | <span style="color: #009688;">{{organizationShiftTimingResponse.outTime}}</span> </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
-                                            <p class="mb-0">Working Hours | <span style="color: #009688;">08:00</span> </p>
+                                            <p class="mb-0">Working Hours | <span style="color: #009688;">{{organizationShiftTimingResponse.workingHour}}</span> </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
-                                            <p class="mb-0">Break Time | <span style="color: #009688;">01:00 PM</span> </p>
+                                            <p class="mb-0">Break Time | <span style="color: #009688;">{{organizationShiftTimingResponse.startLunch}}</span> </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
-                                            <p class="mb-0">Back Time | <span style="color: #009688;">12:00 PM</span> </p>
+                                            <p class="mb-0">Back Time | <span style="color: #009688;">{{organizationShiftTimingResponse.endLunch}}</span> </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
-                                            <p class="mb-0">Total Break Hours | <span style="color: #009688;"> 01:00</span></p>
+                                            <p class="mb-0">Total Break Hours | <span style="color: #009688;"> {{organizationShiftTimingResponse.lunchHour}}</span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -701,7 +701,7 @@
                             <div class="col-md-6">
                                 <div class="form-fild">
                                     <label for="exampleInputEmail1" class="pb-2">Shift Type</label>
-                                    <div class="dropdown" style="width: 100%;">
+                                    <!-- <div class="dropdown" style="width: 100%;">
 
                                         <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button"
                                             id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -713,8 +713,24 @@
                                             <li><a class="dropdown-item">Night</a></li>
 
                                         </ul>
-                                    </div>
+                                    </div> -->
 
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle new-dropdown"
+                                            type="button" id="dropdownMenuButton1"
+                                            data-bs-toggle="dropdown" aria-expanded="false"
+                                            style=" text-align: left; background-color: white; color: black; border-color: #ced4da; width: 100%;">
+                                            {{ selectedShiftType?.name || "Select shift type" }}
+                                            <i class="bi bi-chevron-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
+                                          <li *ngFor="let shiftType of shiftTypeList">
+                                            <a class="dropdown-item" (click)="selectShiftType(shiftType)">
+                                              {{ shiftType.name }}
+                                            </a>
+                                          </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
 
@@ -722,71 +738,62 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="pb-2">Shift Name</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp" placeholder="Shift name">
+                                        aria-describedby="emailHelp" placeholder="Shift name" [(ngModel)]="organizationShiftTimingRequest.name">
                                 </div>
                             </div>
 
 
 
-                            <div class="col-md-4">
-
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">In Time</label>
-                                    <input type="time" class="form-control" aria-describedby="emailHelp"
-                                        placeholder="In Time">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="inTime" class="pb-2">In Time</label>
+                                        <input id="inTime" type="time" class="form-control" [(ngModel)]="organizationShiftTimingRequest.inTime" (change)="calculateTimes()"
+                                            [class.error]="organizationShiftTimingRequest.errors['inTime']">
+                                    </div>
                                 </div>
-
-                            </div>
-                            <div class="col-md-4">
-
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Out Time</label>
-                                    <input type="time" class="form-control" aria-describedby="emailHelp"
-                                        placeholder="Out Time">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="outTime" class="pb-2">Out Time</label>
+                                        <input id="outTime" type="time" class="form-control" [(ngModel)]="organizationShiftTimingRequest.outTime" (change)="calculateTimes()"
+                                            [class.error]="organizationShiftTimingRequest.errors['outTime']">
+                                    </div>
                                 </div>
-
-                            </div>
-                            <div class="col-md-4">
-
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Working Hours</label>
-                                    <input type="text" class="form-control" aria-describedby="emailHelp"
-                                        placeholder="Working Hours" velue="08:00">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="workingHours" class="pb-2">Working Hours</label>
+                                        <input id="workingHours" type="text" class="form-control" [(ngModel)]="organizationShiftTimingRequest.workingHour" readonly>
+                                    </div>
                                 </div>
-
-                            </div>
-                            <div class="col-md-4">
-
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Break Time</label>
-                                    <input type="time" class="form-control" placeholder="Break Time">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="lunchBreakStartTime" class="pb-2">Lunch Break Start Time</label>
+                                        <input id="lunchBreakStartTime" type="time" class="form-control" [(ngModel)]="organizationShiftTimingRequest.startLunch" (change)="calculateTimes()"
+                                            [class.error]="organizationShiftTimingRequest.errors['lunchBreakStart']">
+                                    </div>
                                 </div>
-
-                            </div>
-                            <div class="col-md-4">
-
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Break End Time</label>
-                                    <input type="time" class="form-control" placeholder="Break End Time">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="lunchBreakEndTime" class="pb-2">Lunch Break End Time</label>
+                                        <input id="lunchBreakEndTime" type="time" class="form-control" [(ngModel)]="organizationShiftTimingRequest.endLunch" (change)="calculateTimes()"
+                                            [class.error]="organizationShiftTimingRequest.errors['lunchBreakEnd']">
+                                    </div>
                                 </div>
-
-                            </div>
-                            <div class="col-md-4">
-
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Total Break Time</label>
-                                    <input type="text" class="form-control" placeholder="Total Break Time">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="totalLunchBreakDuration" class="pb-2">Total Lunch Break Duration</label>
+                                        <input id="totalLunchBreakDuration" type="text" class="form-control" [(ngModel)]="organizationShiftTimingRequest.lunchHour" readonly>
+                                    </div>
                                 </div>
-
                             </div>
+                            
 
                         </div>
                     </div>
 
                     <div class="tab-pane fade" id="stafselection" role="tabpanel">
 
-
- <div class="staf-list-box mt-3">
+                    <div class="staf-list-box mt-3">
 
 
                                         <div class="row mb-3">

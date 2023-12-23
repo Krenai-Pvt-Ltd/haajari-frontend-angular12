@@ -6,7 +6,10 @@ import { AttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule
 import { AttendanceRuleResponse } from 'src/app/models/attendance-rule-response';
 import { AttendanceRuleWithAttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-with-attendance-rule-definition-response';
 import { DeductionType } from 'src/app/models/deduction-type';
+import { OrganizationShiftTimingRequest } from 'src/app/models/organization-shift-timing-request';
+import { OrganizationShiftTimingWithShiftTypeResponse } from 'src/app/models/organization-shift-timing-with-shift-type-response';
 import { OvertimeType } from 'src/app/models/overtime-type';
+import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
 import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
@@ -23,6 +26,7 @@ export class AttendanceSettingComponent implements OnInit {
   constructor(private dataService : DataService, private router: Router, private el: ElementRef) { }
 
   ngOnInit(): void {
+    this.getAllShiftTimingsMethodCall();
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
     
@@ -635,4 +639,95 @@ unselectAllUsers() {
   {
     this.pageNumber=event;
   }
+
+
+
+  // #########################################################
+
+  organizationShiftTimingRequest : OrganizationShiftTimingRequest = new OrganizationShiftTimingRequest();
+  registerOrganizationShiftTimingMethodCall(){
+
+  }
+
+
+  calculateTimes(): void {
+    const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
+
+    // Reset errors and calculated times each time we calculate
+    this.organizationShiftTimingRequest.errors = {};
+    this.organizationShiftTimingRequest.lunchHour = '';
+    this.organizationShiftTimingRequest.workingHour = '';
+
+    // Convert times to Date objects
+    const inDateTime = inTime ? new Date(`1970-01-01T${inTime}:00Z`).getTime() : 0;
+    const outDateTime = outTime ? new Date(`1970-01-01T${outTime}:00Z`).getTime() : 0;
+    const lunchStartDateTime = startLunch ? new Date(`1970-01-01T${startLunch}:00Z`).getTime() : 0;
+    const lunchEndDateTime = endLunch ? new Date(`1970-01-01T${endLunch}:00Z`).getTime() : 0;
+
+    let totalWorkedTime  = 0 ;
+
+    // Check for valid in and out times
+    if (inTime && outTime && outDateTime < inDateTime) {
+      this.organizationShiftTimingRequest.errors['outTime'] = 'Out time must be after in time.';
+    } else if (inTime && outTime) {
+      totalWorkedTime = outDateTime - inDateTime;
+      this.organizationShiftTimingRequest.workingHour = this.formatDuration(totalWorkedTime);
+    }
+
+    // If lunch times are valid, calculate lunch hour and adjust working hours
+    if (startLunch && endLunch) {
+      if (lunchEndDateTime <= lunchStartDateTime) {
+        this.organizationShiftTimingRequest.errors['endLunch'] = 'End lunch time must be after start lunch time.';
+      } else if (lunchStartDateTime < inDateTime || lunchEndDateTime > outDateTime) {
+        this.organizationShiftTimingRequest.errors['startLunch'] = 'Lunch break must be within in and out times.';
+      } else {
+        const lunchBreakDuration = lunchEndDateTime - lunchStartDateTime;
+        this.organizationShiftTimingRequest.lunchHour = this.formatDuration(lunchBreakDuration);
+
+        // Only adjust working hours if they've been calculated (i.e., in and out times were valid)
+        if (this.organizationShiftTimingRequest.workingHour) {
+          const adjustedWorkedTime = totalWorkedTime - lunchBreakDuration;
+          this.organizationShiftTimingRequest.workingHour = this.formatDuration(adjustedWorkedTime);
+        }
+      }
+    }
+  }
+
+  private formatDuration(duration: number): string {
+    const hours = Math.floor(duration / 1000 / 60 / 60);
+    const minutes = Math.floor((duration / 1000 / 60) % 60);
+    return `${this.padZero(hours)}:${this.padZero(minutes)}`;
+  }
+
+  private padZero(num: number): string {
+    return num < 10 ? `0${num}` : num.toString();
+  }
+
+  organizationShiftTimingWithShiftTypeResponseList : OrganizationShiftTimingWithShiftTypeResponse[] = [];
+  getAllShiftTimingsMethodCall(){
+    this.dataService.getAllShiftTimings().subscribe((response) => {
+      this.organizationShiftTimingWithShiftTypeResponseList = response;
+      console.log(this.organizationShiftTimingWithShiftTypeResponseList);
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  shiftTypeList : ShiftType[] = [];
+  getShiftTypeMethodCall(){
+    this.dataService.getAllShiftType().subscribe((response) => {
+      this.shiftTypeList = response;
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    })
+  }
+  
+  selectedShiftType : ShiftType = new ShiftType();
+
+  selectShiftType(shiftType : ShiftType){
+    this.selectedShiftType = shiftType;
+    this.organizationShiftTimingRequest.shiftTypeId = shiftType.id;
+  }
+
 }
