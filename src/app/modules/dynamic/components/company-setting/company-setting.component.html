@@ -2,7 +2,7 @@
     <div class="page-content-tab">
         <div class="container-fluid">
 
-
+            <form #documentsInformationForm="ngForm" ngNativeValidate (ngSubmit)="updateOrganizationPersonalInformationMethodCall()">
             <div class="company-settinh">
 
                <!-- <div class="mb-3 border-buttom-setting d-flex align-items-center justify-content-between" >
@@ -29,19 +29,48 @@
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <div class="form-fild">
-                                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Company name">
-                            </div>
-                        </div>                      
-                             <div class="col-md-6 mt-3">
-                            <div class="form-fild">
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email Id">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Company name" #companyName="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.name" required minlength="2" maxlength="100">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="companyName.errors?.required && (companyName.dirty || companyName.touched)">
+                                    <i class="bi bi-exclamation-circle"></i> Company name is required.
+                                </p>
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="companyName.errors?.minlength && (companyName.dirty || companyName.touched)">
+                                    <i class="bi bi-exclamation-circle"></i> Company name must be at least 2 characters long.
+                                </p>
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="companyName.errors?.maxlength && (companyName.dirty || companyName.touched)">
+                                    <i class="bi bi-exclamation-circle"></i> Company name must not exceed 100 characters.
+                                </p>
                             </div>
                         </div>
+
                         <div class="col-md-6 mt-3">
                             <div class="form-fild">
-                                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Phone number">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email Id" #emailId="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.email" required email>
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="emailId.errors?.required && (emailId.dirty || emailId.touched)">
+                                    <i class="bi bi-exclamation-circle"></i> Email is required.
+                                </p>
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="emailId.errors?.email && (emailId.dirty || emailId.touched)">
+                                    <i class="bi bi-exclamation-circle"></i> Enter a valid email.
+                                </p>
                             </div>
                         </div>
+                        
+                        
+                        <div class="col-md-6 mt-3">
+                            <div class="form-fild">
+                                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone number" #phoneNumber="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.phoneNumber" required minlength="10" maxlength="10" pattern="[0-9]*">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.errors?.required && (phoneNumber.dirty || phoneNumber.touched)">
+                                    <i class="bi bi-exclamation-circle"></i> Phone number is required.
+                                </p>
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.errors?.minlength || phoneNumber.errors?.maxlength">
+                                    <i class="bi bi-exclamation-circle"></i> Phone number should be of 10 digits.
+                                </p>
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.errors?.pattern">
+                                    <i class="bi bi-exclamation-circle"></i> Phone number should in digits.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        
                     </div>
                 </div>
 
@@ -64,7 +93,7 @@
                                 <div class="form-fild">
                                     
 
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Tag line" style="height: 100px !important;"></textarea>
+                                    <textarea class="form-control" id="tagline" name="tagline" rows="3" placeholder="Tag line" style="height: 100px !important;" #tagline="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.tagline"></textarea>
                                 </div>
                             </div>
                             
@@ -91,16 +120,25 @@
                         <div class="row align-items-center">
                             <div class="col-md-4">
                                 <div class="">
-                                    <img src="assets/images/hajiri_logo.png" style="height: 60px;">
+                                    <img [src]="dbImageUrl ? dbImageUrl : 'assets/images/hajiri_logo.png'" id="imagePreview" style="height: 60px;">
                                 </div>
                             </div>
+                            
                             <div class="col-md-8">
                                 <div class="form-fild">
                                     <div  class="importfilebox">
-                                        <input  id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input">
+                                        <input  id="fileSelect" name="fileSelect" type="file" name="img[]" accept=".png, .jpeg, .jpg, .svg, .gif, .webp, .ico" class="input" [disabled]="!isEditMode" (change)="onFileSelected($event)" [(ngModel)]="organizationPersonalInformationRequest.logo">
                                         <label  for="fileSelect">
                                             <i class="bi bi-cloud-arrow-up"></i>
-                                            <span >Click to upload <br> SVG, PNG, JPG or GIF (max. 800px*400px)</span>
+                                            <span *ngIf="!selectedFile && !companyLogoFileName">
+                                            <span >Click to upload <br> SVG, PNG, JPG, JPEG, WEBP, ICO or GIF (max. 800px*400px)</span>
+                                        </span>
+                                        <span *ngIf="selectedFile && !companyLogoFileName">
+                                            {{ selectedFile }}
+                                          </span>
+                                          <span *ngIf="!selectedFile && companyLogoFileName">
+                                            {{ companyLogoFileName }}
+                                          </span>
                                         </label>
                                     </div>
                                 </div>
@@ -116,11 +154,46 @@
                     </div>
     
 
-                    <div class="col-md-11 mt-4 ">
+                    <!-- <div class="col-md-11 mt-4 ">
                         <div class="d-flex align-items-center justify-content-end" style="gap:10px;">
-                            <button type="button" class="btn btn-primary company-save-btn">Save</button>
+                            <button type="button" class="btn btn-primary btn-xs company-save-btn" (click)="updateOrganizationPersonalInformationMethodCall()" [disabled]="isUpdating">
+                                <div *ngIf="isUpdating" class="dot-opacity-loader">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <span *ngIf="!isUpdating">
+                                    Save
+                                </span>
+                            </button>
                         </div>
-                    </div>
+                    </div> -->
+
+                    <div class="row mt-4">
+                        <div class="col-md-11">
+                          <div class="d-flex justify-content-between" style="gap: 10px;">
+                      
+                            
+                            <button type="button" class="btn btn-secondary" (click)="enableEditMode()">
+                                <span>Edit</span>
+                            </button>
+                      
+                            
+                            <button type="submit" class="btn btn-primary company-save-btn" [disabled]="isUpdating">
+                              <div *ngIf="isUpdating" class="dot-opacity-loader">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                              <span *ngIf="!isUpdating">
+                                Save
+                              </span>
+                            </button>
+                      
+                          </div>
+                        </div>
+                      </div>
+                      
                
 
                    
@@ -130,6 +203,7 @@
                </div><!--end row--> 
 
             </div>
+            </form>
         </div>
     </div>
 </div>

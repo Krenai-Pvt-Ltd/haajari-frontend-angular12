@@ -4,6 +4,7 @@ import {
   OnInit,
   ViewChild
 } from "@angular/core";
+import { AngularFireStorage } from "@angular/fire/compat/storage";
 import {
   FormBuilder,
   FormGroup,
@@ -11,6 +12,7 @@ import {
   Validators
 } from "@angular/forms";
 import { Router } from "@angular/router";
+import { finalize } from "rxjs/operators";
 import { DailyQuestionsCheckIn } from "src/app/models/daily-questions-check-in";
 import { DailyQuestionsCheckout } from "src/app/models/daily-questions-check-out";
 import { LoggedInUser } from "src/app/models/logged-in-user";
@@ -52,7 +54,8 @@ export class OnboardingComponent implements OnInit {
     private dataService: DataService,
     private helperService: HelperService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private afStorage: AngularFireStorage
   ) {
     this.shiftTimingsForm = this.fb.group({
       inTime: ["", Validators.required],
@@ -294,6 +297,44 @@ export class OnboardingComponent implements OnInit {
   //       }
   //     );
   // }
+  isFileSelected = false;
+  onFileSelected(event: Event): void {
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList && fileList.length > 0) {
+      const file = fileList[0];
+      this.selectedFile = file;
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const imagePreview: HTMLImageElement = document.getElementById('imagePreview') as HTMLImageElement;
+        imagePreview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      this.uploadFile(file); 
+    } else {
+      this.isFileSelected = false;
+    }
+  }
+
+
+  uploadFile(file: File): void {
+    debugger
+    const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+  
+    task.snapshotChanges().pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe(url => {
+
+          console.log("File URL:", url);
+          this.organizationPersonalInformation.logo=url;
+        });
+      })
+    ).subscribe();
+}
 
   organizationStatusResponse="";
   shiftTimingsStatusResponse="";
@@ -307,6 +348,7 @@ export class OnboardingComponent implements OnInit {
     password: '',
     state: '',
     country: '',
+    logo: '',
     organization: {
       id: 0,
       name: "",
@@ -321,6 +363,8 @@ export class OnboardingComponent implements OnInit {
       configureUrl: ""
     }
   };
+
+  selectedFile: File | null = null;
   registerOrganizationPersonalInformationFun() {
     debugger
     if (this.businessInfoForm.invalid) {
