@@ -16,7 +16,7 @@
 
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                          <label for="relation{{i}}" class="pb-2">Relation with Employee</label>
+                                          <label for="relation{{i}}" class="pb-2">Relation with Employee <span class="text-optional">*</span></label>
                                           <select class="form-control" id="relation{{i}}" name="relationWithEmployee" [(ngModel)]="contact.relationWithEmployee" required #relation="ngModel">
                                             <option value="" disabled>Select Relation</option>
                                             <option value="spouse">Spouse</option>
@@ -33,7 +33,7 @@
                                       </div>
                                       <div class="col-md-4">
                                         <div class="mb-3">
-                                          <label for="name{{i}}" class="pb-2">Name</label>
+                                          <label for="name{{i}}" class="pb-2">Name <span class="text-optional">*</span></label>
                                           <input type="text" class="form-control" id="name{{i}}" name="name" placeholder="Enter Name" [(ngModel)]="contact.contactName" required #name="ngModel">
                                           <!-- Error Message for Name -->
                                           <div *ngIf="name.touched && name.invalid">
@@ -47,7 +47,7 @@
                                       
                                       <div class="col-md-4">
                                         <div class="mb-3">
-                                          <label for="phoneNumber{{i}}" class="pb-2">Phone Number</label>
+                                          <label for="phoneNumber{{i}}" class="pb-2">Phone Number <span class="text-optional">*</span></label>
                                           <input type="text" class="form-control" id="phoneNumber{{i}}" name="phoneNumber" placeholder="Enter Phone Number" [(ngModel)]="contact.contactNumber" required pattern="^\d{10}$" #phoneNumber="ngModel">
                                           <!-- Error Message for Phone Number -->
                                           <div *ngIf="phoneNumber.touched && phoneNumber.invalid">
