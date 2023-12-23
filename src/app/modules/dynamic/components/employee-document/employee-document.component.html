@@ -16,64 +16,111 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet <span class="text-optional">*</span></label>
-                                            <div class="importfilebox">
-                                                <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')" required #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.secondarySchoolCertificate">
-                                                <label for="secondarySchoolCertificateFile">
-                                                    <span *ngIf="!selectedFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
-                                                    <span *ngIf="selectedFileName">{{ selectedFileName }}</span>
-                                                </label>
-                                            </div>
-                                            <!-- Error Message for File Upload -->
-                                            <div *ngIf="secondary.touched">
-                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="secondary.errors?.required">
-                                                    <i class="bi bi-exclamation-circle"></i>
-                                                    Uploading the 10th Marksheet is required.
-                                                </p>
-                                            </div>
+                                          <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet <span class="text-optional">*</span></label>
+                                          <div class="importfilebox">
+                                            <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')" [required]="isSecondarySchoolCertificateRequired" #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.secondarySchoolCertificate">
+                                            <label for="secondarySchoolCertificateFile">
+                                                <!-- No file is selected or uploaded -->
+                                                <span *ngIf="!selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
+                                                  <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF
+                                                </span>
+                                                <!-- File has been previously uploaded and no new file selected -->
+                                                <span *ngIf="secondarySchoolCertificateFileName && !selectedSecondarySchoolFileName">
+                                                  {{ secondarySchoolCertificateFileName }}
+                                                </span>
+                                                <!-- New file is selected and no previous file is uploaded -->
+                                                <span *ngIf="selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
+                                                  {{ selectedSecondarySchoolFileName }}
+                                                </span>
+                                                <!-- New file is selected and there is also a previously uploaded file -->
+                                                <span *ngIf="selectedSecondarySchoolFileName && secondarySchoolCertificateFileName">
+                                                  {{ selectedSecondarySchoolFileName }}
+                                                </span>
+                                              </label>
+                                              
+                                          </div>
+                                          <!-- Error Message for File Upload -->
+                                          <div *ngIf="secondary.touched">
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="secondary.errors?.required">
+                                              <i class="bi bi-exclamation-circle"></i>
+                                              Uploading the 10th Marksheet is required.
+                                            </p>
+                                          </div>
                                         </div>
-                                    </div>
+                                      </div>
+                                      
 
-                                    <div class="col-md-6">
+                                      <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet <span class="text-optional">*</span></label>
-                                            <div class="importfilebox">
-                                                <input id="highSchoolCertificateFile" name="highSchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')" required #highSchool="ngModel" [(ngModel)]="userDocumentsDetailsRequest.highSchoolCertificate">
-                                                <label for="highSchoolCertificateFile">
-                                                    <span *ngIf="!selectedHighSchoolFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
-                                                    <span *ngIf="selectedHighSchoolFileName">{{ selectedHighSchoolFileName }}</span>
-                                                </label>
-                                            </div>
-                                            <!-- Error Message for File Upload -->
-                                            <div *ngIf="highSchool.touched">
-                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highSchool.errors?.required">
-                                                    <i class="bi bi-exclamation-circle"></i>
-                                                    Uploading the 12th Marksheet is required.
-                                                </p>
-                                            </div>
+                                          <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet <span class="text-optional">*</span></label>
+                                          <div class="importfilebox">
+                                            <input id="highSchoolCertificateFile" name="highSchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')" [required]="isHighSchoolCertificateRequired" #highSchool="ngModel" [(ngModel)]="userDocumentsDetailsRequest.highSchoolCertificate">
+                                            <label for="highSchoolCertificateFile">
+                                                <!-- No file is selected or uploaded -->
+                                                <span *ngIf="!selectedHighSchoolFileName && !highSchoolCertificateFileName1">
+                                                  <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF
+                                                </span>
+                                                <!-- File has been previously uploaded and no new file selected -->
+                                                <span *ngIf="highSchoolCertificateFileName1 && !selectedHighSchoolFileName">
+                                                  {{ highSchoolCertificateFileName1 }}
+                                                </span>
+                                                <!-- New file is selected and no previous file is uploaded -->
+                                                <span *ngIf="selectedHighSchoolFileName && !highSchoolCertificateFileName1">
+                                                  {{ selectedHighSchoolFileName }}
+                                                </span>
+                                                <!-- New file is selected and there is also a previously uploaded file -->
+                                                <span *ngIf="selectedHighSchoolFileName && highSchoolCertificateFileName1">
+                                                  {{ selectedHighSchoolFileName }}
+                                                </span>
+                                              </label>
+                                              
+                                          </div>
+                                          <!-- Error Message for File Upload -->
+                                          <div *ngIf="highSchool.touched">
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highSchool.errors?.required">
+                                              <i class="bi bi-exclamation-circle"></i>
+                                              Uploading the 12th Marksheet is required.
+                                            </p>
+                                          </div>
                                         </div>
-                                    </div>
+                                      </div>
+                                      
 
-
-                                    <div class="col-md-6">
+                                      <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree <span class="text-optional">*</span></label>
-                                            <div class="importfilebox">
-                                                <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" required #highestQualificationDegree="ngModel" [(ngModel)]="userDocumentsDetailsRequest.highestQualificationDegree">
-                                                <label for="highestQualificationDegreeFile">
-                                                    <span *ngIf="!selectedHighestQualificationDegreeFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
-                                                    <span *ngIf="selectedHighestQualificationDegreeFileName">{{ selectedHighestQualificationDegreeFileName }}</span>
-                                                </label>
-                                            </div>
-                                            <!-- Error Message for File Upload -->
-                                            <div *ngIf="highestQualificationDegree.touched">
-                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highestQualificationDegree.errors?.required">
-                                                    <i class="bi bi-exclamation-circle"></i>
-                                                    Uploading the Highest Qualification Degree is required.
-                                                </p>
-                                            </div>
+                                          <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree <span class="text-optional">*</span></label>
+                                          <div class="importfilebox">
+                                            <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" [required]="isHighestQualificationDegreeRequired" #highestQualificationDegree="ngModel" [(ngModel)]="userDocumentsDetailsRequest.highestQualificationDegree">
+                                            <label for="highestQualificationDegreeFile">
+                                                <!-- No file is selected or uploaded -->
+                                                <span *ngIf="!selectedHighestQualificationDegreeFileName && !highestQualificationDegreeFileName1">
+                                                  <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF
+                                                </span>
+                                                <!-- File has been previously uploaded and no new file selected -->
+                                                <span *ngIf="highestQualificationDegreeFileName1 && !selectedHighestQualificationDegreeFileName">
+                                                  {{ highestQualificationDegreeFileName1 }}
+                                                </span>
+                                                <!-- New file is selected and no previous file is uploaded -->
+                                                <span *ngIf="selectedHighestQualificationDegreeFileName && !highestQualificationDegreeFileName1">
+                                                  {{ selectedHighestQualificationDegreeFileName }}
+                                                </span>
+                                                <!-- New file is selected and there is also a previously uploaded file -->
+                                                <span *ngIf="selectedHighestQualificationDegreeFileName && highestQualificationDegreeFileName1">
+                                                  {{ selectedHighestQualificationDegreeFileName }}
+                                                </span>
+                                              </label>
+                                              
+                                          </div>
+                                          <!-- Error Message for File Upload -->
+                                          <div *ngIf="highestQualificationDegree.touched">
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highestQualificationDegree.errors?.required">
+                                              <i class="bi bi-exclamation-circle"></i>
+                                              Uploading the Highest Qualification Degree is required.
+                                            </p>
+                                          </div>
                                         </div>
-                                    </div>
+                                      </div>
+                                      
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -81,10 +128,12 @@
                                                 Testimonials/Recommendation <span class="text-optional">(Optional)</span>
                                             </label>
                                             <div class="importfilebox">
-                                                <input id="testimonialReccomendationFile" name="testimonialReccomendationFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'testimonialReccomendation')">
+                                                <input id="testimonialReccomendationFile" name="testimonialReccomendationFile" type="file" class="input" accept="application/pdf" (change)="onFileSelected($event, 'testimonialReccomendation')" #testimonialReccomendation="ngModel" [(ngModel)]="userDocumentsDetailsRequest.testimonialReccomendation">
                                                 <label for="testimonialReccomendationFile">
-                                                    <span *ngIf="!selectedTestimonialReccomendationFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
-                                                    <span *ngIf="selectedTestimonialReccomendationFileName">{{ selectedTestimonialReccomendationFileName }}</span>
+                                                    <span *ngIf="!selectedTestimonialReccomendationFileName && !testimonialReccomendationFileName1"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
+                                                    <span *ngIf="testimonialReccomendationFileName1 && !selectedTestimonialReccomendationFileName" >{{ testimonialReccomendationFileName1 }}</span>
+                                                    <span *ngIf="selectedTestimonialReccomendationFileName && !testimonialReccomendationFileName1">{{ selectedTestimonialReccomendationFileName }}</span>
+                                                    <span *ngIf="selectedTestimonialReccomendationFileName && testimonialReccomendationFileName1">{{ selectedTestimonialReccomendationFileName }}</span>
                                                 </label>
                                             </div>
                                         </div>
@@ -152,16 +201,24 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="emailInput" class="pb-2">Email</label>
-                                                <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Enter your email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail1" required #email1="ngModel">
+                                                <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Enter your email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail1" required email #email1="ngModel">
+                                                
                                                 <!-- Error Message for Email Field -->
                                                 <div *ngIf="email1.touched">
+                                                    <!-- Message for Required Field -->
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email1.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Email is required.
                                                     </p>
+                                                    <!-- Message for Invalid Email Format -->
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email1.errors?.email && !email1.errors?.required">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                        Please enter a valid email address.
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                      </div>
 
                                      <div class="row">
@@ -194,12 +251,18 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorPhoneNumber2" class="pb-2">Phone Number</label>
-                                                <input type="text" class="form-control" id="guarantorPhoneNumber2" name="guarantorPhoneNumber2" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantorPhoneNumber2" required #phone2="ngModel">
+                                                <input type="text" class="form-control" id="guarantorPhoneNumber2" name="guarantorPhoneNumber2" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantorPhoneNumber2" required minlength="10" maxlength="10" pattern="[0-9]*" #phone2="ngModel">
                                                 <!-- Error Message for Phone Number Field -->
                                                 <div *ngIf="phone2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone2.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Phone number is required.
+                                                    </p>
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone2.errors?.minlength || phone2.errors?.maxlength">
+                                                        <i class="bi bi-exclamation-circle"></i> Phone Number should be of 10 digits.
+                                                    </p>
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone2.errors?.pattern">
+                                                        <i class="bi bi-exclamation-circle"></i> Phone Number must be in digits.
                                                     </p>
                                                 </div>
                                             </div>
@@ -209,16 +272,24 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorEmail2" class="pb-2">Email</label>
-                                                <input type="email" class="form-control" id="guarantorEmail2" name="guarantorEmail2" placeholder="Enter your email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail2" required #email2="ngModel">
+                                                <input type="email" class="form-control" id="guarantorEmail2" name="guarantorEmail2" placeholder="Enter your email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail2" required email #email2="ngModel">
+                                                
                                                 <!-- Error Message for Email Field -->
                                                 <div *ngIf="email2.touched">
+                                                    <!-- Message for Required Field -->
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email2.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Email is required.
                                                     </p>
+                                                    <!-- Message for Invalid Email Format -->
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email2.errors?.email && !email2.errors?.required">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                        Please enter a valid email address.
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                                                                 
 
                                      </div>

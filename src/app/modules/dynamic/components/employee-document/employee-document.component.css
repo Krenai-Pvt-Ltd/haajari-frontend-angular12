@@ -319,3 +319,8 @@ a.select-file {
 .text-optional {
     color: grey;
 }
+.center-text {
+    display: block;
+    text-align: center;
+  }
+  
