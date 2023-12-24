@@ -112,6 +112,10 @@ export class DataService {
   getOrganizationDetails(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/organization-personal-information/get`);
   }
+
+  updateOrganizationPersonalInformation(userPersonalInformationRequest: any): Observable<any> {
+    return this.httpClient.put<any>(`${this.baseUrl}/organization-personal-information/register`, userPersonalInformationRequest);
+  }
   //Organization shift-timing module
   registerShiftTimings(shiftTiming: any): Observable<any> {
     return this.httpClient.put(`${this.baseUrl}/organization-shift-timing/register`, shiftTiming);
@@ -583,7 +587,7 @@ export class DataService {
   }
   
   setEmployeeDocumentsDetails(userDocumentsDetailsRequest: UserDocumentsDetailsRequest, userUuid: string): Observable<any> {
-    
+    debugger
     const params = new HttpParams()
     .set("userUuid", userUuid);
     return this.httpClient.put<any>(`${this.baseUrl}/user-documents-details/save/user-documents`, userDocumentsDetailsRequest, {params})

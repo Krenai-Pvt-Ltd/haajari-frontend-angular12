@@ -5,4 +5,5 @@ export class UserExperience {
     lastSalary: string = '';
     lastJobDepartment: string = ''; 
     lastJobPosition: string = ''; 
+    fresher: boolean = true; 
 }

@@ -14,6 +14,7 @@ export class EmployeeDocumentComponent implements OnInit {
 
 
   userDocumentsDetailsRequest: UserDocumentsDetailsRequest = new UserDocumentsDetailsRequest();
+selectedHighSchoolCertificateFileName: any;
   constructor(private router : Router, private dataService : DataService, private afStorage: AngularFireStorage) { }
 
   ngOnInit(): void {
@@ -43,17 +44,18 @@ export class EmployeeDocumentComponent implements OnInit {
   //     this.uploadFile(file, documentType);
   //   }
   // }
-  selectedFileName: string = '';
+  selectedSecondarySchoolFileName: string = '';
   selectedHighSchoolFileName: string = '';
   selectedHighestQualificationDegreeFileName: string = '';
   selectedTestimonialReccomendationFileName: string = '';
+
   onFileSelected(event: Event, documentType: string): void {
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
     if (fileList) {
       const file = fileList[0];
       if (documentType === 'secondarySchoolCertificate') {
-        this.selectedFileName = file.name;
+        this.selectedSecondarySchoolFileName = file.name;
       }
       if (documentType === 'highSchoolCertificate') {
         this.selectedHighSchoolFileName = file.name;
@@ -89,7 +91,7 @@ export class EmployeeDocumentComponent implements OnInit {
         
           this.assignDocumentUrl(documentType, url);
           
-          this.setEmployeeDocumentsDetailsMethodCall();
+          // this.setEmployeeDocumentsDetailsMethodCall();
         });
       })
     ).subscribe();
@@ -112,9 +114,35 @@ export class EmployeeDocumentComponent implements OnInit {
       
     }
   }
-  
+
+  selectedFile: File | null = null;
+  toggle = false;
   setEmployeeDocumentsDetailsMethodCall(): void {
+    debugger
+    this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
+    if(this.selectedFile) {
+     
+      this.uploadFile(this.selectedFile, 'string');
+  }
+
+  this.dataService.setEmployeeDocumentsDetails(this.userDocumentsDetailsRequest, userUuid)
+    
+  .subscribe(
+    (response: UserDocumentsDetailsRequest) => {
+      console.log('Response:', response);
+      console.log(this.userDocumentsDetailsRequest);
+      this.toggle = false
+      // Perform further actions like navigation or state updates
+      this.routeToUserDetails();
+    },
+    (error) => {
+      console.error('Error occurred:', error);
+      this.toggle = false
+    }
+    
+  );
+
     if (!userUuid) {
       console.error('User UUID is missing.');
       return;
@@ -124,45 +152,21 @@ export class EmployeeDocumentComponent implements OnInit {
     this.dataService.markStepAsCompleted(3);
   
     
-    this.dataService.setEmployeeDocumentsDetails(this.userDocumentsDetailsRequest, userUuid)
-      .subscribe(
-        (response: UserDocumentsDetailsRequest) => {
-          console.log('Response:', response);
-          // Perform further actions like navigation or state updates
-        },
-        (error) => {
-          console.error('Error occurred:', error);
-        }
-      );
+    
   }
   
 
+  // Properties to hold filenames extracted from URLs
+secondarySchoolCertificateFileName: string = '';
+highSchoolCertificateFileName1: string = '';
+highestQualificationDegreeFileName1: string = '';
+testimonialReccomendationFileName1: string = '';
 
-  // setEmployeeDocumentsDetailsMethodCall() {
-    
-  //   const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
-  //   this.dataService.markStepAsCompleted(2);
-   
-  //   this.dataService.setEmployeeDocumentsDetails(this.userDocumentsDetailsRequest, userUuid)
-  //     .subscribe(
-  //       (response: UserDocumentsDetailsRequest) => {
-  //         console.log(response);  
-          
-  //         if (!userUuid) {
-  //           // localStorage.setItem('uuidNewUser', response.uuid);
-  //           this.dataService.setEmployeeDocumentsDetails(this.userDocumentsDetailsRequest, userUuid)
-  //           // this.userPersonalDetailsStatus = response.statusResponse;
-  //           // localStorage.setItem('statusResponse', JSON.stringify(this.userPersonalDetailsStatus));
-  //           this.dataService.markStepAsCompleted(2);
-  //         }  
-          
-  //         // this.router.navigate(['/employee-address-detail']);
-  //       },
-  //       (error) => {
-  //         console.error(error);
-  //       }
-  //     );
-  // }
+// Properties to determine if the file input should be required
+isSecondarySchoolCertificateRequired: boolean = true;
+isHighSchoolCertificateRequired: boolean = true;
+isHighestQualificationDegreeRequired: boolean = true;
+
 
 
   getEmployeeDocumentsDetailsMethodCall() {
@@ -174,6 +178,17 @@ export class EmployeeDocumentComponent implements OnInit {
         (response: UserDocumentsDetailsRequest) => {
           this.userDocumentsDetailsRequest = response;
           console.log(response);
+          this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(response.secondarySchoolCertificate);
+        this.isSecondarySchoolCertificateRequired = !response.secondarySchoolCertificate;
+
+        this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(response.highSchoolCertificate);
+        this.isHighSchoolCertificateRequired = !response.highSchoolCertificate;
+
+        this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(response.highestQualificationDegree);
+        this.isHighestQualificationDegreeRequired = !response.highestQualificationDegree;
+
+          this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(response.testimonialReccomendation);
+
           this.dataService.markStepAsCompleted(3);
         },
         (error: any) => {
@@ -186,4 +201,21 @@ export class EmployeeDocumentComponent implements OnInit {
       
     }
   } 
+
+  getFilenameFromUrl(url: string): string {
+    if (!url) return '';
+    
+    const decodedUrl = decodeURIComponent(url);
+   
+    const parts = decodedUrl.split('/');
+    
+    const filenameWithQuery = parts.pop() || '';
+    
+    const filename = filenameWithQuery.split('?')[0];
+   
+    const cleanFilename = filename.replace(/^\d+_/,'');
+    return cleanFilename;
+  }
+  
+  
 }
