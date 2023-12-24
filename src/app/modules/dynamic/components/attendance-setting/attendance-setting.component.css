@@ -843,3 +843,7 @@ button.btn.close-btn {
     justify-content: space-between;
     align-items: center;
 }
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
