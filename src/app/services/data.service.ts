@@ -30,6 +30,7 @@ import { UserDto } from "../models/user-dto.model";
 import { UserLeaveRequest } from "../models/user-leave-request";
 import { UserDocumentsDetailsRequest } from "../models/user-documents-details-request";
 import { ObserveOnMessage } from "rxjs/internal/operators/observeOn";
+import { OrganizationShiftTimingRequest } from "../models/organization-shift-timing-request";
 
 @Injectable({
   providedIn: "root",
@@ -113,6 +114,11 @@ export class DataService {
   registerShiftTimings(shiftTiming: any): Observable<any> {
     return this.httpClient.put(`${this.baseUrl}/organization-shift-timing/register`, shiftTiming);
   }
+
+  registerShiftTiming(shiftTimingRequest : any): Observable<any>{
+    return this.httpClient.put<any>(`${this.baseUrl}/organization-shift-timing/register`, shiftTimingRequest);
+  }
+  
   getShiftTimings(): Observable<any> {
     return this.httpClient.get<ShiftTimings[]>(`${this.baseUrl}/organization-shift-timing/get/last-detail`);
   }
@@ -121,10 +127,17 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/get/all`);
   }
 
+  deleteOrganizationShiftTiming(organizationShiftTimingId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set("organization_shift_timing_id", organizationShiftTimingId);
+
+    return this.httpClient.delete<any>(`${this.baseUrl}/organization-shift-timing/delete-by-id`, {params});
+  }
   getAllShiftType(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/shift-type-get-all`);
   }
-  
+
   //User module
   getUsersByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
     const params = new HttpParams()

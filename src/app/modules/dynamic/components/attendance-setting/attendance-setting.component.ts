@@ -7,6 +7,7 @@ import { AttendanceRuleResponse } from 'src/app/models/attendance-rule-response'
 import { AttendanceRuleWithAttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-with-attendance-rule-definition-response';
 import { DeductionType } from 'src/app/models/deduction-type';
 import { OrganizationShiftTimingRequest } from 'src/app/models/organization-shift-timing-request';
+import { OrganizationShiftTimingResponse } from 'src/app/models/organization-shift-timing-response';
 import { OrganizationShiftTimingWithShiftTypeResponse } from 'src/app/models/organization-shift-timing-with-shift-type-response';
 import { OvertimeType } from 'src/app/models/overtime-type';
 import { ShiftType } from 'src/app/models/shift-type';
@@ -404,21 +405,6 @@ export class AttendanceSettingComponent implements OnInit {
     this.selectedOccurenceDropdownForFullDaySalrayDeduction = occurrenceType;
     this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceType = occurrenceType;
   }
-
-  // Staff selection:
-  // selectedStaffs: Staff[] = [];
-
-  // updateSelectedStaffs() {
-  //   this.selectedStaffs = this.staffs.filter(staff => staff.selected);
-  // }
-
-  // selectAll(event: Event) {
-  //   const input = event.target as HTMLInputElement;
-  //   const isChecked = input.checked;
-  //   this.staffs.forEach(staff => staff.selected = isChecked);
-  //   this.updateSelectedStaffs();
-  //   console.log(this.selectedStaffs);
-  // }
   
 
   selectedStaffsUuids : string[] = [];
@@ -467,8 +453,6 @@ export class AttendanceSettingComponent implements OnInit {
       this.activeModel2 = false;
     }
   }
-
-
 
 
   // #####################################################
@@ -644,44 +628,84 @@ unselectAllUsers() {
 
   // #########################################################
 
-  organizationShiftTimingRequest : OrganizationShiftTimingRequest = new OrganizationShiftTimingRequest();
-  registerOrganizationShiftTimingMethodCall(){
+  @ViewChild("closeShiftTimingModal") closeShiftTimingModal !: ElementRef;
 
+  registerOrganizationShiftTimingMethodCall(){
+    this.clearShiftTimingModel();
+
+    this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
+
+    this.dataService.registerShiftTiming(this.organizationShiftTimingRequest).subscribe((response) => {
+      console.log(response);
+      this.closeShiftTimingModal.nativeElement.click();
+      location.reload();
+    }, (error) => {
+      console.log(error);
+    })
   }
 
+  clearShiftTimingModel(){
+    this.organizationShiftTimingRequest = new OrganizationShiftTimingRequest();
+    this.selectedShiftType = new ShiftType();
+  }
+  organizationShiftTimingRequest : OrganizationShiftTimingRequest = new OrganizationShiftTimingRequest();
 
+  submitShiftTimingForm(): void {
+    this.calculateTimes();
+    if (this.isValidForm()) {
+        // Proceed with form submission logic
+    } else {
+        // Handle invalid form case
+    }
+  }
+
+  organizationShiftTimingValidationErrors: { [key: string]: string } = {};
   calculateTimes(): void {
     const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
 
     // Reset errors and calculated times each time we calculate
-    this.organizationShiftTimingRequest.errors = {};
+    this.organizationShiftTimingValidationErrors = {};
     this.organizationShiftTimingRequest.lunchHour = '';
     this.organizationShiftTimingRequest.workingHour = '';
 
     // Convert times to Date objects
     const inDateTime = inTime ? new Date(`1970-01-01T${inTime}:00Z`).getTime() : 0;
     const outDateTime = outTime ? new Date(`1970-01-01T${outTime}:00Z`).getTime() : 0;
-    const lunchStartDateTime = startLunch ? new Date(`1970-01-01T${startLunch}:00Z`).getTime() : 0;
-    const lunchEndDateTime = endLunch ? new Date(`1970-01-01T${endLunch}:00Z`).getTime() : 0;
+    const startLunchDateTime = startLunch ? new Date(`1970-01-01T${startLunch}:00Z`).getTime() : 0;
+    const endLunchDateTime = endLunch ? new Date(`1970-01-01T${endLunch}:00Z`).getTime() : 0;
 
     let totalWorkedTime  = 0 ;
 
     // Check for valid in and out times
     if (inTime && outTime && outDateTime < inDateTime) {
-      this.organizationShiftTimingRequest.errors['outTime'] = 'Out time must be after in time.';
+      this.organizationShiftTimingValidationErrors['outTime'] = 'Out time must be after in time.';
     } else if (inTime && outTime) {
       totalWorkedTime = outDateTime - inDateTime;
       this.organizationShiftTimingRequest.workingHour = this.formatDuration(totalWorkedTime);
     }
 
+    // If lunch start time isn't within in and out times
+    if(startLunch && inTime && outTime){
+      if(startLunchDateTime < inDateTime || startLunchDateTime > outDateTime){
+        this.organizationShiftTimingValidationErrors['startLunch'] = 'Lunch time should be within in and out times.';
+      }
+    }
+    
+    // If lunch end time isn't within in and out times
+    if(endLunch && inTime && outTime){
+      if(endLunchDateTime < inDateTime || endLunchDateTime > outDateTime){
+        this.organizationShiftTimingValidationErrors['endLunch'] = 'Lunch time should be within in and out times.';
+      }
+    }
+
     // If lunch times are valid, calculate lunch hour and adjust working hours
     if (startLunch && endLunch) {
-      if (lunchEndDateTime <= lunchStartDateTime) {
-        this.organizationShiftTimingRequest.errors['endLunch'] = 'End lunch time must be after start lunch time.';
-      } else if (lunchStartDateTime < inDateTime || lunchEndDateTime > outDateTime) {
-        this.organizationShiftTimingRequest.errors['startLunch'] = 'Lunch break must be within in and out times.';
+      if (endLunchDateTime <= startLunchDateTime) {
+        this.organizationShiftTimingValidationErrors['endLunch'] = 'Please enter a valid back time from lunch.';
+      } else if (startLunchDateTime >= endLunchDateTime) {
+        this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
       } else {
-        const lunchBreakDuration = lunchEndDateTime - lunchStartDateTime;
+        const lunchBreakDuration = endLunchDateTime - startLunchDateTime;
         this.organizationShiftTimingRequest.lunchHour = this.formatDuration(lunchBreakDuration);
 
         // Only adjust working hours if they've been calculated (i.e., in and out times were valid)
@@ -702,6 +726,29 @@ unselectAllUsers() {
   private padZero(num: number): string {
     return num < 10 ? `0${num}` : num.toString();
   }
+
+  private isValidForm(): boolean {
+    return Object.keys(this.organizationShiftTimingValidationErrors).length === 0;
+  }
+
+
+  @ViewChild("staffActiveTabInShiftTiming") staffActiveTabInShiftTiming !: ElementRef;
+
+  staffActiveTabInShiftTimingMethod(){
+
+    if(this.isValidForm()){
+      this.staffActiveTabInShiftTiming.nativeElement.click();
+    }
+    
+  }
+
+  @ViewChild("shiftTimingActiveTab") shiftTimingActiveTab !: ElementRef;
+
+  shiftTimingActiveTabMethod(){
+    this.shiftTimingActiveTab.nativeElement.click();
+  }
+
+
 
   organizationShiftTimingWithShiftTypeResponseList : OrganizationShiftTimingWithShiftTypeResponse[] = [];
   getAllShiftTimingsMethodCall(){
@@ -730,4 +777,28 @@ unselectAllUsers() {
     this.organizationShiftTimingRequest.shiftTypeId = shiftType.id;
   }
 
+
+
+  // ##############################################################
+  updateOrganizationShiftTiming(organizationShiftTimingResponse : OrganizationShiftTimingResponse){
+    debugger
+    this.organizationShiftTimingRequest = organizationShiftTimingResponse;
+    this.organizationShiftTimingRequest.shiftTypeId = organizationShiftTimingResponse.shiftType.id;
+
+    this.getShiftTypeMethodCall();
+    this.selectedShiftType = organizationShiftTimingResponse.shiftType;
+    this.getUserByFiltersMethodCall();
+
+  }
+
+
+  deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId : number){
+    this.dataService.deleteOrganizationShiftTiming(organizationShiftTimingId).subscribe((response)=>{
+      console.log(response);
+      location.reload();
+    }, (error) => {
+      console.log(error);
+    })
+  }
+  
 }

@@ -1,3 +1,5 @@
+import { ShiftType } from "./shift-type";
+
 export class OrganizationShiftTimingResponse {
     id : number = 0;
     name : string = '';
@@ -7,6 +9,7 @@ export class OrganizationShiftTimingResponse {
     endLunch : string = '';
     workingHour : string = '';
     lunchHour : string = '';
-    shiftTypeId : number = 0;
+    shiftType : ShiftType = new ShiftType();
+    userUuids : string[] = [];
 }
 

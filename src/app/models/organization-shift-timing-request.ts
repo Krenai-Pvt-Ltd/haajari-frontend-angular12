@@ -6,8 +6,9 @@ export class OrganizationShiftTimingRequest {
     endLunch : string = '';
     workingHour : string = '';
     lunchHour : string = '';
-    shiftTypeId : number = 0;
+    shiftTypeId ?: number = 0;
+    userUuids : string[] = [];
 
-    errors: { [key: string]: string } = {};
+    
 
 }
