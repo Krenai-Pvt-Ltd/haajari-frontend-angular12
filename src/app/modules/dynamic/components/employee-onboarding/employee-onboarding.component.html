@@ -586,12 +586,15 @@
                   <div class="col-md-12">
                     <div class="mb-3">
                       <label for="phoneNumber" class="pb-2">Phone Number <span class="text-optional"> (Optional)</span></label>
-                      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone number" [(ngModel)]="userPersonalInformationRequest.phoneNumber" pattern="^\d{10}$" #phoneNumberField="ngModel">
+                      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone number" [(ngModel)]="userPersonalInformationRequest.phoneNumber" minlength="10" maxlength="10" pattern="[0-9]*" #phoneNumberField="ngModel">
                       <!-- Error Message for Phone Number -->
                       <div *ngIf="phoneNumberField.touched && phoneNumberField.errors?.pattern">
                         <p class="errortxt mt-2 mb-0" style="color:red">
                           <i class="bi bi-exclamation-circle"></i>
                           Enter a valid 10-digit phone number.
+                        </p>
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumberField.errors?.minlength || phoneNumberField.errors?.maxlength">
+                            <i class="bi bi-exclamation-circle"></i> Phone number should be of 10 digits.
                         </p>
                       </div>
                     </div>
