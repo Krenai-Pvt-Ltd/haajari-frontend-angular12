@@ -278,7 +278,7 @@
                                                                 (change)="setSandwichRules('Count')"
                                                                 [(ngModel)]="leaveSettingResponse.sandwichRules"
                                                                 class="d-none">
-                                                            <label for="countRadio">Count</label>
+                                                            <label for="countRadio" [class.selected]="leaveSettingResponse.sandwichRules === 'Count'">Count</label>
                                                         </div>
                                                         <div class="count-box">
                                                             <input type="radio" name="sandwichLeaves" id="ignoreRadio"
