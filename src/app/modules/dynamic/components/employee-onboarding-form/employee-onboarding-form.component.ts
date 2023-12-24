@@ -124,7 +124,10 @@ debugger
             (response: UserPersonalInformationRequest) => {
                 this.userPersonalInformationRequest = response;
                 console.log(response);
-                this.dataService.markStepAsCompleted(1);
+                if(response.dob){
+                  this.dataService.markStepAsCompleted(1);
+                }
+                
 
                
                 if (response.image) {
