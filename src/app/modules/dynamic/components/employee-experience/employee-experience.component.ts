@@ -42,6 +42,26 @@ export class EmployeeExperienceComponent implements OnInit {
   addExperience(): void {
     this.userExperiences.push(new UserExperience()); 
   }
+
+  addMoreExperience(
+    companyName: string,
+    employementDuration: string,
+    jobResponisibilities: string,
+    lastSalary: string,
+    lastJobDepartment: string,
+    lastJobPosition: string
+  ): void {
+    const newUserExperience = new UserExperience();
+    newUserExperience.companyName = companyName;
+    newUserExperience.employementDuration = employementDuration;
+    newUserExperience.jobResponisibilities = jobResponisibilities;
+    newUserExperience.lastSalary = lastSalary;
+    newUserExperience.lastJobDepartment = lastJobDepartment;
+    newUserExperience.lastJobPosition = lastJobPosition;
+    
+    this.userExperiences.push(newUserExperience);
+  }
+  
   
   prepareUserExperienceDetailRequest(): UserExperience[] {
     return this.userExperiences;
@@ -67,6 +87,7 @@ export class EmployeeExperienceComponent implements OnInit {
       .subscribe(
         response => { 
           console.log('Response:', response);
+          this.dataService.markStepAsCompleted(5);
           this.routeToUserDetails();
           this.toggle = false;
         },

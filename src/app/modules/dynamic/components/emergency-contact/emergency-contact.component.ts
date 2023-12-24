@@ -1,5 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
 import { DataService } from 'src/app/services/data.service';
 
@@ -35,6 +37,7 @@ export class EmergencyContactComponent implements OnInit {
   showSuccess() {
     this.displaySuccessModal = true;
     this.cd.detectChanges();
+    setTimeout(() => this.displaySuccessModal = false, 3000);
   }
 
   userEmergencyContactDetailsStatus = "";
@@ -85,4 +88,6 @@ export class EmergencyContactComponent implements OnInit {
       console.error('uuidNewUser not found in localStorage');
     }
   }
+
+
 }
