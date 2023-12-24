@@ -29,8 +29,15 @@ import { AttendanceRuleDefinitionRequest } from "../models/attendance-rule-defin
 import { UserDto } from "../models/user-dto.model";
 import { UserLeaveRequest } from "../models/user-leave-request";
 import { UserDocumentsDetailsRequest } from "../models/user-documents-details-request";
+
+import { LeaveSettingResponse } from "../models/leave-setting-response";
+import { LeaveSettingCategoryResponse } from "../models/leave-categories-response";
+import { UserLeaveSettingRule } from "../models/user-leave-setting-rule";
+import { FullLeaveSettingResponse } from "../models/full-leave-setting-response";
+
 import { ObserveOnMessage } from "rxjs/internal/operators/observeOn";
 import { OrganizationShiftTimingRequest } from "../models/organization-shift-timing-request";
+
 
 @Injectable({
   providedIn: "root",
@@ -797,5 +804,63 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.put<any>(`${this.baseUrl}/users/select-for-attendance-rule`, {}, {params});
   }
 
-  
+
+  // ###################
+
+  registerLeaveSettingTemplate(leaveSettingResponse: LeaveSettingResponse): Observable<LeaveSettingResponse> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.httpClient.put<LeaveSettingResponse>(
+      `${this.baseUrl}/leave-setting/register-leave-template`,
+      leaveSettingResponse,
+      { headers }
+    );
+  }
+
+  registerLeaveCategories(leaveSettingCategoryResponse: LeaveSettingCategoryResponse[], leaveSettingId: number): Observable<LeaveSettingCategoryResponse[]> {
+    return this.httpClient.put<LeaveSettingCategoryResponse[]>(`${this.baseUrl}/leave-categories-controller/register-leave-categories?leaveSettingId=${leaveSettingId}`, leaveSettingCategoryResponse);
+  }
+
+  // registerUserOfLeaveSetting(userLeaveSettingRule: UserLeaveSettingRule): Observable<UserLeaveSettingRule> {
+  //   const url = `${this.baseUrl}/user-leave-rule/register-leave-user-rule`;
+  //   return this.httpClient.put<UserLeaveSettingRule>(url, userLeaveSettingRule);
+  // }
+
+  registerUserOfLeaveSetting(leaveSettingId: number, userUuids: string[]): Observable<any> {
+    const url = `${this.baseUrl}/user-leave-rule/register-leave-user-rule`;
+    const payload = {
+      leaveSettingId,
+      userUuids
+    };
+    return this.httpClient.put(url, payload);
+  }
+
+  getFullLeaveSettingInformation(): Observable<FullLeaveSettingResponse[]> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+      // Add any additional headers as needed
+    });
+
+    // const params = { orgUuid };
+
+    return this.httpClient.get<FullLeaveSettingResponse[]>(`${this.baseUrl}/user-leave-rule/get/leave-full-rule`, { headers});
+  }
+
+  getLeaveSettingInformationById(leaveSettingId: number): Observable<FullLeaveSettingResponse> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+      // Add any additional headers as needed
+    });
+
+    const params = { leaveSettingId: leaveSettingId.toString() };
+
+    return this.httpClient.get<FullLeaveSettingResponse>(`${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`, { headers, params });
+  }
+
+  deleteLeaveSettingRule(leaveSettingId: number): Observable<void> {
+    const url = `${this.baseUrl}/user-leave-rule/delete-leave-setting-rule?leaveSettingId=${leaveSettingId}`;
+    return this.httpClient.delete<void>(url);
+  }
+
+
 }
