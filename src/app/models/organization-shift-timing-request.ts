@@ -9,6 +9,4 @@ export class OrganizationShiftTimingRequest {
     shiftTypeId ?: number = 0;
     userUuids : string[] = [];
 
-    
-
 }
