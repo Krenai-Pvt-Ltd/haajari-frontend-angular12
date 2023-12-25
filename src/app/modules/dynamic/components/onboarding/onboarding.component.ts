@@ -684,30 +684,6 @@ export class OnboardingComponent implements OnInit {
       this.shiftSetInvalidToggle = true;
       return;
     }
-    // if(this.loginArray.inTime > this.loginArray.outTime){
-    //   this.outTimeError = true;
-    //   this.saveShiftFlagError = true;
-    // }
-    // if (this.loginArray.startLunch >= this.loginArray.outTime) {
-    //   this.startLunchError = true;
-    //   this.saveShiftFlagError = true;
-    //   // this.loginArray.startLunch="";
-    // } else {
-    //   this.startLunchError = false;
-    // }
-
-    // if (this.loginArray.endLunch <= this.loginArray.startLunch || this.loginArray.endLunch > this.loginArray.outTime) {
-    //   this.endLunchError = true;
-    //   this.saveShiftFlagError = true;
-    //   // this.loginArray.endLunch="";
-    // } else {
-    //   this.endLunchError = false;
-    // }
-
-    // if (this.startLunchError || this.endLunchError || this.outTimeError) {
-    //   this.saveShiftFlagError = true;
-    //   return; // Prevent form submission
-    // }
       this.calculateHours();
       console.log(this.loginArray);
       this.onSaveShiftTimings();
