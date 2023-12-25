@@ -21,12 +21,12 @@
                     <div class="col-md-6">
 
 
-                        <div class="row mb-3">
-                            <div class="attendance-settin-list">
-                                <div class="categryCustomizecard d-flex pointer attendance-active">
+                        <!-- <div class="row mb-3">
+                            <div class="attendance-settin-list" *ngFor="let attendanceMode of attendanceModeList">
+                                <div class="categryCustomizecard d-flex pointer attendance-active" (click)="updateAttendanceModeMethodCall(attendanceMode.id)">
                                     <div class="categryCustomizeinfo">
                                         <label for="customizecategory1" class="mb-0">
-                                            <h3> Manual Attendance</h3>
+                                            <h3> {{attendanceMode.name}}</h3>
                                             <p> Large images are best for products where every detail is a part of the
                                                 product’s value.</p>
                                         </label>
@@ -35,32 +35,27 @@
                                         <i class="bi bi-check2"></i>
                                     </div>
                                 </div>
-                                <div class="categryCustomizecard d-flex pointer">
+                            </div>
+                        </div> -->
+
+                        <div class="row mb-3">
+                            <div class="attendance-settin-list" *ngFor="let attendanceMode of attendanceModeList">
+                                <div class="categryCustomizecard d-flex pointer" 
+                                     [ngClass]="{'attendance-active': attendanceMode.id === selectedAttendanceModeId}" 
+                                     (click)="updateAttendanceModeMethodCall(attendanceMode.id)">
                                     <div class="categryCustomizeinfo">
                                         <label for="customizecategory1" class="mb-0">
-                                            <h3> Staff Attendance With Location</h3>
-                                            <p> Large images are best for products where every detail is a part of the
-                                                product’s value.</p>
+                                            <h3> {{attendanceMode.name}}</h3>
+                                            <p> {{attendanceMode.description}}</p>
                                         </label>
                                     </div>
-                                    <div class="noactive-check">
-                                        <i class="bi bi-check2"></i>
-                                    </div>
-                                </div>
-                                <div class="categryCustomizecard d-flex pointer">
-                                    <div class="categryCustomizeinfo">
-                                        <label for="customizecategory1" class="mb-0">
-                                            <h3> Staff Attendance With Selfie & Location</h3>
-                                            <p> Large images are best for products where every detail is a part of the
-                                                product’s value.</p>
-                                        </label>
-                                    </div>
-                                    <div class="noactive-check">
+                                    <div class="active-check" *ngIf="attendanceMode.id === selectedAttendanceModeId">
                                         <i class="bi bi-check2"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
 
                     <div class="col-md-12">
@@ -79,71 +74,96 @@
 
                     <div class="col-md-6 mt-3 mb-3">
 
+                        <ng-container *ngIf="organizationShiftTimingWithShiftTypeResponseList.length === 0; else organizationShiftTimingWithShiftTypeData">
+                            <div class="empty-file">
 
-                        <div class="">
-                            <div class="add-filtter d-flex align-items-center justify-content-end">
-                              
-                               <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="getShiftTypeMethodCall()" (click)="getUserByFiltersMethodCall()" (click)="clearShiftTimingModel()"><i class="bi bi-plus"></i> Add Shift Time </a>                
+                                <div class="errorboxmain" >
+                                    <div class="errorboxinner">
+                                        <div class="errorboxplaceholder mb-2">
+                                            <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-0">Shift Timings Not Found</p>
+                                        </div>
+                                         <div class="add-filtter mt-2 mb-3" style="text-align: center;">
+                                            <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="getShiftTypeMethodCall()" (click)="getUserByFiltersMethodCall()" (click)="clearShiftTimingModel()"><i class="bi bi-plus"></i> Add Shift Time </a>                
+                                        </div>
+                                    </div>
+                                </div>
     
                             </div>
+                        </ng-container>
 
+                        <ng-template #organizationShiftTimingWithShiftTypeData>
 
-                            <div class="rule-main-box mt-3" *ngFor="let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList">
-                                <div class="d-flex align-items-center attendance-boxx">
-                                    <div class="late-rule" style="width:70%">
-                                        <h5>{{organizationShiftTimingWithShiftTypeResponse.shiftType.name}}</h5>
+                            <div class="">
+                                <div class="add-filtter d-flex align-items-center justify-content-end">
+                                  
+                                   <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="getShiftTypeMethodCall()" (click)="getUserByFiltersMethodCall()" (click)="clearShiftTimingModel()"><i class="bi bi-plus"></i> Add Shift Time </a>                
+        
+                                </div>
+    
+    
+                                <div class="rule-main-box mt-3" *ngFor="let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList">
+                                    <div class="d-flex align-items-center attendance-boxx">
+                                        <div class="late-rule" style="width:70%">
+                                            <h5>{{organizationShiftTimingWithShiftTypeResponse.shiftType.name}}</h5>
+                                        </div>
+                                      
                                     </div>
                                   
-                                </div>
-                              
-
-
-                                <div class="row mt-2 p-2" *ngFor="let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList">
-                                    <div class="col-md-12 d-flex justify-content-between align-items-center">
-                                        <p class="mb-0 mb-2" style="font-size: 12px; font-weight: 500;">{{organizationShiftTimingResponse.name}}</p>
-                                        <div class="late-btn d-flex align-items-center justify-content-end mb-2"
-                                            style="gap: 20px;    margin-right: 15px;">
-
-                                            <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="updateOrganizationShiftTiming(organizationShiftTimingResponse)"><i class="bi bi-pencil-square"></i></a>
-
-                                            <a style="cursor: pointer" class="delete-rule" (click)="deleteOrganizationShiftTimingMethodCall(organizationShiftTimingResponse.id)"><i class="bi bi-trash"></i></a>
-
+    
+    
+                                    <div class="row mt-2 p-2" *ngFor="let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList">
+                                        <div class="col-md-12 d-flex justify-content-between align-items-center">
+                                            <p class="mb-0 mb-2" style="font-size: 12px; font-weight: 500;">{{organizationShiftTimingResponse.name}}</p>
+                                            <div class="late-btn d-flex align-items-center justify-content-end mb-2"
+                                                style="gap: 20px;    margin-right: 15px;">
+    
+                                                <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="updateOrganizationShiftTiming(organizationShiftTimingResponse)"><i class="bi bi-pencil-square"></i></a>
+    
+                                                <a style="cursor: pointer" class="delete-rule" (click)="deleteOrganizationShiftTimingMethodCall(organizationShiftTimingResponse.id)"><i class="bi bi-trash"></i></a>
+    
+                                            </div>
                                         </div>
-                                    </div>
-                                   
-                                    <div class="col-md-4">
-                                        <div class="shift-deta">
-                                            <p class="mb-0">In Time | <span style="color: #009688;">{{organizationShiftTimingResponse.inTime}}</span> </p>
+                                       
+                                        <div class="col-md-4">
+                                            <div class="shift-deta">
+                                                <p class="mb-0">In Time | <span style="color: #009688;">{{organizationShiftTimingResponse.inTime}}</span> </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="shift-deta">
-                                            <p class="mb-0">Out Time | <span style="color: #009688;">{{organizationShiftTimingResponse.outTime}}</span> </p>
+                                        <div class="col-md-4">
+                                            <div class="shift-deta">
+                                                <p class="mb-0">Out Time | <span style="color: #009688;">{{organizationShiftTimingResponse.outTime}}</span> </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="shift-deta">
-                                            <p class="mb-0">Working Hours | <span style="color: #009688;">{{organizationShiftTimingResponse.workingHour}}</span> </p>
+                                        <div class="col-md-4">
+                                            <div class="shift-deta">
+                                                <p class="mb-0">Working Hours | <span style="color: #009688;">{{organizationShiftTimingResponse.workingHour}}</span> </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="shift-deta">
-                                            <p class="mb-0">Break Time | <span style="color: #009688;">{{organizationShiftTimingResponse.startLunch}}</span> </p>
+                                        <div class="col-md-4">
+                                            <div class="shift-deta">
+                                                <p class="mb-0">Break Time | <span style="color: #009688;">{{organizationShiftTimingResponse.startLunch}}</span> </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="shift-deta">
-                                            <p class="mb-0">Back Time | <span style="color: #009688;">{{organizationShiftTimingResponse.endLunch}}</span> </p>
+                                        <div class="col-md-4">
+                                            <div class="shift-deta">
+                                                <p class="mb-0">Back Time | <span style="color: #009688;">{{organizationShiftTimingResponse.endLunch}}</span> </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="shift-deta">
-                                            <p class="mb-0">Total Break Hours | <span style="color: #009688;"> {{organizationShiftTimingResponse.lunchHour}}</span></p>
+                                        <div class="col-md-4">
+                                            <div class="shift-deta">
+                                                <p class="mb-0">Total Break Hours | <span style="color: #009688;"> {{organizationShiftTimingResponse.lunchHour}}</span></p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </ng-template>
+
+
+                        
 
                     </div>
 

@@ -1,6 +1,7 @@
 import { Directive,Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
+import { AttendanceMode } from 'src/app/models/attendance-mode';
 import { AttendanceRuleDefinitionRequest } from 'src/app/models/attendance-rule-definition-request';
 import { AttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-definition-response';
 import { AttendanceRuleResponse } from 'src/app/models/attendance-rule-response';
@@ -24,9 +25,12 @@ export class AttendanceSettingComponent implements OnInit {
 
   readonly OVERTIME_RULE = Key.OVERTIME_RULE;
 
-  constructor(private dataService : DataService, private router: Router, private el: ElementRef) { }
+  constructor(private dataService : DataService, private router: Router, private el: ElementRef) {
+   }
 
   ngOnInit(): void {
+    this.getAttendanceModeMethodCall();
+    // this.getAttendanceModeAllMethodCall();
     this.getAllShiftTimingsMethodCall();
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
@@ -206,6 +210,7 @@ export class AttendanceSettingComponent implements OnInit {
 
     debugger
     this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
+    this.selectedStaffsUuids = attendanceRuleDefinitionResponse.userUuids;
 
     if(attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration){
       this.attendanceRuleDefinitionRequest.customSalaryDeduction.hours  = parseInt(attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration.split(':')[0], 10);
@@ -631,11 +636,12 @@ unselectAllUsers() {
   @ViewChild("closeShiftTimingModal") closeShiftTimingModal !: ElementRef;
 
   registerOrganizationShiftTimingMethodCall(){
-    this.clearShiftTimingModel();
 
+    debugger
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
 
     this.dataService.registerShiftTiming(this.organizationShiftTimingRequest).subscribe((response) => {
+      debugger
       console.log(response);
       this.closeShiftTimingModal.nativeElement.click();
       location.reload();
@@ -784,6 +790,7 @@ unselectAllUsers() {
     debugger
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
     this.organizationShiftTimingRequest.shiftTypeId = organizationShiftTimingResponse.shiftType.id;
+    this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
 
     this.getShiftTypeMethodCall();
     this.selectedShiftType = organizationShiftTimingResponse.shiftType;
@@ -801,4 +808,36 @@ unselectAllUsers() {
     })
   }
   
+
+  attendanceModeList : AttendanceMode[] = [];
+  getAttendanceModeAllMethodCall(){
+    this.dataService.getAttendanceModeAll().subscribe((response) => {
+      this.attendanceModeList = response;
+      console.log(response);
+    }, (error) =>{
+      console.log(error);
+    })
+  }
+
+  updateAttendanceModeMethodCall(attendanceModeId : number){
+    this.dataService.updateAttendanceMode(attendanceModeId).subscribe((response) => {
+      console.log(response);
+      this.getAttendanceModeMethodCall();
+    }, (error)=>{
+      console.log(error);
+    })
+  }
+
+  selectedAttendanceModeId : number = 0;
+  getAttendanceModeMethodCall(){
+    this.dataService.getAttendanceMode().subscribe((response) => {
+      debugger
+      this.selectedAttendanceModeId = response.id;
+      this.getAttendanceModeAllMethodCall();
+      console.log(this.selectedAttendanceModeId);
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
 }

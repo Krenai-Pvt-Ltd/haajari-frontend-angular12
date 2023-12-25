@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { AttendanceWithLatePerformerResponseDto, AttendanceWithTopPerformerResponseDto } from 'src/app/models/Attendance.model';
 import { HelperService } from 'src/app/services/helper.service';
 import * as moment from 'moment';
+import { LateEmployeeAttendanceDetailsResponse } from 'src/app/models/late-employee-attendance-details-response';
 
 @Component({
   selector: 'app-dashboard',
@@ -52,6 +53,8 @@ export class DashboardComponent implements OnInit {
     //   startDate: firstDayOfMonth,
     //   endDate: lastDayOfMonth
     // };
+
+    this.getLateEmployeeAttendanceDetailsMethodCall();
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
     this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
@@ -347,6 +350,16 @@ errorToggleMain: boolean=false;
 
  
   
+  lateEmployeeAttendanceDetailsResponseList : LateEmployeeAttendanceDetailsResponse[] = [];
+
+  getLateEmployeeAttendanceDetailsMethodCall(){
+    this.dataService.getLateEmployeeAttendanceDetails().subscribe((response) => {
+      this.lateEmployeeAttendanceDetailsResponseList = response;
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    })
+  }
   
   
 }
