@@ -44,7 +44,7 @@
                                         </label>
                                     </div>
                                     <div *ngIf="!dbImageUrl && image?.touched">
-                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="image.errors?.required"><i class="bi bi-exclamation-circle"></i> This field is required.</p>
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="image.errors?.required"><i class="bi bi-exclamation-circle"></i> Photograph is required.</p>
                                     </div>
                                     
                                     <!-- Display if image already exists -->
@@ -64,12 +64,12 @@
                               <div class="col-md-6">
                                 <div class="mb-3">
                                   <label for="name" class="pb-2">Name <span class="text-optional">*</span></label>
-                                  <input type="text" class="form-control" id="name" placeholder="Enter name" name="nameF" [(ngModel)]="userPersonalInformationRequest.name" minlength="3" maxlength="50" required #name="ngModel" [disabled]="userPersonalInformationRequest.name">                            
+                                  <input type="text" class="form-control" id="name" placeholder="Enter full name" name="nameF" [(ngModel)]="userPersonalInformationRequest.name" minlength="3" maxlength="50" required #name="ngModel" [disabled]="userPersonalInformationRequest.name">                            
                                 </div>
                                 <div *ngIf="name?.touched ">
                                   <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name.errors?.required"><i
                                           class="bi bi-exclamation-circle"></i>
-                                      This field is required.</p>
+                                      Name is required.</p>
                                   <p class="errortxt mt-2 mb-0 " style="color:red" *ngIf="name.errors?.minlength"><i
                                           class="bi bi-exclamation-circle"></i>
                                       Please enter minimum five characters name.</p>
@@ -83,7 +83,7 @@
                                 </div>
                                 <div *ngIf="email?.touched">
                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email.errors?.required">
-                                        <i class="bi bi-exclamation-circle"></i> This field is required.
+                                        <i class="bi bi-exclamation-circle"></i> Email Id is required.
                                     </p>
                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email.errors?.email">  
                                         <i class="bi bi-exclamation-circle"></i> Please enter a valid email address.
@@ -102,7 +102,7 @@
                               </div>
                               <div *ngIf="phone?.touched">
                                   <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone.errors?.required">
-                                      <i class="bi bi-exclamation-circle"></i> This field is required.
+                                      <i class="bi bi-exclamation-circle"></i> Phone number is required.
                                   </p>
                                   <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone.errors?.minlength || phone.errors?.maxlength">
                                       <i class="bi bi-exclamation-circle"></i> Phone number must be exactly 10 digits.
@@ -122,7 +122,7 @@
                             </div>
                             <div *ngIf="dob?.touched">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="dob.errors?.required">
-                                    <i class="bi bi-exclamation-circle"></i> This field is required.
+                                    <i class="bi bi-exclamation-circle"></i> DOB is required.
                                 </p>
                                
                             </div>
@@ -160,7 +160,7 @@
                         </div>
                         <div *ngIf="fatherName?.touched">
                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="fatherName.errors?.required">
-                                <i class="bi bi-exclamation-circle"></i> This field is required.
+                                <i class="bi bi-exclamation-circle"></i> Father Name is required.
                             </p>
                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="fatherName.errors?.minlength || fatherName.errors?.maxlength">
                                 <i class="bi bi-exclamation-circle"></i> Father's name must be between 3 and 50 characters.
