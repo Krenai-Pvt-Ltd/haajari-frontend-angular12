@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
 import { DataService } from 'src/app/services/data.service';
@@ -39,8 +39,12 @@ export class EmployeeExperienceComponent implements OnInit {
     this.userExperiences.splice(index, 1);
   }
 
+  // @ViewChild("experienceTab") experienceTab!: ElementRef;
+
   addExperience(): void {
     this.userExperiences.push(new UserExperience()); 
+    // this.experienceTab.nativeElement.click();
+
   }
 
   addMoreExperience(
