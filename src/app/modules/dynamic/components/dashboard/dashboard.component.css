@@ -233,8 +233,9 @@ span.members-name {
     text-transform: uppercase;
     height: 78px;
     width: 78px;
-    font-size: 32px;
-    font-weight: 700;
+    font-size: 43px;
+    font-weight: 400;
+    color: #fff;
 }
 
 .errorboxinner{
@@ -269,4 +270,12 @@ span.members-name {
     justify-content: space-between;
     align-items: center;
     text-align: center;
+}
+
+
+.pro-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #303e67;
+    margin-bottom: 5px;
 }
