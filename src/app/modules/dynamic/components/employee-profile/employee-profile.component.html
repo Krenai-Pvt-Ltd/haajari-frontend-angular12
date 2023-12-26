@@ -83,7 +83,7 @@
                                 </div> -->
 
                                 <div class="mt-1">
-                                    <div class="d-flex" style="gap:10px" *ngIf="(user!.employeeOnboardingStatus?.response=='PENDING')">
+                                    <div class="d-flex" style="gap:10px" *ngIf="(user!.employeeOnboardingStatus?.response=='PENDING' || user!.employeeOnboardingStatus?.response=='REQUESTED')">
                                         <button class="btn sand-request approved" type="button" (click)="updateStatusUserByUuid('APPROVED')">Approved</button>
                                         <button class="btn sand-request rejected" type="button" (click)="updateStatusUserByUuid('REJECTED')">Rejected</button>
                                     </div>

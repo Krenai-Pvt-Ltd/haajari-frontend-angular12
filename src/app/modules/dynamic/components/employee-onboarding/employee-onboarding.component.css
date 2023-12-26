@@ -166,6 +166,13 @@
     text-align: center;
 }
 
+.req-per{
+    background-color: blueviolet;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+}
+
 .half-per{
     background-color: orange;
     color: #fff;
