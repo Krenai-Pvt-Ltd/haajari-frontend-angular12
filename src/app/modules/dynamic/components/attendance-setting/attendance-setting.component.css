@@ -843,3 +843,21 @@ button.btn.close-btn {
     justify-content: space-between;
     align-items: center;
 }
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+.attendance-active {
+    border: 2px solid blue;
+}
+
+.attendance-active .active-check {
+    display: block;
+}
+
+.active-check i {
+    color: blue;
+}
+.categryCustomizecard:hover{
+    border: 1px solid rgb(96, 96, 234);
+}

@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
-
+                            </div>
                                 <!-- Experience Fields (Hidden for Freshers) -->
                                 <div class="row" *ngIf="!experience.fresher">
                                     <!-- Company Name Field -->
@@ -135,9 +135,14 @@
                         <div class="row align-items-center">
                             <div class="col-md-6">
                                 <div class="add-filtter">
-                                    <a type="button"  (click)="addExperience()"><i class="bi bi-plus" style="font-size: 23px;"></i> Add More</a>
+
+                                    <a type="button" (click)="addMoreExperience('', '', '', '', '', '')">
+                                        <i class="bi bi-plus" style="font-size: 23px;"></i> Add More
+                                    </a>
+
                                 </div>
                             </div>
+                            
                             <!-- Delete Button -->
                             <div class="col-md-6" style="text-align: right;">
                                 <div class="add-filtter">
@@ -146,7 +151,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                
                         <!-- Navigation Buttons -->
                         <div class="row">
                             <div class="col-md-12 d-flex justify-content-between mt-3">

@@ -540,7 +540,7 @@
     </div>
 </div>
 
-<form #personalInformationForm="ngForm" ngNativeValidate (ngSubmit)="setEmployeePersonalDetailsMethodCall()">
+<form #personalInformationForm="ngForm" ngNativeValidate (ngSubmit)="setEmployeePersonalDetailsMethodCall()" (shown.bs.modal)="resetForm()">
     <div class="form-group">
 <div #inviteModal class="modal fade" id="add-employee" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
     <div class="modal-dialog " role="document">
@@ -556,7 +556,7 @@
                       <label for="name" class="pb-2">Name <span class="text-optional">*</span></label>
                       <input type="text" class="form-control" id="name" name="name" placeholder="Name" [(ngModel)]="userPersonalInformationRequest.name" required #nameField="ngModel">
                       <!-- Error Message for Name -->
-                      <div *ngIf="nameField.touched && nameField.errors?.required">
+                      <div *ngIf="userPersonalInformationRequest.name!=null && nameField.touched && nameField.errors?.required">
                         <p class="errortxt mt-2 mb-0" style="color:red">
                           <i class="bi bi-exclamation-circle"></i>
                           Name is required.
@@ -564,17 +564,33 @@
                       </div>
                     </div>
                   </div>
+                 
                   
                   <div class="col-md-12">
                     <div class="mb-3">
                       <label for="email" class="pb-2">Email Id <span class="text-optional">*</span></label>
-                      <input type="email" class="form-control" id="email" name="email" placeholder="Email id" [(ngModel)]="userPersonalInformationRequest.email" required email #emailField="ngModel">
+                      <input type="email" class="form-control" id="email" name="email" placeholder="Email id" [(ngModel)]="userPersonalInformationRequest.email"  required email #emailField="ngModel">
                       <!-- Error Message for Email -->
-                      <div *ngIf="emailField.touched && emailField.errors?.required">
+                      <!-- <div class="text-danger" style="color:red" *ngIf="emailFlag"> 
+                        <i class="bi bi-exclamation-circle"></i>
+                        Employee with this email already registered                      
+                    </div> -->
+                    <!-- Error Message for Existing Email -->
+                        <div class="text-danger" *ngIf="emailAlreadyExists" style="color:red"> 
+                            <i class="bi bi-exclamation-circle"></i>
+                            Employee with this email already registered           
+                        </div>
+  
+                      <div *ngIf="userPersonalInformationRequest.email!=null && emailField.touched && emailField.errors?.required">
                         <p class="errortxt mt-2 mb-0" style="color:red">
                           <i class="bi bi-exclamation-circle"></i>
                           Email Id is required.
                         </p>
+                       
+                        <!-- <p class="terrortxt mt-2 mb-0" style="color:red" *ngIf="emailFlag">
+                            <i class="bi bi-exclamation-circle"></i>
+                            Employee with this email already registered
+                        </p> -->
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="emailField.errors?.email">
                             <i class="bi bi-exclamation-circle"></i>
                             Please enter a valid email address.
@@ -586,12 +602,15 @@
                   <div class="col-md-12">
                     <div class="mb-3">
                       <label for="phoneNumber" class="pb-2">Phone Number <span class="text-optional"> (Optional)</span></label>
-                      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone number" [(ngModel)]="userPersonalInformationRequest.phoneNumber" pattern="^\d{10}$" #phoneNumberField="ngModel">
+                      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone number" [(ngModel)]="userPersonalInformationRequest.phoneNumber" minlength="10" maxlength="10" pattern="[0-9]*" #phoneNumberField="ngModel">
                       <!-- Error Message for Phone Number -->
                       <div *ngIf="phoneNumberField.touched && phoneNumberField.errors?.pattern">
                         <p class="errortxt mt-2 mb-0" style="color:red">
                           <i class="bi bi-exclamation-circle"></i>
                           Enter a valid 10-digit phone number.
+                        </p>
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumberField.errors?.minlength || phoneNumberField.errors?.maxlength">
+                            <i class="bi bi-exclamation-circle"></i> Phone number should be of 10 digits.
                         </p>
                       </div>
                     </div>

@@ -30,10 +30,20 @@ import { UserDto } from "../models/user-dto.model";
 import { UserLeaveRequest } from "../models/user-leave-request";
 import { UserDocumentsDetailsRequest } from "../models/user-documents-details-request";
 
+import { LeaveSettingResponse } from "../models/leave-setting-response";
+import { LeaveSettingCategoryResponse } from "../models/leave-categories-response";
+import { UserLeaveSettingRule } from "../models/user-leave-setting-rule";
+import { FullLeaveSettingResponse } from "../models/full-leave-setting-response";
+
+import { ObserveOnMessage } from "rxjs/internal/operators/observeOn";
+import { OrganizationShiftTimingRequest } from "../models/organization-shift-timing-request";
+
+
 @Injectable({
   providedIn: "root",
 })
 export class DataService {
+
   private stepsCompletionStatus = new BehaviorSubject<boolean[]>([false, false, false, false, false, false, false]);
   orgId: any;
   constructor(private httpClient: HttpClient) {}
@@ -108,13 +118,38 @@ export class DataService {
   getOrganizationDetails(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/organization-personal-information/get`);
   }
+
+  updateOrganizationPersonalInformation(userPersonalInformationRequest: any): Observable<any> {
+    return this.httpClient.put<any>(`${this.baseUrl}/organization-personal-information/register`, userPersonalInformationRequest);
+  }
   //Organization shift-timing module
   registerShiftTimings(shiftTiming: any): Observable<any> {
     return this.httpClient.put(`${this.baseUrl}/organization-shift-timing/register`, shiftTiming);
   }
+
+  registerShiftTiming(shiftTimingRequest : any): Observable<any>{
+    return this.httpClient.put<any>(`${this.baseUrl}/organization-shift-timing/register`, shiftTimingRequest);
+  }
+  
   getShiftTimings(): Observable<any> {
     return this.httpClient.get<ShiftTimings[]>(`${this.baseUrl}/organization-shift-timing/get/last-detail`);
   }
+
+  getAllShiftTimings(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/get/all`);
+  }
+
+  deleteOrganizationShiftTiming(organizationShiftTimingId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set("organization_shift_timing_id", organizationShiftTimingId);
+
+    return this.httpClient.delete<any>(`${this.baseUrl}/organization-shift-timing/delete-by-id`, {params});
+  }
+  getAllShiftType(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/shift-type-get-all`);
+  }
+
   //User module
   getUsersByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
     const params = new HttpParams()
@@ -769,4 +804,84 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
 
     return this.httpClient.put<any>(`${this.baseUrl}/users/select-for-attendance-rule`, {}, {params});
   }
+
+
+  // ###################
+
+  registerLeaveSettingTemplate(leaveSettingResponse: LeaveSettingResponse): Observable<LeaveSettingResponse> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.httpClient.put<LeaveSettingResponse>(
+      `${this.baseUrl}/leave-setting/register-leave-template`,
+      leaveSettingResponse,
+      { headers }
+    );
+  }
+
+  registerLeaveCategories(leaveSettingCategoryResponse: LeaveSettingCategoryResponse[], leaveSettingId: number): Observable<LeaveSettingCategoryResponse[]> {
+    return this.httpClient.put<LeaveSettingCategoryResponse[]>(`${this.baseUrl}/leave-categories-controller/register-leave-categories?leaveSettingId=${leaveSettingId}`, leaveSettingCategoryResponse);
+  }
+
+  // registerUserOfLeaveSetting(userLeaveSettingRule: UserLeaveSettingRule): Observable<UserLeaveSettingRule> {
+  //   const url = `${this.baseUrl}/user-leave-rule/register-leave-user-rule`;
+  //   return this.httpClient.put<UserLeaveSettingRule>(url, userLeaveSettingRule);
+  // }
+
+  registerUserOfLeaveSetting(leaveSettingId: number, userUuids: string[]): Observable<any> {
+    const url = `${this.baseUrl}/user-leave-rule/register-leave-user-rule`;
+    const payload = {
+      leaveSettingId,
+      userUuids
+    };
+    return this.httpClient.put(url, payload);
+  }
+
+  getFullLeaveSettingInformation(): Observable<FullLeaveSettingResponse[]> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+      // Add any additional headers as needed
+    });
+
+    // const params = { orgUuid };
+
+    return this.httpClient.get<FullLeaveSettingResponse[]>(`${this.baseUrl}/user-leave-rule/get/leave-full-rule`, { headers});
+  }
+
+  getLeaveSettingInformationById(leaveSettingId: number): Observable<FullLeaveSettingResponse> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+      // Add any additional headers as needed
+    });
+
+    const params = { leaveSettingId: leaveSettingId.toString() };
+
+    return this.httpClient.get<FullLeaveSettingResponse>(`${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`, { headers, params });
+  }
+
+  deleteLeaveSettingRule(leaveSettingId: number): Observable<void> {
+    const url = `${this.baseUrl}/user-leave-rule/delete-leave-setting-rule?leaveSettingId=${leaveSettingId}`;
+    return this.httpClient.delete<void>(url);
+  }
+
+  getAttendanceModeAll(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/mode/get/all`);
+  }
+
+  getAttendanceMode() : Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/mode/get`);
+  }
+
+  updateAttendanceMode(attendanceModeId: number): Observable<any> {
+    const params = new HttpParams()
+    .set("attendance_mode_id", attendanceModeId);
+
+    return this.httpClient.put<any>(`${this.baseUrl}/organization/update/attendance-mode`, {}, {params});
+  }
+
+  getLateEmployeeAttendanceDetails(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-late-employee-attendance-details`);
+  }
+
+
+
 }

@@ -324,3 +324,8 @@ a.select-file {
 .text-optional {
     color: grey;
 }
+.filename-display {
+    margin-top: 10px;
+    font-style: italic;
+    color: #666;
+}

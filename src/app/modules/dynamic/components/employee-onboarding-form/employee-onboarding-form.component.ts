@@ -67,12 +67,6 @@ export class EmployeeOnboardingFormComponent implements OnInit {
 
           console.log("File URL:", url);
           this.userPersonalInformationRequest.image=url;
-
-          // Correctly update the image URL in the form group
-          // this.userPersonalInformationRequest.image // Use patchValue to update the form control
-
-          // After upload, update personal details
-          // this.setEmployeePersonalDetailsMethodCall();
         });
       })
     ).subscribe();
@@ -81,23 +75,16 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   
 
 
-
-
    userPersonalDetailsStatus = "";
    selectedFile: File | null = null;
    toggle = false;
   setEmployeePersonalDetailsMethodCall() {
 debugger
-    // if(this.personalInformationForm.invalid) {
-    //   this.personalInformationFormFlag = true;
-    //   return;
-    // }
+    
     this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     this.dataService.markStepAsCompleted(1);
-    // if(this.selectedFile) {
-    //   this.uploadFile(this.selectedFile);
-    // }
+  
     this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
       .subscribe(
         (response: UserPersonalInformationRequest) => {
@@ -119,9 +106,7 @@ debugger
           console.error(error);
           this.toggle = false
         })
-      // } else {
-      //   // Handle invalid form case
-      // }
+     
       ;
   }
   
@@ -139,7 +124,10 @@ debugger
             (response: UserPersonalInformationRequest) => {
                 this.userPersonalInformationRequest = response;
                 console.log(response);
-                this.dataService.markStepAsCompleted(1);
+                if(response.dob){
+                  this.dataService.markStepAsCompleted(1);
+                }
+                
 
                
                 if (response.image) {
