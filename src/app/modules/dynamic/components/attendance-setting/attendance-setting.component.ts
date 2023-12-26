@@ -580,6 +580,7 @@ unselectAllUsers() {
     this.isfullDayy = false;
 
     this.selectedDeductionType = new DeductionType();
+    this.selectedStaffsUuids = [];
 
   }
 
