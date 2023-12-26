@@ -8,92 +8,149 @@
                     <div class="personal-details">
                         <h5>Employee Experience</h5>
                         <p class="mb-0">Fields with * are mandatory</p>
-
-                        <div *ngFor="let experience of userExperiences; let i = index" class="personal-info mt-4">
-                            <div class="row">
-
+                        <form #experienceInformationForm="ngForm" ngNativeValidate (ngSubmit)="setEmployeeExperienceDetailsMethodCall()">
+                            <!-- Loop for Experience Fields -->
+                            <div *ngFor="let experience of userExperiences; let i = index" class="personal-info mt-4">
+                                <div class="row">
+                                <!-- Fresher Radio Button -->
                                 <div class="col-md-3">
                                     <div class="mb-3">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                            <label class="form-check-label" for="exampleRadios1">
+                                            <input class="form-check-input" type="radio" name="experienceType{{i}}" id="fresherRadio{{i}}" [(ngModel)]="experience.fresher" [value]="true">
+                                            <label class="form-check-label" for="fresherRadio{{i}}">
                                               Fresher
                                             </label>
-                                          </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <!-- Experience Radio Button -->
+                                <div class="col-md-3">
                                     <div class="mb-3">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option1" checked>
-                                            <label class="form-check-label" for="exampleRadios2">
+                                            <input class="form-check-input" type="radio" name="experienceType{{i}}" id="experienceRadio{{i}}" [(ngModel)]="experience.fresher" [value]="false">
+                                            <label class="form-check-label" for="experienceRadio{{i}}">
                                                 Experience
                                             </label>
-                                          </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="companyName{{i}}" class="pb-2">Company Name</label>
-                                        <input type="text" class="form-control" id="companyName{{i}}" placeholder="Company name" [(ngModel)]="experience.companyName">
+                            </div>
+                                <!-- Experience Fields (Hidden for Freshers) -->
+                                <div class="row" *ngIf="!experience.fresher">
+                                    <!-- Company Name Field -->
+                                    
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="companyName{{i}}" class="pb-2">Company Name <span class="text-optional">*</span></label>
+                                            <input type="text" class="form-control" id="companyName{{i}}" name="companyName" placeholder="Company name" [(ngModel)]="experience.companyName" required #companyNameField="ngModel">
+                                            
+                                            <!-- Error Message for Company Name Field -->
+                                            <div *ngIf="companyNameField.touched">
+                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="companyNameField.errors?.required">
+                                                    <i class="bi bi-exclamation-circle"></i>
+                                                    Company Name is required.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="employementDuration{{i}}" class="pb-2">Exp. Year</label>
-                                        <input type="text" class="form-control" id="employementDuration{{i}}" placeholder="Exp. Year" [(ngModel)]="experience.employementDuration">
+                                    
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="employementDuration{{i}}" class="pb-2"> Duration <span class="text-optional">*</span></label>
+                                            <input type="text" class="form-control" id="employementDuration{{i}}" name="employementDuration" placeholder="Exp. Year" [(ngModel)]="experience.employementDuration" required #employementDurationField="ngModel">
+                                            <!-- Error Message for Exp. Year -->
+                                            <div *ngIf="employementDurationField.touched">
+                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="employementDurationField.errors?.required">
+                                                    <i class="bi bi-exclamation-circle"></i>
+                                                    Experience Year is required.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="lastJobDepartment{{i}}" class="pb-2">Department</label>
-                                        <input type="text" class="form-control" id="lastJobDepartment{{i}}" placeholder="Department" [(ngModel)]="experience.lastJobDepartment">
+                                    
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="lastJobDepartment{{i}}" class="pb-2">Department <span class="text-optional">*</span></label>
+                                            <input type="text" class="form-control" id="lastJobDepartment{{i}}" name="lastJobDepartment" placeholder="Department" [(ngModel)]="experience.lastJobDepartment" required #lastJobDepartmentField="ngModel">
+                                            <!-- Error Message for Department -->
+                                            <div *ngIf="lastJobDepartmentField.touched">
+                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobDepartmentField.errors?.required">
+                                                    <i class="bi bi-exclamation-circle"></i>
+                                                    Department is required.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="lastSalary{{i}}" class="pb-2">Last Salary</label>
-                                        <input type="text" class="form-control" id="lastSalary{{i}}" placeholder="Last salary" [(ngModel)]="experience.lastSalary">
+                                    
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="lastSalary{{i}}" class="pb-2">Last Salary <span class="text-optional">*</span></label>
+                                            <input type="text" class="form-control" id="lastSalary{{i}}" name="lastSalary" placeholder="Last salary" [(ngModel)]="experience.lastSalary" required #lastSalaryField="ngModel">
+                                            <!-- Error Message for Last Salary -->
+                                            <div *ngIf="lastSalaryField.touched">
+                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastSalaryField.errors?.required">
+                                                    <i class="bi bi-exclamation-circle"></i>
+                                                    Last Salary is required.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="lastJobPosition{{i}}" class="pb-2">Position</label>
-                                        <input type="text" class="form-control" id="lastJobPosition{{i}}" placeholder="Position" [(ngModel)]="experience.lastJobPosition">
+                                    
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="lastJobPosition{{i}}" class="pb-2">Position <span class="text-optional">*</span></label>
+                                            <input type="text" class="form-control" id="lastJobPosition{{i}}" name="lastJobPosition" placeholder="Position" [(ngModel)]="experience.lastJobPosition" required #lastJobPositionField="ngModel">
+                                            <!-- Error Message for Position -->
+                                            <div *ngIf="lastJobPositionField.touched">
+                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobPositionField.errors?.required">
+                                                    <i class="bi bi-exclamation-circle"></i>
+                                                    Position is required.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="lastJobResponsibilities{{i}}" class="pb-2">Responsibilities</label>
-                                        <!-- <input type="text" class="form-control" id="lastJobResponsibilities{{i}}" placeholder="Responsibilities" [(ngModel)]="experience.jobResponisibilities"> -->
-                                        <textarea class="form-control" id="lastJobResponsibilities{{i}}" placeholder="Responsibilities" [(ngModel)]="experience.jobResponisibilities" rows="5"></textarea>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="lastJobResponsibilities{{i}}" class="pb-2">Responsibilities <span class="text-optional">*</span></label>
+                                            <textarea class="form-control" id="lastJobResponsibilities{{i}}" name="lastJobResponsibilities" placeholder="Responsibilities" [(ngModel)]="experience.jobResponisibilities" rows="5" required #lastJobResponsibilitiesField="ngModel"></textarea>
+                                            <!-- Error Message for Responsibilities -->
+                                            <div *ngIf="lastJobResponsibilitiesField.touched">
+                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobResponsibilitiesField.errors?.required">
+                                                    <i class="bi bi-exclamation-circle"></i>
+                                                    Responsibilities are required.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                    
                                 <!-- <div class="col-md-12">
                                     <span class="delete-icon" (click)="deleteExperience(i)">
                                         <i class="bi bi-trash" style="color: red;"></i> Delete
                                     </span>
                                 </div> -->
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center" >
+                            
+                        
+                        <!-- Add More Button -->
+                        <div class="row align-items-center">
                             <div class="col-md-6">
                                 <div class="add-filtter">
-                                    <a type="button"   (click)="addExperience()"><i class="bi bi-plus" style="font-size: 23px;"></i> Add More</a>
+                                    <a type="button" (click)="addMoreExperience('', '', '', '', '', '')">
+                                        <i class="bi bi-plus" style="font-size: 23px;"></i> Add More
+                                    </a>
                                 </div>
-                                <!-- <span class="add-more" (click)="addExperience()">
-                                    <i class="bi bi-plus" style="margin-bottom: 14px;"></i> Add More
-                                </span> -->
                             </div>
+                            
+                            <!-- Delete Button -->
                             <div class="col-md-6" style="text-align: right;">
                                 <div class="add-filtter">
-                                    <a type="button" style="color: red;"><i class="bi bi-trash" style="font-size: 16px;"></i> Delete</a>
+                                    <a type="button" style="color: red;" (click)="deleteExperience(i)"><i class="bi bi-trash" style="font-size: 16px;"></i> Delete</a>
                                 </div>
-                               
                             </div>
                         </div>
-
+                    </div>
+                
+                        <!-- Navigation Buttons -->
                         <div class="row">
                             <div class="col-md-12 d-flex justify-content-between mt-3">
                                 <div class="info-btn d-flex justify-content-start">
@@ -102,12 +159,22 @@
                                     </button>
                                 </div>
                                 <div class="info-btn d-flex justify-content-end">
-                                    <button class="btn btn-primary" type="button" (click)="setEmployeeExperienceDetailsMethodCall(); routeToUserDetails()">
-                                        Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
-                                    </button>
+                                    <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
+                                        <div *ngIf="toggle" class="dot-opacity-loader">
+                                          <span></span>
+                                          <span></span>
+                                          <span></span>
+                                        </div>
+                                        <span *ngIf="!toggle">
+                                          Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                        </span>
+                                      </button>
                                 </div>
                             </div>
                         </div>
+                        </div>
+                        <!-- </div> -->
+                    </form>
                     </div>
                 </div>
             </div>

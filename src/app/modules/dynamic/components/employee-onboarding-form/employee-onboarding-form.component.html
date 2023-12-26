@@ -10,16 +10,16 @@
                 <div class="col-md-12">
                 <div class="persnol-details">
                     <h5>Personal Information</h5>
-                    <p class="mb-0">Fields * with are mandatory </p>
+                    <p class="mb-0">Fields with * are mandatory </p>
                     <!-- <form ngNativeValidate (ngSubmit)="setEmployeePersonalDetailsMethodCall()"> -->
                       <form #personalInformationForm="ngForm" ngNativeValidate (ngSubmit)="setEmployeePersonalDetailsMethodCall()">
                         <div class="form-group">
                         <div class="persnol-info mt-4">
                           <div class="row">
                               
-                                  <div class="col-md-9">
+                                  <!-- <div class="col-md-9">
                                       <div class="mb-3">
-                                          <label for="profilePicture" class="pb-2">Profile Picture</label>
+                                          <label for="profilePicture" class="pb-2">Profile Picture <span class="text-optional">*</span></label>
                                           <div class="importfilebox">
                                               <input id="profilePicture" required type="file" name="img" accept="image/*" class="input" (change)="onFileSelected($event)" #image="ngModel" [(ngModel)]="userPersonalInformationRequest.image">
                                               <label for="profilePicture" class="pl-3">
@@ -30,22 +30,46 @@
                                               <p class="errortxt mt-2 mb-0" style="color:red"  *ngIf="image.errors?.required"><i class="bi bi-exclamation-circle"></i> This field is required.</p>
                                           </div>
                                       </div>
-                                  </div>
+                                  </div> -->
+
+                                  <div class="col-md-9">
+                                    <div class="mb-3">
+                                        <label for="profilePicture" class="pb-2">Profile Picture <span class="text-optional">*</span></label>
+                            
+                                
+                                    <div class="importfilebox">
+                                        <input id="profilePicture" [required]="!dbImageUrl" type="file" name="img" accept="image/*" class="input" (change)="onFileSelected($event)" #image="ngModel" [(ngModel)]="userPersonalInformationRequest.image">
+                                        <label for="profilePicture" class="pl-3">
+                                            <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> SVG, PNG, JPG, or GIF (max. 100px*100px)</span>
+                                        </label>
+                                    </div>
+                                    <div *ngIf="!dbImageUrl && image?.touched">
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="image.errors?.required"><i class="bi bi-exclamation-circle"></i> Photograph is required.</p>
+                                    </div>
+                                    
+                                    <!-- Display if image already exists -->
+                                    <div *ngIf="dbImageUrl">
+                                        <p>Image already uploaded.</p>
+                                    </div>
+                                </div>
+                            </div>
+
                                   <div class="col-md-3">
-                                      <div class="" style="text-align: center; margin-top: 30px; display: flex; align-items: center; justify-content: center;">
-                                          <img id="imagePreview" src="assets/images/user.png" alt="Profile Preview" style="max-width: 100px; max-height: 100px;"/>
-                                      </div>
+                                    <div style="text-align: center; margin-top: 30px; display: flex; align-items: center; justify-content: center;">
+                                        <img id="imagePreview" [src]="dbImageUrl || 'assets/images/user.png'" alt="Profile Preview" style="max-width: 100px; max-height: 100px;"/>
+                                    </div>
                                   </div>
+                                
                              
                               <div class="col-md-6">
                                 <div class="mb-3">
-                                  <label for="name" class="pb-2">Name</label>
-                                  <input type="text" class="form-control" id="name" placeholder="Enter name" name="nameF" [(ngModel)]="userPersonalInformationRequest.name" minlength="3" maxlength="50" required #name="ngModel" [disabled]="userPersonalInformationRequest.email">                            
+                                  <label for="name" class="pb-2">Name <span class="text-optional">*</span></label>
+                                  <input type="text" class="form-control" id="name" placeholder="Enter full name" name="nameF" [(ngModel)]="userPersonalInformationRequest.name" minlength="3" maxlength="50" required #name="ngModel" [disabled]="userPersonalInformationRequest.name">                            
                                 </div>
                                 <div *ngIf="name?.touched ">
                                   <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name.errors?.required"><i
                                           class="bi bi-exclamation-circle"></i>
-                                      This field is required.</p>
+                                      Name is required.</p>
                                   <p class="errortxt mt-2 mb-0 " style="color:red" *ngIf="name.errors?.minlength"><i
                                           class="bi bi-exclamation-circle"></i>
                                       Please enter minimum five characters name.</p>
@@ -54,12 +78,12 @@
 
                               <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="emailField" class="pb-2">Email Id</label>
+                                    <label for="emailField" class="pb-2">Email Id <span class="text-optional">*</span></label>
                                     <input type="email" class="form-control" id="emailField" name="email" aria-describedby="emailHelp" placeholder="Enter email id" [(ngModel)]="userPersonalInformationRequest.email" required #email="ngModel" [disabled]="userPersonalInformationRequest.email != null">
                                 </div>
                                 <div *ngIf="email?.touched">
                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email.errors?.required">
-                                        <i class="bi bi-exclamation-circle"></i> This field is required.
+                                        <i class="bi bi-exclamation-circle"></i> Email Id is required.
                                     </p>
                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email.errors?.email">  
                                         <i class="bi bi-exclamation-circle"></i> Please enter a valid email address.
@@ -71,14 +95,14 @@
 
                             <div class="col-md-6">
                               <div class="mb-3">
-                                  <label for="phoneField" class="pb-2">Phone</label>
+                                  <label for="phoneField" class="pb-2">Phone <span class="text-optional">*</span></label>
                                   <input type="text" class="form-control" id="phoneField" name="phone" aria-describedby="phoneHelp" placeholder="Enter phone" 
                                          [(ngModel)]="userPersonalInformationRequest.phoneNumber"
                                          minlength="10" maxlength="10" required #phone="ngModel" pattern="[0-9]*">
                               </div>
                               <div *ngIf="phone?.touched">
                                   <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone.errors?.required">
-                                      <i class="bi bi-exclamation-circle"></i> This field is required.
+                                      <i class="bi bi-exclamation-circle"></i> Phone number is required.
                                   </p>
                                   <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone.errors?.minlength || phone.errors?.maxlength">
                                       <i class="bi bi-exclamation-circle"></i> Phone number must be exactly 10 digits.
@@ -93,12 +117,12 @@
                             
                           <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="dobField" class="pb-2">DOB</label>
+                                <label for="dobField" class="pb-2">DOB <span class="text-optional">*</span></label>
                                 <input type="date" class="form-control" id="dobField" name="dob" aria-describedby="dobHelp" placeholder="Enter DOB" [(ngModel)]="userPersonalInformationRequest.dob" required #dob="ngModel">
                             </div>
                             <div *ngIf="dob?.touched">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="dob.errors?.required">
-                                    <i class="bi bi-exclamation-circle"></i> This field is required.
+                                    <i class="bi bi-exclamation-circle"></i> DOB is required.
                                 </p>
                                
                             </div>
@@ -106,7 +130,7 @@
                         
                         <div class="col-md-6">
                           <div class="mb-3">
-                              <label for="genderDropdown" class="pb-2">Gender</label>
+                              <label for="genderDropdown" class="pb-2">Gender <span class="text-optional">*</span></label>
                               <div class="dropdown" style="width: 100%;">
                                   <button type="button" id="genderDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="gender">
                                       {{ userPersonalInformationRequest.gender || 'Select Gender' }}
@@ -129,14 +153,14 @@
                       
                       <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="fatherNameField" class="pb-2">Father's Name</label>
+                            <label for="fatherNameField" class="pb-2">Father's Name <span class="text-optional">*</span></label>
                             <input type="text" class="form-control" id="fatherNameField" name="fatherName" aria-describedby="fatherNameHelp" placeholder="Enter father's name" 
                                    [(ngModel)]="userPersonalInformationRequest.fatherName" 
                                    minlength="3" maxlength="50" required #fatherName="ngModel">
                         </div>
                         <div *ngIf="fatherName?.touched">
                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="fatherName.errors?.required">
-                                <i class="bi bi-exclamation-circle"></i> This field is required.
+                                <i class="bi bi-exclamation-circle"></i> Father Name is required.
                             </p>
                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="fatherName.errors?.minlength || fatherName.errors?.maxlength">
                                 <i class="bi bi-exclamation-circle"></i> Father's name must be between 3 and 50 characters.
@@ -147,7 +171,7 @@
 
                     <div class="col-md-6">
                       <div class="mb-3">
-                          <label for="maritalStatusDropdown" class="pb-2">Marital Status</label>
+                          <label for="maritalStatusDropdown" class="pb-2">Marital Status <span class="text-optional">*</span></label>
                           <div class="dropdown" style="width: 100%;">
                               <button type="button" id="maritalStatusDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="maritalStatus">
                                   {{ userPersonalInformationRequest.maritalStatus || 'Select Marital Status' }}
@@ -173,7 +197,7 @@
                         
                   <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="joiningDateField" class="pb-2">Joining Date</label>
+                        <label for="joiningDateField" class="pb-2">Joining Date <span class="text-optional">*</span></label>
                         <input type="date" class="form-control" id="joiningDateField" name="joiningDate" placeholder="Enter joining date" [(ngModel)]="userPersonalInformationRequest.joiningDate" required #joiningDate="ngModel">
                         <div *ngIf="joiningDate.touched">
                             <p class="errortxt mt-2 mb-0" *ngIf="joiningDate.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Joining date is required.</p>
@@ -183,7 +207,7 @@
                 
                 <div class="col-md-6">
                   <div class="mb-3">
-                      <label for="currentSalaryField" class="pb-2">Current Salary</label>
+                      <label for="currentSalaryField" class="pb-2">Current Salary <span class="text-optional">*</span></label>
                       <input type="text" class="form-control" id="currentSalaryField" name="currentSalary" placeholder="Enter current salary" [(ngModel)]="userPersonalInformationRequest.currentSalary" required pattern="^[0-9]*$" #currentSalary="ngModel">
                       <div *ngIf="currentSalary.touched">
                           <p class="errortxt mt-2 mb-0" *ngIf="currentSalary.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Current salary is required.</p>
@@ -194,7 +218,7 @@
               
               <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="departmentField" class="pb-2">Department</label>
+                    <label for="departmentField" class="pb-2">Department <span class="text-optional">*</span></label>
                     <input type="text" class="form-control" id="departmentField" name="department" placeholder="Enter department" [(ngModel)]="userPersonalInformationRequest.department" required #department="ngModel">
                     <div *ngIf="department.touched">
                         <p class="errortxt mt-2 mb-0" *ngIf="department.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Department is required.</p>
@@ -204,7 +228,7 @@
             
             <div class="col-md-6">
               <div class="mb-3">
-                  <label for="positionField" class="pb-2">Current Position</label>
+                  <label for="positionField" class="pb-2">Current Position <span class="text-optional">*</span></label>
                   <input type="text" class="form-control" id="positionField" name="position" placeholder="Enter current position" [(ngModel)]="userPersonalInformationRequest.position" required #position="ngModel">
                   <div *ngIf="position.touched">
                       <p class="errortxt mt-2 mb-0" *ngIf="position.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Position is required.</p>
@@ -214,7 +238,7 @@
           
           <div class="col-md-6">
             <div class="mb-3">
-                <label for="nationalityField" class="pb-2">Nationality</label>
+                <label for="nationalityField" class="pb-2">Nationality <span class="text-optional">*</span></label>
                 <input type="text" class="form-control" id="nationalityField" name="nationality" placeholder="Enter nationality" [(ngModel)]="userPersonalInformationRequest.nationality" required #nationality="ngModel">
                 <div *ngIf="nationality.touched">
                     <p class="errortxt mt-2 mb-0" *ngIf="nationality.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Nationality is required.</p>
@@ -231,17 +255,22 @@
           <span *ngIf="!toggle">Next <i class="bi bi-arrow-right"></i></span>
         </button> -->
                           
-                             <div class="col-md-12 d-flex justify-content-end mt-3">
-                                <!-- <div class="info-btn d-flex justify-content-start">
-                                    <button class="btn btn-primary back-btn" type="button" ><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
-                                </div> -->
-                                <div class="info-btn">
-                                    <button class="btn btn-primary" type="submit"   aria-label="Next Step">
-                                        Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
-                                      </button>
-                                      
-                                </div>
-                             </div>
+        <div class="col-md-12 d-flex justify-content-end mt-3">
+          <div class="info-btn">
+              <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
+                  <div *ngIf="toggle" class="dot-opacity-loader">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                  </div>
+                  <span *ngIf="!toggle">
+                      Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                  </span>
+              </button>
+          </div>
+      </div>
+      
+      
                             </div>
                         </div>
                     </div>

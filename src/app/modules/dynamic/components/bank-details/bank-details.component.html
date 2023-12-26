@@ -10,41 +10,74 @@
                 <div class="col-md-12">
                 <div class="persnol-details">
                     <h5>Employee Bank Details</h5>
-                    <p class="mb-0">Fields with are mandatory </p>
-
+                    <p class="mb-0">Fields with * are mandatory </p>
+                    <form #bankInformationForm="ngForm" ngNativeValidate (ngSubmit)="setEmployeeBankDetailsMethodCall()">
+                        <div class="form-group">
                     <div class="persnol-info mt-4">
                         <div class="row">
 
                          
 
-                            <div class="col-md-12">
-                               <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2">Account Holder Name</label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Account holder name" [(ngModel)]="userBankDetailRequest.accountHolderName">
-                               </div>
-                            </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Bank Name</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Bank name" [(ngModel)]="userBankDetailRequest.bankName">
-                                  
+                                    <label for="accountHolderName" class="pb-2">Account Holder Name <span class="text-optional">*</span></label>
+                                    <input type="text" class="form-control" id="accountHolderName" name="accountHolderName" placeholder="Account holder name" [(ngModel)]="userBankDetailRequest.accountHolderName" required #accountHolderName="ngModel">
+                                    <!-- Error Message for Account Holder Name -->
+                                    <div *ngIf="accountHolderName.touched && accountHolderName.invalid">
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="accountHolderName.errors?.required">
+                                            <i class="bi bi-exclamation-circle"></i>
+                                            Account Holder Name is required.
+                                        </p>
+                                    </div>
                                 </div>
-                             </div>
-
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Account Number</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Account number" [(ngModel)]="userBankDetailRequest.accountNumber">
-                                  
-                                </div>
-                             </div>
-                            <div class="col-md-12">
-                               <div class="mb-3">
-                                   <label for="exampleInputEmail1" class="pb-2"> IFSC Number </label>
-                                   <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="IFSC number" [(ngModel)]="userBankDetailRequest.ifsc">
-                                  
-                               </div>
                             </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="bankName" class="pb-2">Bank Name <span class="text-optional">*</span></label>
+                                    <input type="text" class="form-control" id="bankName" name="bankName" placeholder="Bank name" [(ngModel)]="userBankDetailRequest.bankName" required #bankName="ngModel">
+                                    <!-- Error Message for Bank Name -->
+                                    <div *ngIf="bankName.touched && bankName.invalid">
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="bankName.errors?.required">
+                                            <i class="bi bi-exclamation-circle"></i>
+                                            Bank Name is required.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="accountNumber" class="pb-2">Account Number <span class="text-optional">*</span></label>
+                                    <input type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="Account number" [(ngModel)]="userBankDetailRequest.accountNumber" required pattern="[0-9]*" #accountNumber="ngModel">
+                                    <!-- Error Message for Account Number -->
+                                    <div *ngIf="accountNumber.touched && accountNumber.invalid">
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="accountNumber.errors?.required">
+                                            <i class="bi bi-exclamation-circle"></i>
+                                            Account Number is required.
+                                        </p>
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="accountNumber.errors?.pattern">
+                                            <i class="bi bi-exclamation-circle"></i>
+                                            Only numeric values are allowed.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="ifsc" class="pb-2"> IFSC Number <span class="text-optional">*</span></label>
+                                    <input type="text" class="form-control" id="ifsc" name="ifsc" placeholder="IFSC number" [(ngModel)]="userBankDetailRequest.ifsc" required #ifsc="ngModel">
+                                    <!-- Error Message for IFSC Number -->
+                                    <div *ngIf="ifsc.touched && ifsc.invalid">
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="ifsc.errors?.required">
+                                            <i class="bi bi-exclamation-circle"></i>
+                                            IFSC Number is required.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             
 
                              <div class="col-md-12 d-flex justify-content-between mt-3">
@@ -52,11 +85,22 @@
                                     <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()"><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
                                 </div>
                                 <div class="info-btn d-flex justify-content-end">
-                                    <button class="btn btn-primary" type="button" (click)="setEmployeeBankDetailsMethodCall(); routeToUserDetails()">Next <i class="bi bi-arrow-right" style="padding-left: 8px; "></i></button>
+                                    <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
+                                        <div *ngIf="toggle" class="dot-opacity-loader">
+                                          <span></span>
+                                          <span></span>
+                                          <span></span>
+                                        </div>
+                                        <span *ngIf="!toggle">
+                                          Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                        </span>
+                                      </button>
                                 </div>
                              </div>
                         </div>
                     </div>
+                    </div>
+                    </form>
                 </div>
             </div>
             </div>

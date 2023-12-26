@@ -274,19 +274,22 @@ selectStatus(status: string) {
 
 
 
-
+  toggle = false;
   setEmployeePersonalDetailsMethodCall() {
     
    debugger
+   this.toggle = true;
     this.dataService.setEmployeeByAdmin(this.userPersonalInformationRequest)
       .subscribe(
         (response: UserPersonalInformationRequest) => {
-          console.log(response);  
+          console.log(response); 
+          this.toggle = false; 
           this.clearForm();
           this.closeModal();
         },
         (error) => {
           console.error(error);
+          this.toggle = false;
         }
       );
   }

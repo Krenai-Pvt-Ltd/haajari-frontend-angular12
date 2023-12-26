@@ -1,188 +1,325 @@
 <app-employee-onboarding-sidebar></app-employee-onboarding-sidebar>
 
-
-
 <div class="page-wrapper">
     <div class="page-content-tab">
         <div class="container-fluid">
-
             <div class="row">
                 <div class="col-md-12">
-                <div class="persnol-details">
-                    <h5>Employee Documents</h5>
-                    <p class="mb-0">Fields with are mandatory </p>
+                    <div class="persnol-details">
+                        <h5>Employee Documents</h5>
+                        <p class="mb-0">Fields with * are mandatory </p>
+                        <form #documentsInformationForm="ngForm" ngNativeValidate (ngSubmit)="setEmployeeDocumentsDetailsMethodCall()">
+                            <div class="form-group">
+                            <!-- Form content goes here -->
+                            <div class="persnol-info mt-4">
+                                <div class="row">
 
-                    <div class="persnol-info mt-4">
-                        <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                          <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet <span class="text-optional">*</span></label>
+                                          <div class="importfilebox">
+                                            <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')" [required]="isSecondarySchoolCertificateRequired" #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.secondarySchoolCertificate">
+                                            <label for="secondarySchoolCertificateFile">
+                                                <!-- No file is selected or uploaded -->
+                                                <span *ngIf="!selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
+                                                  <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF
+                                                </span>
+                                                <!-- File has been previously uploaded and no new file selected -->
+                                                <span *ngIf="secondarySchoolCertificateFileName && !selectedSecondarySchoolFileName">
+                                                  {{ secondarySchoolCertificateFileName }}
+                                                </span>
+                                                <!-- New file is selected and no previous file is uploaded -->
+                                                <span *ngIf="selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
+                                                  {{ selectedSecondarySchoolFileName }}
+                                                </span>
+                                                <!-- New file is selected and there is also a previously uploaded file -->
+                                                <span *ngIf="selectedSecondarySchoolFileName && secondarySchoolCertificateFileName">
+                                                  {{ selectedSecondarySchoolFileName }}
+                                                </span>
+                                              </label>
+                                              
+                                          </div>
+                                          <!-- Error Message for File Upload -->
+                                          <div *ngIf="secondary.touched">
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="secondary.errors?.required">
+                                              <i class="bi bi-exclamation-circle"></i>
+                                              Uploading the 10th Marksheet is required.
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
 
-                            <!-- <div class="col-md-12">
+                                      <div class="col-md-6">
+                                        <div class="mb-3">
+                                          <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet <span class="text-optional">*</span></label>
+                                          <div class="importfilebox">
+                                            <input id="highSchoolCertificateFile" name="highSchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')" [required]="isHighSchoolCertificateRequired" #highSchool="ngModel" [(ngModel)]="userDocumentsDetailsRequest.highSchoolCertificate">
+                                            <label for="highSchoolCertificateFile">
+                                                <!-- No file is selected or uploaded -->
+                                                <span *ngIf="!selectedHighSchoolFileName && !highSchoolCertificateFileName1">
+                                                  <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF
+                                                </span>
+                                                <!-- File has been previously uploaded and no new file selected -->
+                                                <span *ngIf="highSchoolCertificateFileName1 && !selectedHighSchoolFileName">
+                                                  {{ highSchoolCertificateFileName1 }}
+                                                </span>
+                                                <!-- New file is selected and no previous file is uploaded -->
+                                                <span *ngIf="selectedHighSchoolFileName && !highSchoolCertificateFileName1">
+                                                  {{ selectedHighSchoolFileName }}
+                                                </span>
+                                                <!-- New file is selected and there is also a previously uploaded file -->
+                                                <span *ngIf="selectedHighSchoolFileName && highSchoolCertificateFileName1">
+                                                  {{ selectedHighSchoolFileName }}
+                                                </span>
+                                              </label>
+                                              
+                                          </div>
+                                          <!-- Error Message for File Upload -->
+                                          <div *ngIf="highSchool.touched">
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highSchool.errors?.required">
+                                              <i class="bi bi-exclamation-circle"></i>
+                                              Uploading the 12th Marksheet is required.
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
 
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Passport size image</label>
+                                      <div class="col-md-6">
+                                        <div class="mb-3">
+                                          <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree <span class="text-optional">*</span></label>
+                                          <div class="importfilebox">
+                                            <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" [required]="isHighestQualificationDegreeRequired" #highestQualificationDegree="ngModel" [(ngModel)]="userDocumentsDetailsRequest.highestQualificationDegree">
+                                            <label for="highestQualificationDegreeFile">
+                                                <!-- No file is selected or uploaded -->
+                                                <span *ngIf="!selectedHighestQualificationDegreeFileName && !highestQualificationDegreeFileName1">
+                                                  <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF
+                                                </span>
+                                                <!-- File has been previously uploaded and no new file selected -->
+                                                <span *ngIf="highestQualificationDegreeFileName1 && !selectedHighestQualificationDegreeFileName">
+                                                  {{ highestQualificationDegreeFileName1 }}
+                                                </span>
+                                                <!-- New file is selected and no previous file is uploaded -->
+                                                <span *ngIf="selectedHighestQualificationDegreeFileName && !highestQualificationDegreeFileName1">
+                                                  {{ selectedHighestQualificationDegreeFileName }}
+                                                </span>
+                                                <!-- New file is selected and there is also a previously uploaded file -->
+                                                <span *ngIf="selectedHighestQualificationDegreeFileName && highestQualificationDegreeFileName1">
+                                                  {{ selectedHighestQualificationDegreeFileName }}
+                                                </span>
+                                              </label>
+                                              
+                                          </div>
+                                          <!-- Error Message for File Upload -->
+                                          <div *ngIf="highestQualificationDegree.touched">
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highestQualificationDegree.errors?.required">
+                                              <i class="bi bi-exclamation-circle"></i>
+                                              Uploading the Highest Qualification Degree is required.
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
 
-                                    <div class="importfilebox">
-                                        <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input">
-                                        <label for="fileSelect">
-
-                                            <div class="">
-                                                <img src="assets/images/user.png" alt="" style="width:60px;">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="testimonialReccomendationFile" class="pb-2">
+                                                Testimonials/Recommendation <span class="text-optional">(Optional)</span>
+                                            </label>
+                                            <div class="importfilebox">
+                                                <input id="testimonialReccomendationFile" name="testimonialReccomendationFile" type="file" class="input" accept="application/pdf" (change)="onFileSelected($event, 'testimonialReccomendation')" #testimonialReccomendation="ngModel" [(ngModel)]="userDocumentsDetailsRequest.testimonialReccomendation">
+                                                <label for="testimonialReccomendationFile">
+                                                    <span *ngIf="!selectedTestimonialReccomendationFileName && !testimonialReccomendationFileName1"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
+                                                    <span *ngIf="testimonialReccomendationFileName1 && !selectedTestimonialReccomendationFileName" >{{ testimonialReccomendationFileName1 }}</span>
+                                                    <span *ngIf="selectedTestimonialReccomendationFileName && !testimonialReccomendationFileName1">{{ selectedTestimonialReccomendationFileName }}</span>
+                                                    <span *ngIf="selectedTestimonialReccomendationFileName && testimonialReccomendationFileName1">{{ selectedTestimonialReccomendationFileName }}</span>
+                                                </label>
                                             </div>
-                                           
-                                            <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a> </b><br> PDF </span>
-                                            
-                                        </label>
+                                        </div>
                                     </div>
-                                </div>
-                            </div> -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet</label>
-                                    <div class="importfilebox">
-                                      <input id="secondarySchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')">
-                                      <label for="secondarySchoolCertificateFile">
-                                        <span *ngIf="!selectedFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
-                                        <span *ngIf="selectedFileName">{{ selectedFileName }}</span>
-                                      </label>
-                                    </div>
-                                  </div>
-                            </div>
-                           
-                              
-
-                              <div class="col-md-6">
-                                <div class="mb-3">
-                                  <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet</label>
-                                  <div class="importfilebox">
-                                    <input id="highSchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')">
-                                    <label for="highSchoolCertificateFile">
-                                      <span *ngIf="!selectedHighSchoolFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
-                                      <span *ngIf="selectedHighSchoolFileName">{{ selectedHighSchoolFileName }}</span>
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                              
-                            
-                            <div class="col-md-6">
-                                <!-- <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">High School Mark</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter high school mark">
-                                  
-                                </div> -->
-                                <div class="mb-3">
-                                    <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree</label>
-                                    <div class="importfilebox">
-                                      <input id="highestQualificationDegreeFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')">
-                                      <label for="highestQualificationDegreeFile">
-                                        <span *ngIf="!selectedHighestQualificationDegreeFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
-                                        <span *ngIf="selectedHighestQualificationDegreeFileName">{{ selectedHighestQualificationDegreeFileName }}</span>
-                                      </label>
-                                    </div>
-                                  </div>
-                                  </div>
-                                  
-                             <div class="col-md-6">
-                                <!-- <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">High School Mark</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter high school mark">
-                                  
-                                </div> -->
-                                <div class="mb-3">
-                                    <label for="testimonialReccomendationFile" class="pb-2">Testimonials/Recommendation</label>
-                                    <div class="importfilebox">
-                                      <input id="testimonialReccomendationFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'testimonialReccomendation')">
-                                      <label for="testimonialReccomendationFile">
-                                        <span *ngIf="!selectedTestimonialReccomendationFileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
-                                        <span *ngIf="selectedTestimonialReccomendationFileName">{{ selectedTestimonialReccomendationFileName }}</span>
-                                      </label>
-                                    </div>
-                                  </div>
-                                  </div>
-                                  
-
-                             <div class="col-md-12">
-                               
-                                <div class="mb-3">
-                                    <h4 class="" style="font-size: 16px;">Guarantors</h4>
-                                    <!-- <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter garduation mark"> -->
-                                   
-                                </div>
-                             </div>
-                             <div class="row">
-                             <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Name</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name " [(ngModel)]="userDocumentsDetailsRequest.guarantorName1">
-                                </div>
-                             </div>
-                             <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Relation</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest.guarantorRelation1">
-                                </div>
-                             </div>
-                             <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Phone Number</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantorPhoneNumber1">
-                                </div>
-                             </div>
-                             <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Email</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail1">
-                                </div>
-                             </div>
-                            </div>
-<!-- 
-                             <div class="col-md-12">
-                               
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Exp Salary Slip</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pen number">
                                     
-                                </div>
-                             </div> -->
-                             <div class="row">
-                             <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Name</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name " [(ngModel)]="userDocumentsDetailsRequest.guarantorName2">
-                                </div>
-                             </div>
-                             <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Relation</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest.guarantorRelation2">
-                                </div>
-                             </div>
-                             <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Phone Number</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantorPhoneNumber2">
-                                </div>
-                             </div>
-                             <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Email</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail2">
-                                </div>
-                             </div>
-                            </div>
-                             <div class="col-md-12 d-flex justify-content-between mt-3">
+
+                                    </div>
+
+                                    <div class="col-md-12">
+                               
+                                        <div class="mb-3">
+                                            <h4 class="" style="font-size: 16px;">Guarantors <span class="text-optional">*</span></h4>
+                                            <!-- <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter garduation mark"> -->
+                                           
+                                        </div>
+                                     </div>
+
+                                     <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="pb-2">Name</label>
+                                                <input type="text" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantorName1" required #guarantorName1="ngModel">
+                                                <!-- Error Message for Name Field -->
+                                                <div *ngIf="guarantorName1.touched">
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="guarantorName1.errors?.required">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                        Name is required.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="relationInput" class="pb-2">Relation</label>
+                                                <input type="text" class="form-control" id="relationInput" name="relationInput" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest.guarantorRelation1" required #relation1="ngModel">
+                                                <!-- Error Message for Relation Field -->
+                                                <div *ngIf="relation1.touched">
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation1.errors?.required">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                        Relation is required.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="phoneInput" class="pb-2">Phone Number</label>
+                                                <input type="text" class="form-control" id="phoneInput" name="phoneInput" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantorPhoneNumber1" required #phone1="ngModel" minlength="10" maxlength="10" pattern="[0-9]*">
+                                                <!-- Error Message for Phone Number Field -->
+                                                <div *ngIf="phone1.touched">
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone1.errors?.required">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                        Phone number is required.
+                                                    </p>
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone1.errors?.minlength || phone1.errors?.maxlength">
+                                                        <i class="bi bi-exclamation-circle"></i> Phone Number should be of 10 digits.
+                                                    </p>
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone1.errors?.pattern">
+                                                        <i class="bi bi-exclamation-circle"></i> Phone Number must be in digits.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="emailInput" class="pb-2">Email</label>
+                                                <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail1" required email #email1="ngModel">
+                                                
+                                                <!-- Error Message for Email Field -->
+                                                <div *ngIf="email1.touched">
+                                                    <!-- Message for Required Field -->
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email1.errors?.required">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                        Email is required.
+                                                    </p>
+                                                    <!-- Message for Invalid Email Format -->
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email1.errors?.email && !email1.errors?.required">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                        Please enter a valid email address.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                     </div>
+
+                                     <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="guarantorName2" class="pb-2">Name</label>
+                                                <input type="text" class="form-control" id="guarantorName2" name="guarantorName2" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantorName2" required #name2="ngModel">
+                                                <!-- Error Message for Name Field -->
+                                                <div *ngIf="name2.touched">
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name2.errors?.required">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                        Name is required.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="guarantorRelation2" class="pb-2">Relation</label>
+                                                <input type="text" class="form-control" id="guarantorRelation2" name="guarantorRelation2" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest.guarantorRelation2" required #relation2="ngModel">
+                                                <!-- Error Message for Relation Field -->
+                                                <div *ngIf="relation2.touched">
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation2.errors?.required">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                        Relation is required.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="guarantorPhoneNumber2" class="pb-2">Phone Number</label>
+                                                <input type="text" class="form-control" id="guarantorPhoneNumber2" name="guarantorPhoneNumber2" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantorPhoneNumber2" required minlength="10" maxlength="10" pattern="[0-9]*" #phone2="ngModel">
+                                                <!-- Error Message for Phone Number Field -->
+                                                <div *ngIf="phone2.touched">
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone2.errors?.required">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                        Phone number is required.
+                                                    </p>
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone2.errors?.minlength || phone2.errors?.maxlength">
+                                                        <i class="bi bi-exclamation-circle"></i> Phone Number should be of 10 digits.
+                                                    </p>
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone2.errors?.pattern">
+                                                        <i class="bi bi-exclamation-circle"></i> Phone Number must be in digits.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Email Field -->
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="guarantorEmail2" class="pb-2">Email</label>
+                                                <input type="email" class="form-control" id="guarantorEmail2" name="guarantorEmail2" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail2" required email #email2="ngModel">
+                                                
+                                                <!-- Error Message for Email Field -->
+                                                <div *ngIf="email2.touched">
+                                                    <!-- Message for Required Field -->
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email2.errors?.required">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                        Email is required.
+                                                    </p>
+                                                    <!-- Message for Invalid Email Format -->
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email2.errors?.email && !email2.errors?.required">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                        Please enter a valid email address.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                                                                
+
+                                     </div>
+                            <!-- Other form fields and elements -->
+
+                            <div class="col-md-12 d-flex justify-content-between mt-3">
                                 <div class="info-btn d-flex justify-content-start">
-                                    <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()"><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
+                                    <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()">
+                                        <i class="bi bi-arrow-left" style="padding-right: 8px;"></i> Back
+                                    </button>
                                 </div>
                                 <div class="info-btn d-flex justify-content-end">
-                                    <button class="btn btn-primary" type="button" (click)="setEmployeeDocumentsDetailsMethodCall(); routeToUserDetails()">Next <i class="bi bi-arrow-right" style="padding-left: 8px; "></i></button>
+                                    <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
+                                        <div *ngIf="toggle" class="dot-opacity-loader">
+                                          <span></span>
+                                          <span></span>
+                                          <span></span>
+                                        </div>
+                                        <span *ngIf="!toggle">
+                                          Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                        </span>
+                                      </button>
                                 </div>
-                             </div>
+                            </div>
                         </div>
+                        </div>
+                        </form> <!-- Make sure this is the only closing form tag -->
                     </div>
                 </div>
             </div>
-            </div>
-
         </div>
     </div>
 </div>

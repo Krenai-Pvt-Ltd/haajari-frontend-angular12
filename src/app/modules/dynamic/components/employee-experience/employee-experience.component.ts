@@ -1,126 +1,117 @@
-  import { Component, OnInit } from '@angular/core';
-  import { NavigationExtras, Router } from '@angular/router';
-  import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
-  import { DataService } from 'src/app/services/data.service';
-  import { UserExperience } from 'src/app/models/user-experience';
+import { Component, OnInit } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
+import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
+import { DataService } from 'src/app/services/data.service';
+import { UserExperience } from 'src/app/models/user-experience';
 
-  @Component({
-    selector: 'app-employee-experience',
-    templateUrl: './employee-experience.component.html',
-    styleUrls: ['./employee-experience.component.css']
-  })
-  export class EmployeeExperienceComponent implements OnInit {
-    userExperienceDetailRequest: UserExperienceDetailRequest = new UserExperienceDetailRequest();
-    userExperiences: UserExperience[] = []; // Array to hold user experiences
+@Component({
+  selector: 'app-employee-experience',
+  templateUrl: './employee-experience.component.html',
+  styleUrls: ['./employee-experience.component.css']
+})
+export class EmployeeExperienceComponent implements OnInit {
+  userExperienceDetailRequest: UserExperienceDetailRequest = new UserExperienceDetailRequest();
+  userExperiences: UserExperience[] = []; // Array to hold user experiences
 
-    constructor(private dataService: DataService, private router: Router) { }
+  constructor(private dataService: DataService, private router: Router) { }
 
-    ngOnInit(): void {
-      const userUuid = localStorage.getItem('uuidNewUser');
-    
-      if (userUuid) {
-        this.getEmployeeExperiencesDetailsMethodCall();
-      } else {
-        this.addExperience();
-      }
+  ngOnInit(): void {
+    const userUuid = this.getUserUuid();
+    if (userUuid) {
+      this.getEmployeeExperiencesDetailsMethodCall(userUuid);
+    } else {
+      this.addExperience();
     }
-    
-    backRedirectUrl(){
-      let navExtra: NavigationExtras = {
-        queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
-      };
-      this.router.navigate(['/acadmic'], navExtra);
-    }
-
-    deleteExperience(index: number): void {
-      this.userExperiences.splice(index, 1);
   }
 
-    addExperience(): void {
-      this.userExperiences.push(new UserExperience()); 
-    }
-  // prepareUserExperienceDetailRequest(): UserExperienceDetailRequest[] {
-  //   let request = new UserExperienceDetailRequest();
-  //   request.experiences = this.userExperiences;
-  //   var list: UserExperienceDetailRequest[] = [request];
-  //   return list;
-  // }
+  getUserUuid(): string | null {
+    return new URLSearchParams(window.location.search).get('userUuid') || localStorage.getItem('uuidNewUser');
+  }
+
+  backRedirectUrl() {
+    let navExtra: NavigationExtras = {
+      queryParams: { userUuid: this.getUserUuid() },
+    };
+    this.router.navigate(['/acadmic'], navExtra);
+  }
+
+  deleteExperience(index: number): void {
+    this.userExperiences.splice(index, 1);
+  }
+
+  addExperience(): void {
+    this.userExperiences.push(new UserExperience()); 
+  }
+
+  addMoreExperience(
+    companyName: string,
+    employementDuration: string,
+    jobResponisibilities: string,
+    lastSalary: string,
+    lastJobDepartment: string,
+    lastJobPosition: string
+  ): void {
+    const newUserExperience = new UserExperience();
+    newUserExperience.companyName = companyName;
+    newUserExperience.employementDuration = employementDuration;
+    newUserExperience.jobResponisibilities = jobResponisibilities;
+    newUserExperience.lastSalary = lastSalary;
+    newUserExperience.lastJobDepartment = lastJobDepartment;
+    newUserExperience.lastJobPosition = lastJobPosition;
+    
+    this.userExperiences.push(newUserExperience);
+  }
+  
+  
   prepareUserExperienceDetailRequest(): UserExperience[] {
     return this.userExperiences;
   }
 
   routeToUserDetails() {
     let navExtra: NavigationExtras = {
-      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+      queryParams: { userUuid: this.getUserUuid() },
     };
     this.router.navigate(['/bank-details'], navExtra);
   }
 
-  //   setEmployeeExperienceDetailsMethodCall() {
-  //     let userUuid = localStorage.getItem('uuidNewUser') || '';
-    
-  //     if (!userUuid) {
-  //       console.error('User UUID is not available in localStorage.');
-  //       return;
-  //     }
 
-  //     let userExperienceDetailRequest = this.prepareUserExperienceDetailRequest();
-
-  //     this.dataService.setEmployeeExperienceDetails(userExperienceDetailRequest, userUuid)
-  //       .subscribe(
-  //         (response) => { 
-  //           console.log('Response:', response);
-  //           this.router.navigate(['/bank-details']);
-  //         },
-  //         (error) => {
-  //           console.error('Error occurred:', error);
-  //         }
-  //       );
-  // }
+  toggle = false;
   setEmployeeExperienceDetailsMethodCall() {
-    const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
-    this.dataService.markStepAsCompleted(5);
+    const userUuid = this.getUserUuid();
     if (!userUuid) {
-      console.error('User UUID is not available in localStorage.');
+      console.error('User UUID is not available.');
       return;
     }
-
+    this.toggle = true;
     this.dataService.setEmployeeExperienceDetails(this.userExperiences, userUuid)
-        .subscribe(
-            (response) => { 
-                console.log('Response:', response);
-                // this.router.navigate(['/bank-details']);
-            },
-            (error) => {
-                console.error('Error occurred:', error);
-            }
-        );
+      .subscribe(
+        response => { 
+          console.log('Response:', response);
+          this.dataService.markStepAsCompleted(5);
+          this.routeToUserDetails();
+          this.toggle = false;
+        },
+        error => {
+          console.error('Error occurred:', error);
+          this.toggle = false;
+        }
+      );
   }
 
-
-
-    getEmployeeExperiencesDetailsMethodCall() {
-      debugger
-      const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-    
-      if (userUuid) {
-        this.dataService.getEmployeeExperiencesDetailsOnboarding(userUuid).subscribe(
-          (experiences) => {
-            if (experiences && experiences.length > 0) {
-              this.userExperiences = experiences;
-              this.dataService.markStepAsCompleted(5);
-            } else {
-              this.addExperience(); // Call addExperience if experiences is null or empty
-            }
-          },
-          (error: any) => {
-            console.error('Error fetching user details:', error);
-            this.addExperience();
-          }
-        );
-      } else {
-        console.error('uuidNewUser not found in localStorage');
-        
+  getEmployeeExperiencesDetailsMethodCall(userUuid: string) {
+    this.dataService.getEmployeeExperiencesDetailsOnboarding(userUuid).subscribe(
+      experiences => {
+        if (experiences && experiences.length > 0) {
+          this.userExperiences = experiences;
+          this.dataService.markStepAsCompleted(5);
+        } else {
+          this.addExperience(); // Call addExperience if experiences is null or empty
+        }
+      },
+      error => {
+        console.error('Error fetching user details:', error);
+        this.addExperience();
       }
-    } 
+    );
   }
+}

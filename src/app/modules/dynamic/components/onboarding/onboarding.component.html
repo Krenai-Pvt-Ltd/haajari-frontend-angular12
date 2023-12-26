@@ -332,7 +332,7 @@
                                   for="exampleFormControlSelect3 pb-2"
                                   style="padding-bottom: 6px"
                                 >
-                                  Brand Logo</label
+                                  Company Logo</label
                                 >
 
                                 <input
@@ -341,9 +341,11 @@
                                   id="inputGroupFile04"
                                   aria-describedby="inputGroupFileAddon04"
                                   aria-label="Upload"
-                                  name="userOrganizationPic"
-                                  
+                                  name="userOrganizationLogo"
+                                  (change)="onFileSelected($event)"
                                   style="line-height: 25px; height: 40px !important; "
+                                  accept=".png, .jpeg, .jpg, .svg, .gif, .webp, .ico"
+                                  [(ngModel)]="organizationPersonalInformation.logo"
                                 />
                                 <!-- [(ngModel)]="organizationPic"
                                 required -->

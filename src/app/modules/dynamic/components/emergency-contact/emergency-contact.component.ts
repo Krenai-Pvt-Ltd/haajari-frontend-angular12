@@ -1,5 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
 import { DataService } from 'src/app/services/data.service';
 
@@ -35,11 +37,14 @@ export class EmergencyContactComponent implements OnInit {
   showSuccess() {
     this.displaySuccessModal = true;
     this.cd.detectChanges();
+    setTimeout(() => this.displaySuccessModal = false, 3000);
   }
 
   userEmergencyContactDetailsStatus = "";
 
+  toggle = false;
   setEmployeeEmergencyContactDetailsMethodCall() {
+    this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     this.dataService.markStepAsCompleted(7);
     if (!userUuid) {
@@ -51,12 +56,14 @@ export class EmergencyContactComponent implements OnInit {
       .subscribe(
         (response) => { 
           console.log('Response:', response);
+          this.toggle = false;
           this.userEmergencyContactDetailsStatus = response.statusResponse;
             // localStorage.setItem('statusResponse', JSON.stringify(this.userEmergencyContactDetailsStatus));
           // this.router.navigate(['/next-route']); // Update the route as needed
         },
         (error) => {
           console.error('Error occurred:', error);
+          this.toggle = false;
         }
       );
   }
@@ -81,4 +88,6 @@ export class EmergencyContactComponent implements OnInit {
       console.error('uuidNewUser not found in localStorage');
     }
   }
+
+
 }

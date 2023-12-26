@@ -40,9 +40,10 @@ export class EmployeeAddressDetailComponent implements OnInit {
 
   
   userAddressDetailsStatus = "";
-  
+  toggle = false;
   setEmployeeAddressDetailsMethodCall() {
     debugger
+    this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     this.dataService.markStepAsCompleted(2);
     if (!this.userUuid) {
@@ -55,13 +56,16 @@ export class EmployeeAddressDetailComponent implements OnInit {
       .subscribe(
         (response: UserAddressDetailsRequest) => {
           console.log('Response:', response);
+          this.toggle = false
           this.userAddressDetailsStatus = response.statusResponse;
+          this.routeToUserDetails()
           // this.router.navigate(['/employee-document']);
           // localStorage.setItem('statusResponse', JSON.stringify(this.userAddressDetailsStatus));
 
         },
         (error) => {
           console.error('Error occurred:', error);
+          this.toggle = false
         }
       );
   }
@@ -75,7 +79,10 @@ export class EmployeeAddressDetailComponent implements OnInit {
       this.dataService.getNewUserAddressDetails(userUuid).subscribe(
         (response: UserAddressDetailsRequest) => {
           this.userAddressDetailsRequest = response;
-          this.dataService.markStepAsCompleted(2);
+          if(response!=null){
+            this.dataService.markStepAsCompleted(2);
+          }
+          
           if(this.userAddressDetailsRequest==null){
             this.userAddressDetailsRequest = new UserAddressDetailsRequest();
           }

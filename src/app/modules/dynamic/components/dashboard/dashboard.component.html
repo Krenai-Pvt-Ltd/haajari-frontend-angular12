@@ -237,7 +237,7 @@
                     </div>
                     </div>
                 </div>
-                <div class="errorboxmain" *ngIf="(responseData.attendanceLatePerformers).length==0 && !isLateShimmer && !errorToggleLate">
+                <div class="errorboxmain" *ngIf="lateEmployeeAttendanceDetailsResponseList.length===0 && !isLateShimmer && !errorToggleLate">
                     <div class="errorboxinner" >
                         <div class="errorboxplaceholder mb-2">
                             <img src="assets/images/empty-box.svg" style="width:80px;" />
@@ -282,32 +282,42 @@
 
                     </div>
                 </div>
-
             </div>
             <!-- *ngIf="(responseDto.attendanceLatePerformers).length!=0" -->
-         <div class="row mb-3 mt-3" *ngIf="(responseData.attendanceLatePerformers).length!=0 && !errorToggleLate">
+         <div class="row mb-3 mt-3" *ngIf="lateEmployeeAttendanceDetailsResponseList.length!==0 && !errorToggleLate">
             <!-- *ngFor="let performer of responseDto.attendanceLatePerformers" -->
-            <div class="col-lg-4 " *ngFor="let performer of responseData.attendanceLatePerformers">
+            <div class="col-lg-4 " *ngFor="let lateEmployeeAttendanceDetailsResponse of lateEmployeeAttendanceDetailsResponseList">
                 <div class="card" >
-                    <div class="card-body" >                                        
-                        <div class="media mb-1">
-                            <!-- <img src="assets/images/small/project-2.jpg" alt="" class="thumb-md rounded-circle">                                       -->
-                            <div class="media-body align-self-center text-truncate">                                            
-                                <h4 class="m-0 projest-nmae">{{performer.name}}</h4>   
-                                <p class="text-muted  mb-0 font-13 mt-2"><span class="text-dark">Project : </span>Krenai</p>                                           
-                            </div><!--end media-body-->
-                        </div>   
-                        <div class="d-flex justify-content-between">  
-                            <h6 class="fw-semibold">Date : <span class="text-muted font-weight-normal">{{performer.date}}</span></h6>
-                            <!-- <div><h6 class="fw-semibold">Lateness : <span class="text-muted font-weight-normal">{{performer.lateTime}}</span></h6></div>                         -->
-                        </div> 
-                        <div class="d-flex justify-content-between">  
-                            <!-- <div><h6 class="fw-semibold">Date : <span class="text-muted font-weight-normal">{{performer.date}}</span></h6></div> -->
-                            <h6 class="fw-semibold">Lateness : <span class="text-muted font-weight-normal">{{performer.lateTime}}</span></h6>                       
-                        </div> 
+                    <div class="card-body" style="display:flex;">
+                        <ng-container *ngIf="lateEmployeeAttendanceDetailsResponse.image !== null; else imageNull">
+                            <div>
+                                <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:100px; border-radius:50%">
+                            </div>
+                        </ng-container>
+                        <ng-template #imageNull>
+                            <div>
+                                <span>lateEmployeeAttendanceDetailsResponse.name[0]</span>
+                            </div>
+                        </ng-template>
+                        
+                        <div>
+                            <h3>{{lateEmployeeAttendanceDetailsResponse.name}}</h3>
+                            <p>{{lateEmployeeAttendanceDetailsResponse.email}}</p>
+                            <p><span><b>In Time:</b></span><span> {{lateEmployeeAttendanceDetailsResponse.checkInTime}}</span></p>
+                            <p><span><b>Project:</b></span>
+                                <!-- <span *ngFor="let team of lateEmployeeAttendanceDetailsResponse.teams">
+                                     {{team.name}}
+                                </span> -->
+                            </p>
+                            <p><span><b>Manager:</b></span>
+                                <!-- <span *ngFor="let team of lateEmployeeAttendanceDetailsResponse.teams">
+                                     {{team.manager.name}}
+                                </span> -->
+                            </p>
+                        </div>                                
                                                                                          
                     </div>
-                </div><!--end card-->
+                </div>
             </div>
             
         </div>

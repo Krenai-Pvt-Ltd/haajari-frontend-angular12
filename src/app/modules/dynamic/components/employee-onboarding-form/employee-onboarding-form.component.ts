@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { url } from 'inspector';
 import { finalize } from 'rxjs/operators';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { DataService } from 'src/app/services/data.service';
@@ -63,13 +64,9 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     task.snapshotChanges().pipe(
       finalize(() => {
         fileRef.getDownloadURL().subscribe(url => {
+
           console.log("File URL:", url);
-
-          // Correctly update the image URL in the form group
-          // this.userPersonalInformationRequest.image // Use patchValue to update the form control
-
-          // After upload, update personal details
-          // this.setEmployeePersonalDetailsMethodCall();
+          this.userPersonalInformationRequest.image=url;
         });
       })
     ).subscribe();
@@ -78,28 +75,21 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   
 
 
-
-
    userPersonalDetailsStatus = "";
    selectedFile: File | null = null;
    toggle = false;
   setEmployeePersonalDetailsMethodCall() {
-
-    // if(this.personalInformationForm.invalid) {
-    //   this.personalInformationFormFlag = true;
-    //   return;
-    // }
-    // this.toggle = true;
+debugger
+    
+    this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     this.dataService.markStepAsCompleted(1);
-    if(this.selectedFile) {
-      this.uploadFile(this.selectedFile);
-    }
+  
     this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
       .subscribe(
         (response: UserPersonalInformationRequest) => {
           console.log(response);  
-          // this.toggle = false
+          this.toggle = false
           if (!userUuid) {
             // localStorage.setItem('uuidNewUser', response.uuid);
             this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
@@ -114,38 +104,45 @@ export class EmployeeOnboardingFormComponent implements OnInit {
         },
         (error) => {
           console.error(error);
-          // this.toggle = false
+          this.toggle = false
         })
-      // } else {
-      //   // Handle invalid form case
-      // }
+     
       ;
   }
   
+  dbImageUrl: string | null = null;
 
+  setImageUrlFromDatabase(url: string) {
+      this.dbImageUrl = url;
+  }
 
   getNewUserPersonalInformationMethodCall() {
     debugger
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-    // console.log(this.userPersonalInformationRequest);  
     if (userUuid) {
-      this.dataService.getNewUserPersonalInformation(userUuid).subscribe(
-        (response: UserPersonalInformationRequest) => {
-          this.userPersonalInformationRequest = response;
-          // this.registerForm.patchValue(response);
-          console.log(response);
-          this.dataService.markStepAsCompleted(1);
-        },
-        (error: any) => {
-          console.error('Error fetching user details:', error);
-          
-        }
-      );
+        this.dataService.getNewUserPersonalInformation(userUuid).subscribe(
+            (response: UserPersonalInformationRequest) => {
+                this.userPersonalInformationRequest = response;
+                console.log(response);
+                if(response.dob){
+                  this.dataService.markStepAsCompleted(1);
+                }
+                
+
+               
+                if (response.image) {
+                    this.setImageUrlFromDatabase(response.image);
+                }
+            },
+            (error: any) => {
+                console.error('Error fetching user details:', error);
+            }
+        );
     } else {
-      console.error('uuidNewUser not found in localStorage');
-      
+        console.error('uuidNewUser not found in localStorage');
     }
-  } 
+}
+
 
   
 }
