@@ -201,7 +201,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="emailInput" class="pb-2">Email</label>
-                                                <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Enter your email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail1" required email #email1="ngModel">
+                                                <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail1" required email #email1="ngModel">
                                                 
                                                 <!-- Error Message for Email Field -->
                                                 <div *ngIf="email1.touched">
@@ -272,7 +272,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorEmail2" class="pb-2">Email</label>
-                                                <input type="email" class="form-control" id="guarantorEmail2" name="guarantorEmail2" placeholder="Enter your email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail2" required email #email2="ngModel">
+                                                <input type="email" class="form-control" id="guarantorEmail2" name="guarantorEmail2" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail2" required email #email2="ngModel">
                                                 
                                                 <!-- Error Message for Email Field -->
                                                 <div *ngIf="email2.touched">

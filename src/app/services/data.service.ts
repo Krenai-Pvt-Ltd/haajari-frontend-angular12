@@ -43,6 +43,7 @@ import { OrganizationShiftTimingRequest } from "../models/organization-shift-tim
   providedIn: "root",
 })
 export class DataService {
+
   private stepsCompletionStatus = new BehaviorSubject<boolean[]>([false, false, false, false, false, false, false]);
   orgId: any;
   constructor(private httpClient: HttpClient) {}
@@ -869,5 +870,23 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.post<any>(`${this.baseUrl}/users/send-invite-to-employees`, {}, {params});
   }
 
+  getAttendanceModeAll(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/mode/get/all`);
+  }
 
+
+  getAttendanceMode() : Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/mode/get`);
+  }
+
+  updateAttendanceMode(attendanceModeId: number): Observable<any> {
+    const params = new HttpParams()
+    .set("attendance_mode_id", attendanceModeId);
+
+    return this.httpClient.put<any>(`${this.baseUrl}/organization/update/attendance-mode`, {}, {params});
+  }
+
+  getLateEmployeeAttendanceDetails(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-late-employee-attendance-details`);
+  }
 }

@@ -2,7 +2,16 @@
     <div class="page-content-tab">
         <div class="container-fluid">
             <div class="company-settinh">
-                <div class="row mt-2">
+                <div style="height: 100vh;" *ngIf="isLoading" class="d-flex justify-content-center align-items-center">
+                    <div>
+                      <img style="max-width: 30vh;" src="assets/images/HAjiRi.svg">
+                      <div class="d-flex justify-content-center">
+                        <div class="loader-line"></div>
+                      </div>
+                    </div>
+                    
+                </div>
+                <div class="row mt-2" *ngIf="!isLoading">
                     <div class="col-md-5 mt-3 mb-3">
 
                         <div class="form-roe-data">
@@ -35,6 +44,9 @@
 
                         </div>
 
+                        
+                        
+
                         <div class="col-md-12">
                             <div class="add-filtter d-flex align-items-center justify-content-end" *ngIf="!leaveSettingPlaceholder">
                                 <span *ngIf="!idFlag">
@@ -47,7 +59,18 @@
                                     </span>
 
                             </div>
+                            <!-- <div  class="loading-container" style="align-items: center;" *ngIf="isLoading">
+                                <div class="loading-spinner"></div>
+                            </div>  -->
 
+                                
+                            <!-- <div class="loader-line" *ngIf="isLoading"></div> -->
+            
+
+                                <!-- <div *ngIf="isLoading" [routerLink]="['/hajiri-page-loader']" routerLinkActive="active">
+                                    
+                                </div>
+                                -->
 
 
                             <div class="rule-main-box mt-3"
@@ -254,8 +277,7 @@
                                                         <ul aria-labelledby="accrualTypeDropdown" class="dropdown-menu"
                                                             style="width: 100%;">
                                                             <li><a class="dropdown-item"
-                                                                    (click)="setAccrualType('No Accrual')">No
-                                                                    Accrual</a>
+                                                                    (click)="setAccrualType('No Accrual')">All at once</a>
                                                             </li>
                                                             <li><a class="dropdown-item"
                                                                     (click)="setAccrualType('Month Start')">Month
@@ -289,19 +311,19 @@
                                                             <label for="ignoreRadio"
                                                                 [class.selected]="leaveSettingResponse.sandwichRules === 'Ignore'">Ignore</label>
                                                         </div>
-                                                        <input type="hidden" [(ngModel)]="leaveSettingResponse.sandwichRules" [ngModelOptions]="{standalone: true}" required #sandwichRules="ngModel">
-                                                        <div *ngIf="sandwichRules?.touched">
+                                                        <input type="hidden" [(ngModel)]="leaveSettingResponse.sandwichRules" [ngModelOptions]="{standalone: true}">
+                                                        <!-- <div *ngIf="sandwichRules?.touched">
                                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="sandwichRules.errors?.required">
                                                                 <i class="bi bi-exclamation-circle"></i> This Field is required.
                                                             </p>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
-                                                    <div *ngIf="leaveSettingResponse.sandwichRules === 'Count'">
+                                                    <!-- <div *ngIf="leaveSettingResponse.sandwichRules === 'Count'">
                                                         <label for="sandwichCount" class="pb-2">Sandwich Count</label>
                                                         <input type="number" name="sandwichCount" id="sandwichCount"
                                                             [(ngModel)]="leaveSettingResponse.sandwichCount" [ngModelOptions]="{standalone: true}"
                                                             placeholder="Enter count">
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                             <div id="back-and-submit">
@@ -311,7 +333,7 @@
                                                 <div class="modal-footer d-flex align-items-center justify-content-end">
                                                     <!-- <button (click)="registerLeaveSettingTemplate()"
                                                         class="btn btn-success">Next</button> -->
-                                                        <button type="submit" [disabled]="isFormValid === false" class="btn btn-success">Next</button>
+                                                        <button type="submit" [disabled]="!isFormValid" class="btn btn-success">Next</button>
                                                     </div>
                                             </div>
                                             <!-- <div class="col-md-12 mt-3">

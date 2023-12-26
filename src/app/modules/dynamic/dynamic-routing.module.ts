@@ -41,7 +41,6 @@ import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.compon
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { SupportComponent } from './components/support/support.component';
 import { ErrorPageComponent } from '../common/error-page/error-page.component';
-import { HajiriPageLoaderComponent } from '../common/hajiri-page-loader/hajiri-page-loader.component';
 import { SlackDataLoaderComponent } from '../common/slack-data-loader/slack-data-loader.component';
 import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
 
@@ -90,7 +89,6 @@ import { DurationPickerComponent } from '../common/duration-picker/duration-pick
     {path: 'privacy', component: PrivacyComponent},
     {path: 'support', component: SupportComponent},
     {path: 'error-page', component: ErrorPageComponent},
-    {path: 'hajiri-page-loader', component: HajiriPageLoaderComponent},
     {path: 'slack-data-loader', component: SlackDataLoaderComponent},
     {path : 'duration-picker', component: DurationPickerComponent}
   ] }

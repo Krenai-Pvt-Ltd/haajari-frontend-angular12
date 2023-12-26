@@ -60,7 +60,8 @@ export class LeaveSettingComponent implements OnInit {
 
   isFormValid:boolean = false;
   checkFormValidity(form: NgForm | null) {
-    this.isFormValid = form?.valid ?? false; // Use the nullish coalescing operator
+    debugger
+    this.isFormValid = form?.valid ?? false; 
   }
 
 
@@ -393,13 +394,14 @@ export class LeaveSettingComponent implements OnInit {
   // *************** new 
 
   fullLeaveSettingResponseList: FullLeaveSettingResponse[] = [];
-
+  isLoading:boolean=false;
 
   getFullLeaveSettingInformation(): void {
-
+    this.isLoading=true;
     this.dataService.getFullLeaveSettingInformation()
       .subscribe(response => {
         this.fullLeaveSettingResponseList = response;
+        this.isLoading=false;
         if(response==null || response.length==0){
           this.leaveSettingPlaceholder = true;
         }else{
@@ -407,6 +409,7 @@ export class LeaveSettingComponent implements OnInit {
         }
         this.templateSettingTab.nativeElement.click();
       }, error => {
+        this.isLoading=false;
         this.leaveSettingPlaceholder = true;
         console.error('Error fetching leave setting information:', error);
       });
@@ -417,7 +420,7 @@ export class LeaveSettingComponent implements OnInit {
         leaveRulesControl.setValue(value);
     }
 }
-
+// leaveSettingForm!:NgForm;
   fullLeaveSettingResponse!: FullLeaveSettingResponse;
 
   getLeaveSettingInformationById(leaveSettingId: number): void {
@@ -427,6 +430,10 @@ export class LeaveSettingComponent implements OnInit {
         this.leaveSettingResponse = this.fullLeaveSettingResponse.leaveSetting;
         this.selectedStaffsUuids =  this.fullLeaveSettingResponse.userUuids;
         this.templateSettingTab.nativeElement.click();
+        if(this.fullLeaveSettingResponse.leaveSetting){
+        this.isFormValid=true;
+        }
+        // this.checkFormValidity(this.leaveSettingForm);
         // this.form.reset();
         // Reset the form without emitting the events
        this.form.reset({ emitEvent: false });
