@@ -303,7 +303,7 @@
                         <div>
                             <h3>{{lateEmployeeAttendanceDetailsResponse.name}}</h3>
                             <p>{{lateEmployeeAttendanceDetailsResponse.email}}</p>
-                            <p><span><b>In Time:</b></span><span> {{lateEmployeeAttendanceDetailsResponse.checkInTime}}</span></p>
+                            <p><span><b>In Time:</b></span><span> {{lateEmployeeAttendanceDetailsResponse.checkInTime | durationFormat}}</span></p>
                             <p><span><b>Project:</b></span>
                                 <!-- <span *ngFor="let team of lateEmployeeAttendanceDetailsResponse.teams">
                                      {{team.name}}
