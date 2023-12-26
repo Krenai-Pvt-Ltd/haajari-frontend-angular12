@@ -210,7 +210,7 @@ export class LeaveSettingComponent implements OnInit {
           this.getFullLeaveSettingInformation()
           this.requestLeaveCloseModel.nativeElement.click();
           localStorage.removeItem("tempId")
-          this.emptyAddLeaveSettingRule();
+          // this.emptyAddLeaveSettingRule();
           location.reload();
           console.log('Users saved for leave setting:', response);
         },
@@ -405,6 +405,7 @@ export class LeaveSettingComponent implements OnInit {
         }else{
           this.leaveSettingPlaceholder = false;
         }
+        this.templateSettingTab.nativeElement.click();
       }, error => {
         this.leaveSettingPlaceholder = true;
         console.error('Error fetching leave setting information:', error);
@@ -424,7 +425,8 @@ export class LeaveSettingComponent implements OnInit {
       .subscribe(response => {
         this.fullLeaveSettingResponse = response;
         this.leaveSettingResponse = this.fullLeaveSettingResponse.leaveSetting;
-
+        this.selectedStaffsUuids =  this.fullLeaveSettingResponse.userUuids;
+        this.templateSettingTab.nativeElement.click();
         // this.form.reset();
         // Reset the form without emitting the events
        this.form.reset({ emitEvent: false });
@@ -452,16 +454,21 @@ export class LeaveSettingComponent implements OnInit {
         console.error('Error fetching leave setting information by ID:', error);
       });
   }
+ @ViewChild("templateSettingTab") templateSettingTab!:ElementRef;
 
   emptyAddLeaveSettingRule(){
     debugger
+    this.templateSettingTab.nativeElement.click();
+    this.unselectAllUsers();
+    this.selectedStaffsUuids = [];
+    // this.selectedStaffsUuids.length = 0; 
     this.leaveSettingResponse = new LeaveSettingResponse();
     this.form.reset();
     // Clear the existing form controls
     const categoriesArray = this.form.get('categories') as FormArray;
     categoriesArray.clear();
     this.addRow();
-    this.selectedStaffsUuids = [];  }
+    }
 
   deleteLeaveSettingRule(leaveSettingId: number): void {
     this.dataService.deleteLeaveSettingRule(leaveSettingId).subscribe(

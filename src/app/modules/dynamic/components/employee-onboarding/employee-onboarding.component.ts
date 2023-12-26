@@ -33,6 +33,7 @@ export class EmployeeOnboardingComponent implements OnInit {
   pendingResponse = 'PENDING';
   approvedResponse = 'APPROVED';
   rejectedResponse = 'REJECTED';
+  requestedResponse = 'REQUESTED';
 
   searchCriteria: string = '';
 
@@ -300,6 +301,22 @@ selectStatus(status: string) {
 
   closeModal(){
     this.closeInviteModal.nativeElement.click();
+  }
+// requestFlag:boolean=false;
+  sendMailToEmployees(email:string){
+    debugger
+    this.dataService.sendMailToEmployeesToCompleteOnboarding(email)
+    .subscribe(
+      (response) => {
+        // this.requestFlag=true;
+        console.log(response); 
+        location.reload();
+      },
+      (error) => {
+        console.error(error);
+        // location.reload();
+      }
+    );
   }
 
 }

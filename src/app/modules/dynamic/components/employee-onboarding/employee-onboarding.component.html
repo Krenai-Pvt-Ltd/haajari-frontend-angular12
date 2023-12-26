@@ -403,14 +403,17 @@
                                                 <td class="full-per" *ngIf="(user.employeeOnboardingStatus.response)== approvedResponse">
                                                     <span class="">{{user.employeeOnboardingStatus.response}}</span>
                                                 </td>
-                                              
-                                                
                                                 <td class="rej-per" *ngIf="(user.employeeOnboardingStatus.response)== rejectedResponse">
+                                                    <span class="">{{user.employeeOnboardingStatus.response}}</span>
+                                                </td>
+                                                <td class="req-per" *ngIf="(user.employeeOnboardingStatus.response)== requestedResponse">
                                                     <span class="">{{user.employeeOnboardingStatus.response}}</span>
                                                 </td>
                                                 <td>
                                                     <div class="hstack gap-3 justify-content-center">
-                                                        <a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a>
+                                                        <span *ngIf="(user.employeeOnboardingStatus.response)!= approvedResponse">
+                                                        <a href="javascript:void(0);" class="link-success text-decoration-underline" (click)="sendMailToEmployees(user.email.toString())">Request</a>
+                                                        </span>
                                                         <a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline" (click)="routeToUserDetails(user.uuid)">View</a>
                                                     </div>
                                                 </td> 

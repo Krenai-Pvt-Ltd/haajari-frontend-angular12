@@ -153,7 +153,7 @@
                             <ul id="myTab" role="tablist" class="nav nav-tabs">
                                 <li role="presentation" class="nav-item">
                                     <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                                        role="tab" aria-controls="home" aria-selected="true" class="nav-link active">
+                                        role="tab" aria-controls="home" aria-selected="true" class="nav-link active" #templateSettingTab>
                                         Template Setting</button>
                                 </li>
                                 <li role="presentation" class="nav-item">
@@ -277,6 +277,7 @@
                                                             <input type="radio" name="sandwichLeaves" id="countRadio"
                                                                 (change)="setSandwichRules('Count')"
                                                                 [(ngModel)]="leaveSettingResponse.sandwichRules"
+                                                                value="Count"
                                                                 class="d-none">
                                                             <label for="countRadio" [class.selected]="leaveSettingResponse.sandwichRules === 'Count'">Count</label>
                                                         </div>
@@ -324,7 +325,7 @@
 
 
                                 <div class="tab-pane fade" id="profile" role="tabpanel">
-                                    <div class="container">
+                                    <div class="p-3">
                                         <form [formGroup]="form" (ngSubmit)="saveLeaveCategories()">
 
                                             <div formArrayName="categories">
@@ -353,7 +354,7 @@
                                                            
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <label for="leaveRules" class="pb-2">Unused Leave Rule</label>
+                                                        <label for="leaveRules" class="">Unused Leave Rule</label>
                                                         <div class="dropdown" style="width: 100%;">
                                                             <button type="button" id="leaveRulesDropdown"
                                                                 data-bs-toggle="dropdown" aria-expanded="false"

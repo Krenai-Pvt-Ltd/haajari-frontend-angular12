@@ -862,5 +862,12 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.delete<void>(url);
   }
 
+  sendMailToEmployeesToCompleteOnboarding(email:string):Observable<any>{
+
+    const params = new HttpParams()
+    .set("email", email);
+    return this.httpClient.post<any>(`${this.baseUrl}/users/send-invite-to-employees`, {}, {params});
+  }
+
 
 }
