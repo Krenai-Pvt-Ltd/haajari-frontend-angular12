@@ -203,6 +203,8 @@ export class AttendanceSettingComponent implements OnInit {
 
   attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse = new AttendanceRuleDefinitionResponse();  
   updateAttendenceRuleDefinition(attendanceRuleDefinitionResponse : AttendanceRuleDefinitionResponse, attendanceRuleResponse : AttendanceRuleResponse){
+    this.ruleActiveTab.nativeElement.click();
+    
     this.activeModel = true;
     this.activeModel2 = true;
     
@@ -536,6 +538,7 @@ unselectAllUsers() {
   }
 
   clearModel(){
+    this.ruleActiveTab.nativeElement.click();
     this.attendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
     // this.attendanceRuleDefinitionRequest = {
     //   id : 0,
@@ -580,6 +583,7 @@ unselectAllUsers() {
     this.isfullDayy = false;
 
     this.selectedDeductionType = new DeductionType();
+    this.selectedStaffsUuids = [];
 
   }
 
@@ -651,6 +655,7 @@ unselectAllUsers() {
   }
 
   clearShiftTimingModel(){
+    this.shiftTimingActiveTab.nativeElement.click();
     this.organizationShiftTimingRequest = new OrganizationShiftTimingRequest();
     this.selectedShiftType = new ShiftType();
   }
@@ -786,7 +791,15 @@ unselectAllUsers() {
 
 
   // ##############################################################
+  openAddShiftTimeModal(){
+    this.getShiftTypeMethodCall();
+    this.getUserByFiltersMethodCall();
+    this.clearShiftTimingModel();
+  }
+
   updateOrganizationShiftTiming(organizationShiftTimingResponse : OrganizationShiftTimingResponse){
+
+    this.shiftTimingActiveTab.nativeElement.click();
     debugger
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
     this.organizationShiftTimingRequest.shiftTypeId = organizationShiftTimingResponse.shiftType.id;
