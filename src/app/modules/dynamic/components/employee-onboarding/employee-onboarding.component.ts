@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/models/user';
@@ -15,6 +16,7 @@ import { HelperService } from 'src/app/services/helper.service';
 export class EmployeeOnboardingComponent implements OnInit {
   @ViewChild ('inviteModal') inviteModal!: ElementRef;
   @ViewChild('closeInviteModal') closeInviteModal!: ElementRef;
+  @ViewChild('personalInformationForm') personalInformationForm!: NgForm;
   userPersonalInformationRequest: UserPersonalInformationRequest = new UserPersonalInformationRequest();
   constructor(
     private dataService: DataService,
@@ -267,36 +269,46 @@ selectStatus(status: string) {
     );
   }
 
-  // setEmployeePersonalDetailsMethodCall(){
-  //   debugger
-  //   const userUuid = '';
-  //   this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid )
-  // }
 
+// Define a new flag
+emailAlreadyExists = false;
+toggle = false;
+setEmployeePersonalDetailsMethodCall() {
+  // Reset the flag
+  this.emailAlreadyExists = false;
 
+  
 
-  toggle = false;
-  setEmployeePersonalDetailsMethodCall() {
-    
-   debugger
-   this.toggle = true;
-    this.dataService.setEmployeeByAdmin(this.userPersonalInformationRequest)
-      .subscribe(
-        (response: UserPersonalInformationRequest) => {
+  this.toggle = true;
+  const userUuid = '';
+  this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
+    .subscribe(
+      (response: UserPersonalInformationRequest) => {
           console.log(response); 
           this.toggle = false; 
-          this.clearForm();
-          this.closeModal();
-        },
-        (error) => {
+
+          // Check if the response indicates the email already exists
+          if (response.statusResponse === 'existed') {
+              this.emailAlreadyExists = true; // Set the flag to display the error message
+              this.toggle = false;
+          } else {
+              this.clearForm();
+              this.closeModal();
+          }
+      },
+      (error) => {
           console.error(error);
           this.toggle = false;
-        }
-      );
-  }
+      }
+    );
+}
+
+
+
   clearForm() {
     this.userPersonalInformationRequest = new UserPersonalInformationRequest();
-    
+    this.emailAlreadyExists = false;
+    // this.personalInformationForm.reset();
   } 
 
   closeModal(){
@@ -310,13 +322,21 @@ selectStatus(status: string) {
       (response) => {
         // this.requestFlag=true;
         console.log(response); 
-        location.reload();
+        this.getUsersByFiltersFunction();
+        // location.reload();
       },
       (error) => {
-        console.error(error);
+        // console.error(error);
         // location.reload();
       }
     );
   }
+
+// Reset the model
+resetForm() {
+  if (this.personalInformationForm) {
+      this.personalInformationForm.reset();
+  }
+}
 
 }

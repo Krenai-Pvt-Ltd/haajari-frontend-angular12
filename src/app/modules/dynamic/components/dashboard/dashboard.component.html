@@ -287,36 +287,35 @@
          <div class="row mb-3 mt-3" *ngIf="lateEmployeeAttendanceDetailsResponseList.length!==0 && !errorToggleLate">
             <!-- *ngFor="let performer of responseDto.attendanceLatePerformers" -->
             <div class="col-lg-4 " *ngFor="let lateEmployeeAttendanceDetailsResponse of lateEmployeeAttendanceDetailsResponseList">
-                <div class="card" >
-                    <div class="card-body" style="display:flex;">
+                <div class="card" style="padding: 1rem;">
+                    <div class="card-body" style="display:flex; gap:20px; align-items: center; padding: 0px !important; padding-bottom: 10px !important;">
                         <ng-container *ngIf="lateEmployeeAttendanceDetailsResponse.image !== null; else imageNull">
                             <div>
-                                <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:100px; border-radius:50%">
+                                <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:78px; border-radius:50%">
                             </div>
                         </ng-container>
                         <ng-template #imageNull>
                             <div>
-                                <span>lateEmployeeAttendanceDetailsResponse.name[0]</span>
+                                <span class="members-name">{{lateEmployeeAttendanceDetailsResponse.name[0]}}</span>
                             </div>
                         </ng-template>
                         
                         <div>
-                            <h3>{{lateEmployeeAttendanceDetailsResponse.name}}</h3>
-                            <p>{{lateEmployeeAttendanceDetailsResponse.email}}</p>
-                            <p><span><b>In Time:</b></span><span> {{lateEmployeeAttendanceDetailsResponse.checkInTime}}</span></p>
-                            <p><span><b>Project:</b></span>
-                                <!-- <span *ngFor="let team of lateEmployeeAttendanceDetailsResponse.teams">
-                                     {{team.name}}
-                                </span> -->
-                            </p>
-                            <p><span><b>Manager:</b></span>
-                                <!-- <span *ngFor="let team of lateEmployeeAttendanceDetailsResponse.teams">
-                                     {{team.manager.name}}
-                                </span> -->
-                            </p>
-                        </div>                                
-                                                                                         
-                    </div>
+                            <h5 class="pro-title">{{lateEmployeeAttendanceDetailsResponse.name}}</h5>
+                            <p class="mb-0 text-muted">{{lateEmployeeAttendanceDetailsResponse.email}}</p>
+                          
+                           
+                        </div>   
+                        </div> 
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="">
+                                <p class="mb-0"><span><b>In Time:</b></span><span> {{lateEmployeeAttendanceDetailsResponse.checkInTime}}</span></p>
+                            </div>
+                            <div class="">
+                                <!-- <p class="mb-0"><span><b>Project:</b> </span> Hajiri</p> -->
+                                <p class="mb-0"><span><b>Manager:</b></span> Anchal</p>
+                            </div>
+                        </div>  
                 </div>
             </div>
             

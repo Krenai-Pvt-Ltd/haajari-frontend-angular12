@@ -205,23 +205,23 @@ export class LeaveSettingComponent implements OnInit {
       return;
     }
     console.log(this.selectedStaffsUuids);
-    if (this.selectedStaffsUuids.length > 0 && templateId) {
+    // if (this.selectedStaffsUuids.length > 0 && templateId) {
       this.dataService.registerUserOfLeaveSetting(templateId, this.selectedStaffsUuids).subscribe(
         response => {
           this.getFullLeaveSettingInformation()
           this.requestLeaveCloseModel.nativeElement.click();
           localStorage.removeItem("tempId")
-          // this.emptyAddLeaveSettingRule();
-          location.reload();
+          this.emptyAddLeaveSettingRule();
+          // location.reload();
           console.log('Users saved for leave setting:', response);
         },
         error => {
           console.error('Error saving users for leave setting:', error);
         }
       );
-    } else {
-      // console.error(error);
-    }
+    // } else {
+    //   // console.error(error);
+    // }
   }
 
   itemPerPage: number = 8;
@@ -430,7 +430,7 @@ export class LeaveSettingComponent implements OnInit {
         this.leaveSettingResponse = this.fullLeaveSettingResponse.leaveSetting;
         this.selectedStaffsUuids =  this.fullLeaveSettingResponse.userUuids;
         this.templateSettingTab.nativeElement.click();
-        if(this.fullLeaveSettingResponse.leaveSetting){
+        if(this.leaveSettingResponse!=null){
         this.isFormValid=true;
         }
         // this.checkFormValidity(this.leaveSettingForm);
