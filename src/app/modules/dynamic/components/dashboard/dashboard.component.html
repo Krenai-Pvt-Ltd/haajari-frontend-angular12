@@ -192,12 +192,12 @@
                         <div class="media p-3  align-items-center">  
                             <!-- <img src="" alt="user" class="rounded-circle thumb-xl"> -->
                             <span *ngIf="performer.image != null">
-                                <img src={{performer.image}} alt="user" class="rounded-circle thumb-xl">
+                                <img src={{performer.image}} alt="user" class="rounded-circle" style="width:60px; border-radius:50%">
                             </span>
                             <span class="members-name" *ngIf="performer.image == null">{{ performer.name[0] }}</span>                                    
                             <div class="media-body ms-3 align-self-center">
                                 <h5 class="pro-title m-0">{{performer.name}}</h5>
-                                <p class="mb-0 text-muted">{{performer.email}}</p>                                          
+                                <p class="mb-0 text-muted late-employ-email">{{performer.email}}</p>                                          
                             </div>
                             <!-- <div class="media-body ms-3 align-self-center">
                                 <h5 class="pro-title m-0">Richa Dixit</h5>
@@ -287,11 +287,11 @@
          <div class="row mb-3 mt-3" *ngIf="lateEmployeeAttendanceDetailsResponseList.length!==0 && !errorToggleLate">
             <!-- *ngFor="let performer of responseDto.attendanceLatePerformers" -->
             <div class="col-lg-4 " *ngFor="let lateEmployeeAttendanceDetailsResponse of lateEmployeeAttendanceDetailsResponseList">
-                <div class="card" style="padding: 1rem;">
+                <div class="card" style="padding: 1rem; padding-bottom: 10px;">
                     <div class="card-body" style="display:flex; gap:20px; align-items: center; padding: 0px !important; padding-bottom: 10px !important;">
                         <ng-container *ngIf="lateEmployeeAttendanceDetailsResponse.image !== null; else imageNull">
                             <div>
-                                <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:78px; border-radius:50%">
+                                <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:60px; border-radius:50%">
                             </div>
                         </ng-container>
                         <ng-template #imageNull>
@@ -301,20 +301,35 @@
                         </ng-template>
                         
                         <div>
+                            <!-- <span class="in-time-box">
+                                <p class="mb-0" style="font-size: 10px;"><span class="in-time" style="font-size: 10px;"><b>In Time:</b></span><span class="teme-maneger"> {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span></p>
+                            </span> -->
+
+                            <div class="ribbon1 rib1-primary">
+                                <span class="text-white text-center rib1-primary">In Time:  {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span>                                        
+                            </div>
 
                             <h5 class="pro-title">{{lateEmployeeAttendanceDetailsResponse.name}}</h5>
-                            <p class="mb-0 text-muted">{{lateEmployeeAttendanceDetailsResponse.email}}</p>
+                            <p class="mb-0 text-muted late-employ-email">{{lateEmployeeAttendanceDetailsResponse.email}}</p>
+                            
+
+
                           
                            
                         </div>   
                         </div> 
+                        <hr class="borders-bottom">
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="">
-                                <p class="mb-0"><span><b>In Time:</b></span><span> {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span></p>
-                            </div>
-                            <div class="">
+                            <!-- <div class="">
+                                <p class="mb-0"><span class="in-time"><b>In Time:</b></span><span class="teme-maneger"> {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span></p>
+                            </div> -->
+                            <div class="" style="width: 65%;">
                                 <!-- <p class="mb-0"><span><b>Project:</b> </span> Hajiri</p> -->
-                                <p class="mb-0"><span><b>Manager:</b></span> Anchal</p>
+                                <p class="mb-0"><span class="in-time"><b>Manager:</b></span> <span class="teme-maneger"> Pushpendra, Anchal.  <i class="bi bi-plus" ngbTooltip="Pushpendra, Anchal, Sunny." placement="top" style="font-size: 14px;"></i></span></p>
+                            </div>
+                            <div class="" style="width: 35%; text-align: end;">
+                                <!-- <p class="mb-0"><span><b>Project:</b> </span> Hajiri</p> -->
+                                <p class="mb-0"><span class="in-time"><b> Late Hrs.</b></span> <span class="teme-maneger"> 1:20 Hrs</span></p>
                             </div>
                         </div>  
                 </div>
@@ -608,6 +623,54 @@
                                             </tr>
                                         </ng-container>
                                     </tbody>
+                                    <!-- <tbody *ngIf="(attendanceReportResponseList | json )!= '{}' && !isAttendanceShimer">
+                                        <ng-container *ngFor="let attendanceReportResponse of attendanceReportResponseList let i = index">
+                                            <tr>
+                                                
+                                                <td class="text-left plandtlMainicon">
+                                                    <i class="bi bi-chevron-right month-d projectdIcon collapsed"
+                                                    data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i"
+                                                    role="button" aria-expanded="false" aria-controls="collapseExamplesheet0"></i>
+                                                     {{attendanceReportResponse.userDetailsResponse.userName}}
+                                                        <p class="attendance-name" >{{attendanceReportResponse.userDetailsResponse.userEmail}}</p>
+                                                </td>
+                                                <td class="text-center">{{attendanceReportResponse.presentDaysCount}}</td>
+                                                <td class="text-center">{{attendanceReportResponse.absentDaysCount}}</td>
+                                                <td class="text-center">{{attendanceReportResponse.halfDaysCount}}</td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> - </td>
+                                            </tr>
+                                            <tr class="collapse" [attr.id]="'collapseExamplesheet' + i">
+                                                <td colspan="9" class="p-1">
+                                                    <div class="month-deta">
+                                                        <table class="table table-bordered day-deta">
+                                                            <tr>
+                                                                <th class="text-center">Day</th>
+                                                                <ng-container>
+                                                                    <th class="text-center">{{ getDayNameFromDate(today)[0] }} <br> {{getDayFromDate(today)}}</th>
+                                                                </ng-container>
+                                                            </tr>
+                                                            <tr>
+                
+                                                                <td></td>
+                                                                <ng-container *ngFor="let attendance of entry.value">
+                                                                    <td class="text-center" [ngClass]="{'absent': (attendance.checkInTime==null && convertStringToDate(attendance)<today), 'present': attendance.checkInTime!=null }">{{( attendance.checkInTime==null && convertStringToDate(attendance) < today )?'A':(attendance.checkInTime != null )?'P':'-' }}</td>
+                                                                </ng-container>
+
+                                                                <ng-container>
+                                                                    <td class="text-center">P</td>
+                                                                </ng-container>
+                                                                
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody> -->
                                 </table>
                             </div>
 

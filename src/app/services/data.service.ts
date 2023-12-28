@@ -37,6 +37,7 @@ import { FullLeaveSettingResponse } from "../models/full-leave-setting-response"
 
 import { ObserveOnMessage } from "rxjs/internal/operators/observeOn";
 import { OrganizationShiftTimingRequest } from "../models/organization-shift-timing-request";
+import { FullLeaveSettingRequest } from "../models/Full-Leave-Setting-Request";
 
 
 @Injectable({
@@ -891,5 +892,31 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
   }
 
 
+  registerLeaveSettingRules(fullLeaveSettingRequest: FullLeaveSettingRequest): Observable<FullLeaveSettingRequest> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.httpClient.put<FullLeaveSettingRequest>(
+      `${this.baseUrl}/user-leave-rule/register-leave-setting-rules`,
+      fullLeaveSettingRequest,
+      { headers }
+    );
+  }
+
+  getAttendanceReportByDateDuration(startDate : string, endDate : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set("start_date", startDate)
+    .set("end_date", endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration`, {params});
+  }
+
+  getAttendanceReportByDateDurationByUser(startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set("start_date", startDate)
+    .set("end_date", endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration-by-user`, {params});
+  }
 
 }

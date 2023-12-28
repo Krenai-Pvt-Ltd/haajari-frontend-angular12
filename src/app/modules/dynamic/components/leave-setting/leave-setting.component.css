@@ -1160,8 +1160,8 @@ button.btn.close-btn {
   }
 
   .loader-line {
-    width: 30vh;
-    height: 5px;
+    width: 20vh;
+    height: 3px;
     position: relative;
     overflow: hidden;
     background-color: #ddd;
@@ -1176,7 +1176,7 @@ button.btn.close-btn {
     content: "";
     position: absolute;
     left: -50%;
-    height: 5px;
+    height: 3px;
     width: 40%;
     background-color: #6666f3;
     -webkit-animation: lineAnim 1s linear infinite;
