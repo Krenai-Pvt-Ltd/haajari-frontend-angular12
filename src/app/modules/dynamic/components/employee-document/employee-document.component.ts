@@ -3,6 +3,8 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NavigationExtras, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { UserDocumentsDetailsRequest } from 'src/app/models/user-documents-details-request';
+import { UserDocumentsRequest } from 'src/app/models/user-documents-request';
+import { UserGuarantorRequest } from 'src/app/models/user-guarantor-request';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -19,6 +21,13 @@ selectedHighSchoolCertificateFileName: any;
 
   ngOnInit(): void {
     this.getEmployeeDocumentsDetailsMethodCall();
+    this.userDocumentsDetailsRequest = new UserDocumentsDetailsRequest();
+
+    // Initialize the guarantors array with two new instances for the form
+    this.userDocumentsDetailsRequest.guarantors = [
+      new UserGuarantorRequest(), // Placeholder for the first guarantor
+      new UserGuarantorRequest()  // Placeholder for the second guarantor
+    ];
   }
   
   backRedirectUrl(){
@@ -98,22 +107,26 @@ selectedHighSchoolCertificateFileName: any;
   }
   
   assignDocumentUrl(documentType: string, url: string): void {
+    if (!this.userDocumentsDetailsRequest.userDocuments) {
+      this.userDocumentsDetailsRequest.userDocuments = new UserDocumentsRequest();
+    }
+
     switch (documentType) {
       case 'secondarySchoolCertificate':
-        this.userDocumentsDetailsRequest.secondarySchoolCertificate = url;
+        this.userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate = url;
         break;
       case 'highSchoolCertificate':
-        this.userDocumentsDetailsRequest.highSchoolCertificate = url;
+        this.userDocumentsDetailsRequest.userDocuments.highSchoolCertificate = url;
         break;
       case 'highestQualificationDegree':
-        this.userDocumentsDetailsRequest.highestQualificationDegree = url;
+        this.userDocumentsDetailsRequest.userDocuments.highestQualificationDegree = url;
         break;
       case 'testimonialReccomendation':
-        this.userDocumentsDetailsRequest.testimonialReccomendation = url;
+        this.userDocumentsDetailsRequest.userDocuments.testimonialReccomendation = url;
         break;
-      
     }
   }
+
 
   selectedFile: File | null = null;
   toggle = false;
@@ -125,7 +138,7 @@ selectedHighSchoolCertificateFileName: any;
      
       this.uploadFile(this.selectedFile, 'string');
   }
-
+  console.log(this.userDocumentsDetailsRequest);
   this.dataService.setEmployeeDocumentsDetails(this.userDocumentsDetailsRequest, userUuid)
     
   .subscribe(
@@ -169,38 +182,44 @@ isHighestQualificationDegreeRequired: boolean = true;
 
 
 
-  getEmployeeDocumentsDetailsMethodCall() {
-    debugger
-    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-  
-    if (userUuid) {
-      this.dataService.getEmployeeDocumentDetails(userUuid).subscribe(
-        (response: UserDocumentsDetailsRequest) => {
-          this.userDocumentsDetailsRequest = response;
-          console.log(response);
-          this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(response.secondarySchoolCertificate);
-        this.isSecondarySchoolCertificateRequired = !response.secondarySchoolCertificate;
+getEmployeeDocumentsDetailsMethodCall() {
+  debugger
+  const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+  if (userUuid) {
+    this.dataService.getEmployeeDocumentDetails(userUuid).subscribe(
+      (response: UserDocumentsDetailsRequest) => {
+        this.userDocumentsDetailsRequest = response;
 
-        this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(response.highSchoolCertificate);
-        this.isHighSchoolCertificateRequired = !response.highSchoolCertificate;
+        // Assuming response.userDocuments is populated
+        if (response.userDocuments) {
+          this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(response.userDocuments.secondarySchoolCertificate);
+          this.isSecondarySchoolCertificateRequired = !response.userDocuments.secondarySchoolCertificate;
 
-        this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(response.highestQualificationDegree);
-        this.isHighestQualificationDegreeRequired = !response.highestQualificationDegree;
+          this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(response.userDocuments.highSchoolCertificate);
+          this.isHighSchoolCertificateRequired = !response.userDocuments.highSchoolCertificate;
 
-          this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(response.testimonialReccomendation);
+          this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(response.userDocuments.highestQualificationDegree);
+          this.isHighestQualificationDegreeRequired = !response.userDocuments.highestQualificationDegree;
 
-          this.dataService.markStepAsCompleted(3);
-        },
-        (error: any) => {
-          console.error('Error fetching user details:', error);
-          
+          this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(response.userDocuments.testimonialReccomendation);
         }
-      );
-    } else {
-      console.error('uuidNewUser not found in localStorage');
-      
-    }
-  } 
+
+        // Initialize guarantors if they are not part of the response
+        if (!this.userDocumentsDetailsRequest.guarantors) {
+          this.userDocumentsDetailsRequest.guarantors = [
+            new UserGuarantorRequest(),
+            new UserGuarantorRequest()
+          ];
+        }
+      },
+      (error: any) => {
+        console.error('Error fetching user details:', error);
+      }
+    );
+  } else {
+    console.error('User UUID not found.');
+  }
+}
 
   getFilenameFromUrl(url: string): string {
     if (!url) return '';

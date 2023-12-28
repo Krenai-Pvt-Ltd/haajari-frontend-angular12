@@ -47,24 +47,19 @@ export class EmployeeExperienceComponent implements OnInit {
 
   }
 
-  addMoreExperience(
-    companyName: string,
-    employementDuration: string,
-    jobResponisibilities: string,
-    lastSalary: string,
-    lastJobDepartment: string,
-    lastJobPosition: string
-  ): void {
-    const newUserExperience = new UserExperience();
-    newUserExperience.companyName = companyName;
-    newUserExperience.employementDuration = employementDuration;
-    newUserExperience.jobResponisibilities = jobResponisibilities;
-    newUserExperience.lastSalary = lastSalary;
-    newUserExperience.lastJobDepartment = lastJobDepartment;
-    newUserExperience.lastJobPosition = lastJobPosition;
-    
-    this.userExperiences.push(newUserExperience);
-  }
+  addMoreExperience() {
+    const newExperience: UserExperience = {
+        companyName: '',
+        employementDuration: '',
+        lastJobDepartment: '',
+        lastSalary: '',
+        lastJobPosition: '',
+        jobResponisibilities: '',
+        fresher: false // or true, depending on your logic
+    };
+    this.userExperiences.push(newExperience);
+}
+
   
   
   prepareUserExperienceDetailRequest(): UserExperience[] {
@@ -79,8 +74,10 @@ export class EmployeeExperienceComponent implements OnInit {
   }
 
 
+
   toggle = false;
   setEmployeeExperienceDetailsMethodCall() {
+    debugger
     const userUuid = this.getUserUuid();
     if (!userUuid) {
       console.error('User UUID is not available.');
@@ -102,20 +99,34 @@ export class EmployeeExperienceComponent implements OnInit {
       );
   }
 
+  isLoading: boolean = true; 
+
   getEmployeeExperiencesDetailsMethodCall(userUuid: string) {
+    debugger
+    this.isLoading = true;
     this.dataService.getEmployeeExperiencesDetailsOnboarding(userUuid).subscribe(
       experiences => {
         if (experiences && experiences.length > 0) {
+          this.isFresher= 
+          this.isLoading = false;
+          this.isFresher=false;
           this.userExperiences = experiences;
+          
           this.dataService.markStepAsCompleted(5);
         } else {
+          this.isLoading = false;
           this.addExperience(); // Call addExperience if experiences is null or empty
         }
       },
       error => {
+        this.isLoading = false;
         console.error('Error fetching user details:', error);
         this.addExperience();
       }
     );
   }
+
+
+
+  isFresher:boolean=true;
 }

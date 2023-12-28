@@ -18,7 +18,7 @@
                                         <div class="mb-3">
                                           <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet <span class="text-optional">*</span></label>
                                           <div class="importfilebox">
-                                            <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')" [required]="isSecondarySchoolCertificateRequired" #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.secondarySchoolCertificate">
+                                            <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')" [required]="isSecondarySchoolCertificateRequired" #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate">
                                             <label for="secondarySchoolCertificateFile">
                                                 <!-- No file is selected or uploaded -->
                                                 <span *ngIf="!selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
@@ -54,7 +54,7 @@
                                         <div class="mb-3">
                                           <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet <span class="text-optional">*</span></label>
                                           <div class="importfilebox">
-                                            <input id="highSchoolCertificateFile" name="highSchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')" [required]="isHighSchoolCertificateRequired" #highSchool="ngModel" [(ngModel)]="userDocumentsDetailsRequest.highSchoolCertificate">
+                                            <input id="highSchoolCertificateFile" name="highSchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')" [required]="isHighSchoolCertificateRequired" #highSchool="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highSchoolCertificate">
                                             <label for="highSchoolCertificateFile">
                                                 <!-- No file is selected or uploaded -->
                                                 <span *ngIf="!selectedHighSchoolFileName && !highSchoolCertificateFileName1">
@@ -90,7 +90,7 @@
                                         <div class="mb-3">
                                           <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree <span class="text-optional">*</span></label>
                                           <div class="importfilebox">
-                                            <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" [required]="isHighestQualificationDegreeRequired" #highestQualificationDegree="ngModel" [(ngModel)]="userDocumentsDetailsRequest.highestQualificationDegree">
+                                            <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" [required]="isHighestQualificationDegreeRequired" #highestQualificationDegree="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highestQualificationDegree">
                                             <label for="highestQualificationDegreeFile">
                                                 <!-- No file is selected or uploaded -->
                                                 <span *ngIf="!selectedHighestQualificationDegreeFileName && !highestQualificationDegreeFileName1">
@@ -128,7 +128,7 @@
                                                 Testimonials/Recommendation <span class="text-optional">(Optional)</span>
                                             </label>
                                             <div class="importfilebox">
-                                                <input id="testimonialReccomendationFile" name="testimonialReccomendationFile" type="file" class="input" accept="application/pdf" (change)="onFileSelected($event, 'testimonialReccomendation')" #testimonialReccomendation="ngModel" [(ngModel)]="userDocumentsDetailsRequest.testimonialReccomendation">
+                                                <input id="testimonialReccomendationFile" name="testimonialReccomendationFile" type="file" class="input" accept="application/pdf" (change)="onFileSelected($event, 'testimonialReccomendation')" #testimonialReccomendation="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.testimonialReccomendation">
                                                 <label for="testimonialReccomendationFile">
                                                     <span *ngIf="!selectedTestimonialReccomendationFileName && !testimonialReccomendationFileName1"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF</span>
                                                     <span *ngIf="testimonialReccomendationFileName1 && !selectedTestimonialReccomendationFileName" >{{ testimonialReccomendationFileName1 }}</span>
@@ -153,9 +153,9 @@
 
                                      <div class="row">
                                         <div class="col-md-3">
-                                            <div class="mb-3">
+                                            <div class="mb-3"   >
                                                 <label for="exampleInputEmail1" class="pb-2">Name</label>
-                                                <input type="text" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantorName1" required #guarantorName1="ngModel">
+                                                <input type="text" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].name" required #guarantorName1="ngModel">
                                                 <!-- Error Message for Name Field -->
                                                 <div *ngIf="guarantorName1.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="guarantorName1.errors?.required">
@@ -169,7 +169,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="relationInput" class="pb-2">Relation</label>
-                                                <input type="text" class="form-control" id="relationInput" name="relationInput" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest.guarantorRelation1" required #relation1="ngModel">
+                                                <input type="text" class="form-control" id="relationInput" name="relationInput" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].relation" required #relation1="ngModel">
                                                 <!-- Error Message for Relation Field -->
                                                 <div *ngIf="relation1.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation1.errors?.required">
@@ -182,7 +182,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="phoneInput" class="pb-2">Phone Number</label>
-                                                <input type="text" class="form-control" id="phoneInput" name="phoneInput" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantorPhoneNumber1" required #phone1="ngModel" minlength="10" maxlength="10" pattern="[0-9]*">
+                                                <input type="text" class="form-control" id="phoneInput" name="phoneInput" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].phoneNumber" required #phone1="ngModel" minlength="10" maxlength="10" pattern="[0-9]*">
                                                 <!-- Error Message for Phone Number Field -->
                                                 <div *ngIf="phone1.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone1.errors?.required">
@@ -201,7 +201,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="emailInput" class="pb-2">Email</label>
-                                                <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail1" required email #email1="ngModel">
+                                                <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].emailId" required email #email1="ngModel">
                                                 
                                                 <!-- Error Message for Email Field -->
                                                 <div *ngIf="email1.touched">
@@ -225,7 +225,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorName2" class="pb-2">Name</label>
-                                                <input type="text" class="form-control" id="guarantorName2" name="guarantorName2" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantorName2" required #name2="ngModel">
+                                                <input type="text" class="form-control" id="guarantorName2" name="guarantorName2" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantors[1].name" required #name2="ngModel">
                                                 <!-- Error Message for Name Field -->
                                                 <div *ngIf="name2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name2.errors?.required">
@@ -238,7 +238,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorRelation2" class="pb-2">Relation</label>
-                                                <input type="text" class="form-control" id="guarantorRelation2" name="guarantorRelation2" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest.guarantorRelation2" required #relation2="ngModel">
+                                                <input type="text" class="form-control" id="guarantorRelation2" name="guarantorRelation2" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest.guarantors[1].relation" required #relation2="ngModel">
                                                 <!-- Error Message for Relation Field -->
                                                 <div *ngIf="relation2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation2.errors?.required">
@@ -251,7 +251,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorPhoneNumber2" class="pb-2">Phone Number</label>
-                                                <input type="text" class="form-control" id="guarantorPhoneNumber2" name="guarantorPhoneNumber2" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantorPhoneNumber2" required minlength="10" maxlength="10" pattern="[0-9]*" #phone2="ngModel">
+                                                <input type="text" class="form-control" id="guarantorPhoneNumber2" name="guarantorPhoneNumber2" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantors[1].phoneNumber" required minlength="10" maxlength="10" pattern="[0-9]*" #phone2="ngModel">
                                                 <!-- Error Message for Phone Number Field -->
                                                 <div *ngIf="phone2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone2.errors?.required">
@@ -272,7 +272,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorEmail2" class="pb-2">Email</label>
-                                                <input type="email" class="form-control" id="guarantorEmail2" name="guarantorEmail2" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest.guarantorEmail2" required email #email2="ngModel">
+                                                <input type="email" class="form-control" id="guarantorEmail2" name="guarantorEmail2" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest.guarantors[1].emailId" required email #email2="ngModel">
                                                 
                                                 <!-- Error Message for Email Field -->
                                                 <div *ngIf="email2.touched">
