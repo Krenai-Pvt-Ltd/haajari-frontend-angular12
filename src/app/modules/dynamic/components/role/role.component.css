@@ -346,3 +346,63 @@ button.btn.close-btn{
     align-items: center;
     text-align: center;
 }
+
+
+.img-group .user-avatar {
+    position: relative;
+    display: inline-block;
+}
+.members-icon {
+    background-color: #eea2cc;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+
+.roldefine-box{
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.shrivastwa h5{
+    color: #000444;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 5px;
+    margin-top: 0px;
+}
+
+.shrivastwa p{
+    color: #8d93a1!important;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+margin-bottom: 0px;
+ }
+
+ .role-detaile p{
+    color: #8d93a1!important;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    margin-bottom: 0px;
+ }
+ .total-mamber p{
+    color: #8d93a1!important;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 0px;
+ }

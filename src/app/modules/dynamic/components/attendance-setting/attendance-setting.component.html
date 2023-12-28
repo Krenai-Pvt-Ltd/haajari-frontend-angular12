@@ -11,14 +11,14 @@
 
 
 
-                    <div class="col-md-5 ">
+                    <div class="col-md-4 ">
                         <div class="form-roe-data">
                             <h5>Attendance Mode </h5>
                             <p>This will be displayed on your profile.</p>
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-7">
 
 
                         <!-- <div class="row mb-3">
@@ -38,7 +38,24 @@
                             </div>
                         </div> -->
 
+                        <div class="row" >
+                            <div class="col-md-12">
+                                <div class="attendance-settin-list mb-3">
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'60px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                </div>
+                                <div class="attendance-settin-list mb-3">
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'60px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                </div>
+                                <div class="attendance-settin-list mb-3">
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'60px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row mb-3">
+
+                           
+
                             <div class="attendance-settin-list" *ngFor="let attendanceMode of attendanceModeList">
                                 <div class="categryCustomizecard d-flex pointer" 
                                      [ngClass]="{'attendance-active': attendanceMode.id === selectedAttendanceModeId}" 
@@ -65,14 +82,86 @@
                     </div>
 
 
-                    <div class="col-md-5 mt-3 mb-3">
+                    <div class="col-md-4 mt-3 mb-3">
                         <div class="form-roe-data">
                             <h5>Shift Settings </h5>
                             <p>A quick snapshot of your company.</p>
                         </div>
                     </div>
 
-                    <div class="col-md-6 mt-3 mb-3">
+
+<!-- 
+                    <div class="col-md-7 mt-3 mb-3">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="">
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="col-md-7 mt-3 mb-3">
+                        
+                        <div class="">
+                            <div class="text-end">
+                                <ngx-shimmer-loading [width]="'40%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                            </div>
+                        </div>
+
+                        <div class=" mt-3" style="border: 1px solid #f5f5f5; padding:5px; border-radius: 6px;">
+
+                            <div class="row" style="border-bottom: 1px solid #f5f5f5; padding-top: 10px; padding-bottom: 10px;">
+                                <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-3" >
+                                <div class="col-md-3">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                 <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+
+                      
 
                         <ng-container *ngIf="organizationShiftTimingWithShiftTypeResponseList.length === 0; else organizationShiftTimingWithShiftTypeData">
                             <div class="empty-file">
@@ -102,6 +191,9 @@
                                    <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="openAddShiftTimeModal()"><i class="bi bi-plus"></i> Add Shift Time </a>                
         
                                 </div>
+
+
+
     
     
                                 <div class="rule-main-box mt-3" *ngFor="let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList">
@@ -180,14 +272,72 @@
 
 
 
-                    <div class="col-md-5 mt-3 mb-3">
+                    <div class="col-md-4 mt-3 mb-3">
                         <div class="form-roe-data">
                             <h5>Automation Rules </h5>
                             <p>A quick snapshot of your company.</p>
                         </div>
                     </div>
 
-                    <div class="col-md-6 mt-3 mb-3">
+                    <div class="col-md-7 mt-3 mb-3">
+
+                        <div class="">
+                            <div class="text-end">
+                                <ngx-shimmer-loading [width]="'40%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                            </div>
+                        </div>
+
+                        <div class=" mt-3" style="border: 1px solid #f5f5f5; padding:5px; border-radius: 6px;">
+
+                            <div class="row" style="border-bottom: 1px solid #f5f5f5; padding-top: 10px; padding-bottom: 10px;">
+                                <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-3" >
+                                <div class="col-md-3">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                 <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
 
 
                         <ng-container *ngIf="attendanceRuleWithAttendanceRuleDefinitionResponseList.length === 0; else attendanceRuleWithDefinitionData">
