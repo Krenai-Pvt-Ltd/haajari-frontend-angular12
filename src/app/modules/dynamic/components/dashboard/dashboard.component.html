@@ -623,6 +623,54 @@
                                             </tr>
                                         </ng-container>
                                     </tbody>
+                                    <!-- <tbody *ngIf="(attendanceReportResponseList | json )!= '{}' && !isAttendanceShimer">
+                                        <ng-container *ngFor="let attendanceReportResponse of attendanceReportResponseList let i = index">
+                                            <tr>
+                                                
+                                                <td class="text-left plandtlMainicon">
+                                                    <i class="bi bi-chevron-right month-d projectdIcon collapsed"
+                                                    data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i"
+                                                    role="button" aria-expanded="false" aria-controls="collapseExamplesheet0"></i>
+                                                     {{attendanceReportResponse.userDetailsResponse.userName}}
+                                                        <p class="attendance-name" >{{attendanceReportResponse.userDetailsResponse.userEmail}}</p>
+                                                </td>
+                                                <td class="text-center">{{attendanceReportResponse.presentDaysCount}}</td>
+                                                <td class="text-center">{{attendanceReportResponse.absentDaysCount}}</td>
+                                                <td class="text-center">{{attendanceReportResponse.halfDaysCount}}</td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> - </td>
+                                            </tr>
+                                            <tr class="collapse" [attr.id]="'collapseExamplesheet' + i">
+                                                <td colspan="9" class="p-1">
+                                                    <div class="month-deta">
+                                                        <table class="table table-bordered day-deta">
+                                                            <tr>
+                                                                <th class="text-center">Day</th>
+                                                                <ng-container>
+                                                                    <th class="text-center">{{ getDayNameFromDate(today)[0] }} <br> {{getDayFromDate(today)}}</th>
+                                                                </ng-container>
+                                                            </tr>
+                                                            <tr>
+                
+                                                                <td></td>
+                                                                <ng-container *ngFor="let attendance of entry.value">
+                                                                    <td class="text-center" [ngClass]="{'absent': (attendance.checkInTime==null && convertStringToDate(attendance)<today), 'present': attendance.checkInTime!=null }">{{( attendance.checkInTime==null && convertStringToDate(attendance) < today )?'A':(attendance.checkInTime != null )?'P':'-' }}</td>
+                                                                </ng-container>
+
+                                                                <ng-container>
+                                                                    <td class="text-center">P</td>
+                                                                </ng-container>
+                                                                
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody> -->
                                 </table>
                             </div>
 

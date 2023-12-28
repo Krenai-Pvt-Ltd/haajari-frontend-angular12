@@ -891,6 +891,7 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-late-employee-attendance-details`);
   }
 
+
   registerLeaveSettingRules(fullLeaveSettingRequest: FullLeaveSettingRequest): Observable<FullLeaveSettingRequest> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
@@ -901,6 +902,21 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     );
   }
 
+  getAttendanceReportByDateDuration(startDate : string, endDate : string): Observable<any>{
 
+    const params = new HttpParams()
+    .set("start_date", startDate)
+    .set("end_date", endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration`, {params});
+  }
+
+  getAttendanceReportByDateDurationByUser(startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set("start_date", startDate)
+    .set("end_date", endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration-by-user`, {params});
+  }
 
 }
