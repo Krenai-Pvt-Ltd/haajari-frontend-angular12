@@ -56,6 +56,7 @@ import { TimeFormatPipe } from './time-format.pipe';
 import { SafePipe } from 'src/app/pipe/safe.pipe';
 import { AppComponent } from 'src/app/app.component';
 import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
+import { RoleAddComponent } from './components/role-add/role-add.component';
 
 
 @NgModule({
@@ -98,7 +99,8 @@ import { DurationPickerComponent } from '../common/duration-picker/duration-pick
     SlackDataLoadComponent,
     PrivacyComponent,
     SupportComponent,
-    SafePipe
+    SafePipe,
+    RoleAddComponent
 
   ],
   imports: [
