@@ -37,6 +37,7 @@ import { FullLeaveSettingResponse } from "../models/full-leave-setting-response"
 
 import { ObserveOnMessage } from "rxjs/internal/operators/observeOn";
 import { OrganizationShiftTimingRequest } from "../models/organization-shift-timing-request";
+import { FullLeaveSettingRequest } from "../models/Full-Leave-Setting-Request";
 
 
 @Injectable({
@@ -888,6 +889,16 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
 
   getLateEmployeeAttendanceDetails(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-late-employee-attendance-details`);
+  }
+
+  registerLeaveSettingRules(fullLeaveSettingRequest: FullLeaveSettingRequest): Observable<FullLeaveSettingRequest> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.httpClient.put<FullLeaveSettingRequest>(
+      `${this.baseUrl}/user-leave-rule/register-leave-setting-rules`,
+      fullLeaveSettingRequest,
+      { headers }
+    );
   }
 
 
