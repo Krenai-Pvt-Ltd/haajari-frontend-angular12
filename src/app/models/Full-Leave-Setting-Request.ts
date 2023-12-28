@@ -1,8 +1,8 @@
-export class FullLeaveSettingResponse {
-    leaveSetting!: LeaveSettingResponse;
-    leaveSettingCategories!: LeaveSettingCategoryResponse[];
-    userLeaveRule!: UserLeaveSettingRule[];
-    userUuids!: string[];
+export class FullLeaveSettingRequest {
+  leaveSettingResponse: LeaveSettingResponse = new LeaveSettingResponse();
+  leaveSettingCategoryResponse: LeaveSettingCategoryResponse[] = new Array();
+  userUuids!: string[];
+    // userLeaveRule: UserLeaveSettingRule = new UserLeaveSettingRule();
   }
   
   export class LeaveSettingResponse {
