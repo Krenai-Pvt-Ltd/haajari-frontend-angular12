@@ -43,11 +43,7 @@ import { SupportComponent } from './components/support/support.component';
 import { ErrorPageComponent } from '../common/error-page/error-page.component';
 import { SlackDataLoaderComponent } from '../common/slack-data-loader/slack-data-loader.component';
 import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
-<<<<<<< HEAD
 import { RoleAddComponent } from './components/role-add/role-add.component';
-=======
-import { NotifactionTostComponent } from '../common/notifaction-tost/notifaction-tost.component';
->>>>>>> 367150893f7e71df3e63a8c36946b27b314a7b76
 
 
 
@@ -96,12 +92,7 @@ import { NotifactionTostComponent } from '../common/notifaction-tost/notifaction
     {path: 'error-page', component: ErrorPageComponent},
     {path: 'slack-data-loader', component: SlackDataLoaderComponent},
     {path : 'duration-picker', component: DurationPickerComponent},
-<<<<<<< HEAD
     {path : 'add-role', component: RoleAddComponent}
-=======
-    {path : 'notification-toast', component: NotifactionTostComponent}
-    
->>>>>>> 367150893f7e71df3e63a8c36946b27b314a7b76
   ] }
   ];
 
