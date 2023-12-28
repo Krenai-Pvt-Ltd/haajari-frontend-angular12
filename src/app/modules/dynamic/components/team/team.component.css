@@ -956,6 +956,28 @@ button.btn.close-btn{
     top: -2px;
     bottom: 0;
 }
+
+.deta-prosesing{
+  color: #73737d;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.sucsuce-msg-box{
+  background-color: green;
+  width: 400px;
+  margin: 0 auto;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.sucsuce-msg{
+  color: #fff;
+  text-align: center;
+  font-weight:500;
+  margin-bottom: 0px;
+  font-size: 12px;
+}
   .loaderIcon:nth-child(1){
     animation-delay: 1s;
   }

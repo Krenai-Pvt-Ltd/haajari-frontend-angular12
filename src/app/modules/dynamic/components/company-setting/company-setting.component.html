@@ -28,6 +28,10 @@
 
                     <div class="row mb-3">
                         <div class="col-md-12">
+
+                            <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 50%" ></ngx-shimmer-loading>
+                            </div>
                             <div class="form-fild">
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Company name" #companyName="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.name" required minlength="2" maxlength="100">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="companyName.errors?.required && (companyName.dirty || companyName.touched)">
@@ -43,6 +47,11 @@
                         </div>
 
                         <div class="col-md-6 mt-3">
+
+                            <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 50%" ></ngx-shimmer-loading>
+                            </div>
+
                             <div class="form-fild">
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Email Id" #emailId="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.email" required email>
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="emailId.errors?.required && (emailId.dirty || emailId.touched)">
@@ -56,6 +65,12 @@
                         
                         
                         <div class="col-md-6 mt-3">
+                 
+
+                            <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 50%" ></ngx-shimmer-loading>
+                            </div>
+
                             <div class="form-fild">
                                 <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone number" #phoneNumber="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.phoneNumber" minlength="10" maxlength="10" pattern="[0-9]*">
     
@@ -88,6 +103,10 @@
                     <div class="col-md-6 mt-3 mb-3">
                         <div class="row">
                             <div class="col-md-12">
+
+                                <div class="">
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 50%" ></ngx-shimmer-loading>
+                                </div>
                                 <div class="form-fild">
                                     
 
@@ -118,7 +137,7 @@
                         <div class="row align-items-center">
                             <div class="col-md-4">
                                 <div class="">
-                                    <img [src]="dbImageUrl ? dbImageUrl : 'assets/images/hajiri_logo.png'" id="imagePreview" style="height: 60px;">
+                                    <img [src]="dbImageUrl ? dbImageUrl : 'assets/images/hajiri_logo.png'" id="imagePreview" style="width: 100%;">
                                 </div>
                             </div>
                             
