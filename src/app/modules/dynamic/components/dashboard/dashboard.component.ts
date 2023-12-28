@@ -9,6 +9,7 @@ import { AttendanceWithLatePerformerResponseDto, AttendanceWithTopPerformerRespo
 import { HelperService } from 'src/app/services/helper.service';
 import * as moment from 'moment';
 import { LateEmployeeAttendanceDetailsResponse } from 'src/app/models/late-employee-attendance-details-response';
+import { AttendanceReportResponse } from 'src/app/models/attendance-report-response';
 
 @Component({
   selector: 'app-dashboard',
@@ -53,6 +54,8 @@ export class DashboardComponent implements OnInit {
     //   startDate: firstDayOfMonth,
     //   endDate: lastDayOfMonth
     // };
+
+    this.getAttendanceReportByDateDurationMethodCall();
 
     this.getLateEmployeeAttendanceDetailsMethodCall();
     const currentDate = moment();
@@ -361,5 +364,26 @@ errorToggleMain: boolean=false;
     })
   }
   
+
+  // ######################################################################
+
+  attendanceReportResponseList : AttendanceReportResponse[] = [];
+  getAttendanceReportByDateDurationMethodCall(){
+    this.dataService.getAttendanceReportByDateDuration('2023-12-01','2023-12-31').subscribe((response) => {
+      this.attendanceReportResponseList = response;
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  attendanceReportResponseListByUser : Date[] = [];
+  getAttendanceReportByDateDurationByUserMethodCall(){
+    this.dataService.getAttendanceReportByDateDurationByUser('2023-12-01','2023-12-31').subscribe((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    })
+  }
   
 }
