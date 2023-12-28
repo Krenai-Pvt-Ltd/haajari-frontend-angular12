@@ -77,12 +77,12 @@
                                 *ngFor="let newLeaveSetting of fullLeaveSettingResponseList">
                                 <div class="d-flex align-items-center attendance-boxx">
                                     <div class="late-rule" style="width:70%">
-                                        <h4>{{ newLeaveSetting.leaveSetting.templateName}}</h4>
+                                        <h4>{{ newLeaveSetting!.leaveSetting.templateName}}</h4>
                                     </div>
                                     <!-- style="align-items:end" -->
                                     <div class="late-btn d-flex align-items-center justify-content-end mb-2"
                                     style="gap: 20px;    margin-right: 15px;">
-                                        <span style="color:#009688">Staff - ({{newLeaveSetting.userLeaveRule.length || 0}})</span>
+                                        <span style="color:#009688">Staff - ({{newLeaveSetting!.userLeaveRule.length || 0}})</span>
                                         <a href="" data-bs-toggle="modal" data-bs-target="#requestleave"><i
                                                 class="bi bi-pencil-square"
                                                 (click)="getLeaveSettingInformationById(newLeaveSetting.leaveSetting.id)"></i></a>
@@ -98,7 +98,7 @@
                                     *ngFor="let category of newLeaveSetting.leaveSettingCategories">
                                     <div class="col-md-12 d-flex justify-content-between align-items-center">
                                         <p class="mb-0 mb-2" style="font-size: 12px; font-weight: 500;">{{
-                                            category.leaveName || 'N/A'}}
+                                            category?.leaveName || 'N/A'}}
                                         </p>
                                         <div class="late-btn d-flex align-items-center justify-content-end mb-2"
                                             style="gap: 20px;    margin-right: 15px;">
@@ -110,19 +110,19 @@
                                     <div class="col-md-4">
                                         <div class="shift-deta">
                                             <p class="mb-0">Leave Count | <span style="color: #009688;">{{
-                                                    category.leaveCount || 'N/A'}}</span> </p>
+                                                    category?.leaveCount || 'N/A'}}</span> </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
                                             <p class="mb-0">Leave Rule | <span style="color: #009688;">{{
-                                                    category.leaveRules || 'N/A' }}</span> </p>
+                                                    category?.leaveRules || 'N/A' }}</span> </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="shift-deta">
                                             <p class="mb-0">Carry Forward Limit | <span style="color: #009688;">{{
-                                                    category.carryForwardDays || 'N/A' }}</span> </p>
+                                                    category?.carryForwardDays || 'N/A' }}</span> </p>
                                         </div>
                                     </div>
 

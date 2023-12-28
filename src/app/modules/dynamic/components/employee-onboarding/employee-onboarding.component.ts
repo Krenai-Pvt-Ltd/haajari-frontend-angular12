@@ -322,10 +322,11 @@ setEmployeePersonalDetailsMethodCall() {
       (response) => {
         // this.requestFlag=true;
         console.log(response); 
-        location.reload();
+        this.getUsersByFiltersFunction();
+        // location.reload();
       },
       (error) => {
-        console.error(error);
+        // console.error(error);
         // location.reload();
       }
     );
