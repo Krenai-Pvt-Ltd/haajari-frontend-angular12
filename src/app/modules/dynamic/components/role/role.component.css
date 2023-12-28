@@ -195,7 +195,7 @@ tbody tr:last-child{
 }
 
 .badge-grey {
-    background: #f3f4f6;
+    background: #ebebeb;
     border-radius: 6px;
     padding: 6px 12px;
     font-weight: 400;
@@ -366,23 +366,27 @@ button.btn.close-btn{
 
 
 .roldefine-box{
-    background-color: #f7f7f7;
-    border-radius: 10px;
     padding: 20px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    border: none;
+    border: 1px solid #f1f1f1;
+    -webkit-box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .shrivastwa h5{
     color: #000444;
     font-size: 16px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     line-height: normal;
     margin-bottom: 5px;
     margin-top: 0px;
 }
 
 .shrivastwa p{
-    color: #8d93a1!important;
+    color: #8997bd!important;
 font-size: 12px;
 font-style: normal;
 font-weight: 400;
@@ -391,7 +395,7 @@ margin-bottom: 0px;
  }
 
  .role-detaile p{
-    color: #8d93a1!important;
+    color: #8997bd!important;
     font-size: 11px;
     font-style: normal;
     font-weight: 400;
@@ -399,10 +403,37 @@ margin-bottom: 0px;
     margin-bottom: 0px;
  }
  .total-mamber p{
-    color: #8d93a1!important;
+    color: #8997bd!important;
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     margin-bottom: 0px;
  }
+
+ .add-role-box{
+    border: 1px dashed rgb(205, 214, 223);
+    background-color: #fff;
+    border-radius: 3px;
+ }
+
+ .add-filtter a {
+    margin-bottom: 0px;
+    color: #6666f3;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+[class^="bi-"]::before, [class*=" bi-"]::before {
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: text-bottom;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
