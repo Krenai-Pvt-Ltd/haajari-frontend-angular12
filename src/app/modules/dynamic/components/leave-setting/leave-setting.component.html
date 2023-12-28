@@ -25,7 +25,6 @@
 
                         </div>
 
-
                         <div class="">
                             <div class="text-end">
                                 <ngx-shimmer-loading [width]="'40%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
@@ -181,7 +180,19 @@
 
                         <div class="empty-file" *ngIf="leaveSettingPlaceholder">
 
-                            <div class="errorboxmain">
+                            <div class="errorboxmain text-center" *ngIf="isLeaveErrorPlaceholder" >
+                                <div class="errorboxinner" >
+                                    <div class="errorboxplaceholder mb-2">
+                                        <img src="assets/images/signal.svg" style="width:80px;" />
+                                    </div>
+                                    <div class="">
+                                        <h4>Something went wrong!</h4>
+                                        <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="errorboxmain" *ngIf="leaveSettingPlaceholder">
                                 <div class="errorboxinner">
                                     <div class="errorboxplaceholder mb-2">
                                         <img src="assets/images/empty-box.svg" style="width:80px;" />
@@ -202,15 +213,15 @@
                         
 
                         <div class="col-md-12">
-                            <div class="add-filtter d-flex align-items-center justify-content-end" *ngIf="!leaveSettingPlaceholder">
+                            <div class="add-filtter d-flex align-items-center justify-content-end" *ngIf="!leaveSettingPlaceholder && !isLeaveErrorPlaceholder">
                                 <span *ngIf="!idFlag">
                                 <a class="add-filtter" data-bs-toggle="modal" data-bs-target="#requestleave" (click)="emptyAddLeaveSettingRule()"><i
                                         class="bi bi-plus" style="font-size: 23px;"></i> Add Leave Settings</a>
                                 </span>
-                                <span *ngIf="idFlag">
+                                <!-- <span *ngIf="idFlag">
                                     <a class="add-filtter" data-bs-toggle="modal" data-bs-target="#requestleave" (click)="getLeaveSettingInformationById(localStorageLeaveRuleId)"><i
                                             class="bi bi-plus" style="font-size: 23px;"></i> Add Leave Settings</a>
-                                    </span>
+                                    </span> -->
 
                             </div>
                             <!-- <div  class="loading-container" style="align-items: center;" *ngIf="isLoading">
@@ -351,7 +362,7 @@
 
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active" id="home" role="tabpanel">
-                                    <form #leaveSettingForm="ngForm" (ngSubmit)="registerLeaveSettingTemplate()">
+                                    <form #leaveSettingForm="ngForm">
                                     <div class="p-3">
                                         <div class="row mb-3">
                                             <div class="col-md-12">
@@ -388,12 +399,8 @@
                                                             <label for="yearlyRadio"
                                                                 [class.selected]="leaveSettingResponse.leaveCycle === 'Yearly'">Yearly</label>
                                                         </div>
-                                                        <input type="hidden" [(ngModel)]="leaveSettingResponse.leaveCycle" [ngModelOptions]="{standalone: true}" required #leaveCycle="ngModel">
-                                                        <div *ngIf="leaveCycle?.touched">
-                                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="leaveCycle.errors?.required">
-                                                                <i class="bi bi-exclamation-circle"></i> This Field is required.
-                                                            </p>
-                                                        </div>
+                                                        <input type="hidden" [(ngModel)]="leaveSettingResponse.leaveCycle" [ngModelOptions]="{standalone: true}">
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -487,7 +494,7 @@
                                                 <div class="modal-footer d-flex align-items-center justify-content-end">
                                                     <!-- <button (click)="registerLeaveSettingTemplate()"
                                                         class="btn btn-success">Next</button> -->
-                                                        <button type="submit" [disabled]="!isFormValid" class="btn btn-success">Next</button>
+                                                        <button type="submit" [disabled]="!isFormValid" (click)="goToLeaveCategoryTab()" class="btn btn-success">Next</button>
                                                     </div>
                                             </div>
                                             <!-- <div class="col-md-12 mt-3">
@@ -502,7 +509,7 @@
 
                                 <div class="tab-pane fade" id="profile" role="tabpanel">
                                     <div class="p-3">
-                                        <form [formGroup]="form" (ngSubmit)="saveLeaveCategories()">
+                                        <form [formGroup]="form">
 
                                             <div formArrayName="categories">
                                                 <div *ngFor="let category of categories.controls; let i = index"
@@ -605,7 +612,7 @@
                                                 <div class="modal-footer d-flex align-items-center justify-content-end">
                                                     <!-- <button type="submit" class="btn btn-success"
                                                         >Next</button> -->
-                                                        <button type="submit" class="btn btn-success" [disabled]="!form.valid">Next</button>
+                                                        <button type="submit" class="btn btn-success" [disabled]="!form.valid" (click)="goToStaffSelectionTab()">Next</button>
                                                     </div>
                                             </div>
                                         </form>
@@ -662,9 +669,9 @@
                                                            [(ngModel)]="isAllUsersSelected"
                                                            (change)="selectAllUsers($event)">
                                                 </th> -->
-                                            <div *ngIf="selectedStaffsUuids.length > 0">
+                                            <div *ngIf="selectedStaffsUuids!.length > 0">
                                                 <ng-container
-                                                    *ngIf="selectedStaffsUuids.length === total; else elseCondition2">
+                                                    *ngIf="selectedStaffsUuids!.length === total; else elseCondition2">
                                                     <span (click)="unselectAllUsers()"
                                                         style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 8px; border-radius: 5px;">Clear
                                                         all users <i class="bi bi-x"></i></span>
@@ -676,13 +683,13 @@
                                                 </ng-template>
                                             </div>
 
-                                            <div *ngIf="selectedStaffsUuids.length !== 0">
+                                            <div *ngIf="selectedStaffsUuids!.length !== 0">
                                                 <ng-container
-                                                    *ngIf="selectedStaffsUuids.length === total; else elseCondition1">
+                                                    *ngIf="selectedStaffsUuids!.length === total; else elseCondition1">
                                                     <span>All <b>{{total}}</b> users selected</span>
                                                 </ng-container>
                                                 <ng-template #elseCondition1>
-                                                    <span><b>{{selectedStaffsUuids.length}}</b> selected of
+                                                    <span><b>{{selectedStaffsUuids!.length}}</b> selected of
                                                         <b>{{total}}</b></span>
                                                     <span style="cursor:pointer;" (click)="unselectAllUsers()"><i
                                                             class="bi bi-x"></i></span>
@@ -765,7 +772,7 @@
                                         </div>
                                         <div class="modal-footer d-flex align-items-center justify-content-end">
                                             <button type="button" class="btn btn-primary"
-                                                (click)="saveLeaveSetting()">Submit</button>
+                                                (click)="saveLeaveSettingRules()">Submit</button>
                                         </div>
                                     </div>
                                     <!-- </div> -->
