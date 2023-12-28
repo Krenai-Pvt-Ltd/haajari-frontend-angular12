@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { error } from 'console';
 import { template } from 'lodash';
+import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';
 import { FullLeaveSettingResponse } from 'src/app/models/full-leave-setting-response';
 import { LeaveSettingCategoryResponse } from 'src/app/models/leave-categories-response';
 import { LeaveSettingResponse } from 'src/app/models/leave-setting-response';
@@ -56,7 +57,7 @@ export class LeaveSettingComponent implements OnInit {
 
   leaveSettingResponse: LeaveSettingResponse = new LeaveSettingResponse();
 
-  @ViewChild("leaveCategoryTab") leaveCategoryTab!: ElementRef;
+  
 
   isFormValid:boolean = false;
   checkFormValidity(form: NgForm | null) {
@@ -65,21 +66,21 @@ export class LeaveSettingComponent implements OnInit {
   }
 
 
-  registerLeaveSettingTemplate() {
-    this.leaveCategoryTab.nativeElement.click();
-    this.dataService
-      .registerLeaveSettingTemplate(this.leaveSettingResponse)
-      .subscribe(
-        (response) => {
-          this.leaveSettingResponse.id = response.id;
-          localStorage.setItem("tempId", response.id.toString());
-          console.log('Leave setting registered successfully:', response);
-        },
-        (error) => {
-          console.error('Error registering leave setting:', error);
-        }
-      );
-  }
+  // registerLeaveSettingTemplate() {
+  //   this.leaveCategoryTab.nativeElement.click();
+  //   this.dataService
+  //     .registerLeaveSettingTemplate(this.leaveSettingResponse)
+  //     .subscribe(
+  //       (response) => {
+  //         this.leaveSettingResponse.id = response.id;
+  //         localStorage.setItem("tempId", response.id.toString());
+  //         console.log('Leave setting registered successfully:', response);
+  //       },
+  //       (error) => {
+  //         console.error('Error registering leave setting:', error);
+  //       }
+  //     );
+  // }
 
   setAccrualType(accrualType: string) {
     this.leaveSettingResponse.accrualType = accrualType;
@@ -153,76 +154,75 @@ export class LeaveSettingComponent implements OnInit {
   }
   
 
-  @ViewChild("staffSelectionTab") staffSelectionTab!: ElementRef;
 
-  saveLeaveCategories() {
-    const tempId = localStorage.getItem("tempId");
-    let templateId: number | null = null;
+  // saveLeaveCategories() {
+  //   const tempId = localStorage.getItem("tempId");
+  //   let templateId: number | null = null;
 
-    if (tempId !== null) {
-      templateId = +tempId;
-    }
+  //   if (tempId !== null) {
+  //     templateId = +tempId;
+  //   }
 
-    if (templateId === null || isNaN(templateId)) {
-      console.error('Invalid templateId:', templateId);
-      return;
-    }
+  //   if (templateId === null || isNaN(templateId)) {
+  //     console.error('Invalid templateId:', templateId);
+  //     return;
+  //   }
 
-    debugger
-    // const leaveSettingCategories: LeaveSettingCategoryResponse[] = this.form.value.categories;
+  //   debugger
+  //   // const leaveSettingCategories: LeaveSettingCategoryResponse[] = this.form.value.categories;
 
-    const leaveSettingCategories = this.form.value.categories.map((category: any) => ({
-      ...category,
-      leaveSettingId: templateId
-    }));
+  //   const leaveSettingCategories = this.form.value.categories.map((category: any) => ({
+  //     ...category,
+  //     leaveSettingId: templateId
+  //   }));
 
-    this.staffSelectionTab.nativeElement.click();
+  //   this.staffSelectionTab.nativeElement.click();
 
-    this.dataService.registerLeaveCategories(leaveSettingCategories, templateId)
-      .subscribe(response => {
-        console.log('Leave categories saved successfully:', response);
-      }, error => {
-        console.error('Error saving leave categories:', error);
-      });
-  }
+  //   this.dataService.registerLeaveCategories(leaveSettingCategories, templateId)
+  //     .subscribe(response => {
+  //       console.log('Leave categories saved successfully:', response);
+  //     }, error => {
+  //       console.error('Error saving leave categories:', error);
+  //     });
+  // }
 
 
   // *************
 
-  @ViewChild("requestLeaveCloseModel") requestLeaveCloseModel!:ElementRef;
+  
 
-  saveLeaveSetting() {
-    debugger
-    const tempId = localStorage.getItem("tempId");
-    let templateId: number | null = null;
+  // saveLeaveSetting() {
+  //   debugger
+  //   const tempId = localStorage.getItem("tempId");
+  //   let templateId: number | null = null;
 
-    if (tempId !== null) {
-      templateId = +tempId;
-    }
+  //   if (tempId !== null) {
+  //     templateId = +tempId;
+  //   }
 
-    if (templateId === null || isNaN(templateId)) {
-      console.error('Invalid templateId:', templateId);
-      return;
-    }
-    console.log(this.selectedStaffsUuids);
-    // if (this.selectedStaffsUuids.length > 0 && templateId) {
-      this.dataService.registerUserOfLeaveSetting(templateId, this.selectedStaffsUuids).subscribe(
-        response => {
-          this.getFullLeaveSettingInformation()
-          this.requestLeaveCloseModel.nativeElement.click();
-          localStorage.removeItem("tempId")
-          this.emptyAddLeaveSettingRule();
-          // location.reload();
-          console.log('Users saved for leave setting:', response);
-        },
-        error => {
-          console.error('Error saving users for leave setting:', error);
-        }
-      );
-    // } else {
-    //   // console.error(error);
-    // }
-  }
+  //   if (templateId === null || isNaN(templateId)) {
+  //     console.error('Invalid templateId:', templateId);
+  //     return;
+  //   }
+  //   console.log(this.selectedStaffsUuids);
+  //   // if (this.selectedStaffsUuids.length > 0 && templateId) {
+  //     this.dataService.registerUserOfLeaveSetting(templateId, this.selectedStaffsUuids).subscribe(
+  //       response => {
+  //         this.getFullLeaveSettingInformation()
+  //         this.requestLeaveCloseModel.nativeElement.click();
+  //         localStorage.removeItem("tempId")
+  //         this.emptyAddLeaveSettingRule();
+  //         // location.reload();
+  //         console.log('Users saved for leave setting:', response);
+  //       },
+  //       error => {
+  //         console.error('Error saving users for leave setting:', error);
+  //       }
+  //     );
+  //   // } else {
+  //   //   // console.error(error);
+  //   // }
+  // }
 
   itemPerPage: number = 8;
   pageNumber: number = 1;
@@ -395,6 +395,7 @@ export class LeaveSettingComponent implements OnInit {
 
   fullLeaveSettingResponseList: FullLeaveSettingResponse[] = [];
   isLoading:boolean=false;
+  isLeaveErrorPlaceholder:boolean=false;
 
   getFullLeaveSettingInformation(): void {
     this.isLoading=true;
@@ -409,8 +410,9 @@ export class LeaveSettingComponent implements OnInit {
         }
         this.templateSettingTab.nativeElement.click();
       }, error => {
+        this.isLeaveErrorPlaceholder=true;
         this.isLoading=false;
-        this.leaveSettingPlaceholder = true;
+        // this.leaveSettingPlaceholder = true;
         console.error('Error fetching leave setting information:', error);
       });
   }
@@ -462,14 +464,17 @@ export class LeaveSettingComponent implements OnInit {
       });
   }
  @ViewChild("templateSettingTab") templateSettingTab!:ElementRef;
-
+//  @ViewChild("leaveSettingForm") leaveSettingForm!:ElementRef;
+//  leaveSettingForm!: NgForm;
   emptyAddLeaveSettingRule(){
     debugger
     this.templateSettingTab.nativeElement.click();
     this.unselectAllUsers();
     this.selectedStaffsUuids = [];
     // this.selectedStaffsUuids.length = 0; 
+    // this.leaveSettingForm.form.markAsPristine();
     this.leaveSettingResponse = new LeaveSettingResponse();
+    this.leaveSettingResponse.templateName = '';
     this.form.reset();
     // Clear the existing form controls
     const categoriesArray = this.form.get('categories') as FormArray;
@@ -488,5 +493,53 @@ export class LeaveSettingComponent implements OnInit {
       }
     );
   }
+
+
+
+  // ###################### saveInOne ###################
+
+  fullLeaveSettingRuleRequest : FullLeaveSettingRequest = new FullLeaveSettingRequest();
+  @ViewChild("requestLeaveCloseModel") requestLeaveCloseModel!:ElementRef;
+  
+
+  saveLeaveSettingRules() {
+    debugger
+    this.fullLeaveSettingRuleRequest.leaveSettingResponse = this.leaveSettingResponse;
+    const leaveSettingCategories = this.form.value.categories.map((category: any) => ({
+      ...category
+    }));
+    this.fullLeaveSettingRuleRequest.leaveSettingCategoryResponse = leaveSettingCategories;
+    this.fullLeaveSettingRuleRequest.userUuids = this.selectedStaffsUuids;
+
+    this.dataService
+      .registerLeaveSettingRules(this.fullLeaveSettingRuleRequest)
+      .subscribe(
+        (response) => {
+          console.log('Leave rules registered successfully:', response);
+          this.getFullLeaveSettingInformation();
+          this.requestLeaveCloseModel.nativeElement.click();
+        },
+        (error) => {
+          console.error('Error registering leave setting:', error);
+        }
+      );
+  }
+
+  @ViewChild("leaveCategoryTab") leaveCategoryTab!: ElementRef;
+
+  goToLeaveCategoryTab(){
+    if(this.leaveSettingResponse.templateName==null){
+      this.isFormValid = false;
+      return;
+    }
+    this.leaveCategoryTab.nativeElement.click();
+  }
+
+  @ViewChild("staffSelectionTab") staffSelectionTab!: ElementRef;
+
+  goToStaffSelectionTab(){
+    this.staffSelectionTab.nativeElement.click();
+  }
+
 
 }
