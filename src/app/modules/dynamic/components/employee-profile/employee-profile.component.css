@@ -713,3 +713,29 @@ span.optional {
     white-space: nowrap;
     width: 135px;
 }
+
+.total-present {
+    border-radius: 6px;
+    padding: 4px;
+    background-color: rgb(224, 255, 224) !important;
+    color: rgb(87, 193, 87) !important;
+    margin-left: 5px;
+    font-weight: 700;
+}
+
+.total-absent{
+    background-color: rgb(248, 215, 215);
+    border-radius: 6px;
+    padding: 4px;
+    color: rgb(255, 84, 84) !important;
+    margin-left: 5px;
+    font-weight: 700;
+}
+
+
+.today-btn p{
+    font-size: 12px;
+    color: #393939;
+    font-weight: 400;
+    cursor: pointer;
+}
