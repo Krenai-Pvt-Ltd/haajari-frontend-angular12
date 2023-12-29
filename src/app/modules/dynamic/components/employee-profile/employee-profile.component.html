@@ -6,12 +6,10 @@
                 <div class="back-btns-box" routerLink="/employee-onboarding"> <i class="bi bi-chevron-left" ></i></div>
                 <h5 class="mt-0" style="margin-top: 10px !important;">{{user?.name}}</h5>
                  <div>
-                    <!-- *ngIf="status=='out'" -->
-                    <span >
+                    <span *ngIf="status=='out'">
                     <button class="btn sand-request approved" type="button" (click)="checkinCheckout('/inn')" >Check-In</button>
                     </span>
-                    <!-- *ngIf="status=='in'" -->
-                    <span >
+                    <span *ngIf="status=='in'">
                     <button class="btn sand-request approved" type="button" (click)="checkinCheckout('/outt')" >Check-Out</button>
                     </span>
                  </div> 
