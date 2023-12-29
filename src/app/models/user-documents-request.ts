@@ -1,4 +1,6 @@
 export class UserDocumentsRequest {
-    aadharNumber !: number;
-    pancardNumber !: number;
+    secondarySchoolCertificate: string = '';
+    highSchoolCertificate: string = '';
+    highestQualificationDegree: string = '';
+    testimonialReccomendation: string = '';
 }

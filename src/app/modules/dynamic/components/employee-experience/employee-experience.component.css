@@ -357,3 +357,16 @@ a.select-file {
 .text-optional {
     color: grey;
 }
+
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust height as needed */
+}
+
+.spinner-border {
+    width: 3rem; /* Size of the loader */
+    height: 3rem; /* Size of the loader */
+    color: #007bff; /* Color of the loader, can be adjusted */
+}
