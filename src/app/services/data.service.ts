@@ -927,4 +927,11 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
 
     return this.httpClient.post<any>(`${this.baseUrl}/attendance/checkin-checkout-from-dashboard`, {}, {params});
   }
+
+  checkinCheckoutStatus(userUuid : string): Observable<any>{
+    const params = new HttpParams()
+    .set("user_uuid", userUuid)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/checkin-checkout-status`, {params});
+  }
 }

@@ -79,6 +79,7 @@ export class EmployeeProfileComponent implements OnInit {
   userId: any;
   newDate: string = ''
   ngOnInit(): void {
+    this.getUserAttendanceStatus();
     this.getOrganizationOnboardingDateByUuid();
 
     // const today = dayjs();
@@ -463,10 +464,19 @@ export class EmployeeProfileComponent implements OnInit {
   goToday() {
     const calendarApi = this.calendarComponent.getApi();
     calendarApi.today();
-    // If the current month is the same as today's month, disable the forward button
     this.forwordFlag = calendarApi.getDate().getMonth() < new Date().getMonth();
-    // The backward button is always enabled when we go to today
     this.backwardFlag = true;
+
+    let startDate = calendarApi.view.currentStart;
+    let endDate = moment(new Date()).format('YYYY-MM-DD')
+
+
+    this.startDateStr = moment(startDate).format('YYYY-MM-DD');
+    this.endDateStr = endDate;
+    this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
+
+
+
   }
 
   //   calendarOptions: CalendarOptions = {
@@ -967,12 +977,29 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.checkinCheckoutInSlack(this.userId, command).subscribe(
       (data) => {
         console.log(data);
+        this.getUserAttendanceStatus() ;
       },
       (error) => {
         console.log(error);
       }
     );
   }
+
+  status: string='';
+
+  getUserAttendanceStatus() {
+    this.dataService.checkinCheckoutStatus(this.userId).subscribe(
+      (data) => {
+        console.log(data);
+        this.status = data.result;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  
 
 
 }
