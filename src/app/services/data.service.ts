@@ -919,4 +919,19 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration-by-user`, {params});
   }
 
+
+  checkinCheckoutInSlack(userUuid : string, command : string): Observable<any>{
+    const params = new HttpParams()
+    .set("user_uuid", userUuid)
+    .set("command", command);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/attendance/checkin-checkout-from-dashboard`, {}, {params});
+  }
+
+  checkinCheckoutStatus(userUuid : string): Observable<any>{
+    const params = new HttpParams()
+    .set("user_uuid", userUuid)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/checkin-checkout-status`, {params});
+  }
 }

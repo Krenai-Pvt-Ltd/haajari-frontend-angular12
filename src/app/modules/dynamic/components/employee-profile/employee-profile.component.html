@@ -5,7 +5,14 @@
             <div class="mb-4 mt-3 pb-3 border-buttom-setting d-flex align-items-center" style="gap:20px">
                 <div class="back-btns-box" routerLink="/employee-onboarding"> <i class="bi bi-chevron-left" ></i></div>
                 <h5 class="mt-0" style="margin-top: 10px !important;">{{user?.name}}</h5>
-                  
+                 <div>
+                    <span *ngIf="status=='out'">
+                    <button class="btn sand-request approved" type="button" (click)="checkinCheckout('/inn')" >Check-In</button>
+                    </span>
+                    <span *ngIf="status=='in'">
+                    <button class="btn sand-request approved" type="button" (click)="checkinCheckout('/outt')" >Check-Out</button>
+                    </span>
+                 </div> 
                </div>
 
             <div class="row mt-3">
@@ -337,8 +344,8 @@
                                     <div class="today-btn d-flex align-items-center " style="gap:20px;">
 
 
-                                           <p class="mb-0 ">Present <span class="total-present">19</span></p>
-                                           <p class="mb-0">Absent <span class="total-absent">11</span></p>
+                                           <p class="mb-0 ">Present <span class="total-present">{{totalPresent}}</span></p>
+                                           <p class="mb-0">Absent <span class="total-absent">{{totalAbsent}}</span></p>
 
 
                                           <button class="btn today" type="button" (click)="goToday()">Today</button>
