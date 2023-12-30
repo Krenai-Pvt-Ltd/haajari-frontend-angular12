@@ -88,6 +88,22 @@ export class DataService {
     .set("date", date)
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date`, {params});
   }
+
+
+  getAttendanceDetailsReportByDate(date : string, pageNumber: number, itemPerPage: number, search: string, searchBy: string, sort: string, sortBy: string, filterCriteria: string): Observable<any>{
+    const params = new HttpParams()
+    .set("date", date)
+    .set("page_number", pageNumber.toString())
+    .set("item_per_page", itemPerPage.toString())
+    .set('search', search)
+    .set('search_by', searchBy)
+    .set('sort_order', sort)
+    .set('sort_by', sortBy)
+    .set('filter_criteria', filterCriteria);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-report-by-date`, {params});
+  }
+
+  
   getTodayEmployeesData(): Observable<any>{
     debugger
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-current-date-employees-data`, {});

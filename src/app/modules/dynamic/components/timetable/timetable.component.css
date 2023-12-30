@@ -729,3 +729,14 @@ td.text-right {
     left: -8px;
     top: 0;
 }
+.pagination-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.pagination{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
