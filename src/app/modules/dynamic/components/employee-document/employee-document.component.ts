@@ -189,7 +189,9 @@ getEmployeeDocumentsDetailsMethodCall() {
     this.dataService.getEmployeeDocumentDetails(userUuid).subscribe(
       (response: UserDocumentsDetailsRequest) => {
         this.userDocumentsDetailsRequest = response;
-
+        
+          
+        
         // Assuming response.userDocuments is populated
         if (response.userDocuments) {
           this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(response.userDocuments.secondarySchoolCertificate);
