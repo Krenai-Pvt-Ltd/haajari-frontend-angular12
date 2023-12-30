@@ -44,6 +44,7 @@ import { ErrorPageComponent } from '../common/error-page/error-page.component';
 import { SlackDataLoaderComponent } from '../common/slack-data-loader/slack-data-loader.component';
 import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
+import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 
 
 
@@ -92,7 +93,8 @@ import { RoleAddComponent } from './components/role-add/role-add.component';
     {path: 'error-page', component: ErrorPageComponent},
     {path: 'slack-data-loader', component: SlackDataLoaderComponent},
     {path : 'duration-picker', component: DurationPickerComponent},
-    {path : 'add-role', component: RoleAddComponent}
+    {path : 'add-role', component: RoleAddComponent},
+    {path : 'account-settings', component: AccountSettingsComponent}
   ] }
   ];
 
