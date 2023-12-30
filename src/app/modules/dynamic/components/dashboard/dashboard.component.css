@@ -353,3 +353,29 @@ span.members-name {
     border-right: 58px solid transparent;
     border-top: 10px solid;
 }
+
+
+.img-group .user-avatar {
+    position: relative;
+    display: inline-block;
+}
+
+
+/* .bg-soft-info {
+    background-color: rgba(65, 203, 216, .08) !important;
+    color: #41cbd8 !important;
+}
+.thumb-xs {
+    height: 20px !important;
+    width: 20px !important;
+    font-size: 12px;
+    font-weight: 700;
+} */
+
+a.user-avatar {
+    background-color: #ccc;
+    border-radius: 6px;
+    padding: 4px;
+    background-color: rgba(65, 203, 216, .08) !important;
+    color: #41cbd8 !important;
+}
