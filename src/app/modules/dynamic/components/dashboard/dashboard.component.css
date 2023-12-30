@@ -379,3 +379,22 @@ a.user-avatar {
     background-color: rgba(65, 203, 216, .08) !important;
     color: #41cbd8 !important;
 }
+
+.view-more p{
+    font-size: 12px;
+    margin-bottom: 0;
+    color: #6666f3;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.search-icon {
+    font-size: 12px!important;
+    position: absolute!important;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--tb-secondary-color)!important;
+}
