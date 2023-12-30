@@ -312,9 +312,14 @@
 
       <div class="row mb-3">
         <div class="col-md-6">
-          <div class="monthly-heading">
+          <div class="monthly-heading" *ngIf="filterCriteria == 'PRESENT'">
             <h5 class="d-flex align-items-center" style="gap: 10px">
               Present Employees: <span class="monthly-span">{{total}}</span>
+            </h5>
+          </div>
+          <div class="monthly-heading" *ngIf="filterCriteria == 'ABSENT'">
+            <h5 class="d-flex align-items-center" style="gap: 10px">
+              Absent Employees: <span class="monthly-span">{{total}}</span>
             </h5>
           </div>
         </div>
@@ -422,7 +427,7 @@
               <!-- <span class="attendance-id">123</span> -->
             </h5>
 
-            <p>Not Marked</p>
+            <p>{{attendanceDataByDate[key].currentStatus}}</p>
             <div class="add-note d-flex" style="gap: 10px">
               <a
                 href=""
@@ -661,7 +666,7 @@
 
                 <div class="">
                   <div  class="mt-2">
-                    <div class="scroll-box-logs">
+                    <div class="scroll-box-logs" *ngIf="let attendanceLogResponse of attendanceLogResponseList">
                      <ul class="acitivity-timeline-2 list-unstyled mb-0" >
                          <li>
                              <h6 class="fs-md mt-0">Check In 

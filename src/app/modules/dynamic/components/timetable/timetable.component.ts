@@ -5,6 +5,7 @@ import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { HelperService } from 'src/app/services/helper.service';
 import { AdditionalNotes } from 'src/app/models/additional-notes';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-response';
+import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 
@@ -224,7 +225,7 @@ export class TimetableComponent implements OnInit {
 
   attendanceDataByDate: Record<string, AttendenceDto> = {};
   attendanceDataByDateKey : any = [];
-  attendanceDataByDateValue : any = [];
+  attendanceDataByDateValue : AttendenceDto[] = [];
   inputDate = '';
   filterCriteria = 'PRESENT';
   halfDayUsers : number = 0;
@@ -257,11 +258,11 @@ export class TimetableComponent implements OnInit {
         console.log(this.attendanceDataByDateKey);
         console.log(this.attendanceDataByDate);
 
-        for(let i=0; i<this.attendanceDataByDateValue.length; i++){
-          if(+(this.attendanceDataByDateValue[i].duration[0]) < 7){
-            this.halfDayUsers++;
-          }
-        }
+        // for(let i=0; i<this.attendanceDataByDateValue.length; i++){
+        //   if(+(this.attendanceDataByDateValue[i].duration[0]) < 7){
+        //     this.halfDayUsers++;
+        //   }
+        // }
 
     }, (error) => {
       this.isShimer=false;
@@ -277,6 +278,13 @@ export class TimetableComponent implements OnInit {
 
   selectFilterCriteria(filterCriteria : string){
     this.filterCriteria = filterCriteria;
+
+    this.attendanceDataByDateKey = [];
+    this.attendanceDataByDateValue = [];
+    this.total = 0;
+    this.isShimer = true;
+
+    this.getAttendanceDetailsReportByDateMethodCall();
   }
 
   activeUsersCount : number = 0;
@@ -395,6 +403,18 @@ export class TimetableComponent implements OnInit {
   {
     this.pageNumber=event;
     this.getAttendanceDetailsReportByDateMethodCall();
+  }
+
+
+  // ############View Logs#################
+  attendanceLogResponseList : AttendanceLogResponse[] = [];
+  getAttendanceLogsMethodCall(){
+    this.dataService.getAttendanceLogs('','').subscribe((response) => {
+      this.attendanceLogResponseList = response;
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    })
   }
 }
 
