@@ -1186,7 +1186,22 @@ button.btn.close-btn {
     -moz-border-radius: 20px;
     border-radius: 20px;
   }
+
+  .user-list h5{
+    font-size: 14px;
+  }
+
   
+  .total-user-list{
+    color: #4761f6;
+    background-color: #d1d6f2;
+    padding: 4px;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-left: 7px;
+  }
+
+
   @keyframes lineAnim {
     0% {
       left: -40%;

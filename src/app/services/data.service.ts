@@ -56,9 +56,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = "http://localhost:8080/api/v2"
+  // private baseUrl = "http://localhost:8080/api/v2"
 
-  // private baseUrl = "https://backend.hajiri.work/api/v2";
+  private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -88,6 +88,22 @@ export class DataService {
     .set("date", date)
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date`, {params});
   }
+
+
+  getAttendanceDetailsReportByDate(date : string, pageNumber: number, itemPerPage: number, search: string, searchBy: string, sort: string, sortBy: string, filterCriteria: string): Observable<any>{
+    const params = new HttpParams()
+    .set("date", date)
+    .set("page_number", pageNumber.toString())
+    .set("item_per_page", itemPerPage.toString())
+    .set('search', search)
+    .set('search_by', searchBy)
+    .set('sort_order', sort)
+    .set('sort_by', sortBy)
+    .set('filter_criteria', filterCriteria);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-report-by-date`, {params});
+  }
+
+  
   getTodayEmployeesData(): Observable<any>{
     debugger
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-current-date-employees-data`, {});
@@ -945,5 +961,13 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     .set("user_uuid", userUuid)
 
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/checkin-checkout-status`, {params});
+  }
+
+  getAttendanceLogs(uuid : string, date : string): Observable<any>{
+    const params = new HttpParams()
+    .set("uuid", uuid)
+    .set("date", date);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-logs`);
   }
 }

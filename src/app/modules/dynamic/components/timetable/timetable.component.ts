@@ -4,6 +4,8 @@ import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { HelperService } from 'src/app/services/helper.service';
 import { AdditionalNotes } from 'src/app/models/additional-notes';
+import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-response';
+import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 
@@ -29,8 +31,7 @@ export class TimetableComponent implements OnInit {
   selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
 
-  ngOnInit(): void {
-  
+  ngOnInit(): void {  
     this.inputDate = this.getCurrentDate();
 
 
@@ -44,7 +45,7 @@ export class TimetableComponent implements OnInit {
 
     this.updateDateRangeInputValue();
     this.getDataFromDate();
-    this.getAttendanceDetailsByDateMethodCall();
+    this.getAttendanceDetailsReportByDateMethodCall();
     this.getActiveUsersCountMethodCall();
   }
 
@@ -175,10 +176,16 @@ export class TimetableComponent implements OnInit {
 
   selectPreviousDay() {
     debugger
+
+    this.attendanceDataByDateKey = [];
+    this.attendanceDataByDateValue = [];
+    this.total = 0;
+    this.isShimer = true;
+
     const currentDateObject = new Date(this.inputDate);
     currentDateObject.setDate(currentDateObject.getDate() - 1);
     this.inputDate = this.formatDate(currentDateObject);
-    this.getAttendanceDetailsByDateMethodCall();
+    this.getAttendanceDetailsReportByDateMethodCall();
   }
   
   private formatDate(date: Date): string {
@@ -189,6 +196,12 @@ export class TimetableComponent implements OnInit {
   }
 
   selectNextDay() {
+
+    this.attendanceDataByDateKey = [];
+    this.attendanceDataByDateValue = [];
+    this.total = 0;
+    this.isShimer = true;
+
     const currentDateObject = new Date(this.inputDate);
     const tomorrow = new Date(currentDateObject);
     tomorrow.setDate(currentDateObject.getDate() + 1);
@@ -199,7 +212,7 @@ export class TimetableComponent implements OnInit {
     }
 
     this.inputDate = this.formatDate(tomorrow);
-    this.getAttendanceDetailsByDateMethodCall();
+    this.getAttendanceDetailsReportByDateMethodCall();
   }
 
   // formatDate(date: Date): string {
@@ -212,17 +225,25 @@ export class TimetableComponent implements OnInit {
 
   attendanceDataByDate: Record<string, AttendenceDto> = {};
   attendanceDataByDateKey : any = [];
-  attendanceDataByDateValue : any = [];
+  attendanceDataByDateValue : AttendenceDto[] = [];
   inputDate = '';
+  filterCriteria = 'PRESENT';
   halfDayUsers : number = 0;
+
+  itemPerPage : number = 8;
+  pageNumber : number = 1;
+  searchText : string = '';
+  total !: number;
 
   isShimer:boolean=false;
   errorToggleTimetable:boolean=false;
   placeholder:boolean=false;
 
-  getAttendanceDetailsByDateMethodCall(){
+  getAttendanceDetailsReportByDateMethodCall(){
       this.isShimer=true;
-      this.dataService.getAttendanceDetailsByDate(this.inputDate).subscribe((data) => {
+      this.dataService.getAttendanceDetailsReportByDate(this.inputDate, this.pageNumber, this.itemPerPage, this.searchText, 'name', '','', this.filterCriteria).subscribe((response) => {
+        const data = response.mapOfObject;
+        this.total = response.totalItems;
         this.attendanceDataByDateKey = Object.keys(data);
         this.attendanceDataByDateValue = Object.values(data);
 
@@ -237,11 +258,11 @@ export class TimetableComponent implements OnInit {
         console.log(this.attendanceDataByDateKey);
         console.log(this.attendanceDataByDate);
 
-        for(let i=0; i<this.attendanceDataByDateValue.length; i++){
-          if(+(this.attendanceDataByDateValue[i].duration[0]) < 7){
-            this.halfDayUsers++;
-          }
-        }
+        // for(let i=0; i<this.attendanceDataByDateValue.length; i++){
+        //   if(+(this.attendanceDataByDateValue[i].duration[0]) < 7){
+        //     this.halfDayUsers++;
+        //   }
+        // }
 
     }, (error) => {
       this.isShimer=false;
@@ -253,6 +274,18 @@ export class TimetableComponent implements OnInit {
 
   }
 
+  filterCriteriaList : string[] = ['PRESENT', 'ABSENT', 'HALFDAY'];
+
+  selectFilterCriteria(filterCriteria : string){
+    this.filterCriteria = filterCriteria;
+
+    this.attendanceDataByDateKey = [];
+    this.attendanceDataByDateValue = [];
+    this.total = 0;
+    this.isShimer = true;
+
+    this.getAttendanceDetailsReportByDateMethodCall();
+  }
 
   activeUsersCount : number = 0;
 
@@ -318,5 +351,71 @@ export class TimetableComponent implements OnInit {
   //   closeOnAutoApply: true
   // };
 
+
+  // #########Searching#################
+  searchUsers(){
+    this.attendanceDataByDateKey = [];
+    this.attendanceDataByDateValue = [];
+    this.total = 0;
+    this.isShimer = true;
+    this.getAttendanceDetailsReportByDateMethodCall();
+  }
+
+  clearSearchText(){
+    this.searchText = '';
+    this.getAttendanceDetailsReportByDateMethodCall();
+  }
+
+  // ##### Pagination ############
+  changePage(page: number | string) {
+
+    this.attendanceDataByDateKey = [];
+    this.attendanceDataByDateValue = [];
+    this.isShimer = true;
+
+    if (typeof page === 'number') {
+      this.pageNumber = page;
+    } else if (page === 'prev' && this.pageNumber > 1) {
+      this.pageNumber--;
+    } else if (page === 'next' && this.pageNumber < this.totalPages) {
+      this.pageNumber++;
+    }
+    this.getAttendanceDetailsReportByDateMethodCall();
+  }
+
+  getPages(): number[] {
+    const totalPages = Math.ceil(this.total / this.itemPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.total / this.itemPerPage);
+  }
+  getStartIndex(): number {
+    return (this.pageNumber - 1) * this.itemPerPage + 1;
+  }
+  getEndIndex(): number {
+    const endIndex = this.pageNumber * this.itemPerPage;
+    return endIndex > this.total ? this.total : endIndex;
+  }
+
+  onTableDataChange(event : any)
+  {
+    this.pageNumber=event;
+    this.getAttendanceDetailsReportByDateMethodCall();
+  }
+
+
+  // ############View Logs#################
+  attendanceLogResponseList : AttendanceLogResponse[] = [];
+  getAttendanceLogsMethodCall(){
+    this.dataService.getAttendanceLogs('','').subscribe((response) => {
+      this.attendanceLogResponseList = response;
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    })
+  }
 }
+
 
