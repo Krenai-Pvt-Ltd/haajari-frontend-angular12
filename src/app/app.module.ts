@@ -24,6 +24,7 @@ import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/sla
 import { DurationPickerComponent } from './modules/common/duration-picker/duration-picker.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +47,7 @@ import { DurationPickerComponent } from './modules/common/duration-picker/durati
     SharedModule,
     NgbModule,
     FullCalendarModule,
+    
 
     // CalendarModule.forRoot({
     //   provide: DateAdapter,
