@@ -154,7 +154,7 @@
                                      <div class="row">
                                         <div class="col-md-3">
                                             <div class="mb-3"   >
-                                                <label for="exampleInputEmail1" class="pb-2">Name</label>
+                                                <label for="exampleInputEmail1" class="pb-2">Name</label>{{userDocumentsDetailsRequest.guarantors[0].name}}
                                                 <input type="text" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].name" required #guarantorName1="ngModel">
                                                 <!-- Error Message for Name Field -->
                                                 <div *ngIf="guarantorName1.touched">
@@ -169,7 +169,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="relationInput" class="pb-2">Relation</label>
-                                                <input type="text" class="form-control" id="relationInput" name="relationInput" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].relation" required #relation1="ngModel">
+                                                <input type="text" class="form-control" id="relationInput" name="relationInput" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].relation" required #relation1="ngModel">
                                                 <!-- Error Message for Relation Field -->
                                                 <div *ngIf="relation1.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation1.errors?.required">
@@ -182,7 +182,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="phoneInput" class="pb-2">Phone Number</label>
-                                                <input type="text" class="form-control" id="phoneInput" name="phoneInput" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].phoneNumber" required #phone1="ngModel" minlength="10" maxlength="10" pattern="[0-9]*">
+                                                <input type="text" class="form-control" id="phoneInput" name="phoneInput" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].phoneNumber" required #phone1="ngModel" minlength="10" maxlength="10" pattern="[0-9]*">
                                                 <!-- Error Message for Phone Number Field -->
                                                 <div *ngIf="phone1.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone1.errors?.required">
@@ -201,7 +201,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="emailInput" class="pb-2">Email</label>
-                                                <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].emailId" required email #email1="ngModel">
+                                                <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].emailId" required email #email1="ngModel">
                                                 
                                                 <!-- Error Message for Email Field -->
                                                 <div *ngIf="email1.touched">
@@ -225,7 +225,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorName2" class="pb-2">Name</label>
-                                                <input type="text" class="form-control" id="guarantorName2" name="guarantorName2" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantors[1].name" required #name2="ngModel">
+                                                <input type="text" class="form-control" id="guarantorName2" name="guarantorName2" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].name" required #name2="ngModel">
                                                 <!-- Error Message for Name Field -->
                                                 <div *ngIf="name2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name2.errors?.required">
@@ -238,7 +238,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorRelation2" class="pb-2">Relation</label>
-                                                <input type="text" class="form-control" id="guarantorRelation2" name="guarantorRelation2" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest.guarantors[1].relation" required #relation2="ngModel">
+                                                <input type="text" class="form-control" id="guarantorRelation2" name="guarantorRelation2" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].relation" required #relation2="ngModel">
                                                 <!-- Error Message for Relation Field -->
                                                 <div *ngIf="relation2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation2.errors?.required">
@@ -251,7 +251,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorPhoneNumber2" class="pb-2">Phone Number</label>
-                                                <input type="text" class="form-control" id="guarantorPhoneNumber2" name="guarantorPhoneNumber2" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest.guarantors[1].phoneNumber" required minlength="10" maxlength="10" pattern="[0-9]*" #phone2="ngModel">
+                                                <input type="text" class="form-control" id="guarantorPhoneNumber2" name="guarantorPhoneNumber2" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].phoneNumber" required minlength="10" maxlength="10" pattern="[0-9]*" #phone2="ngModel">
                                                 <!-- Error Message for Phone Number Field -->
                                                 <div *ngIf="phone2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone2.errors?.required">
@@ -272,7 +272,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorEmail2" class="pb-2">Email</label>
-                                                <input type="email" class="form-control" id="guarantorEmail2" name="guarantorEmail2" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest.guarantors[1].emailId" required email #email2="ngModel">
+                                                <input type="email" class="form-control" id="guarantorEmail2" name="guarantorEmail2" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].emailId" required email #email2="ngModel">
                                                 
                                                 <!-- Error Message for Email Field -->
                                                 <div *ngIf="email2.touched">

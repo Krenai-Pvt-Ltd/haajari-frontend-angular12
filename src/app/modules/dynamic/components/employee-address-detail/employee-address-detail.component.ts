@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { debug } from 'console';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
+import { UserAddressRequest } from 'src/app/models/user-address-request';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -10,6 +12,7 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./employee-address-detail.component.css']
 })
 export class EmployeeAddressDetailComponent implements OnInit {
+  sameAddress: boolean = true;
 
   userAddressDetailsRequest: UserAddressDetailsRequest = new UserAddressDetailsRequest();
 
@@ -41,34 +44,36 @@ export class EmployeeAddressDetailComponent implements OnInit {
   
   userAddressDetailsStatus = "";
   toggle = false;
-  setEmployeeAddressDetailsMethodCall() {
-    debugger
-    this.toggle = true;
-    const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
-    this.dataService.markStepAsCompleted(2);
-    if (!this.userUuid) {
-      console.error('User UUID is not available in localStorage.');
-      return;
-    }
-  
-    this.dataService.setEmployeeAddressDetails(this.userAddressDetailsRequest, this.userUuid)
-    
-      .subscribe(
-        (response: UserAddressDetailsRequest) => {
-          console.log('Response:', response);
-          this.toggle = false
-          this.userAddressDetailsStatus = response.statusResponse;
-          this.routeToUserDetails()
-          // this.router.navigate(['/employee-document']);
-          // localStorage.setItem('statusResponse', JSON.stringify(this.userAddressDetailsStatus));
 
-        },
-        (error) => {
-          console.error('Error occurred:', error);
-          this.toggle = false
-        }
-      );
+setEmployeeAddressDetailsMethodCall() {
+  debugger
+  this.userAddressDetailsRequest.sameAddress = this.isPermanent;
+  this.toggle = true;
+  const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
+
+  if (!userUuid) { // Fixed check here
+    console.error('User UUID is not available.');
+    this.toggle = false; // Reset toggle since we're not proceeding
+    return;
   }
+
+  this.dataService.markStepAsCompleted(2);
+
+  this.dataService.setEmployeeAddressDetails(this.userAddressDetailsRequest, userUuid)
+    .subscribe(
+      (response: UserAddressDetailsRequest) => {
+        console.log('Response:', response);
+        this.toggle = false;
+        this.routeToUserDetails(); // Ensure this method does what's expected
+      },
+      (error) => {
+        console.error('Error occurred:', error);
+        this.toggle = false;
+        // Optionally update the UI to show an error message
+      }
+    );
+}
+
   
   
   getNewUserAddressDetailsMethodCall() {
@@ -78,33 +83,51 @@ export class EmployeeAddressDetailComponent implements OnInit {
     if (userUuid) {
       this.dataService.getNewUserAddressDetails(userUuid).subscribe(
         (response: UserAddressDetailsRequest) => {
-          this.userAddressDetailsRequest = response;
-          if(response!=null){
+          if (response && response.userAddressRequest && response.userAddressRequest.length > 0) {
+            this.userAddressDetailsRequest = response;
             this.dataService.markStepAsCompleted(2);
+            if(response.sameAddress==false){
+              this.isPermanent=false;
+            }else{
+              this.isPermanent=true;
+            }
+            
+          } else {
+            // Properly initialize the object with default values
+            this.userAddressDetailsRequest = {
+              sameAddress: false, // Default to false since there are no addresses to determine if they are the same
+              userAddressRequest: [new UserAddressRequest(), new UserAddressRequest()] // Initialize with two empty addresses
+            };
           }
           
-          if(this.userAddressDetailsRequest==null){
-            this.userAddressDetailsRequest = new UserAddressDetailsRequest();
-          }
         },
         (error: any) => {
-          console.error('Error fetching user details:', error);
-          
+          console.error('Error fetching user address details:', error);
         }
       );
     } else {
-      console.error('uuidNewUser not found in localStorage');
-      
+      console.error('User UUID not found in the URL search parameters');
     }
-  } 
+  }
+  
+  
+//   isPermanent: boolean = true;
 
-  isPermanent:boolean=false;
+// showPermanent() {
+//   // Toggle the boolean value
+//   this.isPermanent = !this.isPermanent;
+//   this.userAddressDetailsRequest.sameAddress = this.isPermanent;
+// }
+
+isPermanent:boolean=true;
   showPermanent(){
     this.isPermanent= this.isPermanent == true ? false:true;
+    // this.userAddressDetailsRequest.sameAddress = this.isPermanent;
     if(!this.isPermanent){
       // this.registerForm.sameAddress=false;
     }
   }
+
 
 
   // registerForm = new FormGroup({
