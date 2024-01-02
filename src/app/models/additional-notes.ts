@@ -5,5 +5,7 @@ export class AdditionalNotes {
     title!: string;
     message!: string;
     createdDate!: string;
+    createdTime !: string;
+    performedBy !: string;
     // user!: User;
 }

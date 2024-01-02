@@ -2,9 +2,11 @@
     <div class="page-content-tab">
         <div class="container-fluid">
 
-            <div class="mb-4 mt-3 pb-3 border-buttom-setting d-flex align-items-center" style="gap:20px">
-                <div class="back-btns-box" routerLink="/employee-onboarding"> <i class="bi bi-chevron-left" ></i></div>
-                <h5 class="mt-0" style="margin-top: 10px !important;">{{user?.name}}</h5>
+            <div class="mb-4 mt-3 pb-3 border-buttom-setting d-flex align-items-center justify-content-between" style="gap:20px">
+                <div class="d-flex align-items-center justify-content-between" style="gap:20px">
+                   <div class="back-btns-box" routerLink="/employee-onboarding"> <i class="bi bi-chevron-left" ></i></div>
+                   <h5 class="mt-0" style="margin-top: 10px !important;">{{user?.name}}</h5>
+                 </div>
                  <div>
                     <span *ngIf="status=='out'">
                     <button class="btn sand-request approved" type="button" (click)="checkinCheckout('/inn')" >Check-In</button>

@@ -57,6 +57,8 @@ import { SafePipe } from 'src/app/pipe/safe.pipe';
 import { AppComponent } from 'src/app/app.component';
 import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
+import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
+import { NewLoginComponent } from './components/new-login/new-login.component';
 
 
 @NgModule({
@@ -100,7 +102,9 @@ import { RoleAddComponent } from './components/role-add/role-add.component';
     PrivacyComponent,
     SupportComponent,
     SafePipe,
-    RoleAddComponent
+    RoleAddComponent,
+    AccountSettingsComponent,
+    NewLoginComponent
 
   ],
   imports: [
