@@ -154,7 +154,7 @@
                                      <div class="row">
                                         <div class="col-md-3">
                                             <div class="mb-3"   >
-                                                <label for="exampleInputEmail1" class="pb-2">Name</label>{{userDocumentsDetailsRequest.guarantors[0].name}}
+                                                <label for="exampleInputEmail1" class="pb-2">Name</label>
                                                 <input type="text" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].name" required #guarantorName1="ngModel">
                                                 <!-- Error Message for Name Field -->
                                                 <div *ngIf="guarantorName1.touched">

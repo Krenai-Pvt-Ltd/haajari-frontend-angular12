@@ -123,6 +123,7 @@ debugger
         this.dataService.getNewUserPersonalInformation(userUuid).subscribe(
             (response: UserPersonalInformationRequest) => {
                 this.userPersonalInformationRequest = response;
+                this.handleOnboardingStatus(response.employeeOnboardingStatus.response);
                 console.log(response);
                 if(response.dob){
                   this.dataService.markStepAsCompleted(1);
@@ -142,6 +143,38 @@ debugger
         console.error('uuidNewUser not found in localStorage');
     }
 }
+
+displayModal = false;
+  allowEdit = false;
+
+  handleOnboardingStatus(response: string) {
+    this.displayModal = true;
+    switch (response) {
+      case 'APPROVED':
+      case 'REJECTED':
+        this.allowEdit = true;
+        break;
+      case 'PENDING':
+        this.allowEdit = false;
+        break;
+      default:
+        this.displayModal = false;
+        break;
+    }
+  }
+
+  closeAndEdit() {
+    this.displayModal = false;
+    // Logic to enable form editing
+  }
+
+  closeModal() {
+    this.displayModal = false;
+    // Additional logic if needed when modal is closed without editing
+  }
+
+
+
 
 
   
