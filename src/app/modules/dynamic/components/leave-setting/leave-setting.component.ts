@@ -37,6 +37,7 @@ export class LeaveSettingComponent implements OnInit {
   ngOnInit(): void {
     this.getUserByFiltersMethodCall();
     this.getFullLeaveSettingInformation();
+    // this.findUsersOfLeaveSetting(30);
 
     const leaveId = localStorage.getItem("tempId");
 
@@ -429,6 +430,7 @@ export class LeaveSettingComponent implements OnInit {
     this.dataService.getLeaveSettingInformationById(leaveSettingId)
       .subscribe(response => {
         this.fullLeaveSettingResponse = response;
+        this.findUsersOfLeaveSetting(leaveSettingId);
         this.leaveSettingResponse = this.fullLeaveSettingResponse.leaveSetting;
         this.selectedStaffsUuids =  this.fullLeaveSettingResponse.userUuids;
         this.templateSettingTab.nativeElement.click();
@@ -539,6 +541,27 @@ export class LeaveSettingComponent implements OnInit {
 
   goToStaffSelectionTab(){
     this.staffSelectionTab.nativeElement.click();
+  }
+
+  staffsUser: Staff[] = [];
+  searchTextUser = '';
+  pageNumberUser: number = 1;
+  itemPerPageUser: number = 8;
+
+
+  findUsersOfLeaveSetting(leaveSettingId:number): void {
+    this.dataService.findUsersOfLeaveSetting(leaveSettingId, this.searchTextUser, this.pageNumberUser, this.itemPerPageUser)
+      .subscribe((response) => {
+        this.staffsUser = response;
+        this.staffsUser = response.users.map((staff: Staff) => ({
+          ...staff,
+          selected: this.selectedStaffsUuids.includes(staff.uuid)
+        }));
+        this.total = response.count;
+  
+        // this.isAllSelected = this.staffsUser.every(staff => staff.selected);
+        
+      });
   }
 
 
