@@ -23,7 +23,7 @@
     padding: 50px;
     height: 100vh;
     display: flex;
-    align-items: start;
+    align-items: center;
     flex-direction: column;
     justify-content: center;
 }
@@ -45,5 +45,10 @@
 
 .login-stap h5{
     font-size: 14px;
+    font-weight: 500;
+}
+
+.welcome-hajiri h4{
+    font-size: 22px;
     font-weight: 500;
 }
