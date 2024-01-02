@@ -189,7 +189,9 @@ getEmployeeDocumentsDetailsMethodCall() {
     this.dataService.getEmployeeDocumentDetails(userUuid).subscribe(
       (response: UserDocumentsDetailsRequest) => {
         this.userDocumentsDetailsRequest = response;
-
+        
+          
+        
         // Assuming response.userDocuments is populated
         if (response.userDocuments) {
           this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(response.userDocuments.secondarySchoolCertificate);
@@ -205,7 +207,8 @@ getEmployeeDocumentsDetailsMethodCall() {
         }
 
         // Initialize guarantors if they are not part of the response
-        if (!this.userDocumentsDetailsRequest.guarantors) {
+        debugger
+        if (this.userDocumentsDetailsRequest.guarantors.length==0) {
           this.userDocumentsDetailsRequest.guarantors = [
             new UserGuarantorRequest(),
             new UserGuarantorRequest()
