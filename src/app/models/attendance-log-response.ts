@@ -1,6 +1,9 @@
 export class AttendanceLogResponse {
-    operationType : any;
-    operationTime : any;
-    operationPerformedBy : any;
-    additionalNotes : any;
+
+    operationType : string = '';
+    operationTime : string = '';
+    operationDate : string = '';
+    operationPerformedBy : string = '';
+    additionalNotes : string = '';
+
 }

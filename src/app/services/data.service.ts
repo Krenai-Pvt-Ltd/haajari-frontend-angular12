@@ -963,11 +963,11 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/checkin-checkout-status`, {params});
   }
 
-  getAttendanceLogs(uuid : string, date : string): Observable<any>{
+  getAttendanceLogs(email : string, date : string): Observable<any>{
     const params = new HttpParams()
-    .set("uuid", uuid)
+    .set("email", email)
     .set("date", date);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-logs`);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-logs`,{params});
   }
 }
