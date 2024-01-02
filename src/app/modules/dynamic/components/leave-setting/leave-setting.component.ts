@@ -240,7 +240,7 @@ export class LeaveSettingComponent implements OnInit {
   isAllSelected: boolean = false;
 
   getUserByFiltersMethodCall() {
-    this.dataService.getUsersByFilter(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '').subscribe((response) => {
+    this.dataService.getUsersByFilterForLeaveSetting(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '').subscribe((response) => {
       this.staffs = response.users.map((staff: Staff) => ({
         ...staff,
         selected: this.selectedStaffsUuids.includes(staff.uuid)
