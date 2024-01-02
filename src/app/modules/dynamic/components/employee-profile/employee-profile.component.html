@@ -11,7 +11,7 @@
                     <span *ngIf="status=='out'">
                     <button class="btn sand-request approved" type="button" (click)="checkinCheckout('/inn')" >Check-In</button>
                     </span>
-                    <span *ngIf="status=='in'">
+                    <span *ngIf="(status=='in') || (status=='back')">
                         <button class="btn sand-request approved break-btn" ngbTooltip="Start your break" placement="top" type="button" (click)="checkinCheckout('/breakk')" >
                         <img src="assets/images/mug-hot-1.svg" style="width:100%">
                         </button>
