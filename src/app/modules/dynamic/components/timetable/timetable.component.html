@@ -270,13 +270,13 @@
                                                         (keyup)="searchUsers()" [(ngModel)]="searchText"
                                                         [ngModelOptions]="{ standalone: true }"
                                                         style="padding: 10px 30px" />
-                                                    <button type="button" class="btn close-btn" (click)="clearSearchText()">
+                                                    <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn" (click)="clearSearchText()">
                                                         <i class="bi bi-x mt-auto mb-auto pl-3"></i>
                                                     </button>
                                                     <i class="bi bi-search search-icon"
                                                         style="margin: auto; margin-left: 10px"></i>
                                                 </div>
-                                            </form>
+              </form>
 
             
             </div>
@@ -322,6 +322,16 @@
               Absent Employees: <span class="monthly-span">{{total}}</span>
             </h5>
           </div>
+          <div class="monthly-heading" *ngIf="filterCriteria == 'HALFDAY'">
+            <h5 class="d-flex align-items-center" style="gap: 10px">
+              Half Day Employees: <span class="monthly-span">{{total}}</span>
+            </h5>
+          </div>
+          <div class="monthly-heading" *ngIf="filterCriteria == 'ALL'">
+            <h5 class="d-flex align-items-center" style="gap: 10px">
+              All Employees: <span class="monthly-span">{{total}}</span>
+            </h5>
+          </div>
         </div>
 
 
@@ -354,9 +364,7 @@
       <!-- *ngIf="attendanceDataByDateKey.length==0 && !isShimer" -->
       <div class="mt-3 dashnodata" >
         <div
-        class="errorboxmain"
-        *ngIf="errorToggleTimetable"
-      >
+            class="errorboxmain" *ngIf="errorToggleTimetable">
         <div class="errorboxinner text-center">
           <div class="errorboxplaceholder mb-2">
             <img
@@ -423,7 +431,7 @@
       <div class="row" >
         <div class="col-md-6">
           <div class="Regular-data">
-            <h5>{{extractFirstNameFromEmail(key)}} 
+            <h5>{{extractFirstNameFromEmail(key)}}
               <!-- <span class="attendance-id">123</span> -->
             </h5>
 
@@ -704,7 +712,7 @@
 
 
 <!-- Pagination -->
-<div class="pagination pl-3" *ngIf="total > 8">
+<div class="pagination pl-3" *ngIf="total > 7 && attendanceDataByDateKey.length > 7">
   <p class="mb-0" style="padding-left: 15px">
       Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
       {{ total }} items

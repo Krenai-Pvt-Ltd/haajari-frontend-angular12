@@ -41,6 +41,13 @@ export class AttendanceSettingComponent implements OnInit {
 
   }
 
+
+  preRuleForShimmersAndErrorPlaceholdersMethodCall(){
+    this.isShimmer = true;
+    this.dataNotFoundPlaceholder = false;
+    this.networkConnectionErrorPlaceHolder = false;
+  }
+
   //input for selecting duration:
   hours: number[] = Array.from({ length: 24 }, (_, i) => i);
   minutes: number[] = Array.from({ length: 60 }, (_, i) => i);
@@ -50,6 +57,10 @@ export class AttendanceSettingComponent implements OnInit {
   selectedTime : string = '20:00';
   readonly DEDUCTION_TYPE_PER_MINUTE = Key.DEDUCTION_TYPE_PER_MINUTE;
   readonly OVERTIME_TYPE_FIXED_AMOUNT = Key.OVERTIME_TYPE_FIXED_AMOUNT;
+
+  isShimmer = false;
+  dataNotFoundPlaceholder = false;
+  networkConnectionErrorPlaceHolder = false;
 
 
   selectHours(hour: number) {
@@ -763,12 +774,25 @@ unselectAllUsers() {
 
   organizationShiftTimingWithShiftTypeResponseList : OrganizationShiftTimingWithShiftTypeResponse[] = [];
   getAllShiftTimingsMethodCall(){
+
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
+
+    // this.isShimmer = true;
+    // this.dataNotFoundPlaceholder = false;
+    // this.networkConnectionErrorPlaceHolder = false;
+
     this.dataService.getAllShiftTimings().subscribe((response) => {
       this.organizationShiftTimingWithShiftTypeResponseList = response;
       console.log(this.organizationShiftTimingWithShiftTypeResponseList);
+
+      if(response === undefined || response === null || response.length === 0){
+        this.dataNotFoundPlaceholder = true;
+      }
     }, (error) => {
       console.log(error);
+      this.networkConnectionErrorPlaceHolder = true;
     })
+
   }
 
   shiftTypeList : ShiftType[] = [];
@@ -824,6 +848,7 @@ unselectAllUsers() {
 
   attendanceModeList : AttendanceMode[] = [];
   getAttendanceModeAllMethodCall(){
+    this.isShimmer = true;
     this.dataService.getAttendanceModeAll().subscribe((response) => {
       this.attendanceModeList = response;
       console.log(response);
@@ -843,6 +868,7 @@ unselectAllUsers() {
 
   selectedAttendanceModeId : number = 0;
   getAttendanceModeMethodCall(){
+    this.isShimmer = true;
     this.dataService.getAttendanceMode().subscribe((response) => {
       debugger
       this.selectedAttendanceModeId = response.id;

@@ -178,6 +178,18 @@ export class DataService {
     .set('search_by', searchBy);
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {params});
   }
+
+  getUsersByFilterForLeaveSetting(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
+    const params = new HttpParams()
+    .set("item_per_page", itemPerPage.toString())
+    .set("page_number", pageNumber.toString())
+    .set('sort_order', sort)
+    .set('sort_by', sortBy)
+    .set('search', search)
+    .set('search_by', searchBy);
+    return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters-leave-setting`, {params});
+  }
+
   getAllUsers(sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
     const params = new HttpParams()
     .set('sortOrder', sort)
@@ -957,5 +969,11 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     .set("date", date);
 
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-logs`,{params});
+  }
+
+  findUsersOfLeaveSetting(leaveSettingId: number , searchText: string, pageNumber: number, itemPerPage: number): Observable<any> {
+    const params = new HttpParams().set('search', searchText).set('leaveSettingId', leaveSettingId)
+    .set('pageNumber', pageNumber).set('itemPerPage', itemPerPage);
+    return this.httpClient.get(`${this.baseUrl}/user-leave-rule/leaveSettingId/users-leave-setting`, { params });
   }
 }

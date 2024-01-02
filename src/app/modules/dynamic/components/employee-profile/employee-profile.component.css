@@ -739,3 +739,13 @@ span.optional {
     font-weight: 400;
     cursor: pointer;
 }
+
+button.btn.sand-request.approved.break-btn {
+    background-color: rgb(254, 240, 138) !important;
+    background-color: rgb(254, 240, 138) !important;
+    border-color: rgb(254, 240, 138) !important;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    padding: 8px;
+}

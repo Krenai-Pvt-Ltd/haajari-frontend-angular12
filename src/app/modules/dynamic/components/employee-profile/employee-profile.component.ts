@@ -361,7 +361,15 @@ export class EmployeeProfileComponent implements OnInit {
   goforward() {
     debugger
     const calendarApi = this.calendarComponent.getApi();
-    if (calendarApi.getDate().getMonth() < new Date().getMonth() - 1) {
+
+    (console.log(calendarApi.getDate().getMonth()));
+
+    if(calendarApi.getDate().getMonth() == 11 && new Date().getMonth()==0){
+      calendarApi.next();
+      this.forwordFlag = false;
+    }
+    else{
+    if ((calendarApi.getDate().getFullYear() < new Date().getFullYear()) || (calendarApi.getDate().getMonth() < new Date().getMonth() - 1)){
       calendarApi.next();
       this.forwordFlag = true;
       this.backwardFlag = true;
@@ -370,6 +378,7 @@ export class EmployeeProfileComponent implements OnInit {
       calendarApi.next();
       this.forwordFlag = false;
     }
+  }
 
     let startDate = calendarApi.view.currentStart;
     let endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
@@ -413,7 +422,7 @@ export class EmployeeProfileComponent implements OnInit {
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
     var month = date.getMonth();
-    if (calendarApi.getDate().getMonth() > month + 1) {
+    if ((calendarApi.getDate().getFullYear() > date.getFullYear()) ||  (calendarApi.getDate().getMonth() > month + 1)) {
       calendarApi.prev();
       this.backwardFlag = true;
       this.forwordFlag = true;
@@ -981,6 +990,8 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         console.log(error);
+        this.getUserAttendanceStatus() ;
+
       }
     );
   }
@@ -988,6 +999,7 @@ export class EmployeeProfileComponent implements OnInit {
   status: string='';
 
   getUserAttendanceStatus() {
+    debugger
     this.dataService.checkinCheckoutStatus(this.userId).subscribe(
       (data) => {
         console.log(data);

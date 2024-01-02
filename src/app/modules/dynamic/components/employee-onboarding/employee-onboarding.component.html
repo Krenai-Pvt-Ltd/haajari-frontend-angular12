@@ -306,7 +306,7 @@
                                                  <th style="width:15%">Action</th> 
                                             </tr>
                                         </thead>
-                                            <tbody *ngIf="!isUserShimer && total==0 && searchUserPlaceholderFlag">
+                                            <tbody *ngIf="!isUserShimer && users.length==0 && searchUserPlaceholderFlag">
                                                 <tr >
                                                     <td colspan="8">
                                                         <div class="mt-3 dashnodata" >
@@ -472,7 +472,7 @@
                                                                 </div>
                                                             </div>
                                                         </div> -->
-                                                        <div class="errorboxmain"  *ngIf="errorToggleTop">
+                                                        <div class="errorboxmain"  *ngIf="errorToggleTop && users.length==0">
                                                        
                                                             <div class="errorboxinner text-center">
                                                               <div class="errorboxplaceholder mb-2">
@@ -485,7 +485,7 @@
                                                             </div>
                                                        
                                                     </div>
-                                                    <div class="errorboxmain" *ngIf="placeholder && total==null && !isUserShimer">
+                                                    <div class="errorboxmain" *ngIf="placeholder && total==0 && !isUserShimer">
                                                        
                                                             <div class="errorboxinner text-center">
                                                               <div class="errorboxplaceholder mb-2">
