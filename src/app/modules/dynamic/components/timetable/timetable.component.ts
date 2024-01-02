@@ -233,7 +233,7 @@ export class TimetableComponent implements OnInit {
   itemPerPage : number = 8;
   pageNumber : number = 1;
   searchText : string = '';
-  total !: number;
+  total : number = 0;
 
   isShimer:boolean=false;
   errorToggleTimetable:boolean=false;
@@ -314,13 +314,19 @@ export class TimetableComponent implements OnInit {
 }
 
 
-  // Additional section:
+// ####################Add Notes#####################
+
+  addNotesModel(){
+    this.additionalNotes = new AdditionalNotes();
+  }
+
   additionalNotes : AdditionalNotes = new AdditionalNotes();
   additionalNotesUserEmail !: string;
 
   @ViewChild('addNotesModalClose') addNotesModalClose !: ElementRef; 
 
   addAdditionalNotesMethodCall(){
+    this.additionalNotes.createdDate = this.inputDate;
     this.dataService.addAdditionalNotes(this.additionalNotes, this.additionalNotesUserEmail).subscribe((data) => {
       console.log(data);
       this.addNotesModalClose.nativeElement.click();
@@ -330,12 +336,7 @@ export class TimetableComponent implements OnInit {
   }
 
   // --------------------------------------------------------
-  viewLogsAttendanceDataKey !: string;
-  viewLogsAttendanceDataValue !: AttendenceDto;
-  viewLogs(key : string, value: AttendenceDto){
-    this.viewLogsAttendanceDataKey = key;
-    this.viewLogsAttendanceDataValue = value;
-  }
+ 
 
   // optionsDatePicker: any = {
   //   autoApply: true,
@@ -407,9 +408,20 @@ export class TimetableComponent implements OnInit {
 
 
   // ############View Logs#################
+
+  viewLogsAttendanceDataEmail : string = '';
+  viewLogsAttendanceDataValue : AttendenceDto = new AttendenceDto();
+  viewLogs(key : string, value: AttendenceDto){
+    this.attendanceLogResponseList = [];
+    this.viewLogsAttendanceDataEmail = key;
+    this.viewLogsAttendanceDataValue = value;
+    this.getAttendanceLogsMethodCall();
+  }
+
+
   attendanceLogResponseList : AttendanceLogResponse[] = [];
   getAttendanceLogsMethodCall(){
-    this.dataService.getAttendanceLogs('','').subscribe((response) => {
+    this.dataService.getAttendanceLogs(this.viewLogsAttendanceDataEmail, this.inputDate).subscribe((response) => {
       this.attendanceLogResponseList = response;
       console.log(response);
     }, (error) => {
