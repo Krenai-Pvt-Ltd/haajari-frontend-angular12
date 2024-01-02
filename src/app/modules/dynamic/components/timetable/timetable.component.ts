@@ -227,7 +227,7 @@ export class TimetableComponent implements OnInit {
   attendanceDataByDateKey : any = [];
   attendanceDataByDateValue : AttendenceDto[] = [];
   inputDate = '';
-  filterCriteria = 'PRESENT';
+  filterCriteria = 'ALL';
   halfDayUsers : number = 0;
 
   itemPerPage : number = 8;
@@ -241,8 +241,18 @@ export class TimetableComponent implements OnInit {
 
   getAttendanceDetailsReportByDateMethodCall(){
       this.isShimer=true;
+      this.errorToggleTimetable=false;
+      this.placeholder=false;
       this.dataService.getAttendanceDetailsReportByDate(this.inputDate, this.pageNumber, this.itemPerPage, this.searchText, 'name', '','', this.filterCriteria).subscribe((response) => {
+        debugger
         const data = response.mapOfObject;
+
+        if(data == null){
+          this.placeholder = true;
+          this.attendanceDataByDateKey = [];
+          this.isShimer=false;
+          return;
+        }
         this.total = response.totalItems;
         this.attendanceDataByDateKey = Object.keys(data);
         this.attendanceDataByDateValue = Object.values(data);
@@ -274,7 +284,7 @@ export class TimetableComponent implements OnInit {
 
   }
 
-  filterCriteriaList : string[] = ['PRESENT', 'ABSENT', 'HALFDAY'];
+  filterCriteriaList : string[] = ['ALL', 'PRESENT', 'ABSENT', 'HALFDAY'];
 
   selectFilterCriteria(filterCriteria : string){
     this.filterCriteria = filterCriteria;
