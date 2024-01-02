@@ -361,7 +361,7 @@ export class EmployeeProfileComponent implements OnInit {
   goforward() {
     debugger
     const calendarApi = this.calendarComponent.getApi();
-    if (calendarApi.getDate().getMonth() < new Date().getMonth() - 1) {
+    if ((calendarApi.getDate().getFullYear() < new Date().getFullYear()) || (calendarApi.getDate().getMonth() < new Date().getMonth() - 1)) {
       calendarApi.next();
       this.forwordFlag = true;
       this.backwardFlag = true;
@@ -413,7 +413,7 @@ export class EmployeeProfileComponent implements OnInit {
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
     var month = date.getMonth();
-    if (calendarApi.getDate().getMonth() > month + 1) {
+    if ((calendarApi.getDate().getFullYear() > date.getFullYear()) ||  (calendarApi.getDate().getMonth() > month + 1)) {
       calendarApi.prev();
       this.backwardFlag = true;
       this.forwordFlag = true;
@@ -981,6 +981,8 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         console.log(error);
+        this.getUserAttendanceStatus() ;
+
       }
     );
   }
