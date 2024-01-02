@@ -665,7 +665,19 @@ span.edit-profile:hover{
     background-color: #adb5ff;
 } */
 
-
+button.btn.close-btn {
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 21px;
+    box-shadow: unset!important;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    color: #6666f3;
+    cursor: pointer;
+}
 .attendance-dates {
     position: absolute;
     top: 1px;
