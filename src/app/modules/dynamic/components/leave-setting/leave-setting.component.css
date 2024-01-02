@@ -1201,6 +1201,29 @@ button.btn.close-btn {
     margin-left: 7px;
   }
 
+  .editdata-edit {
+    display: inline-block;
+    text-align: center;
+    line-height: 24px !important;
+    background-color: #eef1ff;
+    border: 1px solid #4660f6;
+    color: #4660f6;
+    font-size: 14px !important;
+    border-radius: 6px !important;
+    padding: 5px 22px;
+}
+
+.remove{
+    display: inline-block;
+    text-align: center;
+    line-height: 24px !important;
+    background-color: #f8d7d7;
+    border: 1px solid #eb5050;
+    color: #eb5050;
+    font-size: 13px !important;
+    border-radius: 6px !important;
+    padding: 5px 20px;
+}
 
   @keyframes lineAnim {
     0% {
