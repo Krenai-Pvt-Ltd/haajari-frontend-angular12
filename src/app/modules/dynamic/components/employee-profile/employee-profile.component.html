@@ -12,6 +12,12 @@
                     <button class="btn sand-request approved" type="button" (click)="checkinCheckout('/inn')" >Check-In</button>
                     </span>
                     <span *ngIf="status=='in'">
+                        <button class="btn sand-request approved" type="button" (click)="checkinCheckout('/breakk')" >Break</button>
+                    </span>
+                    <span *ngIf="status=='break'">
+                        <button class="btn sand-request approved" type="button" (click)="checkinCheckout('/backk')" >Back</button>
+                    </span>
+                    <span *ngIf="(status=='in') || (status=='back')"> 
                     <button class="btn sand-request rejected" (click)="checkinCheckout('/outt')" >Check-Out</button>
                     </span>
                  </div> 
