@@ -207,7 +207,8 @@ getEmployeeDocumentsDetailsMethodCall() {
         }
 
         // Initialize guarantors if they are not part of the response
-        if (!this.userDocumentsDetailsRequest.guarantors) {
+        debugger
+        if (this.userDocumentsDetailsRequest.guarantors.length==0) {
           this.userDocumentsDetailsRequest.guarantors = [
             new UserGuarantorRequest(),
             new UserGuarantorRequest()
