@@ -447,6 +447,7 @@ export class LeaveSettingComponent implements OnInit {
     this.dataService.getLeaveSettingInformationById(leaveSettingId)
       .subscribe(response => {
         this.fullLeaveSettingResponse = response;
+        this.addButtonFlag = true;
         this.idOfLeaveSetting = leaveSettingId;
         this.findUsersOfLeaveSetting(leaveSettingId);
         this.leaveSettingResponse = this.fullLeaveSettingResponse.leaveSetting;
@@ -489,15 +490,24 @@ export class LeaveSettingComponent implements OnInit {
       });
   }
  @ViewChild("templateSettingTab") templateSettingTab!:ElementRef;
+ @ViewChild("newStaffSelectionTab") newStaffSelectionTab!:ElementRef;
+ openStaffSelection(){
+  this.newStaffSelectionTab.nativeElement.click();
+ }
 //  @ViewChild("leaveSettingForm") leaveSettingForm!:ElementRef;
 //  leaveSettingForm!: NgForm;
+addButtonFlag:boolean=false;
   emptyAddLeaveSettingRule(){
     debugger
     this.mappedTabFlag= false;
+    this.addButtonFlag= false;
     this.idOfLeaveSetting=0;
+    this.staffsUser = [];
+    // this.getUserByFiltersMethodCall();
     this.templateSettingTab.nativeElement.click();
     this.unselectAllUsers();
     this.selectedStaffsUuids = [];
+    this.selectedStaffsUuidsUser = [];
     // this.selectedStaffsUuids.length = 0; 
     // this.leaveSettingForm.form.markAsPristine();
     this.leaveSettingResponse = new LeaveSettingResponse();
@@ -507,6 +517,7 @@ export class LeaveSettingComponent implements OnInit {
     const categoriesArray = this.form.get('categories') as FormArray;
     categoriesArray.clear();
     this.addRow();
+   
     }
 
   deleteLeaveSettingRule(leaveSettingId: number): void {
@@ -775,6 +786,12 @@ export class LeaveSettingComponent implements OnInit {
       this.isMappedStaffEmpty=false;
       this.addedUserFlag=true;
       console.log(response);
+      this.selectedStaffsUuids = [userUuid];
+      // Find the staff in the array and update its selected property
+      const staffToUpdate = this.staffs.find(staff => staff.uuid === userUuid);
+      if (staffToUpdate) {
+         staffToUpdate.selected = true;
+     }
       this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
       this.selectedStaffsUuidsUser = [...this.selectedStaffsUuidsUser, userUuid];
     });
