@@ -428,7 +428,7 @@ export class TimetableComponent implements OnInit {
   viewLogsAttendanceDataEmail : string = '';
   viewLogsAttendanceDataValue : AttendenceDto = new AttendenceDto();
   viewLogs(key : string, value: AttendenceDto){
-    this.attendanceLogShimmerFlag = true;
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCall()
     this.attendanceLogResponseList = [];
     this.viewLogsAttendanceDataEmail = key;
     this.viewLogsAttendanceDataValue = value;
@@ -436,14 +436,29 @@ export class TimetableComponent implements OnInit {
   }
 
 
+  preRuleForShimmersAndErrorPlaceholdersMethodCall(){
+    this.isShimmer = true;
+    this.dataNotFoundPlaceholder = false;
+    this.networkConnectionErrorPlaceHolder = false;
+  }
+
+  isShimmer = false;
+  dataNotFoundPlaceholder = false;
+  networkConnectionErrorPlaceHolder = false;
   attendanceLogShimmerFlag:boolean=false;
+  dataNotFoundFlagForAttendanceLog:boolean=false;
+  networkConnectionErrorFlagForAttendanceLog:boolean=false;
   attendanceLogResponseList : AttendanceLogResponse[] = [];
   getAttendanceLogsMethodCall(){
     this.dataService.getAttendanceLogs(this.viewLogsAttendanceDataEmail, this.inputDate).subscribe((response) => {
       this.attendanceLogResponseList = response;
       console.log(response);
+      if(response === undefined || response === null || response.length === 0){
+        this.dataNotFoundPlaceholder = true;
+      }
     }, (error) => {
       console.log(error);
+      this.networkConnectionErrorPlaceHolder = true;
     })
   }
 }

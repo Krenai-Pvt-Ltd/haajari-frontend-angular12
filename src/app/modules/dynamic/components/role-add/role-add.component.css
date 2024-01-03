@@ -91,3 +91,25 @@
     flex-direction: column;
     display: flex;
 }
+
+.email-decription{
+    word-break: break-word;
+    align-self: center;
+    white-space: pre-line;
+    overflow: hidden;
+    display: block;
+    margin: 0px;
+    color: rgb(54, 68, 82);
+    font-size: 12px;
+    letter-spacing: 0px;
+    line-height: 20px;
+    font-weight: 400;
+}
+.khvlyr {
+    border-radius: 12px;
+    border: 1px solid rgb(147, 203, 255);
+    text-align: left;
+    --iconFill: #0053D9;
+    background-color: rgb(245, 252, 255);
+    padding: 10px;
+}
