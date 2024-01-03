@@ -113,11 +113,13 @@ export class EmployeeOnboardingComponent implements OnInit {
       (data) => {
         console.log(data);
         console.log('====================');
-        location.reload();
+        // location.reload();
+        this.getUsersByFiltersFunction();
       },
       (error) => {
         console.log(error);
-        location.reload();
+        this.getUsersByFiltersFunction();
+        // location.reload();
         console.log('-------------------------------');
       }
     );

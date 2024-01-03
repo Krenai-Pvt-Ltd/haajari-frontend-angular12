@@ -425,14 +425,18 @@ export class LeaveSettingComponent implements OnInit {
 }
 // leaveSettingForm!:NgForm;
   fullLeaveSettingResponse!: FullLeaveSettingResponse;
+  mappedTabFlag:boolean = false;
+  isMappedStaffEmpty: boolean = false;
 
   getLeaveSettingInformationById(leaveSettingId: number): void {
+    this.mappedTabFlag = true;
     this.dataService.getLeaveSettingInformationById(leaveSettingId)
       .subscribe(response => {
         this.fullLeaveSettingResponse = response;
+        this.idOfLeaveSetting = leaveSettingId;
         this.findUsersOfLeaveSetting(leaveSettingId);
         this.leaveSettingResponse = this.fullLeaveSettingResponse.leaveSetting;
-        this.selectedStaffsUuids =  this.fullLeaveSettingResponse.userUuids;
+        this.selectedStaffsUuidsUser =  this.fullLeaveSettingResponse.userUuids;
         this.templateSettingTab.nativeElement.click();
         if(this.leaveSettingResponse!=null){
         this.isFormValid=true;
@@ -470,6 +474,7 @@ export class LeaveSettingComponent implements OnInit {
 //  leaveSettingForm!: NgForm;
   emptyAddLeaveSettingRule(){
     debugger
+    this.mappedTabFlag= false;
     this.templateSettingTab.nativeElement.click();
     this.unselectAllUsers();
     this.selectedStaffsUuids = [];
@@ -511,7 +516,8 @@ export class LeaveSettingComponent implements OnInit {
       ...category
     }));
     this.fullLeaveSettingRuleRequest.leaveSettingCategoryResponse = leaveSettingCategories;
-    this.fullLeaveSettingRuleRequest.userUuids = this.selectedStaffsUuids;
+    this.fullLeaveSettingRuleRequest.userUuids = [...this.selectedStaffsUuids, ...this.selectedStaffsUuidsUser];
+    // selectedStaffsUuidsUser;
 
     this.dataService
       .registerLeaveSettingRules(this.fullLeaveSettingRuleRequest)
@@ -543,26 +549,178 @@ export class LeaveSettingComponent implements OnInit {
     this.staffSelectionTab.nativeElement.click();
   }
 
+  rowNumberUser: number = 1;
   staffsUser: Staff[] = [];
   searchTextUser = '';
   pageNumberUser: number = 1;
   itemPerPageUser: number = 8;
+  totalUser: number = 0;
+
+  idOfLeaveSetting:number=0;
+
+  searchLeaveUsers(leaveSettingId:number) {
+    this.findUsersOfLeaveSetting(leaveSettingId);
+  }
 
 
   findUsersOfLeaveSetting(leaveSettingId:number): void {
     this.dataService.findUsersOfLeaveSetting(leaveSettingId, this.searchTextUser, this.pageNumberUser, this.itemPerPageUser)
       .subscribe((response) => {
+        console.log(response + "response " + response.count + "count");
+        if(response.count===0){
+          this.isMappedStaffEmpty=true;
+        }else{
+          this.isMappedStaffEmpty=false;
+        }
         this.staffsUser = response;
         this.staffsUser = response.users.map((staff: Staff) => ({
           ...staff,
-          selected: this.selectedStaffsUuids.includes(staff.uuid)
+          selected: this.selectedStaffsUuidsUser.includes(staff.uuid)
         }));
-        this.total = response.count;
+        this.totalUser = response.count;
   
-        // this.isAllSelected = this.staffsUser.every(staff => staff.selected);
+        this.isAllSelectedUser = this.staffsUser.every(staff => staff.selected);
         
       });
   }
+
+  // ############# pagination mapped user tab
+
+  changeUserPage(newpage: number | string) {
+    if (typeof newpage === 'number') {
+      this.pageNumberUser = newpage;
+    } else if (newpage === 'prev' && this.pageNumberUser > 1) {
+      this.pageNumberUser--;
+    } else if (newpage === 'next' && this.pageNumberUser < this.totalUserPages) {
+      this.pageNumberUser++;
+    }
+    this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
+  }
+
+  getUserPages(): number[] {
+    const totalUserPages = Math.ceil(this.totalUser / this.itemPerPageUser);
+    return Array.from({ length: totalUserPages }, (_, index) => index + 1);
+  }
+
+  get totalUserPages(): number {
+    return Math.ceil(this.totalUser / this.itemPerPageUser);
+  }
+  getUserStartIndex(): number {
+    return (this.pageNumberUser - 1) * this.itemPerPageUser + 1;
+  }
+  getUserEndIndex(): number {
+    const endIndex = this.pageNumberUser * this.itemPerPageUser;
+    return endIndex > this.totalUser ? this.totalUser : endIndex;
+  }
+
+  onUserTableDataChange(event: any) {
+    this.pageNumberUser = event;
+  }
+
+  // ########### Selection func....
+
+
+  selectedStaffsUuidsUser: string[] = [];
+  selectedStaffsUser: Staff[] = [];
+  isAllSelectedUser: boolean = false;
+
+
+  // isUserInLeaveRuleUser(userUuid: string): boolean {
+  //   const userLeaveRule = this.fullLeaveSettingResponse.userLeaveRule;
+  //   return userLeaveRule && userLeaveRule.length > 0 && userLeaveRule.some(rule => rule.userUuids.includes(userUuid));
+  // }
+
+  checkIndividualSelectionUser() {
+    this.isAllUsersSelectedUser = this.staffsUser.every(staff => staff.selected);
+    this.isAllSelectedUser = this.isAllUsersSelectedUser;
+    this.updateSelectedStaffsUser();
+  }
+
+  checkAndUpdateAllSelectedUser() {
+    this.isAllSelectedUser = this.staffsUser.length > 0 && this.staffsUser.every(staff => staff.selected);
+    this.isAllUsersSelectedUser = this.selectedStaffsUuidsUser.length === this.totalUser;
+  }
+
+  updateSelectedStaffsUser() {
+    this.staffsUser.forEach(staff => {
+      if (staff.selected && !this.selectedStaffsUuidsUser.includes(staff.uuid)) {
+        this.selectedStaffsUuidsUser.push(staff.uuid);
+      } else if (!staff.selected && this.selectedStaffsUuidsUser.includes(staff.uuid)) {
+        this.selectedStaffsUuidsUser = this.selectedStaffsUuidsUser.filter(uuid => uuid !== staff.uuid);
+      }
+    });
+
+    this.checkAndUpdateAllSelectedUser();
+
+  }
+  isAllUsersSelectedUser: boolean = false;
+
+  // Method to toggle all users' selection
+  selectAllUsersUser(isChecked: boolean) {
+
+    // const inputElement = event.target as HTMLInputElement;
+    // const isChecked = inputElement ? inputElement.checked : false;
+    this.isAllUsersSelectedUser = isChecked;
+    this.isAllSelectedUser = isChecked; // Make sure this reflects the change on the current page
+    this.staffsUser.forEach(staff => staff.selected = isChecked); // Update each staff's selected property
+
+    if (isChecked) {
+      // If selecting all, add all user UUIDs to the selectedStaffsUuids list
+      // this.activeModel2 = true;
+      this.getAllUsersUuidsUser().then(allUuids => {
+        this.selectedStaffsUuidsUser = allUuids;
+      });
+    } else {
+      this.selectedStaffsUuidsUser = [];
+      // this.activeModel2 = false;
+    }
+
+  }
+
+  selectAllUser(checked: boolean) {
+    this.isAllSelectedUser = checked;
+    this.staffsUser.forEach(staff => staff.selected = checked);
+
+    // Update the selectedStaffsUuids based on the current page selection
+    if (checked) {
+      // this.activeModel2 = true;
+      this.staffsUser.forEach(staff => {
+        if (!this.selectedStaffsUuidsUser.includes(staff.uuid)) {
+          this.selectedStaffsUuidsUser.push(staff.uuid);
+        }
+      });
+    } else {
+      this.staffsUser.forEach(staff => {
+        if (this.selectedStaffsUuidsUser.includes(staff.uuid)) {
+          this.selectedStaffsUuidsUser = this.selectedStaffsUuidsUser.filter(uuid => uuid !== staff.uuid);
+        }
+      });
+    }
+  }
+
+
+
+  // Asynchronous function to get all user UUIDs
+  async getAllUsersUuidsUser(): Promise<string[]> {
+    // Replace with your actual API call to get all users
+    // const response = await this.dataService.getAllUsers('asc', 'id', this.searchText, '').toPromise();
+    return this.selectedStaffsUuidsUser;
+  }
+
+  // Call this method when the select all users checkbox value changes
+  onSelectAllUsersChangeUser(event: any) {
+    this.selectAllUsersUser(event.target.checked);
+  }
+
+  unselectAllUsersUser() {
+    this.isAllUsersSelectedUser = false;
+    this.isAllSelectedUser = false;
+    this.staffsUser.forEach(staff => staff.selected = false);
+    this.selectedStaffsUuidsUser = [];
+    // this.activeModel2 = false;
+  }
+
+
 
 
 }
