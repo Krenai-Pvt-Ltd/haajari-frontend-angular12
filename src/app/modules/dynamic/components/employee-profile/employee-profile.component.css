@@ -378,8 +378,8 @@ span.members-name {
 
  span.edit-profile {
     position: absolute;
-    top: 20px;
-    right: 78px;
+    top: 5px;
+    right: 5px;
     background-color: #fff;
     width: 25px;
     height: 25px;
@@ -748,4 +748,5 @@ button.btn.sand-request.approved.break-btn {
     width: 44px;
     height: 44px;
     padding: 8px;
+    cursor: pointer;
 }

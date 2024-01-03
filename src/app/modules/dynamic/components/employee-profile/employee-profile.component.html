@@ -18,7 +18,7 @@
                     </span>
                     <span *ngIf="status=='break'">
                         <button class="btn sand-request approved break-btn" ngbTooltip="End your break" placement="top" type="button" (click)="checkinCheckout('/backk')" >
-                            <img src="assets/images/mug-hot-2.svg" style="width:100%">
+                            <img src="assets/images/no-coffee.svg" style="width:100%">
                         </button>
 
                       
@@ -46,13 +46,15 @@
 
                                 
                                
-                             
+                             <div class="" style="width: 110px; margin: 0 auto; position: relative;">
                                 <span *ngIf="user?.image !== null">
                                     <img src="{{user?.image}}" style="width:100px; border-radius: 50%;">
                                 </span>
 
                                 <span class="members-name" *ngIf="user?.image == null">{{ user?.name[0] || 'na'}}</span>
                                 <span class="edit-profile" routerLink="/employee-onboarding-form" *ngIf="(user!.employeeOnboardingStatus?.response!='APPROVED')"><i class="bi bi-pencil"></i></span>
+                            </div>
+
                                 <div class="pt-2 pb-2">
                                     <h5>{{user?.name || 'N/A'}}</h5>
                                     <p class="mb-0">{{user?.email || 'N/A'}}</p>
