@@ -47,6 +47,11 @@ export class TimetableComponent implements OnInit {
     this.getDataFromDate();
     this.getAttendanceDetailsReportByDateMethodCall();
     this.getActiveUsersCountMethodCall();
+
+    this.getPresentUsersCountByDateMethodCall();
+    this.getAbsentUsersCountByDateMethodCall();
+    this.scrollIntoView();
+
   }
 
 
@@ -235,10 +240,13 @@ export class TimetableComponent implements OnInit {
   searchText : string = '';
   total : number = 0;
 
+  lastPageNumber = 0;
+
   isShimer:boolean=false;
   errorToggleTimetable:boolean=false;
   placeholder:boolean=false;
 
+  
   getAttendanceDetailsReportByDateMethodCall(){
       this.isShimer=true;
       this.errorToggleTimetable=false;
@@ -254,6 +262,8 @@ export class TimetableComponent implements OnInit {
           return;
         }
         this.total = response.totalItems;
+        debugger
+        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
         this.attendanceDataByDateKey = Object.keys(data);
         this.attendanceDataByDateValue = Object.values(data);
 
@@ -304,6 +314,26 @@ export class TimetableComponent implements OnInit {
     this.dataService.getActiveUsersCount().subscribe((data) => {
       console.log(data);
       this.activeUsersCount = data;
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  presentUsersCount = 0;
+  getPresentUsersCountByDateMethodCall(){
+    this.dataService.getPresentUsersCountByDate(this.inputDate).subscribe((data) => {
+      console.log(data);
+      this.presentUsersCount = data;
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  absentUsersCount = 0;
+  getAbsentUsersCountByDateMethodCall(){
+    this.dataService.getAbsentUsersCountByDate(this.inputDate).subscribe((data) => {
+      console.log(data);
+      this.absentUsersCount = data;
     }, (error) => {
       console.log(error);
     })
@@ -461,6 +491,17 @@ export class TimetableComponent implements OnInit {
       this.networkConnectionErrorPlaceHolder = true;
     })
   }
-}
 
+  // ####################Scroll Into View#################################
 
+  scrollIntoView() {
+  const element = document.getElementById("attendanceDataTopbar");
+
+      if(element!== null && element!== undefined){
+        element.scrollIntoView();
+        element.scrollIntoView(false);
+        element.scrollIntoView({ block: "end" });
+        element.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+      }
+  }
+};

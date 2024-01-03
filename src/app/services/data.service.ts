@@ -208,6 +208,20 @@ export class DataService {
   getActiveUsersCount(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/users/active-count`);
   }
+
+  getPresentUsersCountByDate(date : string): Observable<any>{
+    const params = new HttpParams()
+    .set("date", date);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/present-users-by-date-count`, {params});
+  } 
+  
+  getAbsentUsersCountByDate(date : string): Observable<any>{
+    const params = new HttpParams()
+    .set("date", date);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/absent-users-by-date-count`, {params});
+  }
   //Team module
   registerTeam(userIds: any, name: string, description: string): Observable<any> {
     const params = new HttpParams()

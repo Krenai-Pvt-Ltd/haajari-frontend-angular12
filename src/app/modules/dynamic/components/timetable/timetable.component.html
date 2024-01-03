@@ -228,11 +228,11 @@
             </div>
             <div class="staf">
               <p>Present</p>
-              <h5>{{attendanceDataByDateKey.length}}</h5>
+              <h5>{{presentUsersCount}}</h5>
             </div>
             <div class="staf">
               <p>Absent</p>
-              <h5>{{activeUsersCount - attendanceDataByDateKey.length}}</h5>
+              <h5>{{absentUsersCount}}</h5>
             </div>
             <div class="staf" style="text-align: center;">
               <p>Half Day</p>
@@ -255,10 +255,10 @@
         </div>
       </div>
 
-      <div class="search-bar mt-3 mb-3">
-        <div class="row">
+      <div class="search-bar mt-3 mb-3" >
+        <div class="row" >
           <div class="col-md-9">
-            <div class="searchbr-ui">
+            <div class="searchbr-ui" id="attendanceDataTopbar">
 
 
               <form novalidate="" role="search" (submit)="searchUsers()"
@@ -390,7 +390,7 @@
               </div>
 
               <h4>No Data Found</h4>
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+              <p>Sorry, We can't show you the data at this moment!</p>
             </div>
         </div>
     </div> 
@@ -435,7 +435,7 @@
               <!-- <span class="attendance-id">123</span> -->
             </h5>
 
-            <p [ngClass]="{'in-time-color' : (attendanceDataByDate[key].currentStatus == 'Working'), 'break-color': (attendanceDataByDate[key].currentStatus == 'On Break'), 'out-time-color' : (attendanceDataByDate[key].currentStatus == 'Checked Out' || attendanceDataByDate[key].currentStatus == 'Absent')}">{{attendanceDataByDate[key].currentStatus}}</p>
+            <p [ngClass]="{'in-time-color' : (attendanceDataByDate[key].currentStatus == 'Working'), 'break-color': (attendanceDataByDate[key].currentStatus == 'On Break'), 'out-time-color' : (attendanceDataByDate[key].currentStatus == 'Checked Out' || attendanceDataByDate[key].currentStatus == 'Absent' || attendanceDataByDate[key].currentStatus == 'Not Marked')}">{{attendanceDataByDate[key].currentStatus}}</p>
             <div class="add-note d-flex" style="gap: 10px">
               <a
                 href=""
@@ -702,7 +702,7 @@
 
 
 <!-- Pagination -->
-<div class="pagination pl-3" *ngIf="(total > 7 && attendanceDataByDateKey.length > 7)">
+<div class="pagination pl-3" *ngIf="(total > 7 && attendanceDataByDateKey.length > 7) || pageNumber === lastPageNumber">
   <p class="mb-0" style="padding-left: 15px">
       Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
       {{ total }} items
