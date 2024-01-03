@@ -609,76 +609,25 @@
             </div>
             <!-- modal-header -->
             <div class="modal-body" *ngIf="viewLogsAttendanceDataValue !== null && viewLogsAttendanceDataValue !== undefined">
-              
-                <!-- <div class="userdetails">
-                    <div class="d-flex align-items-center">
-                        <p class="text-end fw-bold">Name:</p>
-                        <p class="text-start">{{extractFirstNameFromEmail(viewLogsAttendanceDataKey)}}</p>
-                    </div>
-                </div>
-                <div class="userdetails">
-                    <div class="d-flex align-items-center">
-                        <p class="text-end fw-bold">Email:</p>
-                        <p class="text-start">{{viewLogsAttendanceDataKey}}</p>
-                    </div>
-                </div>
-                <div class="userdetails">
-                  <div class="d-flex align-items-center">
-                      <p class="text-end fw-bold">Date:</p>
-                      <p class="text-start">{{viewLogsAttendanceDataValue.createdDate | dateFormat}}</p>
-                  </div>
-              </div>
-                <div class="userdetails">
-                    <div class="d-flex align-items-center">
-                        <p class="text-end fw-bold">Check In Time:</p>
-                        <p class="text-start">{{viewLogsAttendanceDataValue.checkInTime | timeFormat}}</p>
-                    </div>
-                </div>
-                <div class="userdetails">
-                    <div class="d-flex align-items-center">
-                        <p class="text-end fw-bold">Check Out Time:</p>
-                        <p class="text-start">{{viewLogsAttendanceDataValue.checkOutTime | timeFormat}}</p>
-                    </div>
-                </div>
-                <div class="userdetails">
-                    <div class="d-lg-flex">
-                        <p class="text-end fw-bold">Breaks:</p>
-                        <table class="table" *ngIf="viewLogsAttendanceDataValue.breakTimings.length !== 0; else noBreaks;">
-                          
-                            <tbody>
-                               
-                                <tr *ngFor="let break of viewLogsAttendanceDataValue.breakTimings; let i = index;">
-                                    <td>({{(i+1)}}). {{ break.breakTime | timeFormat }} to {{ break.backTime | timeFormat}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <ng-template #noBreaks>
-                          <p>No breaks taken! 😐</p>
-                        </ng-template>
-                    </div>
-                </div>
-                
-
-                <div class="userdetails">
-                    <div class="d-flex align-items-center">
-                        <p class="text-end fw-bold">Total Break Duration:</p>
-                        <p class="text-start">{{viewLogsAttendanceDataValue.breakDuration | durationFormat}}</p>
-                    </div>
-                </div>
-                <div class="userdetails">
-                    <div class="d-flex align-items-center">
-                        <p class="text-end fw-bold">Total Work Duration:</p>
-                        <p class="text-start">{{viewLogsAttendanceDataValue.duration | durationFormat}}</p>
-                    </div>
-                </div> -->
 
                 <div class="">
                   <div  class="mt-2">
-                    <div class="scroll-box-logs" *ngFor="let attendanceLogResponse of attendanceLogResponseList">
-                     <ul class="acitivity-timeline-2 list-unstyled mb-0" >
+                    <div class="scroll-box-logs" >
+                     
+                     <ul class="loges-loding" *ngFor="let item of [].constructor(5)">
+                      <li>
+                        <h6><ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading></h6>
+                        <h6 class="mt-1"><ngx-shimmer-loading [width]="'40%'" [height]="'10px'"></ngx-shimmer-loading></h6>
+                        <h6 class="mt-1"><ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading></h6>
+                      </li>
+                     </ul>
+
+                   
+                     <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="let attendanceLogResponse of attendanceLogResponseList">
                          <li>
-                             <h6 class="fs-md mt-0" *ngIf="attendanceLogResponse.operationPerformedBy !== null">{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}} (Added By {{attendanceLogResponse.operationPerformedBy}})</h6>
-                             <h6 class="fs-md mt-0" *ngIf="attendanceLogResponse.operationPerformedBy === null">{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}}</h6>
+                          <!-- in-time-color out-time-color break-color break-back-color -->
+                             <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy !== null" [ngClass]="{'out-time-color' : (attendanceLogResponse.operationType == 'Salary Deduction')}">{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}} <span class="added-by"     style="padding-left: 10px;">(Added By - {{attendanceLogResponse.operationPerformedBy}})</span></h6>
+                             <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy === null" [ngClass]="{'in-time-color': (attendanceLogResponse.operationType == 'in'), 'out-time-color': (attendanceLogResponse.operationType == 'out'), 'break-color': (attendanceLogResponse.operationType == 'break'), 'break-back-color': (attendanceLogResponse.operationType == 'back')}" >{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}}</h6>
                              <div style="display: block; margin-top: 5px; color: #6c757d;">
                                  <span style="font-size: 13px; font-weight: 600; vertical-align: middle;">
                                      <i class="bi bi-calendar3" style="margin-right: 5px;"></i>
@@ -692,7 +641,6 @@
                                  </div>
                              </li>
                      </ul>
-                     
                     </div>
                     </div>
                 </div>

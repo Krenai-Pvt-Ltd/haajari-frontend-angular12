@@ -752,3 +752,43 @@ td.text-right {
     align-items: center;
     text-align: center;
 }
+
+.acitivity-timeline-2 h6{
+    text-transform: capitalize;
+}
+
+.in-time-color{
+    color: green;
+}
+.out-time-color{
+    color: red;
+}
+
+.break-color{
+    color: orange;
+}
+
+.break-back-color{
+    color: rgb(102 102 243);
+}
+
+
+.scroll-box-logs{
+    height: 400px;
+    overflow-x: auto;
+}
+
+.added-by{
+    color: #6cbee8;
+    line-height: 24px;
+}
+
+.loges-loding li{
+    list-style: none;
+}
+
+.loges-loding{
+    padding-left: 0px;
+    margin-top: -10px;
+    margin-bottom: 40px;
+}

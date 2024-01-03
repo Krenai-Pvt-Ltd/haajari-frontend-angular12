@@ -976,4 +976,19 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     .set('pageNumber', pageNumber).set('itemPerPage', itemPerPage);
     return this.httpClient.get(`${this.baseUrl}/user-leave-rule/leaveSettingId/users-leave-setting`, { params });
   }
+
+  deleteAllUsersByLeaveSettingId(leaveSettingId: number): Observable<void> {
+    const url = `${this.baseUrl}/user-leave-rule/delete-all-users-leave-setting-rule?leaveSettingId=${leaveSettingId}`;
+    return this.httpClient.delete<void>(url);
+  }
+
+  deleteUserFromUserLeaveRule(userUuid: string): Observable<void> {
+    const url = `${this.baseUrl}/user-leave-rule/delete-user-from-leave-setting-rule?userUuid=${userUuid}`;
+    return this.httpClient.delete<void>(url);
+  }
+
+  addUserToLeaveRule(userUuid: string, leaveSettingId: number): Observable<any> {
+    const url = `${this.baseUrl}/user-leave-rule/add-users-in-leave-setting?userUuid=${userUuid}&leaveSettingId=${leaveSettingId}`;
+    return this.httpClient.post<any>(url, {});
+  }
 }

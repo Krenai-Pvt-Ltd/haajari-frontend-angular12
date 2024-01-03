@@ -275,6 +275,21 @@
                         </div>
                     </div>
                   </form>
+                  <div class="modal" *ngIf="displayModal && userPersonalInformationRequest.employeeOnboardingFormStatus.response==='USER_REGISTRATION_SUCCESSFUL'">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body text-center">
+                                <p>Your onboarding status is: {{ userPersonalInformationRequest.employeeOnboardingStatus.response }}</p>
+                                <button type="button" class="btn btn-primary" *ngIf="allowEdit" (click)="closeAndEdit()">
+                                    Edit
+                                </button>
+                                <!-- <button type="button" class="btn btn-secondary" (click)="closeModal()">
+                                    Close
+                                </button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
             </div>

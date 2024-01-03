@@ -87,7 +87,6 @@ export class EmployeeOnboardingComponent implements OnInit {
             this.errorToggleTop = false;
             this.searchUserPlaceholderFlag=false;
           } else {
-            // Additional logic if needed
           }
 
           this.isUserShimer = false;
