@@ -63,4 +63,9 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+
+  routeToAccountPage(tabName:string){
+
+    this.router.navigate(["/account-settings"], { queryParams: {tab: tabName } });
+  }
 }
