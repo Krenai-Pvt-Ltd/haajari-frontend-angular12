@@ -614,17 +614,15 @@
                   <div  class="mt-2">
                     <div class="scroll-box-logs" >
                      
-                      <div *ngIf="attendanceShimmerFlag">
-                     <ul class="loges-loding" *ngFor="let item of [].constructor()">
+                     <ul class="loges-loding" *ngFor="let item of [].constructor(5)">
                       <li>
                         <h6><ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading></h6>
                         <h6 class="mt-1"><ngx-shimmer-loading [width]="'40%'" [height]="'10px'"></ngx-shimmer-loading></h6>
                         <h6 class="mt-1"><ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading></h6>
                       </li>
                      </ul>
-                    </div>
 
-                    <div *ngIf="!attendanceShimmerFlag">
+                   
                      <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="let attendanceLogResponse of attendanceLogResponseList">
                          <li>
                           <!-- in-time-color out-time-color break-color break-back-color -->
@@ -643,7 +641,6 @@
                                  </div>
                              </li>
                      </ul>
-                    </div>
                     </div>
                     </div>
                 </div>
