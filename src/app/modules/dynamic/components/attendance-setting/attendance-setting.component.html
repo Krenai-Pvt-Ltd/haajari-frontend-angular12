@@ -41,7 +41,7 @@
                         
 
                         <div class="row mb-3">
-                            <ng-container *ngIf="isShimmer && attendanceModeList.length === 0; else attendanceModeData">
+                            <ng-container *ngIf="isShimmer && attendanceModeList.length === 0 && !dataNotFoundPlaceholder && !networkConnectionErrorPlaceHolder; else attendanceModeData">
                                 <div class="row" >
                                     <div class="col-md-12">
                                         <div class="attendance-settin-list mb-3">
@@ -110,7 +110,7 @@
                     <div class="col-md-7 mt-3 mb-3">
 
 
-                        <ng-container *ngIf="isShimmer && organizationShiftTimingWithShiftTypeResponseList.length === 0; else organizationShiftTimingWithShiftTypeData">
+                        <ng-container *ngIf="isShimmer && organizationShiftTimingWithShiftTypeResponseList.length === 0 && !dataNotFoundPlaceholder && !networkConnectionErrorPlaceHolder; else organizationShiftTimingWithShiftTypeData">
                             <div class="">
                                 <div class="text-end">
                                     <ngx-shimmer-loading [width]="'40%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
@@ -319,7 +319,7 @@
 
                     <div class="col-md-7 mt-3 mb-3">
 
-                        <ng-container *ngIf="isShimmer && attendanceRuleWithAttendanceRuleDefinitionResponseList.length === 0; else attendanceRuleWithDefinitionData">
+                        <ng-container *ngIf="isShimmer && attendanceRuleWithAttendanceRuleDefinitionResponseList.length === 0 && !dataNotFoundPlaceholder && !networkConnectionErrorPlaceHolder; else attendanceRuleWithDefinitionData">
                             <div class="">
                                 <div class="text-end">
                                     <ngx-shimmer-loading [width]="'40%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
