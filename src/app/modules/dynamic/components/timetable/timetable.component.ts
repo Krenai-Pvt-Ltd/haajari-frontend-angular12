@@ -435,12 +435,16 @@ export class TimetableComponent implements OnInit {
   }
 
 
+  attendanceShimmerFlag:boolean=false;
   attendanceLogResponseList : AttendanceLogResponse[] = [];
   getAttendanceLogsMethodCall(){
+    this.attendanceShimmerFlag=true;
     this.dataService.getAttendanceLogs(this.viewLogsAttendanceDataEmail, this.inputDate).subscribe((response) => {
       this.attendanceLogResponseList = response;
       console.log(response);
+      this.attendanceShimmerFlag=false;
     }, (error) => {
+      this.attendanceShimmerFlag=false;
       console.log(error);
     })
   }

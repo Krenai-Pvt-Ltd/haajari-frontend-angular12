@@ -612,11 +612,24 @@
 
                 <div class="">
                   <div  class="mt-2">
-                    <div class="scroll-box-logs" *ngFor="let attendanceLogResponse of attendanceLogResponseList">
-                     <ul class="acitivity-timeline-2 list-unstyled mb-0" >
+                    <div class="scroll-box-logs" >
+                     
+                      <div *ngIf="attendanceShimmerFlag">
+                     <ul class="loges-loding" *ngFor="let item of [].constructor()">
+                      <li>
+                        <h6><ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading></h6>
+                        <h6 class="mt-1"><ngx-shimmer-loading [width]="'40%'" [height]="'10px'"></ngx-shimmer-loading></h6>
+                        <h6 class="mt-1"><ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading></h6>
+                      </li>
+                     </ul>
+                    </div>
+
+                    <div *ngIf="!attendanceShimmerFlag">
+                     <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="let attendanceLogResponse of attendanceLogResponseList">
                          <li>
-                             <h6 class="fs-md mt-0" *ngIf="attendanceLogResponse.operationPerformedBy !== null">{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}} (Added By {{attendanceLogResponse.operationPerformedBy}})</h6>
-                             <h6 class="fs-md mt-0" *ngIf="attendanceLogResponse.operationPerformedBy === null">{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}}</h6>
+                          <!-- in-time-color out-time-color break-color break-back-color -->
+                             <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy !== null" [ngClass]="{'out-time-color' : (attendanceLogResponse.operationType == 'Salary Deduction')}">{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}} <span class="added-by"     style="padding-left: 10px;">(Added By - {{attendanceLogResponse.operationPerformedBy}})</span></h6>
+                             <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy === null" [ngClass]="{'in-time-color': (attendanceLogResponse.operationType == 'in'), 'out-time-color': (attendanceLogResponse.operationType == 'out'), 'break-color': (attendanceLogResponse.operationType == 'break'), 'break-back-color': (attendanceLogResponse.operationType == 'back')}" >{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}}</h6>
                              <div style="display: block; margin-top: 5px; color: #6c757d;">
                                  <span style="font-size: 13px; font-weight: 600; vertical-align: middle;">
                                      <i class="bi bi-calendar3" style="margin-right: 5px;"></i>
@@ -630,7 +643,7 @@
                                  </div>
                              </li>
                      </ul>
-                     
+                    </div>
                     </div>
                     </div>
                 </div>
