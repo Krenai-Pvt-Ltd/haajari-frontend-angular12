@@ -8986,7 +8986,8 @@ ul.pagination.justify-content-end {
     padding: 0.25rem 1rem;
     clear: both;
     font-weight: 400;
-    color: #000444;
+    font-size: 12px;
+    color: #575757;
     text-align: inherit;
     text-decoration: none;
     white-space: nowrap;

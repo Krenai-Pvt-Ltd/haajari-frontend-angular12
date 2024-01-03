@@ -199,6 +199,7 @@ span.members-namess {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: 110px;
 }
 .ddCElb {
     font-weight: 500;
@@ -210,6 +211,9 @@ span.members-namess {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 115px;
 }
 
 .log-btn{
