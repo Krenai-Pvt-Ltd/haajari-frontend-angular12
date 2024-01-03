@@ -364,11 +364,17 @@ export class TimetableComponent implements OnInit {
 
 
   // #########Searching#################
+  resetCriteriaFilter(){
+    this.itemPerPage = 8;
+    this.pageNumber = 1;
+  }
   searchUsers(){
     this.attendanceDataByDateKey = [];
     this.attendanceDataByDateValue = [];
     this.total = 0;
     this.isShimer = true;
+
+    this.resetCriteriaFilter();
     this.getAttendanceDetailsReportByDateMethodCall();
   }
 

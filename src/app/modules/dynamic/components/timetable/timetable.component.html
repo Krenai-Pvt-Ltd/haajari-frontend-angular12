@@ -650,7 +650,7 @@
 
 
 <!-- Pagination -->
-<div class="pagination pl-3" *ngIf="total > 7 && attendanceDataByDateKey.length > 7">
+<div class="pagination pl-3" *ngIf="total > 7 && attendanceDataByDateKey.length > 0">
   <p class="mb-0" style="padding-left: 15px">
       Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
       {{ total }} items
