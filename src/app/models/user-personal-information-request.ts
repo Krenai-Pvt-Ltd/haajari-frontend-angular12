@@ -1,3 +1,6 @@
+import { EmployeeOnboardingFormStatus } from "./employee-onboarding-form-status";
+import { EmployeeOnboardingStatus } from "./employee-onboarding-status";
+
 export class UserPersonalInformationRequest {
         name!: string;
         email!: string;
@@ -14,4 +17,6 @@ export class UserPersonalInformationRequest {
         maritalStatus!: string;
         statusResponse!: string;
         image!: string;
+        employeeOnboardingStatus!: EmployeeOnboardingStatus;
+        employeeOnboardingFormStatus!: EmployeeOnboardingFormStatus
 }
