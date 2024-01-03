@@ -677,7 +677,7 @@
                                                                                 (keyup)="searchUsers()" [(ngModel)]="searchText"
                                                                                 [ngModelOptions]="{ standalone: true }"
                                                                                 style="padding: 10px 50px 10px 30px;">
-                                                                            <button type="button" class="btn close-btn">
+                                                                            <button type="button" class="btn close-btn" (click)="clearSearchUsers()">
                                                                                 <i class="bi bi-x"></i>
                                                                             </button>
                                                                             <i class="bi bi-search search-icon"
@@ -685,9 +685,22 @@
                                                                         </div>
                                                                     </form>
                                                                 </div>
+
+                                                                <div class="errorboxmain text-center" *ngIf="searchUserPlaceholderFlag && total==0" >
+                                                                    <div class="errorboxinner" >
+                                                                        <div class="errorboxplaceholder mb-2">
+                                                                            <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                                                        </div>
+                                                                        <div class="">
+                                                                            <h4>No Data Found</h4>
+                                                                            <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
  
                                                                
-
+ 
+                                                                <div *ngIf="total!==0">
                                                                 <div class="" style="display: flex; justify-content: space-between; align-items : center;">
 
                                                                     <!-- <th style="width:0%; ">
@@ -743,6 +756,7 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
+                                                                       
                                                                         <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
                                                                             style="border-bottom: 1px solid #dddddd;">
                                                                             <td>
@@ -758,24 +772,32 @@
                                                                             <td style="padding: 12px 15px;">{{ staff.email }}</td>
 
                                                                             <td >
-                                                                                <span *ngIf="!staff.selected">
+                                                                                <!-- && !addedUserFlag -->
+                                                                                <span *ngIf="!staff.selected ">
                                                                                 <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"
-                                                                                (click)="checkIndividualSelection()">Add</button>
+                                                                                (click)="addUser(staff.uuid, idOfLeaveSetting)">Add</button>
                                                                                 </span>
-                                                                                <span *ngIf="staff.selected">
+                                                                                <!-- && !addedUserFlag -->
+                                                                                <span *ngIf="staff.selected ">
                                                                                     <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"
-                                                                                    (click)="checkIndividualSelection()">Added</button>
+                                                                                    >Added</button>
                                                                                 </span>
+                                                                                <!-- <span *ngIf="staff.selected && addedUserFlag">
+                                                                                    <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"
+                                                                                    >Added</button>
+                                                                                </span> -->
+                                                                                
                                                                             </td>
                         
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>
+                                                                </div>
                                                                 
                                                             </div>
 
 
-                                                            <div class="pagination pl-3" *ngIf="totalUser > 8">
+                                                            <div class="pagination pl-3" *ngIf="total > 8">
                                                                 <p class="mb-0" style="padding-left: 15px">
                                                                     Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                                                                     {{ total }} users
@@ -811,11 +833,14 @@
 
                                                             </div>
 
+                                                           
+
                                                             <!--  ######################    Stafff Selectiiiiooooonnnnnn -->
 
                                                             <div class="tab-pane fade" id="mapped" role="tabpanel">
+                                                                <!-- || (searchSelectedUserPlaceholderFlag && totalUser==0) -->
 
-                                                                                                                           <div class="errorboxmain text-center" *ngIf="isMappedStaffEmpty" >
+                                                                <div class="errorboxmain text-center" *ngIf="isMappedStaffEmpty" >
                                                                     <div class="errorboxinner" >
                                                                         <div class="errorboxplaceholder mb-2">
                                                                             <img src="assets/images/empty-box.svg" style="width:80px;" />
@@ -850,7 +875,7 @@
                                                                                         (keyup)="searchLeaveUsers(idOfLeaveSetting)" [(ngModel)]="searchTextUser"
                                                                                         [ngModelOptions]="{ standalone: true }"
                                                                                         style="padding: 10px 50px 10px 30px;">
-                                                                                    <button type="button" class="btn close-btn">
+                                                                                    <button type="button" class="btn close-btn" (click)="clearSearchSelectedUsers()">
                                                                                         <i class="bi bi-x"></i>
                                                                                     </button>
                                                                                     <i class="bi bi-search search-icon"
@@ -882,6 +907,18 @@
                                                                             </form>
                                                                         </div> -->
                                                                     </div>
+                                                                    <div class="errorboxmain text-center" *ngIf="searchSelectedUserPlaceholderFlag && totalUser==0" >
+                                                                        <div class="errorboxinner" >
+                                                                            <div class="errorboxplaceholder mb-2">
+                                                                                <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                                                            </div>
+                                                                            <div class="">
+                                                                                <h4>No Data Found</h4>
+                                                                                <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div *ngIf="totalUser!=0">
                                                                     <div class="" style="display: flex; justify-content: space-between; align-items : center;">
 
                                                                         <!-- <th style="width:0%; ">
@@ -890,30 +927,32 @@
                                                                                        (change)="selectAllUsers($event)">
                                                                             </th> -->
                                                                         <div class="mt-3" *ngIf="selectedStaffsUuidsUser!.length > 0">
+                                                                            <!-- *ngIf="selectedStaffsUuidsUser!.length === totalUser; else elseCondition2" -->
                                                                             <ng-container
-                                                                                *ngIf="selectedStaffsUuidsUser!.length === totalUser; else elseCondition2">
-                                                                                <span (click)="unselectAllUsersUser()"
+                                                                                >
+                                                                                <span (click)="deleteAllUsers(idOfLeaveSetting)"
                                                                                     style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 5px; border-radius: 5px;">Clear
                                                                                     all users <i class="bi bi-x"></i></span>
                                                                             </ng-container>
-                                                                            <ng-template #elseCondition2>
+                                                                            <!-- <ng-template #elseCondition2>
                                                                                 <span (click)="selectAllUsersUser(true)"
                                                                                     style="cursor: pointer; color: #4761F6; background-color: #EEF1FF; padding: 5px; border-radius: 5px;">Select
                                                                                     all {{totalUser}} users</span>
-                                                                            </ng-template>
+                                                                            </ng-template> -->
                                                                         </div>
                             
                                                                         <div class="pt-2" *ngIf="selectedStaffsUuidsUser!.length !== 0">
+                                                                            <!-- *ngIf="selectedStaffsUuidsUser!.length === totalUser; else elseCondition1" -->
                                                                             <ng-container
-                                                                                *ngIf="selectedStaffsUuidsUser!.length === totalUser; else elseCondition1">
+                                                                                >
                                                                                 <span>All <b>{{totalUser}}</b> users selected</span>
                                                                             </ng-container>
-                                                                            <ng-template #elseCondition1>
+                                                                            <!-- <ng-template #elseCondition1>
                                                                                 <span><b>{{selectedStaffsUuidsUser!.length}}</b> selected of
                                                                                     <b>{{totalUser}}</b></span>
                                                                                 <span style="cursor:pointer;" (click)="unselectAllUsersUser()"><i
                                                                                         class="bi bi-x"></i></span>
-                                                                            </ng-template>
+                                                                            </ng-template> -->
                                                                         </div>
                             
                             
@@ -951,12 +990,13 @@
                                                                                 <td style="padding: 12px 15px;">{{ newstaff.email }}</td>
     
                                                                                 <td>
-                                                                                    <button class="btn btn-outline-primary btn-sm remove">Remove</button>
+                                                                                    <button class="btn btn-outline-primary btn-sm remove" (click)="deleteUser(newstaff.uuid)">Remove</button>
                                                                                 </td>
                             
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
+                                                                     </div>
                                                                 </div>
 
                                                                 <div class="pagination pl-3" *ngIf="totalUser > 8">
