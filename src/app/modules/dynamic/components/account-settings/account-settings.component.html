@@ -8,7 +8,7 @@
                     <ul id="myTab" role="tablist" class="nav nav-tabs">
 
                         <li role="presentation" class="nav-item">
-                            <button id="home-tab" data-bs-toggle="tab" data-bs-target="#account-setting" type="button" role="tab" aria-controls="account-setting" aria-selected="true" class="nav-link active">Account Details  </button>
+                            <button id="home-tab" data-bs-toggle="tab" data-bs-target="#account-setting" type="button" role="tab" aria-controls="account-setting" aria-selected="true" class="nav-link" [ngClass]="{'active':tabName=='account'}">Account Details  </button>
                         </li>
                         <li role="presentation" class="nav-item">
                             <button id="home-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="true" class="nav-link">Security  </button>
@@ -18,13 +18,13 @@
                             </li>
                             
                             <li role="presentation" class="nav-item">
-                                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#referral-program" type="button" role="tab" aria-controls="referral-program" aria-selected="false" class="nav-link"> Referral Program </button>
+                                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#referral-program" type="button" role="tab" aria-controls="referral-program" aria-selected="false" class="nav-link" [ngClass]="{'active':tabName=='refer'}"> Referral Program </button>
                             </li>
                     </ul>
 
                     <div class="tab-content" id="myTabContent">
 
-                        <div class="tab-pane fade show active mt-3" id="account-setting" role="tabpanel">
+                        <div class="tab-pane fade show mt-3" [ngClass]="{'active':tabName=='account'}" style="border: 1px solid #f1f1f1; box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);"  id="account-setting" role="tabpanel">
 
                             <div class="row">
                                <div class="col-md-8 pr-0 mr-0" style="padding-right: 0px; margin-right: 0px;">
@@ -75,10 +75,13 @@
                                </div>
                                <div class="col-md-4"style="padding-left: 0px; margin-left: 0px;">
                                 <div class="profile-mage-edit text-center position-relative">
-                                    <span>
-                                        <img style="width: 100px; border-radius: 50%;" src="https://avatars.slack-edge.com/2023-04-27/5171737615685_8a302ba6a0b431d2187d_original.jpg">
-                                    </span>
-                                    <span class="edit-profile" tabindex="0"><i class="bi bi-pencil"></i></span>
+                                    <div class="" style="width: 110px; margin: 0 auto; position: relative;">
+                                        <span>
+                                            <img style="width: 100px; border-radius: 50%;" src="https://avatars.slack-edge.com/2023-04-27/5171737615685_8a302ba6a0b431d2187d_original.jpg">
+                                        </span>
+                                        <span class="edit-profile" tabindex="0"><i class="bi bi-pencil"></i></span>
+                                    </div>
+                                  
                                 </div>
 
                                </div>
@@ -97,7 +100,7 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane fade mt-3" id="profile-preferences" role="tabpanel">
+                        <div class="tab-pane fade mt-3" style="border: 1px solid #f1f1f1; box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);" id="profile-preferences" role="tabpanel">
                             <div class="">
                                 <div class="row">
                                     <div class="col-md-8 pr-0 mr-0" style="padding-right: 0px; margin-right: 0px;">
@@ -140,7 +143,7 @@
                                             </div>
                                         </div>
                                          <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm">
-                                             <dt class="sc-f474212e-4 lkliht">Remote API </dt>
+                                             <dt class="sc-f474212e-4 lkliht">Hajiri API </dt>
                                              <dd class="sc-f474212e-7 dUVSfj">
                                                  <div class="sc-485d66d8-0 laMuYy"><div class="sc-485d66d8-0 sc-3a263705-1 dLkVjV csGfKv"> 
                                                     Generate a token to start using the Remote API.</div>
@@ -168,7 +171,7 @@
                                  </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade mt-3" id="referral-program" role="tabpanel">
+                        <div class="tab-pane fade mt-3"[ngClass]="{'active':tabName=='refer'}" id="referral-program" role="tabpanel">
                             <div class="">
 
                                 <div class="security">
