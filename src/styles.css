@@ -53,3 +53,30 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 :ng-deep .fc-view-harness{
     min-height: 452px !important;
 }
+
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040; /* Keep it below the modal but above other elements */
+    width: 100vw; /* Cover the full viewport width */
+    height: 100vh; /* Cover the full viewport height */
+    background-color: rgba(211, 211, 211, 0.5); /* Lighter grey background with some transparency */
+}
+
+/* The rest of your CSS for .modal, .modal-dialog-centered, etc., remains the same. */
+
+
+
+/* The modal container to center it on the page */
+.modal {
+    position: fixed;
+    z-index: 1050;
+    width: 100%;
+    outline: 0;
+    background-color: #00000054;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}

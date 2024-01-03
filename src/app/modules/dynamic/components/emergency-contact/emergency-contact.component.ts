@@ -1,11 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { debug } from 'console';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
 import { DataService } from 'src/app/services/data.service';
-
+declare var bootstrap: any;
 @Component({
   selector: 'app-emergency-contact',
   templateUrl: './emergency-contact.component.html',
@@ -35,6 +32,7 @@ export class EmergencyContactComponent implements OnInit {
     this.userEmergencyContactDetails.push(new UserEmergencyContactDetailsRequest()); 
   }
   displaySuccessModal = false;
+  
   showSuccess() {
     debugger
     this.setEmployeeEmergencyContactDetailsMethodCall();
@@ -44,9 +42,9 @@ export class EmergencyContactComponent implements OnInit {
    
   }
 
-  userEmergencyContactDetailsStatus = "";
 
   toggle = false;
+  @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
   setEmployeeEmergencyContactDetailsMethodCall() {
     debugger
     this.allowEdit = false;
@@ -62,8 +60,16 @@ export class EmergencyContactComponent implements OnInit {
       .subscribe(
         (response: UserEmergencyContactDetailsRequest) => { 
           console.log('Response:', response);
+          
+             response.employeeOnboardingStatus;
+            if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' ){
+              this.successMessageModalButton.nativeElement.click();
+            }
+          
+         
           this.toggle = false;
           // this.userEmergencyContactDetailsStatus = response.statusResponse;
+          
           this.handleOnboardingStatus(response.employeeOnboardingStatus);
             // localStorage.setItem('statusResponse', JSON.stringify(this.userEmergencyContactDetailsStatus));
           // this.router.navigate(['/next-route']); // Update the route as needed
@@ -75,6 +81,11 @@ export class EmergencyContactComponent implements OnInit {
       );
   }
 
+delete(index:number){
+  this.userEmergencyContactDetails.splice(index,1);
+}
+
+  employeeOnboardingFormStatus:string|null=null;
   getEmployeeEmergencyContactsDetailsMethodCall() {
     debugger
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
@@ -84,11 +95,13 @@ export class EmergencyContactComponent implements OnInit {
           console.log(contacts);
           if (contacts && contacts.length > 0) {
           this.userEmergencyContactDetails = contacts;
-          this.dataService.markStepAsCompleted(7);
-          this.handleOnboardingStatus(contacts[0].employeeOnboardingStatus);
-          if(contacts[0].employeeOnboardingFormStatus==='USER_REGISTRATION_SUCCESSFUL'){
-            this.displaySuccessModal = true;
+            this.employeeOnboardingFormStatus=this.userEmergencyContactDetails[0].employeeOnboardingStatus;
+            if(contacts[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL'){
+              this.successMessageModalButton.nativeElement.click();
           }
+            this.dataService.markStepAsCompleted(7);
+          this.handleOnboardingStatus(contacts[0].employeeOnboardingStatus);
+        
         } else {
           this.addEmergencyContact();
         }
@@ -131,4 +144,10 @@ export class EmergencyContactComponent implements OnInit {
     // Additional logic if needed when modal is closed without editing
   }
 
+  @ViewChild("confirmationModalButton") confirmationModalButton!:ElementRef;
+  
+  
+  openModal() {
+    this.confirmationModalButton.nativeElement.click();
+  }
 }

@@ -299,6 +299,7 @@ a.select-file {
     justify-content: center;
 }
 
+
 .dot-opacity-loader span {
     display: inline-block;
     width: 8px;
@@ -328,34 +329,20 @@ a.select-file {
 
 /* The Modal (background) */
 /* The background overlay when modal is displayed */
-.modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1040; /* Keep it below the modal but above other elements */
-    width: 100vw; /* Cover the full viewport width */
-    height: 100vh; /* Cover the full viewport height */
-    background-color: rgba(211, 211, 211, 0.5); /* Lighter grey background with some transparency */
-}
-
-/* The rest of your CSS for .modal, .modal-dialog-centered, etc., remains the same. */
 
 
-/* The modal container to center it on the page */
-.modal {
-    display: block; /* Hidden by default, will be shown when displaySuccessModal is true */
-    position: fixed;
-    z-index: 1050;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 500px; /* Minimum width of the modal */
-    max-width: 700px; /* Maximum width of the modal */
-    width: auto; /* Auto width based on the content */
-    outline: 0;
-}
 
 /* The modal dialog to give it some styling */
+
+
+/* The modal content */
+
+
+/* The check icon */
+
+
+
+/* Model */
 .modal-dialog-centered {
     margin: 0; /* Remove margin to center it vertically */
     display: flex;
