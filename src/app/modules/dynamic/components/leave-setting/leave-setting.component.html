@@ -355,7 +355,7 @@
                                 <li role="presentation" class="nav-item">
                                     <button id="staffSelection-tab" data-bs-toggle="tab"
                                         data-bs-target="#staffSelection" type="button" role="tab"
-                                        aria-controls="staffSelection" aria-selected="false" class="nav-link"
+                                        aria-controls="staffSelection" aria-selected="false" class="nav-link" (click)="openStaffSelection()"
                                         #staffSelectionTab>Staff selection</button>
                                 </li>
                             </ul>
@@ -645,13 +645,13 @@
                                                     <ul id="myTab" role="tablist" class="nav nav-tabs">
                                                         <li role="presentation" class="nav-item">
                                                             <button id="home-tab" data-bs-toggle="tab" data-bs-target="#userlist" type="button"
-                                                                role="tab" aria-controls="userlist" aria-selected="true" class="nav-link active" #templateSettingTab>
+                                                                role="tab" aria-controls="userlist" aria-selected="true" class="nav-link active" #newStaffSelectionTab>
                                                                 Staff selection Userlist</button>
                                                         </li>
                                                         <li role="presentation" class="nav-item" *ngIf="mappedTabFlag">
                                                             <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#mapped"
                                                                 type="button" role="tab" aria-controls="mapped" aria-selected="false"
-                                                                class="nav-link" #leaveCategoryTab>Mapped Userlist</button>
+                                                                class="nav-link">Mapped Userlist</button>
                                                         </li>
                                                     </ul>
 
@@ -751,7 +751,7 @@
                                                                             <th style="width:25%; padding: 12px 15px;">Name</th>
                                                                             <th style="width:50%; padding: 12px 15px;">Email</th>
 
-                                                                            <th style="width:25%; padding: 12px 15px;">Action</th>
+                                                                            <th style="width:25%; padding: 12px 15px;" *ngIf="addButtonFlag">Action</th>
                         
                                                                         </tr>
                                                                     </thead>
@@ -771,7 +771,7 @@
                                                                             <td style="padding: 12px 15px;">{{ staff.name }}</td>
                                                                             <td style="padding: 12px 15px;">{{ staff.email }}</td>
 
-                                                                            <td >
+                                                                            <td *ngIf="addButtonFlag">
                                                                                 <!-- && !addedUserFlag -->
                                                                                 <span *ngIf="!staff.selected ">
                                                                                 <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"
@@ -930,9 +930,12 @@
                                                                             <!-- *ngIf="selectedStaffsUuidsUser!.length === totalUser; else elseCondition2" -->
                                                                             <ng-container
                                                                                 >
-                                                                                <span (click)="deleteAllUsers(idOfLeaveSetting)"
-                                                                                    style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 5px; border-radius: 5px;">Clear
-                                                                                    all users <i class="bi bi-x"></i></span>
+                                                                                <div class="user-list" >
+                                                                                    <button class="btn btn-outline-primary btn-sm remove" (click)="deleteAllUsers(idOfLeaveSetting)"><i class="bi bi-trash" style="padding-right: 5px;"></i> Remove All Users From Template </button>
+                                                                                </div>
+                                                                                <!-- <span (click)="deleteAllUsers(idOfLeaveSetting)"
+                                                                                    style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 5px; border-radius: 5px;">Remove All Users From Template
+                                                                                    <i class="bi bi-x"></i></span> -->
                                                                             </ng-container>
                                                                             <!-- <ng-template #elseCondition2>
                                                                                 <span (click)="selectAllUsersUser(true)"
