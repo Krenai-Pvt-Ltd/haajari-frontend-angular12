@@ -275,25 +275,57 @@
                         </div>
                     </div>
                   </form>
-                  <div class="modal" *ngIf="displayModal && userPersonalInformationRequest.employeeOnboardingFormStatus.response==='USER_REGISTRATION_SUCCESSFUL'">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-body text-center">
-                                <p>Your onboarding status is: {{ userPersonalInformationRequest.employeeOnboardingStatus.response }}</p>
-                                <button type="button" class="btn btn-primary" *ngIf="allowEdit" (click)="closeAndEdit()">
-                                    Edit
-                                </button>
-                                <!-- <button type="button" class="btn btn-secondary" (click)="closeModal()">
-                                    Close
-                                </button> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                  
                 </div>
             </div>
             </div>
 
+        </div>
+    </div>
+</div>
+
+<!-- <div class="modal" *ngIf="displayModal && userPersonalInformationRequest.employeeOnboardingFormStatus.response==='USER_REGISTRATION_SUCCESSFUL'">
+    <div class="modal-dialog modal-dialog-centered mx-auto">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <p>Your onboarding status is: {{ userPersonalInformationRequest.employeeOnboardingStatus.response }}</p>
+                <button type="button" class="btn btn-primary" *ngIf="allowEdit" (click)="closeAndEdit()">
+                    Edit
+                </button>
+               
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+
+   <!-- Success Message Modal -->
+   <button type="button" style="display: none;" data-bs-toggle="modal" data-bs-target="#successMessageModal" #successMessageModalButton id="successMessageModalButton"></button>
+   <div class="modal fade"  id="successMessageModal" #successMessageModal aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered mx-auto">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <i class="bi bi-check-circle" *ngIf="employeeOnboardingFormStatus != 'REJECTED'" style="font-size: 48px; color: green;"></i>
+                <i class="bi bi-exclamation-triangle-fill" *ngIf="employeeOnboardingFormStatus == 'REJECTED'" style="font-size: 48px; color: red;"></i>
+                
+                <!-- Conditional Messages -->
+                <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'PENDING'">
+                    Your registration is successful. Pending for verification.
+                </p>
+                <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'APPROVED'">
+                    Your onboarding is approved.
+                </p>
+                <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+                    Your onboarding is rejected.
+                </p>
+
+                <!-- Edit Button -->
+                <button type="button" class="btn btn-primary" *ngIf="allowEdit" (click)="closeAndEdit()">
+                    Edit
+                </button>
+            </div>
         </div>
     </div>
 </div>
