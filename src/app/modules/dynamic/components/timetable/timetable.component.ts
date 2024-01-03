@@ -428,6 +428,7 @@ export class TimetableComponent implements OnInit {
   viewLogsAttendanceDataEmail : string = '';
   viewLogsAttendanceDataValue : AttendenceDto = new AttendenceDto();
   viewLogs(key : string, value: AttendenceDto){
+    this.attendanceLogShimmerFlag = true;
     this.attendanceLogResponseList = [];
     this.viewLogsAttendanceDataEmail = key;
     this.viewLogsAttendanceDataValue = value;
@@ -435,16 +436,13 @@ export class TimetableComponent implements OnInit {
   }
 
 
-  attendanceShimmerFlag:boolean=false;
+  attendanceLogShimmerFlag:boolean=false;
   attendanceLogResponseList : AttendanceLogResponse[] = [];
   getAttendanceLogsMethodCall(){
-    this.attendanceShimmerFlag=true;
     this.dataService.getAttendanceLogs(this.viewLogsAttendanceDataEmail, this.inputDate).subscribe((response) => {
       this.attendanceLogResponseList = response;
       console.log(response);
-      this.attendanceShimmerFlag=false;
     }, (error) => {
-      this.attendanceShimmerFlag=false;
       console.log(error);
     })
   }

@@ -435,7 +435,7 @@
               <!-- <span class="attendance-id">123</span> -->
             </h5>
 
-            <p>{{attendanceDataByDate[key].currentStatus}}</p>
+            <p [ngClass]="{'in-time-color' : (attendanceDataByDate[key].currentStatus == 'Working'), 'break-color': (attendanceDataByDate[key].currentStatus == 'On Break'), 'out-time-color' : (attendanceDataByDate[key].currentStatus == 'Checked Out' || attendanceDataByDate[key].currentStatus == 'Absent')}">{{attendanceDataByDate[key].currentStatus}}</p>
             <div class="add-note d-flex" style="gap: 10px">
               <a
                 href=""
@@ -608,27 +608,32 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- modal-header -->
-            <div class="modal-body" *ngIf="viewLogsAttendanceDataValue !== null && viewLogsAttendanceDataValue !== undefined">
-
+            <div class="modal-body" >
                 <div class="">
                   <div  class="mt-2">
                     <div class="scroll-box-logs" >
-                     
-                      <div *ngIf="attendanceShimmerFlag">
-                     <ul class="loges-loding" *ngFor="let item of [].constructor()">
-                      <li>
-                        <h6><ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading></h6>
-                        <h6 class="mt-1"><ngx-shimmer-loading [width]="'40%'" [height]="'10px'"></ngx-shimmer-loading></h6>
-                        <h6 class="mt-1"><ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading></h6>
-                      </li>
-                     </ul>
-                    </div>
 
-                    <div *ngIf="!attendanceShimmerFlag">
+                      <div >
+                        <ul class="loges-loding" *ngFor="let item of [].constructor(5)">
+                          <li>
+                            <h6><ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading></h6>
+                            <h6 class="mt-1"><ngx-shimmer-loading [width]="'40%'" [height]="'10px'"></ngx-shimmer-loading></h6>
+                            <h6 class="mt-1"><ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading></h6>
+                          </li>
+                         </ul>
+                        </div>
+
+                        <!-- *ngIf="attendanceLogShimmerFlag && viewLogsAttendanceDataValue === null" -->
+
+                        
+                     
+                      
+
+                    <div *ngIf="viewLogsAttendanceDataValue !== null && viewLogsAttendanceDataValue !== undefined">
                      <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="let attendanceLogResponse of attendanceLogResponseList">
                          <li>
                           <!-- in-time-color out-time-color break-color break-back-color -->
-                             <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy !== null" [ngClass]="{'out-time-color' : (attendanceLogResponse.operationType == 'Salary Deduction')}">{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}} <span class="added-by"     style="padding-left: 10px;">(Added By - {{attendanceLogResponse.operationPerformedBy}})</span></h6>
+                             <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy !== null">{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}} <span class="added-by"     style="padding-left: 10px;">(Added By - {{attendanceLogResponse.operationPerformedBy}})</span></h6>
                              <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy === null" [ngClass]="{'in-time-color': (attendanceLogResponse.operationType == 'in'), 'out-time-color': (attendanceLogResponse.operationType == 'out'), 'break-color': (attendanceLogResponse.operationType == 'break'), 'break-back-color': (attendanceLogResponse.operationType == 'back')}" >{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}}</h6>
                              <div style="display: block; margin-top: 5px; color: #6c757d;">
                                  <span style="font-size: 13px; font-weight: 600; vertical-align: middle;">
@@ -663,7 +668,7 @@
 
 
 <!-- Pagination -->
-<div class="pagination pl-3" *ngIf="total > 7 && attendanceDataByDateKey.length > 0">
+<div class="pagination pl-3" *ngIf="(total > 7 && attendanceDataByDateKey.length > 7)">
   <p class="mb-0" style="padding-left: 15px">
       Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
       {{ total }} items

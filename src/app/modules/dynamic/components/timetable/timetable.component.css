@@ -331,12 +331,12 @@ select.form-control {
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
-.Regular-data p{
+/* .Regular-data p{
     font-size: 13px;
     color: red;
     font-weight: 400;
     margin-bottom: 10px;
-}
+} */
 
 .add-note a {
     font-size: 14px;
