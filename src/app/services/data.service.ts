@@ -992,10 +992,12 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.get(`${this.baseUrl}/user-leave-rule/leaveSettingId/users-leave-setting`, { params });
   }
 
-  deleteAllUsersByLeaveSettingId(leaveSettingId: number): Observable<void> {
-    const url = `${this.baseUrl}/user-leave-rule/delete-all-users-leave-setting-rule?leaveSettingId=${leaveSettingId}`;
-    return this.httpClient.delete<void>(url);
+
+  deleteAllUsersByLeaveSettingId(userUuids: string[]): Observable<void> {
+    const url = `${this.baseUrl}/user-leave-rule/delete-all-users-leave-setting-rule`;
+    return this.httpClient.delete<void>(url, { body: userUuids });
   }
+
 
   deleteUserFromUserLeaveRule(userUuid: string): Observable<void> {
     const url = `${this.baseUrl}/user-leave-rule/delete-user-from-leave-setting-rule?userUuid=${userUuid}`;

@@ -370,17 +370,32 @@ export class EmployeeProfileComponent implements OnInit {
       calendarApi.next();
       this.forwordFlag = false;
     }
+    // if((calendarApi.getDate().getMonth() == 11) && (calendarApi.getDate().getMonth() == ) (calendarApi.getDate().getMonth()) > new Date().getMonth()){
+    //   calendarApi.next();
+    //   this.forwordFlag = false;
+    // }
     else{
-    if ((calendarApi.getDate().getFullYear() < new Date().getFullYear()) || (calendarApi.getDate().getMonth() < new Date().getMonth() - 1)){
-      calendarApi.next();
-      this.forwordFlag = true;
-      this.backwardFlag = true;
+      if ((calendarApi.getDate().getFullYear() < new Date().getFullYear()) || (calendarApi.getDate().getMonth() < new Date().getMonth() - 1)){
+        calendarApi.next();
+        this.forwordFlag = true;
+        this.backwardFlag = true;
 
-    } else {
-      calendarApi.next();
-      this.forwordFlag = false;
+      } else {
+        calendarApi.next();
+        this.forwordFlag = false;
+      }
     }
-  }
+
+    // if(calendarApi.getDate().getFullYear() > new Date().getFullYear()){
+    //   this.forwordFlag = false;
+    // } else if( calendarApi.getDate().getFullYear() <= new Date().getFullYear() && calendarApi.getDate().getMonth() > new Date().getMonth()){
+    //   this.forwordFlag = false;
+    // }else{
+    //       calendarApi.next();
+    //           this.forwordFlag = true;
+    // }
+
+    
 
     let startDate = calendarApi.view.currentStart;
     let endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
