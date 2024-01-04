@@ -228,11 +228,11 @@
             </div>
             <div class="staf">
               <p>Present</p>
-              <h5>{{attendanceDataByDateKey.length}}</h5>
+              <h5>{{presentUsersCount}}</h5>
             </div>
             <div class="staf">
               <p>Absent</p>
-              <h5>{{activeUsersCount - attendanceDataByDateKey.length}}</h5>
+              <h5>{{absentUsersCount}}</h5>
             </div>
             <div class="staf" style="text-align: center;">
               <p>Half Day</p>
@@ -255,10 +255,10 @@
         </div>
       </div>
 
-      <div class="search-bar mt-3 mb-3">
-        <div class="row">
+      <div class="search-bar mt-3 mb-3" >
+        <div class="row" >
           <div class="col-md-9">
-            <div class="searchbr-ui">
+            <div class="searchbr-ui" id="attendanceDataTopbar">
 
 
               <form novalidate="" role="search" (submit)="searchUsers()"
@@ -390,7 +390,7 @@
               </div>
 
               <h4>No Data Found</h4>
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+              <p>Sorry, We can't show you the data at this moment!</p>
             </div>
         </div>
     </div> 
@@ -435,7 +435,7 @@
               <!-- <span class="attendance-id">123</span> -->
             </h5>
 
-            <p>{{attendanceDataByDate[key].currentStatus}}</p>
+            <p [ngClass]="{'in-time-color' : (attendanceDataByDate[key].currentStatus == 'Working'), 'break-color': (attendanceDataByDate[key].currentStatus == 'On Break'), 'out-time-color' : (attendanceDataByDate[key].currentStatus == 'Checked Out' || attendanceDataByDate[key].currentStatus == 'Absent' || attendanceDataByDate[key].currentStatus == 'Not Marked')}">{{attendanceDataByDate[key].currentStatus}}</p>
             <div class="add-note d-flex" style="gap: 10px">
               <a
                 href=""
@@ -609,40 +609,82 @@
             </div>
             <!-- modal-header -->
             <div class="modal-body" *ngIf="viewLogsAttendanceDataValue !== null && viewLogsAttendanceDataValue !== undefined">
-
                 <div class="">
                   <div  class="mt-2">
                     <div class="scroll-box-logs" >
-                     
-                     <ul class="loges-loding" *ngFor="let item of [].constructor(5)">
-                      <li>
-                        <h6><ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading></h6>
-                        <h6 class="mt-1"><ngx-shimmer-loading [width]="'40%'" [height]="'10px'"></ngx-shimmer-loading></h6>
-                        <h6 class="mt-1"><ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading></h6>
-                      </li>
-                     </ul>
 
-                   
-                     <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="let attendanceLogResponse of attendanceLogResponseList">
-                         <li>
-                          <!-- in-time-color out-time-color break-color break-back-color -->
-                             <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy !== null" [ngClass]="{'out-time-color' : (attendanceLogResponse.operationType == 'Salary Deduction')}">{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}} <span class="added-by"     style="padding-left: 10px;">(Added By - {{attendanceLogResponse.operationPerformedBy}})</span></h6>
-                             <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy === null" [ngClass]="{'in-time-color': (attendanceLogResponse.operationType == 'in'), 'out-time-color': (attendanceLogResponse.operationType == 'out'), 'break-color': (attendanceLogResponse.operationType == 'break'), 'break-back-color': (attendanceLogResponse.operationType == 'back')}" >{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}}</h6>
-                             <div style="display: block; margin-top: 5px; color: #6c757d;">
-                                 <span style="font-size: 13px; font-weight: 600; vertical-align: middle;">
-                                     <i class="bi bi-calendar3" style="margin-right: 5px;"></i>
-                                     {{attendanceLogResponse.operationTime | dateFormat}}
-                                 </span>
-                             </div>
-                                 <div class="d-flex align-items-center mb-2 mt-2 gap-3">
-                                  <p class="mb-0" style="font-size: 14px;"> 
-                                    <span><b>Notes</b></span><span> : </span>  {{attendanceLogResponse.additionalNotes}}
-                                  </p>
-                                 </div>
-                             </li>
-                     </ul>
+                    <ng-container *ngIf="isShimmer && attendanceLogResponseList.length === 0 && !dataNotFoundPlaceholder && !networkConnectionErrorPlaceHolder; else attendanceLogResponseData">
+                      <ul class="loges-loding" *ngFor="let item of [].constructor(5)">
+                        <li>
+                          <h6><ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading></h6>
+                          <h6 class="mt-1"><ngx-shimmer-loading [width]="'40%'" [height]="'10px'"></ngx-shimmer-loading></h6>
+                          <h6 class="mt-1"><ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading></h6>
+                        </li>
+                      </ul>
+                    </ng-container>
+
+                    <ng-template #attendanceLogResponseData>
+                      <ng-container *ngIf="attendanceLogResponseList.length !== 0 && !dataNotFoundPlaceholder && !networkConnectionErrorPlaceHolder; else errorInFetchingAttendanceLogData">
+                        <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="let attendanceLogResponse of attendanceLogResponseList">
+                          <li>
+                            <!-- in-time-color out-time-color break-color break-back-color -->
+                              <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy !== null">{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}} <span class="added-by"     style="padding-left: 10px;">(Added By - {{attendanceLogResponse.operationPerformedBy}})</span></h6>
+                              <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy === null" [ngClass]="{'in-time-color': (attendanceLogResponse.operationType == 'in'), 'out-time-color': (attendanceLogResponse.operationType == 'out'), 'break-color': (attendanceLogResponse.operationType == 'break'), 'break-back-color': (attendanceLogResponse.operationType == 'back')}" >{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}}</h6>
+                              <div style="display: block; margin-top: 5px; color: #6c757d;">
+                                  <span style="font-size: 13px; font-weight: 600; vertical-align: middle;">
+                                      <i class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                      {{attendanceLogResponse.operationTime | dateFormat}}
+                                  </span>
+                              </div>
+                                  <div class="d-flex align-items-center mb-2 mt-2 gap-3">
+                                    <p class="mb-0" style="font-size: 14px;"> 
+                                      <span><b>Notes</b></span><span> : </span>  {{attendanceLogResponse.additionalNotes}}
+                                    </p>
+                                  </div>
+                              </li>
+                      </ul>
+                      </ng-container>
+                    </ng-template>
+                    <ng-template #errorInFetchingAttendanceLogData>
+                      <div class="empty-file" *ngIf="dataNotFoundPlaceholder">
+                        <div class="errorboxmain" >
+                            <div class="errorboxinner">
+                                <div class="errorboxplaceholder mb-2">
+                                    <img src="assets/images/empty-box.svg" style="width:80px;"/>
+                                </div>
+                                <div class="">
+                                  <h4>No Data Found</h4>
+                                    <p class="mb-0">Attendance log doesn't exist for this user</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolder">
+                        <div class="errorboxmain">
+                            <div class="errorboxinner text-center">
+                            <div class="errorboxplaceholder mb-2">
+                                <img
+                                src="assets/images/signal.svg"
+                                style="width: 80px"
+                                />
+                            </div>
+                            <div class="">
+                                <h4>Something went wrong</h4>
+                                <p>
+                                An error occurred while processing your
+                                request. Please refresh the page and try
+                                again.
+                                </p>
+                            </div>
+                            </div>
+                        </div>
                     </div>
+                    </ng-template>
+                    </div>
+
+
+                  </div>
                 </div>
 
             </div>
@@ -660,7 +702,7 @@
 
 
 <!-- Pagination -->
-<div class="pagination pl-3" *ngIf="total > 7 && attendanceDataByDateKey.length > 7">
+<div class="pagination pl-3" *ngIf="(total > 7 && attendanceDataByDateKey.length > 7) || pageNumber === lastPageNumber">
   <p class="mb-0" style="padding-left: 15px">
       Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
       {{ total }} items
