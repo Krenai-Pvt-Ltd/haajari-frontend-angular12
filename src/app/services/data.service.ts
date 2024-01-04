@@ -208,6 +208,20 @@ export class DataService {
   getActiveUsersCount(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/users/active-count`);
   }
+
+  getPresentUsersCountByDate(date : string): Observable<any>{
+    const params = new HttpParams()
+    .set("date", date);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/present-users-by-date-count`, {params});
+  } 
+  
+  getAbsentUsersCountByDate(date : string): Observable<any>{
+    const params = new HttpParams()
+    .set("date", date);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/absent-users-by-date-count`, {params});
+  }
   //Team module
   registerTeam(userIds: any, name: string, description: string): Observable<any> {
     const params = new HttpParams()
@@ -975,5 +989,20 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     const params = new HttpParams().set('search', searchText).set('leaveSettingId', leaveSettingId)
     .set('pageNumber', pageNumber).set('itemPerPage', itemPerPage);
     return this.httpClient.get(`${this.baseUrl}/user-leave-rule/leaveSettingId/users-leave-setting`, { params });
+  }
+
+  deleteAllUsersByLeaveSettingId(leaveSettingId: number): Observable<void> {
+    const url = `${this.baseUrl}/user-leave-rule/delete-all-users-leave-setting-rule?leaveSettingId=${leaveSettingId}`;
+    return this.httpClient.delete<void>(url);
+  }
+
+  deleteUserFromUserLeaveRule(userUuid: string): Observable<void> {
+    const url = `${this.baseUrl}/user-leave-rule/delete-user-from-leave-setting-rule?userUuid=${userUuid}`;
+    return this.httpClient.delete<void>(url);
+  }
+
+  addUserToLeaveRule(userUuid: string, leaveSettingId: number): Observable<any> {
+    const url = `${this.baseUrl}/user-leave-rule/add-users-in-leave-setting?userUuid=${userUuid}&leaveSettingId=${leaveSettingId}`;
+    return this.httpClient.post<any>(url, {});
   }
 }

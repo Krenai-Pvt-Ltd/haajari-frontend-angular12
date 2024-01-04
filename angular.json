@@ -31,9 +31,11 @@
             ],
             "styles": [
               "src/styles.css",
-              "src/assets/timepicker.min.css"    
+              "src/assets/timepicker.min.css"   
             ],
-            "scripts": ["src/assets/timepicker.min.js"]
+            "scripts": [
+              "src/assets/timepicker.min.js"
+            ]
           },
           "configurations": {
             "production": {

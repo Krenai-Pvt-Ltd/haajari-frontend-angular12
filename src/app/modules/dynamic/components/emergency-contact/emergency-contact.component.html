@@ -8,7 +8,7 @@
                     <div class="persnol-details">
                         <h5>Employee Emergency Contact</h5>
                         <p class="mb-0">Fields with * are mandatory</p>
-                        <form #emergencyInformationForm="ngForm" ngNativeValidate >
+                        <form #emergencyInformationForm="ngForm" ngNativeValidate (ngSubmit)="openModal()">
                             <div class="form-group">
                         <div class="persnol-info mt-4">
                             <div *ngFor="let contact of userEmergencyContactDetails; let i = index">
@@ -71,6 +71,17 @@
                                         </span>
                                     </div> -->
                                 </div>
+                                <div class="row align-items-center" >
+                                  <div class="col-md-6">
+                                   
+                                </div>
+                                  <div class="col-md-6" style="text-align: right;">
+                                      <div class="add-filtter">
+                                          <a type="button" (click)="delete(i)" style="color: red;"><i class="bi bi-trash" style="font-size: 16px;"></i> Delete</a>
+                                      </div>
+                                     
+                                  </div>
+                              </div>
                             </div>
                             <!-- <div class="row">
                                 <div class="col-md-12">
@@ -91,34 +102,10 @@
                                         <i class="bi bi-plus" style="margin-bottom: 14px;"></i> Add More
                                     </span> -->
                                 </div>
-                                <div class="col-md-6" style="text-align: right;">
-                                    <div class="add-filtter">
-                                        <a type="button"  style="color: red;"><i class="bi bi-trash" style="font-size: 16px;"></i> Delete</a>
-                                    </div>
-                                   
-                                </div>
+                  
                             </div>
 
-                            <!-- Confirmation Modal -->
-                            <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="confirmationModalLabel">Confirm Details</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Are you sure you want to save these details?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Edit</button>
-                                            <!-- Button to trigger success message -->
-                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()">Save Changes</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                         
+                           
 
 
 
@@ -133,7 +120,7 @@
                                 <!-- Removed the unnecessary col-md-12 div -->
                                 <div class="info-btn d-flex justify-content-end">
                                   <!-- Button to trigger confirmation modal -->
-                                  <button type="submit" class="btn btn-primary" [disabled]="!emergencyInformationForm.valid || toggle" data-bs-toggle="modal" data-bs-target="#confirmationModal" aria-label="Save">
+                                  <button type="submit" class="btn btn-primary" [disabled]="!emergencyInformationForm.valid || toggle"  aria-label="Save">
                                     <div *ngIf="toggle" class="dot-opacity-loader">
                                       <span></span>
                                       <span></span>
@@ -160,26 +147,25 @@
 
 
    <!-- Success Message Modal -->
-   <div class="modal" *ngIf="displaySuccessModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered">
+   <button type="button" style="display: none;" data-bs-toggle="modal" data-bs-target="#successMessageModal" #successMessageModalButton id="successMessageModalButton"></button>
+   <div class="modal fade"  id="successMessageModal" #successMessageModal aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered mx-auto">
         <div class="modal-content">
             <div class="modal-body text-center">
-                <i class="bi bi-check-circle" style="font-size: 48px; color: green;"></i>
+                <i class="bi bi-check-circle" *ngIf="employeeOnboardingFormStatus != 'REJECTED'" style="font-size: 48px; color: green;"></i>
+                <i class="bi bi-exclamation-triangle-fill" *ngIf="employeeOnboardingFormStatus == 'REJECTED'" style="font-size: 48px; color: red;"></i>
+                
                 <!-- Conditional Messages -->
-                <p class="mt-2" *ngIf="userEmergencyContactDetails[0].employeeOnboardingFormStatus === 'USER_REGISTRATION_SUCCESSFUL'; else statusCheck">
+                <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'PENDING'">
                     Your registration is successful. Pending for verification.
                 </p>
-                <ng-template #statusCheck>
-                    <p class="mt-2" *ngIf="userEmergencyContactDetails[0].employeeOnboardingStatus === 'APPROVED'">
-                        Your onboarding is approved.
-                    </p>
-                    <p class="mt-2" *ngIf="userEmergencyContactDetails[0].employeeOnboardingStatus === 'REJECTED'">
-                        Your onboarding is rejected.
-                    </p>
-                    <p class="mt-2" *ngIf="userEmergencyContactDetails[0].employeeOnboardingStatus === 'PENDING'">
-                      Your onboarding is Pending for verification.
-                  </p>
-                </ng-template>
+                <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'APPROVED'">
+                    Your onboarding is approved.
+                </p>
+                <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+                    Your onboarding is rejected.
+                </p>
+
                 <!-- Edit Button -->
                 <button type="button" class="btn btn-primary" *ngIf="allowEdit" (click)="closeAndEdit()">
                     Edit
@@ -189,43 +175,30 @@
     </div>
 </div>
 
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+ <!-- Confirmation Modal -->
+ <button type="button" style="display: none;" data-bs-toggle="modal" data-bs-target="#confirmationModal" #confirmationModalButton id="confirmationModalButton"></button>
+ <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered mx-auto mx-auto">
+      <div class="modal-content p-0">
+          <form #confirmationForm="ngForm">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="confirmationModalLabel">Confirm Details</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <!-- Example input field -->
+                  <!-- <input type="text" class="form-control" name="details" required> -->
+                  Are you sure you want to save these details?
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Edit</button>
+                  <!-- Button to trigger success message -->
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()" [disabled]="!confirmationForm.valid">Save Changes</button>
+              </div>
+          </form>
       </div>
-      <div class="modal-body text-center">
-        <i class="bi bi-check-circle" style="font-size: 48px; color: green;"></i>
-        <!-- Conditional Messages -->
-        <p class="mt-2" *ngIf="userEmergencyContactDetails[0].employeeOnboardingFormStatus === 'USER_REGISTRATION_SUCCESSFUL'; else statusCheck">
-            Your registration is successful. Pending for verification.
-        </p>
-        <ng-template #statusCheck>
-            <p class="mt-2" *ngIf="userEmergencyContactDetails[0].employeeOnboardingStatus === 'APPROVED'">
-                Your onboarding is approved.
-            </p>
-            <p class="mt-2" *ngIf="userEmergencyContactDetails[0].employeeOnboardingStatus === 'REJECTED'">
-                Your onboarding is rejected.
-            </p>
-            <p class="mt-2" *ngIf="userEmergencyContactDetails[0].employeeOnboardingStatus === 'PENDING'">
-              Your onboarding is Pending for verification.
-          </p>
-        </ng-template>
-        <!-- Edit Button -->
-        <button type="button" class="btn btn-primary" *ngIf="allowEdit" (click)="closeAndEdit()">
-            Edit
-        </button>
-    </div>
-     
-    </div>
   </div>
 </div>
+
+
+

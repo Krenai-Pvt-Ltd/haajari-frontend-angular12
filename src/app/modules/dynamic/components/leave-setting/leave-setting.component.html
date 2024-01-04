@@ -355,7 +355,7 @@
                                 <li role="presentation" class="nav-item">
                                     <button id="staffSelection-tab" data-bs-toggle="tab"
                                         data-bs-target="#staffSelection" type="button" role="tab"
-                                        aria-controls="staffSelection" aria-selected="false" class="nav-link"
+                                        aria-controls="staffSelection" aria-selected="false" class="nav-link" (click)="openStaffSelection()"
                                         #staffSelectionTab>Staff selection</button>
                                 </li>
                             </ul>
@@ -645,13 +645,13 @@
                                                     <ul id="myTab" role="tablist" class="nav nav-tabs">
                                                         <li role="presentation" class="nav-item">
                                                             <button id="home-tab" data-bs-toggle="tab" data-bs-target="#userlist" type="button"
-                                                                role="tab" aria-controls="userlist" aria-selected="true" class="nav-link active" #templateSettingTab>
+                                                                role="tab" aria-controls="userlist" aria-selected="true" class="nav-link active" #newStaffSelectionTab>
                                                                 Staff selection Userlist</button>
                                                         </li>
-                                                        <li role="presentation" class="nav-item">
+                                                        <li role="presentation" class="nav-item" *ngIf="mappedTabFlag">
                                                             <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#mapped"
                                                                 type="button" role="tab" aria-controls="mapped" aria-selected="false"
-                                                                class="nav-link" #leaveCategoryTab>Mapped Userlist</button>
+                                                                class="nav-link">Mapped Userlist</button>
                                                         </li>
                                                     </ul>
 
@@ -677,7 +677,7 @@
                                                                                 (keyup)="searchUsers()" [(ngModel)]="searchText"
                                                                                 [ngModelOptions]="{ standalone: true }"
                                                                                 style="padding: 10px 50px 10px 30px;">
-                                                                            <button type="button" class="btn close-btn">
+                                                                            <button type="button" class="btn close-btn" (click)="clearSearchUsers()">
                                                                                 <i class="bi bi-x"></i>
                                                                             </button>
                                                                             <i class="bi bi-search search-icon"
@@ -686,7 +686,21 @@
                                                                     </form>
                                                                 </div>
 
-
+                                                                <div class="errorboxmain text-center" *ngIf="searchUserPlaceholderFlag && total==0" >
+                                                                    <div class="errorboxinner" >
+                                                                        <div class="errorboxplaceholder mb-2">
+                                                                            <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                                                        </div>
+                                                                        <div class="">
+                                                                            <h4>No Data Found</h4>
+                                                                            <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+ 
+                                                               
+ 
+                                                                <div *ngIf="total!==0">
                                                                 <div class="" style="display: flex; justify-content: space-between; align-items : center;">
 
                                                                     <!-- <th style="width:0%; ">
@@ -737,11 +751,12 @@
                                                                             <th style="width:25%; padding: 12px 15px;">Name</th>
                                                                             <th style="width:50%; padding: 12px 15px;">Email</th>
 
-                                                                            <th style="width:25%; padding: 12px 15px;">Action</th>
+                                                                            <th style="width:25%; padding: 12px 15px;" *ngIf="addButtonFlag">Action</th>
                         
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
+                                                                       
                                                                         <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
                                                                             style="border-bottom: 1px solid #dddddd;">
                                                                             <td>
@@ -756,28 +771,36 @@
                                                                             <td style="padding: 12px 15px;">{{ staff.name }}</td>
                                                                             <td style="padding: 12px 15px;">{{ staff.email }}</td>
 
-                                                                            <td >
-                                                                                <span *ngIf="!staff.selected">
+                                                                            <td *ngIf="addButtonFlag">
+                                                                                <!-- && !addedUserFlag -->
+                                                                                <span *ngIf="!staff.selected ">
                                                                                 <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"
-                                                                                (click)="checkIndividualSelection()">Add</button>
+                                                                                (click)="addUser(staff.uuid, idOfLeaveSetting)">Add</button>
                                                                                 </span>
-                                                                                <span *ngIf="staff.selected">
+                                                                                <!-- && !addedUserFlag -->
+                                                                                <span *ngIf="staff.selected ">
                                                                                     <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"
-                                                                                    (click)="checkIndividualSelection()">Added</button>
+                                                                                    >Added</button>
                                                                                 </span>
+                                                                                <!-- <span *ngIf="staff.selected && addedUserFlag">
+                                                                                    <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"
+                                                                                    >Added</button>
+                                                                                </span> -->
+                                                                                
                                                                             </td>
                         
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>
+                                                                </div>
                                                                 
                                                             </div>
 
 
-                                                            <div class="pagination pl-3">
+                                                            <div class="pagination pl-3" *ngIf="total > 8">
                                                                 <p class="mb-0" style="padding-left: 15px">
                                                                     Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-                                                                    {{ total }} teams
+                                                                    {{ total }} users
                                                                 </p>
                                                                 <div class="row">
                                                                     <div class="col-md-12">
@@ -810,16 +833,57 @@
 
                                                             </div>
 
+                                                           
+
+                                                            <!--  ######################    Stafff Selectiiiiooooonnnnnn -->
+
                                                             <div class="tab-pane fade" id="mapped" role="tabpanel">
+                                                                <!-- || (searchSelectedUserPlaceholderFlag && totalUser==0) -->
+
+                                                                <div class="errorboxmain text-center" *ngIf="isMappedStaffEmpty" >
+                                                                    <div class="errorboxinner" >
+                                                                        <div class="errorboxplaceholder mb-2">
+                                                                            <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                                                        </div>
+                                                                        <div class="">
+                                                                            <h4>No Data Found</h4>
+                                                                            <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
 
-
-                                                                <div class="">
+<!-- {{isMappedStaffEmpty}} -->
+                                                                <div class="" *ngIf="!isMappedStaffEmpty" >
 
 
 
                                                                     <div class="row mb-3 mt-3">
                                                                         <div class="col-md-6">
+                                                                            <div class="user-list">
+                                                                                <h5 >Selected Userlist <span class="total-user-list" style="color: #4761f6; background-color: #d1d6f2; padding: 5px; border-radius: 5px"><b>{{totalUser}}</b></span>
+                                                                                </h5>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <form novalidate="" role="search" (submit)="searchLeaveUsers(idOfLeaveSetting)"
+                                                                                class="searching ng-untouched ng-pristine ng-valid">
+                                                                                <div class="form-group" style="position: relative">
+                                                                                    <input type="text" id="searchTextUser" name="searchLeaveUsers"
+                                                                                        placeholder="Search by name and role"
+                                                                                        class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                                                                                        (keyup)="searchLeaveUsers(idOfLeaveSetting)" [(ngModel)]="searchTextUser"
+                                                                                        [ngModelOptions]="{ standalone: true }"
+                                                                                        style="padding: 10px 50px 10px 30px;">
+                                                                                    <button type="button" class="btn close-btn" (click)="clearSearchSelectedUsers()">
+                                                                                        <i class="bi bi-x"></i>
+                                                                                    </button>
+                                                                                    <i class="bi bi-search search-icon"
+                                                                                        style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                        <!-- <div class="col-md-6">
                                                                             <div class="user-list">
                                                                                 <button class="btn btn-outline-primary btn-sm remove"><i class="bi bi-trash" style="padding-right: 5px;"></i> Remove from group </button>
                                                                             </div>
@@ -841,7 +905,60 @@
                                                                                         style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
                                                                                 </div>
                                                                             </form>
+                                                                        </div> -->
+                                                                    </div>
+                                                                    <div class="errorboxmain text-center" *ngIf="searchSelectedUserPlaceholderFlag && totalUser==0" >
+                                                                        <div class="errorboxinner" >
+                                                                            <div class="errorboxplaceholder mb-2">
+                                                                                <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                                                            </div>
+                                                                            <div class="">
+                                                                                <h4>No Data Found</h4>
+                                                                                <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                                                            </div>
                                                                         </div>
+                                                                    </div>
+                                                                    <div *ngIf="totalUser!=0">
+                                                                    <div class="" style="display: flex; justify-content: space-between; align-items : center;">
+
+                                                                        <!-- <th style="width:0%; ">
+                                                                                <input type="checkbox" style="cursor: pointer;" class="form-check-input"
+                                                                                       [(ngModel)]="isAllUsersSelected"
+                                                                                       (change)="selectAllUsers($event)">
+                                                                            </th> -->
+                                                                        <div class="mt-3" *ngIf="selectedStaffsUuidsUser!.length > 0">
+                                                                            <!-- *ngIf="selectedStaffsUuidsUser!.length === totalUser; else elseCondition2" -->
+                                                                            <ng-container
+                                                                                >
+                                                                                <div class="user-list" >
+                                                                                    <button class="btn btn-outline-primary btn-sm remove" (click)="deleteAllUsers(idOfLeaveSetting)"><i class="bi bi-trash" style="padding-right: 5px;"></i> Remove All Users From Template </button>
+                                                                                </div>
+                                                                                <!-- <span (click)="deleteAllUsers(idOfLeaveSetting)"
+                                                                                    style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 5px; border-radius: 5px;">Remove All Users From Template
+                                                                                    <i class="bi bi-x"></i></span> -->
+                                                                            </ng-container>
+                                                                            <!-- <ng-template #elseCondition2>
+                                                                                <span (click)="selectAllUsersUser(true)"
+                                                                                    style="cursor: pointer; color: #4761F6; background-color: #EEF1FF; padding: 5px; border-radius: 5px;">Select
+                                                                                    all {{totalUser}} users</span>
+                                                                            </ng-template> -->
+                                                                        </div>
+                            
+                                                                        <div class="pt-2" *ngIf="selectedStaffsUuidsUser!.length !== 0">
+                                                                            <!-- *ngIf="selectedStaffsUuidsUser!.length === totalUser; else elseCondition1" -->
+                                                                            <ng-container
+                                                                                >
+                                                                                <span>All <b>{{totalUser}}</b> users selected</span>
+                                                                            </ng-container>
+                                                                            <!-- <ng-template #elseCondition1>
+                                                                                <span><b>{{selectedStaffsUuidsUser!.length}}</b> selected of
+                                                                                    <b>{{totalUser}}</b></span>
+                                                                                <span style="cursor:pointer;" (click)="unselectAllUsersUser()"><i
+                                                                                        class="bi bi-x"></i></span>
+                                                                            </ng-template> -->
+                                                                        </div>
+                            
+                            
                                                                     </div>
                                                                     <table class="table mt-3">
                                                                         <thead class="thead-light">
@@ -849,8 +966,8 @@
                                                                                 <th style="width:0%;">
                                                                                     <input type="checkbox" style="cursor: pointer;"
                                                                                         [ngModelOptions]="{standalone: true}"
-                                                                                        class="form-check-input" [(ngModel)]="isAllSelected"
-                                                                                        (change)="selectAll(isAllSelected)">
+                                                                                        class="form-check-input" [(ngModel)]="isAllSelectedUser"
+                                                                                        (change)="selectAllUser(isAllSelectedUser)">
                                                                                 </th>
                                                                                 <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
                                                                                 <th style="width:25%; padding: 12px 15px;">Name</th>
@@ -861,53 +978,54 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <tr *ngFor="let staff of staffsUser | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
+                                                                            <tr *ngFor="let newstaff of staffsUser | paginate: {itemsPerPage: itemPerPageUser, currentPage: pageNumberUser, totalItems: totalUser} "
                                                                                 style="border-bottom: 1px solid #dddddd;">
                                                                                 <td>
                                                                                     <div class="form-check">
                                                                                         <input type="checkbox" style="cursor: pointer;"
                                                                                             [ngModelOptions]="{standalone: true}"
-                                                                                            class="form-check-input" [(ngModel)]="staff.selected"
-                                                                                            (change)="checkIndividualSelection()">
+                                                                                            class="form-check-input" [(ngModel)]="newstaff.selected"
+                                                                                            (change)="checkIndividualSelectionUser()">
                                                                                     </div>
                                                                                 </td>
                                                                                 <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
-                                                                                <td style="padding: 12px 15px;">{{ staff.name }}</td>
-                                                                                <td style="padding: 12px 15px;">{{ staff.email }}</td>
+                                                                                <td style="padding: 12px 15px;">{{ newstaff.name }}</td>
+                                                                                <td style="padding: 12px 15px;">{{ newstaff.email }}</td>
     
                                                                                 <td>
-                                                                                    <button class="btn btn-outline-primary btn-sm remove">Remove</button>
+                                                                                    <button class="btn btn-outline-primary btn-sm remove" (click)="deleteUser(newstaff.uuid)">Remove</button>
                                                                                 </td>
                             
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
+                                                                     </div>
                                                                 </div>
 
-                                                                <div class="pagination pl-3">
+                                                                <div class="pagination pl-3" *ngIf="totalUser > 8">
                                                                     <p class="mb-0" style="padding-left: 15px">
-                                                                        Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-                                                                        {{ total }} teams
+                                                                        Showing {{ getUserStartIndex() }} - {{ getUserEndIndex() }} of
+                                                                        {{ totalUser }} users
                                                                     </p>
                                                                     <div class="row">
                                                                         <div class="col-md-12">
                                                                             <nav aria-label="Page navigation example">
                                                                                 <ul class="pagination justify-content-end">
-                                                                                    <li class="page-item" [class.disabled]="pageNumber == 1">
+                                                                                    <li class="page-item" [class.disabled]="pageNumberUser == 1">
                                                                                         <a class="page-link" href="javascript:void(0);"
-                                                                                            aria-label="Previous" (click)="changePage('prev')">
+                                                                                            aria-label="Previous" (click)="changeUserPage('prev')">
                                                                                             <span aria-hidden="true">&laquo;</span>
                                                                                         </a>
                                                                                     </li>
-                                                                                    <li class="page-item" *ngFor="let page of getPages()"
-                                                                                        [class.active]="pageNumber == page">
+                                                                                    <li class="page-item" *ngFor="let userPage of getUserPages()"
+                                                                                        [class.active]="pageNumberUser == userPage">
                                                                                         <a class="page-link" href="javascript:void(0);"
-                                                                                            (click)="changePage(page)">{{ page }}</a>
+                                                                                            (click)="changeUserPage(userPage)">{{ userPage }}</a>
                                                                                     </li>
                                                                                     <li class="page-item"
-                                                                                        [class.disabled]="pageNumber == totalPages">
+                                                                                        [class.disabled]="pageNumberUser == totalUserPages">
                                                                                         <a class="page-link" href="javascript:void(0);"
-                                                                                            aria-label="Next" (click)="changePage('next')">
+                                                                                            aria-label="Next" (click)="changeUserPage('next')">
                                                                                             <span aria-hidden="true">&raquo;</span>
                                                                                         </a>
                                                                                     </li>

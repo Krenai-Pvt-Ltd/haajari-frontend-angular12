@@ -1124,6 +1124,15 @@ button.btn.close-btn {
     text-align: center;
   }
 
+  .errorboxmain{
+    min-height: 20vh;
+    background-color: #fff;
+}
+
+  .errorboxmain {
+    padding: 15px;
+}
+
 .pagination-container{
     display: flex;
     justify-content: space-between;
