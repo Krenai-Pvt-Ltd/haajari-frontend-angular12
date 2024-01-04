@@ -28,11 +28,13 @@
 
                     <div class="row mb-3">
                         <div class="col-md-12">
-
-                            <div class="">
-                                <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 50%" ></ngx-shimmer-loading>
+                            <!-- Shimmer Loading -->
+                            <div *ngIf="isLoading">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 4px;"></ngx-shimmer-loading>
                             </div>
-                            <div class="form-fild">
+                    
+                            <!-- Input Field -->
+                            <div class="form-field" *ngIf="!isLoading">
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Company name" #companyName="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.name" required minlength="2" maxlength="100">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="companyName.errors?.required && (companyName.dirty || companyName.touched)">
                                     <i class="bi bi-exclamation-circle"></i> Company name is required.
@@ -46,13 +48,14 @@
                             </div>
                         </div>
 
+
                         <div class="col-md-6 mt-3">
 
-                            <div class="">
+                            <div *ngIf="isLoading">
                                 <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 50%" ></ngx-shimmer-loading>
                             </div>
 
-                            <div class="form-fild">
+                            <div class="form-fild" *ngIf="!isLoading">
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Email Id" #emailId="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.email" required email>
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="emailId.errors?.required && (emailId.dirty || emailId.touched)">
                                     <i class="bi bi-exclamation-circle"></i> Email is required.
@@ -67,11 +70,11 @@
                         <div class="col-md-6 mt-3">
                  
 
-                            <div class="">
+                            <div *ngIf="isLoading">
                                 <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 50%" ></ngx-shimmer-loading>
                             </div>
 
-                            <div class="form-fild">
+                            <div class="form-fild"*ngIf="!isLoading">
                                 <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone number" #phoneNumber="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.phoneNumber" minlength="10" maxlength="10" pattern="[0-9]*">
     
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.errors?.minlength || phoneNumber.errors?.maxlength">
@@ -104,10 +107,10 @@
                         <div class="row">
                             <div class="col-md-12">
 
-                                <div class="">
+                                <div *ngIf="isLoading">
                                     <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 50%" ></ngx-shimmer-loading>
                                 </div>
-                                <div class="form-fild">
+                                <div class="form-fild" *ngIf="!isLoading">
                                     
 
                                     <textarea class="form-control" id="tagline" name="tagline" rows="3" placeholder="Tag line" style="height: 100px !important;" #tagline="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.tagline"></textarea>

@@ -49,6 +49,7 @@ export class DataService {
   orgId: any;
   constructor(private httpClient: HttpClient) {}
   private orgIdEmitter = new EventEmitter<number>();
+  activeTab:boolean=false;
   setOrgId(orgId: number) {
     this.orgIdEmitter.emit(orgId);
   }

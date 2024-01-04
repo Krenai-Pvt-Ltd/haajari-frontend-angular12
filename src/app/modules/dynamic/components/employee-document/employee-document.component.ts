@@ -181,7 +181,7 @@ isHighSchoolCertificateRequired: boolean = true;
 isHighestQualificationDegreeRequired: boolean = true;
 
 
-
+isLoading:boolean = true;
 getEmployeeDocumentsDetailsMethodCall() {
   debugger
   const userUuid = new URLSearchParams(window.location.search).get('userUuid');
@@ -190,7 +190,7 @@ getEmployeeDocumentsDetailsMethodCall() {
       (response: UserDocumentsDetailsRequest) => {
         this.userDocumentsDetailsRequest = response;
         
-          
+          this.isLoading = false;
         
         // Assuming response.userDocuments is populated
         if (response.userDocuments) {
