@@ -16,6 +16,7 @@ import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import * as dayjs from 'dayjs';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-response';
+import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 
 @Component({
   selector: 'app-employee-profile',
@@ -23,6 +24,7 @@ import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-resp
   styleUrls: ['./employee-profile.component.css'],
 })
 export class EmployeeProfileComponent implements OnInit {
+  userAddressDetailsRequest: UserAddressDetailsRequest = new UserAddressDetailsRequest();
   userLeaveForm!: FormGroup;
   constructor(
     private dataService: DataService,
@@ -748,12 +750,12 @@ export class EmployeeProfileComponent implements OnInit {
   getEmployeeAdressDetailsByUuid() {
     // this.isAddressShimmer=true;
     debugger
-    this.dataService.getEmployeeAdressDetails(this.userId).subscribe(
-      (data) => {
+    this.dataService.getNewUserAddressDetails(this.userId).subscribe(
+      (data: UserAddressDetailsRequest) => {
         console.log(data);
         this.addressEmployee = data;
         // this.isAddressShimmer=false;
-        if (data == null || data.length == 0) {
+        if (data == null || data.userAddressRequest.length == 0) {
           this.isAddressPlaceholder = true;
         }
         console.log(this.addressEmployee.data);
