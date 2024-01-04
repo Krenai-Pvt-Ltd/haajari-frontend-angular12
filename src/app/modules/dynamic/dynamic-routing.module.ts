@@ -53,7 +53,7 @@ import { EmployeeOnboardingPreviewComponent } from './components/employee-onboar
 
 
 
-  const routes: Routes = [
+  const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
     { path: '', component: DynamicComponent,
   children:[
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
@@ -63,7 +63,7 @@ import { EmployeeOnboardingPreviewComponent } from './components/employee-onboar
     { path: 'project', component: ProjectComponent},
     { path: 'team', component: TeamComponent, canActivate: [AuthGuard]},
     { path: 'task-manager', component: TaskManagerComponent, canActivate: [AuthGuard]},
-    { path: ' ', component: LiveManagerComponent, canActivate: [AuthGuard]},
+    { path: 'live', component: LiveManagerComponent, canActivate: [AuthGuard]},
     { path: 'onboarding', component: OnboardingComponent, canActivate: [AuthGuard]},
     { path: 'login', component: LoginComponent },
     { path: 'payment', component: PaymentComponent , canActivate: [AuthGuard]},

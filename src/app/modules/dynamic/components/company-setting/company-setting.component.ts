@@ -88,12 +88,13 @@ isEditMode: boolean = false;
 
 
   companyLogoFileName: string = '';
-
+  isLoading = true;
   getOrganizationDetailsMethodCall() {
     debugger
     this.dataService.getOrganizationDetails().subscribe(
       (response: OrganizationPersonalInformationRequest)=> {
           this.organizationPersonalInformationRequest = response;
+          this.isLoading = false;
           this.setImageUrlFromDatabase(response.logo);
           this.companyLogoFileName = this.getFilenameFromUrl(response.logo);
           console.log(this.organizationPersonalInformationRequest);
