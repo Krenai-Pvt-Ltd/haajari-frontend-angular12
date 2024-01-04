@@ -53,7 +53,7 @@ import { EmployeeOnboardingPreviewComponent } from './components/employee-onboar
 
 
 
-  const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
+  const routes: Routes = [{ path: '', redirectTo: '/login', pathMatch:'full'},
     { path: '', component: DynamicComponent,
   children:[
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)

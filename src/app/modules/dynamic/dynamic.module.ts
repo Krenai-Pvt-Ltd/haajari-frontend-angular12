@@ -61,6 +61,8 @@ import { AccountSettingsComponent } from './components/account-settings/account-
 import { NewLoginComponent } from './components/new-login/new-login.component';
 import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { RouterModule } from '@angular/router';
+import { HeaderComponent } from '../common/header/header.component';
 
 
 
@@ -108,11 +110,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
     RoleAddComponent,
     AccountSettingsComponent,
     NewLoginComponent,
-    EmployeeOnboardingPreviewComponent
+    HeaderComponent
+
 
   ],
   imports: [
     CommonModule,
+    RouterModule,
     FormsModule,
     DynamicRoutingModule,
     ReactiveFormsModule,
@@ -129,6 +133,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedModule
     
   ],
+  exports:[HeaderComponent],
   providers: [DataService,{ provide: LOCALE_ID, useValue: 'en-US' }],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
