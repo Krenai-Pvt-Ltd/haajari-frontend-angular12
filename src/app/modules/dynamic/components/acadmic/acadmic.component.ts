@@ -52,7 +52,7 @@ export class AcadmicComponent implements OnInit {
         }
       );
   }
-
+  isLoading:boolean = true;
   getUserAcademicDetailsMethodCall() {
     debugger
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
@@ -61,6 +61,7 @@ export class AcadmicComponent implements OnInit {
       this.dataService.getUserAcademicDetails(userUuid).subscribe(
         (response: UserAcademicsDetailRequest) => {
           this.userAcademicsDetailRequest = response;
+          this,this.isLoading = false;
           this.dataService.markStepAsCompleted(4);
         },
         (error: any) => {

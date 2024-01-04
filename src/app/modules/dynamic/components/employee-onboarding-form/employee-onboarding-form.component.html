@@ -5,8 +5,9 @@
 <div class="page-wrapper">
     <div class="page-content-tab">
         <div class="container-fluid">
+            <app-hajiri-page-loader *ngIf="isLoading"></app-hajiri-page-loader>
 
-            <div class="row">
+            <div class="row" *ngIf="!isLoading">
                 <div class="col-md-12">
                 <div class="persnol-details">
                     <h5>Personal Information</h5>

@@ -115,6 +115,7 @@ debugger
   setImageUrlFromDatabase(url: string) {
       this.dbImageUrl = url;
   }
+  isLoading:boolean = true;
   employeeOnboardingFormStatus:string|null=null;
   @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
   getNewUserPersonalInformationMethodCall() {
@@ -124,6 +125,7 @@ debugger
         this.dataService.getNewUserPersonalInformation(userUuid).subscribe(
             (response: UserPersonalInformationRequest) => {
                 this.userPersonalInformationRequest = response;
+                this.isLoading = false;
                 this.employeeOnboardingFormStatus=response.employeeOnboardingStatus.response;
                 if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL'){
                   this.successMessageModalButton.nativeElement.click();

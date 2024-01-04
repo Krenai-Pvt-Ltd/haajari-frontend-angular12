@@ -22,8 +22,6 @@ import { HajiriPageLoaderComponent } from '../modules/common/hajiri-page-loader/
   ],
   imports: [
     CommonModule,
-    RouterModule,
-    AppRoutingModule,
     NgbModule
   ]
 })

@@ -744,7 +744,7 @@ export class EmployeeProfileComponent implements OnInit {
   // #################################################################33
 
 
-  addressEmployee: any;
+  addressEmployee: any[] = [];
   // isAddressShimmer:boolean=false;
   isAddressPlaceholder: boolean = false;
   getEmployeeAdressDetailsByUuid() {
@@ -753,12 +753,14 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.getNewUserAddressDetails(this.userId).subscribe(
       (data: UserAddressDetailsRequest) => {
         console.log(data);
-        this.addressEmployee = data;
+        this.userAddressDetailsRequest = data;
+        console.log(data.userAddressRequest);
+        this.addressEmployee = data.userAddressRequest;
         // this.isAddressShimmer=false;
         if (data == null || data.userAddressRequest.length == 0) {
           this.isAddressPlaceholder = true;
         }
-        console.log(this.addressEmployee.data);
+        // console.log(this.addressEmployee.data);
       },
       (error) => {
         this.isAddressPlaceholder = true;
@@ -815,6 +817,7 @@ export class EmployeeProfileComponent implements OnInit {
   contactsEmployee: any;
   isContactPlaceholder: boolean = false;
   getEmployeeContactsDetailsByUuid() {
+    debugger
     this.dataService.getEmployeeContactsDetails(this.userId).subscribe(
       (data) => {
         console.log(data);
