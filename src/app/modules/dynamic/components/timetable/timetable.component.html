@@ -261,13 +261,13 @@
             <div class="searchbr-ui" id="attendanceDataTopbar">
 
 
-              <form novalidate="" role="search" (submit)="searchUsers()"
+              <!-- <form novalidate="" role="search" (submit)="searchUsers()"
                                                 class="searching ng-untouched ng-pristine ng-valid">
                                                 <div class="form-group" style="width: 350px; position: relative">
                                                     <input type="text" id="searchText"
                                                         placeholder="Search by name and role"
                                                         class="form-control me-2 ng-untouched ng-pristine ng-valid"
-                                                        (keyup)="searchUsers()" [(ngModel)]="searchText"
+                                                        (keyup)="searchUsers($event)" [(ngModel)]="searchText"
                                                         [ngModelOptions]="{ standalone: true }"
                                                         style="padding: 10px 30px" />
                                                     <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn" (click)="clearSearchText()">
@@ -276,7 +276,14 @@
                                                     <i class="bi bi-search search-icon"
                                                         style="margin: auto; margin-left: 10px"></i>
                                                 </div>
-              </form>
+              </form> -->
+
+              <input type="text" id="searchText"
+       placeholder="Search by name and role"
+       class="form-control me-2 ng-untouched ng-pristine ng-valid"
+       (keyup)="searchUsers($event)" [(ngModel)]="searchText"
+       [ngModelOptions]="{ standalone: true }"
+       style="padding: 10px 30px" />
 
             
             </div>

@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
     
     this.getCurrentDayEmployeesData();
     this.getAttendanceTopPerformerDetails();
-    this.getAttendanceLatePerformerDetails();
+    // this.getAttendanceLatePerformerDetails();
     this.getDataFromDate();
     this.getTodaysLiveLeaveCount();
   }

@@ -6,6 +6,7 @@ import { HelperService } from 'src/app/services/helper.service';
 import { AdditionalNotes } from 'src/app/models/additional-notes';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-response';
 import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
+import { Key } from 'src/app/constant/key';
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 
@@ -398,7 +399,14 @@ export class TimetableComponent implements OnInit {
     this.itemPerPage = 8;
     this.pageNumber = 1;
   }
-  searchUsers(){
+  searchUsers(event : KeyboardEvent){
+
+    const ignoreKeys = ['Shift', 'Control', 'Alt', 'Meta', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Escape'];
+
+    if (ignoreKeys.includes(event.key)) {
+      return; // Do nothing if it's an unnecessary key
+    }
+
     this.attendanceDataByDateKey = [];
     this.attendanceDataByDateValue = [];
     this.total = 0;
