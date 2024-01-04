@@ -20,27 +20,27 @@
 }
 
 .login-stap{
-    padding: 50px;
+    padding: 30px;
     height: 100vh;
-    display: flex;
-    align-items: center;
+    /* display: flex; */
+    /* align-items: start;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center; */
 }
 
 .login-detail a {
-    box-shadow: 0 3px 1px -2px #0003, 0 2px 2px #00000024, 0 1px 5px #0000001f;
     background-color: #fff;
     padding: 6px 16px;
     border-radius: 4px;
-    font-size: .875rem;
-    line-height: 1.75;
+    font-size: 12px;
+    line-height: 32px;
     text-decoration: none;
     width: 100%;
     font-weight: 500;
     display: block;
-    text-align: center;
+    text-align: left;
     columns: #444;
+    border: 1px solid #f1f1f1;
 }
 
 .login-stap h5{
@@ -49,6 +49,75 @@
 }
 
 .welcome-hajiri h4{
-    font-size: 22px;
+    font-size: 19px;
     font-weight: 500;
+}
+.welcome-hajiri p{
+    font-size: 11px;
+    color: #555;
+    font-weight: 400;
+}
+
+.login-with ul{
+    padding-left: 0px;
+    display: flex;
+   gap: 20px;
+   align-items: center;
+}
+
+.login-with ul li{
+    list-style: none;
+    display: inline-block;
+    color: #555;
+    font-size: 12px;
+    
+}
+
+.login-space{
+    color: #6666f3;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    border: 0px !important;
+    padding: 0px !important;
+}
+
+.login-with{
+    position: absolute;
+    bottom: 0px
+}
+
+.login-imagee {
+    height: 100vh;
+}
+
+.login-imagee video {
+    object-fit: cover;
+}
+
+
+
+
+
+
+
+
+
+
+.chat-bubel-1{
+    position: absolute;
+    top:33%;
+    right: 130px;
+}
+
+.chat-bubel-2{
+    position: absolute;
+    top:20%;
+    right:300px;
+}
+
+.chat-bubel-3{
+    position: absolute;
+    top:33%;
+    left: 260px;
 }
