@@ -1,0 +1,63 @@
+.employee-preview{
+    border-radius: 6px;
+    width: 100%;
+    border: 1px solid #f1f1f1;
+    box-shadow: 0 0 0.875rem #343a400d;
+    padding: 20px;
+    margin: 20px;
+}
+
+.detail-deta {
+    text-align: left;
+    background-color: #f5f8fa;
+    border-radius: 2px;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.detail-deta p {
+    font-size: 12px;
+}
+
+.persnol-details {
+    
+}
+
+.persnol-details h5 {
+    font-size: 22px;
+    margin-bottom: 5px;
+    margin-top: 0;
+    color: #4f5eee;
+}
+
+
+.oonbording-bhadding h1{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.oonbording-bhadding p{
+   color: #000;
+   font-weight: 500;
+   margin-bottom: 0px;
+}
+.pending-status{
+    color:red;
+}
+
+.persnaol{
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px;
+}
+
+.table-design tr td {
+    border: 1px solid #e0e0e0;
+}
+
+.table tbody tr:hover {
+    box-shadow: none;
+}

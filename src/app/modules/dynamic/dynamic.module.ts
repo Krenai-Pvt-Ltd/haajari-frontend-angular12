@@ -59,7 +59,9 @@ import { DurationPickerComponent } from '../common/duration-picker/duration-pick
 import { RoleAddComponent } from './components/role-add/role-add.component';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 import { NewLoginComponent } from './components/new-login/new-login.component';
+import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+
 
 
 @NgModule({
@@ -105,7 +107,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SafePipe,
     RoleAddComponent,
     AccountSettingsComponent,
-    NewLoginComponent
+    NewLoginComponent,
+    EmployeeOnboardingPreviewComponent
 
   ],
   imports: [
