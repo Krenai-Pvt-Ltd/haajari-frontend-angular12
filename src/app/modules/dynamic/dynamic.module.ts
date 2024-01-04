@@ -60,6 +60,8 @@ import { RoleAddComponent } from './components/role-add/role-add.component';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 import { NewLoginComponent } from './components/new-login/new-login.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { RouterModule } from '@angular/router';
+import { HeaderComponent } from '../common/header/header.component';
 
 
 @NgModule({
@@ -105,11 +107,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SafePipe,
     RoleAddComponent,
     AccountSettingsComponent,
-    NewLoginComponent
+    NewLoginComponent,
+    HeaderComponent,
 
   ],
   imports: [
     CommonModule,
+    RouterModule,
     FormsModule,
     DynamicRoutingModule,
     ReactiveFormsModule,
@@ -126,6 +130,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedModule
     
   ],
+  exports:[HeaderComponent],
   providers: [DataService,{ provide: LOCALE_ID, useValue: 'en-US' }],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

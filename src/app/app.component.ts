@@ -1,8 +1,6 @@
 
-import { Component, ViewChild } from '@angular/core';
-import { Router, NavigationEnd, RouterEvent } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { HeaderComponent } from './modules/common/header/header.component';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Key } from './constant/key';
 
 @Component({
