@@ -59,9 +59,11 @@ import { DurationPickerComponent } from '../common/duration-picker/duration-pick
 import { RoleAddComponent } from './components/role-add/role-add.component';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 import { NewLoginComponent } from './components/new-login/new-login.component';
+import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../common/header/header.component';
+
 
 
 @NgModule({
@@ -108,7 +110,8 @@ import { HeaderComponent } from '../common/header/header.component';
     RoleAddComponent,
     AccountSettingsComponent,
     NewLoginComponent,
-    HeaderComponent,
+    HeaderComponent
+
 
   ],
   imports: [
