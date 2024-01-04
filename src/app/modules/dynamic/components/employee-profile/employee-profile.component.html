@@ -29,6 +29,7 @@
                  </div> 
                </div>
 
+              
             <div class="row mt-3">
                 <div class="col-md-9">
                     <div class="employee-profile-deta">
@@ -408,7 +409,7 @@
                                                 <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#verify-employee" type="button" role="tab" aria-controls="verify-employee" aria-selected="false" class="nav-link"> Employee Experience </button>
                                             </li>
                                             <li role="presentation" class="nav-item">
-                                                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#not-verify-employee" type="button" role="tab" aria-controls="not-verify-employee" aria-selected="false" class="nav-link"> Employee Eduction </button>
+                                                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#not-verify-employee" type="button" role="tab" aria-controls="not-verify-employee" aria-selected="false" class="nav-link"> Employee Education </button>
                                             </li>
                                             <li role="presentation" class="nav-item">
                                                 <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#emergency-contact" type="button" role="tab" aria-controls="emergency-contact" aria-selected="false" class="nav-link"> Emergency Contact </button>
@@ -703,27 +704,27 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Complete Address - {{addressEmployee?.currentAddress || 'N/A'}}</p>
+                                                            <p class="mb-0">Complete Address - {{addressEmployee[0]!.address || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Pincode - {{addressEmployee?.currentPincode || 'N/A'}}</p>
+                                                            <p class="mb-0">Pincode - {{addressEmployee[0]!.pincode || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">City - {{addressEmployee?.currentCity || 'N/A'}}</p>
+                                                            <p class="mb-0">City - {{addressEmployee[0]!.city || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">State - {{addressEmployee?.currentState || 'N/A'}}</p>
+                                                            <p class="mb-0">State - {{addressEmployee[0]!.state || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Country - {{addressEmployee?.currentCountry || 'N/A'}}</p>
+                                                            <p class="mb-0">Country - {{addressEmployee[0]!.country || 'N/A'}}</p>
                                                         </div>
                                                     </div>
 
@@ -737,27 +738,27 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Complete Address - {{addressEmployee?.permanentAddress || 'N/A'}}</p>
+                                                            <p class="mb-0">Complete Address - {{addressEmployee[1].address || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Pincode - {{addressEmployee?.permanentPincode || 'N/A'}}</p>
+                                                            <p class="mb-0">Pincode - {{addressEmployee[1].pincode || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">City - {{addressEmployee?.permanentCity || 'N/A'}}</p>
+                                                            <p class="mb-0">City - {{addressEmployee[1].city || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">State - {{addressEmployee?.permanentState || 'N/A'}}</p>
+                                                            <p class="mb-0">State - {{addressEmployee[1]!.state || 'N/A'}}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="detail-deta">
-                                                            <p class="mb-0">Country - {{addressEmployee?.permanentCountry || 'N/A'}}</p>
+                                                            <p class="mb-0">Country - {{addressEmployee[1]!.country || 'N/A'}}</p>
                                                         </div>
                                                     </div>
 

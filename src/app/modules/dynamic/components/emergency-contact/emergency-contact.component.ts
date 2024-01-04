@@ -84,7 +84,7 @@ export class EmergencyContactComponent implements OnInit {
 delete(index:number){
   this.userEmergencyContactDetails.splice(index,1);
 }
-
+  isLoading:boolean = true;
   employeeOnboardingFormStatus:string|null=null;
   getEmployeeEmergencyContactsDetailsMethodCall() {
     debugger
@@ -93,8 +93,10 @@ delete(index:number){
       this.dataService.getEmployeeContactsDetails(userUuid).subscribe(
         (contacts) => {
           console.log(contacts);
+          
           if (contacts && contacts.length > 0) {
           this.userEmergencyContactDetails = contacts;
+          this.isLoading = false;
             this.employeeOnboardingFormStatus=this.userEmergencyContactDetails[0].employeeOnboardingStatus;
             if(contacts[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL'){
               this.successMessageModalButton.nativeElement.click();

@@ -4,7 +4,7 @@ import { ErrorPageComponent } from './modules/common/error-page/error-page.compo
 
 const routes: Routes = [
 
-  { path: '', redirectTo: '/login', pathMatch:'full'},
+  // { path: '', redirectTo: '/login', pathMatch:'full'},
   { path: '', loadChildren: () => import('./modules/dynamic/dynamic.module').then(m => m.DynamicModule) },
   { path: '**', component : ErrorPageComponent},
   

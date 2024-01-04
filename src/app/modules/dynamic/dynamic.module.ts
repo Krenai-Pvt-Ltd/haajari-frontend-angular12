@@ -59,6 +59,7 @@ import { DurationPickerComponent } from '../common/duration-picker/duration-pick
 import { RoleAddComponent } from './components/role-add/role-add.component';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 import { NewLoginComponent } from './components/new-login/new-login.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -122,6 +123,7 @@ import { NewLoginComponent } from './components/new-login/new-login.component';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireMessagingModule,
+    SharedModule
     
   ],
   providers: [DataService,{ provide: LOCALE_ID, useValue: 'en-US' }],
