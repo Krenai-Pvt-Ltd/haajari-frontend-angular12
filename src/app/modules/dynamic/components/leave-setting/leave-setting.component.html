@@ -374,6 +374,11 @@
                                                         id="templateName" name="templateName" placeholder="Leave Policy"
                                                         class="form-control" minlength="3" maxlength="50" required #templateName="ngModel" (input)="checkFormValidity(leaveSettingForm)"/>
                                                 </div>
+                                                <div>
+                                                    <span class="errortxt" style="color: #EB5050" *ngIf="errorTemplateNameFlag">
+                                                        Please Enter Leave Template Name First
+                                                    </span>
+                                                </div>
                                                 <div *ngIf="templateName?.touched ">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="templateName.errors?.required"><i
                                                             class="bi bi-exclamation-circle"></i>
@@ -648,7 +653,7 @@
                                                                 role="tab" aria-controls="userlist" aria-selected="true" class="nav-link active" #newStaffSelectionTab>
                                                                 Staff selection Userlist</button>
                                                         </li>
-                                                        <li role="presentation" class="nav-item" *ngIf="mappedTabFlag">
+                                                        <li role="presentation" class="nav-item">
                                                             <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#mapped"
                                                                 type="button" role="tab" aria-controls="mapped" aria-selected="false"
                                                                 class="nav-link">Mapped Userlist</button>
@@ -658,9 +663,11 @@
 
 
                                                    <div class="tab-content" id="myTabContent">
+                                                       
                                                         <div class="tab-pane fade show active" id="userlist" role="tabpanel">
 
-                                                            <div class="row mt-3">
+                                                           
+                                                            <div class="row mt-3"> 
                                                                 <div class="col-md-6">
                                                                     <div class="user-list">
                                                                         <h5 >Userlist <span class="total-user-list" style="color: #4761f6; background-color: #d1d6f2; padding: 5px; border-radius: 5px"><b>{{total}}</b></span>
@@ -686,7 +693,10 @@
                                                                     </form>
                                                                 </div>
 
-                                                                <div class="errorboxmain text-center" *ngIf="searchUserPlaceholderFlag && total==0" >
+                                                                
+    
+
+                                                                <div class="errorboxmain text-center" *ngIf="(isStaffEmpty && !searchUserPlaceholderFlag) || (searchUserPlaceholderFlag && total==0)" >
                                                                     <div class="errorboxinner" >
                                                                         <div class="errorboxplaceholder mb-2">
                                                                             <img src="assets/images/empty-box.svg" style="width:80px;" />
@@ -701,6 +711,15 @@
                                                                
  
                                                                 <div *ngIf="total!==0">
+                                                                   
+                                                                        <div class="modal-footer d-flex align-items-center justify-content-start">
+                                                                            <button type="button" class="btn btn-primary"  id="added-to-collection-button" [disabled]="(selectedStaffsUuids.length==0)"
+                                                                                (click)="saveLeaveSettingRules(false)">Added To Collection</button>
+                                                                        </div>
+                                                                        <div class="modal-footer d-flex align-items-center justify-content-end">
+                                                                            
+                                                                        </div>
+                                                                   
                                                                 <div class="" style="display: flex; justify-content: space-between; align-items : center;">
 
                                                                     <!-- <th style="width:0%; ">
@@ -708,6 +727,7 @@
                                                                                    [(ngModel)]="isAllUsersSelected"
                                                                                    (change)="selectAllUsers($event)">
                                                                         </th> -->
+                                                                        
                                                                     <div class="mt-3" *ngIf="selectedStaffsUuids!.length > 0">
                                                                         <ng-container
                                                                             *ngIf="selectedStaffsUuids!.length === total; else elseCondition2">
@@ -751,7 +771,7 @@
                                                                             <th style="width:25%; padding: 12px 15px;">Name</th>
                                                                             <th style="width:50%; padding: 12px 15px;">Email</th>
 
-                                                                            <th style="width:25%; padding: 12px 15px;" *ngIf="addButtonFlag">Action</th>
+                                                                            <th style="width:25%; padding: 12px 15px;">Action</th>
                         
                                                                         </tr>
                                                                     </thead>
@@ -771,14 +791,14 @@
                                                                             <td style="padding: 12px 15px;">{{ staff.name }}</td>
                                                                             <td style="padding: 12px 15px;">{{ staff.email }}</td>
 
-                                                                            <td *ngIf="addButtonFlag">
+                                                                            <td>
                                                                                 <!-- && !addedUserFlag -->
-                                                                                <span *ngIf="!staff.selected ">
+                                                                                <span *ngIf="!staff.isAdded ">
                                                                                 <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"
                                                                                 (click)="addUser(staff.uuid, idOfLeaveSetting)">Add</button>
                                                                                 </span>
                                                                                 <!-- && !addedUserFlag -->
-                                                                                <span *ngIf="staff.selected ">
+                                                                                <span *ngIf="staff.isAdded ">
                                                                                     <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"
                                                                                     >Added</button>
                                                                                 </span>
@@ -840,21 +860,9 @@
                                                             <div class="tab-pane fade" id="mapped" role="tabpanel">
                                                                 <!-- || (searchSelectedUserPlaceholderFlag && totalUser==0) -->
 
-                                                                <div class="errorboxmain text-center" *ngIf="isMappedStaffEmpty" >
-                                                                    <div class="errorboxinner" >
-                                                                        <div class="errorboxplaceholder mb-2">
-                                                                            <img src="assets/images/empty-box.svg" style="width:80px;" />
-                                                                        </div>
-                                                                        <div class="">
-                                                                            <h4>No Data Found</h4>
-                                                                            <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-
+                                                               
 <!-- {{isMappedStaffEmpty}} -->
-                                                                <div class="" *ngIf="!isMappedStaffEmpty" >
+                                                                <div class="" >
 
 
 
@@ -865,6 +873,7 @@
                                                                                 </h5>
                                                                             </div>
                                                                         </div>
+                                                                        
                                                                         <div class="col-md-6">
                                                                             <form novalidate="" role="search" (submit)="searchLeaveUsers(idOfLeaveSetting)"
                                                                                 class="searching ng-untouched ng-pristine ng-valid">
@@ -907,7 +916,10 @@
                                                                             </form>
                                                                         </div> -->
                                                                     </div>
-                                                                    <div class="errorboxmain text-center" *ngIf="searchSelectedUserPlaceholderFlag && totalUser==0" >
+                                                                   
+    
+    
+                                                                    <div class="errorboxmain text-center" *ngIf="(isMappedStaffEmpty && !searchSelectedUserPlaceholderFlag) || (searchSelectedUserPlaceholderFlag && totalUser==0)" >
                                                                         <div class="errorboxinner" >
                                                                             <div class="errorboxplaceholder mb-2">
                                                                                 <img src="assets/images/empty-box.svg" style="width:80px;" />
@@ -927,35 +939,43 @@
                                                                                        (change)="selectAllUsers($event)">
                                                                             </th> -->
                                                                         <div class="mt-3" *ngIf="selectedStaffsUuidsUser!.length > 0">
-                                                                            <!-- *ngIf="selectedStaffsUuidsUser!.length === totalUser; else elseCondition2" -->
-                                                                            <ng-container
+        
+                                                                            <ng-container  *ngIf="selectedStaffsUuidsUser!.length === totalUser; else elseCondition2"
                                                                                 >
-                                                                                <div class="user-list" >
-                                                                                    <button class="btn btn-outline-primary btn-sm remove" (click)="deleteAllUsers(idOfLeaveSetting)"><i class="bi bi-trash" style="padding-right: 5px;"></i> Remove All Users From Template </button>
-                                                                                </div>
-                                                                                <!-- <span (click)="deleteAllUsers(idOfLeaveSetting)"
-                                                                                    style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 5px; border-radius: 5px;">Remove All Users From Template
-                                                                                    <i class="bi bi-x"></i></span> -->
+                                                                               
+                                                                                <span (click)="deleteAllUsers()"
+                                                                                    style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 5px; border-radius: 5px;">Remove All Users
+                                                                                    <i class="bi bi-x"></i></span>
+                                                                                <span (click)="unselectAllUsersUser()"
+                                                                                    style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 5px; border-radius: 5px;">Clear
+                                                                                    all users <i class="bi bi-x"></i></span>
+                                                                        
                                                                             </ng-container>
-                                                                            <!-- <ng-template #elseCondition2>
+                                                                            <!-- selectAllUsersUser(true) -->
+                                                                            <ng-template #elseCondition2>
+                                                                                <span (click)="deleteAllUsers()"
+                                                                                    style="cursor: pointer; color: #4761F6; background-color: #EEF1FF; padding: 5px; border-radius: 5px;">Remove
+                                                                                    all users</span>
                                                                                 <span (click)="selectAllUsersUser(true)"
                                                                                     style="cursor: pointer; color: #4761F6; background-color: #EEF1FF; padding: 5px; border-radius: 5px;">Select
                                                                                     all {{totalUser}} users</span>
-                                                                            </ng-template> -->
+                                                                            </ng-template>
                                                                         </div>
-                            
+                             
                                                                         <div class="pt-2" *ngIf="selectedStaffsUuidsUser!.length !== 0">
-                                                                            <!-- *ngIf="selectedStaffsUuidsUser!.length === totalUser; else elseCondition1" -->
-                                                                            <ng-container
+                                                                            
+                                                                            <ng-container *ngIf="selectedStaffsUuidsUser!.length === totalUser; else elseCondition1"
                                                                                 >
                                                                                 <span>All <b>{{totalUser}}</b> users selected</span>
+                                                                                <span style="cursor:pointer;" (click)="unselectAllUsersUser()"><i
+                                                                                    class="bi bi-x"></i></span>
                                                                             </ng-container>
-                                                                            <!-- <ng-template #elseCondition1>
+                                                                            <ng-template #elseCondition1>
                                                                                 <span><b>{{selectedStaffsUuidsUser!.length}}</b> selected of
                                                                                     <b>{{totalUser}}</b></span>
                                                                                 <span style="cursor:pointer;" (click)="unselectAllUsersUser()"><i
                                                                                         class="bi bi-x"></i></span>
-                                                                            </ng-template> -->
+                                                                            </ng-template>
                                                                         </div>
                             
                             
@@ -1052,7 +1072,7 @@
                                         </div>
                                         <div class="modal-footer d-flex align-items-center justify-content-end">
                                             <button type="button" class="btn btn-primary"
-                                                (click)="saveLeaveSettingRules()">Submit</button>
+                                                (click)="saveLeaveSettingRules(true)">Submit</button>
                                         </div>
                                     </div>
                                     <!-- </div> -->

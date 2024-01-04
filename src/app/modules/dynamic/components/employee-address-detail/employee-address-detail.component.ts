@@ -75,7 +75,7 @@ setEmployeeAddressDetailsMethodCall() {
 }
 
   
-  
+isLoading:boolean = true;
   getNewUserAddressDetailsMethodCall() {
     debugger
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
@@ -83,8 +83,10 @@ setEmployeeAddressDetailsMethodCall() {
     if (userUuid) {
       this.dataService.getNewUserAddressDetails(userUuid).subscribe(
         (response: UserAddressDetailsRequest) => {
+          this.isLoading=false;
           if (response && response.userAddressRequest && response.userAddressRequest.length > 0) {
             this.userAddressDetailsRequest = response;
+            
             this.dataService.markStepAsCompleted(2);
             if(response.sameAddress==false){
               this.isPermanent=false;

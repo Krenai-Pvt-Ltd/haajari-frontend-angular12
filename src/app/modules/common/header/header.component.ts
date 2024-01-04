@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
+import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
@@ -11,7 +12,8 @@ import { HelperService } from 'src/app/services/helper.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router : Router, private helperService : HelperService ) { }
+  constructor(private router : Router, private helperService : HelperService,
+    private _data:DataService ) { }
 
   ngOnInit(): void {
     this.getLoggedInUserDetails();
@@ -65,7 +67,12 @@ export class HeaderComponent implements OnInit {
 
 
   routeToAccountPage(tabName:string){
-
+    if(tabName=='account'){
+      this._data.activeTab=false;
+    }else if(tabName=='refer'){
+      this._data.activeTab=true;
+    }
     this.router.navigate(["/account-settings"], { queryParams: {tab: tabName } });
+    
   }
 }

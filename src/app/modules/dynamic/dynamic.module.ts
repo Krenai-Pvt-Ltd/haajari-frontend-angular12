@@ -59,6 +59,11 @@ import { DurationPickerComponent } from '../common/duration-picker/duration-pick
 import { RoleAddComponent } from './components/role-add/role-add.component';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 import { NewLoginComponent } from './components/new-login/new-login.component';
+import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { RouterModule } from '@angular/router';
+import { HeaderComponent } from '../common/header/header.component';
+
 
 
 @NgModule({
@@ -104,11 +109,14 @@ import { NewLoginComponent } from './components/new-login/new-login.component';
     SafePipe,
     RoleAddComponent,
     AccountSettingsComponent,
-    NewLoginComponent
+    NewLoginComponent,
+    HeaderComponent
+
 
   ],
   imports: [
     CommonModule,
+    RouterModule,
     FormsModule,
     DynamicRoutingModule,
     ReactiveFormsModule,
@@ -122,8 +130,10 @@ import { NewLoginComponent } from './components/new-login/new-login.component';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireMessagingModule,
+    SharedModule
     
   ],
+  exports:[HeaderComponent],
   providers: [DataService,{ provide: LOCALE_ID, useValue: 'en-US' }],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

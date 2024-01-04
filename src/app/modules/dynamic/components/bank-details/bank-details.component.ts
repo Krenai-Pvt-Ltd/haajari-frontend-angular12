@@ -52,7 +52,7 @@ export class BankDetailsComponent implements OnInit {
         }
       );
   }
-
+  isLoading:boolean = true;
   getEmployeeBankDetailsMethodCall() {
     debugger
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
@@ -61,6 +61,7 @@ export class BankDetailsComponent implements OnInit {
       this.dataService.getEmployeeBankDetails(userUuid).subscribe(
         (response: UserBankDetailRequest) => {
           this.userBankDetailRequest = response;
+          this.isLoading = false;
           this.dataService.markStepAsCompleted(6);
         },
         (error: any) => {

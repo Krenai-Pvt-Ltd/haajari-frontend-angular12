@@ -1,14 +1,11 @@
 <app-employee-onboarding-sidebar></app-employee-onboarding-sidebar>
 <div class="page-wrapper">
     <div class="page-content-tab">
-        <!-- Loader -->
-        <div class="loader-container" *ngIf="isLoading">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-
+       
         <div class="container-fluid">
+             <!-- Loader -->
+            <app-hajiri-page-loader *ngIf="isLoading"></app-hajiri-page-loader>
+
             <div class="row" *ngIf="!isLoading">
                 <div class="col-md-12">
                     <div class="personal-details">

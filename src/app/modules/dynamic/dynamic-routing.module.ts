@@ -46,13 +46,14 @@ import { DurationPickerComponent } from '../common/duration-picker/duration-pick
 import { RoleAddComponent } from './components/role-add/role-add.component';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 import { NewLoginComponent } from './components/new-login/new-login.component';
+import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
 
 
 
 
 
 
-  const routes: Routes = [
+  const routes: Routes = [{ path: '', redirectTo: '/login', pathMatch:'full'},
     { path: '', component: DynamicComponent,
   children:[
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
@@ -96,7 +97,8 @@ import { NewLoginComponent } from './components/new-login/new-login.component';
     {path : 'duration-picker', component: DurationPickerComponent},
     {path : 'add-role', component: RoleAddComponent},
     {path : 'account-settings', component: AccountSettingsComponent},
-    {path : 'new-login', component: NewLoginComponent}
+    {path : 'new-login', component: NewLoginComponent},
+    {path : 'employee-onboarding-preview', component: EmployeeOnboardingPreviewComponent}
   ] }
   ];
 

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-account-settings',
@@ -8,20 +9,29 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AccountSettingsComponent implements OnInit {
 
-  constructor(private _routeParam:ActivatedRoute) { 
+  constructor(private _routeParam:ActivatedRoute,
+    public _data:DataService) { 
+    // this._routeParam.queryParams.subscribe(
+    //   (params:Params)=>{   
+    //     this.tabName = params['tab'];
+    //     console.log("tabname", this.tabName)   
+    // });
 
-
-    if(this._routeParam.snapshot.queryParamMap.has('tab') ){
-      var tabName= this._routeParam.snapshot.queryParamMap.get('tab');
-      if(tabName){
-        this.tabName = tabName;
-      }
-      console.log("tabname", this.tabName)   
-    }
   }
 
+  @ViewChild('account')account!:ElementRef; 
+  @ViewChild('refer')refer!:ElementRef;
   tabName:string='';
   ngOnInit(): void {
+    
   }
 
+  ngAfterViewInit(){
+    if(this._data.activeTab){
+      this.refer.nativeElement.click();
+     }else{
+      this.account.nativeElement.click();
+       
+     }
+  }
 }

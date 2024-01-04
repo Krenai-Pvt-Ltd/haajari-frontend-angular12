@@ -49,6 +49,7 @@ export class DataService {
   orgId: any;
   constructor(private httpClient: HttpClient) {}
   private orgIdEmitter = new EventEmitter<number>();
+  activeTab:boolean=false;
   setOrgId(orgId: number) {
     this.orgIdEmitter.emit(orgId);
   }
@@ -56,9 +57,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = "http://localhost:8080/api/v2";
+  // private baseUrl = "http://localhost:8080/api/v2";
 
-  // private baseUrl = "https://backend.hajiri.work/api/v2";
+  private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -991,10 +992,12 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.get(`${this.baseUrl}/user-leave-rule/leaveSettingId/users-leave-setting`, { params });
   }
 
-  deleteAllUsersByLeaveSettingId(leaveSettingId: number): Observable<void> {
-    const url = `${this.baseUrl}/user-leave-rule/delete-all-users-leave-setting-rule?leaveSettingId=${leaveSettingId}`;
-    return this.httpClient.delete<void>(url);
+
+  deleteAllUsersByLeaveSettingId(userUuids: string[]): Observable<void> {
+    const url = `${this.baseUrl}/user-leave-rule/delete-all-users-leave-setting-rule`;
+    return this.httpClient.delete<void>(url, { body: userUuids });
   }
+
 
   deleteUserFromUserLeaveRule(userUuid: string): Observable<void> {
     const url = `${this.baseUrl}/user-leave-rule/delete-user-from-leave-setting-rule?userUuid=${userUuid}`;
