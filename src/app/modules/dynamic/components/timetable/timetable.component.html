@@ -260,24 +260,16 @@
           <div class="col-md-9">
             <div class="searchbr-ui" id="attendanceDataTopbar">
 
-
-              <form novalidate="" role="search" (submit)="searchUsers()"
-                                                class="searching ng-untouched ng-pristine ng-valid">
-                                                <div class="form-group" style="width: 350px; position: relative">
-                                                    <input type="text" id="searchText"
-                                                        placeholder="Search by name and role"
-                                                        class="form-control me-2 ng-untouched ng-pristine ng-valid"
-                                                        (keyup)="searchUsers()" [(ngModel)]="searchText"
-                                                        [ngModelOptions]="{ standalone: true }"
-                                                        style="padding: 10px 30px" />
-                                                    <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn" (click)="clearSearchText()">
-                                                        <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                                                    </button>
-                                                    <i class="bi bi-search search-icon"
-                                                        style="margin: auto; margin-left: 10px"></i>
-                                                </div>
+                <form novalidate="" role="search" (submit)="searchUsers($event)" class="searching ng-untouched ng-pristine ng-valid">
+                  <div class="form-group" style="width: 350px; position: relative">
+                      <input type="text" id="searchText" placeholder="Search by name and role" class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchUsers($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px" />
+                      <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn" (click)="clearSearchText()">
+                          <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                      </button>
+                      <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+                  </div>
               </form>
-
+              
             
             </div>
           </div>
@@ -599,7 +591,7 @@
 
 <div class="modal fade" id="viewlog" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
@@ -628,12 +620,12 @@
                         <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="let attendanceLogResponse of attendanceLogResponseList">
                           <li>
                             <!-- in-time-color out-time-color break-color break-back-color -->
-                              <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy !== null">{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}} <span class="added-by"     style="padding-left: 10px;">(Added By - {{attendanceLogResponse.operationPerformedBy}})</span></h6>
+                              <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy !== null">{{attendanceLogResponse.operationType}}<span class="added-by" style="padding-left: 10px;">(Added By - {{attendanceLogResponse.operationPerformedBy}})</span></h6>
                               <h6 class="fs-md mt-0 " *ngIf="attendanceLogResponse.operationPerformedBy === null" [ngClass]="{'in-time-color': (attendanceLogResponse.operationType == 'in'), 'out-time-color': (attendanceLogResponse.operationType == 'out'), 'break-color': (attendanceLogResponse.operationType == 'break'), 'break-back-color': (attendanceLogResponse.operationType == 'back')}" >{{attendanceLogResponse.operationType}} | {{attendanceLogResponse.operationTime | timeFormat}}</h6>
                               <div style="display: block; margin-top: 5px; color: #6c757d;">
                                   <span style="font-size: 13px; font-weight: 600; vertical-align: middle;">
                                       <i class="bi bi-calendar3" style="margin-right: 5px;"></i>
-                                      {{attendanceLogResponse.operationTime | dateFormat}}
+                                      {{attendanceLogResponse.operationTime | dateFormat}} | {{attendanceLogResponse.operationTime | timeFormat}}
                                   </span>
                               </div>
                                   <div class="d-flex align-items-center mb-2 mt-2 gap-3">
