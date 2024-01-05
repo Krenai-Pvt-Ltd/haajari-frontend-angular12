@@ -58,6 +58,8 @@ export class DataService {
   }
   
 
+
+
   // private baseUrl = "http://localhost:8080/api/v2"
 
   private baseUrl = "https://backend.hajiri.work/api/v2";
@@ -751,6 +753,13 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     .set("userUuid", userUuid)
    
     return this.httpClient.get<any>(`${this.baseUrl}/user-bank-details/get/bank-details`, {params});
+  }
+
+  getOnboardingFormPreview(userUuid:string):Observable<any>{
+    const params = new HttpParams()
+    .set("userUuid", userUuid)
+    
+    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/preview`, {params});
   }
 
   getUserLeaveLog(userUuid:string):Observable<any>{
