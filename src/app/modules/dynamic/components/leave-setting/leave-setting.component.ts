@@ -369,8 +369,15 @@ export class LeaveSettingComponent implements OnInit {
 
   // Asynchronous function to get all user UUIDs
   async getAllUsersUuids(): Promise<string[]> {
-    // Replace with your actual API call to get all users
-    const response = await this.dataService.getAllUsers('asc', 'id', this.searchText, '').toPromise();
+
+    const response = await this.dataService.getUsersByFilterForLeaveSetting(this.total, 1, 'asc', 'id', this.searchText, '', this.idOfLeaveSetting).toPromise();
+    // const response = await this.dataService.getAllUsers('asc', 'id', this.searchText, '').toPromise();
+    // this.staffs = response.users.map((staff: StaffSelectionUserList) => ({
+    //   ...staff.user,
+    //   selected: this.selectedStaffsUuids.includes(staff.user.uuid),
+    //   // isMapped:
+    //   isAdded: staff.mapped
+    // }));
     return response.users.map((user: { uuid: any; }) => user.uuid);
   }
 
