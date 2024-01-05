@@ -14,9 +14,7 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
   constructor(private router: Router, private stepService: DataService) { }
 
   ngOnInit(): void {
-    this.stepService.stepsCompletionStatus$.subscribe(
-      (status) => this.stepsCompletionStatus = status
-    );
+
   }
 
   navigateTo(route: string, stepIndex: number): void {
@@ -26,10 +24,30 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
     this.router.navigate([route], navExtra);
   }
 
-
+  ind:number=-1;
   isStepCompleted(stepIndex: number): boolean {
-    return this.stepsCompletionStatus[stepIndex];
+    debugger
+    
+    // for(var i=0;i<=6;i++){
+    //   if(this.stepsCompletionStatus[i]==true){
+    //     this.ind=i;
+    //     break;
+    //   }
+    // }
+    // for(var i=0;i<=this.ind;i++){
+    //   this.stepsCompletionStatus[i]=true;
+    // }
+    // if((stepIndex)<=this.ind){
+    //   return true;
+    // }else{
+    // return false;
+    // }
+    if(stepIndex<=this.stepService.stepIndex){
+      return true;
+    }
+ return false;
   }
+
 
   
 }

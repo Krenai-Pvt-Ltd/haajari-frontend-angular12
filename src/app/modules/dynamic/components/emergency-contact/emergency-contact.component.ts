@@ -14,7 +14,7 @@ export class EmergencyContactComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    // this.addEmergencyContact();
+    this.dataService.markStepAsCompleted(7);
     this.getEmployeeEmergencyContactsDetailsMethodCall();
   }
 @ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;

@@ -65,7 +65,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
         
 
           }
-          console.log(this.onboardingPreviewData.userEmergencyContacts);
+          this.isLoading = false;
         },
         (error: any) => {
           console.error('Error fetching user details:', error);

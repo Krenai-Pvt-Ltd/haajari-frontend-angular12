@@ -56,6 +56,7 @@ export class AcadmicComponent implements OnInit {
   isLoading:boolean = true;
   getUserAcademicDetailsMethodCall() {
     debugger
+    this.dataService.markStepAsCompleted(4);
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
     if (userUuid) {
       this.dataService.getUserAcademicDetails(userUuid).subscribe((response: UserAcademicsDetailRequest) => {
@@ -63,7 +64,7 @@ export class AcadmicComponent implements OnInit {
           this.userAcademicsDetailRequest = response;
           
           if(response!=null){
-            this.dataService.markStepAsCompleted(4);
+            
           }
         }
         this.isLoading = false; 
