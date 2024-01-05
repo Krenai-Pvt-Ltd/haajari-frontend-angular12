@@ -8,6 +8,7 @@ import { FullLeaveSettingResponse } from 'src/app/models/full-leave-setting-resp
 import { LeaveSettingCategoryResponse } from 'src/app/models/leave-categories-response';
 import { LeaveSettingResponse } from 'src/app/models/leave-setting-response';
 import { Staff } from 'src/app/models/staff';
+import { StaffSelectionUserList } from 'src/app/models/staff-selection-userlist';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -36,7 +37,7 @@ export class LeaveSettingComponent implements OnInit {
   readonly constants = constant;
 
   ngOnInit(): void {
-    this.getUserByFiltersMethodCall();
+    this.getUserByFiltersMethodCall(0);
     this.getFullLeaveSettingInformation();
     // this.findUsersOfLeaveSetting(30);
 
@@ -238,13 +239,13 @@ export class LeaveSettingComponent implements OnInit {
 
   searchUsers() {
     this.searchUserPlaceholderFlag = true;
-    this.getUserByFiltersMethodCall();
+    this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
   }
 
   clearSearchUsers(){
     this.searchUserPlaceholderFlag = false;
     this.searchText='';
-    this.getUserByFiltersMethodCall();
+    this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
   }
 
   selectedStaffsUuids: string[] = [];
@@ -253,12 +254,16 @@ export class LeaveSettingComponent implements OnInit {
 
   isStaffEmpty:boolean=false;
 
+  staffSelectionUserList: StaffSelectionUserList = new StaffSelectionUserList();
 
-  getUserByFiltersMethodCall() {
-    this.dataService.getUsersByFilterForLeaveSetting(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '').subscribe((response) => {
-      this.staffs = response.users.map((staff: Staff) => ({
-        ...staff,
-        selected: this.selectedStaffsUuids.includes(staff.uuid)
+  getUserByFiltersMethodCall(leaveSettingId: number) {
+    this.dataService.getUsersByFilterForLeaveSetting(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '', leaveSettingId).subscribe((response) => {
+      // this.staffSelectionUserList.user = response.users;
+      this.staffs = response.users.map((staff: StaffSelectionUserList) => ({
+        ...staff.user,
+        selected: this.selectedStaffsUuids.includes(staff.user.uuid),
+        // isMapped:
+        isAdded: staff.mapped
       }));
       this.total = response.count;
 
@@ -393,7 +398,7 @@ export class LeaveSettingComponent implements OnInit {
     } else if (page === 'next' && this.pageNumber < this.totalPages) {
       this.pageNumber++;
     }
-    this.getUserByFiltersMethodCall();
+    this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
   }
 
   getPages(): number[] {
@@ -459,7 +464,6 @@ export class LeaveSettingComponent implements OnInit {
         this.errorTemplateNameFlag = false;
         this.fullLeaveSettingResponse = response;
         this.idOfLeaveSetting = leaveSettingId;
-        this.findUsersOfLeaveSetting(leaveSettingId);
         this.leaveSettingResponse = this.fullLeaveSettingResponse.leaveSetting;
         // this.selectedStaffsUuidsUser =  this.fullLeaveSettingResponse.userUuids;
         // if(this.fullLeaveSettingResponse.userUuids.length===0){
@@ -493,7 +497,8 @@ export class LeaveSettingComponent implements OnInit {
           categoriesArray.push(categoryGroup);
         });
 
-        this.getUserByFiltersMethodCall();
+        this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
+        this.findUsersOfLeaveSetting(leaveSettingId);
 
       }, error => {
         console.error('Error fetching leave setting information by ID:', error);
@@ -510,6 +515,7 @@ export class LeaveSettingComponent implements OnInit {
     debugger
     
     this.idOfLeaveSetting=0;
+    this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
     this.staffsUser = [];
     this.totalUser = 0;
     this.isMappedStaffEmpty=true;
@@ -587,7 +593,7 @@ export class LeaveSettingComponent implements OnInit {
         (response) => {
           this.idOfLeaveSetting = response.leaveSettingResponse.id;
           console.log('Leave rules registered successfully:', response);
-          this.getUserByFiltersMethodCall();
+          this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
 
          this.isMappedStaffEmpty=false;
          this.addedUserFlag=true;
@@ -817,7 +823,7 @@ export class LeaveSettingComponent implements OnInit {
       console.log('Users deleted successfully.');
       this.selectedStaffsUuids = [];
       this.selectedStaffsUuidsUser = [];
-      this.getUserByFiltersMethodCall();
+      this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
       this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
       // this.getLeaveSettingInformationById(this.idOfLeaveSetting);
       // this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
@@ -829,7 +835,7 @@ export class LeaveSettingComponent implements OnInit {
       this.selectedStaffsUuids = [];
       this.selectedStaffsUuidsUser = [];
       console.log('User deleted successfully.');
-      this.getUserByFiltersMethodCall();
+      this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
       this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
     });
   }
@@ -887,7 +893,7 @@ export class LeaveSettingComponent implements OnInit {
       this.isMappedStaffEmpty=false;
       this.addedUserFlag=true;
       console.log(response);
-      this.selectedStaffsUuids = [userUuid];
+      // this.selectedStaffsUuids = [userUuid];
       const staffToUpdate = this.staffs.find(staff => staff.uuid === userUuid);
       if (staffToUpdate) {
          staffToUpdate.isAdded = true;

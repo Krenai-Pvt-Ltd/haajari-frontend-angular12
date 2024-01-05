@@ -57,9 +57,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  // private baseUrl = "http://localhost:8080/api/v2"
+  private baseUrl = "http://localhost:8080/api/v2"
 
-  private baseUrl = "https://backend.hajiri.work/api/v2";
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -180,14 +180,15 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {params});
   }
 
-  getUsersByFilterForLeaveSetting(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
+  getUsersByFilterForLeaveSetting(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string, leaveSettingId:number) : Observable<any>{
     const params = new HttpParams()
     .set("item_per_page", itemPerPage.toString())
     .set("page_number", pageNumber.toString())
     .set('sort_order', sort)
     .set('sort_by', sortBy)
     .set('search', search)
-    .set('search_by', searchBy);
+    .set('search_by', searchBy)
+    .set('leave_setting_id', leaveSettingId);
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters-leave-setting`, {params});
   }
 
