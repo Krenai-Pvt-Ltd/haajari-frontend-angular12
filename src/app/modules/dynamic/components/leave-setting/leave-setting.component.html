@@ -793,7 +793,8 @@
 
                                                                             <td>
                                                                                 <!-- && !addedUserFlag -->
-                                                                                <span *ngIf="!staff.isAdded ">
+                                                                                <!-- *ngIf="!staff.isAdded  -->
+                                                                                <span *ngIf="!staff.isAdded">
                                                                                 <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"
                                                                                 (click)="addUser(staff.uuid, idOfLeaveSetting)">Add</button>
                                                                                 </span>
