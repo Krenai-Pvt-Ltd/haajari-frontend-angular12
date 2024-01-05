@@ -110,4 +110,8 @@ export class Key{
     public static EDIT = "edit";
     public static BACKSPACE = "Backspace";
     public static ENTER = "Enter";
+
+
+
+    public static VIEW_ALL = "View All";
 }

@@ -57,8 +57,8 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = "http://localhost:8080/api/v2"
 
+  private baseUrl = "http://localhost:8080/api/v2"
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
@@ -69,10 +69,14 @@ export class DataService {
   }
   
   //Attendance module
-  getAttendanceDetailsByDateDuration(startDate : string, endDate : string) : Observable<any>{
+  getAttendanceDetailsByDateDuration(startDate : string, endDate : string, pageNumber: number, itemPerPage: number, search: string, searchBy: string) : Observable<any>{
     const params = new HttpParams()
     .set('start_date', startDate)
-    .set('end_date', endDate);
+    .set('end_date', endDate)
+    .set("page_number", pageNumber.toString())
+    .set("item_per_page", itemPerPage.toString())
+    .set('search', search)
+    .set('search_by', searchBy);
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date-duration`,{params});
   }
 
@@ -932,8 +936,11 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.put<any>(`${this.baseUrl}/organization/update/attendance-mode`, {}, {params});
   }
 
-  getLateEmployeeAttendanceDetails(): Observable<any>{
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-late-employee-attendance-details`);
+  getLateEmployeeAttendanceDetails(dataFetchingType : string): Observable<any>{
+    const params = new HttpParams()
+    .set("data_fetching_type", dataFetchingType);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-late-employee-attendance-details`, {params});
   }
 
 
