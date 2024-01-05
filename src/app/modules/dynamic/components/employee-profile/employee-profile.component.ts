@@ -245,6 +245,7 @@ export class EmployeeProfileComponent implements OnInit {
       )
       .subscribe(
         (response: any) => {
+          response = response.mapOfObject;
           this.events = [];
           this.totalPresent = 0;
           this.totalAbsent = 0;
