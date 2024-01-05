@@ -62,6 +62,7 @@ export class DataService {
 
   // private baseUrl = "http://localhost:8080/api/v2"
 
+
   private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
@@ -787,12 +788,12 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
   get stepsCompletionStatus$() {
     return this.stepsCompletionStatus.asObservable();
   }
-
+stepIndex:number=-1;
   markStepAsCompleted(stepIndex: number): void {
-    const currentStatus = this.stepsCompletionStatus.value;
-    currentStatus[stepIndex] = true;
-    this.stepsCompletionStatus.next(currentStatus);
-    console.log("shared step")
+    // const currentStatus = this.stepsCompletionStatus.value;
+    // currentStatus[stepIndex] = true;
+    // this.stepsCompletionStatus.next(currentStatus);
+    this.stepIndex=stepIndex;
   }
 
 

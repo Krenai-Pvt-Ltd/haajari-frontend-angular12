@@ -14,6 +14,7 @@ export class BankDetailsComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
+    this.dataService.markStepAsCompleted(6);
     this.getEmployeeBankDetailsMethodCall();
   }
   backRedirectUrl(){
@@ -35,7 +36,7 @@ export class BankDetailsComponent implements OnInit {
   setEmployeeBankDetailsMethodCall() {
     this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
-    this.dataService.markStepAsCompleted(6);
+    
     this.dataService.setEmployeeBankDetails(this.userBankDetailRequest, userUuid)
       .subscribe(
         (response: UserBankDetailRequest) => {
