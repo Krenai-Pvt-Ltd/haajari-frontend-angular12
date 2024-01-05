@@ -132,11 +132,12 @@
                         <div class="row align-items-center">
                             
                             <!-- Delete Button -->
-                            <div class="col-md-6" style="text-align: right;">
-                                <div class="add-filtter">
-                                    <a type="button" style="color: red;" (click)="deleteExperience(i)"><i class="bi bi-trash" style="font-size: 16px;"></i> Delete</a>
-                                </div>
+                            <div class="add-filtter d-flex justify-content-end " *ngIf="userExperiences.length!=1">
+                                <a type="button" style="color: red;" (click)="deleteExperience(i)"><i class="bi bi-trash" style="font-size: 16px;"></i> Delete</a>
                             </div>
+                            <!-- <div class="col-md-6 " style="text-align: right;">
+                                
+                            </div> -->
                         </div>
                     </div>
                

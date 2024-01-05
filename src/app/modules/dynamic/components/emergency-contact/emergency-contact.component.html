@@ -77,7 +77,7 @@
                                    
                                 </div>
                                   <div class="col-md-6" style="text-align: right;">
-                                      <div class="add-filtter">
+                                      <div class="add-filtter" *ngIf="userEmergencyContactDetails.length!=1">
                                           <a type="button" (click)="delete(i)" style="color: red;"><i class="bi bi-trash" style="font-size: 16px;"></i> Delete</a>
                                       </div>
                                      
@@ -168,7 +168,12 @@
                 </p>
 
                 <!-- Edit Button -->
-                <button type="button" class="btn btn-primary" *ngIf="allowEdit" (click)="closeAndEdit()">
+
+                <button type="button" class="d-none"  data-bs-dismiss="modal" id="dismissSuccessModalButton" #dismissSuccessModalButton>
+                Cancel
+              </button>
+
+                <button type="button" class="btn btn-primary" *ngIf="allowEdit" data-bs-dismiss="modal">
                     Edit
                 </button>
             </div>

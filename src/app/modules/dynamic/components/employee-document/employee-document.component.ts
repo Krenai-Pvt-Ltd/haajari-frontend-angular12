@@ -191,7 +191,9 @@ getEmployeeDocumentsDetailsMethodCall() {
         this.userDocumentsDetailsRequest = response;
         
           this.isLoading = false;
-        
+        if(response!=null){
+          this.dataService.markStepAsCompleted(3);
+        }
         // Assuming response.userDocuments is populated
         if (response.userDocuments) {
           this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(response.userDocuments.secondarySchoolCertificate);

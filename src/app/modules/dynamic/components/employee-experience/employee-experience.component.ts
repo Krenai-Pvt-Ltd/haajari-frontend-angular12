@@ -36,6 +36,9 @@ export class EmployeeExperienceComponent implements OnInit {
   }
 
   deleteExperience(index: number): void {
+    if(this.userExperiences.length == 1){
+      return
+    }
     this.userExperiences.splice(index, 1);
   }
 
