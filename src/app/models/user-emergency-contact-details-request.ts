@@ -4,4 +4,7 @@ export class UserEmergencyContactDetailsRequest {
     contactNumber: string = '';
     employeeOnboardingFormStatus: string = '';
     employeeOnboardingStatus: string = '';
+    // phoneNumber:string='';
+    // name:string='';
+    // relation:string='';
 }

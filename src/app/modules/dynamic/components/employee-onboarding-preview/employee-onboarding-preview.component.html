@@ -1,6 +1,7 @@
 <div class="employee-preview-main">
     <div class="container">
-       <div class="row">
+        <app-hajiri-page-loader *ngIf="isLoading"></app-hajiri-page-loader>
+       <div class="row" *ngIf="!isLoading">
         <div class="col-md-12">
             <div class="employee-previeww">
 
@@ -358,7 +359,10 @@
                     <div class="oonbording-bhadding">
                         <h1> Employee Onboarding Form</h1>
 
-                        <p>Status - <span class="pending-status">Pending</span></p>
+                        <p>Status - <span class="pending-status">{{onboardingPreviewData.user.employeeOnboardingStatus.response}}</span></p>
+                        <button type="button" class="btn btn-primary" *ngIf="allowEdit" (click)="routeToUserDetails()">
+                            Edit
+                        </button>
 
                     </div>
                 </div>
@@ -384,24 +388,24 @@
                          
                             <tbody class="table-design">
                               <tr>
-                                <td>Name : Yogesh Yadav</td>
-                                <td>Email : yogesh@krenai.com</td>
-                                <td>Phone : 9549901868</td>
+                                <td>Name : {{ onboardingPreviewData.user.name }}</td>
+                                <td>Email : {{ onboardingPreviewData.user.email }}</td>
+                                <td>Phone : {{ onboardingPreviewData.user.phoneNumber }}</td>
                               </tr>
                               <tr>
-                                <td>DOB : 13-06-1996</td>
-                                <td>Gender : Male</td>
-                                <td>Father's Name :   Kamal Singh</td>
+                                <td>DOB : {{ onboardingPreviewData.user.dob }}</td>
+                                <td>Gender : {{ onboardingPreviewData.user.gender }}</td>
+                                <td>Father's Name :   {{ onboardingPreviewData.user.fatherName }}</td>
                               </tr>
                               <tr>
-                                <td>Marital Status : Singl</td>
-                                <td>Joining Date : 27-03-2023</td>
-                                <td>Current Salary : N/A</td>
+                                <td>Marital Status : {{ onboardingPreviewData.user.maritalStatus }}</td>
+                                <td>Joining Date : {{ onboardingPreviewData.user.joiningDate }}</td>
+                                <td>Current Salary : {{ onboardingPreviewData.user.currentSalary }}</td>
                               </tr>
                               <tr>
-                                <td>Department : IT</td>
-                                <td>Current Position : Frontend Designer</td>
-                                <td>Nationality : Indian</td>
+                                <td>Department : {{ onboardingPreviewData.user.department }}</td>
+                                <td>Current Position : {{ onboardingPreviewData.user.position }}</td>
+                                <td>Nationality : {{ onboardingPreviewData.user.nationality }}</td>
                               </tr>
                             </tbody>
                           </table>
@@ -412,23 +416,23 @@
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
-                                    <p class="mb-0 persnaol">  Address Details (Permanent Address)</p>
+                                    <p class="mb-0 persnaol"> Address Details  (Current Address) </p>
                                   </td>
                                 </tr>
                           </table>
 
                           <table class="table table-bordered">
                          
-                            <tbody class="table-design">
+                            <tbody class="table-design" *ngIf="onboardingPreviewData.userAddress!=undefined">
                               <tr>
-                                <td colspan="4"> Complete Address : N/A</td>
+                                <td colspan="4"> Complete Address : {{ onboardingPreviewData.userAddress[0].address }}</td>
                               </tr>
                             
                               <tr>
-                                <td>Pincode : 301714</td>
-                                <td>City : Gurgoan</td>
-                                <td>State : Gurgoan</td>
-                                <td>Country : India</td>
+                                <td>Pincode : {{ onboardingPreviewData.userAddress[0].pincode }}</td>
+                                <td>City : {{ onboardingPreviewData.userAddress[0].city }}</td>
+                                <td>State : {{ onboardingPreviewData.userAddress[0].state }}</td>
+                                <td>Country : {{ onboardingPreviewData.userAddress[0].country }}</td>
                               </tr>
                               
                             </tbody>
@@ -436,31 +440,31 @@
                     </div>
 
                     <div class="onboarding-deta">
-                        <table class="table mb-0">
-                            <tr style="background-color: #f1f1f1;">
-                                  <td>
-                                    <p class="mb-0 persnaol">  Address Details  (Current Address)</p>
-                                  </td>
-                                </tr>
-                          </table>
+  <table class="table mb-0">
+    <tr style="background-color: #f1f1f1;">
+      <td>
+        <p class="mb-0 persnaol"> Address Details (Permanent Address)</p>
+      </td>
+    </tr>
+  </table>
 
-                          <table class="table table-bordered">
-                         
-                            <tbody class="table-design">
-                              <tr>
-                                <td colspan="4"> Complete Address : N/A</td>
-                              </tr>
-                            
-                              <tr>
-                                <td>Pincode : 301714</td>
-                                <td>City : Gurgoan</td>
-                                <td>State : Gurgoan</td>
-                                <td>Country : India</td>
-                              </tr>
-                              
-                            </tbody>
-                          </table>
-                    </div>
+  <table class="table table-bordered">
+    <tbody class="table-design" *ngIf="onboardingPreviewData.userAddress!=undefined && onboardingPreviewData.userAddress.length>0" >
+      <!-- <tr *ngFor="let address of onboardingPreviewData.userAddress; let i = index">
+        <td colspan="4">Complete Address: {{ address.address }}</td>
+      </tr> -->
+      <tr>
+        <td colspan="4"> Complete Address : {{ onboardingPreviewData.userAddress[1].address }}</td>
+      </tr>
+      <tr>
+        <td>Pincode: {{ onboardingPreviewData.userAddress[1].pincode }}</td>
+        <td>City: {{ onboardingPreviewData.userAddress[1].city }}</td>
+        <td>State: {{ onboardingPreviewData.userAddress[1].state }}</td>
+        <td>Country: {{ onboardingPreviewData.userAddress[1].country }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
                     <div class="onboarding-deta">
                         <table class="table mb-0">
@@ -476,19 +480,17 @@
                             <tbody class="table-design">
                               <tr>
                                 <td colspan="3"> 
-                                    10th Marksheet :  Pdf Name</td>
+                                    10th Marksheet :  {{ secondarySchoolCertificateFileName }}</td>
+                              
+                                <td colspan="3"> 
+                                    12th Marksheet : {{ highSchoolCertificateFileName1 }}</td>
                               </tr>
                               <tr>
                                 <td colspan="3"> 
-                                    12th Marksheet : Pdf Name</td>
-                              </tr>
-                              <tr>
+                                    Highest Qualification :  {{ highestQualificationDegreeFileName1 }}</td>
+                              
                                 <td colspan="3"> 
-                                    Highest Qualification :  Pdf Name</td>
-                              </tr>
-                              <tr>
-                                <td colspan="3"> 
-                                    Testimonials :  N/A</td>
+                                    Testimonials : {{ testimonialReccomendationFileName1 }}</td>
                               </tr>
                             
                               
@@ -496,6 +498,9 @@
                             </tbody>
                           </table>
                     </div>
+
+                    
+
 
                     <div class="onboarding-deta">
                         <table class="table mb-0">
@@ -508,13 +513,29 @@
 
                           <table class="table table-bordered">
                          
-                            <tbody class="table-design">
+                            <tbody class="table-design" *ngIf="onboardingPreviewData.userGuarantorInformation!=undefined && onboardingPreviewData.userGuarantorInformation.length>0">
                             
                             
                               <tr>
-                                <td>Name : Sumit</td>
-                                <td>Phone Number : 9911909533</td>
-                                <td>Email : sumit@krenai.com</td>
+                                <td>Relation : {{ onboardingPreviewData.userGuarantorInformation[0].relation }}</td>
+                                <td>Name : {{ onboardingPreviewData.userGuarantorInformation[0].name }}</td>
+                                <td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[0].phoneNumber }}</td>
+                                <td>Email : {{ onboardingPreviewData.userGuarantorInformation[0].emailId }}</td>
+                              </tr>
+                              
+                            </tbody>
+                          </table>
+
+                          <table class="table table-bordered">
+                         
+                            <tbody class="table-design" *ngIf="onboardingPreviewData.userGuarantorInformation!=undefined && onboardingPreviewData.userGuarantorInformation.length>0">
+                            
+                            
+                              <tr>
+                                <td>Relation : {{ onboardingPreviewData.userGuarantorInformation[1].relation }}</td>
+                                <td>Name : {{ onboardingPreviewData.userGuarantorInformation[1].name }}</td>
+                                <td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[1].phoneNumber }}</td>
+                                <td>Email : {{ onboardingPreviewData.userGuarantorInformation[1].emailId }}</td>
                               </tr>
                               
                             </tbody>
@@ -535,18 +556,58 @@
                             
                             
                               <tr>
-                                <td>Highest Qualification : BA</td>
-                                <td>Degree/Diploma : Degree</td>
-                                <td>Field of Study : Art</td>
+                                <td>Highest Qualification : {{ onboardingPreviewData.userAcademics.highestEducationalLevel }}</td>
+                                <td>Degree/Diploma : {{ onboardingPreviewData.userAcademics.degreeObtained }}</td>
+                                <td>Field of Study : {{ onboardingPreviewData.userAcademics.fieldOfStudy }}</td>
                               </tr>
                               <tr>
-                              <td>Institution Name : BA</td>
-                              <td>Grade/CGPA : B</td>
-                              <td>Graduating Year :  2018</td>
+                              <td>Institution Name : {{ onboardingPreviewData.userAcademics.institutionName }}</td>
+                              <td>Grade/CGPA : {{ onboardingPreviewData.userAcademics.grade }}</td>
+                              <td>Graduating Year :  {{ onboardingPreviewData.userAcademics.greaduationYear }}</td>
                             </tr>
                               
                             </tbody>
                           </table>
+                    </div>
+
+                    <div class="onboarding-deta">
+                        <table class="table mb-0">
+                            <tr style="background-color: #f1f1f1;">
+                                  <td>
+                                    <p class="mb-0 persnaol"> Experience</p>
+                                  </td>
+                                </tr>
+                          </table>
+                          <div  *ngFor="let userExperience of userExperienceArray; let i = index">
+                          <table class="table table-bordered">
+                         
+                            <tbody class="table-design" *ngIf="onboardingPreviewData.userExperience!=undefined && onboardingPreviewData.userExperience.length>0">
+                              <tr>
+                                <td colspan="3"> 
+                                    Company Name :  {{userExperience.companyName}}</td>
+                             
+                                <td colspan="3"> 
+                                    Duration : {{userExperience.employementDuration}}</td>
+                              
+                                <td colspan="3"> 
+                                    Department :  {{userExperience.lastJobDepartment}}</td>
+                              </tr>
+                              <tr>
+                                <td colspan="3"> 
+                                    Last Salary :  {{userExperience.lastSalary}}</td>
+                             
+                                <td colspan="3"> 
+                                    Position :  {{userExperience.lastJobPosition}}</td>
+                             
+                                <td colspan="3"> 
+                                    Responsibilities :  {{userExperience.jobResponisibilities}}</td>
+                              </tr>
+                            
+                              
+                              
+                            </tbody>
+                          </table>
+                          </div>
                     </div>
 
                     <div class="onboarding-deta">
@@ -564,10 +625,10 @@
                             
                             
                               <tr>
-                                <td> Account Holder Name : Yogesh Kumar</td>
-                                <td>Bank Name : ICICI Bank</td>
-                                <td> Account Number : 1234567890</td>
-                                <td> IFSC Number :  DFGHJ1234</td>
+                                <td> Account Holder Name : {{ onboardingPreviewData.userBankDetails.accountHolderName }}</td>
+                                <td>Bank Name : {{ onboardingPreviewData.userBankDetails.bankName }}</td>
+                                <td> Account Number : {{ onboardingPreviewData.userBankDetails.accountNumber }}</td>
+                                <td> IFSC Number :  {{ onboardingPreviewData.userBankDetails.ifsc }}</td>
                               </tr>
                              
                               
@@ -583,26 +644,26 @@
                                   </td>
                                 </tr>
                           </table>
-
+                          <div  *ngFor="let userEmergencyContact of userEmergencyContactArray; let i = index">
                           <table class="table table-bordered">
                          
-                            <tbody class="table-design">
+                            <tbody class="table-design" *ngIf="onboardingPreviewData.userEmergencyContacts!=undefined && onboardingPreviewData.userEmergencyContacts.length>0">
                             
                             
                               <tr>
-                                <td> Relation with Employee : Father</td>
-                                <td>Name :  Kamal Singh</td>
-                                <td>Phone Number  : 9549901868</td>
+                                <td> Relation with Employee : {{userEmergencyContact.relationWithEmployee}}</td>
+                                <td>Name :  {{userEmergencyContact.contactName}}</td>
+                                <td>Phone Number  : {{userEmergencyContact.contactNumber}}</td>
                               </tr>
-                              <tr>
-                              <td>
-                                Last Salary : BA</td>
-                              <td>Position : website Designer</td>
-                              <td>Responisibilities :  Designer</td>
-                            </tr>
+                              
                               
                             </tbody>
                           </table>
+                          <ng-template #noData>
+                            <p>No emergency contact information available.</p>
+                        </ng-template>
+
+                          </div>
                     </div>
 
 

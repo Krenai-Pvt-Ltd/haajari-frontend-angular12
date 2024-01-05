@@ -60,9 +60,11 @@ export class BankDetailsComponent implements OnInit {
     if (userUuid) {
       this.dataService.getEmployeeBankDetails(userUuid).subscribe(
         (response: UserBankDetailRequest) => {
-          this.userBankDetailRequest = response;
+          if(response!=null){
+            this.userBankDetailRequest = response;
+            this.dataService.markStepAsCompleted(6);
+          }
           this.isLoading = false;
-          this.dataService.markStepAsCompleted(6);
         },
         (error: any) => {
           console.error('Error fetching user details:', error);
