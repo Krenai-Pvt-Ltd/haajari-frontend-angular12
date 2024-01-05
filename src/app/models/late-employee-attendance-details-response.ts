@@ -8,6 +8,8 @@ export class LateEmployeeAttendanceDetailsResponse {
     image : string = '';
     date : string = '';
     checkInTime : string = '';
-    teams : TeamWithoutUsersResponse[] = [];
+    lateDuration : string = '';
+    managers : string[] = [];
+    // teams : TeamWithoutUsersResponse[] = [];
     
 }

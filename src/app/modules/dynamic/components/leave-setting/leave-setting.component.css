@@ -1250,4 +1250,10 @@ button.btn.close-btn {
     }
   }
   
+#added-to-collection-button{
+    color: blue;
+    background-color: transparent;
+    border: 1px solid blue;
+    border-radius: 3px;
+}  
   

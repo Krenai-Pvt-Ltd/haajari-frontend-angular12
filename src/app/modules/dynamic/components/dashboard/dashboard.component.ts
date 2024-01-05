@@ -20,13 +20,11 @@ export class DashboardComponent implements OnInit {
 
   constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService) { }
 
-
   itemPerPage : number = 5;
   pageNumber : number = 1;
   total !: number;
   rowNumber : number = 1;
   searchText : string = '';
-
 
   currentDayEmployeesData : any = [];
   // selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
@@ -67,9 +65,20 @@ export class DashboardComponent implements OnInit {
     
     this.getCurrentDayEmployeesData();
     this.getAttendanceTopPerformerDetails();
-    this.getAttendanceLatePerformerDetails();
+    // this.getAttendanceLatePerformerDetails();
     this.getDataFromDate();
     this.getTodaysLiveLeaveCount();
+  }
+
+
+  isShimmer = false;
+  dataNotFoundPlaceholder = false;
+  networkConnectionErrorPlaceHolder = false;
+
+  preRuleForShimmersAndErrorPlaceholdersMethodCall(){
+    this.isShimmer = true;
+    this.dataNotFoundPlaceholder = false;
+    this.networkConnectionErrorPlaceHolder = false;
   }
 
   selectMonth(selectedMonth: string): void {
@@ -356,14 +365,30 @@ errorToggleMain: boolean=false;
   lateEmployeeAttendanceDetailsResponseList : LateEmployeeAttendanceDetailsResponse[] = [];
 
   getLateEmployeeAttendanceDetailsMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.dataService.getLateEmployeeAttendanceDetails().subscribe((response) => {
       this.lateEmployeeAttendanceDetailsResponseList = response;
       console.log(response);
+
+      if(response === undefined || response === null || response.length === 0){
+        this.dataNotFoundPlaceholder = true;
+      }
     }, (error) => {
       console.log(error);
+      this.networkConnectionErrorPlaceHolder = true;
     })
   }
   
+
+    visibleManagersCount: number = 1; // Set this to the number of managers you want to show initially
+
+    showAllManagers(length : number) {
+        this.visibleManagersCount = length;
+    }
+
+    hideSomeManagers() {
+        this.visibleManagersCount = 1; // Set this back to the number of managers you want to show by default
+    }
 
   // ######################################################################
 
