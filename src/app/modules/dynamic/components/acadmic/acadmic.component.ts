@@ -33,6 +33,7 @@ export class AcadmicComponent implements OnInit {
   userAcademicDetailsStatus = "";
   toggle = false;
   setEmployeeAcademicsMethodCall() {
+    debugger
     this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     this.dataService.markStepAsCompleted(4);
@@ -55,18 +56,20 @@ export class AcadmicComponent implements OnInit {
   isLoading:boolean = true;
   getUserAcademicDetailsMethodCall() {
     debugger
+    this.dataService.markStepAsCompleted(4);
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-  
     if (userUuid) {
-      this.dataService.getUserAcademicDetails(userUuid).subscribe(
-        (response: UserAcademicsDetailRequest) => {
+      this.dataService.getUserAcademicDetails(userUuid).subscribe((response: UserAcademicsDetailRequest) => {
+        if(response != null){
           this.userAcademicsDetailRequest = response;
-          this,this.isLoading = false;
-          this.dataService.markStepAsCompleted(4);
-        },
-        (error: any) => {
-          console.error('Error fetching user details:', error);
           
+          if(response!=null){
+            
+          }
+        }
+        this.isLoading = false; 
+        },(error: any) => {
+          console.error('Error fetching user details:', error);
         }
       );
     } else {

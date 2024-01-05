@@ -14,8 +14,23 @@ export class EmergencyContactComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    // this.addEmergencyContact();
+    this.dataService.markStepAsCompleted(7);
     this.getEmployeeEmergencyContactsDetailsMethodCall();
+  }
+@ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
+
+  routeToFormPreview() {
+debugger
+    this.dismissSuccessModalButton.nativeElement.click();
+    setTimeout(x=>{
+      let navExtra: NavigationExtras = {
+        queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+      };
+      this.router.navigate(['/employee-onboarding-preview'], navExtra);
+    },2000);
+  
+  
+  
   }
 
   backRedirectUrl() {
@@ -63,8 +78,12 @@ export class EmergencyContactComponent implements OnInit {
           
              response.employeeOnboardingStatus;
             if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' ){
+              
               this.successMessageModalButton.nativeElement.click();
             }
+            setTimeout(()=>{
+              this.routeToFormPreview();
+            },2000);
           
          
           this.toggle = false;
@@ -82,6 +101,9 @@ export class EmergencyContactComponent implements OnInit {
   }
 
 delete(index:number){
+  if(this.userEmergencyContactDetails.length==1){
+ return
+  }
   this.userEmergencyContactDetails.splice(index,1);
 }
   isLoading:boolean = true;
@@ -93,10 +115,10 @@ delete(index:number){
       this.dataService.getEmployeeContactsDetails(userUuid).subscribe(
         (contacts) => {
           console.log(contacts);
-          
+          this.isLoading = false;
           if (contacts && contacts.length > 0) {
           this.userEmergencyContactDetails = contacts;
-          this.isLoading = false;
+          
             this.employeeOnboardingFormStatus=this.userEmergencyContactDetails[0].employeeOnboardingStatus;
             if(contacts[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL'){
               this.successMessageModalButton.nativeElement.click();
@@ -123,10 +145,11 @@ delete(index:number){
   handleOnboardingStatus(response: string) {
     this.displaySuccessModal = true;
     switch (response) {
-      case 'APPROVED' :
+      
       case 'REJECTED':
         this.allowEdit = true;
         break;
+      case 'APPROVED' :
       case 'PENDING':
         this.allowEdit = false;
         break;
