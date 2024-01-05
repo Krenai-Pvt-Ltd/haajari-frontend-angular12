@@ -10,6 +10,7 @@ import { HelperService } from 'src/app/services/helper.service';
 import * as moment from 'moment';
 import { LateEmployeeAttendanceDetailsResponse } from 'src/app/models/late-employee-attendance-details-response';
 import { AttendanceReportResponse } from 'src/app/models/attendance-report-response';
+import { Key } from 'src/app/constant/key';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,17 +21,19 @@ export class DashboardComponent implements OnInit {
 
   constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService) { }
 
-
-  itemPerPage : number = 5;
+  itemPerPage : number = 8;
   pageNumber : number = 1;
+  lastPageNumber : number = 0;
   total !: number;
   rowNumber : number = 1;
   searchText : string = '';
-
+  searchBy : string = '';
+  dataFetchingType : string = '';
 
   currentDayEmployeesData : any = [];
   // selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
+  myAttendanceDataLength = 0;
   attendanceArrayDate: any = [];
   project : boolean = false;
 
@@ -42,6 +45,7 @@ export class DashboardComponent implements OnInit {
   startDateStr: string = '';
   endDateStr: string = '';
   month: string = '';
+
 
   ngOnInit(): void {
     // this.checkAccessToken();
@@ -67,9 +71,20 @@ export class DashboardComponent implements OnInit {
     
     this.getCurrentDayEmployeesData();
     this.getAttendanceTopPerformerDetails();
-    this.getAttendanceLatePerformerDetails();
+    // this.getAttendanceLatePerformerDetails();
     this.getDataFromDate();
     this.getTodaysLiveLeaveCount();
+  }
+
+
+  isShimmer = false;
+  dataNotFoundPlaceholder = false;
+  networkConnectionErrorPlaceHolder = false;
+
+  preRuleForShimmersAndErrorPlaceholdersMethodCall(){
+    this.isShimmer = true;
+    this.dataNotFoundPlaceholder = false;
+    this.networkConnectionErrorPlaceHolder = false;
   }
 
   selectMonth(selectedMonth: string): void {
@@ -123,12 +138,16 @@ errorToggleMain: boolean=false;
       // const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
       
       
-      this.dataService.getAttendanceDetailsByDateDuration(this.startDateStr, this.endDateStr).subscribe(
+      this.dataService.getAttendanceDetailsByDateDuration(this.startDateStr, this.endDateStr, this.pageNumber, this.itemPerPage, this.searchText, this.searchBy).subscribe(
         
         (response: any) => {
           
           debugger
-          this.myAttendanceData = response;
+          this.myAttendanceData = response.mapOfObject;
+          this.myAttendanceDataLength = Object.keys(this.myAttendanceData).length;
+          this.total = response.totalItems;
+
+          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
 
           debugger
           console.log(this.myAttendanceData);
@@ -162,6 +181,63 @@ errorToggleMain: boolean=false;
         }
       );
     
+  }
+
+  // #########Searching#################
+  resetCriteriaFilter(){
+    this.itemPerPage = 8;
+    this.pageNumber = 1;
+  }
+  searchUsers(event: Event) {
+    if (event instanceof KeyboardEvent) {
+        const ignoreKeys = ['Shift', 'Control', 'Alt', 'Meta', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Escape'];
+
+        const isCmdA = (event.key === 'a' || event.key === 'A') && (event.metaKey || event.ctrlKey);
+        if (ignoreKeys.includes(event.key) || isCmdA) {
+            return;
+        }
+    }
+
+    this.myAttendanceData = {};
+    this.total = 0;
+    this.isShimer = true;
+
+    this.resetCriteriaFilter();
+    this.getDataFromDate();
+}
+
+
+  clearSearchText(){
+    this.searchText = '';
+    this.getDataFromDate();
+  }
+
+  // ##### Pagination ############
+  changePage(page: number | string) {
+    if (typeof page === 'number') {
+      this.pageNumber = page;
+    } else if (page === 'prev' && this.pageNumber > 1) {
+      this.pageNumber--;
+    } else if (page === 'next' && this.pageNumber < this.totalPages) {
+      this.pageNumber++;
+    }
+    this.getDataFromDate();
+  }
+
+  getPages(): number[] {
+    const totalPages = Math.ceil(this.total / this.itemPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.total / this.itemPerPage);
+  }
+  getStartIndex(): number {
+    return (this.pageNumber - 1) * this.itemPerPage + 1;
+  }
+  getEndIndex(): number {
+    const endIndex = this.pageNumber * this.itemPerPage;
+    return endIndex > this.total ? this.total : endIndex;
   }
 
 
@@ -207,6 +283,31 @@ errorToggleMain: boolean=false;
     const names = fullName.split(' ');
     return names.length > 0 ? names[0] : '';
   }
+
+
+
+  // ####################Expand - Collapse All Functionalities################################
+
+  isAllCollapsed = true;
+
+  toggleAllCollapse() {
+    this.isAllCollapsed = !this.isAllCollapsed;
+
+    let elements = document.querySelectorAll('.bi-chevron-right');
+    elements.forEach((element) => {
+      if (this.isAllCollapsed && !element.classList.contains('collapsed')) {
+        (element as HTMLElement).click();
+      } else if (!this.isAllCollapsed && element.classList.contains('collapsed')) {
+        (element as HTMLElement).click();
+      }
+    });
+  }
+
+
+
+
+
+
 
   // getLoginDetailsRole(){
   //   const loginDetails = localStorage.getItem('loginData');
@@ -323,47 +424,40 @@ errorToggleMain: boolean=false;
   }
 
 
-   // ##### Pagination ############
-   changePage(page: number | string) {
-    if (typeof page === 'number') {
-      this.pageNumber = page;
-    } else if (page === 'prev' && this.pageNumber > 1) {
-      this.pageNumber--;
-    } else if (page === 'next' && this.pageNumber < this.totalPages) {
-      this.pageNumber++;
-    }
-    this.getDataFromDate();
-  }
-
-  getPages(): number[] {
-    const totalPages = Math.ceil(this.total / this.itemPerPage);
-    return Array.from({ length: totalPages }, (_, index) => index + 1);
-  }
-
-  get totalPages(): number {
-    return Math.ceil(this.total / this.itemPerPage);
-  }
-  getStartIndex(): number {
-    return (this.pageNumber - 1) * this.itemPerPage + 1;
-  }
-  getEndIndex(): number {
-    const endIndex = this.pageNumber * this.itemPerPage;
-    return endIndex > this.total ? this.total : endIndex;
-  }
-
+   
  
   
   lateEmployeeAttendanceDetailsResponseList : LateEmployeeAttendanceDetailsResponse[] = [];
 
+  viewAllLateEmployeeAttendanceDetails(){
+    this.dataFetchingType = Key.VIEW_ALL;
+  }
+
   getLateEmployeeAttendanceDetailsMethodCall(){
-    this.dataService.getLateEmployeeAttendanceDetails().subscribe((response) => {
-      this.lateEmployeeAttendanceDetailsResponseList = response;
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
+    this.dataService.getLateEmployeeAttendanceDetails(this.dataFetchingType).subscribe((response) => {
+      this.lateEmployeeAttendanceDetailsResponseList = response.listOfObject;
       console.log(response);
+
+      if(response === undefined || response === null || response.length === 0){
+        this.dataNotFoundPlaceholder = true;
+      }
     }, (error) => {
       console.log(error);
+      this.networkConnectionErrorPlaceHolder = true;
     })
   }
   
+
+    visibleManagersCount: number = 1; // Set this to the number of managers you want to show initially
+
+    showAllManagers(length : number) {
+        this.visibleManagersCount = length;
+    }
+
+    hideSomeManagers() {
+        this.visibleManagersCount = 1; // Set this back to the number of managers you want to show by default
+    }
 
   // ######################################################################
 

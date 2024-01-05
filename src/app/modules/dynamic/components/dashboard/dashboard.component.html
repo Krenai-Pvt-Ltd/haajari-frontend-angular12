@@ -221,44 +221,23 @@
             <div class="col-md-12">
                 <div class="col d-flex align-items-center justify-content-between mb-3">                      
                      <h4 class="card-title" style="font-size: 18px;">Late Employee</h4> 
-                     <div class="view-more text-center" >
-                        <p>View More <i class="bi bi-arrow-right"></i></p>
+                     <div class="view-more text-center" *ngIf="lateEmployeeAttendanceDetailsResponseList.length > 6">
+                        <p (click)="viewAllLateEmployeeAttendanceDetails()">View All <i class="bi bi-arrow-right"></i></p>
                      </div>
                                           
                 </div>
             </div>
 
-            <div class="mt-3 dashnodata" *ngIf="errorToggleLate">
-
-                <div class="errorboxmain" >
-                    <div class="errorboxinner">
-                      <div class="errorboxplaceholder mb-2">
-                        <img src="assets/images/signal.svg" style="width:80px;" />
-                      </div>
-                     <div class="">
-                         <h4>Something went wrong!</h4>
-                         <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
-                    </div>
-                    </div>
-                </div>
-                <div class="errorboxmain" *ngIf="lateEmployeeAttendanceDetailsResponseList.length===0 && !isLateShimmer && !errorToggleLate">
-                    <div class="errorboxinner" >
-                        <div class="errorboxplaceholder mb-2">
-                            <img src="assets/images/empty-box.svg" style="width:80px;" />
-                        </div>
-                        <div class="">
-                            <h4>No Data Found</h4>
-                            <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
-                        </div>
-                    </div>
-                </div>
+            <!-- <div class="mt-3 dashnodata" >
 
                 
-            </div>
+                
+
+                
+            </div> -->
 
 
-
-            <div class="row mt-3" *ngIf="isLateShimmer && !errorToggleLate">
+            <ng-container *ngIf="isShimmer && lateEmployeeAttendanceDetailsResponseList.length === 0 && !dataNotFoundPlaceholder && !networkConnectionErrorPlaceHolder; else lateEmployeeAttendanceDetailsDataCondition">
                 <div class="col-md-4" *ngFor="let item of [].constructor(6)">
                     <div class="card profile-card p-3">
 
@@ -286,70 +265,105 @@
 
                     </div>
                 </div>
-            </div>
-            <!-- *ngIf="(responseDto.attendanceLatePerformers).length!=0" -->
-         <div class="row mb-3 mt-3" style="padding: 0px; margin:0px;" *ngIf="lateEmployeeAttendanceDetailsResponseList.length!==0 && !errorToggleLate">
-            <!-- *ngFor="let performer of responseDto.attendanceLatePerformers" -->
-            <div class="col-lg-4 " *ngFor="let lateEmployeeAttendanceDetailsResponse of lateEmployeeAttendanceDetailsResponseList">
-                <div class="card" style="padding: 1rem; padding-bottom: 10px;">
-                    <div class="card-body" style="display:flex; gap:20px; align-items: center; padding: 0px !important; padding-bottom: 10px !important;">
-                        <ng-container *ngIf="lateEmployeeAttendanceDetailsResponse.image !== null; else imageNull">
-                            <div>
-                                <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:60px; border-radius:50%">
-                            </div>
-                        </ng-container>
-                        <ng-template #imageNull>
-                            <div>
-                                <span class="members-name">{{lateEmployeeAttendanceDetailsResponse.name[0]}}</span>
-                            </div>
-                        </ng-template>
-                        
-                        <div>
-                            <!-- <span class="in-time-box">
-                                <p class="mb-0" style="font-size: 10px;"><span class="in-time" style="font-size: 10px;"><b>In Time:</b></span><span class="teme-maneger"> {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span></p>
-                            </span> -->
+            </ng-container>
+            <ng-template #lateEmployeeAttendanceDetailsDataCondition>
+                <ng-container *ngIf="lateEmployeeAttendanceDetailsResponseList.length !== 0 && !dataNotFoundPlaceholder && !networkConnectionErrorPlaceHolder; else lateEmployeeAttendanceDetailsDataErrorCondition">
+                    <div class="col-lg-4 " *ngFor="let lateEmployeeAttendanceDetailsResponse of lateEmployeeAttendanceDetailsResponseList">
+                        <div class="card" style="padding: 1rem; padding-bottom: 10px;">
+                            <div class="card-body" style="display:flex; gap:20px; align-items: center; padding: 0px !important; padding-bottom: 10px !important;">
+                                <ng-container *ngIf="lateEmployeeAttendanceDetailsResponse.image !== null; else imageNull">
+                                    <div>
+                                        <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:60px; border-radius:50%">
+                                    </div>
+                                </ng-container>
+                                <ng-template #imageNull>
+                                    <div>
+                                        <span class="members-name">{{lateEmployeeAttendanceDetailsResponse.name[0]}}</span>
+                                    </div>
+                                </ng-template>
+                                
+                                <div>
+                                    <!-- <span class="in-time-box">
+                                        <p class="mb-0" style="font-size: 10px;"><span class="in-time" style="font-size: 10px;"><b>In Time:</b></span><span class="teme-maneger"> {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span></p>
+                                    </span> -->
+        
+                                    <div class="ribbon1 rib1-primary">
+                                        <span class="text-white text-center rib1-primary">In Time:  {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span>                                        
+                                    </div>
+        
+                                    <h5 class="pro-title">{{lateEmployeeAttendanceDetailsResponse.name}}</h5>
+                                    <p class="mb-0 text-muted late-employ-email">{{lateEmployeeAttendanceDetailsResponse.email}}</p>
+                                    
+                                </div>   
+                                </div> 
+                                <hr class="borders-bottom">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <!-- <div class="">
+                                        <p class="mb-0"><span class="in-time"><b>In Time:</b></span><span class="teme-maneger"> {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span></p>
+                                    </div> -->
+                                    <div class="" style="width: 65%;">
+                                        <!-- <p class="mb-0"><span><b>Project:</b> </span> Hajiri</p> -->
+                                    <!-- <p class="mb-0"><span class="in-time"><b>Manager:</b></span> 
+                                        <span class="teme-maneger">
+                                                 Pushpendra, An..  <a href="" class="user-avatar"><i class="bi bi-plus" ngbTooltip="Pushpendra, Anchal, Sunny." placement="top" style="font-size: 14px;"></i> 4 </a>
+                                        </span>
+                                    </p> -->
 
-                            <div class="ribbon1 rib1-primary">
-                                <span class="text-white text-center rib1-primary">In Time:  {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span>                                        
-                            </div>
+                                    <p class="mb-0"><span class="in-time"><b>Manager: </b></span> 
+                                        <span class="teme-maneger" *ngIf="lateEmployeeAttendanceDetailsResponse.managers.length > 2">
+                                            
+                                            {{lateEmployeeAttendanceDetailsResponse.managers[0]}}, {{lateEmployeeAttendanceDetailsResponse.managers[1]}}...<a class="user-avatar"><i class="bi bi-plus" ngbTooltip={{lateEmployeeAttendanceDetailsResponse.managers}} placement="top" style="font-size: 14px;"></i> {{lateEmployeeAttendanceDetailsResponse.managers.length - 2}}</a>
+                                        </span>
+                                        <span class="teme-maneger" *ngIf="lateEmployeeAttendanceDetailsResponse.managers.length < 3">
+                                            {{lateEmployeeAttendanceDetailsResponse.managers}}
+                                        </span>
+                                    </p>
+                                    </div>
+                                    <div class="" style="width: 35%; text-align: end;">
+                                        <!-- <p class="mb-0"><span><b>Project:</b> </span> Hajiri</p> -->
+                                        <p class="mb-0"><span class="in-time"><b> Late by: </b></span> <span class="teme-maneger">{{lateEmployeeAttendanceDetailsResponse.lateDuration| durationFormat}}</span></p>
+                                    </div>
+                                </div>  
+                        </div>
+                    </div>
 
-                            <h5 class="pro-title">{{lateEmployeeAttendanceDetailsResponse.name}}</h5>
-                            <p class="mb-0 text-muted late-employ-email">{{lateEmployeeAttendanceDetailsResponse.email}}</p>
-                            
+                    <!-- <div class="col-md-12" *ngIf="lateEmployeeAttendanceDetailsResponseList.length > 6">
+                        <div class="view-more text-center" >
+                           <p>View More <i class="bi bi-arrow-right"></i></p>
+                        </div>
+                    </div> -->
+                </ng-container>
 
+            </ng-template>
 
-                          
-                           
-                        </div>   
-                        </div> 
-                        <hr class="borders-bottom">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <!-- <div class="">
-                                <p class="mb-0"><span class="in-time"><b>In Time:</b></span><span class="teme-maneger"> {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span></p>
-                            </div> -->
-                            <div class="" style="width: 65%;">
-                                <!-- <p class="mb-0"><span><b>Project:</b> </span> Hajiri</p> -->
-                                <p class="mb-0"><span class="in-time"><b>Manager:</b></span> <span class="teme-maneger"> Pushpendra, An..  <a href="" class="user-avatar"><i class="bi bi-plus" ngbTooltip="Pushpendra, Anchal, Sunny." placement="top" style="font-size: 14px;"></i> 4 </a></span></p>
-                            </div>
-                            <div class="" style="width: 35%; text-align: end;">
-                                <!-- <p class="mb-0"><span><b>Project:</b> </span> Hajiri</p> -->
-                                <p class="mb-0"><span class="in-time"><b> Late Hrs.</b></span> <span class="teme-maneger"> 1:20 Hrs</span></p>
-                            </div>
-                        </div>  
+            <ng-template #lateEmployeeAttendanceDetailsDataErrorCondition>
+                <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolder">
+                    <div class="errorboxinner">
+                      <div class="errorboxplaceholder mb-2">
+                        <img src="assets/images/signal.svg" style="width:80px;"/>
+                      </div>
+                     <div class="">
+                         <h4>Something went wrong!</h4>
+                         <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
+                    </div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- <div class="col-md-12">
-                <div class="view-more text-center" >
-                   <p>View More <i class="bi bi-arrow-right"></i></p>
+                <div class="errorboxmain" *ngIf="dataNotFoundPlaceholder">
+                    <div class="errorboxinner" >
+                        <div class="errorboxplaceholder mb-2">
+                            <img src="assets/images/empty-box.svg" style="width:80px;"/>
+                        </div>
+                        <div class="">
+                            <h4>No Data Found</h4>
+                            <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                        </div>
+                    </div>
                 </div>
-            </div> -->
-            
-        </div>
+            </ng-template>
+
     </div>
    </div>
-
-
                 <div class="row mb-3" *ngIf="project===true">
                     <div class="col-md-12">
                         <div class="col mb-3">                      
@@ -449,9 +463,7 @@
 
                                 <div class="filtter-box d-flex align-items-center justify-content-end" style="gap:10px;">
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary new-deopdown" type="button" >
-                                         Expend All
-                                        </button>
+                                        <button class="btn btn-secondary new-deopdown" type="button" (click)="toggleAllCollapse()">{{isAllCollapsed ? 'Expand All' : 'Collapse All'}}</button>
                                       
                                       </div>
                                       <div class="dropdown col-md-3">
@@ -488,10 +500,20 @@
                             </div>
 
                             <div class="col-md-12 mt-2">
-                                <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
+                                <!-- <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
                                     <div class="form-group" style="width: 100%; position: relative;">
                                         <input type="text" id="searchText" placeholder="Search Attendance Master Roll Reports" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;">
                                         <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
+                                    </div>
+                                </form> -->
+
+                                <form novalidate="" role="search" (submit)="searchUsers($event)" class="searching ng-untouched ng-pristine ng-valid">
+                                    <div class="form-group" style="width: 350px; position: relative">
+                                        <input type="text" id="searchText" placeholder="Search by name and role" class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchUsers($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px" />
+                                        <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn" (click)="clearSearchText()">
+                                            <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                                        </button>
+                                        <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
                                     </div>
                                 </form>
 
@@ -594,22 +616,20 @@
                                             </td>
                                         </tr>
                                     </tbody>
+                                    
+
                                     <tbody *ngIf="(myAttendanceData | json )!= '{}' && !isAttendanceShimer">
                                         <ng-container *ngFor="let entry of myAttendanceData | keyvalue; let i = index">
                                             <tr>
-                                                
                                                 <td class="text-left plandtlMainicon">
-                                                    <i class="bi bi-chevron-right month-d projectdIcon collapsed"
-                                                    data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i"
-                                                    role="button" aria-expanded="false" aria-controls="collapseExamplesheet0"></i>
-                                                     {{extractFirstNameFromEmail(entry.key)}}
-                                                        <p class="attendance-name" >{{entry.key}}</p>
+                                                    <i class="bi bi-chevron-right month-d projectdIcon collapsed" data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i" role="button" aria-expanded="false" aria-controls="collapseExamplesheet0"></i>
+                                                    
+                                                    <!-- <i class="bi" [ngClass]="{'bi-chevron-right': isAllCollapsed, 'bi-chevron-down': !isAllCollapsed, 'collapsed': isAllCollapsed}" data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i" role="button" [attr.aria-expanded]="!isAllCollapsed" aria-controls="collapseExamplesheet0"></i> -->
+
+                                                    {{extractFirstNameFromEmail(entry.key)}}
+                                                    <p class="attendance-name" >{{entry.key}}</p>
                                                 </td>
-                                                <!-- <td class="text-left plandtlMainicon" *ngIf="openCollapse">
-                                                    <i class="bi bi-chevron-right month-d projectdIcon"
-                                                        data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i"
-                                                        role="button" aria-expanded="true" aria-controls="collapseExamplesheet"></i> {{getFirstName(entry.key)}}
-                                                </td> -->
+                                                
                                                 <td class="text-center">{{entry.value[0].totalPresentDays || 0}}</td>
                                                 <td class="text-center"> - </td>
                                                 <td class="text-center"> - </td>
@@ -694,7 +714,7 @@
                                 </table>
                             </div>
 
-                            <div class="pagination pl-3">
+                            <div class="pagination pl-3" *ngIf="(total > 7 && myAttendanceDataLength > 7) || pageNumber === lastPageNumber">
                                 <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
                                 <div class="row">
                                   <div class="col-md-12">

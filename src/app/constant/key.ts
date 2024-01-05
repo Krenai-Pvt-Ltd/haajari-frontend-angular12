@@ -101,4 +101,17 @@ export class Key{
     public static BREAK_RULE = 2;
     public static EARLY_EXIT_RULE = 3;
     public static OVERTIME_RULE = 4;
+
+
+    public static PASTE = "paste";
+    public static COPY = "copy";
+    public static CUT = "cut";
+    public static DELETE = "delete";
+    public static EDIT = "edit";
+    public static BACKSPACE = "Backspace";
+    public static ENTER = "Enter";
+
+
+
+    public static VIEW_ALL = "View All";
 }

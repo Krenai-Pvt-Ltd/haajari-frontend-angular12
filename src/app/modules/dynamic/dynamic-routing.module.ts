@@ -63,7 +63,7 @@ import { EmployeeOnboardingPreviewComponent } from './components/employee-onboar
     { path: 'project', component: ProjectComponent},
     { path: 'team', component: TeamComponent, canActivate: [AuthGuard]},
     { path: 'task-manager', component: TaskManagerComponent, canActivate: [AuthGuard]},
-    { path: 'live', component: LiveManagerComponent, canActivate: [AuthGuard]},
+    { path: 'live-manager', component: LiveManagerComponent, canActivate: [AuthGuard]},
     { path: 'onboarding', component: OnboardingComponent, canActivate: [AuthGuard]},
     { path: 'login', component: LoginComponent },
     { path: 'payment', component: PaymentComponent , canActivate: [AuthGuard]},

@@ -57,9 +57,11 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = "http://localhost:8080/api/v2"
 
-  // private baseUrl = "https://backend.hajiri.work/api/v2";
+
+  // private baseUrl = "http://localhost:8080/api/v2"
+
+  private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -68,10 +70,14 @@ export class DataService {
   }
   
   //Attendance module
-  getAttendanceDetailsByDateDuration(startDate : string, endDate : string) : Observable<any>{
+  getAttendanceDetailsByDateDuration(startDate : string, endDate : string, pageNumber: number, itemPerPage: number, search: string, searchBy: string) : Observable<any>{
     const params = new HttpParams()
     .set('start_date', startDate)
-    .set('end_date', endDate);
+    .set('end_date', endDate)
+    .set("page_number", pageNumber.toString())
+    .set("item_per_page", itemPerPage.toString())
+    .set('search', search)
+    .set('search_by', searchBy);
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date-duration`,{params});
   }
 
@@ -180,14 +186,15 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {params});
   }
 
-  getUsersByFilterForLeaveSetting(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
+  getUsersByFilterForLeaveSetting(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string, leaveSettingId:number) : Observable<any>{
     const params = new HttpParams()
     .set("item_per_page", itemPerPage.toString())
     .set("page_number", pageNumber.toString())
     .set('sort_order', sort)
     .set('sort_by', sortBy)
     .set('search', search)
-    .set('search_by', searchBy);
+    .set('search_by', searchBy)
+    .set('leave_setting_id', leaveSettingId);
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters-leave-setting`, {params});
   }
 
@@ -937,8 +944,11 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.put<any>(`${this.baseUrl}/organization/update/attendance-mode`, {}, {params});
   }
 
-  getLateEmployeeAttendanceDetails(): Observable<any>{
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-late-employee-attendance-details`);
+  getLateEmployeeAttendanceDetails(dataFetchingType : string): Observable<any>{
+    const params = new HttpParams()
+    .set("data_fetching_type", dataFetchingType);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-late-employee-attendance-details`, {params});
   }
 
 
@@ -999,10 +1009,12 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.get(`${this.baseUrl}/user-leave-rule/leaveSettingId/users-leave-setting`, { params });
   }
 
-  deleteAllUsersByLeaveSettingId(leaveSettingId: number): Observable<void> {
-    const url = `${this.baseUrl}/user-leave-rule/delete-all-users-leave-setting-rule?leaveSettingId=${leaveSettingId}`;
-    return this.httpClient.delete<void>(url);
+
+  deleteAllUsersByLeaveSettingId(userUuids: string[]): Observable<void> {
+    const url = `${this.baseUrl}/user-leave-rule/delete-all-users-leave-setting-rule`;
+    return this.httpClient.delete<void>(url, { body: userUuids });
   }
+
 
   deleteUserFromUserLeaveRule(userUuid: string): Observable<void> {
     const url = `${this.baseUrl}/user-leave-rule/delete-user-from-leave-setting-rule?userUuid=${userUuid}`;

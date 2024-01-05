@@ -6,6 +6,7 @@ import { HelperService } from 'src/app/services/helper.service';
 import { AdditionalNotes } from 'src/app/models/additional-notes';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-response';
 import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
+import { Key } from 'src/app/constant/key';
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 
@@ -44,14 +45,12 @@ export class TimetableComponent implements OnInit {
 
 
     this.updateDateRangeInputValue();
-    this.getDataFromDate();
+    // this.getDataFromDate();
     this.getAttendanceDetailsReportByDateMethodCall();
     this.getActiveUsersCountMethodCall();
 
     this.getPresentUsersCountByDateMethodCall();
     this.getAbsentUsersCountByDateMethodCall();
-    this.scrollIntoView();
-
   }
 
 
@@ -67,7 +66,7 @@ export class TimetableComponent implements OnInit {
         startDate: dayjs(event.startDate),
         endDate: dayjs(event.endDate)
       };
-      this.getDataFromDate();
+      // this.getDataFromDate();
     } else {
       this.selected = null;
     }
@@ -82,37 +81,37 @@ export class TimetableComponent implements OnInit {
   }
 
   
-  getDataFromDate(): void {
-    if (this.selected) {
-      const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
-      const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
-      debugger
+  // getDataFromDate(): void {
+  //   if (this.selected) {
+  //     const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
+  //     const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
+  //     debugger
       
-      this.dataService.getAttendanceDetailsByDateDuration(startDateStr, endDateStr).subscribe(
+  //     this.dataService.getAttendanceDetailsByDateDuration(startDateStr, endDateStr).subscribe(
         
-        (response: any) => {
+  //       (response: any) => {
           
-          this.myAttendanceData = response;
-          console.log(this.myAttendanceData);
-          if (this.myAttendanceData) {
+  //         this.myAttendanceData = response;
+  //         console.log(this.myAttendanceData);
+  //         if (this.myAttendanceData) {
             
-            for (const key in this.myAttendanceData) {
+  //           for (const key in this.myAttendanceData) {
               
-              if (this.myAttendanceData.hasOwnProperty(key)) {
-                const attendanceArray = this.myAttendanceData[key];
+  //             if (this.myAttendanceData.hasOwnProperty(key)) {
+  //               const attendanceArray = this.myAttendanceData[key];
 
-                this.attendanceArrayDate=attendanceArray;
+  //               this.attendanceArrayDate=attendanceArray;
               
-              }
-            }
-          }
-        },
-        (error: any) => {
-          console.error('Error fetching data:', error);
-        }
-      );
-    }
-  }
+  //             }
+  //           }
+  //         }
+  //       },
+  //       (error: any) => {
+  //         console.error('Error fetching data:', error);
+  //       }
+  //     );
+  //   }
+  // }
   
   getCurrentDate(){
     const todayDate = new Date();
@@ -248,6 +247,7 @@ export class TimetableComponent implements OnInit {
 
   
   getAttendanceDetailsReportByDateMethodCall(){
+      window.scroll(0,0);
       this.isShimer=true;
       this.errorToggleTimetable=false;
       this.placeholder=false;
@@ -398,7 +398,16 @@ export class TimetableComponent implements OnInit {
     this.itemPerPage = 8;
     this.pageNumber = 1;
   }
-  searchUsers(){
+  searchUsers(event: Event) {
+    if (event instanceof KeyboardEvent) {
+        const ignoreKeys = ['Shift', 'Control', 'Alt', 'Meta', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Escape'];
+
+        const isCmdA = (event.key === 'a' || event.key === 'A') && (event.metaKey || event.ctrlKey);
+        if (ignoreKeys.includes(event.key) || isCmdA) {
+            return;
+        }
+    }
+
     this.attendanceDataByDateKey = [];
     this.attendanceDataByDateValue = [];
     this.total = 0;
@@ -406,7 +415,8 @@ export class TimetableComponent implements OnInit {
 
     this.resetCriteriaFilter();
     this.getAttendanceDetailsReportByDateMethodCall();
-  }
+}
+
 
   clearSearchText(){
     this.searchText = '';
@@ -494,14 +504,14 @@ export class TimetableComponent implements OnInit {
 
   // ####################Scroll Into View#################################
 
-  scrollIntoView() {
-  const element = document.getElementById("attendanceDataTopbar");
+  // scrollIntoView() {
+  // const element = document.getElementById("attendanceDataTopbar");
 
-      if(element!== null && element!== undefined){
-        element.scrollIntoView();
-        element.scrollIntoView(false);
-        element.scrollIntoView({ block: "end" });
-        element.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
-      }
-  }
+  //     if(element!== null && element!== undefined){
+  //       element.scrollIntoView();
+  //       element.scrollIntoView(false);
+  //       element.scrollIntoView({ block: "end" });
+  //       element.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+  //     }
+  // }
 };
