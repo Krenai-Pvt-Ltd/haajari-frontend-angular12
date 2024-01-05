@@ -6,4 +6,5 @@ export class Staff {
     phoneNumber!: string;
     selected ?: boolean;
     isAdded:boolean=false;
+    
 }
