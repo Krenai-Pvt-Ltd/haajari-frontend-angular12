@@ -684,7 +684,7 @@
                                                                                 (keyup)="searchUsers()" [(ngModel)]="searchText"
                                                                                 [ngModelOptions]="{ standalone: true }"
                                                                                 style="padding: 10px 50px 10px 30px;">
-                                                                            <button type="button" class="btn close-btn" (click)="clearSearchUsers()">
+                                                                            <button type="button" class="btn close-btn" (click)="clearSearchUsers()" *ngIf="crossFlag">
                                                                                 <i class="bi bi-x"></i>
                                                                             </button>
                                                                             <i class="bi bi-search search-icon"
@@ -885,7 +885,7 @@
                                                                                         (keyup)="searchLeaveUsers(idOfLeaveSetting)" [(ngModel)]="searchTextUser"
                                                                                         [ngModelOptions]="{ standalone: true }"
                                                                                         style="padding: 10px 50px 10px 30px;">
-                                                                                    <button type="button" class="btn close-btn" (click)="clearSearchSelectedUsers()">
+                                                                                    <button type="button" class="btn close-btn" (click)="clearSearchSelectedUsers()" *ngIf="crossFlagUser">
                                                                                         <i class="bi bi-x"></i>
                                                                                     </button>
                                                                                     <i class="bi bi-search search-icon"
