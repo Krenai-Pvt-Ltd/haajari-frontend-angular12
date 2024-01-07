@@ -57,9 +57,9 @@ export class DataService {
   getOrgIdEmitter(): EventEmitter<number> {
     return this.orgIdEmitter;
   }
-  
 
   // private baseUrl = "http://localhost:8080/api/v2"
+
 
   private baseUrl = "https://backend.hajiri.work/api/v2";
 
