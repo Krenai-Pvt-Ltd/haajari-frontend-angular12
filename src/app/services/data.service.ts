@@ -753,6 +753,13 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.get<any>(`${this.baseUrl}/user-bank-details/get/bank-details`, {params});
   }
 
+  getOnboardingFormPreview(userUuid:string):Observable<any>{
+    const params = new HttpParams()
+    .set("userUuid", userUuid)
+    
+    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/preview`, {params});
+  }
+
   getUserLeaveLog(userUuid:string):Observable<any>{
     const params = new HttpParams()
     .set("userUuid", userUuid)
@@ -778,12 +785,12 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
   get stepsCompletionStatus$() {
     return this.stepsCompletionStatus.asObservable();
   }
-
+stepIndex:number=-1;
   markStepAsCompleted(stepIndex: number): void {
-    const currentStatus = this.stepsCompletionStatus.value;
-    currentStatus[stepIndex] = true;
-    this.stepsCompletionStatus.next(currentStatus);
-    console.log("shared step")
+    // const currentStatus = this.stepsCompletionStatus.value;
+    // currentStatus[stepIndex] = true;
+    // this.stepsCompletionStatus.next(currentStatus);
+    this.stepIndex=stepIndex;
   }
 
 

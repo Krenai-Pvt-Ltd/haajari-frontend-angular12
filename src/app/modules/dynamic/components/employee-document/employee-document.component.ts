@@ -132,6 +132,7 @@ selectedHighSchoolCertificateFileName: any;
   toggle = false;
   setEmployeeDocumentsDetailsMethodCall(): void {
     debugger
+    this.dataService.markStepAsCompleted(3);
     this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     if(this.selectedFile) {
@@ -162,7 +163,7 @@ selectedHighSchoolCertificateFileName: any;
     }
   
     
-    this.dataService.markStepAsCompleted(3);
+    
   
     
     
@@ -184,14 +185,19 @@ isHighestQualificationDegreeRequired: boolean = true;
 isLoading:boolean = true;
 getEmployeeDocumentsDetailsMethodCall() {
   debugger
+  this.dataService.markStepAsCompleted(3);
   const userUuid = new URLSearchParams(window.location.search).get('userUuid');
   if (userUuid) {
     this.dataService.getEmployeeDocumentDetails(userUuid).subscribe(
       (response: UserDocumentsDetailsRequest) => {
         this.userDocumentsDetailsRequest = response;
-        
+        if(this.userDocumentsDetailsRequest.userDocuments==undefined){
+          this.userDocumentsDetailsRequest.userDocuments=new UserDocumentsRequest();
+        }
           this.isLoading = false;
-        
+        if(response!=null){
+          
+        }
         // Assuming response.userDocuments is populated
         if (response.userDocuments) {
           this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(response.userDocuments.secondarySchoolCertificate);

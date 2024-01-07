@@ -16,6 +16,7 @@ export class EmployeeExperienceComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
+    this.dataService.markStepAsCompleted(5);
     const userUuid = this.getUserUuid();
     if (userUuid) {
       this.getEmployeeExperiencesDetailsMethodCall(userUuid);
@@ -36,6 +37,9 @@ export class EmployeeExperienceComponent implements OnInit {
   }
 
   deleteExperience(index: number): void {
+    if(this.userExperiences.length == 1){
+      return
+    }
     this.userExperiences.splice(index, 1);
   }
 
@@ -88,7 +92,7 @@ export class EmployeeExperienceComponent implements OnInit {
       .subscribe(
         response => { 
           console.log('Response:', response);
-          this.dataService.markStepAsCompleted(5);
+          
           this.routeToUserDetails();
           this.toggle = false;
         },
@@ -104,6 +108,7 @@ export class EmployeeExperienceComponent implements OnInit {
   getEmployeeExperiencesDetailsMethodCall(userUuid: string) {
     debugger
     this.isLoading = true;
+    this.dataService.markStepAsCompleted(5);
     this.dataService.getEmployeeExperiencesDetailsOnboarding(userUuid).subscribe(
       experiences => {
         if (experiences && experiences.length > 0) {
@@ -112,7 +117,7 @@ export class EmployeeExperienceComponent implements OnInit {
           this.isFresher=false;
           this.userExperiences = experiences;
           
-          this.dataService.markStepAsCompleted(5);
+          
         } else {
           this.isLoading = false;
           this.addExperience(); // Call addExperience if experiences is null or empty

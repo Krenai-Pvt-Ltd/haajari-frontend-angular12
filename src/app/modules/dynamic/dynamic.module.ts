@@ -111,7 +111,8 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
     RoleAddComponent,
     AccountSettingsComponent,
     NewLoginComponent,
-    HeaderComponent
+    HeaderComponent,
+    EmployeeOnboardingPreviewComponent
 
 
   ],

@@ -157,10 +157,11 @@ displayModal = false;
   handleOnboardingStatus(response: string) {
     this.displayModal = true;
     switch (response) {
-      case 'APPROVED':
+      
       case 'REJECTED':
         this.allowEdit = true;
         break;
+        case 'APPROVED':
       case 'PENDING':
         this.allowEdit = false;
         break;
@@ -172,12 +173,12 @@ displayModal = false;
 
   closeAndEdit() {
     this.displayModal = false;
-    // Logic to enable form editing
+    
   }
 
   closeModal() {
     this.displayModal = false;
-    // Additional logic if needed when modal is closed without editing
+    
   }
 
 

@@ -142,7 +142,7 @@ content: "present"!important;
     border: none;
     padding: 7px 10px;
     font-weight: 500;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 21px;
     color: #404040;
 }
@@ -434,9 +434,10 @@ td.text-right {
 .total-holiday {
     font-size: 11px;
     text-align: center;
+    color: #3e993e !important;
 }
 .Approved p{
-    color: #3e993e;
+    color: #3e993e !important;
     font-weight: 700;
 }
 .Approved span{
@@ -460,7 +461,7 @@ td.text-right {
 
 
 .pending-css p{
-    color: orange;
+    color: orange ;
 }
 
 .pending-css span{
@@ -469,7 +470,7 @@ td.text-right {
 
 
 .remaining-css p{
-    color: #6666f3;
+    color: #6666f3 ;
 }
 
 .remaining-css span{
@@ -749,4 +750,152 @@ button.btn.sand-request.approved.break-btn {
     height: 44px;
     padding: 8px;
     cursor: pointer;
+}
+
+.payslip-download{
+
+}
+
+.Approved-pay {
+    border-right: 1px solid #f1f1f1;
+    width: 45px;
+}
+
+.Approved-pay:last-child {
+    border-right: none;
+}
+
+
+.Approved-pay  p{
+    color: #3e993e;
+    font-weight: 700;
+}
+
+.pay-absent{
+    background: rgba(201, 201, 255, 0.975);
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    color: #444 !important;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 11px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.pay-present{
+    background: rgb(255, 231, 186);
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    color: #444 !important;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 11px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.pay-leave{
+    background: rgb(196, 255, 196);
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    color: #444 !important;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 11px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.pay-half{
+    background: rgb(255, 199, 199);
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    color: #444 !important;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 11px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.slipabsent{
+    background: rgba(201, 201, 255, 0.975);
+    margin-bottom: 15px;
+    padding-bottom: 0px;
+    padding: 0px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.slipabsent p{
+    color: #444;
+    margin-bottom: 0px;
+    font-size: 12px;
+    line-height: 24px;
+}
+.slippresent{
+    background: rgb(255, 231, 186);
+    margin-bottom: 15px;
+    padding-bottom: 0px;
+    padding: 0px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.slippresent p{
+    color: #444;
+    margin-bottom: 0px;
+    font-size: 12px;
+    line-height: 24px;
+}
+
+.slipleve{
+    background: rgb(196, 255, 196);
+    margin-bottom: 15px;
+    padding-bottom: 0px;
+    padding: 0px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.slipleve p{
+    color: #444;
+    margin-bottom: 0px;
+    font-size: 12px;
+    line-height: 24px;
+}
+
+
+.slip-half{
+    background: rgb(255, 199, 199);
+    margin-bottom: 15px;
+    padding-bottom: 0px;
+    padding: 0px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.slip-half p{
+    color: #444;
+    margin-bottom: 0px;
+    font-size: 12px;
+    line-height: 24px;
+}
+.excel-box {
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    align-items: center;
+    display: flex;
+    border: 1px solid #f1f1f1;
+    box-shadow: 0 0 0.875rem #343a400d;
+    justify-content: center;
 }
