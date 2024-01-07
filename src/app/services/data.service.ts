@@ -38,6 +38,7 @@ import { FullLeaveSettingResponse } from "../models/full-leave-setting-response"
 import { ObserveOnMessage } from "rxjs/internal/operators/observeOn";
 import { OrganizationShiftTimingRequest } from "../models/organization-shift-timing-request";
 import { FullLeaveSettingRequest } from "../models/Full-Leave-Setting-Request";
+import { Testing } from "../models/testing";
 
 
 @Injectable({
@@ -58,9 +59,9 @@ export class DataService {
   }
   
 
-  private baseUrl = "http://localhost:8080/api/v2"
+  // private baseUrl = "http://localhost:8080/api/v2"
 
-  // private baseUrl = "https://backend.hajiri.work/api/v2";
+  private baseUrl = "https://backend.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -1023,5 +1024,9 @@ stepIndex:number=-1;
   addUserToLeaveRule(userUuid: string, leaveSettingId: number): Observable<any> {
     const url = `${this.baseUrl}/user-leave-rule/add-users-in-leave-setting?userUuid=${userUuid}&leaveSettingId=${leaveSettingId}`;
     return this.httpClient.post<any>(url, {});
+  }
+
+  testing(testing : Testing): Observable<any>{
+    return this.httpClient.post<any>(`${this.baseUrl}/testing/register`, testing);
   }
 }
