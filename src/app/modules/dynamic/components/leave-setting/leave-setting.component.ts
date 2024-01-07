@@ -236,16 +236,22 @@ export class LeaveSettingComponent implements OnInit {
   staffs: Staff[] = [];
 
   searchUserPlaceholderFlag:boolean=false;
-
+  crossFlag: boolean = false;
+  
   searchUsers() {
+    this.crossFlag=true;
     this.searchUserPlaceholderFlag = true;
     this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
+    if(this.searchText== ''){
+      this.crossFlag=false;
+    }
   }
 
   clearSearchUsers(){
     this.searchUserPlaceholderFlag = false;
     this.searchText='';
     this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
+    this.crossFlag=false;
   }
 
   selectedStaffsUuids: string[] = [];
@@ -257,6 +263,7 @@ export class LeaveSettingComponent implements OnInit {
   staffSelectionUserList: StaffSelectionUserList = new StaffSelectionUserList();
 
   getUserByFiltersMethodCall(leaveSettingId: number) {
+    this.selectedStaffsUuids=[];
     this.dataService.getUsersByFilterForLeaveSetting(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '', leaveSettingId).subscribe((response) => {
       // this.staffSelectionUserList.user = response.users;
       this.staffs = response.users.map((staff: StaffSelectionUserList) => ({
@@ -369,9 +376,17 @@ export class LeaveSettingComponent implements OnInit {
 
   // Asynchronous function to get all user UUIDs
   async getAllUsersUuids(): Promise<string[]> {
-    // Replace with your actual API call to get all users
-    const response = await this.dataService.getAllUsers('asc', 'id', this.searchText, '').toPromise();
-    return response.users.map((user: { uuid: any; }) => user.uuid);
+    debugger
+    const response = await this.dataService.getUsersByFilterForLeaveSetting(this.total, 1, 'asc', 'id', this.searchText, '', this.idOfLeaveSetting).toPromise();
+    // const response = await this.dataService.getAllUsers('asc', 'id', this.searchText, '').toPromise();
+    // this.staffs = response.users.map((staff: StaffSelectionUserList) => ({
+    //   ...staff.user,
+    //   selected: this.selectedStaffsUuids.includes(staff.user.uuid),
+    //   // isMapped:
+    //   isAdded: staff.mapped
+    // }));
+    return response.users.map((userDto: any) => userDto.user.uuid);
+    // return response.users.map((user: { uuid: any; }) => user.uuid);
   }
 
   // Call this method when the select all users checkbox value changes
@@ -457,6 +472,8 @@ export class LeaveSettingComponent implements OnInit {
   
 
   getLeaveSettingInformationById(leaveSettingId: number): void {
+    this.pageNumber = 1;
+    this.pageNumberUser = 1;
     this.dataService.getLeaveSettingInformationById(leaveSettingId)
       .subscribe(response => {
         this.selectedStaffsUuids = [];
@@ -644,18 +661,27 @@ export class LeaveSettingComponent implements OnInit {
 
   searchSelectedUserPlaceholderFlag:boolean=false;
 
+  crossFlagUser:boolean=false;
+
   searchLeaveUsers(leaveSettingId:number) {
+    this.crossFlagUser=true;
     this.searchSelectedUserPlaceholderFlag=true;
     this.findUsersOfLeaveSetting(leaveSettingId);
+    if(this.searchTextUser== ''){
+      this.crossFlagUser=false;
+    }
+  
   }
 
   clearSearchSelectedUsers(){
     this.searchSelectedUserPlaceholderFlag=false;
     this.searchTextUser='';
     this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
+    this.crossFlagUser = false;
   }
   isMappedStaffEmpty: boolean = false;
   findUsersOfLeaveSetting(leaveSettingId:number): void {
+    this.selectedStaffsUuidsUser = []
     this.dataService.findUsersOfLeaveSetting(leaveSettingId, this.searchTextUser, this.pageNumberUser, this.itemPerPageUser)
       .subscribe((response) => {
         console.log(response + "response " + response.count + "count");
