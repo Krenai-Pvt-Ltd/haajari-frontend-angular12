@@ -57,8 +57,13 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
+<<<<<<< HEAD
   // private baseUrl = "http://localhost:8080/api/v2"
 
+=======
+
+  private baseUrl = "http://localhost:8080/api/v2"
+>>>>>>> b9ff4e5b4d93f236bb0852afb7c2ea481213b304
 
   private baseUrl = "https://backend.hajiri.work/api/v2";
 
