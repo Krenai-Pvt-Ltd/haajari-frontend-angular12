@@ -502,7 +502,7 @@
                             <div class="col-md-12 mt-2">
 
                                 <form novalidate="" role="search" (submit)="searchUsers($event)" class="searching ng-untouched ng-pristine ng-valid">
-                                    <div class="form-group" style="width: 350px; position: relative">
+                                    <div class="form-group" style="width: 100%; position: relative">
                                         <input type="text" id="searchText" placeholder="Search by name and role" class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchUsers($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px" />
                                         <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn" (click)="clearSearchText()">
                                             <i class="bi bi-x mt-auto mb-auto pl-3"></i>
