@@ -162,7 +162,7 @@
         <!-- *ngFor="let performer of responseDto.attendanceTopPerformers" -->
         <div >
 
-            <div class="row mt-3" *ngIf="isShimer && !errorToggleTop">
+            <div class="row mt-3" *ngIf="isShimer && responseDto.attendanceTopPerformers.length === 0">
                 <div class="col-md-4" *ngFor="let item of [].constructor(6)">
                     <div class="card profile-card p-3">
 
@@ -185,7 +185,7 @@
             </div>
              <!-- *ngIf="(responseDto.attendanceLatePerformers).length!=0" -->
         <!-- *ngFor="let performer of responseDto.attendanceTopPerformers" -->
-        <div class="row mb-3 mt-3" *ngIf="responseDto.attendanceTopPerformers.length !=0 && !isShimer && !errorToggleTop">
+        <div class="row mb-3 mt-3" *ngIf="responseDto.attendanceTopPerformers.length !=0 && !errorToggleTop">
             <div class="col-lg-4" *ngFor="let performer of responseDto.attendanceTopPerformers" >
                 <div class="card profile-card" >
                     <div class="card-body p-0">
@@ -356,7 +356,7 @@
                         </div>
                         <div class="">
                             <h4>No Data Found</h4>
-                            <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                            <p class="mb-0">There's no late employees for today!</p>
                         </div>
                     </div>
                 </div>
@@ -451,7 +451,7 @@
 
 
                 
-                <div class="row mb-3">
+                <div class="row mb-3" #attendanceMasterRollReport>
                     <div class="col-md-12">
                         <div class="row mb-3">
                             <div class="col-md-6 d-flex align-items-center">
@@ -500,12 +500,6 @@
                             </div>
 
                             <div class="col-md-12 mt-2">
-                                <!-- <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
-                                    <div class="form-group" style="width: 100%; position: relative;">
-                                        <input type="text" id="searchText" placeholder="Search Attendance Master Roll Reports" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;">
-                                        <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
-                                    </div>
-                                </form> -->
 
                                 <form novalidate="" role="search" (submit)="searchUsers($event)" class="searching ng-untouched ng-pristine ng-valid">
                                     <div class="form-group" style="width: 350px; position: relative">
@@ -524,9 +518,6 @@
 
                         <div class="col-md-12">
 
-
-                            <!-- *ngIf="(myAttendanceData | json )== '{}' && !isAttendanceShimer" -->
-
                         <div class="mt-3 dashnodata">
                                 <!-- <div class="errorboxmain" > -->
                                     <!-- <div class="errorboxinner ">
@@ -538,35 +529,13 @@
                                          <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                     </div>
                                     </div> -->
-                                    <div class="errorboxmain" *ngIf="errorToggleMain">
-                                        <div class="errorboxinner">
-                                          <div class="errorboxplaceholder mb-2">
-                                            <img src="assets/images/signal.svg" style="width:80px;" />
-                                          </div>
-                                         <div class="">
-                                             <h4>Something went wrong!</h4>
-                                             <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <div class="errorboxmain" *ngIf="(myAttendanceData | json )== '{}' && !isAttendanceShimer && !errorToggleMain" >
-                                        <!-- style="display: flex; flex-direction: column; align-items: center; text-align: center;" -->
-                                        <div class="errorboxinner">
-                                            <div class="errorboxplaceholder mb-2">
-                                                <img src="assets/images/empty-box.svg" style="width:80px;" />
-                                            </div>
-                                            <div class="">
-                                                <h4>No Data Found</h4>
-                                                <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 <!-- </div> -->
                             
 
 
                                 <!-- *ngIf="isAttendanceShimer || (myAttendanceData | json )!= '{}' && !isAttendanceShimer " -->
-                        <div *ngIf="isAttendanceShimer || (myAttendanceData | json )!= '{}' && !isAttendanceShimer ">
+                        <div>
                             <!-- <h5>Monthly Regular</h5> -->
 
                             <div class="mt-3" >
@@ -585,84 +554,120 @@
                                         </tr>
                                     </thead>
                                     <!-- *ngIf="isAttendanceShimer" -->
-                                    <tbody *ngIf="isAttendanceShimer">
-                                        <tr *ngFor="let item of [].constructor(6)">
-                                            <td class="text-center">
-                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                            </td>
-                                            <td class="text-center">
-                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                            </td>
-                                            <td class="text-center">
-                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                            </td>
-                                            <td class="text-center">
-                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                            </td>
-                                            <td class="text-center">
-                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                            </td>
-                                            <td class="text-center">
-                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                            </td>
-                                            <td class="text-center">
-                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                            </td>
-                                            <td class="text-center">
-                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                            </td>
-                                            <td class="text-center">
-                                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+
+                                    <ng-container *ngIf="isShimmerForAttendanceData && (myAttendanceData | json )== '{}' && !dataNotFoundPlaceholderForAttendanceData && !networkConnectionErrorPlaceHolderForAttendanceData; else myAttendanceDataCondition">
+                                        <tbody>
+                                            <tr *ngFor="let item of [].constructor(6)">
+                                                <td class="text-center">
+                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td class="text-center">
+                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td class="text-center">
+                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td class="text-center">
+                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td class="text-center">
+                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td class="text-center">
+                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td class="text-center">
+                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td class="text-center">
+                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                                <td class="text-center">
+                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </ng-container>
+                                    <ng-template #myAttendanceDataCondition>
+
+                                        <ng-container *ngIf="(myAttendanceData | json )!= '{}' && !dataNotFoundPlaceholderForAttendanceData && !networkConnectionErrorPlaceHolderForAttendanceData; else errorInFetchingMyAttendanceData">
+                                            <tbody>
+                                                <ng-container *ngFor="let entry of myAttendanceData | keyvalue; let i = index">
+                                                    <tr>
+                                                        <td class="text-left plandtlMainicon">
+                                                            <i class="bi bi-chevron-right month-d projectdIcon collapsed" data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i" role="button" aria-expanded="false" aria-controls="collapseExamplesheet0"></i>
+                                                            
+                                                            <!-- <i class="bi" [ngClass]="{'bi-chevron-right': isAllCollapsed, 'bi-chevron-down': !isAllCollapsed, 'collapsed': isAllCollapsed}" data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i" role="button" [attr.aria-expanded]="!isAllCollapsed" aria-controls="collapseExamplesheet0"></i> -->
+        
+                                                            {{extractFirstNameFromEmail(entry.key)}}
+                                                            <p class="attendance-name" >{{entry.key}}</p>
+                                                        </td>
+                                                        
+                                                        <td class="text-center">{{entry.value[0].totalPresentDays || 0}}</td>
+                                                        <td class="text-center"> - </td>
+                                                        <td class="text-center"> - </td>
+                                                        <td class="text-center"> - </td>
+                                                        <td class="text-center"> - </td>
+                                                        <td class="text-center"> - </td>
+                                                        <td class="text-center"> - </td>
+                                                        <td class="text-center"> - </td>
+                                                    </tr>
+                                                    <tr class="collapse" [attr.id]="'collapseExamplesheet' + i">
+                                                        <td colspan="9" class="p-1">
+                                                            <div class="month-deta">
+                                                                <table class="table table-bordered day-deta">
+                                                                    <tr>
+                                                                        <th class="text-center">Day</th>
+                                                                        <ng-container *ngFor="let day of dateInMonthList(entry.value)">
+                                                                            <th class="text-center">{{ getDayNameFromDate(day)[0] }} <br> {{getDayFromDate(day)}}</th>
+                                                                        </ng-container>
+                                                                    </tr>
+                                                                    <tr>
+                        
+                                                                        <td></td>
+                                                                        <ng-container *ngFor="let attendance of entry.value">
+                                                                            <td class="text-center" [ngClass]="{'absent': (attendance.checkInTime==null && convertStringToDate(attendance)<today), 'present': attendance.checkInTime!=null }">{{( attendance.checkInTime==null && convertStringToDate(attendance) < today )?'A':(attendance.checkInTime != null )?'P':'-' }}</td>
+                                                                        </ng-container>
+                                                                        
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+                                            </tbody>
+                                        </ng-container>
+                                    </ng-template>
+
+                                    <ng-template #errorInFetchingMyAttendanceData>
+                                        <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForAttendanceData">
+                                            <div class="errorboxinner">
+                                              <div class="errorboxplaceholder mb-2">
+                                                <img src="assets/images/signal.svg" style="width:80px;" />
+                                              </div>
+                                             <div class="">
+                                                 <h4>Something went wrong!</h4>
+                                                 <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForAttendanceData">
+                                            <!-- style="display: flex; flex-direction: column; align-items: center; text-align: center;" -->
+                                            <div class="errorboxinner">
+                                                <div class="errorboxplaceholder mb-2">
+                                                    <img src="assets/images/empty-box.svg" style="width:80px;" />
+                                                </div>
+                                                <div class="">
+                                                    <h4>No Data Found</h4>
+                                                    <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    
                                     
 
-                                    <tbody *ngIf="(myAttendanceData | json )!= '{}' && !isAttendanceShimer">
-                                        <ng-container *ngFor="let entry of myAttendanceData | keyvalue; let i = index">
-                                            <tr>
-                                                <td class="text-left plandtlMainicon">
-                                                    <i class="bi bi-chevron-right month-d projectdIcon collapsed" data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i" role="button" aria-expanded="false" aria-controls="collapseExamplesheet0"></i>
-                                                    
-                                                    <!-- <i class="bi" [ngClass]="{'bi-chevron-right': isAllCollapsed, 'bi-chevron-down': !isAllCollapsed, 'collapsed': isAllCollapsed}" data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i" role="button" [attr.aria-expanded]="!isAllCollapsed" aria-controls="collapseExamplesheet0"></i> -->
-
-                                                    {{extractFirstNameFromEmail(entry.key)}}
-                                                    <p class="attendance-name" >{{entry.key}}</p>
-                                                </td>
-                                                
-                                                <td class="text-center">{{entry.value[0].totalPresentDays || 0}}</td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                            </tr>
-                                            <tr class="collapse" [attr.id]="'collapseExamplesheet' + i">
-                                                <td colspan="9" class="p-1">
-                                                    <div class="month-deta">
-                                                        <table class="table table-bordered day-deta">
-                                                            <tr>
-                                                                <th class="text-center">Day</th>
-                                                                <ng-container *ngFor="let day of dateInMonthList(entry.value)">
-                                                                    <th class="text-center">{{ getDayNameFromDate(day)[0] }} <br> {{getDayFromDate(day)}}</th>
-                                                                </ng-container>
-                                                            </tr>
-                                                            <tr>
-                
-                                                                <td></td>
-                                                                <ng-container *ngFor="let attendance of entry.value">
-                                                                    <td class="text-center" [ngClass]="{'absent': (attendance.checkInTime==null && convertStringToDate(attendance)<today), 'present': attendance.checkInTime!=null }">{{( attendance.checkInTime==null && convertStringToDate(attendance) < today )?'A':(attendance.checkInTime != null )?'P':'-' }}</td>
-                                                                </ng-container>
-                                                                
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </ng-container>
-                                    </tbody>
+                                    
                                     <!-- <tbody *ngIf="(attendanceReportResponseList | json )!= '{}' && !isAttendanceShimer">
                                         <ng-container *ngFor="let attendanceReportResponse of attendanceReportResponseList let i = index">
                                             <tr>
@@ -714,7 +719,7 @@
                                 </table>
                             </div>
 
-                            <div class="pagination pl-3" *ngIf="(total > 7 && myAttendanceDataLength > 7) || pageNumber === lastPageNumber">
+                            <div class="pagination pl-3" *ngIf="(total > 9 && myAttendanceDataLength > 9) || pageNumber === lastPageNumber">
                                 <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams</p>
                                 <div class="row">
                                   <div class="col-md-12">
@@ -740,9 +745,13 @@
                                   </div>
                                 </div>
                             </div>
+
+
+                            
                         </div>
                             
 
+                        
                    </div>
                         </div>
                     </div>

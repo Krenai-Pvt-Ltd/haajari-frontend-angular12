@@ -63,7 +63,8 @@ import { EmployeeOnboardingPreviewComponent } from './components/employee-onboar
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../common/header/header.component';
-
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
 
 @NgModule({
@@ -130,11 +131,12 @@ import { HeaderComponent } from '../common/header/header.component';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireMessagingModule,
-    SharedModule
+    SharedModule,
+    NzDatePickerModule
     
   ],
   exports:[HeaderComponent],
-  providers: [DataService,{ provide: LOCALE_ID, useValue: 'en-US' }],
+  providers: [{ provide: NZ_I18N, useValue: en_US },DataService,{ provide: LOCALE_ID, useValue: 'en-US' }],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
