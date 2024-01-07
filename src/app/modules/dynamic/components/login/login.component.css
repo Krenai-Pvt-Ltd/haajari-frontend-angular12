@@ -43,9 +43,18 @@
 
 .login-detail a:hover{
     color: #444 !important;
-}
+} */
 #signin-with-email{
     display: none;
+}
+
+
+
+
+
+
+.signin-with-email-button a{
+    color: #1890ff;
 }
 
 .signin-with-email-button:hover{
@@ -54,7 +63,7 @@
 
 #registerButton:hover{
     cursor: pointer;
-} */
+}
 
 
 .login-page-main{

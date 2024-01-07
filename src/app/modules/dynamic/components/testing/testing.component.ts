@@ -12,7 +12,7 @@ export class TestingComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  time = new Date();
   refresh(){
     this.dataService.callingHelloWorld().subscribe((data)=>{
       console.log(data);
