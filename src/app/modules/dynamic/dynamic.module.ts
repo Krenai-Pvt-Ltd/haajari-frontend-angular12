@@ -110,7 +110,8 @@ import { HeaderComponent } from '../common/header/header.component';
     RoleAddComponent,
     AccountSettingsComponent,
     NewLoginComponent,
-    HeaderComponent
+    HeaderComponent,
+    EmployeeOnboardingPreviewComponent
 
 
   ],

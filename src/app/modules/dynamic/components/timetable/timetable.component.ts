@@ -45,7 +45,7 @@ export class TimetableComponent implements OnInit {
 
 
     this.updateDateRangeInputValue();
-    this.getDataFromDate();
+    // this.getDataFromDate();
     this.getAttendanceDetailsReportByDateMethodCall();
     this.getActiveUsersCountMethodCall();
 
@@ -66,7 +66,7 @@ export class TimetableComponent implements OnInit {
         startDate: dayjs(event.startDate),
         endDate: dayjs(event.endDate)
       };
-      this.getDataFromDate();
+      // this.getDataFromDate();
     } else {
       this.selected = null;
     }
@@ -81,37 +81,37 @@ export class TimetableComponent implements OnInit {
   }
 
   
-  getDataFromDate(): void {
-    if (this.selected) {
-      const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
-      const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
-      debugger
+  // getDataFromDate(): void {
+  //   if (this.selected) {
+  //     const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
+  //     const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
+  //     debugger
       
-      this.dataService.getAttendanceDetailsByDateDuration(startDateStr, endDateStr).subscribe(
+  //     this.dataService.getAttendanceDetailsByDateDuration(startDateStr, endDateStr).subscribe(
         
-        (response: any) => {
+  //       (response: any) => {
           
-          this.myAttendanceData = response;
-          console.log(this.myAttendanceData);
-          if (this.myAttendanceData) {
+  //         this.myAttendanceData = response;
+  //         console.log(this.myAttendanceData);
+  //         if (this.myAttendanceData) {
             
-            for (const key in this.myAttendanceData) {
+  //           for (const key in this.myAttendanceData) {
               
-              if (this.myAttendanceData.hasOwnProperty(key)) {
-                const attendanceArray = this.myAttendanceData[key];
+  //             if (this.myAttendanceData.hasOwnProperty(key)) {
+  //               const attendanceArray = this.myAttendanceData[key];
 
-                this.attendanceArrayDate=attendanceArray;
+  //               this.attendanceArrayDate=attendanceArray;
               
-              }
-            }
-          }
-        },
-        (error: any) => {
-          console.error('Error fetching data:', error);
-        }
-      );
-    }
-  }
+  //             }
+  //           }
+  //         }
+  //       },
+  //       (error: any) => {
+  //         console.error('Error fetching data:', error);
+  //       }
+  //     );
+  //   }
+  // }
   
   getCurrentDate(){
     const todayDate = new Date();
