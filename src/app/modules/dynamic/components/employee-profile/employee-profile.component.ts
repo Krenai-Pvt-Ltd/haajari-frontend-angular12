@@ -886,11 +886,11 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.getEmployeeDocumentsDetails(this.userId).subscribe(
       (data) => {
         console.log(data);
-        this.documentsEmployee = data;
-        this.highSchoolCertificate = data.highSchoolCertificate;
-        this.degreeCert = data.highestQualificationDegree;
-        this.intermediateCertificate = data.secondarySchoolCertificate;
-        this.testimonialsString = data.testimonialReccomendation;
+        this.documentsEmployee = data.userDocuments;
+        this.highSchoolCertificate = data.userDocuments.highSchoolCertificate;
+        this.degreeCert = data.userDocuments.highestQualificationDegree;
+        this.intermediateCertificate = data.userDocuments.secondarySchoolCertificate;
+        this.testimonialsString = data.userDocuments.testimonialReccomendation;
         // this.isDocumentsShimmer=false;
         if (this.highSchoolCertificate == null || data.length == 0) {
           this.isDocsPlaceholder = true;
