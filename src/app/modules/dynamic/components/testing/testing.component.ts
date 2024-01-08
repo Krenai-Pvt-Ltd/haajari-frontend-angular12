@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Testing } from 'src/app/models/testing';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -13,8 +14,10 @@ export class TestingComponent implements OnInit {
   ngOnInit(): void {
   }
   time = new Date();
+
+  testing : Testing = new Testing();
   refresh(){
-    this.dataService.callingHelloWorld().subscribe((data)=>{
+    this.dataService.testing(this.testing).subscribe((data)=>{
       console.log(data);
     }, (error) => {
       console.log(error);

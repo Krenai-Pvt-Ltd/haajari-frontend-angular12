@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService) { }
 
-  itemPerPage : number = 10;
+  itemPerPage : number = 8;
   pageNumber : number = 1;
   lastPageNumber : number = 0;
   total !: number;
@@ -98,6 +98,16 @@ export class DashboardComponent implements OnInit {
     this.networkConnectionErrorPlaceHolderForAttendanceData = false;
   }
 
+  isShimmerForBestPerfomer = false;
+  dataNotFoundPlaceholderForBestPerfomer = false;
+  networkConnectionErrorPlaceHolderForBestPerformer = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForBestPerformerMethodCall(){
+    this.isShimmerForBestPerfomer = true;
+    this.dataNotFoundPlaceholderForBestPerfomer = false;
+    this.networkConnectionErrorPlaceHolderForBestPerformer = false;
+  }
+
   selectMonth(selectedMonth: string): void {
     this.month = selectedMonth;
     const selectedDate = moment().month(selectedMonth).startOf('month');
@@ -147,6 +157,9 @@ errorToggleMain: boolean=false;
 
   getDataFromDate(): void {
     debugger
+    this.myAttendanceData = {};
+    this.myAttendanceDataLength = 0;
+
     this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
       // const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
       // const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
@@ -404,16 +417,16 @@ errorToggleMain: boolean=false;
   errorToggleTop:boolean=false;
   errorToggleLate:boolean=false;
   getAttendanceTopPerformerDetails(){
-    this.isShimer=true;
-    // this.isLateShimmer=true;
+    this.preRuleForShimmersAndErrorPlaceholdersForBestPerformerMethodCall();
     debugger
     this.dataService.getAttendanceTopPerformers(this.startDateStr, this.endDateStr).subscribe(
       (data) => {
         // console.log(data);
         this.responseDto = data;
 
-        if(data.attendanceTopPerformers){
-        this.isShimer=false;
+
+        if(data.attendanceTopPerformers.length === 0 || data === undefined || data === null){
+          this.dataNotFoundPlaceholderForBestPerfomer = true;
         }
         // if(data.attendanceLatePerformers){
         //   this.isLateShimmer=false;
@@ -423,7 +436,7 @@ errorToggleMain: boolean=false;
       (error) => {
         // console.error(error);
         this.isShimer=false;
-        this.errorToggleTop = true;
+        this.networkConnectionErrorPlaceHolderForBestPerformer = true;
       }
     );
   }
