@@ -49,10 +49,6 @@ import { NewLoginComponent } from './components/new-login/new-login.component';
 import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
 
 
-
-
-
-
   const routes: Routes = [{ path: '', redirectTo: '/login', pathMatch:'full'},
     { path: '', component: DynamicComponent,
   children:[
