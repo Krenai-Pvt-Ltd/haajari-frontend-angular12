@@ -60,8 +60,9 @@ export class DataService {
 
   // private baseUrl = "http://localhost:8080/api/v2"
 
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  private baseUrl = "https://backend.hajiri.work/api/v2";
+  private baseUrl = "http://awseb--AWSEB-sv9L7c7XIJHM-1691625151.ap-south-1.elb.amazonaws.com"
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
