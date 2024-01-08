@@ -382,7 +382,7 @@
                                         <tbody class="table-design" *ngIf="users.length>0 && !isUserShimer">
                                             <tr *ngFor=" let i = index, let user of users | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total};">
                                                 <td>
-                                                    <p class="mb-0 weekly-pro"> {{user.onboardingStatusUpdateDate.toString() | dateFormat}}</p>
+                                                    <p class="mb-0 weekly-pro"> {{user!.onboardingStatusUpdateDate.toString() | dateFormat}}</p>
                                                    </td>
                                                 <td>{{user.name}}</td>
                                                 <!-- <td>Meeting</td> -->

@@ -365,26 +365,33 @@ export class EmployeeProfileComponent implements OnInit {
     debugger
     const calendarApi = this.calendarComponent.getApi();
 
-    (console.log(calendarApi.getDate().getMonth()));
+    // (console.log(calendarApi.getDate().getMonth()));
+
+    // if((calendarApi.getDate().getMonth() == 11) && (calendarApi.getDate().getMonth() == ) (calendarApi.getDate().getMonth()) > new Date().getMonth()){
+    //   calendarApi.next();
+    //   this.forwordFlag = false;
+    // }
+
+    console.log("full Year " + calendarApi.getDate().getFullYear())
+    console.log("new date full Year " + new Date().getFullYear())
+    console.log(" full month " + calendarApi.getDate().getMonth())
+    console.log("new month " + new Date().getMonth())
 
     if(calendarApi.getDate().getMonth() == 11 && new Date().getMonth()==0){
       calendarApi.next();
       this.forwordFlag = false;
     }
-    // if((calendarApi.getDate().getMonth() == 11) && (calendarApi.getDate().getMonth() == ) (calendarApi.getDate().getMonth()) > new Date().getMonth()){
-    //   calendarApi.next();
-    //   this.forwordFlag = false;
-    // }
     else{
-      if ((calendarApi.getDate().getFullYear() < new Date().getFullYear()) || (calendarApi.getDate().getMonth() < new Date().getMonth() - 1)){
-        calendarApi.next();
-        this.forwordFlag = true;
-        this.backwardFlag = true;
+    if ((calendarApi.getDate().getFullYear() < new Date().getFullYear())
+      || (calendarApi.getDate().getMonth() < new Date().getMonth() - 1)) {
+      calendarApi.next();
+      this.forwordFlag = true;
+      this.backwardFlag = true;
 
-      } else {
-        calendarApi.next();
-        this.forwordFlag = false;
-      }
+    } else {
+      calendarApi.next();
+      this.forwordFlag = false;
+    }
     }
 
     // if(calendarApi.getDate().getFullYear() > new Date().getFullYear()){
@@ -396,7 +403,7 @@ export class EmployeeProfileComponent implements OnInit {
     //           this.forwordFlag = true;
     // }
 
-    
+
 
     let startDate = calendarApi.view.currentStart;
     let endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
@@ -440,7 +447,7 @@ export class EmployeeProfileComponent implements OnInit {
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
     var month = date.getMonth();
-    if ((calendarApi.getDate().getFullYear() > date.getFullYear()) ||  (calendarApi.getDate().getMonth() > month + 1)) {
+    if ((calendarApi.getDate().getFullYear() > date.getFullYear()) || (calendarApi.getDate().getMonth() > month + 1)) {
       calendarApi.prev();
       this.backwardFlag = true;
       this.forwordFlag = true;
@@ -1001,23 +1008,23 @@ export class EmployeeProfileComponent implements OnInit {
 
   // ########################
 
-  
 
-  checkinCheckout(command:string) {
+
+  checkinCheckout(command: string) {
     this.dataService.checkinCheckoutInSlack(this.userId, command).subscribe(
       (data) => {
         console.log(data);
-        this.getUserAttendanceStatus() ;
+        this.getUserAttendanceStatus();
       },
       (error) => {
         console.log(error);
-        this.getUserAttendanceStatus() ;
+        this.getUserAttendanceStatus();
 
       }
     );
   }
 
-  status: string='';
+  status: string = '';
 
   getUserAttendanceStatus() {
     debugger
@@ -1032,7 +1039,7 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
-  
+
 
 
 }
