@@ -22,6 +22,7 @@ import { environment } from 'src/environments/environment';
 import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
 import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/slack-data-loader.component';
 import { DurationPickerComponent } from './modules/common/duration-picker/duration-picker.component';
+import { PeopleComponent } from './modules/people/people.component';
 
 
 
@@ -32,6 +33,7 @@ import { DurationPickerComponent } from './modules/common/duration-picker/durati
     ErrorPageComponent,
     SlackDataLoaderComponent,
     DurationPickerComponent,
+    PeopleComponent,
   ],
   imports: [
     RouterModule,
