@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, ElementRef, Injectable, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import { LateEmployeeAttendanceDetailsResponse } from 'src/app/models/late-employee-attendance-details-response';
 import { AttendanceReportResponse } from 'src/app/models/attendance-report-response';
 import { Key } from 'src/app/constant/key';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -87,6 +88,26 @@ export class DashboardComponent implements OnInit {
     this.networkConnectionErrorPlaceHolder = false;
   }
 
+  isShimmerForAttendanceData = false;
+  dataNotFoundPlaceholderForAttendanceData = false;
+  networkConnectionErrorPlaceHolderForAttendanceData = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall(){
+    this.isShimmerForAttendanceData = true;
+    this.dataNotFoundPlaceholderForAttendanceData = false;
+    this.networkConnectionErrorPlaceHolderForAttendanceData = false;
+  }
+
+  isShimmerForBestPerfomer = false;
+  dataNotFoundPlaceholderForBestPerfomer = false;
+  networkConnectionErrorPlaceHolderForBestPerformer = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForBestPerformerMethodCall(){
+    this.isShimmerForBestPerfomer = true;
+    this.dataNotFoundPlaceholderForBestPerfomer = false;
+    this.networkConnectionErrorPlaceHolderForBestPerformer = false;
+  }
+
   selectMonth(selectedMonth: string): void {
     this.month = selectedMonth;
     const selectedDate = moment().month(selectedMonth).startOf('month');
@@ -132,8 +153,14 @@ export class DashboardComponent implements OnInit {
 isAttendanceShimer: boolean=false;
 errorToggleMain: boolean=false;
 
+@ViewChild('attendanceMasterRollReport') attendanceMasterRollReport !: ElementRef;
+
   getDataFromDate(): void {
-    this.isAttendanceShimer=true;
+    debugger
+    this.myAttendanceData = {};
+    this.myAttendanceDataLength = 0;
+
+    this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
       // const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
       // const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
       
@@ -143,40 +170,52 @@ errorToggleMain: boolean=false;
         (response: any) => {
           
           debugger
-          this.myAttendanceData = response.mapOfObject;
-          this.myAttendanceDataLength = Object.keys(this.myAttendanceData).length;
-          this.total = response.totalItems;
 
-          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+          if(response.mapOfObject === undefined || response.mapOfObject === null){
+            this.dataNotFoundPlaceholderForAttendanceData = true;
+            return;
+          } else{
+            this.myAttendanceData = response.mapOfObject;
+            this.myAttendanceDataLength = Object.keys(this.myAttendanceData).length;
 
-          debugger
-          console.log(this.myAttendanceData);
-          this.isAttendanceShimer=false;
-          if (this.myAttendanceData) {
-            
-            for (const key in this.myAttendanceData) {
+            if(this.myAttendanceDataLength === 0){
+              this.dataNotFoundPlaceholderForAttendanceData = true;
+              return;
+            }
+
+            this.total = response.totalItems;
+
+            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+
+            debugger
+            console.log(this.myAttendanceData);
+            this.isAttendanceShimer=false;
+            if (this.myAttendanceData) {
               
-              if (this.myAttendanceData.hasOwnProperty(key)) {
-                const attendanceArray = this.myAttendanceData[key];
-
-                this.attendanceArrayDate=attendanceArray;
+              for (const key in this.myAttendanceData) {
                 
-                // for (const element of attendanceArray) {
-                //   if (element.checkInTime !== null) {
-                    
-                //     this.totalll += 1;
-                //   }
-                // }
+                if (this.myAttendanceData.hasOwnProperty(key)) {
+                  const attendanceArray = this.myAttendanceData[key];
 
-                
+                  this.attendanceArrayDate=attendanceArray;
+                  
+                  // for (const element of attendanceArray) {
+                  //   if (element.checkInTime !== null) {
+                      
+                  //     this.totalll += 1;
+                  //   }
+                  // }
+
+                  
+                }
               }
             }
           }
           
+          
         },
         (error: any) => {
-          this.isAttendanceShimer=false;
-          this.errorToggleMain=true;
+          this.networkConnectionErrorPlaceHolderForAttendanceData = true;
           console.error('Error fetching data:', error);
         }
       );
@@ -189,6 +228,7 @@ errorToggleMain: boolean=false;
     this.pageNumber = 1;
   }
   searchUsers(event: Event) {
+    this.attendanceMasterRollReport.nativeElement.scrollIntoView({ behavior: 'smooth' });
     if (event instanceof KeyboardEvent) {
         const ignoreKeys = ['Shift', 'Control', 'Alt', 'Meta', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Escape'];
 
@@ -377,16 +417,16 @@ errorToggleMain: boolean=false;
   errorToggleTop:boolean=false;
   errorToggleLate:boolean=false;
   getAttendanceTopPerformerDetails(){
-    this.isShimer=true;
-    // this.isLateShimmer=true;
+    this.preRuleForShimmersAndErrorPlaceholdersForBestPerformerMethodCall();
     debugger
     this.dataService.getAttendanceTopPerformers(this.startDateStr, this.endDateStr).subscribe(
       (data) => {
         // console.log(data);
         this.responseDto = data;
 
-        if(data.attendanceTopPerformers){
-        this.isShimer=false;
+
+        if(data.attendanceTopPerformers.length === 0 || data === undefined || data === null){
+          this.dataNotFoundPlaceholderForBestPerfomer = true;
         }
         // if(data.attendanceLatePerformers){
         //   this.isLateShimmer=false;
@@ -396,7 +436,7 @@ errorToggleMain: boolean=false;
       (error) => {
         // console.error(error);
         this.isShimer=false;
-        this.errorToggleTop = true;
+        this.networkConnectionErrorPlaceHolderForBestPerformer = true;
       }
     );
   }
@@ -439,7 +479,7 @@ errorToggleMain: boolean=false;
       this.lateEmployeeAttendanceDetailsResponseList = response.listOfObject;
       console.log(response);
 
-      if(response === undefined || response === null || response.length === 0){
+      if(response === undefined || response === null || response.listOfObject.length === 0){
         this.dataNotFoundPlaceholder = true;
       }
     }, (error) => {
