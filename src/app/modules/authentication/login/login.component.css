@@ -100,14 +100,14 @@
     background-color: #fff;
     padding: 6px 16px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 15px;
     line-height: 32px;
     text-decoration: none;
     width: 100%;
     font-weight: 500;
     display: block;
     text-align: left;
-    columns: #444;
+    color: #444;
     border: 1px solid #f1f1f1;
 }
 
@@ -117,11 +117,11 @@
 }
 
 .welcome-hajiri h4{
-    font-size: 25px;
+    font-size: 28px;
     font-weight: 700;
 }
 .welcome-hajiri p{
-    font-size: 11px;
+    font-size: 13px;
     color: #555;
     font-weight: 400;
 }

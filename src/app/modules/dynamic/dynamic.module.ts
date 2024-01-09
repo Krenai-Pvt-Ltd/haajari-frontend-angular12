@@ -22,11 +22,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { environment } from 'src/environments/environment';
 import { HeaderComponent } from '../common/header/header.component';
 import { AcadmicComponent } from './components/acadmic/acadmic.component';
-import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
-import { AddToSlackComponent } from './components/add-to-slack/add-to-slack.component';
-import { AttendanceSettingComponent } from './components/attendance-setting/attendance-setting.component';
 import { BankDetailsComponent } from './components/bank-details/bank-details.component';
-import { CompanySettingComponent } from './components/company-setting/company-setting.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { EmergencyContactComponent } from './components/emergency-contact/emergency-contact.component';
 import { EmployeeAddressDetailComponent } from './components/employee-address-detail/employee-address-detail.component';
@@ -35,7 +31,6 @@ import { EmployeeExperienceComponent } from './components/employee-experience/em
 import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
 import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
-import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
 import { LiveManagerComponent } from './components/live-manager/live-manager.component';
 import { LoginComponent } from './components/login/login.component';
 import { NewLoginComponent } from './components/new-login/new-login.component';
@@ -46,8 +41,6 @@ import { ProjectComponent } from './components/project/project.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
 import { RoleComponent } from './components/role/role.component';
-import { SelerySettingComponent } from './components/selery-setting/selery-setting.component';
-import { SlackAuthComponent } from './components/slack-auth/slack-auth.component';
 import { SupportComponent } from './components/support/support.component';
 import { TaskManagerComponent } from './components/task-manager/task-manager.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
@@ -62,6 +55,17 @@ import { DynamicRoutingModule } from './dynamic-routing.module';
 import { DynamicComponent } from './dynamic.component';
 import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
 import { TimeFormatPipe } from './time-format.pipe';
+import { SafePipe } from 'src/app/pipe/safe.pipe';
+import { AppComponent } from 'src/app/app.component';
+import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
+import { RoleAddComponent } from './components/role-add/role-add.component';
+import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { RouterModule } from '@angular/router';
+import { HeaderComponent } from '../common/header/header.component';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
+import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 
 @NgModule({
   declarations: [
@@ -72,20 +76,15 @@ import { TimeFormatPipe } from './time-format.pipe';
     TaskManagerComponent,
     LiveManagerComponent,
     OnboardingComponent,
-    LoginComponent,
     PaymentComponent,
     UserlistComponent,
-    SlackAuthComponent,
-    AddToSlackComponent,
     DateFormatPipe,
     TimeFormatPipe,
     DurationFormatPipe,
     WaitingPageComponent,
     TeamComponent,
     TeamDetailComponent,
-    AttendanceSettingComponent,
-    CompanySettingComponent,
-    SelerySettingComponent,
+    EmployeeOnboardingDataComponent,
     RoleComponent,
     EmployeeOnboardingFormComponent,
     EmployeeAddressDetailComponent,
@@ -97,16 +96,14 @@ import { TimeFormatPipe } from './time-format.pipe';
     ReportsComponent,
     EmployeeProfileComponent,
     TestingComponent,
-    LeaveSettingComponent,
     SlackDataLoadComponent,
     PrivacyComponent,
     SupportComponent,
     SafePipe,
     RoleAddComponent,
-    AccountSettingsComponent,
-    NewLoginComponent,
     HeaderComponent,
-    EmployeeOnboardingPreviewComponent
+    EmployeeOnboardingPreviewComponent,
+    EmployeeOnboardingDataComponent
 
 
   ],

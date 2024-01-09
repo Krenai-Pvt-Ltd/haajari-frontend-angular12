@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
-import { CommonModule } from '@angular/common';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,27 +18,26 @@ import { DurationPickerComponent } from './modules/common/duration-picker/durati
 import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
 import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
 import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/slack-data-loader.component';
-import { PeopleComponent } from './modules/people/people.component';
 import { SharedModule } from './shared/shared.module';
-
+import { CommonModule } from '@angular/common';
+import { SharedComponent } from './modules/shared/shared.component';
+import { SettingModule } from './modules/setting/setting.module';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NotifactionTostComponent,
-    ErrorPageComponent,
-    SlackDataLoaderComponent,
-    DurationPickerComponent,
     PeopleComponent,
-    
-    
+    SharedComponent,
+
+    // AuthenticationComponent,
   ],
   imports: [
     RouterModule,
-    CommonModule,
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
@@ -47,9 +45,11 @@ import { SharedModule } from './shared/shared.module';
     NgxDaterangepickerMd.forRoot(),
     ReactiveFormsModule,
     NgxPaginationModule,
+    NgxShimmerLoadingModule,
     SharedModule,
     NgbModule,
     FullCalendarModule,
+    SettingModule
     
 
     // CalendarModule.forRoot({
