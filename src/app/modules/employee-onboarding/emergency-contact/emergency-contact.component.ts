@@ -84,7 +84,7 @@ debugger
             }
             setTimeout(()=>{
               this.routeToFormPreview();
-            },100);
+            },500);
           
          
           this.toggle = false;
