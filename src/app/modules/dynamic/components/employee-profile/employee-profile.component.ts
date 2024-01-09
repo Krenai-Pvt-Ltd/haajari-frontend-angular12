@@ -250,14 +250,6 @@ export class EmployeeProfileComponent implements OnInit {
           this.totalPresent = 0;
           this.totalAbsent = 0;
 
-
-
-
-
-          // if(response==null){
-          //   this.isCalendarErrorFlag=true;
-          // }
-
           if (response == null) {
             let currentDate = moment(sDate);
             const endDate = moment(eDate);

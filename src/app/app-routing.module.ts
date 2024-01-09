@@ -4,8 +4,10 @@ import { ErrorPageComponent } from './modules/common/error-page/error-page.compo
 
 const routes: Routes = [
 
-  // { path: '', redirectTo: '/login', pathMatch:'full'},
-  { path: '', loadChildren: () => import('./modules/dynamic/dynamic.module').then(m => m.DynamicModule) },
+  { path: 'login', redirectTo: '/auth/login', pathMatch:'full'},
+  { path: '', loadChildren: () => import('./modules/dynamic/dynamic.module').then(m => m.DynamicModule)},
+  { path: 'setting', loadChildren: () => import('./modules/setting/setting.module').then(m => m.SettingModule)},
+  { path : 'auth', loadChildren: () => import('./modules/authentication/authentication.module').then(m => m.AuthenticationModule)},
   { path: '**', component : ErrorPageComponent},
   
 

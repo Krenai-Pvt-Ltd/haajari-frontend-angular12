@@ -5,7 +5,6 @@ import { Organization, Users } from "../models/users";
 import { Savel } from "../models/savel";
 import { AttendenceDto } from "../models/attendence-dto";
 import { OnboardingComponent } from "../modules/dynamic/components/onboarding/onboarding.component";
-import { SlackAuthComponent } from "../modules/dynamic/components/slack-auth/slack-auth.component";
 import { ShiftTimings } from "../models/shifttimings";
 import { DailyQuestionsCheckout } from "../models/daily-questions-check-out";
 import { DailyQuestionsCheckIn } from "../models/daily-questions-check-in";
@@ -64,7 +63,6 @@ export class DataService {
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
      private baseUrl = "https://production.hajiri.work/api/v2";
-
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
