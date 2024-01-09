@@ -14,7 +14,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { DataService } from 'src/app/services/data.service';
 import { environment } from 'src/environments/environment';
-import { EmployeeOnboardingSidebarComponent } from '../common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { AcadmicComponent } from './components/acadmic/acadmic.component';
 import { BankDetailsComponent } from './components/bank-details/bank-details.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -23,7 +22,6 @@ import { EmployeeAddressDetailComponent } from './components/employee-address-de
 import { EmployeeDocumentComponent } from './components/employee-document/employee-document.component';
 import { EmployeeExperienceComponent } from './components/employee-experience/employee-experience.component';
 import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
-import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { LiveManagerComponent } from './components/live-manager/live-manager.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
@@ -56,7 +54,7 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../common/header/header.component';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
-
+import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 
 @NgModule({
   declarations: [
@@ -75,10 +73,9 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
     WaitingPageComponent,
     TeamComponent,
     TeamDetailComponent,
-    EmployeeOnboardingComponent,
+    EmployeeOnboardingDataComponent,
     RoleComponent,
     EmployeeOnboardingFormComponent,
-    EmployeeOnboardingSidebarComponent,
     EmployeeAddressDetailComponent,
     EmployeeDocumentComponent,
     AcadmicComponent,
@@ -94,7 +91,8 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
     SafePipe,
     RoleAddComponent,
     HeaderComponent,
-    EmployeeOnboardingPreviewComponent
+    EmployeeOnboardingPreviewComponent,
+    EmployeeOnboardingDataComponent
 
 
   ],

@@ -18,5 +18,6 @@ export class UserPersonalInformationRequest {
         statusResponse!: string;
         image!: string;
         employeeOnboardingStatus!: EmployeeOnboardingStatus;
-        employeeOnboardingFormStatus!: EmployeeOnboardingFormStatus
+        employeeOnboardingFormStatus!: EmployeeOnboardingFormStatus;
+        statusId!: number;
 }

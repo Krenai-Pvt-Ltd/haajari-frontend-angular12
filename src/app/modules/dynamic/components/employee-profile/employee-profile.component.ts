@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { CalendarOptions } from '@fullcalendar/core';
@@ -32,7 +32,8 @@ export class EmployeeProfileComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private fb: FormBuilder,
     private http: HttpClient,
-    private firebaseStorage: AngularFireStorage
+    private firebaseStorage: AngularFireStorage,
+    private router: Router
 
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
@@ -52,6 +53,10 @@ export class EmployeeProfileComponent implements OnInit {
       });
     }
 
+  }
+
+  goBack() {
+    this.router.navigate(['/employee-onboarding-data']);
   }
 
   get StartDate() {
@@ -357,18 +362,25 @@ export class EmployeeProfileComponent implements OnInit {
     debugger
     const calendarApi = this.calendarComponent.getApi();
 
-    (console.log(calendarApi.getDate().getMonth()));
+    // (console.log(calendarApi.getDate().getMonth()));
 
-    if(calendarApi.getDate().getMonth() == 11 && new Date().getMonth()==0){
-      calendarApi.next();
-      this.forwordFlag = false;
-    }
     // if((calendarApi.getDate().getMonth() == 11) && (calendarApi.getDate().getMonth() == ) (calendarApi.getDate().getMonth()) > new Date().getMonth()){
     //   calendarApi.next();
     //   this.forwordFlag = false;
     // }
-    else{
-      if ((calendarApi.getDate().getFullYear() < new Date().getFullYear()) || (calendarApi.getDate().getMonth() < new Date().getMonth() - 1)){
+
+    console.log("full Year " + calendarApi.getDate().getFullYear())
+    console.log("new date full Year " + new Date().getFullYear())
+    console.log(" full month " + calendarApi.getDate().getMonth())
+    console.log("new month " + new Date().getMonth())
+
+    if (calendarApi.getDate().getMonth() == 11 && new Date().getMonth() == 0) {
+      calendarApi.next();
+      this.forwordFlag = false;
+    }
+    else {
+      if ((calendarApi.getDate().getFullYear() < new Date().getFullYear())
+        || (calendarApi.getDate().getMonth() < new Date().getMonth() - 1)) {
         calendarApi.next();
         this.forwordFlag = true;
         this.backwardFlag = true;
@@ -388,7 +400,7 @@ export class EmployeeProfileComponent implements OnInit {
     //           this.forwordFlag = true;
     // }
 
-    
+
 
     let startDate = calendarApi.view.currentStart;
     let endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
@@ -432,7 +444,12 @@ export class EmployeeProfileComponent implements OnInit {
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
     var month = date.getMonth();
-    if ((calendarApi.getDate().getFullYear() > date.getFullYear()) ||  (calendarApi.getDate().getMonth() > month + 1)) {
+    console.log("month" + month);
+
+    // if((calendarApi.getDate().getFullYear() == date.getFullYear()) && (calendarApi.getDate().getMonth() == month)){
+    //   this.backwardFlag = false;
+    // }else{
+    if ((calendarApi.getDate().getFullYear() > date.getFullYear()) || (calendarApi.getDate().getMonth() > month + 1)) {
       calendarApi.prev();
       this.backwardFlag = true;
       this.forwordFlag = true;
@@ -440,6 +457,7 @@ export class EmployeeProfileComponent implements OnInit {
       calendarApi.prev();
       this.backwardFlag = false;
     }
+    // }
 
     let startDate = calendarApi.view.currentStart;
     let endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
@@ -626,12 +644,19 @@ export class EmployeeProfileComponent implements OnInit {
 
 
   userLeave: any = [];
+  leaveCountPlaceholderFlag: boolean = false;
 
   getUserLeaveReq() {
+    this.leaveCountPlaceholderFlag = false;
     this.dataService.getUserLeaveRequests(this.userId).subscribe(
       (data) => {
-        this.userLeave = data.body;
-        console.log(this.userLeave);
+        if (data.body != undefined || data.body != null || data.body.length != 0) {
+          this.userLeave = data.body;
+          console.log(this.userLeave);
+        } else {
+          this.leaveCountPlaceholderFlag = true;
+          return;
+        }
       },
       (error) => {
         console.log(error);
@@ -761,13 +786,22 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.getNewUserAddressDetails(this.userId).subscribe(
       (data: UserAddressDetailsRequest) => {
         console.log(data);
-        this.userAddressDetailsRequest = data;
-        console.log(data.userAddressRequest);
-        this.addressEmployee = data.userAddressRequest;
-        // this.isAddressShimmer=false;
-        if (data == null || data.userAddressRequest.length == 0) {
+
+        debugger
+        console.log("data.userAddressRequest.length" + data.userAddressRequest.length);
+        if (data.userAddressRequest.length == 0) {
           this.isAddressPlaceholder = true;
+          return;
+        } else {
+          this.addressEmployee = data.userAddressRequest;
+
+          console.log(data.userAddressRequest);
         }
+
+
+
+        // this.isAddressShimmer=false;
+        // (data == null || data.userAddressRequest.length == 0)
         // console.log(this.addressEmployee.data);
       },
       (error) => {
@@ -807,11 +841,14 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.getEmployeeAcademicDetails(this.userId).subscribe(
       (data) => {
         console.log(data);
-        this.academicEmployee = data;
-        if (data == null || data.length == 0) {
+        if (data != null || data != undefined) {
+          this.academicEmployee = data;
+          console.log(this.academicEmployee.data);
+
+        }
+        else {
           this.isAcademicPlaceholder = true;
         }
-        console.log(this.academicEmployee.data);
       },
       (error) => {
         this.isAcademicPlaceholder = true;
@@ -879,12 +916,14 @@ export class EmployeeProfileComponent implements OnInit {
       (data) => {
         console.log(data);
         this.documentsEmployee = data.userDocuments;
-        this.highSchoolCertificate = data.userDocuments.highSchoolCertificate;
-        this.degreeCert = data.userDocuments.highestQualificationDegree;
-        this.intermediateCertificate = data.userDocuments.secondarySchoolCertificate;
-        this.testimonialsString = data.userDocuments.testimonialReccomendation;
+        if (data.userDocuments != null) {
+          this.highSchoolCertificate = data.userDocuments.highSchoolCertificate;
+          this.degreeCert = data.userDocuments.highestQualificationDegree;
+          this.intermediateCertificate = data.userDocuments.secondarySchoolCertificate;
+          this.testimonialsString = data.userDocuments.testimonialReccomendation;
+        }
         // this.isDocumentsShimmer=false;
-        if (this.highSchoolCertificate == null || data.length == 0) {
+        else {
           this.isDocsPlaceholder = true;
         }
 
@@ -993,23 +1032,23 @@ export class EmployeeProfileComponent implements OnInit {
 
   // ########################
 
-  
 
-  checkinCheckout(command:string) {
+
+  checkinCheckout(command: string) {
     this.dataService.checkinCheckoutInSlack(this.userId, command).subscribe(
       (data) => {
         console.log(data);
-        this.getUserAttendanceStatus() ;
+        this.getUserAttendanceStatus();
       },
       (error) => {
         console.log(error);
-        this.getUserAttendanceStatus() ;
+        this.getUserAttendanceStatus();
 
       }
     );
   }
 
-  status: string='';
+  status: string = '';
 
   getUserAttendanceStatus() {
     debugger
@@ -1024,7 +1063,7 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
-  
+
 
 
 }

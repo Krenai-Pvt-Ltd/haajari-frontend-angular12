@@ -59,7 +59,8 @@ export class EmployeeExperienceComponent implements OnInit {
         lastSalary: '',
         lastJobPosition: '',
         jobResponisibilities: '',
-        fresher: false // or true, depending on your logic
+        fresher: false, // or true, depending on your logic
+        statusId: 0
     };
     this.userExperiences.push(newExperience);
 }

@@ -97,6 +97,7 @@ isLoading:boolean = true;
           } else {
             // Properly initialize the object with default values
             this.userAddressDetailsRequest = {
+              statusId: 0,
               sameAddress: false, // Default to false since there are no addresses to determine if they are the same
               userAddressRequest: [new UserAddressRequest(), new UserAddressRequest()] // Initialize with two empty addresses
             };
