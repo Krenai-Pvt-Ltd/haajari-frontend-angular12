@@ -1,7 +1,5 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HeaderComponent } from '../common/header/header.component';
-import { TopbarComponent } from '../common/topbar/topbar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LiveManagerComponent } from './components/live-manager/live-manager.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
@@ -17,7 +15,6 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
 import { AuthGuard } from 'src/app/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { DatePipe } from '@angular/common';
-import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';
 import { RoleComponent } from './components/role/role.component';
 import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
 import { EmployeeOnboardingSidebarComponent } from '../common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
@@ -38,14 +35,13 @@ import { SlackDataLoaderComponent } from '../common/slack-data-loader/slack-data
 import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
 import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
+import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 
 
   const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
     { path: '', component: DynamicComponent,
   children:[
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
-    { path: 'header', component: HeaderComponent },
-    { path: 'topbar', component: TopbarComponent },
     { path: 'timetable', component: TimetableComponent, canActivate: [AuthGuard]},
     { path: 'project', component: ProjectComponent},
     { path: 'team', component: TeamComponent, canActivate: [AuthGuard]},
@@ -57,7 +53,7 @@ import { EmployeeOnboardingPreviewComponent } from './components/employee-onboar
     {path: 'waiting', component: WaitingPageComponent},
     {path: 'team-detail', component: TeamDetailComponent, canActivate: [AuthGuard]},
     {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]}, 
-    {path: 'employee-onboarding', component: EmployeeOnboardingComponent, canActivate: [AuthGuard]},
+    {path: 'employee-onboarding-data', component: EmployeeOnboardingDataComponent, canActivate: [AuthGuard]},
     {path: 'role', component: RoleComponent},
     {path: 'employee-onboarding-form', component: EmployeeOnboardingFormComponent},
     {path: 'employee-onboarding-sidebar', component: EmployeeOnboardingSidebarComponent},
@@ -72,9 +68,6 @@ import { EmployeeOnboardingPreviewComponent } from './components/employee-onboar
     {path: 'testing', component: TestingComponent},
     {path: 'privacy', component: PrivacyComponent},
     {path: 'support', component: SupportComponent},
-    {path: 'error-page', component: ErrorPageComponent},
-    {path: 'slack-data-loader', component: SlackDataLoaderComponent},
-    {path : 'duration-picker', component: DurationPickerComponent},
     {path : 'add-role', component: RoleAddComponent},
     {path : 'employee-onboarding-preview', component: EmployeeOnboardingPreviewComponent}
   ] }
