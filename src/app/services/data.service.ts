@@ -3,24 +3,15 @@ import { EventEmitter, Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject, throwError } from "rxjs";
 import { Organization, Users } from "../models/users";
 import { Savel } from "../models/savel";
-import { AttendenceDto } from "../models/attendence-dto";
-import { OnboardingComponent } from "../modules/dynamic/components/onboarding/onboarding.component";
-import { SlackAuthComponent } from "../modules/dynamic/components/slack-auth/slack-auth.component";
-import { ShiftTimings } from "../models/shifttimings";
 import { DailyQuestionsCheckout } from "../models/daily-questions-check-out";
 import { DailyQuestionsCheckIn } from "../models/daily-questions-check-in";
 import { TeamResponse } from "../models/team";
-import { Key } from "../constant/key";
-import { OrganizationPersonalInformation } from "../models/organization-personal-information";
 import { AttendanceWithLatePerformerResponseDto, AttendanceWithTopPerformerResponseDto } from "../models/Attendance.model";
 import { RoleRequest } from "../models/role-request";
-import { User } from "../models/user";
 import { UserPersonalInformationRequest } from "../models/user-personal-information-request";
 import { catchError } from "rxjs/operators";
 import { UserAddressDetailsRequest } from "../models/user-address-details-request";
-import { UserDocumentsRequest } from "../models/user-documents-request";
 import { UserAcademicsDetailRequest } from "../models/user-academics-detail-request";
-import { UserExperienceDetailRequest } from "../models/user-experience-detail-request";
 import { UserExperience } from "../models/user-experience";
 import { UserBankDetailRequest } from "../models/user-bank-detail-request";
 import { UserEmergencyContactDetailsRequest } from "../models/user-emergency-contact-details-request";
@@ -32,13 +23,11 @@ import { UserDocumentsDetailsRequest } from "../models/user-documents-details-re
 
 import { LeaveSettingResponse } from "../models/leave-setting-response";
 import { LeaveSettingCategoryResponse } from "../models/leave-categories-response";
-import { UserLeaveSettingRule } from "../models/user-leave-setting-rule";
 import { FullLeaveSettingResponse } from "../models/full-leave-setting-response";
 
-import { ObserveOnMessage } from "rxjs/internal/operators/observeOn";
-import { OrganizationShiftTimingRequest } from "../models/organization-shift-timing-request";
 import { FullLeaveSettingRequest } from "../models/Full-Leave-Setting-Request";
 import { Testing } from "../models/testing";
+import { ShiftTimings } from "../models/shifttimings";
 
 
 @Injectable({
@@ -57,13 +46,12 @@ export class DataService {
   getOrgIdEmitter(): EventEmitter<number> {
     return this.orgIdEmitter;
   }
-
-  private baseUrl = "http://localhost:8080/api/v2"
+  
+  // private baseUrl = "http://localhost:8080/api/v2"
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-    //  private baseUrl = "https://production.hajiri.work/api/v2";
-
+  private baseUrl = "https://production.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
