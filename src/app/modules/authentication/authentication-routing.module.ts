@@ -11,10 +11,10 @@ const routes: Routes = [{ path: '', redirectTo: '/auth/login', pathMatch:'full'}
   
     children:[
       
-    {path: 'slackauth', component: SlackAuthComponent },
+    {path: 'slackauth', component: SlackAuthComponent},
     {path: 'addtoslack', component: AddToSlackComponent},
     {path : 'new-login', component: NewLoginComponent},
-    { path: 'login', component: LoginComponent },
+    { path: 'login', component: LoginComponent }
   ] }
 ];
 @NgModule({

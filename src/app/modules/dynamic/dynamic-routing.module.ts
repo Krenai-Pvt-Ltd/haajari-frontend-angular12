@@ -12,7 +12,7 @@ import { DynamicComponent } from './dynamic.component';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
-import { AuthGuard } from 'src/app/auth/auth-guard';
+import { AuthGuard } from 'src/app/modules/authentication/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { DatePipe } from '@angular/common';
 import { RoleComponent } from './components/role/role.component';
@@ -38,7 +38,7 @@ import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/emplo
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 
 
-  const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
+  const routes: Routes = [{ path: '', redirectTo: '/auth/login', pathMatch:'full'},
     { path: '', component: DynamicComponent,
   children:[
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)

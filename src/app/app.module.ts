@@ -16,22 +16,24 @@ import { AppComponent } from './app.component';
 import { RequestInterceptorService } from './configuration/request-interceptor.service';
 import { DurationPickerComponent } from './modules/common/duration-picker/duration-picker.component';
 import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
-import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
 import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/slack-data-loader.component';
 import { SharedModule } from './shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { SharedComponent } from './modules/shared/shared.component';
 import { SettingModule } from './modules/setting/setting.module';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import { NotifactionTostComponent } from './modules/common/notifaction-toast/notifaction-toast.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    PeopleComponent,
-    SharedComponent,
-
+    NotifactionTostComponent,
+    ErrorPageComponent,
+    SlackDataLoaderComponent,
+    DurationPickerComponent,
+    SharedComponent
     // AuthenticationComponent,
   ],
   imports: [
