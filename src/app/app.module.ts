@@ -18,6 +18,8 @@ import { SharedModule } from './shared/shared.module';
 import { PeopleComponent } from './modules/people/people.component';
 import { CommonModule } from '@angular/common';
 import { SharedComponent } from './modules/shared/shared.component';
+import { SettingModule } from './modules/setting/setting.module';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 
 
 
@@ -26,6 +28,8 @@ import { SharedComponent } from './modules/shared/shared.component';
     AppComponent,
     PeopleComponent,
     SharedComponent,
+
+    // AuthenticationComponent,
   ],
   imports: [
     RouterModule,
@@ -38,9 +42,11 @@ import { SharedComponent } from './modules/shared/shared.component';
     NgxDaterangepickerMd.forRoot(),
     ReactiveFormsModule,
     NgxPaginationModule,
+    NgxShimmerLoadingModule,
     SharedModule,
     NgbModule,
     FullCalendarModule,
+    SettingModule
     
 
     // CalendarModule.forRoot({

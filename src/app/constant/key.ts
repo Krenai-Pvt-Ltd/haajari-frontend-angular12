@@ -46,15 +46,15 @@ export class Key{
         "/team-detail",
         "/user-profile",
         "/employee-onboarding-data",
-        "/attendance-setting",
-        "/company-setting",
-        "/selery-setting",
+        "/setting/attendance-setting",
+        "/setting/company-setting",
+        "/setting/selery-setting",
         "/role",
         "/employee-onboarding-sidebar",
         "/reports",
         "/employee-profile",
-        "/leave-setting",
-        "/account-settings",
+        "/setting/leave-setting",
+        "/setting/account-settings",
         "/add-role"
     ];
 
@@ -73,15 +73,15 @@ export class Key{
         "/team-detail",
         "/user-profile",
         "/employee-onboarding-data",
-        "/attendance-setting",
-        "/company-setting",
-        "/selery-setting",
+        "/setting/attendance-setting",
+        "/setting/company-setting",
+        "/setting/selery-setting",
         "/role",
         "/employee-onboarding-sidebar",
         "/reports",
         "/employee-profile",
-        "/leave-setting",
-        "/account-settings",
+        "/setting/leave-setting",
+        "/setting/account-settings",
         "/add-role"
 
     ];
