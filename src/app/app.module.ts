@@ -23,6 +23,9 @@ import { ErrorPageComponent } from './modules/common/error-page/error-page.compo
 import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/slack-data-loader.component';
 import { DurationPickerComponent } from './modules/common/duration-picker/duration-picker.component';
 import { PeopleComponent } from './modules/people/people.component';
+import { SettingModule } from './modules/setting/setting.module';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import { AuthenticationComponent } from './modules/authentication/authentication.component';
 
 
 
@@ -34,6 +37,7 @@ import { PeopleComponent } from './modules/people/people.component';
     SlackDataLoaderComponent,
     DurationPickerComponent,
     PeopleComponent,
+    // AuthenticationComponent,
   ],
   imports: [
     RouterModule,
@@ -46,9 +50,11 @@ import { PeopleComponent } from './modules/people/people.component';
     NgxDaterangepickerMd.forRoot(),
     ReactiveFormsModule,
     NgxPaginationModule,
+    NgxShimmerLoadingModule,
     SharedModule,
     NgbModule,
     FullCalendarModule,
+    SettingModule
     
 
     // CalendarModule.forRoot({
