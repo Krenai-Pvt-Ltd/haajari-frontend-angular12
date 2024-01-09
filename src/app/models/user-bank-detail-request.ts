@@ -4,4 +4,5 @@ export class UserBankDetailRequest {
     accountNumber: string = '';
     ifsc: string = '';
     statusResponse: string = '';
+    statusId: number = 0;
 }

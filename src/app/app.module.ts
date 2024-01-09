@@ -15,14 +15,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RequestInterceptorService } from './configuration/request-interceptor.service';
-import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
-import { SharedModule } from './shared/shared.module';
-import { AngularFireModule } from '@angular/fire/compat';
-import { environment } from 'src/environments/environment';
-import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
-import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/slack-data-loader.component';
 import { DurationPickerComponent } from './modules/common/duration-picker/duration-picker.component';
+import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
+import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
+import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/slack-data-loader.component';
 import { PeopleComponent } from './modules/people/people.component';
+import { SharedModule } from './shared/shared.module';
+
 
 
 
@@ -34,6 +33,8 @@ import { PeopleComponent } from './modules/people/people.component';
     SlackDataLoaderComponent,
     DurationPickerComponent,
     PeopleComponent,
+    
+    
   ],
   imports: [
     RouterModule,

@@ -20,13 +20,12 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
 import { AuthGuard } from 'src/app/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { DatePipe } from '@angular/common';
-import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';
+
 import { AttendanceSettingComponent } from './components/attendance-setting/attendance-setting.component';
 import { CompanySettingComponent } from './components/company-setting/company-setting.component';
 import { SelerySettingComponent } from './components/selery-setting/selery-setting.component';
 import { RoleComponent } from './components/role/role.component';
 import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
-import { EmployeeOnboardingSidebarComponent } from '../common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { EmployeeAddressDetailComponent } from './components/employee-address-detail/employee-address-detail.component';
 import { EmployeeDocumentComponent } from './components/employee-document/employee-document.component';
 import { AcadmicComponent } from './components/acadmic/acadmic.component';
@@ -47,6 +46,7 @@ import { RoleAddComponent } from './components/role-add/role-add.component';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 import { NewLoginComponent } from './components/new-login/new-login.component';
 import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
+import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 
 
   const routes: Routes = [{ path: '', redirectTo: '/login', pathMatch:'full'},
@@ -69,7 +69,7 @@ import { EmployeeOnboardingPreviewComponent } from './components/employee-onboar
     {path: 'waiting', component: WaitingPageComponent},
     {path: 'team-detail', component: TeamDetailComponent, canActivate: [AuthGuard]},
     {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]}, 
-    {path: 'employee-onboarding', component: EmployeeOnboardingComponent, canActivate: [AuthGuard]},
+    // {path: 'employee-onboarding', component: EmployeeOnboardingComponent, canActivate: [AuthGuard]},
     {path: 'attendance-setting', component: AttendanceSettingComponent, canActivate: [AuthGuard]},
     {path: 'company-setting', component: CompanySettingComponent, canActivate: [AuthGuard]},
     {path: 'selery-setting', component: SelerySettingComponent, canActivate: [AuthGuard]},

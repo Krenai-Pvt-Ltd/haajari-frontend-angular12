@@ -790,9 +790,6 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
   }
 stepIndex:number=-1;
   markStepAsCompleted(stepIndex: number): void {
-    // const currentStatus = this.stepsCompletionStatus.value;
-    // currentStatus[stepIndex] = true;
-    // this.stepsCompletionStatus.next(currentStatus);
     this.stepIndex=stepIndex;
   }
 

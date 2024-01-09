@@ -16,7 +16,7 @@ export class EmployeeExperienceComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
-    this.dataService.markStepAsCompleted(5);
+    
     const userUuid = this.getUserUuid();
     if (userUuid) {
       this.getEmployeeExperiencesDetailsMethodCall(userUuid);
@@ -33,7 +33,7 @@ export class EmployeeExperienceComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: this.getUserUuid() },
     };
-    this.router.navigate(['/acadmic'], navExtra);
+    this.router.navigate(['/employee-onboarding/acadmic'], navExtra);
   }
 
   deleteExperience(index: number): void {
@@ -53,6 +53,7 @@ export class EmployeeExperienceComponent implements OnInit {
 
   addMoreExperience() {
     const newExperience: UserExperience = {
+        
         companyName: '',
         employementDuration: '',
         lastJobDepartment: '',
@@ -75,7 +76,7 @@ export class EmployeeExperienceComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: this.getUserUuid() },
     };
-    this.router.navigate(['/bank-details'], navExtra);
+    this.router.navigate(['/employee-onboarding/bank-details'], navExtra);
   }
 
 
@@ -93,6 +94,7 @@ export class EmployeeExperienceComponent implements OnInit {
       .subscribe(
         response => { 
           console.log('Response:', response);
+          this.dataService.markStepAsCompleted(response.statusId);
           
           this.routeToUserDetails();
           this.toggle = false;
@@ -109,19 +111,21 @@ export class EmployeeExperienceComponent implements OnInit {
   getEmployeeExperiencesDetailsMethodCall(userUuid: string) {
     debugger
     this.isLoading = true;
-    this.dataService.markStepAsCompleted(5);
+    
     this.dataService.getEmployeeExperiencesDetailsOnboarding(userUuid).subscribe(
       experiences => {
-        if (experiences && experiences.length > 0) {
-          this.isFresher= 
+        if (experiences[0].companyName!=null && experiences.length > 0) {
+          
           this.isLoading = false;
           this.isFresher=false;
           this.userExperiences = experiences;
+          this.dataService.markStepAsCompleted(experiences[0].statusId);
           
           
         } else {
           this.isLoading = false;
           this.addExperience(); // Call addExperience if experiences is null or empty
+          this.dataService.markStepAsCompleted(experiences[0].statusId);
         }
       },
       error => {

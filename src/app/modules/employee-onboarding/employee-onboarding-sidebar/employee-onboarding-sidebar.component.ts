@@ -18,15 +18,19 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
   }
 
   navigateTo(route: string, stepIndex: number): void {
-    let navExtra: NavigationExtras = {
-      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
-    };
-    this.router.navigate([route], navExtra);
+    if(this.stepService.stepIndex<(stepIndex-1)){
+
+    }else{
+      let navExtra: NavigationExtras = {
+        queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+      };
+      this.router.navigate([route], navExtra);
+    }
+
   }
 
   ind:number=-1;
   isStepCompleted(stepIndex: number): boolean {
-    debugger
     
     // for(var i=0;i<=6;i++){
     //   if(this.stepsCompletionStatus[i]==true){
@@ -44,8 +48,10 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
     // }
     if(stepIndex<=this.stepService.stepIndex){
       return true;
+    }else{
+      return false;
     }
- return false;
+ 
   }
 
 

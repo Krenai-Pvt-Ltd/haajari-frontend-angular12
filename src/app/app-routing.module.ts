@@ -6,6 +6,7 @@ const routes: Routes = [
 
   // { path: '', redirectTo: '/login', pathMatch:'full'},
   { path: '', loadChildren: () => import('./modules/dynamic/dynamic.module').then(m => m.DynamicModule) },
+  { path: 'employee-onboarding', loadChildren: () => import('./modules/employee-onboarding/employee-onboarding.module').then(m => m.EmployeeOnboardingModule) },
   { path: '**', component : ErrorPageComponent},
   
 

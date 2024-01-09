@@ -1,0 +1,235 @@
+
+
+<div class="page-wrapper">
+  <div class="page-content-tab">
+    <div class="container-fluid">
+      <app-hajiri-page-loader *ngIf="isLoading"></app-hajiri-page-loader>
+      <div class="row" *ngIf="!isLoading">
+        <div class="col-md-12">
+          <div class="personal-details">
+            <h5>Address Details</h5>
+            <p class="mb-0">Fields with * are mandatory</p>
+            <form #addressInformationForm="ngForm" ngNativeValidate (ngSubmit)="setEmployeeAddressDetailsMethodCall()">
+              <div class="form-group">
+                <div class="personal-info mt-4">
+                  <div class="row">
+                    <!-- Current Address Inputs -->
+                    <div class="mb-2">
+                      <h6 class="current-address">Current Address <span class="text-optional">*</span></h6>
+                  </div>
+                    <div class="col-md-12">
+                      <div class="mb-3">
+                        <label for="currentVillage" class="pb-2">Complete Address</label>
+                        <input type="text" class="form-control" id="currentVillage" name="currentVillage"
+                          placeholder="House/Floor No. Building Name or Street, Locality"
+                          [(ngModel)]="userAddressDetailsRequest.userAddressRequest[0].address"
+                          minlength="5" maxlength="100" required #address="ngModel">
+
+                        <!-- Error Message for Required Field -->
+                        <div *ngIf="address.touched">
+                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="address.errors?.required">
+                            <i class="bi bi-exclamation-circle"></i>
+                            Current address is required.
+                          </p>
+                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="address.errors?.minlength">
+                            <i class="bi bi-exclamation-circle"></i>
+                            Please enter a minimum of five characters.
+                          </p>
+                          <!-- You can add more error conditions here if needed -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Other input fields for Pincode, City, State, Country -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="currentPincode" class="pb-2">Pincode</label>
+                            <input type="text" class="form-control" id="currentPincode" name="currentPincode" placeholder="Enter Pincode" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[0].pincode" required #currentPincode="ngModel" minlength="6" maxlength="6" pattern="[0-9]*">
+                            <!-- Error Message for Pincode -->
+                            <div *ngIf="currentPincode.touched">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="currentPincode.errors?.required">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    Pincode is required.
+                                </p>
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="currentPincode.errors?.minlength || currentPincode.errors?.maxlength">
+                                    <i class="bi bi-exclamation-circle"></i> Pincode should be of 6 digits.
+                                </p>
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="currentPincode.errors?.pattern">
+                                    <i class="bi bi-exclamation-circle"></i> Pincode must be numeric.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="currentCity" class="pb-2">City</label>
+                            <input type="text" class="form-control" id="currentCity" name="currentCity" placeholder="Enter City" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[0].city" required #currentCity="ngModel">
+                            <!-- Error Message for City -->
+                            <div *ngIf="currentCity.touched">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="currentCity.errors?.required">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    Current City is required.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="currentState" class="pb-2">State</label>
+                            <input type="text" class="form-control" id="currentState" name="currentState" placeholder="Enter State" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[0].state" required #currentState="ngModel">
+                            <!-- Error Message for State -->
+                            <div *ngIf="currentState.touched">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="currentState.errors?.required">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    State is required.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="currentCountry" class="pb-2">Country</label>
+                            <input type="text" class="form-control" id="currentCountry" name="currentCountry" placeholder="Enter Country" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[0].country" required #currentCountry="ngModel">
+                            <!-- Error Message for Country -->
+                            <div *ngIf="currentCountry.touched">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="currentCountry.errors?.required">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    Country is required.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                   <!-- Checkbox for Permanent Address -->
+                    <!-- Checkbox for Permanent Address -->
+                    <div class="col-md-12 mt-3 mb-3">
+                      <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1"
+                              (change)="showPermanent()"
+                              [checked]="!isPermanent"
+                              
+                              name="sameAddress">
+                        <label class="form-check-label" for="exampleCheck1">
+                          Is your current address the same as the permanent address?
+                        </label>
+                      </div>
+                    </div>
+
+
+
+                    <!-- Permanent Address Inputs -->
+                    <div class="row" *ngIf=" isPermanent">
+                      <!-- ... Input fields for permanent address ... -->
+                      <div class="mb-2">
+                        <h6 class="current-address">Permanent Address <span class="text-optional">*</span></h6>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="permanentVillage" class="pb-2">Complete Address</label>
+                            <input type="text" class="form-control" id="permanentVillage" name="permanentVillage" placeholder="House/Floor No. Building Name or Street, Locality" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[1].address" required #permanentAddress="ngModel">
+                            <!-- Error Message for Complete Address -->
+                            <div *ngIf="permanentAddress.touched">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="permanentAddress.errors?.required">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    Complete address is required.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="permanentPincode" class="pb-2">Pincode</label>
+                            <input type="text" class="form-control" id="permanentPincode" name="permanentPincode" placeholder="Enter Pincode" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[1].pincode" required minlength="6" maxlength="6" pattern="[0-9]*" #permanentPincode="ngModel">
+                            <!-- Error Message for Pincode -->
+                            <div *ngIf="permanentPincode.touched">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="permanentPincode.errors?.required">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    Pincode is required.
+                                </p>
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="permanentPincode.errors?.minlength || permanentPincode.errors?.maxlength">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    Pincode should be of 6 digits.
+                                </p>
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="permanentPincode.errors?.pattern">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    Pincode must be numeric.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="permanentCity" class="pb-2">City</label>
+                            <input type="text" class="form-control" id="permanentCity" name="permanentCity" placeholder="Enter City" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[1].city" required #permanentCity="ngModel">
+                            <div *ngIf="permanentCity.touched">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="permanentCity.errors?.required">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    City is required.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="permanentState" class="pb-2">State</label>
+                            <input type="text" class="form-control" id="permanentState" name="permanentState" placeholder="Enter State" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[1].state" required #permanentState="ngModel">
+                            <div *ngIf="permanentState.touched">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="permanentState.errors?.required">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    State is required.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="permanentCountry" class="pb-2">Country</label>
+                            <input type="text" class="form-control" id="permanentCountry" name="permanentCountry" placeholder="Enter Country" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[1].country" required #permanentCountry="ngModel">
+                            <div *ngIf="permanentCountry.touched">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="permanentCountry.errors?.required">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    Country is required.
+                                </p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="col-md-12 d-flex justify-content-between mt-3">
+                      <div class="info-btn d-flex justify-content-start">
+                        <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()">
+                          <i class="bi bi-arrow-left" style="padding-right: 8px;"></i> Back
+                        </button>
+                      </div>
+                      <div class="info-btn">
+                        <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
+                          <div *ngIf="toggle" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>
+                          <span *ngIf="!toggle">
+                            Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
