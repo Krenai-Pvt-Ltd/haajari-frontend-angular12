@@ -265,6 +265,7 @@ span.members-name {
     background-color: #e0ffe0!important;
     color: #3e993e!important;
 }
+
 .pagination{
     display: flex;
     justify-content: space-between;
@@ -412,3 +413,5 @@ button.btn.close-btn {
     color: #6666f3;
     cursor: pointer;
 }
+
+

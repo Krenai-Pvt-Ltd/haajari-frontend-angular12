@@ -14,7 +14,7 @@ import { DynamicComponent } from './dynamic.component';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
-import { AuthGuard } from 'src/app/auth/auth-guard';
+import { AuthGuard } from 'src/app/modules/authentication/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { DatePipe } from '@angular/common';
 import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';

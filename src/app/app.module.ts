@@ -22,7 +22,6 @@ import { environment } from 'src/environments/environment';
 import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
 import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/slack-data-loader.component';
 import { DurationPickerComponent } from './modules/common/duration-picker/duration-picker.component';
-import { PeopleComponent } from './modules/people/people.component';
 import { SettingModule } from './modules/setting/setting.module';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { AuthenticationComponent } from './modules/authentication/authentication.component';
@@ -36,7 +35,6 @@ import { AuthenticationComponent } from './modules/authentication/authentication
     ErrorPageComponent,
     SlackDataLoaderComponent,
     DurationPickerComponent,
-    PeopleComponent,
     // AuthenticationComponent,
   ],
   imports: [
