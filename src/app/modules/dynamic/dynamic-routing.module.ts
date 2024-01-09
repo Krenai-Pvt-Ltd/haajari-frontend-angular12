@@ -40,7 +40,7 @@ import { RoleAddComponent } from './components/role-add/role-add.component';
 import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
 
 
-  const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
+  const routes: Routes = [{ path: '', redirectTo: '/auth/login', pathMatch:'full'},
     { path: '', component: DynamicComponent,
   children:[
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
