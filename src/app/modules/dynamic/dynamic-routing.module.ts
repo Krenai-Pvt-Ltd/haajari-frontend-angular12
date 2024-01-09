@@ -17,7 +17,6 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { DatePipe } from '@angular/common';
 import { RoleComponent } from './components/role/role.component';
 import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
-import { EmployeeOnboardingSidebarComponent } from '../common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { EmployeeAddressDetailComponent } from './components/employee-address-detail/employee-address-detail.component';
 import { EmployeeDocumentComponent } from './components/employee-document/employee-document.component';
 import { AcadmicComponent } from './components/acadmic/acadmic.component';
@@ -35,6 +34,7 @@ import { SlackDataLoaderComponent } from '../common/slack-data-loader/slack-data
 import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
 import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
+import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 
 

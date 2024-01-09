@@ -7,14 +7,20 @@ import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
 import { AngularFireMessagingModule } from "@angular/fire/compat/messaging";
 import { AngularFireStorageModule } from "@angular/fire/compat/storage";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import { AppComponent } from 'src/app/app.component';
+import { SafePipe } from 'src/app/pipe/safe.pipe';
 import { DataService } from 'src/app/services/data.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { environment } from 'src/environments/environment';
-import { EmployeeOnboardingSidebarComponent } from '../common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
+import { HeaderComponent } from '../common/header/header.component';
 import { AcadmicComponent } from './components/acadmic/acadmic.component';
 import { BankDetailsComponent } from './components/bank-details/bank-details.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -23,13 +29,17 @@ import { EmployeeAddressDetailComponent } from './components/employee-address-de
 import { EmployeeDocumentComponent } from './components/employee-document/employee-document.component';
 import { EmployeeExperienceComponent } from './components/employee-experience/employee-experience.component';
 import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
+import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { LiveManagerComponent } from './components/live-manager/live-manager.component';
+import { LoginComponent } from './components/login/login.component';
+import { NewLoginComponent } from './components/new-login/new-login.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { ProjectComponent } from './components/project/project.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { RoleAddComponent } from './components/role-add/role-add.component';
 import { RoleComponent } from './components/role/role.component';
 import { SupportComponent } from './components/support/support.component';
 import { TaskManagerComponent } from './components/task-manager/task-manager.component';
@@ -57,7 +67,6 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 
-
 @NgModule({
   declarations: [
     DynamicComponent,
@@ -78,7 +87,6 @@ import { EmployeeOnboardingDataComponent } from './components/employee-onboardin
     EmployeeOnboardingDataComponent,
     RoleComponent,
     EmployeeOnboardingFormComponent,
-    EmployeeOnboardingSidebarComponent,
     EmployeeAddressDetailComponent,
     EmployeeDocumentComponent,
     AcadmicComponent,
