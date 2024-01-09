@@ -26,7 +26,6 @@ import { EmployeeAddressDetailComponent } from './components/employee-address-de
 import { EmployeeDocumentComponent } from './components/employee-document/employee-document.component';
 import { EmployeeExperienceComponent } from './components/employee-experience/employee-experience.component';
 import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
-import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
 import { LiveManagerComponent } from './components/live-manager/live-manager.component';
@@ -65,6 +64,7 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../common/header/header.component';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
+import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 
 
 @NgModule({
@@ -87,7 +87,6 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
     WaitingPageComponent,
     TeamComponent,
     TeamDetailComponent,
-    EmployeeOnboardingComponent,
     AttendanceSettingComponent,
     CompanySettingComponent,
     SelerySettingComponent,
@@ -112,7 +111,8 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
     AccountSettingsComponent,
     NewLoginComponent,
     HeaderComponent,
-    EmployeeOnboardingPreviewComponent
+    EmployeeOnboardingPreviewComponent,
+    EmployeeOnboardingDataComponent
 
 
   ],

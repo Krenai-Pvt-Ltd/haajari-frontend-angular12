@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
-import { CommonModule } from '@angular/common';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,30 +14,23 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RequestInterceptorService } from './configuration/request-interceptor.service';
-import { NotifactionTostComponent } from './modules/common/notifaction-tost/notifaction-tost.component';
 import { SharedModule } from './shared/shared.module';
-import { AngularFireModule } from '@angular/fire/compat';
-import { environment } from 'src/environments/environment';
-import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
-import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/slack-data-loader.component';
-import { DurationPickerComponent } from './modules/common/duration-picker/duration-picker.component';
 import { PeopleComponent } from './modules/people/people.component';
+import { CommonModule } from '@angular/common';
+import { SharedComponent } from './modules/shared/shared.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NotifactionTostComponent,
-    ErrorPageComponent,
-    SlackDataLoaderComponent,
-    DurationPickerComponent,
     PeopleComponent,
+    SharedComponent,
   ],
   imports: [
     RouterModule,
-    CommonModule,
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,

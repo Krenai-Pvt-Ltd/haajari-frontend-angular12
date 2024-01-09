@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NotifactionTostComponent } from './notifaction-tost.component';
+import { NotifactionTostComponent } from './notifaction-toast.component';
 
 describe('NotifactionTostComponent', () => {
   let component: NotifactionTostComponent;

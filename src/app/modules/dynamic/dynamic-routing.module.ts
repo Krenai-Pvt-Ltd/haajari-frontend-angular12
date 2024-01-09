@@ -1,7 +1,5 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HeaderComponent } from '../common/header/header.component';
-import { TopbarComponent } from '../common/topbar/topbar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LiveManagerComponent } from './components/live-manager/live-manager.component';
 import { LoginComponent } from './components/login/login.component';
@@ -20,7 +18,6 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
 import { AuthGuard } from 'src/app/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { DatePipe } from '@angular/common';
-import { EmployeeOnboardingComponent } from './components/employee-onboarding/employee-onboarding.component';
 import { AttendanceSettingComponent } from './components/attendance-setting/attendance-setting.component';
 import { CompanySettingComponent } from './components/company-setting/company-setting.component';
 import { SelerySettingComponent } from './components/selery-setting/selery-setting.component';
@@ -47,14 +44,13 @@ import { RoleAddComponent } from './components/role-add/role-add.component';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 import { NewLoginComponent } from './components/new-login/new-login.component';
 import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
+import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 
 
   const routes: Routes = [{ path: '', redirectTo: '/login', pathMatch:'full'},
     { path: '', component: DynamicComponent,
   children:[
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
-    { path: 'header', component: HeaderComponent },
-    { path: 'topbar', component: TopbarComponent },
     { path: 'timetable', component: TimetableComponent, canActivate: [AuthGuard]},
     { path: 'project', component: ProjectComponent},
     { path: 'team', component: TeamComponent, canActivate: [AuthGuard]},
@@ -69,7 +65,7 @@ import { EmployeeOnboardingPreviewComponent } from './components/employee-onboar
     {path: 'waiting', component: WaitingPageComponent},
     {path: 'team-detail', component: TeamDetailComponent, canActivate: [AuthGuard]},
     {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]}, 
-    {path: 'employee-onboarding', component: EmployeeOnboardingComponent, canActivate: [AuthGuard]},
+    {path: 'employee-onboarding-data', component: EmployeeOnboardingDataComponent, canActivate: [AuthGuard]},
     {path: 'attendance-setting', component: AttendanceSettingComponent, canActivate: [AuthGuard]},
     {path: 'company-setting', component: CompanySettingComponent, canActivate: [AuthGuard]},
     {path: 'selery-setting', component: SelerySettingComponent, canActivate: [AuthGuard]},
@@ -88,9 +84,6 @@ import { EmployeeOnboardingPreviewComponent } from './components/employee-onboar
     {path: 'leave-setting', component: LeaveSettingComponent , canActivate: [AuthGuard]},
     {path: 'privacy', component: PrivacyComponent},
     {path: 'support', component: SupportComponent},
-    {path: 'error-page', component: ErrorPageComponent},
-    {path: 'slack-data-loader', component: SlackDataLoaderComponent},
-    {path : 'duration-picker', component: DurationPickerComponent},
     {path : 'add-role', component: RoleAddComponent},
     {path : 'account-settings', component: AccountSettingsComponent},
     {path : 'new-login', component: NewLoginComponent},
