@@ -339,6 +339,13 @@ export class EmployeeProfileComponent implements OnInit {
           // if(new)
 
           console.log(this.events);
+          var flag = false;
+          if (!flag) {
+            var date = new Date(this.prevDate);
+            const calendarApi = this.calendarComponent.getApi();
+            this.changeForwardButtonVisibilty(calendarApi);
+            flag = true;
+          }
 
         },
         (error: any) => {
@@ -362,49 +369,11 @@ export class EmployeeProfileComponent implements OnInit {
     debugger
     const calendarApi = this.calendarComponent.getApi();
 
-    // (console.log(calendarApi.getDate().getMonth()));
-
-    // if((calendarApi.getDate().getMonth() == 11) && (calendarApi.getDate().getMonth() == ) (calendarApi.getDate().getMonth()) > new Date().getMonth()){
-    //   calendarApi.next();
-    //   this.forwordFlag = false;
-    // }
-
-    console.log("full Year " + calendarApi.getDate().getFullYear())
-    console.log("new date full Year " + new Date().getFullYear())
-    console.log(" full month " + calendarApi.getDate().getMonth())
-    console.log("new month " + new Date().getMonth())
-
-    if (calendarApi.getDate().getMonth() == 11 && new Date().getMonth() == 0) {
-      calendarApi.next();
-      this.forwordFlag = false;
-    }
-    else {
-      if ((calendarApi.getDate().getFullYear() < new Date().getFullYear())
-        || (calendarApi.getDate().getMonth() < new Date().getMonth() - 1)) {
-        calendarApi.next();
-        this.forwordFlag = true;
-        this.backwardFlag = true;
-
-      } else {
-        calendarApi.next();
-        this.forwordFlag = false;
-      }
-    }
-
-    // if(calendarApi.getDate().getFullYear() > new Date().getFullYear()){
-    //   this.forwordFlag = false;
-    // } else if( calendarApi.getDate().getFullYear() <= new Date().getFullYear() && calendarApi.getDate().getMonth() > new Date().getMonth()){
-    //   this.forwordFlag = false;
-    // }else{
-    //       calendarApi.next();
-    //           this.forwordFlag = true;
-    // }
-
-
+    calendarApi.next();
+    this.changeForwardButtonVisibilty(calendarApi);
 
     let startDate = calendarApi.view.currentStart;
     let endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
-
 
     this.startDateStr = moment(startDate).format('YYYY-MM-DD');
     if (endDate.getMonth() == new Date().getMonth()) {
@@ -414,30 +383,34 @@ export class EmployeeProfileComponent implements OnInit {
     }
     this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
 
-
-    // this.firstDay = 
-
-    // let firstD = new Date(calendarApi.getDate().getFullYear(), calendarApi.getDate().getMonth()+1, 1);
-    // firstD.setDate(1); 
-    // let lastD = new Date(calendarApi.getDate().getFullYear(), calendarApi.getDate().getMonth()+1, 0);
-    // lastD.setMonth(lastD.getMonth() + 1);
-    // lastD.setDate(0);
-    // let firstDString = firstD.toISOString().split('T')[0]; // Format: YYYY-MM-DD
-    // let lastDString = lastD.toISOString().split('T')[0];   
-
-    // this.startDateStr = firstDString;
-    // if(firstD.getMonth()==new Date().getMonth()){
-    //   this.endDateStr = moment(new Date()).format('YYYY-MM-DD')
-    // }else{
-    //    this.endDateStr = lastDString;
-    // }
-    // this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
-
-    // if(calendarApi.getDate().getMonth()==new Date().getMonth()){
-    //  this.forwordFlag=false;
-    //  this.backwardFlag=true;
-    // 
+   
   }
+
+  changeForwardButtonVisibilty(calendarApi: any) {
+    debugger
+    var enrolmentDate = new Date(this.prevDate);
+    if (calendarApi.getDate().getFullYear() != new Date().getFullYear()) {
+      this.forwordFlag = true;
+    } else if (calendarApi.getDate().getFullYear() == new Date().getFullYear()) {
+      if (calendarApi.getDate().getMonth() == new Date().getMonth()) {
+        this.forwordFlag = false;
+      } else {
+        this.forwordFlag = true;
+      }
+    }
+
+    if (calendarApi.getDate().getFullYear() == enrolmentDate.getFullYear()) {
+      if (calendarApi.getDate().getMonth() == enrolmentDate.getMonth()) {
+        this.backwardFlag = false;
+      } else {
+        this.backwardFlag = true;
+      }
+    } else {
+      this.backwardFlag = true;
+    }
+
+  }
+
   backwardFlag: boolean = true;
   goBackward() {
     debugger
@@ -446,18 +419,8 @@ export class EmployeeProfileComponent implements OnInit {
     var month = date.getMonth();
     console.log("month" + month);
 
-    // if((calendarApi.getDate().getFullYear() == date.getFullYear()) && (calendarApi.getDate().getMonth() == month)){
-    //   this.backwardFlag = false;
-    // }else{
-    if ((calendarApi.getDate().getFullYear() > date.getFullYear()) || (calendarApi.getDate().getMonth() > month + 1)) {
-      calendarApi.prev();
-      this.backwardFlag = true;
-      this.forwordFlag = true;
-    } else {
-      calendarApi.prev();
-      this.backwardFlag = false;
-    }
-    // }
+    calendarApi.prev();
+    this.changeForwardButtonVisibilty(calendarApi);
 
     let startDate = calendarApi.view.currentStart;
     let endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
@@ -470,32 +433,6 @@ export class EmployeeProfileComponent implements OnInit {
     this.endDateStr = moment(endDate).format('YYYY-MM-DD');
     this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
 
-
-
-    // let firstD = new Date(calendarApi.getDate().getFullYear(), calendarApi.getDate().getMonth()+1, 1);
-    // firstD.setDate(1); 
-    // let lastD = new Date(calendarApi.getDate().getFullYear(), calendarApi.getDate().getMonth()+1, 0);
-    // lastD.setMonth(lastD.getMonth() + 1);
-    // lastD.setDate(0);
-    // let firstDString = firstD.toISOString().split('T')[0]; // Format: YYYY-MM-DD
-    // let lastDString = lastD.toISOString().split('T')[0];   
-
-    // if(lastD.getMonth()== new Date(this.newDate).getMonth()){
-    //   this.startDateStr = this.newDate;
-    // }else{
-    // this.startDateStr = firstDString;
-    // }
-    // this.endDateStr = lastDString;
-    // this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
-
-
-    //  if(calendarApi.getDate().getMonth() == month){
-    //   this.backwardFlag=false;
-    //   this.forwordFlag=true;
-    //  }else{
-    //   this.backwardFlag=true;
-    //   this.forwordFlag=false;
-    //  }
   }
 
   goToday() {
@@ -515,17 +452,6 @@ export class EmployeeProfileComponent implements OnInit {
 
 
   }
-
-  //   calendarOptions: CalendarOptions = {
-  //     plugins: [dayGridPlugin],calendarOptions
-  //     initialView: 'dayGridMonth',
-  //     weekends: false,
-  //     events: [
-  //       // { title: 'Present', date: '2023-12-01' },
-  //       // { title: 'Absent', date: '2023-12-05' },
-  //       // { title: 'Present', date: '2023-12-15' }, 
-  //     ]
-  //   };
 
   // ############################################################################333333
 
