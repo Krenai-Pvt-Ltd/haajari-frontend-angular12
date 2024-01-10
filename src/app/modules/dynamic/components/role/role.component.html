@@ -44,18 +44,138 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="text-end add-filtter">
-                                            <!-- <button type="button" class="btn btn-primary" >Create New User</button> -->
-
                                             <a data-bs-toggle="modal" data-bs-target="#assignrole" type="btn"
                                                 (click)="getUsersByFilterMethodCall()">
                                                 <i class="bi bi-plus-circle"></i> Assign Role to User</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
 
-                                <div class="mt-3">
+                                <div *ngIf="
+                                userAndControlRoles === null ||
+                                userAndControlRoles === undefined ||
+                                userAndControlRoles.length === 0
+                              ">
+                                                <div class="mt-3 dashnodata">
+                                                    <div class="errorboxmain">
+                                                        <div class="errorboxinner text-center">
+                                                            <div class="errorboxplaceholder mb-2">
+                                                                <img src="assets/images/addnewproduct.svg"
+                                                                    style="width: 80px" />
+                                                            </div>
+
+                                                            <h4>No Data Found</h4>
+                                                            <p>
+                                                                Lorem Ipsum is simply dummy text of the
+                                                                printing and typesetting industry.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-md-4" *ngFor="
+                                    let userAndControl of userAndControlRoles
+                                      | paginate
+                                        : {
+                                            itemsPerPage: itemPerPage,
+                                            currentPage: pageNumber,
+                                            totalItems: total
+                                          }
+                                  ">
+                                        <div class="roldefine-box" >
+                                         
+                                            <div class="float-end">
+                                                <div class="dropdown d-inline-block">
+                                                    <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
+                                                        aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
+                                                        <i class="las la-ellipsis-v font-24 text-muted"
+                                                            style="color: #000444 !important;"></i>
+                                                    </a>
+                                                    <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" data-bs-toggle="modal"
+                                                            data-bs-target="#assignrole" (click)="selectUserAndControl(userAndControl)">Edit</a>
+                                                        <a class="dropdown-item" data-bs-toggle="modal"
+                                                            data-bs-target="#information" (click)="
+                                                            userAndControlDetailMethod(userAndControl)">View</a>
+                                                         <a class="dropdown-item" (click)="deleteUser(userAndControl.id)">Delete</a>
+                                                         
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center" style="gap:10px;">
+                                                <div class="">
+                                                    <div class="img-group">
+                                                        <a href="#" class="user-avatar me-1">
+                                                            <span class="members-icon">S</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="shrivastwa">
+                                                    <h5>{{ userAndControl.user.name }} ({{userAndControl.role.name }})</h5>
+                                                    <p class="mb-0">{{ userAndControl.user.email }}</p>
+                                                </div>
+                                            </div>
+    
+                                            <div class="role-detaile mt-3">
+                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                                                    industry. Lorem Ipsum has been the industry's standard dummy text ever
+                                                    since the 1500s,</p>
+                                            </div>
+    
+                                            <div class="mt-3 total-mamber ">
+                                                <p>2 People</p>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" *ngIf="userAndControlRoles.length > 0">
+                                        <div class="roldefine-box add-role-box">
+                                            <div class="d-flex align-items-center" style="gap:10px;">
+                                                <div class="">
+                                                    <div class="img-group">
+                                                        <a href="#" class="user-avatar me-1">
+                                                            <span class="members-icon">S</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="shrivastwa">
+                                                    <h5>Assign Role To User</h5>
+                                                    <p>Customized role</p>
+    
+                                                </div>
+                                            </div>
+    
+                                            <div class="role-detaile mt-3">
+                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                                                    industry. Lorem Ipsum has been the industry's standard dummy text ever
+                                                    since the 1500s,</p>
+                                            </div>
+
+                                            <div class="total-mamber add-filtter" style="margin-top: 14px;">
+                                                <a data-bs-toggle="modal" data-bs-target="#assignrole" type="btn"
+                                                    (click)="getUsersByFilterMethodCall()">
+                                                    <i class="bi bi-plus-circle" style="font-size: 16px;"></i> Assign Role to User</a>
+                                            </div>
+<!--     
+                                            <div class="total-mamber add-filtter" style="margin-top: 14px;">
+                                                <a class="" routerLink="/add-role"> <i class="bi bi-plus"
+                                                        style="font-size: 16px;"></i> Add new role</a>
+                                                
+                                            </div> -->
+                                        </div>
+                                    </div>
+    
+                                 
+                                </div>
+
+                                <!-- <div class="mt-3">
                                     <div class="table-responsive bg-white">
                                         <table class="table mb-0">
                                             <thead class="thead-light">
@@ -109,13 +229,7 @@
                                                         {{ userAndControl.user.email }}
                                                     </td>
                                                     <td>{{ userAndControl.role.name }}</td>
-                                                    <!-- <td>
-
-                                                    <div >
-                                                        <input type="checkbox" id="switch2" name="enableCheckOutQuestionnaire" class="d-none ng-untouched ng-valid ng-dirty" >
-                                                        <label for="switch2" id="enableCheckOutQuestionnaire" class="hafday">Toggle</label>
-                                                    </div>
-                                                </td> -->
+                                                    
                                                     <td>
                                                         <div class="hstack gap-3 justify-content-end">
                                                             <a href="javascript:void(0);"
@@ -133,15 +247,14 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <!--end /table-->
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="pagination pl-3" *ngIf="userAndControlRoles.length > 10">
                                 <p class="mb-0" style="padding-left: 15px">
                                     Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-                                    {{ total }} teams
+                                    {{ total }} roles
                                 </p>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -174,231 +287,7 @@
 
 
 
-                            <div class="row mt-3">
-                                <div class="col-md-4">
-                                    <div class="roldefine-box">
-
-                                        <div class="float-end">
-                                            <div class="dropdown d-inline-block">
-                                                <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
-                                                    <i class="las la-ellipsis-v font-24 text-muted"
-                                                        style="color: #000444 !important;"></i>
-                                                </a>
-                                                <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end">
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#assignrole">Edit</a>
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#information">View</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div class="">
-                                                <div class="img-group">
-                                                    <a href="#" class="user-avatar me-1">
-                                                        <span class="members-icon">S</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="shrivastwa">
-                                                <h5>Shivendra Shrivastwa</h5>
-                                                <p class="mb-0">Manager</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="role-detaile mt-3">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                since the 1500s,</p>
-                                        </div>
-
-                                        <div class="mt-3 total-mamber ">
-                                            <p>2 People</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="roldefine-box">
-
-                                        <div class="float-end">
-                                            <div class="dropdown d-inline-block">
-                                                <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
-                                                    <i class="las la-ellipsis-v font-24 text-muted"
-                                                        style="color: #000444 !important;"></i>
-                                                </a>
-                                                <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end"
-                                                  >
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#assignrole">Edit</a>
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#information">View</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div class="">
-                                                <div class="img-group">
-                                                    <a href="#" class="user-avatar me-1">
-                                                        <span class="members-icon">S</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="shrivastwa">
-                                                <h5>Aayush Khandelwal</h5>
-                                                <p class="mb-0">User</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="role-detaile mt-3">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                since the 1500s,</p>
-                                        </div>
-
-                                        <div class="mt-3 total-mamber ">
-                                            <p>2 People</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="roldefine-box">
-
-                                        <div class="float-end">
-                                            <div class="dropdown d-inline-block">
-                                                <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
-                                                    <i class="las la-ellipsis-v font-24 text-muted"
-                                                        style="color: #000444 !important;"></i>
-                                                </a>
-                                                <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end"
-                                                    style="">
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#assignrole">Edit</a>
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#information">View</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div class="">
-                                                <div class="img-group">
-                                                    <a href="#" class="user-avatar me-1">
-                                                        <span class="members-icon">S</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="shrivastwa">
-                                                <h5>Pradeep Yadav</h5>
-                                                <p class="mb-0">Manager</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="role-detaile mt-3">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                since the 1500s,</p>
-                                        </div>
-
-                                        <div class="mt-3 total-mamber ">
-                                            <p>2 People</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="roldefine-box">
-
-                                        <div class="float-end">
-                                            <div class="dropdown d-inline-block">
-                                                <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
-                                                    <i class="las la-ellipsis-v font-24 text-muted"
-                                                        style="color: #000444 !important;"></i>
-                                                </a>
-                                                <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end"
-                                                    style="">
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#assignrole">Edit</a>
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#information">View</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div class="">
-                                                <div class="img-group">
-                                                    <a href="#" class="user-avatar me-1">
-                                                        <span class="members-icon">S</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="shrivastwa">
-                                                <h5>Anchal Sharma</h5>
-                                                <p class="mb-0">User</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="role-detaile mt-3">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                since the 1500s,</p>
-                                        </div>
-
-                                        <div class="mt-3 total-mamber ">
-                                            <p>2 People</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="roldefine-box">
-
-                                        <div class="float-end">
-                                            <div class="dropdown d-inline-block">
-                                                <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
-                                                    <i class="las la-ellipsis-v font-24 text-muted"
-                                                        style="color: #000444 !important;"></i>
-                                                </a>
-                                                <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end"
-                                                    style="">
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#assignrole">Edit</a>
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#information">View</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div class="">
-                                                <div class="img-group">
-                                                    <a href="#" class="user-avatar me-1">
-                                                        <span class="members-icon">S</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="shrivastwa">
-                                                <h5>Tushar Gautam</h5>
-                                                <p class="mb-0">Admin</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="role-detaile mt-2">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                since the 1500s,</p>
-                                        </div>
-
-                                        <div class="mt-3 total-mamber ">
-                                            <p>2 People</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                            
                         </div>
 
                         <!-- role-security modal -->
@@ -435,8 +324,7 @@
 
                                 <div class="mt-3">
                                     <div class="table-responsive bg-white">
-                                        <tbody *ngIf="roles.length == 0">
-                                            <tr>
+                                        <div *ngIf="roles.length == 0">
                                                 <td colspan="4">
                                                     <div class="mt-3 dashnodata">
                                                         <div class="errorboxmain">
@@ -455,10 +343,115 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                            </tr>
-                                        </tbody>
+                                        </div>
 
-                                        <table class="table mb-0" *ngIf="roles.length > 0">
+                                        <div class="row mt-3">
+                               
+                                            <div class="row mt-3">
+                                                <div class="col-md-4" *ngFor="let role of roles | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}">
+                                                    <div class="roldefine-box">
+                
+                                                        <div class="float-end">
+                                                            <div class="dropdown d-inline-block">
+                                                                <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
+                                                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
+                                                                    <i class="las la-ellipsis-v font-24 text-muted"
+                                                                        style="color: #000444 !important;"></i>
+                                                                </a>
+                                                                <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end"
+                                                                >
+                                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                        data-bs-target="#role-details">View</a>
+                                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                        data-bs-target="#update-role" (click)="showDataToModal(role)">Manage</a>
+                                                                    <span *ngIf="(role.name!='ADMIN') && (role.name!='USER') && (role.name!='MANAGER')" >
+                                                                    <a href="#" class="dropdown-item"
+                                                                        >Delete</a>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex align-items-center" style="gap:10px;">
+                                                            <div class="">
+                                                                <div class="img-group">
+                                                                    <a href="#" class="user-avatar me-1">
+                                                                        <span class="members-icon">S</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="shrivastwa">
+                                                                <h5>{{ role.name }}</h5>
+                                                                <div class="mt-2 mb-2">
+                                                                    <span class="badge-grey ">{{
+                                                                        role.updatedDate | dateFormat
+                                                                        }}</span>
+                                                                </div>
+                
+                                                            </div>
+                                                        </div>
+                
+                                                        <div class="role-detaile mt-2">
+                                                            <p> {{ role.description }}</p>
+                                                        </div>
+                
+                                                        <div class="mt-3 total-mamber ">
+                                                            <p>2 People</p>
+                                                        </div>
+                                                       
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="roldefine-box add-role-box">
+                
+                                                        <!-- <div class="float-end">
+                                                            <div class="dropdown d-inline-block">
+                                                                <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
+                                                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
+                                                                    <i class="las la-ellipsis-v font-24 text-muted"
+                                                                        style="color: #000444 !important;"></i>
+                                                                </a>
+                                                                <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end"
+                                                                 >
+                                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                        data-bs-target="#role-details">View</a>
+                                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                        data-bs-target="#update-role">Manage</a>
+                                                                </div>
+                                                            </div>
+                                                        </div> -->
+                                                        <div class="d-flex align-items-center" style="gap:10px;">
+                                                            <div class="">
+                                                                <div class="img-group">
+                                                                    <a href="#" class="user-avatar me-1">
+                                                                        <span class="members-icon">S</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="shrivastwa">
+                                                                <h5>Add new role</h5>
+                                                                <p>Customized role</p>
+                
+                                                            </div>
+                                                        </div>
+                
+                                                        <div class="role-detaile mt-3">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
+                                                                since the 1500s,</p>
+                                                        </div>
+                
+                                                        <div class="total-mamber add-filtter" style="margin-top: 14px;">
+                                                            <a class="" routerLink="/add-role"> <i class="bi bi-plus"
+                                                                    style="font-size: 16px;"></i> Add new role</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+            
+                                            
+                                        </div>
+
+                                        <!-- <table class="table mb-0" *ngIf="roles.length > 0">
                                             <thead class="thead-light">
                                                 <tr>
                                                     <th>Role Name</th>
@@ -494,12 +487,11 @@
                                                     </td>
                                                 </tr>
                                             </tbody>
-                                        </table>
-                                        <!--end /table-->
+                                        </table> -->
                                     </div>
                                 </div>
                             </div>
-                            <div class="pagination pl-3" *ngIf="getAllRolesMethodCall.length > 10">
+                            <div class="pagination pl-3" *ngIf="getAllRolesMethodCall.length > 5">
                                 <p class="mb-0" style="padding-left: 15px">
                                     Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                                     {{ total }} teams
@@ -532,291 +524,7 @@
                             </div>
 
 
-                            <div class="row mt-3">
-                                <div class="col-md-4">
-                                    <div class="roldefine-box">
-
-                                        <div class="float-end">
-                                            <div class="dropdown d-inline-block">
-                                                <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
-                                                    <i class="las la-ellipsis-v font-24 text-muted"
-                                                        style="color: #000444 !important;"></i>
-                                                </a>
-                                                <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end"
-                                                    style="">
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#role-details">View</a>
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#update-role">Manage</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div class="">
-                                                <div class="img-group">
-                                                    <a href="#" class="user-avatar me-1">
-                                                        <span class="members-icon">S</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="shrivastwa">
-                                                <h5>Admin</h5>
-                                                <div class="mt-2 mb-2">
-                                                    <span class="badge-grey ">December 08, 2023</span>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="role-detaile mt-2">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                since the 1500s,</p>
-                                        </div>
-
-                                        <div class="mt-3 total-mamber ">
-                                            <p>2 People</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="roldefine-box">
-
-                                        <div class="float-end">
-                                            <div class="dropdown d-inline-block">
-                                                <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
-                                                    <i class="las la-ellipsis-v font-24 text-muted"
-                                                        style="color: #000444 !important;"></i>
-                                                </a>
-                                                <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end"
-                                                    style="">
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#role-details">View</a>
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#update-role">Manage</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div class="">
-                                                <div class="img-group">
-                                                    <a href="#" class="user-avatar me-1">
-                                                        <span class="members-icon">S</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="shrivastwa">
-                                                <h5>User</h5>
-                                                <div class="mt-2 mb-2">
-                                                    <span class="badge-grey ">December 08, 2023</span>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="role-detaile mt-2">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                since the 1500s,</p>
-                                        </div>
-
-                                        <div class="mt-3 total-mamber ">
-                                            <p>2 People</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="roldefine-box">
-
-                                        <div class="float-end">
-                                            <div class="dropdown d-inline-block">
-                                                <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
-                                                    <i class="las la-ellipsis-v font-24 text-muted"
-                                                        style="color: #000444 !important;"></i>
-                                                </a>
-                                                <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end"
-                                                    style="">
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#role-details">View</a>
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#update-role">Manage</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div class="">
-                                                <div class="img-group">
-                                                    <a href="#" class="user-avatar me-1">
-                                                        <span class="members-icon">S</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="shrivastwa">
-                                                <h5>Manager</h5>
-                                                <div class="mt-2 mb-2">
-                                                    <span class="badge-grey ">December 08, 2023</span>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="role-detaile mt-2">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                since the 1500s,</p>
-                                        </div>
-
-                                        <div class="mt-3 total-mamber ">
-                                            <p>2 People</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="roldefine-box">
-
-                                        <div class="float-end">
-                                            <div class="dropdown d-inline-block">
-                                                <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
-                                                    <i class="las la-ellipsis-v font-24 text-muted"
-                                                        style="color: #000444 !important;"></i>
-                                                </a>
-                                                <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end"
-                                                    style="">
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#role-details">View</a>
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#update-role">Manage</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div class="">
-                                                <div class="img-group">
-                                                    <a href="#" class="user-avatar me-1">
-                                                        <span class="members-icon">S</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="shrivastwa">
-                                                <h5>Branch Manager</h5>
-                                                <div class="mt-2 mb-2">
-                                                    <span class="badge-grey ">December 08, 2023</span>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="role-detaile mt-2">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                since the 1500s,</p>
-                                        </div>
-
-                                        <div class="mt-3 total-mamber ">
-                                            <p>2 People</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="roldefine-box">
-
-                                        <div class="float-end">
-                                            <div class="dropdown d-inline-block">
-                                                <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
-                                                    <i class="las la-ellipsis-v font-24 text-muted"
-                                                        style="color: #000444 !important;"></i>
-                                                </a>
-                                                <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end"
-                                                    style="">
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#role-details">View</a>
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#update-role">Manage</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div class="">
-                                                <div class="img-group">
-                                                    <a href="#" class="user-avatar me-1">
-                                                        <span class="members-icon">S</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="shrivastwa">
-                                                <h5>Admin</h5>
-                                                <div class="mt-2 mb-2">
-                                                    <span class="badge-grey ">December 08, 2023</span>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="role-detaile mt-2">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                since the 1500s,</p>
-                                        </div>
-
-                                        <div class="mt-3 total-mamber ">
-                                            <p>2 People</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="roldefine-box add-role-box">
-
-                                        <div class="float-end">
-                                            <div class="dropdown d-inline-block">
-                                                <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
-                                                    <i class="las la-ellipsis-v font-24 text-muted"
-                                                        style="color: #000444 !important;"></i>
-                                                </a>
-                                                <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end"
-                                                    style="">
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#role-details">View</a>
-                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#update-role">Manage</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="gap:10px;">
-                                            <div class="">
-                                                <div class="img-group">
-                                                    <a href="#" class="user-avatar me-1">
-                                                        <span class="members-icon">S</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="shrivastwa">
-                                                <h5>Add new role</h5>
-                                                <p>Customized role</p>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="role-detaile mt-3">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                since the 1500s,</p>
-                                        </div>
-
-                                        <div class="total-mamber add-filtter" style="margin-top: 14px;">
-                                            <a class="" routerLink="/add-role"> <i class="bi bi-plus"
-                                                    style="font-size: 16px;"></i> Add new role</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -1122,14 +830,25 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
                                     <li *ngFor="let role of roles">
-                                        <a class="dropdown-item" (click)="selectRole(role)">{{
+                                        
+                                        <a class="dropdown-item" (click)="selectRole(role)" *ngIf="role.name!='USER'">{{
                                             role.name
                                             }}</a>
+                                       
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="pb-2">Role</label>
+                            <input type="ematextil" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter role description">
+                        </div>
+                    </div>
+
                 </div>
                 <!--end row-->
             </div>

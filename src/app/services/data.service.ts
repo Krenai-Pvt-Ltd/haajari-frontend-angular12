@@ -51,7 +51,7 @@ export class DataService {
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  private baseUrl = "https://production.hajiri.work/api/v2";
+  // private baseUrl = "https://production.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -1007,6 +1007,7 @@ stepIndex:number=-1;
     const url = `${this.baseUrl}/user-leave-rule/delete-user-from-leave-setting-rule?userUuid=${userUuid}`;
     return this.httpClient.delete<void>(url);
   }
+  
 
   addUserToLeaveRule(userUuid: string, leaveSettingId: number): Observable<any> {
     const url = `${this.baseUrl}/user-leave-rule/add-users-in-leave-setting?userUuid=${userUuid}&leaveSettingId=${leaveSettingId}`;
@@ -1015,5 +1016,10 @@ stepIndex:number=-1;
 
   testing(testing : Testing): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/testing/register`, testing);
+  }
+
+  deleteUserOfRoleAndSecurity(id: number): Observable<void> {
+    const url = `${this.baseUrl}/role/deleteUserAndControlById?id=${id}`;
+    return this.httpClient.delete<void>(url);
   }
 }

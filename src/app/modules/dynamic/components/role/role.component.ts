@@ -20,7 +20,7 @@ isShimmer: boolean = true;
   constructor(private dataService : DataService, private router : Router) { }
 
   roles : Role[] = [];
-  itemPerPage : number = 5;
+  itemPerPage : number = 10;
   pageNumber : number = 1;
   total !: number;
   rowNumber : number = 1;
@@ -32,7 +32,7 @@ isShimmer: boolean = true;
     this.getUserAndControlRolesByFilterMethodCall();
     // this.getUsersByFilterMethodCall();
     this.call();
-    // this.getAllRolesMethodCall();
+    this.getAllRolesMethodCall();
   }
 
   selectedRole: any;
@@ -221,6 +221,18 @@ isShimmer: boolean = true;
     })
   }
 
+  deleteUser(id:number){
+    this.dataService.deleteUserOfRoleAndSecurity(id).subscribe((data) => {
+      console.log("user delted successfully")
+      this.getUserAndControlRolesByFilterMethodCall();
+    },(error) => {
+      console.log(error);
+    })
+  }
+
+
+  
+
 
   getUsersByFilterMethodCall(){
     this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'name').subscribe((data) => {
@@ -236,10 +248,11 @@ isShimmer: boolean = true;
   assignRoleToUserInUserAndControlMethodCall(){
     this.dataService.assignRoleToUserInUserAndControl((this.selectedUser.id), (this.selectedRole.id)).subscribe((data) => {
       // console.log(data);
-      
+      this.getUserAndControlRolesByFilterMethodCall();
       this.assignroleModalClose.nativeElement.click();
     }, (error) => {
       console.log(error);
+      this.getUserAndControlRolesByFilterMethodCall();
       this.assignroleModalClose.nativeElement.click();
     })
   }
