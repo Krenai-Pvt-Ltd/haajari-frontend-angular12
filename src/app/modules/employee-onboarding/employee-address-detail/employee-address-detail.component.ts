@@ -30,14 +30,14 @@ export class EmployeeAddressDetailComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
     };
-    this.router.navigate(['/employee-onboarding-form'], navExtra);
+    this.router.navigate(['/employee-onboarding/employee-onboarding-form'], navExtra);
   }
 
   routeToUserDetails() {
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
     };
-    this.router.navigate(['/employee-document'], navExtra);
+    this.router.navigate(['/employee-onboarding/employee-document'], navExtra);
   }
   userUuid:any;
 
@@ -57,12 +57,13 @@ setEmployeeAddressDetailsMethodCall() {
     return;
   }
 
-  this.dataService.markStepAsCompleted(2);
+  
 
   this.dataService.setEmployeeAddressDetails(this.userAddressDetailsRequest, userUuid)
     .subscribe(
       (response: UserAddressDetailsRequest) => {
         console.log('Response:', response);
+        this.dataService.markStepAsCompleted(response.statusId);
         this.toggle = false;
         this.routeToUserDetails(); // Ensure this method does what's expected
       },
@@ -79,11 +80,12 @@ isLoading:boolean = true;
   getNewUserAddressDetailsMethodCall() {
     debugger
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-    this.dataService.markStepAsCompleted(2);
+   
     if (userUuid) {
       this.dataService.getNewUserAddressDetails(userUuid).subscribe(
         (response: UserAddressDetailsRequest) => {
           this.isLoading=false;
+          this.dataService.markStepAsCompleted(response.statusId);
           if (response && response.userAddressRequest && response.userAddressRequest.length > 0) {
             this.userAddressDetailsRequest = response;
             

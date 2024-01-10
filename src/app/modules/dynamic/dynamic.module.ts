@@ -14,7 +14,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { DataService } from 'src/app/services/data.service';
 import { environment } from 'src/environments/environment';
-import { EmployeeOnboardingSidebarComponent } from '../common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { AcadmicComponent } from './components/acadmic/acadmic.component';
 import { BankDetailsComponent } from './components/bank-details/bank-details.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -57,7 +56,6 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 
-
 @NgModule({
   declarations: [
     DynamicComponent,
@@ -78,7 +76,6 @@ import { EmployeeOnboardingDataComponent } from './components/employee-onboardin
     EmployeeOnboardingDataComponent,
     RoleComponent,
     EmployeeOnboardingFormComponent,
-    EmployeeOnboardingSidebarComponent,
     EmployeeAddressDetailComponent,
     EmployeeDocumentComponent,
     AcadmicComponent,

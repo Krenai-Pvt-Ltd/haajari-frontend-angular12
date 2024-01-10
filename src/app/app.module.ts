@@ -14,21 +14,26 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RequestInterceptorService } from './configuration/request-interceptor.service';
+import { DurationPickerComponent } from './modules/common/duration-picker/duration-picker.component';
+import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
+import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/slack-data-loader.component';
 import { SharedModule } from './shared/shared.module';
-import { PeopleComponent } from './modules/people/people.component';
 import { CommonModule } from '@angular/common';
 import { SharedComponent } from './modules/shared/shared.component';
 import { SettingModule } from './modules/setting/setting.module';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import { NotifactionTostComponent } from './modules/common/notifaction-toast/notifaction-toast.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    PeopleComponent,
-    SharedComponent,
-
+    NotifactionTostComponent,
+    ErrorPageComponent,
+    SlackDataLoaderComponent,
+    DurationPickerComponent,
+    SharedComponent
     // AuthenticationComponent,
   ],
   imports: [

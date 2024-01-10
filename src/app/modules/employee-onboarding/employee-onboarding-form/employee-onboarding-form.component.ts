@@ -28,7 +28,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
     };
-    this.router.navigate(['/employee-address-detail'], navExtra);
+    this.router.navigate(['/employee-onboarding/employee-address-detail'], navExtra);
   }
 
   isFileSelected = false;
@@ -83,7 +83,7 @@ debugger
     
     this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
-    this.dataService.markStepAsCompleted(1);
+    
   
     this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
       .subscribe(
@@ -95,7 +95,7 @@ debugger
             this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
             // this.userPersonalDetailsStatus = response.statusResponse;
             // localStorage.setItem('statusResponse', JSON.stringify(this.userPersonalDetailsStatus));
-            this.dataService.markStepAsCompleted(1);
+            this.dataService.markStepAsCompleted(response.statusId);
           }  
           
           // this.router.navigate(['/employee-address-detail']);
@@ -133,7 +133,7 @@ debugger
                 this.handleOnboardingStatus(response.employeeOnboardingStatus.response);
                 console.log(response);
                 if(response.dob){
-                  this.dataService.markStepAsCompleted(1);
+                  this.dataService.markStepAsCompleted(response.statusId);
                 }
                 
 

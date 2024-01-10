@@ -51,7 +51,7 @@ export class DataService {
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  // private baseUrl = "https://production.hajiri.work/api/v2";
+  private baseUrl = "https://production.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -778,9 +778,6 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
   }
 stepIndex:number=-1;
   markStepAsCompleted(stepIndex: number): void {
-    // const currentStatus = this.stepsCompletionStatus.value;
-    // currentStatus[stepIndex] = true;
-    // this.stepsCompletionStatus.next(currentStatus);
     this.stepIndex=stepIndex;
   }
 

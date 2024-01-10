@@ -12,12 +12,11 @@ import { DynamicComponent } from './dynamic.component';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
 import { TeamComponent } from './components/team/team.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
-import { AuthGuard } from 'src/app/auth/auth-guard';
+import { AuthGuard } from 'src/app/modules/authentication/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { DatePipe } from '@angular/common';
 import { RoleComponent } from './components/role/role.component';
 import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
-import { EmployeeOnboardingSidebarComponent } from '../common/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { EmployeeAddressDetailComponent } from './components/employee-address-detail/employee-address-detail.component';
 import { EmployeeDocumentComponent } from './components/employee-document/employee-document.component';
 import { AcadmicComponent } from './components/acadmic/acadmic.component';
@@ -35,10 +34,11 @@ import { SlackDataLoaderComponent } from '../common/slack-data-loader/slack-data
 import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
 import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
+import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 
 
-  const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
+  const routes: Routes = [{ path: '', redirectTo: '/auth/login', pathMatch:'full'},
     { path: '', component: DynamicComponent,
   children:[
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
