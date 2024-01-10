@@ -115,7 +115,7 @@
                           </div>
                           
                           
-                            
+<!--                             
                           <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="dobField" class="pb-2">DOB <span class="text-optional">*</span></label>
@@ -127,7 +127,20 @@
                                 </p>
                                
                             </div>
+                        </div> -->
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="dobField" class="pb-2">DOB <span class="text-optional">*</span></label>
+                                <input type="date" class="form-control" id="dobField" name="dob" aria-describedby="dobHelp" placeholder="Enter DOB" [(ngModel)]="userPersonalInformationRequest.dob" [max]="maxDob" required #dob="ngModel">
+                            </div>
+                            <div *ngIf="dob?.touched">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="dob.errors?.required">
+                                    <i class="bi bi-exclamation-circle"></i> DOB is required.
+                                </p>
+                            </div>
                         </div>
+                        
                         
                         <div class="col-md-6">
                           <div class="mb-3">
@@ -199,12 +212,13 @@
                   <div class="col-md-6">
                     <div class="mb-3">
                         <label for="joiningDateField" class="pb-2">Joining Date <span class="text-optional">*</span></label>
-                        <input type="date" class="form-control" id="joiningDateField" name="joiningDate" placeholder="Enter joining date" [(ngModel)]="userPersonalInformationRequest.joiningDate" required #joiningDate="ngModel">
+                        <input type="date" class="form-control" id="joiningDateField" name="joiningDate" placeholder="Enter joining date" [(ngModel)]="userPersonalInformationRequest.joiningDate" [min]="minJoiningDate" required #joiningDate="ngModel">
                         <div *ngIf="joiningDate.touched">
                             <p class="errortxt mt-2 mb-0" *ngIf="joiningDate.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Joining date is required.</p>
                         </div>
                     </div>
                 </div>
+                
                 
                 <div class="col-md-6">
                   <div class="mb-3">
@@ -219,13 +233,27 @@
               
               <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="departmentField" class="pb-2">Department <span class="text-optional">*</span></label>
-                    <input type="text" class="form-control" id="departmentField" name="department" placeholder="Enter department" [(ngModel)]="userPersonalInformationRequest.department" required #department="ngModel">
-                    <div *ngIf="department.touched">
-                        <p class="errortxt mt-2 mb-0" *ngIf="department.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Department is required.</p>
+                    <label for="departmentDropdown" class="pb-2">Department <span class="text-optional">*</span></label>
+                    <div class="dropdown" style="width: 100%;">
+                        <button type="button" id="departmentDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="department">
+                            {{ userPersonalInformationRequest.department || 'Select Department' }}
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <ul aria-labelledby="departmentDropdown" class="dropdown-menu nationality-dropdown" style="width: 100%;">
+                            <li *ngFor="let dept of departments"><a class="dropdown-item" (click)="selectDepartment(dept)">{{ dept }}</a></li>
+                        </ul>
                     </div>
-                </div>
+                    <input type="hidden" [(ngModel)]="userPersonalInformationRequest.department" required #department="ngModel">
+                    <div *ngIf="department?.touched">
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="department.errors?.required">
+                            <i class="bi bi-exclamation-circle"></i> Department selection is required.
+                        </p>
+                    </div>
+                </div>                      
             </div>
+            
+            
+            
             
             <div class="col-md-6">
               <div class="mb-3">
@@ -239,13 +267,27 @@
           
           <div class="col-md-6">
             <div class="mb-3">
-                <label for="nationalityField" class="pb-2">Nationality <span class="text-optional">*</span></label>
-                <input type="text" class="form-control" id="nationalityField" name="nationality" placeholder="Enter nationality" [(ngModel)]="userPersonalInformationRequest.nationality" required #nationality="ngModel">
-                <div *ngIf="nationality.touched">
-                    <p class="errortxt mt-2 mb-0" *ngIf="nationality.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Nationality is required.</p>
+                <label for="nationalityDropdown" class="pb-2">Nationality <span class="text-optional">*</span></label>
+                <div class="dropdown" style="width: 100%;">
+                    <button type="button" id="nationalityDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="nationality">
+                        {{ userPersonalInformationRequest.nationality || 'Select Nationality' }}
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <ul aria-labelledby="nationalityDropdown" class="dropdown-menu nationality-dropdown" style="width: 100%;">
+                        <li><a class="dropdown-item" (click)="selectNationality('India')"> India</a></li>
+                        <li *ngFor="let country of countries"><a class="dropdown-item" (click)="selectNationality(country)">{{ country }}</a></li>
+
+                    </ul>
                 </div>
-            </div>
+                <input type="hidden" [(ngModel)]="userPersonalInformationRequest.nationality" required #nationality="ngModel">
+                <div *ngIf="nationality?.touched">
+                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="nationality.errors?.required">
+                        <i class="bi bi-exclamation-circle"></i> Nationality is required.
+                    </p>
+                </div>
+            </div>                      
         </div>
+        
         
         <!-- <button class="btn btn-primary" type="submit" aria-label="Next Step">
           <div *ngIf="toggle" class="dot-opacity-loader">
