@@ -79,12 +79,12 @@ debugger
           
              response.employeeOnboardingStatus;
             if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' ){
-              
+              this.employeeOnboardingFormStatus=response.employeeOnboardingStatus;
               this.successMessageModalButton.nativeElement.click();
             }
             setTimeout(()=>{
               this.routeToFormPreview();
-            },100);
+            },500);
           
          
           this.toggle = false;
