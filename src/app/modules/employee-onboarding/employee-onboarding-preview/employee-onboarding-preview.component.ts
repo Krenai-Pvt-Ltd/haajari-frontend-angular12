@@ -23,7 +23,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
     };
-    this.router.navigate(['/employee-onboarding-form'], navExtra);
+    this.router.navigate(['/employee-onboarding/employee-onboarding-form'], navExtra);
   }
 
   secondarySchoolCertificateFileName: string = '';
