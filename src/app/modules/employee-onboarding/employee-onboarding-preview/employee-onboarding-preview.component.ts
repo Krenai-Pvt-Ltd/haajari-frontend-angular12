@@ -51,6 +51,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
             this.userExperienceArray = preview.userExperience;
           }
           if(preview.userExperience[0].user.fresher==true){
+            
             this.isFresher=true;
           }
           if (preview.userEmergencyContacts) {

@@ -370,3 +370,7 @@ a.select-file {
     height: 3rem; /* Size of the loader */
     color: #007bff; /* Color of the loader, can be adjusted */
 }
+.department-dropdown{
+    height: 200px;
+    overflow: scroll;
+}
