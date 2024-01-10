@@ -65,6 +65,7 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../common/header/header.component';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
+import { BillingComponent } from './components/billing/billing.component';
 
 
 @NgModule({
@@ -112,7 +113,8 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
     AccountSettingsComponent,
     NewLoginComponent,
     HeaderComponent,
-    EmployeeOnboardingPreviewComponent
+    EmployeeOnboardingPreviewComponent,
+    BillingComponent
 
 
   ],

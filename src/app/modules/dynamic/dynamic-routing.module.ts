@@ -47,6 +47,8 @@ import { RoleAddComponent } from './components/role-add/role-add.component';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 import { NewLoginComponent } from './components/new-login/new-login.component';
 import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
+import { BillingComponent } from './components/billing/billing.component';
+
 
 
   const routes: Routes = [{ path: '', redirectTo: '/login', pathMatch:'full'},
@@ -94,7 +96,8 @@ import { EmployeeOnboardingPreviewComponent } from './components/employee-onboar
     {path : 'add-role', component: RoleAddComponent},
     {path : 'account-settings', component: AccountSettingsComponent},
     {path : 'new-login', component: NewLoginComponent},
-    {path : 'employee-onboarding-preview', component: EmployeeOnboardingPreviewComponent}
+    {path : 'employee-onboarding-preview', component: EmployeeOnboardingPreviewComponent},
+    {path : 'billing', component: BillingComponent}
   ] }
   ];
 

@@ -55,7 +55,8 @@ export class Key{
         "/employee-profile",
         "/leave-setting",
         "/account-settings",
-        "/add-role"
+        "/add-role",
+        "/billing"
     ];
 
     public static TOPBAR_ROUTES = [
@@ -82,7 +83,8 @@ export class Key{
         "/employee-profile",
         "/leave-setting",
         "/account-settings",
-        "/add-role"
+        "/add-role",
+        "/billing"
 
     ];
     
