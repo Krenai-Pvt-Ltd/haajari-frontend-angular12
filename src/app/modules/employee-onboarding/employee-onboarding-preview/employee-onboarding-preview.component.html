@@ -563,7 +563,7 @@
                               <tr>
                               <td>Institution Name : {{ onboardingPreviewData.userAcademics.institutionName }}</td>
                               <td>Grade/CGPA : {{ onboardingPreviewData.userAcademics.grade }}</td>
-                              <td>Graduating Year :  {{ onboardingPreviewData.userAcademics.greaduationYear }}</td>
+                              <td>Graduating Year :  {{ onboardingPreviewData.userAcademics.graduationYear }}</td>
                             </tr>
                               
                             </tbody>
@@ -578,7 +578,7 @@
                                   </td>
                                 </tr>
                           </table>
-                          <div *ngIf="!isFresher">
+                          <div *ngIf="isFresher">
                           <div  *ngFor="let userExperience of userExperienceArray; let i = index">
                           <table class="table table-bordered">
                          
@@ -610,7 +610,7 @@
                           </table>
                           </div>
                           </div>
-                          <div *ngIf="isFresher">
+                          <div *ngIf="!isFresher">
                             <table class="table table-bordered">
                                 <tbody class="table-design">
                                     <tr>

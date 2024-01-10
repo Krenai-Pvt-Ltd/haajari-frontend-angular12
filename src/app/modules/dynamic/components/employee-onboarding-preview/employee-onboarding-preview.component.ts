@@ -44,6 +44,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
         (preview) => {
           this.onboardingPreviewData = preview;
+          console.log(preview);
           this.isLoading = false;
           this.handleOnboardingStatus(preview.user.employeeOnboardingStatus.response);
           if(preview.userExperience){

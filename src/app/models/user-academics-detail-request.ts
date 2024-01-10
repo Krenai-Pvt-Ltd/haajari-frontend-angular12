@@ -3,7 +3,7 @@ export class UserAcademicsDetailRequest {
     degreeObtained!: string;
     fieldOfStudy!: string;
     institutionName!: string;
-    greaduationYear!: string;
+    graduationYear!: string;
     grade!: string;
     statusResponse!: string;
     statusId!: number;
