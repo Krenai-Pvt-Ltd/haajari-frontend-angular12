@@ -114,4 +114,10 @@ export class Key{
 
 
     public static VIEW_ALL = "View All";
+
+
+
+    // Toast statusResponse
+    public static TOAST_STATUS_SUCCESS = "Success";
+    public static TOAST_STATUS_ERROR = "Error";
 }

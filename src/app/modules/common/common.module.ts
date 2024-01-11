@@ -7,12 +7,11 @@ import { CommonComponent } from './common.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { HajiriPageLoaderComponent } from './hajiri-page-loader/hajiri-page-loader.component';
 import { HeaderComponent } from './header/header.component';
-import { NotifactionTostComponent } from './notifaction-toast/notifaction-toast.component';
 
 
 @NgModule({
   declarations: [
-    NotifactionTostComponent,
+  
     ErrorPageComponent,
     HajiriPageLoaderComponent,
     TopbarComponent,
@@ -24,6 +23,8 @@ import { NotifactionTostComponent } from './notifaction-toast/notifaction-toast.
   imports: [
     CommonModule,
     CommonRoutingModule
+  ],
+  exports: [
   ]
 })
 export class CommonModule { }
