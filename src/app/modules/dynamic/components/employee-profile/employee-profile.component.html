@@ -58,7 +58,7 @@
                                     <span *ngIf="user?.image !== null">
                                         <img src="{{user?.image}}" style="width:100px; border-radius: 50%;">
                                     </span>
-                                    <span *ngIf="user?.image == null && user?.image != undefined">
+                                    <span *ngIf="user?.image == null">
                                         <span class="members-name">{{ user?.name[0] || 'na'}}</span>
                                     </span>
                                     <span class="edit-profile" routerLink="/employee-onboarding-form"
@@ -1088,6 +1088,8 @@
 
 
                                         </div>
+
+                                       
                                         <div class="tab-pane fade mt-3" id="verify-employee" role="tabpanel">
 
 
@@ -1096,36 +1098,6 @@
 
                                                 <div class="row" *ngFor="let exp of experienceEmployee; let i= index">
                                                     <h5 style="text-align: left;">Experience - {{i+1}}</h5>
-                                                    <!-- <div class="col-md-4">
-                                                        <div class="detail-deta">
-                                                            <p class="mb-0">Company Name - {{exp.companyName || 'N/A'}} </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="detail-deta">
-                                                            <p class="mb-0">Duration - {{exp.employementDuration || 'N/A'}} </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="detail-deta">
-                                                            <p class="mb-0">Department - {{exp.lastJobDepartment || 'N/A'}}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="detail-deta">
-                                                            <p class="mb-0">Last Salary - {{exp.lastSalary || 'N/A'}}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="detail-deta">
-                                                            <p class="mb-0">Position - {{exp.lastJobPosition || 'N/A'}}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="detail-deta">
-                                                            <p class="mb-0">Responisibilities -  {{exp.jobResponisibilities || 'N/A'}}</p>
-                                                        </div>
-                                                    </div> -->
 
                                                     <table class="table table-bordered">
 
@@ -1770,3 +1742,4 @@
         </div>
     </div>
 </div>
+
