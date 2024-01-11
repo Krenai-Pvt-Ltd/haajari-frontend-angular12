@@ -45,18 +45,19 @@ export class Key{
         "/waiting",
         "/team-detail",
         "/user-profile",
-        "/employee-onboarding",
-        "/attendance-setting",
-        "/company-setting",
-        "/selery-setting",
+        "/employee-onboarding-data",
+        "/setting/attendance-setting",
+        "/setting/company-setting",
+        "/setting/selery-setting",
         "/role",
         "/employee-onboarding-sidebar",
         "/reports",
         "/employee-profile",
-        "/leave-setting",
-        "/account-settings",
         "/add-role",
-        "/billing"
+        "/billing",
+        "/setting/leave-setting",
+        "/setting/account-settings",
+        "/add-role"
     ];
 
     public static TOPBAR_ROUTES = [
@@ -73,19 +74,19 @@ export class Key{
         "/waiting",
         "/team-detail",
         "/user-profile",
-        "/employee-onboarding",
-        "/attendance-setting",
-        "/company-setting",
-        "/selery-setting",
+        "/employee-onboarding-data",
+        "/setting/attendance-setting",
+        "/setting/company-setting",
+        "/setting/selery-setting",
         "/role",
         "/employee-onboarding-sidebar",
         "/reports",
         "/employee-profile",
-        "/leave-setting",
-        "/account-settings",
         "/add-role",
-        "/billing"
-
+        "/billing",
+        "/setting/leave-setting",
+        "/setting/account-settings",
+        "/add-role"
     ];
     
 

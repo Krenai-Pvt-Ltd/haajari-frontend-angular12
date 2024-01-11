@@ -5,4 +5,5 @@ export class UserAddressDetailsRequest {
     
     sameAddress: boolean = true; 
     userAddressRequest: UserAddressRequest[] = [];
+    statusId: number = 0;
 }

@@ -1,0 +1,210 @@
+<!-- <app-employee-onboarding-sidebar></app-employee-onboarding-sidebar> -->
+
+<div class="page-wrapper">
+    <div class="page-content-tab">
+        <div class="container-fluid">
+          <app-hajiri-page-loader *ngIf="isLoading"></app-hajiri-page-loader>
+            <div class="row" *ngIf="!isLoading">
+                <div class="col-md-12">
+                    <div class="persnol-details">
+                        <h5>Employee Emergency Contact</h5>
+                        <p class="mb-0">Fields with * are mandatory</p>
+                        <form #emergencyInformationForm="ngForm" ngNativeValidate (ngSubmit)="openModal()">
+                            <div class="form-group">
+                        <div class="persnol-info mt-4">
+                            <div *ngFor="let contact of userEmergencyContactDetails; let i = index">
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                          <label for="relation{{i}}" class="pb-2">Relation with Employee <span class="text-optional">*</span></label>
+                                          <select class="form-control" id="relation{{i}}" name="relationWithEmployee" [(ngModel)]="contact.relationWithEmployee" required #relation="ngModel" [ngModelOptions]="{standalone: true}">
+                                            <option value="" disabled>Select Relation</option>
+                                            <option value="spouse">Spouse</option>
+                                            <option value="parent">Father</option>
+                                            <option value="parent">Mother</option>
+                                            <option value="child">Child</option>
+                                            <option value="sibling">Sibling</option>
+                                            <option value="relative">Relative</option>
+                                            <option value="friend">Friend</option>
+                                            <option value="colleague">Colleague</option>
+                                            <!-- Add more options as needed -->
+                                          </select>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-4">
+                                        <div class="mb-3">
+                                          <label for="name{{i}}" class="pb-2">Name <span class="text-optional">*</span></label>
+                                          <input type="text" class="form-control" id="name{{i}}" name="name" placeholder="Enter Name" [(ngModel)]="contact.contactName" required #name="ngModel" [ngModelOptions]="{standalone: true}">
+                                          <!-- Error Message for Name -->
+                                          <div *ngIf="name.touched && name.invalid">
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name.errors?.required">
+                                              <i class="bi bi-exclamation-circle"></i>
+                                              Name is required.
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="col-md-4">
+                                        <div class="mb-3">
+                                          <label for="phoneNumber{{i}}" class="pb-2">Phone Number <span class="text-optional">*</span></label>
+                                          <input type="text" class="form-control" id="phoneNumber{{i}}" name="phoneNumber" placeholder="Enter Phone Number" [(ngModel)]="contact.contactNumber" required pattern="^[0-9]*$" minlength="10" maxlength="10" #phoneNumber="ngModel" [ngModelOptions]="{standalone: true}">
+                                          <!-- Error Message for Phone Number -->
+                                          <div *ngIf="phoneNumber.touched && phoneNumber.invalid">
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.errors?.required">
+                                              <i class="bi bi-exclamation-circle"></i>
+                                              Phone Number is required.
+                                            </p>
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.errors?.pattern">
+                                              <i class="bi bi-exclamation-circle"></i>
+                                              Enter a valid 10-digit phone number.
+                                            </p>
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.errors?.minlength || phoneNumber.errors?.maxlength">
+                                              <i class="bi bi-exclamation-circle"></i> Phone number must be exactly 10 digits.
+                                          </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    <!-- <div class="col-md-12">
+                                        <span class="delete-icon" (click)="deleteEmergencyContact(i)">
+                                            <i class="bi bi-trash-fill" style="color: red;"></i> Delete
+                                        </span>
+                                    </div> -->
+                                </div>
+                                <div class="row align-items-center" >
+                                  <div class="col-md-6">
+                                   
+                                </div>
+                                  <div class="col-md-6" style="text-align: right;">
+                                      <div class="add-filtter" *ngIf="userEmergencyContactDetails.length!=1">
+                                          <a type="button" (click)="delete(i)" style="color: red;"><i class="bi bi-trash" style="font-size: 16px;"></i> Delete</a>
+                                      </div>
+                                     
+                                  </div>
+                              </div>
+                            </div>
+                            <!-- <div class="row">
+                                <div class="col-md-12">
+                                    <div class="add-more">
+                                        <span (click)="addEmergencyContact()">
+                                            <i class="bi bi-plus" style="margin-bottom: 14px;"></i> Add More
+                                        </span>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <div class="row align-items-center" >
+                                <div class="col-md-6">
+                                    <div class="add-filtter">
+                                        <a type="button" (click)="addEmergencyContact()"><i class="bi bi-plus" style="font-size: 23px;"></i> Add More</a>
+                                    </div>
+                                    <!-- <span class="add-more" (click)="addExperience()">
+                                        <i class="bi bi-plus" style="margin-bottom: 14px;"></i> Add More
+                                    </span> -->
+                                </div>
+                  
+                            </div>
+
+                           
+
+
+
+
+                          <div class="row">
+                              <div class="col-md-12 d-flex justify-content-between mt-3">
+                                <div class="info-btn d-flex justify-content-start">
+                                  <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()">
+                                    <i class="bi bi-arrow-left" style="padding-right: 8px;"></i> Back
+                                  </button>
+                                </div>
+                                <!-- Removed the unnecessary col-md-12 div -->
+                                <div class="info-btn d-flex justify-content-end">
+                                  <!-- Button to trigger confirmation modal -->
+                                  <button type="submit" class="btn btn-primary" [disabled]="!emergencyInformationForm.valid || toggle"  aria-label="Save">
+                                    <div *ngIf="toggle" class="dot-opacity-loader">
+                                      <span></span>
+                                      <span></span>
+                                      <span></span>
+                                    </div>
+                                    <span *ngIf="!toggle">
+                                      Save <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                    </span>
+                                  </button>
+                                  
+                                    
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+   <!-- Success Message Modal -->
+   <button type="button" style="display: none;" data-bs-toggle="modal" data-bs-target="#successMessageModal" #successMessageModalButton id="successMessageModalButton"></button>
+   <div class="modal fade"  id="successMessageModal" #successMessageModal aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered mx-auto">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <i class="bi bi-check-circle" *ngIf="employeeOnboardingFormStatus != 'REJECTED'" style="font-size: 48px; color: green;"></i>
+                <i class="bi bi-exclamation-triangle-fill" *ngIf="employeeOnboardingFormStatus == 'REJECTED'" style="font-size: 48px; color: red;"></i>
+                
+                <!-- Conditional Messages -->
+                <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'PENDING'">
+                    Your registration is successful. Pending for verification.
+                </p>
+                <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'APPROVED'">
+                    Your onboarding is approved.
+                </p>
+                <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+                    Your onboarding is rejected.
+                </p>
+
+                <!-- Edit Button -->
+
+                <button type="button" class="d-none"  data-bs-dismiss="modal" id="dismissSuccessModalButton" #dismissSuccessModalButton>
+                Cancel
+              </button>
+
+                <button type="button" class="btn btn-primary" *ngIf="allowEdit" data-bs-dismiss="modal">
+                    Edit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <!-- Confirmation Modal -->
+ <button type="button" style="display: none;" data-bs-toggle="modal" data-bs-target="#confirmationModal" #confirmationModalButton id="confirmationModalButton"></button>
+ <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered mx-auto mx-auto">
+      <div class="modal-content p-0">
+          <form #confirmationForm="ngForm">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="confirmationModalLabel">Confirm Details</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <!-- Example input field -->
+                  <!-- <input type="text" class="form-control" name="details" required> -->
+                  Are you sure you want to save these details?
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Edit</button>
+                  <!-- Button to trigger success message -->
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()" [disabled]="!confirmationForm.valid">Save Changes</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+
+

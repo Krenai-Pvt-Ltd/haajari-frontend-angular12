@@ -30,12 +30,32 @@ export class TopbarComponent implements OnInit {
       routeValue = "Attendance Details";
     }
 
+    if(routeValue === "role"){
+      routeValue = "Roles & Security";
+    }
+
     if(routeValue.includes("team-detail")){
       routeValue = "Team Details";
     }
 
     if(routeValue.includes("employee-profile")){
       routeValue = "Employee Profile";
+    }
+
+    if(routeValue.includes("leave-setting")){
+      routeValue = "Leave Setting";
+
+    }
+    if(routeValue.includes("attendance-setting")){
+      routeValue = "Attendance Setting";
+    }
+
+    if(routeValue.includes("company-setting")){
+      routeValue = "Company Setting";
+    }
+
+    if(routeValue.includes("selery-setting")){
+      routeValue = "Salary Setting";
     }
 
     this.topbarValue = this.capitalizeFirstLetter(routeValue);

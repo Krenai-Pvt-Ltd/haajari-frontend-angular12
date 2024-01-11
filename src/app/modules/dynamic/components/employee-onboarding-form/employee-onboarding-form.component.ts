@@ -182,8 +182,4 @@ displayModal = false;
   }
 
 
-
-
-
-  
 }

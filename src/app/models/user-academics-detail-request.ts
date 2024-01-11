@@ -6,4 +6,5 @@ export class UserAcademicsDetailRequest {
     greaduationYear!: string;
     grade!: string;
     statusResponse!: string;
+    statusId!: number;
 }

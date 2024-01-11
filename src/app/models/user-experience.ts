@@ -6,4 +6,5 @@ export class UserExperience {
     lastJobDepartment: string = ''; 
     lastJobPosition: string = ''; 
     fresher: boolean = true; 
+    statusId: number = 0;
 }

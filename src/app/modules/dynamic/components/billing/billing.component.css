@@ -14,10 +14,12 @@
     color: #6666f3;
 }
 .bill-detail p {
-    font-size: 11px;
+    font-size: 14px;
     color: #4a4f57;
     font-weight: 400;
+    margin-top: 1px;
 }
+
 span.currentplan {
     background-color: green;
     color: #fff;
@@ -29,7 +31,7 @@ span.currentplan {
 .bill-detail h5{
     margin-bottom: 0px;
     margin-top: 0px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
 }
 
@@ -51,7 +53,7 @@ span.currentplan {
     color: #fff;
     font-size: 16px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 5px;
     height: 40px;
 }
 
@@ -61,6 +63,22 @@ span.currentplan {
     border: 1px solid #6666f3;
     font-size: 15px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 5px;
     height: 40px;
+}
+
+.plan-featured{
+    list-style: none;
+    padding-left: 0px;
+    margin-top: 10px;
+}
+.plan-featured li{
+    line-height: 30px;
+    font-size: 12px;
+}
+
+.plan-featured li i{
+    font-size: 15px;
+    padding-right: 5px;
+    color: #6868f4;
 }

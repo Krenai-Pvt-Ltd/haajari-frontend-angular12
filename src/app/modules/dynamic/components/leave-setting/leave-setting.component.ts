@@ -1,15 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { error } from 'console';
-import { template } from 'lodash';
-import { constant } from 'src/app/constant/constant';
-import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';
-import { FullLeaveSettingResponse } from 'src/app/models/full-leave-setting-response';
-import { LeaveSettingCategoryResponse } from 'src/app/models/leave-categories-response';
-import { LeaveSettingResponse } from 'src/app/models/leave-setting-response';
-import { Staff } from 'src/app/models/staff';
-import { StaffSelectionUserList } from 'src/app/models/staff-selection-userlist';
-import { DataService } from 'src/app/services/data.service';
+import { constant, template } from 'lodash';
 
 @Component({
   selector: 'app-leave-setting',

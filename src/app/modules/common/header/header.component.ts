@@ -72,7 +72,7 @@ export class HeaderComponent implements OnInit {
     }else if(tabName=='refer'){
       this._data.activeTab=true;
     }
-    this.router.navigate(["/account-settings"], { queryParams: {tab: tabName } });
+    this.router.navigate(["/setting/account-settings"], { queryParams: {tab: tabName } });
     
   }
 }
