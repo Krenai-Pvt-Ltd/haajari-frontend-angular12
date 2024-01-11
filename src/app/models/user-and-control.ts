@@ -7,4 +7,5 @@ export class UserAndControl {
     presenceStatus !: Boolean;
     user !: User;
     role !: Role;
+    description !: string;
 }

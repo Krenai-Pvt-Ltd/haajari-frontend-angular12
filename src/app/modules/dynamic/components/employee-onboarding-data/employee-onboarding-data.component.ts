@@ -340,5 +340,19 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         this.personalInformationForm.reset();
     }
   }
+
+  disableUser(userId:number) {
+    debugger
+    this.dataService.disableUserFromDashboard(userId).subscribe(
+      (data) => {
+        console.log("user removed");
+        this.getUsersByFiltersFunction();
+        // this.helperService.showToast("","")
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
     
 }

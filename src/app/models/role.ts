@@ -4,4 +4,5 @@ export class Role {
     description !: string;
     createdDate !: string;
     updatedDate !: string;
+    count : number = 0;
 }

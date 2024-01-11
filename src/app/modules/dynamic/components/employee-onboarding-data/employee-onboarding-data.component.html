@@ -463,7 +463,7 @@
                                                                 class="link-primary text-decoration-underline"
                                                                 (click)="routeToUserDetails(user.uuid)">View</a>
 
-                                                            <a style="cursor: pointer; color:red" class="delete-rule"><i class="bi bi-trash"></i></a>
+                                                            <a style="cursor: pointer; color:red" class="delete-rule" (click)="disableUser(user.id)"><i class="bi bi-trash"></i></a>
 
                                                         </div>
                                                     </td>
