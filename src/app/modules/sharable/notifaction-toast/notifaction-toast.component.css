@@ -28,7 +28,7 @@
   }
 
   .checkbox-successfully{
-    background-color: green;
+    /* background-color: green; */
     color: #fff;
     width: 20px;
     height: 20px;
@@ -51,4 +51,12 @@
     vertical-align: text-bottom;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.error{
+  background-color: red !important;
+}
+
+.success{
+  background-color: green !important;
 }

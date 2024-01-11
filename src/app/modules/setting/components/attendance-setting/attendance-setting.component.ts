@@ -15,6 +15,7 @@ import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
 import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-attendance-setting',
@@ -25,10 +26,12 @@ export class AttendanceSettingComponent implements OnInit {
 
   readonly OVERTIME_RULE = Key.OVERTIME_RULE;
 
-  constructor(private dataService : DataService, private router: Router, private el: ElementRef) {
+  constructor(private dataService : DataService, private helperService : HelperService, private router: Router, private el: ElementRef) {
    }
 
   ngOnInit(): void {
+
+    // this.helperService.showTost("Attendance Settings deleted successfully", Key.TOAST_STATUS_SUCCESS);
     this.getAttendanceModeMethodCall();
     // this.getAttendanceModeAllMethodCall();
     this.getAllShiftTimingsMethodCall();
@@ -162,11 +165,13 @@ export class AttendanceSettingComponent implements OnInit {
       console.log(response);
       
       localStorage.removeItem("staffSelectionActive");
-      location.reload();
+      
       this.attendanceRuleDefinitionModalClose.nativeElement.click();
       this.activeModel2=false;
+      this.helperService.showToast("Attendance rule registered successfully", Key.TOAST_STATUS_SUCCESS);
     }, (error) =>{
       console.log(error);
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
 
@@ -201,13 +206,18 @@ export class AttendanceSettingComponent implements OnInit {
     }) 
   }
 
+  showToastMessage : boolean = false;
+
   deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionId : number){
     debugger
     this.dataService.deleteAttendanceRuleDefinition(attendanceRuleDefinitionId).subscribe((response) => {
       console.log(response);
-      location.reload();
+      this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
+      this.helperService.showToast("Attendance rule settings deleted successfully", Key.TOAST_STATUS_SUCCESS);
+
     }, (error) =>{
       console.log(error);
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
 
@@ -659,9 +669,11 @@ unselectAllUsers() {
       debugger
       console.log(response);
       this.closeShiftTimingModal.nativeElement.click();
-      location.reload();
+      this.getAllShiftTimingsMethodCall();
+      this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       console.log(error);
+      this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_ERROR);
     })
   }
 
@@ -839,9 +851,11 @@ unselectAllUsers() {
   deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId : number){
     this.dataService.deleteOrganizationShiftTiming(organizationShiftTimingId).subscribe((response)=>{
       console.log(response);
-      location.reload();
+      this.getAllShiftTimingsMethodCall();
+      this.helperService.showToast("Shift timing deleted successfully", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       console.log(error);
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
   
@@ -861,8 +875,10 @@ unselectAllUsers() {
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe((response) => {
       console.log(response);
       this.getAttendanceModeMethodCall();
+      this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
     }, (error)=>{
       console.log(error);
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
 

@@ -22,14 +22,13 @@ import { CommonModule } from '@angular/common';
 import { SharedComponent } from './modules/shared/shared.component';
 import { SettingModule } from './modules/setting/setting.module';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
-import { NotifactionTostComponent } from './modules/common/notifaction-toast/notifaction-toast.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NotifactionTostComponent,
+  
     ErrorPageComponent,
     SlackDataLoaderComponent,
     DurationPickerComponent,
@@ -51,7 +50,8 @@ import { NotifactionTostComponent } from './modules/common/notifaction-toast/not
     SharedModule,
     NgbModule,
     FullCalendarModule,
-    SettingModule
+    SettingModule,
+
     
 
     // CalendarModule.forRoot({

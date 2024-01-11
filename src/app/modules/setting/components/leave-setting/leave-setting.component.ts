@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/
 import { error } from 'console';
 import { template } from 'lodash';
 import { constant } from 'src/app/constant/constant';
+import { Key } from 'src/app/constant/key';
 import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';
 import { FullLeaveSettingResponse } from 'src/app/models/full-leave-setting-response';
 import { LeaveSettingCategoryResponse } from 'src/app/models/leave-categories-response';
@@ -10,6 +11,7 @@ import { LeaveSettingResponse } from 'src/app/models/leave-setting-response';
 import { Staff } from 'src/app/models/staff';
 import { StaffSelectionUserList } from 'src/app/models/staff-selection-userlist';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-leave-setting',
@@ -19,7 +21,7 @@ import { DataService } from 'src/app/services/data.service';
 export class LeaveSettingComponent implements OnInit {
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {
+  constructor(private fb: FormBuilder, private dataService: DataService, private helperService : HelperService) {
     this.form = this.fb.group({
       categories: this.fb.array([])
     });
@@ -150,6 +152,7 @@ export class LeaveSettingComponent implements OnInit {
   deleteRow(index: number) {
     const categoriesArray = this.form.get('categories') as FormArray;
     categoriesArray.removeAt(index);
+    this.helperService.showToast("Leave type deleted successfully", Key.TOAST_STATUS_SUCCESS);
   }
 
   hasError(controlName: string, index: number, errorName: string) {
@@ -558,9 +561,11 @@ export class LeaveSettingComponent implements OnInit {
       () => {
         this.getFullLeaveSettingInformation();
         console.log('Leave setting rule deleted successfully.');
+        this.helperService.showToast("Leave setting rule deleted successfully.", Key.TOAST_STATUS_SUCCESS);
       },
       (error) => {
         console.error('Error deleting leave setting rule:', error);
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       }
     );
   }
@@ -598,9 +603,11 @@ export class LeaveSettingComponent implements OnInit {
           console.log('Leave rules registered successfully:', response);
           this.getFullLeaveSettingInformation();
           this.requestLeaveCloseModel.nativeElement.click();
+          this.helperService.showToast("Leave rules registered successfully", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
           console.error('Error registering leave setting:', error);
+          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );
     }else if(!flag){
@@ -624,9 +631,11 @@ export class LeaveSettingComponent implements OnInit {
           this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
           // this.getFullLeaveSettingInformation();
           // this.requestLeaveCloseModel.nativeElement.click();
+          this.helperService.showToast("Leave rules registered successfully", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
           console.error('Error registering leave setting:', error);
+          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );
 
