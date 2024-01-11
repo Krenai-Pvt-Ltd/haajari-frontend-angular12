@@ -23,7 +23,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
     };
-    this.router.navigate(['/employee-onboarding-form'], navExtra);
+    this.router.navigate(['/employee-onboarding/employee-onboarding-form'], navExtra);
   }
 
   secondarySchoolCertificateFileName: string = '';
@@ -51,6 +51,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
             this.userExperienceArray = preview.userExperience;
           }
           if(preview.userExperience[0].user.fresher==true){
+            
             this.isFresher=true;
           }
           if (preview.userEmergencyContacts) {
