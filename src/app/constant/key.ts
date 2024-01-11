@@ -53,6 +53,8 @@ export class Key{
         "/employee-onboarding-sidebar",
         "/reports",
         "/employee-profile",
+        "/add-role",
+        "/billing",
         "/setting/leave-setting",
         "/setting/account-settings",
         "/add-role"
@@ -80,10 +82,11 @@ export class Key{
         "/employee-onboarding-sidebar",
         "/reports",
         "/employee-profile",
+        "/add-role",
+        "/billing",
         "/setting/leave-setting",
         "/setting/account-settings",
         "/add-role"
-
     ];
     
 
