@@ -96,7 +96,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="greaduationYear" class="pb-2">Graduating Year <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="greaduationYear" name="greaduationYear" placeholder="Please Enter Passing Year" [(ngModel)]="userAcademicsDetailRequest.greaduationYear" required #greaduationYear="ngModel">
+                                    <input type="text" class="form-control" id="greaduationYear" name="greaduationYear" placeholder="Please Enter Passing Year" [(ngModel)]="userAcademicsDetailRequest.graduationYear" required #greaduationYear="ngModel">
                                     <!-- Error Message for Graduating Year -->
                                     <div *ngIf="greaduationYear.touched">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="greaduationYear.errors?.required">

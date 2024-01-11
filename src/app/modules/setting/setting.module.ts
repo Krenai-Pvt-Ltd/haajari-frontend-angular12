@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { SettingRoutingModule } from './setting-routing.module';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
@@ -13,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DynamicModule } from "../dynamic/dynamic.module";
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -32,7 +32,9 @@ import { DynamicModule } from "../dynamic/dynamic.module";
         SettingRoutingModule,
         NgxPaginationModule,
         NgxShimmerLoadingModule,
-        DynamicModule
+        DynamicModule,
+       
+        
     ]
 })
 export class SettingModule { }

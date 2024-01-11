@@ -6,7 +6,6 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { SlackDataLoaderComponent } from './slack-data-loader/slack-data-loader.component';
 import { DurationPickerComponent } from './duration-picker/duration-picker.component';
 import { HajiriPageLoaderComponent } from './hajiri-page-loader/hajiri-page-loader.component';
-import { NotifactionTostComponent } from './notifaction-toast/notifaction-toast.component';
 
 const routes: Routes = [
   { path: 'header', component: HeaderComponent },
@@ -15,7 +14,7 @@ const routes: Routes = [
   {path: 'slack-data-loader', component: SlackDataLoaderComponent},
   {path: 'duration-picker', component: DurationPickerComponent},
   {path: 'hajiri-page-loader', component: HajiriPageLoaderComponent},
-  {path: 'notification-toast', component: NotifactionTostComponent}
+ 
 
 ];
 

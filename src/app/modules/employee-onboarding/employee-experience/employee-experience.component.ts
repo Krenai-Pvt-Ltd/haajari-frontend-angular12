@@ -90,6 +90,7 @@ export class EmployeeExperienceComponent implements OnInit {
       return;
     }
     this.toggle = true;
+    
     this.dataService.setEmployeeExperienceDetails(this.userExperiences, userUuid)
       .subscribe(
         response => { 
@@ -107,14 +108,14 @@ export class EmployeeExperienceComponent implements OnInit {
   }
 
   isLoading: boolean = true; 
-
+  isFresher:boolean=true;
   getEmployeeExperiencesDetailsMethodCall(userUuid: string) {
     debugger
     this.isLoading = true;
     
     this.dataService.getEmployeeExperiencesDetailsOnboarding(userUuid).subscribe(
       experiences => {
-        if (experiences[0].companyName!=null && experiences.length > 0) {
+        if (experiences[0].companyName!=null && experiences.length > 0 && experiences[0].fresher== false) {
           
           this.isLoading = false;
           this.isFresher=false;
@@ -123,6 +124,7 @@ export class EmployeeExperienceComponent implements OnInit {
           
           
         } else {
+          this.isFresher=true;
           this.isLoading = false;
           this.addExperience(); // Call addExperience if experiences is null or empty
           this.dataService.markStepAsCompleted(experiences[0].statusId);
@@ -138,5 +140,23 @@ export class EmployeeExperienceComponent implements OnInit {
 
 
 
-  isFresher:boolean=true;
+  
+
+
+  departments: string[] = [
+    'Accounting', 'Administration', 'Business Development', 'Communications', 'Compliance',
+    'Customer Service', 'Design', 'Distribution', 'Engineering', 'Environmental, Health, and Safety (EHS)',
+    'Finance', 'Human Resources', 'Information Technology (IT)', 'Legal', 'Logistics',
+    'Maintenance', 'Manufacturing', 'Marketing', 'Operations', 'Procurement',
+    'Product Development', 'Project Management', 'Public Relations', 'Quality Assurance', 'Research and Development (R&D)',
+    'Sales', 'Supply Chain Management', 'Sustainability', 'Training and Development', 'Treasury', 'other'
+];
+
+
+selectDepartmentForExperience(dept: string, index: number): void {
+  debugger
+  this.userExperiences[index].lastJobDepartment = dept;
+}
+
+
 }

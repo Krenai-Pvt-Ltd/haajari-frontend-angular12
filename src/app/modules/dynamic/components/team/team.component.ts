@@ -11,6 +11,7 @@ import { ModalService } from 'src/app/modal.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import * as uuid from 'uuid';
+import { Key } from 'src/app/constant/key';
 
 @Component({
   selector: 'app-team',
@@ -162,9 +163,12 @@ export class TeamComponent implements OnInit{
 
       debugger
       location.reload();
+      this.helperService.showToast("Team registration successfull.", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       location.reload();
       console.log(error);
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+
     })
   }
 
@@ -378,8 +382,10 @@ export class TeamComponent implements OnInit{
         console.log("Team Deleted Successfully");
         this.getTeamsByFiltersFunction();
         // location.reload();
+        this.helperService.showToast("Team Deleted Successfully.", Key.TOAST_STATUS_SUCCESS);
     },error => {
       console.error(error);
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       // location.reload();
     });
   }

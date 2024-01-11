@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { Key } from 'src/app/constant/key';
 
 @Component({
   selector: 'app-team-detail',
@@ -242,6 +243,7 @@ export class TeamDetailComponent implements OnInit {
     }, (error) => {
       console.log(error);
       window.location.reload();
+      
 
     })
   }
@@ -257,9 +259,11 @@ export class TeamDetailComponent implements OnInit {
     this.dataService.assignMemberRoleToManager(teamUuid,userUuid).subscribe((data) => {
       // localStorage.removeItem('managerFunc');
       console.log(data);
+      this.helperService.showToast("Manager removed successfully.", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       console.log(error);
       window.location.reload();
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
 
     })
   }
@@ -284,9 +288,11 @@ export class TeamDetailComponent implements OnInit {
         response => {
           console.log('Success:', response);
           location.reload();
+          this.helperService.showToast("User removed successfully.", Key.TOAST_STATUS_SUCCESS);
         },
         error => {
           console.error('Error:', error);
+          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );
   }
