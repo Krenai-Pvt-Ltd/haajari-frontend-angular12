@@ -357,10 +357,12 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       (data) => {
         console.log("user removed");
         this.getUsersByFiltersFunction();
-        // this.helperService.showToast("","")
+        this.helperService.showToast("User Removed Successfully.",Key.TOAST_STATUS_SUCCESS)
       },
       (error) => {
         console.log(error);
+        this.helperService.showToast(error.message,Key.TOAST_STATUS_ERROR)
+
       }
     );
   }
