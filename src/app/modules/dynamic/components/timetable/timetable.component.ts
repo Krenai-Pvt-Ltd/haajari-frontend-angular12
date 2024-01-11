@@ -370,8 +370,10 @@ export class TimetableComponent implements OnInit {
     this.dataService.addAdditionalNotes(this.additionalNotes, this.additionalNotesUserEmail).subscribe((data) => {
       console.log(data);
       this.addNotesModalClose.nativeElement.click();
+      this.helperService.showToast("Notes Added Successfully", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       console.log(error);
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
 

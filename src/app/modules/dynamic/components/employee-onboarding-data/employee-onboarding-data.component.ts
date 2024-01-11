@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Key } from 'src/app/constant/key';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
@@ -109,12 +110,14 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   
     text = '';
     changeStatus(presenceStatus: Boolean, uuid:string) {
+      debugger
       this.dataService.changeStatusById(presenceStatus, uuid).subscribe(
         (data) => {
           console.log(data);
           console.log('====================');
           // location.reload();
           this.getUsersByFiltersFunction();
+          // this.helperService.showToast("User disabled");
         },
         (error) => {
           console.log(error);
@@ -297,10 +300,14 @@ export class EmployeeOnboardingDataComponent implements OnInit {
                 this.clearForm();
                 this.closeModal();
             }
+
+            this.helperService.showToast("Mail sent successfully.", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
             console.error(error);
             this.toggle = false;
+            this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+
         }
       );
   }
@@ -326,10 +333,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           console.log(response); 
           this.getUsersByFiltersFunction();
           // location.reload();
+          this.helperService.showToast("Request mail sent successfully.", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
           // console.error(error);
           // location.reload();
+          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+
         }
       );
     }
