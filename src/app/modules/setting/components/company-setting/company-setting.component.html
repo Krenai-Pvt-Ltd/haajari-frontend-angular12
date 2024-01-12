@@ -191,12 +191,10 @@
 
                     <div class="row mt-4">
                         <div class="col-md-11">
-                          <div class="d-flex justify-content-between" style="gap: 10px;">
+                          <div class="d-flex justify-content-end" style="gap: 10px;">
                       
                             
-                            <button type="button" class="btn btn-secondary" (click)="enableEditMode()">
-                                <span>Edit</span>
-                            </button>
+                            <button type="button" class="btn edit-btn" (click)="enableEditMode()"><i class="bi bi-pencil" style=" font-size: 12px; padding-right: 5px; position: relative; top: -2px;"></i> Edit </button>
                       
                             
                             <button type="submit" class="btn btn-primary company-save-btn" [disabled]="isUpdating">

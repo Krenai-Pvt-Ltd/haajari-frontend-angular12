@@ -58,7 +58,7 @@
                             </ng-container>
                             <ng-template #attendanceModeData>
                                 <div class="attendance-settin-list" *ngFor="let attendanceMode of attendanceModeList">
-                                    <div class="categryCustomizecard d-flex pointer" 
+                                    <div class="categryCustomizecard d-flex pointer" data-bs-toggle="modal" data-bs-target="#attendancewithlocationss" 
                                          [ngClass]="{'attendance-active': attendanceMode.id === selectedAttendanceModeId}" 
                                          (click)="updateAttendanceModeMethodCall(attendanceMode.id)">
                                         <div class="categryCustomizeinfo">
@@ -2220,6 +2220,83 @@
                     </div>
                   </div>
                 </div>                                                       -->
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="attendancewithlocationss" tabindex="-1" role="dialog" aria-labelledby="attendancewithlocation"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Staff Attendance With Location </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div><!--end modal-header-->
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="mb-3">
+                            <label for="shiftName" class="pb-2">Address </label>
+                            <input type="text" id="" placeholder="Address line 1" required="" name="" class="form-control ng-untouched ng-pristine ng-invalid">
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+
+                        <div class="mb-3">
+                            <label for="shiftName" class="pb-2">Street Address</label>
+                            <input type="text" id="" placeholder="Address line 2" required="" name="" class="form-control ng-untouched ng-pristine ng-invalid">
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-4">
+
+                        <div class="mb-3">
+                            <label for="shiftName" class="pb-2">Landmark</label>
+                            <input type="text" id="" placeholder="Landmark" required="" name="" class="form-control ng-untouched ng-pristine ng-invalid">
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-4">
+
+                        <div class="mb-3">
+                            <label for="shiftName" class="pb-2"> City </label>
+                            <input type="text" id="" placeholder="City" required="" name="" class="form-control ng-untouched ng-pristine ng-invalid">
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-4">
+
+                        <div class="mb-3">
+                            <label for="shiftName" class="pb-2"> State </label>
+                            <input type="text" id="" placeholder="State" required="" name="" class="form-control ng-untouched ng-pristine ng-invalid">
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="mb-3">
+                            <label for="shiftName" class="pb-2">Country</label>
+                            <input type="text" id="" placeholder="Country" required="" name="" class="form-control ng-untouched ng-pristine ng-invalid">
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="shiftName" class="pb-2">Pincode</label>
+                            <input type="text" id="" placeholder="Pincode" required="" name="" class="form-control ng-untouched ng-pristine ng-invalid">
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="modal-footer d-flex align-items-center justify-content-end">
                 <button type="button" class="btn btn-primary">Submit</button>

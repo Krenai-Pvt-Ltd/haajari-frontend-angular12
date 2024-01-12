@@ -81,7 +81,7 @@
                             </div>
 
                             <div class="">
-                                <button type="button" class="btn switch-plan"> <i class="bi bi-arrow-left-right pr-2" style="padding-right: 10px;"></i> Switch Plan</button>
+                                <button type="button" class="btn switch-plan" routerLink="/setting/billing-payment"> <i class="bi bi-arrow-left-right pr-2" style="padding-right: 10px;"></i> Switch Plan</button>
                             </div>
 
                         </div>
@@ -123,11 +123,140 @@
                             </div>
 
                             <div class="">
-                                <button type="button" class="btn switch-plan"><i class="bi bi-arrow-left-right pr-2" style="padding-right: 10px;"></i> Switch Plan</button>
+                                <button type="button" class="btn switch-plan" routerLink="/setting/billing-payment"><i class="bi bi-arrow-left-right pr-2" style="padding-right: 10px;"></i> Switch Plan</button>
                             </div>
 
                         </div>
                     </div>
+                 </div>
+
+
+                 <div class="row mt-3">
+                    <div class="col-md-12">
+
+                        <div class="bill-detail">
+
+                            <div class="history-hadding"> 
+                                <h4>Payment History</h4>
+                                <p>Access all your Previous invoices </p>
+                            </div>
+
+                            <div class="mt-2">
+                                <ul id="myTab" role="tablist" class="nav nav-tabs">
+                                    <li role="presentation" class="nav-item">
+                                        <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                                            role="tab" aria-controls="home" aria-selected="true" class="nav-link active" #templateSettingTab>
+                                            Due payments</button>
+                                    </li>
+                                    <li role="presentation" class="nav-item">
+                                        <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+                                            type="button" role="tab" aria-controls="profile" aria-selected="false"
+                                            class="nav-link" #leaveCategoryTab>Payment history</button>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content" id="myTabContent">
+
+                                    <div class="tab-pane fade show active" id="home" role="tabpanel">
+                                        <div class="pt-3 pb-3">
+
+                                            <div class="">
+                                                <table class="table">
+                                                    <thead class="thead-light table-design">
+                                                        <tr>
+                                                            <th style="width:10%">Invoice Date</th>
+                                                            <th style="width:15%">Invoice Id</th>
+                                                            <th style="width:10%">Due Date</th>
+                                                            <th style="width:10%">Status</th>
+                                                            <th style="width:10%">Amount</th>
+                                                            <th style="width:10%">Valid From</th>
+                                                            <th style="width:10%">Valid Till</th>
+                                                            <th style="width:10%">Invoice</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table-design">
+                                                        <tr>
+                                                            <td><p class="tableinfo mb-0">09/01/2024 </p> </td>
+                                                            <td><p class="tableinfo mb-0">SAL/23-24/SUB-627</p></td>
+                                                            <td><p class="tableinfo mb-0">15/01/2024 </p> </td>
+                                                            <td><span class="unpaid">Unpaid</span></td>
+                                                            <td>₹9,999</td>
+                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
+                                                            <td><p class="tableinfo mb-0">01/02/2024</p></td>
+                                                            <td><button class="btn btn-primary" type="button">Pay</button></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><p class="tableinfo mb-0">09/01/2024 </p> </td>
+                                                            <td><p class="tableinfo mb-0">SAL/23-24/SUB-627</p></td>
+                                                            <td><p class="tableinfo mb-0">15/01/2024 </p> </td>
+                                                            <td><span class="unpaid">Unpaid</span></td>
+                                                            <td>₹9,999</td>
+                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
+                                                            <td><p class="tableinfo mb-0">01/02/2024</p></td>
+                                                            <td><button class="btn btn-primary" type="button">Pay</button></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="profile" role="tabpanel">
+                                        <div class="pt-3 pb-3">
+
+                                            <div class="">
+                                                <table class="table">
+                                                    <thead class="thead-light table-design">
+                                                        <tr>
+                                                            
+                                                            <th style="width:15%">Invoice Id</th>
+                                                            <th style="width:10%"> Date</th>
+                                                            <th style="width:10%">Invoice Type</th>
+                                                            <th style="width:10%">Amount</th>
+                                                            <th style="width:10%">Valid From</th>
+                                                            <th style="width:10%">Valid Till</th>
+                                                            <th style="width:10%">Payment Mode</th>
+                                                            <th style="width:10%">Payment Date</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table-design">
+                                                        <tr>
+                                                            <td><p class="tableinfo mb-0">SAL/23-24/SUB-627</p></td>
+                                                            <td><p class="tableinfo mb-0">09/01/2024 </p> </td>
+                                                            
+                                                            <td><p class="tableinfo mb-0">SUBSCRIPTION-PLAN </p> </td>
+                                                            <td><p class="tableinfo mb-0"> ₹9,999 </p> </td>
+                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
+                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
+                                                            <td><p class="tableinfo mb-0">Online</p></td>
+                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><p class="tableinfo mb-0">SAL/23-24/SUB-627</p></td>
+                                                            <td><p class="tableinfo mb-0">09/01/2024 </p> </td>
+                                                            
+                                                            <td><p class="tableinfo mb-0">SUBSCRIPTION-PLAN </p> </td>
+                                                            <td><p class="tableinfo mb-0"> ₹9,999 </p> </td>
+                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
+                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
+                                                            <td><p class="tableinfo mb-0">Online</p></td>
+                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+    
+                            </div>
+                        </div>
+
+                    </div>
+
                  </div>
             </div>
 
