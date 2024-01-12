@@ -467,8 +467,18 @@ margin-bottom: 0px;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
 }
 
+.nationality-dropdown{
+    height: 200px;
+    overflow: scroll;
+}
 .total-mamber {
     position: absolute;
     bottom: 20px;
 }
-
+.placeholder-add {
+    margin-bottom: 0px;
+    color: #6666f3;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
