@@ -7,6 +7,8 @@ import { Role } from 'src/app/models/role';
 import { RoleRequest } from 'src/app/models/role-request';
 import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
+import { Key } from 'src/app/constant/key';
 
 @Component({
   selector: 'app-role',
@@ -17,7 +19,7 @@ export class RoleComponent implements OnInit {
 isShimmer: boolean = true;
 
 
-  constructor(private dataService : DataService, private router : Router) { }
+  constructor(private dataService : DataService, private router : Router, private helperService: HelperService) { }
 
   roles : Role[] = [];
   itemPerPage : number = 6;
@@ -51,6 +53,7 @@ isShimmer: boolean = true;
   selectUserAndControl(userAndControl: UserAndControl) {
     this.selectedUser = userAndControl.user;
     this.selectedRole = userAndControl.role;
+    this.descriptionUserRole = userAndControl.description;
   }
 
   userAndControlDetailVariable : UserAndControl = new UserAndControl();
@@ -269,16 +272,20 @@ isShimmer: boolean = true;
     this.dataService.deleteUserOfRoleAndSecurity(id).subscribe((data) => {
       console.log("user delted successfully")
       this.getUserAndControlRolesByFilterMethodCall();
+      this.helperService.showToast("Deleted Successfully.", Key.TOAST_STATUS_SUCCESS);
     },(error) => {
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       console.log(error);
     })
   }
 
   deleteRolesWithUsers(id:number){
     this.dataService.deleteRolesOfRoleAndSecurity(id).subscribe((data) => {
-      console.log("delted successfully")
+      console.log("deleted successfully")
       this.getAllRolesMethodCall();
+      this.helperService.showToast("Deleted Successfully.", Key.TOAST_STATUS_SUCCESS);
     },(error) => {
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       console.log(error);
     })
   }

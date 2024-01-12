@@ -968,10 +968,14 @@ export class EmployeeProfileComponent implements OnInit {
       (data) => {
         console.log(data);
         this.getUserAttendanceStatus();
+        
       },
       (error) => {
         console.log(error);
         this.getUserAttendanceStatus();
+        if(command==="/inn"){
+        this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
+        }
         this.helperService.showToast("Success", Key.TOAST_STATUS_SUCCESS);
       }
     );
