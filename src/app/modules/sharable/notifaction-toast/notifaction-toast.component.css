@@ -2,7 +2,7 @@
     background-color: #000;  
     border: 1px solid #9ed587;
     display: flex;
-    width: 40%;
+    width: fit-content;
     padding: 15px;
     margin: 0 auto;
     bottom: 30px;
@@ -14,6 +14,8 @@
     animation: mymove 0.1s ease-in both;
     border-radius: 6px;
     z-index: 9999;
+    /* transform: translateY(15px);
+    transition: 0.2s linear; */
 }
 
 
@@ -59,4 +61,8 @@
 
 .success{
   background-color: green !important;
+}
+
+.error{
+  border: 1px solid #ff4242;
 }

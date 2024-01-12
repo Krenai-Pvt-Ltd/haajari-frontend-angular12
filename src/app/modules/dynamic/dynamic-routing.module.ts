@@ -37,6 +37,7 @@ import { EmployeeOnboardingPreviewComponent } from './components/employee-onboar
 import { BillingComponent } from './components/billing/billing.component';
 import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
+import { BillingPaymentComponent } from './components/billing-payment/billing-payment.component';
 
 
   const routes: Routes = [{ path: '', redirectTo: '/auth/login', pathMatch:'full'},
@@ -72,6 +73,7 @@ import { EmployeeOnboardingDataComponent } from './components/employee-onboardin
     {path : 'add-role', component: RoleAddComponent},
     {path : 'employee-onboarding-preview', component: EmployeeOnboardingPreviewComponent},
     {path : 'billing', component: BillingComponent},
+    {path : 'billing-payment', component: BillingPaymentComponent}
   ] }
   ];
 
