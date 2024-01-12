@@ -444,8 +444,7 @@ margin-bottom: 0px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
-.form-control {
+.attendance-details-search {
     display: block;
     width: 100%;
     padding: 0.4rem 1rem;
@@ -455,7 +454,7 @@ margin-bottom: 0px;
     color: #000444;
     background-color: #fff;
     background-clip: padding-box;
-    border: none;
+    border: none !important;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -465,7 +464,7 @@ margin-bottom: 0px;
     -o-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
-}
+} 
 
 .total-mamber {
     position: absolute;
