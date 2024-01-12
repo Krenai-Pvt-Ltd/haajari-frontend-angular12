@@ -82,3 +82,42 @@ span.currentplan {
     padding-right: 5px;
     color: #6868f4;
 }
+
+.history-hadding h4{
+   margin-top: 0px;
+   margin-bottom: 5px;
+   font-size: 18px;
+   font-weight: 600;
+}
+
+.history-hadding p{
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+
+.table .thead-light th {
+    color: #8997bd;
+    background-color: #f9fafb;
+    border-color: #e8ebf3;
+    border-bottom: none;
+    font-size: 13px;
+}
+p.tableinfo.mb-0 {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+}
+
+span.unpaid {
+    color: #fff;
+    font-size: 13px;
+    background-color: red;
+    padding: 3px 10px;
+    border-radius: 6px;
+}
+.table .table-design tr{
+    border-bottom: 1px solid #f9fafb;
+}
+
+.table .table-design tr:last-child{
+    border-bottom: none !important;
+}

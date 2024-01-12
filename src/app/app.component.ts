@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Key } from './constant/key';
 import { HelperService } from './services/helper.service';
@@ -9,7 +9,7 @@ import { HelperService } from './services/helper.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'hajari';
 
   //showHeader: boolean = true;
@@ -22,6 +22,9 @@ export class AppComponent {
         this.isShowToast=value;
       })
     this._router = router;
+  }
+  ngOnInit(): void {
+    // this._helperService.showToast("Successfully generated.", "Success");
   }
 
   // constructor(private router: Router) {

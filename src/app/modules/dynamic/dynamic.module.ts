@@ -56,6 +56,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { BillingComponent } from './components/billing/billing.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
+import { BillingPaymentComponent } from './components/billing-payment/billing-payment.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import { EmployeeOnboardingDataComponent } from './components/employee-onboardin
     HeaderComponent,
     EmployeeOnboardingPreviewComponent,
     BillingComponent,
-    EmployeeOnboardingDataComponent
+    EmployeeOnboardingDataComponent,
+    BillingPaymentComponent
 
 
   ],
