@@ -17,6 +17,8 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import * as dayjs from 'dayjs';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-response';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
+import { HelperService } from 'src/app/services/helper.service';
+import { Key } from 'src/app/constant/key';
 
 @Component({
   selector: 'app-employee-profile',
@@ -30,6 +32,7 @@ export class EmployeeProfileComponent implements OnInit {
     private dataService: DataService,
     private datePipe: DatePipe,
     private activateRoute: ActivatedRoute,
+    private helperService: HelperService,
     private fb: FormBuilder,
     private http: HttpClient,
     private firebaseStorage: AngularFireStorage,
@@ -965,11 +968,15 @@ export class EmployeeProfileComponent implements OnInit {
       (data) => {
         console.log(data);
         this.getUserAttendanceStatus();
+        
       },
       (error) => {
         console.log(error);
         this.getUserAttendanceStatus();
-
+        if(command==="/inn"){
+        this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
+        }
+        this.helperService.showToast("Success", Key.TOAST_STATUS_SUCCESS);
       }
     );
   }
@@ -997,3 +1004,5 @@ export class EmployeeProfileComponent implements OnInit {
 
 
 }
+
+
