@@ -694,62 +694,134 @@ unselectAllUsers() {
   }
 
   organizationShiftTimingValidationErrors: { [key: string]: string } = {};
+  // calculateTimes(): void {
+  //   const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
+
+  //   // Reset errors and calculated times each time we calculate
+  //   this.organizationShiftTimingValidationErrors = {};
+  //   this.organizationShiftTimingRequest.lunchHour = '';
+  //   this.organizationShiftTimingRequest.workingHour = '';
+
+  //   // Convert times to Date objects
+  //   const inDateTime = inTime ? new Date(`1970-01-01T${inTime}:00Z`).getTime() : 0;
+  //   const outDateTime = outTime ? new Date(`1970-01-01T${outTime}:00Z`).getTime() : 0;
+  //   const startLunchDateTime = startLunch ? new Date(`1970-01-01T${startLunch}:00Z`).getTime() : 0;
+  //   const endLunchDateTime = endLunch ? new Date(`1970-01-01T${endLunch}:00Z`).getTime() : 0;
+
+  //   let totalWorkedTime  = 0 ;
+
+  //   // Check for valid in and out times
+  //   if (inTime && outTime && outDateTime < inDateTime) {
+  //     this.organizationShiftTimingValidationErrors['outTime'] = 'Out time must be after in time.';
+  //   } else if (inTime && outTime) {
+  //     totalWorkedTime = outDateTime - inDateTime;
+  //     this.organizationShiftTimingRequest.workingHour = this.formatDuration(totalWorkedTime);
+  //   }
+
+  //   // If lunch start time isn't within in and out times
+  //   if(startLunch && inTime && outTime){
+  //     if(startLunchDateTime < inDateTime || startLunchDateTime > outDateTime){
+  //       this.organizationShiftTimingValidationErrors['startLunch'] = 'Lunch time should be within in and out times.';
+  //     }
+  //   }
+    
+  //   // If lunch end time isn't within in and out times
+  //   if(endLunch && inTime && outTime){
+  //     if(endLunchDateTime < inDateTime || endLunchDateTime > outDateTime){
+  //       this.organizationShiftTimingValidationErrors['endLunch'] = 'Lunch time should be within in and out times.';
+  //     }
+  //   }
+
+  //   // If lunch times are valid, calculate lunch hour and adjust working hours
+  //   if (startLunch && endLunch) {
+  //     if (endLunchDateTime <= startLunchDateTime) {
+  //       this.organizationShiftTimingValidationErrors['endLunch'] = 'Please enter a valid back time from lunch.';
+  //     } else if (startLunchDateTime >= endLunchDateTime) {
+  //       this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
+  //     } else {
+  //       const lunchBreakDuration = endLunchDateTime - startLunchDateTime;
+  //       this.organizationShiftTimingRequest.lunchHour = this.formatDuration(lunchBreakDuration);
+
+  //       // Only adjust working hours if they've been calculated (i.e., in and out times were valid)
+  //       if (this.organizationShiftTimingRequest.workingHour) {
+  //         const adjustedWorkedTime = totalWorkedTime - lunchBreakDuration;
+  //         this.organizationShiftTimingRequest.workingHour = this.formatDuration(adjustedWorkedTime);
+  //       }
+  //     }
+  //   }
+  // }
+
   calculateTimes(): void {
     const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
-
-    // Reset errors and calculated times each time we calculate
+  
+    // Reset errors and calculated times
     this.organizationShiftTimingValidationErrors = {};
     this.organizationShiftTimingRequest.lunchHour = '';
     this.organizationShiftTimingRequest.workingHour = '';
-
-    // Convert times to Date objects
-    const inDateTime = inTime ? new Date(`1970-01-01T${inTime}:00Z`).getTime() : 0;
-    const outDateTime = outTime ? new Date(`1970-01-01T${outTime}:00Z`).getTime() : 0;
-    const startLunchDateTime = startLunch ? new Date(`1970-01-01T${startLunch}:00Z`).getTime() : 0;
-    const endLunchDateTime = endLunch ? new Date(`1970-01-01T${endLunch}:00Z`).getTime() : 0;
-
-    let totalWorkedTime  = 0 ;
-
+  
+    // Helper function to convert time string to minutes
+    const timeToMinutes = (time : any) => {
+      if (!time) return 0;
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours * 60 + minutes;
+    };
+  
+    // Convert times to minutes
+    const inTimeMinutes = timeToMinutes(inTime);
+    const outTimeMinutes = timeToMinutes(outTime);
+    const startLunchMinutes = timeToMinutes(startLunch);
+    const endLunchMinutes = timeToMinutes(endLunch);
+  
     // Check for valid in and out times
-    if (inTime && outTime && outDateTime < inDateTime) {
-      this.organizationShiftTimingValidationErrors['outTime'] = 'Out time must be after in time.';
-    } else if (inTime && outTime) {
-      totalWorkedTime = outDateTime - inDateTime;
-      this.organizationShiftTimingRequest.workingHour = this.formatDuration(totalWorkedTime);
-    }
-
-    // If lunch start time isn't within in and out times
-    if(startLunch && inTime && outTime){
-      if(startLunchDateTime < inDateTime || startLunchDateTime > outDateTime){
-        this.organizationShiftTimingValidationErrors['startLunch'] = 'Lunch time should be within in and out times.';
-      }
-    }
-    
-    // If lunch end time isn't within in and out times
-    if(endLunch && inTime && outTime){
-      if(endLunchDateTime < inDateTime || endLunchDateTime > outDateTime){
-        this.organizationShiftTimingValidationErrors['endLunch'] = 'Lunch time should be within in and out times.';
-      }
-    }
-
-    // If lunch times are valid, calculate lunch hour and adjust working hours
-    if (startLunch && endLunch) {
-      if (endLunchDateTime <= startLunchDateTime) {
-        this.organizationShiftTimingValidationErrors['endLunch'] = 'Please enter a valid back time from lunch.';
-      } else if (startLunchDateTime >= endLunchDateTime) {
-        this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
+    if (inTime && outTime) {
+      if (outTimeMinutes < inTimeMinutes) {
+        this.organizationShiftTimingValidationErrors['outTime'] = 'Out time must be after in time.';
       } else {
-        const lunchBreakDuration = endLunchDateTime - startLunchDateTime;
-        this.organizationShiftTimingRequest.lunchHour = this.formatDuration(lunchBreakDuration);
-
-        // Only adjust working hours if they've been calculated (i.e., in and out times were valid)
-        if (this.organizationShiftTimingRequest.workingHour) {
-          const adjustedWorkedTime = totalWorkedTime - lunchBreakDuration;
-          this.organizationShiftTimingRequest.workingHour = this.formatDuration(adjustedWorkedTime);
-        }
+        const totalWorkedMinutes = outTimeMinutes - inTimeMinutes;
+        this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(totalWorkedMinutes);
+      }
+    }
+  
+    // Check for valid lunch start time
+    if (startLunch && (startLunchMinutes < inTimeMinutes || startLunchMinutes > outTimeMinutes)) {
+      this.organizationShiftTimingValidationErrors['startLunch'] = 'Lunch time should be within in and out times.';
+    }
+  
+    // Check for valid lunch end time
+    if (endLunch && (endLunchMinutes < inTimeMinutes || endLunchMinutes > outTimeMinutes)) {
+      this.organizationShiftTimingValidationErrors['endLunch'] = 'Lunch time should be within in and out times.';
+    }
+  
+    // Calculate lunch hour and adjust working hours if lunch times are valid
+    if (startLunch && endLunch && startLunchMinutes < endLunchMinutes) {
+      const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
+      this.organizationShiftTimingRequest.lunchHour = this.formatMinutesToTime(lunchBreakMinutes);
+  
+      if (this.organizationShiftTimingRequest.workingHour) {
+        const adjustedWorkedMinutes = timeToMinutes(this.organizationShiftTimingRequest.workingHour) - lunchBreakMinutes;
+        this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(adjustedWorkedMinutes);
+      }
+    }
+  
+    // Additional validation for lunch times
+    if (startLunch && endLunch) {
+      if (endLunchMinutes <= startLunchMinutes) {
+        this.organizationShiftTimingValidationErrors['endLunch'] = 'Please enter a valid back time from lunch.';
+      }
+      if (startLunchMinutes >= endLunchMinutes) {
+        this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
       }
     }
   }
+  
+  // Helper function to format minutes back to HH:mm format
+  formatMinutesToTime(minutes : any) {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+  }
+  
+  
 
   private formatDuration(duration: number): string {
     const hours = Math.floor(duration / 1000 / 60 / 60);

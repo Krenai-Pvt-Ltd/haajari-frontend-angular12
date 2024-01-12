@@ -462,14 +462,14 @@ export class EmployeeProfileComponent implements OnInit {
   today: Date = new Date();
   convertStringToDate(attendance: AttendenceDto) {
     if (attendance.converterDate == undefined) {
-      attendance.converterDate = new Date(attendance.createdDay);
+      attendance.converterDate = new Date(attendance.createdDate);
     }
     return attendance.converterDate;
   }
 
   dateInMonthList(attendances: AttendenceDto[]): string[] {
     const uniqueDays = Array.from(
-      new Set(attendances.map((a) => a.createdDay))
+      new Set(attendances.map((a) => a.createdDate))
     );
     return uniqueDays;
   }
