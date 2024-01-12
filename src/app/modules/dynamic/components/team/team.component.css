@@ -385,7 +385,7 @@ span.remove-icon:hover {
     font-size: .875rem;
     font-weight: 400;
     height: 40px !important;
-    border: 1px solid #ccc;
+    border: none;
     background-color: transparent;
 }
 .cusser{

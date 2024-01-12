@@ -34,8 +34,10 @@ import { SlackDataLoaderComponent } from '../common/slack-data-loader/slack-data
 import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
 import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
+import { BillingComponent } from './components/billing/billing.component';
 import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
+import { BillingPaymentComponent } from './components/billing-payment/billing-payment.component';
 
 
   const routes: Routes = [{ path: '', redirectTo: '/auth/login', pathMatch:'full'},
@@ -69,7 +71,9 @@ import { EmployeeOnboardingDataComponent } from './components/employee-onboardin
     {path: 'privacy', component: PrivacyComponent},
     {path: 'support', component: SupportComponent},
     {path : 'add-role', component: RoleAddComponent},
-    {path : 'employee-onboarding-preview', component: EmployeeOnboardingPreviewComponent}
+    {path : 'employee-onboarding-preview', component: EmployeeOnboardingPreviewComponent},
+    {path : 'billing', component: BillingComponent},
+    {path : 'billing-payment', component: BillingPaymentComponent}
   ] }
   ];
 

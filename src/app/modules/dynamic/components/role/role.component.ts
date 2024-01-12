@@ -20,8 +20,9 @@ isShimmer: boolean = true;
   constructor(private dataService : DataService, private router : Router) { }
 
   roles : Role[] = [];
-  itemPerPage : number = 5;
+  itemPerPage : number = 6;
   pageNumber : number = 1;
+  pageNumberUser : number = 1;
   total !: number;
   rowNumber : number = 1;
   searchText : string = '';
@@ -30,9 +31,9 @@ isShimmer: boolean = true;
 
   ngOnInit(): void {
     this.getUserAndControlRolesByFilterMethodCall();
-    // this.getUsersByFilterMethodCall();
+    this.getUsersByFilterMethodCall();
     this.call();
-    // this.getAllRolesMethodCall();
+    this.getAllRolesMethodCall();
   }
 
   selectedRole: any;
@@ -56,13 +57,42 @@ isShimmer: boolean = true;
   userAndControlDetailMethod(userAndControl : UserAndControl){
     this.userAndControlDetailVariable = userAndControl;
   }
+  totalUser:number =0;
+
+  num:number = 0;
+  
+  async getTotalCountOfUsers(id:number){
+    return new Promise((resolve, reject)=>{
+    this.dataService.getTotalCountOfUsersOfRoleAndSecurity(id).subscribe((data) => {
+
+      this.num = data;
+      // this.getAllRolesMethodCall();
+
+        resolve(data);
+
+      return data;
+    },(error) => {
+      console.log(error);
+    })
+  })
+  }
+
+
   // # Data Table of roles
   getAllRolesMethodCall(){
 
-    this.dataService.getAllRoles(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'', 0).subscribe((data) => {
+    debugger
+    this.dataService.getAllRoles(this.itemPerPage,this.pageNumberUser,'asc','id',this.searchText,'', 0).subscribe(async (data) => {
 
       this.roles = data.object;
-      this.total = data.totalItems;
+      for (let i = 0; i < this.roles.length; i++) {
+       await this.getTotalCountOfUsers(this.roles[i].id).then((data)=>{
+         console.log(data);
+       });
+       this.roles[i].count = this.num;
+       console.log(this.num);
+      }
+      this.totalUser = data.totalItems;
 
       console.log(this.roles);
     }, (error) => {
@@ -71,9 +101,22 @@ isShimmer: boolean = true;
     })
   }
 
+  
+  crossFlag:boolean=false;
   searchUsers(){
+    this.crossFlag=true;
     this.getUserAndControlRolesByFilterMethodCall();
+    if(this.searchText== ''){
+      this.crossFlag=false;
+    }
   }
+
+ clearSearchUsers(){
+  this.searchText='';
+  this.getUserAndControlRolesByFilterMethodCall();
+  this.crossFlag=false;
+
+ }
 
   
 
@@ -128,6 +171,7 @@ isShimmer: boolean = true;
   createRoleMethodCall(){
     this.dataService.createRole(this.roleRequest).subscribe((data) => {
       console.log(data);
+      this.getAllRolesMethodCall();
       this.createRoleModalClose.nativeElement.click();
     }, (error)=>{
       console.log(error);
@@ -221,9 +265,35 @@ isShimmer: boolean = true;
     })
   }
 
+  deleteUser(id:number){
+    this.dataService.deleteUserOfRoleAndSecurity(id).subscribe((data) => {
+      console.log("user delted successfully")
+      this.getUserAndControlRolesByFilterMethodCall();
+    },(error) => {
+      console.log(error);
+    })
+  }
+
+  deleteRolesWithUsers(id:number){
+    this.dataService.deleteRolesOfRoleAndSecurity(id).subscribe((data) => {
+      console.log("delted successfully")
+      this.getAllRolesMethodCall();
+    },(error) => {
+      console.log(error);
+    })
+  }
+
+ 
+  
+  
+
+  
+
+  
+
 
   getUsersByFilterMethodCall(){
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'name').subscribe((data) => {
+    this.dataService.getUsersByFilter(0,1,'asc','id','','name').subscribe((data) => {
       this.users = data.users;
       // this.total = data.count;
 
@@ -232,16 +302,26 @@ isShimmer: boolean = true;
   }
 
   @ViewChild('assignroleModalClose') assignroleModalClose !: ElementRef;
+  descriptionUserRole:string='';
 
   assignRoleToUserInUserAndControlMethodCall(){
-    this.dataService.assignRoleToUserInUserAndControl((this.selectedUser.id), (this.selectedRole.id)).subscribe((data) => {
+    this.dataService.assignRoleToUserInUserAndControl((this.selectedUser.id), (this.selectedRole.id), this.descriptionUserRole).subscribe((data) => {
       // console.log(data);
-      
+      this.getUserAndControlRolesByFilterMethodCall();
       this.assignroleModalClose.nativeElement.click();
+      this.emptyAssignRoleToUserInUserAndControlMethodCall();
     }, (error) => {
       console.log(error);
+      this.getUserAndControlRolesByFilterMethodCall();
       this.assignroleModalClose.nativeElement.click();
+      this.emptyAssignRoleToUserInUserAndControlMethodCall();
     })
+  }
+
+  emptyAssignRoleToUserInUserAndControlMethodCall(){
+    this.selectedUser = null;
+    this.selectedRole = null;
+    this.descriptionUserRole = '';
   }
 
 
@@ -293,6 +373,41 @@ isShimmer: boolean = true;
   onTableDataChange(event : any)
   {
     this.pageNumber=event;
+    // this.getAllRolesMethodCall();
+  }
+
+  //  pagination users
+
+  changePageUser(page: number | string) {
+    if (typeof page === 'number') {
+      this.pageNumberUser = page;
+    } else if (page === 'prev' && this.pageNumberUser > 1) {
+      this.pageNumberUser--;
+    } else if (page === 'next' && this.pageNumberUser < this.totalPagesUser) {
+      this.pageNumberUser++;
+    }
     this.getAllRolesMethodCall();
+  }
+
+  getPagesUser(): number[] {
+    const totalPages = Math.ceil(this.totalUser / this.itemPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  get totalPagesUser(): number {
+    return Math.ceil(this.totalUser / this.itemPerPage);
+  }
+  getStartIndexUser(): number {
+    return (this.pageNumberUser - 1) * this.itemPerPage + 1;
+  }
+  getEndIndexUser(): number {
+    const endIndex = this.pageNumberUser * this.itemPerPage;
+    return endIndex > this.totalUser ? this.totalUser : endIndex;
+  }
+
+  onTableDataChangeUser(event : any)
+  {
+    this.pageNumberUser=event;
+    // this.getAllRolesMethodCall();
   }
 }

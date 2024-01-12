@@ -51,7 +51,9 @@ export class DataService {
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  // private baseUrl = "https://production.hajiri.work/api/v2";
+
+    //  private baseUrl = "https://production.hajiri.work/api/v2";
+
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -538,10 +540,11 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-user-by-uuid`, {params});
   }
 
-  assignRoleToUserInUserAndControl(userId: any, roleId: any): Observable<any>{
+  assignRoleToUserInUserAndControl(userId: any, roleId: any, description: string): Observable<any>{
     const params = new HttpParams()
     .set("user_id", Number(userId))
-    .set("role_id", Number(roleId));
+    .set("role_id", Number(roleId))
+    .set("description", description);
     return this.httpClient.post<any>(`${this.baseUrl}/user-and-control/register`,{}, {params});
   }
    
@@ -1007,6 +1010,7 @@ stepIndex:number=-1;
     const url = `${this.baseUrl}/user-leave-rule/delete-user-from-leave-setting-rule?userUuid=${userUuid}`;
     return this.httpClient.delete<void>(url);
   }
+  
 
   addUserToLeaveRule(userUuid: string, leaveSettingId: number): Observable<any> {
     const url = `${this.baseUrl}/user-leave-rule/add-users-in-leave-setting?userUuid=${userUuid}&leaveSettingId=${leaveSettingId}`;
@@ -1016,4 +1020,25 @@ stepIndex:number=-1;
   testing(testing : Testing): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/testing/register`, testing);
   }
+
+  deleteUserOfRoleAndSecurity(id: number): Observable<void> {
+    const url = `${this.baseUrl}/role/deleteUserAndControlById?id=${id}`;
+    return this.httpClient.delete<void>(url);
+  }
+
+  deleteRolesOfRoleAndSecurity(roleId: number): Observable<void> {
+    const url = `${this.baseUrl}/role/deleteAllData/roleId?roleId=${roleId}`;
+    return this.httpClient.delete<void>(url);
+  }
+
+  getTotalCountOfUsersOfRoleAndSecurity(roleId: number): Observable<any> {
+    const url = `${this.baseUrl}/role/totalUsersCount?roleId=${roleId}`;
+    return this.httpClient.get<any>(url);
+  }
+
+  disableUserFromDashboard(userId: number): Observable<any> {
+    const url = `${this.baseUrl}/users/change-disable-status?userId=${userId}`;
+    return this.httpClient.post<any>(url, {});
+  }
+
 }

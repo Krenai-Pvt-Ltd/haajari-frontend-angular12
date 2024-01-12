@@ -54,7 +54,9 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../common/header/header.component';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
+import { BillingComponent } from './components/billing/billing.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
+import { BillingPaymentComponent } from './components/billing-payment/billing-payment.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,6 @@ import { EmployeeOnboardingDataComponent } from './components/employee-onboardin
     WaitingPageComponent,
     TeamComponent,
     TeamDetailComponent,
-    EmployeeOnboardingDataComponent,
     RoleComponent,
     EmployeeOnboardingFormComponent,
     EmployeeAddressDetailComponent,
@@ -92,7 +93,9 @@ import { EmployeeOnboardingDataComponent } from './components/employee-onboardin
     RoleAddComponent,
     HeaderComponent,
     EmployeeOnboardingPreviewComponent,
-    EmployeeOnboardingDataComponent
+    BillingComponent,
+    EmployeeOnboardingDataComponent,
+    BillingPaymentComponent
 
 
   ],

@@ -195,9 +195,9 @@ tbody tr:last-child{
 }
 
 .badge-grey {
-    background: #ebebeb;
+    background: #f8f8f8;
     border-radius: 6px;
-    padding: 6px 12px;
+    padding: 5px 12px;
     font-weight: 400;
     font-size: 12px;
     line-height: 20px;
@@ -373,11 +373,14 @@ button.btn.close-btn{
     border: 1px solid #f1f1f1;
     -webkit-box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    height: 170px;
+    position: relative;
+
 }
 
 .shrivastwa h5{
     color: #000444;
-    font-size: 16px;
+    font-size: 15px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -401,6 +404,10 @@ margin-bottom: 0px;
     font-weight: 400;
     line-height: 18px;
     margin-bottom: 0px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
  }
  .total-mamber p{
     color: #8997bd!important;
@@ -437,3 +444,31 @@ margin-bottom: 0px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #000444;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    -webkit-transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+    -o-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+}
+
+.total-mamber {
+    position: absolute;
+    bottom: 20px;
+}
+

@@ -53,9 +53,12 @@ export class Key{
         "/employee-onboarding-sidebar",
         "/reports",
         "/employee-profile",
+        "/add-role",
+        "/setting/billing",
         "/setting/leave-setting",
         "/setting/account-settings",
-        "/add-role"
+        "/add-role",
+        "/setting/billing-payment"
     ];
 
     public static TOPBAR_ROUTES = [
@@ -80,10 +83,12 @@ export class Key{
         "/employee-onboarding-sidebar",
         "/reports",
         "/employee-profile",
+        "/add-role",
+        "/setting/billing",
         "/setting/leave-setting",
         "/setting/account-settings",
-        "/add-role"
-
+        "/add-role",
+        "/setting/billing-payment"
     ];
     
 

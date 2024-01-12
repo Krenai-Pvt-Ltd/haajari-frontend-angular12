@@ -232,9 +232,22 @@
     color: #6666f3;
     background-color: transparent;
 }
-.leave-delet-btn{
+/* .leave-delet-btn{
     padding-top: 12px;
+} */
+
+
+
+.add-filtter  {
+    margin-bottom: 0;
+    color: #6666f3;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    line-height: 30px;
+    padding-bottom: 0px;
 }
+
 
 .rule-main-box {
     border-radius: 6px;
@@ -284,10 +297,11 @@
 }
 
 .page-sepresen{
-    border-bottom: 1px solid #f5f5f5;
+    /* border-bottom: 1px solid #f5f5f5; */
     padding: 0px;
     margin: 0px;
 }
+
 .errorboxmain{
     text-align: center;
   }
@@ -1125,8 +1139,11 @@ button.btn.close-btn {
   }
 
   .errorboxmain{
-    min-height: 20vh;
+    min-height: 80vh;
     background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
   .errorboxmain {
@@ -1151,8 +1168,9 @@ button.btn.close-btn {
 }
 
 .selected {
-    color: blue;
+    color: #6666f3;
     font-weight: bold; /* Optional: Make the selected option bold */
+    border-color: #6666f3 !important;
   }
 
   @keyframes spinner {
@@ -1250,10 +1268,35 @@ button.btn.close-btn {
     }
   }
   
-#added-to-collection-button{
+/* #added-to-collection-button{
     color: blue;
     background-color: transparent;
     border: 1px solid blue;
     border-radius: 3px;
-}  
+}   */
+
+.nav-link.staff-section.active {
+    border-bottom: none !important;
+    color: #fff !important;
+    background-color: #6666f3 !important;
+    border-radius: 30px !important;
+}
+
+/* .nav-link.staff-section{
+    font-size: 12px ;
+    border-bottom: none ;
+    color: #fff !important;
+    background-color: #6666f3 ;
+    border-radius: 30px ;
+} */
   
+
+.page-sepresen:last-child{
+    border-bottom: none !important;
+}
+
+.leave-delet-btn {
+    position: relative;
+    top: -70px;
+    right: -95%;
+}
