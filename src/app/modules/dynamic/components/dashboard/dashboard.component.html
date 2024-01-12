@@ -141,7 +141,7 @@
         <!-- *ngFor="let performer of responseDto.attendanceTopPerformers" -->
         <div >
 
-            <ng-container *ngIf="isShimmerForBestPerfomer && responseDto.attendanceTopPerformers.length === 0 && !dataNotFoundPlaceholderForBestPerfomer && !networkConnectionErrorPlaceHolderForBestPerformer; else bestPerformerData">
+            <ng-container *ngIf="isShimmerForBestPerfomer && bestPerformerAttendanceDetailsResponseList.length === 0 && !dataNotFoundPlaceholderForBestPerfomer && !networkConnectionErrorPlaceHolderForBestPerformer; else bestPerformerData">
                 <div class="row mt-3" >
                     <div class="col-md-4" *ngFor="let item of [].constructor(6)">
                         <div class="card profile-card p-3">
@@ -166,9 +166,9 @@
             </ng-container>
 
             <ng-template #bestPerformerData>
-                <ng-container  *ngIf="responseDto.attendanceTopPerformers.length !== 0 && !dataNotFoundPlaceholderForBestPerfomer && !networkConnectionErrorPlaceHolderForBestPerformer; else errorInFetchingBestPerformerData">
+                <ng-container  *ngIf="bestPerformerAttendanceDetailsResponseList.length !== 0 && !dataNotFoundPlaceholderForBestPerfomer && !networkConnectionErrorPlaceHolderForBestPerformer; else errorInFetchingBestPerformerData">
                     <div class="row mb-3 mt-3">
-                        <div class="col-lg-4" *ngFor="let performer of responseDto.attendanceTopPerformers" >
+                        <div class="col-lg-4" *ngFor="let performer of bestPerformerAttendanceDetailsResponseList" >
                             <div class="card profile-card" >
                                 <div class="card-body p-0">
                                     <div class="media p-3  align-items-center">  

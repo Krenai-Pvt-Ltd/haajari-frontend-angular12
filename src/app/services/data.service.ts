@@ -934,6 +934,13 @@ stepIndex:number=-1;
     return this.httpClient.put<any>(`${this.baseUrl}/organization/update/attendance-mode`, {}, {params});
   }
 
+  getBestPerformerAttendanceDetails(startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set("start_date", startDate)
+    .set("end_date", endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-best-performer-attendance-details`, {params});
+  }
   getLateEmployeeAttendanceDetails(dataFetchingType : string): Observable<any>{
     const params = new HttpParams()
     .set("data_fetching_type", dataFetchingType);
