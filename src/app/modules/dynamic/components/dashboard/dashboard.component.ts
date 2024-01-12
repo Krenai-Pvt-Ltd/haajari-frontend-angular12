@@ -294,7 +294,7 @@ errorToggleMain: boolean=false;
     return email;
 }
   dateInMonthList(attendances: AttendenceDto[]): string[] {
-    const uniqueDays = Array.from(new Set(attendances.map(a => a.createdDay)));
+    const uniqueDays = Array.from(new Set(attendances.map(a => a.createdDate)));
     return uniqueDays;
   }
   
@@ -313,7 +313,7 @@ errorToggleMain: boolean=false;
   today:Date=new Date();
   convertStringToDate(attendance: AttendenceDto){
     if(attendance.converterDate==undefined){
-      attendance.converterDate = new Date(attendance.createdDay)
+      attendance.converterDate = new Date(attendance.createdDate)
     }
     return attendance.converterDate;
   }

@@ -2,7 +2,7 @@ import { BreakTimings } from "./break-timings";
 
 export class AttendenceDto {
     createdDate: string = '';
-    createdDay : string = '';
+    // createdDay : string = '';
     checkInTime: string = '';
     currentStatus: string = '';
     checkOutTime: string = '';
