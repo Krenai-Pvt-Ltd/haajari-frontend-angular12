@@ -565,7 +565,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.userLeaveRequest.uuid = this.userId;
     // this.userLeaveRequest.leaveType= leaveType;
     this.dataService.getPendingLeaveFlag(this.userLeaveRequest).subscribe(data => {
-      this.pendingFlag = data;
+      // this.pendingFlag = data;
     }, (error) => {
       console.log(error);
     })
@@ -973,9 +973,9 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         console.log(error);
         this.getUserAttendanceStatus();
-        if(command==="/inn"){
-        this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
-        }
+        // if(command==="/inn"){
+        // this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
+        // }
         this.helperService.showToast("Success", Key.TOAST_STATUS_SUCCESS);
       }
     );

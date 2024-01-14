@@ -22,6 +22,7 @@ import { CommonModule } from '@angular/common';
 import { SharedComponent } from './modules/shared/shared.component';
 import { SettingModule } from './modules/setting/setting.module';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -51,6 +52,7 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
     NgbModule,
     FullCalendarModule,
     SettingModule,
+    BrowserAnimationsModule,
 
     
 

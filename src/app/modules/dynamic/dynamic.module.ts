@@ -57,6 +57,8 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { BillingComponent } from './components/billing/billing.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 import { BillingPaymentComponent } from './components/billing-payment/billing-payment.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @NgModule({
   declarations: [
@@ -116,7 +118,9 @@ import { BillingPaymentComponent } from './components/billing-payment/billing-pa
     AngularFireDatabaseModule,
     AngularFireMessagingModule,
     SharedModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    MatProgressSpinnerModule,
+
     
   ],
   exports:[HeaderComponent],
