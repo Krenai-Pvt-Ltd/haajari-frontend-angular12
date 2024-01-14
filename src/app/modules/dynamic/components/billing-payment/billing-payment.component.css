@@ -90,3 +90,88 @@ button.btn.add-card-btn {
     border: 1px solid #f1f1f1;
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
+
+
+.order-place-data h3 {
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 38px;
+    text-align: center;
+    color: #444444;
+    padding-bottom: 0px;
+    padding-top: 10px;
+  }
+  .order-place-data p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 30px;
+    color: #444444;
+  }
+  .order-place-data {
+    width: 70%;
+    margin: 0 auto 0;
+  }
+
+  .order-place-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 0;
+    height: 100%;
+    flex-direction: column;
+  }
+
+
+  .order-place-head{
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: #fffffffc;
+    clip-path: circle(0%);
+    margin: 0 auto;
+  }
+  .successAnimate {
+    animation: scaleCircle 1s linear both;
+    animation-delay: -0.1s;
+  }
+  
+  @keyframes scaleCircle {
+    100% {
+      clip-path: circle(100%);
+    }
+  }
+
+  .loader {
+    text-align: center;
+    border: 7px solid #f3f3f3; /* Light grey */
+    border-top: 7px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+  }
+  
+  /* .testing-prompt{
+    position: absolute;
+    transform: rotate(-45deg);
+    left: 0px;
+    padding: 6px 56px;
+    background: #000;
+    color: #fff;
+    margin: 30px -49px;
+    z-index: 9999;
+    font-size: 15px;
+    font-weight: 800;
+    width: fit-content;
+    } */
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  /* Order Success animation */

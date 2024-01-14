@@ -58,7 +58,7 @@ import { BillingComponent } from './components/billing/billing.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 import { BillingPaymentComponent } from './components/billing-payment/billing-payment.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { SuccessComponent } from './components/success/success.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +97,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     EmployeeOnboardingPreviewComponent,
     BillingComponent,
     EmployeeOnboardingDataComponent,
-    BillingPaymentComponent
+    BillingPaymentComponent,
+    SuccessComponent
 
 
   ],
