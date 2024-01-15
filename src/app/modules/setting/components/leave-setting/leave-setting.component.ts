@@ -529,7 +529,7 @@ export class LeaveSettingComponent implements OnInit {
  openStaffSelection(){
   this.newStaffSelectionTab.nativeElement.click();
  }
-//  @ViewChild("leaveSettingForm") leaveSettingForm!:ElementRef;
+ @ViewChild("leaveSettingForm") leaveSettingForm!:NgForm;
 //  leaveSettingForm!: NgForm;
   emptyAddLeaveSettingRule(){
     debugger
@@ -545,10 +545,12 @@ export class LeaveSettingComponent implements OnInit {
     this.selectedStaffsUuids = [];
     this.selectedStaffsUuidsUser = [];
     // this.selectedStaffsUuids.length = 0; 
-    // this.leaveSettingForm.form.markAsPristine();
+    
+    this.leaveSettingForm.form.reset();
     this.leaveSettingResponse = new LeaveSettingResponse();
     this.leaveSettingResponse.templateName = '';
     this.form.reset();
+    
     // Clear the existing form controls
     const categoriesArray = this.form.get('categories') as FormArray;
     categoriesArray.clear();

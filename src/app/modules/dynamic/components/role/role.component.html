@@ -67,15 +67,15 @@
                                                             </div>
 
                                                             <h4>No Data Found</h4>
-                                                            <div class="total-mamber add-filtter" style="margin-top: 14px;">
+                                                           
+                                                            <p>
+                                                                We're unable to locate a record associated with the information you entered.
+                                                            </p>
+                                                            <div class="placeholder-add" style="margin-top: 14px;">
                                                                 <a data-bs-toggle="modal" data-bs-target="#assignrole" type="btn"
                                                                     (click)="getUsersByFilterMethodCall()">
                                                                     <i class="bi bi-plus" style="font-size: 16px;"></i> Assign role to user</a>
                                                             </div>
-                                                            <p>
-                                                                Lorem Ipsum is simply dummy text of the
-                                                                printing and typesetting industry.
-                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -107,7 +107,7 @@
                                                         <a class="dropdown-item" data-bs-toggle="modal"
                                                             data-bs-target="#information" (click)="
                                                             userAndControlDetailMethod(userAndControl)">View</a>
-                                                        <span *ngIf="(userAndControl.role.name!='ADMIN') && (userAndControl.role.name!='USER') && (userAndControl.role.name!='MANAGER')" >
+                                                        <span >
                                                             <a class="dropdown-item" (click)="deleteUser(userAndControl.id)">Delete</a>
                                                          </span>
                                                          
@@ -173,8 +173,8 @@
 
                                             <div class="total-mamber add-filtter" style="margin-top: 14px;">
                                                 <a data-bs-toggle="modal" data-bs-target="#assignrole" type="btn"
-                                                    (click)="getUsersByFilterMethodCall()">
-                                                    <i class="bi bi-plus" style="font-size: 16px;"></i> Assign role to user</a>
+                                                    (click)="getUsersByFilterMethodCall(); emptyAssignRoleToUserInUserAndControlMethodCall()">
+                                                    <i class="bi bi-plus-circle" style="font-size: 16px;"></i> Assign Role to User</a>
                                             </div>
 <!--     
                                             <div class="total-mamber add-filtter" style="margin-top: 14px;">
@@ -353,8 +353,7 @@
                                                                             style="font-size: 16px;"></i> Add new role</a>
                                                                 </div>
                                                                 <p>
-                                                                    Lorem Ipsum is simply dummy text of the
-                                                                    printing and typesetting industry.
+                                                                    We're unable to locate a record associated with the information you entered.
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -793,7 +792,7 @@
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="pb-2">User</label>
-                            <div class="dropdown" style="width: 100%">
+                            <div class="dropdown" style="width: 100%" >
                                 <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
                     background-color: white;
@@ -803,7 +802,7 @@
                                     {{ selectedUser ? selectedUser.name : "Select a user" }}
                                     <i class="bi bi-chevron-down"></i>
                                 </button>
-                                <ul class="dropdown-menu user-menu-height" aria-labelledby="dropdownMenuButton1" style="width: 100%">
+                                <ul class="dropdown-menu user-menu-height nationality-dropdown" aria-labelledby="dropdownMenuButton1" style="width: 100%">
                                     <li *ngFor="let user of users">
                                         <a class="dropdown-item" (click)="selectUser(user)">{{
                                             user.name
