@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
     
    }
 
-  itemPerPage : number = 8;
+  itemPerPage : number = 12;
   pageNumber : number = 1;
   lastPageNumber : number = 0;
   total !: number;
