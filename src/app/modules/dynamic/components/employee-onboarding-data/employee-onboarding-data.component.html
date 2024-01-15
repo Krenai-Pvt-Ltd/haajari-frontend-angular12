@@ -453,17 +453,33 @@
                                                     </td>
                                                     <td>
                                                         <div class="hstack gap-3 justify-content-center">
-                                                            <span
+
+                                                            <a href="javascript:void(0);"
+                                                                class="link-success text-decoration-underline"
+                                                                (click)="sendMailToEmployees(user.email.toString())"
+                                                                *ngIf="!sendingMailLoader">Request</a>
+                                                            <mat-progress-spinner *ngIf="sendingMailLoader" [diameter]="30" mode="indeterminate"></mat-progress-spinner>
+
+                                                            
+
+                                                            <!-- <span *ngIf="sendingMailLoader">
+                                                                <i class="spinner-border spinner-border-sm"
+                                                                    role="status"></i>
+                                                                Sending Request...
+                                                            </span> -->
+                                                            <!-- <span
                                                                 *ngIf="(user.employeeOnboardingStatus.response)!= approvedResponse">
                                                                 <a href="javascript:void(0);"
                                                                     class="link-success text-decoration-underline"
                                                                     (click)="sendMailToEmployees(user.email.toString())">Request</a>
-                                                            </span>
+                                                            </span> -->
                                                             <a href="javascript:void(0);" routerLink="/employee-profile"
                                                                 class="link-primary text-decoration-underline"
                                                                 (click)="routeToUserDetails(user.uuid)">View</a>
 
-                                                            <a style="cursor: pointer; color:red" class="delete-rule" (click)="disableUser(user.id)"><i class="bi bi-trash"></i></a>
+                                                            <a style="cursor: pointer; color:red" class="delete-rule"
+                                                                (click)="disableUser(user.id)"><i
+                                                                    class="bi bi-trash"></i></a>
 
                                                         </div>
                                                     </td>

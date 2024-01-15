@@ -25,7 +25,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       private activateRoute: ActivatedRoute,
       private router: Router,
       private helperService: HelperService,
-      private modalService: NgbModal
+      private modalService: NgbModal,
+      
     ) {}
     users: Users[] = [];
     filteredUsers: Users[] = [];
@@ -323,8 +324,12 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     closeModal(){
       this.closeInviteModal.nativeElement.click();
     }
+
+    sendingMailLoader = false;
+    
   // requestFlag:boolean=false;
     sendMailToEmployees(email:string){
+      this.sendingMailLoader = true;
       debugger
       this.dataService.sendMailToEmployeesToCompleteOnboarding(email)
       .subscribe(
@@ -333,11 +338,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           console.log(response); 
           this.getUsersByFiltersFunction();
           // location.reload();
-          this.helperService.showToast("Request mail sent successfully.", Key.TOAST_STATUS_SUCCESS);
+          this.sendingMailLoader=false;
+          this.helperService.showToast("Email sent successfully!", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
           // console.error(error);
           // location.reload();
+          this.sendingMailLoader=false;
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
 
         }
