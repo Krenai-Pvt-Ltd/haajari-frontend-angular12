@@ -526,11 +526,12 @@ export class EmployeeProfileComponent implements OnInit {
 
         console.log(data);
         console.log(data.body);
-        this.getUserLeaveLogByUuid();
         this.getUserLeaveReq();
         this.resetUserLeave();
         this.formGroupDirective.resetForm();
         this.requestLeaveCloseModel.nativeElement.click();
+        this.getUserLeaveLogByUuid();
+
         // location.reload();
       }, (error) => {
         console.log(error.body);
