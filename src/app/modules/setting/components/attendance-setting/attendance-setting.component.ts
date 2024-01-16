@@ -52,6 +52,9 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
 
+  isShimmer = false;
+  dataNotFoundPlaceholder = false;
+  networkConnectionErrorPlaceHolder = false;
   preRuleForShimmersAndErrorPlaceholdersMethodCall(){
     this.isShimmer = true;
     this.dataNotFoundPlaceholder = false;
@@ -68,9 +71,7 @@ export class AttendanceSettingComponent implements OnInit {
   readonly DEDUCTION_TYPE_PER_MINUTE = Key.DEDUCTION_TYPE_PER_MINUTE;
   readonly OVERTIME_TYPE_FIXED_AMOUNT = Key.OVERTIME_TYPE_FIXED_AMOUNT;
 
-  isShimmer = false;
-  dataNotFoundPlaceholder = false;
-  networkConnectionErrorPlaceHolder = false;
+  
 
 
   selectHours(hour: number) {
