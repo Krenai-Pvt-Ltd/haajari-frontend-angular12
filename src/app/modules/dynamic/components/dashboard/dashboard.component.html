@@ -141,7 +141,7 @@
         <!-- *ngFor="let performer of responseDto.attendanceTopPerformers" -->
         <div >
 
-            <ng-container *ngIf="isShimmerForBestPerfomer && responseDto.attendanceTopPerformers.length === 0 && !dataNotFoundPlaceholderForBestPerfomer && !networkConnectionErrorPlaceHolderForBestPerformer; else bestPerformerData">
+            <ng-container *ngIf="isShimmerForBestPerfomer && bestPerformerAttendanceDetailsResponseList.length === 0 && !dataNotFoundPlaceholderForBestPerfomer && !networkConnectionErrorPlaceHolderForBestPerformer; else bestPerformerData">
                 <div class="row mt-3" >
                     <div class="col-md-4" *ngFor="let item of [].constructor(6)">
                         <div class="card profile-card p-3">
@@ -166,9 +166,9 @@
             </ng-container>
 
             <ng-template #bestPerformerData>
-                <ng-container  *ngIf="responseDto.attendanceTopPerformers.length !== 0 && !dataNotFoundPlaceholderForBestPerfomer && !networkConnectionErrorPlaceHolderForBestPerformer; else errorInFetchingBestPerformerData">
+                <ng-container  *ngIf="bestPerformerAttendanceDetailsResponseList.length !== 0 && !dataNotFoundPlaceholderForBestPerfomer && !networkConnectionErrorPlaceHolderForBestPerformer; else errorInFetchingBestPerformerData">
                     <div class="row mb-3 mt-3">
-                        <div class="col-lg-4" *ngFor="let performer of responseDto.attendanceTopPerformers" >
+                        <div class="col-lg-4" *ngFor="let performer of bestPerformerAttendanceDetailsResponseList" >
                             <div class="card profile-card" >
                                 <div class="card-body p-0">
                                     <div class="media p-3  align-items-center">  
@@ -492,15 +492,35 @@
                                             <button class="btn btn-secondary new-deopdown" type="button" (click)="toggleAllCollapse()" [disabled]="myAttendanceDataLength === 0">{{isAllCollapsed ? 'Expand All' : 'Collapse All'}}</button>
                                           
                                         </div>
-                                          <div class="dropdown col-md-3">
-                                            <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="myAttendanceDataLength === 0">
-                                              Download <i class="bi bi-chevron-down"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
-                                              <li><a class="dropdown-item" >Excel</a></li>
-                                              <li><a class="dropdown-item" >CSV</a></li>
-                                            </ul>
-                                          </div>
+                                        <ng-container *ngIf="!downloadingFlag; else downloadingCondition">
+                                            <div class="dropdown col-md-3" >
+                                                <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="myAttendanceDataLength === 0">
+                                                  Download <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
+                                                  <li><a id="attendance-data-download-in-excel-format" class="dropdown-item" (click)="downloadAttendanceDataInExcelFormatMethodCall()">Excel</a></li>
+                                                  <li><a class="dropdown-item">CSV</a></li>
+                                                </ul>
+                                              </div>
+                                        </ng-container>
+                                        <ng-template #downloadingCondition>
+                                            <div class="dropdown col-md-3" >
+                                                <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="myAttendanceDataLength === 0" style="display: flex; justify-content: space-evenly; align-items: center;">
+                                                  Downloading
+                                                  <!-- <div class="spinner-border" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                  </div> -->
+
+                                                  <div class="dot-opacity-loader">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </div>
+
+                                                </button>
+                                              </div>
+                                        </ng-template>
+                                          
                                     
                                       <div class="dropdown col-md-3" >
                                         <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -766,7 +786,7 @@
                                 
                             </div>
 
-                            <div class="pagination pl-3" *ngIf="(total > 7 && myAttendanceDataLength > 7 && !dataNotFoundPlaceholderForAttendanceData && !networkConnectionErrorPlaceHolderForAttendanceData) || pageNumber === lastPageNumber">
+                            <div class="pagination pl-3" *ngIf="(total > 11 && myAttendanceDataLength > 11 && !dataNotFoundPlaceholderForAttendanceData && !networkConnectionErrorPlaceHolderForAttendanceData) || pageNumber === lastPageNumber">
                                 <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} users</p>
                                 <div class="row">
                                   <div class="col-md-12">

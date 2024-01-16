@@ -12,6 +12,7 @@ import { LateEmployeeAttendanceDetailsResponse } from 'src/app/models/late-emplo
 import { AttendanceReportResponse } from 'src/app/models/attendance-report-response';
 import { Key } from 'src/app/constant/key';
 import { debounceTime } from 'rxjs/operators';
+import { BestPerformerAttendanceDetailsResponse } from 'src/app/models/best-performer-attendance-details-response';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,9 +21,18 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService) { }
+  constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService) {
 
-  itemPerPage : number = 8;
+    const currentDate = moment();
+    this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
+    this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
+
+    // Set the default selected month
+    this.month = currentDate.format('MMMM');
+    
+   }
+
+  itemPerPage : number = 12;
   pageNumber : number = 1;
   lastPageNumber : number = 0;
   total !: number;
@@ -63,16 +73,12 @@ export class DashboardComponent implements OnInit {
     this.getAttendanceReportByDateDurationMethodCall();
 
     this.getLateEmployeeAttendanceDetailsMethodCall();
-    const currentDate = moment();
-    this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
-    this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
-
-    // Set the default selected month
-    this.month = currentDate.format('MMMM');
     
     this.getCurrentDayEmployeesData();
-    this.getAttendanceTopPerformerDetails();
+    // this.getAttendanceTopPerformerDetails();
     // this.getAttendanceLatePerformerDetails();
+    this.getBestPerformerAttendanceDetailsMethodCall();
+
     this.getDataFromDate();
     this.getTodaysLiveLeaveCount();
   }
@@ -464,6 +470,24 @@ errorToggleMain: boolean=false;
   }
 
 
+  // #########################################################
+
+  bestPerformerAttendanceDetailsResponseList : BestPerformerAttendanceDetailsResponse[] = [];
+
+  getBestPerformerAttendanceDetailsMethodCall(){
+    debugger
+    this.preRuleForShimmersAndErrorPlaceholdersForBestPerformerMethodCall();
+    this.dataService.getBestPerformerAttendanceDetails(this.startDateStr, this.endDateStr).subscribe((response) => {
+      this.bestPerformerAttendanceDetailsResponseList = response.listOfObject;
+
+      if(response === undefined || response === null || response.listOfObject.length === 0){
+        this.dataNotFoundPlaceholderForBestPerfomer = true;
+      }
+    }, (error) => {
+      console.log(error);
+      this.networkConnectionErrorPlaceHolderForBestPerformer = true;
+    })
+  }
    
  
   
@@ -517,6 +541,24 @@ errorToggleMain: boolean=false;
       console.log(response);
     }, (error) => {
       console.log(error);
+    })
+  }
+
+  downloadingFlag : boolean = false;
+  downloadAttendanceDataInExcelFormatMethodCall(){
+    
+    this.downloadingFlag = true;
+    this.dataService.downloadAttendanceDataInExcelFormat(this.startDateStr, this.endDateStr).subscribe((response) => {
+      console.log(response);
+
+      const downloadLink = document.createElement("a");
+      downloadLink.href = response.message;
+      downloadLink.download = "attendance.xlsx";
+      downloadLink.click();
+      this.downloadingFlag = false;
+    }, (error) => {
+      console.log(error);
+      this.downloadingFlag = false;
     })
   }
   

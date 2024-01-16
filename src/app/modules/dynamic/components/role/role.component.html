@@ -14,7 +14,7 @@
                         <li role="presentation" class="nav-item">
                             <button id="home-tab" data-bs-toggle="tab" data-bs-target="#role-security" type="button"
                                 role="tab" aria-controls="home" aria-selected="true" class="nav-link"
-                                (click)="getAllRolesMethodCall()">
+                                (click)="getAllRolesMethodCall()" #rolesAndSecurity>
                                 Roles And Security
                             </button>
                         </li>
@@ -57,7 +57,7 @@
                                 userAndControlRoles === null ||
                                 userAndControlRoles === undefined ||
                                 userAndControlRoles.length === 0
-                              ">
+                            ">
                                                 <div class="mt-3 dashnodata">
                                                     <div class="errorboxmain">
                                                         <div class="errorboxinner text-center">
@@ -90,8 +90,7 @@
                                             itemsPerPage: itemPerPage,
                                             currentPage: pageNumber,
                                             totalItems: total
-                                          }
-                                  ">
+                                          }">
                                         <div class="roldefine-box" >
                                          
                                             <div class="float-end">
@@ -104,9 +103,9 @@
                                                     <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end">
                                                         <a class="dropdown-item" data-bs-toggle="modal"
                                                             data-bs-target="#assignrole" (click)="selectUserAndControl(userAndControl)">Edit</a>
-                                                        <a class="dropdown-item" data-bs-toggle="modal"
+                                                        <!-- <a class="dropdown-item" data-bs-toggle="modal"
                                                             data-bs-target="#information" (click)="
-                                                            userAndControlDetailMethod(userAndControl)">View</a>
+                                                            userAndControlDetailMethod(userAndControl)">View</a> -->
                                                         <span >
                                                             <a class="dropdown-item" (click)="deleteUser(userAndControl.id)">Delete</a>
                                                          </span>
@@ -139,7 +138,7 @@
                                             </div>
     
                                             <div class="role-detaile mt-3">
-                                                <p>{{userAndControl.description}}</p>
+                                                <p>{{userAndControl.role.description}}</p>
                                             </div>
     
                                             <!-- <div class="mt-3 total-mamber ">
@@ -166,9 +165,7 @@
                                             </div>
     
                                             <div class="role-detaile mt-3">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                    industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                    since the 1500s,</p>
+                                                <p>Here, you can conveniently assign roles, ensuring each user is equipped with the appropriate permissions and access for their responsibilities.</p>
                                             </div>
 
                                             <div class="total-mamber add-filtter" style="margin-top: 14px;">
@@ -264,7 +261,7 @@
                                 </div> -->
                             </div>
 
-                            <div class="pagination pl-3" *ngIf="total> 5">
+                            <div class="pagination pl-3" *ngIf="total> 8">
                                 <p class="mb-0" style="padding-left: 15px">
                                     Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                                     {{ total }} roles
@@ -325,41 +322,37 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="text-end add-filtter">
-                                            <!-- <button type="button" class="btn btn-primary" >Create New User</button> -->
-
                                             <a data-bs-toggle="modal" data-bs-target="#newuser" type="btn">
                                                 <i class="bi bi-plus"></i> Create New Role</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                                 <div class="mt-3">
                                     <div class="table-responsive bg-white">
-                                        <div *ngIf="roles.length == 0">
-                                                <td colspan="4">
-                                                    <div class="mt-3 dashnodata">
-                                                        <div class="errorboxmain">
-                                                            <div class="errorboxinner text-center">
-                                                                <div class="errorboxplaceholder mb-2">
-                                                                    <img src="assets/images/addnewproduct.svg"
-                                                                        style="width: 80px" />
-                                                                </div>
-
-                                                                <h4>No Data Found</h4>
-                                                                <div class="total-mamber add-filtter" style="margin-top: 14px;">
-                                                                    <a class="" routerLink="/add-role"> <i class="bi bi-plus"
-                                                                            style="font-size: 16px;"></i> Add new role</a>
-                                                                </div>
-                                                                <p>
-                                                                    We're unable to locate a record associated with the information you entered.
-                                                                </p>
-                                                            </div>
-                                                        </div>
+                                        <!-- <div class="mt-3 dashnodata" *ngIf="roles.length==0">
+                                            <div class="errorboxmain">
+                                                <div class="errorboxinner text-center">
+                                                    <div class="errorboxplaceholder mb-2">
+                                                        <img src="assets/images/addnewproduct.svg"
+                                                            style="width: 80px" />
                                                     </div>
-                                                </td>
-                                        </div>
+
+                                                    <h4>No Data Found</h4>
+                                                   
+                                                    <p>
+                                                        We're unable to locate a record associated with the information you entered.
+                                                    </p>
+                                                    <div class="add-filtter" style="margin-top: 14px;">
+                                                        <a class="" routerLink="/add-role"> <i class="bi bi-plus"
+                                                            style="font-size: 16px;"></i> Add new role</a>
+                                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
 
                                         <div class="row">
                                
@@ -376,10 +369,9 @@
                                                                 </a>
                                                                 <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end"
                                                                 >
-                                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                                        data-bs-target="#role-details">View</a>
-                                                                    <a href="#" class="dropdown-item" data-bs-toggle="modal"
-                                                                        data-bs-target="#update-role" (click)="showDataToModal(role)">Manage</a>
+                                                                    <!-- <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                                                        data-bs-target="#role-details">View</a> -->
+                                                                    <a class="dropdown-item"  (click)="showDataToModal(role)">Edit</a>
                                                                     <span *ngIf="(role.name!='ADMIN') && (role.name!='USER') && (role.name!='MANAGER')" >
                                                                     <a class="dropdown-item" (click)="deleteRolesWithUsers(role.id)"
                                                                         >Delete</a>
@@ -451,9 +443,7 @@
                                                         </div>
                 
                                                         <div class="role-detaile mt-3">
-                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                                since the 1500s,</p>
+                                                            <p>If the standard template roles don't fit your specific needs, you have the flexibility to craft a new role.</p>
                                                         </div>
                 
                                                         <div class="total-mamber add-filtter" style="margin-top: 14px;">
@@ -510,7 +500,7 @@
                             <div class="pagination pl-3" *ngIf="totalUser > 5">
                                 <p class="mb-0" style="padding-left: 15px">
                                     Showing {{ getStartIndexUser() }} - {{ getEndIndexUser() }} of
-                                    {{ totalUser }} teams
+                                    {{ totalUser }} roles
                                 </p>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -607,7 +597,7 @@
                                                     <input type="radio" class="form-check-input d-none"
                                                         [checked]="module.privilegeId == 1" name="viewModule{{ i }}"
                                                         id="viewModule{{ i }}"
-                                                        (click)="handleRadioClickForModule(1, module)" />
+                                                        (click)="handleRadioClickForModule(1, module)"/>
                                                     <label class="form-check-label d-flex align-items-center gap-2"
                                                         for="viewModule{{ i }}">
                                                         <span><i class="bi bi-check2"></i></span>View
@@ -635,11 +625,8 @@
                                     </div>
                                 </h2>
 
-                                <div [attr.id]="'collapse' + i" class="accordion-collapse collapse"
-                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample"
-                                    *ngFor="let submodule of module.subModules; let j = index">
-                                    <div class="accordion-button p-3" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <div [attr.id]="'collapse' + i" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" *ngFor="let submodule of module.subModules; let j = index">
+                                    <div class="accordion-button p-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                         <div class="accesstitle">
                                             <p class="mb-0">{{ submodule.name }}</p>
                                         </div>
@@ -678,9 +665,7 @@
                         </div>
                     </div>
                 </div>
-                <!--end row-->
             </div>
-            <!--end modal-body-->
             <div class="modal-footer d-flex align-items-center justify-content-end">
                 <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">
                     Cancel
@@ -690,7 +675,6 @@
                     Update
                 </button>
             </div>
-            <!--end modal-footer-->
         </div>
         <!--end modal-content-->
     </div>
@@ -789,24 +773,22 @@
             <!--end modal-header-->
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12" [ngClass]="{'disabled-div': isDivDisabled}">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="pb-2">User</label>
                             <div class="dropdown" style="width: 100%" >
                                 <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
-                    background-color: white;
-                    color: black;
-                    border-color: #ced4da;
-                    width: 100%;">
+                                    background-color: white;
+                                    color: black;
+                                    border-color: #ced4da;
+                                    width: 100%;">
                                     {{ selectedUser ? selectedUser.name : "Select a user" }}
                                     <i class="bi bi-chevron-down"></i>
                                 </button>
                                 <ul class="dropdown-menu user-menu-height nationality-dropdown" aria-labelledby="dropdownMenuButton1" style="width: 100%">
                                     <li *ngFor="let user of users">
-                                        <a class="dropdown-item" (click)="selectUser(user)">{{
-                                            user.name
-                                            }}</a>
+                                        <a class="dropdown-item" (click)="selectUser(user)">{{user.name}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -857,12 +839,12 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <!-- <div class="col-md-12">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="pb-2">Role Description</label>
                             <input [(ngModel)]="descriptionUserRole" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter role description">
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- <div class="col-md-12">
                         <div class="mb-3">
@@ -881,7 +863,16 @@
                 </button>
 
                 <button type="button" class="btn btn-primary" (click)="assignRoleToUserInUserAndControlMethodCall()">
-                    Assign
+                    <ng-container *ngIf="buttonLoaderToAssignRole; else assignButton">
+                        <div *ngIf="buttonLoaderToAssignRole" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </ng-container>
+                    <ng-template #assignButton>
+                        <span style="padding: 15px">Assign</span>
+                    </ng-template>
                 </button>
             </div>
             <!--end modal-footer-->

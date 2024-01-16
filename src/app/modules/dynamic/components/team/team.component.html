@@ -280,7 +280,7 @@
             </div>
           </div>
         </div>
-  
+        <!-- (click)="getFlagOfSlackPlaceholder()" -->
         <!-- TO DO -->
         <div>
           <div class="errorboxmain" *ngIf="errorToggleTeam && !showNotification">
@@ -298,7 +298,7 @@
               <button
               type="button"
               class="btn create-team-on-slack"
-              (click)="getFlagOfSlackPlaceholder()"
+             
             >
              Reload
             </button>
@@ -371,7 +371,7 @@
         </div>
   
         <div
-          class="detaworkspace" *ngIf="slackDataPlaceholderFlag && !searchTeamPlaceholderFlag" style="height: 80vh; background-color: #fff"
+          class="detaworkspace" *ngIf="slackDataPlaceholderFlag && !searchTeamPlaceholderFlag && !errorToggleTeam" style="height: 80vh; background-color: #fff"
         >
           <div class="d-flex align-items-center position-relative">
             <div class="left-folder">

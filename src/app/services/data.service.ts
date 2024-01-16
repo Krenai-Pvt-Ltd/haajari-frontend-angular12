@@ -28,6 +28,7 @@ import { FullLeaveSettingResponse } from "../models/full-leave-setting-response"
 import { FullLeaveSettingRequest } from "../models/Full-Leave-Setting-Request";
 import { Testing } from "../models/testing";
 import { ShiftTimings } from "../models/shifttimings";
+import { OrganizationAddressDetail } from "../models/organization-address-detail";
 
 
 @Injectable({
@@ -47,15 +48,20 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
+<<<<<<< HEAD
   // private baseUrl = "http://localhost:8080/api/v2"
   // private baseUrl = "http://localhost:8080/api/v2";
 
   // private baseUrl = "https://backend.hajiri.work/api/ v2";
+=======
+
+  private baseUrl = "http://localhost:8080/api/v2";
+
+
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
+>>>>>>> 497602e495ab0f05b66d44d65ddd33246433169c
 
   private baseUrl = "https://production.hajiri.work/api/v2";
-
-    //  private baseUrl = "https://production.hajiri.work/api/v2";
-
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -64,6 +70,14 @@ export class DataService {
   }
   
   //Attendance module
+
+  downloadAttendanceDataInExcelFormat(startDate : string, endDate : string): Observable<any> {
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/excel/download`, {params});
+  }
   getAttendanceDetailsByDateDuration(startDate : string, endDate : string, pageNumber: number, itemPerPage: number, search: string, searchBy: string) : Observable<any>{
     const params = new HttpParams()
     .set('start_date', startDate)
@@ -936,6 +950,13 @@ stepIndex:number=-1;
     return this.httpClient.put<any>(`${this.baseUrl}/organization/update/attendance-mode`, {}, {params});
   }
 
+  getBestPerformerAttendanceDetails(startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set("start_date", startDate)
+    .set("end_date", endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-best-performer-attendance-details`, {params});
+  }
   getLateEmployeeAttendanceDetails(dataFetchingType : string): Observable<any>{
     const params = new HttpParams()
     .set("data_fetching_type", dataFetchingType);
@@ -1042,5 +1063,24 @@ stepIndex:number=-1;
     const url = `${this.baseUrl}/users/change-disable-status?userId=${userId}`;
     return this.httpClient.post<any>(url, {});
   }
+
+
+  setOrganizationAddressDetail(organizationAddressDetail: OrganizationAddressDetail): Observable<any>{
+    return this.httpClient.put<any>(`${this.baseUrl}/organization-address/save-address`, organizationAddressDetail);
+
+  }
+
+  getOrganizationAddressDetail(): Observable<any> {
+    const url = `${this.baseUrl}/organization-address/get/address`;
+    return this.httpClient.get<any>(url);
+  }
+
+  getAllRoleAccessibilityType():Observable<any> {
+
+    return this.httpClient.get<any>(`${this.baseUrl}/role/get-all-accessibility-type`, {});
+  }
+
+  
+
 
 }
