@@ -9,6 +9,7 @@ import { User } from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
+import { RoleAccessibilityType } from 'src/app/role-accessibility-type';
 
 @Component({
   selector: 'app-role',
@@ -22,10 +23,10 @@ isShimmer: boolean = true;
   constructor(private dataService : DataService, private router : Router, private helperService: HelperService) { }
 
   roles : Role[] = [];
-  itemPerPage : number = 6;
+  itemPerPage : number = 9;
   pageNumber : number = 1;
   pageNumberUser : number = 1;
-  total !: number;
+  total : number = 0;
   rowNumber : number = 1;
   searchText : string = '';
   users : User[] = [];
@@ -36,7 +37,15 @@ isShimmer: boolean = true;
     this.getUsersByFilterMethodCall();
     this.call();
     this.getAllRolesMethodCall();
+    this.rolesAndSecurity.nativeElement.click();
   }
+
+  // clearModel(){
+  //   this.roles = [];
+  //   this.total = 0;
+  // }
+
+  @ViewChild("rolesAndSecurity") rolesAndSecurity !: ElementRef;
 
   selectedRole: any;
   selectedUser: any;
@@ -80,12 +89,25 @@ isShimmer: boolean = true;
   })
   }
 
+  buttonLoader = false;
+  roleAccessibilityTypeList : RoleAccessibilityType[] = [];
+  getAllRoleAccessibilityTypeMethodCall(){
+    this.dataService.getAllRoleAccessibilityType().subscribe((response) => {
+      this.roleAccessibilityTypeList = response;
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  settingRoleAccessibilityType(id : number){
+    this.roleRequest.roleAccessibilityTypeId = id;
+  }
 
   // # Data Table of roles
   getAllRolesMethodCall(){
 
     debugger
-    this.dataService.getAllRoles(this.itemPerPage,this.pageNumberUser,'asc','id',this.searchText,'', 0).subscribe(async (data) => {
+    this.dataService.getAllRoles(this.itemPerPage,this.pageNumberUser,'asc','id','','', 0).subscribe(async (data) => {
 
       this.roles = data.object;
       for (let i = 0; i < this.roles.length; i++) {
@@ -141,9 +163,12 @@ isShimmer: boolean = true;
     }
 
     this.getSubModuleByRoleMethodCall();
+    this.helperService.setData(role);
+    this.router.navigate(['/add-role']);
 
   }
 
+  
   getSubModuleByRoleMethodCall(){
 
     console.log(this.roleRequest.id);
@@ -272,7 +297,7 @@ isShimmer: boolean = true;
     this.dataService.deleteUserOfRoleAndSecurity(id).subscribe((data) => {
       console.log("user delted successfully")
       this.getUserAndControlRolesByFilterMethodCall();
-      this.helperService.showToast("Deleted Successfully.", Key.TOAST_STATUS_SUCCESS);
+      this.helperService.showToast("User role deleted successfully.", Key.TOAST_STATUS_SUCCESS);
     },(error) => {
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       console.log(error);
@@ -283,7 +308,7 @@ isShimmer: boolean = true;
     this.dataService.deleteRolesOfRoleAndSecurity(id).subscribe((data) => {
       console.log("deleted successfully")
       this.getAllRolesMethodCall();
-      this.helperService.showToast("Deleted Successfully.", Key.TOAST_STATUS_SUCCESS);
+      this.helperService.showToast("Role deleted successfully.", Key.TOAST_STATUS_SUCCESS);
     },(error) => {
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       console.log(error);

@@ -1046,4 +1046,9 @@ stepIndex:number=-1;
     return this.httpClient.post<any>(url, {});
   }
 
+  getAllRoleAccessibilityType():Observable<any> {
+
+    return this.httpClient.get<any>(`${this.baseUrl}/role/get-all-accessibility-type`, {});
+  }
+
 }
