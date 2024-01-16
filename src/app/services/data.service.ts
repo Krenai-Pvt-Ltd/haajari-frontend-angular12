@@ -1071,7 +1071,12 @@ stepIndex:number=-1;
     return this.httpClient.get<any>(`${this.baseUrl}/role/get-all-accessibility-type`, {});
   }
 
-  
+  getRoleById(roleId: number): Observable<any>{
+    const params = new HttpParams()
+    .set("role_id", roleId);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/role/get-by-id`, {params});
+  }
 
 
 }
