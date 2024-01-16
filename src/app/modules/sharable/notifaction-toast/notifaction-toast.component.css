@@ -66,3 +66,13 @@
 .error{
   border: 1px solid #ff4242;
 }
+
+.notifaction-box-success{
+  border: 1px solid #9ed587;
+
+}
+
+.notifaction-box-error{
+  border: 1px solid #ff4242;
+
+}

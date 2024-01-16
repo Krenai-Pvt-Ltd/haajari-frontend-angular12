@@ -8,7 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { DataService } from 'src/app/services/data.service';
 import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { UserDto } from 'src/app/models/user-dto.model';
 import { saveAs } from 'file-saver';
@@ -513,6 +513,8 @@ export class EmployeeProfileComponent implements OnInit {
     this.selectedManagerId = 0;
 
   }
+  @ViewChild(FormGroupDirective)
+  formGroupDirective!: FormGroupDirective;
 
   saveLeaveRequestUser() {
     this.userLeaveRequest.managerId = this.selectedManagerId;
@@ -527,8 +529,9 @@ export class EmployeeProfileComponent implements OnInit {
         this.getUserLeaveLogByUuid();
         this.getUserLeaveReq();
         this.resetUserLeave();
+        this.formGroupDirective.resetForm();
         this.requestLeaveCloseModel.nativeElement.click();
-        location.reload();
+        // location.reload();
       }, (error) => {
         console.log(error.body);
       })
@@ -565,7 +568,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.userLeaveRequest.uuid = this.userId;
     // this.userLeaveRequest.leaveType= leaveType;
     this.dataService.getPendingLeaveFlag(this.userLeaveRequest).subscribe(data => {
-      this.pendingFlag = data;
+      // this.pendingFlag = data;
     }, (error) => {
       console.log(error);
     })
@@ -973,9 +976,9 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         console.log(error);
         this.getUserAttendanceStatus();
-        if(command==="/inn"){
-        this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
-        }
+        // if(command==="/inn"){
+        // this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
+        // }
         this.helperService.showToast("Success", Key.TOAST_STATUS_SUCCESS);
       }
     );
