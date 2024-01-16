@@ -18,11 +18,11 @@
                                         <div class="mt-3">
                                             <div class="mb-3">
                                                 <label for="name" class="pb-2">Role Name </label>
-                                                <input type="text" id="name" placeholder="Role name" name="nameF" class="form-control ng-untouched ng-pristine ng-invalid">
+                                                <input type="text" id="name" placeholder="Role name" name="nameF" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="roleRequest.name" required [disabled]="roleRequest.name =='ADMIN' || roleRequest.name == 'MANAGER' || roleRequest.name == 'USER'">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="name" class="pb-2">Role Description </label>
-                                                <input type="text" id="name" placeholder="Role description" name="nameF" class="form-control ng-untouched ng-pristine ng-invalid">
+                                                <input type="text" id="name" placeholder="Role description" name="nameF" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="roleRequest.description" required>
                                             </div>
     
                                         </div>
@@ -36,19 +36,19 @@
                                                 <span class="fAtrDv">What type of information can this role access?</span>
                                             </div>
                                         </h3>
-                                        <div class="mt-3">
+                                        <div class="mt-3" *ngFor="let roleAccessibilityType of roleAccessibilityTypeList">
                                             <div class="mb-3">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="exampleRadios" id="direct1" value="option1" checked>
-                                                    <label class="form-check-label" for="direct1">
-                                                        Direct reports only
-
-                                                        <p class="information">Only information related to their direct reports. For example, they will only see a time off request if a direct report submits one.</p>
-                                                    </label>
-                                                   
-                                                  </div>
-                                            </div>
-                                            <div class="mb-3">
+                                                  <input class="form-check-input" type="radio" name="exampleRadios" id="direct1" value="option1" 
+                                                         [checked]="roleRequest.roleAccessibilityTypeId === roleAccessibilityType.id"
+                                                         (click)="settingRoleAccessibilityType(roleAccessibilityType.id)">
+                                                  <label class="form-check-label" for="direct1">
+                                                    {{roleAccessibilityType.name}}
+                                                    <p class="information">{{roleAccessibilityType.description}}</p>
+                                                  </label>
+                                                </div>
+                                              </div>
+                                            <!-- <div class="mb-3">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio" name="exampleRadios" id="direct2" value="option1" checked>
                                                     <label class="form-check-label" for="direct2">
@@ -57,7 +57,7 @@
                                                     </label>
                                                     
                                                   </div>
-                                            </div>
+                                            </div> -->
     
                                         </div>
                                     </div>
@@ -71,33 +71,67 @@
                                             </div>
                                         </h3>
                                         <div class="mt-3">
-                                            <div class="accordion accordion-flush" id="accordionFlushExample">
+                                            <div class="accordion accordion-flush" id="accordionFlushExample" *ngFor="let module of moduleResponse; let i = index">
                                                 <div class="accordion-item">
                                                   <h2 class="accordion-header" id="flush-headingOne">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                                        People
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
+                                                        {{ module.name }}
                                                     </button>
                                                   </h2>
-                                                  <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                                  <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" [attr.id]="'collapse' + i" *ngFor="let submodule of module.subModules; let j = index;">
                                                     <div class="accordion-body">
-                                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                                        <div class="d-flex align-items-center justify-content-between">
                                                             <div class="iyxoZR">
-                                                                <span class="epkbnY" style="font-size: 12px;">Team</span>
-                                                                <span class="fAtrDv" style="font-size: 11px;">Access and manage all your employees’ and contractors’ information</span>
+                                                                <span class="epkbnY" style="font-size: 12px;">{{submodule.name}}</span>
+                                                                <!-- <span class="fAtrDv" style="font-size: 11px;">Access and manage all your employees’ and contractors’ information</span> -->
                                                             </div>
                                                             <div class="d-flex align-items-center " style="gap:30px;">
+
+
+
+
+
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox" class="form-check-input"
+                                                                            [checked]="submodule.privilegeId == 1"
+                                                                            name="viewSubModule{{ i }}{{ j }}"
+                                                                            id="viewSubModule{{ i }}{{ j }}"
+                                                                            (click)="handleRadioClickForSubModule(1, submodule)" />
+                                                                        <label class="form-check-label d-flex align-items-center gap-2"
+                                                                            for="viewSubModule{{ i }}{{ j }}"> View
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox" class="form-check-input"
+                                                                            [checked]="submodule.privilegeId == 2"
+                                                                            name="manageSubModule{{ i }}{{ j }}"
+                                                                            id="manageSubModule{{ i }}{{ j }}"
+                                                                            (click)="handleRadioClickForSubModule(2, submodule)" />
+                                                                        <label class="form-check-label d-flex align-items-center gap-2"
+                                                                            for="manageSubModule{{ i }}{{ j }}"> Manage
+                                                                        </label>
+                                                                    </div>
+                    
+
+
+
+
+
+
+                                                                <!-- <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                                   
+                                                                </div>
+
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
                                                                    
-                                                                  </div>
-                                                                  <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
+                                                                </div> -->
 
                                                             </div>
                                                         </div>
-                                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                                        
+                                                        <!-- <div class="d-flex align-items-center justify-content-between mb-3">
                                                             <div class="iyxoZR">
                                                                 <span class="epkbnY" style="font-size: 12px;">Onboard new hires</span>
                                                                 <span class="fAtrDv" style="font-size: 11px;">Add new employees and contractors and manage their onboarding process</span>
@@ -130,14 +164,13 @@
                                                                   </div>
 
                                                             </div>
-                                                        </div>
+                                                        </div> -->
+
                                                     </div>
                                                   </div>
                                                 </div>
-  
 
-                                                
-                                                <div class="accordion-item">
+                                                <!-- <div class="accordion-item">
                                                   <h2 class="accordion-header" id="flush-headingTwo">
                                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
                                                         Contractors
@@ -245,7 +278,9 @@
                                                         
                                                     </div>
                                                   </div>
-                                                </div>
+                                                </div> -->
+
+
                                               </div>
     
                                         </div>
@@ -277,6 +312,40 @@
                                         </div>
                                         </div>
                                 </div>
+
+                                <div id="cancel-and-save">
+                                    <div class="modal-footer d-flex align-items-center justify-content-end">
+                                        <button id="cancel" type="button" class="btn btn-outline-primary" routerLink="/role">Cancel</button>
+                                    </div>
+                                    <div class="modal-footer d-flex align-items-center justify-content-end">
+                                        <button id="save" type="button" class="btn btn-primary" (click)="updateRoleWithPermissionsMethodCall()">
+                                            <ng-container *ngIf="buttonLoader; else saveButton">
+                                                <div *ngIf="buttonLoader" class="dot-opacity-loader">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </div>
+                                            </ng-container>
+                                            <ng-template #saveButton>
+                                                <span style="padding: 15px">Save</span>
+                                            </ng-template>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                                <!-- <div class="info-btn d-flex justify-content-end">
+                                    <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
+                                        <div *ngIf="toggle" class="dot-opacity-loader">
+                                          <span></span>
+                                          <span></span>
+                                          <span></span>
+                                        </div>
+                                        <span *ngIf="!toggle">
+                                          Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                        </span>
+                                      </button>
+                                </div> -->
                         </div>
                    <div class="col-md-3"></div>
                 </div>
