@@ -543,5 +543,14 @@ errorToggleMain: boolean=false;
       console.log(error);
     })
   }
+
+  downloadAttendanceDataInExcelFormatMethodCall(){
+    this.dataService.downloadAttendanceDataInExcelFormat(this.startDateStr, this.endDateStr).subscribe((response) => {
+      console.log(response);
+      
+    }, (error) => {
+      console.log(error);
+    })
+  }
   
 }
