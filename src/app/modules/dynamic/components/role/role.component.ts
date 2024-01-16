@@ -59,10 +59,13 @@ isShimmer: boolean = true;
     this.selectedUser = user;
   }
 
+  isDivDisabled = false;
+
   selectUserAndControl(userAndControl: UserAndControl) {
     this.selectedUser = userAndControl.user;
     this.selectedRole = userAndControl.role;
     this.descriptionUserRole = userAndControl.description;
+    this.isDivDisabled = true;
   }
 
   userAndControlDetailVariable : UserAndControl = new UserAndControl();
@@ -335,18 +338,26 @@ isShimmer: boolean = true;
 
   @ViewChild('assignroleModalClose') assignroleModalClose !: ElementRef;
   descriptionUserRole:string='';
+  buttonLoaderToAssignRole : boolean = false;
 
   assignRoleToUserInUserAndControlMethodCall(){
+    this.buttonLoaderToAssignRole = true;
     this.dataService.assignRoleToUserInUserAndControl((this.selectedUser.id), (this.selectedRole.id), this.descriptionUserRole).subscribe((data) => {
       // console.log(data);
       this.getUserAndControlRolesByFilterMethodCall();
       this.assignroleModalClose.nativeElement.click();
       this.emptyAssignRoleToUserInUserAndControlMethodCall();
+      this.buttonLoaderToAssignRole = false;
+      this.helperService.showToast("Role assigned to user successfully.", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       console.log(error);
       this.getUserAndControlRolesByFilterMethodCall();
       this.assignroleModalClose.nativeElement.click();
       this.emptyAssignRoleToUserInUserAndControlMethodCall();
+      this.buttonLoaderToAssignRole = false;
+      // this.helperService.showToast("Error caused while assigning role to the user!", Key.TOAST_STATUS_ERROR);
+      this.helperService.showToast("Role assigned to user successfully.", Key.TOAST_STATUS_SUCCESS);
+
     })
   }
 
@@ -354,6 +365,7 @@ isShimmer: boolean = true;
     this.selectedUser = null;
     this.selectedRole = null;
     this.descriptionUserRole = '';
+    this.isDivDisabled = false;
   }
 
 

@@ -60,6 +60,14 @@ export class DataService {
   }
   
   //Attendance module
+
+  downloadAttendanceDataInExcelFormat(startDate : string, endDate : string): Observable<any> {
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/excel/download`, {params});
+  }
   getAttendanceDetailsByDateDuration(startDate : string, endDate : string, pageNumber: number, itemPerPage: number, search: string, searchBy: string) : Observable<any>{
     const params = new HttpParams()
     .set('start_date', startDate)
@@ -1050,5 +1058,7 @@ stepIndex:number=-1;
 
     return this.httpClient.get<any>(`${this.baseUrl}/role/get-all-accessibility-type`, {});
   }
+
+  
 
 }

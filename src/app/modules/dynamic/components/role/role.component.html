@@ -773,24 +773,22 @@
             <!--end modal-header-->
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12" [ngClass]="{'disabled-div': isDivDisabled}">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="pb-2">User</label>
                             <div class="dropdown" style="width: 100%" >
                                 <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
-                    background-color: white;
-                    color: black;
-                    border-color: #ced4da;
-                    width: 100%;">
+                                    background-color: white;
+                                    color: black;
+                                    border-color: #ced4da;
+                                    width: 100%;">
                                     {{ selectedUser ? selectedUser.name : "Select a user" }}
                                     <i class="bi bi-chevron-down"></i>
                                 </button>
                                 <ul class="dropdown-menu user-menu-height nationality-dropdown" aria-labelledby="dropdownMenuButton1" style="width: 100%">
                                     <li *ngFor="let user of users">
-                                        <a class="dropdown-item" (click)="selectUser(user)">{{
-                                            user.name
-                                            }}</a>
+                                        <a class="dropdown-item" (click)="selectUser(user)">{{user.name}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -865,7 +863,16 @@
                 </button>
 
                 <button type="button" class="btn btn-primary" (click)="assignRoleToUserInUserAndControlMethodCall()">
-                    Assign
+                    <ng-container *ngIf="buttonLoaderToAssignRole; else assignButton">
+                        <div *ngIf="buttonLoaderToAssignRole" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </ng-container>
+                    <ng-template #assignButton>
+                        <span style="padding: 15px">Assign</span>
+                    </ng-template>
                 </button>
             </div>
             <!--end modal-footer-->
