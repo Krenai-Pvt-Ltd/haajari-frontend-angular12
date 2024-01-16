@@ -163,7 +163,7 @@ export class TeamComponent implements OnInit{
 
       debugger
       location.reload();
-      this.helperService.showToast("Team registration successfull.", Key.TOAST_STATUS_SUCCESS);
+      this.helperService.showToast("Team saved successfully.", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       location.reload();
       console.log(error);
@@ -583,14 +583,31 @@ getTeamsByFiltersFunction() {
 
   searchTeamPlaceholderFlag: boolean=false;
   crossFlag: boolean = false;
+  resetCriteriaFilter(){
+    this.itemPerPage = 12;
+    this.pageNumber = 1;
+  }
   searchTeams() {
     this.crossFlag=true;
     this.searchTeamPlaceholderFlag=true;
+    this.resetCriteriaFilter();
     this.getTeamsByFiltersFunction();
     if(this.searchText== ''){
       this.crossFlag=false;
     }
+
   }
+  // reloadPage() {
+  //   location.reload();
+  //   this.crossFlag=false;
+  // }
+  reloadPage(){
+  this.searchText='';
+  this.getTeamsByFiltersFunction();
+  this.crossFlag=false;
+
+ }
+
 
 
 
@@ -620,10 +637,6 @@ getStartIndex(): number {
 getEndIndex(): number {
   const endIndex = this.pageNumber * this.itemPerPage;
   return endIndex > this.total ? this.total : endIndex;
-}
-reloadPage() {
-  location.reload();
-  this.crossFlag=false;
 }
 
 
