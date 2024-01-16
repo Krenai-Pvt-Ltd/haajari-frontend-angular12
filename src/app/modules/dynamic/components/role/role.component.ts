@@ -328,7 +328,7 @@ isShimmer: boolean = true;
     this.dataService.deleteUserOfRoleAndSecurity(id).subscribe((data) => {
       console.log("user delted successfully")
       this.getUserAndControlRolesByFilterMethodCall();
-      this.helperService.showToast("User role deleted successfully.", Key.TOAST_STATUS_SUCCESS);
+      this.helperService.showToast("Deleted successfully.", Key.TOAST_STATUS_SUCCESS);
     },(error) => {
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       console.log(error);
@@ -379,12 +379,11 @@ isShimmer: boolean = true;
       this.helperService.showToast("Role assigned to user successfully.", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       console.log(error);
-      this.getUserAndControlRolesByFilterMethodCall();
-      this.assignroleModalClose.nativeElement.click();
-      this.emptyAssignRoleToUserInUserAndControlMethodCall();
-      this.buttonLoaderToAssignRole = false;
-      // this.helperService.showToast("Error caused while assigning role to the user!", Key.TOAST_STATUS_ERROR);
-      this.helperService.showToast("Role assigned to user successfully.", Key.TOAST_STATUS_SUCCESS);
+      // this.getUserAndControlRolesByFilterMethodCall();
+      // this.assignroleModalClose.nativeElement.click();
+      // this.emptyAssignRoleToUserInUserAndControlMethodCall();
+      // this.buttonLoaderToAssignRole = false;
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
 
     })
   }

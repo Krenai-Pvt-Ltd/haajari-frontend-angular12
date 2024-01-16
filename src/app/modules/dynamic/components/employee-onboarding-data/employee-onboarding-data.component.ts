@@ -145,6 +145,12 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     search:string='';
     crossFlag: boolean = false;
     searchUserPlaceholderFlag: boolean=false;
+
+    resetCriteriaFilter(){
+      this.itemPerPage = 12;
+      this.pageNumber = 1;
+    }
+
     searchUsers(searchString: string) {
       this.crossFlag = true;
       this.searchUserPlaceholderFlag=true;
@@ -156,6 +162,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         this.searchCriteria = 'employeeOnboardingStatus';
       }
     
+      this.resetCriteriaFilter();
       this.getUsersByFiltersFunction();
       if (this.searchText === '') {
         this.crossFlag = false;
@@ -165,6 +172,20 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       //   this.crossFlag = false;
       // }
     }
+
+    reloadPage() {
+      location.reload();
+    }
+
+    // reloadPage() {
+    //   this.search='';
+    //   this.searchText;
+    //   this.searchCriteria = '';
+    //   this.getUsersByFiltersFunction();
+    //   this.crossFlag = false;
+    //   location.reload();
+    // }
+    
     
     // searchUsers(searchString:string) {
     //   this.crossFlag = true;
@@ -192,9 +213,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     // }
    
   
-    reloadPage() {
-      location.reload();
-    }
+    
   
     showProjectOfOnboardingSection: boolean = false;
   
@@ -302,7 +321,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
                 this.closeModal();
             }
 
-            this.helperService.showToast("Mail sent successfully.", Key.TOAST_STATUS_SUCCESS);
+            this.helperService.showToast("Email sent successfully.", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
             console.error(error);

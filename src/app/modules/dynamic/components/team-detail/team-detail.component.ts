@@ -170,6 +170,7 @@ export class TeamDetailComponent implements OnInit {
       this.total = data.count;
       console.log(this.userList);
     });
+
   }
 
   toggleUserSelection(user: User) {
@@ -200,19 +201,8 @@ export class TeamDetailComponent implements OnInit {
  
 
   inviteUsers(){
-    this.dataService.sendInviteToUsers(this.userEmails).subscribe((data) => {
-      debugger
-      this.userEmails = [];
-      console.log(data);
-      Swal.fire({
-        position: 'bottom-left',
-        icon: 'success',
-        title: 'Mail sent successfully!',
-        showConfirmButton: false,
-        timer: 1500 
-    });
-    },(error) => {
-      debugger
+    debugger
+    this.dataService.sendInviteToUsers(this.userEmails).subscribe((data) => { 
       this.userEmails = [];
       this.selectedUsers = [];
       Swal.fire({
@@ -225,25 +215,35 @@ export class TeamDetailComponent implements OnInit {
         showConfirmButton: false,
         timer: 1500 
       });
+      this.getTeamMemberById();
+      this.helperService.showToast("Mail Sent Successfully.", Key.TOAST_STATUS_SUCCESS);
+    },(error) => {
       console.log(error);
-      location.reload();
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+
 
     })
   }
 
 
   assignManagerRoleToMemberMethodCall(teamUuid: string, userUuid: string) {
+    debugger
     this.dataService.assignManagerRoleToMember(teamUuid,userUuid).subscribe((data) => {
       console.log(data);
       const managerdata = {
         teamId: this.teamId,
-        managerId: data.manager.id,
+        managerId: data.managerId,
       };
       localStorage.setItem('managerFunc', JSON.stringify(managerdata));
+      this.getUsersRoleFromLocalStorage();
+      this.getTeamMemberById();
+      // location.reload();
+      this.helperService.showToast("Manager assigned successfully.", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       console.log(error);
-      window.location.reload();
-      
+      // window.location.reload();
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+
 
     })
   }
@@ -259,10 +259,14 @@ export class TeamDetailComponent implements OnInit {
     this.dataService.assignMemberRoleToManager(teamUuid,userUuid).subscribe((data) => {
       // localStorage.removeItem('managerFunc');
       console.log(data);
+      this.getUsersRoleFromLocalStorage();
+      this.getTeamMemberById();
+      // location.reload();
       this.helperService.showToast("Manager removed successfully.", Key.TOAST_STATUS_SUCCESS);
+
     }, (error) => {
       console.log(error);
-      window.location.reload();
+      // window.location.reload();
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
 
     })
@@ -287,7 +291,8 @@ export class TeamDetailComponent implements OnInit {
       .subscribe(
         response => {
           console.log('Success:', response);
-          location.reload();
+          // location.reload();
+          this.getTeamMemberById();
           this.helperService.showToast("User removed successfully.", Key.TOAST_STATUS_SUCCESS);
         },
         error => {

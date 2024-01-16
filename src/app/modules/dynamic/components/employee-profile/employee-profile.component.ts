@@ -526,11 +526,12 @@ export class EmployeeProfileComponent implements OnInit {
 
         console.log(data);
         console.log(data.body);
-        this.getUserLeaveLogByUuid();
         this.getUserLeaveReq();
         this.resetUserLeave();
         this.formGroupDirective.resetForm();
         this.requestLeaveCloseModel.nativeElement.click();
+        this.getUserLeaveLogByUuid();
+
         // location.reload();
       }, (error) => {
         console.log(error.body);
@@ -971,15 +972,16 @@ export class EmployeeProfileComponent implements OnInit {
       (data) => {
         console.log(data);
         this.getUserAttendanceStatus();
-        
+        this.helperService.showToast(data.message, Key.TOAST_STATUS_SUCCESS);
       },
       (error) => {
         console.log(error);
-        this.getUserAttendanceStatus();
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+
+        // this.getUserAttendanceStatus();
         // if(command==="/inn"){
         // this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
         // }
-        this.helperService.showToast("Success", Key.TOAST_STATUS_SUCCESS);
       }
     );
   }
