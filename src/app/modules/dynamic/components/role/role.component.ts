@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ModuleRequest } from 'src/app/models/module-request';
 import { UserAndControl } from 'src/app/models/user-and-control';
 import { ModuleResponse } from 'src/app/models/module-response';
@@ -30,6 +30,7 @@ isShimmer: boolean = true;
   rowNumber : number = 1;
   searchText : string = '';
   users : User[] = [];
+  roleSectionTabFlag : boolean = false;
   
 
   ngOnInit(): void {
@@ -37,18 +38,43 @@ isShimmer: boolean = true;
     this.getUsersByFilterMethodCall();
     this.call();
     this.getAllRolesMethodCall();
+    
+    debugger
+    // if(!this.helperService.getRoleSectionTab()){
+      
+    // }
+
     this.rolesAndSecurity.nativeElement.click();
+
   }
 
-  // clearModel(){
-  //   this.roles = [];
-  //   this.total = 0;
-  // }
+
+  isShimmerForUserAndControl = false;
+  dataNotFoundPlaceholderForUserAndControl = false;
+  networkConnectionErrorPlaceHolderForUserAndControl = false;
+  preRuleForShimmersAndErrorPlaceholdersMethodCall(){
+    this.isShimmerForUserAndControl = true;
+    this.dataNotFoundPlaceholderForUserAndControl = false;
+    this.networkConnectionErrorPlaceHolderForUserAndControl = false;
+  }
+
+
+  isShimmerForRolesAndSecurity = false;
+  dataNotFoundPlaceholderForRolesAndSecurity = false;
+  networkConnectionErrorPlaceHolderForRolesAndSecurity = false;
+  preRuleForShimmersAndErrorPlaceholdersMethodCallForRolesAndSecurity(){
+    this.isShimmerForRolesAndSecurity = true;
+    this.dataNotFoundPlaceholderForRolesAndSecurity = false;
+    this.networkConnectionErrorPlaceHolderForRolesAndSecurity = false;
+  }
+
+
 
   @ViewChild("rolesAndSecurity") rolesAndSecurity !: ElementRef;
 
   selectedRole: any;
   selectedUser: any;
+
 
   // Method to update selectedRole
   selectRole(role: any) {
@@ -108,7 +134,7 @@ isShimmer: boolean = true;
 
   // # Data Table of roles
   getAllRolesMethodCall(){
-
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCallForRolesAndSecurity();
     debugger
     this.dataService.getAllRoles(this.itemPerPage,this.pageNumberUser,'asc','id','','', 0).subscribe(async (data) => {
 
@@ -121,10 +147,12 @@ isShimmer: boolean = true;
        console.log(this.num);
       }
       this.totalUser = data.totalItems;
-
+      if(this.roles.length === 0 || this.roles === null || this.roles.length === undefined){
+        this.dataNotFoundPlaceholderForRolesAndSecurity = true;
+      }
       console.log(this.roles);
     }, (error) => {
-
+      this.networkConnectionErrorPlaceHolderForRolesAndSecurity = true;
       console.log(error);
     })
   }
@@ -369,18 +397,23 @@ isShimmer: boolean = true;
 
 
 
+
   userAndControlRoles : UserAndControl[] = [];
   userAndControlRolesTotalCount : number = 0;
   getUserAndControlRolesByFilterMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.dataService.getUserAndControlRolesByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((data) => {
       
       this.userAndControlRoles = data.object;
       this.total = data.totalItems;
-
       
+      if(data === undefined || data === null || this.userAndControlRoles.length === 0){
+        this.dataNotFoundPlaceholderForUserAndControl = true;
+      }
       console.log(this.userAndControlRoles,this.total);
     }, (error) => {
       console.log(error);
+      this.networkConnectionErrorPlaceHolderForUserAndControl = true;
     })
   }
 
