@@ -506,8 +506,16 @@
                                         <ng-template #downloadingCondition>
                                             <div class="dropdown col-md-3" >
                                                 <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="myAttendanceDataLength === 0" style="display: flex; justify-content: space-evenly; align-items: center;">
-                                                  Downloading 
-                                                  <mat-progress-spinner [diameter]="20" mode="indeterminate"></mat-progress-spinner>
+                                                  Downloading
+                                                  <!-- <div class="spinner-border" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                  </div> -->
+
+                                                  <div class="dot-opacity-loader">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </div>
 
                                                 </button>
                                               </div>

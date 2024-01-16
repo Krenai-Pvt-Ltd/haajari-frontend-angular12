@@ -546,14 +546,13 @@ errorToggleMain: boolean=false;
 
   downloadingFlag : boolean = false;
   downloadAttendanceDataInExcelFormatMethodCall(){
-    debugger
+    
     this.downloadingFlag = true;
     this.dataService.downloadAttendanceDataInExcelFormat(this.startDateStr, this.endDateStr).subscribe((response) => {
       console.log(response);
 
       const downloadLink = document.createElement("a");
       downloadLink.href = response.message;
-      downloadLink.target = "_blank";
       downloadLink.download = "attendance.xlsx";
       downloadLink.click();
       this.downloadingFlag = false;
