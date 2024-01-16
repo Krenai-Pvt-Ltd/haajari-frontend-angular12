@@ -1594,7 +1594,7 @@
                     <div class="mb-2">
                         <p class="mb-0" style="color: #000444;">Please fill out the following fields:</p>
                     </div>
-                    <form [formGroup]="userLeaveForm">
+                    <form [formGroup]="userLeaveForm" #formDirective="ngForm" >
                         <div class="text-danger" *ngIf="!pendingFlag">
                             You can not apply to this leave, for selected dates your leave qouta is exhausted.
                         </div>

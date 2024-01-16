@@ -152,7 +152,7 @@ export class LeaveSettingComponent implements OnInit {
   deleteRow(index: number) {
     const categoriesArray = this.form.get('categories') as FormArray;
     categoriesArray.removeAt(index);
-    this.helperService.showToast("Leave type deleted successfully", Key.TOAST_STATUS_SUCCESS);
+    this.helperService.showToast("Row deleted", Key.TOAST_STATUS_SUCCESS);
   }
 
   hasError(controlName: string, index: number, errorName: string) {
@@ -240,10 +240,16 @@ export class LeaveSettingComponent implements OnInit {
 
   searchUserPlaceholderFlag:boolean=false;
   crossFlag: boolean = false;
+
+  resetCriteriaFilter(){
+    this.itemPerPage = 8;
+    this.pageNumber = 1;
+  }
   
   searchUsers() {
     this.crossFlag=true;
     this.searchUserPlaceholderFlag = true;
+    this.resetCriteriaFilter();
     this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
     if(this.searchText== ''){
       this.crossFlag=false;
@@ -479,6 +485,8 @@ export class LeaveSettingComponent implements OnInit {
     this.pageNumberUser = 1;
     this.dataService.getLeaveSettingInformationById(leaveSettingId)
       .subscribe(response => {
+        this.searchTextUser = '';
+        this.searchText = '';
         this.selectedStaffsUuids = [];
         this.selectedStaffsUuidsUser = [];
         this.errorTemplateNameFlag = false;
@@ -563,7 +571,7 @@ export class LeaveSettingComponent implements OnInit {
       () => {
         this.getFullLeaveSettingInformation();
         console.log('Leave setting rule deleted successfully.');
-        this.helperService.showToast("Leave setting rule deleted successfully.", Key.TOAST_STATUS_SUCCESS);
+        this.helperService.showToast("Leave rule deleted successfully.", Key.TOAST_STATUS_SUCCESS);
       },
       (error) => {
         console.error('Error deleting leave setting rule:', error);
@@ -674,9 +682,16 @@ export class LeaveSettingComponent implements OnInit {
 
   crossFlagUser:boolean=false;
 
+  resetCriteriaFilterUser(){
+    this.itemPerPageUser = 8;
+    this.pageNumberUser = 1;
+  }
+  
+
   searchLeaveUsers(leaveSettingId:number) {
     this.crossFlagUser=true;
     this.searchSelectedUserPlaceholderFlag=true;
+    this.resetCriteriaFilterUser();
     this.findUsersOfLeaveSetting(leaveSettingId);
     if(this.searchTextUser== ''){
       this.crossFlagUser=false;
