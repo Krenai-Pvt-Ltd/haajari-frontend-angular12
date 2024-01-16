@@ -1,5 +1,7 @@
 import { Directive,Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Key } from 'src/app/constant/key';
 import { AttendanceMode } from 'src/app/models/attendance-mode';
 import { AttendanceRuleDefinitionRequest } from 'src/app/models/attendance-rule-definition-request';
@@ -7,6 +9,7 @@ import { AttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule
 import { AttendanceRuleResponse } from 'src/app/models/attendance-rule-response';
 import { AttendanceRuleWithAttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-with-attendance-rule-definition-response';
 import { DeductionType } from 'src/app/models/deduction-type';
+import { OrganizationAddressDetail } from 'src/app/models/organization-address-detail';
 import { OrganizationShiftTimingRequest } from 'src/app/models/organization-shift-timing-request';
 import { OrganizationShiftTimingResponse } from 'src/app/models/organization-shift-timing-response';
 import { OrganizationShiftTimingWithShiftTypeResponse } from 'src/app/models/organization-shift-timing-with-shift-type-response';
@@ -24,6 +27,9 @@ import { HelperService } from 'src/app/services/helper.service';
 })
 export class AttendanceSettingComponent implements OnInit {
 
+
+  organizationAddressDetail : OrganizationAddressDetail = new OrganizationAddressDetail();
+
   readonly OVERTIME_RULE = Key.OVERTIME_RULE;
 
   constructor(private dataService : DataService, private helperService : HelperService, private router: Router, private el: ElementRef) {
@@ -31,6 +37,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.getOrganizationAddressDetailMethodCall();
     // this.helperService.showTost("Attendance Settings deleted successfully", Key.TOAST_STATUS_SUCCESS);
     this.getAttendanceModeMethodCall();
     // this.getAttendanceModeAllMethodCall();
@@ -887,11 +894,21 @@ unselectAllUsers() {
     })
   }
 
+
+  // Modal
+
+  @ViewChild("attendancewithlocationssButton") attendancewithlocationssButton !: ElementRef;
   updateAttendanceModeMethodCall(attendanceModeId : number){
+   
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe((response) => {
       console.log(response);
       this.getAttendanceModeMethodCall();
+      if(attendanceModeId == 2 || attendanceModeId == 3){
+        this.attendancewithlocationssButton.nativeElement.click();
+      }
+      if (attendanceModeId == 1){
       this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
+    }
     }, (error)=>{
       console.log(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
@@ -910,5 +927,84 @@ unselectAllUsers() {
       console.log(error);
     })
   }
+  toggle = false;
+  @ViewChild("closeAddressModal") closeAddressModal !: ElementRef;
+  setOrganizationAddressDetailMethodCall(){
+    this.toggle = true;
+    this.dataService.setOrganizationAddressDetail(this.organizationAddressDetail)
+    .subscribe(
+      (response: OrganizationAddressDetail) => {
+        console.log(response);  
+        this.toggle=false;
+       this.closeAddressModal.nativeElement.click();
+       this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
+      
+        
+      },
+      (error) => {
+        console.error(error);
+        
+      })
+   
+    ;
+  }
+  @ViewChild("placesRef") placesRef! : GooglePlaceDirective;
+
+  public handleAddressChange(e: any) {
+    debugger
+    var id=this.organizationAddressDetail.id;
+    this.organizationAddressDetail=new OrganizationAddressDetail();
+    this.organizationAddressDetail.id=id;
+    this.organizationAddressDetail.longitude = e.geometry.location.lng();
+    this.organizationAddressDetail.latitude = e.geometry.location.lat();
+    console.log(e.geometry.location.lat());
+    console.log(e.geometry.location.lng());
+    this.organizationAddressDetail.addressLine1=e.vicinity;
+    e?.address_components?.forEach((entry: any) => {
+      console.log(entry);
+      
+      if (entry.types?.[0] === "route") {
+        this.organizationAddressDetail.addressLine2 = entry.long_name + ",";
+      }
+      if (entry.types?.[0] === "sublocality_level_1") {
+        this.organizationAddressDetail.addressLine2 = this.organizationAddressDetail.addressLine2 + entry.long_name
+      }
+      if (entry.types?.[0] === "locality") {
+        this.organizationAddressDetail.city = entry.long_name
+      }
+      if (entry.types?.[0] === "administrative_area_level_1") {
+        this.organizationAddressDetail.state = entry.long_name
+      }
+      if (entry.types?.[0] === "country") {
+        this.organizationAddressDetail.country = entry.long_name
+      }
+      if (entry.types?.[0] === "postal_code") {
+        this.organizationAddressDetail.pincode = entry.long_name
+      }
+
+
+
+    });
+  }
+
+  getOrganizationAddressDetailMethodCall() {
+    this.dataService.getOrganizationAddressDetail().subscribe(
+        (response: OrganizationAddressDetail) => {
+            if (response) {
+              console.log(response);
+                this.organizationAddressDetail = response;
+            } else {
+                console.log('No address details found');
+                
+               
+            }
+        },
+        (error: any) => {
+            console.error('Error fetching address details:', error);
+        }
+    );
+}
+
+
 
 }

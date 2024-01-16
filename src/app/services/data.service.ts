@@ -28,6 +28,7 @@ import { FullLeaveSettingResponse } from "../models/full-leave-setting-response"
 import { FullLeaveSettingRequest } from "../models/Full-Leave-Setting-Request";
 import { Testing } from "../models/testing";
 import { ShiftTimings } from "../models/shifttimings";
+import { OrganizationAddressDetail } from "../models/organization-address-detail";
 
 
 @Injectable({
@@ -47,9 +48,10 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = "http://localhost:8080/api/v2";
+  // private baseUrl = "http://localhost:8080/api/v2"
+  // private baseUrl = "http://localhost:8080/api/v2";
 
-  // private baseUrl = "https://backend.hajiri.work/api/v2";
+  private baseUrl = "https://backend.hajiri.work/api/v2";
 
   // private baseUrl = "https://production.hajiri.work/api/v2";
 
@@ -1054,11 +1056,23 @@ stepIndex:number=-1;
     return this.httpClient.post<any>(url, {});
   }
 
+
+  setOrganizationAddressDetail(organizationAddressDetail: OrganizationAddressDetail): Observable<any>{
+    return this.httpClient.put<any>(`${this.baseUrl}/organization-address/save-address`, organizationAddressDetail);
+
+  }
+
+  getOrganizationAddressDetail(): Observable<any> {
+    const url = `${this.baseUrl}/organization-address/get/address`;
+    return this.httpClient.get<any>(url);
+  }
+
   getAllRoleAccessibilityType():Observable<any> {
 
     return this.httpClient.get<any>(`${this.baseUrl}/role/get-all-accessibility-type`, {});
   }
 
   
+
 
 }
