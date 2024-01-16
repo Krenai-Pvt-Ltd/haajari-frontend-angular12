@@ -544,12 +544,21 @@ errorToggleMain: boolean=false;
     })
   }
 
+  downloadingFlag : boolean = false;
   downloadAttendanceDataInExcelFormatMethodCall(){
+    
+    this.downloadingFlag = true;
     this.dataService.downloadAttendanceDataInExcelFormat(this.startDateStr, this.endDateStr).subscribe((response) => {
       console.log(response);
-      
+
+      const downloadLink = document.createElement("a");
+      downloadLink.href = response.message;
+      downloadLink.download = "attendance.xlsx";
+      downloadLink.click();
+      this.downloadingFlag = false;
     }, (error) => {
       console.log(error);
+      this.downloadingFlag = false;
     })
   }
   
