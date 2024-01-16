@@ -84,6 +84,7 @@ export class RoleAddComponent implements OnInit {
       debugger
       this.buttonLoader = false;
       this.router.navigate(['/role']);
+      this.helperService.setRoleSectionTab(true);
       this.helperService.showToast("Role details have been successfully saved.", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       console.log(error);

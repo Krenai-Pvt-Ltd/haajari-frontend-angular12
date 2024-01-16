@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ModuleRequest } from 'src/app/models/module-request';
 import { UserAndControl } from 'src/app/models/user-and-control';
 import { ModuleResponse } from 'src/app/models/module-response';
@@ -30,6 +30,7 @@ isShimmer: boolean = true;
   rowNumber : number = 1;
   searchText : string = '';
   users : User[] = [];
+  roleSectionTabFlag : boolean = false;
   
 
   ngOnInit(): void {
@@ -37,18 +38,22 @@ isShimmer: boolean = true;
     this.getUsersByFilterMethodCall();
     this.call();
     this.getAllRolesMethodCall();
-    this.rolesAndSecurity.nativeElement.click();
+    
+    debugger
+    if(!this.helperService.getRoleSectionTab()){
+      this.rolesAndSecurity.nativeElement.click();
+    }
+
   }
 
-  // clearModel(){
-  //   this.roles = [];
-  //   this.total = 0;
-  // }
+
+
 
   @ViewChild("rolesAndSecurity") rolesAndSecurity !: ElementRef;
 
   selectedRole: any;
   selectedUser: any;
+
 
   // Method to update selectedRole
   selectRole(role: any) {
@@ -367,6 +372,7 @@ isShimmer: boolean = true;
     this.descriptionUserRole = '';
     this.isDivDisabled = false;
   }
+
 
 
 
