@@ -13,6 +13,7 @@ import { Router, RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DynamicModule } from "../dynamic/dynamic.module";
 import { CommonModule } from '@angular/common';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { CommonModule } from '@angular/common';
         CommonModule,
         FormsModule,
         RouterModule,
+        GooglePlaceModule,
         ReactiveFormsModule,
         SettingRoutingModule,
         NgxPaginationModule,
