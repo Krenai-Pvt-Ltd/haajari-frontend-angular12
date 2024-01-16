@@ -906,9 +906,13 @@ unselectAllUsers() {
       if(attendanceModeId == 2 || attendanceModeId == 3){
         this.attendancewithlocationssButton.nativeElement.click();
       }
-      if (attendanceModeId == 1){
-      this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
-    }
+      setTimeout(() => {
+        if (attendanceModeId == 1){
+          this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
+        }
+        console.log("Second line executed after 3 seconds");
+      }, 3000);
+      
     }, (error)=>{
       console.log(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
