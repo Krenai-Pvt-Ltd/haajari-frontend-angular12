@@ -86,4 +86,15 @@ export class HelperService {
   getData() {
     return this.data;
   }  
+
+
+  private roleSectionTab : boolean = false;
+
+  setRoleSectionTab(roleSectionTab : boolean){
+    this.roleSectionTab = roleSectionTab;
+  }
+
+  getRoleSectionTab() {
+    return this.roleSectionTab;
+  }
 }

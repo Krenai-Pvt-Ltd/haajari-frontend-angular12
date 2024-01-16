@@ -23,22 +23,46 @@ export class RoleAddComponent implements OnInit {
     this.getAllRoleAccessibilityTypeMethodCall();
   }
 
+  addRoleValidationErrors: { [key: string]: string } = {};
+  submitAddRoleForm(){
+    
+  }
 
-  moduleResponse : ModuleResponse[] = [];
+
+
+  moduleResponseList : ModuleResponse[] = [];
   moduleRequestList : ModuleRequest[] = [];
   roleRequest : RoleRequest = new RoleRequest();
   buttonLoader : boolean = false;
   @ViewChild("homeTab") homeTab !: ElementRef;
 
+  isShimmerForRolePermissionModules = false;
+  dataNotFoundPlaceholderForRolePermissionModules = false;
+  networkConnectionErrorPlaceHolderForRolePermissionModules = false;
+  preRuleForShimmersAndErrorPlaceholdersMethodCallForRolePermissionModules(){
+    this.isShimmerForRolePermissionModules = true;
+    this.dataNotFoundPlaceholderForRolePermissionModules = false;
+    this.networkConnectionErrorPlaceHolderForRolePermissionModules = false;
+  }
+
+  isShimmerForRoleAccessibilityType = false;
+  dataNotFoundPlaceholderForRoleAccessibilityType = false;
+  networkConnectionErrorPlaceHolderForRoleAccessibilityType = false;
+  preRuleForShimmersAndErrorPlaceholdersMethodCallForRoleAccessibilityType(){
+    this.isShimmerForRoleAccessibilityType = true;
+    this.dataNotFoundPlaceholderForRoleAccessibilityType = false;
+    this.networkConnectionErrorPlaceHolderForRoleAccessibilityType = false;
+  }
+
 
   getSubModuleByRoleMethodCall(){
-
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCallForRolePermissionModules();
     console.log(this.roleRequest.id);
     this.dataService.getSubModuleByRole(this.roleRequest.id).subscribe((data) => {
 
-      this.moduleResponse = data;
+      this.moduleResponseList = data;
 
-      for(let i of this.moduleResponse){
+      for(let i of this.moduleResponseList){
         
         const submodules = i.subModules;
 
@@ -49,7 +73,7 @@ export class RoleAddComponent implements OnInit {
           this.moduleRequestList.push(moduleRequest);
         }
       }
-      console.log(this.moduleResponse);
+      console.log(this.moduleResponseList);
     }, (error) => {
 
       console.log(error);
@@ -84,6 +108,7 @@ export class RoleAddComponent implements OnInit {
       debugger
       this.buttonLoader = false;
       this.router.navigate(['/role']);
+      this.helperService.setRoleSectionTab(true);
       this.helperService.showToast("Role details saved successfully.", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       console.log(error);
@@ -135,6 +160,7 @@ export class RoleAddComponent implements OnInit {
 
   roleAccessibilityTypeList : RoleAccessibilityType[] = [];
   getAllRoleAccessibilityTypeMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCallForRoleAccessibilityType();
     this.dataService.getAllRoleAccessibilityType().subscribe((response) => {
       this.roleAccessibilityTypeList = response;
     }, (error) => {
