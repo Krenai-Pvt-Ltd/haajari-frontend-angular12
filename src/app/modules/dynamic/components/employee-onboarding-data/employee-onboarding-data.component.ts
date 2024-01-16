@@ -344,26 +344,36 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.closeInviteModal.nativeElement.click();
     }
 
-    sendingMailLoader = false;
+    sendingMailLoaderForUser(user: any): boolean {
+      return this.loadingStatus[user.email] || false;
+    }
     
+    // sendingMailLoader = false;
+    loadingStatus: { [key: string]: boolean } = {};
+
   // requestFlag:boolean=false;
-    sendMailToEmployees(email:string){
-      this.sendingMailLoader = true;
+    sendMailToEmployees(user:any){
+      // this.sendingMailLoader = true;
       debugger
-      this.dataService.sendMailToEmployeesToCompleteOnboarding(email)
+      const userEmail = user.email;
+      this.loadingStatus[userEmail] = true;
+      console.log(userEmail + "userEmail")
+      this.dataService.sendMailToEmployeesToCompleteOnboarding(userEmail)
       .subscribe(
         (response) => {
           // this.requestFlag=true;
           console.log(response); 
           this.getUsersByFiltersFunction();
           // location.reload();
-          this.sendingMailLoader=false;
+          // this.sendingMailLoader=false;
+          this.loadingStatus[userEmail] = false;
+
           this.helperService.showToast("Email sent successfully!", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
           // console.error(error);
           // location.reload();
-          this.sendingMailLoader=false;
+          this.loadingStatus[userEmail] = false;
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
 
         }
