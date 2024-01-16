@@ -492,15 +492,27 @@
                                             <button class="btn btn-secondary new-deopdown" type="button" (click)="toggleAllCollapse()" [disabled]="myAttendanceDataLength === 0">{{isAllCollapsed ? 'Expand All' : 'Collapse All'}}</button>
                                           
                                         </div>
-                                          <div class="dropdown col-md-3">
-                                            <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="myAttendanceDataLength === 0">
-                                              Download <i class="bi bi-chevron-down"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
-                                              <li><a class="dropdown-item" (click)="downloadAttendanceDataInExcelFormatMethodCall()">Excel</a></li>
-                                              <li><a class="dropdown-item" >CSV</a></li>
-                                            </ul>
-                                          </div>
+                                        <ng-container *ngIf="!downloadingFlag; else downloadingCondition">
+                                            <div class="dropdown col-md-3" >
+                                                <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="myAttendanceDataLength === 0">
+                                                  Download <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
+                                                  <li><a id="attendance-data-download-in-excel-format" class="dropdown-item" (click)="downloadAttendanceDataInExcelFormatMethodCall()">Excel</a></li>
+                                                  <li><a class="dropdown-item">CSV</a></li>
+                                                </ul>
+                                              </div>
+                                        </ng-container>
+                                        <ng-template #downloadingCondition>
+                                            <div class="dropdown col-md-3" >
+                                                <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="myAttendanceDataLength === 0" style="display: flex; justify-content: space-evenly; align-items: center;">
+                                                  Downloading 
+                                                  <mat-progress-spinner [diameter]="20" mode="indeterminate"></mat-progress-spinner>
+
+                                                </button>
+                                              </div>
+                                        </ng-template>
+                                          
                                     
                                       <div class="dropdown col-md-3" >
                                         <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
