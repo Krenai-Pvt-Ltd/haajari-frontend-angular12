@@ -451,13 +451,17 @@
                                                         *ngIf="(user.employeeOnboardingStatus.response)== requestedResponse">
                                                         <span class="">{{user.employeeOnboardingStatus.response}}</span>
                                                     </td>
+                                                    <td class="new-user-per"
+                                                    *ngIf="(user.employeeOnboardingStatus.response)== newUserResponse">
+                                                    <span class="">NEW!</span>
+                                                    </td>
                                                     <td>
                                                         <div class="hstack gap-3 justify-content-center">
 
                                                             <a href="javascript:void(0);"
                                                                 class="link-success text-decoration-underline"
                                                                 (click)="sendMailToEmployees(user)"
-                                                                *ngIf="!sendingMailLoaderForUser(user)"
+                                                                *ngIf="!sendingMailLoaderForUser(user) && ((user.employeeOnboardingStatus.response)!= approvedResponse) && ((user.employeeOnboardingStatus.response)!= pendingResponse)"
                                                                 >Request</a>
 
                                                                 <div class="dot-opacity-loader" *ngIf="sendingMailLoaderForUser(user)">

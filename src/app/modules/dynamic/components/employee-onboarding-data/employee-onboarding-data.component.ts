@@ -39,6 +39,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     approvedResponse = 'APPROVED';
     rejectedResponse = 'REJECTED';
     requestedResponse = 'REQUESTED';
+    newUserResponse = 'NEW_USER';
   
     searchCriteria: string = '';
   
