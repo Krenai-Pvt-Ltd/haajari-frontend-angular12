@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { ModuleRequest } from 'src/app/models/module-request';
 import { ModuleResponse } from 'src/app/models/module-response';
@@ -15,24 +15,31 @@ import { HelperService } from 'src/app/services/helper.service';
 })
 export class RoleAddComponent implements OnInit {
 
-  constructor(private dataService : DataService, private helperService : HelperService, private router : Router) { }
+  constructor(private dataService : DataService, private helperService : HelperService, private router : Router, private activateRoute : ActivatedRoute) { 
 
-  ngOnInit(): void {
-    this.setDataToBeUpdated();
-    this.getSubModuleByRoleMethodCall();
-    this.getAllRoleAccessibilityTypeMethodCall();
-  }
 
-  addRoleValidationErrors: { [key: string]: string } = {};
-  submitAddRoleForm(){
+
     
   }
 
+  ngOnInit(): void {
+
+    const roleIdParam = this.activateRoute.snapshot.queryParamMap.get('roleId');
+
+    if(roleIdParam !== null){
+      debugger
+      this.roleRequest.id = +roleIdParam;
+    }
+    this.getRoleByIdMethodCall();
+    this.getSubModuleByRoleMethodCall();
+    this.getAllRoleAccessibilityTypeMethodCall();
+
+  }
 
 
+  roleRequest : RoleRequest = new RoleRequest();
   moduleResponseList : ModuleResponse[] = [];
   moduleRequestList : ModuleRequest[] = [];
-  roleRequest : RoleRequest = new RoleRequest();
   buttonLoader : boolean = false;
   @ViewChild("homeTab") homeTab !: ElementRef;
 
@@ -54,10 +61,17 @@ export class RoleAddComponent implements OnInit {
     this.networkConnectionErrorPlaceHolderForRoleAccessibilityType = false;
   }
 
+  modelRefreshMethodCall(){
+    if(this.roleRequest.roleAccessibilityTypeId === 0){
+      
+    }
+  }
+
 
   getSubModuleByRoleMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersMethodCallForRolePermissionModules();
     console.log(this.roleRequest.id);
+    debugger
     this.dataService.getSubModuleByRole(this.roleRequest.id).subscribe((data) => {
 
       this.moduleResponseList = data;
@@ -80,9 +94,27 @@ export class RoleAddComponent implements OnInit {
     })
   }
 
+  selectedRoleAccessibilityTypeId = null;
+  
+  submitAddRoleForm(){
+
+    this.addRoleFormSubmitted = true;
+    if(this.selectedRoleAccessibilityTypeId){
+
+    } else{
+      
+    }
+    
+  }
+
+  addRoleFormSubmitted = false;
+  addRoleValidationErrors: { [key: string]: string } = {};
 
   updateRoleWithPermissionsMethodCall(){
+    this.addRoleFormSubmitted = true;
     this.buttonLoader = true;
+
+    if(this.roleRequest.roleAccessibilityTypeId){
     console.log(this.moduleRequestList);
 
     const uniqueModuleRequestList = [];
@@ -117,6 +149,11 @@ export class RoleAddComponent implements OnInit {
       this.helperService.showToast("Error caused while saving the role!", Key.TOAST_STATUS_ERROR);
 
     })
+    } else{
+      this.buttonLoader = false;
+      return;
+    }
+    
   }
 
 
@@ -176,20 +213,27 @@ export class RoleAddComponent implements OnInit {
     this.helperService.getData();
   }
 
-  setDataToBeUpdated(){
-
-    const role = this.helperService.getData();
-
-    if(role === null || role === undefined){
-      this.roleRequest.id = 0;
-    } else {
-      this.roleRequest.id = role.id;
-      this.roleRequest.name = role.name;
-      this.roleRequest.description = role.description;
-      this.roleRequest.roleAccessibilityTypeId = role.roleAccessibilityType.id;
-      
-    }
+  getRoleByIdMethodCall(){
+    this.dataService.getRoleById(this.roleRequest.id).subscribe((response) => {
+      this.roleRequest = response.object;
+    }, (error) => {
+      console.log(error);
+    })
   }
+  // setDataToBeUpdated(){
+
+  //   const role = this.helperService.getData();
+
+  //   if(role === null || role === undefined){
+  //     this.roleRequest.id = 0;
+  //   } else {
+  //     this.roleRequest.id = role.id;
+  //     this.roleRequest.name = role.name;
+  //     this.roleRequest.description = role.description;
+  //     this.roleRequest.roleAccessibilityTypeId = role.roleAccessibilityType.id;
+      
+  //   }
+  // }
 
 
 }

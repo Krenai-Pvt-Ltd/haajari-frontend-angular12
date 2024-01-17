@@ -786,7 +786,7 @@
                                                                         >
                                                                             <!-- <a href="#" class="dropdown-item" data-bs-toggle="modal"
                                                                                 data-bs-target="#role-details">View</a> -->
-                                                                            <a class="dropdown-item"  (click)="showDataToModal(role)">Edit</a>
+                                                                            <a class="dropdown-item"  (click)="routeToEditRole(role)">Edit</a>
                                                                             <span *ngIf="(role.name!='ADMIN') && (role.name!='USER') && (role.name!='MANAGER')" >
                                                                             <a class="dropdown-item" (click)="deleteRolesWithUsers(role.id)"
                                                                                 >Delete</a>
