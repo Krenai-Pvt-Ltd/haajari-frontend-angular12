@@ -173,18 +173,20 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       // }
     }
 
-    reloadPage() {
-      location.reload();
-    }
-
     // reloadPage() {
-    //   this.search='';
-    //   this.searchText;
-    //   this.searchCriteria = '';
-    //   this.getUsersByFiltersFunction();
-    //   this.crossFlag = false;
     //   location.reload();
     // }
+
+    reloadPage() {
+      this.search='';
+      this.searchText = '';
+      this.searchCriteria = '';
+      this.pageNumber = 1;
+      this.itemPerPage = 12;
+      this.getUsersByFiltersFunction();
+      this.crossFlag = false;
+      // location.reload();
+    }
     
     
     // searchUsers(searchString:string) {
