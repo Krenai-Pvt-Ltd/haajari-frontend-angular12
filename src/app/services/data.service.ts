@@ -48,11 +48,11 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  // private baseUrl = "http://localhost:8080/api/v2"
+  private baseUrl = "http://localhost:8080/api/v2"
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  private baseUrl = "https://production.hajiri.work/api/v2";
+  // private baseUrl = "https://production.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -109,6 +109,14 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-report-by-date`, {params});
   }
 
+
+  getAttendanceDetailsBreakTimingsReportByDateByUser(uuid : string, date : string){
+    const params = new HttpParams()
+    .set('uuid', uuid)
+    .set('date', date);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-break-timings`, {params});
+  }
   
   getTodayEmployeesData(): Observable<any>{
     debugger
@@ -602,9 +610,9 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/user-and-control/get-all`, {params});
   }
 
-  addAdditionalNotes(additionalNotes: AdditionalNotes, email: string): Observable<any>{
+  addAdditionalNotes(additionalNotes: AdditionalNotes, uuid: string): Observable<any>{
     const params = new HttpParams()
-    .set("email", email);
+    .set("uuid", uuid);
 
     return this.httpClient.post<any>(`${this.baseUrl}/additional-notes/add`, additionalNotes, {params});
   }
@@ -999,9 +1007,9 @@ stepIndex:number=-1;
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/checkin-checkout-status`, {params});
   }
 
-  getAttendanceLogs(email : string, date : string): Observable<any>{
+  getAttendanceLogs(uuid : string, date : string): Observable<any>{
     const params = new HttpParams()
-    .set("email", email)
+    .set("uuid", uuid)
     .set("date", date);
 
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-logs`,{params});
