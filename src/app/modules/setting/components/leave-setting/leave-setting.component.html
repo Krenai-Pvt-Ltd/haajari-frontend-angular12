@@ -401,7 +401,7 @@
                                             <div class="col-md-12">
                                                 <div class="">
                                                     <label for="templateName" class="pb-2">Template Name</label>
-                                                    <input [(ngModel)]="leaveSettingResponse.templateName"
+                                                    <input [(ngModel)]="leaveSettingResponse.templateName" [ngModelOptions]="{standalone: true}"
                                                         id="templateName" name="templateName" placeholder="Leave Policy"
                                                         class="form-control" minlength="3" maxlength="50" required
                                                         #templateName="ngModel"
@@ -429,20 +429,20 @@
                                                     <label for="leaveCycle" class="pb-2">Leave Policy Cycle</label>
                                                     <div class="d-flex " style="gap:5px">
                                                         <div class="count-box">
-                                                            <input type="radio" name="leaveCycle" id="monthlyRadio"
+                                                            <input type="radio" name="leaveCycle" [ngModelOptions]="{standalone: true}" id="monthlyRadio"
                                                                 [(ngModel)]="leaveSettingResponse.leaveCycle"
                                                                 value="Monthly" class="d-none">
                                                             <label for="monthlyRadio"
                                                                 [class.selected]="leaveSettingResponse.leaveCycle === 'Monthly'">Monthly</label>
                                                         </div>
                                                         <div class="count-box">
-                                                            <input type="radio" name="leaveCycle" id="yearlyRadio"
+                                                            <input type="radio" name="leaveCycle" id="yearlyRadio" [ngModelOptions]="{standalone: true}"
                                                                 [(ngModel)]="leaveSettingResponse.leaveCycle"
                                                                 value="Yearly" class="d-none">
                                                             <label for="yearlyRadio"
                                                                 [class.selected]="leaveSettingResponse.leaveCycle === 'Yearly'">Yearly</label>
                                                         </div>
-                                                        <input type="hidden" name="leaveCycle"
+                                                        <input type="hidden" name="leaveCycle" [ngModelOptions]="{standalone: true}"
                                                             [(ngModel)]="leaveSettingResponse.leaveCycle"
                                                             [ngModelOptions]="{standalone: true}">
 
@@ -457,12 +457,12 @@
                                                         <div class="col-md-6">
                                                             <input type="date" name="startDate"
                                                                 [(ngModel)]="leaveSettingResponse.yearlyCycleStart"
-                                                                id="startDate" class="form-control">
+                                                                id="startDate" class="form-control" (change)="updateEndDate()">
                                                         </div>
                                                         <div class="col-md-6">
                                                             <input type="date" name="endDate"
                                                                 [(ngModel)]="leaveSettingResponse.yearlyCycleEnd"
-                                                                id="endDate" class="form-control">
+                                                                id="endDate" class="form-control" [min]="leaveSettingResponse.yearlyCycleStart">
                                                         </div>
 
                                                     </div>
@@ -503,7 +503,7 @@
                                                     <label for="sandwichLeaves" class="pb-2">Sandwich Leaves</label>
                                                     <div class="d-flex " style="gap:5px">
                                                         <div class="count-box">
-                                                            <input type="radio" name="sandwichLeaves" id="countRadio"
+                                                            <input type="radio" name="sandwichLeaves" id="countRadio" [ngModelOptions]="{standalone: true}"
                                                                 (change)="setSandwichRules('Count')"
                                                                 [(ngModel)]="leaveSettingResponse.sandwichRules"
                                                                 value="Count" class="d-none">
@@ -511,14 +511,14 @@
                                                                 [class.selected]="leaveSettingResponse.sandwichRules === 'Count'">Count</label>
                                                         </div>
                                                         <div class="count-box">
-                                                            <input type="radio" name="sandwichLeaves" id="ignoreRadio"
+                                                            <input type="radio" name="sandwichLeaves" id="ignoreRadio" [ngModelOptions]="{standalone: true}"
                                                                 (change)="setSandwichRules('Ignore')"
                                                                 [(ngModel)]="leaveSettingResponse.sandwichRules"
                                                                 value="Ignore" class="d-none">
                                                             <label for="ignoreRadio"
                                                                 [class.selected]="leaveSettingResponse.sandwichRules === 'Ignore'">Ignore</label>
                                                         </div>
-                                                        <input type="hidden" name="sandwichLeaves"
+                                                        <input type="hidden" name="sandwichLeaves" [ngModelOptions]="{standalone: true}"
                                                             [(ngModel)]="leaveSettingResponse.sandwichRules"
                                                             [ngModelOptions]="{standalone: true}">
 
@@ -551,7 +551,7 @@
                                                 class="form-group row mb-3" [formGroupName]="i">
                                                 <div class="col-md-3">
                                                     <label class="mb-2">Leave Category Name</label>
-                                                    <input type="text" formControlName="leaveName" class="form-control"
+                                                    <input type="text" formControlName="leaveName"  class="form-control"
                                                         placeholder="Enter Leave Name" required>
 
                                                     <p class="errortxt mt-2 mb-0" style="color: red"
@@ -564,7 +564,7 @@
 
                                                 <div class="col-md-3">
                                                     <label class="mb-2">Leave Count</label>
-                                                    <input type="number" formControlName="leaveCount"
+                                                    <input type="number" formControlName="leaveCount" 
                                                         class="form-control" placeholder="Day per year" required>
 
                                                     <p class="errortxt mt-2 mb-0" style="color: red"
@@ -687,14 +687,34 @@
                                                         <div class=" mt-3">
                                                             <!-- border-bottom border-top pt-3 pb-3 -->
                                                             <div class="row ">
-                                                                <div class="col-md-4">
-                                                                    <div class="user-list">
-                                                                        <h5>Userlist <span class="total-user-list"
-                                                                                style="color: #4761f6; background-color: #d1d6f2; padding: 5px; border-radius: 5px"><b>{{total}}</b></span>
-                                                                        </h5>
+                                                                <div class="col-md-8">
+
+                                                                    <form novalidate="" role="search"
+                                                                    (submit)="searchUsers()"
+                                                                    class="searching ng-untouched ng-pristine ng-valid">
+                                                                    <div class="form-group"
+                                                                        style="position: relative; width: 300px;">
+                                                                        <input type="text" id="searchText"
+                                                                            name="searchUsers"
+                                                                            placeholder="Search by name and role"
+                                                                            class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                                                                            (keyup)="searchUsers()"
+                                                                            [(ngModel)]="searchText"
+                                                                            [ngModelOptions]="{ standalone: true }"
+                                                                            style="padding: 10px 50px 10px 30px;">
+                                                                            
+                                                                        <button type="button" class="btn close-btn"
+                                                                            (click)="clearSearchUsers()"
+                                                                            *ngIf="crossFlag">
+                                                                            <i class="bi bi-x"></i>
+                                                                        </button>
+                                                                        <i class="bi bi-search search-icon"
+                                                                            style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
                                                                     </div>
+                                                                </form>
+                                                                    
                                                                 </div>
-                                                                <div class="col-md-8 d-flex justify-content-end"
+                                                                <div class="col-md-4 d-flex justify-content-end"
                                                                     style="gap: 10px;">
 
                                                                     <button type="button" class="btn add-filtter"
@@ -702,32 +722,12 @@
                                                                         *ngIf="(selectedStaffsUuids.length>0)"
                                                                         (click)="saveLeaveSettingRules(false)">Add To
                                                                         Rule</button>
-                                                                    <form novalidate="" role="search"
-                                                                        (submit)="searchUsers()"
-                                                                        class="searching ng-untouched ng-pristine ng-valid">
-
-
-
-
-                                                                        <div class="form-group"
-                                                                            style="position: relative; width: 300px;">
-                                                                            <input type="text" id="searchText"
-                                                                                name="searchUsers"
-                                                                                placeholder="Search by name and role"
-                                                                                class="form-control me-2 ng-untouched ng-pristine ng-valid"
-                                                                                (keyup)="searchUsers()"
-                                                                                [(ngModel)]="searchText"
-                                                                                [ngModelOptions]="{ standalone: true }"
-                                                                                style="padding: 10px 50px 10px 30px;">
-                                                                            <button type="button" class="btn close-btn"
-                                                                                (click)="clearSearchUsers()"
-                                                                                *ngIf="crossFlag">
-                                                                                <i class="bi bi-x"></i>
-                                                                            </button>
-                                                                            <i class="bi bi-search search-icon"
-                                                                                style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
+                                                                        <div class="user-list">
+                                                                            <!-- <h5><span class="total-user-list"
+                                                                                    style="color: #4761f6; background-color: #d1d6f2; padding: 5px; border-radius: 5px"><b>{{total}}</b></span>
+                                                                                    <b>Users</b>
+                                                                            </h5> -->
                                                                         </div>
-                                                                    </form>
                                                                 </div>
 
                                                             </div>
@@ -850,11 +850,19 @@
                                                                                 <!-- && !addedUserFlag -->
                                                                                 <!-- *ngIf="!staff.isAdded  -->
                                                                                 <span *ngIf="!staff.isAdded">
+                                                                                    <div class="dot-opacity-loader" *ngIf="addEmployeeLoader(staff)">
+                                                                                        <span></span>
+                                                                                        <span></span>
+                                                                                        <span></span>
+                                                                                    </div>
                                                                                     <button
                                                                                         class="btn btn-outline-primary btn-sm editdata-edit"
-                                                                                        [(ngModel)]="staff.selected"
+                                                                                        [(ngModel)]="staff.selected" *ngIf="!addEmployeeLoader(staff)"
                                                                                         (click)="addUser(staff.uuid, idOfLeaveSetting)">Add</button>
+                                                                                       
                                                                                 </span>
+                                                                                
+
                                                                                 <!-- && !addedUserFlag -->
                                                                                 <span *ngIf="staff.isAdded ">
                                                                                     <button
@@ -937,37 +945,40 @@
 
                                                             <div class="row ">
                                                                 <div class="col-md-6">
-                                                                    <div class="user-list">
+
+                                                                    <form novalidate="" role="search"
+                                                                    (submit)="searchLeaveUsers(idOfLeaveSetting)"
+                                                                    class="searching ng-untouched ng-pristine ng-valid">
+                                                                    <div class="form-group"
+                                                                        style="position: relative">
+                                                                        <input type="text" id="searchTextUser"
+                                                                            name="searchLeaveUsers"
+                                                                            placeholder="Search by name and role"
+                                                                            class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                                                                            (keyup)="searchLeaveUsers(idOfLeaveSetting)"
+                                                                            [(ngModel)]="searchTextUser"
+                                                                            [ngModelOptions]="{ standalone: true }"
+                                                                            style="padding: 10px 50px 10px 30px;">
+                                                                        <button type="button" class="btn close-btn"
+                                                                            (click)="clearSearchSelectedUsers()"
+                                                                            *ngIf="crossFlagUser">
+                                                                            <i class="bi bi-x"></i>
+                                                                        </button>
+                                                                        <i class="bi bi-search search-icon"
+                                                                            style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
+                                                                    </div>
+                                                                </form>
+                                                                    
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                   
+                                                                    <!-- <div class="user-list">
                                                                         <h5>Selected Userlist <span
                                                                                 class="total-user-list"
                                                                                 style="color: #4761f6; background-color: #d1d6f2; padding: 5px; border-radius: 5px"><b>{{totalUser}}</b></span>
                                                                         </h5>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-md-6">
-                                                                    <form novalidate="" role="search"
-                                                                        (submit)="searchLeaveUsers(idOfLeaveSetting)"
-                                                                        class="searching ng-untouched ng-pristine ng-valid">
-                                                                        <div class="form-group"
-                                                                            style="position: relative">
-                                                                            <input type="text" id="searchTextUser"
-                                                                                name="searchLeaveUsers"
-                                                                                placeholder="Search by name and role"
-                                                                                class="form-control me-2 ng-untouched ng-pristine ng-valid"
-                                                                                (keyup)="searchLeaveUsers(idOfLeaveSetting)"
-                                                                                [(ngModel)]="searchTextUser"
-                                                                                [ngModelOptions]="{ standalone: true }"
-                                                                                style="padding: 10px 50px 10px 30px;">
-                                                                            <button type="button" class="btn close-btn"
-                                                                                (click)="clearSearchSelectedUsers()"
-                                                                                *ngIf="crossFlagUser">
-                                                                                <i class="bi bi-x"></i>
-                                                                            </button>
-                                                                            <i class="bi bi-search search-icon"
-                                                                                style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
-                                                                        </div>
-                                                                    </form>
+                                                                    </div> -->
                                                                 </div>
                                                                 <!-- <div class="col-md-6">
                                                                             <div class="user-list">
@@ -1112,8 +1123,13 @@
 
                                                                             <td>
                                                                                 <button
-                                                                                    class="btn btn-outline-primary btn-sm remove"
+                                                                                    class="btn btn-outline-primary btn-sm remove"  *ngIf="!deleteEmployeeLoader(newstaff)"
                                                                                     (click)="deleteUser(newstaff.uuid)">Remove</button>
+                                                                                    <div class="dot-opacity-loader" style="color:#EB5050" *ngIf="deleteEmployeeLoader(newstaff)">
+                                                                                        <span></span>
+                                                                                        <span></span>
+                                                                                        <span></span>
+                                                                                    </div>
                                                                             </td>
 
                                                                         </tr>

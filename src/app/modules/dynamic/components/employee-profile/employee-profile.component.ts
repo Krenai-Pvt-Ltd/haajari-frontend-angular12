@@ -19,6 +19,7 @@ import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-resp
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
+import { constant } from 'src/app/constant/constant';
 
 @Component({
   selector: 'app-employee-profile',
@@ -88,31 +89,17 @@ export class EmployeeProfileComponent implements OnInit {
 
   userId: any;
   newDate: string = ''
+  count: number = 0;
   ngOnInit(): void {
     this.getUserAttendanceStatus();
     this.getOrganizationOnboardingDateByUuid();
-
-    // const today = dayjs();
-    // const firstDayOfMonth = today.startOf('month');
-    // const lastDayOfMonth = today.endOf('month');
-    // this.firstDay = firstDayOfMonth.toString();
-    // this.lastDay = lastDayOfMonth.toString();
     let date = new Date();
-
-    // let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     let lastDayString = lastDay.toISOString().split('T')[0];
     date.setDate(1);
     let firstDayString = date.toISOString().split('T')[0]; // Format: YYYY-MM-DD
-    // this.getTotalPresentAbsentMonthwise();
-    // const currentDate = moment();
-    // this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
-    // this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
-    // this.startDateStr = this.newDate;
     this.startDateStr = firstDayString;
     this.endDateStr = moment(new Date()).format('YYYY-MM-DD')
-    // this.month = currentDate.format('MMMM');
-    // this.getUserAttendanceDataFromDate();
     this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
     this.fetchManagerNames();
     this.getUserByUuid();
@@ -124,7 +111,6 @@ export class EmployeeProfileComponent implements OnInit {
     this.getEmployeeDocumentsDetailsByUuid();
     this.getUserLeaveReq();
     this.getUserLeaveLogByUuid();
-    // this.goforward();
   }
 
   prevDate!: Date;
@@ -133,30 +119,40 @@ export class EmployeeProfileComponent implements OnInit {
     debugger
     this.dataService.getOrganizationOnboardingDate(this.userId).subscribe(
       (data) => {
-        console.log(data);
         this.prevDate = data;
         this.newDate = moment(data).format('YYYY-MM-DD');
+        this.count++;
         // this.getUserAttendanceDataFromDate();
         // this.goBackward();
       },
       (error) => {
-        console.log(error);
+        this.count++;
       }
     );
   }
 
 
   user: any = {};
+  isImage:boolean=false;
 
   getUserByUuid() {
+    debugger
     this.dataService.getUserByUuid(this.userId).subscribe(
       (data) => {
-        console.log(data);
         this.user = data;
-        console.log(this.user.data);
+
+        if(constant.EMPTY_STRINGS.includes(this.user.image)){
+          this.isImage=false;
+        }else{
+          this.isImage=true;
+        }
+       
+        this.count++;
+
       },
       (error) => {
-        console.log(error);
+        this.isImage=false;
+        this.count++;
       }
     );
   }
@@ -165,11 +161,10 @@ export class EmployeeProfileComponent implements OnInit {
 
     this.dataService.updateStatusUser(this.userId, type).subscribe(
       (data) => {
-        console.log('status updated:' + type);
-        location.reload();
+        this.getUserByUuid();
+        // location.reload();
       },
       (error) => {
-        console.log(error);
       }
     );
   }
@@ -214,11 +209,6 @@ export class EmployeeProfileComponent implements OnInit {
   //       (response) => {
   //         this.attendanceDetails = Object.values(response);
   //         this.attendances = this.attendanceDetails[0];
-  //         console.log('Attendance Details:', this.attendances);
-  //         console.log(
-  //           'Attendance Details length:',
-  //           this.attendanceDetails[0].length
-  //         );
 
   //         for (let i = 0; i < this.attendances.length; i++) {
   //           const title = this.attendances[i].checkInTime != null ? 'P' : 'A';
@@ -231,7 +221,6 @@ export class EmployeeProfileComponent implements OnInit {
 
   //       },
   //       (error: any) => {
-  //         console.error('Error fetching data:', error);
   //       }
   //     );
   // }
@@ -284,11 +273,11 @@ export class EmployeeProfileComponent implements OnInit {
             this.attendances = this.attendanceDetails[0];
             this.attendanceDetailsResponse = this.attendanceDetails[0];
 
-            console.log('Attendance Details:', this.attendances);
-            console.log(
-              'Attendance Details length:',
-              this.attendanceDetails[0].length
-            );
+            // console.log('Attendance Details:', this.attendances);
+            // console.log(
+            //   'Attendance Details length:',
+            //   this.attendanceDetails[0].length
+            // );
             for (let i = 0; i < this.attendances.length; i++) {
               const title = this.attendances[i].checkInTime != null ? 'P' : 'A';
               if (title == 'P') {
@@ -341,17 +330,19 @@ export class EmployeeProfileComponent implements OnInit {
           // var month = date.getMonth();
           // if(new)
 
-          console.log(this.events);
+          // console.log(this.events);
           var flag = false;
           if (!flag) {
             var date = new Date(this.prevDate);
-            const calendarApi = this.calendarComponent.getApi();
+            const calendarApi = this.calendarComponent?.getApi();
             this.changeForwardButtonVisibilty(calendarApi);
             flag = true;
           }
+          this.count++;
 
         },
         (error: any) => {
+          this.count++;
           console.error('Error fetching data:', error);
         }
       );
@@ -392,7 +383,7 @@ export class EmployeeProfileComponent implements OnInit {
   changeForwardButtonVisibilty(calendarApi: any) {
     debugger
     var enrolmentDate = new Date(this.prevDate);
-    if (calendarApi.getDate().getFullYear() != new Date().getFullYear()) {
+    if (calendarApi?.getDate().getFullYear() != new Date().getFullYear()) {
       this.forwordFlag = true;
     } else if (calendarApi.getDate().getFullYear() == new Date().getFullYear()) {
       if (calendarApi.getDate().getMonth() == new Date().getMonth()) {
@@ -402,8 +393,8 @@ export class EmployeeProfileComponent implements OnInit {
       }
     }
 
-    if (calendarApi.getDate().getFullYear() == enrolmentDate.getFullYear()) {
-      if (calendarApi.getDate().getMonth() == enrolmentDate.getMonth()) {
+    if (calendarApi?.getDate().getFullYear() == enrolmentDate.getFullYear()) {
+      if (calendarApi?.getDate().getMonth() == enrolmentDate.getMonth()) {
         this.backwardFlag = false;
       } else {
         this.backwardFlag = true;
@@ -420,7 +411,7 @@ export class EmployeeProfileComponent implements OnInit {
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
     var month = date.getMonth();
-    console.log("month" + month);
+    // console.log("month" + month);
 
     calendarApi.prev();
     this.changeForwardButtonVisibilty(calendarApi);
@@ -524,8 +515,8 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.saveLeaveRequest(this.userId, this.userLeaveRequest)
       .subscribe(data => {
 
-        console.log(data);
-        console.log(data.body);
+        // console.log(data);
+        // console.log(data.body);
         this.getUserLeaveReq();
         this.resetUserLeave();
         this.formGroupDirective.resetForm();
@@ -534,7 +525,7 @@ export class EmployeeProfileComponent implements OnInit {
 
         // location.reload();
       }, (error) => {
-        console.log(error.body);
+        // console.log(error.body);
       })
   }
 
@@ -552,7 +543,7 @@ export class EmployeeProfileComponent implements OnInit {
       this.eveningShiftToggle = true;
       this.dayShiftToggle == false
     }
-    console.log("day" + this.dayShiftToggle + "evening" + this.eveningShiftToggle);
+    // console.log("day" + this.dayShiftToggle + "evening" + this.eveningShiftToggle);
   }
 
 
@@ -562,20 +553,20 @@ export class EmployeeProfileComponent implements OnInit {
     this.halfDayLeaveShiftToggle = this.halfDayLeaveShiftToggle == true ? false : true;
   }
 
-  pendingFlag: boolean = true;
+  // pendingFlag: boolean = true;
 
-  getIsPendingLeave(leaveType: string) {
-    debugger
-    this.userLeaveRequest.uuid = this.userId;
-    // this.userLeaveRequest.leaveType= leaveType;
-    this.dataService.getPendingLeaveFlag(this.userLeaveRequest).subscribe(data => {
-      // this.pendingFlag = data;
-    }, (error) => {
-      console.log(error);
-    })
-  }
-
-
+  // getIsPendingLeave(leaveType: string) {
+  //   debugger
+  //   this.userLeaveRequest.uuid = this.userId;
+  //   this.dataService.getPendingLeaveFlag(this.userLeaveRequest).subscribe(data => {
+  //   }, (error) => {
+  //     console.log(error);
+  //   })
+  // }
+//   (ngModelChange)="getIsPendingLeave(userLeaveRequest.leaveType)"
+//   <div class="text-danger" *ngIf="!pendingFlag">
+//   You can not apply to this leave, for selected dates your leave qouta is exhausted.
+// </div>
   userLeave: any = [];
   leaveCountPlaceholderFlag: boolean = false;
 
@@ -585,14 +576,14 @@ export class EmployeeProfileComponent implements OnInit {
       (data) => {
         if (data.body != undefined || data.body != null || data.body.length != 0) {
           this.userLeave = data.body;
-          console.log(this.userLeave);
         } else {
           this.leaveCountPlaceholderFlag = true;
           return;
         }
+        this.count++;
       },
       (error) => {
-        console.log(error);
+        this.count++;
       }
     );
   }
@@ -612,11 +603,11 @@ export class EmployeeProfileComponent implements OnInit {
           this.userLeaveLog = data;
           this.isLeaveShimmer = false;
           this.isLeavePlaceholder = !data || data.length === 0;
-          console.log(data);
+          this.count++;
         },
         (error) => {
           this.isLeaveShimmer = false;
-          console.log(error);
+          this.count++;
         }
       );
     } else {
@@ -632,12 +623,10 @@ export class EmployeeProfileComponent implements OnInit {
             this.selectStatusFlag = true;
           }
           // this.isLeavePlaceholder = !data || data.length === 0;
-          console.log(data);
         },
         (error) => {
           this.isLeaveErrorPlaceholder = true;
           this.isLeaveShimmer = false;
-          console.log(error);
         }
       );
     }
@@ -658,12 +647,10 @@ export class EmployeeProfileComponent implements OnInit {
   //      if(data==null || data.length==0){
   //       this.isLeavePlaceholder=true;
   //      }
-  //      console.log(data);
   //     },
   //     (error) => {
   //       this.isLeaveShimmer=false;
   //       // this.isLeavePlaceholder=true;
-  //       console.log(error);
   //     }
   //   );
   // }
@@ -673,14 +660,13 @@ export class EmployeeProfileComponent implements OnInit {
   selectedManagerId!: number;
 
   fetchManagerNames() {
-    debugger
     this.dataService.getEmployeeManagerDetails(this.userId).subscribe(
       (data: UserDto[]) => {
         this.managers = data;
-        console.log(data);
+        this.count++;
       },
       (error) => {
-        console.log(error);
+        this.count++;
       }
     );
   }
@@ -715,32 +701,26 @@ export class EmployeeProfileComponent implements OnInit {
   isAddressPlaceholder: boolean = false;
   getEmployeeAdressDetailsByUuid() {
     // this.isAddressShimmer=true;
-    debugger
     this.dataService.getNewUserAddressDetails(this.userId).subscribe(
       (data: UserAddressDetailsRequest) => {
-        console.log(data);
 
-        debugger
-        console.log("data.userAddressRequest.length" + data.userAddressRequest.length);
         if (data.userAddressRequest.length == 0) {
           this.isAddressPlaceholder = true;
           return;
         } else {
           this.addressEmployee = data.userAddressRequest;
 
-          console.log(data.userAddressRequest);
         }
 
 
-
+        this.count++;
         // this.isAddressShimmer=false;
         // (data == null || data.userAddressRequest.length == 0)
-        // console.log(this.addressEmployee.data);
       },
       (error) => {
+        this.count++;
         this.isAddressPlaceholder = true;
         // this.isAddressShimmer=false;
-        console.log(error);
       }
     );
   }
@@ -752,16 +732,15 @@ export class EmployeeProfileComponent implements OnInit {
   getEmployeeExperiencesDetailsByUuid() {
     this.dataService.getEmployeeExperiencesDetails(this.userId).subscribe(
       (data) => {
-        console.log(data);
         this.experienceEmployee = data;
         if (data == null || data.length == 0) {
           this.isCompanyPlaceholder = true;
         }
-        console.log(this.experienceEmployee.data);
+        this.count++;
       },
       (error) => {
+        this.count++;
         this.isCompanyPlaceholder = true;
-        console.log(error);
       }
     );
   }
@@ -773,19 +752,18 @@ export class EmployeeProfileComponent implements OnInit {
   getEmployeeAcademicDetailsByUuid() {
     this.dataService.getEmployeeAcademicDetails(this.userId).subscribe(
       (data) => {
-        console.log(data);
         if (data != null || data != undefined) {
           this.academicEmployee = data;
-          console.log(this.academicEmployee.data);
 
         }
         else {
           this.isAcademicPlaceholder = true;
         }
+        this.count++;
       },
       (error) => {
+        this.count++;
         this.isAcademicPlaceholder = true;
-        console.log(error);
       }
     );
   }
@@ -798,16 +776,16 @@ export class EmployeeProfileComponent implements OnInit {
     debugger
     this.dataService.getEmployeeContactsDetails(this.userId).subscribe(
       (data) => {
-        console.log(data);
         this.contactsEmployee = data;
         if (data == null || data.length == 0) {
           this.isContactPlaceholder = true;
         }
-        console.log(this.contactsEmployee.data);
+        this.count++;
+        
       },
       (error) => {
+        this.count++;
         this.isContactPlaceholder = true;
-        console.log(error);
       }
     );
   }
@@ -821,16 +799,15 @@ export class EmployeeProfileComponent implements OnInit {
     this.isBankShimmer = true;
     this.dataService.getEmployeeBankDetails(this.userId).subscribe(
       (data) => {
-        console.log(data);
         this.bankDetailsEmployee = data;
 
         this.isBankShimmer = false;
 
-        console.log(this.bankDetailsEmployee.data);
+        this.count++;
       },
       (error) => {
+        this.count++;
         this.isBankShimmer = false;
-        console.log(error);
       }
     );
   }
@@ -847,7 +824,6 @@ export class EmployeeProfileComponent implements OnInit {
     debugger
     this.dataService.getEmployeeDocumentsDetails(this.userId).subscribe(
       (data) => {
-        console.log(data);
         this.documentsEmployee = data.userDocuments;
         if (data.userDocuments != null) {
           this.highSchoolCertificate = data.userDocuments.highSchoolCertificate;
@@ -860,13 +836,12 @@ export class EmployeeProfileComponent implements OnInit {
           this.isDocsPlaceholder = true;
         }
 
-        console.log(this.bankDetailsEmployee.data);
-        console.log('hsdhjklkjhgf' + this.highSchoolCertificate);
+        this.count++;
       },
       (error) => {
+        this.count++;
         this.isDocsPlaceholder = true;
         // this.isDocumentsShimmer=false;
-        console.log(error);
       }
     );
   }
@@ -914,7 +889,6 @@ export class EmployeeProfileComponent implements OnInit {
   //     xhr.responseType = 'blob';
   //     xhr.onload = (event) => {
   //        blob = xhr.response;
-  //       console.log(blob);
   //       saveAs(blob, "Docs");
 
   //     };
@@ -922,7 +896,6 @@ export class EmployeeProfileComponent implements OnInit {
   //     xhr.send();
   //   })
   //   .catch((error: any) => {
-  //     console.log(error);
   //     // Handle any errors
   //   });
   // }
@@ -951,14 +924,12 @@ export class EmployeeProfileComponent implements OnInit {
       xhr.responseType = 'blob';
       xhr.onload = (event) => {
         blob = xhr.response;
-        console.log(blob);
         saveAs(blob, "Docs");
       };
       xhr.open('GET', url);
       xhr.send();
     })
       .catch((error: any) => {
-        console.error(error);
         // Handle any errors
       });
   }
@@ -970,12 +941,10 @@ export class EmployeeProfileComponent implements OnInit {
   checkinCheckout(command: string) {
     this.dataService.checkinCheckoutInSlack(this.userId, command).subscribe(
       (data) => {
-        console.log(data);
         this.getUserAttendanceStatus();
         this.helperService.showToast(data.message, Key.TOAST_STATUS_SUCCESS);
       },
       (error) => {
-        console.log(error);
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
 
         // this.getUserAttendanceStatus();
@@ -992,11 +961,11 @@ export class EmployeeProfileComponent implements OnInit {
     debugger
     this.dataService.checkinCheckoutStatus(this.userId).subscribe(
       (data) => {
-        console.log(data);
         this.status = data.result;
+        this.count++;
       },
       (error) => {
-        console.log(error);
+        this.count++;
       }
     );
   }

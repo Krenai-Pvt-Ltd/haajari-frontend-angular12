@@ -1,6 +1,9 @@
 <div class="page-wrapper">
     <div class="page-content-tab">
-        <div class="container-fluid">
+
+        <!-- {{count}} -->
+       <app-hajiri-page-loader *ngIf="count<9"></app-hajiri-page-loader>
+        <div class="container-fluid" *ngIf="count>=9">
 
             <div class="mb-4 mt-3 pb-3 border-buttom-setting d-flex align-items-center justify-content-between"
                 style="gap:20px">
@@ -55,12 +58,10 @@
 
 
                                 <div class="" style="width: 110px; margin: 0 auto; position: relative;">
-                                    <span *ngIf="user?.image !== null">
+                                    <span *ngIf="isImage">
                                         <img src="{{user?.image}}" style="width:100px; border-radius: 50%;">
                                     </span>
-                                    <span *ngIf="user?.image == null">
-                                        <span class="members-name">{{ user?.name[0] || 'na'}}</span>
-                                    </span>
+                                    <span class="members-name" *ngIf="!isImage">{{ user?.name[0]}}</span>
                                     <span class="edit-profile" routerLink="/employee-onboarding-form"
                                         *ngIf="(user!.employeeOnboardingStatus?.response!='APPROVED')"><i
                                             class="bi bi-pencil"></i></span>
@@ -122,7 +123,7 @@
 
                                 <div class="mt-1">
                                     <div class="d-flex" style="gap:10px"
-                                        *ngIf="(user!.employeeOnboardingStatus?.response=='PENDING' || user!.employeeOnboardingStatus?.response=='REQUESTED')">
+                                        *ngIf="(user!.employeeOnboardingStatus?.response=='PENDING' || user!.employeeOnboardingStatus?.response=='REQUESTED' || user!.employeeOnboardingStatus?.response=='NEW_USER')">
                                         <button class="btn sand-request approved" type="button"
                                             (click)="updateStatusUserByUuid('APPROVED')">Approved</button>
                                         <button class="btn sand-request rejected" type="button"
@@ -466,7 +467,7 @@
                                                 </div>
 
                                                 <ng-container
-                                                    *ngIf="userLeave.length !== 0 && !leaveCountPlaceholderFlag else errorInFetchingUserLeaveData">
+                                                    *ngIf="userLeave.length !== 0 && !leaveCountPlaceholderFlag">
                                                     <div class="d-flex align-items-center justify-content-between leves-type-s mb-2"
                                                         *ngFor="let ul of userLeave">
                                                         <div class="">
@@ -494,7 +495,7 @@
                                                         </div>
                                                     </div>
                                                 </ng-container>
-                                                <ng-template #errorInFetchingUserLeaveData>
+                                                <!-- <ng-template #errorInFetchingUserLeaveData>
 
                                                     <div class="errorboxmain text-center">
                                                         <div class="errorboxinner">
@@ -509,11 +510,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </ng-template>
+                                                </ng-template> -->
 
-                                                <!-- <div *ngIf="userLeave != null">
-                                                
-                                            </div> -->
+                                              
 
 
 
@@ -1595,9 +1594,7 @@
                         <p class="mb-0" style="color: #000444;">Please fill out the following fields:</p>
                     </div>
                     <form [formGroup]="userLeaveForm" #formDirective="ngForm" >
-                        <div class="text-danger" *ngIf="!pendingFlag">
-                            You can not apply to this leave, for selected dates your leave qouta is exhausted.
-                        </div>
+                        
                         <div class="mb-2">
                             <label for="username" style="padding-bottom: 6px">Pick a starting date</label>
                             <input type="date" id="username" placeholder="Enter title ..." required=""
@@ -1625,7 +1622,7 @@
                   </button> -->
                                     <select class="form-select" id="exampleFormControlSelect1"
                                         formControlName="leaveType" [(ngModel)]="userLeaveRequest.leaveType"
-                                        (ngModelChange)="getIsPendingLeave(userLeaveRequest.leaveType)">
+                                        >
                                         <option value="">Select Leave Type</option>
                                         <option *ngFor="let ul of userLeave">
                                             {{ul.leaveType}}</option>
@@ -1714,7 +1711,7 @@
                     Close
                 </button>
                 <button type="button" class="btn btn-primary save-changes"
-                    [disabled]="userLeaveForm.invalid || !pendingFlag" (click)="saveLeaveRequestUser()">
+                    [disabled]="userLeaveForm.invalid" (click)="saveLeaveRequestUser()">
                     Submit
                 </button>
 

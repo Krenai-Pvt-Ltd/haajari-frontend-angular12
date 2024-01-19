@@ -552,3 +552,21 @@ input, textarea {
     0%, 80%, 100% { opacity: 0; }
     40% { opacity: 1; }
 }
+
+/* 
+.errorboxinner{
+    display: flex;
+    align-items: center;
+    gap:10px
+} */
+
+.errorboxmaintop{
+    /* min-height: 20vh; */
+    background-color: #fff;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    border-radius: 6px;
+}
+
+  .errorboxmaintop {
+    padding: 15px;
+}

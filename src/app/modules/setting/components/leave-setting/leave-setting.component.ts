@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { error } from 'console';
 import { template } from 'lodash';
+import * as moment from 'moment';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';
@@ -257,6 +258,7 @@ export class LeaveSettingComponent implements OnInit {
   }
 
   clearSearchUsers(){
+    debugger
     this.searchUserPlaceholderFlag = false;
     this.searchText='';
     this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
@@ -570,11 +572,9 @@ export class LeaveSettingComponent implements OnInit {
     this.dataService.deleteLeaveSettingRule(leaveSettingId).subscribe(
       () => {
         this.getFullLeaveSettingInformation();
-        console.log('Leave setting rule deleted successfully.');
         this.helperService.showToast("Leave rule deleted successfully.", Key.TOAST_STATUS_SUCCESS);
       },
       (error) => {
-        console.error('Error deleting leave setting rule:', error);
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       }
     );
@@ -610,28 +610,33 @@ export class LeaveSettingComponent implements OnInit {
       .registerLeaveSettingRules(this.fullLeaveSettingRuleRequest)
       .subscribe(
         (response) => {
-          console.log('Leave rules registered successfully:', response);
           this.getFullLeaveSettingInformation();
           this.requestLeaveCloseModel.nativeElement.click();
           this.helperService.showToast("Leave rules registered successfully", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
-          console.error('Error registering leave setting:', error);
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );
     }else if(!flag){
+
+      for (const userUuid of  this.fullLeaveSettingRuleRequest.userUuids) {
+        this.loadingStatus[userUuid] = true;
+      }
+      this.selectedStaffsUuidsUser = [];
+
       this.dataService
       .registerLeaveSettingRules(this.fullLeaveSettingRuleRequest)
       .subscribe(
         (response) => {
           this.idOfLeaveSetting = response.leaveSettingResponse.id;
-          console.log('Leave rules registered successfully:', response);
           this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
 
+          for (const userUuid of  this.fullLeaveSettingRuleRequest.userUuids) {
+            this.loadingStatus[userUuid] = false;
+          }
          this.isMappedStaffEmpty=false;
          this.addedUserFlag=true;
-         console.log(response);
         //  this.selectedStaffsUuids = [userUuid];
         //  const staffToUpdate = this.staffs.find(staff => staff.uuid === userUuid);
         //  if (staffToUpdate) {
@@ -644,6 +649,9 @@ export class LeaveSettingComponent implements OnInit {
           this.helperService.showToast("Leave rules registered successfully", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
+          for (const userUuid of  this.fullLeaveSettingRuleRequest.userUuids) {
+            this.loadingStatus[userUuid] = false;
+          }
           console.error('Error registering leave setting:', error);
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
@@ -710,7 +718,6 @@ export class LeaveSettingComponent implements OnInit {
     this.selectedStaffsUuidsUser = []
     this.dataService.findUsersOfLeaveSetting(leaveSettingId, this.searchTextUser, this.pageNumberUser, this.itemPerPageUser)
       .subscribe((response) => {
-        console.log(response + "response " + response.count + "count");
        
         this.staffsUser = response;
         
@@ -871,33 +878,67 @@ export class LeaveSettingComponent implements OnInit {
   // 
 
   deleteAllUsers(): void {
+
+    for (const userUuid of  this.selectedStaffsUuidsUser) {
+      this.loadingDeleteStatus[userUuid] = true;
+    }
     this.dataService.deleteAllUsersByLeaveSettingId(this.selectedStaffsUuidsUser).subscribe(() => {
-      console.log('Users deleted successfully.');
+     
+      for (const userUuid of  this.selectedStaffsUuidsUser) {
+        this.loadingDeleteStatus[userUuid] = false;
+      }
       this.selectedStaffsUuids = [];
       this.selectedStaffsUuidsUser = [];
       this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
       this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
       // this.getLeaveSettingInformationById(this.idOfLeaveSetting);
       // this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
-    });
+    }, (error) => {
+      for (const userUuid of  this.selectedStaffsUuidsUser) {
+        this.loadingDeleteStatus[userUuid] = true;
+      }    });
   }
 
+  
+
+
+  deleteEmployeeLoader(staff: any): boolean {
+    return this.loadingDeleteStatus[staff.uuid] || false;
+  }
+  
+  loadingDeleteStatus: { [key: string]: boolean } = {};
+
   deleteUser(userUuid:string): void {
+    this.loadingDeleteStatus[userUuid]=true;
     this.dataService.deleteUserFromUserLeaveRule(userUuid).subscribe(() => {
       this.selectedStaffsUuids = [];
       this.selectedStaffsUuidsUser = [];
-      console.log('User deleted successfully.');
+      this.loadingDeleteStatus[userUuid]=false;
       this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
       this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
+    }, (error) => {
+      // console.error('Error deleting user:', error);
+      this.loadingDeleteStatus[userUuid]=false;
     });
   }
 
+
+  addEmployeeLoader(staff: any): boolean {
+    return this.loadingStatus[staff.uuid] || false;
+  }
+  
+  loadingStatus: { [key: string]: boolean } = {};
   staffAddedFlag:boolean=false;
   addedUserFlag:boolean=false;
   errorTemplateNameFlag:boolean=false;
-  addUser(userUuid:string, leaveSettingId:number): void {
-    if(leaveSettingId==0){
 
+  addUser(userUuid:string, leaveSettingId:number): void {
+
+    this.loadingStatus[userUuid] = true;
+    this.selectedStaffsUuidsUser = [];
+
+    if(leaveSettingId==0){
+    
     this.fullLeaveSettingRuleRequest.leaveSettingResponse = this.leaveSettingResponse;
     if(constant.EMPTY_STRINGS.includes(this.leaveSettingResponse.templateName)){
       this.errorTemplateNameFlag=true;
@@ -917,13 +958,12 @@ export class LeaveSettingComponent implements OnInit {
       .registerLeaveSettingRules(this.fullLeaveSettingRuleRequest)
       .subscribe(
         (response) => {
-          console.log('Leave rules registered successfully:', response);
           this.idOfLeaveSetting = response.leaveSettingResponse.id;
           // this.getFullLeaveSettingInformation();
           // this.requestLeaveCloseModel.nativeElement.click();
+          this.loadingStatus[userUuid] = false;
           this.isMappedStaffEmpty=false;
          this.addedUserFlag=true;
-         console.log(response);
          this.selectedStaffsUuids = [userUuid];
          const staffToUpdate = this.staffs.find(staff => staff.uuid === userUuid);
          if (staffToUpdate) {
@@ -935,7 +975,8 @@ export class LeaveSettingComponent implements OnInit {
       // this.selectedStaffsUuidsUser = [...this.selectedStaffsUuidsUser, userUuid];
         },
         (error) => {
-          console.error('Error registering leave setting:', error);
+          // console.error('Error registering leave setting:', error);
+          this.loadingStatus[userUuid] = false;
         }
       );
 
@@ -944,7 +985,7 @@ export class LeaveSettingComponent implements OnInit {
     this.dataService.addUserToLeaveRule(userUuid, leaveSettingId).subscribe((response) => {
       this.isMappedStaffEmpty=false;
       this.addedUserFlag=true;
-      console.log(response);
+      this.loadingStatus[userUuid] = false;
       // this.selectedStaffsUuids = [userUuid];
       const staffToUpdate = this.staffs.find(staff => staff.uuid === userUuid);
       if (staffToUpdate) {
@@ -953,7 +994,24 @@ export class LeaveSettingComponent implements OnInit {
      }
       this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
       // this.selectedStaffsUuidsUser = [...this.selectedStaffsUuidsUser, userUuid];
+    },(error) => {
+      this.loadingStatus[userUuid] = false;
     });
    }
   }
+
+  updateEndDate() {
+    const startDate = new Date(this.leaveSettingResponse.yearlyCycleStart);
+    
+    const nextYearDate = new Date(startDate);
+    nextYearDate.setFullYear(nextYearDate.getFullYear() + 1);
+
+    this.leaveSettingResponse.yearlyCycleEnd = new Date(nextYearDate);
+    console.log('oldFormat-----'+this.leaveSettingResponse.yearlyCycleEnd)
+    this.leaveSettingResponse.yearlyCycleEnd = moment(this.leaveSettingResponse.yearlyCycleEnd).format('yyyy-MM-DD')
+    console.log('new Format-----'+this.leaveSettingResponse.yearlyCycleEnd)
+}
+
+  
+  
 }

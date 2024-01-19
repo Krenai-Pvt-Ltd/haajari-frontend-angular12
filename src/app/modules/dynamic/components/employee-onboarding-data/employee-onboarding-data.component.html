@@ -64,92 +64,104 @@
 
                         <h5>Latest Joining - Pending Verification</h5>
 
-                        <div class="row mt-4 " *ngIf="isPendingShimmer">
-                            <div class="col-md-4">
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
+                        <ng-container *ngIf="isPendingShimmer && !networkConnectionErrorPlaceHolder && !dataNotFoundPlaceHolderForLast3PendingUsers; else last3PendingUserData">
+                            <div class="row mt-4 " >
+                                <div class="col-md-4">
+    
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                                    </div>
+    
+    
+    
                                 </div>
-
-
-
-                            </div>
-                            <div class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                                    </div>
+    
                                 </div>
-
-                            </div>
-                            <div class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                                    </div>
+    
                                 </div>
-
                             </div>
-                        </div>
+    
+                        </ng-container>
+                        <ng-template #last3PendingUserData>
+                            <ng-container *ngIf="employeeStatus!.last3PendingUsers !== null && !networkConnectionErrorPlaceHolder && !dataNotFoundPlaceHolderForLast3PendingUsers; else errorInFetchinglast3PendingUserData">
+                                <div class="d-flex align-items-center mt-4" style="gap:10px;">
 
-                        <div class="d-flex align-items-center mt-4" style="gap:10px;" *ngIf="!isPendingShimmer">
-
-                            <div class="on-leave" *ngFor="let statusUsers of employeeStatus.last3PendingUsers">
-                                <div class="d-flex align-items-center" style="gap:10px;">
+                                    <div class="on-leave" *ngFor="let statusUsers of employeeStatus.last3PendingUsers">
+                                        <div class="d-flex align-items-center" style="gap:10px;">
+                                            <div class="">
+                                                <span *ngIf="statusUsers?.image !== null">
+                                                    <img src="{{statusUsers?.image}}" class="rounded-circle thumb-xl">
+                                                </span>
+                                                <span class="members-name" *ngIf="statusUsers?.image == null">{{
+                                                    statusUsers?.name[0] }}</span>
+                                                <!-- <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl"> -->
+                                            </div>
+        
+                                            <div class="">
+                                                <h5 class="joining-name">{{statusUsers?.name}}</h5>
+                                                <p class="mb-0 joining-email">{{statusUsers?.email}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </ng-container>
+                        </ng-template>
+                        <ng-template #errorInFetchinglast3PendingUserData>
+                            <div class="errorboxmaintop" *ngIf="networkConnectionErrorPlaceHolder">
+                                <div class="errorboxinner" style="display: flex; align-items: center;">
+                                  <div class="errorboxplaceholder mb-2">
+                                    <img src="assets/images/signal.svg" style="width:50px;"/>
+                                  </div>
+                                 <div class="">
+                                     <h6>Something went wrong!</h6>
+                                     <!-- <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p> -->
+                                </div>
+                                </div>
+                            </div>
+            
+                            <div class="errorboxmaintop" *ngIf="dataNotFoundPlaceHolderForLast3PendingUsers">
+                                <div class="errorboxinner" style="display: flex; align-items: center;">
+                                    <div class="errorboxplaceholder">
+                                        <img src="assets/images/empty-box.svg" style="width:50px;"/>
+                                    </div>
                                     <div class="">
-                                        <span *ngIf="statusUsers?.image !== null">
-                                            <img src="{{statusUsers?.image}}" class="rounded-circle thumb-xl">
-                                        </span>
-                                        <span class="members-name" *ngIf="statusUsers?.image == null">{{
-                                            statusUsers?.name[0] }}</span>
-                                        <!-- <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl"> -->
-                                    </div>
-
-                                    <div class="">
-                                        <h5 class="joining-name">{{statusUsers?.name}}</h5>
-                                        <p class="mb-0 joining-email">{{statusUsers?.email}}</p>
+                                        <h6>No Data Found</h6>
+                                        <p class="mb-0">There's no pending employees!</p>
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="on-leave" >
-                            <div class="d-flex align-items-center" style="gap:10px;">
-                            <div class="">
-                                <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl">
-                            </div>
+                        </ng-template>
 
-                            <div class="">
-                                <h5>Yogesh Yadav</h5>
-                                <p class="mb-0">Website Designer</p>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="on-leave" >
-                            <div class="d-flex align-items-center" style="gap:10px;">
-                            <div class="">
-                                <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl">
-                            </div>
 
-                            <div class="">
-                                <h5>Yogesh Yadav</h5>
-                                <p class="mb-0">Website Designer</p>
-                            </div>
-                        </div>
-                        </div> -->
-                        </div>
+                        
+                      
 
                     </div>
                 </div>
@@ -158,90 +170,157 @@
                 <div class="col-md-5">
                     <div class="on-leave-section">
 
-                        <div class="d-flex align-items-center justify-content-between " *ngIf="employeeStatus">
+                        <div class="d-flex align-items-center justify-content-between ">
 
                             <div class="last-client">
 
                                 <h5>Last Approved</h5>
+                                
 
 
-
-                                <div class="row mt-4 " *ngIf="isPendingShimmer">
-                                    <div class="col-md-12">
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <ngx-shimmer-loading [width]="'100%'"
-                                                    [height]="'40px'"></ngx-shimmer-loading>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <ngx-shimmer-loading [width]="'80%'"
-                                                    [height]="'15px'"></ngx-shimmer-loading>
-                                                <ngx-shimmer-loading [width]="'100%'"
-                                                    [height]="'10px'"></ngx-shimmer-loading>
+                                <ng-container *ngIf="isPendingShimmer && !networkConnectionErrorPlaceHolder && !dataNotFoundPlaceHolderForLastApproved; else lastApprovedUserData">
+                                    <div class="row mt-4 ">
+                                        <div class="col-md-12">
+    
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'40px'"></ngx-shimmer-loading>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <ngx-shimmer-loading [width]="'80%'"
+                                                        [height]="'15px'"></ngx-shimmer-loading>
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'10px'"></ngx-shimmer-loading>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="on-leaves mt-4" *ngIf="!isPendingShimmer">
-                                    <div class="d-flex align-items-center j" style="gap:10px;">
-                                        <div class="">
-                                            <span *ngIf="employeeStatus!.lastApprovedUser?.image !== null">
-                                                <img src="{{employeeStatus!.lastApprovedUser?.image}}"
-                                                    class="rounded-circle thumb-xl">
-                                            </span>
-                                            <span class="members-name"
-                                                *ngIf="employeeStatus!.lastApprovedUser?.image == null">{{
-                                                employeeStatus!.lastApprovedUser?.name[0] }}</span>
+                                </ng-container>
+                                <ng-template #lastApprovedUserData>
+                                    <ng-container *ngIf="employeeStatus!.lastApprovedUser !== null && !networkConnectionErrorPlaceHolder && !dataNotFoundPlaceHolderForLastApproved; else errorInFetchingLastApprovedUserData">
+                                        <div class="on-leaves mt-4">
+                                            <div class="d-flex align-items-center j" style="gap:10px;">
+                                                <div class="">
+                                                    <span *ngIf="employeeStatus!.lastApprovedUser?.image !== null">
+                                                        <img src="{{employeeStatus!.lastApprovedUser?.image}}"
+                                                            class="rounded-circle thumb-xl">
+                                                    </span>
+                                                    <span class="members-name"
+                                                        *ngIf="employeeStatus!.lastApprovedUser?.image == null">{{
+                                                        employeeStatus!.lastApprovedUser?.name[0] }}</span>
+                                                </div>
+        
+                                                <div class="">
+                                                    <h5 class="joining-name">{{employeeStatus!.lastApprovedUser?.name}}</h5>
+                                                    <p class="mb-0 joining-email">{{employeeStatus!.lastApprovedUser?.email}}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-
-                                        <div class="">
-                                            <h5 class="joining-name">{{employeeStatus!.lastApprovedUser?.name}}</h5>
-                                            <p class="mb-0 joining-email">{{employeeStatus!.lastApprovedUser?.email}}
-                                            </p>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #errorInFetchingLastApprovedUserData>
+                                    <div class="errorboxmaintop" *ngIf="networkConnectionErrorPlaceHolder">
+                                        <div class="errorboxinner" style="display: flex; justify-content: space-between; align-items: center;">
+                                          <div class="errorboxplaceholder mb-2">
+                                            <img src="assets/images/signal.svg" style="width:50px;"/>
+                                          </div>
+                                         <div class="">
+                                             <h6>Something went wrong!</h6>
+                                             <!-- <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p> -->
+                                        </div>
                                         </div>
                                     </div>
-                                </div>
+                    
+                                    <div class="errorboxmaintop" *ngIf="dataNotFoundPlaceHolderForLastApproved">
+                                        <div class="errorboxinner" style="display: flex; justify-content: space-between; align-items: center;">
+                                            <div class="errorboxplaceholder">
+                                                <img src="assets/images/empty-box.svg" style="width:50px;"/>
+                                            </div>
+                                            <div class="">
+                                                <h6>No Data Found</h6>
+                                                <p class="mb-0">There's no approved employee!</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+
+                                
+                                
                             </div>
                             <div class="">
                                 <h5>Last Rejected</h5>
 
-                                <div class="row mt-4 " *ngIf="isPendingShimmer">
-                                    <div class="col-md-12">
 
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <ngx-shimmer-loading [width]="'100%'"
-                                                    [height]="'40px'"></ngx-shimmer-loading>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <ngx-shimmer-loading [width]="'80%'"
-                                                    [height]="'15px'"></ngx-shimmer-loading>
-                                                <ngx-shimmer-loading [width]="'100%'"
-                                                    [height]="'10px'"></ngx-shimmer-loading>
+                                <ng-container *ngIf="isPendingShimmer && !networkConnectionErrorPlaceHolder && !dataNotFoundPlaceHolderForLastRejected; else lastRejectedUserData">
+                                    <div class="row mt-4 ">
+                                        <div class="col-md-12">
+    
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'40px'"></ngx-shimmer-loading>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <ngx-shimmer-loading [width]="'80%'"
+                                                        [height]="'15px'"></ngx-shimmer-loading>
+                                                    <ngx-shimmer-loading [width]="'100%'"
+                                                        [height]="'10px'"></ngx-shimmer-loading>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="on-leaves mt-4" *ngIf="!isPendingShimmer">
-                                    <div class="d-flex align-items-center" style="gap:10px;">
-                                        <div class="">
-                                            <span *ngIf="employeeStatus!.lastRejectedUser?.image !== null">
-                                                <img src="{{employeeStatus!.lastRejectedUser?.image}}"
-                                                    class="rounded-circle thumb-xl">
-                                            </span>
-                                            <span class="members-name"
-                                                *ngIf="employeeStatus!.lastRejectedUser?.image == null">{{
-                                                employeeStatus!.lastRejectedUser?.name[0] }}</span>
+                                </ng-container>
+                                <ng-template #lastRejectedUserData>
+                                    <ng-container *ngIf="employeeStatus!.lastRejectedUser !== null && !networkConnectionErrorPlaceHolder && !dataNotFoundPlaceHolderForLastRejected; else errorInFetchingLastRejectedUserData">
+                                        <div class="on-leaves mt-4">
+                                            <div class="d-flex align-items-center" style="gap:10px;">
+                                                <div class="">
+                                                    <span *ngIf="employeeStatus!.lastRejectedUser?.image !== null">
+                                                        <img src="{{employeeStatus!.lastRejectedUser?.image}}"
+                                                            class="rounded-circle thumb-xl">
+                                                    </span>
+                                                    <span class="members-name"
+                                                        *ngIf="employeeStatus!.lastRejectedUser?.image == null">{{
+                                                        employeeStatus!.lastRejectedUser?.name[0] }}</span>
+                                                </div>
+        
+                                                <div class="">
+                                                    <h5 class="joining-name">{{employeeStatus!.lastRejectedUser?.name}}</h5>
+                                                    <p class="mb-0 joining-email">{{employeeStatus!.lastRejectedUser?.email}}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-
-                                        <div class="">
-                                            <h5 class="joining-name">{{employeeStatus!.lastRejectedUser?.name}}</h5>
-                                            <p class="mb-0 joining-email">{{employeeStatus!.lastRejectedUser?.email}}
-                                            </p>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #errorInFetchingLastRejectedUserData>
+                                    <div class="errorboxmaintop" *ngIf="networkConnectionErrorPlaceHolder">
+                                        <div class="errorboxinner" style="display: flex; justify-content: space-between; align-items: center;">
+                                          <div class="errorboxplaceholder mb-2">
+                                            <img src="assets/images/signal.svg" style="width:50px;"/>
+                                          </div>
+                                         <div class="">
+                                             <h6>Something went wrong!</h6>
+                                             <!-- <p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p> -->
+                                        </div>
                                         </div>
                                     </div>
-                                </div>
+                    
+                                    <div class="errorboxmaintop" *ngIf="dataNotFoundPlaceHolderForLastRejected">
+                                        <div class="errorboxinner" style="display: flex; justify-content: space-between; align-items: center;">
+                                            <div class="errorboxplaceholder">
+                                                <img src="assets/images/empty-box.svg" style="width:50px;"/>
+                                            </div>
+                                            <div class="">
+                                                <h6>No Data Found</h6>
+                                                <p class="mb-0">There's no rejected employee!</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+
                             </div>
 
 
@@ -259,8 +338,10 @@
 
                         <div class="onboard-add row align-items-center">
                             <!-- <div *ngIf="users.length!=0"> -->
+                                <!-- || (searchUserPlaceholderFlag) -->
                             <div class="col-md-8 d-flex" style="gap:20px"
-                                *ngIf="(total!=0 && !errorToggleTop )|| (searchUserPlaceholderFlag) ">
+                            
+                                *ngIf="(!errorToggleTop ) ">
                                 <!-- Your component.html file -->
 
                                 <div class="onboarding-date d-flex align-items-center" style="gap:10px">
@@ -291,6 +372,8 @@
                                             </button>
                                             <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu"
                                                 style="width: 100%;">
+                                                <li><a class="dropdown-item"
+                                                    (click)="selectStatus('ALL')">Reset All</a></li>
                                                 <li><a class="dropdown-item"
                                                         (click)="selectStatus('APPROVED')">Approved</a></li>
                                                 <li><a class="dropdown-item"
@@ -328,8 +411,9 @@
                                                     <th style="width:15%">Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody
-                                                *ngIf="!isUserShimer && users.length==0 && searchUserPlaceholderFlag">
+                                            <!-- && searchUserPlaceholderFlag -->
+                                            <!-- <tbody
+                                                *ngIf="!isUserShimer && users.length==0">
                                                 <tr>
                                                     <td colspan="8">
                                                         <div class="mt-3 dashnodata">
@@ -351,7 +435,7 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                            </tbody>
+                                            </tbody> -->
                                             <!-- {{mainPlaceholdersTableFlag}}{{errorToggleTop}} -->
                                             <!-- {{isUserShimer}} -->
                                             <tbody *ngIf="isUserShimer">
@@ -453,7 +537,7 @@
                                                     </td>
                                                     <td class="new-user-per"
                                                     *ngIf="(user.employeeOnboardingStatus.response)== newUserResponse">
-                                                    <span class="">NEW!</span>
+                                                    <span class="">AWAITED</span>
                                                     </td>
                                                     <td>
                                                         <div class="hstack gap-3 justify-content-center">
@@ -480,8 +564,14 @@
                                                                 (click)="routeToUserDetails(user.uuid)">View</a>
 
                                                             <a style="cursor: pointer; color:red" class="delete-rule"
-                                                                (click)="disableUser(user.id)"><i
+                                                                (click)="disableUser(user.id)" *ngIf="!disableUserLoader(user)"><i
                                                                     class="bi bi-trash"></i></a>
+                                                            
+                                                            <div class="dot-opacity-loader" *ngIf="disableUserLoader(user)">
+                                                                        <span></span>
+                                                                        <span></span>
+                                                                        <span></span>
+                                                            </div>
 
                                                         </div>
                                                     </td>
@@ -580,7 +670,7 @@
 
                                         </table>
                                         <div class="pagination pl-3"
-                                            *ngIf="!isUserShimer && users.length>0 && total > 10">
+                                            *ngIf="!isUserShimer && users.length>0 && total > 12">
                                             <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} -
                                                 {{ getEndIndex() }} of {{ total }} users</p>
                                             <div class="row">
