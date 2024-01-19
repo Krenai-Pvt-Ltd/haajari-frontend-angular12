@@ -418,11 +418,9 @@ export class DataService {
   }
 
   // TODO
-  getPendingLeaveFlag(request: UserLeaveRequest ): Observable<any> {
-    // const params = new HttpParams()
-    // .set("userUuid", userUuid)
-    return this.httpClient.post<any>( this.baseUrl+'/user-leave/todays-pending-leave-count',request);
-  }
+  // getPendingLeaveFlag(request: UserLeaveRequest ): Observable<any> {
+  //   return this.httpClient.post<any>( this.baseUrl+'/user-leave/todays-pending-leave-count',request);
+  // }
 
   // getPendingLeaveFlag(userUuid:string, request: any, status:string): Observable<any> {
   //   const params = new HttpParams().set("uuid", userUuid).set("status", status);

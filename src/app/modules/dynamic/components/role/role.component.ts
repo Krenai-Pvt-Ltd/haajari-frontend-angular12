@@ -114,6 +114,22 @@ isShimmer: boolean = true;
   }
   totalUser:number =0;
 
+  
+
+  buttonLoader = false;
+  roleAccessibilityTypeList : RoleAccessibilityType[] = [];
+  getAllRoleAccessibilityTypeMethodCall(){
+    this.dataService.getAllRoleAccessibilityType().subscribe((response) => {
+      this.roleAccessibilityTypeList = response;
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  settingRoleAccessibilityType(id : number){
+    this.roleRequest.roleAccessibilityTypeId = id;
+  }
+
   num:number = 0;
   
   async getTotalCountOfUsers(id:number){
@@ -131,21 +147,7 @@ isShimmer: boolean = true;
     })
   })
   }
-
-  buttonLoader = false;
-  roleAccessibilityTypeList : RoleAccessibilityType[] = [];
-  getAllRoleAccessibilityTypeMethodCall(){
-    this.dataService.getAllRoleAccessibilityType().subscribe((response) => {
-      this.roleAccessibilityTypeList = response;
-    }, (error) => {
-      console.log(error);
-    })
-  }
-
-  settingRoleAccessibilityType(id : number){
-    this.roleRequest.roleAccessibilityTypeId = id;
-  }
-
+  
   // # Data Table of roles
   getAllRolesMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersMethodCallForRolesAndSecurity();
