@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { UserAcademicsDetailRequest } from 'src/app/models/user-academics-detail-request';
 import { DataService } from 'src/app/services/data.service';
@@ -32,18 +32,29 @@ export class AcadmicComponent implements OnInit {
 
   userAcademicDetailsStatus = "";
   toggle = false;
+  toggleSave = false;
   setEmployeeAcademicsMethodCall() {
     debugger
-    this.toggle = true;
+    if(this.buttonType=='next'){
+      this.toggle = true;
+    } else if (this.buttonType=='save'){
+      this.toggleSave = true;
+    }
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     
     this.dataService.setEmployeeAcademics(this.userAcademicsDetailRequest, userUuid)
       .subscribe(
         (response: UserAcademicsDetailRequest) => {
           console.log(response);  
+          this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
           this.dataService.markStepAsCompleted(response.statusId);
           this.toggle = false
-          this.routeToUserDetails();
+          if(this.buttonType=='next'){
+            this.routeToUserDetails();
+          } else if (this.buttonType=='save'){
+            this.successMessageModalButton.nativeElement.click();
+            this.routeToFormPreview();
+          }
           this.userAcademicDetailsStatus = response.statusResponse;
           // localStorage.setItem('statusResponse', JSON.stringify(this.userAcademicDetailsStatus));
           // this.router.navigate(['/employee-experience']);
@@ -55,6 +66,8 @@ export class AcadmicComponent implements OnInit {
       );
   }
   isLoading:boolean = true;
+  employeeOnboardingFormStatus:string|null=null;
+  @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
   getUserAcademicDetailsMethodCall() {
     debugger
    
@@ -62,10 +75,16 @@ export class AcadmicComponent implements OnInit {
     if (userUuid) {
       this.dataService.getUserAcademicDetails(userUuid).subscribe((response: UserAcademicsDetailRequest) => {
         this.dataService.markStepAsCompleted(response.statusId);
+        this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
         if(response != null){
           this.userAcademicsDetailRequest = response;
           
+          if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL'){
+            this.successMessageModalButton.nativeElement.click();
+          }
+          this.handleOnboardingStatus(response.employeeOnboardingStatus);
           
+          this.isLoading = false; 
         }
         this.isLoading = false; 
         },(error: any) => {
@@ -77,4 +96,62 @@ export class AcadmicComponent implements OnInit {
       
     }
   } 
+
+  @ViewChild("formSubmitButton") formSubmitButton!:ElementRef;
+
+buttonType:string="next"
+selectButtonType(type:string){
+  this.buttonType=type;
+  this.userAcademicsDetailRequest.directSave = false;
+  this.formSubmitButton.nativeElement.click();
+}
+
+directSave: boolean = false;
+
+submit(){
+switch(this.buttonType){
+  case "next" :{
+    this.setEmployeeAcademicsMethodCall();
+    break;
+  }
+  case "save" :{
+    debugger
+    this.userAcademicsDetailRequest.directSave = true;
+    this.setEmployeeAcademicsMethodCall();
+    break;
+  }
+}
+}
+@ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
+routeToFormPreview() {
+  this.dismissSuccessModalButton.nativeElement.click();
+  setTimeout(x=>{
+  let navExtra: NavigationExtras = {
+    
+    queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+  };
+  this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
+},2000)
+}
+
+displayModal = false;
+  allowEdit = false;
+
+  handleOnboardingStatus(response: string) {
+    this.displayModal = true;
+    switch (response) {
+      
+      case 'REJECTED':
+        this.allowEdit = true;
+        break;
+        case 'APPROVED':
+      case 'PENDING':
+        this.allowEdit = false;
+        break;
+      default:
+        this.displayModal = false;
+        break;
+    }
+  }
+
 }

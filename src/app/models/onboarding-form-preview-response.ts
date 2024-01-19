@@ -16,6 +16,8 @@ export class OnboardingFormPreviewResponse {
     userExperience: UserExperience[];
     userBankDetails: UserBankDetailRequest;
     userEmergencyContacts: UserEmergencyContactDetailsRequest[];
+    companyLogo: string = '';
+    fresher: boolean = false;
     
 
     constructor() {
@@ -27,5 +29,7 @@ export class OnboardingFormPreviewResponse {
         this.userBankDetails = new UserBankDetailRequest();
         this.userAcademics = new UserAcademicsDetailRequest;
         this.userEmergencyContacts = [];
+        this.companyLogo = '';
+        this.fresher = false;
     }
 }

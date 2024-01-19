@@ -37,9 +37,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     // AuthenticationComponent,
   ],
   imports: [
-    RouterModule,
-    BrowserModule,
     CommonModule,
+    RouterModule,
+    BrowserModule, 
     AppRoutingModule,
     HttpClientModule,
     FormsModule,

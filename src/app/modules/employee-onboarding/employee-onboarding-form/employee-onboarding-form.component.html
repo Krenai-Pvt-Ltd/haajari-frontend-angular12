@@ -13,7 +13,7 @@
                     <h5>Personal Information</h5>
                     <p class="mb-0">Fields with * are mandatory </p>
                     <!-- <form ngNativeValidate (ngSubmit)="setEmployeePersonalDetailsMethodCall()"> -->
-                      <form #personalInformationForm="ngForm" ngNativeValidate (ngSubmit)="setEmployeePersonalDetailsMethodCall()">
+                      <form #personalInformationForm="ngForm" ngNativeValidate (ngSubmit)="submit()">
                         <div class="form-group">
                         <div class="persnol-info mt-4">
                           <div class="row">
@@ -212,7 +212,7 @@
                   <div class="col-md-6">
                     <div class="mb-3">
                         <label for="joiningDateField" class="pb-2">Joining Date <span class="text-optional">*</span></label>
-                        <input type="date" class="form-control" id="joiningDateField" name="joiningDate" placeholder="Enter joining date" [(ngModel)]="userPersonalInformationRequest.joiningDate" [min]="minJoiningDate" required #joiningDate="ngModel">
+                        <input type="date" class="form-control" id="joiningDateField" name="joiningDate" placeholder="Enter joining date" [(ngModel)]="userPersonalInformationRequest.joiningDate" required #joiningDate="ngModel">
                         <div *ngIf="joiningDate.touched">
                             <p class="errortxt mt-2 mb-0" *ngIf="joiningDate.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Joining date is required.</p>
                         </div>
@@ -298,9 +298,23 @@
           <span *ngIf="!toggle">Next <i class="bi bi-arrow-right"></i></span>
         </button> -->
                           
-        <div class="col-md-12 d-flex justify-content-end mt-3">
+        
+        
+        <div class="col-md-12 d-flex justify-content-end mt-3"style="gap:10px;">
+            <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+                <button (click)="selectButtonType('save')" class="btn btn-success" type="button" [disabled]="toggle" aria-label="Save">
+                    <div *ngIf="toggleSave" class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span *ngIf="!toggleSave">
+                        Save <i class="bi bi-save" style="padding-left: 8px;"></i>
+                    </span>
+                </button>
+            </div>
           <div class="info-btn">
-              <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
+              <button (click)="selectButtonType('next')" class="btn btn-primary" type="button" [disabled]="toggle" aria-label="Next Step">
                   <div *ngIf="toggle" class="dot-opacity-loader">
                       <span></span>
                       <span></span>
@@ -311,6 +325,7 @@
                   </span>
               </button>
           </div>
+          <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button>
       </div>
       
       
@@ -365,6 +380,10 @@
                 </p>
 
                 <!-- Edit Button -->
+
+                <button type="button" class="d-none"  data-bs-dismiss="modal" id="dismissSuccessModalButton" #dismissSuccessModalButton>
+                    Cancel
+                  </button>
                 <button type="button" class="btn btn-primary" *ngIf="allowEdit" data-bs-dismiss="modal">
                     Edit
                 </button>

@@ -359,7 +359,11 @@
                     <div class="oonbording-bhadding">
                         <h1> Employee Onboarding Form</h1>
 
-                        <p>Status - <span class="pending-status">{{onboardingPreviewData.user.employeeOnboardingStatus.response}}</span></p>
+                        <p>Status - <span [ngClass]="{
+                            'status-approved': onboardingPreviewData.user.employeeOnboardingStatus.response === 'APPROVED',
+                            'status-rejected': onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED',
+                            'status-pending': onboardingPreviewData.user.employeeOnboardingStatus.response === 'PENDING'
+                          }">{{onboardingPreviewData.user.employeeOnboardingStatus.response}}</span></p>
                         <button type="button" class="btn btn-primary" *ngIf="allowEdit" (click)="routeToUserDetails()">
                             Edit
                         </button>
@@ -368,7 +372,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="oonbording-logo text-end">
-                        <img src="https://www.hajiri.in/assets/images/HAjiRi.svg" style="width: 150px;">
+                        <img [src]="companyLogoUrl || 'https://www.hajiri.in/assets/images/HAjiRi.svg'" style="width: 150px;">
                     </div>
                 </div>
             </div>

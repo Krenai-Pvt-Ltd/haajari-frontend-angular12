@@ -9,7 +9,7 @@
                     <div class="persnol-details">
                         <h5>Employee Documents</h5>
                         <p class="mb-0">Fields with * are mandatory </p>
-                        <form #documentsInformationForm="ngForm" ngNativeValidate (ngSubmit)="setEmployeeDocumentsDetailsMethodCall()">
+                        <form #documentsInformationForm="ngForm" ngNativeValidate (ngSubmit)="submit()">
                             <div class="form-group">
                             <!-- Form content goes here -->
                             <div class="persnol-info mt-4">
@@ -17,9 +17,67 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                          <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet <span class="text-optional">*</span></label>
+                                          <label for="aadhaarCardFile" class="pb-2">Aadhaar Card <span class="text-optional">*</span></label>
                                           <div class="importfilebox">
-                                            <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')" [required]="isSecondarySchoolCertificateRequired" #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate">
+                                            <input id="aadhaarCardFile" name="aadhaarCardFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'aadhaarCard')" #aadhaar="ngModel" [required]="isaadhaarCardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.aadhaarCard">
+                                            <label for="aadhaarCardFile">
+                                              <span *ngIf="!selectedAadhaarCardFileName && !aadhaarCardFileName">
+                                                <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF
+                                              </span>
+                                              <span *ngIf="aadhaarCardFileName && !selectedAadhaarCardFileName">
+                                                {{ aadhaarCardFileName }}
+                                              </span>
+                                              <span *ngIf="selectedAadhaarCardFileName && !aadhaarCardFileName">
+                                                {{ selectedAadhaarCardFileName }}
+                                              </span>
+                                              <span *ngIf="selectedAadhaarCardFileName && aadhaarCardFileName">
+                                                {{ selectedAadhaarCardFileName }}
+                                              </span>
+                                            </label>
+                                          </div>
+                                          <div *ngIf="aadhaar.touched">
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="isaadhaarCardRequired && aadhaar.errors?.required">
+                                              <i class="bi bi-exclamation-circle"></i>
+                                              Uploading the Aadhaar Card is required.
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-6">
+                                        <div class="mb-3">
+                                          <label for="pancardFile" class="pb-2">Pancard <span class="text-optional">*</span></label>
+                                          <div class="importfilebox">
+                                            <input id="pancardFile" name="pancardFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'pancard')" #pancard="ngModel" [required]="ispancardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.pancard">
+                                            <label for="pancardFile">
+                                              <span *ngIf="!selectedpancardFileName && !pancardFileName">
+                                                <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF
+                                              </span>
+                                              <span *ngIf="pancardFileName && !selectedpancardFileName">
+                                                {{ pancardFileName }}
+                                              </span>
+                                              <span *ngIf="selectedpancardFileName && !pancardFileName">
+                                                {{ selectedpancardFileName }}
+                                              </span>
+                                              <span *ngIf="selectedpancardFileName && pancardFileName">
+                                                {{ selectedpancardFileName }}
+                                              </span>
+                                            </label>
+                                          </div>
+                                          <div *ngIf="pancard.touched">
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="ispancardRequired && pancard.errors?.required">
+                                              <i class="bi bi-exclamation-circle"></i>
+                                              Uploading the PAN Card is required.
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                          <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet </label>
+                                          <div class="importfilebox">
+                                            <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')"  #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate">
                                             <label for="secondarySchoolCertificateFile">
                                                 <!-- No file is selected or uploaded -->
                                                 <span *ngIf="!selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
@@ -53,9 +111,9 @@
 
                                       <div class="col-md-6">
                                         <div class="mb-3">
-                                          <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet <span class="text-optional">*</span></label>
+                                          <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet </label>
                                           <div class="importfilebox">
-                                            <input id="highSchoolCertificateFile" name="highSchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')" [required]="isHighSchoolCertificateRequired" #highSchool="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highSchoolCertificate">
+                                            <input id="highSchoolCertificateFile" name="highSchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')"  #highSchool="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highSchoolCertificate">
                                             <label for="highSchoolCertificateFile">
                                                 <!-- No file is selected or uploaded -->
                                                 <span *ngIf="!selectedHighSchoolFileName && !highSchoolCertificateFileName1">
@@ -302,8 +360,20 @@
                                         <i class="bi bi-arrow-left" style="padding-right: 8px;"></i> Back
                                     </button>
                                 </div>
-                                <div class="info-btn d-flex justify-content-end">
-                                    <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
+                                <div class="info-btn d-flex justify-content-end" style="gap:10px;">
+                                    <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+                                        <button (click)="selectButtonType('save')" class="btn btn-success" type="button" [disabled]="toggle" aria-label="Save">
+                                            <div *ngIf="toggleSave" class="dot-opacity-loader">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                            <span *ngIf="!toggleSave">
+                                                Save <i class="bi bi-save" style="padding-left: 8px;"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <button (click)="selectButtonType('next')" class="btn btn-primary" type="button" [disabled]="toggle" aria-label="Next Step">
                                         <div *ngIf="toggle" class="dot-opacity-loader">
                                           <span></span>
                                           <span></span>
@@ -314,6 +384,7 @@
                                         </span>
                                       </button>
                                 </div>
+                                <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button>
                             </div>
                         </div>
                         </div>
@@ -323,4 +394,38 @@
             </div>
         </div>
     </div>
+</div>
+
+
+ <!-- Success Message Modal -->
+ <button type="button" style="display: none;" data-bs-toggle="modal" data-bs-target="#successMessageModal" #successMessageModalButton id="successMessageModalButton"></button>
+ <div class="modal fade"  id="successMessageModal" #successMessageModal aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered mx-auto">
+      <div class="modal-content">
+          <div class="modal-body text-center">
+              <i class="bi bi-check-circle" *ngIf="employeeOnboardingFormStatus != 'REJECTED'" style="font-size: 48px; color: green;"></i>
+              <i class="bi bi-exclamation-triangle-fill" *ngIf="employeeOnboardingFormStatus == 'REJECTED'" style="font-size: 48px; color: red;"></i>
+              
+              <!-- Conditional Messages -->
+              <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'PENDING'">
+                  Your registration is successful. Pending for verification.
+              </p>
+              <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'APPROVED'">
+                  Your onboarding is approved.
+              </p>
+              <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+                  Your onboarding is rejected.
+              </p>
+
+              <!-- Edit Button -->
+
+              <button type="button" class="d-none"  data-bs-dismiss="modal" id="dismissSuccessModalButton" #dismissSuccessModalButton>
+                  Cancel
+                </button>
+              <button type="button" class="btn btn-primary" *ngIf="allowEdit" data-bs-dismiss="modal">
+                  Edit
+              </button>
+          </div>
+      </div>
+  </div>
 </div>

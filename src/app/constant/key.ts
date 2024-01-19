@@ -125,4 +125,5 @@ export class Key{
     // Toast statusResponse
     public static TOAST_STATUS_SUCCESS = "Success";
     public static TOAST_STATUS_ERROR = "Error";
+    
 }

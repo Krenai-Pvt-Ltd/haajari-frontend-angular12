@@ -61,7 +61,10 @@ export class EmployeeExperienceComponent implements OnInit {
         lastJobPosition: '',
         jobResponisibilities: '',
         fresher: false, // or true, depending on your logic
-        statusId: 0
+        statusId: 0,
+        directSave: false,
+        employeeOnboardingFormStatus: '',
+        employeeOnboardingStatus: ''
     };
     this.userExperiences.push(newExperience);
 }
@@ -82,6 +85,7 @@ export class EmployeeExperienceComponent implements OnInit {
 
 
   toggle = false;
+  toggleSave = false;
   setEmployeeExperienceDetailsMethodCall() {
     debugger
     const userUuid = this.getUserUuid();
@@ -89,15 +93,29 @@ export class EmployeeExperienceComponent implements OnInit {
       console.error('User UUID is not available.');
       return;
     }
-    this.toggle = true;
+    if(this.buttonType=='next'){
+      this.toggle = true;
+    } else if (this.buttonType=='save'){
+      this.toggleSave = true;
+    }
     
     this.dataService.setEmployeeExperienceDetails(this.userExperiences, userUuid)
       .subscribe(
         response => { 
           console.log('Response:', response);
+          if(response!= null){
+            this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
+            this.handleOnboardingStatus(response.employeeOnboardingStatus);
+          }
+          
           this.dataService.markStepAsCompleted(response.statusId);
           
-          this.routeToUserDetails();
+          if(this.buttonType=='next'){
+            this.routeToUserDetails();
+          } else if (this.buttonType=='save'){
+            this.successMessageModalButton.nativeElement.click();
+            this.routeToFormPreview();
+          }
           this.toggle = false;
         },
         error => {
@@ -109,12 +127,20 @@ export class EmployeeExperienceComponent implements OnInit {
 
   isLoading: boolean = true; 
   isFresher:boolean=true;
+  employeeOnboardingFormStatus:string|null=null;
+  @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
   getEmployeeExperiencesDetailsMethodCall(userUuid: string) {
     debugger
     this.isLoading = true;
     
     this.dataService.getEmployeeExperiencesDetailsOnboarding(userUuid).subscribe(
       experiences => {
+        this.employeeOnboardingFormStatus= experiences[0].employeeOnboardingStatus;
+                
+                if(experiences[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL'){
+                  this.successMessageModalButton.nativeElement.click();
+                }
+                this.handleOnboardingStatus(experiences[0].employeeOnboardingStatus);
         if (experiences[0].companyName!=null && experiences.length > 0 && experiences[0].fresher== false) {
           
           this.isLoading = false;
@@ -159,4 +185,62 @@ selectDepartmentForExperience(dept: string, index: number): void {
 }
 
 
+@ViewChild("formSubmitButton") formSubmitButton!:ElementRef;
+
+buttonType:string="next"
+selectButtonType(type:string){
+  debugger
+  this.buttonType=type;
+  this.userExperiences[0].directSave = false;
+  this.formSubmitButton.nativeElement.click();
+}
+
+directSave: boolean = false;
+
+submit(){
+  debugger
+switch(this.buttonType){
+  case "next" :{
+    this.setEmployeeExperienceDetailsMethodCall();
+    break;
+  }
+  case "save" :{
+    debugger
+    this.userExperiences[0].directSave = true;
+    this.setEmployeeExperienceDetailsMethodCall();
+    break;
+  }
+}
+}
+@ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
+routeToFormPreview() {
+  this.dismissSuccessModalButton.nativeElement.click();
+  setTimeout(x=>{
+  let navExtra: NavigationExtras = {
+    
+    queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+  };
+  this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
+},2000)
+}
+
+displayModal = false;
+  allowEdit = false;
+
+  handleOnboardingStatus(response: string) {
+    this.displayModal = true;
+    switch (response) {
+      
+      case 'REJECTED':
+        this.allowEdit = true;
+        break;
+        case 'APPROVED':
+      case 'PENDING':
+        this.allowEdit = false;
+        break;
+      default:
+        this.displayModal = false;
+        break;
+    }
+  }
 }

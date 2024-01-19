@@ -7,4 +7,7 @@ export class UserExperience {
     lastJobPosition: string = ''; 
     fresher: boolean = true; 
     statusId: number = 0;
+    directSave: boolean = false;
+    employeeOnboardingFormStatus: string = '';
+    employeeOnboardingStatus: string = '';
 }

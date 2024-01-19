@@ -29,6 +29,7 @@ import { FullLeaveSettingRequest } from "../models/Full-Leave-Setting-Request";
 import { Testing } from "../models/testing";
 import { ShiftTimings } from "../models/shifttimings";
 import { OrganizationAddressDetail } from "../models/organization-address-detail";
+import { EmployeeAttendanceLocation } from "../models/employee-attendance-location";
 
 
 @Injectable({
@@ -1073,7 +1074,13 @@ stepIndex:number=-1;
     return this.httpClient.get<any>(`${this.baseUrl}/role/get-all-accessibility-type`, {});
   }
 
-  
+  getOrganizationLatLong(userUuid: string):Observable<any> {
+    const url = `${this.baseUrl}/user-verification/address/latlong?userUuid=${userUuid}`;
+    return this.httpClient.get<any>(url, {});
+  }
 
+  markAttendaceWithLocation(employeeAttendanceLocation :EmployeeAttendanceLocation, userUuid: string): Observable<any>{
+    return this.httpClient.post<any>(`${this.baseUrl}/attendance/check-in-location?userUuid=${userUuid}`, employeeAttendanceLocation);
 
+  }
 }

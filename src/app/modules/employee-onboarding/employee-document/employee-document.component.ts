@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NavigationExtras, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
@@ -57,6 +57,8 @@ selectedHighSchoolCertificateFileName: any;
   selectedHighSchoolFileName: string = '';
   selectedHighestQualificationDegreeFileName: string = '';
   selectedTestimonialReccomendationFileName: string = '';
+  selectedAadhaarCardFileName: string = '';
+  selectedpancardFileName: string = '';
 
   onFileSelected(event: Event, documentType: string): void {
     const element = event.currentTarget as HTMLInputElement;
@@ -74,6 +76,12 @@ selectedHighSchoolCertificateFileName: any;
       }
       if (documentType === 'testimonialReccomendation') {
         this.selectedTestimonialReccomendationFileName = file.name;
+      }
+      if (documentType === 'aadhaarCard') {
+        this.selectedAadhaarCardFileName = file.name;
+      }
+      if (documentType === 'pancard') {
+        this.selectedpancardFileName = file.name;
       }
       // this.selectedFileName = file.name;
       const reader = new FileReader();
@@ -124,16 +132,27 @@ selectedHighSchoolCertificateFileName: any;
       case 'testimonialReccomendation':
         this.userDocumentsDetailsRequest.userDocuments.testimonialReccomendation = url;
         break;
+        case 'aadhaarCard':
+        this.userDocumentsDetailsRequest.userDocuments.aadhaarCard = url;
+        break;
+        case 'pancard':
+        this.userDocumentsDetailsRequest.userDocuments.pancard = url;
+        break;
     }
   }
 
 
   selectedFile: File | null = null;
   toggle = false;
+  toggleSave =  false;
   setEmployeeDocumentsDetailsMethodCall(): void {
     debugger
    
-    this.toggle = true;
+    if(this.buttonType=='next'){
+      this.toggle = true;
+    } else if (this.buttonType=='save'){
+      this.toggleSave = true;
+    }
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     if(this.selectedFile) {
      
@@ -147,9 +166,16 @@ selectedHighSchoolCertificateFileName: any;
       console.log('Response:', response);
       console.log(this.userDocumentsDetailsRequest);
       this.toggle = false
+      this.employeeOnboardingFormStatus = response.employeeOnboardingStatus; 
+      this.handleOnboardingStatus(response.employeeOnboardingStatus);
       this.dataService.markStepAsCompleted(response.statusId);
       // Perform further actions like navigation or state updates
-      this.routeToUserDetails();
+      if(this.buttonType=='next'){
+        this.routeToUserDetails();
+      } else if (this.buttonType=='save'){
+        this.successMessageModalButton.nativeElement.click();
+        this.routeToFormPreview();
+      }
     },
     (error) => {
       console.error('Error occurred:', error);
@@ -176,14 +202,20 @@ secondarySchoolCertificateFileName: string = '';
 highSchoolCertificateFileName1: string = '';
 highestQualificationDegreeFileName1: string = '';
 testimonialReccomendationFileName1: string = '';
+aadhaarCardFileName: string = '';
+pancardFileName: string = '';
 
 // Properties to determine if the file input should be required
-isSecondarySchoolCertificateRequired: boolean = true;
-isHighSchoolCertificateRequired: boolean = true;
+isSecondarySchoolCertificateRequired: boolean = false;
+isHighSchoolCertificateRequired: boolean = false;
 isHighestQualificationDegreeRequired: boolean = true;
+isaadhaarCardRequired: boolean = true;
+ispancardRequired: boolean = true;
 
 
 isLoading:boolean = true;
+employeeOnboardingFormStatus:string|null=null;
+@ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
 getEmployeeDocumentsDetailsMethodCall() {
   debugger
   
@@ -192,6 +224,11 @@ getEmployeeDocumentsDetailsMethodCall() {
     this.dataService.getEmployeeDocumentDetails(userUuid).subscribe(
       (response: UserDocumentsDetailsRequest) => {
         this.userDocumentsDetailsRequest = response;
+        this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
+        if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL'){
+          this.successMessageModalButton.nativeElement.click();
+        }
+        this.handleOnboardingStatus(response.employeeOnboardingStatus);
         this.dataService.markStepAsCompleted(response.statusId);
         if(this.userDocumentsDetailsRequest.userDocuments==undefined){
           this.userDocumentsDetailsRequest.userDocuments=new UserDocumentsRequest();
@@ -203,13 +240,19 @@ getEmployeeDocumentsDetailsMethodCall() {
         
         if (response.userDocuments) {
           this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(response.userDocuments.secondarySchoolCertificate);
-          this.isSecondarySchoolCertificateRequired = !response.userDocuments.secondarySchoolCertificate;
+          // this.isSecondarySchoolCertificateRequired = !response.userDocuments.secondarySchoolCertificate;
 
           this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(response.userDocuments.highSchoolCertificate);
-          this.isHighSchoolCertificateRequired = !response.userDocuments.highSchoolCertificate;
+          // this.isHighSchoolCertificateRequired = !response.userDocuments.highSchoolCertificate;
 
           this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(response.userDocuments.highestQualificationDegree);
           this.isHighestQualificationDegreeRequired = !response.userDocuments.highestQualificationDegree;
+
+          this.aadhaarCardFileName = this.getFilenameFromUrl(response.userDocuments.aadhaarCard);
+          this.isaadhaarCardRequired = !response.userDocuments.aadhaarCard;
+
+          this.pancardFileName = this.getFilenameFromUrl(response.userDocuments.pancard);
+          this.ispancardRequired = !response.userDocuments.pancard;
 
           this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(response.userDocuments.testimonialReccomendation);
         }
@@ -247,5 +290,61 @@ getEmployeeDocumentsDetailsMethodCall() {
     return cleanFilename;
   }
   
+  @ViewChild("formSubmitButton") formSubmitButton!:ElementRef;
+
+buttonType:string="next"
+selectButtonType(type:string){
+  this.buttonType=type;
+  this.userDocumentsDetailsRequest.directSave = false;
+  this.formSubmitButton.nativeElement.click();
+}
+
+directSave: boolean = false;
+
+submit(){
+switch(this.buttonType){
+  case "next" :{
+    this.setEmployeeDocumentsDetailsMethodCall();
+    break;
+  }
+  case "save" :{
+    debugger
+    this.userDocumentsDetailsRequest.directSave = true;
+    this.setEmployeeDocumentsDetailsMethodCall();
+    break;
+  }
+}
+}
+@ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
+routeToFormPreview() {
+  this.dismissSuccessModalButton.nativeElement.click();
+  setTimeout(x=>{
+  let navExtra: NavigationExtras = {
+    
+    queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+  };
+  this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
+},2000)
+}
   
+  displayModal = false;
+  allowEdit = false;
+
+  handleOnboardingStatus(response: string) {
+    this.displayModal = true;
+    switch (response) {
+      
+      case 'REJECTED':
+        this.allowEdit = true;
+        break;
+        case 'APPROVED':
+      case 'PENDING':
+        this.allowEdit = false;
+        break;
+      default:
+        this.displayModal = false;
+        break;
+    }
+  }
+
 }

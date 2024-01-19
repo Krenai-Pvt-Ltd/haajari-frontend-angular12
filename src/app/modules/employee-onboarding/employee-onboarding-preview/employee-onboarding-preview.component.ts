@@ -30,6 +30,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
   highSchoolCertificateFileName1: string = '';
   highestQualificationDegreeFileName1: string = '';
   testimonialReccomendationFileName1: string = '';
+  companyLogoUrl: string = '';
 
   isLoading: boolean = true;
   isFresher: boolean = false;
@@ -45,12 +46,16 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
         (preview) => {
           this.onboardingPreviewData = preview;
+          if(preview.companyLogo){
+            this.companyLogoUrl = preview.companyLogo;
+          }
           this.isLoading = false;
           this.handleOnboardingStatus(preview.user.employeeOnboardingStatus.response);
+          
           if(preview.userExperience){
             this.userExperienceArray = preview.userExperience;
           }
-          if(preview.userExperience[0].user.fresher==true){
+          if(preview.fresher==true){
             
             this.isFresher=true;
           }
