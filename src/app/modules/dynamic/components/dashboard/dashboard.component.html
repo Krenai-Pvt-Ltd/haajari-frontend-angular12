@@ -229,22 +229,25 @@
         <div class="row mb-3">
             <div class="col-md-12">
                 <div class="col d-flex align-items-center justify-content-between mb-3">                      
-                     <h4 class="card-title" style="font-size: 18px;">Late Employee</h4> 
-                     <div class="view-more text-center" *ngIf="lateEmployeeAttendanceDetailsResponseList.length > 6">
-                        <p (click)="viewAllLateEmployeeAttendanceDetails()">View All <i class="bi bi-arrow-right"></i></p>
-                     </div>
-                                          
+                     <h4 class="card-title" style="font-size: 18px;">Late Employee</h4>
+                     <ng-container *ngIf="lateEmployeeDataLoaderButton; else viewAllAndViewLess">
+                        <div class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                     </ng-container>
+                     <ng-template #viewAllAndViewLess>
+                        <div class="view-more text-center" *ngIf="totalLateEmployees > 6 && lateEmployeeAttendanceDetailsResponseList.length !== totalLateEmployees">
+                            <p (click)="viewAllLateEmployeeAttendanceDetails(viewAll)">View All <i class="bi bi-arrow-right"></i></p>
+                        </div>
+
+                        <div class="view-more text-center" *ngIf="lateEmployeeAttendanceDetailsResponseList.length > 6">
+                            <p (click)="viewAllLateEmployeeAttendanceDetails(viewLess)">View Less <i class="bi bi-arrow-right"></i></p>
+                         </div>
+                     </ng-template>
                 </div>
             </div>
-
-            <!-- <div class="mt-3 dashnodata" >
-
-                
-                
-
-                
-            </div> -->
-
 
             <ng-container *ngIf="isShimmer && lateEmployeeAttendanceDetailsResponseList.length === 0 && !dataNotFoundPlaceholder && !networkConnectionErrorPlaceHolder; else lateEmployeeAttendanceDetailsDataCondition">
                 <div class="col-md-4" *ngFor="let item of [].constructor(6)">
@@ -321,7 +324,7 @@
                                     <p class="mb-0"><span class="in-time"><b>Manager: </b></span> 
                                         <span class="teme-maneger" *ngIf="lateEmployeeAttendanceDetailsResponse.managers.length > 2">
                                             
-                                            {{lateEmployeeAttendanceDetailsResponse.managers[0]}}, {{lateEmployeeAttendanceDetailsResponse.managers[1]}}...<a class="user-avatar"><i class="bi bi-plus" ngbTooltip={{lateEmployeeAttendanceDetailsResponse.managers}} placement="top" style="font-size: 14px;"></i> {{lateEmployeeAttendanceDetailsResponse.managers.length - 2}}</a>
+                                            {{lateEmployeeAttendanceDetailsResponse.managers[0]}}...<a class="user-avatar"><i class="bi bi-plus" ngbTooltip={{lateEmployeeAttendanceDetailsResponse.managers}} placement="top" style="font-size: 14px;"></i> {{lateEmployeeAttendanceDetailsResponse.managers.length - 1}}</a>
                                         </span>
                                         <span class="teme-maneger" *ngIf="lateEmployeeAttendanceDetailsResponse.managers.length < 3">
                                             {{lateEmployeeAttendanceDetailsResponse.managers}}
@@ -489,7 +492,7 @@
 
                                 <div class="filtter-box d-flex align-items-center justify-content-end" style="gap:10px;">
                                         <div class="dropdown">
-                                            <button class="btn btn-secondary new-deopdown" type="button" (click)="toggleAllCollapse()" [disabled]="myAttendanceDataLength === 0">{{isAllCollapsed ? 'Expand All' : 'Collapse All'}}</button>
+                                            <button class="btn btn-secondary new-deopdown" type="button" (click)="toggleAllCollapse(isAllCollapsed)" [disabled]="myAttendanceDataLength === 0">{{isAllCollapsed ? 'Expand All' : 'Collapse All'}}</button>
                                           
                                         </div>
                                         <ng-container *ngIf="!downloadingFlag; else downloadingCondition">
