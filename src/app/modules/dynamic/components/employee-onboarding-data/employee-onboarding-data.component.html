@@ -222,7 +222,7 @@
                                 </ng-template>
                                 <ng-template #errorInFetchingLastApprovedUserData>
                                     <div class="errorboxmaintop" *ngIf="networkConnectionErrorPlaceHolder">
-                                        <div class="errorboxinner" style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div class="errorboxinner" style="display: flex; align-items: center;">
                                           <div class="errorboxplaceholder mb-2">
                                             <img src="assets/images/signal.svg" style="width:50px;"/>
                                           </div>
@@ -234,13 +234,13 @@
                                     </div>
                     
                                     <div class="errorboxmaintop" *ngIf="dataNotFoundPlaceHolderForLastApproved">
-                                        <div class="errorboxinner" style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div class="errorboxinner" style="display: flex; align-items: center;">
                                             <div class="errorboxplaceholder">
                                                 <img src="assets/images/empty-box.svg" style="width:50px;"/>
                                             </div>
                                             <div class="">
-                                                <h6>No Data Found</h6>
-                                                <p class="mb-0">There's no approved employee!</p>
+                                                <h6>No Data Found!</h6>
+                                                <!-- <p class="mb-0">There's no approved employee!</p> -->
                                             </div>
                                         </div>
                                     </div>
@@ -297,7 +297,7 @@
                                 </ng-template>
                                 <ng-template #errorInFetchingLastRejectedUserData>
                                     <div class="errorboxmaintop" *ngIf="networkConnectionErrorPlaceHolder">
-                                        <div class="errorboxinner" style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div class="errorboxinner" style="display: flex;  align-items: center;">
                                           <div class="errorboxplaceholder mb-2">
                                             <img src="assets/images/signal.svg" style="width:50px;"/>
                                           </div>
@@ -309,13 +309,13 @@
                                     </div>
                     
                                     <div class="errorboxmaintop" *ngIf="dataNotFoundPlaceHolderForLastRejected">
-                                        <div class="errorboxinner" style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div class="errorboxinner" style="display: flex;  align-items: center;">
                                             <div class="errorboxplaceholder">
                                                 <img src="assets/images/empty-box.svg" style="width:50px;"/>
                                             </div>
                                             <div class="">
-                                                <h6>No Data Found</h6>
-                                                <p class="mb-0">There's no rejected employee!</p>
+                                                <h6>No Data Found!</h6>
+                                                <!-- <p class="mb-0">There's no rejected employee!</p> -->
                                             </div>
                                         </div>
                                     </div>

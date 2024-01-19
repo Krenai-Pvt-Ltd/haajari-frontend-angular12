@@ -2,7 +2,7 @@
     <div class="page-content-tab">
 
         <!-- {{count}} -->
-       <app-hajiri-page-loader *ngIf="count<9"></app-hajiri-page-loader>
+        <app-hajiri-page-loader *ngIf="count<9"></app-hajiri-page-loader>
         <div class="container-fluid" *ngIf="count>=9">
 
             <div class="mb-4 mt-3 pb-3 border-buttom-setting d-flex align-items-center justify-content-between"
@@ -13,17 +13,24 @@
                     <h5 class="mt-0" style="margin-top: 10px !important;">{{user?.name || 'N/A'}}</h5>
                 </div>
                 <div class="d-flex align-items-center" style="gap:20px;">
-                    <span *ngIf="status=='out'">
+                    <div *ngIf="InOutLoader">
+                        <div class="dot-opacity-loader" >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <span *ngIf="status=='out' && !InOutLoader">
                         <button class="btn sand-request approved" type="button"
                             (click)="checkinCheckout('/inn')">Check-In</button>
                     </span>
-                    <span *ngIf="(status=='in') || (status=='back')">
+                    <span *ngIf="((status=='in') || (status=='back')) && !InOutLoader">
                         <button class="btn sand-request approved break-btn" ngbTooltip="Start your break"
                             placement="top" type="button" (click)="checkinCheckout('/breakk')">
                             <img src="assets/images/mug-hot-1.svg" style="width:100%">
                         </button>
                     </span>
-                    <span *ngIf="status=='break'">
+                    <span *ngIf="status=='break' && !InOutLoader">
                         <button class="btn sand-request approved break-btn" ngbTooltip="End your break" placement="top"
                             type="button" (click)="checkinCheckout('/backk')">
                             <img src="assets/images/no-coffee.svg" style="width:100%">
@@ -31,7 +38,7 @@
 
 
                     </span>
-                    <span *ngIf="(status=='in') || (status=='back') || (status=='break')">
+                    <span *ngIf="((status=='in') || (status=='back') || (status=='break')) && !InOutLoader">
                         <button class="btn sand-request rejected" (click)="checkinCheckout('/outt')">Check-Out</button>
                     </span>
                 </div>
@@ -125,9 +132,9 @@
                                     <div class="d-flex" style="gap:10px"
                                         *ngIf="(user!.employeeOnboardingStatus?.response=='PENDING' || user!.employeeOnboardingStatus?.response=='REQUESTED' || user!.employeeOnboardingStatus?.response=='NEW_USER')">
                                         <button class="btn sand-request approved" type="button"
-                                            (click)="updateStatusUserByUuid('APPROVED')">Approved</button>
+                                            (click)="updateStatusUserByUuid('APPROVED')">Approve</button>
                                         <button class="btn sand-request rejected" type="button"
-                                            (click)="updateStatusUserByUuid('REJECTED')">Rejected</button>
+                                            (click)="updateStatusUserByUuid('REJECTED')">Reject</button>
                                     </div>
                                     <!-- <div class="d-flex" style="gap:10px" *ngIf="(user!.employeeOnboardingStatus?.response!='PENDING')">
                                         <button class="btn sand-request approved" type="button" *ngIf="(user!.employeeOnboardingStatus?.response=='APPROVED')">{{user!.employeeOnboardingStatus?.response}}</button>
@@ -512,7 +519,7 @@
                                                     </div>
                                                 </ng-template> -->
 
-                                              
+
 
 
 
@@ -1088,7 +1095,7 @@
 
                                         </div>
 
-                                       
+
                                         <div class="tab-pane fade mt-3" id="verify-employee" role="tabpanel">
 
 
@@ -1593,8 +1600,8 @@
                     <div class="mb-2">
                         <p class="mb-0" style="color: #000444;">Please fill out the following fields:</p>
                     </div>
-                    <form [formGroup]="userLeaveForm" #formDirective="ngForm" >
-                        
+                    <form [formGroup]="userLeaveForm" #formDirective="ngForm">
+
                         <div class="mb-2">
                             <label for="username" style="padding-bottom: 6px">Pick a starting date</label>
                             <input type="date" id="username" placeholder="Enter title ..." required=""
@@ -1611,7 +1618,7 @@
                             <label for="username" style="padding-bottom: 6px">Pick an ending date </label>
                             <input type="date" id="username" placeholder="Enter title ..."
                                 class="form-control ng-untouched ng-pristine ng-invalid" formControlName="endDate"
-                                [(ngModel)]="userLeaveRequest.endDate" />
+                                [(ngModel)]="userLeaveRequest.endDate" [min]="userLeaveRequest.startDate" />
                         </div>
                         <div class="mb-2">
                             <label for="username" style="padding-bottom: 6px">Select the type of leave you want to
@@ -1621,8 +1628,7 @@
                                     <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select leave type <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
                   </button> -->
                                     <select class="form-select" id="exampleFormControlSelect1"
-                                        formControlName="leaveType" [(ngModel)]="userLeaveRequest.leaveType"
-                                        >
+                                        formControlName="leaveType" [(ngModel)]="userLeaveRequest.leaveType">
                                         <option value="">Select Leave Type</option>
                                         <option *ngFor="let ul of userLeave">
                                             {{ul.leaveType}}</option>
@@ -1710,10 +1716,15 @@
                 <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
-                <button type="button" class="btn btn-primary save-changes"
-                    [disabled]="userLeaveForm.invalid" (click)="saveLeaveRequestUser()">
+                <button type="button" class="btn btn-primary save-changes" [disabled]="userLeaveForm.invalid"
+                    (click)="saveLeaveRequestUser()" *ngIf="!submitLeaveLoader">
                     Submit
                 </button>
+                <div class="dot-opacity-loader" *ngIf="submitLeaveLoader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
 
             </div>
         </div>
@@ -1739,4 +1750,3 @@
         </div>
     </div>
 </div>
-

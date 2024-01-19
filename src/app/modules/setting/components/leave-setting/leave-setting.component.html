@@ -283,8 +283,14 @@
                                             (click)="getLeaveSettingInformationById(newLeaveSetting.leaveSetting.id)"></i></a>
 
                                     <a class="delete-rule"
-                                        (click)="deleteLeaveSettingRule(newLeaveSetting.leaveSetting.id)"><i
+                                        (click)="deleteLeaveSettingRule(newLeaveSetting.leaveSetting.id)" *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.leaveSetting.id)"><i
                                             class="bi bi-trash"></i></a>
+                                            <div class="dot-opacity-loader" *ngIf="deleteLeaveTemplateLoader(newLeaveSetting.leaveSetting.id)">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                    
                                 </div>
 
                             </div>
@@ -1199,7 +1205,12 @@
                                         </div>
                                         <div class="modal-footer d-flex align-items-center justify-content-end">
                                             <button type="button" class="btn btn-primary"
-                                                (click)="saveLeaveSettingRules(true)">Submit</button>
+                                                (click)="saveLeaveSettingRules(true)" *ngIf="!submitLeaveLoader">Submit</button>
+                                                <div class="dot-opacity-loader" *ngIf="submitLeaveLoader">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </div>
                                         </div>
                                     </div>
                                     <!-- </div> -->

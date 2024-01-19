@@ -568,13 +568,23 @@ export class LeaveSettingComponent implements OnInit {
    
     }
 
+
+    deleteLeaveTemplateLoader(id: any): boolean {
+      return this.deleteLeaveLoaderStatus[id] || false;
+    }
+
+    deleteLeaveLoaderStatus: { [key: string]: boolean } = {};
+  // deleteLeaveLoader:boolean=false;
   deleteLeaveSettingRule(leaveSettingId: number): void {
+    this.deleteLeaveLoaderStatus[leaveSettingId]=true;
     this.dataService.deleteLeaveSettingRule(leaveSettingId).subscribe(
       () => {
+        this.deleteLeaveLoaderStatus[leaveSettingId]=false;
         this.getFullLeaveSettingInformation();
         this.helperService.showToast("Leave rule deleted successfully.", Key.TOAST_STATUS_SUCCESS);
       },
       (error) => {
+        this.deleteLeaveLoaderStatus[leaveSettingId]=false;
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       }
     );
@@ -586,7 +596,7 @@ export class LeaveSettingComponent implements OnInit {
 
   fullLeaveSettingRuleRequest : FullLeaveSettingRequest = new FullLeaveSettingRequest();
   @ViewChild("requestLeaveCloseModel") requestLeaveCloseModel!:ElementRef;
-  
+  submitLeaveLoader:boolean=false;
 
   saveLeaveSettingRules(flag:boolean) {
     debugger
@@ -606,15 +616,18 @@ export class LeaveSettingComponent implements OnInit {
     // selectedStaffsUuidsUser;
 
     if(flag){
+      this.submitLeaveLoader=true;
     this.dataService
       .registerLeaveSettingRules(this.fullLeaveSettingRuleRequest)
       .subscribe(
         (response) => {
           this.getFullLeaveSettingInformation();
+          this.submitLeaveLoader=false;
           this.requestLeaveCloseModel.nativeElement.click();
           this.helperService.showToast("Leave rules registered successfully", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
+          this.submitLeaveLoader=false;
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );

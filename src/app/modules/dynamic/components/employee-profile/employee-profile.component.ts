@@ -506,17 +506,20 @@ export class EmployeeProfileComponent implements OnInit {
   }
   @ViewChild(FormGroupDirective)
   formGroupDirective!: FormGroupDirective;
+  submitLeaveLoader:boolean=false;
 
   saveLeaveRequestUser() {
     this.userLeaveRequest.managerId = this.selectedManagerId;
     this.userLeaveRequest.dayShift = this.dayShiftToggle;
     this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
+    this.submitLeaveLoader=true;
     // this.userLeaveRequest.halfDayLeave = false;
     this.dataService.saveLeaveRequest(this.userId, this.userLeaveRequest)
       .subscribe(data => {
 
         // console.log(data);
         // console.log(data.body);
+        this.submitLeaveLoader=false;
         this.getUserLeaveReq();
         this.resetUserLeave();
         this.formGroupDirective.resetForm();
@@ -525,6 +528,7 @@ export class EmployeeProfileComponent implements OnInit {
 
         // location.reload();
       }, (error) => {
+        this.submitLeaveLoader=false;
         // console.log(error.body);
       })
   }
@@ -936,15 +940,18 @@ export class EmployeeProfileComponent implements OnInit {
 
   // ########################
 
-
+  InOutLoader:boolean=false;
 
   checkinCheckout(command: string) {
+    this.InOutLoader=true;
     this.dataService.checkinCheckoutInSlack(this.userId, command).subscribe(
       (data) => {
+        this.InOutLoader=false;
         this.getUserAttendanceStatus();
         this.helperService.showToast(data.message, Key.TOAST_STATUS_SUCCESS);
       },
       (error) => {
+        this.InOutLoader=false;
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
 
         // this.getUserAttendanceStatus();
