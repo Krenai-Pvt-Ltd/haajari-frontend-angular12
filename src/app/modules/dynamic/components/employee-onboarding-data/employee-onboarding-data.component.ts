@@ -389,6 +389,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         (response) => {
           // this.requestFlag=true;
           this.getUsersByFiltersFunction();
+          this.getEmpLastApprovedAndLastRejecetdStatus();
+          this.getEmployeesOnboardingStatus();
           // location.reload();
           // this.sendingMailLoader=false;
           this.loadingStatus[userEmail] = false;
