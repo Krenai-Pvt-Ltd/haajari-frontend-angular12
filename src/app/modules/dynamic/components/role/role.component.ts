@@ -44,7 +44,7 @@ isShimmer: boolean = true;
       
     // }
 
-    this.rolesAndSecurity.nativeElement.click();
+    // this.rolesAndSecurity.nativeElement.click();
 
   }
 
@@ -76,6 +76,9 @@ isShimmer: boolean = true;
   selectedUser: any;
 
 
+  routeToAddRole(){
+    this.router.navigate(['/add-role']);
+  }
   // Method to update selectedRole
   selectRole(role: any) {
     this.selectedRole = role;
@@ -196,6 +199,15 @@ isShimmer: boolean = true;
     this.getSubModuleByRoleMethodCall();
     this.helperService.setData(role);
     this.router.navigate(['/add-role']);
+
+  }
+
+  routeToEditRole(role : any){
+    
+    let navExtra : NavigationExtras = {
+      queryParams : {"roleId" : role.id},
+    };
+    this.router.navigate(['/add-role'], navExtra);
 
   }
 

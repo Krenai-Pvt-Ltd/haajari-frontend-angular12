@@ -7,7 +7,7 @@
                    <div class="col-md-3"></div>
                         <div class="col-md-6">
 
-                            <form #addRoleForm="ngForm" ngNativeValidate (ngSubmit)="submitAddRoleForm()">
+                            <form #addRoleForm="ngForm" ngNativeValidate (ngSubmit)="updateRoleWithPermissionsMethodCall()">
 
                                 <div class="name-description">
                                     <div class="">
@@ -21,11 +21,22 @@
                                         <div class="mt-3">
                                             <div class="mb-3">
                                                 <label for="name" class="pb-2">Role Name </label>
-                                                <input type="text" id="name" placeholder="Role name" name="nameF" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="roleRequest.name" required [disabled]="roleRequest.name =='ADMIN' || roleRequest.name == 'MANAGER' || roleRequest.name == 'USER'">
+                                                <input type="text" id="name" placeholder="Role name" name="nameField" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="roleRequest.name"  #nameField="ngModel" required minlength="3" maxlength="50" [disabled]="roleRequest.name =='ADMIN' || roleRequest.name == 'MANAGER' || roleRequest.name == 'USER'">
+                                                <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="text-danger">
+                                                    <div *ngIf="nameField.errors?.required">Role name is required.</div>
+                                                    <div *ngIf="nameField.errors?.minlength">Role name must be at least 3 characters long.</div>
+                                                    <div *ngIf="nameField.errors?.maxlength">Role name cannot exceed 50 characters.</div>
+                                                </div>
+                                            
                                             </div>
                                             <div class="mb-3">
-                                                <label for="name" class="pb-2">Role Description </label>
-                                                <input type="text" id="name" placeholder="Role description" name="nameF" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="roleRequest.description" required>
+                                                <label for="description" class="pb-2">Role Description </label>
+                                                <input type="text" id="description" placeholder="Role description" name="descriptionField" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="roleRequest.description" #descriptionField="ngModel" required minlength="30" maxlength="200">
+                                                <div *ngIf="descriptionField.invalid && (descriptionField.dirty || descriptionField.touched)" class="text-danger">
+                                                    <div *ngIf="descriptionField.errors?.required">Role description is required.</div>
+                                                    <div *ngIf="descriptionField.errors?.minlength">Role description must be at least 30 characters long.</div>
+                                                    <div *ngIf="descriptionField.errors?.maxlength">Role description cannot exceed 200 characters.</div>
+                                                </div>
                                             </div>
     
                                         </div>
@@ -62,16 +73,18 @@
                                                 <div class="mt-3" *ngFor="let roleAccessibilityType of roleAccessibilityTypeList">
                                                     <div class="mb-3">
                                                         <div class="form-check">
-                                                          <input class="form-check-input" type="radio" name="exampleRadios" id="direct1" value="option1" 
-                                                                 [checked]="roleRequest.roleAccessibilityTypeId === roleAccessibilityType.id"
-                                                                 (click)="settingRoleAccessibilityType(roleAccessibilityType.id)">
-                                                          <label class="form-check-label" for="direct1">
+                                                          <input class="form-check-input" type="radio" name="accessOptions" [(ngModel)]="roleRequest.roleAccessibilityTypeId" [value]="roleAccessibilityType.id" id="access{{roleAccessibilityType.id}}"
+                                                                 (click)="settingRoleAccessibilityType(roleAccessibilityType.id)"
+                                                                 >
+                                                          <label class="form-check-label" for="access{{roleAccessibilityType.id}}">
                                                             {{roleAccessibilityType.name}}
                                                             <p class="information">{{roleAccessibilityType.description}}</p>
                                                           </label>
                                                         </div>
                                                       </div>
-            
+                                                </div>
+                                                <div *ngIf="!roleRequest.roleAccessibilityTypeId && addRoleFormSubmitted" class="text-danger">
+                                                    Please select an information access option.
                                                 </div>
                                             </ng-container>
                                         </ng-template>
@@ -311,7 +324,7 @@
                                         <button id="cancel" type="button" class="btn btn-outline-primary" routerLink="/role">Cancel</button>
                                     </div>
                                     <div class="modal-footer d-flex align-items-center justify-content-end">
-                                        <button id="save" type="button" class="btn btn-primary" [disabled]="addRoleForm.invalid" (click)="updateRoleWithPermissionsMethodCall()">
+                                        <button id="save" type="submit" class="btn btn-primary" [disabled]="addRoleForm.invalid">
                                             <ng-container *ngIf="buttonLoader; else saveButton">
                                                 <div *ngIf="buttonLoader" class="dot-opacity-loader">
                                                     <span></span>

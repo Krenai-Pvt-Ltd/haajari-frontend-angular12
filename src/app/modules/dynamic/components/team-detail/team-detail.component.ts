@@ -24,7 +24,6 @@ export class TeamDetailComponent implements OnInit {
         this.teamId = this.activateRoute.snapshot.queryParamMap.get('teamId');
       };
 
-
       this.Settings = {
         singleSelection: false,
         text: 'Select Module',
