@@ -1,36 +1,3 @@
-// import { Pipe, PipeTransform } from '@angular/core';
-
-// @Pipe({
-//   name: 'durationFormat'
-// })
-// export class DurationFormatPipe implements PipeTransform {
-//   transform(duration: string | null): string {
-//     if (duration === null) {
-//       return '   -   ';
-//     }
-
-//     // Split the duration string into parts
-//     const parts = duration.split(', ');
-
-//     // Extract hours, minutes, and seconds
-//     let hours = '';
-//     let minutes = '';
-//     for (const part of parts) {
-//       if (part.endsWith('hours')) {
-//         hours = part.replace(' hours', 'h');
-//       } else if (part.endsWith('minutes')) {
-//         minutes = part.replace(' minutes', 'm');
-//       }
-//     }
-
-//     // Combine hours and minutes
-//     const formattedDuration = `${hours} ${minutes}`;
-
-//     return formattedDuration;
-//   }
-// }
-
-
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
@@ -42,7 +9,15 @@ export class DurationFormatPipe implements PipeTransform {
       return '   -   ';
     }
 
-    // Extract hours, minutes, and seconds from ISO duration
+    // Check if the duration is in ISO 8601 format (PT#H#M)
+    if (duration.startsWith('PT')) {
+      return this.formatIsoDuration(duration);
+    } else {
+      return this.formatSimpleDuration(duration);
+    }
+  }
+
+  private formatIsoDuration(duration: string): string {
     const regex = /PT(-?\d+H)?(-?\d+M)?(-?\d+(\.\d+)?S)?/;
     const matches = duration.match(regex);
 
@@ -52,6 +27,7 @@ export class DurationFormatPipe implements PipeTransform {
     if (matches) {
       const hoursMatch = matches[1];
       const minutesMatch = matches[2];
+      const secondsMatch = matches[3];
 
       if (hoursMatch) {
         hours = hoursMatch.replace('H', 'h ');
@@ -61,9 +37,23 @@ export class DurationFormatPipe implements PipeTransform {
       }
     }
 
-    // Combine hours and minutes
-    const formattedDuration = `${hours}${minutes}`;
+    return `${hours}${minutes}`.trim();
+  }
 
-    return formattedDuration.trim(); // Remove extra spaces if any
+  private formatSimpleDuration(duration: string | null): string {
+
+    if (duration === null) {
+      return '   -   ';
+    }
+
+    const parts = duration.split(':');
+
+    let hours = parts[0];
+    let minutes = parts[1];
+    
+    const formattedDuration = `${hours}:${minutes} hrs.`;
+    
+    return formattedDuration;
   }
 }
+

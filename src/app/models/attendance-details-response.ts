@@ -3,10 +3,19 @@ import { UserDetailsResponse } from "./user-details-response";
 
 export class AttendanceDetailsResponse {
     userDetailsResponse : UserDetailsResponse = new UserDetailsResponse();
+
+    uuid : string = '';
+    name : string = '';
+    email : string = '';
+    image : string = '';
+
     createdDate : string = '';
     createdDay : string = '';
     checkInTime : string = '';
     checkOutTime : string = '';
+    currentStatus: string = '';
+    totalWorkingHours : string = '';
+    totalBreakHours : string = '';
     duration : string = '';
     breakCount : number = 0;
     breakDuration : string = '';

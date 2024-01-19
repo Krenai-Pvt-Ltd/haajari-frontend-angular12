@@ -156,6 +156,8 @@
 input[type="radio"]:hover{
     cursor: pointer;
 }
-
+.role-description-size{
+    height: 75px !important;
+}
 
 

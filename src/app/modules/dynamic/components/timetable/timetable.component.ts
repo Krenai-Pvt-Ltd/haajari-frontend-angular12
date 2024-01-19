@@ -7,6 +7,7 @@ import { AdditionalNotes } from 'src/app/models/additional-notes';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-response';
 import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
 import { Key } from 'src/app/constant/key';
+import { BreakTimings } from 'src/app/models/break-timings';
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 
@@ -157,11 +158,11 @@ export class TimetableComponent implements OnInit {
   checkingUserRoleMethod(): boolean{ 
     this.dataService.checkingUserRole().subscribe((data) => {
       this.flag = data;
-      console.log(data);
+      // console.log(data);
     }, (error) => {
-      console.log(error);
+      // console.log(error);
     })
-    console.log(this.flag);
+    // console.log(this.flag);
     
     return this.flag;
   }
@@ -245,38 +246,58 @@ export class TimetableComponent implements OnInit {
   errorToggleTimetable:boolean=false;
   placeholder:boolean=false;
 
-  
+  isShimmerForAttendanceDetailsResponse : boolean = false;
+  dataNotFoundForAttendanceDetailsResponse : boolean = false;
+  networkConnectionErrorForAttendanceDetailsResposne : boolean = false;
+
+  preRuleForShimmersAndOtherConditionsMethodCall(){
+    this.isShimmerForAttendanceDetailsResponse = true;
+    this.dataNotFoundForAttendanceDetailsResponse = false;
+    this.networkConnectionErrorForAttendanceDetailsResposne = false;
+  }
+
+  attendanceDetailsResponseList : AttendanceDetailsResponse[] = [];
   getAttendanceDetailsReportByDateMethodCall(){
-      window.scroll(0,0);
-      this.isShimer=true;
-      this.errorToggleTimetable=false;
-      this.placeholder=false;
+      // window.scroll(0,0);
+      // this.isShimer=true;
+      // this.errorToggleTimetable=false;
+      // this.placeholder=false;
+      this.preRuleForShimmersAndOtherConditionsMethodCall();
       this.dataService.getAttendanceDetailsReportByDate(this.inputDate, this.pageNumber, this.itemPerPage, this.searchText, 'name', '','', this.filterCriteria).subscribe((response) => {
         debugger
-        const data = response.mapOfObject;
-
-        if(data == null){
-          this.placeholder = true;
-          this.attendanceDataByDateKey = [];
-          this.isShimer=false;
-          return;
-        }
+        this.attendanceDetailsResponseList = response.listOfObject;
+        console.log(this.attendanceDetailsResponseList);
         this.total = response.totalItems;
-        debugger
         this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-        this.attendanceDataByDateKey = Object.keys(data);
-        this.attendanceDataByDateValue = Object.values(data);
+        this.isShimmerForAttendanceDetailsResponse = false;
 
-        if(this.attendanceDataByDateKey!=null){
-          this.placeholder=true;
-        }else{
-          this.placeholder=false;
-        }
 
-        this.attendanceDataByDate = data;
-        this.isShimer=false;
-        console.log(this.attendanceDataByDateKey);
-        console.log(this.attendanceDataByDate);
+
+
+
+        // const data = response.mapOfObject;
+
+        // if(data == null){
+        //   this.placeholder = true;
+        //   this.attendanceDataByDateKey = [];
+        //   this.isShimer=false;
+        //   return;
+        // }
+        // this.total = response.totalItems;
+        // this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+        // this.attendanceDataByDateKey = Object.keys(data);
+        // this.attendanceDataByDateValue = Object.values(data);
+
+        // if(this.attendanceDataByDateKey!=null){
+        //   this.placeholder=true;
+        // }else{
+        //   this.placeholder=false;
+        // }
+
+        // this.attendanceDataByDate = data;
+        // this.isShimer=false;
+        // console.log(this.attendanceDataByDateKey);
+        // console.log(this.attendanceDataByDate);
 
         // for(let i=0; i<this.attendanceDataByDateValue.length; i++){
         //   if(+(this.attendanceDataByDateValue[i].duration[0]) < 7){
@@ -284,15 +305,34 @@ export class TimetableComponent implements OnInit {
         //   }
         // }
 
+        if(this.attendanceDetailsResponseList === undefined || this.attendanceDetailsResponseList === null || this.attendanceDetailsResponseList.length === 0){
+          this.dataNotFoundForAttendanceDetailsResponse = true;
+        }
+
     }, (error) => {
-      this.isShimer=false;
-      this.placeholder=false;
-      this.errorToggleTimetable=true;
+      // this.isShimer=false;
+      // this.placeholder=false;
+      // this.errorToggleTimetable=true;
       debugger
       console.log(error);
+      this.networkConnectionErrorForAttendanceDetailsResposne = true;
     })
 
   }
+
+
+
+  breakTimingsList : BreakTimings[] = [];
+  getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(uuid : string){
+    this.dataService.getAttendanceDetailsBreakTimingsReportByDateByUser(uuid, this.inputDate).subscribe((response) => {
+      this.breakTimingsList = response.object;
+      console.log(this.breakTimingsList);
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+
 
   filterCriteriaList : string[] = ['ALL', 'PRESENT', 'ABSENT', 'HALFDAY'];
 
@@ -302,7 +342,7 @@ export class TimetableComponent implements OnInit {
     this.attendanceDataByDateKey = [];
     this.attendanceDataByDateValue = [];
     this.total = 0;
-    this.isShimer = true;
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
 
     this.getAttendanceDetailsReportByDateMethodCall();
   }
@@ -312,30 +352,30 @@ export class TimetableComponent implements OnInit {
   getActiveUsersCountMethodCall(){
 
     this.dataService.getActiveUsersCount().subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       this.activeUsersCount = data;
     }, (error) => {
-      console.log(error);
+      // console.log(error);
     })
   }
 
   presentUsersCount = 0;
   getPresentUsersCountByDateMethodCall(){
     this.dataService.getPresentUsersCountByDate(this.inputDate).subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       this.presentUsersCount = data;
     }, (error) => {
-      console.log(error);
+      // console.log(error);
     })
   }
 
   absentUsersCount = 0;
   getAbsentUsersCountByDateMethodCall(){
     this.dataService.getAbsentUsersCountByDate(this.inputDate).subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       this.absentUsersCount = data;
     }, (error) => {
-      console.log(error);
+      // console.log(error);
     })
   }
 
@@ -356,23 +396,24 @@ export class TimetableComponent implements OnInit {
 
 // ####################Add Notes#####################
 
-  addNotesModel(){
+  addNotesModel(uuid : string){
     this.additionalNotes = new AdditionalNotes();
+    this.additionalNotesUserUuid = uuid;
   }
 
   additionalNotes : AdditionalNotes = new AdditionalNotes();
-  additionalNotesUserEmail !: string;
+  additionalNotesUserUuid !: string;
 
   @ViewChild('addNotesModalClose') addNotesModalClose !: ElementRef; 
 
   addAdditionalNotesMethodCall(){
     this.additionalNotes.createdDate = this.inputDate;
-    this.dataService.addAdditionalNotes(this.additionalNotes, this.additionalNotesUserEmail).subscribe((data) => {
-      console.log(data);
+    this.dataService.addAdditionalNotes(this.additionalNotes, this.additionalNotesUserUuid).subscribe((data) => {
+      // console.log(data);
       this.addNotesModalClose.nativeElement.click();
       this.helperService.showToast("Notes Added Successfully", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
-      console.log(error);
+      // console.log(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
@@ -467,39 +508,40 @@ export class TimetableComponent implements OnInit {
 
   // ############View Logs#################
 
-  viewLogsAttendanceDataEmail : string = '';
-  viewLogsAttendanceDataValue : AttendenceDto = new AttendenceDto();
-  viewLogs(key : string, value: AttendenceDto){
-    this.preRuleForShimmersAndErrorPlaceholdersMethodCall()
-    this.attendanceLogResponseList = [];
-    this.viewLogsAttendanceDataEmail = key;
-    this.viewLogsAttendanceDataValue = value;
-    this.getAttendanceLogsMethodCall();
-  }
+  
 
 
+  isShimmer = false;
+  dataNotFoundPlaceholder = false;
+  networkConnectionErrorPlaceHolder = false;
   preRuleForShimmersAndErrorPlaceholdersMethodCall(){
     this.isShimmer = true;
     this.dataNotFoundPlaceholder = false;
     this.networkConnectionErrorPlaceHolder = false;
   }
 
-  isShimmer = false;
-  dataNotFoundPlaceholder = false;
-  networkConnectionErrorPlaceHolder = false;
+  userUuidToViewLogs : string = '';
+  viewLogs(uuid : string){
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCall()
+    this.attendanceLogResponseList = [];
+    this.userUuidToViewLogs = uuid;
+    this.getAttendanceLogsMethodCall();
+  }
+
+  
   attendanceLogShimmerFlag:boolean=false;
   dataNotFoundFlagForAttendanceLog:boolean=false;
   networkConnectionErrorFlagForAttendanceLog:boolean=false;
   attendanceLogResponseList : AttendanceLogResponse[] = [];
   getAttendanceLogsMethodCall(){
-    this.dataService.getAttendanceLogs(this.viewLogsAttendanceDataEmail, this.inputDate).subscribe((response) => {
+    this.dataService.getAttendanceLogs(this.userUuidToViewLogs, this.inputDate).subscribe((response) => {
       this.attendanceLogResponseList = response;
-      console.log(response);
+      // console.log(response);
       if(response === undefined || response === null || response.length === 0){
         this.dataNotFoundPlaceholder = true;
       }
     }, (error) => {
-      console.log(error);
+      // console.log(error);
       this.networkConnectionErrorPlaceHolder = true;
     })
   }
