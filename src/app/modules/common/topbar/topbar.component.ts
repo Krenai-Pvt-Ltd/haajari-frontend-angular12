@@ -58,6 +58,10 @@ export class TopbarComponent implements OnInit {
       routeValue = "Salary Setting";
     }
 
+    if(routeValue.includes("add-role?roleId")){
+      routeValue = "Edit Role";
+    }
+
     this.topbarValue = this.capitalizeFirstLetter(routeValue);
   }
 

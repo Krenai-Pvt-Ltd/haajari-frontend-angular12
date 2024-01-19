@@ -21,7 +21,7 @@
                                         <div class="mt-3">
                                             <div class="mb-3">
                                                 <label for="name" class="pb-2">Role Name </label>
-                                                <input type="text" id="name" placeholder="Role name" name="nameField" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="roleRequest.name"  #nameField="ngModel" required minlength="3" maxlength="50" [disabled]="roleRequest.name =='ADMIN' || roleRequest.name == 'MANAGER' || roleRequest.name == 'USER'">
+                                                <input type="text" id="name" placeholder="Enter the role name here" name="nameField" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="roleRequest.name"  #nameField="ngModel" required minlength="3" maxlength="50" [disabled]="roleRequest.name =='ADMIN' || roleRequest.name == 'MANAGER' || roleRequest.name == 'USER'">
                                                 <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="text-danger">
                                                     <div *ngIf="nameField.errors?.required">Role name is required.</div>
                                                     <div *ngIf="nameField.errors?.minlength">Role name must be at least 3 characters long.</div>
@@ -30,14 +30,15 @@
                                             
                                             </div>
                                             <div class="mb-3">
-                                                <label for="description" class="pb-2">Role Description </label>
-                                                <input type="text" id="description" placeholder="Role description" name="descriptionField" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="roleRequest.description" #descriptionField="ngModel" required minlength="30" maxlength="200">
+                                                <label for="description" class="pb-2">Role Description</label>
+                                                <textarea id="description" placeholder="Enter a short description about the role here" name="descriptionField" class="form-control ng-untouched ng-pristine ng-invalid role-description-size" [(ngModel)]="roleRequest.description" #descriptionField="ngModel" required minlength="30" maxlength="200"></textarea>
                                                 <div *ngIf="descriptionField.invalid && (descriptionField.dirty || descriptionField.touched)" class="text-danger">
                                                     <div *ngIf="descriptionField.errors?.required">Role description is required.</div>
                                                     <div *ngIf="descriptionField.errors?.minlength">Role description must be at least 30 characters long.</div>
                                                     <div *ngIf="descriptionField.errors?.maxlength">Role description cannot exceed 200 characters.</div>
                                                 </div>
                                             </div>
+                                            
     
                                         </div>
                                     </div>

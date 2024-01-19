@@ -119,6 +119,7 @@ export class Key{
 
 
     public static VIEW_ALL = "View All";
+    public static VIEW_LESS = "View Less";
 
 
 

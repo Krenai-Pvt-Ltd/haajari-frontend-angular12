@@ -48,6 +48,16 @@ isShimmer: boolean = true;
 
   }
 
+  ngAfterViewInit() {
+    if(this.helperService.getRoleSectionTab()){
+      this.rolesAndSecurityActiveTabMethod();
+    }
+
+    this.helperService.setRoleSectionTab(false);
+    
+  }
+
+
 
   isShimmerForUserAndControl = false;
   dataNotFoundPlaceholderForUserAndControl = false;
@@ -71,14 +81,15 @@ isShimmer: boolean = true;
 
 
   @ViewChild("rolesAndSecurity") rolesAndSecurity !: ElementRef;
+  rolesAndSecurityActiveTabMethod(){
+    this.rolesAndSecurity.nativeElement.click();
+  }
 
   selectedRole: any;
   selectedUser: any;
 
 
-  routeToAddRole(){
-    this.router.navigate(['/add-role']);
-  }
+
   // Method to update selectedRole
   selectRole(role: any) {
     this.selectedRole = role;
@@ -207,7 +218,7 @@ isShimmer: boolean = true;
   routeToEditRole(role : any){
     
     let navExtra : NavigationExtras = {
-      queryParams : {"roleId" : role.id},
+      queryParams : {"roleId" : role.id}
     };
     this.router.navigate(['/add-role'], navExtra);
 

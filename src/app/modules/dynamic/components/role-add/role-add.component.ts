@@ -30,6 +30,8 @@ export class RoleAddComponent implements OnInit {
       debugger
       this.roleRequest.id = +roleIdParam;
     }
+
+    this.helperService.setRoleSectionTab(true);
     this.getRoleByIdMethodCall();
     this.getSubModuleByRoleMethodCall();
     this.getAllRoleAccessibilityTypeMethodCall();
