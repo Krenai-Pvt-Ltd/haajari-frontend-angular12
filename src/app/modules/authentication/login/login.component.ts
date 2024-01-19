@@ -55,5 +55,24 @@ password: any;
 
   }
 
+  ngAfterViewInit(){
+    this.autoplayVideo();
+  }
+
+  autoplayVideo(){
+
+    var div= document.getElementById("videoId");
+    if(div){
+    
+     
+
+        //@ts-ignore
+        div!.muted = true;
+  //@ts-ignore
+        div.autoplay=true;
+         //@ts-ignore
+      div!.play();
+    } 
+  }
 
 }

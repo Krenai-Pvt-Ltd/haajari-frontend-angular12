@@ -39,6 +39,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     approvedResponse = 'APPROVED';
     rejectedResponse = 'REJECTED';
     requestedResponse = 'REQUESTED';
+    newUserResponse = 'NEW_USER';
   
     searchCriteria: string = '';
   
@@ -81,14 +82,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           (response: any) => {
             this.users = response.users;
             this.total = response.count;
-            console.log(this.users);
             if (this.users == null) {
               this.users = [];
             }
-            if (this.total == null) {
+            if (this.users.length == 0) {
               this.placeholder = true;
-              this.errorToggleTop = false;
-              this.searchUserPlaceholderFlag=false;
+              // this.errorToggleTop = false;
+              // this.searchUserPlaceholderFlag=true;
             } else {
             }
   
@@ -97,14 +97,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           (error) => {
             this.isUserShimer = false;
             this.errorToggleTop = true;
-            console.log(error);
-            const res = document.getElementById(
-              'error-page'
-            ) as HTMLElement | null;
+            // const res = document.getElementById(
+            //   'error-page'
+            // ) as HTMLElement | null;
   
-            if (res) {
-              res.style.display = 'block';
-            }
+            // if (res) {
+            //   res.style.display = 'block';
+            // }
           }
         );
     }
@@ -114,17 +113,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       debugger
       this.dataService.changeStatusById(presenceStatus, uuid).subscribe(
         (data) => {
-          console.log(data);
-          console.log('====================');
           // location.reload();
           this.getUsersByFiltersFunction();
           // this.helperService.showToast("User disabled");
         },
         (error) => {
-          console.log(error);
           this.getUsersByFiltersFunction();
           // location.reload();
-          console.log('-------------------------------');
         }
       );
     }
@@ -137,8 +132,16 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     selectedStatus: string | null = null;
   
   selectStatus(status: string) {
+    if(status=='ALL'){
+      this.selectedStatus = '';
+      this.searchUsers('any');
+    }else{
     this.selectedStatus = status;
     this.searchUsers(status);
+    }
+    this.search = ''; // Clear the search box text
+    this.crossFlag=false;
+   
   }
   
     searchText: string = '';
@@ -153,7 +156,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
     searchUsers(searchString: string) {
       this.crossFlag = true;
-      this.searchUserPlaceholderFlag=true;
+      // this.searchUserPlaceholderFlag=true;
       if (searchString === 'any') {
         this.searchText = this.search;
         this.searchCriteria = '';
@@ -173,18 +176,20 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       // }
     }
 
-    reloadPage() {
-      location.reload();
-    }
-
     // reloadPage() {
-    //   this.search='';
-    //   this.searchText;
-    //   this.searchCriteria = '';
-    //   this.getUsersByFiltersFunction();
-    //   this.crossFlag = false;
     //   location.reload();
     // }
+
+    reloadPage() {
+      this.search='';
+      this.searchText = '';
+      this.searchCriteria = '';
+      this.pageNumber = 1;
+      this.itemPerPage = 12;
+      this.getUsersByFiltersFunction();
+      this.crossFlag = false;
+      // location.reload();
+    }
     
     
     // searchUsers(searchString:string) {
@@ -251,14 +256,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       debugger;
       this.dataService.getEmployeesStatus().subscribe(
         (data) => {
-          console.log(data);
           this.verificationCount = data;
   
-          console.log('====================');
         },
         (error) => {
-          console.log(error);
-          console.log('-------------------------------');
         }
       );
     }
@@ -269,17 +270,38 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     // lastRejected: User[] = [];
   
     isPendingShimmer:Boolean=false;
+    networkConnectionErrorPlaceHolder:boolean=false;
+    dataNotFoundPlaceHolderForLastApproved = false;
+    dataNotFoundPlaceHolderForLastRejected = false;
+    dataNotFoundPlaceHolderForLast3PendingUsers = false;
+
+    preMethodCallForShimmersAndOtherConditions(){
+      this.isPendingShimmer=true;
+      this.networkConnectionErrorPlaceHolder=false;
+    }
   
     getEmpLastApprovedAndLastRejecetdStatus() {
-      this.isPendingShimmer=true;
+      this.preMethodCallForShimmersAndOtherConditions();
+      // this.isPendingShimmer=true;
       debugger;
       this.dataService.getLastApprovedAndLastRejecetd().subscribe(
         (data) => {
-          console.log(data);
           this.employeeStatus = data;
           this.isPendingShimmer=false;
+
+          if(data.lastApprovedUser === undefined || data.lastApprovedUser === null){
+            this.dataNotFoundPlaceHolderForLastApproved = true;
+          }
+
+          if(data.lastRejectedUser === undefined || data.lastRejectedUser === null){
+            this.dataNotFoundPlaceHolderForLastRejected = true;
+          }
+
+          if(data.last3PendingUsers.length==0){
+            this.dataNotFoundPlaceHolderForLast3PendingUsers = true;
+          }
   
-          console.log(this.employeeStatus);
+          // this.networkConnectionErrorPlaceHolder=false;
           // if(this.employeeStatus!=null){
           //  this.lastApproved= this.employeeStatus.lastApprovedUser;
           //  this.lastRejected= this.employeeStatus.lastRejectedUser;
@@ -288,7 +310,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           // console.log(this.lastRejected);
         },
         (error) => {
-          console.log(error);
+          this.isPendingShimmer=false;
+          this.networkConnectionErrorPlaceHolder=true;
         }
   
       );
@@ -309,7 +332,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
       .subscribe(
         (response: UserPersonalInformationRequest) => {
-            console.log(response); 
             this.toggle = false; 
   
             // Check if the response indicates the email already exists
@@ -344,6 +366,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.closeInviteModal.nativeElement.click();
     }
 
+    loadingDeleteUser: { [key: string]: boolean } = {};
+    disableUserLoader(user: any): boolean {
+      return this.loadingDeleteUser[user.id] || false;
+    }
+
     sendingMailLoaderForUser(user: any): boolean {
       return this.loadingStatus[user.email] || false;
     }
@@ -357,12 +384,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       debugger
       const userEmail = user.email;
       this.loadingStatus[userEmail] = true;
-      console.log(userEmail + "userEmail")
       this.dataService.sendMailToEmployeesToCompleteOnboarding(userEmail)
       .subscribe(
         (response) => {
           // this.requestFlag=true;
-          console.log(response); 
           this.getUsersByFiltersFunction();
           // location.reload();
           // this.sendingMailLoader=false;
@@ -388,15 +413,21 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   disableUser(userId:number) {
+    this.loadingDeleteUser[userId]=true;
     debugger
     this.dataService.disableUserFromDashboard(userId).subscribe(
       (data) => {
-        console.log("user removed");
+        if(this.users.length==1){
+          this.pageNumber=this.pageNumber-1;
+        }
+        this.loadingDeleteUser[userId]=false;
+        this.getEmployeesOnboardingStatus();
         this.getUsersByFiltersFunction();
+        this.getEmpLastApprovedAndLastRejecetdStatus();
         this.helperService.showToast("User Removed Successfully.",Key.TOAST_STATUS_SUCCESS)
       },
       (error) => {
-        console.log(error);
+        this.loadingDeleteUser[userId]=false;
         this.helperService.showToast(error.message,Key.TOAST_STATUS_ERROR)
 
       }
