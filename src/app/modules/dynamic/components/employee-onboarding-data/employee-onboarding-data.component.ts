@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Key } from 'src/app/constant/key';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { Users } from 'src/app/models/users';
@@ -435,5 +435,29 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       }
     );
   }
+
+  // currentUserId: number | null = null;
+
+  // deleteConfirmationModalRef!: NgbModalRef;
+
+  // @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
+
+  // openDeleteConfirmationModal(userId: number) {
+  //   this.currentUserId = userId;
+  //   this.deleteConfirmationModalRef = this.modalService.open(this.deleteConfirmationModal);
+  // }
+
+  // deleteUser() {
+  //   if (this.currentUserId !== null) {
+  //     this.disableUser(this.currentUserId);
+  //     this.modalService.dismissAll();
+  //     this.currentUserId = null;
+  //   }
+  // }
+  
+  // dismissModal() {
+  //   this.modalService.dismissAll();
+  // }
+  
     
 }
