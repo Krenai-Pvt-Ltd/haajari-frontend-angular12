@@ -90,7 +90,11 @@ export class EmployeeProfileComponent implements OnInit {
   userId: any;
   newDate: string = ''
   count: number = 0;
+
+  currentDate: Date = new Date();
+  currentNewDate: any;
   ngOnInit(): void {
+    this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
     this.getUserAttendanceStatus();
     this.getOrganizationOnboardingDateByUuid();
     let date = new Date();
@@ -976,12 +980,6 @@ export class EmployeeProfileComponent implements OnInit {
       }
     );
   }
-
-
-
-  
-
-
 
 
 }

@@ -1020,9 +1020,9 @@ export class LeaveSettingComponent implements OnInit {
     nextYearDate.setFullYear(nextYearDate.getFullYear() + 1);
 
     this.leaveSettingResponse.yearlyCycleEnd = new Date(nextYearDate);
-    console.log('oldFormat-----'+this.leaveSettingResponse.yearlyCycleEnd)
+    // console.log('oldFormat-----'+this.leaveSettingResponse.yearlyCycleEnd)
     this.leaveSettingResponse.yearlyCycleEnd = moment(this.leaveSettingResponse.yearlyCycleEnd).format('yyyy-MM-DD')
-    console.log('new Format-----'+this.leaveSettingResponse.yearlyCycleEnd)
+    // console.log('new Format-----'+this.leaveSettingResponse.yearlyCycleEnd)
 }
 
   
