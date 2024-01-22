@@ -366,10 +366,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.closeInviteModal.nativeElement.click();
     }
 
-    loadingDeleteUser: { [key: string]: boolean } = {};
-    disableUserLoader(user: any): boolean {
-      return this.loadingDeleteUser[user.id] || false;
-    }
+    // loadingDeleteUser: { [key: string]: boolean } = {};
+    // disableUserLoader(user: any): boolean {
+    //   return this.loadingDeleteUser[user.id] || false;
+    // }
 
     sendingMailLoaderForUser(user: any): boolean {
       return this.loadingStatus[user.email] || false;
@@ -414,46 +414,52 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     }
   }
 
+  disableUserLoader:boolean=false;
   disableUser(userId:number) {
-    this.loadingDeleteUser[userId]=true;
+    this.disableUserLoader=true;
     debugger
     this.dataService.disableUserFromDashboard(userId).subscribe(
       (data) => {
         if(this.users.length==1){
           this.pageNumber=this.pageNumber-1;
         }
-        this.loadingDeleteUser[userId]=false;
+        this.disableUserLoader=false;
         this.getEmployeesOnboardingStatus();
         this.getUsersByFiltersFunction();
         this.getEmpLastApprovedAndLastRejecetdStatus();
+        this.deleteConfirmationModal.nativeElement.click();
         this.helperService.showToast("User Removed Successfully.",Key.TOAST_STATUS_SUCCESS)
       },
       (error) => {
-        this.loadingDeleteUser[userId]=false;
+        this.disableUserLoader=false;
         this.helperService.showToast(error.message,Key.TOAST_STATUS_ERROR)
 
       }
     );
   }
 
-  // currentUserId: number | null = null;
+  currentUserId: number | null = null;
 
   // deleteConfirmationModalRef!: NgbModalRef;
 
-  // @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
+  @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
 
-  // openDeleteConfirmationModal(userId: number) {
-  //   this.currentUserId = userId;
-  //   this.deleteConfirmationModalRef = this.modalService.open(this.deleteConfirmationModal);
-  // }
+  openDeleteConfirmationModal(userId: number) {
+    this.currentUserId = userId;
+    // this.deleteConfirmationModalRef = this.modalService.open(this.deleteConfirmationModal);
+  }
 
-  // deleteUser() {
-  //   if (this.currentUserId !== null) {
-  //     this.disableUser(this.currentUserId);
-  //     this.modalService.dismissAll();
-  //     this.currentUserId = null;
-  //   }
-  // }
+  deleteUser() {
+    if (this.currentUserId !== null) {
+      this.disableUser(this.currentUserId);
+      // this.modalService.dismissAll();
+      this.currentUserId = null;
+    }
+  }
+
+  closeDeleteModal() { 
+    this.deleteConfirmationModal.nativeElement.click();
+  }
   
   // dismissModal() {
   //   this.modalService.dismissAll();
