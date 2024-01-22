@@ -22,6 +22,9 @@ import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
 import { EmployeeOnboardingSidebarComponent } from './employee-onboarding-sidebar/employee-onboarding-sidebar.component';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { NumberToWordsPipe } from 'src/app/pipe/NumberToWordPipe';
+
 
 
 @NgModule({
@@ -36,7 +39,9 @@ import { EmployeeOnboardingSidebarComponent } from './employee-onboarding-sideba
          EmergencyContactComponent,
          EmployeeOnboardingPreviewComponent,
          EmployeeOnboardingComponent,
-         EmployeeOnboardingSidebarComponent
+         EmployeeOnboardingSidebarComponent,
+         NumberToWordsPipe
+         
   ],
   imports: [
     RouterModule,
@@ -44,6 +49,7 @@ import { EmployeeOnboardingSidebarComponent } from './employee-onboarding-sideba
     FormsModule,
     ReactiveFormsModule,
     EmployeeOnboardingRoutingModule,
+    GooglePlaceModule,
     SharedModule,
     AngularFireModule.initializeApp(environment.firebase, "cloud"),
     AngularFireStorageModule,

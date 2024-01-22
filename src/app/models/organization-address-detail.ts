@@ -10,6 +10,8 @@ export class OrganizationAddressDetail {
     country: string = '';
     latitude: string = '';
     longitude: string = '';
+    radius: string = '';
+    attendanceMode: number = 0;
 
     // constructor(
     //     id?: number,

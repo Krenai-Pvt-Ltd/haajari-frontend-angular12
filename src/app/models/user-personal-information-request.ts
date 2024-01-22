@@ -20,4 +20,5 @@ export class UserPersonalInformationRequest {
         employeeOnboardingStatus!: EmployeeOnboardingStatus;
         employeeOnboardingFormStatus!: EmployeeOnboardingFormStatus;
         statusId!: number;
+        directSave!: boolean;
 }

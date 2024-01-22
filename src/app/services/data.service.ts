@@ -29,6 +29,9 @@ import { FullLeaveSettingRequest } from "../models/Full-Leave-Setting-Request";
 import { Testing } from "../models/testing";
 import { ShiftTimings } from "../models/shifttimings";
 import { OrganizationAddressDetail } from "../models/organization-address-detail";
+import { EmployeeAttendanceLocation } from "../models/employee-attendance-location";
+import { OnboardingSidebarResponse } from "../models/onboarding-sidebar-response";
+import { ReasonOfRejectionProfile } from "../models/reason-of-rejection-profile";
 
 
 @Injectable({
@@ -1077,6 +1080,21 @@ stepIndex:number=-1;
     return this.httpClient.get<any>(`${this.baseUrl}/role/get-all-accessibility-type`, {});
   }
 
+  getOrganizationLatLong(userUuid: string):Observable<any> {
+    const url = `${this.baseUrl}/user-verification/address/latlong?userUuid=${userUuid}`;
+    return this.httpClient.get<any>(url, {});
+  }
+
+  markAttendaceWithLocation(employeeAttendanceLocation :EmployeeAttendanceLocation, userUuid: string): Observable<any>{
+    return this.httpClient.post<any>(`${this.baseUrl}/attendance/check-in-location?userUuid=${userUuid}`, employeeAttendanceLocation);
+
+  }
+
+  getEmployeeStatus(userUuid: string): Observable<OnboardingSidebarResponse> {
+    const url = `${this.baseUrl}/sidebar-component/get-onboarding-status?userUuid=${userUuid}`;
+    return this.httpClient.get<OnboardingSidebarResponse>(url, {});
+  }
+  
   getRoleById(roleId: number): Observable<any>{
     const params = new HttpParams()
     .set("role_id", roleId);
@@ -1084,5 +1102,9 @@ stepIndex:number=-1;
     return this.httpClient.get<any>(`${this.baseUrl}/role/get-by-id`, {params});
   }
 
+  setReasonOfRejection(userUuid: string, reasonOfRejectionProfile: ReasonOfRejectionProfile): Observable<any> {
+    const url = `${this.baseUrl}/employee-onboarding-status/save-rejection-reason?userUuid=${userUuid}`;
+    return this.httpClient.put<any>(url, reasonOfRejectionProfile);
+}
 
 }

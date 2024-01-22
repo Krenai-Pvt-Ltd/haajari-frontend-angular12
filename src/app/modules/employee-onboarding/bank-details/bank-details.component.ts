@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { UserBankDetailRequest } from 'src/app/models/user-bank-detail-request';
 import { DataService } from 'src/app/services/data.service';
@@ -32,8 +32,13 @@ export class BankDetailsComponent implements OnInit {
 
   userBankDetailsStatus = "";
   toggle = false;
+  toggleSave = false;
   setEmployeeBankDetailsMethodCall() {
-    this.toggle = true;
+    if(this.buttonType=='next'){
+      this.toggle = true;
+    } else if (this.buttonType=='save'){
+      this.toggleSave = true;
+    }
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     
     this.dataService.setEmployeeBankDetails(this.userBankDetailRequest, userUuid)
@@ -41,7 +46,21 @@ export class BankDetailsComponent implements OnInit {
         (response: UserBankDetailRequest) => {
           console.log(response);  
           this.dataService.markStepAsCompleted(response.statusId);
+          this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
+       
+        if(this.buttonType=='next'){
           this.routeToUserDetails();
+        } else if (this.buttonType=='save'){
+          this.handleOnboardingStatus(response.employeeOnboardingStatus);
+          if(this.employeeOnboardingFormStatus!='REJECTED'){
+            this.successMessageModalButton.nativeElement.click();
+          }
+          setTimeout(() => {
+            
+            this.routeToFormPreview();  
+          }, 2000);
+        }
+        
           this.userBankDetailsStatus = response.statusResponse;
           this.toggle = false;
           // localStorage.setItem('statusResponse', JSON.stringify(this.userBankDetailsStatus));
@@ -53,7 +72,11 @@ export class BankDetailsComponent implements OnInit {
         }
       );
   }
+
+  isNewUser: boolean = true;
   isLoading:boolean = true;
+  employeeOnboardingFormStatus:string|null=null;
+@ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
   getEmployeeBankDetailsMethodCall() {
     debugger
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
@@ -66,6 +89,16 @@ export class BankDetailsComponent implements OnInit {
             this.userBankDetailRequest = response;
             
           }
+          this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
+          if(response.employeeOnboardingStatus == "PENDING"){
+            this.isNewUser = false;
+          }
+          if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
+            this.successMessageModalButton.nativeElement.click();
+          }
+          this.handleOnboardingStatus(response.employeeOnboardingStatus);
+
+         
           this.isLoading = false;
         },
         (error: any) => {
@@ -78,4 +111,63 @@ export class BankDetailsComponent implements OnInit {
       
     }
   } 
+
+  @ViewChild("formSubmitButton") formSubmitButton!:ElementRef;
+
+buttonType:string="next"
+selectButtonType(type:string){
+  debugger
+  this.buttonType=type;
+  this.userBankDetailRequest.directSave = false;
+  this.formSubmitButton.nativeElement.click();
+}
+
+directSave: boolean = false;
+
+submit(){
+  debugger
+switch(this.buttonType){
+  case "next" :{
+    this.setEmployeeBankDetailsMethodCall();
+    break;
+  }
+  case "save" :{
+    debugger
+    this.userBankDetailRequest.directSave = true;
+    this.setEmployeeBankDetailsMethodCall();
+    break;
+  }
+}
+}
+@ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
+routeToFormPreview() {
+  this.dismissSuccessModalButton.nativeElement.click();
+  setTimeout(x=>{
+  let navExtra: NavigationExtras = {
+    
+    queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+  };
+  this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
+},2000)
+}
+
+displayModal = false;
+  allowEdit = false;
+
+  handleOnboardingStatus(response: string) {
+    this.displayModal = true;
+    switch (response) {
+      
+      case 'REJECTED':
+        this.allowEdit = true;
+        break;
+        case 'APPROVED':
+      case 'PENDING':
+        this.allowEdit = false;
+        break;
+      default:
+        this.displayModal = false;
+        break;
+    }
+  }
 }
