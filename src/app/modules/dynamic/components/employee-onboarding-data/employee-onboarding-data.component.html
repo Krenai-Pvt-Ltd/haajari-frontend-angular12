@@ -563,7 +563,11 @@
                                                                 class="link-primary text-decoration-underline"
                                                                 (click)="routeToUserDetails(user.uuid)">View</a>
 
-                                                            <a style="cursor: pointer; color:red" class="delete-rule"
+                                                            <!-- <a style="cursor: pointer; color:red" class="delete-rule" (click)="openDeleteConfirmationModal(user.id)"
+                                                                ><i
+                                                                    class="bi bi-trash"></i></a> -->
+
+                                                            <a style="cursor: pointer; color:red" class="delete-rule" 
                                                                 (click)="disableUser(user.id)" *ngIf="!disableUserLoader(user)"><i
                                                                     class="bi bi-trash"></i></a>
                                                             
@@ -828,3 +832,23 @@
             </div><!--end modal-->
         </div>
     </form>
+
+    <!-- <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteConfirmationModalLabel">Delete Confirmation</h5>
+              <button type="button" class="close" (click)="dismissModal()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you want to delete this data?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="dismissModal()">Cancel</button>
+              <button type="button" class="btn btn-danger" (click)="deleteUser()">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div> -->

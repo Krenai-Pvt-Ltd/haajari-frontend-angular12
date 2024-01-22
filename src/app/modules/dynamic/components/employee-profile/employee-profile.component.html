@@ -1606,7 +1606,7 @@
                             <label for="username" style="padding-bottom: 6px">Pick a starting date</label>
                             <input type="date" id="username" placeholder="Enter title ..." required=""
                                 class="form-control ng-untouched ng-pristine ng-invalid" formControlName="startDate"
-                                [(ngModel)]="userLeaveRequest.startDate" />
+                                [(ngModel)]="userLeaveRequest.startDate" [min]="currentNewDate"/>
                             <div class="form-text text-danger"
                                 *ngIf="StartDate?.errors?.['required'] && (StartDate?.touched || StartDate?.dirty)">
                                 Start Date is Required.
