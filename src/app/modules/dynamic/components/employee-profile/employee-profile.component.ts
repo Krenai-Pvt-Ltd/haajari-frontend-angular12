@@ -29,6 +29,8 @@ import { constant } from 'src/app/constant/constant';
 export class EmployeeProfileComponent implements OnInit {
   userAddressDetailsRequest: UserAddressDetailsRequest = new UserAddressDetailsRequest();
   userLeaveForm!: FormGroup;
+  @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
+
   constructor(
     private dataService: DataService,
     private datePipe: DatePipe,
@@ -120,7 +122,7 @@ export class EmployeeProfileComponent implements OnInit {
   prevDate!: Date;
 
   getOrganizationOnboardingDateByUuid() {
-    debugger
+    
     this.dataService.getOrganizationOnboardingDate(this.userId).subscribe(
       (data) => {
         this.prevDate = data;
@@ -140,7 +142,6 @@ export class EmployeeProfileComponent implements OnInit {
   isImage:boolean=false;
 
   getUserByUuid() {
-    debugger
     this.dataService.getUserByUuid(this.userId).subscribe(
       (data) => {
         this.user = data;
@@ -236,7 +237,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
 
-    debugger;
+    debugger
     this.dataService
       .getUserAttendanceDetailsByDateDuration(
         this.userId,
@@ -338,7 +339,7 @@ export class EmployeeProfileComponent implements OnInit {
           var flag = false;
           if (!flag) {
             var date = new Date(this.prevDate);
-            const calendarApi = this.calendarComponent?.getApi();
+            const calendarApi = this.calendarComponent.getApi();
             this.changeForwardButtonVisibilty(calendarApi);
             flag = true;
           }
@@ -362,7 +363,6 @@ export class EmployeeProfileComponent implements OnInit {
 
   forwordFlag: boolean = false;
 
-  @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
   goforward() {
     debugger
     const calendarApi = this.calendarComponent.getApi();
@@ -541,7 +541,6 @@ export class EmployeeProfileComponent implements OnInit {
   eveningShiftToggle: boolean = false;
 
   dayShiftToggleFun(shift: string) {
-    debugger
 
     if (shift == 'day') {
       this.dayShiftToggle = true;
@@ -781,7 +780,7 @@ export class EmployeeProfileComponent implements OnInit {
   contactsEmployee: any;
   isContactPlaceholder: boolean = false;
   getEmployeeContactsDetailsByUuid() {
-    debugger
+    
     this.dataService.getEmployeeContactsDetails(this.userId).subscribe(
       (data) => {
         this.contactsEmployee = data;
@@ -829,7 +828,6 @@ export class EmployeeProfileComponent implements OnInit {
   // isDocumentsShimmer:boolean=false;
   getEmployeeDocumentsDetailsByUuid() {
     // this.isDocumentsShimmer=true;
-    debugger
     this.dataService.getEmployeeDocumentsDetails(this.userId).subscribe(
       (data) => {
         this.documentsEmployee = data.userDocuments;
@@ -879,7 +877,6 @@ export class EmployeeProfileComponent implements OnInit {
     } else if (viewString == "testimonial") {
       this.previewString = this.testimonialsString;
     }
-    debugger
     this.openViewModal.nativeElement.click();
   }
 
@@ -969,7 +966,6 @@ export class EmployeeProfileComponent implements OnInit {
   status: string = '';
 
   getUserAttendanceStatus() {
-    debugger
     this.dataService.checkinCheckoutStatus(this.userId).subscribe(
       (data) => {
         this.status = data.result;
