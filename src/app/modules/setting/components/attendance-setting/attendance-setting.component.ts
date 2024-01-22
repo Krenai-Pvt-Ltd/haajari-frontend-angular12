@@ -964,7 +964,7 @@ unselectAllUsers() {
       console.log(entry);
       
       if (entry.types?.[0] === "route") {
-        this.organizationAddressDetail.addressLine1 = entry.long_name + ",";
+        this.organizationAddressDetail.addressLine2 = entry.long_name + ",";
       }
       if (entry.types?.[0] === "sublocality_level_1") {
         this.organizationAddressDetail.addressLine2 = this.organizationAddressDetail.addressLine2 + entry.long_name

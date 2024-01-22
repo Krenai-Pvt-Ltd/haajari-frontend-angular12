@@ -3,7 +3,6 @@ import { NavigationExtras, Router } from '@angular/router';
 import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
 import { UserExperience } from 'src/app/models/user-experience';
-import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -19,12 +18,13 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
     this.getOnboardingFormPreviewMethodCall();
   }
 
-  routeToUserDetails() {
+  routeToUserDetails(routePath: string) {
     let navExtra: NavigationExtras = {
-      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+        queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
     };
-    this.router.navigate(['/employee-onboarding/employee-onboarding-form'], navExtra);
-  }
+    this.router.navigate([routePath], navExtra);
+}
+
 
   secondarySchoolCertificateFileName: string = '';
   highSchoolCertificateFileName1: string = '';

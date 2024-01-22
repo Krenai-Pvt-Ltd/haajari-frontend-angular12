@@ -30,6 +30,8 @@ import { Testing } from "../models/testing";
 import { ShiftTimings } from "../models/shifttimings";
 import { OrganizationAddressDetail } from "../models/organization-address-detail";
 import { EmployeeAttendanceLocation } from "../models/employee-attendance-location";
+import { OnboardingSidebarResponse } from "../models/onboarding-sidebar-response";
+import { ReasonOfRejectionProfile } from "../models/reason-of-rejection-profile";
 
 
 @Injectable({
@@ -1083,4 +1085,15 @@ stepIndex:number=-1;
     return this.httpClient.post<any>(`${this.baseUrl}/attendance/check-in-location?userUuid=${userUuid}`, employeeAttendanceLocation);
 
   }
+
+  getEmployeeStatus(userUuid: string): Observable<OnboardingSidebarResponse> {
+    const url = `${this.baseUrl}/sidebar-component/get-onboarding-status?userUuid=${userUuid}`;
+    return this.httpClient.get<OnboardingSidebarResponse>(url, {});
+  }
+
+  setReasonOfRejection(userUuid: string, reasonOfRejectionProfile: ReasonOfRejectionProfile): Observable<any> {
+    const url = `${this.baseUrl}/employee-onboarding-status/save-rejection-reason?userUuid=${userUuid}`;
+    return this.httpClient.put<any>(url, reasonOfRejectionProfile);
+}
+
 }

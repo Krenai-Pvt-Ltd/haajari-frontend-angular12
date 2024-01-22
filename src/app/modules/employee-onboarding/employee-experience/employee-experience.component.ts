@@ -55,7 +55,7 @@ export class EmployeeExperienceComponent implements OnInit {
     const newExperience: UserExperience = {
         
         companyName: '',
-        employementDuration: '',
+        // employementDuration: '',
         lastJobDepartment: '',
         lastSalary: '',
         lastJobPosition: '',
@@ -64,7 +64,9 @@ export class EmployeeExperienceComponent implements OnInit {
         statusId: 0,
         directSave: false,
         employeeOnboardingFormStatus: '',
-        employeeOnboardingStatus: ''
+        employeeOnboardingStatus: '',
+        startDate:'',
+        endDate:''
     };
     this.userExperiences.push(newExperience);
 }
@@ -113,8 +115,14 @@ export class EmployeeExperienceComponent implements OnInit {
           if(this.buttonType=='next'){
             this.routeToUserDetails();
           } else if (this.buttonType=='save'){
-            this.successMessageModalButton.nativeElement.click();
-            this.routeToFormPreview();
+            
+            if(this.employeeOnboardingFormStatus!='REJECTED'){
+              this.successMessageModalButton.nativeElement.click();
+            }
+          setTimeout(() => {
+            
+            this.routeToFormPreview();  
+          }, 2000);
           }
           this.toggle = false;
         },
@@ -125,6 +133,7 @@ export class EmployeeExperienceComponent implements OnInit {
       );
   }
 
+  isNewUser: boolean = true;
   isLoading: boolean = true; 
   isFresher:boolean=true;
   employeeOnboardingFormStatus:string|null=null;
@@ -136,8 +145,10 @@ export class EmployeeExperienceComponent implements OnInit {
     this.dataService.getEmployeeExperiencesDetailsOnboarding(userUuid).subscribe(
       experiences => {
         this.employeeOnboardingFormStatus= experiences[0].employeeOnboardingStatus;
-                
-                if(experiences[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL'){
+        if(experiences[0].employeeOnboardingStatus == "PENDING"){
+          this.isNewUser = false;
+        }
+                if(experiences[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
                   this.successMessageModalButton.nativeElement.click();
                 }
                 this.handleOnboardingStatus(experiences[0].employeeOnboardingStatus);

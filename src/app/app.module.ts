@@ -3,26 +3,27 @@ import { NgModule } from '@angular/core';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
+import { CommonModule } from '@angular/common';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RequestInterceptorService } from './configuration/request-interceptor.service';
 import { DurationPickerComponent } from './modules/common/duration-picker/duration-picker.component';
 import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
 import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/slack-data-loader.component';
-import { SharedModule } from './shared/shared.module';
-import { CommonModule } from '@angular/common';
-import { SharedComponent } from './modules/shared/shared.component';
 import { SettingModule } from './modules/setting/setting.module';
-import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedComponent } from './modules/shared/shared.component';
+import { SharedModule } from './shared/shared.module';
+// import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
 
 
 
@@ -34,6 +35,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SlackDataLoaderComponent,
     DurationPickerComponent,
     SharedComponent
+ 
     // AuthenticationComponent,
   ],
   imports: [
@@ -53,6 +55,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FullCalendarModule,
     SettingModule,
     BrowserAnimationsModule,
+    // OnboardingSidebarResponse
 
     
 

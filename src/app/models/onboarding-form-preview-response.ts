@@ -18,6 +18,7 @@ export class OnboardingFormPreviewResponse {
     userEmergencyContacts: UserEmergencyContactDetailsRequest[];
     companyLogo: string = '';
     fresher: boolean = false;
+    reasonOfRejection: string = '';
     
 
     constructor() {
@@ -31,5 +32,6 @@ export class OnboardingFormPreviewResponse {
         this.userEmergencyContacts = [];
         this.companyLogo = '';
         this.fresher = false;
+        this.reasonOfRejection = '';
     }
 }

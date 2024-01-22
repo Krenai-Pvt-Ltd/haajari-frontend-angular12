@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { OnboardingSidebarResponse } from 'src/app/models/onboarding-sidebar-response';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -14,11 +15,14 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
   constructor(private router: Router, private stepService: DataService) { }
 
   ngOnInit(): void {
-
+ this.getEmployeeStatusMethodCall(); 
   }
+  // getEmployeeStatusMethodCall() {
+  //   throw new Error('Method not implemented.');
+  // }
 
   navigateTo(route: string, stepIndex: number): void {
-    if(this.stepService.stepIndex<(stepIndex-1)){
+    if(this.stepService.stepIndex<(stepIndex-1) && this.onboardingStatus !== "REJECTED"){
 
     }else{
       let navExtra: NavigationExtras = {
@@ -51,9 +55,28 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
     }else{
       return false;
     }
- 
-  }
 
-
-  
+    
 }
+onboardingStatus: string = ""
+getEmployeeStatusMethodCall() {
+  const userUuid = new URLSearchParams(window.location.search).get('userUuid') || null ;
+  if(userUuid){
+    this.stepService.getEmployeeStatus(userUuid).subscribe(
+      (response: OnboardingSidebarResponse) => {
+        this.onboardingStatus = response.onboardingStatus;
+      },
+      (error: any) => {
+        console.error('Error fetching user details:', error);
+        
+      }
+    );
+  }else {
+    console.error('uuidNewUser not found in localStorage');
+    
+  }
+  
+
+} 
+}
+

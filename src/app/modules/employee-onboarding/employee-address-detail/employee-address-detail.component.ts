@@ -49,6 +49,7 @@ export class EmployeeAddressDetailComponent implements OnInit {
   toggleSave = false;
 setEmployeeAddressDetailsMethodCall() {
   debugger
+  this.userAddressDetailsRequest.userAddressRequest=this.userAddressRequest;
   this.userAddressDetailsRequest.sameAddress = this.isPermanent;
   if(this.buttonType=='next'){
     this.toggle = true;
@@ -77,9 +78,17 @@ setEmployeeAddressDetailsMethodCall() {
         if(this.buttonType=='next'){
           this.routeToUserDetails();
         } else if (this.buttonType=='save'){
-          this.successMessageModalButton.nativeElement.click();
-          this.handleOnboardingStatus(response.employeeOnboardingStatus);
-          this.routeToFormPreview();
+          if(this.employeeOnboardingFormStatus!='REJECTED'){
+            this.handleOnboardingStatus(response.employeeOnboardingStatus);
+            this.successMessageModalButton.nativeElement.click();
+          }
+          
+          setTimeout(() => {
+            
+            this.routeToFormPreview();  
+          }, 2000);
+          
+          
         } // Ensure this method does what's expected
       },
       (error) => {
@@ -90,7 +99,7 @@ setEmployeeAddressDetailsMethodCall() {
     );
 }
 
-  
+isNewUser: boolean = true;
 isLoading:boolean = true;
 employeeOnboardingFormStatus:string|null=null;
 @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
@@ -106,8 +115,13 @@ employeeOnboardingFormStatus:string|null=null;
           this.dataService.markStepAsCompleted(response.statusId);
           if (response && response.userAddressRequest && response.userAddressRequest.length > 0) {
             this.userAddressDetailsRequest = response;
-            if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL'){
+            this.userAddressRequest = response.userAddressRequest;
+            
+            if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
               this.successMessageModalButton.nativeElement.click();
+            }
+            if(response.employeeOnboardingStatus == "PENDING"){
+              this.isNewUser = false;
             }
             this.handleOnboardingStatus(response.employeeOnboardingStatus);
 
@@ -238,7 +252,7 @@ handleOnboardingStatus(response: string) {
     var addressLine1=this.userAddressRequest[0].addressLine1;
     this.userAddressRequest[0]=new UserAddressRequest();
     this.userAddressRequest[0].id=id;
-    this.userAddressRequest[0].addressLine1=e.name ;
+    this.userAddressRequest[0].addressLine1=e.name.toString() ;
     e?.address_components?.forEach((entry: any) => {
       console.log(entry);
       
@@ -259,6 +273,42 @@ handleOnboardingStatus(response: string) {
       }
       if (entry.types?.[0] === "postal_code") {
         this.userAddressRequest[0].pincode = entry.long_name
+      }
+
+
+
+    });
+  }
+
+  @ViewChild("placesRefPermanent") placesRefPermanent! : GooglePlaceDirective;
+
+  public handleAddressChangePermanent(e: any) {
+    debugger
+    var id=this.userAddressRequest[1].id;
+    var addressLine1=this.userAddressRequest[1].addressLine1;
+    this.userAddressRequest[1]=new UserAddressRequest();
+    this.userAddressRequest[1].id=id;
+    this.userAddressRequest[1].addressLine1=e.name.toString() ;
+    e?.address_components?.forEach((entry: any) => {
+      console.log(entry);
+      
+      if (entry.types?.[0] == "route") {
+        this.userAddressRequest[1].addressLine2 = entry.long_name + ",";
+      }
+      if (entry.types?.[0] == "sublocality_level_1") {
+        this.userAddressRequest[1].addressLine2 = this.userAddressRequest[1].addressLine2 + entry.long_name
+      }
+      if (entry.types?.[0] == "locality") {
+        this.userAddressRequest[1].city = entry.long_name
+      }
+      if (entry.types?.[0] == "administrative_area_level_1") {
+        this.userAddressRequest[1].state = entry.long_name
+      }
+      if (entry.types?.[0] == "country") {
+        this.userAddressRequest[1].country = entry.long_name
+      }
+      if (entry.types?.[0] == "postal_code") {
+        this.userAddressRequest[1].pincode = entry.long_name
       }
 
 

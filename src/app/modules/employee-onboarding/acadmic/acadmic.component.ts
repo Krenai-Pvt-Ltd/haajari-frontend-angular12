@@ -52,8 +52,14 @@ export class AcadmicComponent implements OnInit {
           if(this.buttonType=='next'){
             this.routeToUserDetails();
           } else if (this.buttonType=='save'){
-            this.successMessageModalButton.nativeElement.click();
-            this.routeToFormPreview();
+            this.handleOnboardingStatus(response.employeeOnboardingStatus);
+            if(this.employeeOnboardingFormStatus!='REJECTED'){
+              this.successMessageModalButton.nativeElement.click();
+            }
+          setTimeout(() => {
+            
+            this.routeToFormPreview();  
+          }, 2000);
           }
           this.userAcademicDetailsStatus = response.statusResponse;
           // localStorage.setItem('statusResponse', JSON.stringify(this.userAcademicDetailsStatus));
@@ -65,6 +71,7 @@ export class AcadmicComponent implements OnInit {
         }
       );
   }
+  isNewUser: boolean = true;
   isLoading:boolean = true;
   employeeOnboardingFormStatus:string|null=null;
   @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
@@ -79,8 +86,11 @@ export class AcadmicComponent implements OnInit {
         if(response != null){
           this.userAcademicsDetailRequest = response;
           
-          if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL'){
+          if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
             this.successMessageModalButton.nativeElement.click();
+          }
+          if(response.employeeOnboardingStatus == "PENDING"){
+            this.isNewUser = false;
           }
           this.handleOnboardingStatus(response.employeeOnboardingStatus);
           
@@ -154,4 +164,49 @@ displayModal = false;
     }
   }
 
+  selectQualification(qualification: string): void {
+    this.userAcademicsDetailRequest.highestEducationalLevel = qualification;
+  }
+    // Default value set
+  qualifications = [
+    'None',
+    'Elementary School',
+    'Middle School',
+    'High School Diploma',
+    'Vocational Qualification',
+    'Associate\'s Degree',
+    'Bachelor\'s Degree',
+    'Graduate Certificate',
+    'Postgraduate Diploma',
+    'Master\'s Degree',
+    'Professional Degree (e.g., MD, JD, DDS)',
+    'Doctor of Philosophy (PhD)',
+    'Post-Doctoral Fellowship',
+    'Professorship/Academic Title',
+    'Honorary Degree',
+    'Other (Specify)'
+  ];
+
+  // selectCourses(course: string): void {
+  //   this.userAcademicsDetailRequest.degreeObtained = course;
+  // }
+  
+  // courses = [
+  //   'None',
+  //   'Elementary School',
+  //   'Middle School',
+  //   'High School Diploma',
+  //   'Vocational Qualification',
+  //   'Associate\'s Degree',
+  //   'Bachelor\'s Degree',
+  //   'Graduate Certificate',
+  //   'Postgraduate Diploma',
+  //   'Master\'s Degree',
+  //   'Professional Degree (e.g., MD, JD, DDS)',
+  //   'Doctor of Philosophy (PhD)',
+  //   'Post-Doctoral Fellowship',
+  //   'Professorship/Academic Title',
+  //   'Honorary Degree',
+  //   'Other (Specify)'
+  // ];
 }

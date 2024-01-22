@@ -19,6 +19,7 @@ import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-resp
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
+import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 
 @Component({
   selector: 'app-employee-profile',
@@ -26,6 +27,8 @@ import { Key } from 'src/app/constant/key';
   styleUrls: ['./employee-profile.component.css'],
 })
 export class EmployeeProfileComponent implements OnInit {
+
+  reasonOfRejectionProfile: ReasonOfRejectionProfile = new ReasonOfRejectionProfile();
   userAddressDetailsRequest: UserAddressDetailsRequest = new UserAddressDetailsRequest();
   userLeaveForm!: FormGroup;
   constructor(
@@ -161,11 +164,17 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
+  toggle = false;
+  @ViewChild("closeRejectModalButton") closeRejectModalButton!:ElementRef;
   updateStatusUserByUuid(type: string) {
-
+    this.toggle = true;
+    this.setReasonOfRejectionMethodCall();
     this.dataService.updateStatusUser(this.userId, type).subscribe(
       (data) => {
         console.log('status updated:' + type);
+        this.closeRejectModalButton.nativeElement.click();
+        this.toggle = false
+
         location.reload();
       },
       (error) => {
@@ -999,13 +1008,29 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
+  @ViewChild('openRejectModal') openRejectModal !: ElementRef;
+  setReasonOfRejectionMethodCall(){
+    debugger
+    this.dataService.setReasonOfRejection(this.userId, this.reasonOfRejectionProfile)
+    .subscribe(
+      (response: ReasonOfRejectionProfile) => { 
+        console.log('Response:', response);
+      
+      },
+      (error) => {
+        console.error('Error occurred:', error);
+        
+      }
+    );
+}
 
 
+  }
   
 
 
 
 
-}
+
 
 

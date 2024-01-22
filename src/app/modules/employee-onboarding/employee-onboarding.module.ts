@@ -23,6 +23,8 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
 import { EmployeeOnboardingSidebarComponent } from './employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { NumberToWordsPipe } from 'src/app/pipe/NumberToWordPipe';
+
 
 
 @NgModule({
@@ -37,7 +39,9 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
          EmergencyContactComponent,
          EmployeeOnboardingPreviewComponent,
          EmployeeOnboardingComponent,
-         EmployeeOnboardingSidebarComponent
+         EmployeeOnboardingSidebarComponent,
+         NumberToWordsPipe
+         
   ],
   imports: [
     RouterModule,

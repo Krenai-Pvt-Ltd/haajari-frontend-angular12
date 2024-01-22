@@ -121,8 +121,15 @@ if(this.buttonType=='next'){
           if(this.buttonType=='next'){
             this.routeToUserDetails();
           } else if (this.buttonType=='save'){
-            this.successMessageModalButton.nativeElement.click();
-            this.routeToFormPreview();
+            if(this.employeeOnboardingFormStatus!='REJECTED'){
+              this.successMessageModalButton.nativeElement.click();
+            }
+            
+            setTimeout(() => {
+              this.routeToFormPreview();  
+            }, 2000);
+            
+            
           }
           
           
@@ -140,6 +147,8 @@ if(this.buttonType=='next'){
   setImageUrlFromDatabase(url: string) {
       this.dbImageUrl = url;
   }
+
+  isNewUser: boolean = true;
   isLoading:boolean = true;
   employeeOnboardingFormStatus:string|null=null;
   @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
@@ -153,8 +162,11 @@ if(this.buttonType=='next'){
                 this.isLoading = false;
                 this.employeeOnboardingFormStatus=response.employeeOnboardingStatus.response;
                 
-                if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL'){
+                if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
                   this.successMessageModalButton.nativeElement.click();
+                }
+                if(response.employeeOnboardingStatus.response == "PENDING"){
+                  this.isNewUser = false;
                 }
                 this.handleOnboardingStatus(response.employeeOnboardingStatus.response);
                 console.log(response);

@@ -173,8 +173,13 @@ selectedHighSchoolCertificateFileName: any;
       if(this.buttonType=='next'){
         this.routeToUserDetails();
       } else if (this.buttonType=='save'){
-        this.successMessageModalButton.nativeElement.click();
-        this.routeToFormPreview();
+        if(this.employeeOnboardingFormStatus!='REJECTED'){
+          this.successMessageModalButton.nativeElement.click();
+        }
+          setTimeout(() => {
+            
+            this.routeToFormPreview();  
+          }, 2000);
       }
     },
     (error) => {
@@ -212,7 +217,7 @@ isHighestQualificationDegreeRequired: boolean = true;
 isaadhaarCardRequired: boolean = true;
 ispancardRequired: boolean = true;
 
-
+isNewUser: boolean = true;
 isLoading:boolean = true;
 employeeOnboardingFormStatus:string|null=null;
 @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
@@ -225,13 +230,16 @@ getEmployeeDocumentsDetailsMethodCall() {
       (response: UserDocumentsDetailsRequest) => {
         this.userDocumentsDetailsRequest = response;
         this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
-        if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL'){
+        if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
           this.successMessageModalButton.nativeElement.click();
         }
         this.handleOnboardingStatus(response.employeeOnboardingStatus);
         this.dataService.markStepAsCompleted(response.statusId);
         if(this.userDocumentsDetailsRequest.userDocuments==undefined){
           this.userDocumentsDetailsRequest.userDocuments=new UserDocumentsRequest();
+        }
+        if(response.employeeOnboardingStatus == "PENDING"){
+          this.isNewUser = false;
         }
           this.isLoading = false;
         if(response!=null){

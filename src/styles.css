@@ -86,3 +86,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .pac-container{
     z-index: 9999 !important;
 }
+
+.save-button{
+    min-width: 140px;
+    min-height: 37px;
+}

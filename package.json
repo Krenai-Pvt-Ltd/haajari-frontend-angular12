@@ -52,6 +52,7 @@
     "ngx-shimmer-loading": "^0.0.5",
     "ngx-toastr": "^14.3.0",
     "ngx-webcam": "^0.4.1",
+    "num-words": "^1.2.3",
     "popper.js": "^1.16.1",
     "rxfire": "^6.0.3",
     "rxjs": "~6.6.0",

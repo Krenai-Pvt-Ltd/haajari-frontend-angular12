@@ -893,3 +893,67 @@ button.btn.sand-request.approved.break-btn {
     box-shadow: 0 0 0.875rem #343a400d;
     justify-content: center;
 }
+
+#showRejectModal .modal-header {
+    background-color: #6666f3; /* Example: Blue background */
+    color: white; /* White text */
+    padding: 10px; /* Padding around the header */
+    border-bottom: 1px solid #dee2e6; /* Border at the bottom */
+}
+
+/* Style for the modal title */
+#showRejectModal .modal-title {
+    font-weight: bold; /* Make the title bold */
+}
+
+/* Style for the modal body */
+#showRejectModal .modal-body {
+    padding: 20px; /* Padding around the body */
+}
+
+/* Style for the textarea */
+#showRejectModal textarea {
+    border: 1px solid #ced4da; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    margin-top: 10px; /* Margin at the top */
+}
+
+/* Style for the modal footer */
+#showRejectModal .modal-footer {
+    padding: 10px; /* Padding around the footer */
+    border-top: 1px solid #dee2e6; /* Border at the top */
+}
+
+/* Style for the buttons */
+#showRejectModal .btn {
+    margin: 5px; /* Margin around buttons */
+}
+
+.dot-opacity-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dot-opacity-loader span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: white; /* Change to your preferred color */
+    margin: 0 4px;
+    animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-loader span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.dot-opacity-loader span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes dotOpacity {
+    0%, 80%, 100% { opacity: 0; }
+    40% { opacity: 1; }
+}

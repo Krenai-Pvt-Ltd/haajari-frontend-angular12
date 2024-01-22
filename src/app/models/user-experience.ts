@@ -1,6 +1,6 @@
 export class UserExperience {
     companyName: string = '';
-    employementDuration: string = '';
+    // employementDuration: string = '';
     jobResponisibilities: string = '';
     lastSalary: string = '';
     lastJobDepartment: string = ''; 
@@ -10,4 +10,6 @@ export class UserExperience {
     directSave: boolean = false;
     employeeOnboardingFormStatus: string = '';
     employeeOnboardingStatus: string = '';
+    startDate!: '';
+    endDate!: '';
 }

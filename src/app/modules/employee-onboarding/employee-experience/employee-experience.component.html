@@ -60,17 +60,36 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="employementDuration{{i}}" class="pb-2"> Duration <span class="text-optional">*</span></label>
-                                            <input type="text" class="form-control" id="employementDuration{{i}}" name="employementDuration" placeholder="Exp. Year" [(ngModel)]="experience.employementDuration" required #employementDurationField="ngModel" [ngModelOptions]="{standalone: true}">
-                                            <!-- Error Message for Exp. Year -->
-                                            <div *ngIf="employementDurationField.touched">
-                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="employementDurationField.errors?.required">
-                                                    <i class="bi bi-exclamation-circle"></i>
-                                                    Experience Year is required.
-                                                </p>
+                                            <label class="pb-2">Duration <span class="text-optional">*</span></label>
+                                    
+                                            <!-- Duration From -->
+                                            <div class="row mb-2">
+                                                <div class="col-md-6">
+                                                    <input type="date" class="form-control" id="durationFrom{{i}}" name="durationFrom" placeholder="From" [(ngModel)]="experience.startDate" required #durationFromField="ngModel" [max]="experience.endDate" [ngModelOptions]="{standalone: true}">
+                                                    <!-- Error Message for Duration From -->
+                                                    <div *ngIf="durationFromField.touched">
+                                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="durationFromField.errors?.required">
+                                                            <i class="bi bi-exclamation-circle"></i>
+                                                            Duration From is required.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                    
+                                                <!-- Duration Till -->
+                                                <div class="col-md-6">
+                                                    <input type="date" class="form-control" id="durationTill{{i}}" name="durationTill" placeholder="Till" [(ngModel)]="experience.endDate" required #durationTillField="ngModel" [min]="experience.startDate" [ngModelOptions]="{standalone: true}">
+                                                    <!-- Error Message for Duration Till -->
+                                                    <div *ngIf="durationTillField.touched">
+                                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="durationTillField.errors?.required">
+                                                            <i class="bi bi-exclamation-circle"></i>
+                                                            Duration Till is required.
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    
                                    
                                         <div class="col-md-6">
                                             <label for="lastJobDepartmentDropdown{{i}}" class="pb-2">Department <span class="text-optional">*</span></label>
@@ -178,14 +197,14 @@
                             </div>
                             <div class="info-btn d-flex justify-content-end" style="gap:10px;">
                                 <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
-                                    <button (click)="selectButtonType('save')" class="btn btn-success" type="button" [disabled]="toggle" aria-label="Save">
+                                    <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
                                         <div *ngIf="toggleSave" class="dot-opacity-loader">
                                             <span></span>
                                             <span></span>
                                             <span></span>
                                         </div>
                                         <span *ngIf="!toggleSave">
-                                            Save <i class="bi bi-save" style="padding-left: 8px;"></i>
+                                            Submit Form <i class="bi bi-save" style="padding-left: 8px;"></i>
                                         </span>
                                     </button>
                                 </div>
@@ -195,9 +214,12 @@
                                       <span></span>
                                       <span></span>
                                     </div>
-                                    <span *ngIf="!toggle">
-                                      Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                    <span *ngIf="!toggle && isNewUser">
+                                        Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                                     </span>
+                                    <span *ngIf="!toggle && !isNewUser">
+                                      Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                  </span>
                                   </button>
                             </div>
                             <!-- <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button> -->
