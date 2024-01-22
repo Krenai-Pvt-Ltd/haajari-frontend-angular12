@@ -52,6 +52,9 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
 
+  isShimmer = false;
+  dataNotFoundPlaceholder = false;
+  networkConnectionErrorPlaceHolder = false;
   preRuleForShimmersAndErrorPlaceholdersMethodCall(){
     this.isShimmer = true;
     this.dataNotFoundPlaceholder = false;
@@ -68,9 +71,7 @@ export class AttendanceSettingComponent implements OnInit {
   readonly DEDUCTION_TYPE_PER_MINUTE = Key.DEDUCTION_TYPE_PER_MINUTE;
   readonly OVERTIME_TYPE_FIXED_AMOUNT = Key.OVERTIME_TYPE_FIXED_AMOUNT;
 
-  isShimmer = false;
-  dataNotFoundPlaceholder = false;
-  networkConnectionErrorPlaceHolder = false;
+  
 
 
   selectHours(hour: number) {
@@ -906,9 +907,13 @@ unselectAllUsers() {
       if(attendanceModeId == 2 || attendanceModeId == 3){
         this.attendancewithlocationssButton.nativeElement.click();
       }
-      if (attendanceModeId == 1){
-      this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
-    }
+      setTimeout(() => {
+        if (attendanceModeId == 1){
+          this.helperService.showToast("Attedance Mode updated successfully.", Key.TOAST_STATUS_SUCCESS);
+        }
+        console.log("Second line executed after 3 seconds");
+      }, 1000);
+      
     }, (error)=>{
       console.log(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
@@ -1003,8 +1008,5 @@ unselectAllUsers() {
             console.error('Error fetching address details:', error);
         }
     );
-}
-
-
-
+  }
 }

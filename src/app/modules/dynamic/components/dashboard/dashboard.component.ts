@@ -1,6 +1,6 @@
 import { Component, ElementRef, Injectable, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, iif } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
@@ -36,6 +36,7 @@ export class DashboardComponent implements OnInit {
   pageNumber : number = 1;
   lastPageNumber : number = 0;
   total !: number;
+  totalLateEmployees : number = 0;
   rowNumber : number = 1;
   searchText : string = '';
   searchBy : string = '';
@@ -161,72 +162,58 @@ errorToggleMain: boolean=false;
 
 @ViewChild('attendanceMasterRollReport') attendanceMasterRollReport !: ElementRef;
 
-  getDataFromDate(): void {
-    debugger
-    this.myAttendanceData = {};
-    this.myAttendanceDataLength = 0;
+getDataFromDate(): Promise<any> {
+  return new Promise((resolve, reject) => {
+      debugger
+      this.myAttendanceData = {};
+      this.myAttendanceDataLength = 0;
 
-    this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
-      // const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
-      // const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
-      
-      
-      this.dataService.getAttendanceDetailsByDateDuration(this.startDateStr, this.endDateStr, this.pageNumber, this.itemPerPage, this.searchText, this.searchBy).subscribe(
-        
-        (response: any) => {
-          
-          debugger
+      this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
 
-          if(response.mapOfObject === undefined || response.mapOfObject === null){
-            this.dataNotFoundPlaceholderForAttendanceData = true;
-            return;
-          } else{
-            this.myAttendanceData = response.mapOfObject;
-            this.myAttendanceDataLength = Object.keys(this.myAttendanceData).length;
+      this.dataService.getAttendanceDetailsByDateDuration(
+          this.startDateStr, 
+          this.endDateStr, 
+          this.pageNumber, 
+          this.itemPerPage, 
+          this.searchText, 
+          this.searchBy
+      ).subscribe(
+          (response: any) => {
+              debugger
+              if (response.mapOfObject === undefined || response.mapOfObject === null) {
+                  this.dataNotFoundPlaceholderForAttendanceData = true;
+                  resolve(true);
+              } else {
+                  // Processing the response
+                  this.myAttendanceData = response.mapOfObject;
+                  this.myAttendanceDataLength = Object.keys(this.myAttendanceData).length;
 
-            if(this.myAttendanceDataLength === 0){
-              this.dataNotFoundPlaceholderForAttendanceData = true;
-              return;
-            }
+                  if (this.myAttendanceDataLength === 0) {
+                      this.dataNotFoundPlaceholderForAttendanceData = true;
+                  }
 
-            this.total = response.totalItems;
+                  this.total = response.totalItems;
+                  this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
 
-            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+                  debugger
+                  console.log(this.myAttendanceData);
+                  this.isAttendanceShimer = false;
 
-            debugger
-            console.log(this.myAttendanceData);
-            this.isAttendanceShimer=false;
-            if (this.myAttendanceData) {
-              
-              for (const key in this.myAttendanceData) {
-                
-                if (this.myAttendanceData.hasOwnProperty(key)) {
-                  const attendanceArray = this.myAttendanceData[key];
+                  // Additional processing if needed
 
-                  this.attendanceArrayDate=attendanceArray;
-                  
-                  // for (const element of attendanceArray) {
-                  //   if (element.checkInTime !== null) {
-                      
-                  //     this.totalll += 1;
-                  //   }
-                  // }
-
-                  
-                }
+                  // Resolve the promise when data is successfully processed
+                  resolve(true);
               }
-            }
+          },
+          (error: any) => {
+              this.networkConnectionErrorPlaceHolderForAttendanceData = true;
+              console.error('Error fetching data:', error);
+              resolve(true);
           }
-          
-          
-        },
-        (error: any) => {
-          this.networkConnectionErrorPlaceHolderForAttendanceData = true;
-          console.error('Error fetching data:', error);
-        }
       );
-    
-  }
+  });
+}
+
 
   // #########Searching#################
   resetCriteriaFilter(){
@@ -259,7 +246,8 @@ errorToggleMain: boolean=false;
   }
 
   // ##### Pagination ############
-  changePage(page: number | string) {
+  async changePage(page: number | string) {
+    debugger
     if (typeof page === 'number') {
       this.pageNumber = page;
     } else if (page === 'prev' && this.pageNumber > 1) {
@@ -267,7 +255,14 @@ errorToggleMain: boolean=false;
     } else if (page === 'next' && this.pageNumber < this.totalPages) {
       this.pageNumber++;
     }
-    this.getDataFromDate();
+    await this.getDataFromDate();
+
+    // this.isAllCollapsed = !this.isAllCollapsed;
+    if(!this.isAllCollapsed){
+      setTimeout(() => {
+        this.toggleAllCollapse(true);
+      }, 10);
+    }
   }
 
   getPages(): number[] {
@@ -336,8 +331,9 @@ errorToggleMain: boolean=false;
 
   isAllCollapsed = true;
 
-  toggleAllCollapse() {
-    this.isAllCollapsed = !this.isAllCollapsed;
+  toggleAllCollapse(toggle:boolean) {
+    debugger
+    this.isAllCollapsed = !toggle;
 
     let elements = document.querySelectorAll('.bi-chevron-right');
     elements.forEach((element) => {
@@ -492,23 +488,31 @@ errorToggleMain: boolean=false;
  
   
   lateEmployeeAttendanceDetailsResponseList : LateEmployeeAttendanceDetailsResponse[] = [];
+  viewAll : string = Key.VIEW_ALL;
+  viewLess : string = Key.VIEW_LESS;
+  lateEmployeeDataLoaderButton : boolean = false;
 
-  viewAllLateEmployeeAttendanceDetails(){
-    this.dataFetchingType = Key.VIEW_ALL;
+  viewAllLateEmployeeAttendanceDetails(view : any){
+    this.lateEmployeeDataLoaderButton = true;
+    this.dataFetchingType = view;
+    this.getLateEmployeeAttendanceDetailsMethodCall();
   }
 
   getLateEmployeeAttendanceDetailsMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.dataService.getLateEmployeeAttendanceDetails(this.dataFetchingType).subscribe((response) => {
       this.lateEmployeeAttendanceDetailsResponseList = response.listOfObject;
+      this.totalLateEmployees = response.totalItems;
       console.log(response);
 
       if(response === undefined || response === null || response.listOfObject.length === 0){
         this.dataNotFoundPlaceholder = true;
       }
+      this.lateEmployeeDataLoaderButton = false;
     }, (error) => {
       console.log(error);
       this.networkConnectionErrorPlaceHolder = true;
+      this.lateEmployeeDataLoaderButton = false;
     })
   }
   
@@ -544,12 +548,21 @@ errorToggleMain: boolean=false;
     })
   }
 
+  downloadingFlag : boolean = false;
   downloadAttendanceDataInExcelFormatMethodCall(){
+    
+    this.downloadingFlag = true;
     this.dataService.downloadAttendanceDataInExcelFormat(this.startDateStr, this.endDateStr).subscribe((response) => {
       console.log(response);
-      
+
+      const downloadLink = document.createElement("a");
+      downloadLink.href = response.message;
+      downloadLink.download = "attendance.xlsx";
+      downloadLink.click();
+      this.downloadingFlag = false;
     }, (error) => {
       console.log(error);
+      this.downloadingFlag = false;
     })
   }
   

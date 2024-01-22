@@ -6,6 +6,9 @@
                 <div class="row">
                    <div class="col-md-3"></div>
                         <div class="col-md-6">
+
+                            <form #addRoleForm="ngForm" ngNativeValidate (ngSubmit)="updateRoleWithPermissionsMethodCall()">
+
                                 <div class="name-description">
                                     <div class="">
                                         <h3 class="description-main-box">
@@ -18,12 +21,24 @@
                                         <div class="mt-3">
                                             <div class="mb-3">
                                                 <label for="name" class="pb-2">Role Name </label>
-                                                <input type="text" id="name" placeholder="Role name" name="nameF" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="roleRequest.name" required [disabled]="roleRequest.name =='ADMIN' || roleRequest.name == 'MANAGER' || roleRequest.name == 'USER'">
+                                                <input type="text" id="name" placeholder="Enter the role name here" name="nameField" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="roleRequest.name"  #nameField="ngModel" required minlength="3" maxlength="50" [disabled]="roleRequest.name =='ADMIN' || roleRequest.name == 'MANAGER' || roleRequest.name == 'USER'">
+                                                <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="text-danger">
+                                                    <div *ngIf="nameField.errors?.required">Role name is required.</div>
+                                                    <div *ngIf="nameField.errors?.minlength">Role name must be at least 3 characters long.</div>
+                                                    <div *ngIf="nameField.errors?.maxlength">Role name cannot exceed 50 characters.</div>
+                                                </div>
+                                            
                                             </div>
                                             <div class="mb-3">
-                                                <label for="name" class="pb-2">Role Description </label>
-                                                <input type="text" id="name" placeholder="Role description" name="nameF" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="roleRequest.description" required>
+                                                <label for="description" class="pb-2">Role Description</label>
+                                                <textarea id="description" placeholder="Enter a short description about the role here" name="descriptionField" class="form-control ng-untouched ng-pristine ng-invalid role-description-size" [(ngModel)]="roleRequest.description" #descriptionField="ngModel" required minlength="30" maxlength="200"></textarea>
+                                                <div *ngIf="descriptionField.invalid && (descriptionField.dirty || descriptionField.touched)" class="text-danger">
+                                                    <div *ngIf="descriptionField.errors?.required">Role description is required.</div>
+                                                    <div *ngIf="descriptionField.errors?.minlength">Role description must be at least 30 characters long.</div>
+                                                    <div *ngIf="descriptionField.errors?.maxlength">Role description cannot exceed 200 characters.</div>
+                                                </div>
                                             </div>
+                                            
     
                                         </div>
                                     </div>
@@ -36,30 +51,78 @@
                                                 <span class="fAtrDv">What type of information can this role access?</span>
                                             </div>
                                         </h3>
-                                        <div class="mt-3" *ngFor="let roleAccessibilityType of roleAccessibilityTypeList">
-                                            <div class="mb-3">
-                                                <div class="form-check">
-                                                  <input class="form-check-input" type="radio" name="exampleRadios" id="direct1" value="option1" 
-                                                         [checked]="roleRequest.roleAccessibilityTypeId === roleAccessibilityType.id"
-                                                         (click)="settingRoleAccessibilityType(roleAccessibilityType.id)">
-                                                  <label class="form-check-label" for="direct1">
-                                                    {{roleAccessibilityType.name}}
-                                                    <p class="information">{{roleAccessibilityType.description}}</p>
-                                                  </label>
-                                                </div>
-                                              </div>
-                                            <!-- <div class="mb-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="exampleRadios" id="direct2" value="option1" checked>
-                                                    <label class="form-check-label" for="direct2">
-                                                        Everyone
-                                                        <p class="information">Only information related to their direct reports. For example, they will only see a time off request if a direct report submits one.</p>
-                                                    </label>
-                                                    
-                                                  </div>
-                                            </div> -->
+
+                                        <ng-container *ngIf="isShimmerForRoleAccessibilityType && roleAccessibilityTypeList.length === 0 && !dataNotFoundPlaceholderForRoleAccessibilityType && !networkConnectionErrorPlaceHolderForRoleAccessibilityType else roleAccessibilityTypeData">
+                                            <div class="mt-3">
+                                                <ngx-shimmer-loading [width]="'50%'" [height]="'12px'"
+                                                style="border-radius: 50%"></ngx-shimmer-loading>
+                                                <ngx-shimmer-loading [width]="'100%'" [height]="'8px'"
+                                                style="border-radius: 50%"></ngx-shimmer-loading>
+                                                <ngx-shimmer-loading [width]="'40%'" [height]="'8px'"
+                                                style="border-radius: 50%"></ngx-shimmer-loading>
+                                            </div>
     
-                                        </div>
+                                            <div class="mt-3">
+                                                <ngx-shimmer-loading [width]="'50%'" [height]="'12px'"
+                                                style="border-radius: 50%"></ngx-shimmer-loading>
+                                                <ngx-shimmer-loading [width]="'100%'" [height]="'8px'"
+                                                style="border-radius: 50%"></ngx-shimmer-loading>
+                                            </div>
+                                        </ng-container>
+                                        <ng-template #roleAccessibilityTypeData>
+                                            <ng-container *ngIf="roleAccessibilityTypeList.length !== 0 && !dataNotFoundPlaceholderForRoleAccessibilityType && !networkConnectionErrorPlaceHolderForRoleAccessibilityType else errorInFetchingRoleAccessibilityTypeData">
+                                                <div class="mt-3" *ngFor="let roleAccessibilityType of roleAccessibilityTypeList">
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                          <input class="form-check-input" type="radio" name="accessOptions" [(ngModel)]="roleRequest.roleAccessibilityTypeId" [value]="roleAccessibilityType.id" id="access{{roleAccessibilityType.id}}"
+                                                                 (click)="settingRoleAccessibilityType(roleAccessibilityType.id)"
+                                                                 >
+                                                          <label class="form-check-label" for="access{{roleAccessibilityType.id}}">
+                                                            {{roleAccessibilityType.name}}
+                                                            <p class="information">{{roleAccessibilityType.description}}</p>
+                                                          </label>
+                                                        </div>
+                                                      </div>
+                                                </div>
+                                                <div *ngIf="!roleRequest.roleAccessibilityTypeId && addRoleFormSubmitted" class="text-danger">
+                                                    Please select an information access option.
+                                                </div>
+                                            </ng-container>
+                                        </ng-template>
+                                        <ng-template #errorInFetchingRoleAccessibilityTypeData>
+                                            <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRoleAccessibilityType">
+                                                <div class="errorboxinner text-center">
+                                                    <div class="errorboxplaceholder mb-2">
+                                                        <img src="assets/images/addnewproduct.svg"
+                                                            style="width: 80px" />
+                                                    </div>
+        
+                                                    <h4>No Data Found</h4>
+                                                   
+                                                    <p>
+                                                        We're unable to locate a record associated with the information you entered.
+                                                    </p>
+                                                </div>
+                                            </div>
+        
+        
+                                            <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForRoleAccessibilityType">
+                                                <div class="errorboxinner text-center">
+                                                    <div class="errorboxplaceholder mb-2">
+                                                        <img src="assets/images/signal.svg"
+                                                            style="width: 80px" />
+                                                    </div>
+        
+                                                    <h4>Something went wrong!</h4>
+                                                   
+                                                    <p>
+                                                        Please try again after sometimes!
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+
+                                        
                                     </div>
 
                                     <div class="mt-4">
@@ -70,220 +133,164 @@
                                                 <span class="fAtrDv">Select the areas of the platform this role can view or edit.</span>
                                             </div>
                                         </h3>
-                                        <div class="mt-3">
-                                            <div class="accordion accordion-flush" id="accordionFlushExample" *ngFor="let module of moduleResponse; let i = index">
-                                                <div class="accordion-item">
-                                                  <h2 class="accordion-header" id="flush-headingOne">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
-                                                        {{ module.name }}
-                                                    </button>
-                                                  </h2>
-                                                  <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" [attr.id]="'collapse' + i" *ngFor="let submodule of module.subModules; let j = index;">
-                                                    <div class="accordion-body">
-                                                        <div class="d-flex align-items-center justify-content-between">
-                                                            <div class="iyxoZR">
-                                                                <span class="epkbnY" style="font-size: 12px;">{{submodule.name}}</span>
-                                                                <!-- <span class="fAtrDv" style="font-size: 11px;">Access and manage all your employees’ and contractors’ information</span> -->
-                                                            </div>
-                                                            <div class="d-flex align-items-center " style="gap:30px;">
 
 
 
+                                        
 
+                                        <ng-container *ngIf="isShimmerForRolePermissionModules && moduleResponseList.length === 0 && !dataNotFoundPlaceholderForRolePermissionModules && !networkConnectionErrorPlaceHolderForRolePermissionModules else moduleResponseData">
+                                            <div class="mt-4">
 
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input"
-                                                                            [checked]="submodule.privilegeId == 1"
-                                                                            name="viewSubModule{{ i }}{{ j }}"
-                                                                            id="viewSubModule{{ i }}{{ j }}"
-                                                                            (click)="handleRadioClickForSubModule(1, submodule)" />
-                                                                        <label class="form-check-label d-flex align-items-center gap-2"
-                                                                            for="viewSubModule{{ i }}{{ j }}"> View
-                                                                        </label>
-                                                                    </div>
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input"
-                                                                            [checked]="submodule.privilegeId == 2"
-                                                                            name="manageSubModule{{ i }}{{ j }}"
-                                                                            id="manageSubModule{{ i }}{{ j }}"
-                                                                            (click)="handleRadioClickForSubModule(2, submodule)" />
-                                                                        <label class="form-check-label d-flex align-items-center gap-2"
-                                                                            for="manageSubModule{{ i }}{{ j }}"> Manage
-                                                                        </label>
-                                                                    </div>
-                    
-
-
-
-
-
-
-                                                                <!-- <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                </div>
-
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                </div> -->
-
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <!-- <div class="d-flex align-items-center justify-content-between mb-3">
-                                                            <div class="iyxoZR">
-                                                                <span class="epkbnY" style="font-size: 12px;">Onboard new hires</span>
-                                                                <span class="fAtrDv" style="font-size: 11px;">Add new employees and contractors and manage their onboarding process</span>
-                                                            </div>
-                                                            <div class="d-flex align-items-center " style="gap:30px;">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-                                                                  <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                                            <div class="iyxoZR">
-                                                                <span class="epkbnY" style="font-size: 12px;">Time off management</span>
-                                                                <span class="fAtrDv" style="font-size: 11px;">Review time off requests and view your team’s time off calendar</span>
-                                                            </div>
-                                                            <div class="d-flex align-items-center " style="gap:30px;">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-                                                                  <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-
-                                                            </div>
-                                                        </div> -->
-
-                                                    </div>
-                                                  </div>
+                                                <div class="d-flex align-items-center justify-content-between mt-4">
+                                                <div class="" style="width: 60%;">
+                                                    <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
+                                                    style="border-radius: 50%"></ngx-shimmer-loading>
                                                 </div>
-
-                                                <!-- <div class="accordion-item">
-                                                  <h2 class="accordion-header" id="flush-headingTwo">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                                        Contractors
-                                                    </button>
-                                                  </h2>
-                                                  <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                                                    <div class="accordion-body">
-                                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                                            <div class="iyxoZR">
-                                                                <span class="epkbnY" style="font-size: 12px;">Payroll and payments</span>
-                                                                <span class="fAtrDv" style="font-size: 11px;">Manage your company's payments and invoices</span>
-                                                            </div>
-                                                            <div class="d-flex align-items-center " style="gap:30px;">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-                                                                  <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                                            <div class="iyxoZR">
-                                                                <span class="epkbnY" style="font-size: 12px;">Company management</span>
-                                                                <span class="fAtrDv" style="font-size: 11px;">Manage your company's information, team plan, settings, roles, and integrations</span>
-                                                            </div>
-                                                            <div class="d-flex align-items-center " style="gap:30px;">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-                                                                  <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                                            <div class="iyxoZR">
-                                                                <span class="epkbnY" style="font-size: 12px;">Cost calculator</span>
-                                                                <span class="fAtrDv" style="font-size: 11px;">Estimate the cost to hire an employee in a particular country                                                                </span>
-                                                            </div>
-                                                            <div class="d-flex align-items-center " style="gap:30px;">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-                                                                  <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                                            <div class="iyxoZR">
-                                                                <span class="epkbnY" style="font-size: 12px;">Compensation explorer</span>
-                                                                <span class="fAtrDv" style="font-size: 11px;">ompare employee compensation to the market median                                                                </span>
-                                                            </div>
-                                                            <div class="d-flex align-items-center " style="gap:30px;">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-                                                                  <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                  </div>
+                                                <div class="" style="width: 15%; text-align: right;">
+                                                    <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
+                                                    style="border-radius: 50%"></ngx-shimmer-loading>
                                                 </div>
-                                                <div class="accordion-item">
-                                                  <h2 class="accordion-header" id="flush-headingThree">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                                        Tools
-                                                    </button>
-                                                  </h2>
-                                                  <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                                    <div class="accordion-body">
-                                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                                            <div class="iyxoZR">
-                                                                <span class="epkbnY" style="font-size: 12px;">Team</span>
-                                                                <span class="fAtrDv" style="font-size: 11px;">Access and manage all your employees’ and contractors’ information</span>
-                                                            </div>
-                                                            <div class="d-flex align-items-center " style="gap:30px;">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-                                                                  <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                   
-                                                                  </div>
-
-                                                            </div>
-                                                        </div>
-                                                      
-                                                        
-                                                    </div>
-                                                  </div>
-                                                </div> -->
-
-
-                                              </div>
+                                            </div>
     
-                                        </div>
+                                            <div class="d-flex align-items-center justify-content-between mt-4">
+                                                <div class="" style="width: 60%;">
+                                                    <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
+                                                    style="border-radius: 50%"></ngx-shimmer-loading>
+                                                </div>
+                                                <div class="" style="width: 15%; text-align: right;">
+                                                    <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
+                                                    style="border-radius: 50%"></ngx-shimmer-loading>
+                                                </div>
+                                            </div>
+    
+    
+                                            <div class="d-flex align-items-center justify-content-between mt-4">
+                                                <div class="" style="width: 60%;">
+                                                    <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
+                                                    style="border-radius: 50%"></ngx-shimmer-loading>
+                                                </div>
+                                                <div class="" style="width: 15%; text-align: right;">
+                                                    <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
+                                                    style="border-radius: 50%"></ngx-shimmer-loading>
+                                                </div>
+                                            </div>
+    
+                                            <div class="d-flex align-items-center justify-content-between mt-4">
+                                                <div class="" style="width: 60%;">
+                                                    <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
+                                                    style="border-radius: 50%"></ngx-shimmer-loading>
+                                                </div>
+                                                <div class="" style="width: 15%; text-align: right;">
+                                                    <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
+                                                    style="border-radius: 50%"></ngx-shimmer-loading>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between mt-4">
+                                                <div class="" style="width: 60%;">
+                                                    <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
+                                                    style="border-radius: 50%"></ngx-shimmer-loading>
+                                                </div>
+                                                <div class="" style="width: 15%; text-align: right;">
+                                                    <ngx-shimmer-loading [width]="'50%'" [height]="'15px'"
+                                                    style="border-radius: 50%"></ngx-shimmer-loading>
+                                                </div>
+                                            </div>
+    
+                                            </div>
+                                        </ng-container>
+                                        <ng-template #moduleResponseData>
+                                            <ng-container *ngIf="moduleResponseList.length !== 0 && !dataNotFoundPlaceholderForRolePermissionModules && !networkConnectionErrorPlaceHolderForRolePermissionModules else errorInFetchingModuleResponseData">
+                                                <div class="mt-3">
+                                                    <div class="accordion accordion-flush" id="accordionFlushExample" *ngFor="let module of moduleResponseList; let i = index">
+                                                        <div class="accordion-item">
+                                                          <h2 class="accordion-header" id="flush-headingOne">
+                                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
+                                                                {{ module.name }}
+                                                            </button>
+                                                          </h2>
+                                                          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" [attr.id]="'collapse' + i" *ngFor="let submodule of module.subModules; let j = index;">
+                                                            <div class="accordion-body">
+                                                                <div class="d-flex align-items-center justify-content-between">
+                                                                    <div class="iyxoZR">
+                                                                        <span class="epkbnY" style="font-size: 12px;">{{submodule.name}}</span>
+                                                                        <!-- <span class="fAtrDv" style="font-size: 11px;">Access and manage all your employees’ and contractors’ information</span> -->
+                                                                    </div>
+                                                                    <div class="d-flex align-items-center " style="gap:30px;">
+        
+        
+        
+        
+        
+                                                                            <div class="form-check">
+                                                                                <input type="checkbox" class="form-check-input"
+                                                                                    [checked]="submodule.privilegeId == 1"
+                                                                                    name="viewSubModule{{ i }}{{ j }}"
+                                                                                    id="viewSubModule{{ i }}{{ j }}"
+                                                                                    (click)="handleRadioClickForSubModule(1, submodule)" />
+                                                                                <label class="form-check-label d-flex align-items-center gap-2"
+                                                                                    for="viewSubModule{{ i }}{{ j }}"> View
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-check">
+                                                                                <input type="checkbox" class="form-check-input"
+                                                                                    [checked]="submodule.privilegeId == 2"
+                                                                                    name="manageSubModule{{ i }}{{ j }}"
+                                                                                    id="manageSubModule{{ i }}{{ j }}"
+                                                                                    (click)="handleRadioClickForSubModule(2, submodule)" />
+                                                                                <label class="form-check-label d-flex align-items-center gap-2"
+                                                                                    for="manageSubModule{{ i }}{{ j }}"> Manage
+                                                                                </label>
+                                                                            </div>
+        
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                               
+        
+                                                            </div>
+                                                          </div>
+                                                        </div>
+        
+                                                      </div>
+            
+                                                </div>
+                                            </ng-container>
+                                        </ng-template>
+                                        <ng-template #errorInFetchingModuleResponseData>
+                                            <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRolePermissionModules">
+                                                <div class="errorboxinner text-center">
+                                                    <div class="errorboxplaceholder mb-2">
+                                                        <img src="assets/images/addnewproduct.svg"
+                                                            style="width: 80px" />
+                                                    </div>
+        
+                                                    <h4>No Data Found</h4>
+                                                   
+                                                    <p>
+                                                        We're unable to locate a record associated with the information you entered.
+                                                    </p>
+                                                </div>
+                                            </div>
+        
+        
+                                            <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForRolePermissionModules">
+                                                <div class="errorboxinner text-center">
+                                                    <div class="errorboxplaceholder mb-2">
+                                                        <img src="assets/images/signal.svg"
+                                                            style="width: 80px" />
+                                                    </div>
+        
+                                                    <h4>Something went wrong!</h4>
+                                                   
+                                                    <p>
+                                                        Please try again after sometimes!
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+
+                                        
+                                        
                                     </div>
 
                                     <div class="mt-4">
@@ -318,7 +325,7 @@
                                         <button id="cancel" type="button" class="btn btn-outline-primary" routerLink="/role">Cancel</button>
                                     </div>
                                     <div class="modal-footer d-flex align-items-center justify-content-end">
-                                        <button id="save" type="button" class="btn btn-primary" (click)="updateRoleWithPermissionsMethodCall()">
+                                        <button id="save" type="submit" class="btn btn-primary" [disabled]="addRoleForm.invalid">
                                             <ng-container *ngIf="buttonLoader; else saveButton">
                                                 <div *ngIf="buttonLoader" class="dot-opacity-loader">
                                                     <span></span>
@@ -333,19 +340,8 @@
                                     </div>
                                 </div>
 
-
-                                <!-- <div class="info-btn d-flex justify-content-end">
-                                    <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
-                                        <div *ngIf="toggle" class="dot-opacity-loader">
-                                          <span></span>
-                                          <span></span>
-                                          <span></span>
-                                        </div>
-                                        <span *ngIf="!toggle">
-                                          Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
-                                        </span>
-                                      </button>
-                                </div> -->
+                            </form>
+                                
                         </div>
                    <div class="col-md-3"></div>
                 </div>

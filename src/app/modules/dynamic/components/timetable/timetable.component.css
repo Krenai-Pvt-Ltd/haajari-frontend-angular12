@@ -793,7 +793,7 @@ td.text-right {
     margin-bottom: 40px;
 }
 
-.form-control {
+.attendance-details-search {
     display: block;
     width: 100%;
     padding: 0.4rem 1rem;
@@ -803,7 +803,7 @@ td.text-right {
     color: #000444;
     background-color: #fff;
     background-clip: padding-box;
-    border: none;
+    border: none !important;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -813,4 +813,4 @@ td.text-right {
     -o-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
-}
+} 

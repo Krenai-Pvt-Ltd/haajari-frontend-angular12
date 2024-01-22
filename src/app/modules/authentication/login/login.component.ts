@@ -21,8 +21,10 @@ password: any;
     localStorage.setItem('loginData', JSON.stringify(loginData));
   }
 
+  loginButtonLoader : boolean = false;
   
   signIn(){
+    this.loginButtonLoader = true;
     this.dataService.loginUser(this.email,this.password).subscribe(response =>{
       debugger
       console.log(response);
@@ -34,6 +36,7 @@ password: any;
       
     }, (error) =>{
       console.log(error);
+      this.loginButtonLoader = false;
     })
   }
 
@@ -55,5 +58,24 @@ password: any;
 
   }
 
+  ngAfterViewInit(){
+    this.autoplayVideo();
+  }
+
+  autoplayVideo(){
+
+    var div= document.getElementById("videoId");
+    if(div){
+    
+     
+
+        //@ts-ignore
+        div!.muted = true;
+  //@ts-ignore
+        div.autoplay=true;
+         //@ts-ignore
+      div!.play();
+    } 
+  }
 
 }
