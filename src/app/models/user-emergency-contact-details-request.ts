@@ -5,6 +5,8 @@ export class UserEmergencyContactDetailsRequest {
     employeeOnboardingFormStatus: string = '';
     employeeOnboardingStatus: string = '';
     statusId: number = 0;
+    directSave: boolean = false;
+    
     // phoneNumber:string='';
     // name:string='';
     // relation:string='';

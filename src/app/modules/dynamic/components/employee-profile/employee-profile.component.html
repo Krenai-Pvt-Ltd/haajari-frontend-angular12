@@ -132,9 +132,11 @@
                                     <div class="d-flex" style="gap:10px"
                                         *ngIf="(user!.employeeOnboardingStatus?.response=='PENDING' || user!.employeeOnboardingStatus?.response=='REQUESTED' || user!.employeeOnboardingStatus?.response=='NEW_USER')">
                                         <button class="btn sand-request approved" type="button"
-                                            (click)="updateStatusUserByUuid('APPROVED')">Approve</button>
-                                        <button class="btn sand-request rejected" type="button"
-                                            (click)="updateStatusUserByUuid('REJECTED')">Reject</button>
+                                            (click)="updateStatusUserByUuid('APPROVED')">Approved</button>
+                                            <button class="btn sand-request rejected" type="button"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#showRejectModal">Rejected</button>
+                                    
                                     </div>
                                     <!-- <div class="d-flex" style="gap:10px" *ngIf="(user!.employeeOnboardingStatus?.response!='PENDING')">
                                         <button class="btn sand-request approved" type="button" *ngIf="(user!.employeeOnboardingStatus?.response=='APPROVED')">{{user!.employeeOnboardingStatus?.response}}</button>
@@ -1774,5 +1776,34 @@
             
         </div>
     </div> 
+</div>
+
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showRejectModal"
+    #openRejectModal id="openRejectModal"></button>
+<div class="modal" id="showRejectModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="shareModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Reason for Rejection</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Please provide a reason for rejection:</p>
+        <textarea class="form-control" id="rejectionReason" [(ngModel)]="reasonOfRejectionProfile.reason" rows="3"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeRejectModalButton>Close</button>
+        <button type="button" (click)="updateStatusUserByUuid('REJECTED')" class="btn btn-primary">
+            <div *ngIf="toggle" class="dot-opacity-loader">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                  </div>
+                  <span *ngIf="!toggle">
+                      Save Changes <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                  </span> </button>
+      </div>
+    </div>
+  </div>
 </div>
 

@@ -3,4 +3,6 @@ export class UserDocumentsRequest {
     highSchoolCertificate: string = '';
     highestQualificationDegree: string = '';
     testimonialReccomendation: string = '';
+    aadhaarCard: string = '';
+    pancard: string = '';
 }

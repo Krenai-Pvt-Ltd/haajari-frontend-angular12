@@ -14,14 +14,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { DataService } from 'src/app/services/data.service';
 import { environment } from 'src/environments/environment';
-import { AcadmicComponent } from './components/acadmic/acadmic.component';
-import { BankDetailsComponent } from './components/bank-details/bank-details.component';
+// import { AcadmicComponent } from './components/acadmic/acadmic.component';
+// import { BankDetailsComponent } from './components/bank-details/bank-details.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { EmergencyContactComponent } from './components/emergency-contact/emergency-contact.component';
-import { EmployeeAddressDetailComponent } from './components/employee-address-detail/employee-address-detail.component';
-import { EmployeeDocumentComponent } from './components/employee-document/employee-document.component';
-import { EmployeeExperienceComponent } from './components/employee-experience/employee-experience.component';
-import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
+// import { EmergencyContactComponent } from './components/emergency-contact/emergency-contact.component';
+// import { EmployeeAddressDetailComponent } from './components/employee-address-detail/employee-address-detail.component';
+// import { EmployeeDocumentComponent } from './components/employee-document/employee-document.component';
+// import { EmployeeExperienceComponent } from './components/employee-experience/employee-experience.component';
+// import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { LiveManagerComponent } from './components/live-manager/live-manager.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
@@ -48,7 +48,7 @@ import { SafePipe } from 'src/app/pipe/safe.pipe';
 import { AppComponent } from 'src/app/app.component';
 import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
-import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
+// import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../common/header/header.component';
@@ -60,6 +60,7 @@ import { BillingPaymentComponent } from './components/billing-payment/billing-pa
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SuccessComponent } from './components/success/success.component';
 import { EmployeeLocationValidatorComponent } from './employee-location-validator/employee-location-validator.component';
+import { WebcamModule } from 'ngx-webcam';
 
 @NgModule({
   declarations: [
@@ -79,13 +80,13 @@ import { EmployeeLocationValidatorComponent } from './employee-location-validato
     TeamComponent,
     TeamDetailComponent,
     RoleComponent,
-    EmployeeOnboardingFormComponent,
-    EmployeeAddressDetailComponent,
-    EmployeeDocumentComponent,
-    AcadmicComponent,
-    EmployeeExperienceComponent,
-    BankDetailsComponent,
-    EmergencyContactComponent,
+    // EmployeeOnboardingFormComponent,
+    // EmployeeAddressDetailComponent,
+    // EmployeeDocumentComponent,
+    // AcadmicComponent,
+    // EmployeeExperienceComponent,
+    // BankDetailsComponent,
+    // EmergencyContactComponent,
     ReportsComponent,
     EmployeeProfileComponent,
     TestingComponent,
@@ -95,7 +96,7 @@ import { EmployeeLocationValidatorComponent } from './employee-location-validato
     SafePipe,
     RoleAddComponent,
     HeaderComponent,
-    EmployeeOnboardingPreviewComponent,
+    // EmployeeOnboardingPreviewComponent,
     BillingComponent,
     EmployeeOnboardingDataComponent,
     BillingPaymentComponent,
@@ -110,6 +111,7 @@ import { EmployeeLocationValidatorComponent } from './employee-location-validato
     FormsModule,
     DynamicRoutingModule,
     ReactiveFormsModule,
+    WebcamModule,
     NgxPaginationModule,
     NgxDaterangepickerMd.forRoot(),
     NgxShimmerLoadingModule,

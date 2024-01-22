@@ -55,6 +55,12 @@
     font-weight: 500;
     padding: 10px;
 }
+.subheading {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000000; /* Or any color that suits your design */
+}
+
 
 .table-design tr td {
     border: 1px solid #e0e0e0;
@@ -63,3 +69,17 @@
 .table tbody tr:hover {
     box-shadow: none;
 }
+
+.status-approved {
+    color: green; /* Green color for approved */
+}
+
+.status-rejected {
+    color: red; /* Red color for rejected */
+}
+
+.status-pending {
+    color: rgb(255, 153, 0); /* Purple color for pending */
+}
+
+

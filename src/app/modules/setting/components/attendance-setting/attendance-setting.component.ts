@@ -1008,10 +1008,5 @@ unselectAllUsers() {
             console.error('Error fetching address details:', error);
         }
     );
-}
-
-
-
-
-
+  }
 }
