@@ -918,8 +918,9 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   previewString: string = ''
-  @ViewChild('openViewModal') openViewModal !: ElementRef;
+  @ViewChild('openViewModal') openViewModal!: ElementRef;
   openPdfModel(viewString: string) {
+    debugger
     if (viewString == "highschool") {
       this.previewString = this.highSchoolCertificate;
     } else if (viewString == "degree") {
