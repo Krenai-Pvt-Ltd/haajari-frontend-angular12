@@ -19,11 +19,8 @@ import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-resp
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
-<<<<<<< HEAD
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
-=======
 import { constant } from 'src/app/constant/constant';
->>>>>>> 0e47170064abdfdd56f13dea7a49c8c286ccc989
 
 @Component({
   selector: 'app-employee-profile',
@@ -175,16 +172,13 @@ export class EmployeeProfileComponent implements OnInit {
     this.setReasonOfRejectionMethodCall();
     this.dataService.updateStatusUser(this.userId, type).subscribe(
       (data) => {
-<<<<<<< HEAD
         console.log('status updated:' + type);
         this.closeRejectModalButton.nativeElement.click();
         this.toggle = false
 
         location.reload();
-=======
         this.getUserByUuid();
         // location.reload();
->>>>>>> 0e47170064abdfdd56f13dea7a49c8c286ccc989
       },
       (error) => {
       }
@@ -1010,17 +1004,11 @@ export class EmployeeProfileComponent implements OnInit {
     );
 }
 
-<<<<<<< HEAD
 
   }
   
 
 
 
-
-
-=======
-}
->>>>>>> 0e47170064abdfdd56f13dea7a49c8c286ccc989
 
 

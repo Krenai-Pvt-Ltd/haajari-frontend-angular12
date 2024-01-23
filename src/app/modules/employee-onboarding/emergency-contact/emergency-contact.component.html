@@ -49,7 +49,7 @@
                                       <div class="col-md-4">
                                         <div class="mb-3">
                                           <label for="phoneNumber{{i}}" class="pb-2">Phone Number <span class="text-optional">*</span></label>
-                                          <input type="text" class="form-control" id="phoneNumber{{i}}" name="phoneNumber" placeholder="Enter Phone Number" [(ngModel)]="contact.contactNumber" required pattern="^[0-9]*$" minlength="10" maxlength="10" #phoneNumber="ngModel" [ngModelOptions]="{standalone: true}">
+                                          <input type="number" class="form-control" id="phoneNumber{{i}}" name="phoneNumber" placeholder="Enter Phone Number" [(ngModel)]="contact.contactNumber" required pattern="^[0-9]*$" minlength="10" maxlength="10" #phoneNumber="ngModel" [ngModelOptions]="{standalone: true}">
                                           <!-- Error Message for Phone Number -->
                                           <div *ngIf="phoneNumber.touched && phoneNumber.invalid">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.errors?.required">

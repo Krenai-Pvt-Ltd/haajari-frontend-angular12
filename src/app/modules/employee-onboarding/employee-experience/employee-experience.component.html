@@ -118,7 +118,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="lastSalary{{i}}" class="pb-2">Last Salary <span class="text-optional">*</span></label>
-                                            <input type="text" class="form-control " id="lastSalary{{i}}" name="lastSalary" placeholder="Last salary" [(ngModel)]="experience.lastSalary" required #lastSalaryField="ngModel" [ngModelOptions]="{standalone: true}">
+                                            <input type="number" class="form-control " id="lastSalary{{i}}" name="lastSalary" placeholder="Last salary" [(ngModel)]="experience.lastSalary" required #lastSalaryField="ngModel" [ngModelOptions]="{standalone: true}">
                                             <!-- Error Message for Last Salary -->
                                             <div *ngIf="lastSalaryField.touched">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastSalaryField.errors?.required">
@@ -129,18 +129,26 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="lastJobPosition{{i}}" class="pb-2">Position <span class="text-optional">*</span></label>
-                                            <input type="text" class="form-control" id="lastJobPosition{{i}}" name="lastJobPosition" placeholder="Position" [(ngModel)]="experience.lastJobPosition" required #lastJobPositionField="ngModel" [ngModelOptions]="{standalone: true}">
-                                            <!-- Error Message for Position -->
-                                            <div *ngIf="lastJobPositionField.touched">
-                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobPositionField.errors?.required">
-                                                    <i class="bi bi-exclamation-circle"></i>
-                                                    Position is required.
-                                                </p>
-                                            </div>
+                                        <label for="lastJobPositionDropdown{{i}}" class="pb-2">Position <span class="text-optional">*</span></label>
+                                        <div class="dropdown" style="width: 100%;">
+                                            <button type="button" id="lastJobPositionDropdown{{i}}" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="lastJobPosition">
+                                                {{ experience.lastJobPosition || 'Select Position' }}
+                                                <i class="bi bi-chevron-down"></i>
+                                            </button>
+                                            <ul [attr.aria-labelledby]="'lastJobPositionDropdown'" class="dropdown-menu department-dropdown" style="width: 100%;">
+                                                <li *ngFor="let title of jobTitles"><a class="dropdown-item" (click)="selectPositionForExperience(title, i)">{{ title }}</a></li>
+                                            </ul>
+                                        </div>
+                                        <input type="hidden" [(ngModel)]="experience.lastJobPosition" required #lastJobPositionField="ngModel" [ngModelOptions]="{standalone: true}">
+                                        <!-- Error Message for Position -->
+                                        <div *ngIf="lastJobPositionField.touched">
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobPositionField.errors?.required">
+                                                <i class="bi bi-exclamation-circle"></i>
+                                                Position is required.
+                                            </p>
                                         </div>
                                     </div>
+                                    
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="lastJobResponsibilities{{i}}" class="pb-2">Responsibilities <span class="text-optional">*</span></label>
