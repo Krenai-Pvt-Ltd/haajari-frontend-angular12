@@ -984,7 +984,6 @@ div#eventsModal {
 
 div#eventsModal .modal-dialog {
     max-width: 40%;
-    /* width: fit-content; */
 }
 div#eventsModal .modal-content {
     background-color: #fff;

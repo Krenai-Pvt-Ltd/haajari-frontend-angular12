@@ -58,6 +58,7 @@ export class RequestInterceptorService implements HttpInterceptor {
             return this.dataService.refreshFirebaseAccessToken().pipe(
               switchMap((newToken: any) => {
                 if (newToken) {
+                  localStorage.setItem('token', newToken.access_token);
                   const updatedReq = this.addTokenToHeaders(request, newToken.access_token);
                   return next.handle(updatedReq);
                 } else {
@@ -83,12 +84,6 @@ export class RequestInterceptorService implements HttpInterceptor {
     request = request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
-      }
-    });
-
-    request = request.clone({
-      setParams: {
-        access_token: token
       }
     });
 
