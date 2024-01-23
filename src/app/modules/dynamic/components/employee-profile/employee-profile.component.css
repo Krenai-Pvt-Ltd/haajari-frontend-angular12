@@ -1022,14 +1022,14 @@ div#eventsModal.fade.show .modal-dialog{
     color: grey;
 }
 
-.dot-opacity-loader {
+.dot-loader {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 6px 6px;
 }
 
-.dot-opacity-loader span {
+.dot-loader span {
     display: inline-block;
     width: 8px;
     height: 8px;
@@ -1039,11 +1039,11 @@ div#eventsModal.fade.show .modal-dialog{
     animation: dotOpacity 1.4s infinite ease-in-out both;
 }
 
-.dot-opacity-loader span:nth-child(1) {
+.dot-loader span:nth-child(1) {
     animation-delay: -0.32s;
 }
 
-.dot-opacity-loader span:nth-child(2) {
+.dot-loader span:nth-child(2) {
     animation-delay: -0.16s;
 }
 

@@ -13,24 +13,24 @@
                     <h5 class="mt-0" style="margin-top: 10px !important;">{{user?.name || 'N/A'}}</h5>
                 </div>
                 <div class="d-flex align-items-center" style="gap:20px;">
-                    <div *ngIf="InOutLoader">
+                    <!-- <div *ngIf="InOutLoader">
                         <div class="dot-opacity-loader">
                             <span></span>
                             <span></span>
                             <span></span>
                         </div>
-                    </div>
-                    <span *ngIf="status=='out' && !InOutLoader">
+                    </div> -->
+                    <span *ngIf="status=='out'">
                         <button class="btn sand-request approved" type="button"
                             (click)="checkinCheckout('/inn')">Check-In</button>
                     </span>
-                    <span *ngIf="((status=='in') || (status=='back')) && !InOutLoader">
+                    <span *ngIf="((status=='in') || (status=='back'))">
                         <button class="btn sand-request approved break-btn" ngbTooltip="Start your break"
                             placement="top" type="button" (click)="checkinCheckout('/breakk')">
                             <img src="assets/images/mug-hot-1.svg" style="width:100%">
                         </button>
                     </span>
-                    <span *ngIf="status=='break' && !InOutLoader">
+                    <span *ngIf="status=='break'">
                         <button class="btn sand-request approved break-btn" ngbTooltip="End your break" placement="top"
                             type="button" (click)="checkinCheckout('/backk')">
                             <img src="assets/images/no-coffee.svg" style="width:100%">
@@ -38,7 +38,7 @@
 
 
                     </span>
-                    <span *ngIf="((status=='in') || (status=='back') || (status=='break')) && !InOutLoader">
+                    <span *ngIf="((status=='in') || (status=='back') || (status=='break'))">
                         <button class="btn sand-request rejected" (click)="checkinCheckout('/outt')">Check-Out</button>
                     </span>
                 </div>
@@ -1795,7 +1795,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeRejectModalButton>Close</button>
         <button type="button" (click)="updateStatusUserByUuid('REJECTED')" class="btn btn-primary">
-            <div *ngIf="toggle" class="dot-opacity-loader">
+            <div *ngIf="toggle" class="dot-loader">
                       <span></span>
                       <span></span>
                       <span></span>
