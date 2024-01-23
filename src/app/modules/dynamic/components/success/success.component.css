@@ -14,22 +14,22 @@
     color: #444444;
   }
   .order-place-data {
-    width: 42%;
+    width: 60%;
     margin: 0 auto 0;
   }
 
   .order-place-data {
-    display: flex;
+    /* display: flex;
     justify-content: start;
     align-items: start;
     margin: 0 auto 0;
     height: 100%;
-    flex-direction: column;
+    flex-direction: column; */
   }
 
 
   .order-place-head{
-    position: fixed;
+    /* position: fixed; */
     z-index: 9999;
     left: 0;
     top: 0;
@@ -43,14 +43,16 @@
 
 
   .successful-box {
-    background-color: #f4f4f4cc;
+    background-color: #fff;
     padding: 20px;
     border-radius: 7px;
-    margin-top: 20px;
+    /* margin-top: 20px; */
     width: 100%;
-    border: 1px solid #f1f1f1;
     /* padding: 15px; */
-    box-shadow: 0 0 0.875rem #343a400d;
+    /* box-shadow: 0 0 0.875rem #343a400d; */
+    border: 1px solid #dfdfdf;
+    -webkit-box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
 }
 
 .hajiri-box p{
@@ -66,4 +68,27 @@
 
 .hajiri-box{
     padding: 0px 15px;
+}
+
+.main-boxsusses{
+  background-color: #f4f4f4cc;
+}
+
+.services-email p{
+  font-size: 10px;
+  text-align: left;
+}
+
+.services-email ul{
+  list-style: none;
+  padding-left: 0px;
+  text-align: left;
+}
+.services-email ul li{
+  display: inline-block;
+  padding-right: 28px;
+}
+.services-email ul li a {
+  font-size: 10px;
+  color: #444;
 }
