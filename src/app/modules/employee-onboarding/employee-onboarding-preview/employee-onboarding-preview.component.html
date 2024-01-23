@@ -358,17 +358,27 @@
                 <div class="col-md-6">
                     <div class="oonbording-bhadding">
                         <h1> Employee Onboarding Form</h1>
-
-                        <p>Status - <span class="pending-status">{{onboardingPreviewData.user.employeeOnboardingStatus.response}}</span></p>
-                        <button type="button" class="btn btn-primary" *ngIf="allowEdit" (click)="routeToUserDetails()">
+                
+                        <p>Status - <span [ngClass]="{
+                            'status-approved': onboardingPreviewData.user.employeeOnboardingStatus.response === 'APPROVED',
+                            'status-rejected': onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED',
+                            'status-pending': onboardingPreviewData.user.employeeOnboardingStatus.response === 'PENDING'
+                        }">{{ onboardingPreviewData.user.employeeOnboardingStatus.response }}</span></p>
+                        
+                        <!-- Conditionally display the rejection reason -->
+                        <p *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED'">
+                            Reason for Rejection: {{ onboardingPreviewData.reasonOfRejection }}
+                        </p>
+                
+                        <!-- <button type="button" class="btn btn-primary" *ngIf="allowEdit" (click)="routeToUserDetails()">
                             Edit
-                        </button>
-
+                        </button> -->
                     </div>
                 </div>
+                
                 <div class="col-md-6">
                     <div class="oonbording-logo text-end">
-                        <img src="https://www.hajiri.in/assets/images/HAjiRi.svg" style="width: 150px;">
+                        <img [src]="companyLogoUrl || 'https://www.hajiri.in/assets/images/HAjiRi.svg'" style="width: 150px;">
                     </div>
                 </div>
             </div>
@@ -379,7 +389,8 @@
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
-                                    <p class="mb-0 persnaol">  Personal Information</p>
+                                    <p class="mb-0 persnaol">  Personal Information <i class="bi bi-pencil-square" *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED' " (click)="routeToUserDetails('/employee-onboarding/employee-onboarding-form')" ></i></p>
+                                    
                                   </td>
                                 </tr>
                           </table>
@@ -393,14 +404,14 @@
                                 <td>Phone : {{ onboardingPreviewData.user.phoneNumber }}</td>
                               </tr>
                               <tr>
-                                <td>DOB : {{ onboardingPreviewData.user.dob }}</td>
+                                <td>DOB : {{ onboardingPreviewData.user.dob  | date : 'dd/MM/yyyy'  }}</td>
                                 <td>Gender : {{ onboardingPreviewData.user.gender }}</td>
                                 <td>Father's Name :   {{ onboardingPreviewData.user.fatherName }}</td>
                               </tr>
                               <tr>
                                 <td>Marital Status : {{ onboardingPreviewData.user.maritalStatus }}</td>
-                                <td>Joining Date : {{ onboardingPreviewData.user.joiningDate }}</td>
-                                <td>Current Salary : {{ onboardingPreviewData.user.currentSalary }}</td>
+                                <td>Joining Date : {{ onboardingPreviewData.user.joiningDate | date : 'dd/MM/yyyy' }}</td>
+                                <td>Current Salary : {{ onboardingPreviewData.user.currentSalary  | numberToWord }}</td>
                               </tr>
                               <tr>
                                 <td>Department : {{ onboardingPreviewData.user.department }}</td>
@@ -416,61 +427,66 @@
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
-                                    <p class="mb-0 persnaol"> Address Details  (Current Address) </p>
+                                    <p class="mb-0 persnaol"> Address Details <i class="bi bi-pencil-square" *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED' " (click)="routeToUserDetails('/employee-onboarding/employee-address-detail')" ></i></p>
                                   </td>
                                 </tr>
                           </table>
 
+                          <tr>
+                            <td colspan="12">
+                                <p class="mb-0 subheading">Current Address :</p>
+                            </td>
+                        </tr>
+                        
                           <table class="table table-bordered">
                          
                             <tbody class="table-design" *ngIf="onboardingPreviewData.userAddress!=undefined">
                               <tr>
-                                <td colspan="4"> Complete Address : {{ onboardingPreviewData.userAddress[0].address }}</td>
+                                <td colspan="6"> Address Line 1 : {{ onboardingPreviewData.userAddress[0].addressLine1 }}</td>
+                                <td colspan="6"> Address Line 2 : {{ onboardingPreviewData.userAddress[0].addressLine2 }}</td>
                               </tr>
                             
                               <tr>
-                                <td>Pincode : {{ onboardingPreviewData.userAddress[0].pincode }}</td>
-                                <td>City : {{ onboardingPreviewData.userAddress[0].city }}</td>
-                                <td>State : {{ onboardingPreviewData.userAddress[0].state }}</td>
-                                <td>Country : {{ onboardingPreviewData.userAddress[0].country }}</td>
+                                <td colspan="3">Pincode : {{ onboardingPreviewData.userAddress[0].pincode }}</td>
+                                <td colspan="3">City : {{ onboardingPreviewData.userAddress[0].city }}</td>
+                                <td colspan="3">State : {{ onboardingPreviewData.userAddress[0].state }}</td>
+                                <td colspan="3">Country : {{ onboardingPreviewData.userAddress[0].country }}</td>
                               </tr>
                               
                             </tbody>
                           </table>
+
+                          <tr>
+                            <td colspan="12">
+                                <p class="mb-0 subheading">Permanent Address :</p>
+                            </td>
+                        </tr>
+                          <table class="table table-bordered">
+                            <tbody class="table-design" *ngIf="onboardingPreviewData.userAddress!=undefined && onboardingPreviewData.userAddress.length>0" >
+                              <!-- <tr *ngFor="let address of onboardingPreviewData.userAddress; let i = index">
+                                <td colspan="4">Complete Address: {{ address.address }}</td>
+                              </tr> -->
+                              <tr>
+                                <td colspan="6"> Address Line 1 : {{ onboardingPreviewData.userAddress[1].addressLine1 }}</td>
+                                <td colspan="6"> Address Line 2 : {{ onboardingPreviewData.userAddress[1].addressLine2 }}</td>
+                              </tr>
+                              <tr>
+                                <td colspan="3">Pincode: {{ onboardingPreviewData.userAddress[1].pincode }}</td>
+                                <td colspan="3">City: {{ onboardingPreviewData.userAddress[1].city }}</td>
+                                <td colspan="3">State: {{ onboardingPreviewData.userAddress[1].state }}</td>
+                                <td colspan="3">Country: {{ onboardingPreviewData.userAddress[1].country }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
                     </div>
 
-                    <div class="onboarding-deta">
-  <table class="table mb-0">
-    <tr style="background-color: #f1f1f1;">
-      <td>
-        <p class="mb-0 persnaol"> Address Details (Permanent Address)</p>
-      </td>
-    </tr>
-  </table>
-
-  <table class="table table-bordered">
-    <tbody class="table-design" *ngIf="onboardingPreviewData.userAddress!=undefined && onboardingPreviewData.userAddress.length>0" >
-      <!-- <tr *ngFor="let address of onboardingPreviewData.userAddress; let i = index">
-        <td colspan="4">Complete Address: {{ address.address }}</td>
-      </tr> -->
-      <tr>
-        <td colspan="4"> Complete Address : {{ onboardingPreviewData.userAddress[1].address }}</td>
-      </tr>
-      <tr>
-        <td>Pincode: {{ onboardingPreviewData.userAddress[1].pincode }}</td>
-        <td>City: {{ onboardingPreviewData.userAddress[1].city }}</td>
-        <td>State: {{ onboardingPreviewData.userAddress[1].state }}</td>
-        <td>Country: {{ onboardingPreviewData.userAddress[1].country }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+                    
 
                     <div class="onboarding-deta">
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
-                                    <p class="mb-0 persnaol"> Employee Documents</p>
+                                    <p class="mb-0 persnaol"> Employee Documents <i class="bi bi-pencil-square" *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED' " (click)="routeToUserDetails('/employee-onboarding/employee-document')" ></i></p>
                                   </td>
                                 </tr>
                           </table>
@@ -506,7 +522,7 @@
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
-                                    <p class="mb-0 persnaol"> Guarantors</p>
+                                    <p class="mb-0 persnaol"> Guarantors <i class="bi bi-pencil-square" *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED' " (click)="routeToUserDetails('/employee-onboarding/employee-document')" ></i></p>
                                   </td>
                                 </tr>
                           </table>
@@ -545,7 +561,7 @@
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
-                                    <p class="mb-0 persnaol">  Academic Details</p>
+                                    <p class="mb-0 persnaol">  Academic Details <i class="bi bi-pencil-square" *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED' " (click)="routeToUserDetails('/employee-onboarding/acadmic')" ></i></p>
                                   </td>
                                 </tr>
                           </table>
@@ -574,7 +590,7 @@
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
-                                    <p class="mb-0 persnaol"> Experience</p>
+                                    <p class="mb-0 persnaol"> Experience <i class="bi bi-pencil-square" *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED' " (click)="routeToUserDetails('/employee-onboarding/employee-experience')" ></i></p>
                                   </td>
                                 </tr>
                           </table>
@@ -588,14 +604,14 @@
                                     Company Name :  {{userExperience.companyName}}</td>
                              
                                 <td colspan="3"> 
-                                    Duration : {{userExperience.employementDuration}}</td>
+                                    Duration : {{userExperience.startDate | date : 'dd/MM/yyyy'}} - {{userExperience.endDate | date : 'dd/MM/yyyy'}} </td>
                               
                                 <td colspan="3"> 
                                     Department :  {{userExperience.lastJobDepartment}}</td>
                               </tr>
                               <tr>
                                 <td colspan="3"> 
-                                    Last Salary :  {{userExperience.lastSalary}}</td>
+                                    Last Salary :  {{userExperience.lastSalary | numberToWord }}</td>
                              
                                 <td colspan="3"> 
                                     Position :  {{userExperience.lastJobPosition}}</td>
@@ -626,7 +642,7 @@
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
-                                    <p class="mb-0 persnaol"> Bank Details</p>
+                                    <p class="mb-0 persnaol"> Bank Details <i class="bi bi-pencil-square" *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED' " (click)="routeToUserDetails('/employee-onboarding/bank-details')" ></i></p>
                                   </td>
                                 </tr>
                           </table>
@@ -652,7 +668,7 @@
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
-                                    <p class="mb-0 persnaol"> Emergency Contact</p>
+                                    <p class="mb-0 persnaol"> Emergency Contact <i class="bi bi-pencil-square" *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED' " (click)="routeToUserDetails('/employee-onboarding/emergency-contact')" ></i></p>
                                   </td>
                                 </tr>
                           </table>

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { debug } from 'console';
+import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { OrganizationAddressDetail } from 'src/app/models/organization-address-detail';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { UserAddressRequest } from 'src/app/models/user-address-request';
 import { DataService } from 'src/app/services/data.service';
@@ -13,7 +15,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class EmployeeAddressDetailComponent implements OnInit {
   sameAddress: boolean = true;
-
+  userAddressRequest: UserAddressRequest[] = [new UserAddressRequest(), new UserAddressRequest()];
   userAddressDetailsRequest: UserAddressDetailsRequest = new UserAddressDetailsRequest();
 
   constructor(private dataService: DataService, private router : Router, private activateRoute : ActivatedRoute) { 
@@ -44,11 +46,17 @@ export class EmployeeAddressDetailComponent implements OnInit {
   
   userAddressDetailsStatus = "";
   toggle = false;
-
+  toggleSave = false;
 setEmployeeAddressDetailsMethodCall() {
   debugger
+  this.userAddressDetailsRequest.userAddressRequest=this.userAddressRequest;
   this.userAddressDetailsRequest.sameAddress = this.isPermanent;
-  this.toggle = true;
+  if(this.buttonType=='next'){
+    this.toggle = true;
+  } else if (this.buttonType=='save'){
+    this.toggleSave = true;
+  }
+  // this.toggle = true;
   const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
 
   if (!userUuid) { // Fixed check here
@@ -65,7 +73,23 @@ setEmployeeAddressDetailsMethodCall() {
         console.log('Response:', response);
         this.dataService.markStepAsCompleted(response.statusId);
         this.toggle = false;
-        this.routeToUserDetails(); // Ensure this method does what's expected
+        this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
+       
+        if(this.buttonType=='next'){
+          this.routeToUserDetails();
+        } else if (this.buttonType=='save'){
+          if(this.employeeOnboardingFormStatus!='REJECTED'){
+            this.handleOnboardingStatus(response.employeeOnboardingStatus);
+            this.successMessageModalButton.nativeElement.click();
+          }
+          
+          setTimeout(() => {
+            
+            this.routeToFormPreview();  
+          }, 2000);
+          
+          
+        } // Ensure this method does what's expected
       },
       (error) => {
         console.error('Error occurred:', error);
@@ -75,8 +99,10 @@ setEmployeeAddressDetailsMethodCall() {
     );
 }
 
-  
+isNewUser: boolean = true;
 isLoading:boolean = true;
+employeeOnboardingFormStatus:string|null=null;
+@ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
   getNewUserAddressDetailsMethodCall() {
     debugger
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
@@ -85,10 +111,19 @@ isLoading:boolean = true;
       this.dataService.getNewUserAddressDetails(userUuid).subscribe(
         (response: UserAddressDetailsRequest) => {
           this.isLoading=false;
+          this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
           this.dataService.markStepAsCompleted(response.statusId);
           if (response && response.userAddressRequest && response.userAddressRequest.length > 0) {
             this.userAddressDetailsRequest = response;
+            this.userAddressRequest = response.userAddressRequest;
             
+            if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
+              this.successMessageModalButton.nativeElement.click();
+            }
+            if(response.employeeOnboardingStatus == "PENDING"){
+              this.isNewUser = false;
+            }
+            this.handleOnboardingStatus(response.employeeOnboardingStatus);
 
             if(response.sameAddress==false){
               this.isPermanent=false;
@@ -98,11 +133,11 @@ isLoading:boolean = true;
             
           } else {
             // Properly initialize the object with default values
-            this.userAddressDetailsRequest = {
-              statusId: 0,
-              sameAddress: false, // Default to false since there are no addresses to determine if they are the same
-              userAddressRequest: [new UserAddressRequest(), new UserAddressRequest()] // Initialize with two empty addresses
-            };
+            this.userAddressDetailsRequest = new UserAddressDetailsRequest();
+            this.userAddressDetailsRequest.directSave=false;
+            this.userAddressDetailsRequest.sameAddress=false;
+            this.userAddressDetailsRequest.statusId=0;
+            this.userAddressDetailsRequest.userAddressRequest=[new UserAddressRequest(),new UserAddressRequest()];
           }
           
         },
@@ -153,7 +188,132 @@ isPermanent:boolean=false;
   
   
   // ... similarly for the other fields ...
+  @ViewChild("formSubmitButton") formSubmitButton!:ElementRef;
+
+buttonType:string="next"
+selectButtonType(type:string){
+  this.buttonType=type;
+  this.userAddressDetailsRequest.directSave = false;
+  this.formSubmitButton.nativeElement.click();
+}
+
+directSave: boolean = false;
+
+submit(){
+switch(this.buttonType){
+  case "next" :{
+    this.setEmployeeAddressDetailsMethodCall();
+    break;
+  }
+  case "save" :{
+    debugger
+    this.userAddressDetailsRequest.directSave = true;
+    this.setEmployeeAddressDetailsMethodCall();
+    break;
+  }
+}
+}
+@ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
+routeToFormPreview() {
+  this.dismissSuccessModalButton.nativeElement.click();
+  setTimeout(x=>{
+  let navExtra: NavigationExtras = {
+    
+    queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+  };
+  this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
+},2000)
+}
   
-  
+displayModal = false;
+  allowEdit = false;
+handleOnboardingStatus(response: string) {
+  this.displayModal = true;
+  switch (response) {
+    
+    case 'REJECTED':
+      this.allowEdit = true;
+      break;
+      case 'APPROVED':
+    case 'PENDING':
+      this.allowEdit = false;
+      break;
+    default:
+      this.displayModal = false;
+      break;
+  }
+}
+
+@ViewChild("placesRef") placesRef! : GooglePlaceDirective;
+
+  public handleAddressChange(e: any) {
+    debugger
+    var id=this.userAddressRequest[0].id;
+    var addressLine1=this.userAddressRequest[0].addressLine1;
+    this.userAddressRequest[0]=new UserAddressRequest();
+    this.userAddressRequest[0].id=id;
+    this.userAddressRequest[0].addressLine1=e.name.toString() ;
+    e?.address_components?.forEach((entry: any) => {
+      console.log(entry);
+      
+      if (entry.types?.[0] === "route") {
+        this.userAddressRequest[0].addressLine2 = entry.long_name + ",";
+      }
+      if (entry.types?.[0] === "sublocality_level_1") {
+        this.userAddressRequest[0].addressLine2 = this.userAddressRequest[0].addressLine2 + entry.long_name
+      }
+      if (entry.types?.[0] === "locality") {
+        this.userAddressRequest[0].city = entry.long_name
+      }
+      if (entry.types?.[0] === "administrative_area_level_1") {
+        this.userAddressRequest[0].state = entry.long_name
+      }
+      if (entry.types?.[0] === "country") {
+        this.userAddressRequest[0].country = entry.long_name
+      }
+      if (entry.types?.[0] === "postal_code") {
+        this.userAddressRequest[0].pincode = entry.long_name
+      }
+
+
+
+    });
+  }
+
+  @ViewChild("placesRefPermanent") placesRefPermanent! : GooglePlaceDirective;
+
+  public handleAddressChangePermanent(e: any) {
+    debugger
+    var id=this.userAddressRequest[1].id;
+    var addressLine1=this.userAddressRequest[1].addressLine1;
+    this.userAddressRequest[1]=new UserAddressRequest();
+    this.userAddressRequest[1].id=id;
+    this.userAddressRequest[1].addressLine1=e.name.toString() ;
+    e?.address_components?.forEach((entry: any) => {
+      console.log(entry);
+      
+      if (entry.types?.[0] == "route") {
+        this.userAddressRequest[1].addressLine2 = entry.long_name + ",";
+      }
+      if (entry.types?.[0] == "sublocality_level_1") {
+        this.userAddressRequest[1].addressLine2 = this.userAddressRequest[1].addressLine2 + entry.long_name
+      }
+      if (entry.types?.[0] == "locality") {
+        this.userAddressRequest[1].city = entry.long_name
+      }
+      if (entry.types?.[0] == "administrative_area_level_1") {
+        this.userAddressRequest[1].state = entry.long_name
+      }
+      if (entry.types?.[0] == "country") {
+        this.userAddressRequest[1].country = entry.long_name
+      }
+      if (entry.types?.[0] == "postal_code") {
+        this.userAddressRequest[1].pincode = entry.long_name
+      }
+
+
+
+    });
+  }
   
 }

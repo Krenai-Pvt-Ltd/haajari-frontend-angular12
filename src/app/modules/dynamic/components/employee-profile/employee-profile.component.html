@@ -14,7 +14,7 @@
                 </div>
                 <div class="d-flex align-items-center" style="gap:20px;">
                     <div *ngIf="InOutLoader">
-                        <div class="dot-opacity-loader" >
+                        <div class="dot-opacity-loader">
                             <span></span>
                             <span></span>
                             <span></span>
@@ -132,9 +132,11 @@
                                     <div class="d-flex" style="gap:10px"
                                         *ngIf="(user!.employeeOnboardingStatus?.response=='PENDING' || user!.employeeOnboardingStatus?.response=='REQUESTED' || user!.employeeOnboardingStatus?.response=='NEW_USER')">
                                         <button class="btn sand-request approved" type="button"
-                                            (click)="updateStatusUserByUuid('APPROVED')">Approve</button>
-                                        <button class="btn sand-request rejected" type="button"
-                                            (click)="updateStatusUserByUuid('REJECTED')">Reject</button>
+                                            (click)="updateStatusUserByUuid('APPROVED')">Approved</button>
+                                            <button class="btn sand-request rejected" type="button"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#showRejectModal">Rejected</button>
+                                    
                                     </div>
                                     <!-- <div class="d-flex" style="gap:10px" *ngIf="(user!.employeeOnboardingStatus?.response!='PENDING')">
                                         <button class="btn sand-request approved" type="button" *ngIf="(user!.employeeOnboardingStatus?.response=='APPROVED')">{{user!.employeeOnboardingStatus?.response}}</button>
@@ -1606,7 +1608,7 @@
                             <label for="username" style="padding-bottom: 6px">Pick a starting date</label>
                             <input type="date" id="username" placeholder="Enter title ..." required=""
                                 class="form-control ng-untouched ng-pristine ng-invalid" formControlName="startDate"
-                                [(ngModel)]="userLeaveRequest.startDate" [min]="currentNewDate"/>
+                                [(ngModel)]="userLeaveRequest.startDate" [min]="currentNewDate" />
                             <div class="form-text text-danger"
                                 *ngIf="StartDate?.errors?.['required'] && (StartDate?.touched || StartDate?.dirty)">
                                 Start Date is Required.
@@ -1735,9 +1737,9 @@
 <!-- show image modal -->
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"
     #openViewModal id="openViewModal"></button>
-<div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
-    aria-labelledby="shareModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width:80%;">
+<div class="modal blur-bg-2" id="showImageModal" tabindex="-1"  data-bs-keyboard="false"
+    aria-labelledby="shareModalLabel1" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">PDF</h5>
@@ -1750,3 +1752,59 @@
         </div>
     </div>
 </div>
+
+
+<button type="button" class="btn btn-primary d-none"  data-bs-toggle="modal" data-bs-target="#eventsModal"
+    #openEventsModal id="openEventsModal" ></button>
+<div class="modal" data-bs-backdrop="static"  id="eventsModal" [ngStyle]="{'left':clientX,'top':clientY,'position':'absolute'}"  #eventsModal tabindex="-1" role="dialog"
+    aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog m-0" role="document">
+        <div class="modal-content" >
+         <button type="button" class="d-none" #closeAttendanceDetailModalButton data-bs-dismiss="modal"></button>
+            <div class="modal-body" >
+                <div class="calenInfo" *ngIf="userAttendanceDetailDateWise.checkInTime!=null">
+                    <p><b>Check In Time: </b>{{userAttendanceDetailDateWise.checkInTime | timeFormat}}</p>
+                    <p><b>Check Out Time: </b>{{userAttendanceDetailDateWise.checkOutTime | timeFormat}}</p>
+                    <p><b>Total Hours: </b>{{userAttendanceDetailDateWise.duration | durationFormat}}</p>
+                    <p><b>Total Break: </b>{{userAttendanceDetailDateWise.breakCount}}</p>
+                    <p><b>Break Duration: </b>{{userAttendanceDetailDateWise.breakDuration | durationFormat}}</p>
+                </div>
+                <div class="calenInfo d-block" *ngIf="userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined">
+                    <p><b>Absent!</b></p>
+                </div>
+            </div>
+                
+            
+        </div>
+    </div> 
+</div>
+
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showRejectModal"
+    #openRejectModal id="openRejectModal"></button>
+<div class="modal" id="showRejectModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="shareModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Reason for Rejection</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Please provide a reason for rejection:</p>
+        <textarea class="form-control" id="rejectionReason" [(ngModel)]="reasonOfRejectionProfile.reason" rows="3"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeRejectModalButton>Close</button>
+        <button type="button" (click)="updateStatusUserByUuid('REJECTED')" class="btn btn-primary">
+            <div *ngIf="toggle" class="dot-opacity-loader">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                  </div>
+                  <span *ngIf="!toggle">
+                      Save Changes <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                  </span> </button>
+      </div>
+    </div>
+  </div>
+</div>
+

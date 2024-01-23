@@ -9,7 +9,7 @@
           <div class="personal-details">
             <h5>Address Details</h5>
             <p class="mb-0">Fields with * are mandatory</p>
-            <form #addressInformationForm="ngForm" ngNativeValidate (ngSubmit)="setEmployeeAddressDetailsMethodCall()">
+            <form #addressInformationForm="ngForm" ngNativeValidate (ngSubmit)="submit()">
               <div class="form-group">
                 <div class="personal-info mt-4">
                   <div class="row">
@@ -19,32 +19,55 @@
                   </div>
                     <div class="col-md-12">
                       <div class="mb-3">
-                        <label for="currentVillage" class="pb-2">Complete Address</label>
-                        <input type="text" class="form-control" id="currentVillage" name="currentVillage"
+                        <label for="currentVillage" class="pb-2">Address Line 1</label>
+                        <input type="text" class="form-control" id="currentVillage" name="currentVillage" ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" 
                           placeholder="House/Floor No. Building Name or Street, Locality"
-                          [(ngModel)]="userAddressDetailsRequest.userAddressRequest[0].address"
-                          minlength="5" maxlength="100" required #address="ngModel">
+                          [(ngModel)]="userAddressRequest[0].addressLine1"
+                          minlength="5" maxlength="100" required #addressLine1="ngModel">
 
                         <!-- Error Message for Required Field -->
-                        <div *ngIf="address.touched">
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="address.errors?.required">
+                        <div *ngIf="addressLine1.touched">
+                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine1.errors?.required">
                             <i class="bi bi-exclamation-circle"></i>
                             Current address is required.
                           </p>
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="address.errors?.minlength">
+                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine1.errors?.minlength">
                             <i class="bi bi-exclamation-circle"></i>
                             Please enter a minimum of five characters.
                           </p>
-                          <!-- You can add more error conditions here if needed -->
+                         
                         </div>
                       </div>
                     </div>
+
+                      <div class="col-md-12">
+                        <div class="mb-3">
+                          <label for="addressLine2" class="pb-2">Address Line 2</label>
+                          <input type="text" class="form-control" id="addressLine2" name="addressLine2"
+                            placeholder="Apartment, suite, unit, building, floor, etc."
+                            [(ngModel)]="userAddressRequest[0].addressLine2"
+                            minlength="5" maxlength="100" #addressLine2="ngModel">
+  
+                          <!-- Error Message for Required Field -->
+                          <div *ngIf="addressLine2.touched">
+                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine2.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i>
+                              Current address is required.
+                            </p>
+                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine2.errors?.minlength">
+                              <i class="bi bi-exclamation-circle"></i>
+                              Please enter a minimum of five characters.
+                            </p>
+                            <!-- You can add more error conditions here if needed -->
+                          </div>
+                        </div>
+                      </div>
 
                     <!-- Other input fields for Pincode, City, State, Country -->
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="currentPincode" class="pb-2">Pincode</label>
-                            <input type="text" class="form-control" id="currentPincode" name="currentPincode" placeholder="Enter Pincode" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[0].pincode" required #currentPincode="ngModel" minlength="6" maxlength="6" pattern="[0-9]*">
+                            <input type="text" class="form-control" id="currentPincode" name="currentPincode" placeholder="Enter Pincode" [(ngModel)]="userAddressRequest[0].pincode" required #currentPincode="ngModel" minlength="6" maxlength="6" pattern="[0-9]*">
                             <!-- Error Message for Pincode -->
                             <div *ngIf="currentPincode.touched">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="currentPincode.errors?.required">
@@ -64,7 +87,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="currentCity" class="pb-2">City</label>
-                            <input type="text" class="form-control" id="currentCity" name="currentCity" placeholder="Enter City" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[0].city" required #currentCity="ngModel">
+                            <input type="text" class="form-control" id="currentCity" name="currentCity" placeholder="Enter City" [(ngModel)]="userAddressRequest[0].city" required #currentCity="ngModel">
                             <!-- Error Message for City -->
                             <div *ngIf="currentCity.touched">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="currentCity.errors?.required">
@@ -78,7 +101,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="currentState" class="pb-2">State</label>
-                            <input type="text" class="form-control" id="currentState" name="currentState" placeholder="Enter State" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[0].state" required #currentState="ngModel">
+                            <input type="text" class="form-control" id="currentState" name="currentState" placeholder="Enter State" [(ngModel)]="userAddressRequest[0].state" required #currentState="ngModel">
                             <!-- Error Message for State -->
                             <div *ngIf="currentState.touched">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="currentState.errors?.required">
@@ -92,7 +115,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="currentCountry" class="pb-2">Country</label>
-                            <input type="text" class="form-control" id="currentCountry" name="currentCountry" placeholder="Enter Country" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[0].country" required #currentCountry="ngModel">
+                            <input type="text" class="form-control" id="currentCountry" name="currentCountry" placeholder="Enter Country" [(ngModel)]="userAddressRequest[0].country" required #currentCountry="ngModel">
                             <!-- Error Message for Country -->
                             <div *ngIf="currentCountry.touched">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="currentCountry.errors?.required">
@@ -129,8 +152,9 @@
 
                     <div class="col-md-12">
                         <div class="mb-3">
-                            <label for="permanentVillage" class="pb-2">Complete Address</label>
-                            <input type="text" class="form-control" id="permanentVillage" name="permanentVillage" placeholder="House/Floor No. Building Name or Street, Locality" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[1].address" required #permanentAddress="ngModel">
+                            <label for="permanentVillage" class="pb-2">Address Line 1</label>
+                            <input type="text" class="form-control" #permanentAddress="ngModel" id="permanentVillage" name="permanentVillage" placeholder="House/Floor No. Building Name or Street, Locality"  
+                            [(ngModel)]="userAddressRequest[1].addressLine1" ngx-google-places-autocomplete #placesRefPermanent="ngx-places" (onAddressChange)="handleAddressChangePermanent($event)"  required >
                             <!-- Error Message for Complete Address -->
                             <div *ngIf="permanentAddress.touched">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="permanentAddress.errors?.required">
@@ -140,11 +164,21 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                          <label for="permanentAddressLine2" class="pb-2">Address Line 2</label>
+                          <input type="text" class="form-control" id="permanentAddressLine2" name="permanentAddressLine2"
+                            placeholder="Apartment, suite, unit, building, floor, etc."
+                            [(ngModel)]="userAddressRequest[1].addressLine2"
+                            minlength="5" maxlength="100" #address="ngModel">
+                        </div>
+                        </div>
+
 
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="permanentPincode" class="pb-2">Pincode</label>
-                            <input type="text" class="form-control" id="permanentPincode" name="permanentPincode" placeholder="Enter Pincode" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[1].pincode" required minlength="6" maxlength="6" pattern="[0-9]*" #permanentPincode="ngModel">
+                            <input type="text" class="form-control" id="permanentPincode" name="permanentPincode" placeholder="Enter Pincode" [(ngModel)]="userAddressRequest[1].pincode" required minlength="6" maxlength="6" pattern="[0-9]*" #permanentPincode="ngModel">
                             <!-- Error Message for Pincode -->
                             <div *ngIf="permanentPincode.touched">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="permanentPincode.errors?.required">
@@ -166,7 +200,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="permanentCity" class="pb-2">City</label>
-                            <input type="text" class="form-control" id="permanentCity" name="permanentCity" placeholder="Enter City" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[1].city" required #permanentCity="ngModel">
+                            <input type="text" class="form-control" id="permanentCity" name="permanentCity" placeholder="Enter City" [(ngModel)]="userAddressRequest[1].city" required #permanentCity="ngModel">
                             <div *ngIf="permanentCity.touched">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="permanentCity.errors?.required">
                                     <i class="bi bi-exclamation-circle"></i>
@@ -179,7 +213,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="permanentState" class="pb-2">State</label>
-                            <input type="text" class="form-control" id="permanentState" name="permanentState" placeholder="Enter State" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[1].state" required #permanentState="ngModel">
+                            <input type="text" class="form-control" id="permanentState" name="permanentState" placeholder="Enter State" [(ngModel)]="userAddressRequest[1].state" required #permanentState="ngModel">
                             <div *ngIf="permanentState.touched">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="permanentState.errors?.required">
                                     <i class="bi bi-exclamation-circle"></i>
@@ -192,7 +226,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="permanentCountry" class="pb-2">Country</label>
-                            <input type="text" class="form-control" id="permanentCountry" name="permanentCountry" placeholder="Enter Country" [(ngModel)]="userAddressDetailsRequest.userAddressRequest[1].country" required #permanentCountry="ngModel">
+                            <input type="text" class="form-control" id="permanentCountry" name="permanentCountry" placeholder="Enter Country" [(ngModel)]="userAddressRequest[1].country" required #permanentCountry="ngModel">
                             <div *ngIf="permanentCountry.touched">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="permanentCountry.errors?.required">
                                     <i class="bi bi-exclamation-circle"></i>
@@ -206,23 +240,41 @@
                     <!-- Navigation Buttons -->
                     <div class="col-md-12 d-flex justify-content-between mt-3">
                       <div class="info-btn d-flex justify-content-start">
-                        <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()">
-                          <i class="bi bi-arrow-left" style="padding-right: 8px;"></i> Back
-                        </button>
+                          <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()">
+                              <i class="bi bi-arrow-left" style="padding-right: 8px;"></i> Back
+                          </button>
                       </div>
-                      <div class="info-btn">
-                        <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
-                          <div *ngIf="toggle" class="dot-opacity-loader">
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                      <div class="info-btn d-flex justify-content-end" style="gap:10px;">
+                          <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+                              <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
+                                  <div *ngIf="toggleSave" class="dot-opacity-loader ">
+                                      <span></span>
+                                      <span></span>
+                                      <span></span>
+                                  </div>
+                                  <span *ngIf="!toggleSave">
+                                      Submit Form <i class="bi bi-save" style="padding-left: 8px;"></i>
+                                  </span>
+                              </button>
                           </div>
-                          <span *ngIf="!toggle">
-                            Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
-                          </span>
-                        </button>
+                          <button (click)="selectButtonType('next')" class="btn btn-primary" type="button" [disabled]="toggle" aria-label="Next Step">
+                              <div *ngIf="toggle" class="dot-opacity-loader">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                              <span *ngIf="!toggle && isNewUser">
+                                Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                              </span>
+                              <span *ngIf="!toggle && !isNewUser">
+                                Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                            </span>
+                            </button>
                       </div>
-                    </div>
+                      <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button>
+                  </div>
+                      <!-- </div> -->
+                    <!-- </div> -->
                   </div>
                 </div>
               </div>
@@ -232,4 +284,38 @@
       </div>
     </div>
   </div>
+</div>
+
+
+   <!-- Success Message Modal -->
+   <button type="button" style="display: none;" data-bs-toggle="modal" data-bs-target="#successMessageModal" #successMessageModalButton id="successMessageModalButton"></button>
+   <div class="modal fade"  id="successMessageModal" #successMessageModal aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered mx-auto">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <i class="bi bi-check-circle" *ngIf="employeeOnboardingFormStatus != 'REJECTED'" style="font-size: 48px; color: green;"></i>
+                <i class="bi bi-exclamation-triangle-fill" *ngIf="employeeOnboardingFormStatus == 'REJECTED'" style="font-size: 48px; color: red;"></i>
+                
+                <!-- Conditional Messages -->
+                <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'PENDING'">
+                    Your registration is successful. Pending for verification.
+                </p>
+                <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'APPROVED'">
+                    Your onboarding is approved.
+                </p>
+                <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+                    Your onboarding is rejected.
+                </p>
+
+                <!-- Edit Button -->
+
+                <button type="button" class="d-none"  data-bs-dismiss="modal" id="dismissSuccessModalButton" #dismissSuccessModalButton>
+                    Cancel
+                  </button>
+                <button type="button" class="btn btn-primary" *ngIf="allowEdit" data-bs-dismiss="modal">
+                    Edit
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

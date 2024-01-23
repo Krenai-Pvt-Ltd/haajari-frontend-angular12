@@ -19,6 +19,7 @@ import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-resp
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
+import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
 
 @Component({
@@ -27,8 +28,12 @@ import { constant } from 'src/app/constant/constant';
   styleUrls: ['./employee-profile.component.css'],
 })
 export class EmployeeProfileComponent implements OnInit {
+
+  reasonOfRejectionProfile: ReasonOfRejectionProfile = new ReasonOfRejectionProfile();
   userAddressDetailsRequest: UserAddressDetailsRequest = new UserAddressDetailsRequest();
   userLeaveForm!: FormGroup;
+  @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
+
   constructor(
     private dataService: DataService,
     private datePipe: DatePipe,
@@ -120,7 +125,7 @@ export class EmployeeProfileComponent implements OnInit {
   prevDate!: Date;
 
   getOrganizationOnboardingDateByUuid() {
-    debugger
+    
     this.dataService.getOrganizationOnboardingDate(this.userId).subscribe(
       (data) => {
         this.prevDate = data;
@@ -140,7 +145,6 @@ export class EmployeeProfileComponent implements OnInit {
   isImage:boolean=false;
 
   getUserByUuid() {
-    debugger
     this.dataService.getUserByUuid(this.userId).subscribe(
       (data) => {
         this.user = data;
@@ -161,10 +165,18 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
+  toggle = false;
+  @ViewChild("closeRejectModalButton") closeRejectModalButton!:ElementRef;
   updateStatusUserByUuid(type: string) {
-
+    this.toggle = true;
+    this.setReasonOfRejectionMethodCall();
     this.dataService.updateStatusUser(this.userId, type).subscribe(
       (data) => {
+        console.log('status updated:' + type);
+        this.closeRejectModalButton.nativeElement.click();
+        this.toggle = false
+
+        // location.reload();
         this.getUserByUuid();
         // location.reload();
       },
@@ -233,10 +245,60 @@ export class EmployeeProfileComponent implements OnInit {
   // #######################
 
   attendanceDetailsResponse: AttendanceDetailsResponse[] = [];
+  // var calendar = new Calendar(calendarEl, {
 
+  @ViewChild('openEventsModal') openEventsModal!: ElementRef;
+  userAttendanceDetailDateWise:{checkInTime:string,checkOutTime:string, duration:string, breakCount:string, breakDuration:string}={checkInTime:"",checkOutTime:"", duration:"", breakCount:"", breakDuration:""};
+  attendanceDetailModalToggle:boolean=false;
+  clientX:string="0px";
+  clientY:string="0px";
+  openModal(mouseEnterInfo: any): void {
+    debugger
+    if(!this.attendanceDetailModalToggle){
+    console.log("events : ", mouseEnterInfo.event);
+    this.userAttendanceDetailDateWise.checkInTime="";
+    this.userAttendanceDetailDateWise.checkOutTime="";
+    this.userAttendanceDetailDateWise.breakCount="";
+    this.userAttendanceDetailDateWise.breakDuration="";
+    this.userAttendanceDetailDateWise.duration="";
+    this.userAttendanceDetailDateWise.checkInTime=mouseEnterInfo.event._def.extendedProps.checkInTime;
+    this.userAttendanceDetailDateWise.checkOutTime=mouseEnterInfo.event._def.extendedProps.checkOutTime;
+    this.userAttendanceDetailDateWise.breakCount=mouseEnterInfo.event._def.extendedProps.breakCount + 1;
+    this.userAttendanceDetailDateWise.breakDuration=mouseEnterInfo.event._def.extendedProps.breakDuration;
+    this.userAttendanceDetailDateWise.duration=mouseEnterInfo.event._def.extendedProps.duration;
+    var rect = mouseEnterInfo.el.getBoundingClientRect();
+    this.clientX=(rect.left)+"px";
+    this.clientY=(rect.top)+"px";
+    console.log("mouse location:", mouseEnterInfo.jsEvent.clientX, mouseEnterInfo.jsEvent.clientY);
+    this.openEventsModal.nativeElement.click();
+  }
+  }
+  
+  closeAttendanceModal() { 
+    this.attendanceDetailModalToggle=false;
+    this.closeAttendanceDetailModalButton.nativeElement.click();
+  }
+
+
+ 
+  // eventMouseEnter(mouseEnterInfo: any): void {
+  //   const event = mouseEnterInfo.event;
+  //   const date = mouseEnterInfo.date;
+  //   this.openModal(mouseEnterInfo);
+  // }
+@ViewChild("closeAttendanceDetailModalButton") closeAttendanceDetailModalButton!:ElementRef;
+  mouseLeaveInfo(mouseEnterInfo: any): void {
+    debugger
+    this.closeAttendanceModal();
+  }
+   
+  
+
+  
+  // });
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
 
-    debugger;
+    debugger
     this.dataService
       .getUserAttendanceDetailsByDateDuration(
         this.userId,
@@ -270,6 +332,13 @@ export class EmployeeProfileComponent implements OnInit {
                 initialView: 'dayGridMonth',
                 weekends: true,
                 events: this.events,
+                eventClick: this.openModal.bind(this),
+                eventMouseEnter: this.openModal.bind(this),
+                eventMouseLeave:this.mouseLeaveInfo.bind(this)
+                // eventClick: function(mouseEnterInfo) {
+                //   alert('Event: ' + mouseEnterInfo.event.title);
+                //   mouseEnterInfo.el.style.borderColor = 'red';
+                // }
               };
             }
           } else {
@@ -290,9 +359,14 @@ export class EmployeeProfileComponent implements OnInit {
                 this.totalAbsent++;
               }
               const date = moment(this.attendances[i].createdDate).format('YYYY-MM-DD');
+              var checkInTime = this.attendances[i].checkInTime;
+              var checkOutTime = this.attendances[i].checkOutTime;
+              var breakCount = this.attendances[i].breakCount;
+              var breakDuration = this.attendances[i].breakDuration;
+              var duration = this.attendances[i].duration;
               var color = title == 'P' ? '#e0ffe0' : title == 'A' ? '#f8d7d7' : '';
-              var tempEvent: { title: string, date: string, color: string } = { title: title, date: date, color: color };
-              this.events.push(tempEvent);
+              var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, duration:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, duration:duration };
+              this.events.push(tempEvent2);
 
               if (i == this.attendances.length - 1) {
                 this.calendarOptions = {
@@ -300,45 +374,21 @@ export class EmployeeProfileComponent implements OnInit {
                   initialView: 'dayGridMonth',
                   weekends: true,
                   events: this.events,
+                  eventClick: this.openModal.bind(this),
+                  eventMouseEnter: this.openModal.bind(this),
+                  eventMouseLeave:this.mouseLeaveInfo.bind(this)
+                  // eventClick: function(mouseEnterInfo) {
+                  //   alert('Event: ' + mouseEnterInfo.event.title);
+                  // }
                 };
               }
             }
           }
 
-
-
-
-          // for (let i = 0; i < this.attendances.length; i++) {
-          //   const title = this.attendances[i].checkInTime != null ? 'P' : 'A';
-          //   if(title == 'P'){
-          //     this.totalPresent++;
-          //   }else if(title == 'A'){
-          //     this.totalAbsent++;
-          //   }
-          //   const date = moment(this.attendances[i].createdDate).format('YYYY-MM-DD');
-          //   var color = title=='P'?'#e0ffe0':title=='A'?'#f8d7d7':'';
-          //   var tempEvent:{title:string,date:string,color:string}={title:title,date:date,color:color};
-          //   this.events.push(tempEvent);
-          //   if(i==this.attendances.length-1){
-          //     // this.eventsFlag=true;
-          //     this.calendarOptions = {
-          //       plugins: [dayGridPlugin],
-          //       initialView: 'dayGridMonth',
-          //       weekends: true,
-          //       events: this.events,  
-          //     };
-          //   }
-          // }
-
-          // var date = new Date(this.endDateStr);
-          // var month = date.getMonth();
-          // if(new)
-
-          // console.log(this.events);
           var flag = false;
           if (!flag) {
             var date = new Date(this.prevDate);
-            const calendarApi = this.calendarComponent?.getApi();
+            const calendarApi = this.calendarComponent.getApi();
             this.changeForwardButtonVisibilty(calendarApi);
             flag = true;
           }
@@ -357,12 +407,14 @@ export class EmployeeProfileComponent implements OnInit {
     initialView: 'dayGridMonth',
     weekends: true,
     events: [this.events],
+    eventClick: this.openModal.bind(this),
+    eventMouseEnter: this.openModal.bind(this),
+    eventMouseLeave:this.mouseLeaveInfo.bind(this)
 
   };
 
   forwordFlag: boolean = false;
 
-  @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
   goforward() {
     debugger
     const calendarApi = this.calendarComponent.getApi();
@@ -541,7 +593,6 @@ export class EmployeeProfileComponent implements OnInit {
   eveningShiftToggle: boolean = false;
 
   dayShiftToggleFun(shift: string) {
-    debugger
 
     if (shift == 'day') {
       this.dayShiftToggle = true;
@@ -781,7 +832,7 @@ export class EmployeeProfileComponent implements OnInit {
   contactsEmployee: any;
   isContactPlaceholder: boolean = false;
   getEmployeeContactsDetailsByUuid() {
-    debugger
+    
     this.dataService.getEmployeeContactsDetails(this.userId).subscribe(
       (data) => {
         this.contactsEmployee = data;
@@ -829,7 +880,6 @@ export class EmployeeProfileComponent implements OnInit {
   // isDocumentsShimmer:boolean=false;
   getEmployeeDocumentsDetailsByUuid() {
     // this.isDocumentsShimmer=true;
-    debugger
     this.dataService.getEmployeeDocumentsDetails(this.userId).subscribe(
       (data) => {
         this.documentsEmployee = data.userDocuments;
@@ -868,8 +918,9 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   previewString: string = ''
-  @ViewChild('openViewModal') openViewModal !: ElementRef;
+  @ViewChild('openViewModal') openViewModal!: ElementRef;
   openPdfModel(viewString: string) {
+    debugger
     if (viewString == "highschool") {
       this.previewString = this.highSchoolCertificate;
     } else if (viewString == "degree") {
@@ -879,7 +930,6 @@ export class EmployeeProfileComponent implements OnInit {
     } else if (viewString == "testimonial") {
       this.previewString = this.testimonialsString;
     }
-    debugger
     this.openViewModal.nativeElement.click();
   }
 
@@ -969,7 +1019,6 @@ export class EmployeeProfileComponent implements OnInit {
   status: string = '';
 
   getUserAttendanceStatus() {
-    debugger
     this.dataService.checkinCheckoutStatus(this.userId).subscribe(
       (data) => {
         this.status = data.result;
@@ -981,7 +1030,19 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
-
+  @ViewChild('openRejectModal') openRejectModal !: ElementRef;
+  setReasonOfRejectionMethodCall(){
+    debugger
+    this.dataService.setReasonOfRejection(this.userId, this.reasonOfRejectionProfile)
+    .subscribe(
+      (response: ReasonOfRejectionProfile) => { 
+        console.log('Response:', response);
+      
+      },
+      (error) => {
+        console.error('Error occurred:', error);
+        
+      }
+    );
 }
-
-
+}

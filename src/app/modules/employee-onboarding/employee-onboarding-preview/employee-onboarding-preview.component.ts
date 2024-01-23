@@ -3,7 +3,6 @@ import { NavigationExtras, Router } from '@angular/router';
 import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
 import { UserExperience } from 'src/app/models/user-experience';
-import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -19,17 +18,19 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
     this.getOnboardingFormPreviewMethodCall();
   }
 
-  routeToUserDetails() {
+  routeToUserDetails(routePath: string) {
     let navExtra: NavigationExtras = {
-      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+        queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
     };
-    this.router.navigate(['/employee-onboarding/employee-onboarding-form'], navExtra);
-  }
+    this.router.navigate([routePath], navExtra);
+}
+
 
   secondarySchoolCertificateFileName: string = '';
   highSchoolCertificateFileName1: string = '';
   highestQualificationDegreeFileName1: string = '';
   testimonialReccomendationFileName1: string = '';
+  companyLogoUrl: string = '';
 
   isLoading: boolean = true;
   isFresher: boolean = false;
@@ -45,12 +46,16 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
         (preview) => {
           this.onboardingPreviewData = preview;
+          if(preview.companyLogo){
+            this.companyLogoUrl = preview.companyLogo;
+          }
           this.isLoading = false;
           this.handleOnboardingStatus(preview.user.employeeOnboardingStatus.response);
+          
           if(preview.userExperience){
             this.userExperienceArray = preview.userExperience;
           }
-          if(preview.userExperience[0].user.fresher==true){
+          if(preview.fresher==true){
             
             this.isFresher=true;
           }
