@@ -126,7 +126,6 @@ export class TeamComponent implements OnInit{
     this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchQuery,'name').subscribe((data : any) => {
       this.userList = data.users;
       this.total = data.count;
-      console.log(this.userList);
     });
   }
 
@@ -135,9 +134,7 @@ export class TeamComponent implements OnInit{
     if (index === -1) {
       this.selectedUsers.push(user);
       this.userIds.push(user.uuid);
-      console.log(this.userIds);
     } else {
-      console.log("error!");
     }
 
     
@@ -159,14 +156,12 @@ export class TeamComponent implements OnInit{
     // console.log(+this.getLoginDetailsOrgRefId());
     debugger
     this.dataService.registerTeam(this.userIds,this.teamName,this.teamDescription).subscribe((data) => {
-      console.log(data);
 
       debugger
       location.reload();
-      this.helperService.showToast("Team registration successfull.", Key.TOAST_STATUS_SUCCESS);
+      this.helperService.showToast("Team saved successfully.", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       location.reload();
-      console.log(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
 
     })
@@ -312,7 +307,6 @@ export class TeamComponent implements OnInit{
 
   assignManagerRoleToMemberMethodCall(teamId: string, userId: string) {
     this.dataService.assignManagerRoleToMember(teamId,userId).subscribe((data) => {
-      console.log(data);
       const managerdata = {
         teamUuid: teamId,
         managerId: data.manager.uuid,
@@ -320,7 +314,6 @@ export class TeamComponent implements OnInit{
       localStorage.setItem('managerFunc', JSON.stringify(managerdata));
       location.reload();
     }, (error) => {
-      console.log(error);
       location.reload();
     })
   }
@@ -329,16 +322,12 @@ export class TeamComponent implements OnInit{
     debugger
     if (localStorage.getItem('managerFunc')) {
       localStorage.removeItem('managerFunc');
-      console.log('managerFunc removed from localStorage');
     } else {
-      console.log('managerFunc not found in localStorage');
     }  
     this.dataService.assignMemberRoleToManager(teamId,userId).subscribe((data) => {
       // localStorage.removeItem('managerFunc');
-      console.log(data);
       location.reload();
     }, (error) => {
-      console.log(error);
       location.reload();
     })
   }
@@ -347,10 +336,8 @@ export class TeamComponent implements OnInit{
     this.dataService.removeUserFromTeam(teamId, userId)
       .subscribe(
         response => {
-          console.log('Success:', response);
         },
         error => {
-          console.error('Error:', error);
         }
       );
   }
@@ -360,7 +347,6 @@ export class TeamComponent implements OnInit{
   toGetTeamId(teamUuid: string){
     debugger
     this.teamIid=teamUuid;
-    console.log(this.teamIid);
     this.getTeamMemberById();
 
   }
@@ -372,14 +358,12 @@ export class TeamComponent implements OnInit{
     .subscribe(data => {
       debugger
       this.team = data;
-      console.log(this.team);
     });
   }
 
 
   deleteTeamByTeamId(teamId: number){
     this.dataService.deleteTeam(teamId).subscribe(response =>{
-        console.log("Team Deleted Successfully");
         this.getTeamsByFiltersFunction();
         // location.reload();
         this.helperService.showToast("Team Deleted Successfully.", Key.TOAST_STATUS_SUCCESS);
@@ -427,7 +411,6 @@ export class TeamComponent implements OnInit{
    
    
     this.dataService.getSlackChannelsDataToTeam(this.uniqueUuid).subscribe(response =>{
-      console.log("slack data saved to team successfully");
       this.newRotateToggle = false;
       // this.dataService.slackDataPlaceholderFlag = false;
       if(response){
@@ -462,7 +445,6 @@ export class TeamComponent implements OnInit{
     // console.log(bulkId)
     this.db.object("hajiri_notification"+"/"+"organization_"+this.orgRefId+"/"+"user_"+this.userUuid+"/"+this.uniqueUuid).valueChanges()
       .subscribe(async res => {
-        console.log("res", res)
 
         //@ts-ignore
         var res = res;
@@ -498,7 +480,6 @@ export class TeamComponent implements OnInit{
     // console.log(bulkId)
     this.db.object("hajiri_notification"+"/"+"organization_"+this.orgRefId+"/"+"user_"+this.userUuid+"/"+this.uniqueUuid).valueChanges()
       .subscribe(async res => {
-        console.log("res", res)
 
         //@ts-ignore
         var res = res;
@@ -583,14 +564,31 @@ getTeamsByFiltersFunction() {
 
   searchTeamPlaceholderFlag: boolean=false;
   crossFlag: boolean = false;
+  resetCriteriaFilter(){
+    this.itemPerPage = 12;
+    this.pageNumber = 1;
+  }
   searchTeams() {
     this.crossFlag=true;
     this.searchTeamPlaceholderFlag=true;
+    this.resetCriteriaFilter();
     this.getTeamsByFiltersFunction();
     if(this.searchText== ''){
       this.crossFlag=false;
     }
+
   }
+  // reloadPage() {
+  //   location.reload();
+  //   this.crossFlag=false;
+  // }
+  reloadPage(){
+  this.searchText='';
+  this.getTeamsByFiltersFunction();
+  this.crossFlag=false;
+
+ }
+
 
 
 
@@ -620,10 +618,6 @@ getStartIndex(): number {
 getEndIndex(): number {
   const endIndex = this.pageNumber * this.itemPerPage;
   return endIndex > this.total ? this.total : endIndex;
-}
-reloadPage() {
-  location.reload();
-  this.crossFlag=false;
 }
 
 

@@ -5,7 +5,7 @@ export class LeaveSettingResponse {
     accrualType!: string;
     sandwichRules!: string;
     sandwichCount?: number;
-    yearlyCycleEnd!: Date;
+    yearlyCycleEnd!: any;
     yearlyCycleStart!: Date;
     organizationId!: number; 
 }  

@@ -29,6 +29,9 @@ import { FullLeaveSettingRequest } from "../models/Full-Leave-Setting-Request";
 import { Testing } from "../models/testing";
 import { ShiftTimings } from "../models/shifttimings";
 import { OrganizationAddressDetail } from "../models/organization-address-detail";
+import { EmployeeAttendanceLocation } from "../models/employee-attendance-location";
+import { OnboardingSidebarResponse } from "../models/onboarding-sidebar-response";
+import { ReasonOfRejectionProfile } from "../models/reason-of-rejection-profile";
 
 
 @Injectable({
@@ -48,8 +51,7 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  // private baseUrl = "http://localhost:8080/api/v2"
-  // private baseUrl = "http://localhost:8080/api/v2";
+  // private baseUrl = "http://localhost:8080/ api/v2"
 
   private baseUrl = "https://backend.hajiri.work/api/v2";
 
@@ -110,6 +112,14 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-report-by-date`, {params});
   }
 
+
+  getAttendanceDetailsBreakTimingsReportByDateByUser(uuid : string, date : string){
+    const params = new HttpParams()
+    .set('uuid', uuid)
+    .set('date', date);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-break-timings`, {params});
+  }
   
   getTodayEmployeesData(): Observable<any>{
     debugger
@@ -411,11 +421,9 @@ export class DataService {
   }
 
   // TODO
-  getPendingLeaveFlag(request: UserLeaveRequest ): Observable<any> {
-    // const params = new HttpParams()
-    // .set("userUuid", userUuid)
-    return this.httpClient.post<any>( this.baseUrl+'/user-leave/todays-pending-leave-count',request);
-  }
+  // getPendingLeaveFlag(request: UserLeaveRequest ): Observable<any> {
+  //   return this.httpClient.post<any>( this.baseUrl+'/user-leave/todays-pending-leave-count',request);
+  // }
 
   // getPendingLeaveFlag(userUuid:string, request: any, status:string): Observable<any> {
   //   const params = new HttpParams().set("uuid", userUuid).set("status", status);
@@ -603,9 +611,9 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/user-and-control/get-all`, {params});
   }
 
-  addAdditionalNotes(additionalNotes: AdditionalNotes, email: string): Observable<any>{
+  addAdditionalNotes(additionalNotes: AdditionalNotes, uuid: string): Observable<any>{
     const params = new HttpParams()
-    .set("email", email);
+    .set("uuid", uuid);
 
     return this.httpClient.post<any>(`${this.baseUrl}/additional-notes/add`, additionalNotes, {params});
   }
@@ -1000,9 +1008,9 @@ stepIndex:number=-1;
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/checkin-checkout-status`, {params});
   }
 
-  getAttendanceLogs(email : string, date : string): Observable<any>{
+  getAttendanceLogs(uuid : string, date : string): Observable<any>{
     const params = new HttpParams()
-    .set("email", email)
+    .set("uuid", uuid)
     .set("date", date);
 
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-logs`,{params});
@@ -1072,7 +1080,31 @@ stepIndex:number=-1;
     return this.httpClient.get<any>(`${this.baseUrl}/role/get-all-accessibility-type`, {});
   }
 
-  
+  getOrganizationLatLong(userUuid: string):Observable<any> {
+    const url = `${this.baseUrl}/user-verification/address/latlong?userUuid=${userUuid}`;
+    return this.httpClient.get<any>(url, {});
+  }
 
+  markAttendaceWithLocation(employeeAttendanceLocation :EmployeeAttendanceLocation, userUuid: string): Observable<any>{
+    return this.httpClient.post<any>(`${this.baseUrl}/attendance/check-in-location?userUuid=${userUuid}`, employeeAttendanceLocation);
+
+  }
+
+  getEmployeeStatus(userUuid: string): Observable<OnboardingSidebarResponse> {
+    const url = `${this.baseUrl}/sidebar-component/get-onboarding-status?userUuid=${userUuid}`;
+    return this.httpClient.get<OnboardingSidebarResponse>(url, {});
+  }
+  
+  getRoleById(roleId: number): Observable<any>{
+    const params = new HttpParams()
+    .set("role_id", roleId);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/role/get-by-id`, {params});
+  }
+
+  setReasonOfRejection(userUuid: string, reasonOfRejectionProfile: ReasonOfRejectionProfile): Observable<any> {
+    const url = `${this.baseUrl}/employee-onboarding-status/save-rejection-reason?userUuid=${userUuid}`;
+    return this.httpClient.put<any>(url, reasonOfRejectionProfile);
+}
 
 }

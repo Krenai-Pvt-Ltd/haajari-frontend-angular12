@@ -7,4 +7,9 @@ export class UserAcademicsDetailRequest {
     grade!: string;
     statusResponse!: string;
     statusId!: number;
+    directSave!: boolean;
+    employeeOnboardingFormStatus!: string;
+    employeeOnboardingStatus!: string;
+
+
 }

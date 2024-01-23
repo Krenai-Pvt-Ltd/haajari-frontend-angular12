@@ -11,7 +11,7 @@
                 <div class="persnol-details">
                     <h5>Academic Details</h5>
                     <p class="mb-0">Fields with * are mandatory </p>
-                    <form #academicInformationForm="ngForm" ngNativeValidate (ngSubmit)="setEmployeeAcademicsMethodCall()">
+                    <form #academicInformationForm="ngForm" ngNativeValidate (ngSubmit)="submit()">
                         <div class="form-group">
                     <div class="persnol-info mt-4">
                         <div class="row">
@@ -19,17 +19,25 @@
                            
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="pb-2">Highest Qualification <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" placeholder="Please Enter Highest Qualification" [(ngModel)]="userAcademicsDetailRequest.highestEducationalLevel" required #highestEducationalLevel="ngModel">
-                                    <!-- Error Message for Highest Qualification -->
-                                    <div *ngIf="highestEducationalLevel.touched">
-                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highestEducationalLevel.errors?.required">
-                                            <i class="bi bi-exclamation-circle"></i>
-                                            Highest Qualification is required.
+                                    <label for="departmentDropdown" class="pb-2">Highest Qualification <span class="text-optional">*</span></label>
+                                    <div class="dropdown" style="width: 100%;">
+                                        <button type="button" id="departmentDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="department">
+                                            {{ userAcademicsDetailRequest.highestEducationalLevel || 'Select highest qualification' }}
+                                            <i class="bi bi-chevron-down"></i>
+                                        </button>
+                                        <ul aria-labelledby="departmentDropdown" class="dropdown-menu nationality-dropdown" style="width: 100%;">
+                                            <li *ngFor="let qualification of qualifications"><a class="dropdown-item" (click)="selectQualification(qualification)">{{ qualification }}</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="hidden" [(ngModel)]="userAcademicsDetailRequest.highestEducationalLevel" required #department="ngModel">
+                                    <div *ngIf="department?.touched">
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="department.errors?.required">
+                                            <i class="bi bi-exclamation-circle"></i> Highest Qualification selection is required.
                                         </p>
                                     </div>
-                                </div>
+                                </div>                      
                             </div>
+                            
                             
                             
                             <div class="col-md-6">
@@ -109,23 +117,41 @@
                             
                             
 
-                             <div class="col-md-12 d-flex justify-content-between mt-3">
+                            <div class="col-md-12 d-flex justify-content-between mt-3">
                                 <div class="info-btn d-flex justify-content-start">
-                                    <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()"><i class="bi bi-arrow-left" style="padding-right: 8px; "></i> Back</button>
+                                    <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()">
+                                        <i class="bi bi-arrow-left" style="padding-right: 8px;"></i> Back
+                                    </button>
                                 </div>
-                                <div class="info-btn d-flex justify-content-end">
-                                    <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
+                                <div class="info-btn d-flex justify-content-end" style="gap:10px;">
+                                    <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+                                        <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
+                                            <div *ngIf="toggleSave" class="dot-opacity-loader">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                            <span *ngIf="!toggleSave">
+                                                Submit Form <i class="bi bi-save" style="padding-left: 8px;"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
                                         <div *ngIf="toggle" class="dot-opacity-loader">
                                           <span></span>
                                           <span></span>
                                           <span></span>
                                         </div>
-                                        <span *ngIf="!toggle">
-                                          Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                        <span *ngIf="!toggle && isNewUser">
+                                            Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                                         </span>
+                                        <span *ngIf="!toggle && !isNewUser">
+                                          Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                      </span>
                                       </button>
                                 </div>
-                             </div>
+                                <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button>
+                            </div>
                         </div>
                     </div>
                     </div>
@@ -136,4 +162,37 @@
 
         </div>
     </div>
+</div>
+
+<!-- Success Message Modal -->
+<button type="button" style="display: none;" data-bs-toggle="modal" data-bs-target="#successMessageModal" #successMessageModalButton id="successMessageModalButton"></button>
+<div class="modal fade"  id="successMessageModal" #successMessageModal aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+ <div class="modal-dialog modal-dialog-centered mx-auto">
+     <div class="modal-content">
+         <div class="modal-body text-center">
+             <i class="bi bi-check-circle" *ngIf="employeeOnboardingFormStatus != 'REJECTED'" style="font-size: 48px; color: green;"></i>
+             <i class="bi bi-exclamation-triangle-fill" *ngIf="employeeOnboardingFormStatus == 'REJECTED'" style="font-size: 48px; color: red;"></i>
+             
+             <!-- Conditional Messages -->
+             <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'PENDING'">
+                 Your registration is successful. Pending for verification.
+             </p>
+             <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'APPROVED'">
+                 Your onboarding is approved.
+             </p>
+             <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+                 Your onboarding is rejected.
+             </p>
+
+             <!-- Edit Button -->
+
+             <button type="button" class="d-none"  data-bs-dismiss="modal" id="dismissSuccessModalButton" #dismissSuccessModalButton>
+                 Cancel
+               </button>
+             <button type="button" class="btn btn-primary" *ngIf="allowEdit" data-bs-dismiss="modal">
+                 Edit
+             </button>
+         </div>
+     </div>
+ </div>
 </div>

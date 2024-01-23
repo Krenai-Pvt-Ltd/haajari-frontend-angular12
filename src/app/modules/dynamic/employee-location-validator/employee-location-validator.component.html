@@ -1,1 +1,36 @@
-<p>employee-location-validator works!</p>
+<div class="container">
+  
+  
+    <div class="row" *ngIf="attendanceMode===3">
+        <div class="col-md-6">
+  
+            <webcam 
+                [trigger]="triggerObservable" 
+                (imageCapture)="handleImage($event)"></webcam>
+              
+            <button class="btn btn-success" (click)="triggerSnapshot();">Take A Snapshot</button>
+        </div>
+        <div class="col-md-6">
+  
+            <div id="results">Your captured image will appear here...</div>
+            <img src="{{ captureImage }}" height="300px">
+  
+        </div>
+    </div>
+</div>
+<form (ngSubmit)="getCurrentLocation()">
+    <p>employee-location-validator works!</p>
+
+    <div class="info-btn d-flex justify-content-end">
+        <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
+            <div *ngIf="toggle" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <span *ngIf="!toggle">
+                Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+            </span>
+        </button>
+    </div>
+</form>

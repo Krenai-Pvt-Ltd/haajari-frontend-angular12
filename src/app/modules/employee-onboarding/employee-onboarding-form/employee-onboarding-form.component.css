@@ -322,6 +322,11 @@ a.select-file {
     animation-delay: -0.16s;
 }
 
+/* .save-button{
+    min-width: 90px;
+    min-height: 35px;
+} */
+
 @keyframes dotOpacity {
     0%, 80%, 100% { opacity: 0; }
     40% { opacity: 1; }

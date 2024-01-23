@@ -1,12 +1,16 @@
 export class UserAddressRequest {
-    address: string;
+    id: number;
+    addressLine1: string;
+    addressLine2: string;
     pincode: string;
     city: string;
     state: string;
     country: string;
   
     constructor() {
-      this.address = '';
+      this.id = 0;
+      this.addressLine1 = '';
+      this.addressLine2 = '';
       this.pincode = '';
       this.city = '';
       this.state = '';

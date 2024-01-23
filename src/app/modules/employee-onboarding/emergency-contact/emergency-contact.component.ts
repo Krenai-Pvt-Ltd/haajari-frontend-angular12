@@ -80,7 +80,9 @@ debugger
              response.employeeOnboardingStatus;
             if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' ){
               this.employeeOnboardingFormStatus=response.employeeOnboardingStatus;
-              this.successMessageModalButton.nativeElement.click();
+              if(this.employeeOnboardingFormStatus!='REJECTED'){
+                this.successMessageModalButton.nativeElement.click();
+              }
             }
             setTimeout(()=>{
               this.routeToFormPreview();
@@ -122,7 +124,7 @@ delete(index:number){
           this.userEmergencyContactDetails = contacts;
          
             this.employeeOnboardingFormStatus=this.userEmergencyContactDetails[0].employeeOnboardingStatus;
-            if(contacts[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL'){
+            if(contacts[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
               this.successMessageModalButton.nativeElement.click();
           }
             

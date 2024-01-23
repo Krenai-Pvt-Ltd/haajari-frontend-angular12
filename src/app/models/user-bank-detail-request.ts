@@ -5,4 +5,7 @@ export class UserBankDetailRequest {
     ifsc: string = '';
     statusResponse: string = '';
     statusId: number = 0;
+    directSave: boolean = false;
+    employeeOnboardingStatus : string = '';
+    employeeOnboardingFormStatus : string = '';
 }

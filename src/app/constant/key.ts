@@ -119,10 +119,12 @@ export class Key{
 
 
     public static VIEW_ALL = "View All";
+    public static VIEW_LESS = "View Less";
 
 
 
     // Toast statusResponse
     public static TOAST_STATUS_SUCCESS = "Success";
     public static TOAST_STATUS_ERROR = "Error";
+    
 }

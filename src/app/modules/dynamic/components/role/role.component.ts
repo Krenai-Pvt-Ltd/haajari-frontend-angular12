@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ModuleRequest } from 'src/app/models/module-request';
 import { UserAndControl } from 'src/app/models/user-and-control';
 import { ModuleResponse } from 'src/app/models/module-response';
@@ -30,6 +30,7 @@ isShimmer: boolean = true;
   rowNumber : number = 1;
   searchText : string = '';
   users : User[] = [];
+  roleSectionTabFlag : boolean = false;
   
 
   ngOnInit(): void {
@@ -37,18 +38,57 @@ isShimmer: boolean = true;
     this.getUsersByFilterMethodCall();
     this.call();
     this.getAllRolesMethodCall();
+    
+    debugger
+    // if(!this.helperService.getRoleSectionTab()){
+      
+    // }
+
+    // this.rolesAndSecurity.nativeElement.click();
+
+  }
+
+  ngAfterViewInit() {
+    if(this.helperService.getRoleSectionTab()){
+      this.rolesAndSecurityActiveTabMethod();
+    }
+
+    this.helperService.setRoleSectionTab(false);
+    
+  }
+
+
+
+  isShimmerForUserAndControl = false;
+  dataNotFoundPlaceholderForUserAndControl = false;
+  networkConnectionErrorPlaceHolderForUserAndControl = false;
+  preRuleForShimmersAndErrorPlaceholdersMethodCall(){
+    this.isShimmerForUserAndControl = true;
+    this.dataNotFoundPlaceholderForUserAndControl = false;
+    this.networkConnectionErrorPlaceHolderForUserAndControl = false;
+  }
+
+
+  isShimmerForRolesAndSecurity = false;
+  dataNotFoundPlaceholderForRolesAndSecurity = false;
+  networkConnectionErrorPlaceHolderForRolesAndSecurity = false;
+  preRuleForShimmersAndErrorPlaceholdersMethodCallForRolesAndSecurity(){
+    this.isShimmerForRolesAndSecurity = true;
+    this.dataNotFoundPlaceholderForRolesAndSecurity = false;
+    this.networkConnectionErrorPlaceHolderForRolesAndSecurity = false;
+  }
+
+
+
+  @ViewChild("rolesAndSecurity") rolesAndSecurity !: ElementRef;
+  rolesAndSecurityActiveTabMethod(){
     this.rolesAndSecurity.nativeElement.click();
   }
 
-  // clearModel(){
-  //   this.roles = [];
-  //   this.total = 0;
-  // }
-
-  @ViewChild("rolesAndSecurity") rolesAndSecurity !: ElementRef;
-
   selectedRole: any;
   selectedUser: any;
+
+
 
   // Method to update selectedRole
   selectRole(role: any) {
@@ -74,6 +114,22 @@ isShimmer: boolean = true;
   }
   totalUser:number =0;
 
+  
+
+  buttonLoader = false;
+  roleAccessibilityTypeList : RoleAccessibilityType[] = [];
+  getAllRoleAccessibilityTypeMethodCall(){
+    this.dataService.getAllRoleAccessibilityType().subscribe((response) => {
+      this.roleAccessibilityTypeList = response;
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  settingRoleAccessibilityType(id : number){
+    this.roleRequest.roleAccessibilityTypeId = id;
+  }
+
   num:number = 0;
   
   async getTotalCountOfUsers(id:number){
@@ -91,24 +147,10 @@ isShimmer: boolean = true;
     })
   })
   }
-
-  buttonLoader = false;
-  roleAccessibilityTypeList : RoleAccessibilityType[] = [];
-  getAllRoleAccessibilityTypeMethodCall(){
-    this.dataService.getAllRoleAccessibilityType().subscribe((response) => {
-      this.roleAccessibilityTypeList = response;
-    }, (error) => {
-      console.log(error);
-    })
-  }
-
-  settingRoleAccessibilityType(id : number){
-    this.roleRequest.roleAccessibilityTypeId = id;
-  }
-
+  
   // # Data Table of roles
   getAllRolesMethodCall(){
-
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCallForRolesAndSecurity();
     debugger
     this.dataService.getAllRoles(this.itemPerPage,this.pageNumberUser,'asc','id','','', 0).subscribe(async (data) => {
 
@@ -121,10 +163,12 @@ isShimmer: boolean = true;
        console.log(this.num);
       }
       this.totalUser = data.totalItems;
-
+      if(this.roles.length === 0 || this.roles === null || this.roles.length === undefined){
+        this.dataNotFoundPlaceholderForRolesAndSecurity = true;
+      }
       console.log(this.roles);
     }, (error) => {
-
+      this.networkConnectionErrorPlaceHolderForRolesAndSecurity = true;
       console.log(error);
     })
   }
@@ -168,6 +212,15 @@ isShimmer: boolean = true;
     this.getSubModuleByRoleMethodCall();
     this.helperService.setData(role);
     this.router.navigate(['/add-role']);
+
+  }
+
+  routeToEditRole(role : any){
+    
+    let navExtra : NavigationExtras = {
+      queryParams : {"roleId" : role.id}
+    };
+    this.router.navigate(['/add-role'], navExtra);
 
   }
 
@@ -300,7 +353,7 @@ isShimmer: boolean = true;
     this.dataService.deleteUserOfRoleAndSecurity(id).subscribe((data) => {
       console.log("user delted successfully")
       this.getUserAndControlRolesByFilterMethodCall();
-      this.helperService.showToast("User role deleted successfully.", Key.TOAST_STATUS_SUCCESS);
+      this.helperService.showToast("Deleted successfully.", Key.TOAST_STATUS_SUCCESS);
     },(error) => {
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       console.log(error);
@@ -351,12 +404,11 @@ isShimmer: boolean = true;
       this.helperService.showToast("Role assigned to user successfully.", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       console.log(error);
-      this.getUserAndControlRolesByFilterMethodCall();
-      this.assignroleModalClose.nativeElement.click();
-      this.emptyAssignRoleToUserInUserAndControlMethodCall();
-      this.buttonLoaderToAssignRole = false;
-      // this.helperService.showToast("Error caused while assigning role to the user!", Key.TOAST_STATUS_ERROR);
-      this.helperService.showToast("Role assigned to user successfully.", Key.TOAST_STATUS_SUCCESS);
+      // this.getUserAndControlRolesByFilterMethodCall();
+      // this.assignroleModalClose.nativeElement.click();
+      // this.emptyAssignRoleToUserInUserAndControlMethodCall();
+      // this.buttonLoaderToAssignRole = false;
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
 
     })
   }
@@ -370,18 +422,23 @@ isShimmer: boolean = true;
 
 
 
+
   userAndControlRoles : UserAndControl[] = [];
   userAndControlRolesTotalCount : number = 0;
   getUserAndControlRolesByFilterMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.dataService.getUserAndControlRolesByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((data) => {
       
       this.userAndControlRoles = data.object;
       this.total = data.totalItems;
-
       
+      if(data === undefined || data === null || this.userAndControlRoles.length === 0){
+        this.dataNotFoundPlaceholderForUserAndControl = true;
+      }
       console.log(this.userAndControlRoles,this.total);
     }, (error) => {
       console.log(error);
+      this.networkConnectionErrorPlaceHolderForUserAndControl = true;
     })
   }
 

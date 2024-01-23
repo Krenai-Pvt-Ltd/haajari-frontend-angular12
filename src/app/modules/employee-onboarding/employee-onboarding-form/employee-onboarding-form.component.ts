@@ -17,7 +17,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
 
   userPersonalInformationRequest: UserPersonalInformationRequest = new UserPersonalInformationRequest();
   maxDob: string;
-  minJoiningDate: string;
+  // minJoiningDate: string;
   constructor(private dataService: DataService, private router: Router, private activateRoute: ActivatedRoute, private afStorage: AngularFireStorage) { 
 
     // DOB Date logic
@@ -28,7 +28,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
 
         // Joining Date Logic
         
-        this.minJoiningDate = today.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
+        // this.minJoiningDate = today.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
   }
 
   ngOnInit(): void {
@@ -90,17 +90,24 @@ export class EmployeeOnboardingFormComponent implements OnInit {
    userPersonalDetailsStatus = "";
    selectedFile: File | null = null;
    toggle = false;
+   toggleSave = false;
   setEmployeePersonalDetailsMethodCall() {
 debugger
     
-    this.toggle = true;
+if(this.buttonType=='next'){
+  this.toggle = true;
+} else if (this.buttonType=='save'){
+  this.toggleSave = true;
+}
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     
   
     this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
       .subscribe(
         (response: UserPersonalInformationRequest) => {
-          console.log(response);  
+          console.log(response); 
+          this.employeeOnboardingFormStatus = (response.employeeOnboardingFormStatus).toString(); 
+          this.handleOnboardingStatus(this.employeeOnboardingFormStatus);
           this.toggle = false
           if (!userUuid) {
             // localStorage.setItem('uuidNewUser', response.uuid);
@@ -111,7 +118,20 @@ debugger
           }  
           
           // this.router.navigate(['/employee-address-detail']);
-          this.routeToUserDetails();
+          if(this.buttonType=='next'){
+            this.routeToUserDetails();
+          } else if (this.buttonType=='save'){
+            if(this.employeeOnboardingFormStatus!='REJECTED'){
+              this.successMessageModalButton.nativeElement.click();
+            }
+            
+            setTimeout(() => {
+              this.routeToFormPreview();  
+            }, 2000);
+            
+            
+          }
+          
           
         },
         (error) => {
@@ -127,6 +147,8 @@ debugger
   setImageUrlFromDatabase(url: string) {
       this.dbImageUrl = url;
   }
+
+  isNewUser: boolean = true;
   isLoading:boolean = true;
   employeeOnboardingFormStatus:string|null=null;
   @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
@@ -139,8 +161,12 @@ debugger
                 this.userPersonalInformationRequest = response;
                 this.isLoading = false;
                 this.employeeOnboardingFormStatus=response.employeeOnboardingStatus.response;
-                if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL'){
+                
+                if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
                   this.successMessageModalButton.nativeElement.click();
+                }
+                if(response.employeeOnboardingStatus.response == "PENDING"){
+                  this.isNewUser = false;
                 }
                 this.handleOnboardingStatus(response.employeeOnboardingStatus.response);
                 console.log(response);
@@ -237,6 +263,41 @@ countries: string[] = [
 ];
 
 
+@ViewChild("formSubmitButton") formSubmitButton!:ElementRef;
 
+buttonType:string="next"
+selectButtonType(type:string){
+  this.buttonType=type;
+  this.userPersonalInformationRequest.directSave = false;
+  this.formSubmitButton.nativeElement.click();
+}
+
+directSave: boolean = false;
+
+submit(){
+switch(this.buttonType){
+  case "next" :{
+    this.setEmployeePersonalDetailsMethodCall();
+    break;
+  }
+  case "save" :{
+    debugger
+    this.userPersonalInformationRequest.directSave = true;
+    this.setEmployeePersonalDetailsMethodCall();
+    break;
+  }
+}
+}
+@ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
+routeToFormPreview() {
+  this.dismissSuccessModalButton.nativeElement.click();
+  setTimeout(x=>{
+  let navExtra: NavigationExtras = {
+    
+    queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+  };
+  this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
+},2000)
+}
 
 }
