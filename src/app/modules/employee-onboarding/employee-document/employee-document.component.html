@@ -75,7 +75,7 @@
                                       
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                          <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet </label>
+                                          <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet <span class="text-optional">(Optional)</span></label>
                                           <div class="importfilebox">
                                             <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')"  #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate">
                                             <label for="secondarySchoolCertificateFile">
@@ -111,7 +111,7 @@
 
                                       <div class="col-md-6">
                                         <div class="mb-3">
-                                          <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet </label>
+                                          <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet <span class="text-optional">(Optional)</span> </label>
                                           <div class="importfilebox">
                                             <input id="highSchoolCertificateFile" name="highSchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')"  #highSchool="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highSchoolCertificate">
                                             <label for="highSchoolCertificateFile">
@@ -210,7 +210,11 @@
                                         </div>
                                      </div>
 
-                                     <div class="row">
+                                     <div class="row position-relative" style="padding-left: 25px;">
+                                      
+                                        <div class="counter-guarnters">
+                                          <p>1.</p>
+                                        </div>
                                         <div class="col-md-3">
                                             <div class="mb-3"   >
                                                 <label for="exampleInputEmail1" class="pb-2">Name</label>
@@ -280,7 +284,10 @@
                                         
                                      </div>
 
-                                     <div class="row">
+                                     <div class="row position-relative" style="padding-left: 25px;">
+                                      <div class="counter-guarnters">
+                                        <p>2.</p>
+                                      </div>
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorName2" class="pb-2">Name</label>
@@ -373,7 +380,7 @@
                                             </span>
                                         </button>
                                     </div>
-                                    <button (click)="selectButtonType('next')" class="btn btn-primary" type="button" [disabled]="toggle" aria-label="Next Step">
+                                    <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
                                         <div *ngIf="toggle" class="dot-opacity-loader">
                                           <span></span>
                                           <span></span>

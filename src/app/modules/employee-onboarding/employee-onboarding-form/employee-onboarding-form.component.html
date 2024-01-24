@@ -45,7 +45,7 @@
                                         </label>
                                     </div>
                                     <div *ngIf="!dbImageUrl && image?.touched">
-                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="image.errors?.required"><i class="bi bi-exclamation-circle"></i> Photograph is required.</p>
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="image.errors?.required"><i class="bi bi-exclamation-circle"></i> Profile Picture is required.</p>
                                     </div>
                                     
                                     <!-- Display if image already exists -->
@@ -57,7 +57,7 @@
 
                                   <div class="col-md-3">
                                     <div style="text-align: center; margin-top: 30px; display: flex; align-items: center; justify-content: center;">
-                                        <img id="imagePreview" [src]="dbImageUrl || 'assets/images/user.png'" alt="Profile Preview" style="max-width: 100px; max-height: 100px;"/>
+                                        <img id="imagePreview" [src]="dbImageUrl || 'assets/images/user.png'" alt="Profile Preview" style="max-width: 90px; max-height: 90px; border-radius: 6px"/>
                                     </div>
                                   </div>
                                 
@@ -196,7 +196,7 @@
                                   <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Married'">Married</a></li>
                                   <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Divorced'">Divorced</a></li>
                                   <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Widowed'">Widowed</a></li>
-                                  <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Seperated'">Seperated</a></li>
+                                  <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Seperated'">Separated</a></li>
                               </ul>
                           </div>
                           <input type="hidden" [(ngModel)]="userPersonalInformationRequest.maritalStatus" required #maritalStatus="ngModel">
@@ -222,8 +222,8 @@
                 
                 <div class="col-md-6">
                   <div class="mb-3">
-                      <label for="currentSalaryField" class="pb-2">Current Salary <span class="text-optional">*</span></label>
-                      <input type="text" class="form-control" id="currentSalaryField" name="currentSalary" placeholder="Enter current salary" [(ngModel)]="userPersonalInformationRequest.currentSalary" required pattern="^[0-9]*$" #currentSalary="ngModel">
+                      <label for="currentSalaryField" class="pb-2">Current Salary <span class="text-optional"> (optional)</span></label>
+                      <input type="text" class="form-control" id="currentSalaryField" name="currentSalary" placeholder="Enter current salary" [(ngModel)]="userPersonalInformationRequest.currentSalary"  pattern="^[0-9]*$" #currentSalary="ngModel">
                       <div *ngIf="currentSalary.touched">
                           <p class="errortxt mt-2 mb-0" *ngIf="currentSalary.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Current salary is required.</p>
                           <p class="errortxt mt-2 mb-0" *ngIf="currentSalary.errors?.pattern" style="color:red"> <i class="bi bi-exclamation-circle"></i> Please enter a valid number.</p>
@@ -254,16 +254,28 @@
             
             
             
-            
             <div class="col-md-6">
-              <div class="mb-3">
-                  <label for="positionField" class="pb-2">Current Position <span class="text-optional">*</span></label>
-                  <input type="text" class="form-control" id="positionField" name="position" placeholder="Enter current position" [(ngModel)]="userPersonalInformationRequest.position" required #position="ngModel">
-                  <div *ngIf="position.touched">
-                      <p class="errortxt mt-2 mb-0" *ngIf="position.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Position is required.</p>
-                  </div>
-              </div>
-          </div>
+                <div class="mb-3">
+                    <label for="positionDropdown" class="pb-2">Position <span class="text-optional">*</span></label>
+                    <div class="dropdown" style="width: 100%;">
+                        <button type="button" id="positionDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="position">
+                            {{ userPersonalInformationRequest.position || 'Select Position' }}
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <ul aria-labelledby="positionDropdown" class="dropdown-menu nationality-dropdown" style="width: 100%;">
+                            <li *ngFor="let title of jobTitles"><a class="dropdown-item" (click)="selectCurrentPosition(title)">{{ title }}</a></li>
+                        </ul>
+                    </div>
+                    <input type="hidden" [(ngModel)]="userPersonalInformationRequest.position" required #position="ngModel">
+                    <div *ngIf="position?.touched">
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="position.errors?.required">
+                            <i class="bi bi-exclamation-circle"></i> Position selection is required.
+                        </p>
+                    </div>
+                </div>                      
+            </div>
+            
+            
           
           <div class="col-md-6">
             <div class="mb-3">
@@ -274,8 +286,8 @@
                         <i class="bi bi-chevron-down"></i>
                     </button>
                     <ul aria-labelledby="nationalityDropdown" class="dropdown-menu nationality-dropdown" style="width: 100%;">
-                        <li><a class="dropdown-item" (click)="selectNationality('India')"> India</a></li>
-                        <li *ngFor="let country of countries"><a class="dropdown-item" (click)="selectNationality(country)">{{ country }}</a></li>
+                        <li><a class="dropdown-item" (click)="selectNationality('Indian')"> Indian</a></li>
+                        <li *ngFor="let country of nationalities"><a class="dropdown-item" (click)="selectNationality(country)">{{ country }}</a></li>
 
                     </ul>
                 </div>
@@ -315,7 +327,7 @@
                         </span>
                     </button>
                 </div>
-                <button (click)="selectButtonType('next')" class="btn btn-primary" type="button" [disabled]="toggle" aria-label="Next Step">
+                <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
                     <div *ngIf="toggle" class="dot-opacity-loader">
                       <span></span>
                       <span></span>
