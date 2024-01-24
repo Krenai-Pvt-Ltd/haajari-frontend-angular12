@@ -88,7 +88,7 @@
                                             </tr>
                                             <tr>
                                                 <th class="text-left">DOB - </th>
-                                                <td class="text-right">{{user?.dob || 'N/A'}}</td>
+                                                <td class="text-right">{{formatDateIn(user?.dob) || 'N/A'}}</td>
                                             </tr>
                                             <tr>
                                                 <th class="text-left">Gender - </th>
@@ -738,7 +738,7 @@
                                                                             style="font-size: 13px; font-weight: 600; vertical-align: middle;">
                                                                             <i class="bi bi-calendar3"
                                                                                 style="margin-right: 5px;"></i>
-                                                                            {{formatDate(leaves?.leaveDate) ||
+                                                                            {{formatDateIn(formatDate(leaves?.leaveDate)) ||
                                                                             'N/A'}}&nbsp;<span>{{formatTime(leaves?.leaveDate)
                                                                                 || 'N/A'}}</span>
                                                                         </span>
@@ -750,8 +750,8 @@
                                                                         class="d-flex align-items-center mb-1 mt-2 gap-3">
                                                                         <p class="mb-0" style="font-size: 12px;">
                                                                             <span><b>Duration</b></span><span> : </span>
-                                                                            {{formatDate(leaves?.startDate) || 'N/A'}} -
-                                                                            {{formatDate(leaves?.endDate) || 'N/A'}}
+                                                                            {{formatDateIn(formatDate(leaves?.startDate)) || 'N/A'}} -
+                                                                            {{formatDateIn(formatDate(leaves?.endDate)) || 'N/A'}}
                                                                             <span class="space-box">|</span><span
                                                                                 *ngIf="(leaves?.halfLeave==false)"><span><b>Total
                                                                                         Days Count</b></span> :
@@ -1477,6 +1477,41 @@
                             <!-- {{isDocsPlaceholder}} -->
 
                             <div class="pt-1" *ngIf="!isDocsPlaceholder">
+                                <div class="d-flex align-items-center justify-content-between document-deta"
+                                    *ngIf="documentsEmployee?.aadhaarCard">
+                                    <div class="d-flex align-items-center ">
+                                        <div class="d-flex align-items-center " style="gap:10px;">
+                                            <i class="bi bi-file-earmark-text"></i>
+                                            <p class="mb-0 text-lineclamp">aadhaar_card.pdf</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-end"
+                                        style="gap:10px; cursor: pointer;">
+                                        <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                        <i class="bi bi-eye pointer download-color"
+                                            (click)="openPdfModel('aadhaarCard')"></i>
+                                        <i class="bi bi-download download-color"
+                                            (click)="downloadSingleImage((documentsEmployee?.aadhaarCard).toString())"></i>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between document-deta"
+                                    *ngIf="documentsEmployee?.pancard">
+                                    <div class="d-flex align-items-center ">
+                                        <div class="d-flex align-items-center " style="gap:10px;">
+                                            <i class="bi bi-file-earmark-text"></i>
+                                            <p class="mb-0 text-lineclamp">pancard.pdf</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-end"
+                                        style="gap:10px; cursor: pointer;">
+                                        <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                        <i class="bi bi-eye pointer download-color"
+                                            (click)="openPdfModel('pancard')"></i>
+                                        <i class="bi bi-download download-color"
+                                            (click)="downloadSingleImage((documentsEmployee?.pancard).toString())"></i>
+                                    </div>
+                                </div>
+                    
                                 <div class="d-flex align-items-center justify-content-between document-deta"
                                     *ngIf="documentsEmployee?.highSchoolCertificate">
                                     <div class="d-flex align-items-center ">

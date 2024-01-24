@@ -877,6 +877,8 @@ export class EmployeeProfileComponent implements OnInit {
   degreeCert: string = '';
   intermediateCertificate: string = '';
   testimonialsString: string = '';
+  aadhaarCardString: string = '';
+  pancardString: string = '';
   // isDocumentsShimmer:boolean=false;
   getEmployeeDocumentsDetailsByUuid() {
     // this.isDocumentsShimmer=true;
@@ -888,6 +890,8 @@ export class EmployeeProfileComponent implements OnInit {
           this.degreeCert = data.userDocuments.highestQualificationDegree;
           this.intermediateCertificate = data.userDocuments.secondarySchoolCertificate;
           this.testimonialsString = data.userDocuments.testimonialReccomendation;
+          this.aadhaarCardString = data.userDocuments.aadhaarCard;
+          this.pancardString = data.userDocuments.pancard;
         }
         // this.isDocumentsShimmer=false;
         else {
@@ -929,7 +933,12 @@ export class EmployeeProfileComponent implements OnInit {
       this.previewString = this.intermediateCertificate;
     } else if (viewString == "testimonial") {
       this.previewString = this.testimonialsString;
+    } else if (viewString == "aadhaarCard") {
+      this.previewString = this.aadhaarCardString;
+    } else if (viewString == "pancard") {
+      this.previewString = this.pancardString;
     }
+
     this.openViewModal.nativeElement.click();
   }
 
@@ -1045,4 +1054,11 @@ export class EmployeeProfileComponent implements OnInit {
       }
     );
 }
+
+formatDateIn(newdate:any) {
+  const date = new Date(newdate);
+  const formattedDate = this.datePipe.transform(date, 'ddMMMM, yyyy');
+  return formattedDate;
+}
+
 }
