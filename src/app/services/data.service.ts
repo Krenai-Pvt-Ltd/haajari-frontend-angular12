@@ -586,6 +586,20 @@ export class DataService {
       );
   }
 
+  setEmployeeOnboardingPersonalDetails(userPersonalInformationRequest: UserPersonalInformationRequest, userUuid: string): Observable<any> {
+    debugger
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    console.log("save")
+    return this.httpClient.put<any>(`${this.baseUrl}/users/save/onboardingPersonalDetail`, userPersonalInformationRequest, {params})
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeePersonalDetails:', error);
+          return throwError(error);
+        })
+      );
+  }
+
   setEmployeeByAdmin(userPersonalInformationRequest: UserPersonalInformationRequest): Observable<any> {
     debugger
     // const params = new HttpParams()

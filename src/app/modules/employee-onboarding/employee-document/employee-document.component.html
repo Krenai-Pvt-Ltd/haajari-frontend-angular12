@@ -75,7 +75,7 @@
                                       
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                          <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet </label>
+                                          <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet <span class="text-optional">(Optional)</span></label>
                                           <div class="importfilebox">
                                             <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')"  #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate">
                                             <label for="secondarySchoolCertificateFile">
@@ -111,7 +111,7 @@
 
                                       <div class="col-md-6">
                                         <div class="mb-3">
-                                          <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet </label>
+                                          <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet <span class="text-optional">(Optional)</span> </label>
                                           <div class="importfilebox">
                                             <input id="highSchoolCertificateFile" name="highSchoolCertificateFile" type="file" accept="application/pdf" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')"  #highSchool="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highSchoolCertificate">
                                             <label for="highSchoolCertificateFile">
