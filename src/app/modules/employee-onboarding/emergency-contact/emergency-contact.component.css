@@ -383,3 +383,16 @@ a.select-file {
     font-size: 1rem; /* Default font size */
     line-height: 1.5; /* Good line height for readability */
 }
+
+
+.confirm-detail{
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #444;
+    margin-top: 20px;
+}
+
+.confram-msg{
+    font-size: 14px !important;
+    font-weight: 400;
+}

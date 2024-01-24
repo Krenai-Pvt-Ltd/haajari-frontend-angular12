@@ -557,8 +557,7 @@
                                                                 <button type="button" id="dropdownMenuButton1"
                                                                     data-bs-toggle="dropdown" aria-expanded="false"
                                                                     class="btn btn-secondary dropdown-toggle new-deopdown">
-                                                                    {{ capitalizeFirstLetter(selectedStatus) || 'Leave
-                                                                    Status' }} <i class="bi bi-chevron-down"
+                                                                    {{ capitalizeFirstLetter(selectedStatus) || 'Leave Status' }} <i class="bi bi-chevron-down"
                                                                         style="color: #444; font-size: 15px;"></i>
                                                                 </button>
                                                                 <ul aria-labelledby="dropdownMenuButton1"
@@ -1825,10 +1824,10 @@
       </div>
       <div class="modal-body">
         <p>Please provide a reason for rejection:</p>
-        <textarea class="form-control" id="rejectionReason" [(ngModel)]="reasonOfRejectionProfile.reason" rows="3"></textarea>
+        <textarea class="form-control" id="rejectionReason" [(ngModel)]="reasonOfRejectionProfile.reason" rows="3" style="height:100px !important;"></textarea>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeRejectModalButton>Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeRejectModalButton>Cancel</button>
         <button type="button" (click)="updateStatusUserByUuid('REJECTED')" class="btn btn-primary">
             <div *ngIf="toggle" class="dot-loader">
                       <span></span>
@@ -1836,7 +1835,7 @@
                       <span></span>
                   </div>
                   <span *ngIf="!toggle">
-                      Save Changes <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                      Save Changes 
                   </span> </button>
       </div>
     </div>
