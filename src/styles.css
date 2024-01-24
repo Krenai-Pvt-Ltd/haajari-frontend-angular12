@@ -88,6 +88,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .save-button{
-    min-width: 140px;
+    min-width: 90px;
     min-height: 37px;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #6060f6;
+    border-color: #6060f6;
 }

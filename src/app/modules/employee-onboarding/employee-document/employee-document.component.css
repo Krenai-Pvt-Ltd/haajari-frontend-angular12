@@ -329,3 +329,15 @@ a.select-file {
     text-align: center;
   }
   
+
+  .counter-guarnters {
+    position: absolute;
+    top: 35px;
+    left: 0px;
+}
+
+.counter-guarnters p {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #444 !important;
+}
