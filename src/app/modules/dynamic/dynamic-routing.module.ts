@@ -42,7 +42,7 @@ import { SuccessComponent } from './components/success/success.component';
 import { EmployeeLocationValidatorComponent } from './employee-location-validator/employee-location-validator.component';
 
 
-  const routes: Routes = [{ path: '', redirectTo: '/auth/login', pathMatch:'full'},
+  const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
     { path: '', component: DynamicComponent,
   children:[
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
