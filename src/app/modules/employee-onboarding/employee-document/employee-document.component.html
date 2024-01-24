@@ -241,7 +241,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="phoneInput" class="pb-2">Phone Number</label>
-                                                <input type="number" class="form-control" id="phoneInput" name="phoneInput" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].phoneNumber" required #phone1="ngModel" minlength="10" maxlength="10" pattern="[0-9]*">
+                                                <input type="text" class="form-control" id="phoneInput" name="phoneInput" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].phoneNumber" required #phone1="ngModel" minlength="10" maxlength="10" pattern="[0-9]*">
                                                 <!-- Error Message for Phone Number Field -->
                                                 <div *ngIf="phone1.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone1.errors?.required">
@@ -310,7 +310,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorPhoneNumber2" class="pb-2">Phone Number</label>
-                                                <input type="number" class="form-control" id="guarantorPhoneNumber2" name="guarantorPhoneNumber2" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].phoneNumber" required minlength="10" maxlength="10" pattern="[0-9]*" #phone2="ngModel">
+                                                <input type="text" class="form-control" id="guarantorPhoneNumber2" name="guarantorPhoneNumber2" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].phoneNumber" required minlength="10" maxlength="10" pattern="[0-9]*" #phone2="ngModel">
                                                 <!-- Error Message for Phone Number Field -->
                                                 <div *ngIf="phone2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone2.errors?.required">

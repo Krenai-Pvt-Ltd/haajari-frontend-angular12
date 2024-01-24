@@ -118,7 +118,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="lastSalary{{i}}" class="pb-2">Last Salary <span class="text-optional">*</span></label>
-                                            <input type="number" class="form-control " id="lastSalary{{i}}" name="lastSalary" placeholder="Last salary" [(ngModel)]="experience.lastSalary" required #lastSalaryField="ngModel" [ngModelOptions]="{standalone: true}">
+                                            <input type="text" mask="0000000000" class="form-control " id="lastSalary{{i}}" name="lastSalary" placeholder="Last salary" [(ngModel)]="experience.lastSalary" required #lastSalaryField="ngModel" [ngModelOptions]="{standalone: true}">
                                             <!-- Error Message for Last Salary -->
                                             <div *ngIf="lastSalaryField.touched">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastSalaryField.errors?.required">

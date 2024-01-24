@@ -97,7 +97,7 @@
                             <div class="col-md-6">
                               <div class="mb-3">
                                   <label for="phoneField" class="pb-2">Phone <span class="text-optional">*</span></label>
-                                  <input type="number" class="form-control" id="phoneField" name="phone" aria-describedby="phoneHelp" placeholder="Enter phone" 
+                                  <input type="text" class="form-control" id="phoneField" name="phone" aria-describedby="phoneHelp" placeholder="Enter phone" 
                                          [(ngModel)]="userPersonalInformationRequest.phoneNumber"
                                          minlength="10" maxlength="10" required #phone="ngModel" pattern="[0-9]*">
                               </div>
@@ -222,8 +222,8 @@
                 
                 <div class="col-md-6">
                   <div class="mb-3">
-                      <label for="currentSalaryField" class="pb-2">Current Salary <span class="text-optional">*</span></label>
-                      <input type="number" class="form-control" id="currentSalaryField" name="currentSalary" placeholder="Enter current salary" [(ngModel)]="userPersonalInformationRequest.currentSalary" required pattern="^[0-9]*$" #currentSalary="ngModel">
+                      <label for="currentSalaryField" class="pb-2">Current Salary <span class="text-optional"> (optional)</span></label>
+                      <input type="text" class="form-control" id="currentSalaryField" name="currentSalary" placeholder="Enter current salary" [(ngModel)]="userPersonalInformationRequest.currentSalary"  pattern="^[0-9]*$" #currentSalary="ngModel">
                       <div *ngIf="currentSalary.touched">
                           <p class="errortxt mt-2 mb-0" *ngIf="currentSalary.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Current salary is required.</p>
                           <p class="errortxt mt-2 mb-0" *ngIf="currentSalary.errors?.pattern" style="color:red"> <i class="bi bi-exclamation-circle"></i> Please enter a valid number.</p>

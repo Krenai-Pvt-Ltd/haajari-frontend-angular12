@@ -176,7 +176,7 @@ export class EmployeeProfileComponent implements OnInit {
         this.closeRejectModalButton.nativeElement.click();
         this.toggle = false
 
-        location.reload();
+        // location.reload();
         this.getUserByUuid();
         // location.reload();
       },
@@ -245,7 +245,57 @@ export class EmployeeProfileComponent implements OnInit {
   // #######################
 
   attendanceDetailsResponse: AttendanceDetailsResponse[] = [];
+  // var calendar = new Calendar(calendarEl, {
 
+  @ViewChild('openEventsModal') openEventsModal!: ElementRef;
+  userAttendanceDetailDateWise:{checkInTime:string,checkOutTime:string, duration:string, breakCount:string, breakDuration:string}={checkInTime:"",checkOutTime:"", duration:"", breakCount:"", breakDuration:""};
+  attendanceDetailModalToggle:boolean=false;
+  clientX:string="0px";
+  clientY:string="0px";
+  openModal(mouseEnterInfo: any): void {
+    debugger
+    if(!this.attendanceDetailModalToggle){
+    console.log("events : ", mouseEnterInfo.event);
+    this.userAttendanceDetailDateWise.checkInTime="";
+    this.userAttendanceDetailDateWise.checkOutTime="";
+    this.userAttendanceDetailDateWise.breakCount="";
+    this.userAttendanceDetailDateWise.breakDuration="";
+    this.userAttendanceDetailDateWise.duration="";
+    this.userAttendanceDetailDateWise.checkInTime=mouseEnterInfo.event._def.extendedProps.checkInTime;
+    this.userAttendanceDetailDateWise.checkOutTime=mouseEnterInfo.event._def.extendedProps.checkOutTime;
+    this.userAttendanceDetailDateWise.breakCount=mouseEnterInfo.event._def.extendedProps.breakCount + 1;
+    this.userAttendanceDetailDateWise.breakDuration=mouseEnterInfo.event._def.extendedProps.breakDuration;
+    this.userAttendanceDetailDateWise.duration=mouseEnterInfo.event._def.extendedProps.duration;
+    var rect = mouseEnterInfo.el.getBoundingClientRect();
+    this.clientX=(rect.left)+"px";
+    this.clientY=(rect.top)+"px";
+    console.log("mouse location:", mouseEnterInfo.jsEvent.clientX, mouseEnterInfo.jsEvent.clientY);
+    this.openEventsModal.nativeElement.click();
+  }
+  }
+  
+  closeAttendanceModal() { 
+    this.attendanceDetailModalToggle=false;
+    this.closeAttendanceDetailModalButton.nativeElement.click();
+  }
+
+
+ 
+  // eventMouseEnter(mouseEnterInfo: any): void {
+  //   const event = mouseEnterInfo.event;
+  //   const date = mouseEnterInfo.date;
+  //   this.openModal(mouseEnterInfo);
+  // }
+@ViewChild("closeAttendanceDetailModalButton") closeAttendanceDetailModalButton!:ElementRef;
+  mouseLeaveInfo(mouseEnterInfo: any): void {
+    debugger
+    this.closeAttendanceModal();
+  }
+   
+  
+
+  
+  // });
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
 
     debugger
@@ -282,6 +332,13 @@ export class EmployeeProfileComponent implements OnInit {
                 initialView: 'dayGridMonth',
                 weekends: true,
                 events: this.events,
+                eventClick: this.openModal.bind(this),
+                eventMouseEnter: this.openModal.bind(this),
+                eventMouseLeave:this.mouseLeaveInfo.bind(this)
+                // eventClick: function(mouseEnterInfo) {
+                //   alert('Event: ' + mouseEnterInfo.event.title);
+                //   mouseEnterInfo.el.style.borderColor = 'red';
+                // }
               };
             }
           } else {
@@ -302,9 +359,14 @@ export class EmployeeProfileComponent implements OnInit {
                 this.totalAbsent++;
               }
               const date = moment(this.attendances[i].createdDate).format('YYYY-MM-DD');
+              var checkInTime = this.attendances[i].checkInTime;
+              var checkOutTime = this.attendances[i].checkOutTime;
+              var breakCount = this.attendances[i].breakCount;
+              var breakDuration = this.attendances[i].breakDuration;
+              var duration = this.attendances[i].duration;
               var color = title == 'P' ? '#e0ffe0' : title == 'A' ? '#f8d7d7' : '';
-              var tempEvent: { title: string, date: string, color: string } = { title: title, date: date, color: color };
-              this.events.push(tempEvent);
+              var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, duration:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, duration:duration };
+              this.events.push(tempEvent2);
 
               if (i == this.attendances.length - 1) {
                 this.calendarOptions = {
@@ -312,41 +374,17 @@ export class EmployeeProfileComponent implements OnInit {
                   initialView: 'dayGridMonth',
                   weekends: true,
                   events: this.events,
+                  eventClick: this.openModal.bind(this),
+                  eventMouseEnter: this.openModal.bind(this),
+                  eventMouseLeave:this.mouseLeaveInfo.bind(this)
+                  // eventClick: function(mouseEnterInfo) {
+                  //   alert('Event: ' + mouseEnterInfo.event.title);
+                  // }
                 };
               }
             }
           }
 
-
-
-
-          // for (let i = 0; i < this.attendances.length; i++) {
-          //   const title = this.attendances[i].checkInTime != null ? 'P' : 'A';
-          //   if(title == 'P'){
-          //     this.totalPresent++;
-          //   }else if(title == 'A'){
-          //     this.totalAbsent++;
-          //   }
-          //   const date = moment(this.attendances[i].createdDate).format('YYYY-MM-DD');
-          //   var color = title=='P'?'#e0ffe0':title=='A'?'#f8d7d7':'';
-          //   var tempEvent:{title:string,date:string,color:string}={title:title,date:date,color:color};
-          //   this.events.push(tempEvent);
-          //   if(i==this.attendances.length-1){
-          //     // this.eventsFlag=true;
-          //     this.calendarOptions = {
-          //       plugins: [dayGridPlugin],
-          //       initialView: 'dayGridMonth',
-          //       weekends: true,
-          //       events: this.events,  
-          //     };
-          //   }
-          // }
-
-          // var date = new Date(this.endDateStr);
-          // var month = date.getMonth();
-          // if(new)
-
-          // console.log(this.events);
           var flag = false;
           if (!flag) {
             var date = new Date(this.prevDate);
@@ -369,6 +407,9 @@ export class EmployeeProfileComponent implements OnInit {
     initialView: 'dayGridMonth',
     weekends: true,
     events: [this.events],
+    eventClick: this.openModal.bind(this),
+    eventMouseEnter: this.openModal.bind(this),
+    eventMouseLeave:this.mouseLeaveInfo.bind(this)
 
   };
 
@@ -877,8 +918,9 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   previewString: string = ''
-  @ViewChild('openViewModal') openViewModal !: ElementRef;
+  @ViewChild('openViewModal') openViewModal!: ElementRef;
   openPdfModel(viewString: string) {
+    debugger
     if (viewString == "highschool") {
       this.previewString = this.highSchoolCertificate;
     } else if (viewString == "degree") {
@@ -1003,12 +1045,4 @@ export class EmployeeProfileComponent implements OnInit {
       }
     );
 }
-
-
-  }
-  
-
-
-
-
-
+}

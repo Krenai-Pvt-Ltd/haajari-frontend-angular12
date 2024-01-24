@@ -102,7 +102,7 @@ if(this.buttonType=='next'){
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     
   
-    this.dataService.setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
+    this.dataService.setEmployeeOnboardingPersonalDetails(this.userPersonalInformationRequest, userUuid)
       .subscribe(
         (response: UserPersonalInformationRequest) => {
           console.log(response); 
