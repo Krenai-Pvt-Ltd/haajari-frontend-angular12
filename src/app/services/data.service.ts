@@ -51,9 +51,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  // private baseUrl = "http://localhost:8080/ api/v2"
+  private baseUrl = "http://localhost:8080/api/v2"
 
-  private baseUrl = "https://backend.hajiri.work/api/v2";
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
 
   // private baseUrl = "https://production.hajiri.work/api/v2";
 
@@ -578,6 +578,20 @@ export class DataService {
     .set("userUuid", userUuid);
     console.log("save")
     return this.httpClient.put<any>(`${this.baseUrl}/users/save/employeePersonalDetails`, userPersonalInformationRequest, {params})
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeePersonalDetails:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  setEmployeeOnboardingPersonalDetails(userPersonalInformationRequest: UserPersonalInformationRequest, userUuid: string): Observable<any> {
+    debugger
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    console.log("save")
+    return this.httpClient.put<any>(`${this.baseUrl}/users/save/onboardingPersonalDetail`, userPersonalInformationRequest, {params})
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Error in setEmployeePersonalDetails:', error);

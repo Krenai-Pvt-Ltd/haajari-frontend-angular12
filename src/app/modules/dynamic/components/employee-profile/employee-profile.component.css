@@ -958,12 +958,13 @@ button.btn.sand-request.approved.break-btn {
 }
 
 div#eventsModal {
-    margin: 0;
+    margin: 3.2rem 0rem 0rem;
     width: fit-content;
     height: fit-content;
     padding: 0;
     min-width: 30rem;
     background-color: transparent;
+    overflow: visible;
 }
 
 .modal-backdrop.show {
@@ -1022,14 +1023,14 @@ div#eventsModal.fade.show .modal-dialog{
     color: grey;
 }
 
-.dot-opacity-loader {
+.dot-loader {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 6px 6px;
 }
 
-.dot-opacity-loader span {
+.dot-loader span {
     display: inline-block;
     width: 8px;
     height: 8px;
@@ -1039,11 +1040,11 @@ div#eventsModal.fade.show .modal-dialog{
     animation: dotOpacity 1.4s infinite ease-in-out both;
 }
 
-.dot-opacity-loader span:nth-child(1) {
+.dot-loader span:nth-child(1) {
     animation-delay: -0.32s;
 }
 
-.dot-opacity-loader span:nth-child(2) {
+.dot-loader span:nth-child(2) {
     animation-delay: -0.16s;
 }
 
@@ -1051,3 +1052,19 @@ div#eventsModal.fade.show .modal-dialog{
     0%, 80%, 100% { opacity: 0; }
     40% { opacity: 1; }
 }
+
+
+div#eventsModal .modal-dialog::after{
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ffffff;
+    transform: rotate(45deg);
+    top: -5px;
+    border: 1px solid #f2f2f2;
+    left: 9px;
+    border-right: 0;
+    border-bottom: 0;
+}
+

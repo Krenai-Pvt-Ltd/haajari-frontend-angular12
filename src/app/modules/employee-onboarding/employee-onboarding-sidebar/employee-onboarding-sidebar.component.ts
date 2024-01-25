@@ -22,6 +22,7 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
   // }
 
   navigateTo(route: string, stepIndex: number): void {
+    debugger
     if(this.stepService.stepIndex<(stepIndex-1) && this.onboardingStatus !== "REJECTED"){
 
     }else{
@@ -60,6 +61,7 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
 }
 onboardingStatus: string = ""
 getEmployeeStatusMethodCall() {
+  debugger
   const userUuid = new URLSearchParams(window.location.search).get('userUuid') || null ;
   if(userUuid){
     this.stepService.getEmployeeStatus(userUuid).subscribe(
