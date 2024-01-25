@@ -100,8 +100,8 @@
     background-color: #fff;
     padding: 6px 16px;
     border-radius: 4px;
-    font-size: 15px;
-    line-height: 32px;
+    font-size: 14px;
+    line-height: 30px;
     text-decoration: none;
     width: 100%;
     font-weight: 500;
@@ -117,12 +117,14 @@
 }
 
 .welcome-hajiri h4{
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 700;
+    line-height: 39px;
+    margin-bottom: 0px;
 }
 .welcome-hajiri p{
-    font-size: 13px;
-    color: #555;
+    font-size: 12px;
+    color: #878A9A;
     font-weight: 400;
 }
 
@@ -305,4 +307,109 @@
 @keyframes dotOpacity {
     0%, 80%, 100% { opacity: 0; }
     40% { opacity: 1; }
+}
+
+
+a.neq-login-link {
+    display: inline-block !important;
+    border: none !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    color: #6666f3 !important;
+    padding: 0px !important;
+    width: auto !important;
+}
+
+.login-new-text p{
+    font-size: 12px;
+    color: #878A9A;
+    font-weight: 400;
+    padding: 10px 10px 0px 10px;
+    line-height: 10px;
+    margin-bottom: 0px;
+}
+
+
+
+.te-tourpack-bottom {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(252, 176, 69, 0) 100%);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    flex-wrap: nowrap;
+    top: 0;
+}
+
+.te-tourpack-bottom ul{
+   list-style: none;
+   width: 100%;
+   text-align: center;
+}
+
+.te-tourpack-bottom ul li{
+   display: inline-block;
+   line-height: 30px;
+}
+.te-tourpack-bottom ul li a{
+    font-size: 12px;
+    color: #d0d0d0;
+    padding-right: 15px;
+    text-align: center;
+}
+
+.login-new-text {
+    position: absolute;
+    bottom: 10px;
+}
+
+.login-new-texttt p{
+    font-size: 12px;
+    color: #878A9A;
+    font-weight: 400;
+    padding: 10px 10px 0px 10px;
+    line-height: 10px;
+    margin-bottom: 0px;
+}
+
+.back-btns-box {
+    background-color: #fff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    line-height: 16px;
+    border: 1px solid #6666f3;
+    position: relative;
+    top: -15px;
+}
+
+.back-btns-box i {
+    margin-bottom: 0;
+    color: #6666f3;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    top: 0px;
+}
+
+[class^="bi-"]::before, [class*=" bi-"]::before {
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: bold !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: text-bottom;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
