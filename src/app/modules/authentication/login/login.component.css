@@ -101,7 +101,7 @@
     padding: 6px 16px;
     border-radius: 4px;
     font-size: 14px;
-    line-height: 30px;
+    line-height: 40px;
     text-decoration: none;
     width: 100%;
     font-weight: 500;
@@ -380,25 +380,29 @@ a.neq-login-link {
 .back-btns-box {
     background-color: #fff;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    /* width: 30px;
+    height: 30px; */
     align-items: center;
     justify-content: center;
     display: flex;
     line-height: 16px;
-    border: 1px solid #6666f3;
+    /* border: 1px solid #6666f3; */
     position: relative;
-    top: -15px;
+
+    color: #6666f3;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 .back-btns-box i {
     margin-bottom: 0;
     color: #6666f3;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     cursor: pointer;
     position: relative;
-    top: 0px;
+    top: -1px;
+    padding-right: 4px;
 }
 
 [class^="bi-"]::before, [class*=" bi-"]::before {
