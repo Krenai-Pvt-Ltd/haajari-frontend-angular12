@@ -414,6 +414,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     }
   }
 
+  @ViewChild("closeUserDeleteModal") closeUserDeleteModal!:ElementRef;
   disableUserLoader:boolean=false;
   disableUser(userId:number) {
     this.disableUserLoader=true;
@@ -427,7 +428,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         this.getEmployeesOnboardingStatus();
         this.getUsersByFiltersFunction();
         this.getEmpLastApprovedAndLastRejecetdStatus();
-        this.deleteConfirmationModal.nativeElement.click();
+        this.closeUserDeleteModal.nativeElement.click();
         this.helperService.showToast("User Removed Successfully.",Key.TOAST_STATUS_SUCCESS)
       },
       (error) => {
