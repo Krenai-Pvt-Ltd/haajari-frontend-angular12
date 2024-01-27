@@ -393,6 +393,9 @@ a.neq-login-link {
     color: #6666f3;
     cursor: pointer;
     font-size: 16px;
+    border: 1px solid #6666f3;
+    border-radius: 3px;
+    padding: 13px;
 }
 
 .back-btns-box i {

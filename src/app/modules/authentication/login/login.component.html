@@ -97,7 +97,7 @@
                         
                     </div>
     
-                    <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center" style="padding: 10px 25px; margin: 0 auto; width:100%;" (click)="signIn()">
+                    <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center" style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px" (click)="signIn()">
                         <ng-container *ngIf="loginButtonLoader; else loginButton">
                             <div class="dot-opacity-loader">
                                 <span></span>
@@ -115,7 +115,7 @@
 
                   <div class="position-relative mt-3 w-100" *ngIf="enableBack">
                     <div class="back-btns-box" (click)="enableBack=false">
-                        <i class="bi bi-arrow-left"></i> Back
+                        <i class="bi bi-arrow-left " style="padding-right: 10px;"></i> Back to Login
                     </div>
                    </div>
               
