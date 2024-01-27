@@ -126,5 +126,12 @@ export class Key{
     // Toast statusResponse
     public static TOAST_STATUS_SUCCESS = "Success";
     public static TOAST_STATUS_ERROR = "Error";
+
+
+    // Current status of employee
+    public static WORKING = "Working";
+    public static ON_BREAK  = "On Break";
+    public static CHECKED_OUT = "Checked Out";
+    
     
 }

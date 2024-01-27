@@ -16,13 +16,6 @@ import { AuthGuard } from 'src/app/modules/authentication/auth/auth-guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { DatePipe } from '@angular/common';
 import { RoleComponent } from './components/role/role.component';
-// import { EmployeeOnboardingFormComponent } from './components/employee-onboarding-form/employee-onboarding-form.component';
-// import { EmployeeAddressDetailComponent } from './components/employee-address-detail/employee-address-detail.component';
-// import { EmployeeDocumentComponent } from './components/employee-document/employee-document.component';
-// import { AcadmicComponent } from './components/acadmic/acadmic.component';
-// import { EmployeeExperienceComponent } from './components/employee-experience/employee-experience.component';
-// import { BankDetailsComponent } from './components/bank-details/bank-details.component';
-// import { EmergencyContactComponent } from './components/emergency-contact/emergency-contact.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { TestingComponent } from './components/testing/testing.component';
@@ -33,7 +26,6 @@ import { ErrorPageComponent } from '../common/error-page/error-page.component';
 import { SlackDataLoaderComponent } from '../common/slack-data-loader/slack-data-loader.component';
 import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
-// import { EmployeeOnboardingPreviewComponent } from './components/employee-onboarding-preview/employee-onboarding-preview.component';
 import { BillingComponent } from './components/billing/billing.component';
 import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
@@ -42,7 +34,7 @@ import { SuccessComponent } from './components/success/success.component';
 import { EmployeeLocationValidatorComponent } from './employee-location-validator/employee-location-validator.component';
 
 
-  const routes: Routes = [{ path: '', redirectTo: '/auth/login', pathMatch:'full'},
+  const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
     { path: '', component: DynamicComponent,
   children:[
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
@@ -59,21 +51,13 @@ import { EmployeeLocationValidatorComponent } from './employee-location-validato
     {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]}, 
     {path: 'employee-onboarding-data', component: EmployeeOnboardingDataComponent, canActivate: [AuthGuard]},
     {path: 'role', component: RoleComponent},
-    // {path: 'employee-onboarding-form', component: EmployeeOnboardingFormComponent},
     {path: 'employee-onboarding-sidebar', component: EmployeeOnboardingSidebarComponent},
-    // {path: 'employee-address-detail', component: EmployeeAddressDetailComponent},
-    // {path: 'employee-document', component: EmployeeDocumentComponent},
-    // {path: 'acadmic', component: AcadmicComponent},
-    // {path: 'employee-experience', component: EmployeeExperienceComponent},
-    // {path: 'bank-details', component: BankDetailsComponent},
-    // {path: 'emergency-contact', component: EmergencyContactComponent},
     {path: 'reports', component: ReportsComponent},
     {path: 'employee-profile', component: EmployeeProfileComponent},
     {path: 'testing', component: TestingComponent},
     {path: 'privacy', component: PrivacyComponent},
     {path: 'support', component: SupportComponent},
     {path : 'add-role', component: RoleAddComponent},
-    // {path : 'employee-onboarding-preview', component: EmployeeOnboardingPreviewComponent},
     {path : 'billing', component: BillingComponent},
     {path : 'billing-payment', component: BillingPaymentComponent},
     {path : 'success', component: SuccessComponent},
