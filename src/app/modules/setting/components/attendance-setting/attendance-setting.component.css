@@ -897,3 +897,26 @@ button.btn.close-btn {
 .text-optional {
     color: grey;
 }
+
+.commonInput {
+    background: var(--bg-default);
+    border: 1px solid #dadada;
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-size: 14px;
+    height: 44px;
+    margin: 0!important;
+    width: 90%;
+    padding: 10px;
+}
+
+.delete-btns {
+    align-items: center;
+    height: 44px !important;
+    background-color: #fcf1f1;
+    border: 1px solid #eb5050;
+    color: #eb5050;
+    font-size: 16px;
+    border-radius: 6px !important;
+    cursor: pointer;
+}
