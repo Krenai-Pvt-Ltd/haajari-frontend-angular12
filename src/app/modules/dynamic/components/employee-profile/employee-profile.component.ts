@@ -565,6 +565,7 @@ export class EmployeeProfileComponent implements OnInit {
   submitLeaveLoader:boolean=false;
 
   saveLeaveRequestUser() {
+    debugger
     this.userLeaveRequest.managerId = this.selectedManagerId;
     this.userLeaveRequest.dayShift = this.dayShiftToggle;
     this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
@@ -579,9 +580,8 @@ export class EmployeeProfileComponent implements OnInit {
         this.getUserLeaveReq();
         this.resetUserLeave();
         this.formGroupDirective.resetForm();
-        this.requestLeaveCloseModel.nativeElement.click();
         this.getUserLeaveLogByUuid();
-
+        this.requestLeaveCloseModel.nativeElement.click();
         // location.reload();
       }, (error) => {
         this.submitLeaveLoader=false;
@@ -653,6 +653,7 @@ export class EmployeeProfileComponent implements OnInit {
   selectStatusFlag: boolean = false;
   isLeaveErrorPlaceholder: boolean = false;
   getUserLeaveLogByUuid() {
+    debugger
     this.isLeaveShimmer = true;
     // this.selectStatusFlag=true;
 
