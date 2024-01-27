@@ -18,13 +18,10 @@ import { UserEmergencyContactDetailsRequest } from "../models/user-emergency-con
 import { AdditionalNotes } from "../models/additional-notes";
 import { AttendanceRuleDefinitionRequest } from "../models/attendance-rule-definition-request";
 import { UserDto } from "../models/user-dto.model";
-import { UserLeaveRequest } from "../models/user-leave-request";
 import { UserDocumentsDetailsRequest } from "../models/user-documents-details-request";
-
 import { LeaveSettingResponse } from "../models/leave-setting-response";
 import { LeaveSettingCategoryResponse } from "../models/leave-categories-response";
 import { FullLeaveSettingResponse } from "../models/full-leave-setting-response";
-
 import { FullLeaveSettingRequest } from "../models/Full-Leave-Setting-Request";
 import { Testing } from "../models/testing";
 import { ShiftTimings } from "../models/shifttimings";
@@ -51,11 +48,11 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = "http://localhost:8080/api/v2"
+  // private baseUrl = "http://localhost:8080/api/v2"
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  // private baseUrl = "https://production.hajiri.work/api/v2";
+  private baseUrl = "https://production.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
