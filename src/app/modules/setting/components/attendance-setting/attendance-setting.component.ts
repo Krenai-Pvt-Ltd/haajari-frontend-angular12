@@ -91,7 +91,7 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   onTimeChange(salaryDeduction : any){
-    salaryDeduction.updateLateDuration();
+    salaryDeduction.updateDuration();
   }
 
   onTimeChangeForOccerrenceDuration(salaryDeduction : any){
@@ -129,7 +129,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.dataService.getAttendanceRuleByOrganization().subscribe((response) => {
       debugger
       this.attendanceRuleResponseList = response;
-      console.log(response);
+      // console.log(response);
     }, (error)=>{
 
       console.log(error);
@@ -140,7 +140,7 @@ export class AttendanceSettingComponent implements OnInit {
   getRegisteredAttendanceRuleByOrganizationMethodCall(){
     debugger
     this.dataService.getRegisteredAttendanceRuleByOrganization().subscribe((response) => {
-      console.log(response);
+      // console.log(response);
       this.registeredAttendanceRuleResponseList = response;
     }, (error)=>{
       console.log(error);
@@ -170,7 +170,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.preRegisterAttendanceRuleDefinitionMethodCall();
 
     this.dataService.registerAttendanceRuleDefinition(this.attendanceRuleDefinitionRequest).subscribe((response) => {
-      console.log(response);
+      // console.log(response);
       
       localStorage.removeItem("staffSelectionActive");
       
@@ -208,7 +208,7 @@ export class AttendanceSettingComponent implements OnInit {
   getAttendanceRuleDefinitionMethodCall(attendanceRuleId : number){
     this.dataService.getAttendanceRuleDefinition(attendanceRuleId).subscribe((response) => {
       this.attendanceRuleDefinitionResponseList = response;
-      console.log(this.attendanceRuleDefinitionResponseList);
+      // console.log(this.attendanceRuleDefinitionResponseList);
     }, (error) =>{
       console.log(error);
     }) 
@@ -219,7 +219,7 @@ export class AttendanceSettingComponent implements OnInit {
   deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionId : number){
     debugger
     this.dataService.deleteAttendanceRuleDefinition(attendanceRuleDefinitionId).subscribe((response) => {
-      console.log(response);
+      // console.log(response);
       this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
       this.helperService.showToast("Attendance rule settings deleted successfully", Key.TOAST_STATUS_SUCCESS);
 
@@ -296,7 +296,7 @@ export class AttendanceSettingComponent implements OnInit {
     
     
     
-    console.log(this.attendanceRuleDefinitionRequest);
+    // console.log(this.attendanceRuleDefinitionRequest);
 
     debugger
     this.getUserByFiltersMethodCall();
@@ -324,7 +324,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   getAttendanceRuleDefinitionByIdMethodCall(){
     this.dataService.getAttendanceRuleDefinitionById(this.attendanceRuleDefinitionResponse.id).subscribe((response) => {
-      console.log(response);
+      // console.log(response);
     }, (error) => {
       console.log(error);
     })
@@ -334,7 +334,7 @@ export class AttendanceSettingComponent implements OnInit {
   getAttendanceRuleWithAttendanceRuleDefinitionMethodCall(){
     this.dataService.getAttendanceRuleWithAttendanceRuleDefinition().subscribe((response) => {
       this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response;
-      console.log(response);
+      // console.log(response);
     }, (error) => {
       console.log(error);
     })
@@ -379,7 +379,7 @@ export class AttendanceSettingComponent implements OnInit {
   getDeductionTypeMethodCall(){
     this.dataService.getDeductionType().subscribe((response) => {
       this.deductionTypeList = response;
-      console.log(response);
+      // console.log(response);
     }, (error)=>{
 
       console.log(error);
@@ -675,7 +675,7 @@ unselectAllUsers() {
 
     this.dataService.registerShiftTiming(this.organizationShiftTimingRequest).subscribe((response) => {
       debugger
-      console.log(response);
+      // console.log(response);
       this.closeShiftTimingModal.nativeElement.click();
       this.getAllShiftTimingsMethodCall();
       this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_SUCCESS);
@@ -819,7 +819,7 @@ unselectAllUsers() {
 
     this.dataService.getAllShiftTimings().subscribe((response) => {
       this.organizationShiftTimingWithShiftTypeResponseList = response;
-      console.log(this.organizationShiftTimingWithShiftTypeResponseList);
+      // console.log(this.organizationShiftTimingWithShiftTypeResponseList);
 
       if(response === undefined || response === null || response.length === 0){
         this.dataNotFoundPlaceholder = true;
@@ -835,7 +835,7 @@ unselectAllUsers() {
   getShiftTypeMethodCall(){
     this.dataService.getAllShiftType().subscribe((response) => {
       this.shiftTypeList = response;
-      console.log(response);
+      // console.log(response);
     }, (error) => {
       console.log(error);
     })
@@ -874,7 +874,7 @@ unselectAllUsers() {
 
   deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId : number){
     this.dataService.deleteOrganizationShiftTiming(organizationShiftTimingId).subscribe((response)=>{
-      console.log(response);
+      // console.log(response);
       this.getAllShiftTimingsMethodCall();
       this.helperService.showToast("Shift timing deleted successfully", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
@@ -889,7 +889,7 @@ unselectAllUsers() {
     this.isShimmer = true;
     this.dataService.getAttendanceModeAll().subscribe((response) => {
       this.attendanceModeList = response;
-      console.log(response);
+      // console.log(response);
     }, (error) =>{
       console.log(error);
     })
@@ -902,7 +902,7 @@ unselectAllUsers() {
   updateAttendanceModeMethodCall(attendanceModeId : number){
    
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe((response) => {
-      console.log(response);
+      // console.log(response);
       this.getAttendanceModeMethodCall();
       if(attendanceModeId == 2 || attendanceModeId == 3){
         this.attendancewithlocationssButton.nativeElement.click();
@@ -911,7 +911,7 @@ unselectAllUsers() {
         if (attendanceModeId == 1){
           this.helperService.showToast("Attedance Mode updated successfully.", Key.TOAST_STATUS_SUCCESS);
         }
-        console.log("Second line executed after 3 seconds");
+        // console.log("Second line executed after 3 seconds");
       }, 1000);
       
     }, (error)=>{
@@ -928,7 +928,7 @@ unselectAllUsers() {
       debugger
       this.selectedAttendanceModeId = response.id;
       this.getAttendanceModeAllMethodCall();
-      console.log(this.selectedAttendanceModeId);
+      // console.log(this.selectedAttendanceModeId);
     }, (error) => {
       console.log(error);
     })
@@ -940,7 +940,7 @@ unselectAllUsers() {
     this.dataService.setOrganizationAddressDetail(this.organizationAddressDetail)
     .subscribe(
       (response: OrganizationAddressDetail) => {
-        console.log(response);  
+        // console.log(response);  
         this.toggle=false;
        this.closeAddressModal.nativeElement.click();
        this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
@@ -963,11 +963,13 @@ unselectAllUsers() {
     this.organizationAddressDetail.id=id;
     this.organizationAddressDetail.longitude = e.geometry.location.lng();
     this.organizationAddressDetail.latitude = e.geometry.location.lat();
+
     console.log(e.geometry.location.lat());
     console.log(e.geometry.location.lng());
     this.organizationAddressDetail.addressLine1=e.name + ", " + e.vicinity;
+
     e?.address_components?.forEach((entry: any) => {
-      console.log(entry);
+      // console.log(entry);
       
       if (entry.types?.[0] === "route") {
         this.organizationAddressDetail.addressLine2 = entry.long_name + ",";
@@ -997,7 +999,7 @@ unselectAllUsers() {
     this.dataService.getOrganizationAddressDetail().subscribe(
         (response: OrganizationAddressDetail) => {
             if (response) {
-              console.log(response);
+              // console.log(response);
                 this.organizationAddressDetail = response;
             } else {
                 console.log('No address details found');

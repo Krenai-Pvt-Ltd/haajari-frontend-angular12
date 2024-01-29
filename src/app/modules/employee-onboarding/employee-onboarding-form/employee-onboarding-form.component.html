@@ -57,7 +57,7 @@
 
                                   <div class="col-md-3">
                                     <div style="text-align: center; margin-top: 30px; display: flex; align-items: center; justify-content: center;">
-                                        <img id="imagePreview" [src]="dbImageUrl || 'assets/images/user.png'" alt="Profile Preview" style="max-width: 100px; max-height: 100px;"/>
+                                        <img id="imagePreview" [src]="dbImageUrl || 'assets/images/user.png'" alt="Profile Preview" style="max-width: 90px; max-height: 90px; border-radius: 6px"/>
                                     </div>
                                   </div>
                                 
@@ -327,7 +327,7 @@
                         </span>
                     </button>
                 </div>
-                <button (click)="selectButtonType('next')" class="btn btn-primary" type="button" [disabled]="toggle" aria-label="Next Step">
+                <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
                     <div *ngIf="toggle" class="dot-opacity-loader">
                       <span></span>
                       <span></span>

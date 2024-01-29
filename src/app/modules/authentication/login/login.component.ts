@@ -40,8 +40,9 @@ password: any;
     })
   }
 
+  enableBack:boolean=false;
   signInWithEmail(){
-
+    this.enableBack=true;
     const res = document.getElementById("mt-3") as HTMLElement | null;
     if(res){
       res.style.display="none";

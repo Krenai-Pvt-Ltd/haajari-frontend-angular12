@@ -8,6 +8,7 @@ import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-res
 import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
 import { Key } from 'src/app/constant/key';
 import { BreakTimings } from 'src/app/models/break-timings';
+import { NavigationExtras, Router } from '@angular/router';
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 
@@ -20,7 +21,7 @@ export class TimetableComponent implements OnInit {
 
   alwaysShowCalendars: boolean | undefined;
   model: any;
-  constructor(private dataService: DataService, private helperService: HelperService) { 
+  constructor(private dataService: DataService, private helperService: HelperService, private router: Router) { 
 
   }
 
@@ -558,4 +559,14 @@ export class TimetableComponent implements OnInit {
   //       element.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
   //     }
   // }
+
+
+
+  // route to user's profile
+  routeToUserProfile(uuid: string) {
+    let navExtra: NavigationExtras = {
+      queryParams: { userId: uuid },
+    };
+    this.router.navigate(['/employee-profile'], navExtra);
+  }
 };

@@ -61,59 +61,85 @@
     <div class="row">
         <div class="col-md-4" style="margin-right: 0px; padding-right: 0px;">
             <div class="login-stap login-detail ">
-               <div class="" style="margin-top: 30px;">
-                <img src="assets/images/HAjiRi.svg" style="width:140px; margin-bottom: 10px;">
+               <div class="" style="margin-top: 10px;">
+                <img src="assets/images/HAjiRi.svg" style="width:110px; margin-bottom: 10px;">
                </div>
                
-               <div class="d-flex align-items-start" style="flex-direction: column;">
-               <div class="welcome-hajiri" style="margin-top: 50px;  margin-bottom: 20px;">
-                <h4>Welcome to Hajiri</h4>
-                <p>Welcome Back, Please login to your account</p>
+               <div class="d-flex align-items-start justify-content-center" style="flex-direction: column; flex-direction: column; height: 65vh;">
+               <div class="welcome-hajiri" style="margin-top: 40px;  margin-bottom: 20px;">
+                <h4>Hay,<br>Welcome Back!</h4>
+                <p>We are very happy to see you back!</p>
                </div>
 
-               <form id="signin-with-email" style="width: 100%;">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="email" [ngModelOptions]="{ standalone: true }" autocomplete="username">
-                </div>
-                <br>
-                
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" [(ngModel)]="password" [ngModelOptions]="{ standalone: true }" autocomplete="current-password">
-                </div>
-                <br>
 
-                <button type="submit" class="btn btn-primary d-flex" style="padding: 10px 25px; margin: 0 auto;" (click)="signIn()">
-                    <ng-container *ngIf="loginButtonLoader; else loginButton">
-                        <div class="dot-opacity-loader">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </ng-container>
-                    <ng-template #loginButton>
-                        <span>Login</span>
-                    </ng-template> 
-                </button>
+            
 
-                <div class="mt-3 text-center">Don't have an account? <b><span id="registerButton" style="color: rgb(28, 88, 166);" (click)="redirectToRegister()">Register here</span></b></div>
-              </form>
 
-               <div style="width:100%;">
+
+            
+               
+                <form id="signin-with-email-2" style="width: 100%;"  *ngIf="enableBack">
+                   
+                    <div class="form-group">
+                      <label for="exampleInputEmail1" class="mb-2">Email address</label>
+                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="email" [ngModelOptions]="{ standalone: true }" autocomplete="username" style="height: 45px !important;">
+                    </div>
+                    <br>
+                    
+                    <div class="form-group">
+                      <label for="exampleInputPassword1" class="mb-2">Password</label>
+                      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" [(ngModel)]="password" [ngModelOptions]="{ standalone: true }" autocomplete="current-password" style="height: 45px !important;">
+                    </div>
+                    <br>
+    
+                    <div class="login-new-text ">
+                        <p>By signing, you are creating a COMMIT account, and you agree to COMMIT <a href="" class="neq-login-link"> Terms of Use </a> and <a href="" class="neq-login-link">privacy Policy.</a></p>
+                        
+                    </div>
+    
+                    <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center" style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px" (click)="signIn()">
+                        <ng-container *ngIf="loginButtonLoader; else loginButton">
+                            <div class="dot-opacity-loader">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </ng-container>
+                        <ng-template #loginButton>
+                            Login
+                        </ng-template> 
+                    </button>
+    
+                    <!-- <div class="mt-3 text-center">Don't have an account? <b><span id="registerButton" style="color: rgb(28, 88, 166);" (click)="redirectToRegister()">Register here</span></b></div> -->
+                  </form>
+
+                  <div class="position-relative mt-3 w-100" *ngIf="enableBack">
+                    <div class="back-btns-box" (click)="enableBack=false">
+                        <i class="bi bi-arrow-left " style="padding-right: 10px;"></i> Back to Login
+                    </div>
+                   </div>
+              
+              
+
+               <div style="width:100%;" *ngIf="!enableBack">
                 <div id="mt-3" class="mt-3">
                     <div class="mb-2 position-relative">
                         <a href="https://slack.com/oauth/v2/authorize?client_id=2411087939271.5829197320647&scope=chat:write,commands,incoming-webhook,users:read&user_scope=users:read">
-                            <img src="assets/images/slack-1.svg"  style="width:28px; margin-right:6px"> Add to Slack   <i class="bi bi-chevron-right right-arrow"></i>
+                            <img src="assets/images/slack-1.svg"  style="width:26px; margin-right:6px"> Add to Slack   <i class="bi bi-chevron-right right-arrow"></i>
                         </a>
                     </div>
                     <div class="mb-2 position-relative">
-                        <a href=""><img src="assets/images/pngwing.com.png" style="width:28px; margin-right:6px"> Sign in with Whatsapp  <i class="bi bi-chevron-right right-arrow"></i></a>
+                        <a href=""><img src="assets/images/pngwing.com.png" style="width:25px; margin-right:6px"> Sign in with Whatsapp  <i class="bi bi-chevron-right right-arrow"></i></a>
                     </div>
                     <div class="mb-2 position-relative signin-with-email-button" style="cursor: pointer;">
                         <a (click)="signInWithEmail()">
-                            <img src="assets/images/gmail.svg"  style="width:26px; margin-right:6px;"> Sign in with Email   <i class="bi bi-chevron-right right-arrow"></i>
+                            <img src="assets/images/gmail.svg"  style="width:24px; margin-right:6px;"> Sign in with Email   <i class="bi bi-chevron-right right-arrow"></i>
                         </a>
+                    </div>
+
+                    <div class="login-new-text">
+                        <p>By signing, you are creating a COMMIT account, and you agree to COMMIT <a href="" class="neq-login-link"> Terms of Use </a> and <a href="" class="neq-login-link">privacy Policy.</a></p>
+                        
                     </div>
                 </div>
 
@@ -121,30 +147,71 @@
 
                </div>
 
-               <div class="login-with">
-                <ul>
-                    <li>Or login with</li>
-                    <li><a href="" class="login-space">Whatsapp</a></li>
-                    <li> <a href="" class="login-space">slack</a></li>
-                </ul>
-               </div>
+              
             </div>
         </div>
         <div class="col-md-8" style="margin-left: 0px; padding-left: 0px;">
             <div class="login-imagee position-relitive">
-                <!-- <video width="100%" height="100%" controls autoplay loop>
-                    <source src="assets/images/login-video.mp4" type="video/mp4">
-                  </video> -->
-<!-- 
-                  <video width="100%" height="100%"  preload="auto" autoplay loop onloadedmetadata="this.muted=false"
-                                src="assets/images/hajiri-login-video-2.mp4"  style="width:100%;">
-                             </video> -->
+            
 
 
-                     <video width="100%" height="100%"  autoplay onloadedmetadata="this.muted=true" muted loop id="videoId"
-                            >
+                     <video width="100%" height="100%"  autoplay onloadedmetadata="this.muted=true" muted loop id="videoId" >
                              <source src="assets/images/hajiri-login-video-2.mp4" type="video/mp4">
                           </video>
+
+                          <div class="te-tourpack-bottom">
+                            <ul class="mb-1">
+                                <li>
+                                    <a href="">About </a>
+                                </li>
+                                <li>
+                                    <a href="">Help Center  </a>
+                                </li>
+                                <li>
+                                    <a href="">Terms Of Service </a>
+                                </li>
+                                <li>
+                                    <a href="">Privacy Policy </a>
+                                </li>
+                                <li>
+                                    <a href="">Cookie Policy </a>
+                                </li>
+                                <li>
+                                    <a href="">Ads Info </a>
+                                </li>
+                                <li>
+                                    <a href="">Blog </a>
+                                </li>
+                                <li>
+                                    <a href="">Status </a>
+                                </li>
+                                <li>
+                                    <a href="">Careers </a>
+                                </li>
+                                <li>
+                                    <a href=""> Brand Resources </a>
+                                </li>
+                                <li>
+                                    <a href="">Advertising </a>
+                                </li>
+                                <li>
+                                    <a href="">Markting </a>
+                                </li>
+                                <li>
+                                    <a href="">Hajiri For Businesstus </a>
+                                </li>
+                                <li>
+                                    <a href="">Developers </a>
+                                </li>
+                                <li>
+                                    <a href="">Directory </a>
+                                </li>
+                                <li>
+                                    <a href="">Settings </a>
+                                </li>
+
+                            </ul>
+                          </div>
                          
 
                   <!-- <div class="">

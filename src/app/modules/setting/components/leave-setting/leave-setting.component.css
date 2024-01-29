@@ -1363,3 +1363,20 @@ button.btn.close-btn {
     0%, 80%, 100% { opacity: 0; }
     40% { opacity: 1; }
 }
+
+
+.attendance-details-search{
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #000444;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: none!important;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
