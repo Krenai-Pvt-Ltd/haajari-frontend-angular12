@@ -132,6 +132,13 @@ export class Key{
     public static WORKING = "Working";
     public static ON_BREAK  = "On Break";
     public static CHECKED_OUT = "Checked Out";
+
+
+
+    // Role
+    public static ADMIN = "ADMIN";
+    public static USER = "USER";
+    public static MANAGER = "MANAGER";
     
     
 }

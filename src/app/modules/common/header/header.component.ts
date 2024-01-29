@@ -4,6 +4,7 @@ import { Key } from 'src/app/constant/key';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-header',
@@ -11,52 +12,31 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  loggedInUser: LoggedInUser = new LoggedInUser();
 
-  constructor(private router : Router, private helperService : HelperService,
-    private _data:DataService ) { }
+  constructor(
+    private router: Router, 
+    private helperService: HelperService,
+    private _data: DataService, 
+    private rbacService: RoleBasedAccessControlService
+  ) { }
 
   ngOnInit(): void {
     this.getLoggedInUserDetails();
   }
 
-  // name : string = this.getLoginDetailsName()!.toUpperCase();
-  // role : string = this.getLoginDetailsRole();
-
-  
-  loggedInUser : LoggedInUser = new LoggedInUser();
-
   getLoggedInUserDetails(){
     this.loggedInUser = this.helperService.getDecodedValueFromToken();
   }
 
-
   getFirstAndLastLetterFromName(name: string): string {
     let words = name.split(' ');
-
     if (words.length >= 2) {
-        let firstLetter = words[0].charAt(0);
-        let lastLetter = words[words.length - 1].charAt(0);
-        return firstLetter + lastLetter;
+      let firstLetter = words[0].charAt(0);
+      let lastLetter = words[words.length - 1].charAt(0);
+      return firstLetter + lastLetter;
     } else {
-        return "";
-    }
-  }
-
-
-
-  getLoginDetailsRole(){
-    const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
-      return loginData.role;
-    }
-  }
-
-  getLoginDetailsName(){
-    const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
-      const loginData = JSON.parse(loginDetails);
-      return loginData.name;
+      return name.charAt(0);
     }
   }
 
@@ -65,14 +45,14 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-
-  routeToAccountPage(tabName:string){
-    if(tabName=='account'){
-      this._data.activeTab=false;
-    }else if(tabName=='refer'){
-      this._data.activeTab=true;
-    }
+  routeToAccountPage(tabName: string){
+    this._data.activeTab = tabName !== 'account';
     this.router.navigate(["/setting/account-settings"], { queryParams: {tab: tabName } });
-    
+  }
+
+  shouldDisplay(moduleName: string): boolean {
+    const role = this.rbacService.getRole();
+    const modulesToShowForManager = ['dashboard', 'team', 'project', 'reports', 'attendance'];
+    return role === Key.ADMIN || (role === Key.MANAGER && modulesToShowForManager.includes(moduleName));
   }
 }
