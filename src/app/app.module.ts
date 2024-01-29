@@ -23,6 +23,7 @@ import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/sla
 import { SettingModule } from './modules/setting/setting.module';
 import { SharedComponent } from './modules/shared/shared.component';
 import { SharedModule } from './shared/shared.module';
+import { Ng2TelInputModule } from 'ng2-tel-input';
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
 
 
@@ -55,6 +56,7 @@ import { SharedModule } from './shared/shared.module';
     FullCalendarModule,
     SettingModule,
     BrowserAnimationsModule,
+    Ng2TelInputModule
     // OnboardingSidebarResponse
 
     

@@ -24,6 +24,7 @@ import { environment } from 'src/environments/environment';
 import { EmployeeOnboardingSidebarComponent } from './employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NumberToWordsPipe } from 'src/app/pipe/NumberToWordPipe';
+
 // import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { NumberToWordsPipe } from 'src/app/pipe/NumberToWordPipe';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireMessagingModule,
+    
     // NgxMaskDirective,
     // NgxMaskPipe,
     
