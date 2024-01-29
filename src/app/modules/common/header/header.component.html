@@ -21,7 +21,7 @@
 
                 <div class="bjRpmy">
                     <ul class="cfyCez">
-                        <li class="dagRMy" routerLinkActive="iUctsy" routerLink="/dashboard" style="cursor: pointer;">
+                        <li class="dagRMy" *ngIf="!shouldDisplay('dashboard')" routerLinkActive="iUctsy" routerLink="/dashboard" style="cursor: pointer;">
                             <a class="dashboard-list-active sc-3ee1404a-9 iUctsy-new">
 
                                 <span class=" sc-3ee1404a-10 evIlxu"> 
@@ -36,17 +36,11 @@
 
                     <div class="sc-485d66d8-0 sc-39e987ab-0 iZfNPZ irmdrk sc-3ee1404a-4 izZYaK">POEPLE</div>
                     <ul class="cfyCez">
-                        <!-- <li class="sc-3ee1404a-7 dagRMy" routerLink="/timetable">
-                            <a href="" class="sc-3ee1404a-9 iUctsy-new">
-                                <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
-                        </div>
-                        <span class="sc-3ee1404a-10 evIlxu"> <i class="bi bi-table menu-icon"></i> Timetable</span>
-                    </a>
-                    </li> -->
+
 
                     
 
-                    <li class="sc-3ee1404a-7 dagRMy" routerLinkActive="iUctsy" routerLink="/team" style="cursor: pointer;">
+                    <li class="sc-3ee1404a-7 dagRMy" *ngIf="!shouldDisplay('team')" routerLinkActive="iUctsy" routerLink="/team" style="cursor: pointer;">
                         <a class="sc-3ee1404a-9 iUctsy-new" >
                             <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
                     </div>
@@ -54,7 +48,7 @@
                 </a>
                 </li>
 
-                <li class="sc-3ee1404a-7 dagRMy" routerLinkActive="iUctsy" routerLink="/employee-onboarding-data" style="cursor: pointer;">
+                <li class="sc-3ee1404a-7 dagRMy" *ngIf="shouldDisplay('team')" routerLinkActive="iUctsy" routerLink="/employee-onboarding-data" style="cursor: pointer;">
                     <a class="sc-3ee1404a-9 iUctsy-new">
                         <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
                 </div>
@@ -62,22 +56,7 @@
             </a>
             </li>
 
-        
-                    <!-- <li class="sc-3ee1404a-7 dagRMy" routerLink="/project">
-                        <a href="" class="sc-3ee1404a-9 iUctsy-new">
-                            <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
-                    </div>
-                    <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-list-task menu-icon"></i> Project</span>
-                </a>
-                </li> -->
-<!-- 
-                <li class="sc-3ee1404a-7 dagRMy" routerLink="/team">
-                    <a class="sc-3ee1404a-9 iUctsy-new" >
-                        <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
-                </div>
-                <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-people menu-icon"></i> Team</span>
-            </a>
-            </li> -->
+
            
                     </ul>
                 </div>
@@ -87,7 +66,7 @@
                     <div class="sc-485d66d8-0 sc-39e987ab-0 iZfNPZ irmdrk sc-3ee1404a-4 izZYaK">MANAGEMENT</div>
                     <ul class="cfyCez">
 
-                        <li class="sc-3ee1404a-7 dagRMy" routerLinkActive="iUctsy" routerLink="/timetable" style="cursor: pointer;">
+                        <li class="sc-3ee1404a-7 dagRMy" *ngIf="!shouldDisplay('attendance')" routerLinkActive="iUctsy" routerLink="/timetable" style="cursor: pointer;">
                             <a class="sc-3ee1404a-9 iUctsy-new">
                                 <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
                         </div>
@@ -95,7 +74,7 @@
                     </a>
                     </li>
 
-                    <li class="sc-3ee1404a-7 dagRMy" routerLinkActive="iUctsy" routerLink="/reports" style="cursor: pointer;">
+                    <li class="sc-3ee1404a-7 dagRMy" *ngIf="!shouldDisplay('reports')" routerLinkActive="iUctsy" routerLink="/reports" style="cursor: pointer;">
                         <a class="sc-3ee1404a-9 iUctsy-new">
                             <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
                     </div>
@@ -111,7 +90,7 @@
                 </a>
                 </li> -->
 
-                <li class="sc-3ee1404a-7 dagRMy" style="cursor: pointer;">
+                <li class="sc-3ee1404a-7 dagRMy" *ngIf="!shouldDisplay('project')" style="cursor: pointer;">
                     <a class="sc-3ee1404a-9 iUctsy-new">
                         <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
                 </div>
@@ -135,27 +114,14 @@
                 </ul>
             </div>
             </li> 
-                        <!-- <li class="sc-3ee1404a-7 dagRMy" routerLink="/live-manager">
-                            <a href="" class="sc-3ee1404a-9 iUctsy-new">
-                                <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
-                        </div>
-                        <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-envelope menu-icon"></i> Leave Manager</span>
-                    </a>
-                    </li>
-                    <li class="sc-3ee1404a-7 dagRMy" routerLink="/userlist">
-                        <a class="sc-3ee1404a-9 iUctsy-new" >
-                            <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
-                    </div>
-                    <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-list-check menu-icon"></i> User List</span>
-                </a>
-                </li> -->
+                    
 
               
           
                     </ul>
                 </div>
 
-                <div class="bjRpmy" style="margin-bottom: 130px;">
+                <div class="bjRpmy" *ngIf="shouldDisplay('onboarding')" style="margin-bottom: 130px;">
 
                     <div class="sc-485d66d8-0 sc-39e987ab-0 iZfNPZ irmdrk sc-3ee1404a-4 izZYaK">COMPANY</div>
                     <ul class="cfyCez">
@@ -219,74 +185,7 @@
                     </ul>
                 </div>
 
-                <!-- Navigation -->
-                <!-- <ul class="navbar-nav tab-pane active" id="Main" role="tabpanel">
-                  
-                  
-
-                  
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/dashboard" >
-                           
-
-                            <i class="bi bi-house-door menu-icon"></i>
-                            <span>Dashboard</span>
-                        </a>
-                       
-                    </li>
-                    
-
-                    <li class="nav-item" style="cursor: pointer;" routerLink="/timetable">
-                        <a class="nav-link" >
-                            <i class="bi bi-table menu-icon"></i>
-                            <span>Timetable</span>
-                        </a>
-                        
-                    </li>
-
-
-                    <li class="nav-item" style="cursor: pointer;" routerLink="/project">
-                        <a class="nav-link"  >
-                            <i class="bi bi-list-task menu-icon"></i>
-                            <span>Project</span>
-                        </a>
-                       
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/team" >
-                            <i class="bi bi-people-fill menu-icon"></i>
-                            <span>Team</span>
-                        </a>
-                       
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/task-manager">
-
-                            <i class="bi bi-person-check menu-icon"></i>
-                            <span>Task Manager</span>
-                        </a>
-                       
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/live-manager">
-                            <i class="bi bi-envelope menu-icon"></i>
-                            <span>Leave Manager</span>
-                        </a>
-                       
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/userlist">
-                            
-                            <i class="bi bi-list-check menu-icon"></i>
-                            <span>User List</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/onboarding">
-                            <i class="bi bi-person-lines-fill menu-icon"></i> <span>Onboarding</span>
-                        </a>
-                    </li>
-                </ul> -->
+                
 
                 <div class="log-out-btn-box">
 
