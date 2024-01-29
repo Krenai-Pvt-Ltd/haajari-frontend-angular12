@@ -12,12 +12,22 @@ export class AuthGuard implements CanActivate{
     
 
     canActivate(): boolean {
-        const loginDetails = localStorage.getItem('token');
-
-        if(!loginDetails){
-            this.router.navigate(['/auth/login']);
-            return false;
-        } 
+        const token = localStorage.getItem('token');
+    
+        if (!this.isValidTokenFormat(token)) {
+          this.router.navigate(['/auth/login']);
+          return false;
+        }
+    
         return true;
-    }
+      }
+    
+      private isValidTokenFormat(token: string | null): boolean {
+        if (!token) {
+          return false;
+        }
+    
+        const parts = token.split('.');
+        return parts.length === 3;
+      }
 }

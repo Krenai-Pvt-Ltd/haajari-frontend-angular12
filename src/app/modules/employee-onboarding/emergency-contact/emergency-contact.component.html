@@ -121,7 +121,7 @@
                                 <!-- Removed the unnecessary col-md-12 div -->
                                 <div class="info-btn d-flex justify-content-end">
                                   <!-- Button to trigger confirmation modal -->
-                                  <button type="submit" class="btn btn-primary" [disabled]="!emergencyInformationForm.valid || toggle"  aria-label="Save">
+                                  <button type="submit" class="btn btn-primary save-button" [disabled]="!emergencyInformationForm.valid || toggle"  aria-label="Save">
                                     <div *ngIf="toggle" class="dot-opacity-loader">
                                       <span></span>
                                       <span></span>
@@ -184,23 +184,35 @@
  <!-- Confirmation Modal -->
  <button type="button" style="display: none;" data-bs-toggle="modal" data-bs-target="#confirmationModal" #confirmationModalButton id="confirmationModalButton"></button>
  <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
-  <div class="modal-dialog modal-dialog-centered mx-auto mx-auto">
-      <div class="modal-content p-0">
+  <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important;">
+      <div class="modal-content p-0" style="border-radius: 15px;">
           <form #confirmationForm="ngForm">
-              <div class="modal-header">
+              <!-- <div class="modal-header">
                   <h5 class="modal-title" id="confirmationModalLabel">Confirm Details</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
+              </div> -->
+              <div class="modal-body text-center mt-1 mb-3">
                   <!-- Example input field -->
                   <!-- <input type="text" class="form-control" name="details" required> -->
-                  Are you sure you want to save these details?
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Edit</button>
+
+
+                <img src="assets/images/documentation.svg" style="width:80px;">
+
+                 <h4 class="confirm-detail">Confirm Details  </h4>
+
+                 <p class="mt-0 confram-msg">Are you sure you want to save these details?</p> 
+
+
+                 <div class="d-flex align-items-center justify-content-center mt-4" style="gap: 15px;">
+                  <button type="button" class="btn btn-primary back-btn" data-bs-dismiss="modal">Edit</button>
                   <!-- Button to trigger success message -->
                   <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()" [disabled]="!confirmationForm.valid">Save Changes</button>
+
+                 </div>
               </div>
+              <!-- <div class="modal-footer">
+                 
+              </div> -->
           </form>
       </div>
   </div>
@@ -208,3 +220,39 @@
 
 
 
+ <!-- Confirmation Modal -->
+ <button type="button" style="" data-bs-toggle="modal" data-bs-target="#confirmationModal" #confirmationModalButton id="confirmationModalButton"></button>
+ <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important;">
+      <div class="modal-content p-0" style="border-radius: 15px;">
+          <form #confirmationForm="ngForm">
+              <!-- <div class="modal-header">
+                  <h5 class="modal-title" id="confirmationModalLabel">Confirm Details</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div> -->
+              <div class="modal-body text-center mt-1 mb-3">
+                  <!-- Example input field -->
+                  <!-- <input type="text" class="form-control" name="details" required> -->
+
+
+                <img src="assets/images/documentation.svg" style="width:65px;">
+
+                 <h4 class="confirm-detail">Confirm Details  </h4>
+
+                 <p class="mt-0 confram-msg">Are you sure you want to save these details?</p> 
+
+
+                 <div class="d-flex align-items-center justify-content-center mt-4" style="gap: 15px;">
+                  <button type="button" class="btn btn-primary back-btn" data-bs-dismiss="modal">Edit</button>
+                  <!-- Button to trigger success message -->
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()" [disabled]="!confirmationForm.valid">Save Changes</button>
+
+                 </div>
+              </div>
+              <!-- <div class="modal-footer">
+                 
+              </div> -->
+          </form>
+      </div>
+  </div>
+</div>
