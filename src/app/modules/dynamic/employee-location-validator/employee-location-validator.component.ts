@@ -114,12 +114,12 @@ toggle = false;
 markAttendaceWithLocationMethodCall(){
   // this.getCurrentLocation();
   debugger
-  
+  // this.uploadFile(this.imageFile, 'webcamImage');
   const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
   this.employeeAttendanceLocation.latitude = this.lat.toString();
   this.employeeAttendanceLocation.longitude = this.lng.toString();
   this.employeeAttendanceLocation.distance = this.radius;
-  this.uploadFile(this.imageFile, 'webcamImage');
+  
   this.dataService.markAttendaceWithLocation(this.employeeAttendanceLocation, userUuid)
   .subscribe(
     (response: EmployeeAttendanceLocation) => {
@@ -197,25 +197,40 @@ public handleImage(webcamImage: WebcamImage): void {
   this.imageFile = new File([imageBlob], "captured_image.png", { type: 'image/png' });
   console.log(this.imageFile);
   // Upload file to Firebase
-  
+  this.uploadFile(this.imageFile, 'webcamImage');
 }
 
 uploadFile(imageFile: File, documentType: string): void {
+  debugger
   const filePath = `documents/${new Date().getTime()}_${imageFile.name}`;
   const fileRef = this.afStorage.ref(filePath);
   const task = this.afStorage.upload(filePath, imageFile);
 
   task.snapshotChanges().pipe(
     finalize(() => {
-      fileRef.getDownloadURL().subscribe(url => {
-      console.log(url);
-        // this.assignDocumentUrl(documentType, url);
-        this.employeeAttendanceLocation.imageUrl = url;
-        // this.setEmployeeDocumentsDetailsMethodCall();
-      });
+      fileRef.getDownloadURL().subscribe(
+        url => {
+          console.log(url);
+          this.employeeAttendanceLocation.imageUrl = url;
+          
+        },
+        error => {
+          console.error("Error getting download URL:", error);
+         
+        }
+      );
     })
-  ).subscribe();
+  ).subscribe(
+    () => {
+      console.log('Upload snapshotChanges observable received an event');
+    },
+    error => {
+      console.error("Error during file upload:", error);
+      
+    }
+  );
 }
+
 
 
 }

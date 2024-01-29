@@ -923,6 +923,7 @@ unselectAllUsers() {
   selectedAttendanceModeId : number = 0;
   getAttendanceModeMethodCall(){
     this.isShimmer = true;
+    this.getOrganizationAddressDetailMethodCall();
     this.dataService.getAttendanceMode().subscribe((response) => {
       debugger
       this.selectedAttendanceModeId = response.id;
@@ -964,7 +965,7 @@ unselectAllUsers() {
     this.organizationAddressDetail.latitude = e.geometry.location.lat();
     console.log(e.geometry.location.lat());
     console.log(e.geometry.location.lng());
-    this.organizationAddressDetail.addressLine1=e.vicinity;
+    this.organizationAddressDetail.addressLine1=e.name + ", " + e.vicinity;
     e?.address_components?.forEach((entry: any) => {
       console.log(entry);
       

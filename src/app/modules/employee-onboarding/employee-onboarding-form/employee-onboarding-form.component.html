@@ -41,7 +41,7 @@
                                     <div class="importfilebox">
                                         <input id="profilePicture" [required]="!dbImageUrl" type="file" name="img" accept="image/*" class="input" (change)="onFileSelected($event)" #image="ngModel" [(ngModel)]="userPersonalInformationRequest.image">
                                         <label for="profilePicture" class="pl-3">
-                                            <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> SVG, PNG, JPG, or GIF (max. 100px*100px)</span>
+                                            <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> JPEG, JPG or PNG (max. 100px*100px)</span>
                                         </label>
                                     </div>
                                     <div *ngIf="!dbImageUrl && image?.touched">
@@ -97,7 +97,7 @@
                             <div class="col-md-6">
                               <div class="mb-3">
                                   <label for="phoneField" class="pb-2">Phone <span class="text-optional">*</span></label>
-                                  <input type="text" class="form-control" id="phoneField" name="phone" aria-describedby="phoneHelp" placeholder="Enter phone" 
+                                  <input type="text" ng2TelInput class="form-control" id="phoneField" name="phone" aria-describedby="phoneHelp" placeholder="Enter phone"
                                          [(ngModel)]="userPersonalInformationRequest.phoneNumber"
                                          minlength="10" maxlength="10" required #phone="ngModel" pattern="[0-9]*">
                               </div>
