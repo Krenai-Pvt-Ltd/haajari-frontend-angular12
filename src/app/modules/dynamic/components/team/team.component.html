@@ -123,12 +123,12 @@
                 <a
                   data-bs-toggle="modal"
                   data-bs-target="#createteam"
-                  type="button"
+                  type="button" *ngIf="ROLE!='USER'"
                   ><i class="bi bi-plus-circle"></i> Create Team
                 </a>
   
-                <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
-                <a (click)="getFlagOfSlackPlaceholder2()" [ngClass]="{'disabled-lnk':rotateToggle}"
+                <p style="color: #a1a0a0; margin-bottom: 0px" *ngIf="ROLE=='ADMIN'">|</p>
+                <a (click)="getFlagOfSlackPlaceholder2()" [ngClass]="{'disabled-lnk':rotateToggle}" *ngIf="ROLE=='ADMIN'"
                   ><i
                     style="
                       font-size: 16px;

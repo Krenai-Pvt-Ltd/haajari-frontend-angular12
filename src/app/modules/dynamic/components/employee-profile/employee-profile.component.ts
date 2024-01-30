@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
@@ -21,6 +21,7 @@ import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-employee-profile',
@@ -34,6 +35,11 @@ export class EmployeeProfileComponent implements OnInit {
   userLeaveForm!: FormGroup;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
+  ROLE:string="";
+  UUID:string="";
+  hideDetailsFlag:boolean=false;
+  adminRoleFlag:boolean=false;
+  userRoleFlag:boolean=false;
   constructor(
     private dataService: DataService,
     private datePipe: DatePipe,
@@ -42,7 +48,9 @@ export class EmployeeProfileComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private firebaseStorage: AngularFireStorage,
-    private router: Router
+    private router: Router,
+    private roleService: RoleBasedAccessControlService,
+    public location: Location
 
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
@@ -65,7 +73,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/employee-onboarding-data']);
+    // this.router.navigate(['/employee-onboarding-data']);
   }
 
   get StartDate() {
@@ -99,6 +107,15 @@ export class EmployeeProfileComponent implements OnInit {
   currentDate: Date = new Date();
   currentNewDate: any;
   ngOnInit(): void {
+    this.ROLE=this.roleService.getRole();
+    this.UUID=this.roleService.getUUID();
+    if(this.ROLE=="ADMIN"){
+    this.adminRoleFlag=true;
+    }
+    if(this.userId==this.UUID){
+      this.userRoleFlag=true;
+    }
+    this.getRoleData();
     this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
     this.getUserAttendanceStatus();
     this.getOrganizationOnboardingDateByUuid();
@@ -120,6 +137,20 @@ export class EmployeeProfileComponent implements OnInit {
     this.getEmployeeDocumentsDetailsByUuid();
     this.getUserLeaveReq();
     this.getUserLeaveLogByUuid();
+  }
+
+
+  getRoleData(){
+     const managerDetails =localStorage.getItem('managerFunc');
+    if(managerDetails !== null){
+      const managerFunc = JSON.parse(managerDetails);
+      if((this.userId!=managerFunc.managerId) && (managerFunc.managerId==this.UUID) && (this.ROLE=="MANAGER")){
+        this.hideDetailsFlag=true;
+      }else{
+        this.hideDetailsFlag=false;
+      }
+
+    }
   }
 
   prevDate!: Date;
