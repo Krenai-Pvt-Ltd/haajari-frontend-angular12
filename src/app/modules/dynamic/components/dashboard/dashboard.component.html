@@ -598,9 +598,9 @@
                                             <th class="text-left">Absent</th>
                                             <th class="text-left">Half Day</th>
                                             <th class="text-left">Paid Leave</th>
-                                            <th class="text-left">Unmarked</th>
+                                            <th class="text-left">Unpaid Leave</th>
                                             <th class="text-left">Overtime</th>
-                                            <th class="text-left">Fine</th>
+                                            <th class="text-left">Unmarked</th>
                                             <th class="text-left">Total Attendance</th>
                                         </tr>
                                     </thead>
@@ -663,9 +663,7 @@
                                                     <tr>
                                                         <td class="text-left plandtlMainicon">
                                                             <i class="bi bi-chevron-right month-d projectdIcon collapsed" data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i" role="button" aria-expanded="false" aria-controls="collapseExamplesheet0"></i>
-                                                            
-                                                            <!-- <i class="bi" [ngClass]="{'bi-chevron-right': isAllCollapsed, 'bi-chevron-down': !isAllCollapsed, 'collapsed': isAllCollapsed}" data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i" role="button" [attr.aria-expanded]="!isAllCollapsed" aria-controls="collapseExamplesheet0"></i> -->
-        
+                                                                    
                                                             {{extractFirstNameFromEmail(entry.key)}}
                                                             <p class="attendance-name" >{{entry.key}}</p>
                                                         </td>

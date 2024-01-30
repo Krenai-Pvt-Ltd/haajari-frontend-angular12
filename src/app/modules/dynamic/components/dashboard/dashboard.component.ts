@@ -537,7 +537,7 @@ getDataFromDate(): Promise<any> {
   attendanceReportResponseList : AttendanceReportResponse[] = [];
   getAttendanceReportByDateDurationMethodCall(){
     this.dataService.getAttendanceReportByDateDuration('2023-12-01','2023-12-31').subscribe((response) => {
-      this.attendanceReportResponseList = response;
+      this.attendanceReportResponseList = response.object;
       console.log(response);
     }, (error) => {
       console.log(error);
