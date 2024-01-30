@@ -1101,7 +1101,6 @@ calculateDateDifferenceDuration(endDate:any, startDate:any) {
       }
       result += `${monthDiff === 1 ? monthDiff + ' month' : monthDiff + ' months'}`;
     }
-
     return result.trim() || 'N/A';
   } else {
     return null;
