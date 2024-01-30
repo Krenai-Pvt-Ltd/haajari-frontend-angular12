@@ -1,3 +1,4 @@
+import { DayWiseStatus } from "./day-wise-status";
 import { UserDetailsResponse } from "./user-details-response";
 
 export class AttendanceReportResponse {
@@ -13,4 +14,5 @@ export class AttendanceReportResponse {
 	paidLeave : number = 0;
 	unpaidLeave : number = 0;
 	totalPayOutDays : number = 0;
+	dayWiseStatusList : DayWiseStatus[] = [];
 }
