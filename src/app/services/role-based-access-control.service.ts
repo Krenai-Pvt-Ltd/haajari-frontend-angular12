@@ -17,6 +17,10 @@ export class RoleBasedAccessControlService {
     return this.userInfo.role;
   }
 
+  getUUID(){
+    return this.userInfo.uuid;
+  }
+
   getModules() {
     return this.userInfo.modules;
   }
