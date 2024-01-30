@@ -13,6 +13,7 @@ import { AttendanceReportResponse } from 'src/app/models/attendance-report-respo
 import { Key } from 'src/app/constant/key';
 import { debounceTime } from 'rxjs/operators';
 import { BestPerformerAttendanceDetailsResponse } from 'src/app/models/best-performer-attendance-details-response';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,7 +22,7 @@ import { BestPerformerAttendanceDetailsResponse } from 'src/app/models/best-perf
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService) {
+  constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService, private roleBasedAccessControlService : RoleBasedAccessControlService) {
 
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
@@ -71,6 +72,8 @@ export class DashboardComponent implements OnInit {
     //   endDate: lastDayOfMonth
     // };
 
+    this.decodedAccessToken = this.roleBasedAccessControlService.getModules();
+    debugger
     this.getAttendanceReportByDateDurationMethodCall();
 
     this.getLateEmployeeAttendanceDetailsMethodCall();
@@ -88,6 +91,8 @@ export class DashboardComponent implements OnInit {
   isShimmer = false;
   dataNotFoundPlaceholder = false;
   networkConnectionErrorPlaceHolder = false;
+
+  decodedAccessToken : any;
 
   preRuleForShimmersAndErrorPlaceholdersMethodCall(){
     this.isShimmer = true;
