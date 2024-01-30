@@ -14,6 +14,7 @@ import { Key } from 'src/app/constant/key';
 import { debounceTime } from 'rxjs/operators';
 import { BestPerformerAttendanceDetailsResponse } from 'src/app/models/best-performer-attendance-details-response';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { DayWiseStatus } from 'src/app/models/day-wise-status';
 
 @Component({
   selector: 'app-dashboard',
@@ -59,6 +60,14 @@ export class DashboardComponent implements OnInit {
   endDateStr: string = '';
   month: string = '';
 
+  PRESENT = Key.PRESENT;
+  ABSENT = Key.ABSENT;
+  UNMARKED = Key.UNMARKED;
+  WEEKEND = Key.WEEKEND;
+  HOLIDAY = Key.HOLIDAY;
+
+  
+
 
   ngOnInit(): void {
     // this.checkAccessToken();
@@ -83,7 +92,7 @@ export class DashboardComponent implements OnInit {
     // this.getAttendanceLatePerformerDetails();
     this.getBestPerformerAttendanceDetailsMethodCall();
 
-    this.getDataFromDate();
+    // this.getDataFromDate();
     this.getTodaysLiveLeaveCount();
   }
 
@@ -129,7 +138,8 @@ export class DashboardComponent implements OnInit {
     // Fetch data using the selected start and end dates
     this.getAttendanceTopPerformerDetails();
     // this.getAttendanceLatePerformerDetails();
-    this.getDataFromDate();
+    // this.getDataFromDate();
+    this.getAttendanceReportByDateDurationMethodCall();
   }
   
 
@@ -241,13 +251,15 @@ getDataFromDate(): Promise<any> {
     this.isShimer = true;
 
     this.resetCriteriaFilter();
-    this.getDataFromDate();
+    // this.getDataFromDate();
+    this.getAttendanceReportByDateDurationMethodCall();
 }
 
 
   clearSearchText(){
     this.searchText = '';
-    this.getDataFromDate();
+    // this.getDataFromDate();
+    this.getAttendanceReportByDateDurationMethodCall();
   }
 
   // ##### Pagination ############
@@ -260,7 +272,7 @@ getDataFromDate(): Promise<any> {
     } else if (page === 'next' && this.pageNumber < this.totalPages) {
       this.pageNumber++;
     }
-    await this.getDataFromDate();
+    await this.getAttendanceReportByDateDurationMethodCall();
 
     // this.isAllCollapsed = !this.isAllCollapsed;
     if(!this.isAllCollapsed){
@@ -314,6 +326,7 @@ getDataFromDate(): Promise<any> {
     const date = new Date(dateString);
     return this.datePipe.transform(date, 'EEEE');
   }
+
 
   attendanceString:string='';
   today:Date=new Date();
@@ -536,9 +549,61 @@ getDataFromDate(): Promise<any> {
 
   attendanceReportResponseList : AttendanceReportResponse[] = [];
   getAttendanceReportByDateDurationMethodCall(){
-    this.dataService.getAttendanceReportByDateDuration('2023-12-01','2023-12-31').subscribe((response) => {
-      this.attendanceReportResponseList = response;
-      console.log(response);
+    return new Promise((resolve, reject) => {
+        this.attendanceReportResponseList = [];
+        this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
+        
+        this.dataService.getAttendanceReportByDateDuration('2024-01-01','2024-01-31').toPromise()
+            .then((response) => {
+
+                if(response === null || response === undefined || response.object === undefined || response.object === null || response.object.length === 0){
+                    this.dataNotFoundPlaceholderForAttendanceData = true;
+                    reject('Data not found');
+                    return;
+                }
+
+                this.attendanceReportResponseList = response.object;
+                this.total = response.totalItems;
+
+                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+                console.log(response);
+                resolve(response);
+            })
+            .catch((error) => {
+                console.log(error);
+                this.networkConnectionErrorPlaceHolderForAttendanceData = true;
+                reject(error);
+            });
+    });
+  }
+
+  // getAttendanceReportByDateDurationMethodCall(){
+  //   this.attendanceReportResponseList = [];
+  //   this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
+  //   this.dataService.getAttendanceReportByDateDuration('2024-01-01','2024-01-31').subscribe((response) => {
+
+  //     if(response === null || response === undefined || response.object === undefined || response.object === null || response.object.length === 0){
+  //       this.dataNotFoundPlaceholderForAttendanceData = true;
+  //       return;
+  //     }
+
+  //     this.attendanceReportResponseList = response.object;
+  //     this.total = response.totalItems;
+
+  //     this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+  //     console.log(response);
+      
+  //   }, (error) => {
+  //     console.log(error);
+  //     this.networkConnectionErrorPlaceHolderForAttendanceData = true;
+  //   })
+  // }
+
+
+  dayWiseStatusList : DayWiseStatus[] = [];
+  getDayWiseStatusMethodCall(userUuid : string){
+    this.dataService.getDayWiseStatus(userUuid,'2024-01-01','2024-01-31').subscribe((response) => {
+      this.dayWiseStatusList = response.object;
     }, (error) => {
       console.log(error);
     })

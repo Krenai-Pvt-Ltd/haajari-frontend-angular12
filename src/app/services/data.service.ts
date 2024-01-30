@@ -53,7 +53,7 @@ export class DataService {
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  // private baseUrl = "https://production.hajiri.work/api/v2";
+  // private baseUrl = "https://production/hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -994,6 +994,15 @@ stepIndex:number=-1;
     .set("end_date", endDate);
 
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration`, {params});
+  }
+
+  getDayWiseStatus(userUuid : string,startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set("user_uuid", userUuid)
+    .set("start_date", startDate)
+    .set("end_date", endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-day-wise-status`, {params});
   }
 
   getAttendanceReportByDateDurationByUser(startDate : string, endDate : string): Observable<any>{
