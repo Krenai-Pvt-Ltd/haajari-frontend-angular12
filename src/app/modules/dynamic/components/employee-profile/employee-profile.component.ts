@@ -166,23 +166,28 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   toggle = false;
+  approvedToggle=false;
   @ViewChild("closeRejectModalButton") closeRejectModalButton!:ElementRef;
   updateStatusUserByUuid(type: string) {
+    if(type=="REJECTED")
     this.toggle = true;
+    if(type=="APPROVED"){
+    this.approvedToggle=true;
+    }
     this.setReasonOfRejectionMethodCall();
     this.dataService.updateStatusUser(this.userId, type).subscribe(
       (data) => {
         console.log('status updated:' + type);
-        this.closeRejectModalButton.nativeElement.click();
-        this.toggle = false
+        this.sendStatusResponseMailToUser(this.userId, type);
+        // this.toggle = false
 
         // location.reload();
-        this.getUserByUuid();
         // location.reload();
       },
       (error) => {
       }
     );
+
   }
 
   myAttendanceData: Record<string, AttendenceDto[]> = {};
@@ -1060,6 +1065,73 @@ formatDateIn(newdate:any) {
   const date = new Date(newdate);
   const formattedDate = this.datePipe.transform(date, 'ddMMMM, yyyy');
   return formattedDate;
+}
+
+// calculateDateDifferenceDuration(endDate:any, startDate:any){
+//   const start = new Date(startDate);
+//   const end = new Date(endDate);
+
+//   if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+//     const millisecondsDifference = end.getTime() - start.getTime();
+//     const yearsDifference = millisecondsDifference / (1000 * 60 * 60 * 24 * 365.25);
+//     return Math.floor(yearsDifference);
+//   }else{
+//     return null;
+//   }
+// }
+
+
+calculateDateDifferenceDuration(endDate:any, startDate:any) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+    const yearDiff = end.getFullYear() - start.getFullYear();
+    const monthDiff = end.getMonth() - start.getMonth();
+
+    let result = '';
+
+    if (yearDiff > 0) {
+      result += `${yearDiff} year${yearDiff === 1 ? '' : 's'}`;
+    }
+
+    if (monthDiff > 0) {
+      if (yearDiff > 0) {
+        result += ' ';
+      }
+      result += `${monthDiff === 1 ? monthDiff + ' month' : monthDiff + ' months'}`;
+    }
+
+    return result.trim() || 'N/A';
+  } else {
+    return null;
+  }
+}
+
+
+
+
+sendStatusResponseMailToUser(userUuid:string, requestString:string) {
+  this.dataService.statusResponseMailToUser(userUuid, requestString).subscribe(
+    (data) => {
+    //  console.log("mail send successfully");
+    
+     this.helperService.showToast("Mail Send Successfully", Key.TOAST_STATUS_SUCCESS);
+     this.getUserByUuid();
+     this.closeRejectModalButton.nativeElement.click();
+
+     if(requestString=="APPROVED"){
+     this.toggle = false;
+     }
+     if(requestString=="REJECTED"){
+     this.approvedToggle=false;
+     }
+     
+    },
+    (error) => {
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_SUCCESS);
+    }
+  );
 }
 
 }

@@ -132,10 +132,27 @@
                                     <div class="d-flex" style="gap:10px"
                                         *ngIf="(user!.employeeOnboardingStatus?.response=='PENDING' || user!.employeeOnboardingStatus?.response=='REQUESTED' || user!.employeeOnboardingStatus?.response=='NEW_USER')">
                                         <button class="btn sand-request approved" type="button"
-                                            (click)="updateStatusUserByUuid('APPROVED')">Approved</button>
+                                            (click)="updateStatusUserByUuid('APPROVED')">
+                                
+                                            <div *ngIf="!approvedToggle">
+                                                Approve
+                                            </div>
+                            
+                                            <div class="approve-button-loader" *ngIf="approvedToggle">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                        </button>
+                                           
                                             <button class="btn sand-request rejected" type="button"
                                             data-bs-toggle="modal" 
-                                            data-bs-target="#showRejectModal">Rejected</button>
+                                            data-bs-target="#showRejectModal">Reject</button>
+                                            <!-- <div *ngIf="approvedToggle" class="dot-opacity-loader">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div> -->
                                     
                                     </div>
                                     <!-- <div class="d-flex" style="gap:10px" *ngIf="(user!.employeeOnboardingStatus?.response!='PENDING')">
@@ -1003,11 +1020,15 @@
 
                                                             <tbody class="table-design">
                                                                 <tr>
-                                                                    <td colspan="4"> Complete Address :
-                                                                        {{addressEmployee[0]!.address || 'N/A'}}</td>
+                                                                    <td colspan="4"> Address Line 1 :
+                                                                        {{addressEmployee[0]!.addressLine1 || 'N/A'}}</td>
+                                                                        <!-- <td colspan="2"> Address Line 2 :
+                                                                            {{addressEmployee[0]!.addressLine2 || 'N/A'}}</td> -->
                                                                 </tr>
 
                                                                 <tr>
+                                                                    <!-- <td>Address Line 2 : {{addressEmployee[0]!.addressLine2 ||
+                                                                        'N/A'}}</td> -->
                                                                     <td>Pincode : {{addressEmployee[0]!.pincode ||
                                                                         'N/A'}}</td>
                                                                     <td>City : {{addressEmployee[0]!.city || 'N/A'}}
@@ -1034,11 +1055,15 @@
                                                             <tbody class="table-design"
                                                                 *ngIf="addressEmployee !=undefined && addressEmployee !=null && addressEmployee.length>1">
                                                                 <tr>
-                                                                    <td colspan="4"> Complete Address :
-                                                                        {{addressEmployee[1]!.address || 'N/A'}}</td>
+                                                                    <td colspan="4"> Address Line 1 :
+                                                                        {{addressEmployee[1]!.addressLine1 || 'N/A'}}</td>
+                                                                        <!-- <td colspan="2"> Address Line 2 :
+                                                                            {{addressEmployee[1]!.addressLine2 || 'N/A'}}</td> -->
                                                                 </tr>
 
                                                                 <tr>
+                                                                    <!-- <td>Address Line 2 : {{addressEmployee[1]!.addressLine2 ||
+                                                                        'N/A'}}</td> -->
                                                                     <td>Pincode : {{addressEmployee[1]!.pincode ||
                                                                         'N/A'}}</td>
                                                                     <td>City : {{addressEmployee[1]!.city || 'N/A'}}
@@ -1114,7 +1139,7 @@
                                                                     Company Name : {{exp.companyName || 'N/A'}} </td>
 
                                                                 <td colspan="3">
-                                                                    Duration : {{exp.employementDuration || 'N/A'}}</td>
+                                                                    Duration : {{calculateDateDifferenceDuration(exp.endDate, exp.startDate)}}</td>
 
                                                                 <td colspan="3">
                                                                     Department : {{exp.lastJobDepartment || 'N/A'}}

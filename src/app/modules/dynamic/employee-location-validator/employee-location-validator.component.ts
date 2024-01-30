@@ -119,7 +119,7 @@ markAttendaceWithLocationMethodCall(){
   this.employeeAttendanceLocation.latitude = this.lat.toString();
   this.employeeAttendanceLocation.longitude = this.lng.toString();
   this.employeeAttendanceLocation.distance = this.radius;
-  this.uploadFile(this.imageFile, 'webcamImage');
+  
   this.dataService.markAttendaceWithLocation(this.employeeAttendanceLocation, userUuid)
   .subscribe(
     (response: EmployeeAttendanceLocation) => {
@@ -197,7 +197,7 @@ public handleImage(webcamImage: WebcamImage): void {
   this.imageFile = new File([imageBlob], "captured_image.png", { type: 'image/png' });
   console.log(this.imageFile);
   // Upload file to Firebase
-  
+  this.uploadFile(this.imageFile, 'webcamImage');
 }
 
 uploadFile(imageFile: File, documentType: string): void {
