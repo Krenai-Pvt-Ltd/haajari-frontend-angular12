@@ -12,6 +12,7 @@ import { HelperService } from 'src/app/services/helper.service';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import * as uuid from 'uuid';
 import { Key } from 'src/app/constant/key';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-team',
@@ -41,11 +42,13 @@ export class TeamComponent implements OnInit{
   role:string = this.loginDetails.role;
   userUuid: string = this.loginDetails.uuid;
   orgRefId:string = this.loginDetails.orgRefId;
-  
+  ROLE: string="";
+
 
   ngOnInit(): void {
   // this.getAllUsersByFiltersFunction();
   // this.getAllUser();
+  this.ROLE = this.roleService.getRole();
   this.getTeamsByFiltersFunction();
   this.getUsersRoleFromLocalStorage();
   // const localStorageFlag = localStorage.getItem(this.localStorageKey);
@@ -76,7 +79,7 @@ export class TeamComponent implements OnInit{
    
   }
 
-  constructor(private router : Router, public dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService, private helperService: HelperService, private db: AngularFireDatabase) { 
+  constructor(private router : Router, public dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService, private helperService: HelperService, private db: AngularFireDatabase, private roleService:RoleBasedAccessControlService) { 
     this.Settings = {
       singleSelection: false,
       text: 'Select Module',
@@ -87,6 +90,9 @@ export class TeamComponent implements OnInit{
   }
 
   // ############################
+
+
+  
   
   addTeamFlag: boolean = false;
 
