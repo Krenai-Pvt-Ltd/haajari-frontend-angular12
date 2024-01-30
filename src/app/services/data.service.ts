@@ -1119,4 +1119,13 @@ stepIndex:number=-1;
     return this.httpClient.put<any>(url, reasonOfRejectionProfile);
 }
 
+statusResponseMailToUser(userUuid:string, requestString:string): Observable<any> {
+
+  const params = new HttpParams()
+    .set("userUuid", userUuid)
+    .set("requestString", requestString);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/notification/send/statusNotification/user`, {}, {params});
+}
+
 }
