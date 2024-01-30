@@ -23,7 +23,15 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLoggedInUserDetails();
+
   }
+
+  ADMIN = Key.ADMIN;
+  USER = Key.USER;
+  MANAGER = Key.MANAGER;
+
+  ROLE = this.rbacService.getRole();
+  UUID = this.rbacService.getUUID();
 
   getLoggedInUserDetails(){
     this.loggedInUser = this.helperService.getDecodedValueFromToken();
@@ -50,9 +58,16 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(["/setting/account-settings"], { queryParams: {tab: tabName } });
   }
 
+  routeToEmployeeProfilePage(){
+    this.router.navigate(["/employee-profile"], { queryParams: {"userId":  this.UUID} });
+  }
+
+  show:boolean=false;
+
   shouldDisplay(moduleName: string): boolean {
     const role = this.rbacService.getRole();
     const modulesToShowForManager = ['dashboard', 'team', 'project', 'reports', 'attendance'];
-    return role === Key.ADMIN || (role === Key.MANAGER && modulesToShowForManager.includes(moduleName));
+    const modulesToShowForUser = ['team', 'project'];
+    return role === Key.ADMIN || (role === Key.MANAGER && modulesToShowForManager.includes(moduleName)) || (role === Key.USER && modulesToShowForUser.includes(moduleName));
   }
 }
