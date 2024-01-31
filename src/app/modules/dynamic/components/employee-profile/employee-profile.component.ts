@@ -284,7 +284,7 @@ export class EmployeeProfileComponent implements OnInit {
   // var calendar = new Calendar(calendarEl, {
 
   @ViewChild('openEventsModal') openEventsModal!: ElementRef;
-  userAttendanceDetailDateWise:{checkInTime:string,checkOutTime:string, duration:string, breakCount:string, breakDuration:string}={checkInTime:"",checkOutTime:"", duration:"", breakCount:"", breakDuration:""};
+  userAttendanceDetailDateWise:{checkInTime:string,checkOutTime:string, totalWorkingHours:string, breakCount:string, breakDuration:string}={checkInTime:"",checkOutTime:"", totalWorkingHours:"", breakCount:"", breakDuration:""};
   attendanceDetailModalToggle:boolean=false;
   clientX:string="0px";
   clientY:string="0px";
@@ -296,12 +296,13 @@ export class EmployeeProfileComponent implements OnInit {
     this.userAttendanceDetailDateWise.checkOutTime="";
     this.userAttendanceDetailDateWise.breakCount="";
     this.userAttendanceDetailDateWise.breakDuration="";
-    this.userAttendanceDetailDateWise.duration="";
+    this.userAttendanceDetailDateWise.totalWorkingHours="";
     this.userAttendanceDetailDateWise.checkInTime=mouseEnterInfo.event._def.extendedProps.checkInTime;
     this.userAttendanceDetailDateWise.checkOutTime=mouseEnterInfo.event._def.extendedProps.checkOutTime;
-    this.userAttendanceDetailDateWise.breakCount=mouseEnterInfo.event._def.extendedProps.breakCount + 1;
+    this.userAttendanceDetailDateWise.breakCount=mouseEnterInfo.event._def.extendedProps.breakCount;
     this.userAttendanceDetailDateWise.breakDuration=mouseEnterInfo.event._def.extendedProps.breakDuration;
-    this.userAttendanceDetailDateWise.duration=mouseEnterInfo.event._def.extendedProps.duration;
+    this.userAttendanceDetailDateWise.totalWorkingHours=mouseEnterInfo.event._def.extendedProps.totalWorkingHours;
+    console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
     var rect = mouseEnterInfo.el.getBoundingClientRect();
     this.clientX=(rect.left)+"px";
     this.clientY=(rect.top)+"px";
@@ -344,7 +345,7 @@ export class EmployeeProfileComponent implements OnInit {
       )
       .subscribe(
         (response: any) => {
-          response = response.mapOfObject;
+          response = response.listOfObject;
           this.events = [];
           this.totalPresent = 0;
           this.totalAbsent = 0;
@@ -378,9 +379,13 @@ export class EmployeeProfileComponent implements OnInit {
               };
             }
           } else {
-            this.attendanceDetails = Object.values(response);
-            this.attendances = this.attendanceDetails[0];
-            this.attendanceDetailsResponse = this.attendanceDetails[0];
+            // this.attendanceDetails = Object.values(response);
+            // this.attendances = this.attendanceDetails[0];
+            // this.attendanceDetailsResponse = this.attendanceDetails[0];
+
+            this.attendances = response;
+            this.attendanceDetailsResponse = response;
+
 
             // console.log('Attendance Details:', this.attendances);
             // console.log(
@@ -398,10 +403,10 @@ export class EmployeeProfileComponent implements OnInit {
               var checkInTime = this.attendances[i].checkInTime;
               var checkOutTime = this.attendances[i].checkOutTime;
               var breakCount = this.attendances[i].breakCount;
-              var breakDuration = this.attendances[i].breakDuration;
-              var duration = this.attendances[i].duration;
+              var breakDuration = this.attendances[i].totalBreakHours;
+              var totalWorkingHours = this.attendances[i].totalWorkingHours;
               var color = title == 'P' ? '#e0ffe0' : title == 'A' ? '#f8d7d7' : '';
-              var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, duration:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, duration:duration };
+              var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, totalWorkingHours:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, totalWorkingHours:totalWorkingHours };
               this.events.push(tempEvent2);
 
               if (i == this.attendances.length - 1) {

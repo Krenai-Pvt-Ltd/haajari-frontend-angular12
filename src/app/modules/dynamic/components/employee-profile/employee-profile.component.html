@@ -1824,9 +1824,9 @@
                 <div class="calenInfo" *ngIf="userAttendanceDetailDateWise.checkInTime!=null">
                     <p><b>Check In Time: </b>{{userAttendanceDetailDateWise.checkInTime | timeFormat}}</p>
                     <p><b>Check Out Time: </b>{{userAttendanceDetailDateWise.checkOutTime | timeFormat}}</p>
-                    <p><b>Total Hours: </b>{{userAttendanceDetailDateWise.duration | durationFormat}}</p>
+                    <p><b>Total Hours: </b>{{userAttendanceDetailDateWise.totalWorkingHours}}</p>
                     <p><b>Total Break: </b>{{userAttendanceDetailDateWise.breakCount}}</p>
-                    <p><b>Break Duration: </b>{{userAttendanceDetailDateWise.breakDuration | durationFormat}}</p>
+                    <p><b>Break Duration: </b>{{userAttendanceDetailDateWise.breakDuration}}</p>
                 </div>
                 <div class="calenInfo d-block" *ngIf="userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined">
                     <p><b>Absent!</b></p>
