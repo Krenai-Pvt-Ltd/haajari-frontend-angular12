@@ -47,7 +47,7 @@
 
 
             <div class="row mt-3">
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <div class="employee-profile-deta">
                         <div class="d-flex" style="gap:10px">
                             <div class="profile-image-name position-relative">
@@ -477,6 +477,18 @@
                                                 data-bs-target="#emergency-contact" type="button" role="tab"
                                                 aria-controls="emergency-contact" aria-selected="false"
                                                 class="nav-link"> Emergency Contact </button>
+                                        </li>
+                                        <li role="presentation" class="nav-item">
+                                            <button id="profile-tab" data-bs-toggle="tab"
+                                                data-bs-target="#bank-details" type="button" role="tab"
+                                                aria-controls="bank-details" aria-selected="false"
+                                                class="nav-link"> Bank Details </button>
+                                        </li>
+                                        <li role="presentation" class="nav-item">
+                                            <button id="profile-tab" data-bs-toggle="tab"
+                                                data-bs-target="#doucment" type="button" role="tab"
+                                                aria-controls="doucment" aria-selected="false"
+                                                class="nav-link"> Documents </button>
                                         </li>
                                     </ul>
 
@@ -1451,6 +1463,196 @@
                                             </div>
 
                                         </div>
+                                        <div class="tab-pane fade mt-3" id="bank-details" role="tabpanel">
+
+                                          <div class="">
+                                            <div class="row" >
+                                               
+
+                                                <table class="table table-bordered">
+
+                                                    <tbody class="table-design">
+                                                        <tr>
+                                                            <td colspan="3">
+                                                                 Name : {{bankDetailsEmployee?.accountHolderName || 'N/A'}} </td>
+
+                                                            <td colspan="3">
+                                                                IFSC Code : {{bankDetailsEmployee?.ifsc || 'N/A'}}</td>
+
+                                                                <td colspan="3">
+                                                                    Account Number  : {{bankDetailsEmployee?.accountNumber || 'N/A'}}
+                                                                </td>
+    
+                                                                <td colspan="3">
+                                                                    Bank Name  : {{bankDetailsEmployee?.bankName || 'N/A'}}
+                                                                </td>                                                       
+                                                        </tr>
+                                                       
+                                                     
+
+
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                          </div>
+                                            
+
+                                        </div>
+                                        <div class="tab-pane fade mt-3" id="doucment" role="tabpanel">
+
+                                         <div class="">
+                                            <div class="">
+                                                <table class="table table-bordered">
+
+                                                    <tbody class="table-design">
+                                                        <tr>
+                                                            <td colspan="3">
+                                                                <div class="d-flex align-items-center justify-content-between document-deta"
+                                                                *ngIf="documentsEmployee?.aadhaarCard">
+                                                                <div class="d-flex align-items-center ">
+                                                                    <div class="d-flex align-items-center " style="gap:10px;">
+                                                                        <i class="bi bi-file-earmark-text"></i>
+                                                                        <p class="mb-0 text-lineclamp">aadhaar_card.pdf</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex align-items-center justify-content-end"
+                                                                    style="gap:10px; cursor: pointer;">
+                                                                    <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                                                    <i class="bi bi-eye pointer download-color"
+                                                                        (click)="openPdfModel('aadhaarCard')"></i>
+                                                                    <i class="bi bi-download download-color"
+                                                                        (click)="downloadSingleImage((documentsEmployee?.aadhaarCard).toString())"></i>
+                                                                </div>
+                                                            </div>
+                                                            </td>
+
+                                                            <td colspan="3">
+                                                                <div class="d-flex align-items-center justify-content-between document-deta"
+                                                                *ngIf="documentsEmployee?.pancard">
+                                                                <div class="d-flex align-items-center ">
+                                                                    <div class="d-flex align-items-center " style="gap:10px;">
+                                                                        <i class="bi bi-file-earmark-text"></i>
+                                                                        <p class="mb-0 text-lineclamp">pancard.pdf</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex align-items-center justify-content-end"
+                                                                    style="gap:10px; cursor: pointer;">
+                                                                    <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                                                    <i class="bi bi-eye pointer download-color"
+                                                                        (click)="openPdfModel('pancard')"></i>
+                                                                    <i class="bi bi-download download-color"
+                                                                        (click)="downloadSingleImage((documentsEmployee?.pancard).toString())"></i>
+                                                                </div>
+                                                            </div>
+                                                
+                                                            </td>
+
+                                                                <td colspan="3">
+                                                                    <div class="d-flex align-items-center justify-content-between document-deta"
+                                                                    *ngIf="documentsEmployee?.highSchoolCertificate">
+                                                                    <div class="d-flex align-items-center ">
+                                                                        <div class="d-flex align-items-center " style="gap:10px;">
+                                                                            <i class="bi bi-file-earmark-text"></i>
+                                                                            <p class="mb-0 text-lineclamp">10th_Cert.pdf</p>
+                                                                            <!-- <p class="mb-0" *ngIf="documentsEmployee.highestQualificationDegree">Graduation_Cert.pdf</p>
+                                                                        <p class="mb-0" *ngIf="documentsEmployee.secondarySchoolCertificate">12th_Cert.pdf</p>
+                                                                        <p class="mb-0" *ngIf="documentsEmployee.testimonialReccomendation">Testimonial.pdf</p> -->
+                                
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex align-items-center justify-content-end"
+                                                                        style="gap:10px; cursor: pointer;">
+                                                                        <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                                                        <i class="bi bi-eye pointer download-color"
+                                                                            (click)="openPdfModel('highschool')"></i>
+                                                                        <i class="bi bi-download download-color"
+                                                                            (click)="downloadSingleImage((documentsEmployee.highSchoolCertificate).toString())"></i>
+                                                                    </div>
+                                                                </div>
+
+                                                                </td>
+
+                                                       
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td colspan="3">
+                                                                <div class="d-flex align-items-center justify-content-between document-deta"
+                                                                *ngIf="documentsEmployee?.highestQualificationDegree">
+                                                                <div class="d-flex align-items-center ">
+                                                                    <div class="d-flex align-items-center " style="gap:10px;">
+                                                                        <i class="bi bi-file-earmark-text"></i>
+                                                                        <p class="mb-0 text-lineclamp">Graduation_Cert.pdf</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex align-items-center justify-content-end"
+                                                                    style="gap:10px; cursor: pointer;">
+                                                                    <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                                                    <i class="bi bi-eye pointer download-color"
+                                                                        (click)="openPdfModel('degree')"></i>
+                                                                    <i class="bi bi-download download-color"
+                                                                        (click)="downloadSingleImage((documentsEmployee?.highestQualificationDegree).toString())"></i>
+                                                                </div>
+                                                            </div>
+
+                                                            </td>
+                                                            <td colspan="3">
+                                                                <div class="d-flex align-items-center justify-content-between document-deta"
+                                    *ngIf="documentsEmployee?.secondarySchoolCertificate">
+                                    <div class="d-flex align-items-center ">
+                                        <div class="d-flex align-items-center " style="gap:10px;">
+                                            <i class="bi bi-file-earmark-text"></i>
+                                            <p class="mb-0 text-lineclamp">12th_Cert.pdf</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-end"
+                                        style="gap:10px; cursor: pointer;">
+                                        <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                        <i class="bi bi-eye pointer download-color"
+                                            (click)="openPdfModel('secondaryschool')"></i>
+                                        <i class="bi bi-download download-color"
+                                            (click)="downloadSingleImage((documentsEmployee?.secondarySchoolCertificate).toString())"></i>
+                                    </div>
+                                </div>
+                               
+                                                                
+                                                            </td>
+                                                            <td colspan="3">
+                                                                <div class="d-flex align-items-center justify-content-between document-deta"
+                                                                *ngIf="documentsEmployee?.testimonialReccomendation">
+                                                                <div class="d-flex align-items-center ">
+                                                                    <div class="d-flex align-items-center " style="gap:10px;">
+                                                                        <i class="bi bi-file-earmark-text"></i>
+                                                                        <p class="mb-0 text-lineclamp">Testimonial.pdf</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex align-items-center justify-content-end"
+                                                                    style="gap:10px; cursor: pointer;">
+                                                                    <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                                                    <i class="bi bi-eye pointer download-color"
+                                                                        (click)="openPdfModel('testimonial')"></i>
+                                                                    <i class="bi bi-download download-color"
+                                                                        (click)="downloadSingleImage((documentsEmployee?.testimonialReccomendation).toString())"></i>
+                                                                </div>
+                                                            </div>
+                                                                
+                                                            </td>
+                                                        </tr>
+                                                       
+                                                     
+
+
+                                                    </tbody>
+                                                </table>
+                                               
+
+                                            </div>
+                                         </div>
+                                            
+
+                                        </div>
+
 
 
                                     </div>
@@ -1461,7 +1663,7 @@
                         </div>
                     </div>
                 </div>
-                <div [ngClass]="{'d-none': hideDetailsFlag, 'col-md-3': !hideDetailsFlag}">
+                <!-- <div [ngClass]="{'d-none': hideDetailsFlag, 'col-md-3': !hideDetailsFlag}">
                     <div class="employee-profile-deta">
 
 
@@ -1499,7 +1701,6 @@
                         <div class="employ-nots mt-2">
                             <h5>Documents</h5>
 
-                            <!-- {{isDocsPlaceholder}} -->
 
                             <div class="pt-1" *ngIf="!isDocsPlaceholder">
                                 <div class="d-flex align-items-center justify-content-between document-deta"
@@ -1512,7 +1713,6 @@
                                     </div>
                                     <div class="d-flex align-items-center justify-content-end"
                                         style="gap:10px; cursor: pointer;">
-                                        <!-- <i class="bi bi-trash delete-coloe"></i> -->
                                         <i class="bi bi-eye pointer download-color"
                                             (click)="openPdfModel('aadhaarCard')"></i>
                                         <i class="bi bi-download download-color"
@@ -1529,7 +1729,6 @@
                                     </div>
                                     <div class="d-flex align-items-center justify-content-end"
                                         style="gap:10px; cursor: pointer;">
-                                        <!-- <i class="bi bi-trash delete-coloe"></i> -->
                                         <i class="bi bi-eye pointer download-color"
                                             (click)="openPdfModel('pancard')"></i>
                                         <i class="bi bi-download download-color"
@@ -1543,15 +1742,12 @@
                                         <div class="d-flex align-items-center " style="gap:10px;">
                                             <i class="bi bi-file-earmark-text"></i>
                                             <p class="mb-0 text-lineclamp">10th_Cert.pdf</p>
-                                            <!-- <p class="mb-0" *ngIf="documentsEmployee.highestQualificationDegree">Graduation_Cert.pdf</p>
-                                        <p class="mb-0" *ngIf="documentsEmployee.secondarySchoolCertificate">12th_Cert.pdf</p>
-                                        <p class="mb-0" *ngIf="documentsEmployee.testimonialReccomendation">Testimonial.pdf</p> -->
+                                          
 
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-end"
                                         style="gap:10px; cursor: pointer;">
-                                        <!-- <i class="bi bi-trash delete-coloe"></i> -->
                                         <i class="bi bi-eye pointer download-color"
                                             (click)="openPdfModel('highschool')"></i>
                                         <i class="bi bi-download download-color"
@@ -1568,7 +1764,6 @@
                                     </div>
                                     <div class="d-flex align-items-center justify-content-end"
                                         style="gap:10px; cursor: pointer;">
-                                        <!-- <i class="bi bi-trash delete-coloe"></i> -->
                                         <i class="bi bi-eye pointer download-color"
                                             (click)="openPdfModel('degree')"></i>
                                         <i class="bi bi-download download-color"
@@ -1585,7 +1780,6 @@
                                     </div>
                                     <div class="d-flex align-items-center justify-content-end"
                                         style="gap:10px; cursor: pointer;">
-                                        <!-- <i class="bi bi-trash delete-coloe"></i> -->
                                         <i class="bi bi-eye pointer download-color"
                                             (click)="openPdfModel('secondaryschool')"></i>
                                         <i class="bi bi-download download-color"
@@ -1602,7 +1796,6 @@
                                     </div>
                                     <div class="d-flex align-items-center justify-content-end"
                                         style="gap:10px; cursor: pointer;">
-                                        <!-- <i class="bi bi-trash delete-coloe"></i> -->
                                         <i class="bi bi-eye pointer download-color"
                                             (click)="openPdfModel('testimonial')"></i>
                                         <i class="bi bi-download download-color"
@@ -1638,7 +1831,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
         </div>
