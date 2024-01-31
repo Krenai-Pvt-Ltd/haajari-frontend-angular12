@@ -24,6 +24,9 @@ export class TeamDetailComponent implements OnInit {
         this.teamId = this.activateRoute.snapshot.queryParamMap.get('teamId');
       };
 
+      // if(this.activateRoute.snapshot.queryParamMap.has('Id')){
+      //   this.managerId = this.activateRoute.snapshot.queryParamMap.get('Id');
+      // };
       this.Settings = {
         singleSelection: false,
         text: 'Select Module',
@@ -33,6 +36,7 @@ export class TeamDetailComponent implements OnInit {
       };
 
   }
+  managerId:any;
 
 
   ngOnInit(): void {

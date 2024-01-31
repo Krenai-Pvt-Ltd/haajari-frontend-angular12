@@ -276,6 +276,7 @@ export class TeamComponent implements OnInit{
 
   routeToTeamDetails(uuid:string){
     let navExtra : NavigationExtras = {
+      // queryParams : {"teamId" : uuid, "Id": managerId},
       queryParams : {"teamId" : uuid},
     };
     this.router.navigate(['/team-detail'], navExtra);
