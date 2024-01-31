@@ -1141,4 +1141,10 @@ statusResponseMailToUser(userUuid:string, requestString:string): Observable<any>
     return this.httpClient.post<any>(`${this.baseUrl}/notification/send/statusNotification/user`, {}, {params});
 }
 
+getAttendanceDetailsCount(date : string): Observable<any> {
+  const params = new HttpParams().set("date", date);
+
+  return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-count`, {params});
+}
+
 }
