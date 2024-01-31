@@ -616,15 +616,25 @@
                     </a>
                   </div>
   
-                  <div class="align-self-center">
+                  
+                  <div class="align-self-center" >
                     <button
                       type="button"
-                      class="btn btn-xs btn-light btn-round"
-                      (click)="routeToTeamDetails(team.uuid)"
+                      class="btn btn-xs btn-light btn-round" *ngIf="team.manager!=null"
+                      (click)="routeToTeamDetails(team.uuid, team.manager.uuid)"
+                    >
+                      View Details <i class="mdi mdi-arrow-right"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn btn-xs btn-light btn-round" *ngIf="team.manager==null"
+                      (click)="routeToTeamDetails(team.uuid, 'noManager')"
                     >
                       View Details <i class="mdi mdi-arrow-right"></i>
                     </button>
                   </div>
+                  
                   <!-- </div> -->
                 </div>
               </div>

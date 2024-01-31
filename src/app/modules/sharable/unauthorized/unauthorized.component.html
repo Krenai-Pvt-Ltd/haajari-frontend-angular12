@@ -1,62 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>No Authorization Found</title>
-<style>
-  body, html {
-    height: 100%;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #EEE;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  .error-container {
-    max-width: 600px;
-    padding: 20px;
-  }
-  .error-code {
-    font-size: 96px;
-    color: #7A55C7;
-    margin-bottom: 0;
-  }
-  .error-message {
-    font-size: 18px;
-    margin-top: 0;
-  }
-  .key-icon {
-    font-size: 48px;
-    color: #7A55C7;
-  }
-  .error-description {
-    margin-top: 50px;
-  }
-  .return-btn {
-    margin-top: 20px;
-    padding: 10px 25px;
-    background-color: #7A55C7;
-    color: #FFF;
-    text-decoration: none;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-</style>
-</head>
-<body>
-<div class="error-container">
-  <div class="key-icon">🔑</div>
-  <h1 class="error-code">401</h1>
-  <p class="error-message">No authorization found.</p>
-  <div class="error-description">
-    <p>This page is not publicly available.</p>
-    <p>To access it please login first.</p>
+
+
+
+<div class="error-page">
+    <img src="assets/images/unotheized.svg" style="width: 300px;">
+  <h1>Unauthorized </h1>
+  
+  <button class="btn add-filtter" type="button" routerLink="/dashboard">Back To Home</button>
   </div>
-  <button onclick="location.href='/'" class="return-btn">RETURN HOME</button>
-</div>
-</body>
-</html>
