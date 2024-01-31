@@ -9,6 +9,7 @@ import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
 import { Key } from 'src/app/constant/key';
 import { BreakTimings } from 'src/app/models/break-timings';
 import { NavigationExtras, Router } from '@angular/router';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 
@@ -21,7 +22,7 @@ export class TimetableComponent implements OnInit {
 
   alwaysShowCalendars: boolean | undefined;
   model: any;
-  constructor(private dataService: DataService, private helperService: HelperService, private router: Router) { 
+  constructor(private dataService: DataService, private helperService: HelperService, private router: Router, private rbacService : RoleBasedAccessControlService) { 
 
   }
 
@@ -29,6 +30,18 @@ export class TimetableComponent implements OnInit {
    role:string = this.loginDetails.role;
    userUuid: string = this.loginDetails.uuid;
    orgRefId:string = this.loginDetails.orgRefId;
+
+   PRESENT = Key.PRESENT;
+    ABSENT = Key.ABSENT;
+    UNMARKED = Key.UNMARKED;
+    WEEKEND = Key.WEEKEND;
+    HOLIDAY = Key.HOLIDAY;
+
+    ROLE = this.rbacService.getRole();
+
+    ADMIN = Key.ADMIN;
+    MANAGER = Key.MANAGER;
+    USER = Key.USER;
 
 
   selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
