@@ -23,7 +23,7 @@ import { DayWiseStatus } from 'src/app/models/day-wise-status';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService, private roleBasedAccessControlService : RoleBasedAccessControlService) {
+  constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService, private rbacService : RoleBasedAccessControlService) {
 
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
@@ -66,6 +66,12 @@ export class DashboardComponent implements OnInit {
   WEEKEND = Key.WEEKEND;
   HOLIDAY = Key.HOLIDAY;
 
+  ROLE = this.rbacService.getRole();
+
+  ADMIN = Key.ADMIN;
+  MANAGER = Key.MANAGER;
+  USER = Key.USER;
+
   
 
 
@@ -81,7 +87,7 @@ export class DashboardComponent implements OnInit {
     //   endDate: lastDayOfMonth
     // };
 
-    this.decodedAccessToken = this.roleBasedAccessControlService.getModules();
+    this.decodedAccessToken = this.rbacService.getModules();
     debugger
     this.getAttendanceReportByDateDurationMethodCall();
 
@@ -553,7 +559,7 @@ getDataFromDate(): Promise<any> {
         this.attendanceReportResponseList = [];
         this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
         
-        this.dataService.getAttendanceReportByDateDuration('2024-01-01','2024-01-31').toPromise()
+        this.dataService.getAttendanceReportByDateDuration(this.startDateStr, this.endDateStr, this.pageNumber, this.itemPerPage, this.searchText, this.searchBy).toPromise()
             .then((response) => {
 
                 if(response === null || response === undefined || response.object === undefined || response.object === null || response.object.length === 0){
