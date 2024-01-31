@@ -127,7 +127,7 @@
 <!-- ########################################## -->
 
 <div >
-    <div class="row mb-3">
+    <div class="row mb-3" *ngIf="ROLE === ADMIN">
         <div class="col-md-12">
             <div class="col mb-3">                      
                 <h4 class="card-title" style="font-size: 18px;">Best Performance this month</h4>                      
@@ -492,37 +492,42 @@
 
                                 <div class="filtter-box d-flex align-items-center justify-content-end" style="gap:10px;">
                                         <div class="dropdown">
-                                            <button class="btn btn-secondary new-deopdown" type="button" (click)="toggleAllCollapse(isAllCollapsed)" [disabled]="myAttendanceDataLength === 0">{{isAllCollapsed ? 'Expand All' : 'Collapse All'}}</button>
+                                            <button class="btn btn-secondary new-deopdown" type="button" (click)="toggleAllCollapse(isAllCollapsed)" [disabled]="attendanceReportResponseList.length === 0">{{isAllCollapsed ? 'Expand All' : 'Collapse All'}}</button>
                                           
                                         </div>
-                                        <ng-container *ngIf="!downloadingFlag; else downloadingCondition">
-                                            <div class="dropdown col-md-3" >
-                                                <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="myAttendanceDataLength === 0">
-                                                  Download <i class="bi bi-chevron-down"></i>
-                                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
-                                                  <li><a id="attendance-data-download-in-excel-format" class="dropdown-item" (click)="downloadAttendanceDataInExcelFormatMethodCall()">Excel</a></li>
-                                                  <li><a class="dropdown-item">CSV</a></li>
-                                                </ul>
-                                              </div>
-                                        </ng-container>
-                                        <ng-template #downloadingCondition>
-                                            <div class="dropdown col-md-3" >
-                                                <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="myAttendanceDataLength === 0" style="display: flex; justify-content: space-evenly; align-items: center;">
-                                                  Downloading
-                                                  <!-- <div class="spinner-border" role="status">
-                                                    <span class="sr-only">Loading...</span>
-                                                  </div> -->
 
-                                                  <div class="dot-opacity-loader">
-                                                    <span></span>
-                                                    <span></span>
-                                                    <span></span>
+                                        <div class="col-md-3" *ngIf="ROLE == ADMIN">
+                                            <ng-container *ngIf="!downloadingFlag; else downloadingCondition">
+                                                <div class="dropdown " >
+                                                    <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="attendanceReportResponseList.length === 0">
+                                                      Download <i class="bi bi-chevron-down"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
+                                                      <li><a id="attendance-data-download-in-excel-format" class="dropdown-item" (click)="downloadAttendanceDataInExcelFormatMethodCall()">Excel</a></li>
+                                                      <li><a class="dropdown-item">CSV</a></li>
+                                                    </ul>
                                                   </div>
-
-                                                </button>
-                                              </div>
-                                        </ng-template>
+                                            </ng-container>
+                                            <ng-template #downloadingCondition>
+                                                <div class="dropdown col-md-3" >
+                                                    <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="attendanceReportResponseList.length === 0" style="display: flex; justify-content: space-evenly; align-items: center;">
+                                                      Downloading
+                                                      <!-- <div class="spinner-border" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                      </div> -->
+    
+                                                      <div class="dot-opacity-loader">
+                                                        <span></span>
+                                                        <span></span>
+                                                        <span></span>
+                                                      </div>
+    
+                                                    </button>
+                                                  </div>
+                                            </ng-template>
+                                        </div>
+                                        
+                                        
                                           
                                     
                                       <div class="dropdown col-md-3" >
@@ -597,17 +602,17 @@
                                             <th class="text-left">Present</th>
                                             <th class="text-left">Absent</th>
                                             <th class="text-left">Half Day</th>
-                                            <th class="text-left">Paid Leave</th>
-                                            <th class="text-left">Unmarked</th>
                                             <th class="text-left">Overtime</th>
-                                            <th class="text-left">Fine</th>
+                                            <th class="text-left">Paid Leave</th>
+                                            <th class="text-left">Unpaid Leave</th>
+                                            <th class="text-left">Unmarked</th>
                                             <th class="text-left">Total Attendance</th>
                                         </tr>
                                     </thead>
                                     <!-- *ngIf="isAttendanceShimer" -->
                                     
 
-                                    <ng-container *ngIf="isShimmerForAttendanceData && (myAttendanceData | json ) == '{}' && !dataNotFoundPlaceholderForAttendanceData && !networkConnectionErrorPlaceHolderForAttendanceData; else myAttendanceDataCondition">
+                                    <ng-container *ngIf="isShimmerForAttendanceData && attendanceReportResponseList.length === 0 && !dataNotFoundPlaceholderForAttendanceData && !networkConnectionErrorPlaceHolderForAttendanceData; else attendanceDataCondition">
                                         <tbody>
                                             <tr *ngFor="let item of [].constructor(6)">
                                                 <td class="text-center">
@@ -653,31 +658,29 @@
                                         </tbody>
                                     </ng-container>
                                     
-                                    <ng-template #myAttendanceDataCondition>
+                                    <ng-template #attendanceDataCondition>
                                         
 
-                                        <ng-container *ngIf="(myAttendanceData | json )!= '{}' && !dataNotFoundPlaceholderForAttendanceData && !networkConnectionErrorPlaceHolderForAttendanceData">
+                                        <ng-container *ngIf="attendanceReportResponseList.length !== 0 && !dataNotFoundPlaceholderForAttendanceData && !networkConnectionErrorPlaceHolderForAttendanceData">
                                             <tbody>
                                                 
-                                                <ng-container *ngFor="let entry of myAttendanceData | keyvalue; let i = index">
+                                                <ng-container *ngFor="let attendanceReportResponse of attendanceReportResponseList; let i = index">
                                                     <tr>
                                                         <td class="text-left plandtlMainicon">
                                                             <i class="bi bi-chevron-right month-d projectdIcon collapsed" data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i" role="button" aria-expanded="false" aria-controls="collapseExamplesheet0"></i>
-                                                            
-                                                            <!-- <i class="bi" [ngClass]="{'bi-chevron-right': isAllCollapsed, 'bi-chevron-down': !isAllCollapsed, 'collapsed': isAllCollapsed}" data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i" role="button" [attr.aria-expanded]="!isAllCollapsed" aria-controls="collapseExamplesheet0"></i> -->
-        
-                                                            {{extractFirstNameFromEmail(entry.key)}}
-                                                            <p class="attendance-name" >{{entry.key}}</p>
+                                                                    
+                                                            {{extractFirstNameFromEmail(attendanceReportResponse.userName)}}
+                                                            <p class="attendance-name" >{{attendanceReportResponse.userEmail}}</p>
                                                         </td>
                                                         
-                                                        <td class="text-center">{{entry.value[0].totalPresentDays || 0}}</td>
-                                                        <td class="text-center"> - </td>
-                                                        <td class="text-center"> - </td>
-                                                        <td class="text-center"> - </td>
-                                                        <td class="text-center"> - </td>
-                                                        <td class="text-center"> - </td>
-                                                        <td class="text-center"> - </td>
-                                                        <td class="text-center"> - </td>
+                                                        <td class="text-center">{{attendanceReportResponse.present}}</td>
+                                                        <td class="text-center">{{attendanceReportResponse.absentUpToToday}}</td>
+                                                        <td class="text-center">{{attendanceReportResponse.halfDays}}</td>
+                                                        <td class="text-center">{{attendanceReportResponse.overTime}}</td>
+                                                        <td class="text-center">{{attendanceReportResponse.paidLeave}}</td>
+                                                        <td class="text-center">{{attendanceReportResponse.unpaidLeave}}</td>
+                                                        <td class="text-center">{{attendanceReportResponse.unmarked}}</td>
+                                                        <td class="text-center">{{attendanceReportResponse.totalPayOutDays}}</td>
                                                     </tr>
                                                     <tr class="collapse" [attr.id]="'collapseExamplesheet' + i">
                                                         <td colspan="9" class="p-1">
@@ -685,15 +688,15 @@
                                                                 <table class="table table-bordered day-deta">
                                                                     <tr>
                                                                         <th class="text-center">Day</th>
-                                                                        <ng-container *ngFor="let day of dateInMonthList(entry.value)">
-                                                                            <th class="text-center">{{ getDayNameFromDate(day)[0] }} <br> {{getDayFromDate(day)}}</th>
+                                                                        <ng-container *ngFor="let dayWiseStatus of attendanceReportResponse.dayWiseStatusList">
+                                                                            <th class="text-center">{{ getDayNameFromDate(dayWiseStatus.date)[0] }} <br> {{getDayFromDate(dayWiseStatus.date)}}</th>
                                                                         </ng-container>
                                                                     </tr>
                                                                     <tr>
                         
                                                                         <td></td>
-                                                                        <ng-container *ngFor="let attendance of entry.value">
-                                                                            <td class="text-center" [ngClass]="{'absent': (attendance.checkInTime==null && convertStringToDate(attendance)<today), 'present': attendance.checkInTime!=null }">{{( attendance.checkInTime==null && convertStringToDate(attendance) < today )?'A':(attendance.checkInTime != null )?'P':'-' }}</td>
+                                                                        <ng-container *ngFor="let dayWiseStatus of attendanceReportResponse.dayWiseStatusList">
+                                                                            <td class="text-center" [ngClass]="{'absent': (dayWiseStatus.status == ABSENT || dayWiseStatus.status == UNMARKED), 'present': (dayWiseStatus.status == PRESENT), 'holiday' : (dayWiseStatus.status == WEEKEND || dayWiseStatus.status == HOLIDAY)}">{{ (dayWiseStatus.status[0] == 'U') ? 'A'  : dayWiseStatus.status[0]}}</td>
                                                                         </ng-container>
                                                                         
                                                                     </tr>
@@ -789,7 +792,7 @@
                                 
                             </div>
 
-                            <div class="pagination pl-3" *ngIf="(total > 11 && myAttendanceDataLength > 11 && !dataNotFoundPlaceholderForAttendanceData && !networkConnectionErrorPlaceHolderForAttendanceData) || pageNumber === lastPageNumber">
+                            <div class="pagination pl-3" *ngIf="(total > 11 && attendanceReportResponseList.length > 11 && !dataNotFoundPlaceholderForAttendanceData && !networkConnectionErrorPlaceHolderForAttendanceData) || pageNumber === lastPageNumber">
                                 <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} users</p>
                                 <div class="row">
                                   <div class="col-md-12">

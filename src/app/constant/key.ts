@@ -139,6 +139,14 @@ export class Key{
     public static ADMIN = "ADMIN";
     public static USER = "USER";
     public static MANAGER = "MANAGER";
+
+
+    // Day wise status
+    public static PRESENT = "Present";
+    public static ABSENT = "Absent";
+    public static UNMARKED = "Unmarked";
+    public static WEEKEND = "Weekend";
+    public static HOLIDAY = "Holiday";
     
     
 }
