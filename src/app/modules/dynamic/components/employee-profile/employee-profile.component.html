@@ -10,7 +10,8 @@
                 <div class="d-flex align-items-center justify-content-between" style="gap:20px">
                     <!-- routerLink="/employee-onboarding" -->
                     <!-- {{tokenUserRoleFlag}} -->
-                    <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE!='USER'"> <i class="bi bi-chevron-left"></i></div>
+                    <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE!='USER'"> <i
+                            class="bi bi-chevron-left"></i></div>
                     <h5 class="mt-0" style="margin-top: 10px !important;">{{user?.name || 'N/A'}}</h5>
                 </div>
                 <div [ngClass]="{'d-none': !userRoleFlag, 'd-flex align-items-center': userRoleFlag}" style="gap:20px;">
@@ -67,7 +68,8 @@
 
                                 <div class="" style="width: 110px; margin: 0 auto; position: relative;">
                                     <span *ngIf="isImage">
-                                        <img src="{{user?.image}}" style="width:100px; border-radius: 50%; height:100px;">
+                                        <img src="{{user?.image}}"
+                                            style="width:100px; border-radius: 50%; height:100px;">
                                     </span>
                                     <span class="members-name" *ngIf="!isImage">{{ user?.name[0]}}</span>
                                     <span class="edit-profile" routerLink="/employee-onboarding-form"
@@ -134,27 +136,26 @@
                                         *ngIf="(user!.employeeOnboardingStatus?.response=='PENDING' || user!.employeeOnboardingStatus?.response=='REQUESTED' || user!.employeeOnboardingStatus?.response=='NEW_USER')">
                                         <button class="btn sand-request approved" type="button"
                                             (click)="updateStatusUserByUuid('APPROVED')">
-                                
+
                                             <div *ngIf="!approvedToggle">
                                                 Approve
                                             </div>
-                            
+
                                             <div class="approve-button-loader" *ngIf="approvedToggle">
                                                 <span></span>
                                                 <span></span>
                                                 <span></span>
                                             </div>
                                         </button>
-                                           
-                                            <button class="btn sand-request rejected" type="button"
-                                            data-bs-toggle="modal" 
+
+                                        <button class="btn sand-request rejected" type="button" data-bs-toggle="modal"
                                             data-bs-target="#showRejectModal">Reject</button>
-                                            <!-- <div *ngIf="approvedToggle" class="dot-opacity-loader">
+                                        <!-- <div *ngIf="approvedToggle" class="dot-opacity-loader">
                                                 <span></span>
                                                 <span></span>
                                                 <span></span>
                                             </div> -->
-                                    
+
                                     </div>
                                     <!-- <div class="d-flex" style="gap:10px" *ngIf="(user!.employeeOnboardingStatus?.response!='PENDING')">
                                         <button class="btn sand-request approved" type="button" *ngIf="(user!.employeeOnboardingStatus?.response=='APPROVED')">{{user!.employeeOnboardingStatus?.response}}</button>
@@ -479,15 +480,13 @@
                                                 class="nav-link"> Emergency Contact </button>
                                         </li>
                                         <li role="presentation" class="nav-item">
-                                            <button id="profile-tab" data-bs-toggle="tab"
-                                                data-bs-target="#bank-details" type="button" role="tab"
-                                                aria-controls="bank-details" aria-selected="false"
-                                                class="nav-link"> Bank Details </button>
+                                            <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#bank-details"
+                                                type="button" role="tab" aria-controls="bank-details"
+                                                aria-selected="false" class="nav-link"> Bank Details </button>
                                         </li>
                                         <li role="presentation" class="nav-item">
-                                            <button id="profile-tab" data-bs-toggle="tab"
-                                                data-bs-target="#doucment" type="button" role="tab"
-                                                aria-controls="doucment" aria-selected="false"
+                                            <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#doucment"
+                                                type="button" role="tab" aria-controls="doucment" aria-selected="false"
                                                 class="nav-link"> Documents </button>
                                         </li>
                                     </ul>
@@ -587,7 +586,8 @@
                                                                 <button type="button" id="dropdownMenuButton1"
                                                                     data-bs-toggle="dropdown" aria-expanded="false"
                                                                     class="btn btn-secondary dropdown-toggle new-deopdown">
-                                                                    {{ capitalizeFirstLetter(selectedStatus) || 'Leave Status' }} <i class="bi bi-chevron-down"
+                                                                    {{ capitalizeFirstLetter(selectedStatus) || 'Leave
+                                                                    Status' }} <i class="bi bi-chevron-down"
                                                                         style="color: #444; font-size: 15px;"></i>
                                                                 </button>
                                                                 <ul aria-labelledby="dropdownMenuButton1"
@@ -767,7 +767,8 @@
                                                                             style="font-size: 13px; font-weight: 600; vertical-align: middle;">
                                                                             <i class="bi bi-calendar3"
                                                                                 style="margin-right: 5px;"></i>
-                                                                            {{formatDateIn(formatDate(leaves?.leaveDate)) ||
+                                                                            {{formatDateIn(formatDate(leaves?.leaveDate))
+                                                                            ||
                                                                             'N/A'}}&nbsp;<span>{{formatTime(leaves?.leaveDate)
                                                                                 || 'N/A'}}</span>
                                                                         </span>
@@ -779,8 +780,10 @@
                                                                         class="d-flex align-items-center mb-1 mt-2 gap-3">
                                                                         <p class="mb-0" style="font-size: 12px;">
                                                                             <span><b>Duration</b></span><span> : </span>
-                                                                            {{formatDateIn(formatDate(leaves?.startDate)) || 'N/A'}} -
-                                                                            {{formatDateIn(formatDate(leaves?.endDate)) || 'N/A'}}
+                                                                            {{formatDateIn(formatDate(leaves?.startDate))
+                                                                            || 'N/A'}} -
+                                                                            {{formatDateIn(formatDate(leaves?.endDate))
+                                                                            || 'N/A'}}
                                                                             <span class="space-box">|</span><span
                                                                                 *ngIf="(leaves?.halfLeave==false)"><span><b>Total
                                                                                         Days Count</b></span> :
@@ -1034,8 +1037,9 @@
                                                             <tbody class="table-design">
                                                                 <tr>
                                                                     <td colspan="4"> Address Line 1 :
-                                                                        {{addressEmployee[0]!.addressLine1 || 'N/A'}}</td>
-                                                                        <!-- <td colspan="2"> Address Line 2 :
+                                                                        {{addressEmployee[0]!.addressLine1 || 'N/A'}}
+                                                                    </td>
+                                                                    <!-- <td colspan="2"> Address Line 2 :
                                                                             {{addressEmployee[0]!.addressLine2 || 'N/A'}}</td> -->
                                                                 </tr>
 
@@ -1069,8 +1073,9 @@
                                                                 *ngIf="addressEmployee !=undefined && addressEmployee !=null && addressEmployee.length>1">
                                                                 <tr>
                                                                     <td colspan="4"> Address Line 1 :
-                                                                        {{addressEmployee[1]!.addressLine1 || 'N/A'}}</td>
-                                                                        <!-- <td colspan="2"> Address Line 2 :
+                                                                        {{addressEmployee[1]!.addressLine1 || 'N/A'}}
+                                                                    </td>
+                                                                    <!-- <td colspan="2"> Address Line 2 :
                                                                             {{addressEmployee[1]!.addressLine2 || 'N/A'}}</td> -->
                                                                 </tr>
 
@@ -1152,7 +1157,9 @@
                                                                     Company Name : {{exp.companyName || 'N/A'}} </td>
 
                                                                 <td colspan="3">
-                                                                    Duration : {{calculateDateDifferenceDuration(exp.endDate, exp.startDate)}}</td>
+                                                                    Duration :
+                                                                    {{calculateDateDifferenceDuration(exp.endDate,
+                                                                    exp.startDate)}}</td>
 
                                                                 <td colspan="3">
                                                                     Department : {{exp.lastJobDepartment || 'N/A'}}
@@ -1465,191 +1472,229 @@
                                         </div>
                                         <div class="tab-pane fade mt-3" id="bank-details" role="tabpanel">
 
-                                          <div class="">
-                                            <div class="row" >
-                                               
+                                            <div class="">
+                                                <div class="row">
 
-                                                <table class="table table-bordered">
 
-                                                    <tbody class="table-design">
-                                                        <tr>
-                                                            <td colspan="3">
-                                                                 Name : {{bankDetailsEmployee?.accountHolderName || 'N/A'}} </td>
+                                                    <table class="table table-bordered">
 
-                                                            <td colspan="3">
-                                                                IFSC Code : {{bankDetailsEmployee?.ifsc || 'N/A'}}</td>
+                                                        <tbody class="table-design">
+                                                            <tr>
+                                                                <td colspan="3">
+                                                                    Name : {{bankDetailsEmployee?.accountHolderName ||
+                                                                    'N/A'}} </td>
 
                                                                 <td colspan="3">
-                                                                    Account Number  : {{bankDetailsEmployee?.accountNumber || 'N/A'}}
+                                                                    IFSC Code : {{bankDetailsEmployee?.ifsc || 'N/A'}}
                                                                 </td>
-    
+
                                                                 <td colspan="3">
-                                                                    Bank Name  : {{bankDetailsEmployee?.bankName || 'N/A'}}
-                                                                </td>                                                       
-                                                        </tr>
-                                                       
-                                                     
+                                                                    Account Number :
+                                                                    {{bankDetailsEmployee?.accountNumber || 'N/A'}}
+                                                                </td>
+
+                                                                <td colspan="3">
+                                                                    Bank Name : {{bankDetailsEmployee?.bankName ||
+                                                                    'N/A'}}
+                                                                </td>
+                                                            </tr>
 
 
-                                                    </tbody>
-                                                </table>
 
+
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
                                             </div>
-                                          </div>
-                                            
+
 
                                         </div>
                                         <div class="tab-pane fade mt-3" id="doucment" role="tabpanel">
 
-                                         <div class="">
                                             <div class="">
-                                                <table class="table table-bordered">
+                                                <div class="">
+                                                    <table class="table table-bordered" >
 
-                                                    <tbody class="table-design">
-                                                        <tr>
-                                                            <td colspan="3">
-                                                                <div class="d-flex align-items-center justify-content-between document-deta"
-                                                                *ngIf="documentsEmployee?.aadhaarCard">
-                                                                <div class="d-flex align-items-center ">
-                                                                    <div class="d-flex align-items-center " style="gap:10px;">
-                                                                        <i class="bi bi-file-earmark-text"></i>
-                                                                        <p class="mb-0 text-lineclamp">aadhaar_card.pdf</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="d-flex align-items-center justify-content-end"
-                                                                    style="gap:10px; cursor: pointer;">
-                                                                    <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                                                    <i class="bi bi-eye pointer download-color"
-                                                                        (click)="openPdfModel('aadhaarCard')"></i>
-                                                                    <i class="bi bi-download download-color"
-                                                                        (click)="downloadSingleImage((documentsEmployee?.aadhaarCard).toString())"></i>
-                                                                </div>
-                                                            </div>
-                                                            </td>
-
-                                                            <td colspan="3">
-                                                                <div class="d-flex align-items-center justify-content-between document-deta"
-                                                                *ngIf="documentsEmployee?.pancard">
-                                                                <div class="d-flex align-items-center ">
-                                                                    <div class="d-flex align-items-center " style="gap:10px;">
-                                                                        <i class="bi bi-file-earmark-text"></i>
-                                                                        <p class="mb-0 text-lineclamp">pancard.pdf</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="d-flex align-items-center justify-content-end"
-                                                                    style="gap:10px; cursor: pointer;">
-                                                                    <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                                                    <i class="bi bi-eye pointer download-color"
-                                                                        (click)="openPdfModel('pancard')"></i>
-                                                                    <i class="bi bi-download download-color"
-                                                                        (click)="downloadSingleImage((documentsEmployee?.pancard).toString())"></i>
-                                                                </div>
-                                                            </div>
-                                                
-                                                            </td>
-
-                                                                <td colspan="3">
+                                                        <tbody class="table-design" *ngIf="!isDocsPlaceholder">
+                                                            <tr>
+                                                                <td colspan="3"  *ngIf="documentsEmployee?.aadhaarCard">
                                                                     <div class="d-flex align-items-center justify-content-between document-deta"
-                                                                    *ngIf="documentsEmployee?.highSchoolCertificate">
-                                                                    <div class="d-flex align-items-center ">
-                                                                        <div class="d-flex align-items-center " style="gap:10px;">
-                                                                            <i class="bi bi-file-earmark-text"></i>
-                                                                            <p class="mb-0 text-lineclamp">10th_Cert.pdf</p>
-                                                                            <!-- <p class="mb-0" *ngIf="documentsEmployee.highestQualificationDegree">Graduation_Cert.pdf</p>
-                                                                        <p class="mb-0" *ngIf="documentsEmployee.secondarySchoolCertificate">12th_Cert.pdf</p>
-                                                                        <p class="mb-0" *ngIf="documentsEmployee.testimonialReccomendation">Testimonial.pdf</p> -->
-                                
+                                                                       >
+                                                                        <div class="d-flex align-items-center ">
+                                                                            <div class="d-flex align-items-center "
+                                                                                style="gap:10px;">
+                                                                                <i class="bi bi-file-earmark-text"></i>
+                                                                                <p class="mb-0 text-lineclamp">
+                                                                                    aadhaar_card.pdf</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex align-items-center justify-content-end"
+                                                                            style="gap:10px; cursor: pointer;">
+                                                                            <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                                                            <i class="bi bi-eye pointer download-color"
+                                                                                (click)="openPdfModel('aadhaarCard')"></i>
+                                                                            <i class="bi bi-download download-color"
+                                                                                (click)="downloadSingleImage((documentsEmployee?.aadhaarCard).toString())"></i>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="d-flex align-items-center justify-content-end"
-                                                                        style="gap:10px; cursor: pointer;">
-                                                                        <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                                                        <i class="bi bi-eye pointer download-color"
-                                                                            (click)="openPdfModel('highschool')"></i>
-                                                                        <i class="bi bi-download download-color"
-                                                                            (click)="downloadSingleImage((documentsEmployee.highSchoolCertificate).toString())"></i>
+                                                                </td>
+
+                                                                <td colspan="3" *ngIf="documentsEmployee?.pancard">
+                                                                    <div class="d-flex align-items-center justify-content-between document-deta"
+                                                                        >
+                                                                        <div class="d-flex align-items-center ">
+                                                                            <div class="d-flex align-items-center "
+                                                                                style="gap:10px;">
+                                                                                <i class="bi bi-file-earmark-text"></i>
+                                                                                <p class="mb-0 text-lineclamp">
+                                                                                    pancard.pdf</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex align-items-center justify-content-end"
+                                                                            style="gap:10px; cursor: pointer;">
+                                                                            <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                                                            <i class="bi bi-eye pointer download-color"
+                                                                                (click)="openPdfModel('pancard')"></i>
+                                                                            <i class="bi bi-download download-color"
+                                                                                (click)="downloadSingleImage((documentsEmployee?.pancard).toString())"></i>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
                                                                 </td>
 
-                                                       
-                                                        </tr>
+                                                                <td colspan="3" *ngIf="documentsEmployee?.highSchoolCertificate">
+                                                                    <div class="d-flex align-items-center justify-content-between document-deta"
+                                                                        >
+                                                                        <div class="d-flex align-items-center ">
+                                                                            <div class="d-flex align-items-center "
+                                                                                style="gap:10px;">
+                                                                                <i class="bi bi-file-earmark-text"></i>
+                                                                                <p class="mb-0 text-lineclamp">
+                                                                                    10th_Cert.pdf</p>
+                                                                                <!-- <p class="mb-0" *ngIf="documentsEmployee.highestQualificationDegree">Graduation_Cert.pdf</p>
+                                                                        <p class="mb-0" *ngIf="documentsEmployee.secondarySchoolCertificate">12th_Cert.pdf</p>
+                                                                        <p class="mb-0" *ngIf="documentsEmployee.testimonialReccomendation">Testimonial.pdf</p> -->
 
-                                                        <tr>
-                                                            <td colspan="3">
-                                                                <div class="d-flex align-items-center justify-content-between document-deta"
-                                                                *ngIf="documentsEmployee?.highestQualificationDegree">
-                                                                <div class="d-flex align-items-center ">
-                                                                    <div class="d-flex align-items-center " style="gap:10px;">
-                                                                        <i class="bi bi-file-earmark-text"></i>
-                                                                        <p class="mb-0 text-lineclamp">Graduation_Cert.pdf</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex align-items-center justify-content-end"
+                                                                            style="gap:10px; cursor: pointer;">
+                                                                            <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                                                            <i class="bi bi-eye pointer download-color"
+                                                                                (click)="openPdfModel('highschool')"></i>
+                                                                            <i class="bi bi-download download-color"
+                                                                                (click)="downloadSingleImage((documentsEmployee.highSchoolCertificate).toString())"></i>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="d-flex align-items-center justify-content-end"
-                                                                    style="gap:10px; cursor: pointer;">
-                                                                    <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                                                    <i class="bi bi-eye pointer download-color"
-                                                                        (click)="openPdfModel('degree')"></i>
-                                                                    <i class="bi bi-download download-color"
-                                                                        (click)="downloadSingleImage((documentsEmployee?.highestQualificationDegree).toString())"></i>
-                                                                </div>
-                                                            </div>
 
-                                                            </td>
-                                                            <td colspan="3">
-                                                                <div class="d-flex align-items-center justify-content-between document-deta"
-                                    *ngIf="documentsEmployee?.secondarySchoolCertificate">
-                                    <div class="d-flex align-items-center ">
-                                        <div class="d-flex align-items-center " style="gap:10px;">
-                                            <i class="bi bi-file-earmark-text"></i>
-                                            <p class="mb-0 text-lineclamp">12th_Cert.pdf</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-end"
-                                        style="gap:10px; cursor: pointer;">
-                                        <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                        <i class="bi bi-eye pointer download-color"
-                                            (click)="openPdfModel('secondaryschool')"></i>
-                                        <i class="bi bi-download download-color"
-                                            (click)="downloadSingleImage((documentsEmployee?.secondarySchoolCertificate).toString())"></i>
-                                    </div>
-                                </div>
-                               
-                                                                
-                                                            </td>
-                                                            <td colspan="3">
-                                                                <div class="d-flex align-items-center justify-content-between document-deta"
-                                                                *ngIf="documentsEmployee?.testimonialReccomendation">
-                                                                <div class="d-flex align-items-center ">
-                                                                    <div class="d-flex align-items-center " style="gap:10px;">
-                                                                        <i class="bi bi-file-earmark-text"></i>
-                                                                        <p class="mb-0 text-lineclamp">Testimonial.pdf</p>
+                                                                </td>
+
+
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td colspan="3" *ngIf="documentsEmployee?.highestQualificationDegree">
+                                                                    <div class="d-flex align-items-center justify-content-between document-deta"
+                                                                        >
+                                                                        <div class="d-flex align-items-center ">
+                                                                            <div class="d-flex align-items-center "
+                                                                                style="gap:10px;">
+                                                                                <i class="bi bi-file-earmark-text"></i>
+                                                                                <p class="mb-0 text-lineclamp">
+                                                                                    Graduation_Cert.pdf</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex align-items-center justify-content-end"
+                                                                            style="gap:10px; cursor: pointer;">
+                                                                            <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                                                            <i class="bi bi-eye pointer download-color"
+                                                                                (click)="openPdfModel('degree')"></i>
+                                                                            <i class="bi bi-download download-color"
+                                                                                (click)="downloadSingleImage((documentsEmployee?.highestQualificationDegree).toString())"></i>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="d-flex align-items-center justify-content-end"
-                                                                    style="gap:10px; cursor: pointer;">
-                                                                    <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                                                    <i class="bi bi-eye pointer download-color"
-                                                                        (click)="openPdfModel('testimonial')"></i>
-                                                                    <i class="bi bi-download download-color"
-                                                                        (click)="downloadSingleImage((documentsEmployee?.testimonialReccomendation).toString())"></i>
-                                                                </div>
-                                                            </div>
-                                                                
-                                                            </td>
-                                                        </tr>
-                                                       
-                                                     
+
+                                                                </td>
+                                                                <td colspan="3" *ngIf="documentsEmployee?.secondarySchoolCertificate">
+                                                                    <div class="d-flex align-items-center justify-content-between document-deta"
+                                                                        >
+                                                                        <div class="d-flex align-items-center ">
+                                                                            <div class="d-flex align-items-center "
+                                                                                style="gap:10px;">
+                                                                                <i class="bi bi-file-earmark-text"></i>
+                                                                                <p class="mb-0 text-lineclamp">
+                                                                                    12th_Cert.pdf</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex align-items-center justify-content-end"
+                                                                            style="gap:10px; cursor: pointer;">
+                                                                            <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                                                            <i class="bi bi-eye pointer download-color"
+                                                                                (click)="openPdfModel('secondaryschool')"></i>
+                                                                            <i class="bi bi-download download-color"
+                                                                                (click)="downloadSingleImage((documentsEmployee?.secondarySchoolCertificate).toString())"></i>
+                                                                        </div>
+                                                                    </div>
 
 
-                                                    </tbody>
-                                                </table>
-                                               
+                                                                </td>
+                                                                <td colspan="3" *ngIf="documentsEmployee?.testimonialReccomendation">
+                                                                    <div class="d-flex align-items-center justify-content-between document-deta"
+                                                                        >
+                                                                        <div class="d-flex align-items-center ">
+                                                                            <div class="d-flex align-items-center "
+                                                                                style="gap:10px;">
+                                                                                <i class="bi bi-file-earmark-text"></i>
+                                                                                <p class="mb-0 text-lineclamp">
+                                                                                    Testimonial.pdf</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex align-items-center justify-content-end"
+                                                                            style="gap:10px; cursor: pointer;">
+                                                                            <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                                                            <i class="bi bi-eye pointer download-color"
+                                                                                (click)="openPdfModel('testimonial')"></i>
+                                                                            <i class="bi bi-download download-color"
+                                                                                (click)="downloadSingleImage((documentsEmployee?.testimonialReccomendation).toString())"></i>
+                                                                        </div>
+                                                                    </div>
 
+                                                                </td>
+                                                            </tr>
+
+
+
+
+                                                        </tbody>
+                                                        <tbody *ngIf="isDocsPlaceholder">
+                                                            <tr>
+                                                                <td colspan="4">
+                                                                    <div class="errorboxmain"
+                                                                        style="text-align: center;">
+                                                                        <div class="errorboxinner">
+                                                                            <div class="errorboxplaceholder mb-2">
+                                                                                <img src="assets/images/empty-box.svg"
+                                                                                    style="width:80px;" />
+                                                                            </div>
+                                                                            <div class="">
+                                                                                <h4>No Data Found</h4>
+                                                                                <p class="mb-0">We're unable to locate a
+                                                                                    record associated
+                                                                                    with the information you entered.
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+
+                                                </div>
                                             </div>
-                                         </div>
-                                            
+
 
                                         </div>
 
@@ -1990,7 +2035,7 @@
 <!-- show image modal -->
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"
     #openViewModal id="openViewModal"></button>
-<div class="modal blur-bg-2" id="showImageModal" tabindex="-1"  data-bs-keyboard="false"
+<div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-keyboard="false"
     aria-labelledby="shareModalLabel1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -2007,14 +2052,15 @@
 </div>
 
 
-<button type="button" class="btn btn-primary d-none"  data-bs-toggle="modal" data-bs-target="#eventsModal"
-    #openEventsModal id="openEventsModal" ></button>
-<div class="modal" data-bs-backdrop="static"  id="eventsModal" [ngStyle]="{'left':clientX,'top':clientY,'position':'absolute'}"  #eventsModal tabindex="-1" role="dialog"
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#eventsModal"
+    #openEventsModal id="openEventsModal"></button>
+<div class="modal" data-bs-backdrop="static" id="eventsModal"
+    [ngStyle]="{'left':clientX,'top':clientY,'position':'absolute'}" #eventsModal tabindex="-1" role="dialog"
     aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog m-0" role="document">
-        <div class="modal-content" >
-         <button type="button" class="d-none" #closeAttendanceDetailModalButton data-bs-dismiss="modal"></button>
-            <div class="modal-body" >
+        <div class="modal-content">
+            <button type="button" class="d-none" #closeAttendanceDetailModalButton data-bs-dismiss="modal"></button>
+            <div class="modal-body">
                 <div class="calenInfo" *ngIf="userAttendanceDetailDateWise.checkInTime!=null">
                     <p><b>Check In Time: </b>{{userAttendanceDetailDateWise.checkInTime | timeFormat}}</p>
                     <p><b>Check Out Time: </b>{{userAttendanceDetailDateWise.checkOutTime | timeFormat}}</p>
@@ -2022,42 +2068,46 @@
                     <p><b>Total Break: </b>{{userAttendanceDetailDateWise.breakCount}}</p>
                     <p><b>Break Duration: </b>{{userAttendanceDetailDateWise.breakDuration}}</p>
                 </div>
-                <div class="calenInfo d-block" *ngIf="userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined">
+                <div class="calenInfo d-block"
+                    *ngIf="userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined">
                     <p><b>Absent!</b></p>
                 </div>
             </div>
-                
-            
+
+
         </div>
-    </div> 
+    </div>
 </div>
 
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showRejectModal"
     #openRejectModal id="openRejectModal"></button>
-<div class="modal" id="showRejectModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="shareModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Reason for Rejection</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>Please provide a reason for rejection:</p>
-        <textarea class="form-control" id="rejectionReason" [(ngModel)]="reasonOfRejectionProfile.reason" rows="3" style="height:100px !important;"></textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeRejectModalButton>Cancel</button>
-        <button type="button" (click)="updateStatusUserByUuid('REJECTED')" class="btn btn-primary">
-            <div *ngIf="toggle" class="dot-loader">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                  </div>
-                  <span *ngIf="!toggle">
-                      Save Changes 
-                  </span> </button>
-      </div>
+<div class="modal" id="showRejectModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+    aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reason for Rejection</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Please provide a reason for rejection:</p>
+                <textarea class="form-control" id="rejectionReason" [(ngModel)]="reasonOfRejectionProfile.reason"
+                    rows="3" style="height:100px !important;"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    #closeRejectModalButton>Cancel</button>
+                <button type="button" (click)="updateStatusUserByUuid('REJECTED')" class="btn btn-primary">
+                    <div *ngIf="toggle" class="dot-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span *ngIf="!toggle">
+                        Save Changes
+                    </span>
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-

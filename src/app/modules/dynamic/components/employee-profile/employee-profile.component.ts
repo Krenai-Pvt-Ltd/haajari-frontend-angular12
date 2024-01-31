@@ -626,6 +626,7 @@ export class EmployeeProfileComponent implements OnInit {
         // console.log(data);
         // console.log(data.body);
         this.submitLeaveLoader=false;
+        this.isLeavePlaceholder=false;
         this.getUserLeaveReq();
         this.resetUserLeave();
         this.formGroupDirective.resetForm();
