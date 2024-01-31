@@ -127,12 +127,17 @@ export class EmployeeProfileComponent implements OnInit {
     this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
     this.getUserAttendanceStatus();
     this.getOrganizationOnboardingDateByUuid();
-    let date = new Date();
-    let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    let lastDayString = lastDay.toISOString().split('T')[0];
-    date.setDate(1);
-    let firstDayString = date.toISOString().split('T')[0]; // Format: YYYY-MM-DD
-    this.startDateStr = firstDayString;
+    // let date = new Date();
+    // let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    // let lastDayString = lastDay.toISOString().split('T')[0];
+    // date.setDate(1);
+    // let firstDayString = date.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+    // this.startDateStr = firstDayString;
+
+    let firstDayOfMonth = moment().startOf('month');
+    this.startDateStr = firstDayOfMonth.format('YYYY-MM-DD');
+    // this.startDateStr = firstDayString;
+    console.log("startDateStr :" + this.startDateStr);
     this.endDateStr = moment(new Date()).format('YYYY-MM-DD')
     this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
     this.fetchManagerNames();
@@ -149,16 +154,16 @@ export class EmployeeProfileComponent implements OnInit {
 
 
   getRoleData(){
-     const managerDetails =localStorage.getItem('managerFunc');
-    if(managerDetails !== null){
-      const managerFunc = JSON.parse(managerDetails);
-      if((this.userId!=managerFunc.managerId) && (managerFunc.managerId==this.UUID) && (this.ROLE=="MANAGER")){
-        this.hideDetailsFlag=true;
-      }else{
+    //  const managerDetails =localStorage.getItem('managerFunc');
+    // if(managerDetails !== null){
+    //   const managerFunc = JSON.parse(managerDetails);
+      if((this.userId==this.UUID) && (this.ROLE==this.MANAGER)){
         this.hideDetailsFlag=false;
+      }else{
+        this.hideDetailsFlag=true;
       }
 
-    }
+    // }
   }
 
   prevDate!: Date;
@@ -292,7 +297,7 @@ export class EmployeeProfileComponent implements OnInit {
   // var calendar = new Calendar(calendarEl, {
 
   @ViewChild('openEventsModal') openEventsModal!: ElementRef;
-  userAttendanceDetailDateWise:{checkInTime:string,checkOutTime:string, totalWorkingHours:string, breakCount:string, breakDuration:string}={checkInTime:"",checkOutTime:"", totalWorkingHours:"", breakCount:"", breakDuration:""};
+  userAttendanceDetailDateWise:{checkInTime:string,checkOutTime:string, totalWorkingHours:string, breakCount:string, breakDuration:string, createdDate:string}={checkInTime:"",checkOutTime:"", totalWorkingHours:"", breakCount:"", breakDuration:"", createdDate:""};
   attendanceDetailModalToggle:boolean=false;
   clientX:string="0px";
   clientY:string="0px";
@@ -305,11 +310,13 @@ export class EmployeeProfileComponent implements OnInit {
     this.userAttendanceDetailDateWise.breakCount="";
     this.userAttendanceDetailDateWise.breakDuration="";
     this.userAttendanceDetailDateWise.totalWorkingHours="";
+    this.userAttendanceDetailDateWise.createdDate="";
     this.userAttendanceDetailDateWise.checkInTime=mouseEnterInfo.event._def.extendedProps.checkInTime;
     this.userAttendanceDetailDateWise.checkOutTime=mouseEnterInfo.event._def.extendedProps.checkOutTime;
     this.userAttendanceDetailDateWise.breakCount=mouseEnterInfo.event._def.extendedProps.breakCount;
     this.userAttendanceDetailDateWise.breakDuration=mouseEnterInfo.event._def.extendedProps.breakDuration;
     this.userAttendanceDetailDateWise.totalWorkingHours=mouseEnterInfo.event._def.extendedProps.totalWorkingHours;
+    this.userAttendanceDetailDateWise.createdDate=mouseEnterInfo.event._def.extendedProps.createdDate;
     console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
     var rect = mouseEnterInfo.el.getBoundingClientRect();
     this.clientX=(rect.left)+"px";
@@ -401,22 +408,32 @@ export class EmployeeProfileComponent implements OnInit {
             //   this.attendanceDetails[0].length
             // );
             for (let i = 0; i < this.attendances.length; i++) {
-              const title = this.attendances[i].checkInTime != null ? 'P' : 'A';
+
+              const date = moment(this.attendances[i].createdDate).format('YYYY-MM-DD');
+              let title = '';
+             
+              if((date == moment(new Date()).format('YYYY-MM-DD')) && (this.attendances[i].checkInTime==null)){
+                title == '';
+              }else{
+              title = this.attendances[i].checkInTime != null ? 'P' : 'A';
               if (title == 'P') {
                 this.totalPresent++;
               } else if (title == 'A') {
                 this.totalAbsent++;
               }
-              const date = moment(this.attendances[i].createdDate).format('YYYY-MM-DD');
+              
+             
               var checkInTime = this.attendances[i].checkInTime;
               var checkOutTime = this.attendances[i].checkOutTime;
               var breakCount = this.attendances[i].breakCount;
               var breakDuration = this.attendances[i].totalBreakHours;
               var totalWorkingHours = this.attendances[i].totalWorkingHours;
+              var createdDate = this.attendances[i].createdDate
               var color = title == 'P' ? '#e0ffe0' : title == 'A' ? '#f8d7d7' : '';
-              var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, totalWorkingHours:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, totalWorkingHours:totalWorkingHours };
+              var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, totalWorkingHours:any, createdDate:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, totalWorkingHours:totalWorkingHours, createdDate:createdDate };
               this.events.push(tempEvent2);
 
+              
               if (i == this.attendances.length - 1) {
                 this.calendarOptions = {
                   plugins: [dayGridPlugin],
@@ -430,6 +447,7 @@ export class EmployeeProfileComponent implements OnInit {
                   //   alert('Event: ' + mouseEnterInfo.event.title);
                   // }
                 };
+              }
               }
             }
           }

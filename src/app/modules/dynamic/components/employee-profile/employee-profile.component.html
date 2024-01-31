@@ -2069,7 +2069,7 @@
                     <p><b>Break Duration: </b>{{userAttendanceDetailDateWise.breakDuration}}</p>
                 </div>
                 <div class="calenInfo d-block"
-                    *ngIf="userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined">
+                    *ngIf="(userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined) && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
                     <p><b>Absent!</b></p>
                 </div>
             </div>
