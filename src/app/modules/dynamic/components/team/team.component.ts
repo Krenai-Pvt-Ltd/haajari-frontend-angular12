@@ -274,12 +274,23 @@ export class TeamComponent implements OnInit{
   //   }
   // }
 
-  routeToTeamDetails(uuid:string){
+  routeToTeamDetails(uuid:string, managerId:string){
+    console.log("managerId" + managerId);
+    if(managerId!=='noManager'){
+    let navExtra : NavigationExtras = {
+      queryParams : {"teamId" : uuid, "Id": managerId},
+      // queryParams : {"teamId" : uuid},
+    };
+    this.router.navigate(['/team-detail'], navExtra);
+
+  }else if(managerId=='noManager'){
     let navExtra : NavigationExtras = {
       // queryParams : {"teamId" : uuid, "Id": managerId},
       queryParams : {"teamId" : uuid},
     };
     this.router.navigate(['/team-detail'], navExtra);
+
+  }
   }
   
   capitalizeFirstLetter(name: string): string {
