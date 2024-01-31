@@ -1,0 +1,23 @@
+.error-page{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-page h1 {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 30px;
+    color: #444444;
+    margin-bottom: 15px;
+}
+
+.add-filtter  {
+    margin-bottom: 0px;
+    color: #6666f3;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}

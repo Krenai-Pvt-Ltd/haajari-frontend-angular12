@@ -142,7 +142,7 @@ content: "present"!important;
     border: none;
     padding: 7px 10px;
     font-weight: 500;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 21px;
     color: #404040;
 }
@@ -709,7 +709,7 @@ span.optional {
     /* padding: 2em; */
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 135px;
+    width: 210px;
 }
 
 .total-present {
