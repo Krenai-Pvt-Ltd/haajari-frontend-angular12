@@ -17,13 +17,16 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
-    
-    if(this.rbacService.getRole()! == Key.USER){
-      debugger
-      const r = route;
-      this.router.navigate(['/auth/login']);
-      return false;
+
+
+    debugger
+    if(route !== null && route.routeConfig !== null){
+      if(this.rbacService.getRole() === Key.USER && route.routeConfig.path == 'dashboard') {
+        this.router.navigate(['/employee-profile'], {queryParams : {"userId" : this.rbacService.getUUID()}});
+        return false;
+      }
     }
+
 
     const requiredSubmodule = route.data.requiredSubmodule;
     if (requiredSubmodule && !this.rbacService.hasAccessToSubmodule(requiredSubmodule)) {
