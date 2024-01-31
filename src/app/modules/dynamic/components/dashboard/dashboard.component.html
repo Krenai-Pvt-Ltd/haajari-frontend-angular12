@@ -285,7 +285,7 @@
                             <div class="card-body" style="display:flex; gap:20px; align-items: center; padding: 0px !important; padding-bottom: 10px !important;">
                                 <ng-container *ngIf="lateEmployeeAttendanceDetailsResponse.image !== null; else imageNull">
                                     <div>
-                                        <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:60px; border-radius:50%">
+                                        <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:60px; height: 60px; border-radius:50%">
                                     </div>
                                 </ng-container>
                                 <ng-template #imageNull>
