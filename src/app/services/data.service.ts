@@ -987,11 +987,15 @@ stepIndex:number=-1;
     );
   }
 
-  getAttendanceReportByDateDuration(startDate : string, endDate : string): Observable<any>{
+  getAttendanceReportByDateDuration(startDate : string, endDate : string, pageNumber : number, itemPerPage : number, search : string, searchBy : string): Observable<any>{
 
     const params = new HttpParams()
-    .set("start_date", startDate)
-    .set("end_date", endDate);
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set("page_number", pageNumber.toString())
+    .set("item_per_page", itemPerPage.toString())
+    .set('search', search)
+    .set('search_by', searchBy);
 
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration`, {params});
   }
