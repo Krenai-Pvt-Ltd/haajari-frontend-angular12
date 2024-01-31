@@ -108,7 +108,7 @@ export class EmployeeProfileComponent implements OnInit {
   MANAGER = Key.MANAGER;
   USER = Key.USER;
 
-  tokenUserRoleFlag:boolean=false;
+  // tokenUserRoleFlag:boolean=false;
   currentDate: Date = new Date();
   currentNewDate: any;
   ngOnInit(): void {
@@ -117,9 +117,9 @@ export class EmployeeProfileComponent implements OnInit {
     if(this.ROLE==this.ADMIN){
     this.adminRoleFlag=true;
     }
-    if(this.ROLE==this.USER){
-      this.tokenUserRoleFlag==false;
-    }
+    // if(this.ROLE==this.USER){
+    //   this.tokenUserRoleFlag==true;
+    // }
     if(this.userId==this.UUID){
       this.userRoleFlag=true;
     }

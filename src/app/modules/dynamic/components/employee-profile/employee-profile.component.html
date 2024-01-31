@@ -9,7 +9,8 @@
                 style="gap:20px">
                 <div class="d-flex align-items-center justify-content-between" style="gap:20px">
                     <!-- routerLink="/employee-onboarding" -->
-                    <div class="back-btns-box" (click)="location.back()" *ngIf="!tokenUserRoleFlag"> <i class="bi bi-chevron-left"></i></div>
+                    <!-- {{tokenUserRoleFlag}} -->
+                    <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE!='USER'"> <i class="bi bi-chevron-left"></i></div>
                     <h5 class="mt-0" style="margin-top: 10px !important;">{{user?.name || 'N/A'}}</h5>
                 </div>
                 <div [ngClass]="{'d-none': !userRoleFlag, 'd-flex align-items-center': userRoleFlag}" style="gap:20px;">
