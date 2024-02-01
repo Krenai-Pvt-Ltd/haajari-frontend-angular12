@@ -21,12 +21,15 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="accountHolderName" class="pb-2">Account Holder Name <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="accountHolderName" name="accountHolderName" placeholder="Account holder name" [(ngModel)]="userBankDetailRequest.accountHolderName" required #accountHolderName="ngModel">
+                                    <input type="text" class="form-control" id="accountHolderName" name="accountHolderName" placeholder="Account holder name" [(ngModel)]="userBankDetailRequest.accountHolderName" required #accountHolderName="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="30">
                                     <!-- Error Message for Account Holder Name -->
                                     <div *ngIf="accountHolderName.touched && accountHolderName.invalid">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="accountHolderName.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             Account Holder Name is required.
+                                        </p>
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="accountHolderName.errors?.maxlength">
+                                            <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
                                         </p>
                                     </div>
                                 </div>
@@ -35,12 +38,15 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="bankName" class="pb-2">Bank Name <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="bankName" name="bankName" placeholder="Bank name" [(ngModel)]="userBankDetailRequest.bankName" required #bankName="ngModel">
+                                    <input type="text" class="form-control" id="bankName" name="bankName" placeholder="Bank name" [(ngModel)]="userBankDetailRequest.bankName" required #bankName="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="30">
                                     <!-- Error Message for Bank Name -->
                                     <div *ngIf="bankName.touched && bankName.invalid">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="bankName.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             Bank Name is required.
+                                        </p>
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="bankName.errors?.maxlength">
+                                            <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
                                         </p>
                                     </div>
                                 </div>
@@ -49,7 +55,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="accountNumber" class="pb-2">Account Number <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="Account number" [(ngModel)]="userBankDetailRequest.accountNumber" required pattern="[0-9]*" #accountNumber="ngModel">
+                                    <input type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="Account number" [(ngModel)]="userBankDetailRequest.accountNumber" required pattern="[0-9]*" #accountNumber="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="30" >
                                     <!-- Error Message for Account Number -->
                                     <div *ngIf="accountNumber.touched && accountNumber.invalid">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="accountNumber.errors?.required">
@@ -60,6 +66,9 @@
                                             <i class="bi bi-exclamation-circle"></i>
                                             Only numeric values are allowed.
                                         </p>
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="accountNumber.errors?.maxlength">
+                                            <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -67,12 +76,15 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="ifsc" class="pb-2"> IFSC Number <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="ifsc" name="ifsc" placeholder="IFSC number" [(ngModel)]="userBankDetailRequest.ifsc" required #ifsc="ngModel">
+                                    <input type="text" class="form-control" id="ifsc" name="ifsc" placeholder="IFSC number" [(ngModel)]="userBankDetailRequest.ifsc" required #ifsc="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="15">
                                     <!-- Error Message for IFSC Number -->
                                     <div *ngIf="ifsc.touched && ifsc.invalid">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="ifsc.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             IFSC Number is required.
+                                        </p>
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="ifsc.errors?.maxlength">
+                                            <i class="bi bi-exclamation-circle"></i> Maximum 15 characters allowed.
                                         </p>
                                     </div>
                                 </div>

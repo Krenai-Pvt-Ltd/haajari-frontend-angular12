@@ -55,23 +55,49 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   isFileSelected = false;
   imagePreviewUrl: any = null;
   onFileSelected(event: Event): void {
+    debugger
     const element = event.currentTarget as HTMLInputElement;
-    let fileList: FileList | null = element.files;
+    const fileList: FileList | null = element.files;
+  
     if (fileList && fileList.length > 0) {
-        const file = fileList[0];
+      const file = fileList[0];
+  
+      // Check if the file type is valid
+      if (this.isValidFileType(file)) {
         this.selectedFile = file;
-        
+  
         const reader = new FileReader();
         reader.onload = (e: any) => {
-            // Set the loaded image as the preview
-            this.imagePreviewUrl = e.target.result;
+          // Set the loaded image as the preview
+          this.imagePreviewUrl = e.target.result;
         };
         reader.readAsDataURL(file);
+  
         this.uploadFile(file);
+      } else {
+        element.value = '';
+        // Handle invalid file type here (e.g., show an error message)
+        console.error('Invalid file type. Please select a jpg, jpeg, or png file.');
+      }
     } else {
-        this.isFileSelected = false;
+      this.isFileSelected = false;
     }
-}
+  }
+  
+  // Helper function to check if the file type is valid
+  isInvalidFileType = false; 
+  isValidFileType(file: File): boolean {
+    const validExtensions = ['jpg', 'jpeg', 'png'];
+    const fileType = file.type.split('/').pop(); // Get the file extension from the MIME type
+  
+    if (fileType && validExtensions.includes(fileType.toLowerCase())) {
+      this.isInvalidFileType = true;
+      return true;
+    }
+    console.log(this.isInvalidFileType);
+    this.isInvalidFileType = false;
+    return false;
+  }
   
   
 
@@ -561,6 +587,38 @@ getInitialDate(): Date {
 
 //   this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
 // }
+
+
+trimStartingWhitespace(value: string, fieldName: string): void {
+  debugger
+  if (value.startsWith(' ')) {
+    // Correctly use bracket notation to access the property dynamically
+    if(fieldName=='fatherName'){
+      // this.userPersonalInformationRequest.fatherName = value.trimStart();
+      this.userPersonalInformationRequest.fatherName = value.replace(/^\s+/, '');
+    } else if (fieldName=='position') {
+      this.userPersonalInformationRequest.position = value.trimStart();
+    } else if (fieldName=='department'){
+      this.userPersonalInformationRequest.department = value.trimStart();
+    } else if (fieldName=='nationality'){
+      this.userPersonalInformationRequest.nationality = value.trimStart();
+    }
+    
+    
+    // Alternatively, if you want to prevent ONLY the leading whitespace (keep ending spaces):
+    // this.userPersonalInformationRequest[fieldName] = value.replace(/^\s+/, '');
+  }
+}
+
+preventLeadingWhitespace(event: KeyboardEvent): void {
+  const inputElement = event.target as HTMLInputElement;
+
+  // Prevent space if it's the first character
+  if (event.key === ' ' && inputElement.selectionStart === 0) {
+    event.preventDefault();
+  }
+}
+
 
 
 }

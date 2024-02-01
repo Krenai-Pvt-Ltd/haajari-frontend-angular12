@@ -35,25 +35,26 @@
 
                                   <div class="col-md-9">
                                     <div class="mb-3">
-                                        <label for="profilePicture" class="pb-2">Profile Picture <span class="text-optional">*</span></label>
-                            
-                                
-                                    <div class="importfilebox">
-                                        <input id="profilePicture" [required]="!dbImageUrl" type="file" name="img" accept="image/*" class="input" (change)="onFileSelected($event)" #image="ngModel" [(ngModel)]="userPersonalInformationRequest.image">
+                                      <label for="profilePicture" class="pb-2">Profile Picture <span class="text-optional">*</span></label>
+                                  
+                                      <div class="importfilebox">
+                                        <input id="profilePicture" [required]="!dbImageUrl" type="file" name="img" accept="image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event)" #image="ngModel" [(ngModel)]="userPersonalInformationRequest.image">
                                         <label for="profilePicture" class="pl-3">
-                                            <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> JPEG, JPG or PNG (max. 100px*100px)</span>
+                                          <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> JPEG, JPG or PNG (max. 100px*100px)</span>
                                         </label>
-                                    </div>
-                                    <div *ngIf="!dbImageUrl && image?.dirty">
+                                      </div>
+                                      <div *ngIf="!dbImageUrl || !isInvalidFileType  && image?.dirty">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="image.errors?.required"><i class="bi bi-exclamation-circle"></i> Profile Picture is required.</p>
-                                    </div>
-                                    
-                                    <!-- Display if image already exists -->
-                                    <div *ngIf="dbImageUrl">
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a JPG, JPEG, or PNG file.</p>
+                                      </div>
+                                  
+                                      <!-- Display if image already exists -->
+                                      <div *ngIf="dbImageUrl">
                                         <p>Image already uploaded.</p>
+                                      </div>
                                     </div>
-                                </div>
-                            </div>
+                                  </div>
+                                  
 
                                   <div class="col-md-3">
                                     <div style="text-align: center; margin-top: 30px; display: flex; align-items: center; justify-content: center;">
@@ -155,8 +156,10 @@
                                 #dob="ngModel"
                                 [(ngModel)]="userPersonalInformationRequest.dob"
                                 required
+                                [nzShowToday] = false
                                 nzPlaceHolder="Select DOB"
                                 [nzDisabledDate]="disabledDate">
+                                
                               </nz-date-picker>
                           
                               <!-- Error Messages -->
@@ -196,9 +199,11 @@
                       <div class="col-md-6">
                         <div class="mb-3">
                             <label for="fatherNameField" class="pb-2">Father's Name <span class="text-optional">*</span></label>
-                            <input type="text" class="form-control" id="fatherNameField" name="fatherName" aria-describedby="fatherNameHelp" placeholder="Enter father's name" 
-                                   [(ngModel)]="userPersonalInformationRequest.fatherName" 
-                                   minlength="3" maxlength="50" required #fatherName="ngModel">
+                            <input type="text" class="form-control" id="fatherNameField" name="fatherName"
+                                [(ngModel)]="userPersonalInformationRequest.fatherName" 
+                                (keydown)="preventLeadingWhitespace($event)"
+                                minlength="3" maxlength="50" required #fatherName="ngModel" placeholder="Enter father's name">
+
                         </div>
                         <div *ngIf="fatherName?.touched">
                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="fatherName.errors?.required">
@@ -292,6 +297,7 @@
                     <!-- </div> -->
                     <!-- <input type="hidden" [(ngModel)]="userPersonalInformationRequest.department" required #department="ngModel"> -->
                     <input
+                    maxlength="50"
                         class="seach-dropdown"
                         id="departmentDropdown"
                         name="departmentDropdown"
@@ -301,12 +307,16 @@
                         (ngModelChange)="onChange($event, 'department')"
                         [nzAutocomplete]="departmentAuto"
                         required #department="ngModel"
+                        (keydown)="preventLeadingWhitespace($event)"
                         
                     />
                     <nz-autocomplete [nzDataSource]="departmentFilteredOptions" #departmentAuto></nz-autocomplete>
                     <div *ngIf="department?.touched">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="department.errors?.required">
                             <i class="bi bi-exclamation-circle"></i> Department selection is required.
+                        </p>
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="department.errors?.maxlength">
+                            <i class="bi bi-exclamation-circle"></i> Maximun 50 characters allowed.
                         </p>
                     </div>
                 </div>                      
@@ -328,6 +338,7 @@
                     <!-- </div> -->
                     <!-- <input type="hidden" [(ngModel)]="userPersonalInformationRequest.position" required #position="ngModel"> -->
                     <input
+                    maxlength="50"
                     class="seach-dropdown"
                     id="positionDropdown"
                     name="positionDropdown"
@@ -337,12 +348,16 @@
                     (ngModelChange)="onChange($event, 'position')"
                     [nzAutocomplete]="positionAuto"
                     required #position="ngModel"
+                    (keydown)="preventLeadingWhitespace($event)"
                     
                 />
                 <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
                     <div *ngIf="position?.touched">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="position.errors?.required">
                             <i class="bi bi-exclamation-circle"></i> Position selection is required.
+                        </p>
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="position.errors?.maxlength">
+                            <i class="bi bi-exclamation-circle"></i> Maximun 50 characters allowed.
                         </p>
                     </div>
                 </div>                      
@@ -366,6 +381,7 @@
                 </div> -->
                 <!-- <input type="hidden" [(ngModel)]="userPersonalInformationRequest.nationality" required #nationality="ngModel"> -->
                 <input
+                maxlength="50"
                 class="seach-dropdown"
                 id="nationalityDropdown"
                 name="nationalityDropdown"
@@ -375,12 +391,16 @@
                 (ngModelChange)="onChange($event, 'nationality')"
                 [nzAutocomplete]="nationalityAuto"
                 required #nationality="ngModel"
+                (keydown)="preventLeadingWhitespace($event)"
                 
             />
             <nz-autocomplete [nzDataSource]="nationalityFilteredOptions" #nationalityAuto></nz-autocomplete>
                 <div *ngIf="nationality?.touched">
                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="nationality.errors?.required">
                         <i class="bi bi-exclamation-circle"></i> Nationality is required.
+                    </p>
+                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="nationality.errors?.maxlength">
+                        <i class="bi bi-exclamation-circle"></i> Maximun 50 characters allowed.
                     </p>
                 </div>
             </div>                      
