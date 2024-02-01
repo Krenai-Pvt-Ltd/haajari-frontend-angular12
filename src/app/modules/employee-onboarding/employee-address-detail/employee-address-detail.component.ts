@@ -252,16 +252,16 @@ handleOnboardingStatus(response: string) {
     var addressLine1=this.userAddressRequest[0].addressLine1;
     this.userAddressRequest[0]=new UserAddressRequest();
     this.userAddressRequest[0].id=id;
-    this.userAddressRequest[0].addressLine1=e.name.toString() ;
+    this.userAddressRequest[0].addressLine1=e.formatted_address.toString() ;
     e?.address_components?.forEach((entry: any) => {
       console.log(entry);
       
-      if (entry.types?.[0] === "route") {
-        this.userAddressRequest[0].addressLine2 = entry.long_name + ",";
-      }
-      if (entry.types?.[0] === "sublocality_level_1") {
-        this.userAddressRequest[0].addressLine2 = this.userAddressRequest[0].addressLine2 + entry.long_name
-      }
+      // if (entry.types?.[0] === "route") {
+      //   this.userAddressRequest[0].addressLine2 = entry.long_name + ",";
+      // }
+      // if (entry.types?.[0] === "sublocality_level_1") {
+      //   this.userAddressRequest[0].addressLine2 = this.userAddressRequest[0].addressLine2 + entry.long_name
+      // }
       if (entry.types?.[0] === "locality") {
         this.userAddressRequest[0].city = entry.long_name
       }
@@ -288,16 +288,16 @@ handleOnboardingStatus(response: string) {
     var addressLine1=this.userAddressRequest[1].addressLine1;
     this.userAddressRequest[1]=new UserAddressRequest();
     this.userAddressRequest[1].id=id;
-    this.userAddressRequest[1].addressLine1=e.name.toString() ;
+    this.userAddressRequest[1].addressLine1=e.formattedAddress.toString() ;
     e?.address_components?.forEach((entry: any) => {
       console.log(entry);
       
-      if (entry.types?.[0] == "route") {
-        this.userAddressRequest[1].addressLine2 = entry.long_name + ",";
-      }
-      if (entry.types?.[0] == "sublocality_level_1") {
-        this.userAddressRequest[1].addressLine2 = this.userAddressRequest[1].addressLine2 + entry.long_name
-      }
+      // if (entry.types?.[0] == "route") {
+      //   this.userAddressRequest[1].addressLine2 = entry.long_name + ",";
+      // }
+      // if (entry.types?.[0] == "sublocality_level_1") {
+      //   this.userAddressRequest[1].addressLine2 = this.userAddressRequest[1].addressLine2 + entry.long_name
+      // }
       if (entry.types?.[0] == "locality") {
         this.userAddressRequest[1].city = entry.long_name
       }

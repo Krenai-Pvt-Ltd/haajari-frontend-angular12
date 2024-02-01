@@ -281,7 +281,7 @@ span.members-namess {
 }
 
 a.select-file {
-    color: #6666f3;
+    color: #6666f3 !important;
 }
 
 .back-btn {
@@ -293,20 +293,20 @@ a.select-file {
 
 .add-filtter a {
     margin-bottom: 0px;
-    color: #6666f3;
+    color: #6666f3 !important;
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
 }
 
 .text-add, .text-delete {
-    color: #ff3e3e; /* Primary color, adjust as needed */
+    color: #ff3e3e !important;  /* Primary color, adjust as needed */
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .text-add:hover, .text-delete:hover {
-    color: #ff0000; /* Darker shade for hover effect */
+    color: #ff0000 !important; /* Darker shade for hover effect */
 }
 
 

@@ -45,7 +45,7 @@
                           <label for="addressLine2" class="pb-2">Address Line 2</label>
                           <input type="text" class="form-control" id="addressLine2" name="addressLine2"
                             placeholder="Apartment, suite, unit, building, floor, etc."
-                            [(ngModel)]="userAddressRequest[0].addressLine2"
+                            [(ngModel)]="userAddressRequest[0].addressLine2" required
                             minlength="5" maxlength="100" #addressLine2="ngModel">
   
                           <!-- Error Message for Required Field -->
@@ -67,7 +67,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="currentPincode" class="pb-2">Pincode</label>
-                            <input type="text" class="form-control" id="currentPincode" name="currentPincode" placeholder="Enter Pincode" [(ngModel)]="userAddressRequest[0].pincode" required #currentPincode="ngModel" minlength="6" maxlength="6" pattern="[0-9]*">
+                            <input type="text" mask="000000" class="form-control" id="currentPincode" name="currentPincode" placeholder="Enter Pincode"  [(ngModel)]="userAddressRequest[0].pincode" required #currentPincode="ngModel" minlength="6" maxlength="6" pattern="[0-9]*">
                             <!-- Error Message for Pincode -->
                             <div *ngIf="currentPincode.touched">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="currentPincode.errors?.required">
@@ -169,7 +169,7 @@
                           <label for="permanentAddressLine2" class="pb-2">Address Line 2</label>
                           <input type="text" class="form-control" id="permanentAddressLine2" name="permanentAddressLine2"
                             placeholder="Apartment, suite, unit, building, floor, etc."
-                            [(ngModel)]="userAddressRequest[1].addressLine2"
+                            [(ngModel)]="userAddressRequest[1].addressLine2" required
                             minlength="5" maxlength="100" #address="ngModel">
                         </div>
                         </div>
@@ -178,7 +178,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="permanentPincode" class="pb-2">Pincode</label>
-                            <input type="text" class="form-control" id="permanentPincode" name="permanentPincode" placeholder="Enter Pincode" [(ngModel)]="userAddressRequest[1].pincode" required minlength="6" maxlength="6" pattern="[0-9]*" #permanentPincode="ngModel">
+                            <input type="text" mask="000000" class="form-control" id="permanentPincode" name="permanentPincode" placeholder="Enter Pincode" [(ngModel)]="userAddressRequest[1].pincode" required minlength="6" maxlength="6" pattern="[0-9]*" #permanentPincode="ngModel">
                             <!-- Error Message for Pincode -->
                             <div *ngIf="permanentPincode.touched">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="permanentPincode.errors?.required">

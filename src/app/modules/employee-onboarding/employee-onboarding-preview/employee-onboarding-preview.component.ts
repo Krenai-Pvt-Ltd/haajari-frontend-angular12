@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { EmployeeAdditionalDocument } from 'src/app/models/employee-additional-document';
 import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
 import { UserExperience } from 'src/app/models/user-experience';
@@ -30,14 +31,18 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
   highSchoolCertificateFileName1: string = '';
   highestQualificationDegreeFileName1: string = '';
   testimonialReccomendationFileName1: string = '';
+  aadhaarCardFileName: string = '';
+  pancardFileName: string = '';
   companyLogoUrl: string = '';
 
   isLoading: boolean = true;
   isFresher: boolean = false;
-
+  isSchoolDocument: boolean = true;
+  isHighSchoolDocument: boolean = true
   onboardingPreviewData: OnboardingFormPreviewResponse = new OnboardingFormPreviewResponse();
   userEmergencyContactArray: UserEmergencyContactDetailsRequest[]=[];
   userExperienceArray: UserExperience[]=[];
+  employeeAdditionalDocument: EmployeeAdditionalDocument[] = [];
 
   getOnboardingFormPreviewMethodCall() {
     debugger
@@ -45,6 +50,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
     if (userUuid) {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
         (preview) => {
+          console.log(preview);
           this.onboardingPreviewData = preview;
           if(preview.companyLogo){
             this.companyLogoUrl = preview.companyLogo;
@@ -52,6 +58,21 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
           this.isLoading = false;
           this.handleOnboardingStatus(preview.user.employeeOnboardingStatus.response);
           
+          // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
+            this.employeeAdditionalDocument = preview.employeeAdditionalDocuments;
+            console.log(this.employeeAdditionalDocument);
+        // } else {
+        //   console.log("eroor ")
+        //     // Handle the case where employeeAdditionalDocument is undefined, null, or empty
+        //     this.employeeAdditionalDocument = [];
+        // }
+        
+          if(preview.userDocuments.secondarySchoolCertificate){
+            this.isSchoolDocument = false;
+          }
+          if(preview.userDocuments.highSchoolCertificate){
+            this.isHighSchoolDocument = false;
+          }
           if(preview.userExperience){
             this.userExperienceArray = preview.userExperience;
           }
@@ -72,7 +93,8 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
           this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(preview.userDocuments.highSchoolCertificate);     
           this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(preview.userDocuments.highestQualificationDegree);
           this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(preview.userDocuments.testimonialReccomendation);
-        
+         this.aadhaarCardFileName = this.getFilenameFromUrl(preview.userDocuments.aadhaarCard);
+         this.pancardFileName = this.getFilenameFromUrl(preview.userDocuments.pancard);
 
           }
           this.isLoading = false;

@@ -85,7 +85,8 @@ export class AcadmicComponent implements OnInit {
         this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
         if(response != null){
           this.userAcademicsDetailRequest = response;
-          
+          this.userAcademicsDetailRequest.highestEducationalLevel = response.highestEducationalLevel;
+        this.selectedQualification = response.highestEducationalLevel;
           if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
             this.successMessageModalButton.nativeElement.click();
           }
@@ -163,13 +164,19 @@ displayModal = false;
         break;
     }
   }
-
+  selectedQualification: string = '';
   selectQualification(qualification: string): void {
+    this.selectedQualification = qualification;
     this.userAcademicsDetailRequest.highestEducationalLevel = qualification;
   }
+  selectDegreeObtained(degree: string): void {
+    debugger
+    this.userAcademicsDetailRequest.degreeObtained = degree;
+}
     // Default value set
   qualifications = [
-    'None',
+    
+  
     'Elementary School',
     'Middle School',
     'High School Diploma',
@@ -184,29 +191,44 @@ displayModal = false;
     'Post-Doctoral Fellowship',
     'Professorship/Academic Title',
     'Honorary Degree',
-    'Other (Specify)'
+    'Other'
   ];
 
-  // selectCourses(course: string): void {
-  //   this.userAcademicsDetailRequest.degreeObtained = course;
-  // }
-  
-  // courses = [
-  //   'None',
-  //   'Elementary School',
-  //   'Middle School',
-  //   'High School Diploma',
-  //   'Vocational Qualification',
-  //   'Associate\'s Degree',
-  //   'Bachelor\'s Degree',
-  //   'Graduate Certificate',
-  //   'Postgraduate Diploma',
-  //   'Master\'s Degree',
-  //   'Professional Degree (e.g., MD, JD, DDS)',
-  //   'Doctor of Philosophy (PhD)',
-  //   'Post-Doctoral Fellowship',
-  //   'Professorship/Academic Title',
-  //   'Honorary Degree',
-  //   'Other (Specify)'
-  // ];
+  degreeOptions: { [qualification: string]: string[] } = {
+    'Elementary School': [
+      'Certificate of Elementary Education', 'Elementary School Completion Certificate', 'Basic Education Certificate', 'Primary School Achievement Certificate'],
+    'Middle School': ['Middle School Completion Certificate', 'Lower Secondary Education Certificate', 'Junior High School Diploma', 'Secondary School Certificate'],
+    'Associate\'s Degree': ['A.A.', 'A.S.', 'A.A.S.', 'A.E.T.', 'A.P.S.'],
+    'Bachelor\'s Degree': ['B.Tech', 'B.Sc', 'B.Com', 'B.A', 'BBA', 'B.F.A.', 'B.Ed.', 'B.E.', 'LL.B.', 'B.Arch.', 'B.Pharm.', 'B.S.N.'],
+    'Graduate Certificate': ['Grad Cert in Business', 'Grad Cert in Education', 'Grad Cert in Engineering', 'Grad Cert in Information Technology', 'Grad Cert in Public Health'],
+    'Postgraduate Diploma': ['PGD in Management', 'PGD in Education', 'PGD in Computer Science', 'PGD in Public Health', 'PGD in Clinical Psychology'],
+    'Master\'s Degree': ['M.Tech', 'M.Sc', 'M.Com', 'M.A', 'MBA', 'M.Ed.', 'M.F.A.', 'LL.M.', 'M.S.W.', 'M.P.H.', 'M.S.N.', 'M.P.A.', 'M.I.S.', 'M.F.S.'],
+    'Professional Degree (e.g., MD, JD, DDS)': ['MD', 'JD', 'DDS', 'DVM', 'Pharm.D', 'D.O.', 'DPT', 'D.Psy', 'D.P.A.', 'D.Th.'],
+    'Doctor of Philosophy (PhD)': ['PhD in Physics', 'PhD in Chemistry', 'PhD in Biology', 'PhD in Engineering', 'PhD in Education', 'PhD in Psychology', 'PhD in Economics', 'PhD in Computer Science'],
+    'Post-Doctoral Fellowship': ['Postdoc in Neuroscience', 'Postdoc in Biotechnology', 'Postdoc in Environmental Science', 'Postdoc in Economics', 'Postdoc in Astrophysics'],
+    'Professorship/Academic Title': ['Assistant Professor', 'Associate Professor', 'Professor', 'Lecturer', 'Senior Lecturer', 'Reader', 'Emeritus Professor'],
+    'Vocational Qualification': ['Certificate in Plumbing', 'Certificate in Electrical', 'Certificate in Carpentry', 'Certified Nurse Assistant (CNA)', 'Certificate in Automotive Repair', 'Certificate in Culinary Arts', 'Certificate in Welding', 'Certificate in HVAC'],
+    'High School Diploma': ['General Diploma', 'Vocational Diploma', 'Advanced Diploma', 'International Baccalaureate'],
+  'Honorary Degree': [
+      'Honorary Doctorate of Letters (D.Litt.)',
+      'Honorary Doctorate of Laws (LL.D.)',
+      'Honorary Doctorate of Science (D.Sc.)',
+      'Honorary Doctorate of Arts (D.A.)',
+      'Honorary Doctorate of Business Administration (DBA)',
+      'Honorary Doctorate of Education (Ed.D.)',
+      'Honorary Doctorate of Music (D.Mus.)',
+      'Honorary Doctorate of Philosophy (Ph.D.)',
+      'Honorary Doctorate of Humane Letters (L.H.D.)',
+      'Honorary Doctorate of Divinity (D.D.)'
+  ],
+    // Additional mappings can be added as per specific requirements
+};
+
+  disabledFutureDates = (current: Date): boolean => {
+    const today = new Date();
+    return current.getFullYear() > today.getFullYear();
+  };
+
+
+
 }
