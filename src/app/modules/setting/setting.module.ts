@@ -14,6 +14,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { DynamicModule } from "../dynamic/dynamic.module";
 import { CommonModule } from '@angular/common';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { StaffAttendanceLocationComponent } from './components/staff-attendance-location/staff-attendance-location.component';
+import { UploadPhotoComponent } from './components/upload-photo/upload-photo.component';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
         CompanySettingComponent,
         SelerySettingComponent,
         LeaveSettingComponent,
-        AccountSettingsComponent
+        AccountSettingsComponent,
+        StaffAttendanceLocationComponent,
+        UploadPhotoComponent
     ],
     imports: [
         CommonModule,
