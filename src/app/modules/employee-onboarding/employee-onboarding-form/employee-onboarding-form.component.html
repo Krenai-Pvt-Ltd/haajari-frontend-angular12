@@ -196,9 +196,11 @@
                       <div class="col-md-6">
                         <div class="mb-3">
                             <label for="fatherNameField" class="pb-2">Father's Name <span class="text-optional">*</span></label>
-                            <input type="text" class="form-control" id="fatherNameField" name="fatherName" aria-describedby="fatherNameHelp" placeholder="Enter father's name" 
-                                   [(ngModel)]="userPersonalInformationRequest.fatherName" 
-                                   minlength="3" maxlength="50" required #fatherName="ngModel">
+                            <input type="text" class="form-control" id="fatherNameField" name="fatherName"
+                                [(ngModel)]="userPersonalInformationRequest.fatherName" 
+                                (keydown)="preventLeadingWhitespace($event)"
+                                minlength="3" maxlength="50" required #fatherName="ngModel" placeholder="Enter father's name">
+
                         </div>
                         <div *ngIf="fatherName?.touched">
                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="fatherName.errors?.required">
@@ -292,6 +294,7 @@
                     <!-- </div> -->
                     <!-- <input type="hidden" [(ngModel)]="userPersonalInformationRequest.department" required #department="ngModel"> -->
                     <input
+                    maxlength="50"
                         class="seach-dropdown"
                         id="departmentDropdown"
                         name="departmentDropdown"
@@ -301,12 +304,16 @@
                         (ngModelChange)="onChange($event, 'department')"
                         [nzAutocomplete]="departmentAuto"
                         required #department="ngModel"
+                        (keydown)="preventLeadingWhitespace($event)"
                         
                     />
                     <nz-autocomplete [nzDataSource]="departmentFilteredOptions" #departmentAuto></nz-autocomplete>
                     <div *ngIf="department?.touched">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="department.errors?.required">
                             <i class="bi bi-exclamation-circle"></i> Department selection is required.
+                        </p>
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="department.errors?.maxlength">
+                            <i class="bi bi-exclamation-circle"></i> Maximun 50 characters allowed.
                         </p>
                     </div>
                 </div>                      
@@ -328,6 +335,7 @@
                     <!-- </div> -->
                     <!-- <input type="hidden" [(ngModel)]="userPersonalInformationRequest.position" required #position="ngModel"> -->
                     <input
+                    maxlength="50"
                     class="seach-dropdown"
                     id="positionDropdown"
                     name="positionDropdown"
@@ -337,12 +345,16 @@
                     (ngModelChange)="onChange($event, 'position')"
                     [nzAutocomplete]="positionAuto"
                     required #position="ngModel"
+                    (keydown)="preventLeadingWhitespace($event)"
                     
                 />
                 <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
                     <div *ngIf="position?.touched">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="position.errors?.required">
                             <i class="bi bi-exclamation-circle"></i> Position selection is required.
+                        </p>
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="position.errors?.maxlength">
+                            <i class="bi bi-exclamation-circle"></i> Maximun 50 characters allowed.
                         </p>
                     </div>
                 </div>                      
@@ -366,6 +378,7 @@
                 </div> -->
                 <!-- <input type="hidden" [(ngModel)]="userPersonalInformationRequest.nationality" required #nationality="ngModel"> -->
                 <input
+                maxlength="50"
                 class="seach-dropdown"
                 id="nationalityDropdown"
                 name="nationalityDropdown"
@@ -375,12 +388,16 @@
                 (ngModelChange)="onChange($event, 'nationality')"
                 [nzAutocomplete]="nationalityAuto"
                 required #nationality="ngModel"
+                (keydown)="preventLeadingWhitespace($event)"
                 
             />
             <nz-autocomplete [nzDataSource]="nationalityFilteredOptions" #nationalityAuto></nz-autocomplete>
                 <div *ngIf="nationality?.touched">
                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="nationality.errors?.required">
                         <i class="bi bi-exclamation-circle"></i> Nationality is required.
+                    </p>
+                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="nationality.errors?.maxlength">
+                        <i class="bi bi-exclamation-circle"></i> Maximun 50 characters allowed.
                     </p>
                 </div>
             </div>                      

@@ -48,13 +48,17 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="companyName{{i}}" class="pb-2">Company Name <span class="text-optional">*</span></label>
-                                            <input type="text" class="form-control" id="companyName{{i}}" name="companyName" placeholder="Company name" [(ngModel)]="experience.companyName" required #companyNameField="ngModel" [ngModelOptions]="{standalone: true}">
+                                            <input type="text" class="form-control" (keydown)="preventLeadingWhitespace($event)" maxlength="30" id="companyName{{i}}" name="companyName" placeholder="Company name" [(ngModel)]="experience.companyName" required #companyNameField="ngModel" [ngModelOptions]="{standalone: true}">
                                             <!-- Error Message for Company Name Field -->
                                             <div *ngIf="companyNameField.touched">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="companyNameField.errors?.required">
                                                     <i class="bi bi-exclamation-circle"></i>
                                                     Company Name is required.
                                                 </p>
+                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="companyNameField.errors?.maxlength">
+                                                    <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
+                                                </p>
+
                                             </div>
                                         </div>
                                     </div>
@@ -64,6 +68,7 @@
                                             <br>
                                             <!-- NZ Range Picker -->
                                             <nz-range-picker 
+                                            (keydown)="preventLeadingWhitespace($event)"
                                             id="duration{{i}}" name="duration"
                                                 nzBorderless 
                                                 [(ngModel)]="experience.dateRange" 
@@ -111,6 +116,7 @@
                                             <label for="lastJobDepartmentDropdown{{i}}" class="pb-2">Department <span class="text-optional">*</span></label>
                                             <!-- Replacing the dropdown with nz-autocomplete -->
                                             <input
+                                            (keydown)="preventLeadingWhitespace($event)" maxlength="30"
                                               class="seach-dropdown"
                                               [id]="'lastJobDepartmentDropdown' + i"
                                               [name]="'lastJobDepartmentDropdown' + i"
@@ -138,8 +144,9 @@
                                     
                                     <div class="col-md-6">
                                         <div class="mb-3">
+                                            
                                             <label for="lastSalary{{i}}" class="pb-2">Last Salary <span class="text-optional">*</span></label>
-                                            <input type="text" mask="0000000000" class="form-control " id="lastSalary{{i}}" name="lastSalary" placeholder="Last salary" [(ngModel)]="experience.lastSalary" required #lastSalaryField="ngModel" [ngModelOptions]="{standalone: true}">
+                                            <input type="text" (keydown)="preventLeadingWhitespace($event)" mask="0000000000" class="form-control " id="lastSalary{{i}}" name="lastSalary" placeholder="Last salary" [(ngModel)]="experience.lastSalary" required #lastSalaryField="ngModel" [ngModelOptions]="{standalone: true}">
                                             <!-- Error Message for Last Salary -->
                                             <div *ngIf="lastSalaryField.touched">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastSalaryField.errors?.required">
@@ -174,6 +181,7 @@
                                         <label for="lastJobPositionDropdown{{i}}" class="pb-2">Position <span class="text-optional">*</span></label>
                                         <!-- Replacing the dropdown with nz-autocomplete -->
                                         <input
+                                        (keydown)="preventLeadingWhitespace($event)" 
                                           class="seach-dropdown"
                                           [id]="'lastJobPositionDropdown' + i"
                                           [name]="'lastJobPositionDropdown' + i"
@@ -199,12 +207,15 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="lastJobResponsibilities{{i}}" class="pb-2">Responsibilities <span class="text-optional">*</span></label>
-                                            <textarea class="form-control" id="lastJobResponsibilities{{i}}" name="lastJobResponsibilities" placeholder="Responsibilities" [(ngModel)]="experience.jobResponisibilities" rows="5" required #lastJobResponsibilitiesField="ngModel" [ngModelOptions]="{standalone: true}"></textarea>
+                                            <textarea (keydown)="preventLeadingWhitespace($event)" maxlength="150" class="form-control" id="lastJobResponsibilities{{i}}" name="lastJobResponsibilities" placeholder="Responsibilities (Max. 150 Characters)" [(ngModel)]="experience.jobResponisibilities" rows="5" required #lastJobResponsibilitiesField="ngModel" [ngModelOptions]="{standalone: true}"></textarea>
                                             <!-- Error Message for Responsibilities -->
                                             <div *ngIf="lastJobResponsibilitiesField.touched">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobResponsibilitiesField.errors?.required">
                                                     <i class="bi bi-exclamation-circle"></i>
                                                     Responsibilities are required. 
+                                                </p>
+                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobResponsibilitiesField.errors?.maxlength">
+                                                    <i class="bi bi-exclamation-circle"></i> Maximum 150 characters allowed.
                                                 </p>
                                             </div>
                                         </div>

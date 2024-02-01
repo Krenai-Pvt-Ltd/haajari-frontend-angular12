@@ -563,6 +563,38 @@ getInitialDate(): Date {
 // }
 
 
+trimStartingWhitespace(value: string, fieldName: string): void {
+  debugger
+  if (value.startsWith(' ')) {
+    // Correctly use bracket notation to access the property dynamically
+    if(fieldName=='fatherName'){
+      // this.userPersonalInformationRequest.fatherName = value.trimStart();
+      this.userPersonalInformationRequest.fatherName = value.replace(/^\s+/, '');
+    } else if (fieldName=='position') {
+      this.userPersonalInformationRequest.position = value.trimStart();
+    } else if (fieldName=='department'){
+      this.userPersonalInformationRequest.department = value.trimStart();
+    } else if (fieldName=='nationality'){
+      this.userPersonalInformationRequest.nationality = value.trimStart();
+    }
+    
+    
+    // Alternatively, if you want to prevent ONLY the leading whitespace (keep ending spaces):
+    // this.userPersonalInformationRequest[fieldName] = value.replace(/^\s+/, '');
+  }
+}
+
+preventLeadingWhitespace(event: KeyboardEvent): void {
+  const inputElement = event.target as HTMLInputElement;
+
+  // Prevent space if it's the first character
+  if (event.key === ' ' && inputElement.selectionStart === 0) {
+    event.preventDefault();
+  }
+}
+
+
+
 }
 function finalize(arg0: () => void): import("rxjs").OperatorFunction<import("firebase/compat").default.storage.UploadTaskSnapshot | undefined, unknown> {
   throw new Error('Function not implemented.');

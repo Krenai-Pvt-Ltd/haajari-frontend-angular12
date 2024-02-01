@@ -32,7 +32,7 @@
                                         </li>
                                       </ul>
                                     </nz-dropdown-menu>
-                                    <input type="hidden" name="highestQualification" id="highestQualification"  [(ngModel)]="userAcademicsDetailRequest.highestEducationalLevel" required>
+                                    <input type="hidden" (keydown)="preventLeadingWhitespace($event)" name="highestQualification" id="highestQualification"  [(ngModel)]="userAcademicsDetailRequest.highestEducationalLevel" required>
                                     <!-- <div *ngIf="highestQualification?.touched">
                                       <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highestQualification.errors?.required">
                                         <i class="bi bi-exclamation-circle"></i> Highest Qualification selection is required.
@@ -61,7 +61,7 @@
                                         </li>
                                       </ul>
                                     </nz-dropdown-menu>
-                                    <input type="hidden" [(ngModel)]="userAcademicsDetailRequest.degreeObtained" name="degreeObtained" required #degreeObtained="ngModel">
+                                    <input type="hidden" (keydown)="preventLeadingWhitespace($event)" [(ngModel)]="userAcademicsDetailRequest.degreeObtained" name="degreeObtained" required #degreeObtained="ngModel">
                                     <div *ngIf="degreeObtained?.touched">
                                       <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="degreeObtained.errors?.required">
                                         <i class="bi bi-exclamation-circle"></i> Degree/Diploma selection is required.
@@ -79,12 +79,15 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="fieldOfStudy" class="pb-2">Field of Study <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="fieldOfStudy" name="fieldOfStudy" placeholder="Please Enter Field of Study" [(ngModel)]="userAcademicsDetailRequest.fieldOfStudy" required #fieldOfStudy="ngModel">
+                                    <input type="text" (keydown)="preventLeadingWhitespace($event)" maxlength="50" class="form-control" id="fieldOfStudy" name="fieldOfStudy" placeholder="Please Enter Field of Study" [(ngModel)]="userAcademicsDetailRequest.fieldOfStudy" required #fieldOfStudy="ngModel">
                                     <!-- Error Message for Field of Study -->
                                     <div *ngIf="fieldOfStudy.touched">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="fieldOfStudy.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             Field of Study is required.
+                                        </p>
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="fieldOfStudy.errors?.maxlength">
+                                            <i class="bi bi-exclamation-circle"></i> Maximum 50 characters allowed.
                                         </p>
                                     </div>
                                 </div>
@@ -94,12 +97,15 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="institutionName" class="pb-2">Institution Name <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="institutionName" name="institutionName" placeholder="Please Enter Institution Name" [(ngModel)]="userAcademicsDetailRequest.institutionName" required #institutionName="ngModel">
+                                    <input type="text" (keydown)="preventLeadingWhitespace($event)" maxlength="50" class="form-control" id="institutionName" name="institutionName" placeholder="Please Enter Institution Name" [(ngModel)]="userAcademicsDetailRequest.institutionName" required #institutionName="ngModel">
                                     <!-- Error Message for Institution Name -->
                                     <div *ngIf="institutionName.touched">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="institutionName.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             Institution Name is required.
+                                        </p>
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="institutionName.errors?.maxlength">
+                                            <i class="bi bi-exclamation-circle"></i> Maximum 50 characters allowed.
                                         </p>
                                     </div>
                                 </div>
@@ -109,12 +115,15 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="grade" class="pb-2">Grade/CGPA <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="grade" name="grade" placeholder="Please Enter Obtained Grade/CGPA" [(ngModel)]="userAcademicsDetailRequest.grade" required #grade="ngModel">
+                                    <input type="text" (keydown)="preventLeadingWhitespace($event)" maxlength="10" class="form-control" id="grade" name="grade" placeholder="Please Enter Obtained Grade/CGPA" [(ngModel)]="userAcademicsDetailRequest.grade" required #grade="ngModel">
                                     <!-- Error Message for Grade/CGPA -->
                                     <div *ngIf="grade.touched">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="grade.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             Grade/CGPA is required.
+                                        </p>
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="grade.errors?.maxlength">
+                                            <i class="bi bi-exclamation-circle"></i> Maximum 10 characters allowed.
                                         </p>
                                     </div>
                                 </div>
@@ -126,7 +135,7 @@
                                     <label for="greaduationYear" class="pb-2">Graduating Year <span class="text-optional">*</span></label>
                                     <!-- <input type="text" class="form-control" id="greaduationYear" name="greaduationYear" placeholder="Please Enter Passing Year" [(ngModel)]="userAcademicsDetailRequest.graduationYear" required #greaduationYear="ngModel"> -->
                                     <br />
-                                     <nz-date-picker id="greaduationYear" name="greaduationYear" [(ngModel)]="userAcademicsDetailRequest.graduationYear" nzMode="year" [nzDisabledDate]="disabledFutureDates" required #greaduationYear="ngModel"></nz-date-picker>     
+                                     <nz-date-picker id="greaduationYear" name="greaduationYear" mask="0000" (keydown)="preventLeadingWhitespace($event)" [(ngModel)]="userAcademicsDetailRequest.graduationYear" nzMode="year" [nzDisabledDate]="disabledFutureDates" required #greaduationYear="ngModel"></nz-date-picker>     
                                     <!-- Error Message for Graduating Year -->
                                     <div *ngIf="greaduationYear.touched">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="greaduationYear.errors?.required">
