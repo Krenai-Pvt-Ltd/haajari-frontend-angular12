@@ -24,9 +24,8 @@ const routes: Routes = [
     {path: 'employee-experience', component: EmployeeExperienceComponent},
     {path: 'bank-details', component: BankDetailsComponent},
     {path: 'emergency-contact', component: EmergencyContactComponent},
-    {path : 'employee-onboarding-preview', component: EmployeeOnboardingPreviewComponent},
+    {path: 'employee-onboarding-preview', component: EmployeeOnboardingPreviewComponent},
     
-
     ]
 
 }];

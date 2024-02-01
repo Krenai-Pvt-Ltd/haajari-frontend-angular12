@@ -968,9 +968,6 @@ unselectAllUsers() {
     console.log(e.geometry.location.lng());
     this.organizationAddressDetail.addressLine1=e.name + ", " + e.vicinity;
 
-    // console.log(e.geometry.location.lat());
-    // console.log(e.geometry.location.lng());
-    // this.organizationAddressDetail.addressLine1=e.vicinity;
 
     e?.address_components?.forEach((entry: any) => {
       // console.log(entry);
