@@ -358,7 +358,6 @@ export class TimetableComponent implements OnInit {
   }
 
 
-
   filterCriteriaList : string[] = ['ALL', 'PRESENT', 'ABSENT', 'HALFDAY'];
 
   selectFilterCriteria(filterCriteria : string){
