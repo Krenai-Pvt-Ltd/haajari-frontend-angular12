@@ -438,8 +438,8 @@
 
 
                         </div>
-
-                        <div [ngClass]="{'d-none': hideDetailsFlag, 'mt-3': !hideDetailsFlag}">
+                        <!-- [ngClass]="{'d-none': hideDetailsFlag, 'mt-3': (!hideDetailsFlag || ROLE=='ADMIN')}" -->
+                        <div class='mt-3' [ngClass]="{'d-none': hideDetailsFlag, 'mt-3': !hideDetailsFlag}">
                             <div class="onboare-deta">
                                 <div class="">
 

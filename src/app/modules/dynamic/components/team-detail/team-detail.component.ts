@@ -269,7 +269,7 @@ export class TeamDetailComponent implements OnInit {
             this.router.navigate(['/team-detail'], navExtra);
           }
 
-          if(this.managerId==this.userUuid){
+          if(this.managerId==userUuid){
             this.managerIdFlag=false;
           }else{
             this.managerIdFlag=true;

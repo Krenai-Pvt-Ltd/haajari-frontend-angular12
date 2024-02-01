@@ -157,11 +157,21 @@ export class EmployeeProfileComponent implements OnInit {
     //  const managerDetails =localStorage.getItem('managerFunc');
     // if(managerDetails !== null){
     //   const managerFunc = JSON.parse(managerDetails);
-      if((this.userId==this.UUID) && (this.ROLE==this.MANAGER)){
-        this.hideDetailsFlag=false;
-      }else{
-        this.hideDetailsFlag=true;
-      }
+
+    if((this.userId!=this.UUID) && (this.ROLE==this.MANAGER)){
+      this.hideDetailsFlag=true;
+    }else{
+      this.hideDetailsFlag=false;
+    }
+      // if((this.userId==this.UUID) && (this.ROLE==this.MANAGER)){
+      //   this.hideDetailsFlag=false;
+      // }else if(this.ROLE==this.ADMIN){
+      //   this.hideDetailsFlag=false;
+      // }else if(this.ROLE==this.USER){
+      //   this.hideDetailsFlag=false;
+      // }else{
+      //   this.hideDetailsFlag=true;
+      // }
 
     // }
   }
