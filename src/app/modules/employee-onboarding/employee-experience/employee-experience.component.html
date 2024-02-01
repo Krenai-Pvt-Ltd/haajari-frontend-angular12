@@ -60,38 +60,33 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="pb-2">Duration <span class="text-optional">*</span></label>
+                                            <label for="duration{{i}}" class="pb-2">Duration <span class="text-optional">*</span></label>
+                                            <br>
+                                            <!-- NZ Range Picker -->
+                                            <nz-range-picker 
+                                            id="duration{{i}}" name="duration"
+                                                nzBorderless 
+                                                [(ngModel)]="experience.dateRange" 
+                                                required 
+                                                #rangePicker="ngModel" 
+                                                (ngModelChange)="onDateRangeChange($event, i)"
+                                                [nzDisabledDate]="disabledDate"
+                                                [ngModelOptions]="{standalone: true}">
+                                            </nz-range-picker>
                                     
-                                            <!-- Duration From -->
-                                            <div class="row mb-2">
-                                                <div class="col-md-6">
-                                                    <input type="date" class="form-control" id="durationFrom{{i}}" name="durationFrom" placeholder="From" [(ngModel)]="experience.startDate" required #durationFromField="ngModel" [max]="experience.endDate" [ngModelOptions]="{standalone: true}">
-                                                    <!-- Error Message for Duration From -->
-                                                    <div *ngIf="durationFromField.touched">
-                                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="durationFromField.errors?.required">
-                                                            <i class="bi bi-exclamation-circle"></i>
-                                                            Duration From is required.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                    
-                                                <!-- Duration Till -->
-                                                <div class="col-md-6">
-                                                    <input type="date" class="form-control" id="durationTill{{i}}" name="durationTill" placeholder="Till" [(ngModel)]="experience.endDate" required #durationTillField="ngModel" [min]="experience.startDate" [ngModelOptions]="{standalone: true}">
-                                                    <!-- Error Message for Duration Till -->
-                                                    <div *ngIf="durationTillField.touched">
-                                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="durationTillField.errors?.required">
-                                                            <i class="bi bi-exclamation-circle"></i>
-                                                            Duration Till is required.
-                                                        </p>
-                                                    </div>
-                                                </div>
+                                            <!-- Error Messages for Range Picker -->
+                                            <div *ngIf="rangePicker.touched">
+                                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="rangePicker.errors?.required">
+                                                    <i class="bi bi-exclamation-circle"></i>
+                                                    Duration is required.
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
                                     
+                                      
                                    
-                                        <div class="col-md-6">
+                                        <!-- <div class="col-md-6">
                                             <label for="lastJobDepartmentDropdown{{i}}" class="pb-2">Department <span class="text-optional">*</span></label>
                                             <div class="dropdown" style="width: 100%;">
                                                 <button type="button" id="lastJobDepartmentDropdown{{i}}" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="lastJobDepartment">
@@ -103,14 +98,40 @@
                                                 </ul>
                                             </div>
                                             <input type="hidden" [(ngModel)]="experience.lastJobDepartment" required #lastJobDepartmentField="ngModel" [ngModelOptions]="{standalone: true}">
-                                            <!-- Error Message for Department -->
+                                            
                                             <div *ngIf="lastJobDepartmentField.touched">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobDepartmentField.errors?.required">
                                                     <i class="bi bi-exclamation-circle"></i>
                                                     Department is required.
                                                 </p>
                                             </div>
-                                        </div>
+                                        </div> -->
+
+                                        <div class="col-md-6">
+                                            <label for="lastJobDepartmentDropdown{{i}}" class="pb-2">Department <span class="text-optional">*</span></label>
+                                            <!-- Replacing the dropdown with nz-autocomplete -->
+                                            <input
+                                              class="seach-dropdown"
+                                              [id]="'lastJobDepartmentDropdown' + i"
+                                              [name]="'lastJobDepartmentDropdown' + i"
+                                              placeholder='Select Department'
+                                              nz-input
+                                              [(ngModel)]="experience.lastJobDepartment"
+                                              (ngModelChange)="onChangeDepartment($event, i)"
+                                              [nzAutocomplete]="departmentAuto"
+                                              required #lastJobDepartmentField="ngModel"
+                                              [ngModelOptions]="{standalone: true}"
+                                            />
+                                            <nz-autocomplete [nzDataSource]="departmentFilteredOptions" #departmentAuto></nz-autocomplete>
+                                            <!-- Error Message for Department -->
+                                            <div *ngIf="lastJobDepartmentField.touched">
+                                              <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobDepartmentField.errors?.required">
+                                                <i class="bi bi-exclamation-circle"></i>
+                                                Department is required.
+                                              </p>
+                                            </div>
+                                          </div>
+                                          
                                    
                                     
                                     
@@ -128,7 +149,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <label for="lastJobPositionDropdown{{i}}" class="pb-2">Position <span class="text-optional">*</span></label>
                                         <div class="dropdown" style="width: 100%;">
                                             <button type="button" id="lastJobPositionDropdown{{i}}" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="lastJobPosition">
@@ -140,14 +161,40 @@
                                             </ul>
                                         </div>
                                         <input type="hidden" [(ngModel)]="experience.lastJobPosition" required #lastJobPositionField="ngModel" [ngModelOptions]="{standalone: true}">
-                                        <!-- Error Message for Position -->
+                                        Error Message for Position
                                         <div *ngIf="lastJobPositionField.touched">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobPositionField.errors?.required">
                                                 <i class="bi bi-exclamation-circle"></i>
                                                 Position is required.
                                             </p>
                                         </div>
-                                    </div>
+                                    </div> -->
+
+                                    <div class="col-md-6">
+                                        <label for="lastJobPositionDropdown{{i}}" class="pb-2">Position <span class="text-optional">*</span></label>
+                                        <!-- Replacing the dropdown with nz-autocomplete -->
+                                        <input
+                                          class="seach-dropdown"
+                                          [id]="'lastJobPositionDropdown' + i"
+                                          [name]="'lastJobPositionDropdown' + i"
+                                          placeholder='Select Position'
+                                          nz-input
+                                          [(ngModel)]="experience.lastJobPosition"
+                                          (ngModelChange)="onChangePosition($event, i)"
+                                          [nzAutocomplete]="positionAuto"
+                                          required #lastJobPositionField="ngModel"
+                                          [ngModelOptions]="{standalone: true}"
+                                        />
+                                        <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
+                                        <!-- Error Message for Position -->
+                                        <div *ngIf="lastJobPositionField.touched">
+                                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobPositionField.errors?.required">
+                                            <i class="bi bi-exclamation-circle"></i>
+                                            Position is required.
+                                          </p>
+                                        </div>
+                                      </div>
+                                      
                                     
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -172,7 +219,7 @@
                             
                             <!-- Delete Button -->
                             <div class="add-filtter d-flex justify-content-end " *ngIf="userExperiences.length!=1">
-                                <a type="button" style="color: red;" (click)="deleteExperience(i)"><i class="bi bi-trash" style="font-size: 16px;"></i> Delete</a>
+                                <a type="button" style="color: red !important;" (click)="deleteExperience(i)"><i class="bi bi-trash" style="font-size: 16px;"></i> Delete</a>
                             </div>
                             <!-- <div class="col-md-6 " style="text-align: right;">
                                 

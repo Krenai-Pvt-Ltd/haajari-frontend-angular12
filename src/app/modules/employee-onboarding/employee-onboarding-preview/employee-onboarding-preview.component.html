@@ -411,7 +411,7 @@
                               <tr>
                                 <td>Marital Status : {{ onboardingPreviewData.user.maritalStatus }}</td>
                                 <td>Joining Date : {{ onboardingPreviewData.user.joiningDate | date : 'dd/MM/yyyy' }}</td>
-                                <td>Current Salary : {{ onboardingPreviewData.user.currentSalary  | numberToWord }}</td>
+                                <td>Current Salary : {{ onboardingPreviewData.user.currentSalary ? (onboardingPreviewData.user.currentSalary | numberToWord) : 'N/A' }}</td>
                               </tr>
                               <tr>
                                 <td>Department : {{ onboardingPreviewData.user.department }}</td>
@@ -442,8 +442,10 @@
                          
                             <tbody class="table-design" *ngIf="onboardingPreviewData.userAddress!=undefined">
                               <tr>
-                                <td colspan="6"> Address Line 1 : {{ onboardingPreviewData.userAddress[0].addressLine1 }}</td>
-                                <td colspan="6"> Address Line 2 : {{ onboardingPreviewData.userAddress[0].addressLine2 }}</td>
+                                <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[0].addressLine1 }}</td>
+                              </tr>
+                              <tr>
+                                <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[0].addressLine2 }}</td>
                               </tr>
                             
                               <tr>
@@ -467,8 +469,10 @@
                                 <td colspan="4">Complete Address: {{ address.address }}</td>
                               </tr> -->
                               <tr>
-                                <td colspan="6"> Address Line 1 : {{ onboardingPreviewData.userAddress[1].addressLine1 }}</td>
-                                <td colspan="6"> Address Line 2 : {{ onboardingPreviewData.userAddress[1].addressLine2 }}</td>
+                                <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[1].addressLine1 }}</td>
+                              </tr>
+                              <tr>
+                                <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[1].addressLine2 }}</td>
                               </tr>
                               <tr>
                                 <td colspan="3">Pincode: {{ onboardingPreviewData.userAddress[1].pincode }}</td>
@@ -494,19 +498,27 @@
                           <table class="table table-bordered">
                          
                             <tbody class="table-design">
+                                <tr>
+                                    <td colspan="3" > 
+                                        Aadhaar Card :  {{ aadhaarCardFileName }}</td>
+                                  
+                                    <td colspan="3" > 
+                                        Pancard : {{ pancardFileName }}</td>
+                                  </tr>
                               <tr>
-                                <td colspan="3"> 
+                                <td colspan="3" *ngIf="!isSchoolDocument"> 
                                     10th Marksheet :  {{ secondarySchoolCertificateFileName }}</td>
                               
-                                <td colspan="3"> 
+                                <td colspan="3" *ngIf="!isHighSchoolDocument"> 
                                     12th Marksheet : {{ highSchoolCertificateFileName1 }}</td>
                               </tr>
                               <tr>
                                 <td colspan="3"> 
                                     Highest Qualification :  {{ highestQualificationDegreeFileName1 }}</td>
                               
-                                <td colspan="3"> 
-                                    Testimonials : {{ testimonialReccomendationFileName1 }}</td>
+                                    <td colspan="3" *ngFor="let document of employeeAdditionalDocument; let i = index">
+                                        {{ document.name }}: {{ document.fileName }}
+                                    </td>
                               </tr>
                             
                               
@@ -536,7 +548,7 @@
                                 <td>Relation : {{ onboardingPreviewData.userGuarantorInformation[0].relation }}</td>
                                 <td>Name : {{ onboardingPreviewData.userGuarantorInformation[0].name }}</td>
                                 <td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[0].phoneNumber }}</td>
-                                <td>Email : {{ onboardingPreviewData.userGuarantorInformation[0].emailId }}</td>
+                                <td>Email : {{ onboardingPreviewData.userGuarantorInformation[0].emailId ? onboardingPreviewData.userGuarantorInformation[0].emailId : 'N/A' }}</td>
                               </tr>
                               
                             </tbody>
@@ -551,7 +563,7 @@
                                 <td>Relation : {{ onboardingPreviewData.userGuarantorInformation[1].relation }}</td>
                                 <td>Name : {{ onboardingPreviewData.userGuarantorInformation[1].name }}</td>
                                 <td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[1].phoneNumber }}</td>
-                                <td>Email : {{ onboardingPreviewData.userGuarantorInformation[1].emailId }}</td>
+                                <td>Email : {{ onboardingPreviewData.userGuarantorInformation[1].emailId ? onboardingPreviewData.userGuarantorInformation[1].emailId : 'N/A' }}</td>
                               </tr>
                               
                             </tbody>

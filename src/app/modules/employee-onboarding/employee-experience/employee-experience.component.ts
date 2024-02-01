@@ -53,20 +53,19 @@ export class EmployeeExperienceComponent implements OnInit {
 
   addMoreExperience() {
     const newExperience: UserExperience = {
-        
-        companyName: '',
-        // employementDuration: '',
-        lastJobDepartment: '',
-        lastSalary: '',
-        lastJobPosition: '',
-        jobResponisibilities: '',
-        fresher: false, // or true, depending on your logic
-        statusId: 0,
-        directSave: false,
-        employeeOnboardingFormStatus: '',
-        employeeOnboardingStatus: '',
-        startDate:'',
-        endDate:''
+      companyName: '',
+      // employementDuration: '',
+      lastJobDepartment: '',
+      lastSalary: '',
+      lastJobPosition: '',
+      jobResponisibilities: '',
+      fresher: false, // or true, depending on your logic
+      statusId: 0,
+      directSave: false,
+      employeeOnboardingFormStatus: '',
+      employeeOnboardingStatus: '',
+      startDate: undefined,
+      endDate: undefined
     };
     this.userExperiences.push(newExperience);
 }
@@ -138,6 +137,7 @@ export class EmployeeExperienceComponent implements OnInit {
   isFresher:boolean=true;
   employeeOnboardingFormStatus:string|null=null;
   @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
+
   getEmployeeExperiencesDetailsMethodCall(userUuid: string) {
     debugger
     this.isLoading = true;
@@ -157,6 +157,7 @@ export class EmployeeExperienceComponent implements OnInit {
           this.isLoading = false;
           this.isFresher=false;
           this.userExperiences = experiences;
+          
           this.dataService.markStepAsCompleted(experiences[0].statusId);
           
           
@@ -427,4 +428,52 @@ displayModal = false;
         break;
     }
   }
+
+  experience: any = {}; // Assuming you have an experience object
+  dateRange: Date[] | undefined;
+
+  onDateRangeChange(range: [Date | null, Date | null], index: number): void {
+    if (range && range.length === 2) {
+      this.userExperiences[index].startDate = range[0];
+      this.userExperiences[index].endDate = range[1];
+    }
+  }
+  date: Date[] | null = null;
+  disabledDate = (current: Date): boolean => {
+    // Disable future dates
+    if (current && current > new Date()) {
+      return true;
+    }
+    // If start date is selected, disable all dates before it
+    if (this.date && this.date[0] && current < this.date[0]) {
+      return true;
+    }
+    return false;
+  };
+  
+  departmentInputValue?: string;
+positionInputValue?: string;
+
+departmentFilteredOptions: string[] = [];
+positionFilteredOptions: string[] = [];
+
+onChangePosition(search: string, index: number): void {
+  if (search) {
+    this.positionFilteredOptions = this.jobTitles.filter(title =>
+      title.toLowerCase().includes(search.toLowerCase())
+    );
+  } else {
+    this.positionFilteredOptions = [];
+  }
+}
+
+onChangeDepartment(search: string, index: number): void {
+  if (search) {
+    this.departmentFilteredOptions = this.departments.filter(department =>
+      department.toLowerCase().includes(search.toLowerCase())
+    );
+  } else {
+    this.departmentFilteredOptions = [];
+  }
+}
 }

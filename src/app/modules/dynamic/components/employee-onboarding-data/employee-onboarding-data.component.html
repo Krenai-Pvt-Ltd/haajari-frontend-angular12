@@ -576,7 +576,7 @@
                                                         <div class="hstack gap-3 justify-content-center">
 
                                                             <a href="javascript:void(0);"
-                                                                class="link-success text-decoration-underline"
+                                                                class="link-success text-decoration-underline success-btn"
                                                                 (click)="sendMailToEmployees(user)"
                                                                 *ngIf="!sendingMailLoaderForUser(user) && ((user.employeeOnboardingStatus.response)!= approvedResponse) && ((user.employeeOnboardingStatus.response)!= pendingResponse)">Request</a>
 
@@ -593,10 +593,10 @@
 
 
                                                             <a href="javascript:void(0);" routerLink="/employee-profile"
-                                                                class="link-primary text-decoration-underline"
+                                                                class="link-primary text-decoration-underline view-btn"
                                                                 (click)="routeToUserDetails(user.uuid)">View</a>
 
-                                                            <a style="cursor: pointer; color:red" class="delete-rule"
+                                                            <a style="cursor: pointer; color:red !important" class="delete-rule"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#deleteConfirmationModal"
                                                                 (click)="openDeleteConfirmationModal(user.id)"><i
@@ -827,7 +827,7 @@
                                     <div class="mb-3">
                                         <label for="phoneNumber" class="pb-2">Phone Number <span class="text-optional">
                                                 (Optional)</span></label>
-                                        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                                        <input type="text" mask="0000000000" class="form-control" id="phoneNumber" name="phoneNumber"
                                             placeholder="Phone number"
                                             [(ngModel)]="userPersonalInformationRequest.phoneNumber" minlength="10"
                                             maxlength="10" pattern="[0-9]*" #phoneNumberField="ngModel">
