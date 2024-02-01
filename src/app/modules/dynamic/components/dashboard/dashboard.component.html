@@ -46,28 +46,32 @@
                             </div>
                         </div> 
                     </div><!--end card--> 
-                    <div class="card report-card">
+                    <div class="card report-card" >
                         <div class="card-body">
                             <div class="row d-flex justify-content-center">                                                
                                 <div class="col">
-                                    <p class="text-dark mb-1 fw-semibold">On Leave</p>
-                                    <h4 class="font-22 fw-bold">{{currentDayEmployeesData.allAbsentUsers}}</h4>   
-                                    <!-- <div class="d-flex align-items-center">
+                                    <!-- <p class="text-dark mb-1 fw-semibold" style="font-size: 11px;">On Leave / Absent / Not Marked</p>
+                                    <h4 class="font-22 fw-bold">{{currentDayEmployeesData.allAbsentUsers}}</h4>    -->
+                                    <div class="d-flex align-items-center" style="gap:0px;">
 
-                                        <div class="Approved rejected-css">
-                                            <p class="mb-0">0</p>
-                                            <span class="total-holiday">Leave</span>
+                                        <div class="Approved pending-css rejected-css text-center border-right">
+                                            <span class="total-holiday pb-2">Leave</span>
+                                            <p class="mb-0">30</p>
+                                            
                                         </div>
-                                        <div class="Approved">
-                                            <p class="mb-0">0</p>
-                                            <span class="total-holiday">Absent</span>
+                                        <div class="Approved absents text-center border-right">
+                                            <span class="total-holiday pb-2">Absent</span>
+
+                                            <p class="mb-0">20</p>
+                                            
                                         </div>
 
-                                        <div class="Approved pending-css">
-                                            <p class="mb-0">0</p>
-                                            <span class="total-holiday">N/A</span>
+                                        <div class="Approved na text-center ">
+                                            <span class="total-holiday pb-2">N/A</span>
+                                            <p class="mb-0">10</p>
+                                          
                                         </div>
-                                    </div> -->
+                                    </div>
                                 </div>
                                 <div class="col-auto align-self-center">
                                     <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md icons rounded-circle">

@@ -1016,3 +1016,80 @@ button.btn.close-btn{
     background-color: #6666f3;
     border-color: #6666f3;
 }
+
+
+.profile-image-name-span{
+  top: -60px;
+  right: -60px;
+  bottom: 0;
+  z-index: 99;
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  transform: rotate(44deg);
+  background-color: #22d26b;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-image-name-span i {
+  top: 72px;
+  left: 41px;
+  position: absolute;
+  transform: rotate(311deg);
+  font-size: 14px;
+}
+
+.ribbon3.rib3-primary {
+  background: #557ef8;
+}
+.ribbon3 {
+  text-align: center;
+  width: 70px;
+  height: 26px;
+  line-height: 26px;
+  padding-right: 12px;
+  position: absolute;
+  right: -8px;
+  top: 10px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.ribbon3.rib3-primary:before {
+  border-top: 9px solid #0c46f5;
+}
+.ribbon3:before {
+  height: 0;
+  width: 0;
+  bottom: -8.5px;
+  right: 0.1px;
+  border-right: 9px solid transparent;
+}
+
+
+.ribbon3.rib3-primary:after {
+  border-right: 15px solid #557ef8;
+}
+.ribbon3:after {
+  height: 0;
+  width: 0;
+  left: -14.5px;
+  border-bottom: 13px solid transparent;
+  border-top: 13px solid transparent;
+}
+.ribbon3:after, .ribbon3:before {
+  content: "";
+  position: absolute;
+}
+
+.ribbon3:after, .ribbon3:before {
+  content: "";
+  position: absolute;
+}
+
+.maneger-point i{
+  color: #6666f3;
+}
