@@ -438,8 +438,8 @@
 
 
                         </div>
-
-                        <div [ngClass]="{'d-none': hideDetailsFlag, 'mt-3': !hideDetailsFlag}">
+                        <!-- [ngClass]="{'d-none': hideDetailsFlag, 'mt-3': (!hideDetailsFlag || ROLE=='ADMIN')}" -->
+                        <div class='mt-3' [ngClass]="{'d-none': hideDetailsFlag, 'mt-3': !hideDetailsFlag}">
                             <div class="onboare-deta">
                                 <div class="">
 
@@ -2069,7 +2069,7 @@
                     <p><b>Break Duration: </b>{{userAttendanceDetailDateWise.breakDuration}}</p>
                 </div>
                 <div class="calenInfo d-block"
-                    *ngIf="userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined">
+                    *ngIf="(userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined) && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
                     <p><b>Absent!</b></p>
                 </div>
             </div>
