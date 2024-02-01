@@ -196,6 +196,12 @@ export class TeamDetailComponent implements OnInit {
      
       this.managerId = userUuid;
       this.getUsersRoleFromLocalStorage();
+
+      let navExtra : NavigationExtras = {
+        queryParams : {"teamId":teamUuid , "Id": userUuid},
+      };
+      this.router.navigate(['/team-detail'], navExtra);
+
       if(this.managerId==this.userUuid){
         this.managerIdFlag=true;
       }else{
@@ -221,6 +227,12 @@ export class TeamDetailComponent implements OnInit {
       // localStorage.removeItem('managerFunc');
       this.managerId = userUuid;
       this.getUsersRoleFromLocalStorage();
+
+      let navExtra : NavigationExtras = {
+        queryParams : {"teamId":teamUuid},
+      };
+      this.router.navigate(['/team-detail'], navExtra);
+
       if(this.managerId==this.userUuid){
         this.managerIdFlag=false;
       }else{
@@ -250,6 +262,18 @@ export class TeamDetailComponent implements OnInit {
     this.dataService.removeUserFromTeam(teamUuid, userUuid)
       .subscribe(
         response => {
+          if(this.managerId==userUuid){
+            let navExtra : NavigationExtras = {
+              queryParams : {"teamId":teamUuid},
+            };
+            this.router.navigate(['/team-detail'], navExtra);
+          }
+
+          if(this.managerId==this.userUuid){
+            this.managerIdFlag=false;
+          }else{
+            this.managerIdFlag=true;
+          }
           // location.reload();
           this.getTeamMemberById();
           this.helperService.showToast("User removed successfully.", Key.TOAST_STATUS_SUCCESS);
