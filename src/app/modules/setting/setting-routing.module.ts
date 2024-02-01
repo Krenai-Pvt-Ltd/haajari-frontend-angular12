@@ -7,6 +7,8 @@ import { CompanySettingComponent } from './components/company-setting/company-se
 import { SelerySettingComponent } from './components/selery-setting/selery-setting.component';
 import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
+import { StaffAttendanceLocationComponent } from './components/staff-attendance-location/staff-attendance-location.component';
+import { UploadPhotoComponent } from './components/upload-photo/upload-photo.component';
 
 const routes: Routes = [{ path: '', redirectTo: '/setting/attendance-setting', pathMatch:'full'},
   { path: '', component: SettingComponent,
@@ -17,7 +19,9 @@ const routes: Routes = [{ path: '', redirectTo: '/setting/attendance-setting', p
   {path: 'company-setting', component: CompanySettingComponent, canActivate: [AuthGuard]},
   {path: 'selery-setting', component: SelerySettingComponent, canActivate: [AuthGuard]},
   {path: 'leave-setting', component: LeaveSettingComponent, canActivate: [AuthGuard]},
-  {path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGuard]}
+  {path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGuard]},
+  {path: 'staff-attendance-location', component: StaffAttendanceLocationComponent, canActivate: [AuthGuard]},
+  {path: 'upload-photo', component: UploadPhotoComponent, canActivate: [AuthGuard]}
   ] }
 ];
 
