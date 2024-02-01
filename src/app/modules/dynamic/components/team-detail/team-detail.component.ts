@@ -259,6 +259,7 @@ export class TeamDetailComponent implements OnInit {
   }
 
   removeUserFromTeam(teamUuid: string, userUuid: string) {
+    this.deleteUserFromTeamLoader=true;
     this.dataService.removeUserFromTeam(teamUuid, userUuid)
       .subscribe(
         response => {
@@ -268,7 +269,7 @@ export class TeamDetailComponent implements OnInit {
             };
             this.router.navigate(['/team-detail'], navExtra);
           }
-
+          this.deleteUserFromTeamLoader=false;
           if(this.managerId==userUuid){
             this.managerIdFlag=false;
           }else{
@@ -279,6 +280,7 @@ export class TeamDetailComponent implements OnInit {
           this.helperService.showToast("User removed successfully.", Key.TOAST_STATUS_SUCCESS);
         },
         error => {
+          this.deleteUserFromTeamLoader=false;
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );
@@ -348,6 +350,28 @@ export class TeamDetailComponent implements OnInit {
       queryParams: { userId: uuid },
     };
     this.router.navigate(['/employee-profile'], navExtra);
+  }
+
+  delUserUuid: string='';
+  delUserFromTeamUuid: string='';
+
+  @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
+
+  openDeleteConfirmationModal(userUuid:string, teamUuid: string) {
+    this.delUserUuid = userUuid;
+    this.delUserFromTeamUuid = teamUuid;
+  }
+  deleteUserFromTeamLoader:boolean=false;
+  deleteUserFromTeam() {
+    if (this.delUserUuid !== null && this.delUserFromTeamUuid !=null) {
+      this.removeUserFromTeam(this.delUserFromTeamUuid, this.delUserUuid);
+      this.delUserUuid = '';
+      this.delUserFromTeamUuid='';
+    }
+  }
+
+  closeDeleteModal() { 
+    this.deleteConfirmationModal.nativeElement.click();
   }
 
   
