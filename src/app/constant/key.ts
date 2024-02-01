@@ -1,7 +1,7 @@
 export class Key{
     public static ENDPOINT = 
-    "http://localhost:8080/api/v2/attendance"
-    // "https://backend.hajiri.work/api/v1/attendance"; 
+    // "http://localhost:8080/api/v2/attendance"
+    "https://backend.hajiri.work/api/v1/attendance"; 
 
     public static LOGGED_IN_USER = new Object();
 
@@ -132,6 +132,21 @@ export class Key{
     public static WORKING = "Working";
     public static ON_BREAK  = "On Break";
     public static CHECKED_OUT = "Checked Out";
+
+
+
+    // Role
+    public static ADMIN = "ADMIN";
+    public static USER = "USER";
+    public static MANAGER = "MANAGER";
+
+
+    // Day wise status
+    public static PRESENT = "Present";
+    public static ABSENT = "Absent";
+    public static UNMARKED = "Unmarked";
+    public static WEEKEND = "Weekend";
+    public static HOLIDAY = "Holiday";
     
     
 }

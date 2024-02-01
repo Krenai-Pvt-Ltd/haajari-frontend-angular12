@@ -19,40 +19,60 @@
                            
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="departmentDropdown" class="pb-2">Highest Qualification <span class="text-optional">*</span></label>
-                                    <div class="dropdown" style="width: 100%;">
-                                        <button type="button" id="departmentDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="department">
-                                            {{ userAcademicsDetailRequest.highestEducationalLevel || 'Select highest qualification' }}
-                                            <i class="bi bi-chevron-down"></i>
-                                        </button>
-                                        <ul aria-labelledby="departmentDropdown" class="dropdown-menu nationality-dropdown" style="width: 100%;">
-                                            <li *ngFor="let qualification of qualifications"><a class="dropdown-item" (click)="selectQualification(qualification)">{{ qualification }}</a></li>
-                                        </ul>
-                                    </div>
-                                    <input type="hidden" [(ngModel)]="userAcademicsDetailRequest.highestEducationalLevel" required #department="ngModel">
-                                    <div *ngIf="department?.touched">
-                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="department.errors?.required">
-                                            <i class="bi bi-exclamation-circle"></i> Highest Qualification selection is required.
-                                        </p>
-                                    </div>
-                                </div>                      
-                            </div>
-                            
-                            
-                            
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="degreeObtained" class="pb-2">Degree/Diploma Obtained <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="degreeObtained" name="degreeObtained" placeholder="Please Enter Degree/Diploma Obtained" [(ngModel)]="userAcademicsDetailRequest.degreeObtained" required #degreeObtained="ngModel">
-                                    <!-- Error Message for Degree/Diploma Obtained -->
-                                    <div *ngIf="degreeObtained.touched">
-                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="degreeObtained.errors?.required">
-                                            <i class="bi bi-exclamation-circle"></i>
-                                            Degree/Diploma is required.
-                                        </p>
-                                    </div>
+                                  <label for="highestQualificationDropdown" class="pb-2">Highest Qualification <span class="text-optional">*</span></label>
+                                  <div nz-dropdown style="width: 100%;">
+                                    <button nz-button nz-dropdown [nzDropdownMenu]="menu1" class="hover-dropdown" type="button" id="highestQualificationDropdown">
+                                      {{ selectedQualification || 'Select highest qualification' }}
+                                      <span nz-icon nzType="down" class="icon-right"></span>
+                                    </button>
+                                    <nz-dropdown-menu #menu1="nzDropdownMenu">
+                                      <ul nz-menu class="hover-dropdown-height">
+                                        <li nz-menu-item *ngFor="let qualification of qualifications" (click)="selectQualification(qualification)">
+                                          {{ qualification }}
+                                        </li>
+                                      </ul>
+                                    </nz-dropdown-menu>
+                                    <input type="hidden" name="highestQualification" id="highestQualification"  [(ngModel)]="userAcademicsDetailRequest.highestEducationalLevel" required>
+                                    <!-- <div *ngIf="highestQualification?.touched">
+                                      <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highestQualification.errors?.required">
+                                        <i class="bi bi-exclamation-circle"></i> Highest Qualification selection is required.
+                                      </p>
+                                    </div> -->
+                                  </div>
                                 </div>
-                            </div>
+                              </div>
+                              
+                            
+                            
+                            
+                              <div class="col-md-6">
+                                <!-- Degree/Diploma Obtained Dropdown -->
+                                <div class="mb-3">
+                                  <label for="degreeObtained" class="pb-2">Degree/Diploma Obtained <span class="text-optional">*</span></label>
+                                  <div nz-dropdown >
+                                    <button nz-button nz-dropdown [nzDropdownMenu]="menu4" class="hover-dropdown" type="button">
+                                      {{ userAcademicsDetailRequest.degreeObtained || 'Select degree/diploma obtained' }}
+                                      <span nz-icon nzType="down" class="icon-right"></span>
+                                    </button>
+                                    <nz-dropdown-menu #menu4="nzDropdownMenu" id="degreeObtained" name="degreeObtained" >
+                                      <ul nz-menu [ngClass]="{'d-none': !selectedQualification, 'hover-dropdown-height': selectedQualification} " >
+                                        <li nz-menu-item *ngFor="let degree of degreeOptions[selectedQualification]" (click)="selectDegreeObtained(degree)">
+                                          {{ degree }}
+                                        </li>
+                                      </ul>
+                                    </nz-dropdown-menu>
+                                    <input type="hidden" [(ngModel)]="userAcademicsDetailRequest.degreeObtained" name="degreeObtained" required #degreeObtained="ngModel">
+                                    <div *ngIf="degreeObtained?.touched">
+                                      <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="degreeObtained.errors?.required">
+                                        <i class="bi bi-exclamation-circle"></i> Degree/Diploma selection is required.
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              
+                              
                             
 
 
@@ -104,7 +124,9 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="greaduationYear" class="pb-2">Graduating Year <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="greaduationYear" name="greaduationYear" placeholder="Please Enter Passing Year" [(ngModel)]="userAcademicsDetailRequest.graduationYear" required #greaduationYear="ngModel">
+                                    <!-- <input type="text" class="form-control" id="greaduationYear" name="greaduationYear" placeholder="Please Enter Passing Year" [(ngModel)]="userAcademicsDetailRequest.graduationYear" required #greaduationYear="ngModel"> -->
+                                    <br />
+                                     <nz-date-picker id="greaduationYear" name="greaduationYear" [(ngModel)]="userAcademicsDetailRequest.graduationYear" nzMode="year" [nzDisabledDate]="disabledFutureDates" required #greaduationYear="ngModel"></nz-date-picker>     
                                     <!-- Error Message for Graduating Year -->
                                     <div *ngIf="greaduationYear.touched">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="greaduationYear.errors?.required">

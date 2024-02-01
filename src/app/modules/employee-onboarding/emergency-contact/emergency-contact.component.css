@@ -292,7 +292,7 @@ a.select-file {
 
 .add-filtter a {
     margin-bottom: 0px;
-    color: #6666f3;
+    color: #6666f3 !important;
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;

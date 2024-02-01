@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.min.css";
+
 /* @import '~ngx-material-timepicker/assets/ngx-material-timepicker-theme-dark.css'; */
 
 
@@ -127,3 +129,64 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: #444!important;
     height: 37px;
 }
+
+nz-date-picker {
+    margin: 0 8px 12px 0;
+  }
+
+  .ant-picker.ant-picker-borderless {
+    background-color: transparent!important;
+    border: 1px solid #e8ebf3 !important;
+    box-shadow: none!important;
+    width: 100%;
+    height: 40px;
+    border-radius: 0.25rem;
+}
+
+.nz-calendar-container {
+    width: 300px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+  }
+  
+
+  .ant-picker{
+    border: 1px solid #e8ebf3 !important; 
+    width: 100% !important ;
+    height: 40px !important;
+    border-radius: 0.25rem;
+  }
+
+  .seach-dropdown{
+    border: 1px solid #e8ebf3 !important; 
+    width: 100% !important ;
+    height: 40px !important;
+    border-radius: 0.25rem;
+    padding: 0.4rem 1rem ;
+  }
+
+  .nz-button-group {
+    margin: 0 8px 8px 0;
+  }
+.hover-dropdown {
+    width: 100%;
+    height: 40px;
+    background: transparent;
+    border: 1px solid #e8ebf3;
+    text-align: left;
+    padding: 0.4rem 1rem;
+    border-radius: 0.25rem;
+}
+
+.hover-dropdown-height{
+    max-height: 200px;
+    overflow: scroll;
+}
+
+.icon-right {
+    position: absolute;
+     right: 21px;
+    top: 60%;
+    transform: translateY(-50%);
+  }
+  

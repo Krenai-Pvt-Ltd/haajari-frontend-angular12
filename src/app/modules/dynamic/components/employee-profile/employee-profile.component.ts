@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
@@ -21,6 +21,7 @@ import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-employee-profile',
@@ -34,6 +35,11 @@ export class EmployeeProfileComponent implements OnInit {
   userLeaveForm!: FormGroup;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
+  ROLE:string="";
+  UUID:string="";
+  hideDetailsFlag:boolean=false;
+  adminRoleFlag:boolean=false;
+  userRoleFlag:boolean=false;
   constructor(
     private dataService: DataService,
     private datePipe: DatePipe,
@@ -42,7 +48,9 @@ export class EmployeeProfileComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private firebaseStorage: AngularFireStorage,
-    private router: Router
+    private router: Router,
+    private roleService: RoleBasedAccessControlService,
+    public location: Location
 
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
@@ -65,7 +73,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/employee-onboarding-data']);
+    // this.router.navigate(['/employee-onboarding-data']);
   }
 
   get StartDate() {
@@ -96,9 +104,26 @@ export class EmployeeProfileComponent implements OnInit {
   newDate: string = ''
   count: number = 0;
 
+  ADMIN = Key.ADMIN;
+  MANAGER = Key.MANAGER;
+  USER = Key.USER;
+
+  // tokenUserRoleFlag:boolean=false;
   currentDate: Date = new Date();
   currentNewDate: any;
   ngOnInit(): void {
+    this.ROLE=this.roleService.getRole();
+    this.UUID=this.roleService.getUUID();
+    if(this.ROLE==this.ADMIN){
+    this.adminRoleFlag=true;
+    }
+    // if(this.ROLE==this.USER){
+    //   this.tokenUserRoleFlag==true;
+    // }
+    if(this.userId==this.UUID){
+      this.userRoleFlag=true;
+    }
+    this.getRoleData();
     this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
     this.getUserAttendanceStatus();
     this.getOrganizationOnboardingDateByUuid();
@@ -120,6 +145,20 @@ export class EmployeeProfileComponent implements OnInit {
     this.getEmployeeDocumentsDetailsByUuid();
     this.getUserLeaveReq();
     this.getUserLeaveLogByUuid();
+  }
+
+
+  getRoleData(){
+     const managerDetails =localStorage.getItem('managerFunc');
+    if(managerDetails !== null){
+      const managerFunc = JSON.parse(managerDetails);
+      if((this.userId!=managerFunc.managerId) && (managerFunc.managerId==this.UUID) && (this.ROLE=="MANAGER")){
+        this.hideDetailsFlag=true;
+      }else{
+        this.hideDetailsFlag=false;
+      }
+
+    }
   }
 
   prevDate!: Date;
@@ -166,23 +205,28 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   toggle = false;
+  approvedToggle=false;
   @ViewChild("closeRejectModalButton") closeRejectModalButton!:ElementRef;
   updateStatusUserByUuid(type: string) {
+    if(type=="REJECTED")
     this.toggle = true;
+    if(type=="APPROVED"){
+    this.approvedToggle=true;
+    }
     this.setReasonOfRejectionMethodCall();
     this.dataService.updateStatusUser(this.userId, type).subscribe(
       (data) => {
         console.log('status updated:' + type);
-        this.closeRejectModalButton.nativeElement.click();
-        this.toggle = false
+        this.sendStatusResponseMailToUser(this.userId, type);
+        // this.toggle = false
 
         // location.reload();
-        this.getUserByUuid();
         // location.reload();
       },
       (error) => {
       }
     );
+
   }
 
   myAttendanceData: Record<string, AttendenceDto[]> = {};
@@ -248,7 +292,7 @@ export class EmployeeProfileComponent implements OnInit {
   // var calendar = new Calendar(calendarEl, {
 
   @ViewChild('openEventsModal') openEventsModal!: ElementRef;
-  userAttendanceDetailDateWise:{checkInTime:string,checkOutTime:string, duration:string, breakCount:string, breakDuration:string}={checkInTime:"",checkOutTime:"", duration:"", breakCount:"", breakDuration:""};
+  userAttendanceDetailDateWise:{checkInTime:string,checkOutTime:string, totalWorkingHours:string, breakCount:string, breakDuration:string}={checkInTime:"",checkOutTime:"", totalWorkingHours:"", breakCount:"", breakDuration:""};
   attendanceDetailModalToggle:boolean=false;
   clientX:string="0px";
   clientY:string="0px";
@@ -260,12 +304,13 @@ export class EmployeeProfileComponent implements OnInit {
     this.userAttendanceDetailDateWise.checkOutTime="";
     this.userAttendanceDetailDateWise.breakCount="";
     this.userAttendanceDetailDateWise.breakDuration="";
-    this.userAttendanceDetailDateWise.duration="";
+    this.userAttendanceDetailDateWise.totalWorkingHours="";
     this.userAttendanceDetailDateWise.checkInTime=mouseEnterInfo.event._def.extendedProps.checkInTime;
     this.userAttendanceDetailDateWise.checkOutTime=mouseEnterInfo.event._def.extendedProps.checkOutTime;
-    this.userAttendanceDetailDateWise.breakCount=mouseEnterInfo.event._def.extendedProps.breakCount + 1;
+    this.userAttendanceDetailDateWise.breakCount=mouseEnterInfo.event._def.extendedProps.breakCount;
     this.userAttendanceDetailDateWise.breakDuration=mouseEnterInfo.event._def.extendedProps.breakDuration;
-    this.userAttendanceDetailDateWise.duration=mouseEnterInfo.event._def.extendedProps.duration;
+    this.userAttendanceDetailDateWise.totalWorkingHours=mouseEnterInfo.event._def.extendedProps.totalWorkingHours;
+    console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
     var rect = mouseEnterInfo.el.getBoundingClientRect();
     this.clientX=(rect.left)+"px";
     this.clientY=(rect.top)+"px";
@@ -308,7 +353,7 @@ export class EmployeeProfileComponent implements OnInit {
       )
       .subscribe(
         (response: any) => {
-          response = response.mapOfObject;
+          response = response.listOfObject;
           this.events = [];
           this.totalPresent = 0;
           this.totalAbsent = 0;
@@ -342,9 +387,13 @@ export class EmployeeProfileComponent implements OnInit {
               };
             }
           } else {
-            this.attendanceDetails = Object.values(response);
-            this.attendances = this.attendanceDetails[0];
-            this.attendanceDetailsResponse = this.attendanceDetails[0];
+            // this.attendanceDetails = Object.values(response);
+            // this.attendances = this.attendanceDetails[0];
+            // this.attendanceDetailsResponse = this.attendanceDetails[0];
+
+            this.attendances = response;
+            this.attendanceDetailsResponse = response;
+
 
             // console.log('Attendance Details:', this.attendances);
             // console.log(
@@ -362,10 +411,10 @@ export class EmployeeProfileComponent implements OnInit {
               var checkInTime = this.attendances[i].checkInTime;
               var checkOutTime = this.attendances[i].checkOutTime;
               var breakCount = this.attendances[i].breakCount;
-              var breakDuration = this.attendances[i].breakDuration;
-              var duration = this.attendances[i].duration;
+              var breakDuration = this.attendances[i].totalBreakHours;
+              var totalWorkingHours = this.attendances[i].totalWorkingHours;
               var color = title == 'P' ? '#e0ffe0' : title == 'A' ? '#f8d7d7' : '';
-              var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, duration:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, duration:duration };
+              var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, totalWorkingHours:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, totalWorkingHours:totalWorkingHours };
               this.events.push(tempEvent2);
 
               if (i == this.attendances.length - 1) {
@@ -577,6 +626,7 @@ export class EmployeeProfileComponent implements OnInit {
         // console.log(data);
         // console.log(data.body);
         this.submitLeaveLoader=false;
+        this.isLeavePlaceholder=false;
         this.getUserLeaveReq();
         this.resetUserLeave();
         this.formGroupDirective.resetForm();
@@ -1060,6 +1110,72 @@ formatDateIn(newdate:any) {
   const date = new Date(newdate);
   const formattedDate = this.datePipe.transform(date, 'ddMMMM, yyyy');
   return formattedDate;
+}
+
+// calculateDateDifferenceDuration(endDate:any, startDate:any){
+//   const start = new Date(startDate);
+//   const end = new Date(endDate);
+
+//   if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+//     const millisecondsDifference = end.getTime() - start.getTime();
+//     const yearsDifference = millisecondsDifference / (1000 * 60 * 60 * 24 * 365.25);
+//     return Math.floor(yearsDifference);
+//   }else{
+//     return null;
+//   }
+// }
+
+
+calculateDateDifferenceDuration(endDate:any, startDate:any) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+    const yearDiff = end.getFullYear() - start.getFullYear();
+    const monthDiff = end.getMonth() - start.getMonth();
+
+    let result = '';
+
+    if (yearDiff > 0) {
+      result += `${yearDiff} year${yearDiff === 1 ? '' : 's'}`;
+    }
+
+    if (monthDiff > 0) {
+      if (yearDiff > 0) {
+        result += ' ';
+      }
+      result += `${monthDiff === 1 ? monthDiff + ' month' : monthDiff + ' months'}`;
+    }
+    return result.trim() || 'N/A';
+  } else {
+    return null;
+  }
+}
+
+
+
+
+sendStatusResponseMailToUser(userUuid:string, requestString:string) {
+  this.dataService.statusResponseMailToUser(userUuid, requestString).subscribe(
+    (data) => {
+    //  console.log("mail send successfully");
+    
+     this.helperService.showToast("Mail Send Successfully", Key.TOAST_STATUS_SUCCESS);
+     this.getUserByUuid();
+     this.closeRejectModalButton.nativeElement.click();
+
+     if(requestString=="APPROVED"){
+     this.toggle = false;
+     }
+     if(requestString=="REJECTED"){
+     this.approvedToggle=false;
+     }
+     
+    },
+    (error) => {
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_SUCCESS);
+    }
+  );
 }
 
 }

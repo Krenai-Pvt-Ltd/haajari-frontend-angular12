@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NavigationExtras, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { EmployeeAdditionalDocument } from 'src/app/models/employee-additional-document';
 import { UserDocumentsDetailsRequest } from 'src/app/models/user-documents-details-request';
 import { UserDocumentsRequest } from 'src/app/models/user-documents-request';
 import { UserGuarantorRequest } from 'src/app/models/user-guarantor-request';
@@ -148,6 +149,9 @@ selectedHighSchoolCertificateFileName: any;
   setEmployeeDocumentsDetailsMethodCall(): void {
     debugger
    
+    if(this.userDocumentsDetailsRequest.employeeAdditionalDocument==null){
+      this.userDocumentsDetailsRequest.employeeAdditionalDocument = [];
+    }
     if(this.buttonType=='next'){
       this.toggle = true;
     } else if (this.buttonType=='save'){
@@ -247,6 +251,7 @@ getEmployeeDocumentsDetailsMethodCall() {
         }
         
         if (response.userDocuments) {
+          
           this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(response.userDocuments.secondarySchoolCertificate);
           // this.isSecondarySchoolCertificateRequired = !response.userDocuments.secondarySchoolCertificate;
 
@@ -354,5 +359,90 @@ routeToFormPreview() {
         break;
     }
   }
+
+  documentName: string = '';
+  isAddMore: boolean = false;
+  addNewDocument() {
+    debugger
+
+    if (!this.userDocumentsDetailsRequest.employeeAdditionalDocument) {
+      this.userDocumentsDetailsRequest.employeeAdditionalDocument = [];
+  }
+
+    // Find the maximum ID in the current document list
+    const maxId = this.userDocumentsDetailsRequest.employeeAdditionalDocument.reduce((max, doc) => doc.id > max ? doc.id : max, 0);
+
+    // Create a new document object with a unique ID
+    const newDocument: EmployeeAdditionalDocument = {
+        id: maxId + 1, // Increment the maximum ID by 1
+        name: this.documentName,
+        url: '',
+        fileName: ''
+        // Include other required properties of EmployeeAdditionalDocument, if any
+    };
+
+    this.userDocumentsDetailsRequest.employeeAdditionalDocument.push(newDocument);
+
+    // Reset the input field for adding more documents
+    this.documentName = '';
+    this.isAddMore = false; // Hide the add more section if needed
+}
+
+
+
+addMore(){
+  this.isAddMore = true;
+}
+
+
+onAdditionalFileSelected(event: Event, index: number) {
+  const fileInput = event.target as HTMLInputElement;
+  const file = fileInput.files ? fileInput.files[0] : null;
+
+  if (file) {
+
+      // Call uploadFile method
+      this.uploadAdditionalFile(file, index);
+  }
+}
+
+
+uploadAdditionalFile(file: File, index: number): void {
+  const filePath = `documents/${new Date().getTime()}_${file.name}`;
+  const fileRef = this.afStorage.ref(filePath);
+  const task = this.afStorage.upload(filePath, file);
+
+  // Handle the file upload task
+  task.snapshotChanges().pipe(
+      finalize(() => {
+          fileRef.getDownloadURL().subscribe(url => {
+              // Update the URL in the corresponding document
+              this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].url = url;
+              this.assignAdditionalDocumentUrl(index, url);
+              // If you have additional steps to perform after setting the URL, do them here
+          });
+      })
+  ).subscribe();
+}
+
+assignAdditionalDocumentUrl(index: number, url: string): void {
+  if (!this.userDocumentsDetailsRequest.employeeAdditionalDocument) {
+      this.userDocumentsDetailsRequest.employeeAdditionalDocument = [];
+  }
+
+  if (!this.userDocumentsDetailsRequest.employeeAdditionalDocument[index]) {
+      this.userDocumentsDetailsRequest.employeeAdditionalDocument[index] = new EmployeeAdditionalDocument();
+  }
+
+  this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].url = url;
+  this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].fileName = this.getFilenameFromUrl(url);
+}
+
+deleteDocument(index: number): void {
+  if (index > -1) {
+      this.userDocumentsDetailsRequest.employeeAdditionalDocument.splice(index, 1);
+  }
+}
+
 
 }

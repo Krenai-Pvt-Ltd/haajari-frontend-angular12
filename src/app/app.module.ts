@@ -24,6 +24,8 @@ import { SettingModule } from './modules/setting/setting.module';
 import { SharedComponent } from './modules/shared/shared.component';
 import { SharedModule } from './shared/shared.module';
 import { Ng2TelInputModule } from 'ng2-tel-input';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { UnauthorizedComponent } from './modules/sharable/unauthorized/unauthorized.component';
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
 
 
@@ -35,7 +37,8 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
     ErrorPageComponent,
     SlackDataLoaderComponent,
     DurationPickerComponent,
-    SharedComponent
+    SharedComponent,
+    UnauthorizedComponent
  
     // AuthenticationComponent,
   ],
@@ -56,7 +59,8 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
     FullCalendarModule,
     SettingModule,
     BrowserAnimationsModule,
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    NgxMaskModule.forRoot()
     // OnboardingSidebarResponse
 
     
