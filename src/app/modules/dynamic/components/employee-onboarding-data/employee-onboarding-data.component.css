@@ -153,7 +153,7 @@
 }
 
 .full-per{
-    background-color: green;
+    background-color: green !important;
     color: #fff;
     padding: 10px 20px;
     text-align: center;
@@ -161,7 +161,7 @@
 
 
 .rej-per{
-    background-color: red;
+    background-color: red !important;
     color: #fff;
     padding: 10px 20px;
     text-align: center;
@@ -253,7 +253,7 @@ tbody tr {
 }
 .add-filtter a {
     margin-bottom: 0px;
-    color: #6666f3;
+    color: #6666f3 !important;
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
@@ -450,7 +450,7 @@ input, textarea {
 }
 
 .material-switch > label::before {
-    background: #f56061;
+    background: #f56061 ;
     border-radius: 20px;
     content: "";
     height: 19px;
@@ -536,7 +536,7 @@ input, textarea {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #6666f3; /* Change to your preferred color */
+    background-color: #6666f3 !important; /* Change to your preferred color */
     margin: 0 4px;
     animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -570,4 +570,22 @@ input, textarea {
 
   .errorboxmaintop {
     padding: 15px;
+}
+
+.success-btn {
+    color: #22b783 !important;
+}
+
+.view-btn {
+    color: #6666f3 !important;
+}
+
+.delete-btn {
+    color: red !important;
+}
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff !important;
+    background-color: #6666f3;
+    border-color: #6666f3;
 }

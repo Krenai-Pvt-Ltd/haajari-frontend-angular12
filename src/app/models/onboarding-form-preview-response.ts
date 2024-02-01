@@ -1,3 +1,4 @@
+import { EmployeeAdditionalDocument } from "./employee-additional-document";
 import { UserAcademicsDetailRequest } from "./user-academics-detail-request";
 import { UserAddressRequest } from "./user-address-request";
 import { UserBankDetailRequest } from "./user-bank-detail-request";
@@ -16,6 +17,7 @@ export class OnboardingFormPreviewResponse {
     userExperience: UserExperience[];
     userBankDetails: UserBankDetailRequest;
     userEmergencyContacts: UserEmergencyContactDetailsRequest[];
+    employeeAdditionalDocuments: EmployeeAdditionalDocument[];
     companyLogo: string = '';
     fresher: boolean = false;
     reasonOfRejection: string = '';
@@ -30,6 +32,7 @@ export class OnboardingFormPreviewResponse {
         this.userBankDetails = new UserBankDetailRequest();
         this.userAcademics = new UserAcademicsDetailRequest;
         this.userEmergencyContacts = [];
+        this.employeeAdditionalDocuments = [];
         this.companyLogo = '';
         this.fresher = false;
         this.reasonOfRejection = '';

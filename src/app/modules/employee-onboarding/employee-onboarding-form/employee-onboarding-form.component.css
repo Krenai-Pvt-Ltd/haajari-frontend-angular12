@@ -282,7 +282,7 @@ span.members-namess {
 }
 
 a.select-file {
-    color: #6666f3;
+    color: #6666f3 !important;
 }
 
 .back-btn {
