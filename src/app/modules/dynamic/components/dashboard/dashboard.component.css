@@ -1,5 +1,5 @@
 .fixheigt-section{
-    height: 308px;
+    height: 302px;
 }
 
 .fixheigt-section img{
@@ -478,37 +478,58 @@ span.total-holiday {
 
 .Approved p{
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 400;
     padding-top: 5px;
 }
 
 
 
 .pending-css p {
-    color: #444 !important;
-    background-color: rgba(201,201,255,.975);
+    color: orange !important;
+    /* background-color: rgba(201,201,255,.975); */
     padding: 0px;
     border-radius: 3px;
-    margin-top: 10px;
+    margin-top: 5px;
     min-width: 33px;
 }
 
+
+/* .pending-css span{
+    color: orange;
+} */
 
 
 .absents p{ 
-    color: #444 !important;
-    background-color: rgb(255,231,186);
+    color: red !important;
+    /* background-color: rgb(255,231,186); */
     padding: 0px;
     border-radius: 3px;
-    margin-top: 10px;
+    margin-top: 5px;
     min-width: 33px;
 }
 
+/* .absents span{
+    color: red;
+} */
+
+/* .na span{
+    color: #6666f3!important
+} */
+
 .na p{
-    background-color: rgb(255,199,199);
+    /* background-color: rgb(255,199,199); */
     padding: 0px;
     border-radius: 3px;
-    color: #444 !important;
-    margin-top: 10px;
+    color: #6666f3!important;
+    margin-top: 5px;
     min-width: 33px;
+}
+
+.Approved {
+    border-right: 1px solid #f1f1f1;
+    width: 47px;
+}
+
+.Approved:last-child{
+    border-right: none;
 }
