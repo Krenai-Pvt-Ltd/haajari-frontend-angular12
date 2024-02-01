@@ -54,6 +54,21 @@ selectedHighSchoolCertificateFileName: any;
   //     this.uploadFile(file, documentType);
   //   }
   // }
+
+  isInvalidFileType = false; 
+isValidFileType(file: File): boolean {
+  const validExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
+  const fileType = file.type.split('/').pop(); // Get the file extension from the MIME type
+
+  if (fileType && validExtensions.includes(fileType.toLowerCase())) {
+    this.isInvalidFileType = true;
+    return true;
+  }
+  console.log(this.isInvalidFileType);
+  this.isInvalidFileType = false;
+  return false;
+}
+
   selectedSecondarySchoolFileName: string = '';
   selectedHighSchoolFileName: string = '';
   selectedHighestQualificationDegreeFileName: string = '';
@@ -66,37 +81,46 @@ selectedHighSchoolCertificateFileName: any;
     let fileList: FileList | null = element.files;
     if (fileList) {
       const file = fileList[0];
-      if (documentType === 'secondarySchoolCertificate') {
-        this.selectedSecondarySchoolFileName = file.name;
+      // Check if the file type is valid before proceeding
+      if (this.isValidFileType(file)) { // Call isValidFileType method to check the file type
+        // Proceed only if the file type is valid
+        if (documentType === 'secondarySchoolCertificate') {
+          this.selectedSecondarySchoolFileName = file.name;
+        }
+        if (documentType === 'highSchoolCertificate') {
+          this.selectedHighSchoolFileName = file.name;
+        }
+        if (documentType === 'highestQualificationDegree') {
+          this.selectedHighestQualificationDegreeFileName = file.name;
+        }
+        if (documentType === 'testimonialReccomendation') {
+          this.selectedTestimonialReccomendationFileName = file.name;
+        }
+        if (documentType === 'aadhaarCard') {
+          this.selectedAadhaarCardFileName = file.name;
+        }
+        if (documentType === 'pancard') {
+          this.selectedpancardFileName = file.name;
+        }
+        // Use FileReader to read the file if it's an image for preview
+        const reader = new FileReader();
+    
+        reader.onload = (e: any) => {
+          const imagePreview: HTMLImageElement = document.getElementById('imagePreview') as HTMLImageElement;
+          imagePreview.src = e.target.result;
+        };
+    
+        reader.readAsDataURL(file);
+        // Now upload the file since it's a valid type
+        this.uploadFile(file, documentType);
+      } else {
+        element.value = '';
+        // Handle invalid file type here (optional)
+        console.error("Invalid file type.");
       }
-      if (documentType === 'highSchoolCertificate') {
-        this.selectedHighSchoolFileName = file.name;
-      }
-      if (documentType === 'highestQualificationDegree') {
-        this.selectedHighestQualificationDegreeFileName = file.name;
-      }
-      if (documentType === 'testimonialReccomendation') {
-        this.selectedTestimonialReccomendationFileName = file.name;
-      }
-      if (documentType === 'aadhaarCard') {
-        this.selectedAadhaarCardFileName = file.name;
-      }
-      if (documentType === 'pancard') {
-        this.selectedpancardFileName = file.name;
-      }
-      // this.selectedFileName = file.name;
-      const reader = new FileReader();
-  
-      reader.onload = (e: any) => {
-       
-        const imagePreview: HTMLImageElement = document.getElementById('imagePreview') as HTMLImageElement;
-        imagePreview.src = e.target.result;
-      };
-  
-      reader.readAsDataURL(file);
-      this.uploadFile(file, documentType);
     }
   }
+  
   
   uploadFile(file: File, documentType: string): void {
     const filePath = `documents/${new Date().getTime()}_${file.name}`;
@@ -394,18 +418,20 @@ addMore(){
   this.isAddMore = true;
 }
 
-
-onAdditionalFileSelected(event: Event, index: number) {
+onAdditionalFileSelected(event: Event, index: number): void {
   const fileInput = event.target as HTMLInputElement;
   const file = fileInput.files ? fileInput.files[0] : null;
 
-  if (file) {
-
-      // Call uploadFile method
-      this.uploadAdditionalFile(file, index);
+  if (file && this.isValidFileType(file)) { // Check if the file is valid before proceeding
+    // If the file type is valid, proceed with the upload
+    this.uploadAdditionalFile(file, index);
+  } else {
+    fileInput.value = '';
+    // Optionally handle the case when the file is invalid
+    // For example, you could alert the user or log an error
+    console.error("Invalid file type. Please select a JPG, JPEG, or PNG file.");
   }
 }
-
 
 uploadAdditionalFile(file: File, index: number): void {
   const filePath = `documents/${new Date().getTime()}_${file.name}`;
@@ -453,4 +479,8 @@ preventLeadingWhitespace(event: KeyboardEvent): void {
     event.preventDefault();
   }
 }
+
+
+
+
 }
