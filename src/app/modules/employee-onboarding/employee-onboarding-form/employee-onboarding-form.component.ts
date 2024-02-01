@@ -3,9 +3,14 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { url } from 'inspector';
-import { finalize } from 'rxjs/operators';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { DataService } from 'src/app/services/data.service';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { debug } from 'console';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-employee-onboarding-form',
@@ -18,7 +23,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   userPersonalInformationRequest: UserPersonalInformationRequest = new UserPersonalInformationRequest();
   maxDob: string;
   // minJoiningDate: string;
-  constructor(private dataService: DataService, private router: Router, private activateRoute: ActivatedRoute, private afStorage: AngularFireStorage) { 
+  constructor(private dataService: DataService, private router: Router, private activateRoute: ActivatedRoute, private afStorage: AngularFireStorage, private domSanitizer: DomSanitizer) { 
 
     // DOB Date logic
         const today = new Date();
@@ -29,9 +34,13 @@ export class EmployeeOnboardingFormComponent implements OnInit {
         // Joining Date Logic
         
         // this.minJoiningDate = today.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
+
+        
   }
 
   ngOnInit(): void {
+    this.userPersonalInformationRequest.dob = this.getInitialDate();
+    console.log()
     this.getNewUserPersonalInformationMethodCall();
   }
 
@@ -44,26 +53,27 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   }
 
   isFileSelected = false;
-
+  imagePreviewUrl: any = null;
   onFileSelected(event: Event): void {
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
     if (fileList && fileList.length > 0) {
-      const file = fileList[0];
-      this.selectedFile = file;
-
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const imagePreview: HTMLImageElement = document.getElementById('imagePreview') as HTMLImageElement;
-        imagePreview.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-
-      this.uploadFile(file); 
+        const file = fileList[0];
+        this.selectedFile = file;
+        
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+            // Set the loaded image as the preview
+            this.imagePreviewUrl = e.target.result;
+        };
+        reader.readAsDataURL(file);
+        this.uploadFile(file);
     } else {
-      this.isFileSelected = false;
+        this.isFileSelected = false;
     }
-  }
+}
+  
+  
 
   
   
@@ -73,15 +83,19 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     const fileRef = this.afStorage.ref(filePath);
     const task = this.afStorage.upload(filePath, file);
   
-    task.snapshotChanges().pipe(
-      finalize(() => {
-        fileRef.getDownloadURL().subscribe(url => {
-
-          console.log("File URL:", url);
-          this.userPersonalInformationRequest.image=url;
-        });
-      })
-    ).subscribe();
+    task.snapshotChanges().toPromise().then(() => {
+      console.log("Upload completed");
+      fileRef.getDownloadURL().toPromise().then(url => {
+        console.log("File URL:", url);
+        this.userPersonalInformationRequest.image = url;
+      }).catch(error => {
+        console.error("Failed to get download URL", error);
+      });
+    }).catch(error => {
+      console.error("Error in upload snapshotChanges:", error);
+    });
+    
+    
 }
 
   
@@ -99,6 +113,11 @@ if(this.buttonType=='next'){
 } else if (this.buttonType=='save'){
   this.toggleSave = true;
 }
+if (this.userPersonalInformationRequest.department === 'Other') {
+  // Use the value from otherDepartment field
+  let department = this.userPersonalInformationRequest.department;
+  // ... submit the form with the custom department
+} 
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     
   
@@ -148,6 +167,8 @@ if(this.buttonType=='next'){
       this.dbImageUrl = url;
   }
 
+  
+
   isNewUser: boolean = true;
   isLoading:boolean = true;
   employeeOnboardingFormStatus:string|null=null;
@@ -158,6 +179,8 @@ if(this.buttonType=='next'){
     if (userUuid) {
         this.dataService.getNewUserPersonalInformation(userUuid).subscribe(
             (response: UserPersonalInformationRequest) => {
+             
+              
                 this.userPersonalInformationRequest = response;
                 this.isLoading = false;
                 this.employeeOnboardingFormStatus=response.employeeOnboardingStatus.response;
@@ -168,6 +191,11 @@ if(this.buttonType=='next'){
                 if(response.employeeOnboardingStatus.response == "PENDING"){
                   this.isNewUser = false;
                 }
+                if (response.employeeOnboardingFormStatus.response == 'USER_REGISTRATION_SUCCESSFUL' && 
+                (this.employeeOnboardingFormStatus == 'PENDING' || this.employeeOnboardingFormStatus == 'APPROVED')) {
+                this.routeToFormPreview();
+            }
+            
                 this.handleOnboardingStatus(response.employeeOnboardingStatus.response);
                 console.log(response);
                 if(response.dob){
@@ -225,13 +253,35 @@ displayModal = false;
     'Finance', 'Human Resources', 'Information Technology (IT)', 'Legal', 'Logistics',
     'Maintenance', 'Manufacturing', 'Marketing', 'Operations', 'Procurement',
     'Product Development', 'Project Management', 'Public Relations', 'Quality Assurance', 'Research and Development (R&D)',
-    'Sales', 'Supply Chain Management', 'Sustainability', 'Training and Development', 'Treasury', 'other'
+    'Sales', 'Supply Chain Management', 'Sustainability', 'Training and Development', 'Treasury'
 ];
 
+departmentInputValue?: string;
+positionInputValue?: string;
+nationalityInputValue?: string;
+departmentFilteredOptions: string[] = [];
+positionFilteredOptions: string[] = [];
+nationalityFilteredOptions: string[] = [];
 
-selectDepartment(dept: string): void {
-  this.userPersonalInformationRequest.department = dept;
+
+onChange(value: string, type: string): void {
+  if (type === 'department') {
+      this.departmentFilteredOptions = this.departments.filter(option => option.toLowerCase().includes(value.toLowerCase()));
+  } else if (type === 'position') {
+      this.positionFilteredOptions = this.jobTitles.filter(option => option.toLowerCase().includes(value.toLowerCase()));
+  } else if (type === 'nationality') {
+      this.nationalityFilteredOptions = this.nationalities.filter(option => option.toLowerCase().includes(value.toLowerCase()));
+  }
 }
+
+
+// Function to select department
+// selectDepartment(dept: string): void {
+//   this.userPersonalInformationRequest.department = dept;
+//   // this.filteredDepartments = [];
+  
+// }
+
 
 selectNationality(name: string): void {
   this.userPersonalInformationRequest.nationality = name;
@@ -474,5 +524,47 @@ routeToFormPreview() {
 },2000)
 }
 
+// In your component
+
+calculate18YearsAgo(): Date {
+  // const currentYear = new Date().getFullYear();
+  // const date18YearsAgo = new Date();
+  // date18YearsAgo.setFullYear(currentYear - 18);
+  // return date18YearsAgo;
+  const currentDate = new Date();
+    return new Date(currentDate.getFullYear() - 18, currentDate.getMonth(), currentDate.getDate());
+}
+
+disabledDate = (current: Date): boolean => {
+  // Disable dates that are less than 18 years ago
+  return current && current > this.calculate18YearsAgo();
+};
+
+
+getInitialDate(): Date {
+  debugger
+  const today = new Date();
+  const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+  // Check if the calculated date is disabled. If it is, adjust accordingly.
+  if (this.disabledDate(eighteenYearsAgo)) {
+    return today; 
+  }
+
+  return eighteenYearsAgo;
+}
+
+// routeToPreviewFormIfStatusPending() {
+//   let navExtra: NavigationExtras = {
+//       queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') }
+//   };
+
+//   this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
+// }
+
 
 }
+function finalize(arg0: () => void): import("rxjs").OperatorFunction<import("firebase/compat").default.storage.UploadTaskSnapshot | undefined, unknown> {
+  throw new Error('Function not implemented.');
+}
+

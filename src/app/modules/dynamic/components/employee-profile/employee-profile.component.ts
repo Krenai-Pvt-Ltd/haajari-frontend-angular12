@@ -104,14 +104,22 @@ export class EmployeeProfileComponent implements OnInit {
   newDate: string = ''
   count: number = 0;
 
+  ADMIN = Key.ADMIN;
+  MANAGER = Key.MANAGER;
+  USER = Key.USER;
+
+  // tokenUserRoleFlag:boolean=false;
   currentDate: Date = new Date();
   currentNewDate: any;
   ngOnInit(): void {
     this.ROLE=this.roleService.getRole();
     this.UUID=this.roleService.getUUID();
-    if(this.ROLE=="ADMIN"){
+    if(this.ROLE==this.ADMIN){
     this.adminRoleFlag=true;
     }
+    // if(this.ROLE==this.USER){
+    //   this.tokenUserRoleFlag==true;
+    // }
     if(this.userId==this.UUID){
       this.userRoleFlag=true;
     }
@@ -618,6 +626,7 @@ export class EmployeeProfileComponent implements OnInit {
         // console.log(data);
         // console.log(data.body);
         this.submitLeaveLoader=false;
+        this.isLeavePlaceholder=false;
         this.getUserLeaveReq();
         this.resetUserLeave();
         this.formGroupDirective.resetForm();

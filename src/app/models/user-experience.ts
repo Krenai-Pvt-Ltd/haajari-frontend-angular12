@@ -10,6 +10,7 @@ export class UserExperience {
     directSave: boolean = false;
     employeeOnboardingFormStatus: string = '';
     employeeOnboardingStatus: string = '';
-    startDate!: '';
-    endDate!: '';
+    startDate?: Date | null; // Can be Date, null, or undefined
+    endDate?: Date | null;
+    dateRange?: [Date | null, Date | null];
 }

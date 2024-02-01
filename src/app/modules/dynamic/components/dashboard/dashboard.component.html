@@ -285,7 +285,7 @@
                             <div class="card-body" style="display:flex; gap:20px; align-items: center; padding: 0px !important; padding-bottom: 10px !important;">
                                 <ng-container *ngIf="lateEmployeeAttendanceDetailsResponse.image !== null; else imageNull">
                                     <div>
-                                        <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:60px; border-radius:50%">
+                                        <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:60px; height: 60px; border-radius:50%">
                                     </div>
                                 </ng-container>
                                 <ng-template #imageNull>
@@ -509,7 +509,7 @@
                                                   </div>
                                             </ng-container>
                                             <ng-template #downloadingCondition>
-                                                <div class="dropdown col-md-3" >
+                                                <div class="dropdown " >
                                                     <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="attendanceReportResponseList.length === 0" style="display: flex; justify-content: space-evenly; align-items: center;">
                                                       Downloading
                                                       <!-- <div class="spinner-border" role="status">
@@ -674,12 +674,12 @@
                                                         </td>
                                                         
                                                         <td class="text-center">{{attendanceReportResponse.present}}</td>
-                                                        <td class="text-center">{{attendanceReportResponse.absentUpToToday}}</td>
+                                                        <td class="text-center">0</td>
                                                         <td class="text-center">{{attendanceReportResponse.halfDays}}</td>
                                                         <td class="text-center">{{attendanceReportResponse.overTime}}</td>
                                                         <td class="text-center">{{attendanceReportResponse.paidLeave}}</td>
                                                         <td class="text-center">{{attendanceReportResponse.unpaidLeave}}</td>
-                                                        <td class="text-center">{{attendanceReportResponse.unmarked}}</td>
+                                                        <td class="text-center">0</td>
                                                         <td class="text-center">{{attendanceReportResponse.totalPayOutDays}}</td>
                                                     </tr>
                                                     <tr class="collapse" [attr.id]="'collapseExamplesheet' + i">

@@ -44,7 +44,7 @@
                                             <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> JPEG, JPG or PNG (max. 100px*100px)</span>
                                         </label>
                                     </div>
-                                    <div *ngIf="!dbImageUrl && image?.touched">
+                                    <div *ngIf="!dbImageUrl && image?.dirty">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="image.errors?.required"><i class="bi bi-exclamation-circle"></i> Profile Picture is required.</p>
                                     </div>
                                     
@@ -57,7 +57,8 @@
 
                                   <div class="col-md-3">
                                     <div style="text-align: center; margin-top: 30px; display: flex; align-items: center; justify-content: center;">
-                                        <img id="imagePreview" [src]="dbImageUrl || 'assets/images/user.png'" alt="Profile Preview" style="max-width: 90px; max-height: 90px; border-radius: 6px"/>
+                                        <img id="imagePreview" [src]="imagePreviewUrl || dbImageUrl || 'assets/images/user.png'" alt="Profile Preview" style="max-width: 90px; max-height: 90px; border-radius: 6px"/>
+
                                     </div>
                                   </div>
                                 
@@ -97,7 +98,7 @@
                             <div class="col-md-6">
                               <div class="mb-3">
                                   <label for="phoneField" class="pb-2">Phone <span class="text-optional">*</span></label>
-                                  <input type="text" ng2TelInput class="form-control" id="phoneField" name="phone" aria-describedby="phoneHelp" placeholder="Enter phone"
+                                  <input type="text" mask="0000000000" class="form-control" id="phoneField" name="phone" aria-describedby="phoneHelp" placeholder="Enter phone"
                                          [(ngModel)]="userPersonalInformationRequest.phoneNumber"
                                          minlength="10" maxlength="10" required #phone="ngModel" pattern="[0-9]*">
                               </div>
@@ -113,6 +114,9 @@
                                   </p>
                               </div>
                           </div>
+
+                
+                        
                           
                           
 <!--                             
@@ -129,7 +133,7 @@
                             </div>
                         </div> -->
 
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="dobField" class="pb-2">DOB <span class="text-optional">*</span></label>
                                 <input type="date" class="form-control" id="dobField" name="dob" aria-describedby="dobHelp" placeholder="Enter DOB" [(ngModel)]="userPersonalInformationRequest.dob" [max]="maxDob" required #dob="ngModel">
@@ -139,7 +143,31 @@
                                     <i class="bi bi-exclamation-circle"></i> DOB is required.
                                 </p>
                             </div>
-                        </div>
+                        </div> -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                              <label for="dobField" class="pb-2">DOB <span class="text-optional">*</span></label>
+                              <br>
+                              <nz-date-picker 
+                              
+                                id="dobField" 
+                                name="dob"
+                                #dob="ngModel"
+                                [(ngModel)]="userPersonalInformationRequest.dob"
+                                required
+                                nzPlaceHolder="Select DOB"
+                                [nzDisabledDate]="disabledDate">
+                              </nz-date-picker>
+                          
+                              <!-- Error Messages -->
+                              <div *ngIf="dob?.touched">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="dob.errors?.required">
+                                  <i class="bi bi-exclamation-circle"></i> DOB is required.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          
                         
                         
                         <div class="col-md-6">
@@ -156,7 +184,7 @@
                                       <li><a class="dropdown-item" (click)="userPersonalInformationRequest.gender = 'Transgender'">Transgender</a></li>
                                   </ul>
                               </div>
-                              <input type="hidden" [(ngModel)]="userPersonalInformationRequest.gender" required #genderInput="ngModel">
+                              <input name="genderInput" type="hidden" [(ngModel)]="userPersonalInformationRequest.gender" required #genderInput="ngModel">
                               <div *ngIf="genderInput?.touched">
                                   <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="genderInput.errors?.required">
                                       <i class="bi bi-exclamation-circle"></i> Gender selection is required.
@@ -199,7 +227,7 @@
                                   <li><a class="dropdown-item" (click)="userPersonalInformationRequest.maritalStatus = 'Seperated'">Separated</a></li>
                               </ul>
                           </div>
-                          <input type="hidden" [(ngModel)]="userPersonalInformationRequest.maritalStatus" required #maritalStatus="ngModel">
+                          <input name="maritalStatus" type="hidden" [(ngModel)]="userPersonalInformationRequest.maritalStatus" required #maritalStatus="ngModel">
                           <div *ngIf="maritalStatus?.touched">
                               <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="maritalStatus.errors?.required">
                                   <i class="bi bi-exclamation-circle"></i> Marital status selection is required.
@@ -209,7 +237,7 @@
                   </div>
                   
                         
-                  <div class="col-md-6">
+                  <!-- <div class="col-md-6">
                     <div class="mb-3">
                         <label for="joiningDateField" class="pb-2">Joining Date <span class="text-optional">*</span></label>
                         <input type="date" class="form-control" id="joiningDateField" name="joiningDate" placeholder="Enter joining date" [(ngModel)]="userPersonalInformationRequest.joiningDate" required #joiningDate="ngModel">
@@ -217,13 +245,32 @@
                             <p class="errortxt mt-2 mb-0" *ngIf="joiningDate.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Joining date is required.</p>
                         </div>
                     </div>
-                </div>
-                
-                
+                </div> -->
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="joiningDate" class="pb-2">Joining Date <span class="text-optional">*</span></label>
+                      <br>
+                      <nz-date-picker 
+                        id="joiningDate" 
+                        name="joiningDate"
+                        #joiningDate="ngModel"
+                        [(ngModel)]="userPersonalInformationRequest.joiningDate" 
+                        required 
+                        nzPlaceHolder="Select Joining Date">
+                    </nz-date-picker>
+                      <div *ngIf="joiningDate.touched">
+                        <p class="errortxt mt-2 mb-0" *ngIf="joiningDate.errors?.required" style="color:red">
+                          <i class="bi bi-exclamation-circle"></i> Joining date is required.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
                 <div class="col-md-6">
                   <div class="mb-3">
                       <label for="currentSalaryField" class="pb-2">Current Salary <span class="text-optional"> (optional)</span></label>
-                      <input type="text" class="form-control" id="currentSalaryField" name="currentSalary" placeholder="Enter current salary" [(ngModel)]="userPersonalInformationRequest.currentSalary"  pattern="^[0-9]*$" #currentSalary="ngModel">
+                      <input type="text" mask="0000000000" class="form-control" id="currentSalaryField" name="currentSalary" placeholder="Enter current salary" [(ngModel)]="userPersonalInformationRequest.currentSalary"  pattern="^[0-9]*$" #currentSalary="ngModel">
                       <div *ngIf="currentSalary.touched">
                           <p class="errortxt mt-2 mb-0" *ngIf="currentSalary.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Current salary is required.</p>
                           <p class="errortxt mt-2 mb-0" *ngIf="currentSalary.errors?.pattern" style="color:red"> <i class="bi bi-exclamation-circle"></i> Please enter a valid number.</p>
@@ -234,16 +281,29 @@
               <div class="col-md-6">
                 <div class="mb-3">
                     <label for="departmentDropdown" class="pb-2">Department <span class="text-optional">*</span></label>
-                    <div class="dropdown" style="width: 100%;">
-                        <button type="button" id="departmentDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="department">
+                    <!-- <div class="dropdown" style="width: 100%;"> -->
+                        <!-- <button type="button" id="departmentDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="department">
                             {{ userPersonalInformationRequest.department || 'Select Department' }}
                             <i class="bi bi-chevron-down"></i>
-                        </button>
-                        <ul aria-labelledby="departmentDropdown" class="dropdown-menu nationality-dropdown" style="width: 100%;">
+                        </button> -->
+                        <!-- <ul aria-labelledby="departmentDropdown" class="dropdown-menu nationality-dropdown" style="width: 100%;">
                             <li *ngFor="let dept of departments"><a class="dropdown-item" (click)="selectDepartment(dept)">{{ dept }}</a></li>
-                        </ul>
-                    </div>
-                    <input type="hidden" [(ngModel)]="userPersonalInformationRequest.department" required #department="ngModel">
+                        </ul> -->
+                    <!-- </div> -->
+                    <!-- <input type="hidden" [(ngModel)]="userPersonalInformationRequest.department" required #department="ngModel"> -->
+                    <input
+                        class="seach-dropdown"
+                        id="departmentDropdown"
+                        name="departmentDropdown"
+                        placeholder='Select Department'
+                        nz-input
+                        [(ngModel)]="this.userPersonalInformationRequest.department"
+                        (ngModelChange)="onChange($event, 'department')"
+                        [nzAutocomplete]="departmentAuto"
+                        required #department="ngModel"
+                        
+                    />
+                    <nz-autocomplete [nzDataSource]="departmentFilteredOptions" #departmentAuto></nz-autocomplete>
                     <div *ngIf="department?.touched">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="department.errors?.required">
                             <i class="bi bi-exclamation-circle"></i> Department selection is required.
@@ -257,16 +317,29 @@
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="positionDropdown" class="pb-2">Position <span class="text-optional">*</span></label>
-                    <div class="dropdown" style="width: 100%;">
-                        <button type="button" id="positionDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="position">
+                    <!-- <div class="dropdown" style="width: 100%;"> -->
+                        <!-- <button type="button" id="positionDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="position">
                             {{ userPersonalInformationRequest.position || 'Select Position' }}
                             <i class="bi bi-chevron-down"></i>
                         </button>
                         <ul aria-labelledby="positionDropdown" class="dropdown-menu nationality-dropdown" style="width: 100%;">
                             <li *ngFor="let title of jobTitles"><a class="dropdown-item" (click)="selectCurrentPosition(title)">{{ title }}</a></li>
-                        </ul>
-                    </div>
-                    <input type="hidden" [(ngModel)]="userPersonalInformationRequest.position" required #position="ngModel">
+                        </ul> -->
+                    <!-- </div> -->
+                    <!-- <input type="hidden" [(ngModel)]="userPersonalInformationRequest.position" required #position="ngModel"> -->
+                    <input
+                    class="seach-dropdown"
+                    id="positionDropdown"
+                    name="positionDropdown"
+                    placeholder='Select Position'
+                    nz-input
+                    [(ngModel)]="this.userPersonalInformationRequest.position"
+                    (ngModelChange)="onChange($event, 'position')"
+                    [nzAutocomplete]="positionAuto"
+                    required #position="ngModel"
+                    
+                />
+                <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
                     <div *ngIf="position?.touched">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="position.errors?.required">
                             <i class="bi bi-exclamation-circle"></i> Position selection is required.
@@ -280,7 +353,7 @@
           <div class="col-md-6">
             <div class="mb-3">
                 <label for="nationalityDropdown" class="pb-2">Nationality <span class="text-optional">*</span></label>
-                <div class="dropdown" style="width: 100%;">
+                <!-- <div class="dropdown" style="width: 100%;">
                     <button type="button" id="nationalityDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" name="nationality">
                         {{ userPersonalInformationRequest.nationality || 'Select Nationality' }}
                         <i class="bi bi-chevron-down"></i>
@@ -290,8 +363,21 @@
                         <li *ngFor="let country of nationalities"><a class="dropdown-item" (click)="selectNationality(country)">{{ country }}</a></li>
 
                     </ul>
-                </div>
-                <input type="hidden" [(ngModel)]="userPersonalInformationRequest.nationality" required #nationality="ngModel">
+                </div> -->
+                <!-- <input type="hidden" [(ngModel)]="userPersonalInformationRequest.nationality" required #nationality="ngModel"> -->
+                <input
+                class="seach-dropdown"
+                id="nationalityDropdown"
+                name="nationalityDropdown"
+                placeholder='Select Nationality'
+                nz-input
+                [(ngModel)]="this.userPersonalInformationRequest.nationality"
+                (ngModelChange)="onChange($event, 'nationality')"
+                [nzAutocomplete]="nationalityAuto"
+                required #nationality="ngModel"
+                
+            />
+            <nz-autocomplete [nzDataSource]="nationalityFilteredOptions" #nationalityAuto></nz-autocomplete>
                 <div *ngIf="nationality?.touched">
                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="nationality.errors?.required">
                         <i class="bi bi-exclamation-circle"></i> Nationality is required.

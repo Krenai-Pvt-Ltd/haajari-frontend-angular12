@@ -340,7 +340,7 @@ select.form-control {
 
 .add-note a {
     font-size: 14px;
-    color: #6666f3;
+    color: #6666f3 !important;
     font-weight: 500;
 }
 
@@ -379,7 +379,7 @@ select.form-control {
 }
 .add-filtter a{
     margin-bottom: 0px;
-    color: #6666f3;
+    color: #6666f3 !important;
     font-size: 15px;
     font-weight: 500;
    cursor: pointer;
@@ -821,4 +821,11 @@ td.text-right {
 .Regular-data h5:hover{
     color: #6666f3 !important;
     text-decoration: underline;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff !important;
+    background-color: #6666f3;
+    border-color: #6666f3;
 }

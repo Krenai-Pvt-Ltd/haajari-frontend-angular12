@@ -191,9 +191,7 @@
             </div>
 
         </div>
-          <div
-            class="add-filtter d-flex align-items-center justify-content-end"
-            style="gap: 10px">
+          <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px" *ngIf="ROLE == ADMIN">
             <a>Unprocessed Logs <i class="bi bi-list-ol"></i></a>
             <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
             <a>Daily Report <i class="bi bi-download"></i></a>
@@ -224,32 +222,32 @@
           <div class="d-flex align-items-center justify-content-between">
             <div class="staf">
               <p>Total Staff</p>
-              <h5>{{activeUsersCount}}</h5>
+              <h5>{{attendanceDetailsCountResponse.total}}</h5>
             </div>
             <div class="staf">
               <p>Present</p>
-              <h5>{{presentUsersCount}}</h5>
+              <h5>{{attendanceDetailsCountResponse.present}}</h5>
             </div>
             <div class="staf">
               <p>Absent</p>
-              <h5>{{absentUsersCount}}</h5>
+              <h5>0</h5>
             </div>
             <div class="staf">
               <p>Not Marked</p>
-              <h5>0</h5>
+              <h5>{{attendanceDetailsCountResponse.absent}}</h5>
               <!-- <h5>{{halfDayUsers}}</h5> -->
             </div>
             <div class="staf">
               <p>Half Day</p>
-              <h5>0</h5>
+              <h5>{{attendanceDetailsCountResponse.halfDay}}</h5>
             </div>
             <div class="staf">
-              <p>OverTime Hours</p>
-              <h5>-</h5>
+              <p>OverTime</p>
+              <h5>{{attendanceDetailsCountResponse.overTime}}</h5>
             </div>
             <div class="staf">
-              <p>Paid Leave</p>
-              <h5>-</h5>
+              <p>On Leave</p>
+              <h5>{{attendanceDetailsCountResponse.onLeave}}</h5>
             </div>
           </div>
         </div>

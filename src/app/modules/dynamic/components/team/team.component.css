@@ -263,7 +263,7 @@ span.remove-icon:hover {
 }
 
 .create-team{
-    background-color: #6666f3;
+    background-color: #6666f3 !important;
     padding: 8px 20px;
     color: #fff;
 }
@@ -271,8 +271,8 @@ span.remove-icon:hover {
 .create-team:hover{
     background-color: #fff;
     padding: 8px 20px;
-    color: #6666f3;
-    border: 1px solid #6666f4;
+    color: #6666f3 !important;
+    border: 1px solid #6666f4 !important;
 }
 
 .img-group .avatar-badge {
@@ -317,7 +317,9 @@ span.remove-icon:hover {
     line-height: 1;
     vertical-align: text-bottom;
     -webkit-font-smoothing: antialiased;
+    
     -moz-osx-font-smoothing: grayscale;
+    
 }
 
 .Members-list-box {
@@ -419,7 +421,7 @@ span.remove-icon:hover {
 }
 
 .loading-btn {
-    border: 1px solid #6666f3;
+    border: 1px solid #6666f3 !important;
     background-color: #fff;
     padding: 2px 15px;
     border-radius: 6px;
@@ -430,7 +432,7 @@ span.remove-icon:hover {
 
 .add-filtter a {
     margin-bottom: 0px;
-    color: #6666f3;
+    color: #6666f3 !important;
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
@@ -1008,4 +1010,9 @@ button.btn.close-btn{
     }
   }
 
-
+  .page-item.active .page-link {
+    z-index: 3;
+    color: #fff !important;
+    background-color: #6666f3;
+    border-color: #6666f3;
+}

@@ -24,12 +24,20 @@ import { environment } from 'src/environments/environment';
 import { EmployeeOnboardingSidebarComponent } from './employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NumberToWordsPipe } from 'src/app/pipe/NumberToWordPipe';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzCalendarModule } from 'ng-zorro-antd/calendar';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+
 
 // import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 @NgModule({
   declarations: [
     
-    BankDetailsComponent,
+         BankDetailsComponent,
          EmployeeOnboardingFormComponent,
          EmployeeAddressDetailComponent,
          EmployeeDocumentComponent,
@@ -39,7 +47,8 @@ import { NumberToWordsPipe } from 'src/app/pipe/NumberToWordPipe';
          EmployeeOnboardingPreviewComponent,
          EmployeeOnboardingComponent,
          EmployeeOnboardingSidebarComponent,
-         NumberToWordsPipe
+         NumberToWordsPipe,
+         
          
   ],
   imports: [
@@ -55,6 +64,15 @@ import { NumberToWordsPipe } from 'src/app/pipe/NumberToWordPipe';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireMessagingModule,
+    NzDatePickerModule,
+    NzCalendarModule,
+    NgxMaskModule.forRoot(),
+    NgbModule,
+    NzAutocompleteModule,
+    NzDropDownModule,
+    NzIconModule
+  
+    
     
     // NgxMaskDirective,
     // NgxMaskPipe,

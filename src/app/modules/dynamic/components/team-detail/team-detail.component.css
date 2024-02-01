@@ -496,6 +496,7 @@ input:checked + .slider:before {
     line-height: 1;
     vertical-align: text-bottom;
     -webkit-font-smoothing: antialiased;
+    color: #6666f3;
     -moz-osx-font-smoothing: grayscale;
 }
 
