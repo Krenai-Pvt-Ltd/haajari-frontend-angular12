@@ -87,6 +87,10 @@ export class DashboardComponent implements OnInit {
     //   endDate: lastDayOfMonth
     // };
 
+    console.log(this.helperService.getModulesWithSubModules());
+
+    // this.getModulesWithTheirSubModulesMethodCall();
+
     this.decodedAccessToken = this.rbacService.getModules();
     debugger
     this.getAttendanceReportByDateDurationMethodCall();
@@ -101,6 +105,9 @@ export class DashboardComponent implements OnInit {
     // this.getDataFromDate();
     this.getTodaysLiveLeaveCount();
   }
+
+
+  
 
 
   isShimmer = false;
