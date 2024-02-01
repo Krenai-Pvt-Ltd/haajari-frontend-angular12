@@ -47,12 +47,12 @@ export class HelperService {
 
   moduleResponse: ModuleResponse[]=[];
 
-  getModulesWithSubModules(): any{
+  async getModulesWithSubModules(): Promise<any>{
     debugger
     this.dataService.getModulesWithTheirSubModules().subscribe((data : any) => {
-      this.moduleResponse = data;
+      console.log(data);
       console.log("data : " + this.moduleResponse); 
-      return this.moduleResponse;
+      return data;
     }, (error) => {
     })
   }
@@ -67,6 +67,7 @@ export class HelperService {
     } else {
         return "";
     }
+
   }
   
 
