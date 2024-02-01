@@ -48,12 +48,12 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = "http://localhost:8080/api/v2"
+  // private baseUrl = "http://localhost:8080/api/v2";
 
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  // private baseUrl = "https://production.hajiri.work/api/v2";
+  private baseUrl = "https://production.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -987,13 +987,26 @@ stepIndex:number=-1;
     );
   }
 
-  getAttendanceReportByDateDuration(startDate : string, endDate : string): Observable<any>{
+  getAttendanceReportByDateDuration(startDate : string, endDate : string, pageNumber : number, itemPerPage : number, search : string, searchBy : string): Observable<any>{
 
     const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set("page_number", pageNumber.toString())
+    .set("item_per_page", itemPerPage.toString())
+    .set('search', search)
+    .set('search_by', searchBy);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration`, {params});
+  }
+
+  getDayWiseStatus(userUuid : string,startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set("user_uuid", userUuid)
     .set("start_date", startDate)
     .set("end_date", endDate);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-day-wise-status`, {params});
   }
 
   getAttendanceReportByDateDurationByUser(startDate : string, endDate : string): Observable<any>{
@@ -1117,6 +1130,21 @@ stepIndex:number=-1;
   setReasonOfRejection(userUuid: string, reasonOfRejectionProfile: ReasonOfRejectionProfile): Observable<any> {
     const url = `${this.baseUrl}/employee-onboarding-status/save-rejection-reason?userUuid=${userUuid}`;
     return this.httpClient.put<any>(url, reasonOfRejectionProfile);
+}
+
+statusResponseMailToUser(userUuid:string, requestString:string): Observable<any> {
+
+  const params = new HttpParams()
+    .set("userUuid", userUuid)
+    .set("requestString", requestString);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/notification/send/statusNotification/user`, {}, {params});
+}
+
+getAttendanceDetailsCount(date : string): Observable<any> {
+  const params = new HttpParams().set("date", date);
+
+  return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-count`, {params});
 }
 
 }

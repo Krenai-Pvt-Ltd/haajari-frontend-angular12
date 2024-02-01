@@ -1,12 +1,18 @@
+import { DayWiseStatus } from "./day-wise-status";
 import { UserDetailsResponse } from "./user-details-response";
 
 export class AttendanceReportResponse {
-    userDetailsResponse : UserDetailsResponse = new UserDetailsResponse();
-    presentDaysCount : number = 0
-	absentDaysCount : number = 0;
-	halfDaysCount : number = 0;
-	paidLeaveCount : number = 0;
-	unmarkedCount : number = 0;
-	overtimeDaysCount : number = 0;
-	totalAttendanceCount : number = 0;
+	userUuid : string = '';
+    userName : string = '';
+	userEmail : string = '';
+	userImage : string = '';
+	present : number = 0;
+	absentUpToToday : number = 0;
+	halfDays : number = 0;
+	overTime : number = 0;
+	unmarked : number = 0;
+	paidLeave : number = 0;
+	unpaidLeave : number = 0;
+	totalPayOutDays : number = 0;
+	dayWiseStatusList : DayWiseStatus[] = [];
 }

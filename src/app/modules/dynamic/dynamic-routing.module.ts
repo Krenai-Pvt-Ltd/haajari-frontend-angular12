@@ -32,36 +32,37 @@ import { EmployeeOnboardingDataComponent } from './components/employee-onboardin
 import { BillingPaymentComponent } from './components/billing-payment/billing-payment.component';
 import { SuccessComponent } from './components/success/success.component';
 import { EmployeeLocationValidatorComponent } from './employee-location-validator/employee-location-validator.component';
+import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.component';
 
 
   const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
     { path: '', component: DynamicComponent,
   children:[
-    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},  //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
-    { path: 'timetable', component: TimetableComponent, canActivate: [AuthGuard]},
-    { path: 'project', component: ProjectComponent},
-    { path: 'team', component: TeamComponent, canActivate: [AuthGuard]},
-    { path: 'task-manager', component: TaskManagerComponent, canActivate: [AuthGuard]},
-    { path: 'live-manager', component: LiveManagerComponent, canActivate: [AuthGuard]},
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/dashboard' } }, //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
+    { path: 'timetable', component: TimetableComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/timetable' }},
+    { path: 'project', component: ProjectComponent, data: { requiredSubmodule: '/project' }},
+    { path: 'team', component: TeamComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/team' }},
+    { path: 'task-manager', component: TaskManagerComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/task-manager' }},
     { path: 'onboarding', component: OnboardingComponent, canActivate: [AuthGuard]},
-    { path: 'payment', component: PaymentComponent , canActivate: [AuthGuard]},
+    { path: 'payment', component: PaymentComponent , canActivate: [AuthGuard], data: { requiredSubmodule: '/payment' }},
     { path: 'userlist', component: UserlistComponent , canActivate: [AuthGuard]},
     {path: 'waiting', component: WaitingPageComponent},
-    {path: 'team-detail', component: TeamDetailComponent, canActivate: [AuthGuard]},
+    {path: 'team-detail', component: TeamDetailComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/team-detail' }},
     {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]}, 
     {path: 'employee-onboarding-data', component: EmployeeOnboardingDataComponent, canActivate: [AuthGuard]},
-    {path: 'role', component: RoleComponent},
+    {path: 'role', component: RoleComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/role' }},
     {path: 'employee-onboarding-sidebar', component: EmployeeOnboardingSidebarComponent},
-    {path: 'reports', component: ReportsComponent},
-    {path: 'employee-profile', component: EmployeeProfileComponent},
+    {path: 'reports', component: ReportsComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/reports' }},
+    {path: 'employee-profile', component: EmployeeProfileComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/employee-profile' }},
     {path: 'testing', component: TestingComponent},
-    {path: 'privacy', component: PrivacyComponent},
-    {path: 'support', component: SupportComponent},
-    {path : 'add-role', component: RoleAddComponent},
-    {path : 'billing', component: BillingComponent},
-    {path : 'billing-payment', component: BillingPaymentComponent},
+    {path: 'privacy', component: PrivacyComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/privacy' }},
+    {path: 'support', component: SupportComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/support' }},
+    {path : 'add-role', component: RoleAddComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/add-role' }},
+    {path : 'billing', component: BillingComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/billing' }},
+    {path : 'billing-payment', component: BillingPaymentComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/billing-payment' }},
     {path : 'success', component: SuccessComponent},
-    {path : 'location-validator', component: EmployeeLocationValidatorComponent}
+    {path : 'location-validator', component: EmployeeLocationValidatorComponent},
+    {path : 'unauthorized', component: UnauthorizedComponent}
   ] }
   ];
 
