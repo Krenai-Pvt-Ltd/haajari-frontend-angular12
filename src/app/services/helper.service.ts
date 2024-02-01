@@ -1,14 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { DataService } from './data.service';
+import { ModulesWithSubmodules } from '../models/modules-with-submodules';
+import { ModuleResponse } from '../models/module-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HelperService {
 
-  constructor( private httpClient : HttpClient) { }
+  constructor( private httpClient : HttpClient, private dataService: DataService) { }
 
   getDecodedValueFromToken(){
     const token = localStorage.getItem('token');
@@ -42,6 +45,17 @@ export class HelperService {
     }
   }
 
+  moduleResponse: ModuleResponse[]=[];
+
+  getModulesWithSubModules(): any{
+    debugger
+    this.dataService.getModulesWithTheirSubModules().subscribe((data : any) => {
+      this.moduleResponse = data;
+      console.log("data : " + this.moduleResponse); 
+      return this.moduleResponse;
+    }, (error) => {
+    })
+  }
 
   getFirstAndLastLetterFromName(name: string): string {
     let words = name.split(' ');
