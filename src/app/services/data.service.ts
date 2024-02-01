@@ -48,12 +48,12 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  // private baseUrl = "http://localhost:8080/api/v2";
+  private baseUrl = "http://localhost:8080/api/v2";
 
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  private baseUrl = "https://production.hajiri.work/api/v2";
+  // private baseUrl = "https://production.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -1145,6 +1145,10 @@ getAttendanceDetailsCount(date : string): Observable<any> {
   const params = new HttpParams().set("date", date);
 
   return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-count`, {params});
+}
+
+getModulesWithTheirSubModules(): Observable<any>{
+  return this.httpClient.get<any>(`${this.baseUrl}/role/get-sub-module-by-id`);
 }
 
 }
