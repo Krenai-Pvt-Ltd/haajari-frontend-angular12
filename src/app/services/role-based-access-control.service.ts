@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HelperService } from './helper.service';
+import { ModulesWithSubmodules } from '../models/modules-with-submodules';
+import { ModuleResponse } from '../models/module-response';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +27,9 @@ export class RoleBasedAccessControlService {
     return this.userInfo.modules;
   }
 
-  hasAccessToSubmodule(submoduleRouteValue: string): boolean {
-    // const modules = this.getModules();
+  moduleResponse: ModuleResponse[]=[];
 
+  hasAccessToSubmodule(submoduleRouteValue: string): boolean {
     const modules = [
       {
           "id": 1,
@@ -438,6 +440,9 @@ export class RoleBasedAccessControlService {
           ]
       }
   ];
+
+// this.moduleResponse = this.helperService.getModulesWithSubModules();
+// const modules = this.moduleResponse;
 
     for (const module of modules) {
       if (module.subModules.some((subModule: { description: string; isAccessible: any; }) => subModule.description === submoduleRouteValue && subModule.isAccessible)) {

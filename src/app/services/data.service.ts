@@ -1147,4 +1147,8 @@ getAttendanceDetailsCount(date : string): Observable<any> {
   return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-count`, {params});
 }
 
+getModulesWithTheirSubModules(): Observable<any>{
+  return this.httpClient.get<any>(`${this.baseUrl}/role/get-sub-module-by-id`);
+}
+
 }
