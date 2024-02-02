@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
 import { DataService } from 'src/app/services/data.service';
@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private router: Router, 
+    private route: ActivatedRoute,
     private helperService: HelperService,
     private _data: DataService, 
     private rbacService: RoleBasedAccessControlService
@@ -23,6 +24,19 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLoggedInUserDetails();
+
+    this.route.queryParams.subscribe(params => {
+      const setting = params['setting'];
+      if (setting === 'accountDetails') {
+        this.activeTab = 'accountDetails';
+      } else if (setting === 'security') {
+        this.activeTab = 'security';
+      } else if (setting === 'profilePreferences') {
+        this.activeTab = 'profilePreferences';
+      } else if (setting === 'referralProgram') {
+        this.activeTab = 'referralProgram';
+      }
+    });
 
   }
 
@@ -76,7 +90,7 @@ export class HeaderComponent implements OnInit {
 
   routeToSeetings(settingType:string){
     debugger
-   this.activeTab=settingType;
+  //  this.activeTab=settingType;
     let navigationExtra : NavigationExtras = {
       queryParams : {"setting": settingType},
     }
