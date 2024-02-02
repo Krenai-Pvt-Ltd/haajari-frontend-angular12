@@ -60,6 +60,7 @@ export class DashboardComponent implements OnInit {
   startDateStr: string = '';
   endDateStr: string = '';
   month: string = '';
+  inputDate : string = '';
 
   PRESENT = Key.PRESENT;
   ABSENT = Key.ABSENT;
@@ -92,8 +93,9 @@ export class DashboardComponent implements OnInit {
 
     // this.getModulesWithTheirSubModulesMethodCall();
 
-    this.decodedAccessToken = this.rbacService.getModules();
+    // this.decodedAccessToken = this.rbacService.getModules();
     debugger
+    this.getAttendanceDetailsCountMethodCall();
     this.getAttendanceReportByDateDurationMethodCall();
 
     this.getLateEmployeeAttendanceDetailsMethodCall();
@@ -105,6 +107,9 @@ export class DashboardComponent implements OnInit {
 
     // this.getDataFromDate();
     this.getTodaysLiveLeaveCount();
+
+
+    // this.inputDate = this.getCurrentDate();
   }
 
 
@@ -661,6 +666,7 @@ getDataFromDate(): Promise<any> {
   attendanceDetailsCountResponse : AttendanceDetailsCountResponse = new AttendanceDetailsCountResponse();
   getAttendanceDetailsCountMethodCall(){
     this.dataService.getAttendanceDetailsCount(this.getCurrentDate()).subscribe((response) => {
+      debugger
       this.attendanceDetailsCountResponse = response.object;
     }, (error) => {
       console.log(error);
