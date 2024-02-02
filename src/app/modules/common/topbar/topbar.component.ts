@@ -62,6 +62,22 @@ export class TopbarComponent implements OnInit {
       routeValue = "Edit Role";
     }
 
+    if(routeValue.includes("account-settings?setting=accountDetails")){
+      routeValue = "Account Details";
+    }
+
+    if(routeValue.includes("account-settings?setting=security")){
+      routeValue = "Security";
+    }
+
+    if(routeValue.includes("account-settings?setting=profilePreferences")){
+      routeValue = "Profile Preferences";
+    }
+
+    if(routeValue.includes("account-settings?setting=referralProgram")){
+      routeValue = "Referral Program";
+    }
+
     this.topbarValue = this.capitalizeFirstLetter(routeValue);
   }
 

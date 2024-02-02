@@ -8,23 +8,23 @@
                     <ul id="myTab" role="tablist" class="nav nav-tabs">
 
                         <li role="presentation" class="nav-item">
-                            <button id="account-setting-tab" data-bs-toggle="tab" data-bs-target="#account-setting" type="button" role="tab" aria-controls="account-setting" aria-selected="true" class="nav-link" [ngClass]="{'active': !_data.activeTab}" #account >Account Details  </button>
+                            <button id="account-setting-tab" data-bs-toggle="tab" [ngClass]="{'active': accountDetailsTab == 'accountDetails'}" data-bs-target="#account-setting" type="button" role="tab" aria-controls="account-setting" aria-selected="true" class="nav-link" #account >Account Details  </button>
                         </li>
                         <li role="presentation" class="nav-item">
-                            <button id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="false" class="nav-link">Security  </button>
+                            <button id="settingSecure" data-bs-toggle="tab" [ngClass]="{'active': accountDetailsTab == 'security'}" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="false" class="nav-link" #settingSecure>Security  </button>
                         </li>
-                            <li role="presentation" class="nav-item">
-                                <button id="profile-preferences-tab" data-bs-toggle="tab" data-bs-target="#profile-preferences" type="button" role="tab" aria-controls="profile-preferences" aria-selected="false" class="nav-link"> Profile preferences </button>
-                            </li>
-                            
-                            <li role="presentation" class="nav-item">
-                                <button id="referral-program-tab" data-bs-toggle="tab" data-bs-target="#referral-program" type="button" role="tab" aria-controls="referral-program" aria-selected="false" class="nav-link" [ngClass]="{'active': _data.activeTab}" #refer > Referral Program </button>
-                            </li>
+                        <li role="presentation" class="nav-item">
+                            <button id="profile-preferences-tab" data-bs-toggle="tab" [ngClass]="{'active': accountDetailsTab == 'profilePreferences'}" data-bs-target="#profile-preferences" type="button" role="tab" aria-controls="profile-preferences" aria-selected="false" class="nav-link" #profilePreferencesSetting> Profile preferences </button>
+                        </li>
+                        
+                        <li role="presentation" class="nav-item">
+                            <button id="referral-program-tab" data-bs-toggle="tab" [ngClass]="{'active': accountDetailsTab == 'referralProgram'}" data-bs-target="#referral-program" type="button" role="tab" aria-controls="referral-program" aria-selected="false" class="nav-link" #refer > Referral Program </button>
+                        </li>
                     </ul>
 
                     <div class="tab-content" id="myTabContent">
 
-                        <div class="tab-pane fade show mt-3" [ngClass]="{'active': !_data.activeTab}"  style="border: 1px solid #f1f1f1; box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);"  id="account-setting" role="tabpanel">
+                        <div class="tab-pane fade show mt-3" [ngClass]="{'active': accountDetailsTab == 'accountDetails'}"  style="border: 1px solid #f1f1f1; box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);"  id="account-setting" role="tabpanel">
 
                             <div class="row">
                                <div class="col-md-8 pr-0 mr-0" style="padding-right: 0px; margin-right: 0px;">
@@ -88,7 +88,7 @@
                             </div>
                             
                         </div>
-                        <div class="tab-pane fade show mt-3" id="security" role="tabpanel">
+                        <div class="tab-pane fade show mt-3" [ngClass]="{'active' : accountDetailsTab == 'security'}" id="security" role="tabpanel">
                             <div class="">
 
                                 <div class="security">
@@ -100,7 +100,7 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane fade mt-3" style="border: 1px solid #f1f1f1; box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);" id="profile-preferences" role="tabpanel">
+                        <div class="tab-pane fade show mt-3" [ngClass]="{'active': accountDetailsTab == 'profilePreferences'}" style="border: 1px solid #f1f1f1; box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);" id="profile-preferences" role="tabpanel">
                             <div class="">
                                 <div class="row">
                                     <div class="col-md-8 pr-0 mr-0" style="padding-right: 0px; margin-right: 0px;">
@@ -171,7 +171,7 @@
                                  </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade mt-3" [ngClass]="{'active': _data.activeTab}" id="referral-program" role="tabpanel">
+                        <div class="tab-pane fade show mt-3" [ngClass]="{'active': accountDetailsTab == 'referralProgram'}" id="referral-program" role="tabpanel">
                             <div class="">
 
                                 <div class="security">

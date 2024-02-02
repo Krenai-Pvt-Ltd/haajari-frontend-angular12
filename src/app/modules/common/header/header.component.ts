@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
 import { DataService } from 'src/app/services/data.service';
@@ -69,5 +69,17 @@ export class HeaderComponent implements OnInit {
     const modulesToShowForManager = ['dashboard', 'team', 'project', 'reports', 'attendance'];
     const modulesToShowForUser = ['team', 'project'];
     return role === Key.ADMIN || (role === Key.MANAGER && modulesToShowForManager.includes(moduleName)) || (role === Key.USER && modulesToShowForUser.includes(moduleName));
+  }
+  
+  activeTab:string='';
+
+
+  routeToSeetings(settingType:string){
+    debugger
+   this.activeTab=settingType;
+    let navigationExtra : NavigationExtras = {
+      queryParams : {"setting": settingType},
+    }
+    this.router.navigate(['/setting/account-settings'], navigationExtra);
   }
 }
