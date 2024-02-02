@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +16,7 @@ password: any;
   //accessTokensAr: any = localStorage.getItem("accessTokens") || [];
   //accessTokenArray: any = JSON.parse(this.accessTokensAr);
 
-  constructor(private dataService : DataService, private router : Router) { }
+  constructor(private dataService : DataService, private router : Router, private rbacService : RoleBasedAccessControlService, private helperService : HelperService, private authService : AuthService) { }
 
   ngOnInit(): void {
 
@@ -28,9 +31,14 @@ password: any;
     this.dataService.loginUser(this.email,this.password).subscribe(response =>{
       debugger
       console.log(response);
+      this.helperService.moduleResponseList=response.moduleResponseList
 
-      localStorage.setItem('token', response.access_token);
-      localStorage.setItem('refresh_token', response.refresh_token);
+      localStorage.setItem('token', response.tokenResponse.access_token);
+      localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
+      // this.rbacService.setModules(response.moduleResponseList);
+      // this.helperService.setModules(response.moduleResponseList);
+      console.log(this.authService.setUserData(response.moduleResponseList));
+
 
       this.router.navigate(['/dashboard']);
       

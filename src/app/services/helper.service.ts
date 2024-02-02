@@ -11,7 +11,23 @@ import { ModuleResponse } from '../models/module-response';
 })
 export class HelperService {
 
-  constructor( private httpClient : HttpClient, private dataService: DataService) { }
+  constructor( private httpClient : HttpClient, private dataService: DataService) {
+    debugger
+    this.getModules();
+   }
+
+  moduleResponseList: any[] = [];
+  setModules(moduleResponseList : any){
+    debugger
+    this.moduleResponseList = this.moduleResponseList;
+  }
+
+  getModules(){
+    return this.moduleResponseList;
+  }
+
+
+
 
   getDecodedValueFromToken(){
     const token = localStorage.getItem('token');
@@ -47,14 +63,18 @@ export class HelperService {
 
   moduleResponse: ModuleResponse[]=[];
 
-  async getModulesWithSubModules(): Promise<any>{
+  async getModulesWithSubModules(): Promise<any> {
     debugger
-    this.dataService.getModulesWithTheirSubModules().subscribe((data : any) => {
-      console.log(data);
-      console.log("data : " + this.moduleResponse); 
-      return data;
-    }, (error) => {
-    })
+    return new Promise((resolve, reject) => {
+      this.dataService.getModulesWithTheirSubModules().subscribe({
+        next: (data: any) => {
+          console.log(data);
+          console.log("data : " + this.moduleResponse);
+          resolve(data);
+        },
+        error: (error) => reject(error)
+      });
+    });
   }
 
   getFirstAndLastLetterFromName(name: string): string {

@@ -15,6 +15,7 @@ import { debounceTime } from 'rxjs/operators';
 import { BestPerformerAttendanceDetailsResponse } from 'src/app/models/best-performer-attendance-details-response';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { DayWiseStatus } from 'src/app/models/day-wise-status';
+import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
 
 @Component({
   selector: 'app-dashboard',
@@ -87,7 +88,7 @@ export class DashboardComponent implements OnInit {
     //   endDate: lastDayOfMonth
     // };
 
-    console.log(this.helperService.getModulesWithSubModules());
+    // console.log(this.helperService.getModulesWithSubModules());
 
     // this.getModulesWithTheirSubModulesMethodCall();
 
@@ -646,6 +647,23 @@ getDataFromDate(): Promise<any> {
     }, (error) => {
       console.log(error);
       this.downloadingFlag = false;
+    })
+  }
+
+  getCurrentDate(){
+    const todayDate = new Date();
+    const year = todayDate.getFullYear();
+    const month = (todayDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = todayDate.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  attendanceDetailsCountResponse : AttendanceDetailsCountResponse = new AttendanceDetailsCountResponse();
+  getAttendanceDetailsCountMethodCall(){
+    this.dataService.getAttendanceDetailsCount(this.getCurrentDate()).subscribe((response) => {
+      this.attendanceDetailsCountResponse = response.object;
+    }, (error) => {
+      console.log(error);
     })
   }
   

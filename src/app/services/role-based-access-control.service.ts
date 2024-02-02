@@ -1,36 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HelperService } from './helper.service';
 import { ModulesWithSubmodules } from '../models/modules-with-submodules';
 import { ModuleResponse } from '../models/module-response';
+import { resolve } from 'dns';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoleBasedAccessControlService {
+export class RoleBasedAccessControlService implements OnInit{
 
-
-  private userInfo: any;
-
-  constructor(private helperService: HelperService) {
-    this.userInfo = this.helperService.getDecodedValueFromToken();
-  }
-
-  getRole() {
-    return this.userInfo.role;
-  }
-
-  getUUID(){
-    return this.userInfo.uuid;
-  }
-
-  getModules() {
-    return this.userInfo.modules;
-  }
-
-  moduleResponse: ModuleResponse[]=[];
-
-  async hasAccessToSubmodule(submoduleRouteValue: string): Promise<boolean> {
-//     const modules = [
+  //     const modules = [
 //       {
 //           "id": 1,
 //           "name": "Dashboard",
@@ -443,15 +423,75 @@ export class RoleBasedAccessControlService {
 
 // this.moduleResponse = this.helperService.getModulesWithSubModules();
 
-debugger
-const modules = await this.helperService.getModulesWithSubModules();
 
-    for (const module of modules) {
-      if (module.subModules.some((subModule: { description: string; isAccessible: any; }) => subModule.description === submoduleRouteValue && subModule.isAccessible)) {
-        return true;
-      }
-    }
+  private userInfo: any;
 
-    return false;
+  constructor(private helperService: HelperService, private authService : AuthService) {
+    this.userInfo = this.helperService.getDecodedValueFromToken();
   }
+  ngOnInit(): void {
+    // this.modules = this.authService.getUserData();
+  }
+
+  getRole() {
+    return this.userInfo.role;
+  }
+
+  getUUID(){
+    return this.userInfo.uuid;
+  }
+
+  moduleResponseList: any[] = [];
+  setModules(moduleResponseList : any){
+    this.moduleResponseList = this.moduleResponseList;
+  }
+
+  getModules() {
+    return this.moduleResponseList;
+  }
+
+  // modules : any[] = [];
+  
+
+  // async hasAccessToSubmodule(submoduleRouteValue: string): Promise<boolean> {
+
+  //     debugger
+  //     const modules = await this.helperService.getModulesWithSubModules();
+
+  //     for (const module of modules) {
+  //       if (module.subModules.some((subModule: { description: string; isAccessible: any; }) => subModule.description === submoduleRouteValue && subModule.isAccessible)) {
+  //         return true;
+  //       }
+  //     }
+
+  //   return false;
+  // }
+
+
+
+  
+  async hasAccessToSubmodule(submoduleRouteValue: string): Promise<boolean> {
+    debugger
+    return new Promise<boolean>(async (resolve, reject) => {
+      try {
+        // const modules = await this.helperService.getModulesWithSubModules();
+
+        let modules = this.helperService.getModules();
+        if(modules==undefined || modules==null || modules.length==0){
+          modules = await this.helperService.getModulesWithSubModules();
+        }
+        for (const module of modules) {
+          if (module.subModules.some((subModule: { description: string; isAccessible: any; }) => subModule.description === submoduleRouteValue && subModule.isAccessible)) {
+            resolve(true);
+            return;
+          }
+        }
+  
+        resolve(false);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+  
 }
