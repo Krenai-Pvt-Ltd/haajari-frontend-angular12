@@ -2072,6 +2072,10 @@
                     *ngIf="(userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined) && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
                     <p><b>Absent!</b></p>
                 </div>
+                <div class="calenInfo d-block"
+                    *ngIf="(userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined) && (userAttendanceDetailDateWise.createdDate==endDateStr)">
+                    <p><b>Not Marked Yet :)</b></p>
+                </div>
             </div>
 
 

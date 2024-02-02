@@ -442,7 +442,7 @@
                 <span class="text-white text-center rib3-primary">50% off</span>                                        
             </div> -->
               <div class="card-body">
-                <div class="float-end" *ngIf="localStorageRoleAdminFlag == true">
+                <div class="float-end" >
                   <div class="dropdown d-inline-block">
                     <a
                       class="dropdown-toggle"
@@ -459,16 +459,19 @@
                       class="dropdown-menu dropdown-menu-end"
                       aria-labelledby="dLabel1"
                     >
-                      <a class="dropdown-item" href="#">Open Project</a>
-                      <a class="dropdown-item" href="#">Edit Card</a>
+                      <!-- <a class="dropdown-item" href="#">Open Project</a> -->
+                      <!-- <a class="dropdown-item" href="#">Edit Card</a> -->
+                      <a class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteConfirmationModal(team.uuid, logInUserUuid)" *ngIf="team.exitFromTeam">Exit From Team!</a>
                       <a
                         class="dropdown-item"
                         (click)="deleteTeamByTeamId(team.id)"
-                        >Delete</a
+                        *ngIf="localStorageRoleAdminFlag == true"
+                        >Delete Team</a
                       >
                     </div>
                   </div>
                 </div>
+                
 
 
                 <div class="media align-items-center">
@@ -526,7 +529,7 @@
                                       </div> -->
                     <div>
                       <h4 class="m-0 mt-3 font-13 mb-0 fw-bold">
-                        {{ capitalizeFirstLetter(team.manager.name) }} <span style="padding-left: 8px;" class="maneger-point">  <i class="bi bi-patch-check-fill"></i></span>
+                        {{ capitalizeFirstLetter(team.manager.name) }} <span style="padding-left: 8px;" class="maneger-point">  <i class="bi bi-patch-check-fill" *ngIf="team.showTick"></i></span>
                       </h4>
                     </div>
   
@@ -1345,3 +1348,38 @@
   </div>
   <!--end modal-->
   
+   <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
+    aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important;">
+        <div class="modal-content p-0" style="border-radius: 15px;">
+            <form #confirmationForm="ngForm">
+
+                <div class="modal-body text-center mt-1 mb-3">
+
+
+                    <img src="assets/images/delete.svg" style="width:70px;">
+
+                    <h4 class="confirm-detail">Are you sure you wish to proceed? </h4>
+
+                    <h6 style="color: aquamarine;">Caution : <span style="color: #a1a0a0;">Exiting this team will lead to the removal of all team-related privileges.</span></h6>
+
+                    <div class="d-flex align-items-center justify-content-center mt-4" style="gap: 15px;">
+
+                        <button type="button" class="btn btn-primary btnmarkcancel" data-bs-dismiss="modal" #closeUserDeleteModal> Cancel
+                        </button>
+                        <button type="button" class="btn btnmarkdelete" (click)="exitUserFromTeam()"
+                            *ngIf="!exitUserFromTeamLoader"> Delete </button>
+                        <div class="dot-opacity-loader" *ngIf="exitUserFromTeamLoader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

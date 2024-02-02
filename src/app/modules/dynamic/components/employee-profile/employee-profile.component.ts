@@ -137,7 +137,7 @@ export class EmployeeProfileComponent implements OnInit {
     let firstDayOfMonth = moment().startOf('month');
     this.startDateStr = firstDayOfMonth.format('YYYY-MM-DD');
     // this.startDateStr = firstDayString;
-    console.log("startDateStr :" + this.startDateStr);
+    // console.log("startDateStr :" + this.startDateStr);
     this.endDateStr = moment(new Date()).format('YYYY-MM-DD')
     this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
     this.fetchManagerNames();
@@ -231,7 +231,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.setReasonOfRejectionMethodCall();
     this.dataService.updateStatusUser(this.userId, type).subscribe(
       (data) => {
-        console.log('status updated:' + type);
+        // console.log('status updated:' + type);
         this.sendStatusResponseMailToUser(this.userId, type);
         // this.toggle = false
 
@@ -314,7 +314,7 @@ export class EmployeeProfileComponent implements OnInit {
   openModal(mouseEnterInfo: any): void {
     debugger
     if(!this.attendanceDetailModalToggle){
-    console.log("events : ", mouseEnterInfo.event);
+    // console.log("events : ", mouseEnterInfo.event);
     this.userAttendanceDetailDateWise.checkInTime="";
     this.userAttendanceDetailDateWise.checkOutTime="";
     this.userAttendanceDetailDateWise.breakCount="";
@@ -327,11 +327,11 @@ export class EmployeeProfileComponent implements OnInit {
     this.userAttendanceDetailDateWise.breakDuration=mouseEnterInfo.event._def.extendedProps.breakDuration;
     this.userAttendanceDetailDateWise.totalWorkingHours=mouseEnterInfo.event._def.extendedProps.totalWorkingHours;
     this.userAttendanceDetailDateWise.createdDate=mouseEnterInfo.event._def.extendedProps.createdDate;
-    console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
+    // console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
     var rect = mouseEnterInfo.el.getBoundingClientRect();
     this.clientX=(rect.left)+"px";
     this.clientY=(rect.top)+"px";
-    console.log("mouse location:", mouseEnterInfo.jsEvent.clientX, mouseEnterInfo.jsEvent.clientY);
+    // console.log("mouse location:", mouseEnterInfo.jsEvent.clientX, mouseEnterInfo.jsEvent.clientY);
     this.openEventsModal.nativeElement.click();
   }
   }
@@ -423,15 +423,15 @@ export class EmployeeProfileComponent implements OnInit {
               let title = '';
              
               if((date == moment(new Date()).format('YYYY-MM-DD')) && (this.attendances[i].checkInTime==null)){
-                title == '';
-              }else{
+                title == '-';
+              } else {
               title = this.attendances[i].checkInTime != null ? 'P' : 'A';
               if (title == 'P') {
                 this.totalPresent++;
               } else if (title == 'A') {
                 this.totalAbsent++;
-              }
-              
+              } 
+            }
              
               var checkInTime = this.attendances[i].checkInTime;
               var checkOutTime = this.attendances[i].checkOutTime;
@@ -458,7 +458,7 @@ export class EmployeeProfileComponent implements OnInit {
                   // }
                 };
               }
-              }
+              
             }
           }
 
@@ -474,7 +474,7 @@ export class EmployeeProfileComponent implements OnInit {
         },
         (error: any) => {
           this.count++;
-          console.error('Error fetching data:', error);
+          // console.error('Error fetching data:', error);
         }
       );
   }
@@ -1048,7 +1048,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   downloadSingleImage(imageUrl: any) {
     if (!imageUrl) {
-      console.error('Image URL is undefined or null');
+      // console.error('Image URL is undefined or null');
       return;
     }
 
@@ -1056,7 +1056,7 @@ export class EmployeeProfileComponent implements OnInit {
     var splittedUrl = imageUrl.split("/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/");
 
     if (splittedUrl.length < 2) {
-      console.error('Invalid image URL format');
+      // console.error('Invalid image URL format');
       return;
     }
 
@@ -1089,6 +1089,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.checkinCheckoutInSlack(this.userId, command).subscribe(
       (data) => {
         this.InOutLoader=false;
+        this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
         this.getUserAttendanceStatus();
         this.helperService.showToast(data.message, Key.TOAST_STATUS_SUCCESS);
       },
@@ -1124,11 +1125,11 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.setReasonOfRejection(this.userId, this.reasonOfRejectionProfile)
     .subscribe(
       (response: ReasonOfRejectionProfile) => { 
-        console.log('Response:', response);
+        // console.log('Response:', response);
       
       },
       (error) => {
-        console.error('Error occurred:', error);
+        // console.error('Error occurred:', error);
         
       }
     );
