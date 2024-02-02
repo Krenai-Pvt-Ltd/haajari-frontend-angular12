@@ -19,7 +19,7 @@
                                         <div class="mb-3">
                                           <label for="aadhaarCardFile" class="pb-2">Aadhaar Card <span class="text-optional">*</span></label>
                                           <div class="importfilebox">
-                                            <input id="aadhaarCardFile" name="aadhaarCardFile" type="file" accept="application/pdf,image/*"  class="input" (change)="onFileSelected($event, 'aadhaarCard')" #aadhaar="ngModel" [required]="isaadhaarCardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.aadhaarCard">
+                                            <input id="aadhaarCardFile" name="aadhaarCardFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'aadhaarCard')" #aadhaar="ngModel" [required]="isaadhaarCardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.aadhaarCard">
                                             <label for="aadhaarCardFile">
                                               <span *ngIf="!selectedAadhaarCardFileName && !aadhaarCardFileName">
                                                 <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
@@ -35,11 +35,12 @@
                                               </span>
                                             </label>
                                           </div>
-                                          <div *ngIf="aadhaar.dirty">
+                                          <div *ngIf="!isInvalidFileType && aadhaar.dirty">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="isaadhaarCardRequired && aadhaar.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Uploading the Aadhaar Card is required.
                                             </p>
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
                                           </div>
                                         </div>
                                       </div>
@@ -48,7 +49,7 @@
                                         <div class="mb-3">
                                           <label for="pancardFile" class="pb-2">Pancard <span class="text-optional">*</span></label>
                                           <div class="importfilebox">
-                                            <input id="pancardFile" name="pancardFile" type="file" accept="application/pdf,image/*" class="input" (change)="onFileSelected($event, 'pancard')" #pancard="ngModel" [required]="ispancardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.pancard">
+                                            <input id="pancardFile" name="pancardFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'pancard')" #pancard="ngModel" [required]="ispancardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.pancard">
                                             <label for="pancardFile">
                                               <span *ngIf="!selectedpancardFileName && !pancardFileName">
                                                 <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
@@ -64,11 +65,12 @@
                                               </span>
                                             </label>
                                           </div>
-                                          <div *ngIf="pancard.dirty">
+                                          <div *ngIf="!isInvalidFileType && pancard.dirty">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="ispancardRequired && pancard.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Uploading the PAN Card is required.
                                             </p>
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
                                           </div>
                                         </div>
                                       </div>
@@ -78,7 +80,7 @@
                                         <div class="mb-3">
                                           <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree <span class="text-optional">*</span></label>
                                           <div class="importfilebox">
-                                            <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept="application/pdf,image/*" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" [required]="isHighestQualificationDegreeRequired" #highestQualificationDegree="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highestQualificationDegree">
+                                            <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" [required]="isHighestQualificationDegreeRequired" #highestQualificationDegree="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highestQualificationDegree">
                                             <label for="highestQualificationDegreeFile">
                                                 <!-- No file is selected or uploaded -->
                                                 <span *ngIf="!selectedHighestQualificationDegreeFileName && !highestQualificationDegreeFileName1">
@@ -100,11 +102,12 @@
                                               
                                           </div>
                                           <!-- Error Message for File Upload -->
-                                          <div *ngIf="highestQualificationDegree.dirty">
+                                          <div *ngIf="!isInvalidFileType && highestQualificationDegree.dirty">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highestQualificationDegree.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Uploading the Highest Qualification Degree is required.
                                             </p>
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
                                           </div>
                                         </div>
                                       </div>
@@ -113,7 +116,7 @@
                                         <div class="mb-3">
                                           <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet <span class="text-optional">(Optional)</span></label>
                                           <div class="importfilebox">
-                                            <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept="application/pdf,image/*" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')"  #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate">
+                                            <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')"  #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate">
                                             <label for="secondarySchoolCertificateFile">
                                                 <!-- No file is selected or uploaded -->
                                                 <span *ngIf="!selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
@@ -135,11 +138,12 @@
                                               
                                           </div>
                                           <!-- Error Message for File Upload -->
-                                          <div *ngIf="secondary.touched">
+                                          <div *ngIf="!isInvalidFileType && secondary.dirty">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="secondary.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Uploading the 10th Marksheet is required.
                                             </p>
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
                                           </div>
                                         </div>
                                       </div>
@@ -149,7 +153,7 @@
                                         <div class="mb-3">
                                           <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet <span class="text-optional">(Optional)</span> </label>
                                           <div class="importfilebox">
-                                            <input id="highSchoolCertificateFile" name="highSchoolCertificateFile" type="file" accept="application/pdf,image/*" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')"  #highSchool="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highSchoolCertificate">
+                                            <input id="highSchoolCertificateFile" name="highSchoolCertificateFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')"  #highSchool="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highSchoolCertificate">
                                             <label for="highSchoolCertificateFile">
                                                 <!-- No file is selected or uploaded -->
                                                 <span *ngIf="!selectedHighSchoolFileName && !highSchoolCertificateFileName1">
@@ -171,11 +175,12 @@
                                               
                                           </div>
                                           <!-- Error Message for File Upload -->
-                                          <div *ngIf="highSchool.touched">
+                                          <div *ngIf="!isInvalidFileType && highSchool.dirty">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highSchool.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Uploading the 12th Marksheet is required.
                                             </p>
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
                                           </div>
                                         </div>
                                       </div>
@@ -201,35 +206,47 @@
 
                                     <div *ngFor="let document of userDocumentsDetailsRequest.employeeAdditionalDocument; let i = index" class="col-md-6">
                                       <div class="mb-3">
-                                          <!-- Delete Button -->
-                                          <button type="button" class="close new-cloes" aria-label="Close" (click)="deleteDocument(i)">
-                                              <span aria-hidden="true">&times;</span>
-                                          </button>
-                                          <label for="additionalDocumentFile{{i}}" class="pb-2">
-                                            {{document.name}}
-                                           
-                                        </label>
+                                        <!-- Delete Button -->
+                                        <button type="button" class="close new-cloes" aria-label="Close" (click)="deleteDocument(i)">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <label for="additionalDocumentFile{{i}}" class="pb-2">{{document.name}}</label>
                                         <input type="text" 
-                                            name="additionalDocumentFile{{i}}" 
-                                            id="additionalDocumentFile{{i}}"
-                                            [(ngModel)]="document.name" 
-                                            placeholder="Enter document name"
-                                            readonly 
-                                            hidden>
-                                      <!-- Readonly attribute added here -->
-                                        
-                                          <div class="importfilebox">
-                                              <input id="additionalDocumentFile{{i}}" type="file" class="input" accept="application/pdf,image/*" 
-                                                     (change)="onAdditionalFileSelected($event, i)" 
-                                                     [required]="!document.url"> <!-- Required attribute added here -->
-                                              <label for="additionalDocumentFile{{i}}">
-                                                  <span *ngIf="!document.url || !document.fileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG</span>
-                                                  <!-- Display the filename instead of the full URL -->
-                                                  <span *ngIf="document.url && document.fileName">{{ document.fileName }}</span>
-                                              </label>
+                                               name="additionalDocumentFile{{i}}" 
+                                               id="additionalDocumentFile{{i}}"
+                                               [(ngModel)]="document.name" 
+                                               placeholder="Enter document name"
+                                               readonly 
+                                               hidden>
+                                        <div class="importfilebox">
+                                          <input id="additionalDocumentFile{{i}}" 
+                                                 type="file" 
+                                                 class="input" 
+                                                 accept=".pdf, image/jpeg, image/jpg, image/png"
+                                                 (change)="onAdditionalFileSelected($event, i)" 
+                                                 [required]="!document.url"
+                                                 [(ngModel)]="document.fileName" 
+                                                 #fileInput="ngModel" 
+                                                 name="fileInput{{i}}"> <!-- Ensure the input has a name attribute -->
+                                          <label for="additionalDocumentFile{{i}}">
+                                              <span *ngIf="!document.url || !document.fileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG, or PNG</span>
+                                              <span *ngIf="document.url && document.fileName">{{ document.fileName }}</span>
+                                          </label>
+                                          <!-- Display validation message -->
+                                          <div *ngIf="!isInvalidFileType && fileInput.dirty" >
+                                            <!-- Checking for 'required' error -->
+                                            <p *ngIf="fileInput.errors?.required" class="errortxt mt-2 mb-0" style="color:red">
+                                              <i class="bi bi-exclamation-circle"></i> File is required.
+                                            </p>
+                                            <!-- Adding condition for invalid file type, assuming you have a variable to track this -->
+                                            <p *ngIf="!isInvalidFileType" class="errortxt mt-2 mb-0" style="color:red">
+                                              <i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.
+                                            </p>
                                           </div>
+                                          
+                                        </div>
                                       </div>
-                                  </div>
+                                    </div>
                                   
 
                                   <div class="col-md-6 mb-3 ">
@@ -266,13 +283,16 @@
                                         <div class="col-md-3">
                                             <div class="mb-3"   >
                                                 <label for="exampleInputEmail1" class="pb-2">Name</label>
-                                                <input type="text" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].name" required #guarantorName1="ngModel">
+                                                <input type="text" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].name" required #guarantorName1="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="30">
                                                 <!-- Error Message for Name Field -->
                                                 <div *ngIf="guarantorName1.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="guarantorName1.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Name is required.
                                                     </p>
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="guarantorName1.errors?.maxlength">
+                                                      <i class="bi bi-exclamation-circle"></i> Maximun 30 characters allowed.
+                                                  </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -280,13 +300,16 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="relationInput" class="pb-2">Relation</label>
-                                                <input type="text" class="form-control" id="relationInput" name="relationInput" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].relation" required #relation1="ngModel">
+                                                <input type="text" class="form-control" id="relationInput" name="relationInput" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].relation" required #relation1="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="30">
                                                 <!-- Error Message for Relation Field -->
                                                 <div *ngIf="relation1.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation1.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Relation is required.
                                                     </p>
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation1.errors?.maxlength">
+                                                      <i class="bi bi-exclamation-circle"></i> Maximun 30 characters allowed.
+                                                  </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -312,7 +335,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="emailInput" class="pb-2">Email <span class="text-optional">(Optional)</span> </label>
-                                                <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].emailId" email #email1="ngModel">
+                                                <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].emailId" email #email1="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="50">
                                                 
                                                 <!-- Error Message for Email Field -->
                                                 <div *ngIf="email1.touched">
@@ -326,6 +349,9 @@
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Please enter a valid email address.
                                                     </p>
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email1.errors?.maxlength">
+                                                      <i class="bi bi-exclamation-circle"></i> Maximun 50 characters allowed.
+                                                  </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -339,26 +365,32 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorName2" class="pb-2">Name</label>
-                                                <input type="text" class="form-control" id="guarantorName2" name="guarantorName2" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].name" required #name2="ngModel">
+                                                <input type="text" class="form-control" id="guarantorName2" name="guarantorName2" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].name" required #name2="ngModel" maxlength="30">
                                                 <!-- Error Message for Name Field -->
                                                 <div *ngIf="name2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name2.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Name is required.
                                                     </p>
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name2.errors?.maxlength">
+                                                      <i class="bi bi-exclamation-circle"></i> Maximun 30 characters allowed.
+                                                  </p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorRelation2" class="pb-2">Relation</label>
-                                                <input type="text" class="form-control" id="guarantorRelation2" name="guarantorRelation2" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].relation" required #relation2="ngModel">
+                                                <input type="text" class="form-control" id="guarantorRelation2" name="guarantorRelation2" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].relation" required #relation2="ngModel" maxlength="30"> 
                                                 <!-- Error Message for Relation Field -->
                                                 <div *ngIf="relation2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation2.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Relation is required.
                                                     </p>
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation2.errors?.maxlength">
+                                                      <i class="bi bi-exclamation-circle"></i> Maximun 30 characters allowed.
+                                                  </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -386,7 +418,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorEmail2" class="pb-2">Email <span class="text-optional">(Optional)</span> </label>
-                                                <input type="email" class="form-control" id="guarantorEmail2" name="guarantorEmail2" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].emailId"  email #email2="ngModel">
+                                                <input type="email" class="form-control" id="guarantorEmail2" name="guarantorEmail2" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].emailId"  email #email2="ngModel" maxlength="50">
                                                 
                                                 <!-- Error Message for Email Field -->
                                                 <div *ngIf="email2.touched">
@@ -400,6 +432,9 @@
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Please enter a valid email address.
                                                     </p>
+                                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email2.errors?.maxlength">
+                                                      <i class="bi bi-exclamation-circle"></i> Maximun 50 characters allowed.
+                                                  </p>
                                                 </div>
                                             </div>
                                         </div>

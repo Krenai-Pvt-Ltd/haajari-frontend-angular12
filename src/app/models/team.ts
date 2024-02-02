@@ -13,4 +13,6 @@ export class TeamResponse {
     uuid!: string;
     manager!: UserResponse;
     userList!: UserResponse[];
+    showTick:boolean=false;
+    exitFromTeam: boolean=false;
 }
