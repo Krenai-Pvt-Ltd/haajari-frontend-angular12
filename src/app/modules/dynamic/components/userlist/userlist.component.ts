@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-userlist',
@@ -12,7 +13,7 @@ import { HelperService } from 'src/app/services/helper.service';
 export class UserlistComponent implements OnInit {
 
 
-  constructor(private dataService : DataService, private router : Router, private helperService : HelperService) { }
+  constructor(private dataService : DataService, private router : Router, private helperService : HelperService, private rbacService : RoleBasedAccessControlService) { }
 
   loginDetails = this.helperService.getDecodedValueFromToken();
   users : Users[] = [];
@@ -23,12 +24,18 @@ export class UserlistComponent implements OnInit {
   rowNumber : number = 1;
 
   // loginDetails = this.helperService.getDecodedValueFromToken();
-  role:string = this.loginDetails.role;
-  userUuid: string = this.loginDetails.uuid;
-  orgRefId:string = this.loginDetails.orgRefId;
+  assignRole(){
+    this.role = this.rbacService.getRole();
+    this.userUuid = this.rbacService.getUUID();
+    this.orgRefId = this.rbacService.getOrgRefUUID();
+  }
+  role: any;
+  userUuid : any;
+  orgRefId : any;
 
   ngOnInit(): void {
     this.getUsersByFiltersFunction();
+    this.assignRole();
   }
 
   getUsersByFiltersFunction() {

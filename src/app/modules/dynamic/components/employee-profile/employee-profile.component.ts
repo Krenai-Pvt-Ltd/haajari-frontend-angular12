@@ -35,8 +35,8 @@ export class EmployeeProfileComponent implements OnInit {
   userLeaveForm!: FormGroup;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
-  ROLE:string="";
-  UUID:string="";
+  ROLE:any
+  UUID:any;
   hideDetailsFlag:boolean=false;
   adminRoleFlag:boolean=false;
   userRoleFlag:boolean=false;

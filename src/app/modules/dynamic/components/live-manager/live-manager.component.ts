@@ -48,9 +48,9 @@ export class LiveManagerComponent implements OnInit {
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 
   loginDetails = this.helperService.getDecodedValueFromToken();
-  role:string = this.loginDetails.role;
-  userUuid: string = this.loginDetails.uuid;
-  orgRefId:string = this.loginDetails.orgRefId;
+  // role:string = this.loginDetails.role;
+  // userUuid: string = this.loginDetails.uuid;
+  // orgRefId:string = this.loginDetails.orgRefId;
 
 
   resetUserLeave(){
