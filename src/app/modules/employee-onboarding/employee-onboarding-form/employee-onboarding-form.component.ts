@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { url } from 'inspector';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
@@ -76,6 +76,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
         this.uploadFile(file);
       } else {
         element.value = '';
+        this.userPersonalInformationRequest.image = '';
         // Handle invalid file type here (e.g., show an error message)
         console.error('Invalid file type. Please select a jpg, jpeg, or png file.');
       }
@@ -91,11 +92,11 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     const fileType = file.type.split('/').pop(); // Get the file extension from the MIME type
   
     if (fileType && validExtensions.includes(fileType.toLowerCase())) {
-      this.isInvalidFileType = true;
+      this.isInvalidFileType = false;
       return true;
     }
     console.log(this.isInvalidFileType);
-    this.isInvalidFileType = false;
+    this.isInvalidFileType = true;
     return false;
   }
   
@@ -133,6 +134,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
    toggleSave = false;
   setEmployeePersonalDetailsMethodCall() {
 debugger
+
     
 if(this.buttonType=='next'){
   this.toggle = true;
@@ -185,6 +187,7 @@ if (this.userPersonalInformationRequest.department === 'Other') {
         })
      
       ;
+
   }
   
   dbImageUrl: string | null = null;
@@ -525,6 +528,11 @@ selectButtonType(type:string){
 directSave: boolean = false;
 
 submit(){
+  this.checkFormValidation();
+
+  if(this.isFormInvalid==true){
+    return
+  } else{
 switch(this.buttonType){
   case "next" :{
     this.setEmployeePersonalDetailsMethodCall();
@@ -537,6 +545,7 @@ switch(this.buttonType){
     break;
   }
 }
+  }
 }
 @ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
 routeToFormPreview() {
@@ -619,6 +628,17 @@ preventLeadingWhitespace(event: KeyboardEvent): void {
   }
 }
 
+isFormInvalid: boolean = false;
+
+@ViewChild ('personalInformationForm') personalInformationForm !: NgForm
+checkFormValidation(){
+  if(this.personalInformationForm.invalid){
+  this.isFormInvalid = true;
+  return
+  } else {
+    this.isFormInvalid = false;
+  }
+}
 
 
 }

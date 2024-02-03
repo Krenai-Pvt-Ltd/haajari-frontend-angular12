@@ -9,7 +9,7 @@
                     <div class="persnol-details">
                         <h5>Employee Emergency Contact</h5>
                         <p class="mb-0">Fields with * are mandatory</p>
-                        <form #emergencyInformationForm="ngForm" ngNativeValidate (ngSubmit)="openModal()">
+                        <form #emergencyInformationForm="ngForm"  (ngSubmit)="openModal()">
                             <div class="form-group">
                         <div class="persnol-info mt-4">
                             <div *ngFor="let contact of userEmergencyContactDetails; let i = index">
@@ -20,7 +20,7 @@
                                       <label for="relation{{i}}" class="pb-2">Relation with Employee <span class="text-optional">*</span></label>
                                       <div class="dropdown" style="width: 100%;">
                                         <button type="button" id="relationDropdown{{i}}" data-bs-toggle="dropdown" aria-expanded="false" 
-                                                class="btn btn-secondary dropdown-toggle new-deopdown" name="relationWithEmployee">
+                                                class="btn btn-secondary dropdown-toggle new-deopdown" name="relationWithEmployee{{i}}">
                                           {{ contact.relationWithEmployee || 'Select Relation' }}
                                           <i class="bi bi-chevron-down"></i> <!-- Use the Font Awesome chevron-down icon -->
                                         </button>
@@ -37,7 +37,7 @@
                                         </ul>
                                       </div>
                                       <input name="relationWithEmployee" type="hidden" [(ngModel)]="contact.relationWithEmployee" required #relation="ngModel">
-                                      <div *ngIf="relation?.touched">
+                                      <div *ngIf="relation?.touched || isFormInvalid">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation.errors?.required">
                                           <i class="bi bi-exclamation-circle"></i> Relation selection is required.
                                         </p>
@@ -49,9 +49,9 @@
                                       <div class="col-md-4">
                                         <div class="mb-3">
                                           <label for="name{{i}}" class="pb-2">Name <span class="text-optional">*</span></label>
-                                          <input type="text" (keydown)="preventLeadingWhitespace($event)" maxlength="30" class="form-control" id="name{{i}}" name="name" placeholder="Enter Name" [(ngModel)]="contact.contactName" required #name="ngModel" [ngModelOptions]="{standalone: true}">
+                                          <input type="text" (keydown)="preventLeadingWhitespace($event)" maxlength="30" class="form-control" id="name{{i}}" name="name{{i}}" placeholder="Enter Name" [(ngModel)]="contact.contactName" required #name="ngModel" >
                                           <!-- Error Message for Name -->
-                                          <div *ngIf="name.touched && name.invalid">
+                                          <div *ngIf="(name.touched && name.invalid) || isFormInvalid">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Name is required.
@@ -66,9 +66,9 @@
                                       <div class="col-md-4">
                                         <div class="mb-3">
                                           <label for="phoneNumber{{i}}" class="pb-2">Phone Number <span class="text-optional">*</span></label>
-                                          <input type="text" mask="0000000000" class="form-control" id="phoneNumber{{i}}" name="phoneNumber" placeholder="Enter Phone Number" [(ngModel)]="contact.contactNumber" required pattern="^[0-9]*$" minlength="10" maxlength="10" #phoneNumber="ngModel" [ngModelOptions]="{standalone: true}">
+                                          <input type="text" mask="0000000000" class="form-control" id="phoneNumber{{i}}" name="phoneNumber{{i}}" placeholder="Enter Phone Number" [(ngModel)]="contact.contactNumber" required pattern="^[0-9]*$" minlength="10" maxlength="10" #phoneNumber="ngModel" >
                                           <!-- Error Message for Phone Number -->
-                                          <div *ngIf="phoneNumber.touched && phoneNumber.invalid">
+                                          <div *ngIf="(phoneNumber.touched && phoneNumber.invalid) || isFormInvalid">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Phone Number is required.
@@ -138,7 +138,7 @@
                                 <!-- Removed the unnecessary col-md-12 div -->
                                 <div class="info-btn d-flex justify-content-end">
                                   <!-- Button to trigger confirmation modal -->
-                                  <button type="submit" class="btn btn-primary save-button" [disabled]="!emergencyInformationForm.valid || toggle"  aria-label="Save">
+                                  <button type="submit" class="btn btn-primary save-button" [disabled]="toggle"  aria-label="Save">
                                     <div *ngIf="toggle" class="dot-opacity-loader">
                                       <span></span>
                                       <span></span>
@@ -223,7 +223,7 @@
                  <div class="d-flex align-items-center justify-content-center mt-4" style="gap: 15px;">
                   <button type="button" class="btn btn-primary back-btn" data-bs-dismiss="modal">Edit</button>
                   <!-- Button to trigger success message -->
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()" [disabled]="!confirmationForm.valid">Save Changes</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()">Save Changes</button>
 
                  </div>
               </div>
@@ -262,7 +262,7 @@
                  <div class="d-flex align-items-center justify-content-center mt-4" style="gap: 15px;">
                   <button type="button" class="btn btn-primary back-btn" data-bs-dismiss="modal">Edit</button>
                   <!-- Button to trigger success message -->
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()" [disabled]="!confirmationForm.valid">Save Changes</button>
+                  <button type="button" id="saveChange" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()" >Save Changes</button>
 
                  </div>
               </div>

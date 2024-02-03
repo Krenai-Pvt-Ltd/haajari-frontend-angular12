@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
 import { DataService } from 'src/app/services/data.service';
@@ -177,7 +178,13 @@ delete(index:number){
   
   
   openModal() {
+    this.checkFormValidation();
+
+  if(this.isFormInvalid==true){
+    return
+  } else{
     this.confirmationModalButton.nativeElement.click();
+  }
   }
 
   preventLeadingWhitespace(event: KeyboardEvent): void {
@@ -188,4 +195,15 @@ delete(index:number){
       event.preventDefault();
     }
   }
+
+  isFormInvalid: boolean = false;
+@ViewChild ('emergencyInformationForm') emergencyInformationForm !: NgForm
+checkFormValidation(){
+if(this.emergencyInformationForm.invalid){
+this.isFormInvalid = true;
+return
+} else {
+  this.isFormInvalid = false;
+}
+}
 }

@@ -168,7 +168,10 @@ nz-date-picker {
   .nz-button-group {
     margin: 0 8px 8px 0;
   }
-.hover-dropdown {
+  .hover-dropdown {
+    display: flex; /* Use flexbox for internal layout */
+    justify-content: space-between; /* Aligns children (text and icon) on opposite ends */
+    align-items: center; /* Centers children vertically */
     width: 100%;
     height: 40px;
     background: transparent;
@@ -176,17 +179,34 @@ nz-date-picker {
     text-align: left;
     padding: 0.4rem 1rem;
     border-radius: 0.25rem;
+    position: relative; /* In case you need absolute positioning inside */
 }
 
 .hover-dropdown-height{
     max-height: 200px;
-    overflow: scroll;
+    overflow-y: scroll ; /* This will force the scrollbar to always show */
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #888 #ffffff !important;
 }
 
+
 .icon-right {
-    position: absolute;
-     right: 21px;
-    top: 60%;
-    transform: translateY(-50%);
-  }
+    margin-left: 8px; /* Keep existing spacing to the left */
+    margin-top: 4px; /* Adjust this value to nudge the icon down */
+}
+
   
+  .ant-input.demo-input-right {
+    width: 100px;
+    text-align: center;
+    border-left-width: 0px;
+  }
+
+  .ant-input.demo-input-right:hover,
+  .ant-input.demo-input-right:focus {
+    border-left-width: 1px;
+  }
+
+  .ant-input.ant-input-rtl.demo-input-right {
+    border-right-width: 0px;
+  }

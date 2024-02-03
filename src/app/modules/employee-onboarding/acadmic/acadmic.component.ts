@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { UserAcademicsDetailRequest } from 'src/app/models/user-academics-detail-request';
 import { DataService } from 'src/app/services/data.service';
@@ -120,6 +121,11 @@ selectButtonType(type:string){
 directSave: boolean = false;
 
 submit(){
+  this.checkFormValidation();
+
+  if(this.isFormInvalid==true){
+    return
+  } else{
 switch(this.buttonType){
   case "next" :{
     this.setEmployeeAcademicsMethodCall();
@@ -132,7 +138,20 @@ switch(this.buttonType){
     break;
   }
 }
+  }
 }
+
+isFormInvalid: boolean = false;
+@ViewChild ('academicInformationForm') academicInformationForm !: NgForm
+checkFormValidation(){
+if(this.academicInformationForm.invalid){
+this.isFormInvalid = true;
+return
+} else {
+  this.isFormInvalid = false;
+}
+}
+
 @ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
 routeToFormPreview() {
   this.dismissSuccessModalButton.nativeElement.click();
@@ -167,7 +186,13 @@ displayModal = false;
   selectedQualification: string = '';
   selectQualification(qualification: string): void {
     this.selectedQualification = qualification;
-    this.userAcademicsDetailRequest.highestEducationalLevel = qualification;
+    // If "Other" is not selected, directly bind the selected qualification
+    if (qualification !== 'Other') {
+      this.userAcademicsDetailRequest.highestEducationalLevel = qualification;
+    } else {
+      // Reset the value when "Other" is selected to ensure the input field is empty for user input
+      this.userAcademicsDetailRequest.highestEducationalLevel = '';
+    }
   }
   selectDegreeObtained(degree: string): void {
     debugger
@@ -238,5 +263,14 @@ displayModal = false;
     }
   }
 
+  // degreeDropdownTouched = false;
+
+  // handleDegreeDropdownInteraction() {
+  //   if (!this.selectedQualification) {
+  //     this.degreeDropdownTouched = true; // Indicate that the dropdown has been interacted with
+  //   }
+  // }
+  
+  options: string[] = ['Option 1', 'Option 2', 'Option 3'];
 
 }

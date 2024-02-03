@@ -31,6 +31,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 
 // import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
@@ -48,6 +51,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
          EmployeeOnboardingComponent,
          EmployeeOnboardingSidebarComponent,
          NumberToWordsPipe,
+         
          
          
   ],
@@ -70,7 +74,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NgbModule,
     NzAutocompleteModule,
     NzDropDownModule,
-    NzIconModule
+    NzIconModule,
+    NzInputModule,
+    NzSelectModule,
+    ImageCropperModule
   
     
     
