@@ -56,19 +56,19 @@
 
                                         <div class="Approved pending-css rejected-css text-center border-right">
                                             <span class="total-holiday pb-2">Leave</span>
-                                            <p class="mb-0">30</p>
+                                            <p class="mb-0">{{attendanceDetailsCountResponse.usersOnLeave}}</p>
                                             
                                         </div>
                                         <div class="Approved absents text-center border-right">
                                             <span class="total-holiday pb-2">Absent</span>
 
-                                            <p class="mb-0">20</p>
+                                            <p class="mb-0">{{attendanceDetailsCountResponse.absentUsers}}</p>
                                             
                                         </div>
 
                                         <div class="Approved na text-center ">
                                             <span class="total-holiday pb-2">N/A</span>
-                                            <p class="mb-0">10</p>
+                                            <p class="mb-0">{{attendanceDetailsCountResponse.unmarkedUsers}}</p>
                                           
                                         </div>
                                     </div>
