@@ -966,9 +966,9 @@ export class EmployeeProfileComponent implements OnInit {
       (data) => {
         this.documentsEmployee = data.userDocuments;
         if (data.userDocuments != null) {
-          this.highSchoolCertificate = data.userDocuments.highSchoolCertificate;
+          this.highSchoolCertificate = data.userDocuments.secondarySchoolCertificate;
           this.degreeCert = data.userDocuments.highestQualificationDegree;
-          this.intermediateCertificate = data.userDocuments.secondarySchoolCertificate;
+          this.intermediateCertificate = data.userDocuments.highSchoolCertificate;
           this.testimonialsString = data.userDocuments.testimonialReccomendation;
           this.aadhaarCardString = data.userDocuments.aadhaarCard;
           this.pancardString = data.userDocuments.pancard;
