@@ -28,9 +28,14 @@ export class TimetableComponent implements OnInit {
   }
 
    loginDetails = this.helperService.getDecodedValueFromToken();
-   role:string = this.rbacService.getRole();
-   userUuid: string = this.rbacService.getUUID();
-   orgRefId:string = this.rbacService.getOrgRefUUID();
+   assignRole(){
+    this.role = this.rbacService.getRole();
+    this.userUuid = this.rbacService.getUUID();
+    this.orgRefId = this.rbacService.getOrgRefUUID();
+  }
+  role: any;
+  userUuid : any;
+  orgRefId : any;
 
    PRESENT = Key.PRESENT;
     ABSENT = Key.ABSENT;
@@ -50,6 +55,7 @@ export class TimetableComponent implements OnInit {
 
   ngOnInit(): void {  
     this.inputDate = this.getCurrentDate();
+    this.assignRole();
 
 
     const today = dayjs();

@@ -41,6 +41,7 @@ export class TeamDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.assignRole();
     this.getTeamMemberById();
     this.getUsersRoleFromLocalStorage();
   }
@@ -49,8 +50,14 @@ export class TeamDetailComponent implements OnInit {
     this.getLoginDetailsId();
   }
   
-  role:string = this.rbacService.getRole();
-  userUuid: string = this.rbacService.getUUID();
+  assignRole(){
+    this.role = this.rbacService.getRole();
+    this.userUuid = this.rbacService.getUUID();
+    this.orgRefId = this.rbacService.getOrgRefUUID();
+  }
+  role: any;
+  userUuid : any;
+  orgRefId : any;
 
   teamId: any;
   team:any=[];

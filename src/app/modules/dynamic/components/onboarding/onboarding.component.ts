@@ -32,6 +32,7 @@ import { RoleBasedAccessControlService } from "src/app/services/role-based-acces
 export class OnboardingComponent implements OnInit {
   getLoggedInUserDetails(){
     // this.loggedInUser = this.helperService.getDecodedValueFromToken();
+    this.assignRole();
   }
 
   getFirstAndLastLetterFromName(name : string){
@@ -43,9 +44,17 @@ export class OnboardingComponent implements OnInit {
   Sick: any;
   c: any;
   loginDetails = this.helperService.getDecodedValueFromToken();
-  role:string = this.rbacService.getRole();
-  userUuid: string = this.rbacService.getUUID();
-  orgRefId:string = this.rbacService.getOrgRefUUID();
+
+  assignRole(){
+    this.role = this.rbacService.getRole();
+    this.userUuid = this.rbacService.getUUID();
+    this.orgRefId = this.rbacService.getOrgRefUUID();
+  }
+  role: any;
+  userUuid : any;
+  orgRefId : any;
+
+  
 
 
   // loginDetails = this.helperService.getDecodedValueFromToken();

@@ -191,7 +191,7 @@
             </div>
 
         </div>
-          <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px" *ngIf="ROLE == ADMIN">
+          <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px" *ngIf="(ROLE | async) === ADMIN">
             <a>Unprocessed Logs <i class="bi bi-list-ol"></i></a>
             <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
             <a>Daily Report <i class="bi bi-download"></i></a>

@@ -19,7 +19,7 @@
         <div class="menu-body navbar-vertical">
             <div class="collapse navbar-collapse tab-content" id="sidebarCollapse">
                 
-                <ng-containner *ngIf="ROLE === USER; else dashboardCondition">
+                <ng-containner *ngIf="(ROLE | async) === USER; else dashboardCondition">
                     <div class="bjRpmy">
                         <ul class="cfyCez">
                             <li class="dagRMy" routerLinkActive="iUctsy" (click)="routeToEmployeeProfilePage()" style="cursor: pointer;">
@@ -123,7 +123,7 @@
                 </a>
                 </li> -->
 
-                        <ng-container *ngIf="ROLE === ADMIN; else projectCondition">
+                        <ng-container *ngIf="(ROLE | async) === ADMIN; else projectCondition">
                             <li class="sc-3ee1404a-7 dagRMy" *ngIf="shouldDisplay('project')" style="cursor: pointer;">
                                 <a class="sc-3ee1404a-9 iUctsy-new">
                                     <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
@@ -196,7 +196,7 @@
 
 
 
-                <div class="bjRpmy" *ngIf="ROLE !== ADMIN" style="margin-bottom: 130px;">
+                <div class="bjRpmy" *ngIf="(ROLE | async) !== ADMIN" style="margin-bottom: 130px;">
 
                     <div class="sc-485d66d8-0 sc-39e987ab-0 iZfNPZ irmdrk sc-3ee1404a-4 izZYaK">ACCOUNT SETTINGS</div>
                     <ul class="cfyCez">

@@ -53,9 +53,9 @@ export class DashboardComponent implements OnInit {
   project : boolean = false;
 
   loginDetails = this.helperService.getDecodedValueFromToken();
-   role:string = this.rbacService.getRole();
-   userUuid: string = this.rbacService.getUUID();
-   orgRefId:string = this.rbacService.getOrgRefUUID();
+  //  role:string = this.rbacService.getRole();
+  //  userUuid: string = this.rbacService.getUUID();
+  //  orgRefId:string = this.rbacService.getOrgRefUUID();
 
   startDateStr: string = '';
   endDateStr: string = '';
@@ -68,8 +68,13 @@ export class DashboardComponent implements OnInit {
   WEEKEND = Key.WEEKEND;
   HOLIDAY = Key.HOLIDAY;
 
-  ROLE = this.rbacService.getRole();
+  
 
+  assignRole(){
+    this.ROLE = this.rbacService.getRole();
+  }
+  
+  ROLE : any;
   ADMIN = Key.ADMIN;
   MANAGER = Key.MANAGER;
   USER = Key.USER;
@@ -95,6 +100,7 @@ export class DashboardComponent implements OnInit {
 
     // this.decodedAccessToken = this.rbacService.getModules();
     debugger
+    this.assignRole();
     this.getAttendanceDetailsCountMethodCall();
     this.getAttendanceReportByDateDurationMethodCall();
 

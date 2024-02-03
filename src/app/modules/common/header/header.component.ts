@@ -79,7 +79,7 @@ export class HeaderComponent implements OnInit {
   show:boolean=false;
 
   shouldDisplay(moduleName: string): boolean {
-    const role = this.rbacService.getRole();
+    const role = this.rbacService.getRoles();
     const modulesToShowForManager = ['dashboard', 'team', 'project', 'reports', 'attendance'];
     const modulesToShowForUser = ['team', 'project'];
     return role === Key.ADMIN || (role === Key.MANAGER && modulesToShowForManager.includes(moduleName)) || (role === Key.USER && modulesToShowForUser.includes(moduleName));

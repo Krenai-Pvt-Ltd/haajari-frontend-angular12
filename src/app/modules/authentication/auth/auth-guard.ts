@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
     debugger
     if(route !== null && route.routeConfig !== null){
 
-      if(await this.rbacService.getRole() === Key.USER && route.routeConfig.path == 'dashboard') {
+      if(await this.rbacService.getRole() == Key.USER && route.routeConfig.path == 'dashboard') {
         this.router.navigate(['/employee-profile'], {queryParams : {"userId" : this.rbacService.getUUID()}});
         return false;
       }
@@ -33,12 +33,6 @@ export class AuthGuard implements CanActivate {
         return false;
       }
     }
-
-
-    
-
-    
-    
 
     return true;
   }

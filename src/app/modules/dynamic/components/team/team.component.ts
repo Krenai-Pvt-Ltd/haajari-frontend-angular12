@@ -40,18 +40,24 @@ export class TeamComponent implements OnInit{
   rowNumber : number = 1;
 
   loginDetails = this.helperService.getDecodedValueFromToken();
-  role:string = this.roleService.getRole();
-  userUuid: string = this.roleService.getUUID();
-  orgRefId:string = this.roleService.getOrgRefUUID();
-  ROLE: string="";
+  assignRole(){
+    this.role = this.rbacService.getRole();
+    this.userUuid = this.rbacService.getUUID();
+    this.orgRefId = this.rbacService.getOrgRefUUID();
+  }
+  role: any;
+  userUuid : any;
+  orgRefId : any;
+  ROLE: any;
   logInUserUuid: string="";
   showManagerTickForUuid: string = '';
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
   // this.getAllUsersByFiltersFunction();
+  this.assignRole();
   // this.getAllUser();
-  this.ROLE = this.roleService.getRole();
-  this.logInUserUuid = this.roleService.getUUID();
+  this.ROLE = await this.rbacService.getRole();
+  this.logInUserUuid = this.rbacService.getUUID();
   this.getTeamsByFiltersFunction();
   this.getUsersRoleFromLocalStorage();
   // const localStorageFlag = localStorage.getItem(this.localStorageKey);
@@ -82,7 +88,7 @@ export class TeamComponent implements OnInit{
    
   }
 
-  constructor(private router : Router, public dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService, private helperService: HelperService, private db: AngularFireDatabase, private roleService:RoleBasedAccessControlService) { 
+  constructor(private router : Router, public dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService, private helperService: HelperService, private db: AngularFireDatabase, private rbacService:RoleBasedAccessControlService) { 
     this.Settings = {
       singleSelection: false,
       text: 'Select Module',

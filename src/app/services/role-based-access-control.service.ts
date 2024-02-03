@@ -27,7 +27,11 @@ export class RoleBasedAccessControlService implements OnInit{
     }
   }
 
-  getRole() {
+  async getRole(): Promise<string> {
+    return Promise.resolve(this.userInfo.role);
+  }
+
+  getRoles(){
     return this.userInfo.role;
   }
 

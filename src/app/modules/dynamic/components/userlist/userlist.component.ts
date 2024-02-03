@@ -24,12 +24,18 @@ export class UserlistComponent implements OnInit {
   rowNumber : number = 1;
 
   // loginDetails = this.helperService.getDecodedValueFromToken();
-  role:string = this.rbacService.getRole();
-  userUuid: string = this.rbacService.getUUID();
-  orgRefId:string = this.rbacService.getOrgRefUUID();
+  assignRole(){
+    this.role = this.rbacService.getRole();
+    this.userUuid = this.rbacService.getUUID();
+    this.orgRefId = this.rbacService.getOrgRefUUID();
+  }
+  role: any;
+  userUuid : any;
+  orgRefId : any;
 
   ngOnInit(): void {
     this.getUsersByFiltersFunction();
+    this.assignRole();
   }
 
   getUsersByFiltersFunction() {
