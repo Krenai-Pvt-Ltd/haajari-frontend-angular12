@@ -960,6 +960,7 @@ export class EmployeeProfileComponent implements OnInit {
   pancardString: string = '';
   // isDocumentsShimmer:boolean=false;
   getEmployeeDocumentsDetailsByUuid() {
+    debugger
     // this.isDocumentsShimmer=true;
     this.dataService.getEmployeeDocumentsDetails(this.userId).subscribe(
       (data) => {
