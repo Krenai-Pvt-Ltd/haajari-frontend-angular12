@@ -20,8 +20,8 @@ password: any;
 
   ngOnInit(): void {
 
-    const loginData = {id: 1, name: "richa", role: "ADMIN", orgRefId: 1, httpCustomStatus: "UPDATED"};
-    localStorage.setItem('loginData', JSON.stringify(loginData));
+    // const loginData = {id: 1, name: "richa", role: "ADMIN", orgRefId: 1, httpCustomStatus: "UPDATED"};
+    // localStorage.setItem('loginData', JSON.stringify(loginData));
   }
 
   loginButtonLoader : boolean = false;
@@ -31,14 +31,12 @@ password: any;
     this.dataService.loginUser(this.email,this.password).subscribe(response =>{
       debugger
       console.log(response);
-      this.helperService.moduleResponseList=response.moduleResponseList
+      this.helperService.subModuleResponseList=response.subModuleResponseList;
 
       localStorage.setItem('token', response.tokenResponse.access_token);
       localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
       // this.rbacService.setModules(response.moduleResponseList);
       // this.helperService.setModules(response.moduleResponseList);
-      console.log(this.authService.setUserData(response.moduleResponseList));
-
 
       this.router.navigate(['/dashboard']);
       

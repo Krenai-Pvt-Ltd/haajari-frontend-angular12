@@ -53,9 +53,9 @@ export class DashboardComponent implements OnInit {
   project : boolean = false;
 
   loginDetails = this.helperService.getDecodedValueFromToken();
-   role:string = this.loginDetails.role;
-   userUuid: string = this.loginDetails.uuid;
-   orgRefId:string = this.loginDetails.orgRefId;
+   role:string = this.rbacService.getRole();
+   userUuid: string = this.rbacService.getUUID();
+   orgRefId:string = this.rbacService.getOrgRefUUID();
 
   startDateStr: string = '';
   endDateStr: string = '';

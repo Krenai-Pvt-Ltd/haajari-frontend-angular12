@@ -33,8 +33,8 @@ export class HeaderComponent implements OnInit {
   ROLE = this.rbacService.getRole();
   UUID = this.rbacService.getUUID();
 
-  getLoggedInUserDetails(){
-    this.loggedInUser = this.helperService.getDecodedValueFromToken();
+  async getLoggedInUserDetails(){
+    this.loggedInUser = await this.helperService.getDecodedValueFromToken();
   }
 
   getFirstAndLastLetterFromName(name: string): string {

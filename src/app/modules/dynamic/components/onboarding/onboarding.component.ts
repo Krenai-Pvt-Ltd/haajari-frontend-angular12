@@ -22,6 +22,7 @@ import { Savel } from "src/app/models/savel";
 import { ShiftTimings } from "src/app/models/shifttimings";
 import { DataService } from "src/app/services/data.service";
 import { HelperService } from "src/app/services/helper.service";
+import { RoleBasedAccessControlService } from "src/app/services/role-based-access-control.service";
 
 @Component({
   selector: "app-onboarding",
@@ -30,7 +31,7 @@ import { HelperService } from "src/app/services/helper.service";
 })
 export class OnboardingComponent implements OnInit {
   getLoggedInUserDetails(){
-    this.loggedInUser = this.helperService.getDecodedValueFromToken();
+    // this.loggedInUser = this.helperService.getDecodedValueFromToken();
   }
 
   getFirstAndLastLetterFromName(name : string){
@@ -42,9 +43,9 @@ export class OnboardingComponent implements OnInit {
   Sick: any;
   c: any;
   loginDetails = this.helperService.getDecodedValueFromToken();
-  role:string = this.loginDetails.role;
-  userUuid: string = this.loginDetails.uuid;
-  id:string = this.loginDetails.orgRefId;
+  role:string = this.rbacService.getRole();
+  userUuid: string = this.rbacService.getUUID();
+  orgRefId:string = this.rbacService.getOrgRefUUID();
 
 
   // loginDetails = this.helperService.getDecodedValueFromToken();
@@ -55,7 +56,8 @@ export class OnboardingComponent implements OnInit {
     private helperService: HelperService,
     private router: Router,
     private fb: FormBuilder,
-    private afStorage: AngularFireStorage
+    private afStorage: AngularFireStorage,
+    private rbacService : RoleBasedAccessControlService
   ) {
     this.shiftTimingsForm = this.fb.group({
       inTime: ["", Validators.required],

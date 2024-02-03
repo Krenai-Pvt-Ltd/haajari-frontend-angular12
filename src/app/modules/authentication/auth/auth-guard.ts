@@ -21,13 +21,13 @@ export class AuthGuard implements CanActivate {
 
     debugger
     if(route !== null && route.routeConfig !== null){
-      if(this.rbacService.getRole() === Key.USER && route.routeConfig.path == 'dashboard') {
+
+      if(await this.rbacService.getRole() === Key.USER && route.routeConfig.path == 'dashboard') {
         this.router.navigate(['/employee-profile'], {queryParams : {"userId" : this.rbacService.getUUID()}});
-        // return false;
+        return false;
       }
 
       const requiredSubmodule = '/'+route.routeConfig.path;
-      const abc = route.data.requiredSubmodule;
       if (requiredSubmodule && !(await this.rbacService.hasAccessToSubmodule(requiredSubmodule))) {
         this.router.navigate(['/unauthorized']);
         return false;

@@ -22,6 +22,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 
 
 export class TeamComponent implements OnInit{
+  
   // slackDataSaved: boolean = false;
   // localStorageKey: string = 'slackDataSaved';
 
@@ -39,9 +40,9 @@ export class TeamComponent implements OnInit{
   rowNumber : number = 1;
 
   loginDetails = this.helperService.getDecodedValueFromToken();
-  role:string = this.loginDetails.role;
-  userUuid: string = this.loginDetails.uuid;
-  orgRefId:string = this.loginDetails.orgRefId;
+  role:string = this.roleService.getRole();
+  userUuid: string = this.roleService.getUUID();
+  orgRefId:string = this.roleService.getOrgRefUUID();
   ROLE: string="";
   logInUserUuid: string="";
   showManagerTickForUuid: string = '';

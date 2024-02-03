@@ -28,9 +28,9 @@ export class TimetableComponent implements OnInit {
   }
 
    loginDetails = this.helperService.getDecodedValueFromToken();
-   role:string = this.loginDetails.role;
-   userUuid: string = this.loginDetails.uuid;
-   orgRefId:string = this.loginDetails.orgRefId;
+   role:string = this.rbacService.getRole();
+   userUuid: string = this.rbacService.getUUID();
+   orgRefId:string = this.rbacService.getOrgRefUUID();
 
    PRESENT = Key.PRESENT;
     ABSENT = Key.ABSENT;
