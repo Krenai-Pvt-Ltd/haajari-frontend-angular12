@@ -51,6 +51,7 @@ debugger
   
   showSuccess() {
     debugger
+    
     this.setEmployeeEmergencyContactDetailsMethodCall();
     this.displaySuccessModal = true;
     this.cd.detectChanges();
@@ -176,14 +177,16 @@ delete(index:number){
 
   @ViewChild("confirmationModalButton") confirmationModalButton!:ElementRef;
   
-  
+  @ViewChild("previewModalCallButton") previewModalCallButton!: ElementRef;
   openModal() {
+    debugger
     this.checkFormValidation();
 
   if(this.isFormInvalid==true){
     return
   } else{
-    this.confirmationModalButton.nativeElement.click();
+    this.previewModalCallButton.nativeElement.click();
+    // this.confirmationModalButton.nativeElement.click();
   }
   }
 

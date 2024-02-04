@@ -34,6 +34,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 
 
 // import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
@@ -77,7 +78,9 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     NzIconModule,
     NzInputModule,
     NzSelectModule,
-    ImageCropperModule
+    ImageCropperModule,
+    NzInputNumberModule
+    
   
     
     

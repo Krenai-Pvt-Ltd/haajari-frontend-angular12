@@ -182,6 +182,25 @@ nz-date-picker {
     position: relative; /* In case you need absolute positioning inside */
 }
 
+.grade-dropdown {
+    display: inline-flex; /* Allows button to grow with content while being inline */
+    align-items: center;
+    background: transparent;
+    border: 1px solid #e8ebf3;
+    text-align: left;
+    padding: 0.4rem 1rem;
+    border-radius: 0.25rem;
+    position: relative;
+    gap: 4px; /* Space between text and icon */
+}
+
+
+
+.grade-dropdown span {
+    margin-left: auto; /* Ensures the icon is pushed to the right */
+    text-align: right; /* Aligns the icon text to the right */
+}
+
 .hover-dropdown-height{
     max-height: 200px;
     overflow-y: scroll ; /* This will force the scrollbar to always show */
@@ -195,7 +214,19 @@ nz-date-picker {
     margin-top: 4px; /* Adjust this value to nudge the icon down */
 }
 
-  
+.icon-grade-right {
+    /* No need for float; flexbox handles positioning */
+    margin-left: auto; /* Pushes the icon to the right */
+}
+
+.buttons-container {
+    display: flex;
+    gap: 8px; /* Adjusts space between buttons */
+    align-items: center; /* Aligns buttons in case they have different heights */
+}
+
+
+
   .ant-input.demo-input-right {
     width: 100px;
     text-align: center;

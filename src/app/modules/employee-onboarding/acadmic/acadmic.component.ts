@@ -24,6 +24,8 @@ export class AcadmicComponent implements OnInit {
     this.router.navigate(['/employee-onboarding/employee-document'], navExtra);
   }
 
+
+
   routeToUserDetails() {
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
@@ -271,6 +273,33 @@ displayModal = false;
   //   }
   // }
   
-  options: string[] = ['Option 1', 'Option 2', 'Option 3'];
+  selectType(type: string): void {
+    debugger
+    this.userAcademicsDetailRequest.gradeType = type;
+    // Reset the grade value when the type changes
+    this.userAcademicsDetailRequest.grade = '';
+  }
+  
+  selectGrade(grade: string): void {
+    this.userAcademicsDetailRequest.grade = grade;
+  }
+  
+  // You may also need to define formatter and parser functions for percentage values
+
+  
+  // Array of grades for the dropdown
+  grades: string[] = [
+    'O (Outstanding)', 'A+ (Excellent)', 'A (Very Good)',
+    'B+ (Good)', 'B (Above Average)', 'C (Average)',
+    'D (Pass)', 'F (Fail)'
+  ];
+  
+  temporaryValue: number = 0;
+
+
+
+  formatterPercent = (value: number): string => `${value} %`;
+  parserPercent = (value: string): string => value.replace(' %', '');
+
 
 }
