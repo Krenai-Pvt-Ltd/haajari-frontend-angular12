@@ -35,6 +35,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { MediaManagerCropComponent } from '../common/media-manager-crop/media-manager-crop.component';
 
 
 // import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
@@ -52,6 +53,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
          EmployeeOnboardingComponent,
          EmployeeOnboardingSidebarComponent,
          NumberToWordsPipe,
+         MediaManagerCropComponent
          
          
          
@@ -79,7 +81,8 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
     NzInputModule,
     NzSelectModule,
     ImageCropperModule,
-    NzInputNumberModule
+    NzInputNumberModule,
+    
     
   
     

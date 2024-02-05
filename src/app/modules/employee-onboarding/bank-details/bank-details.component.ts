@@ -202,6 +202,14 @@ displayModal = false;
       }
     }
 
+    preventWhitespace(event: KeyboardEvent): void {
+      const input = event.target as HTMLInputElement;
+      // Prevent leading spaces
+      if (event.key === ' ') {
+          event.preventDefault();
+      }
+    }
+
     onChange(value: string): void {
       this.filteredBanks = this.banksInIndia.filter(bank => bank.toLowerCase().includes(value.toLowerCase()));
     }

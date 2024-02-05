@@ -185,17 +185,20 @@ delete(index:number){
   if(this.isFormInvalid==true){
     return
   } else{
-    this.previewModalCallButton.nativeElement.click();
-    // this.confirmationModalButton.nativeElement.click();
+    // this.previewModalCallButton.nativeElement.click();
+    this.confirmationModalButton.nativeElement.click();
   }
   }
 
   preventLeadingWhitespace(event: KeyboardEvent): void {
-    const inputElement = event.target as HTMLInputElement;
-  
-    // Prevent space if it's the first character
-    if (event.key === ' ' && inputElement.selectionStart === 0) {
-      event.preventDefault();
+    const input = event.target as HTMLInputElement;
+    // Prevent leading spaces
+    if (event.key === ' ' && input.selectionStart === 0) {
+        event.preventDefault();
+    }
+    // Prevent numeric input entirely
+    if (!isNaN(Number(event.key)) || !/[a-zA-Z]/.test(event.key)) {
+        event.preventDefault();
     }
   }
 
