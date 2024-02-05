@@ -327,3 +327,6 @@ a.select-file {
     height: 200px;
     overflow: scroll;
 }
+.nz-input-number {
+    margin-right: 8px;
+  }

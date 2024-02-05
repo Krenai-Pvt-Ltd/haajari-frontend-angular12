@@ -379,3 +379,10 @@ a.select-file {
     height: 200px;
     overflow: scroll;
 }
+
+.btn-custom-selected {
+    background-color: #6666f3 !important; /* Your specific color */
+    border-color: #6666f3 !important; /* Border color to match the background */
+    color: #fff !important; /* Text color for contrast */
+  }
+  
