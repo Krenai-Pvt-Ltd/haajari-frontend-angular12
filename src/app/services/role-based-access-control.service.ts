@@ -35,7 +35,12 @@ export class RoleBasedAccessControlService implements OnInit{
     return this.userInfo.role;
   }
 
+  // async getUUID(): Promise<string> {
+  //   return Promise.resolve(this.userInfo.uuid);
+  // }
+
   getUUID(){
+    debugger
     return this.userInfo.uuid;
   }
 

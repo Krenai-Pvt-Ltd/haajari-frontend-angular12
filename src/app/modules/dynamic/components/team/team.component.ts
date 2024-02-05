@@ -321,9 +321,9 @@ export class TeamComponent implements OnInit{
     //  if(loginDetails!==null){
     //   const loginData = JSON.parse(loginDetails);
 
-      if(this.role=='ADMIN'){
+      if(this.ROLE=='ADMIN'){
         this.localStorageRoleAdminFlag=true;
-      }else if(this.role=='USER'){
+      }else{
         this.localStorageRoleAdminFlag=false;
       }
   }
