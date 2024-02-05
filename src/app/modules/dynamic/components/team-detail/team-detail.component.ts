@@ -38,26 +38,29 @@ export class TeamDetailComponent implements OnInit {
 
   }
   managerId:any;
+  role: any;
+  userUuid : any;
+  orgRefId : any;
 
-
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.role =  await this.rbacService.getRole();
+    this.userUuid = this.rbacService.getUUID();
     this.assignRole();
+    this.getLoginDetailsId();
     this.getTeamMemberById();
     this.getUsersRoleFromLocalStorage();
   }
 
-  ngAfterViewInit() {
-    this.getLoginDetailsId();
-  }
+  // ngAfterViewInit() {
+  //   this.getLoginDetailsId();
+  // }
   
-  assignRole(){
-    this.role = this.rbacService.getRole();
-    this.userUuid = this.rbacService.getUUID();
+  async assignRole(){
+    // this.role =   this.rbacService.getRole();
+    // this.userUuid = this.rbacService.getUUID();
     this.orgRefId = this.rbacService.getOrgRefUUID();
   }
-  role: any;
-  userUuid : any;
-  orgRefId : any;
+
 
   teamId: any;
   team:any=[];
@@ -258,6 +261,8 @@ export class TeamDetailComponent implements OnInit {
   localStorageRoleAdminFlag=false;
   
   getUsersRoleFromLocalStorage(){
+    // console.log("role" + this.role);
+    debugger
       if(this.role == this.ADMIN){
         this.localStorageRoleAdminFlag=true;
       }else if((this.role== this.USER )|| (this.role== this.MANAGER)){
