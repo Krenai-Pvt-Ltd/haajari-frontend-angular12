@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
@@ -38,6 +38,10 @@ export class EmployeeOnboardingFormComponent implements OnInit {
         
   }
 
+  @ViewChild('imageModel') imageModel!: ElementRef;
+  @ViewChild('closeModel') closeModel!: ElementRef
+  @ViewChild('imageGallerButton') imageGallerButton!: ElementRef
+  @ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>;
   ngOnInit(): void {
     this.userPersonalInformationRequest.dob = this.getInitialDate();
     console.log()
@@ -100,7 +104,13 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     return false;
   }
   
-  
+  getImageUrl(e: any){
+    console.log(e);
+    if(e!=null && e.length>0){
+      this.userPersonalInformationRequest.image = e[0];
+      this.imagePreviewUrl = e[0];
+    }
+  }
 
   
   
