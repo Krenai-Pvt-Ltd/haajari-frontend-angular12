@@ -11,15 +11,15 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router, private rbacService: RoleBasedAccessControlService) {}
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    
     const token = localStorage.getItem('token');
-    if (!this.isValidTokenFormat(token)) {
+    if (! await (this.isValidTokenFormat(token))) {
       this.router.navigate(['/auth/login']);
       return false;
     }
 
+    await this.rbacService.isUserInfoInitialized();
 
-
-    debugger
     if(route !== null && route.routeConfig !== null){
 
       if(await this.rbacService.getRole() == Key.USER && route.routeConfig.path == 'dashboard') {
@@ -37,12 +37,20 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
-  private isValidTokenFormat(token: string | null): boolean {
-    if (!token) {
-      return false;
-    }
-
-    const parts = token.split('.');
-    return parts.length === 3;
+  async isValidTokenFormat(token: string | null): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      try {
+        if (!token) {
+          resolve(false);
+          return;
+        }
+  
+        const parts = token.split('.');
+        resolve(parts.length === 3);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
+  
 }
