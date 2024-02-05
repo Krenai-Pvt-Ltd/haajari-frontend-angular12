@@ -11,10 +11,24 @@
                     <div class="personal-details">
                         <h5>Employee Experience</h5>
                         <p class="mb-0">Fields with * are mandatory</p>
-                        <form #experienceInformationForm="ngForm" ngNativeValidate (ngSubmit)="submit()">
+                        <form #experienceInformationForm="ngForm"  (ngSubmit)="submit()">
                             <!-- Loop for Experience Fields -->
-
-                            <div class="col-md-3">
+                         
+                        <br>
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <!-- Fresher Radio Button -->
+                            <input type="radio" class="btn-check" name="btnradio1" id="btnradio1" autocomplete="off"
+                                   [(ngModel)]="userExperiences[0].fresher" [value]="true">
+                            <label class="btn" [class.btn-custom-selected]="userExperiences[0].fresher === true" [class.btn-outline-primary]="userExperiences[0].fresher !== true" for="btnradio1">Fresher</label>
+                          
+                            <!-- Experience Radio Button -->
+                            <input type="radio" class="btn-check" name="btnradio2" id="btnradio2" autocomplete="off"
+                                   [(ngModel)]="userExperiences[0].fresher" [value]="false">
+                            <label class="btn" [class.btn-custom-selected]="userExperiences[0].fresher === false" [class.btn-outline-primary]="userExperiences[0].fresher !== false" for="btnradio2">Experience</label>
+                          </div>
+                          
+                              
+                            <!-- <div class="col-md-3">
                                 <div class="mb-3">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="experienceType" id="fresherRadio" [(ngModel)]="userExperiences[0].fresher" [value]="true">
@@ -24,7 +38,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Experience Radio Button -->
+                            
                             <div class="col-md-3" >
                                 <div class="mb-3">
                                     <div class="form-check">
@@ -34,13 +48,12 @@
                                         </label>
                                     </div>
                                 </div>
-                            </div>
-                           
+                            </div> -->
                             <div *ngFor="let experience of userExperiences; let i = index" class="personal-info mt-4">
                                 <div *ngIf="!userExperiences[0].fresher">
                                 <div class="row">
                                 <!-- Fresher Radio Button -->
-                            </div>
+                                </div>
                             
                                 <!-- Experience Fields (Hidden for Freshers) -->
                                 <div class="row">
@@ -48,9 +61,9 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="companyName{{i}}" class="pb-2">Company Name <span class="text-optional">*</span></label>
-                                            <input type="text" class="form-control" (keydown)="preventLeadingWhitespace($event)" maxlength="30" id="companyName{{i}}" name="companyName" placeholder="Company name" [(ngModel)]="experience.companyName" required #companyNameField="ngModel" [ngModelOptions]="{standalone: true}">
+                                            <input type="text" class="form-control" (keydown)="preventLeadingWhitespace($event)" maxlength="30" id="companyName{{i}}" name="companyName{{i}}" placeholder="Company name" [(ngModel)]="experience.companyName" required #companyNameField="ngModel" >
                                             <!-- Error Message for Company Name Field -->
-                                            <div *ngIf="companyNameField.touched">
+                                            <div *ngIf="companyNameField.touched  || isFormInvalid">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="companyNameField.errors?.required">
                                                     <i class="bi bi-exclamation-circle"></i>
                                                     Company Name is required.
@@ -69,18 +82,18 @@
                                             <!-- NZ Range Picker -->
                                             <nz-range-picker 
                                             (keydown)="preventLeadingWhitespace($event)"
-                                            id="duration{{i}}" name="duration"
+                                            id="duration{{i}}" name="duration{{i}}"
                                                 nzBorderless 
                                                 [(ngModel)]="experience.dateRange" 
                                                 required 
                                                 #rangePicker="ngModel" 
                                                 (ngModelChange)="onDateRangeChange($event, i)"
                                                 [nzDisabledDate]="disabledDate"
-                                                [ngModelOptions]="{standalone: true}">
+                                                >
                                             </nz-range-picker>
                                     
                                             <!-- Error Messages for Range Picker -->
-                                            <div *ngIf="rangePicker.touched">
+                                            <div *ngIf="rangePicker.touched || isFormInvalid">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="rangePicker.errors?.required">
                                                     <i class="bi bi-exclamation-circle"></i>
                                                     Duration is required.
@@ -102,7 +115,7 @@
                                                     <li *ngFor="let dept of departments"><a class="dropdown-item" (click)="selectDepartmentForExperience(dept, i)">{{ dept }}</a></li>
                                                 </ul>
                                             </div>
-                                            <input type="hidden" [(ngModel)]="experience.lastJobDepartment" required #lastJobDepartmentField="ngModel" [ngModelOptions]="{standalone: true}">
+                                            <input type="hidden" [(ngModel)]="experience.lastJobDepartment" required #lastJobDepartmentField="ngModel" >
                                             
                                             <div *ngIf="lastJobDepartmentField.touched">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobDepartmentField.errors?.required">
@@ -116,7 +129,7 @@
                                             <label for="lastJobDepartmentDropdown{{i}}" class="pb-2">Department <span class="text-optional">*</span></label>
                                             <!-- Replacing the dropdown with nz-autocomplete -->
                                             <input
-                                            (keydown)="preventLeadingWhitespace($event)" maxlength="30"
+                                            (keydown)="preventLeadingWhitespace($event)" maxlength="50"
                                               class="seach-dropdown"
                                               [id]="'lastJobDepartmentDropdown' + i"
                                               [name]="'lastJobDepartmentDropdown' + i"
@@ -126,11 +139,11 @@
                                               (ngModelChange)="onChangeDepartment($event, i)"
                                               [nzAutocomplete]="departmentAuto"
                                               required #lastJobDepartmentField="ngModel"
-                                              [ngModelOptions]="{standalone: true}"
+                                              
                                             />
                                             <nz-autocomplete [nzDataSource]="departmentFilteredOptions" #departmentAuto></nz-autocomplete>
                                             <!-- Error Message for Department -->
-                                            <div *ngIf="lastJobDepartmentField.touched">
+                                            <div *ngIf="lastJobDepartmentField.touched || isFormInvalid ">
                                               <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobDepartmentField.errors?.required">
                                                 <i class="bi bi-exclamation-circle"></i>
                                                 Department is required.
@@ -146,9 +159,9 @@
                                         <div class="mb-3">
                                             
                                             <label for="lastSalary{{i}}" class="pb-2">Last Salary <span class="text-optional">*</span></label>
-                                            <input type="text" (keydown)="preventLeadingWhitespace($event)" mask="0000000000" class="form-control " id="lastSalary{{i}}" name="lastSalary" placeholder="Last salary" [(ngModel)]="experience.lastSalary" required #lastSalaryField="ngModel" [ngModelOptions]="{standalone: true}">
+                                            <input type="text" (keydown)="preventAlphabets($event)"      maxlength="10" class="form-control " id="lastSalary{{i}}" name="lastSalary{{i}}" placeholder="Last salary" [(ngModel)]="experience.lastSalary" required #lastSalaryField="ngModel" >
                                             <!-- Error Message for Last Salary -->
-                                            <div *ngIf="lastSalaryField.touched">
+                                            <div *ngIf="lastSalaryField.touched || isFormInvalid ">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastSalaryField.errors?.required">
                                                     <i class="bi bi-exclamation-circle"></i>
                                                     Last Salary is required.
@@ -167,7 +180,7 @@
                                                 <li *ngFor="let title of jobTitles"><a class="dropdown-item" (click)="selectPositionForExperience(title, i)">{{ title }}</a></li>
                                             </ul>
                                         </div>
-                                        <input type="hidden" [(ngModel)]="experience.lastJobPosition" required #lastJobPositionField="ngModel" [ngModelOptions]="{standalone: true}">
+                                        <input type="hidden" [(ngModel)]="experience.lastJobPosition" required #lastJobPositionField="ngModel" >
                                         Error Message for Position
                                         <div *ngIf="lastJobPositionField.touched">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobPositionField.errors?.required">
@@ -191,11 +204,11 @@
                                           (ngModelChange)="onChangePosition($event, i)"
                                           [nzAutocomplete]="positionAuto"
                                           required #lastJobPositionField="ngModel"
-                                          [ngModelOptions]="{standalone: true}"
+                                          
                                         />
                                         <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
                                         <!-- Error Message for Position -->
-                                        <div *ngIf="lastJobPositionField.touched">
+                                        <div *ngIf="lastJobPositionField.touched || isFormInvalid">
                                           <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobPositionField.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             Position is required.
@@ -207,9 +220,9 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="lastJobResponsibilities{{i}}" class="pb-2">Responsibilities <span class="text-optional">*</span></label>
-                                            <textarea (keydown)="preventLeadingWhitespace($event)" maxlength="150" class="form-control" id="lastJobResponsibilities{{i}}" name="lastJobResponsibilities" placeholder="Responsibilities (Max. 150 Characters)" [(ngModel)]="experience.jobResponisibilities" rows="5" required #lastJobResponsibilitiesField="ngModel" [ngModelOptions]="{standalone: true}"></textarea>
+                                            <textarea (keydown)="preventLeadingWhitespace($event)" maxlength="150" class="form-control" id="lastJobResponsibilities{{i}}" name="lastJobResponsibilities{{i}}" placeholder="Responsibilities (Max. 150 Characters)" [(ngModel)]="experience.jobResponisibilities" rows="5" required #lastJobResponsibilitiesField="ngModel" ></textarea>
                                             <!-- Error Message for Responsibilities -->
-                                            <div *ngIf="lastJobResponsibilitiesField.touched">
+                                            <div *ngIf="lastJobResponsibilitiesField.touched || isFormInvalid">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="lastJobResponsibilitiesField.errors?.required">
                                                     <i class="bi bi-exclamation-circle"></i>
                                                     Responsibilities are required. 
@@ -236,61 +249,64 @@
                                 
                             </div> -->
                         </div>
-                    </div>
+                                </div>
                
                         <!-- Navigation Buttons -->
-                    </div> 
+                                </div> 
+                            </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-6" *ngIf="!userExperiences[0].fresher">
+                                <div class="add-filtter">
+                                    <a type="button" (click)="addExperience()">
+                                        <i class="bi bi-plus" style="font-size: 23px;"></i> Add More
+                                    </a>
+                                </div>
+                            </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-md-12 d-flex justify-content-between mt-3">
+                                <div class="info-btn d-flex justify-content-start">
+                                    <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()">
+                                        <i class="bi bi-arrow-left" style="padding-right: 8px;"></i> Back
+                                    </button>
+                                </div>
+                                <div class="info-btn d-flex justify-content-end" style="gap:10px;">
+                                    <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+                                        <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
+                                            <div *ngIf="toggleSave" class="dot-opacity-loader">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                            <span *ngIf="!toggleSave">
+                                                Submit Form <i class="bi bi-save" style="padding-left: 8px;"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    
+                                    <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle"  aria-label="Next Step">
+                                        <div *ngIf="toggle" class="dot-opacity-loader">
+                                          <span></span>
+                                          <span></span>
+                                          <span></span>
+                                        </div>
+                                        <span *ngIf="!toggle && isNewUser">
+                                            Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                        </span>
+                                        <span *ngIf="!toggle && !isNewUser">
+                                          Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                      </span>
+                                      </button>
+                                </div>
+                                
+                            </div>
                         </div>
-                        <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button>
+                        <button type="submit" style="display: none;" name="formSubmitButton" id="formSubmitButton"  #formSubmitButton></button>
                         <!-- </div> -->
                     </form>
                     <!-- Add More Button -->
-                    <div class="row align-items-center">
-                        <div class="col-md-6" *ngIf="!userExperiences[0].fresher">
-                            <div class="add-filtter">
-                                <a type="button" (click)="addExperience()">
-                                    <i class="bi bi-plus" style="font-size: 23px;"></i> Add More
-                                </a>
-                            </div>
-                        </div>
-                        </div>
-                    <div class="row">
-                        <div class="col-md-12 d-flex justify-content-between mt-3">
-                            <div class="info-btn d-flex justify-content-start">
-                                <button class="btn btn-primary back-btn" type="button" (click)="backRedirectUrl()">
-                                    <i class="bi bi-arrow-left" style="padding-right: 8px;"></i> Back
-                                </button>
-                            </div>
-                            <div class="info-btn d-flex justify-content-end" style="gap:10px;">
-                                <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
-                                    <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
-                                        <div *ngIf="toggleSave" class="dot-opacity-loader">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                        <span *ngIf="!toggleSave">
-                                            Submit Form <i class="bi bi-save" style="padding-left: 8px;"></i>
-                                        </span>
-                                    </button>
-                                </div>
-                                <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
-                                    <div *ngIf="toggle" class="dot-opacity-loader">
-                                      <span></span>
-                                      <span></span>
-                                      <span></span>
-                                    </div>
-                                    <span *ngIf="!toggle && isNewUser">
-                                        Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
-                                    </span>
-                                    <span *ngIf="!toggle && !isNewUser">
-                                      Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
-                                  </span>
-                                  </button>
-                            </div>
-                            <!-- <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button> -->
-                        </div>
-                    </div>
+                   
+                   <!--  -->
                     </div>
                 </div>
             </div>
