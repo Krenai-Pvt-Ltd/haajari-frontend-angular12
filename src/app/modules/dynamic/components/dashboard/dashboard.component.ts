@@ -32,6 +32,8 @@ export class DashboardComponent implements OnInit {
 
     // Set the default selected month
     this.month = currentDate.format('MMMM');
+
+    this.getFirstAndLastDateOfMonth(this.selectedDate);
     
    }
 
@@ -45,7 +47,6 @@ export class DashboardComponent implements OnInit {
   searchBy : string = '';
   dataFetchingType : string = '';
 
-  currentDayEmployeesData : any = [];
   // selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
   myAttendanceDataLength = 0;
@@ -70,8 +71,8 @@ export class DashboardComponent implements OnInit {
 
   
 
-  assignRole(){
-    this.ROLE = this.rbacService.getRole();
+  async getRoleDetails(){
+    this.ROLE = await this.rbacService.getRole();
   }
   
   ROLE : any;
@@ -80,6 +81,25 @@ export class DashboardComponent implements OnInit {
   USER = Key.USER;
 
   
+  size: 'large' | 'small' | 'default' = 'small';
+  selectedDate: Date = new Date();
+  startDate : string = '';
+  endDate : string = '';
+
+  onMonthChange(month: Date): void {
+    this.selectedDate = month;
+    console.log("CURRENT MONTH:- "+this.selectedDate);
+    console.log(this.getCurrentDate());
+    console.log(new Date());
+    this.getFirstAndLastDateOfMonth(this.selectedDate);
+    this.getAttendanceReportByDateDurationMethodCall();
+    console.log(this.startDate, this.endDate)
+  }
+
+  getFirstAndLastDateOfMonth(selectedDate : Date){
+    this.startDate = this.formatDateToYYYYMMDD(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1));
+    this.endDate = this.formatDateToYYYYMMDD(new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0));
+  }
 
 
   ngOnInit(): void {
@@ -100,7 +120,7 @@ export class DashboardComponent implements OnInit {
 
     // this.decodedAccessToken = this.rbacService.getModules();
     debugger
-    this.assignRole();
+    this.getRoleDetails();
     this.getAttendanceDetailsCountMethodCall();
     this.getAttendanceReportByDateDurationMethodCall();
 
@@ -112,10 +132,10 @@ export class DashboardComponent implements OnInit {
     this.getBestPerformerAttendanceDetailsMethodCall();
 
     // this.getDataFromDate();
-    this.getTodaysLiveLeaveCount();
+    // this.getTodaysLiveLeaveCount();
 
 
-    // this.inputDate = this.getCurrentDate();
+    this.inputDate = this.getCurrentDate();
   }
 
 
@@ -176,6 +196,8 @@ export class DashboardComponent implements OnInit {
   // }
 
 
+  currentDayEmployeesData : any = [];
+
   getCurrentDayEmployeesData(){
     this.dataService.getTodayEmployeesData().subscribe((data) => {
       this.currentDayEmployeesData=data;
@@ -186,16 +208,16 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  leaveCount!: number;
+//   leaveCount!: number;
 
-  getTodaysLiveLeaveCount(){
-  this.dataService.getTodaysLeaveCount().subscribe((data) => {
-    this.leaveCount=data;
-    console.log(this.leaveCount);
-  }, (error) => {
-    console.log(error);
-  })
-}
+//   getTodaysLiveLeaveCount(){
+//   this.dataService.getTodaysLeaveCount().subscribe((data) => {
+//     this.leaveCount=data;
+//     console.log(this.leaveCount);
+//   }, (error) => {
+//     console.log(error);
+//   })
+// }
 
 isAttendanceShimer: boolean=false;
 errorToggleMain: boolean=false;
@@ -368,6 +390,13 @@ getDataFromDate(): Promise<any> {
     return names.length > 0 ? names[0] : '';
   }
 
+  formatDateToYYYYMMDD(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  }
 
 
   // ####################Expand - Collapse All Functionalities################################
@@ -578,7 +607,7 @@ getDataFromDate(): Promise<any> {
         this.attendanceReportResponseList = [];
         this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
         
-        this.dataService.getAttendanceReportByDateDuration(this.startDateStr, this.endDateStr, this.pageNumber, this.itemPerPage, this.searchText, this.searchBy).toPromise()
+        this.dataService.getAttendanceReportByDateDuration(this.startDate, this.endDate, this.pageNumber, this.itemPerPage, this.searchText, this.searchBy).toPromise()
             .then((response) => {
 
                 if(response === null || response === undefined || response.object === undefined || response.object === null || response.object.length === 0){
@@ -625,23 +654,23 @@ getDataFromDate(): Promise<any> {
   // }
 
 
-  dayWiseStatusList : DayWiseStatus[] = [];
-  getDayWiseStatusMethodCall(userUuid : string){
-    this.dataService.getDayWiseStatus(userUuid,'2024-01-01','2024-01-31').subscribe((response) => {
-      this.dayWiseStatusList = response.object;
-    }, (error) => {
-      console.log(error);
-    })
-  }
+  // dayWiseStatusList : DayWiseStatus[] = [];
+  // getDayWiseStatusMethodCall(userUuid : string){
+  //   this.dataService.getDayWiseStatus(userUuid,'2024-01-01','2024-01-31').subscribe((response) => {
+  //     this.dayWiseStatusList = response.object;
+  //   }, (error) => {
+  //     console.log(error);
+  //   })
+  // }
 
-  attendanceReportResponseListByUser : Date[] = [];
-  getAttendanceReportByDateDurationByUserMethodCall(){
-    this.dataService.getAttendanceReportByDateDurationByUser('2023-12-01','2023-12-31').subscribe((response) => {
-      console.log(response);
-    }, (error) => {
-      console.log(error);
-    })
-  }
+  // attendanceReportResponseListByUser : Date[] = [];
+  // getAttendanceReportByDateDurationByUserMethodCall(){
+  //   this.dataService.getAttendanceReportByDateDurationByUser('2023-12-01','2023-12-31').subscribe((response) => {
+  //     console.log(response);
+  //   }, (error) => {
+  //     console.log(error);
+  //   })
+  // }
 
   downloadingFlag : boolean = false;
   downloadAttendanceDataInExcelFormatMethodCall(){

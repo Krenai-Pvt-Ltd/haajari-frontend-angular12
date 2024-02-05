@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
@@ -16,7 +15,7 @@ password: any;
   //accessTokensAr: any = localStorage.getItem("accessTokens") || [];
   //accessTokenArray: any = JSON.parse(this.accessTokensAr);
 
-  constructor(private dataService : DataService, private router : Router, private rbacService : RoleBasedAccessControlService, private helperService : HelperService, private authService : AuthService) { }
+  constructor(private dataService : DataService, private router : Router, private rbacService : RoleBasedAccessControlService, private helperService : HelperService) { }
 
   ngOnInit(): void {
 
@@ -31,12 +30,10 @@ password: any;
     this.dataService.loginUser(this.email,this.password).subscribe(response =>{
       debugger
       console.log(response);
-      this.helperService.subModuleResponseList=response.subModuleResponseList;
+      this.helperService.subModuleResponseList = response.subModuleResponseList;
 
       localStorage.setItem('token', response.tokenResponse.access_token);
       localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
-      // this.rbacService.setModules(response.moduleResponseList);
-      // this.helperService.setModules(response.moduleResponseList);
 
       this.router.navigate(['/dashboard']);
       
@@ -45,6 +42,27 @@ password: any;
       this.loginButtonLoader = false;
     })
   }
+
+
+  // signIn(){
+  //   this.loginButtonLoader = true;
+  //   this.dataService.loginUser(this.email, this.password).subscribe({
+  //     next: (response) => {
+  //       console.log(response);
+  //       this.helperService.subModuleResponseList = response.subModuleResponseList;
+  
+  //       localStorage.setItem('token', response.tokenResponse.access_token);
+  //       localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
+  
+  //       this.router.navigate(['/dashboard']);
+  //     },
+  //     error: (error) => {
+  //       console.error(error);
+  //       this.loginButtonLoader = false;
+  //     }
+  //   });
+  // }
+  
 
   enableBack:boolean=false;
   signInWithEmail(){
