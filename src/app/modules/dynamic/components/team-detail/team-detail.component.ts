@@ -44,18 +44,20 @@ export class TeamDetailComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.role =  await this.rbacService.getRole();
+    this.userUuid = this.rbacService.getUUID();
     this.assignRole();
+    this.getLoginDetailsId();
     this.getTeamMemberById();
     this.getUsersRoleFromLocalStorage();
   }
 
-  ngAfterViewInit() {
-    this.getLoginDetailsId();
-  }
+  // ngAfterViewInit() {
+  //   this.getLoginDetailsId();
+  // }
   
   async assignRole(){
     // this.role =   this.rbacService.getRole();
-    this.userUuid = this.rbacService.getUUID();
+    // this.userUuid = this.rbacService.getUUID();
     this.orgRefId = this.rbacService.getOrgRefUUID();
   }
 
