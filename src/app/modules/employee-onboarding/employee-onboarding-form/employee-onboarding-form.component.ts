@@ -220,10 +220,7 @@ if (this.userPersonalInformationRequest.department === 'Other') {
                 if(response.employeeOnboardingStatus.response == "PENDING"){
                   this.isNewUser = false;
                 }
-                if (response.employeeOnboardingFormStatus.response == 'USER_REGISTRATION_SUCCESSFUL' && 
-                (this.employeeOnboardingFormStatus == 'PENDING' || this.employeeOnboardingFormStatus == 'APPROVED')) {
-                this.routeToFormPreview();
-            }
+               
             
                 this.handleOnboardingStatus(response.employeeOnboardingStatus.response);
                 console.log(response);
@@ -236,6 +233,12 @@ if (this.userPersonalInformationRequest.department === 'Other') {
                 if (response.image) {
                     this.setImageUrlFromDatabase(response.image);
                 }
+                if (response.employeeOnboardingFormStatus.response == 'USER_REGISTRATION_SUCCESSFUL' && 
+                (this.employeeOnboardingFormStatus == 'PENDING' || this.employeeOnboardingFormStatus == 'APPROVED')) {
+                  setTimeout(() => {
+                    this.routeToFormPreview();  
+                  }, 500);
+            }
             },
             (error: any) => {
                 console.error('Error fetching user details:', error);
