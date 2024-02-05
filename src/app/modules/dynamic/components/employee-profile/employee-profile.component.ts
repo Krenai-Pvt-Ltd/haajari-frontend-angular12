@@ -111,9 +111,10 @@ export class EmployeeProfileComponent implements OnInit {
   // tokenUserRoleFlag:boolean=false;
   currentDate: Date = new Date();
   currentNewDate: any;
-  ngOnInit(): void {
-    this.ROLE=this.roleService.getRole();
-    this.UUID=this.roleService.getUUID();
+  async ngOnInit(): Promise<void> {
+    this.ROLE= await this.roleService.getRole();
+    this.UUID= this.roleService.getUUID();
+
     if(this.ROLE==this.ADMIN){
     this.adminRoleFlag=true;
     }
@@ -960,14 +961,15 @@ export class EmployeeProfileComponent implements OnInit {
   pancardString: string = '';
   // isDocumentsShimmer:boolean=false;
   getEmployeeDocumentsDetailsByUuid() {
+    debugger
     // this.isDocumentsShimmer=true;
     this.dataService.getEmployeeDocumentsDetails(this.userId).subscribe(
       (data) => {
         this.documentsEmployee = data.userDocuments;
         if (data.userDocuments != null) {
-          this.highSchoolCertificate = data.userDocuments.highSchoolCertificate;
+          this.highSchoolCertificate = data.userDocuments.secondarySchoolCertificate;
           this.degreeCert = data.userDocuments.highestQualificationDegree;
-          this.intermediateCertificate = data.userDocuments.secondarySchoolCertificate;
+          this.intermediateCertificate = data.userDocuments.highSchoolCertificate;
           this.testimonialsString = data.userDocuments.testimonialReccomendation;
           this.aadhaarCardString = data.userDocuments.aadhaarCard;
           this.pancardString = data.userDocuments.pancard;

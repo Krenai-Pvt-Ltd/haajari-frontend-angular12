@@ -9,7 +9,7 @@
                     <div class="persnol-details">
                         <h5>Employee Documents</h5>
                         <p class="mb-0">Fields with * are mandatory </p>
-                        <form #documentsInformationForm="ngForm" ngNativeValidate (ngSubmit)="submit()">
+                        <form #documentsInformationForm="ngForm"  (ngSubmit)="submit()">
                             <div class="form-group">
                             <!-- Form content goes here -->
                             <div class="persnol-info mt-4">
@@ -35,12 +35,12 @@
                                               </span>
                                             </label>
                                           </div>
-                                          <div *ngIf="!isInvalidFileType && aadhaar.dirty">
+                                          <div *ngIf=" aadhaar.dirty || isFormInvalid">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="isaadhaarCardRequired && aadhaar.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Uploading the Aadhaar Card is required.
                                             </p>
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
                                           </div>
                                         </div>
                                       </div>
@@ -51,7 +51,7 @@
                                           <div class="importfilebox">
                                             <input id="pancardFile" name="pancardFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'pancard')" #pancard="ngModel" [required]="ispancardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.pancard">
                                             <label for="pancardFile">
-                                              <span *ngIf="!selectedpancardFileName && !pancardFileName">
+                                              <span *ngIf="(!selectedpancardFileName && !pancardFileName)">
                                                 <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
                                               </span>
                                               <span *ngIf="pancardFileName && !selectedpancardFileName">
@@ -65,12 +65,12 @@
                                               </span>
                                             </label>
                                           </div>
-                                          <div *ngIf="!isInvalidFileType && pancard.dirty">
+                                          <div *ngIf=" pancard.dirty || isFormInvalid">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="ispancardRequired && pancard.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Uploading the PAN Card is required.
                                             </p>
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
                                           </div>
                                         </div>
                                       </div>
@@ -102,12 +102,12 @@
                                               
                                           </div>
                                           <!-- Error Message for File Upload -->
-                                          <div *ngIf="!isInvalidFileType && highestQualificationDegree.dirty">
+                                          <div *ngIf="(!isInvalidFileType && highestQualificationDegree.dirty) || isFormInvalid">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highestQualificationDegree.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Uploading the Highest Qualification Degree is required.
                                             </p>
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
                                           </div>
                                         </div>
                                       </div>
@@ -138,12 +138,12 @@
                                               
                                           </div>
                                           <!-- Error Message for File Upload -->
-                                          <div *ngIf="!isInvalidFileType && secondary.dirty">
+                                          <div *ngIf="isFormInvalid || secondary.dirty">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="secondary.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Uploading the 10th Marksheet is required.
                                             </p>
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
                                           </div>
                                         </div>
                                       </div>
@@ -175,12 +175,12 @@
                                               
                                           </div>
                                           <!-- Error Message for File Upload -->
-                                          <div *ngIf="!isInvalidFileType && highSchool.dirty">
+                                          <div *ngIf="isFormInvalid || highSchool.dirty">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highSchool.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Uploading the 12th Marksheet is required.
                                             </p>
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
                                           </div>
                                         </div>
                                       </div>
@@ -233,13 +233,13 @@
                                               <span *ngIf="document.url && document.fileName">{{ document.fileName }}</span>
                                           </label>
                                           <!-- Display validation message -->
-                                          <div *ngIf="!isInvalidFileType && fileInput.dirty" >
+                                          <div *ngIf=" fileInput.dirty || isFormInvalid" >
                                             <!-- Checking for 'required' error -->
                                             <p *ngIf="fileInput.errors?.required" class="errortxt mt-2 mb-0" style="color:red">
                                               <i class="bi bi-exclamation-circle"></i> File is required.
                                             </p>
                                             <!-- Adding condition for invalid file type, assuming you have a variable to track this -->
-                                            <p *ngIf="!isInvalidFileType" class="errortxt mt-2 mb-0" style="color:red">
+                                            <p *ngIf="!isInvalidFileType && !isFormInvalid" class="errortxt mt-2 mb-0" style="color:red">
                                               <i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.
                                             </p>
                                           </div>
@@ -269,7 +269,7 @@
                                     <div class="col-md-12">
                                
                                         <div class="mb-3">
-                                            <h4 class="" style="font-size: 16px;">Guarantors <span class="text-optional">*</span></h4>
+                                            <h4 class="" style="font-size: 16px;">Guarantors/Reference <span class="text-optional">(Optional)</span></h4>
                                             <!-- <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter garduation mark"> -->
                                            
                                         </div>
@@ -277,15 +277,15 @@
 
                                      <div class="row position-relative" style="padding-left: 25px;">
                                       
-                                        <div class="counter-guarnters">
+                                        <!-- <div class="counter-guarnters">
                                           <p>1.</p>
-                                        </div>
+                                        </div> -->
                                         <div class="col-md-3">
                                             <div class="mb-3"   >
                                                 <label for="exampleInputEmail1" class="pb-2">Name</label>
-                                                <input type="text" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].name" required #guarantorName1="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="30">
+                                                <input type="text" required class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].name" #guarantorName1="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="30">
                                                 <!-- Error Message for Name Field -->
-                                                <div *ngIf="guarantorName1.touched">
+                                                <div *ngIf="guarantorName1.touched || isFormInvalid">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="guarantorName1.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Name is required.
@@ -300,9 +300,9 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="relationInput" class="pb-2">Relation</label>
-                                                <input type="text" class="form-control" id="relationInput" name="relationInput" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].relation" required #relation1="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="30">
+                                                <input type="text" required class="form-control" id="relationInput" name="relationInput" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].relation"  #relation1="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="30">
                                                 <!-- Error Message for Relation Field -->
-                                                <div *ngIf="relation1.touched">
+                                                <div *ngIf="relation1.touched || isFormInvalid">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation1.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Relation is required.
@@ -316,9 +316,9 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="phoneInput" class="pb-2">Phone Number</label>
-                                                <input type="text" mask="0000000000" class="form-control" id="phoneInput" name="phoneInput" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].phoneNumber" required #phone1="ngModel" minlength="10" maxlength="10" pattern="[0-9]*">
+                                                <input type="text" required mask="0000000000" class="form-control" id="phoneInput" name="phoneInput" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].phoneNumber"  #phone1="ngModel" minlength="10" maxlength="10" pattern="[0-9]*">
                                                 <!-- Error Message for Phone Number Field -->
-                                                <div *ngIf="phone1.touched">
+                                                <div *ngIf="phone1.touched || isFormInvalid">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone1.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Phone number is required.
@@ -334,7 +334,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="mb-3">
-                                                <label for="emailInput" class="pb-2">Email <span class="text-optional">(Optional)</span> </label>
+                                                <label for="emailInput" class="pb-2">Email <span class="text-optional"></span> </label>
                                                 <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].emailId" email #email1="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="50">
                                                 
                                                 <!-- Error Message for Email Field -->
@@ -357,8 +357,8 @@
                                         </div>
                                         
                                      </div>
-
-                                     <div class="row position-relative" style="padding-left: 25px;">
+                                     <!-- Guarantor @2 -->
+                                     <!-- <div class="row position-relative" style="padding-left: 25px;">
                                       <div class="counter-guarnters">
                                         <p>2.</p>
                                       </div>
@@ -366,7 +366,7 @@
                                             <div class="mb-3">
                                                 <label for="guarantorName2" class="pb-2">Name</label>
                                                 <input type="text" class="form-control" id="guarantorName2" name="guarantorName2" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].name" required #name2="ngModel" maxlength="30">
-                                                <!-- Error Message for Name Field -->
+                                                
                                                 <div *ngIf="name2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name2.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
@@ -382,7 +382,7 @@
                                             <div class="mb-3">
                                                 <label for="guarantorRelation2" class="pb-2">Relation</label>
                                                 <input type="text" class="form-control" id="guarantorRelation2" name="guarantorRelation2" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].relation" required #relation2="ngModel" maxlength="30"> 
-                                                <!-- Error Message for Relation Field -->
+                                               
                                                 <div *ngIf="relation2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation2.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
@@ -398,7 +398,7 @@
                                             <div class="mb-3">
                                                 <label for="guarantorPhoneNumber2" class="pb-2">Phone Number</label>
                                                 <input type="text" mask="0000000000" class="form-control" id="guarantorPhoneNumber2" name="guarantorPhoneNumber2" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].phoneNumber" required minlength="10" maxlength="10" pattern="[0-9]*" #phone2="ngModel">
-                                                <!-- Error Message for Phone Number Field -->
+                                           
                                                 <div *ngIf="phone2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone2.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
@@ -414,20 +414,14 @@
                                             </div>
                                         </div>
                                         
-                                        <!-- Email Field -->
+                                        
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorEmail2" class="pb-2">Email <span class="text-optional">(Optional)</span> </label>
                                                 <input type="email" class="form-control" id="guarantorEmail2" name="guarantorEmail2" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].emailId"  email #email2="ngModel" maxlength="50">
-                                                
-                                                <!-- Error Message for Email Field -->
+                                             
                                                 <div *ngIf="email2.touched">
-                                                    <!-- Message for Required Field -->
-                                                    <!-- <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email2.errors?.required">
-                                                        <i class="bi bi-exclamation-circle"></i>
-                                                        Email is required.
-                                                    </p> -->
-                                                    <!-- Message for Invalid Email Format -->
+                                                   
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email2.errors?.email && !email2.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Please enter a valid email address.
@@ -441,7 +435,7 @@
                                         
                                                                                 
 
-                                     </div>
+                                     </div> -->
                             <!-- Other form fields and elements -->
 
                             <div class="col-md-12 d-flex justify-content-between mt-3">
@@ -463,7 +457,7 @@
                                             </span>
                                         </button>
                                     </div>
-                                    <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
+                                    <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle " aria-label="Next Step">
                                         <div *ngIf="toggle" class="dot-opacity-loader">
                                           <span></span>
                                           <span></span>

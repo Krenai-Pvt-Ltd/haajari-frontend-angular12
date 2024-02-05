@@ -10,6 +10,7 @@ export class UserAcademicsDetailRequest {
     directSave!: boolean;
     employeeOnboardingFormStatus!: string;
     employeeOnboardingStatus!: string;
-
+    gradeType!: string;
+    demoValue!: number;
 
 }

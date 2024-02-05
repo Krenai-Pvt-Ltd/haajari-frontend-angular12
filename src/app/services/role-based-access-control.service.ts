@@ -42,7 +42,7 @@ export class RoleBasedAccessControlService {
     this.userInfo = await this.helperService.getDecodedValueFromToken();
     await this.helperService.getDecodedValueFromToken().then((response:any)=>{
       this.userInfo=response;
-      role= this.userInfo.role;
+      role = this.userInfo.role;
     });
     return role;
   }
@@ -51,7 +51,11 @@ export class RoleBasedAccessControlService {
     return this.userInfo.role;
   }
 
-  getUUID() {
+  // async getUUID(): Promise<string> {
+  //   return Promise.resolve(this.userInfo.uuid);
+  // }
+
+  getUUID(){
     return this.userInfo.uuid;
   }
 

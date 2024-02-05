@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { EmployeeAdditionalDocument } from 'src/app/models/employee-additional-document';
@@ -299,7 +300,7 @@ getEmployeeDocumentsDetailsMethodCall() {
         if (this.userDocumentsDetailsRequest.guarantors.length==0) {
           this.userDocumentsDetailsRequest.guarantors = [
             new UserGuarantorRequest(),
-            new UserGuarantorRequest()
+            // new UserGuarantorRequest()
           ];
         }
       },
@@ -339,6 +340,11 @@ selectButtonType(type:string){
 directSave: boolean = false;
 
 submit(){
+ this.checkFormValidation();
+
+  if(this.isFormInvalid==true){
+    return
+  } else{ 
 switch(this.buttonType){
   case "next" :{
     this.setEmployeeDocumentsDetailsMethodCall();
@@ -350,6 +356,18 @@ switch(this.buttonType){
     this.setEmployeeDocumentsDetailsMethodCall();
     break;
   }
+}
+  }
+}
+
+isFormInvalid: boolean = false;
+@ViewChild ('documentsInformationForm') documentsInformationForm !: NgForm
+checkFormValidation(){
+if(this.documentsInformationForm.invalid){
+this.isFormInvalid = true;
+return
+} else {
+  this.isFormInvalid = false;
 }
 }
 @ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
