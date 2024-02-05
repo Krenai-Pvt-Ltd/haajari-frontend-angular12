@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { User } from 'src/app/models/user';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
@@ -22,6 +22,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 
 
 export class TeamComponent implements OnInit{
+  
   // slackDataSaved: boolean = false;
   // localStorageKey: string = 'slackDataSaved';
 
@@ -39,16 +40,24 @@ export class TeamComponent implements OnInit{
   rowNumber : number = 1;
 
   loginDetails = this.helperService.getDecodedValueFromToken();
-  role:string = this.loginDetails.role;
-  userUuid: string = this.loginDetails.uuid;
-  orgRefId:string = this.loginDetails.orgRefId;
-  ROLE: string="";
+  assignRole(){
+    this.role = this.rbacService.getRole();
+    this.userUuid = this.rbacService.getUUID();
+    this.orgRefId = this.rbacService.getOrgRefUUID();
+  }
+  role: any;
+  userUuid : any;
+  orgRefId : any;
+  ROLE: any;
+  logInUserUuid: string="";
+  showManagerTickForUuid: string = '';
 
-
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
   // this.getAllUsersByFiltersFunction();
+  this.assignRole();
   // this.getAllUser();
-  this.ROLE = this.roleService.getRole();
+  this.ROLE = await this.rbacService.getRole();
+  this.logInUserUuid = this.rbacService.getUUID();
   this.getTeamsByFiltersFunction();
   this.getUsersRoleFromLocalStorage();
   // const localStorageFlag = localStorage.getItem(this.localStorageKey);
@@ -79,7 +88,7 @@ export class TeamComponent implements OnInit{
    
   }
 
-  constructor(private router : Router, public dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService, private helperService: HelperService, private db: AngularFireDatabase, private roleService:RoleBasedAccessControlService) { 
+  constructor(private router : Router, public dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService, private helperService: HelperService, private db: AngularFireDatabase, private rbacService:RoleBasedAccessControlService) { 
     this.Settings = {
       singleSelection: false,
       text: 'Select Module',
@@ -92,7 +101,10 @@ export class TeamComponent implements OnInit{
   // ############################
 
 
-  
+  // showManagerTick(uuid: string) {
+  //   this.showManagerTickForUuid = uuid;
+  // }
+
   
   addTeamFlag: boolean = false;
 
@@ -275,7 +287,7 @@ export class TeamComponent implements OnInit{
   // }
 
   routeToTeamDetails(uuid:string, managerId:string){
-    console.log("managerId" + managerId);
+    // console.log("managerId" + managerId);
     if(managerId!=='noManager'){
     let navExtra : NavigationExtras = {
       queryParams : {"teamId" : uuid, "Id": managerId},
@@ -350,15 +362,28 @@ export class TeamComponent implements OnInit{
     })
   }
 
+  exitUserFromTeamLoader:boolean=false;
+  @ViewChild("closeUserDeleteModal") closeUserDeleteModal!:ElementRef;
+
   removeUserFromTeam(teamId: string, userId: string) {
+    this.exitUserFromTeamLoader=true;
     this.dataService.removeUserFromTeam(teamId, userId)
       .subscribe(
         response => {
+          this.exitUserFromTeamLoader=false;
+          this.getTeamsByFiltersFunction();
+          this.closeUserDeleteModal.nativeElement.click();
+          this.helperService.showToast("Exited from team successfully.", Key.TOAST_STATUS_SUCCESS);
+
         },
         error => {
+          this.exitUserFromTeamLoader=false;
+          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+
         }
       );
   }
+
   teamIid:any;
   userIid:any;
 
@@ -386,7 +411,7 @@ export class TeamComponent implements OnInit{
         // location.reload();
         this.helperService.showToast("Team Deleted Successfully.", Key.TOAST_STATUS_SUCCESS);
     },error => {
-      console.error(error);
+      // console.error(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       // location.reload();
     });
@@ -449,7 +474,7 @@ export class TeamComponent implements OnInit{
 
      
     }, error => {
-      console.error(error);
+      // console.error(error);
     })
   }
 
@@ -551,6 +576,13 @@ getTeamsByFiltersFunction() {
     if (data) {
       this.teamsNew = data.teams;
       this.total = data.count;
+
+      this.teamsNew.forEach(team => {
+        team.showTick = team.manager && team.manager.uuid === this.logInUserUuid;
+        team.exitFromTeam = team.userList.some(user => user.uuid === this.logInUserUuid);
+
+      });
+
       if(this.teamsNew == null){
         this.teamsNew = [];
         this.total = 0;
@@ -559,7 +591,7 @@ getTeamsByFiltersFunction() {
     } else {
       this.teamsNew = [];
       this.total = 0;
-      console.error("Invalid data format received from the server");
+      // console.error("Invalid data format received from the server");
     }
     this.isShimmer=false;
     // this.crossFlag=false;
@@ -637,6 +669,29 @@ getEndIndex(): number {
   const endIndex = this.pageNumber * this.itemPerPage;
   return endIndex > this.total ? this.total : endIndex;
 }
+
+delUserUuid: string='';
+delUserFromTeamUuid: string='';
+
+  @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
+
+  openDeleteConfirmationModal(teamUuid:string, userUuid: string) {
+    this.delUserUuid = userUuid;
+    this.delUserFromTeamUuid = teamUuid;
+  }
+  // deleteUserFromTeamLoader:boolean=false;
+
+  exitUserFromTeam() {
+    if (this.delUserUuid !== null && this.delUserFromTeamUuid !=null) {
+      this.removeUserFromTeam(this.delUserFromTeamUuid, this.delUserUuid);
+      this.delUserUuid = '';
+      this.delUserFromTeamUuid='';
+    }
+  }
+
+  closeDeleteModal() { 
+    this.deleteConfirmationModal.nativeElement.click();
+  }
 
 
   

@@ -1,5 +1,5 @@
 .fixheigt-section{
-    height: 327px;
+    height: 302px;
 }
 
 .fixheigt-section img{
@@ -256,9 +256,9 @@ span.members-name {
    color: #eb5050!important;
 }
 
-.holiday {
-    color: #6666f3!important;
-    background-color: #c6c6ff!important;
+.half-day {
+    color: #f9af47!important;
+    background-color: #faf5ee!important;
 }
 
 .present{
@@ -442,3 +442,94 @@ button.btn.close-btn {
     40% { opacity: 1; }
 }
 
+
+.confirm-detail{
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #444;
+    margin-top: 20px;
+}
+
+.confram-msg{
+    font-size: 14px !important;
+    font-weight: 400;
+}
+
+.btnmarkdelete {
+    background-color: #fcf1f1;
+    border: 1px solid #eb5050;
+    color: #eb5050!important;
+    height: 37px;
+}
+
+.btnmarkcancel {
+    background-color: #f5f5f5;
+    border: 1px solid #aeaeae;
+    color: #444!important;
+    height: 37px;
+}
+
+
+
+span.total-holiday {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.Approved p{
+    font-size: 14px;
+    font-weight: 400;
+    padding-top: 5px;
+}
+
+
+
+.pending-css p {
+    color: orange !important;
+    /* background-color: rgba(201,201,255,.975); */
+    padding: 0px;
+    border-radius: 3px;
+    margin-top: 5px;
+    min-width: 33px;
+}
+
+
+/* .pending-css span{
+    color: orange;
+} */
+
+
+.absents p{ 
+    color: red !important;
+    /* background-color: rgb(255,231,186); */
+    padding: 0px;
+    border-radius: 3px;
+    margin-top: 5px;
+    min-width: 33px;
+}
+
+/* .absents span{
+    color: red;
+} */
+
+/* .na span{
+    color: #6666f3!important
+} */
+
+.na p{
+    /* background-color: rgb(255,199,199); */
+    padding: 0px;
+    border-radius: 3px;
+    color: #6666f3!important;
+    margin-top: 5px;
+    min-width: 33px;
+}
+
+.Approved {
+    border-right: 1px solid #f1f1f1;
+    width: 47px;
+}
+
+.Approved:last-child{
+    border-right: none;
+}

@@ -498,7 +498,7 @@
                                             <div class="">
 
                                                 <div
-                                                    class="align-items-center d-flex justify-content-end add-filtter mb-2">
+                                                    class="align-items-center d-flex justify-content-end add-filtter mb-2" *ngIf="userRoleFlag">
                                                     <a class="btn" data-bs-toggle="modal"
                                                         data-bs-target=".apply-leave"><i class="bi bi-plus"
                                                             style="font-size: 20px;"></i> Apply for a Leave</a>
@@ -2071,6 +2071,10 @@
                 <div class="calenInfo d-block"
                     *ngIf="(userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined) && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
                     <p><b>Absent!</b></p>
+                </div>
+                <div class="calenInfo d-block"
+                    *ngIf="(userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined) && (userAttendanceDetailDateWise.createdDate==endDateStr)">
+                    <p><b>Not Marked Yet :)</b></p>
                 </div>
             </div>
 

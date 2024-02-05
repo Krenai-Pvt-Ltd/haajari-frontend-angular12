@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
 import { DataService } from 'src/app/services/data.service';
@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private router: Router, 
+    private route: ActivatedRoute,
     private helperService: HelperService,
     private _data: DataService, 
     private rbacService: RoleBasedAccessControlService
@@ -23,6 +24,19 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLoggedInUserDetails();
+
+    this.route.queryParams.subscribe(params => {
+      const setting = params['setting'];
+      if (setting === 'accountDetails') {
+        this.activeTab = 'accountDetails';
+      } else if (setting === 'security') {
+        this.activeTab = 'security';
+      } else if (setting === 'profilePreferences') {
+        this.activeTab = 'profilePreferences';
+      } else if (setting === 'referralProgram') {
+        this.activeTab = 'referralProgram';
+      }
+    });
 
   }
 
@@ -33,8 +47,8 @@ export class HeaderComponent implements OnInit {
   ROLE = this.rbacService.getRole();
   UUID = this.rbacService.getUUID();
 
-  getLoggedInUserDetails(){
-    this.loggedInUser = this.helperService.getDecodedValueFromToken();
+  async getLoggedInUserDetails(){
+    this.loggedInUser = await this.helperService.getDecodedValueFromToken();
   }
 
   getFirstAndLastLetterFromName(name: string): string {
@@ -65,9 +79,21 @@ export class HeaderComponent implements OnInit {
   show:boolean=false;
 
   shouldDisplay(moduleName: string): boolean {
-    const role = this.rbacService.getRole();
+    const role = this.rbacService.getRoles();
     const modulesToShowForManager = ['dashboard', 'team', 'project', 'reports', 'attendance'];
     const modulesToShowForUser = ['team', 'project'];
     return role === Key.ADMIN || (role === Key.MANAGER && modulesToShowForManager.includes(moduleName)) || (role === Key.USER && modulesToShowForUser.includes(moduleName));
+  }
+  
+  activeTab:string='';
+
+
+  routeToSeetings(settingType:string){
+    debugger
+  //  this.activeTab=settingType;
+    let navigationExtra : NavigationExtras = {
+      queryParams : {"setting": settingType},
+    }
+    this.router.navigate(['/setting/account-settings'], navigationExtra);
   }
 }
