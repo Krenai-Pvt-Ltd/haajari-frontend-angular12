@@ -223,7 +223,7 @@ if (this.userPersonalInformationRequest.department === 'Other') {
                 this.userPersonalInformationRequest = response;
                 this.isLoading = false;
                 this.employeeOnboardingFormStatus=response.employeeOnboardingStatus.response;
-                
+             
                 if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
                   this.successMessageModalButton.nativeElement.click();
                 }
