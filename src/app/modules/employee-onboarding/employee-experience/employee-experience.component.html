@@ -61,7 +61,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="companyName{{i}}" class="pb-2">Company Name <span class="text-optional">*</span></label>
-                                            <input type="text" class="form-control" (keydown)="preventLeadingWhitespace($event)" maxlength="30" id="companyName{{i}}" name="companyName{{i}}" placeholder="Company name" [(ngModel)]="experience.companyName" required #companyNameField="ngModel" >
+                                            <input type="text" class="form-control" (keydown)="preventWhitespace($event)" maxlength="30" id="companyName{{i}}" name="companyName{{i}}" placeholder="Company name" [(ngModel)]="experience.companyName" required #companyNameField="ngModel" >
                                             <!-- Error Message for Company Name Field -->
                                             <div *ngIf="companyNameField.touched  || isFormInvalid">
                                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="companyNameField.errors?.required">

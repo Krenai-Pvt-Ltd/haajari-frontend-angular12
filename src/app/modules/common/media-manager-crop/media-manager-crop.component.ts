@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs';
 import { finalize } from "rxjs/operators";
 // import { ImageTransform } from 'ngx-image-cropper';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { EmployeeOnboardingFormComponent } from '../../employee-onboarding/employee-onboarding-form/employee-onboarding-form.component';
+import { constant } from 'src/app/constant/constant';
 // import { Constant } from 'src/app/constants/Constants';
 // import { SharedService } from 'src/app/services/data-sharing/shared.service';
 // import { AuthenticationService } from 'src/app/services/-authentication.service';
@@ -77,12 +79,13 @@ export class MediaManagerCropComponent implements OnInit {
   @Output() pageChanged2!: EventEmitter<number>;
 
   private basePath: string = '';
-  // readonly Constant = Constant;
+  readonly Constant = constant;
 
-  aspectRatio:number=1/1;
+  aspectRatio:number=4/3;
   constructor(
     public formatter: NgbDateParserFormatter,
     private storage: AngularFireStorage,
+    private employeeOnboardingForm: EmployeeOnboardingFormComponent,
     // private _sharedService:SharedService,
     // public _authService:AuthenticationService,
     // private _imageService:UploadService
@@ -195,7 +198,7 @@ export class MediaManagerCropComponent implements OnInit {
     const imageBlob = this.dataURItoBlob(src);
     //@ts-ignore
     this.file = new File([imageBlob], this.imageNmae, { type: this.type });
-    // console.log("🚀 ~ file: media-manager-crop.component.ts:154 ~ MediaManagerCropComponent ~ onEdit ~ this.file", this.file)
+
 
     this.imageBase64String=src;
 
@@ -205,7 +208,7 @@ export class MediaManagerCropComponent implements OnInit {
 
     //@ts-ignore
       img.src = src;
-      // var dimensions:{imageHeight:any,imageWidth:any}={imageHeight:0,imageWidth:0}
+     
       var dimensions;
       //@ts-ignore
       dimensions=await this.setBase64ImageDImensions(img);
@@ -344,6 +347,7 @@ export class MediaManagerCropComponent implements OnInit {
   }
 // Required
   zoomIn() {
+    debugger
       this.scale += .1;
       this.transform = {
           ...this.transform,
@@ -399,6 +403,7 @@ export class MediaManagerCropComponent implements OnInit {
     }
     this.cropedFiles = this.file;
     console.log(this.cropedFiles);
+    // console.log(this.cropedFiles[0].);
     var mediaUploaded = await this.uploadSingleMediaToFireBaseAndGetUrl(this.cropedFiles, this.imageNmae);
 
     if(mediaUploaded){
@@ -431,13 +436,18 @@ export class MediaManagerCropComponent implements OnInit {
       this.progress = 0;
       clearInterval(this.set);
       this.sendBulkDataToComponent(); 
+
+      if( this.closeModel){
       this.closeModel.nativeElement.click();
+      }
     }
   }
 
 
   closePopupModel() {
+    if( this.closeModel){
     this.closeModel.nativeElement.click();
+    }
   }
 
 
@@ -447,12 +457,6 @@ export class MediaManagerCropComponent implements OnInit {
   isResetImage:boolean=false;
   isImageDeleted:boolean=false;
 
-  // deleteImage(){
-  //   this.urls=[];
-  //   this.imageBase64String=null;
-  //   this.imageChangedEvent=null;
-    
-  // }
 
   // Required
   resetAllImages() {
@@ -500,16 +504,21 @@ export class MediaManagerCropComponent implements OnInit {
   toggleUpload:boolean=false;
   // constantExtension: ConstantExtension = new ConstantExtension();
   async uploadSingleMediaToFireBaseAndGetUrl(file:any, fileName:any) {
-    
+    debugger
     return new Promise((resolve:any, reject) => {
       this.toggleUpload=true;
+      const filePath = `uploads/${new Date().getTime()}_${fileName}`;
+    // const fileRef = this.storage.ref(this.basePath +  "/" + this.imageCategory + "/" + fileName);
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, file);
+    task.snapshotChanges().pipe(
       
-    const fileRef = this.storage.ref(this.basePath +  "/" + this.imageCategory + "/" + fileName);
-    this.storage.upload(this.basePath + "/" + this.imageCategory + "/" + fileName, file).snapshotChanges().pipe(
       finalize(async () => {
         fileRef.getDownloadURL().subscribe((url) => {
 
           console.log(url);
+          this.employeeOnboardingForm.userPersonalInformationRequest.image = url;
+          this.employeeOnboardingForm.imagePreviewUrl = url;
           // this.media.mediaUrl = url;
           // this.mediaUrl = this.media.mediaUrl;
           // this.media.mediaName = fileName;
@@ -544,12 +553,7 @@ export class MediaManagerCropComponent implements OnInit {
 
 
   calculateRatio(num_1:any, num_2:any){
-    // for(var num=num_2; num>1; num--) {
-    //     if((num_1 % num) == 0 && (num_2 % num) == 0) {
-    //         num_1=num_1/num;
-    //         num_2=num_2/num;
-    //     }
-    // }
+  
     this.aspectRatio = num_1/num_2;
     console.log("🚀 ~ file: media-manager-crop.component.ts:548 ~ MediaManagerCropComponent ~ calculateRatio ~  this.aspectRatio:",  this.aspectRatio)
     return this.aspectRatio;
@@ -566,19 +570,6 @@ rotateRight() {
 }
 
 
-// flipHorizontal() {
-//   this.transform = {
-//     ...this.transform,
-//     flipH: !this.transform.flipH
-//   };
-// }
-
-// flipVertical() {
-//   this.transform = {
-//     ...this.transform,
-//     flipV: !this.transform.flipV
-//   };
-// }
 
 @ViewChild("tempDiv") tempDiv!:ElementRef;
 @ViewChild("closeinfo") closeinfo!:ElementRef;

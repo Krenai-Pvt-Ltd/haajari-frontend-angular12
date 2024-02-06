@@ -496,6 +496,7 @@ preventLeadingWhitespace(event: KeyboardEvent): void {
   if (event.key === ' ' && inputElement.selectionStart === 0) {
     event.preventDefault();
   }
+
 }
 
 
