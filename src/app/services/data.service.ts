@@ -1152,4 +1152,10 @@ getAccessibleSubModuleResponse(): Observable<any>{
   return this.httpClient.get<any>(`${this.baseUrl}/role/get-accessible-sub-module-by-role-id`);
 }
 
+saveUserOnboardingFormStatus(userUuid: string): Observable<any> {
+  // Construct the URL with userUuid as a parameter
+  const url = `${this.baseUrl}/get/onboarding/save-form-status?userUuid=${userUuid}`;
+  return this.httpClient.put<any>(url, {});
+}
+
 }

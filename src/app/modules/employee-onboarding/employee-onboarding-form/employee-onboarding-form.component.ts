@@ -107,8 +107,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   getImageUrl(e: any){
     console.log(e);
     if(e!=null && e.length>0){
-      this.userPersonalInformationRequest.image = e[0];
-      this.imagePreviewUrl = e[0];
+    
     }
   }
 
@@ -637,6 +636,9 @@ preventLeadingWhitespace(event: KeyboardEvent): void {
 
   // Prevent space if it's the first character
   if (event.key === ' ' && inputElement.selectionStart === 0) {
+    event.preventDefault();
+  }
+  if (!isNaN(Number(event.key)) && event.key !== ' ') {
     event.preventDefault();
   }
 }
