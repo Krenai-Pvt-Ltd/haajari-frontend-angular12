@@ -517,8 +517,7 @@ onChangeDepartment(search: string, index: number): void {
     this.departmentFilteredOptions = [];
   }
 }
-
-preventLeadingWhitespace(event: KeyboardEvent): void {
+preventWhitespace(event: KeyboardEvent): void {
   const inputElement = event.target as HTMLInputElement;
 
   // Prevent space if it's the first character
@@ -527,8 +526,24 @@ preventLeadingWhitespace(event: KeyboardEvent): void {
   }
 }
 
+preventLeadingWhitespace(event: KeyboardEvent): void {
+  const inputElement = event.target as HTMLInputElement;
+
+  // Prevent space if it's the first character
+  if (event.key === ' ' && inputElement.selectionStart === 0) {
+    event.preventDefault();
+  }
+  if (!isNaN(Number(event.key)) && event.key !== ' ') {
+    event.preventDefault();
+  }
+}
+
 preventAlphabets(event: KeyboardEvent): void {
   // Check if the pressed key is an alphabetic character or not the backspace key
+  const inputElement = event.target as HTMLInputElement;
+  if (event.key === ' ' && inputElement.selectionStart === 0) {
+    event.preventDefault();
+  }
   if (/^[A-Za-z]*$/.test(event.key) && event.key !== 'Backspace') {
     event.preventDefault();
   }

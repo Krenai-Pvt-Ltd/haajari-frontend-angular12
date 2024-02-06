@@ -379,9 +379,10 @@ a.select-file {
 /* The message text */
 .modal-body p {
     margin-top: 1rem; /* Spacing after the icon */
-    color: #626262; /* A neutral, readable color */
+    color: #000000; /* A neutral, readable color */
     font-size: 1rem; /* Default font size */
     line-height: 1.5; /* Good line height for readability */
+    padding-top: 0px;
 }
 
 
@@ -395,4 +396,24 @@ a.select-file {
 .confram-msg{
     font-size: 14px !important;
     font-weight: 400;
+}
+
+
+.table-design tr td {
+    border: 1px solid #e0e0e0;
+}
+
+.table tbody tr:hover {
+    box-shadow: none;
+}
+
+.persnaol{
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px;
+}
+.subheading {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000000; /* Or any color that suits your design */
 }

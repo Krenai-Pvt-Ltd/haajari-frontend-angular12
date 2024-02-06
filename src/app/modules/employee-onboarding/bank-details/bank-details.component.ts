@@ -197,15 +197,15 @@ displayModal = false;
           event.preventDefault();
       }
       // Prevent numeric input entirely
-      if (!isNaN(Number(event.key)) || !/[a-zA-Z]/.test(event.key)) {
-          event.preventDefault();
+      if (!isNaN(Number(event.key)) && event.key !== ' ') {
+        event.preventDefault();
       }
     }
 
     preventWhitespace(event: KeyboardEvent): void {
       const input = event.target as HTMLInputElement;
       // Prevent leading spaces
-      if (event.key === ' ') {
+      if (event.key === ' ' && input.selectionStart === 0) {
           event.preventDefault();
       }
     }

@@ -329,9 +329,10 @@ handleOnboardingStatus(response: string) {
     if (event.key === ' ' && inputElement.selectionStart === 0) {
       event.preventDefault();
     }
-    if (!isNaN(Number(event.key)) || !/[a-zA-Z]/.test(event.key)) {
+    if (!isNaN(Number(event.key)) && event.key !== ' ') {
       event.preventDefault();
-  }
+    }
+    
   }
 
   preventWhitespace(event: KeyboardEvent): void {

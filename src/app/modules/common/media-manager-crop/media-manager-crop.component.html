@@ -1,23 +1,27 @@
-<p>media-manager-crop works!</p>
+<!-- <p>media-manager-crop works!</p> -->
 <!-- Modal starts -->
 <div class="modal fade box-scroll" id="image-picker" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" #imageModel>
     <div class="modal-dialog modal-dialog-centered" role="dialog" style="max-width: 600px;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Upload Image</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" (click)="closeCropperModel()" #closeModel aria-label="Close">
+                <!-- <button type="button" class="close" data-bs-dismiss="modal" (click)="closeCropperModel()" #closeModel aria-label="Close">
                     <span aria-hidden="true">
-                        <i class="ti-close"></i>
-                        <!-- &times; -->
+                        <i class="bi bi-x-lg"></i>
+                        
                     </span>
+                </button> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeCropperModel()">
+                    <i class="bi bi-x-lg"></i>
                 </button>
+                
             </div>
 
             <div class="modal-body">
                 <div class="row imgupldbg">
                     <div class="col-lg-12 bg-wallet position-relative">
                         <div class="currentimageuplded position-relative" *ngIf="files.length<1 && !base64Event">
-                            <!-- <img src="{{Constant.EMPTY_STRINGS.includes(imageUrl)?'assets/images/faces/3-bpthumb.jpg':imageUrl}}" alt="profile"/> -->
+                            <img src="{{Constant.EMPTY_STRINGS.includes(imageUrl)?'assets/images/faces/3-bpthumb.jpg':imageUrl}}" alt="profile"/>
                             
                             
                            
@@ -31,10 +35,10 @@
                                     #imageCropper
                                     [imageChangedEvent]="imageChangedEvent"
                                     [transform]="transform"
-                                    [cropperMinWidth]="300"
                                     
-                                    [maintainAspectRatio]="false"
-                                    [aspectRatio]="aspectRatio"
+                                    
+                                    [maintainAspectRatio]="true"
+                                    [aspectRatio]="1"   
                                     [canvasRotation]="canvasRotation"
                                     
                                     (imageLoaded)="imageLoaded($event)"
@@ -63,19 +67,25 @@
 
                            
                         </div>
-                        <span class="helpbtn" #closeinfo (click)="addClass()">
-                            <!-- <i class="ti-info"></i> -->
+                        <!-- <span class="helpbtn" #closeinfo (click)="addClass()">
+                            <i class="bi-info"></i>
                             <span>help</span>
-                            <i class="ti-close mr-2 pr-1"></i>
+                            <i class="bi bi-x-lg mr-2 pr-1"></i>
+                        </span> -->
+                        <span class="helpbtn" #closeinfo (click)="addClass()">
+                            <span>help</span>
+                            <i class="bi bi-info-circle mr-2 pr-1"></i>
                         </span>
+
+                        
                         <div class="imageinstrmainbox" #tempDiv>
                             <div class="imageinstrinner">
                                 <div class="mb-2 download-file imginstctns">
                                 <h4>Image Instructions</h4>
                                 <ul class="plan-features">
-                                    <li>Please use only .png</li>
+                                    <li>Please use only .png, .jpg, .jpeg</li>
                                     <li>Size range is below 200x200</li>
-                                    <li>Logo 100 X 200 ratio is best</li>
+                                    <!-- <li>Logo 100 X 200 ratio is best</li> -->
                                 </ul>
                             </div>
                             <div class="mb-2 download-file imginstctns" *ngIf="files?.length>0">
@@ -98,12 +108,12 @@
                 <div class="d-flex" *ngIf="!isEditImage">
 
                     <button [disabled]=" urls.length == 0 && !base64Event" type="button" class="btn upldactionfootbtn mr-2" (click)="enableEditField()">
-                        <i class="ti-pencil"></i>
+                        <i class="bi-pencil"></i>
                         <span>Edit</span>
                     </button>
                     
                     <button type="button" class="btn upldactionfootbtn mr-2" (click)="fileInput.click();">
-                        <i class="ti-camera"></i>
+                        <i class="bi-camera"></i>
                         <span>Add Photo</span>
                     </button>
 
@@ -117,30 +127,52 @@
                 <div class="imageaction d-flex justify-content-start align-items-center" *ngIf="isEditImage"> 
                     
                     <div class="col-leftdiv">
-                        <button title="Zoom Out" type="button" class="btn m-1 btn-sm custbtn-success" (click)="zoomOut();isResetImage = true;">
-                        <i class="ti-zoom-out"></i>
+                        <!-- <button title="Zoom Out" type="button" class="btn m-1 btn-sm custbtn-success" (click)="zoomOut();isResetImage = true;">
+                        <i class="bi-zoom-out"></i>
                     </button>
                     <button title="Zoom In" type="button" class="btn m-1 btn-sm custbtn-success" (click)="zoomIn();isResetImage = true;">
-                        <i class="ti-zoom-in"></i>
+                        <i class="bi-zoom-in"></i>
+                    </button> -->
+                    <button title="Zoom In" type="button" class="btn m-1 btn-sm custbtn-success" (click)="zoomIn();isResetImage = true;">
+                        <i class="bi bi-zoom-in"></i>
                     </button>
+                    <button title="Zoom Out" type="button" class="btn m-1 btn-sm custbtn-success" (click)="zoomOut();isResetImage = true;">
+                        <i class="bi bi-zoom-out"></i>
+                    </button>
+                                        
                     </div>
                     <div class="col-cendiv">
-                        <button title="Crop Square" type="button" class="btn m-1 btn-sm custbtn-success" (click)="aspectRatio=1/1;isResetImage = true;">
-                            <i class="ti-layout-width-full"></i>
+                        <!-- <button title="Crop Square" type="button" class="btn m-1 btn-sm custbtn-success" (click)="aspectRatio=1/1;isResetImage = true;">
+                            <i class="bi-layout-width-full"></i>
                         </button>
                         <button title="Crop Rectangle" type="button" class="btn m-1 btn-sm custbtn-success" (click)="aspectRatio=4/3;isResetImage = true;">
                             
                             <span class="rectanglebox"></span>
+                        </button>    -->
+                        <button title="Crop Square" type="button" class="btn m-1 btn-sm custbtn-success" (click)="aspectRatio=1/1;isResetImage = true;">
+                            <i class="bi bi-square"></i>
                         </button>
+                        <button title="Crop Rectangle" type="button" class="btn m-1 btn-sm custbtn-success" (click)="aspectRatio=4/3;isResetImage = true;">
+                            <i class="bi bi-crop"></i>
+                        </button>
+                                                
                     </div>
                     
                     <div class="col-rightdiv">
-                        <button title="Rotate image anti clockwise by 90deg" type="button" class="btn m-1 btn-sm custbtn-success" (click)="rotateLeft();isResetImage = true;">
-                            <i class="ti-back-left" style="transform: scalex(-1) rotate(180deg);"></i>
+                        <!-- <button title="Rotate image anti clockwise by 90deg" type="button" class="btn m-1 btn-sm custbtn-success" (click)="rotateLeft();isResetImage = true;">
+                            <i class="bi-back-left" style="transform: scalex(-1) rotate(180deg);"></i>
+                        </button> -->
+                        <button title="Rotate image anti-clockwise by 90deg" type="button" class="btn m-1" (click)="rotateLeft(); isResetImage = true;">
+                            <i class="bi bi-arrow-counterclockwise custbtn-success"></i>
                         </button>
-                        <button title="Rotate image clockwise by 90deg" type="button" class="btn m-1 btn-sm custbtn-success" (click)="rotateRight();isResetImage = true;">
-                            <i class="ti-back-right"></i>
+                        
+                        <!-- <button title="Rotate image clockwise by 90deg" type="button" class="btn m-1 btn-sm custbtn-success" (click)="rotateRight();isResetImage = true;">
+                            <i class="bi-back-right"></i>
+                        </button> -->
+                        <button title="Rotate image clockwise by 90deg" type="button" class="btn m-1" (click)="rotateRight(); isResetImage = true;">
+                            <i class="bi bi-arrow-clockwise custbtn-success"></i>
                         </button>
+                        
                     </div>
                 
                 </div>
@@ -151,9 +183,9 @@
                         Reset
                     </button>
 
-                    <!-- <button type="button" [disabled]="urls.length == 0 || !base64Event" (click)="uploadSingle()" class="btn adtpoics"> -->
+                    
                     <button type="button" *ngIf="isImageDeleted || urls.length>0 || base64Event" (click)="uploadSingle()" class="btn adtpoics">
-                        <!-- <i class="ti-save"></i> -->
+                       
                         <span class="d-inline-block text-left">
                             <div class="dot-opacity-loader text-white" *ngIf="toggleUpload">
                                 <span></span>
@@ -165,7 +197,7 @@
                     </button>
 
                     <button *ngIf="!isImageDeleted && urls.length == 0 && !base64Event "  type="button" class="btn upldactionfootbtn mr-2" (click)="deleteProfileImage()">
-                        <i class="ti-trash"></i>
+                        <i class="bi-trash"></i>
                         <span>Delete</span>
                     </button>
                                 
