@@ -68,6 +68,7 @@ export class DashboardComponent implements OnInit {
   UNMARKED = Key.UNMARKED;
   WEEKEND = Key.WEEKEND;
   HOLIDAY = Key.HOLIDAY;
+  LEAVE = Key.LEAVE;
 
   
 

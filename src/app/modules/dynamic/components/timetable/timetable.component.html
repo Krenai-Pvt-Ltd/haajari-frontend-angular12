@@ -399,7 +399,7 @@
                 <!-- <span class="attendance-id">123</span> -->
               </h5>
   
-              <p [ngClass]="{'in-time-color' : (attendanceDetailsResponse.currentStatus == 'Working'), 'break-color': (attendanceDetailsResponse.currentStatus == 'On Break'), 'out-time-color' : (attendanceDetailsResponse.currentStatus == 'Checked Out' || attendanceDetailsResponse.currentStatus == 'Absent' || attendanceDetailsResponse.currentStatus == 'Not Marked')}">{{attendanceDetailsResponse.currentStatus}}</p>
+              <p [ngClass]="{'in-time-color' : (attendanceDetailsResponse.currentStatus == 'Working'), 'break-color': (attendanceDetailsResponse.currentStatus == 'On Break' || attendanceDetailsResponse.currentStatus == 'On Leave'), 'out-time-color' : (attendanceDetailsResponse.currentStatus == 'Checked Out' || attendanceDetailsResponse.currentStatus == 'Absent' || attendanceDetailsResponse.currentStatus == 'Not Marked')}">{{attendanceDetailsResponse.currentStatus}}</p>
               <div class="add-note d-flex" style="gap: 10px">
                 <a
                   href=""
