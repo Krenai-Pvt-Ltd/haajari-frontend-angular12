@@ -49,10 +49,9 @@ export class TimetableComponent implements OnInit {
     MANAGER = Key.MANAGER;
     USER = Key.USER;
 
-    disableMonths : any;
+    TODAY = new Date();
     selectedDate : Date = new Date();
     size: 'large' | 'small' | 'default' = 'small';
-
 
     onDateChange(date: Date): void {
       this.selectedDate = date;
@@ -63,32 +62,49 @@ export class TimetableComponent implements OnInit {
 
     }
 
+    disableDates = (current: Date): boolean => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+    
+      const registrationDate = new Date(this.organizationRegistrationDate);
+      registrationDate.setHours(0, 0, 0, 0);
+    
+      return current.getTime() > today.getTime() || current.getTime() < registrationDate.getTime();
+    };
+
+    organizationRegistrationDate : string = '';
+    getOrganizationRegistrationDateMethodCall(){
+      debugger
+      this.dataService.getOrganizationRegistrationDate().subscribe((response) => {
+        this.organizationRegistrationDate = response;
+      }, ((error) =>{
+        console.log(error);
+      }))
+    }
+
 
   // ###############################################################################
 
   selectPreviousDay() {
-    this.attendanceDataByDateKey = [];
-    this.attendanceDataByDateValue = [];
+    this.isShimer = true;
+
+    let currentDate = new Date(this.selectedDate);
+    currentDate.setDate(currentDate.getDate() - 1);
+
+    if(currentDate < new Date(this.organizationRegistrationDate)){
+      return;
+    }
+
+    this.selectedDate = new Date(currentDate);
 
     this.attendanceDetailsResponseList = [];
     this.total = 0;
-    this.isShimer = true;
 
-    const currentDateObject = this.selectedDate;
-    currentDateObject.setDate(currentDateObject.getDate() - 1);
-    this.selectedDate = currentDateObject;
-    // this.onDateChange(this.selectedDate);
     this.getAttendanceDetailsReportByDateMethodCall();
-    this.cdr.detectChanges();
+    this.getAttendanceDetailsCountMethodCall();
   }
 
   selectNextDay() {
-
-    this.attendanceDataByDateKey = [];
-    this.attendanceDataByDateValue = [];
-
-    this.attendanceDetailsResponseList = [];
-    this.total = 0;
     this.isShimer = true;
 
     const currentDateObject = this.selectedDate;
@@ -96,12 +112,15 @@ export class TimetableComponent implements OnInit {
     tomorrow.setDate(currentDateObject.getDate() + 1);
 
     if (tomorrow >= new Date()) {
-      debugger
       return;
     }
 
+    this.attendanceDetailsResponseList = [];
+    this.total = 0;
+
     this.selectedDate = tomorrow;
     this.getAttendanceDetailsReportByDateMethodCall();
+    this.getAttendanceDetailsCountMethodCall();
   }
 
 
@@ -116,7 +135,9 @@ export class TimetableComponent implements OnInit {
   selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
 
+
   ngOnInit(): void {  
+    this.getOrganizationRegistrationDateMethodCall();
     this.inputDate = this.getCurrentDate();
     this.assignRole();
 
@@ -378,7 +399,7 @@ export class TimetableComponent implements OnInit {
 
   attendanceDetailsCountResponse : AttendanceDetailsCountResponse = new AttendanceDetailsCountResponse();
   getAttendanceDetailsCountMethodCall(){
-    this.dataService.getAttendanceDetailsCount(this.inputDate).subscribe((response) => {
+    this.dataService.getAttendanceDetailsCount(this.helperService.formatDateToYYYYMMDD(this.selectedDate)).subscribe((response) => {
       this.attendanceDetailsCountResponse = response.object;
     }, (error) => {
       console.log(error);

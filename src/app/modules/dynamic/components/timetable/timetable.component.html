@@ -177,18 +177,18 @@
       <div class="row">
         <div class="col-md-12 search-area mt-4" style="display: flex; justify-content: space-between; align-items: center;">
           <div class="col-md-6">
+            <p style="font-size: 10px; position: relative; top: 0px; color: #686868; margin-bottom: 0px; margin-left: 5%; text-align: left;">Attendance Date</p>
             <div class="date-all-approved d-flex align-items-center" style="gap:20px">
-                <span class="approved-left active-color" (click)="selectPreviousDay()"><i class="bi bi-chevron-left"></i></span>
-                <div class="text-center">
-                  <p style="font-size: 10px; position: relative; top: 0px; color: #686868; margin-bottom: 0px; text-align: left;">Attendance Date</p>
-                    <nz-date-picker nzMode="date" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onDateChange($event)"></nz-date-picker>
+                <span id="attendance-date" class="approved-left active-color" (click)="selectPreviousDay()"><i class="bi bi-chevron-left"></i></span>
+                <div class="text-center col-md-3">
+                  <nz-date-picker class="attendance-date" nzMode="date" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableDates"></nz-date-picker>
                   <!-- <nz-date-picker [nzFormat]="dateFormat"></nz-date-picker> -->
                   <!-- <input type="date" id="input-date" class="attendance-date" [(ngModel)]="inputDate" (ngModelChange)="getAttendanceDetailsReportByDateMethodCall()" [max]="getCurrentDate()"> -->
                 </div>
              
                       
               
-              <span class="approved-right active-color" (click)="selectNextDay()"><i class="bi bi-chevron-right"></i></span> 
+              <span id="attendance-date" class="approved-right active-color" (click)="selectNextDay()"><i class="bi bi-chevron-right"></i></span> 
                 <!-- <span class="cal-icon"><i class="bi bi-calendar3"></i></span> -->
             </div>
 
