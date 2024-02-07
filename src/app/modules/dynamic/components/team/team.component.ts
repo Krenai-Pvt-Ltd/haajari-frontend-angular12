@@ -57,7 +57,7 @@ export class TeamComponent implements OnInit{
   this.assignRole();
   // this.getAllUser();
   this.ROLE = await this.rbacService.getRole();
-  this.logInUserUuid = this.rbacService.getUUID();
+  this.logInUserUuid = await this.rbacService.getUUID();
   this.getTeamsByFiltersFunction();
   this.getUsersRoleFromLocalStorage();
   // const localStorageFlag = localStorage.getItem(this.localStorageKey);

@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
     private router: Router, 
     private route: ActivatedRoute,
     private helperService: HelperService,
-    private _data: DataService, 
+    private dataService: DataService, 
     private rbacService: RoleBasedAccessControlService
   ) { }
 
@@ -64,11 +64,13 @@ export class HeaderComponent implements OnInit {
 
   onLogout(){
     localStorage.clear();
+    this.rbacService.clearRbacService();
+    this.helperService.clearHelperService();
     this.router.navigate(['/login']);
   }
 
   routeToAccountPage(tabName: string){
-    this._data.activeTab = tabName !== 'account';
+    this.dataService.activeTab = tabName !== 'account';
     this.router.navigate(["/setting/account-settings"], { queryParams: {tab: tabName } });
   }
 
@@ -78,12 +80,16 @@ export class HeaderComponent implements OnInit {
 
   show:boolean=false;
 
-  shouldDisplay(moduleName: string): boolean {
-    const role = this.rbacService.getRoles();
+    shouldDisplay(moduleName: string): boolean {
+    const role = this.rbacService.getRoles(); // Assuming getRole returns a Promise<string>
     const modulesToShowForManager = ['dashboard', 'team', 'project', 'reports', 'attendance'];
     const modulesToShowForUser = ['team', 'project'];
-    return role === Key.ADMIN || (role === Key.MANAGER && modulesToShowForManager.includes(moduleName)) || (role === Key.USER && modulesToShowForUser.includes(moduleName));
+  
+    return role === Key.ADMIN || 
+           (role === Key.MANAGER && modulesToShowForManager.includes(moduleName)) || 
+           (role === Key.USER && modulesToShowForUser.includes(moduleName));
   }
+  
   
   activeTab:string='';
 

@@ -5,6 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { DataService } from './data.service';
 import { ModulesWithSubmodules } from '../models/modules-with-submodules';
 import { ModuleResponse } from '../models/module-response';
+import { RoleBasedAccessControlService } from './role-based-access-control.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,18 +16,15 @@ export class HelperService {
     debugger
    }
 
-   subModuleResponseList: any[] = [];
-  // setModules(moduleResponseList : any){
-  //   debugger
-  //   this.moduleResponseList = this.moduleResponseList;
-  // }
+  clearHelperService(){
+    this.subModuleResponseList = [];
+  }
 
-  // getModules(){
-  //   return this.moduleResponseList;
-  // }
-
+  subModuleResponseList: any[] = [];
+  
 
   async getDecodedValueFromToken(): Promise<any> {
+    debugger
     return new Promise<any>((resolve, reject) => {
       try {
         const token = localStorage.getItem('token');

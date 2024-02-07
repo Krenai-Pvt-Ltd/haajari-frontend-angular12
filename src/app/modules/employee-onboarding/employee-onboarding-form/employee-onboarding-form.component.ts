@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
@@ -38,6 +38,10 @@ export class EmployeeOnboardingFormComponent implements OnInit {
         
   }
 
+  @ViewChild('imageModel') imageModel!: ElementRef;
+  @ViewChild('closeModel') closeModel!: ElementRef
+  @ViewChild('imageGallerButton') imageGallerButton!: ElementRef
+  @ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>;
   ngOnInit(): void {
     this.userPersonalInformationRequest.dob = this.getInitialDate();
     console.log()
@@ -100,7 +104,12 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     return false;
   }
   
-  
+  getImageUrl(e: any){
+    console.log(e);
+    if(e!=null && e.length>0){
+    
+    }
+  }
 
   
   
@@ -213,7 +222,7 @@ if (this.userPersonalInformationRequest.department === 'Other') {
                 this.userPersonalInformationRequest = response;
                 this.isLoading = false;
                 this.employeeOnboardingFormStatus=response.employeeOnboardingStatus.response;
-                
+             
                 if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
                   this.successMessageModalButton.nativeElement.click();
                 }
@@ -627,6 +636,9 @@ preventLeadingWhitespace(event: KeyboardEvent): void {
 
   // Prevent space if it's the first character
   if (event.key === ' ' && inputElement.selectionStart === 0) {
+    event.preventDefault();
+  }
+  if (!isNaN(Number(event.key)) && event.key !== ' ') {
     event.preventDefault();
   }
 }

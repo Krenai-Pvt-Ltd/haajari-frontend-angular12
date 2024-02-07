@@ -550,7 +550,7 @@
                                         
                                           
                                     
-                                      <div class="dropdown col-md-3" >
+                                      <!-- <div class="dropdown col-md-3" >
                                         <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                          {{month ? month : 'Select Month'}} <i class="bi bi-chevron-down"></i>
                                         </button>
@@ -568,7 +568,12 @@
                                           <li><a class="dropdown-item" (click)="selectMonth('November')">Nov 2024</a></li>
                                           <li><a class="dropdown-item" (click)="selectMonth('December')">Dec 2024</a></li>
                                         </ul>
+                                      </div> -->
+
+                                      <div class="dropdown col-md-3">
+                                        <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onMonthChange($event)"></nz-date-picker>
                                       </div>
+                                      
 
                                 </div>
 

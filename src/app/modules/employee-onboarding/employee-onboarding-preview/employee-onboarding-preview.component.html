@@ -367,7 +367,7 @@
                         
                         <!-- Conditionally display the rejection reason -->
                         <p *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED'">
-                            Reason for Rejection: {{ onboardingPreviewData.reasonOfRejection }}
+                            Reason for Rejection: {{ onboardingPreviewData.reasonOfRejection || 'N/A' }}
                         </p>
                 
                         <!-- <button type="button" class="btn btn-primary" *ngIf="allowEdit" (click)="routeToUserDetails()">
@@ -534,7 +534,7 @@
                         <table class="table mb-0">
                             <tr style="background-color: #f1f1f1;">
                                   <td>
-                                    <p class="mb-0 persnaol"> Guarantors <i class="bi bi-pencil-square" *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED' " (click)="routeToUserDetails('/employee-onboarding/employee-document')" ></i></p>
+                                    <p class="mb-0 persnaol"> Reference <span class="text-optional">(Optional)</span><i class="bi bi-pencil-square" *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED' " (click)="routeToUserDetails('/employee-onboarding/employee-document')" ></i></p>
                                   </td>
                                 </tr>
                           </table>
@@ -545,15 +545,15 @@
                             
                             
                               <tr>
-                                <td>Relation : {{ onboardingPreviewData.userGuarantorInformation[0].relation }}</td>
-                                <td>Name : {{ onboardingPreviewData.userGuarantorInformation[0].name }}</td>
-                                <td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[0].phoneNumber }}</td>
+                                <td>Relation : {{ onboardingPreviewData.userGuarantorInformation[0].relation || 'N/A' }}</td>
+                                <td>Name : {{ onboardingPreviewData.userGuarantorInformation[0].name || 'N/A'}}</td>
+                                <td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[0].phoneNumber || 'N/A'}}</td>
                                 <td>Email : {{ onboardingPreviewData.userGuarantorInformation[0].emailId ? onboardingPreviewData.userGuarantorInformation[0].emailId : 'N/A' }}</td>
                               </tr>
                               
                             </tbody>
                           </table>
-
+<!-- 
                           <table class="table table-bordered">
                          
                             <tbody class="table-design" *ngIf="onboardingPreviewData.userGuarantorInformation!=undefined && onboardingPreviewData.userGuarantorInformation.length>0">
@@ -567,7 +567,7 @@
                               </tr>
                               
                             </tbody>
-                          </table>
+                          </table> -->
                     </div>
                     <div class="onboarding-deta">
                         <table class="table mb-0">

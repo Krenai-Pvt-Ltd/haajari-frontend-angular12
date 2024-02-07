@@ -3,21 +3,26 @@ import { HelperService } from './helper.service';
 import { ModulesWithSubmodules } from '../models/modules-with-submodules';
 import { ModuleResponse } from '../models/module-response';
 import { resolve } from 'dns';
-import { AuthService } from './auth.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoleBasedAccessControlService implements OnInit{
-  private userInfo: any;
+export class RoleBasedAccessControlService {
 
-  constructor(private helperService: HelperService, private authService : AuthService) {
-    this.userInfo = this.initializeUserInfo();
-    
+  clearRbacService() {
+    this.userInfo = null;
   }
-  ngOnInit(): void {
-    
+
+  userInfo: any;
+  private userInfoInitialized: Promise<void>;
+
+
+  constructor(private helperService: HelperService) {
+    this.userInfoInitialized = this.initializeUserInfo();
+
   }
+
 
   private async initializeUserInfo(): Promise<void> {
     try {
@@ -27,11 +32,22 @@ export class RoleBasedAccessControlService implements OnInit{
     }
   }
 
-  async getRole(): Promise<string> {
-    return Promise.resolve(this.userInfo.role);
+  isUserInfoInitialized(): Promise<void> {
+    return this.userInfoInitialized;
   }
 
-  getRoles(){
+
+  async getRole() {
+    let role = null;
+    this.userInfo = await this.helperService.getDecodedValueFromToken();
+    await this.helperService.getDecodedValueFromToken().then((response:any)=>{
+      this.userInfo=response;
+      role = this.userInfo.role;
+    });
+    return role;
+  }
+
+  getRoles() {
     return this.userInfo.role;
   }
 
@@ -40,47 +56,35 @@ export class RoleBasedAccessControlService implements OnInit{
   // }
 
   getUUID(){
-    debugger
     return this.userInfo.uuid;
   }
 
-  getOrgRefUUID(){
+  getOrgRefUUID() {
     return this.userInfo.orgRefId;
   }
 
-  moduleResponseList: any[] = [];
-  setModules(moduleResponseList : any){
-    this.moduleResponseList = this.moduleResponseList;
-  }
 
-  getModules() {
-    return this.moduleResponseList;
-  }
-
-  
   async hasAccessToSubmodule(subModuleRouteValue: string): Promise<boolean> {
     debugger
     return new Promise<boolean>(async (resolve, reject) => {
       try {
-        // const modules = await this.helperService.getModulesWithSubModules();
-
         let subModules = this.helperService.subModuleResponseList;
-        if(subModules==undefined || subModules==null || subModules.length==0){
+        if (subModules == undefined || subModules == null || subModules.length == 0) {
           subModules = await this.helperService.getAccessibleSubModuleResponseMethodCall();
         }
         for (const subModule of subModules) {
 
-          if(subModule.description === subModuleRouteValue && subModule.isAccessible){
+          if (subModule.description === subModuleRouteValue && subModule.isAccessible) {
             resolve(true);
             return;
           }
         }
-  
+
         resolve(false);
       } catch (error) {
         reject(error);
       }
     });
   }
-  
+
 }

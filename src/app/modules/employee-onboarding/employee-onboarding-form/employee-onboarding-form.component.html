@@ -55,6 +55,11 @@
                                         <p>Image already uploaded.</p>
                                       </div>
                                     </div>
+                                    <!-- <button type="button"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#image-picker" (click)="profileImageModel.open($any($event.target).value, userPersonalInformationRequest.image)">
+                                        Upload
+                                    </button>
+                           
+                                    <media-manager-crop (imageUploadOutputList)="getImageUrl($event)"  #profileImageModel></media-manager-crop> -->
                                   </div>
                                   
 
@@ -64,6 +69,7 @@
 
                                     </div>
                                   </div>
+                        
                                 
                              
                               <div class="col-md-6">
@@ -190,7 +196,7 @@
                                   </ul>
                               </div>
                               <input name="genderInput" type="hidden" [(ngModel)]="userPersonalInformationRequest.gender" required #genderInput="ngModel">
-                              <div *ngIf="genderInput?.touched">
+                              <div *ngIf="genderInput?.touched || isFormInvalid">
                                   <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="genderInput.errors?.required">
                                       <i class="bi bi-exclamation-circle"></i> Gender selection is required.
                                   </p>
@@ -207,7 +213,7 @@
                                 minlength="3" maxlength="50" required #fatherName="ngModel" placeholder="Enter father's name">
 
                         </div>
-                        <div *ngIf="fatherName?.touched">
+                        <div *ngIf="fatherName?.touched || isFormInvalid">
                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="fatherName.errors?.required">
                                 <i class="bi bi-exclamation-circle"></i> Father Name is required.
                             </p>
@@ -235,7 +241,7 @@
                               </ul>
                           </div>
                           <input name="maritalStatus" type="hidden" [(ngModel)]="userPersonalInformationRequest.maritalStatus" required #maritalStatus="ngModel">
-                          <div *ngIf="maritalStatus?.touched">
+                          <div *ngIf="maritalStatus?.touched || isFormInvalid">
                               <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="maritalStatus.errors?.required">
                                   <i class="bi bi-exclamation-circle"></i> Marital status selection is required.
                               </p>
@@ -266,7 +272,7 @@
                         required 
                         nzPlaceHolder="Select Joining Date">
                     </nz-date-picker>
-                      <div *ngIf="joiningDate.touched">
+                      <div *ngIf="joiningDate.touched || isFormInvalid">
                         <p class="errortxt mt-2 mb-0" *ngIf="joiningDate.errors?.required" style="color:red">
                           <i class="bi bi-exclamation-circle"></i> Joining date is required.
                         </p>
@@ -313,7 +319,7 @@
                         
                     />
                     <nz-autocomplete [nzDataSource]="departmentFilteredOptions" #departmentAuto></nz-autocomplete>
-                    <div *ngIf="department?.touched">
+                    <div *ngIf="department?.touched || isFormInvalid">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="department.errors?.required">
                             <i class="bi bi-exclamation-circle"></i> Department selection is required.
                         </p>
@@ -354,7 +360,7 @@
                     
                 />
                 <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
-                    <div *ngIf="position?.touched">
+                    <div *ngIf="position?.touched || isFormInvalid">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="position.errors?.required">
                             <i class="bi bi-exclamation-circle"></i> Position selection is required.
                         </p>
@@ -397,7 +403,7 @@
                 
             />
             <nz-autocomplete [nzDataSource]="nationalityFilteredOptions" #nationalityAuto></nz-autocomplete>
-                <div *ngIf="nationality?.touched">
+                <div *ngIf="nationality?.touched || isFormInvalid">
                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="nationality.errors?.required">
                         <i class="bi bi-exclamation-circle"></i> Nationality is required.
                     </p>
@@ -519,39 +525,3 @@
 
 <!-- Image Cropper Modal -->
 
-<div class="modal fade" id="image-cropper" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-                    Profile Picture
-                </h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <!-- modal-header -->
-            <div class="modal-body">
-                <div class="">
-                  <div  class="mt-2">
-                    <div class="scroll-box-logs" >
-
-                    
-                    
-                    
-                    </div>
-
-
-                  </div>
-                </div>
-
-            </div>
-            <!-- modal-body -->
-            <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-            </div>
-            <!-- modal-footer -->
-        </div>
-        <!-- modal-content -->
-    </div>
-    <!-- modal-dialog -->
-</div>

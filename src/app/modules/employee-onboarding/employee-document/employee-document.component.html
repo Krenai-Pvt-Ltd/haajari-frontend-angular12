@@ -283,7 +283,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3"   >
                                                 <label for="exampleInputEmail1" class="pb-2">Name</label>
-                                                <input type="text" required class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].name" #guarantorName1="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="30">
+                                                <input type="text"  class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest.guarantors[0].name" #guarantorName1="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="30">
                                                 <!-- Error Message for Name Field -->
                                                 <div *ngIf="guarantorName1.touched || isFormInvalid">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="guarantorName1.errors?.required">
@@ -300,7 +300,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="relationInput" class="pb-2">Relation</label>
-                                                <input type="text" required class="form-control" id="relationInput" name="relationInput" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].relation"  #relation1="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="30">
+                                                <input type="text"  class="form-control" id="relationInput" name="relationInput" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].relation"  #relation1="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="30">
                                                 <!-- Error Message for Relation Field -->
                                                 <div *ngIf="relation1.touched || isFormInvalid">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation1.errors?.required">
@@ -316,7 +316,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="phoneInput" class="pb-2">Phone Number</label>
-                                                <input type="text" required mask="0000000000" class="form-control" id="phoneInput" name="phoneInput" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].phoneNumber"  #phone1="ngModel" minlength="10" maxlength="10" pattern="[0-9]*">
+                                                <input type="text"  mask="0000000000" class="form-control" id="phoneInput" name="phoneInput" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].phoneNumber"  #phone1="ngModel" minlength="10" maxlength="10" pattern="[0-9]*">
                                                 <!-- Error Message for Phone Number Field -->
                                                 <div *ngIf="phone1.touched || isFormInvalid">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone1.errors?.required">

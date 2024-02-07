@@ -29,6 +29,8 @@ import { OrganizationAddressDetail } from "../models/organization-address-detail
 import { EmployeeAttendanceLocation } from "../models/employee-attendance-location";
 import { OnboardingSidebarResponse } from "../models/onboarding-sidebar-response";
 import { ReasonOfRejectionProfile } from "../models/reason-of-rejection-profile";
+import { HelperService } from "./helper.service";
+import { RoleBasedAccessControlService } from "./role-based-access-control.service";
 
 
 @Injectable({
@@ -1158,6 +1160,12 @@ verifyUserOtp(email: string, otp: number): Observable<any> {
 registerPassword(email: string, password: string): Observable<any> {
   const params = new HttpParams().set("email", email).set("password", password);
   return this.httpClient.post(`${this.baseUrl}/user/auth/save/password`, {}, { params });
+}
+
+saveUserOnboardingFormStatus(userUuid: string): Observable<any> {
+  // Construct the URL with userUuid as a parameter
+  const url = `${this.baseUrl}/get/onboarding/save-form-status?userUuid=${userUuid}`;
+  return this.httpClient.put<any>(url, {});
 }
 
 }
