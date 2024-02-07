@@ -9,6 +9,9 @@ import { NewLoginComponent } from './new-login/new-login.component';
 import { SlackAuthComponent } from './slack-auth/slack-auth.component';
 import { AddToSlackComponent } from './add-to-slack/add-to-slack.component';
 import { LoginComponent } from './login/login.component';
+import { OtpVerificationComponent } from './otp-verification/otp-verification.component';
+import { NgOtpInputModule } from  'ng-otp-input';
+
 
 
 @NgModule({
@@ -17,14 +20,16 @@ import { LoginComponent } from './login/login.component';
     LoginComponent,
     NewLoginComponent,
     SlackAuthComponent,
-    AddToSlackComponent
+    AddToSlackComponent,
+    OtpVerificationComponent
   ],
   imports: [
     CommonModule,
     AuthenticationRoutingModule,
     FormsModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgOtpInputModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

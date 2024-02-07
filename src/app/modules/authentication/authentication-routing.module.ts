@@ -5,6 +5,7 @@ import { AddToSlackComponent } from './add-to-slack/add-to-slack.component';
 import { LoginComponent } from './login/login.component';
 import { NewLoginComponent } from './new-login/new-login.component';
 import { SlackAuthComponent } from './slack-auth/slack-auth.component';
+import { OtpVerificationComponent } from './otp-verification/otp-verification.component';
 
 const routes: Routes = [{ path: '', redirectTo: '/auth/login', pathMatch:'full'},
     { path: '', component: AuthenticationComponent,
@@ -14,7 +15,8 @@ const routes: Routes = [{ path: '', redirectTo: '/auth/login', pathMatch:'full'}
     {path: 'slackauth', component: SlackAuthComponent},
     {path: 'addtoslack', component: AddToSlackComponent},
     {path : 'new-login', component: NewLoginComponent},
-    { path: 'login', component: LoginComponent }
+    { path: 'login', component: LoginComponent },
+    { path: 'otp-verification', component: OtpVerificationComponent }
   ] }
 ];
 @NgModule({
