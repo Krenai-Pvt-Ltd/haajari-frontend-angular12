@@ -24,11 +24,12 @@ confiirmPassword: string='';
     // localStorage.setItem('loginData', JSON.stringify(loginData));
   }
 
-  otp : number=0;
+  otp : string='';
   loginButtonLoader : boolean = false;
   errorMessage: string = ''; 
-  verifyOtpButton: boolean = false;
+  verifyOtpButtonFlag: boolean = false;
   enterPasswordFlag: boolean = false;
+  errorPasswordFlag: boolean = false;
 
   confirmPassError:boolean=false;
   checkConfirmPassword(){
@@ -54,11 +55,13 @@ confiirmPassword: string='';
     }, (error) =>{
       console.log(error.error.message);
       this.errorMessage = error.error.message; 
-      if(this.errorMessage == "OTP sent to your email. Please verify to set your password."){
-        this.verifyOtpButton=true;
-      }else if(this.errorMessage == "Invalid login. Please check your credentials." || this.errorMessage == "Please Enter Valid Password."){
-        this.enterPasswordFlag=true;
-      }
+      // if(this.errorMessage == "OTP sent to your email. Please verify to set your password."){
+      //   this.verifyOtpButton=true;
+      // }else if(this.errorMessage == "Please Enter Valid Password."){
+      //   this.enterPasswordFlag=true;
+      // }else if(this.errorMessage == "Invalid login. Please check your credentials."){
+      //   this.errorPasswordFlag=true;
+      // }
       this.loginButtonLoader = false;
     })
   }
@@ -111,12 +114,9 @@ confiirmPassword: string='';
 
     var div= document.getElementById("videoId");
     if(div){
-    
-     
-
         //@ts-ignore
         div!.muted = true;
-  //@ts-ignore
+        //@ts-ignore
         div.autoplay=true;
          //@ts-ignore
       div!.play();
@@ -128,19 +128,26 @@ confiirmPassword: string='';
     console.log(`Input ${index} changed`);
   }
 
+  @ViewChild('otpInput') otpInput: any;
+  
   createPasswordFlag:boolean=false;
+  otpErrorMessage:string='';
   verifyOtp() {
+    debugger
     this.dataService.verifyUserOtp(this.email,this.otp)
       .subscribe(
         (response) => {
           this.errorMessage = '';
-          this.verifyOtpButton=false;
-          this.otp = 0;
+          this.verifyOtpButtonFlag=false;
+          this.otp = '';
           this.createPasswordFlag=true;
+          this.showMessageFlag=false;
+          this.verifyOtpButtonFlag=false;
           this.otpVerification.nativeElement.click();
           console.log('Verification successful:', response);
         },
         (error) => {
+          this.otpErrorMessage=error.error.message;
           console.error('Verification failed:', error);
         }
       );
@@ -154,6 +161,10 @@ confiirmPassword: string='';
         (response) => {
           this.registerPassLoader=false;
           console.log('Password Created successfully:', response);
+          this.password = '';
+          this.confiirmPassword = '';
+          this.createPasswordFlag = false;
+          this.enterPasswordFlag = true;
         },
         (error) => {
           this.registerPassLoader=false;
@@ -161,6 +172,71 @@ confiirmPassword: string='';
         }
       );
   }
+
+ showMessageFlag:boolean=false;
+  checkUserPresence() {
+    debugger
+    this.loginButtonLoader=true;
+    this.dataService.checkUserPresence(this.email)
+      .subscribe(
+        (response) => {
+          this.loginButtonLoader=false;
+          if(response.isExistingUser==false){
+           this.errorMessage = "Please register yourself first Or contact to your admin!";
+          }
+          if(response.isPassword==true){
+            this.enterPasswordFlag=true;
+            this.errorMessage = '';
+          }else if(response.isPassword==false){
+            this.showMessageFlag=true;
+            this.verifyOtpButtonFlag=true;
+            this.errorMessage = '';
+          }
+          console.log("response :", response);
+        },
+        (error) => {
+          this.loginButtonLoader=false;
+          console.log("error :", error);
+
+        }
+      );
+  }
+
+  sendUserOtpToMail() {
+    this.dataService.sendUserOtpToMail(this.email)
+      .subscribe(
+        (response) => {
+          console.log("response :", response);
+        },
+        (error) => {
+          console.log("error :", error);
+
+        }
+      );
+  }
+
+  resetUserPassword(){
+    this.registerPassLoader = true;
+    this.dataService.resetPassword(this.email, this.password)
+      .subscribe(
+        (response) => {
+          this.registerPassLoader=false;
+          console.log('Password Created successfully:', response);
+          this.password = '';
+          this.confiirmPassword = '';
+          this.createPasswordFlag = false;
+          this.enterPasswordFlag = true;
+        },
+        (error) => {
+          this.registerPassLoader=false;
+          console.log("error :", error);
+
+        }
+      );
+    
+  }
+
+  
 
 
   // password:string='';
@@ -190,6 +266,18 @@ confiirmPassword: string='';
 
   closeDeleteModal() { 
     this.otpVerification.nativeElement.click();
+  }
+
+  resetPasswordFlag:boolean=false;
+  forgotPasswordFun(){
+    this.errorMessage = '';
+    this.password = '';
+    this.otp='';
+    this.otpErrorMessage='';
+    // this.createPasswordFlag=true;
+    this.enterPasswordFlag=false;
+    // this.resetPasswordFlag=true;
+    this.verifyOtpButtonFlag=true;
   }
 
 

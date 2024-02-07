@@ -1152,14 +1152,29 @@ getAccessibleSubModuleResponse(): Observable<any>{
   return this.httpClient.get<any>(`${this.baseUrl}/role/get-accessible-sub-module-by-role-id`);
 }
 
-verifyUserOtp(email: string, otp: number): Observable<any> {
+verifyUserOtp(email: string, otp: string): Observable<any> {
   const params = new HttpParams().set("email", email).set("otp", otp);
   return this.httpClient.post(`${this.baseUrl}/user/auth/verify/otp`, {}, { params });
+}
+
+checkUserPresence(email: string): Observable<any> {
+  const params = new HttpParams().set("email", email);
+  return this.httpClient.post(`${this.baseUrl}/user/auth/check/user/presence`, {}, { params });
+}
+
+sendUserOtpToMail(email: string): Observable<any> {
+  const params = new HttpParams().set("email", email);
+  return this.httpClient.post(`${this.baseUrl}/user/auth/sent/otp`, {}, { params });
 }
 
 registerPassword(email: string, password: string): Observable<any> {
   const params = new HttpParams().set("email", email).set("password", password);
   return this.httpClient.post(`${this.baseUrl}/user/auth/save/password`, {}, { params });
+}
+
+resetPassword(email: string, password: string): Observable<any> {
+  const params = new HttpParams().set("email", email).set("password", password);
+  return this.httpClient.post(`${this.baseUrl}/user/auth/reset/password`, {}, { params });
 }
 
 saveUserOnboardingFormStatus(userUuid: string): Observable<any> {
