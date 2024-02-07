@@ -13,7 +13,7 @@
                     <h5>Personal Information</h5>
                     <p class="mb-0">Fields with * are mandatory </p>
                     <!-- <form ngNativeValidate (ngSubmit)="setEmployeePersonalDetailsMethodCall()"> -->
-                      <form #personalInformationForm="ngForm" ngNativeValidate (ngSubmit)="submit()">
+                      <form #personalInformationForm="ngForm"  (ngSubmit)="submit()">
                         <div class="form-group">
                         <div class="persnol-info mt-4">
                           <div class="row">
@@ -35,25 +35,33 @@
 
                                   <div class="col-md-9">
                                     <div class="mb-3">
-                                        <label for="profilePicture" class="pb-2">Profile Picture <span class="text-optional">*</span></label>
-                            
-                                
-                                    <div class="importfilebox">
-                                        <input id="profilePicture" [required]="!dbImageUrl" type="file" name="img" accept="image/*" class="input" (change)="onFileSelected($event)" #image="ngModel" [(ngModel)]="userPersonalInformationRequest.image">
+                                      <label for="profilePicture" class="pb-2">Profile Picture <span class="text-optional">*</span></label>
+                                  
+                                      <div class="importfilebox">
+                                        <input id="profilePicture" [required]="!dbImageUrl" type="file" name="img" accept="image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event)" #image="ngModel" [(ngModel)]="userPersonalInformationRequest.image">
                                         <label for="profilePicture" class="pl-3">
-                                            <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> JPEG, JPG or PNG (max. 100px*100px)</span>
+                                          <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> JPEG, JPG or PNG (max. 100px*100px)</span>
                                         </label>
-                                    </div>
-                                    <div *ngIf="!dbImageUrl && image?.dirty">
-                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="image.errors?.required"><i class="bi bi-exclamation-circle"></i> Profile Picture is required.</p>
-                                    </div>
-                                    
-                                    <!-- Display if image already exists -->
-                                    <div *ngIf="dbImageUrl">
+                                      </div>
+                                      
+                                      <div *ngIf="(!dbImageUrl && isFormInvalid) || (!isInvalidFileType && dbImageUrl) || isInvalidFileType">
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="image.errors?.required && isFormInvalid && !isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Profile Picture is required.</p>
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="isInvalidFileType && image.dirty"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a JPG, JPEG, or PNG file.</p>
+                                      </div>
+                                      
+                                  
+                                      <!-- Display if image already exists -->
+                                      <div *ngIf="dbImageUrl">
                                         <p>Image already uploaded.</p>
+                                      </div>
                                     </div>
-                                </div>
-                            </div>
+                                    <!-- <button type="button"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#image-picker" (click)="profileImageModel.open($any($event.target).value, userPersonalInformationRequest.image)">
+                                        Upload
+                                    </button>
+                           
+                                    <media-manager-crop (imageUploadOutputList)="getImageUrl($event)"  #profileImageModel></media-manager-crop> -->
+                                  </div>
+                                  
 
                                   <div class="col-md-3">
                                     <div style="text-align: center; margin-top: 30px; display: flex; align-items: center; justify-content: center;">
@@ -61,6 +69,7 @@
 
                                     </div>
                                   </div>
+                        
                                 
                              
                               <div class="col-md-6">
@@ -68,7 +77,7 @@
                                   <label for="name" class="pb-2">Name <span class="text-optional">*</span></label>
                                   <input type="text" class="form-control" id="name" placeholder="Enter full name" name="nameF" [(ngModel)]="userPersonalInformationRequest.name" minlength="3" maxlength="50" required #name="ngModel" [disabled]="userPersonalInformationRequest.name">                            
                                 </div>
-                                <div *ngIf="name?.touched ">
+                                <div *ngIf="name?.touched  || isFormInvalid">
                                   <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name.errors?.required"><i
                                           class="bi bi-exclamation-circle"></i>
                                       Name is required.</p>
@@ -83,7 +92,7 @@
                                     <label for="emailField" class="pb-2">Email Id <span class="text-optional">*</span></label>
                                     <input type="email" class="form-control" id="emailField" name="email" aria-describedby="emailHelp" placeholder="Enter email id" [(ngModel)]="userPersonalInformationRequest.email" required #email="ngModel" [disabled]="userPersonalInformationRequest.email != null">
                                 </div>
-                                <div *ngIf="email?.touched">
+                                <div *ngIf="email?.touched || isFormInvalid">
                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email.errors?.required">
                                         <i class="bi bi-exclamation-circle"></i> Email Id is required.
                                     </p>
@@ -102,7 +111,7 @@
                                          [(ngModel)]="userPersonalInformationRequest.phoneNumber"
                                          minlength="10" maxlength="10" required #phone="ngModel" pattern="[0-9]*">
                               </div>
-                              <div *ngIf="phone?.touched">
+                              <div *ngIf="phone?.touched || isFormInvalid">
                                   <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone.errors?.required">
                                       <i class="bi bi-exclamation-circle"></i> Phone number is required.
                                   </p>
@@ -155,12 +164,14 @@
                                 #dob="ngModel"
                                 [(ngModel)]="userPersonalInformationRequest.dob"
                                 required
+                                [nzShowToday] = false
                                 nzPlaceHolder="Select DOB"
                                 [nzDisabledDate]="disabledDate">
+                                
                               </nz-date-picker>
                           
                               <!-- Error Messages -->
-                              <div *ngIf="dob?.touched">
+                              <div *ngIf="dob?.touched || isFormInvalid">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="dob.errors?.required">
                                   <i class="bi bi-exclamation-circle"></i> DOB is required.
                                 </p>
@@ -181,11 +192,11 @@
                                   <ul aria-labelledby="genderDropdown" class="dropdown-menu" style="width: 100%;">
                                       <li><a class="dropdown-item" (click)="userPersonalInformationRequest.gender = 'Male'">Male</a></li>
                                       <li><a class="dropdown-item" (click)="userPersonalInformationRequest.gender = 'Female'">Female</a></li>
-                                      <li><a class="dropdown-item" (click)="userPersonalInformationRequest.gender = 'Transgender'">Transgender</a></li>
+                                      <li><a class="dropdown-item" (click)="userPersonalInformationRequest.gender = 'Transgender'">Other</a></li>
                                   </ul>
                               </div>
                               <input name="genderInput" type="hidden" [(ngModel)]="userPersonalInformationRequest.gender" required #genderInput="ngModel">
-                              <div *ngIf="genderInput?.touched">
+                              <div *ngIf="genderInput?.touched || isFormInvalid">
                                   <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="genderInput.errors?.required">
                                       <i class="bi bi-exclamation-circle"></i> Gender selection is required.
                                   </p>
@@ -196,11 +207,13 @@
                       <div class="col-md-6">
                         <div class="mb-3">
                             <label for="fatherNameField" class="pb-2">Father's Name <span class="text-optional">*</span></label>
-                            <input type="text" class="form-control" id="fatherNameField" name="fatherName" aria-describedby="fatherNameHelp" placeholder="Enter father's name" 
-                                   [(ngModel)]="userPersonalInformationRequest.fatherName" 
-                                   minlength="3" maxlength="50" required #fatherName="ngModel">
+                            <input type="text" class="form-control" id="fatherNameField" name="fatherName"
+                                [(ngModel)]="userPersonalInformationRequest.fatherName" 
+                                (keydown)="preventLeadingWhitespace($event)"
+                                minlength="3" maxlength="50" required #fatherName="ngModel" placeholder="Enter father's name">
+
                         </div>
-                        <div *ngIf="fatherName?.touched">
+                        <div *ngIf="fatherName?.touched || isFormInvalid">
                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="fatherName.errors?.required">
                                 <i class="bi bi-exclamation-circle"></i> Father Name is required.
                             </p>
@@ -228,7 +241,7 @@
                               </ul>
                           </div>
                           <input name="maritalStatus" type="hidden" [(ngModel)]="userPersonalInformationRequest.maritalStatus" required #maritalStatus="ngModel">
-                          <div *ngIf="maritalStatus?.touched">
+                          <div *ngIf="maritalStatus?.touched || isFormInvalid">
                               <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="maritalStatus.errors?.required">
                                   <i class="bi bi-exclamation-circle"></i> Marital status selection is required.
                               </p>
@@ -259,7 +272,7 @@
                         required 
                         nzPlaceHolder="Select Joining Date">
                     </nz-date-picker>
-                      <div *ngIf="joiningDate.touched">
+                      <div *ngIf="joiningDate.touched || isFormInvalid">
                         <p class="errortxt mt-2 mb-0" *ngIf="joiningDate.errors?.required" style="color:red">
                           <i class="bi bi-exclamation-circle"></i> Joining date is required.
                         </p>
@@ -292,6 +305,7 @@
                     <!-- </div> -->
                     <!-- <input type="hidden" [(ngModel)]="userPersonalInformationRequest.department" required #department="ngModel"> -->
                     <input
+                    maxlength="50"
                         class="seach-dropdown"
                         id="departmentDropdown"
                         name="departmentDropdown"
@@ -301,12 +315,16 @@
                         (ngModelChange)="onChange($event, 'department')"
                         [nzAutocomplete]="departmentAuto"
                         required #department="ngModel"
+                        (keydown)="preventLeadingWhitespace($event)"
                         
                     />
                     <nz-autocomplete [nzDataSource]="departmentFilteredOptions" #departmentAuto></nz-autocomplete>
-                    <div *ngIf="department?.touched">
+                    <div *ngIf="department?.touched || isFormInvalid">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="department.errors?.required">
                             <i class="bi bi-exclamation-circle"></i> Department selection is required.
+                        </p>
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="department.errors?.maxlength">
+                            <i class="bi bi-exclamation-circle"></i> Maximun 50 characters allowed.
                         </p>
                     </div>
                 </div>                      
@@ -328,6 +346,7 @@
                     <!-- </div> -->
                     <!-- <input type="hidden" [(ngModel)]="userPersonalInformationRequest.position" required #position="ngModel"> -->
                     <input
+                    maxlength="50"
                     class="seach-dropdown"
                     id="positionDropdown"
                     name="positionDropdown"
@@ -337,12 +356,16 @@
                     (ngModelChange)="onChange($event, 'position')"
                     [nzAutocomplete]="positionAuto"
                     required #position="ngModel"
+                    (keydown)="preventLeadingWhitespace($event)"
                     
                 />
                 <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
-                    <div *ngIf="position?.touched">
+                    <div *ngIf="position?.touched || isFormInvalid">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="position.errors?.required">
                             <i class="bi bi-exclamation-circle"></i> Position selection is required.
+                        </p>
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="position.errors?.maxlength">
+                            <i class="bi bi-exclamation-circle"></i> Maximun 50 characters allowed.
                         </p>
                     </div>
                 </div>                      
@@ -366,6 +389,7 @@
                 </div> -->
                 <!-- <input type="hidden" [(ngModel)]="userPersonalInformationRequest.nationality" required #nationality="ngModel"> -->
                 <input
+                maxlength="50"
                 class="seach-dropdown"
                 id="nationalityDropdown"
                 name="nationalityDropdown"
@@ -375,12 +399,16 @@
                 (ngModelChange)="onChange($event, 'nationality')"
                 [nzAutocomplete]="nationalityAuto"
                 required #nationality="ngModel"
+                (keydown)="preventLeadingWhitespace($event)"
                 
             />
             <nz-autocomplete [nzDataSource]="nationalityFilteredOptions" #nationalityAuto></nz-autocomplete>
-                <div *ngIf="nationality?.touched">
+                <div *ngIf="nationality?.touched || isFormInvalid">
                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="nationality.errors?.required">
                         <i class="bi bi-exclamation-circle"></i> Nationality is required.
+                    </p>
+                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="nationality.errors?.maxlength">
+                        <i class="bi bi-exclamation-circle"></i> Maximun 50 characters allowed.
                     </p>
                 </div>
             </div>                      
@@ -399,36 +427,36 @@
         
         
         <div class="col-md-12 d-flex justify-content-end mt-3" style="gap:10px;">
-         
             <div class="info-btn d-flex justify-content-end" style="gap:10px;">
-                <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
-                    <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
-                        <div *ngIf="toggleSave" class="dot-opacity-loader">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                        <span *ngIf="!toggleSave">
-                            Submit Form <i class="bi bi-save" style="padding-left: 8px;"></i>
-                        </span>
-                    </button>
-                </div>
-                <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
-                    <div *ngIf="toggle" class="dot-opacity-loader">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                    <span *ngIf="!toggle && isNewUser">
-                      Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
-                    </span>
-                    <span *ngIf="!toggle && !isNewUser">
-                      Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+              <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+                <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
+                  <div *ngIf="toggleSave" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <span *ngIf="!toggleSave">
+                    Submit Form <i class="bi bi-save" style="padding-left: 8px;"></i>
                   </span>
-                  </button>
+                </button>
+              </div>
+              <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
+                <div *ngIf="toggle" class="dot-opacity-loader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span *ngIf="!toggle && isNewUser">
+                  Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                </span>
+                <span *ngIf="!toggle && !isNewUser">
+                  Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                </span>
+              </button>
             </div>
-          <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button>
-      </div>
+            <button type="submit" style="display: none;" id="formSubmitButton"  #formSubmitButton></button>
+          </div>
+          
       
       
                             </div>
@@ -493,3 +521,7 @@
         </div>
     </div>
 </div>
+
+
+<!-- Image Cropper Modal -->
+

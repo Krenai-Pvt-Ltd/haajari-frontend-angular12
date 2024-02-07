@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { debug } from 'console';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
@@ -200,6 +200,11 @@ selectButtonType(type:string){
 directSave: boolean = false;
 
 submit(){
+  this.checkFormValidation();
+
+  if(this.isFormInvalid==true){
+    return
+  } else{
 switch(this.buttonType){
   case "next" :{
     this.setEmployeeAddressDetailsMethodCall();
@@ -212,6 +217,7 @@ switch(this.buttonType){
     break;
   }
 }
+  }
 }
 @ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
 routeToFormPreview() {
@@ -288,7 +294,7 @@ handleOnboardingStatus(response: string) {
     var addressLine1=this.userAddressRequest[1].addressLine1;
     this.userAddressRequest[1]=new UserAddressRequest();
     this.userAddressRequest[1].id=id;
-    this.userAddressRequest[1].addressLine1=e.formattedAddress.toString() ;
+    this.userAddressRequest[1].addressLine1=e.formatted_address.toString() ;
     e?.address_components?.forEach((entry: any) => {
       console.log(entry);
       
@@ -315,5 +321,41 @@ handleOnboardingStatus(response: string) {
 
     });
   }
+
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const inputElement = event.target as HTMLInputElement;
   
+    // Prevent space if it's the first character
+    if (event.key === ' ' && inputElement.selectionStart === 0) {
+      event.preventDefault();
+    }
+    if (!isNaN(Number(event.key)) && event.key !== ' ') {
+      event.preventDefault();
+    }
+    
+  }
+
+  preventWhitespace(event: KeyboardEvent): void {
+    const inputElement = event.target as HTMLInputElement;
+  
+    // Prevent space if it's the first character
+    if (event.key === ' ' && inputElement.selectionStart === 0) {
+      event.preventDefault();
+    }
+   
+  }
+  
+  
+  isFormInvalid: boolean = false;
+  @ViewChild ('addressInformationForm') addressInformationForm !: NgForm
+checkFormValidation(){
+  if(this.addressInformationForm.invalid){
+  this.isFormInvalid = true;
+  return
+  } else {
+    this.isFormInvalid = false;
+  }
+}
+
+ 
 }

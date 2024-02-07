@@ -27,6 +27,12 @@ export class AppComponent implements OnInit{
     // this._helperService.showToast("Successfully generated.", "Success");
   }
 
+
+  moduleResponseList: any[] = [];
+  setModules(moduleResponseList : any){
+    this.moduleResponseList = this.moduleResponseList;
+  }
+
   // constructor(private router: Router) {
   //   this.router.events.pipe(
   //     filter(event => event instanceof NavigationEnd)

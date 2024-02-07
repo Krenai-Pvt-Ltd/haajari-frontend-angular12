@@ -29,6 +29,8 @@ import { OrganizationAddressDetail } from "../models/organization-address-detail
 import { EmployeeAttendanceLocation } from "../models/employee-attendance-location";
 import { OnboardingSidebarResponse } from "../models/onboarding-sidebar-response";
 import { ReasonOfRejectionProfile } from "../models/reason-of-rejection-profile";
+import { HelperService } from "./helper.service";
+import { RoleBasedAccessControlService } from "./role-based-access-control.service";
 
 
 @Injectable({
@@ -48,10 +50,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  // private baseUrl = "http://localhost:8080/api/v2";
+  private baseUrl = "http://localhost:8080/api/v2";
 
-
-  private baseUrl = "https://backend.hajiri.work/api/v2";
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
 
   // private baseUrl = "https://production.hajiri.work/api/v2";
 
@@ -1147,8 +1148,23 @@ getAttendanceDetailsCount(date : string): Observable<any> {
   return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-count`, {params});
 }
 
-getModulesWithTheirSubModules(): Observable<any>{
-  return this.httpClient.get<any>(`${this.baseUrl}/role/get-sub-module-by-id`);
+getAccessibleSubModuleResponse(): Observable<any>{
+  return this.httpClient.get<any>(`${this.baseUrl}/role/get-accessible-sub-module-by-role-id`);
 }
+
+saveUserOnboardingFormStatus(userUuid: string): Observable<any> {
+  // Construct the URL with userUuid as a parameter
+  const url = `${this.baseUrl}/get/onboarding/save-form-status?userUuid=${userUuid}`;
+  return this.httpClient.put<any>(url, {});
+}
+
+getOrganizationRegistrationDate(): Observable<any>{
+
+  return this.httpClient.get<any>(`${this.baseUrl}/organization/registration/date/get`);
+}
+
+
+
+
 
 }

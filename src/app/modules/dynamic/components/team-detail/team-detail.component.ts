@@ -38,19 +38,29 @@ export class TeamDetailComponent implements OnInit {
 
   }
   managerId:any;
+  role: any;
+  userUuid : any;
+  orgRefId : any;
 
-
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.role =  await this.rbacService.getRole();
+    this.userUuid = this.rbacService.getUUID();
+    this.assignRole();
+    this.getLoginDetailsId();
     this.getTeamMemberById();
     this.getUsersRoleFromLocalStorage();
   }
 
-  ngAfterViewInit() {
-    this.getLoginDetailsId();
-  }
+  // ngAfterViewInit() {
+  //   this.getLoginDetailsId();
+  // }
   
-  role:string = this.rbacService.getRole();
-  userUuid: string = this.rbacService.getUUID();
+  async assignRole(){
+    // this.role =   this.rbacService.getRole();
+    // this.userUuid = this.rbacService.getUUID();
+    this.orgRefId = this.rbacService.getOrgRefUUID();
+  }
+
 
   teamId: any;
   team:any=[];
@@ -251,14 +261,17 @@ export class TeamDetailComponent implements OnInit {
   localStorageRoleAdminFlag=false;
   
   getUsersRoleFromLocalStorage(){
+    // console.log("role" + this.role);
+    debugger
       if(this.role == this.ADMIN){
         this.localStorageRoleAdminFlag=true;
       }else if((this.role== this.USER )|| (this.role== this.MANAGER)){
         this.localStorageRoleAdminFlag=false;
       }
   }
-
+  @ViewChild("closeUserDeleteModal") closeUserDeleteModal!:ElementRef;
   removeUserFromTeam(teamUuid: string, userUuid: string) {
+    debugger
     this.deleteUserFromTeamLoader=true;
     this.dataService.removeUserFromTeam(teamUuid, userUuid)
       .subscribe(
@@ -277,6 +290,7 @@ export class TeamDetailComponent implements OnInit {
           }
           // location.reload();
           this.getTeamMemberById();
+          this.closeUserDeleteModal.nativeElement.click();
           this.helperService.showToast("User removed successfully.", Key.TOAST_STATUS_SUCCESS);
         },
         error => {
@@ -357,12 +371,13 @@ export class TeamDetailComponent implements OnInit {
 
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
 
-  openDeleteConfirmationModal(userUuid:string, teamUuid: string) {
+  openDeleteConfirmationModal(teamUuid:string, userUuid: string) {
     this.delUserUuid = userUuid;
     this.delUserFromTeamUuid = teamUuid;
   }
   deleteUserFromTeamLoader:boolean=false;
   deleteUserFromTeam() {
+    debugger
     if (this.delUserUuid !== null && this.delUserFromTeamUuid !=null) {
       this.removeUserFromTeam(this.delUserFromTeamUuid, this.delUserUuid);
       this.delUserUuid = '';

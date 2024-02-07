@@ -52,23 +52,23 @@
                                 <div class="col">
                                     <!-- <p class="text-dark mb-1 fw-semibold" style="font-size: 11px;">On Leave / Absent / Not Marked</p>
                                     <h4 class="font-22 fw-bold">{{currentDayEmployeesData.allAbsentUsers}}</h4>    -->
-                                    <div class="d-flex align-items-center" style="gap:0px;">
+                                    <div class="d-flex align-items-center" style="gap:3px;">
 
                                         <div class="Approved pending-css rejected-css text-center border-right">
                                             <span class="total-holiday pb-2">Leave</span>
-                                            <p class="mb-0">30</p>
+                                            <p class="mb-0">{{attendanceDetailsCountResponse.usersOnLeave}}</p>
                                             
                                         </div>
                                         <div class="Approved absents text-center border-right">
                                             <span class="total-holiday pb-2">Absent</span>
 
-                                            <p class="mb-0">20</p>
+                                            <p class="mb-0">{{attendanceDetailsCountResponse.absentUsers}}</p>
                                             
                                         </div>
 
                                         <div class="Approved na text-center ">
-                                            <span class="total-holiday pb-2">N/A</span>
-                                            <p class="mb-0">10</p>
+                                            <span class="total-holiday pb-2">Unmarked</span>
+                                            <p class="mb-0">{{attendanceDetailsCountResponse.unmarkedUsers}}</p>
                                           
                                         </div>
                                     </div>
@@ -305,7 +305,7 @@
                             <div class="card-body" style="display:flex; gap:20px; align-items: center; padding: 0px !important; padding-bottom: 10px !important;">
                                 <ng-container *ngIf="lateEmployeeAttendanceDetailsResponse.image !== null; else imageNull">
                                     <div>
-                                        <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:60px; height: 60px; border-radius:50%">
+                                        <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:60px; height: 60px; border-radius:50%; object-fit: cover;">
                                     </div>
                                 </ng-container>
                                 <ng-template #imageNull>
@@ -550,7 +550,7 @@
                                         
                                           
                                     
-                                      <div class="dropdown col-md-3" >
+                                      <!-- <div class="dropdown col-md-3" >
                                         <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                          {{month ? month : 'Select Month'}} <i class="bi bi-chevron-down"></i>
                                         </button>
@@ -568,7 +568,12 @@
                                           <li><a class="dropdown-item" (click)="selectMonth('November')">Nov 2024</a></li>
                                           <li><a class="dropdown-item" (click)="selectMonth('December')">Dec 2024</a></li>
                                         </ul>
+                                      </div> -->
+
+                                      <div class="dropdown col-md-3">
+                                        <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
                                       </div>
+                                      
 
                                 </div>
 
@@ -694,12 +699,12 @@
                                                         </td>
                                                         
                                                         <td class="text-center">{{attendanceReportResponse.present}}</td>
-                                                        <td class="text-center">0</td>
+                                                        <td class="text-center">-</td>
                                                         <td class="text-center">{{attendanceReportResponse.halfDays}}</td>
                                                         <td class="text-center">{{attendanceReportResponse.overTime}}</td>
                                                         <td class="text-center">{{attendanceReportResponse.paidLeave}}</td>
                                                         <td class="text-center">{{attendanceReportResponse.unpaidLeave}}</td>
-                                                        <td class="text-center">0</td>
+                                                        <td class="text-center">-</td>
                                                         <td class="text-center">{{attendanceReportResponse.totalPayOutDays}}</td>
                                                     </tr>
                                                     <tr class="collapse" [attr.id]="'collapseExamplesheet' + i">
@@ -716,7 +721,7 @@
                         
                                                                         <td></td>
                                                                         <ng-container *ngFor="let dayWiseStatus of attendanceReportResponse.dayWiseStatusList">
-                                                                            <td class="text-center" [ngClass]="{'absent': (dayWiseStatus.status == ABSENT || dayWiseStatus.status == UNMARKED), 'present': (dayWiseStatus.status == PRESENT), 'holiday' : (dayWiseStatus.status == WEEKEND || dayWiseStatus.status == HOLIDAY)}">{{ (dayWiseStatus.status[0] == 'U') ? 'A'  : dayWiseStatus.status[0]}}</td>
+                                                                            <td class="text-center" [ngClass]="{'leave' : (dayWiseStatus.status == LEAVE), 'absent': (dayWiseStatus.status == UNMARKED), 'present': (dayWiseStatus.status == PRESENT), 'holiday' : (dayWiseStatus.status == WEEKEND || dayWiseStatus.status == HOLIDAY)}">{{ (dayWiseStatus.status[0] == 'U') ? 'A'  : dayWiseStatus.status[0]}}</td>
                                                                         </ng-container>
                                                                         
                                                                     </tr>

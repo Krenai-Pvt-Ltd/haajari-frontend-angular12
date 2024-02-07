@@ -3,6 +3,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
 import { DataService } from 'src/app/services/data.service';
 import { UserExperience } from 'src/app/models/user-experience';
+import { Form, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-employee-experience',
@@ -162,9 +163,23 @@ export class EmployeeExperienceComponent implements OnInit {
           
           
         } else {
-          this.isFresher=true;
           this.isLoading = false;
-          this.addExperience(); // Call addExperience if experiences is null or empty
+        //  this.userExperienceDetailRequest.experiences[0].fresher = true;
+        if(experiences[0].fresher==null){
+          experiences[0].fresher=false;
+          this.addExperience();
+        } else {
+          
+          if(experiences[0].fresher==true){
+            this.addExperience();
+            this.userExperiences[0].fresher=true;
+          } else{
+            this.userExperiences = experiences;
+          }
+        }
+          this.isFresher=true;
+          
+          // this.addExperience(); // Call addExperience if experiences is null or empty
           this.dataService.markStepAsCompleted(experiences[0].statusId);
         }
       },
@@ -371,10 +386,11 @@ selectDepartmentForExperience(dept: string, index: number): void {
 
 
 @ViewChild("formSubmitButton") formSubmitButton!:ElementRef;
-
+@ViewChild("experienceInformationForm") experienceInformationForm!:NgForm;
 buttonType:string="next"
 selectButtonType(type:string){
   debugger
+  this.experienceInformationForm;
   this.buttonType=type;
   this.userExperiences[0].directSave = false;
   this.formSubmitButton.nativeElement.click();
@@ -384,6 +400,11 @@ directSave: boolean = false;
 
 submit(){
   debugger
+  this.checkFormValidation();
+
+  if(this.isFormInvalid==true){
+    return
+  } else{
 switch(this.buttonType){
   case "next" :{
     this.setEmployeeExperienceDetailsMethodCall();
@@ -396,7 +417,27 @@ switch(this.buttonType){
     break;
   }
 }
+  }
 }
+
+isFormInvalid: boolean = false;
+// @ViewChild ('experienceInformationForm') experienceInformationForm !: NgForm
+checkFormValidation() {
+  if (this.experienceInformationForm.invalid) {
+    console.log('Invalid controls:', this.experienceInformationForm.controls);
+    Object.keys(this.experienceInformationForm.controls).forEach(key => {
+      const control = this.experienceInformationForm.controls[key];
+      if (control.invalid) {
+        console.log(key, 'is invalid', control.errors);
+      }
+    });
+    this.isFormInvalid = true;
+    return;
+  } else {
+    this.isFormInvalid = false;
+  }
+}
+
 @ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
 routeToFormPreview() {
   this.dismissSuccessModalButton.nativeElement.click();
@@ -476,4 +517,38 @@ onChangeDepartment(search: string, index: number): void {
     this.departmentFilteredOptions = [];
   }
 }
+preventWhitespace(event: KeyboardEvent): void {
+  const inputElement = event.target as HTMLInputElement;
+
+  // Prevent space if it's the first character
+  if (event.key === ' ' && inputElement.selectionStart === 0) {
+    event.preventDefault();
+  }
+}
+
+preventLeadingWhitespace(event: KeyboardEvent): void {
+  const inputElement = event.target as HTMLInputElement;
+
+  // Prevent space if it's the first character
+  if (event.key === ' ' && inputElement.selectionStart === 0) {
+    event.preventDefault();
+  }
+  if (!isNaN(Number(event.key)) && event.key !== ' ') {
+    event.preventDefault();
+  }
+}
+
+preventAlphabets(event: KeyboardEvent): void {
+  // Check if the pressed key is an alphabetic character or not the backspace key
+  const inputElement = event.target as HTMLInputElement;
+  if (event.key === ' ' && inputElement.selectionStart === 0) {
+    event.preventDefault();
+  }
+  if (/^[A-Za-z]*$/.test(event.key) && event.key !== 'Backspace') {
+    event.preventDefault();
+  }
+}
+
+
+
 }

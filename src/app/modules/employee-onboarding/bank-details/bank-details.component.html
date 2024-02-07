@@ -11,7 +11,7 @@
                 <div class="persnol-details">
                     <h5>Employee Bank Details</h5>
                     <p class="mb-0">Fields with * are mandatory </p>
-                    <form #bankInformationForm="ngForm" ngNativeValidate (ngSubmit)="submit()">
+                    <form #bankInformationForm="ngForm"  (ngSubmit)="submit()">
                         <div class="form-group">
                     <div class="persnol-info mt-4">
                         <div class="row">
@@ -21,44 +21,63 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="accountHolderName" class="pb-2">Account Holder Name <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="accountHolderName" name="accountHolderName" placeholder="Account holder name" [(ngModel)]="userBankDetailRequest.accountHolderName" required #accountHolderName="ngModel">
+                                    <input type="text" class="form-control" id="accountHolderName" name="accountHolderName" placeholder="Account holder name" [(ngModel)]="userBankDetailRequest.accountHolderName" required #accountHolderName="ngModel"  (keydown)="preventLeadingWhitespace($event)" maxlength="30">
                                     <!-- Error Message for Account Holder Name -->
                                     <div *ngIf="accountHolderName.touched && accountHolderName.invalid">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="accountHolderName.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             Account Holder Name is required.
                                         </p>
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="accountHolderName.errors?.maxlength">
+                                            <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="bankName" class="pb-2">Bank Name <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="bankName" name="bankName" placeholder="Bank name" [(ngModel)]="userBankDetailRequest.bankName" required #bankName="ngModel">
-                                    <!-- Error Message for Bank Name -->
-                                    <div *ngIf="bankName.touched && bankName.invalid">
-                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="bankName.errors?.required">
-                                            <i class="bi bi-exclamation-circle"></i>
-                                            Bank Name is required.
-                                        </p>
-                                    </div>
+                                  <label for="bankName" class="pb-2">Bank Name <span class="text-optional">*</span></label>
+                                  <input
+                                  (keydown)="preventLeadingWhitespace($event)"
+                                    nz-input
+                                    id="bankName"
+                                    name="bankName"
+                                    class="form-control"
+                                    [(ngModel)]="userBankDetailRequest.bankName"
+                                    #bankName="ngModel"
+                                    required
+                                    (ngModelChange)="onChange($event)"
+                                    [nzAutocomplete]="auto"
+                                    placeholder="Select Bank Name"
+                                  />
+                                  <nz-autocomplete #auto [nzDataSource]="filteredBanks"></nz-autocomplete>
+                                  <!-- Error Message for Bank Name -->
+                                  <div *ngIf="(bankName.touched && bankName.invalid) || isFormInvalid">
+                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="bankName.errors?.required">
+                                      <i class="bi bi-exclamation-circle"></i> Bank Name is required.
+                                    </p>
+                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="bankName.errors?.maxlength">
+                                      <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
+                                    </p>
+                                  </div>
                                 </div>
-                            </div>
+                              </div>
+                            
                             
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="accountNumber" class="pb-2">Account Number <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="Account number" [(ngModel)]="userBankDetailRequest.accountNumber" required pattern="[0-9]*" #accountNumber="ngModel">
+                                    <input type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="Account number" [(ngModel)]="userBankDetailRequest.accountNumber" required  #accountNumber="ngModel" (keydown)="preventWhitespace($event)" maxlength="30" >
                                     <!-- Error Message for Account Number -->
-                                    <div *ngIf="accountNumber.touched && accountNumber.invalid">
+                                    <div *ngIf="(accountNumber.touched && accountNumber.invalid) || isFormInvalid">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="accountNumber.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             Account Number is required.
                                         </p>
-                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="accountNumber.errors?.pattern">
-                                            <i class="bi bi-exclamation-circle"></i>
-                                            Only numeric values are allowed.
+                                       
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="accountNumber.errors?.maxlength">
+                                            <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
                                         </p>
                                     </div>
                                 </div>
@@ -67,12 +86,15 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="ifsc" class="pb-2"> IFSC Number <span class="text-optional">*</span></label>
-                                    <input type="text" class="form-control" id="ifsc" name="ifsc" placeholder="IFSC number" [(ngModel)]="userBankDetailRequest.ifsc" required #ifsc="ngModel">
+                                    <input type="text" class="form-control" id="ifsc" name="ifsc" placeholder="IFSC number" [(ngModel)]="userBankDetailRequest.ifsc" required #ifsc="ngModel" (keydown)="preventWhitespace($event)" maxlength="15">
                                     <!-- Error Message for IFSC Number -->
-                                    <div *ngIf="ifsc.touched && ifsc.invalid">
+                                    <div *ngIf="(ifsc.touched && ifsc.invalid) || isFormInvalid">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="ifsc.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             IFSC Number is required.
+                                        </p>
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="ifsc.errors?.maxlength">
+                                            <i class="bi bi-exclamation-circle"></i> Maximum 15 characters allowed.
                                         </p>
                                     </div>
                                 </div>
@@ -88,7 +110,7 @@
                                 </div>
                                 <div class="info-btn d-flex justify-content-end" style="gap:10px;">
                                     <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
-                                        <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
+                                        <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle " aria-label="Save">
                                             <div *ngIf="toggleSave" class="dot-opacity-loader">
                                                 <span></span>
                                                 <span></span>
@@ -99,7 +121,7 @@
                                             </span>
                                         </button>
                                     </div>
-                                    <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
+                                    <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle " aria-label="Next Step">
                                         <div *ngIf="toggle" class="dot-opacity-loader">
                                           <span></span>
                                           <span></span>
@@ -113,7 +135,7 @@
                                       </span>
                                       </button>
                                 </div>
-                                <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button>
+                                <button type="submit" style="display: none;" id="formSubmitButton"  #formSubmitButton></button>
                             </div>
                         </div>
                     </div>

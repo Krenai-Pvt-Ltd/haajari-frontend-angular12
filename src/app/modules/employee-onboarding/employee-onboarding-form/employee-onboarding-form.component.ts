@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { url } from 'inspector';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
@@ -38,6 +38,10 @@ export class EmployeeOnboardingFormComponent implements OnInit {
         
   }
 
+  @ViewChild('imageModel') imageModel!: ElementRef;
+  @ViewChild('closeModel') closeModel!: ElementRef
+  @ViewChild('imageGallerButton') imageGallerButton!: ElementRef
+  @ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>;
   ngOnInit(): void {
     this.userPersonalInformationRequest.dob = this.getInitialDate();
     console.log()
@@ -55,25 +59,57 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   isFileSelected = false;
   imagePreviewUrl: any = null;
   onFileSelected(event: Event): void {
+    debugger
     const element = event.currentTarget as HTMLInputElement;
-    let fileList: FileList | null = element.files;
+    const fileList: FileList | null = element.files;
+  
     if (fileList && fileList.length > 0) {
-        const file = fileList[0];
+      const file = fileList[0];
+  
+      // Check if the file type is valid
+      if (this.isValidFileType(file)) {
         this.selectedFile = file;
-        
+  
         const reader = new FileReader();
         reader.onload = (e: any) => {
-            // Set the loaded image as the preview
-            this.imagePreviewUrl = e.target.result;
+          // Set the loaded image as the preview
+          this.imagePreviewUrl = e.target.result;
         };
         reader.readAsDataURL(file);
+  
         this.uploadFile(file);
+      } else {
+        element.value = '';
+        this.userPersonalInformationRequest.image = '';
+        // Handle invalid file type here (e.g., show an error message)
+        console.error('Invalid file type. Please select a jpg, jpeg, or png file.');
+      }
     } else {
-        this.isFileSelected = false;
+      this.isFileSelected = false;
     }
-}
+  }
   
+  // Helper function to check if the file type is valid
+  isInvalidFileType = false; 
+  isValidFileType(file: File): boolean {
+    const validExtensions = ['jpg', 'jpeg', 'png'];
+    const fileType = file.type.split('/').pop(); // Get the file extension from the MIME type
   
+    if (fileType && validExtensions.includes(fileType.toLowerCase())) {
+      this.isInvalidFileType = false;
+      return true;
+    }
+    console.log(this.isInvalidFileType);
+    this.isInvalidFileType = true;
+    return false;
+  }
+  
+  getImageUrl(e: any){
+    console.log(e);
+    if(e!=null && e.length>0){
+    
+    }
+  }
 
   
   
@@ -107,6 +143,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
    toggleSave = false;
   setEmployeePersonalDetailsMethodCall() {
 debugger
+
     
 if(this.buttonType=='next'){
   this.toggle = true;
@@ -159,6 +196,7 @@ if (this.userPersonalInformationRequest.department === 'Other') {
         })
      
       ;
+
   }
   
   dbImageUrl: string | null = null;
@@ -184,17 +222,14 @@ if (this.userPersonalInformationRequest.department === 'Other') {
                 this.userPersonalInformationRequest = response;
                 this.isLoading = false;
                 this.employeeOnboardingFormStatus=response.employeeOnboardingStatus.response;
-                
+             
                 if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
                   this.successMessageModalButton.nativeElement.click();
                 }
                 if(response.employeeOnboardingStatus.response == "PENDING"){
                   this.isNewUser = false;
                 }
-                if (response.employeeOnboardingFormStatus.response == 'USER_REGISTRATION_SUCCESSFUL' && 
-                (this.employeeOnboardingFormStatus == 'PENDING' || this.employeeOnboardingFormStatus == 'APPROVED')) {
-                this.routeToFormPreview();
-            }
+               
             
                 this.handleOnboardingStatus(response.employeeOnboardingStatus.response);
                 console.log(response);
@@ -207,6 +242,12 @@ if (this.userPersonalInformationRequest.department === 'Other') {
                 if (response.image) {
                     this.setImageUrlFromDatabase(response.image);
                 }
+                if (response.employeeOnboardingFormStatus.response == 'USER_REGISTRATION_SUCCESSFUL' && 
+                (this.employeeOnboardingFormStatus == 'PENDING' || this.employeeOnboardingFormStatus == 'APPROVED')) {
+                  setTimeout(() => {
+                    this.routeToFormPreview();  
+                  }, 500);
+            }
             },
             (error: any) => {
                 console.error('Error fetching user details:', error);
@@ -499,6 +540,11 @@ selectButtonType(type:string){
 directSave: boolean = false;
 
 submit(){
+  this.checkFormValidation();
+
+  if(this.isFormInvalid==true){
+    return
+  } else{
 switch(this.buttonType){
   case "next" :{
     this.setEmployeePersonalDetailsMethodCall();
@@ -511,6 +557,7 @@ switch(this.buttonType){
     break;
   }
 }
+  }
 }
 @ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
 routeToFormPreview() {
@@ -561,6 +608,52 @@ getInitialDate(): Date {
 
 //   this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
 // }
+
+
+trimStartingWhitespace(value: string, fieldName: string): void {
+  debugger
+  if (value.startsWith(' ')) {
+    // Correctly use bracket notation to access the property dynamically
+    if(fieldName=='fatherName'){
+      // this.userPersonalInformationRequest.fatherName = value.trimStart();
+      this.userPersonalInformationRequest.fatherName = value.replace(/^\s+/, '');
+    } else if (fieldName=='position') {
+      this.userPersonalInformationRequest.position = value.trimStart();
+    } else if (fieldName=='department'){
+      this.userPersonalInformationRequest.department = value.trimStart();
+    } else if (fieldName=='nationality'){
+      this.userPersonalInformationRequest.nationality = value.trimStart();
+    }
+    
+    
+    // Alternatively, if you want to prevent ONLY the leading whitespace (keep ending spaces):
+    // this.userPersonalInformationRequest[fieldName] = value.replace(/^\s+/, '');
+  }
+}
+
+preventLeadingWhitespace(event: KeyboardEvent): void {
+  const inputElement = event.target as HTMLInputElement;
+
+  // Prevent space if it's the first character
+  if (event.key === ' ' && inputElement.selectionStart === 0) {
+    event.preventDefault();
+  }
+  if (!isNaN(Number(event.key)) && event.key !== ' ') {
+    event.preventDefault();
+  }
+}
+
+isFormInvalid: boolean = false;
+
+@ViewChild ('personalInformationForm') personalInformationForm !: NgForm
+checkFormValidation(){
+  if(this.personalInformationForm.invalid){
+  this.isFormInvalid = true;
+  return
+  } else {
+    this.isFormInvalid = false;
+  }
+}
 
 
 }

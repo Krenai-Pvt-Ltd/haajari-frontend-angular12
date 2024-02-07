@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { UserBankDetailRequest } from 'src/app/models/user-bank-detail-request';
 import { DataService } from 'src/app/services/data.service';
@@ -84,6 +85,7 @@ export class BankDetailsComponent implements OnInit {
     if (userUuid) {
       this.dataService.getEmployeeBankDetails(userUuid).subscribe(
         (response: UserBankDetailRequest) => {
+          this.filteredBanks = this.banksInIndia;
           this.dataService.markStepAsCompleted(response.statusId);
           if(response!=null){
             this.userBankDetailRequest = response;
@@ -126,6 +128,11 @@ directSave: boolean = false;
 
 submit(){
   debugger
+  this.checkFormValidation();
+
+  if(this.isFormInvalid==true){
+    return
+  } else{
 switch(this.buttonType){
   case "next" :{
     this.setEmployeeBankDetailsMethodCall();
@@ -137,6 +144,18 @@ switch(this.buttonType){
     this.setEmployeeBankDetailsMethodCall();
     break;
   }
+}
+  }
+}
+
+isFormInvalid: boolean = false;
+@ViewChild ('bankInformationForm') bankInformationForm !: NgForm
+checkFormValidation(){
+if(this.bankInformationForm.invalid){
+this.isFormInvalid = true;
+return
+} else {
+  this.isFormInvalid = false;
 }
 }
 @ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
@@ -170,4 +189,81 @@ displayModal = false;
         break;
     }
   }
+
+    preventLeadingWhitespace(event: KeyboardEvent): void {
+      const input = event.target as HTMLInputElement;
+      // Prevent leading spaces
+      if (event.key === ' ' && input.selectionStart === 0) {
+          event.preventDefault();
+      }
+      // Prevent numeric input entirely
+      if (!isNaN(Number(event.key)) && event.key !== ' ') {
+        event.preventDefault();
+      }
+    }
+
+    preventWhitespace(event: KeyboardEvent): void {
+      const input = event.target as HTMLInputElement;
+      // Prevent leading spaces
+      if (event.key === ' ' && input.selectionStart === 0) {
+          event.preventDefault();
+      }
+    }
+
+    onChange(value: string): void {
+      this.filteredBanks = this.banksInIndia.filter(bank => bank.toLowerCase().includes(value.toLowerCase()));
+    }
+
+    filteredBanks: string[] = [];
+    banksInIndia: string[] = [
+      'Allahabad Bank',
+      'Andhra Bank',
+      'Axis Bank',
+      'Bank of Bahrain and Kuwait',
+      'Bank of Baroda - Corporate Banking (BOB)',
+      'Bank of Baroda - Retail Banking (BOB)',
+      'Bank of India (BOI)',
+      'Bank of Maharashtra',
+      'Canara Bank',
+      'Central Bank of India',
+      'City Union Bank',
+      'Corporation Bank',
+      'Deutsche Bank',
+      'Development Credit Bank',
+      'Dhanlaxmi Bank',
+      'Federal Bank',
+      'HDFC Bank',
+      'ICICI Bank',
+      'IDBI Bank',
+      'Indian Bank',
+      'Indian Overseas Bank',
+      'IndusInd Bank',
+      'ING Vysya Bank',
+      'Jammu and Kashmir Bank',
+      'Karnataka Bank Ltd',
+      'Karur Vysya Bank',
+      'Kotak Bank',
+      'Laxmi Vilas Bank',
+      'Oriental Bank of Commerce',
+      'Punjab National Bank - Corporate Banking',
+      'Punjab National Bank - Retail Banking',
+      'Punjab & Sind Bank',
+      'SBM Bank (India) Ltd.',
+      'Shamrao Vitthal Co-operative Bank',
+      'South Indian Bank',
+      'State Bank of Bikaner & Jaipur (SBBJ)',
+      'State Bank of Hyderabad (SBH)',
+      'State Bank of India (SBI)',
+      'State Bank of Mysore (SBM)',
+      'State Bank of Patiala (SBP)',
+      'State Bank of Travancore (SBT)',
+      'Syndicate Bank',
+      'Tamilnad Mercantile Bank Ltd.',
+      'UCO Bank',
+      'Union Bank of India',
+      'United Bank of India',
+      'Vijaya Bank',
+      'Yes Bank Ltd'
+    ];
+    
 }

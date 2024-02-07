@@ -1,10 +1,10 @@
 export class AttendanceDetailsCountResponse {
-    unmarked : number = 0;
+    unmarkedUsers : number = 0;
     unpaidLeave : number = 0;
-    present : number = 0;
-    absent : number = 0;
-    halfDay : number = 0;
-    overTime : number = 0;
-    onLeave : number = 0;
-    total : number = 0;
+    presentUsers : number = 0;
+    absentUsers : number = 0;
+    halfDayUsers : number = 0;
+    overTimeUsers : number = 0;
+    usersOnLeave : number = 0;
+    totalUsers : number = 0;
 }

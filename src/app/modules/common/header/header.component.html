@@ -19,7 +19,7 @@
         <div class="menu-body navbar-vertical">
             <div class="collapse navbar-collapse tab-content" id="sidebarCollapse">
                 
-                <ng-containner *ngIf="ROLE === USER; else dashboardCondition">
+                <ng-containner *ngIf="(ROLE | async) === USER; else dashboardCondition">
                     <div class="bjRpmy">
                         <ul class="cfyCez">
                             <li class="dagRMy" routerLinkActive="iUctsy" (click)="routeToEmployeeProfilePage()" style="cursor: pointer;">
@@ -123,7 +123,7 @@
                 </a>
                 </li> -->
 
-                        <ng-container *ngIf="ROLE === ADMIN; else projectCondition">
+                        <ng-container *ngIf="(ROLE | async) === ADMIN; else projectCondition">
                             <li class="sc-3ee1404a-7 dagRMy" *ngIf="shouldDisplay('project')" style="cursor: pointer;">
                                 <a class="sc-3ee1404a-9 iUctsy-new">
                                     <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
@@ -193,6 +193,55 @@
 
                     </ul>
                 </div>
+
+
+
+                <div class="bjRpmy" *ngIf="(ROLE | async) !== ADMIN" style="margin-bottom: 130px;">
+
+                    <div class="sc-485d66d8-0 sc-39e987ab-0 iZfNPZ irmdrk sc-3ee1404a-4 izZYaK">ACCOUNT SETTINGS</div>
+                    <ul class="cfyCez">
+                        <li class="sc-3ee1404a-7 dagRMy" [ngClass]="{'iUctsy': activeTab === 'accountDetails'}" routerLinkActive="iUctsy" routerLink="/setting/account-settings?setting=accountDetails" (click)="routeToSeetings('accountDetails')" style="cursor: pointer;">
+                            <!-- routerLink="/setting/account-settings" [queryParams]="{ accountDetailsTab: true }" -->
+                            <a class="sc-3ee1404a-9 iUctsy-new">
+                                <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+                                </div>
+                                <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-gear menu-icon"></i> Account Details</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="cfyCez">
+                        <li class="sc-3ee1404a-7 dagRMy" [ngClass]="{'iUctsy': activeTab === 'security'}" routerLinkActive="iUctsy" routerLink="/setting/account-settings?setting=security" (click)="routeToSeetings('security')" style="cursor: pointer;">
+                            <!-- routerLink="/setting/account-settings" [queryParams]="{ securityTab: true }" -->
+                            <a class="sc-3ee1404a-9 iUctsy-new">
+                                <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+                                </div>
+                                <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-gear menu-icon"></i>Security</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="cfyCez">
+                        <li class="sc-3ee1404a-7 dagRMy"[ngClass]="{'iUctsy': activeTab === 'profilePreferences'}" routerLinkActive="iUctsy" routerLink="/setting/account-settings?setting=profilePreferences" (click)="routeToSeetings('profilePreferences')" style="cursor: pointer;">
+                            <!-- routerLink="/setting/account-settings" [queryParams]="{ profilePreferencesTab: true }" -->
+                            <a class="sc-3ee1404a-9 iUctsy-new">
+                                <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+                                </div>
+                                <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-gear menu-icon"></i>Profile Preferences</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="cfyCez">
+                        <li class="sc-3ee1404a-7 dagRMy" [ngClass]="{'iUctsy': activeTab === 'referralProgram'}" routerLinkActive="iUctsy" routerLink="/setting/account-settings?setting=referralProgram" (click)="routeToSeetings('referralProgram')" style="cursor: pointer;">
+                            <!-- routerLink="/setting/account-settings" [queryParams]="{ referralProgramTab: true }" -->
+                            <a class="sc-3ee1404a-9 iUctsy-new">
+                                <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+                                </div>
+                                <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-gear menu-icon"></i>Referral Program</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+
 
                 <div class="bjRpmy" *ngIf="shouldDisplay('onboarding')" style="margin-bottom: 130px;">
 

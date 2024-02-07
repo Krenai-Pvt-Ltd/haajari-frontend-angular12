@@ -1093,3 +1093,34 @@ button.btn.close-btn{
 .maneger-point i{
   color: #6666f3;
 }
+
+
+.dot-opacity-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 6px;
+}
+
+.dot-opacity-loader span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #6666f3; /* Change to your preferred color */
+  margin: 0 4px;
+  animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-loader span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.dot-opacity-loader span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes dotOpacity {
+  0%, 80%, 100% { opacity: 0; }
+  40% { opacity: 1; }
+}

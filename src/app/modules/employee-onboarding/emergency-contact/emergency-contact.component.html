@@ -9,39 +9,56 @@
                     <div class="persnol-details">
                         <h5>Employee Emergency Contact</h5>
                         <p class="mb-0">Fields with * are mandatory</p>
-                        <form #emergencyInformationForm="ngForm" ngNativeValidate (ngSubmit)="openModal()">
+                        <form #emergencyInformationForm="ngForm"  (ngSubmit)="openModal()">
                             <div class="form-group">
                         <div class="persnol-info mt-4">
                             <div *ngFor="let contact of userEmergencyContactDetails; let i = index">
                                 <div class="row">
 
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                          <label for="relation{{i}}" class="pb-2">Relation with Employee <span class="text-optional">*</span></label>
-                                          <select class="form-control" id="relation{{i}}" name="relationWithEmployee" [(ngModel)]="contact.relationWithEmployee" required #relation="ngModel" [ngModelOptions]="{standalone: true}">
-                                            <option value="" disabled>Select Relation</option>
-                                            <option value="spouse">Spouse</option>
-                                            <option value="parent">Father</option>
-                                            <option value="parent">Mother</option>
-                                            <option value="child">Child</option>
-                                            <option value="sibling">Sibling</option>
-                                            <option value="relative">Relative</option>
-                                            <option value="friend">Friend</option>
-                                            <option value="colleague">Colleague</option>
-                                            <!-- Add more options as needed -->
-                                          </select>
-                                        </div>
+                                  <div class="col-md-4">
+                                    <div class="mb-3">
+                                      <label for="relation{{i}}" class="pb-2">Relation with Employee <span class="text-optional">*</span></label>
+                                      <div class="dropdown" style="width: 100%;">
+                                        <button type="button" id="relationDropdown{{i}}" data-bs-toggle="dropdown" aria-expanded="false" 
+                                                class="btn btn-secondary dropdown-toggle new-deopdown" name="relationWithEmployee{{i}}">
+                                          {{ contact.relationWithEmployee || 'Select Relation' }}
+                                          <i class="bi bi-chevron-down"></i> <!-- Use the Font Awesome chevron-down icon -->
+                                        </button>
+                                        <ul aria-labelledby="relationDropdown" class="dropdown-menu" style="width: 100%;">
+                                          <li><a class="dropdown-item" (click)="contact.relationWithEmployee = 'Spouse'">Spouse</a></li>
+                                          <li><a class="dropdown-item" (click)="contact.relationWithEmployee = 'Father'">Father</a></li>
+                                          <li><a class="dropdown-item" (click)="contact.relationWithEmployee = 'Mother'">Mother</a></li>
+                                          <li><a class="dropdown-item" (click)="contact.relationWithEmployee = 'Child'">Child</a></li>
+                                          <li><a class="dropdown-item" (click)="contact.relationWithEmployee = 'Sibling'">Sibling</a></li>
+                                          <li><a class="dropdown-item" (click)="contact.relationWithEmployee = 'Relative'">Relative</a></li>
+                                          <li><a class="dropdown-item" (click)="contact.relationWithEmployee = 'Friend'">Friend</a></li>
+                                          <li><a class="dropdown-item" (click)="contact.relationWithEmployee = 'Colleague'">Colleague</a></li>
+                                          <!-- Add more options as needed -->
+                                        </ul>
                                       </div>
+                                      <input name="relationWithEmployee" type="hidden" [(ngModel)]="contact.relationWithEmployee" required #relation="ngModel">
+                                      <div *ngIf="relation?.touched || isFormInvalid">
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation.errors?.required">
+                                          <i class="bi bi-exclamation-circle"></i> Relation selection is required.
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                                  
                                       <div class="col-md-4">
                                         <div class="mb-3">
                                           <label for="name{{i}}" class="pb-2">Name <span class="text-optional">*</span></label>
-                                          <input type="text" class="form-control" id="name{{i}}" name="name" placeholder="Enter Name" [(ngModel)]="contact.contactName" required #name="ngModel" [ngModelOptions]="{standalone: true}">
+                                          <input type="text" (keydown)="preventLeadingWhitespace($event)" maxlength="30" class="form-control" id="name{{i}}" name="name{{i}}" placeholder="Enter Name" [(ngModel)]="contact.contactName" required #name="ngModel" >
                                           <!-- Error Message for Name -->
-                                          <div *ngIf="name.touched && name.invalid">
+                                          <div *ngIf="(name.touched && name.invalid) || isFormInvalid">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Name is required.
                                             </p>
+                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name.errors?.maxlength">
+                                              <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
+                                          </p>
                                           </div>
                                         </div>
                                       </div>
@@ -49,9 +66,9 @@
                                       <div class="col-md-4">
                                         <div class="mb-3">
                                           <label for="phoneNumber{{i}}" class="pb-2">Phone Number <span class="text-optional">*</span></label>
-                                          <input type="text" mask="0000000000" class="form-control" id="phoneNumber{{i}}" name="phoneNumber" placeholder="Enter Phone Number" [(ngModel)]="contact.contactNumber" required pattern="^[0-9]*$" minlength="10" maxlength="10" #phoneNumber="ngModel" [ngModelOptions]="{standalone: true}">
+                                          <input type="text" mask="0000000000" class="form-control" id="phoneNumber{{i}}" name="phoneNumber{{i}}" placeholder="Enter Phone Number" [(ngModel)]="contact.contactNumber" required pattern="^[0-9]*$" minlength="10" maxlength="10" #phoneNumber="ngModel" >
                                           <!-- Error Message for Phone Number -->
-                                          <div *ngIf="phoneNumber.touched && phoneNumber.invalid">
+                                          <div *ngIf="(phoneNumber.touched && phoneNumber.invalid) || isFormInvalid">
                                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.errors?.required">
                                               <i class="bi bi-exclamation-circle"></i>
                                               Phone Number is required.
@@ -121,14 +138,14 @@
                                 <!-- Removed the unnecessary col-md-12 div -->
                                 <div class="info-btn d-flex justify-content-end">
                                   <!-- Button to trigger confirmation modal -->
-                                  <button type="submit" class="btn btn-primary save-button" [disabled]="!emergencyInformationForm.valid || toggle"  aria-label="Save">
+                                  <button type="submit" class="btn btn-primary save-button" [disabled]="toggle"  aria-label="Save">
                                     <div *ngIf="toggle" class="dot-opacity-loader">
                                       <span></span>
                                       <span></span>
                                       <span></span>
                                     </div>
                                     <span *ngIf="!toggle">
-                                      Save <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                      Preview Form <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                                     </span>
                                   </button>
                                   
@@ -169,7 +186,7 @@
 
                 <!-- Edit Button -->
 
-                <button type="button" class="d-none"  data-bs-dismiss="modal" id="dismissSuccessModalButton" #dismissSuccessModalButton>
+                <button type="button" class="d-none"  data-bs-dismiss="modal"  >
                 Cancel
               </button>
 
@@ -206,7 +223,7 @@
                  <div class="d-flex align-items-center justify-content-center mt-4" style="gap: 15px;">
                   <button type="button" class="btn btn-primary back-btn" data-bs-dismiss="modal">Edit</button>
                   <!-- Button to trigger success message -->
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()" [disabled]="!confirmationForm.valid">Save Changes</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()">Save Changes</button>
 
                  </div>
               </div>
@@ -245,7 +262,7 @@
                  <div class="d-flex align-items-center justify-content-center mt-4" style="gap: 15px;">
                   <button type="button" class="btn btn-primary back-btn" data-bs-dismiss="modal">Edit</button>
                   <!-- Button to trigger success message -->
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()" [disabled]="!confirmationForm.valid">Save Changes</button>
+                  <button type="button" id="saveChange" class="btn btn-primary" data-bs-dismiss="modal" (click)="showSuccess()" >Save Changes</button>
 
                  </div>
               </div>
@@ -256,3 +273,369 @@
       </div>
   </div>
 </div>
+
+
+<!-- Preview Modal -->
+
+<!-- Button trigger modal -->
+<button type="button" id="previewModalCallButton" #previewModalCallButton  name="previewModalCallButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#previewModal">
+  Preview Form
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="previewModalLabel">Form Preview</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Form Details Start Here -->
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <div class="onboarding-deta mb-3">
+                <table class="table mb-0">
+                    <tr style="background-color: #f1f1f1;">
+                          <td>
+                            <p class="mb-0 persnaol">  Personal Information <i class="bi bi-pencil-square"  (click)="routeToUserDetails('/employee-onboarding/employee-onboarding-form')" ></i></p>
+                            
+                          </td>
+                        </tr>
+                  </table>
+
+        <table class="table table-bordered">
+                         
+          <tbody class="table-design">
+            <tr>
+              <td>Name : {{ onboardingPreviewData.user.name }}</td>
+              <td>Email : {{ onboardingPreviewData.user.email }}</td>
+              <td>Phone : {{ onboardingPreviewData.user.phoneNumber }}</td>
+            </tr>
+            <tr>
+              <td>DOB : {{ onboardingPreviewData.user.dob  | date : 'dd/MM/yyyy'  }}</td>
+              <td>Gender : {{ onboardingPreviewData.user.gender }}</td>
+              <td>Father's Name :   {{ onboardingPreviewData.user.fatherName }}</td>
+            </tr>
+            <tr>
+              <td>Marital Status : {{ onboardingPreviewData.user.maritalStatus }}</td>
+              <td>Joining Date : {{ onboardingPreviewData.user.joiningDate | date : 'dd/MM/yyyy' }}</td>
+              <td>Current Salary : {{ onboardingPreviewData.user.currentSalary ? (onboardingPreviewData.user.currentSalary | numberToWord) : 'N/A' }}</td>
+            </tr>
+            <tr>
+              <td>Department : {{ onboardingPreviewData.user.department }}</td>
+              <td>Current Position : {{ onboardingPreviewData.user.position }}</td>
+              <td>Nationality : {{ onboardingPreviewData.user.nationality }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+  <div class="onboarding-deta">
+      <table class="table mb-0">
+          <tr style="background-color: #f1f1f1;">
+                <td>
+                  <p class="mb-0 persnaol"> Address Details <i class="bi bi-pencil-square"  (click)="routeToUserDetails('/employee-onboarding/employee-address-detail')" ></i></p>
+                </td>
+              </tr>
+        </table>
+
+        <tr>
+          <td colspan="12">
+              <p class="mb-0 subheading">Current Address :</p>
+          </td>
+      </tr>
+      
+        <table class="table table-bordered">
+       
+          <tbody class="table-design" *ngIf="onboardingPreviewData.userAddress!=undefined">
+            <tr>
+              <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[0].addressLine1 }}</td>
+            </tr>
+            <tr>
+              <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[0].addressLine2 }}</td>
+            </tr>
+          
+            <tr>
+              <td colspan="3">Pincode : {{ onboardingPreviewData.userAddress[0].pincode }}</td>
+              <td colspan="3">City : {{ onboardingPreviewData.userAddress[0].city }}</td>
+              <td colspan="3">State : {{ onboardingPreviewData.userAddress[0].state }}</td>
+              <td colspan="3">Country : {{ onboardingPreviewData.userAddress[0].country }}</td>
+            </tr>
+            
+          </tbody>
+        </table>
+
+        <tr>
+          <td colspan="12">
+              <p class="mb-0 subheading">Permanent Address :</p>
+          </td>
+      </tr>
+        <table class="table table-bordered">
+          <tbody class="table-design" *ngIf="onboardingPreviewData.userAddress!=undefined && onboardingPreviewData.userAddress.length>0" >
+            <!-- <tr *ngFor="let address of onboardingPreviewData.userAddress; let i = index">
+              <td colspan="4">Complete Address: {{ address.address }}</td>
+            </tr> -->
+            <tr>
+              <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[1].addressLine1 }}</td>
+            </tr>
+            <tr>
+              <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[1].addressLine2 }}</td>
+            </tr>
+            <tr>
+              <td colspan="3">Pincode: {{ onboardingPreviewData.userAddress[1].pincode }}</td>
+              <td colspan="3">City: {{ onboardingPreviewData.userAddress[1].city }}</td>
+              <td colspan="3">State: {{ onboardingPreviewData.userAddress[1].state }}</td>
+              <td colspan="3">Country: {{ onboardingPreviewData.userAddress[1].country }}</td>
+            </tr>
+          </tbody>
+        </table>
+  </div>
+
+  
+
+  <div class="onboarding-deta">
+      <table class="table mb-0">
+          <tr style="background-color: #f1f1f1;">
+                <td>
+                  <p class="mb-0 persnaol"> Employee Documents <i class="bi bi-pencil-square"  (click)="routeToUserDetails('/employee-onboarding/employee-document')" ></i></p>
+                </td>
+              </tr>
+        </table>
+
+        <table class="table table-bordered">
+       
+          <tbody class="table-design">
+              <tr>
+                  <td colspan="3" > 
+                      Aadhaar Card :  {{ aadhaarCardFileName }}</td>
+                
+                  <td colspan="3" > 
+                      Pancard : {{ pancardFileName }}</td>
+                </tr>
+            <tr>
+              <td colspan="3" *ngIf="!isSchoolDocument"> 
+                  10th Marksheet :  {{ secondarySchoolCertificateFileName }}</td>
+            
+              <td colspan="3" *ngIf="!isHighSchoolDocument"> 
+                  12th Marksheet : {{ highSchoolCertificateFileName1 }}</td>
+            </tr>
+            <tr>
+              <td colspan="3"> 
+                  Highest Qualification :  {{ highestQualificationDegreeFileName1 }}</td>
+            
+                  <td colspan="3" *ngFor="let document of employeeAdditionalDocument; let i = index">
+                      {{ document.name }}: {{ document.fileName }}
+                  </td>
+            </tr>
+          
+            
+            
+          </tbody>
+        </table>
+  </div>
+
+  
+
+
+  <div class="onboarding-deta">
+      <table class="table mb-0">
+          <tr style="background-color: #f1f1f1;">
+                <td>
+                  <p class="mb-0 persnaol"> Guarantors <span class="text-optional">(Optional)</span><i class="bi bi-pencil-square"  (click)="routeToUserDetails('/employee-onboarding/employee-document')" ></i></p>
+                </td>
+              </tr>
+        </table>
+
+        <table class="table table-bordered">
+       
+          <tbody class="table-design" *ngIf="onboardingPreviewData.userGuarantorInformation!=undefined && onboardingPreviewData.userGuarantorInformation.length>0">
+          
+          
+            <tr>
+              <td>Relation : {{ onboardingPreviewData.userGuarantorInformation[0].relation || 'N/A' }}</td>
+              <td>Name : {{ onboardingPreviewData.userGuarantorInformation[0].name || 'N/A'}}</td>
+              <td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[0].phoneNumber || 'N/A'}}</td>
+              <td>Email : {{ onboardingPreviewData.userGuarantorInformation[0].emailId ? onboardingPreviewData.userGuarantorInformation[0].emailId : 'N/A' }}</td>
+            </tr>
+            
+          </tbody>
+        </table>
+<!-- 
+        <table class="table table-bordered">
+       
+          <tbody class="table-design" *ngIf="onboardingPreviewData.userGuarantorInformation!=undefined && onboardingPreviewData.userGuarantorInformation.length>0">
+          
+          
+            <tr>
+              <td>Relation : {{ onboardingPreviewData.userGuarantorInformation[1].relation }}</td>
+              <td>Name : {{ onboardingPreviewData.userGuarantorInformation[1].name }}</td>
+              <td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[1].phoneNumber }}</td>
+              <td>Email : {{ onboardingPreviewData.userGuarantorInformation[1].emailId ? onboardingPreviewData.userGuarantorInformation[1].emailId : 'N/A' }}</td>
+            </tr>
+            
+          </tbody>
+        </table> -->
+  </div>
+  <div class="onboarding-deta">
+      <table class="table mb-0">
+          <tr style="background-color: #f1f1f1;">
+                <td>
+                  <p class="mb-0 persnaol">  Academic Details <i class="bi bi-pencil-square"  (click)="routeToUserDetails('/employee-onboarding/acadmic')" ></i></p>
+                </td>
+              </tr>
+        </table>
+
+        <table class="table table-bordered">
+       
+          <tbody class="table-design">
+          
+          
+            <tr>
+              <td>Highest Qualification : {{ onboardingPreviewData.userAcademics.highestEducationalLevel }}</td>
+              <td>Degree/Diploma : {{ onboardingPreviewData.userAcademics.degreeObtained }}</td>
+              <td>Field of Study : {{ onboardingPreviewData.userAcademics.fieldOfStudy }}</td>
+            </tr>
+            <tr>
+            <td>Institution Name : {{ onboardingPreviewData.userAcademics.institutionName }}</td>
+            <td>{{ onboardingPreviewData.userAcademics.gradeType }} : {{ onboardingPreviewData.userAcademics.grade }}</td>
+            <td>Graduating Year :  {{ onboardingPreviewData.userAcademics.graduationYear }}</td>
+          </tr>
+            
+          </tbody>
+        </table>
+  </div>
+
+  <div class="onboarding-deta">
+      <table class="table mb-0">
+          <tr style="background-color: #f1f1f1;">
+                <td>
+                  <p class="mb-0 persnaol"> Experience <i class="bi bi-pencil-square"  (click)="routeToUserDetails('/employee-onboarding/employee-experience')" ></i></p>
+                </td>
+              </tr>
+        </table>
+        <div *ngIf="!isFresher">
+        <div  *ngFor="let userExperience of userExperienceArray; let i = index">
+        <table class="table table-bordered">
+       
+          <tbody class="table-design" *ngIf="onboardingPreviewData.userExperience!=undefined && onboardingPreviewData.userExperience.length>0">
+            <tr>
+              <td colspan="3"> 
+                  Company Name :  {{userExperience.companyName}}</td>
+           
+              <td colspan="3"> 
+                  Duration : {{userExperience.startDate | date : 'dd/MM/yyyy'}} - {{userExperience.endDate | date : 'dd/MM/yyyy'}} </td>
+            
+              <td colspan="3"> 
+                  Department :  {{userExperience.lastJobDepartment}}</td>
+            </tr>
+            <tr>
+              <td colspan="3"> 
+                  Last Salary :  {{userExperience.lastSalary | numberToWord }}</td>
+           
+              <td colspan="3"> 
+                  Position :  {{userExperience.lastJobPosition}}</td>
+           
+              <td colspan="3"> 
+                  Responsibilities :  {{userExperience.jobResponisibilities}}</td>
+            </tr>
+          
+            
+            
+          </tbody>
+        </table>
+        </div>
+        </div>
+        <div *ngIf="isFresher">
+          <table class="table table-bordered">
+              <tbody class="table-design">
+                  <tr>
+                      <td colspan="9">Fresher</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+  
+
+  <div class="onboarding-deta">
+      <table class="table mb-0">
+          <tr style="background-color: #f1f1f1;">
+                <td>
+                  <p class="mb-0 persnaol"> Bank Details <i class="bi bi-pencil-square"  (click)="routeToUserDetails('/employee-onboarding/bank-details')" ></i></p>
+                </td>
+              </tr>
+        </table>
+
+        <table class="table table-bordered">
+       
+          <tbody class="table-design">
+          
+          
+            <tr>
+              <td> Account Holder Name : {{ onboardingPreviewData.userBankDetails.accountHolderName }}</td>
+              <td>Bank Name : {{ onboardingPreviewData.userBankDetails.bankName }}</td>
+              <td> Account Number : {{ onboardingPreviewData.userBankDetails.accountNumber }}</td>
+              <td> IFSC Number :  {{ onboardingPreviewData.userBankDetails.ifsc }}</td>
+            </tr>
+           
+            
+          </tbody>
+        </table>
+  </div>
+
+  <div class="onboarding-deta">
+      <table class="table mb-0">
+          <tr style="background-color: #f1f1f1;">
+                <td>
+                  <p class="mb-0 persnaol"> Emergency Contact <i class="bi bi-pencil-square"  (click)="routeToUserDetails('/employee-onboarding/emergency-contact')" ></i></p>
+                </td>
+              </tr>
+        </table>
+        <div  *ngFor="let userEmergencyContact of userEmergencyContactArray; let i = index">
+        <table class="table table-bordered">
+       
+          <tbody class="table-design" *ngIf="onboardingPreviewData.userEmergencyContacts!=undefined && onboardingPreviewData.userEmergencyContacts.length>0">
+          
+          
+            <tr>
+              <td> Relation with Employee : {{userEmergencyContact.relationWithEmployee}}</td>
+              <td>Name :  {{userEmergencyContact.contactName}}</td>
+              <td>Phone Number  : {{userEmergencyContact.contactNumber}}</td>
+            </tr>
+            
+            
+          </tbody>
+        </table>
+        <ng-template #noData>
+          <p>No emergency contact information available.</p>
+      </ng-template>
+
+        </div>
+  </div>
+
+
+
+        <!-- Form Details End Here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="dismissPreviewModalButton" #dismissPreviewModalButton>Close</button>
+        <button type="button" (click)="saveUserOnboardingFormStatusMethodCall()" aria-label="Save" class="btn btn-primary save-button">
+          <div *ngIf="toggle" class="dot-opacity-loader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <span *ngIf="!toggle">
+            Confirm Submission <i class="bi bi-arrow-right " style="padding-left: 8px;"></i>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+
+

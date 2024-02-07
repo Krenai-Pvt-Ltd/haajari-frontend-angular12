@@ -1,6 +1,10 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
+import { EmployeeAdditionalDocument } from 'src/app/models/employee-additional-document';
+import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
+import { UserExperience } from 'src/app/models/user-experience';
 import { DataService } from 'src/app/services/data.service';
 declare var bootstrap: any;
 @Component({
@@ -14,14 +18,15 @@ export class EmergencyContactComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-
+    this.getOnboardingFormPreviewMethodCall();
     this.getEmployeeEmergencyContactsDetailsMethodCall();
   }
 @ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
-
+@ViewChild("dismissPreviewModalButton") dismissPreviewModalButton!: ElementRef;
   routeToFormPreview() {
 debugger
-    this.dismissSuccessModalButton.nativeElement.click();
+    this.dismissPreviewModalButton.nativeElement.click();
+    // this.dismissSuccessModalButton.nativeElement.click();
     setTimeout(x=>{
       let navExtra: NavigationExtras = {
         queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
@@ -50,6 +55,7 @@ debugger
   
   showSuccess() {
     debugger
+    
     this.setEmployeeEmergencyContactDetailsMethodCall();
     this.displaySuccessModal = true;
     this.cd.detectChanges();
@@ -75,24 +81,27 @@ debugger
       .subscribe(
         (response: UserEmergencyContactDetailsRequest) => { 
           console.log('Response:', response);
-          this.dataService.markStepAsCompleted(response.statusId);
           
+          this.dataService.markStepAsCompleted(response.statusId);
+          if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' ){
+          this.getOnboardingFormPreviewMethodCall();
+          }
              response.employeeOnboardingStatus;
-            if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' ){
-              this.employeeOnboardingFormStatus=response.employeeOnboardingStatus;
-              if(this.employeeOnboardingFormStatus!='REJECTED'){
-                this.successMessageModalButton.nativeElement.click();
-              }
-            }
-            setTimeout(()=>{
-              this.routeToFormPreview();
-            },500);
+            // if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' ){
+            //   this.employeeOnboardingFormStatus=response.employeeOnboardingStatus;
+            //   if(this.employeeOnboardingFormStatus!='REJECTED'){
+            //     this.successMessageModalButton.nativeElement.click();
+            //   }
+            // }
+            // setTimeout(()=>{
+            //   this.routeToFormPreview();
+            // },500);
           
          
-          this.toggle = false;
+          
           // this.userEmergencyContactDetailsStatus = response.statusResponse;
           
-          this.handleOnboardingStatus(response.employeeOnboardingStatus);
+         
             // localStorage.setItem('statusResponse', JSON.stringify(this.userEmergencyContactDetailsStatus));
           // this.router.navigate(['/next-route']); // Update the route as needed
         },
@@ -175,8 +184,174 @@ delete(index:number){
 
   @ViewChild("confirmationModalButton") confirmationModalButton!:ElementRef;
   
-  
+  @ViewChild("previewModalCallButton") previewModalCallButton!: ElementRef;
   openModal() {
-    this.confirmationModalButton.nativeElement.click();
+    debugger
+    this.checkFormValidation();
+
+  if(this.isFormInvalid==true){
+    return
+  } else{
+    this.setEmployeeEmergencyContactDetailsMethodCall();
+    
+    // this.confirmationModalButton.nativeElement.click();
   }
+  }
+
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = event.target as HTMLInputElement;
+    
+    if (event.key === ' ' && input.selectionStart === 0 && !input.value.trim()) {
+        
+        event.preventDefault();
+    }
+    if (!isNaN(Number(event.key)) && event.key !== ' ') {
+      event.preventDefault();
+    }
+}
+
+
+
+
+  isFormInvalid: boolean = false;
+@ViewChild ('emergencyInformationForm') emergencyInformationForm !: NgForm
+checkFormValidation(){
+if(this.emergencyInformationForm.invalid){
+this.isFormInvalid = true;
+return
+} else {
+  this.isFormInvalid = false;
+}
+}
+
+secondarySchoolCertificateFileName: string = '';
+highSchoolCertificateFileName1: string = '';
+highestQualificationDegreeFileName1: string = '';
+testimonialReccomendationFileName1: string = '';
+aadhaarCardFileName: string = '';
+pancardFileName: string = '';
+companyLogoUrl: string = '';
+
+
+isFresher: boolean = false;
+isSchoolDocument: boolean = true;
+isHighSchoolDocument: boolean = true
+onboardingPreviewData: OnboardingFormPreviewResponse = new OnboardingFormPreviewResponse();
+userEmergencyContactArray: UserEmergencyContactDetailsRequest[]=[];
+userExperienceArray: UserExperience[]=[];
+employeeAdditionalDocument: EmployeeAdditionalDocument[] = [];
+
+getOnboardingFormPreviewMethodCall() {
+  debugger
+  const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
+  if (userUuid) {
+    this.dataService.getOnboardingFormPreview(userUuid).subscribe(
+      (preview) => {
+        console.log(preview);
+        this.toggle = false;
+        this.onboardingPreviewData = preview;
+       
+        this.isLoading = false;
+        this.handleOnboardingStatus(preview.user.employeeOnboardingStatus.response);
+        
+        // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
+          this.employeeAdditionalDocument = preview.employeeAdditionalDocuments;
+          console.log(this.employeeAdditionalDocument);
+      // } else {
+      //   console.log("eroor ")
+      //     // Handle the case where employeeAdditionalDocument is undefined, null, or empty
+      //     this.employeeAdditionalDocument = [];
+      // }
+      
+        if(preview.userDocuments.secondarySchoolCertificate){
+          this.isSchoolDocument = false;
+        }
+        if(preview.userDocuments.highSchoolCertificate){
+          this.isHighSchoolDocument = false;
+        }
+        if(preview.userExperience){
+          this.userExperienceArray = preview.userExperience;
+        }
+        if(preview.fresher==true){
+          
+          this.isFresher=true;
+        }
+        if (preview.userEmergencyContacts) {
+          this.userEmergencyContactArray = preview.userEmergencyContacts;
+        } else {
+          
+          console.log('No guarantor information available.');
+          this.userEmergencyContactArray = [];
+        }
+        if(preview.userDocuments!=null){
+          
+        this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(preview.userDocuments.secondarySchoolCertificate);
+        this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(preview.userDocuments.highSchoolCertificate);     
+        this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(preview.userDocuments.highestQualificationDegree);
+        this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(preview.userDocuments.testimonialReccomendation);
+       this.aadhaarCardFileName = this.getFilenameFromUrl(preview.userDocuments.aadhaarCard);
+       this.pancardFileName = this.getFilenameFromUrl(preview.userDocuments.pancard);
+
+        }
+        this.isLoading = false;
+        this.previewModalCallButton.nativeElement.click();
+      },
+      (error: any) => {
+        console.error('Error fetching user details:', error);
+        this.userEmergencyContactArray = []; 
+      }
+    );
+  } else {
+    console.error('User UUID not found');
+    this.userEmergencyContactArray = []; 
+  }
+}
+
+getFilenameFromUrl(url: string): string {
+  if (!url) return '';
+  
+  const decodedUrl = decodeURIComponent(url);
+ 
+  const parts = decodedUrl.split('/');
+  
+  const filenameWithQuery = parts.pop() || '';
+  
+  const filename = filenameWithQuery.split('?')[0];
+ 
+  const cleanFilename = filename.replace(/^\d+_/,'');
+  return cleanFilename;
+}
+
+routeToUserDetails(routePath: string) {
+  this.dismissPreviewModalButton.nativeElement.click();
+  setTimeout(x=>{
+  let navExtra: NavigationExtras = {
+      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+  };
+  this.router.navigate([routePath], navExtra);
+},2000)
+}
+
+saveUserOnboardingFormStatusMethodCall(){
+  debugger
+  this.toggle = true;
+  const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
+  this.dataService.saveUserOnboardingFormStatus(userUuid)
+  .subscribe(
+    (response: UserEmergencyContactDetailsRequest) => { 
+      console.log('Response:', response);
+    this.toggle= false;
+        if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' && response.employeeOnboardingStatus == 'PENDING' ){
+          this.handleOnboardingStatus(response.employeeOnboardingStatus);
+          this.routeToFormPreview();
+        }
+        this.toggle = false;
+    },
+    (error) => {
+      console.error('Error occurred:', error);
+      
+    }
+  );
+}
+
 }

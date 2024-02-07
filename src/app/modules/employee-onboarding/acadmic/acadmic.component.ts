@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { UserAcademicsDetailRequest } from 'src/app/models/user-academics-detail-request';
 import { DataService } from 'src/app/services/data.service';
@@ -22,6 +23,8 @@ export class AcadmicComponent implements OnInit {
     };
     this.router.navigate(['/employee-onboarding/employee-document'], navExtra);
   }
+
+
 
   routeToUserDetails() {
     let navExtra: NavigationExtras = {
@@ -120,6 +123,11 @@ selectButtonType(type:string){
 directSave: boolean = false;
 
 submit(){
+  this.checkFormValidation();
+
+  if(this.isFormInvalid==true){
+    return
+  } else{
 switch(this.buttonType){
   case "next" :{
     this.setEmployeeAcademicsMethodCall();
@@ -132,7 +140,20 @@ switch(this.buttonType){
     break;
   }
 }
+  }
 }
+
+isFormInvalid: boolean = false;
+@ViewChild ('academicInformationForm') academicInformationForm !: NgForm
+checkFormValidation(){
+if(this.academicInformationForm.invalid){
+this.isFormInvalid = true;
+return
+} else {
+  this.isFormInvalid = false;
+}
+}
+
 @ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
 routeToFormPreview() {
   this.dismissSuccessModalButton.nativeElement.click();
@@ -167,7 +188,13 @@ displayModal = false;
   selectedQualification: string = '';
   selectQualification(qualification: string): void {
     this.selectedQualification = qualification;
-    this.userAcademicsDetailRequest.highestEducationalLevel = qualification;
+    // If "Other" is not selected, directly bind the selected qualification
+    if (qualification !== 'Other') {
+      this.userAcademicsDetailRequest.highestEducationalLevel = qualification;
+    } else {
+      // Reset the value when "Other" is selected to ensure the input field is empty for user input
+      this.userAcademicsDetailRequest.highestEducationalLevel = '';
+    }
   }
   selectDegreeObtained(degree: string): void {
     debugger
@@ -229,6 +256,56 @@ displayModal = false;
     return current.getFullYear() > today.getFullYear();
   };
 
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    // Prevent space if it's the first character
+    if (event.key === ' ' && inputElement.selectionStart === 0) {
+        event.preventDefault();
+    }
+
+    // Prevent numeric input (0-9)
+    if (!isNaN(Number(event.key)) && event.key !== ' ') {
+      event.preventDefault();
+  }
+}
+
+
+  // degreeDropdownTouched = false;
+
+  // handleDegreeDropdownInteraction() {
+  //   if (!this.selectedQualification) {
+  //     this.degreeDropdownTouched = true; // Indicate that the dropdown has been interacted with
+  //   }
+  // }
+  
+  selectType(type: string): void {
+    debugger
+    this.userAcademicsDetailRequest.gradeType = type;
+    // Reset the grade value when the type changes
+    this.userAcademicsDetailRequest.grade = '';
+  }
+  
+  selectGrade(grade: string): void {
+    this.userAcademicsDetailRequest.grade = grade;
+  }
+  
+  // You may also need to define formatter and parser functions for percentage values
+
+  
+  // Array of grades for the dropdown
+  grades: string[] = [
+    'O (Outstanding)', 'A+ (Excellent)', 'A (Very Good)',
+    'B+ (Good)', 'B (Above Average)', 'C (Average)',
+    'D (Pass)', 'F (Fail)'
+  ];
+  
+  temporaryValue: number = 0;
+
+
+
+  formatterPercent = (value: number): string => `${value} %`;
+  parserPercent = (value: string): string => value.replace(' %', '');
 
 
 }
