@@ -487,6 +487,10 @@ span.total-holiday {
     padding-top: 5px;
 }
 
+.Approved span{
+    font-size: 10px;
+}
+
 
 
 .pending-css p {

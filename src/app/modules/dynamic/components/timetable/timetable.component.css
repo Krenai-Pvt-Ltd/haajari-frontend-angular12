@@ -439,6 +439,20 @@ select.form-control {
     font-size: 16px;
 }
 
+
+  
+  
+/* #attendance-date{
+    padding: 5px;
+    border-radius: 50%;
+} */
+
+#attendance-date:hover{
+    cursor: pointer;
+    /* background-color: #ececec; */
+}
+  
+
 .new-deopdown i {
     position: absolute;
     right: 15px;
