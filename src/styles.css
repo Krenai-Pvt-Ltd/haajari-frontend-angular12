@@ -241,3 +241,8 @@ nz-date-picker {
   .ant-input.ant-input-rtl.demo-input-right {
     border-right-width: 0px;
   }
+
+
+  .attendance-date .ant-picker {
+    border: none !important;
+}
