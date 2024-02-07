@@ -193,10 +193,29 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 190px;
+  width: 100px;
   font-size: 12px;
   color: #878a9a;
 }
+
+.weekly-pro-name{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 140px;
+    font-size: 14px;
+    color: #444;
+    font-weight: 600;
+  }
+
+  .weekly-pro-email{
+    overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 140px;
+  font-size: 12px;
+  color: #878a9a;
+  }
 
 tbody tr {
     border-bottom: 1px solid #ececec;

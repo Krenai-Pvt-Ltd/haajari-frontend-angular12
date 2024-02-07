@@ -254,10 +254,14 @@ select.form-control {
 }
 .approved-right i {
     color: #b0b0b0;
+    top: 11px;
+    position: relative;
 }
 
 .approved-left i{
     color: #b0b0b0;
+    top: 11px;
+    position: relative;
 }
 
 .active-color i{
