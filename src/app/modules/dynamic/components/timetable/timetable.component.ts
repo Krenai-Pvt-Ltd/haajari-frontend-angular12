@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
@@ -23,7 +23,7 @@ export class TimetableComponent implements OnInit {
 
   alwaysShowCalendars: boolean | undefined;
   model: any;
-  constructor(private dataService: DataService, private helperService: HelperService, private router: Router, private rbacService : RoleBasedAccessControlService) { 
+  constructor(private dataService: DataService, private helperService: HelperService, private router: Router, private rbacService : RoleBasedAccessControlService, private cdr: ChangeDetectorRef) { 
 
   }
 
@@ -48,6 +48,69 @@ export class TimetableComponent implements OnInit {
     ADMIN = Key.ADMIN;
     MANAGER = Key.MANAGER;
     USER = Key.USER;
+
+    disableMonths : any;
+    selectedDate : Date = new Date();
+    size: 'large' | 'small' | 'default' = 'small';
+
+
+    onDateChange(date: Date): void {
+      this.selectedDate = date;
+      console.log("CURRENT MONTH:- "+this.selectedDate);
+      console.log(this.getCurrentDate());
+      console.log(new Date());
+      this.getAttendanceDetailsReportByDateMethodCall();
+
+    }
+
+
+  // ###############################################################################
+
+  selectPreviousDay() {
+    this.attendanceDataByDateKey = [];
+    this.attendanceDataByDateValue = [];
+
+    this.attendanceDetailsResponseList = [];
+    this.total = 0;
+    this.isShimer = true;
+
+    const currentDateObject = this.selectedDate;
+    currentDateObject.setDate(currentDateObject.getDate() - 1);
+    this.selectedDate = currentDateObject;
+    // this.onDateChange(this.selectedDate);
+    this.getAttendanceDetailsReportByDateMethodCall();
+    this.cdr.detectChanges();
+  }
+
+  selectNextDay() {
+
+    this.attendanceDataByDateKey = [];
+    this.attendanceDataByDateValue = [];
+
+    this.attendanceDetailsResponseList = [];
+    this.total = 0;
+    this.isShimer = true;
+
+    const currentDateObject = this.selectedDate;
+    const tomorrow = new Date(currentDateObject);
+    tomorrow.setDate(currentDateObject.getDate() + 1);
+
+    if (tomorrow >= new Date()) {
+      debugger
+      return;
+    }
+
+    this.selectedDate = tomorrow;
+    this.getAttendanceDetailsReportByDateMethodCall();
+  }
+
+
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
 
   selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
@@ -199,48 +262,7 @@ export class TimetableComponent implements OnInit {
 
 
 
-  // ###############################################################################
-
-  selectPreviousDay() {
-    debugger
-
-    this.attendanceDataByDateKey = [];
-    this.attendanceDataByDateValue = [];
-    this.total = 0;
-    this.isShimer = true;
-
-    const currentDateObject = new Date(this.inputDate);
-    currentDateObject.setDate(currentDateObject.getDate() - 1);
-    this.inputDate = this.formatDate(currentDateObject);
-    this.getAttendanceDetailsReportByDateMethodCall();
-  }
   
-  private formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
-  selectNextDay() {
-
-    this.attendanceDataByDateKey = [];
-    this.attendanceDataByDateValue = [];
-    this.total = 0;
-    this.isShimer = true;
-
-    const currentDateObject = new Date(this.inputDate);
-    const tomorrow = new Date(currentDateObject);
-    tomorrow.setDate(currentDateObject.getDate() + 1);
-
-    if (tomorrow >= new Date()) {
-      debugger
-      return;
-    }
-
-    this.inputDate = this.formatDate(tomorrow);
-    this.getAttendanceDetailsReportByDateMethodCall();
-  }
 
   // formatDate(date: Date): string {
   //   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -285,7 +307,7 @@ export class TimetableComponent implements OnInit {
       // this.errorToggleTimetable=false;
       // this.placeholder=false;
       this.preRuleForShimmersAndOtherConditionsMethodCall();
-      this.dataService.getAttendanceDetailsReportByDate(this.inputDate, this.pageNumber, this.itemPerPage, this.searchText, 'name', '','', this.filterCriteria).subscribe((response) => {
+      this.dataService.getAttendanceDetailsReportByDate(this.helperService.formatDateToYYYYMMDD(this.selectedDate), this.pageNumber, this.itemPerPage, this.searchText, 'name', '','', this.filterCriteria).subscribe((response) => {
         debugger
         this.attendanceDetailsResponseList = response.listOfObject;
         console.log(this.attendanceDetailsResponseList);

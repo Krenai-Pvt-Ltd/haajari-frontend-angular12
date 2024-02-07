@@ -95,6 +95,7 @@ export class DashboardComponent implements OnInit {
     this.getFirstAndLastDateOfMonth(this.selectedDate);
     this.getAttendanceReportByDateDurationMethodCall();
     console.log(this.startDate, this.endDate)
+    console.log(this.organizationRegistrationDate);
   }
 
   getFirstAndLastDateOfMonth(selectedDate : Date){
@@ -102,8 +103,41 @@ export class DashboardComponent implements OnInit {
     this.endDate = this.formatDateToYYYYMMDD(new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0));
   }
 
+  disableMonths = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+
+    if(date < new Date(this.organizationRegistrationDate)){
+      return true;
+    }
+  
+    // Disable if the month is after the current month
+    if (dateYear > currentYear || (dateYear === currentYear && dateMonth > currentMonth)) {
+      return true;
+    }
+  
+    // Enable the month if it's from January 2023 to the current month
+    return false;
+  };
+  
+  organizationRegistrationDate : string = '';
+  getOrganizationRegistrationDateMethodCall(){
+    debugger
+    this.dataService.getOrganizationRegistrationDate().subscribe((response) => {
+      this.organizationRegistrationDate = response;
+    }, ((error) =>{
+      console.log(error);
+    }))
+  }
+  
+  
+
+  
 
   ngOnInit(): void {
+    this.getOrganizationRegistrationDateMethodCall();
     // this.checkAccessToken();
    
     // const today = dayjs();

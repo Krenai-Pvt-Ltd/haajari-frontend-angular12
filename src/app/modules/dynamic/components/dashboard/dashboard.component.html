@@ -571,7 +571,7 @@
                                       </div> -->
 
                                       <div class="dropdown col-md-3">
-                                        <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onMonthChange($event)"></nz-date-picker>
+                                        <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
                                       </div>
                                       
 
