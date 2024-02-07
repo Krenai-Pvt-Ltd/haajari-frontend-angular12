@@ -180,8 +180,10 @@
             <div class="date-all-approved d-flex align-items-center" style="gap:20px">
                 <span class="approved-left active-color" (click)="selectPreviousDay()"><i class="bi bi-chevron-left"></i></span>
                 <div class="text-center">
-                  <input type="date" id="input-date" class="attendance-date" [(ngModel)]="inputDate" (ngModelChange)="getAttendanceDetailsReportByDateMethodCall()" [max]="getCurrentDate()">
-                  <p style="font-size: 10px; position: relative; top: 0px; color: #686868; margin-bottom: 0px;">Attendance Date</p>
+                  <p style="font-size: 10px; position: relative; top: 0px; color: #686868; margin-bottom: 0px; text-align: left;">Attendance Date</p>
+                    <nz-date-picker nzMode="date" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onDateChange($event)"></nz-date-picker>
+                  <!-- <nz-date-picker [nzFormat]="dateFormat"></nz-date-picker> -->
+                  <!-- <input type="date" id="input-date" class="attendance-date" [(ngModel)]="inputDate" (ngModelChange)="getAttendanceDetailsReportByDateMethodCall()" [max]="getCurrentDate()"> -->
                 </div>
              
                       
@@ -399,7 +401,7 @@
                 <!-- <span class="attendance-id">123</span> -->
               </h5>
   
-              <p [ngClass]="{'in-time-color' : (attendanceDetailsResponse.currentStatus == 'Working'), 'break-color': (attendanceDetailsResponse.currentStatus == 'On Break'), 'out-time-color' : (attendanceDetailsResponse.currentStatus == 'Checked Out' || attendanceDetailsResponse.currentStatus == 'Absent' || attendanceDetailsResponse.currentStatus == 'Not Marked')}">{{attendanceDetailsResponse.currentStatus}}</p>
+              <p [ngClass]="{'in-time-color' : (attendanceDetailsResponse.currentStatus == 'Working'), 'break-color': (attendanceDetailsResponse.currentStatus == 'On Break' || attendanceDetailsResponse.currentStatus == 'On Leave'), 'out-time-color' : (attendanceDetailsResponse.currentStatus == 'Checked Out' || attendanceDetailsResponse.currentStatus == 'Absent' || attendanceDetailsResponse.currentStatus == 'Not Marked')}">{{attendanceDetailsResponse.currentStatus}}</p>
               <div class="add-note d-flex" style="gap: 10px">
                 <a
                   href=""

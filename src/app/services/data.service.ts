@@ -1168,4 +1168,13 @@ saveUserOnboardingFormStatus(userUuid: string): Observable<any> {
   return this.httpClient.put<any>(url, {});
 }
 
+getOrganizationRegistrationDate(): Observable<any>{
+
+  return this.httpClient.get<any>(`${this.baseUrl}/organization/registration/date/get`);
+}
+
+
+
+
+
 }

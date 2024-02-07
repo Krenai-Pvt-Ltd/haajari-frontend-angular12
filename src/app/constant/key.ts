@@ -147,6 +147,7 @@ export class Key{
     public static UNMARKED = "Unmarked";
     public static WEEKEND = "Weekend";
     public static HOLIDAY = "Holiday";
+    public static LEAVE = "Leave";
     
     
 }

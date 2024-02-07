@@ -52,7 +52,7 @@
                                 <div class="col">
                                     <!-- <p class="text-dark mb-1 fw-semibold" style="font-size: 11px;">On Leave / Absent / Not Marked</p>
                                     <h4 class="font-22 fw-bold">{{currentDayEmployeesData.allAbsentUsers}}</h4>    -->
-                                    <div class="d-flex align-items-center" style="gap:0px;">
+                                    <div class="d-flex align-items-center" style="gap:3px;">
 
                                         <div class="Approved pending-css rejected-css text-center border-right">
                                             <span class="total-holiday pb-2">Leave</span>
@@ -67,7 +67,7 @@
                                         </div>
 
                                         <div class="Approved na text-center ">
-                                            <span class="total-holiday pb-2">N/A</span>
+                                            <span class="total-holiday pb-2">Unmarked</span>
                                             <p class="mb-0">{{attendanceDetailsCountResponse.unmarkedUsers}}</p>
                                           
                                         </div>
@@ -194,7 +194,7 @@
                                     <div class="media p-3  align-items-center">  
                                         <!-- <img src="" alt="user" class="rounded-circle thumb-xl"> -->
                                         <span *ngIf="performer.image != null">
-                                            <img src={{performer.image}} alt="user" class="rounded-circle" style="width:60px; border-radius:50%; height:60px;">
+                                            <img src={{performer.image}} alt="user" class="rounded-circle" style="width:60px; border-radius:50%; height:60px; object-fit: cover;">
                                         </span>
                                         <span class="members-name" *ngIf="performer.image == null">{{ performer.name[0] }}</span>                                    
                                         <div class="media-body ms-3 align-self-center">
@@ -305,7 +305,7 @@
                             <div class="card-body" style="display:flex; gap:20px; align-items: center; padding: 0px !important; padding-bottom: 10px !important;">
                                 <ng-container *ngIf="lateEmployeeAttendanceDetailsResponse.image !== null; else imageNull">
                                     <div>
-                                        <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:60px; height: 60px; border-radius:50%">
+                                        <img src="{{lateEmployeeAttendanceDetailsResponse.image}}" alt="image" style="width:60px; height: 60px; border-radius:50%; object-fit: cover;">
                                     </div>
                                 </ng-container>
                                 <ng-template #imageNull>
@@ -571,7 +571,7 @@
                                       </div> -->
 
                                       <div class="dropdown col-md-3">
-                                        <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onMonthChange($event)"></nz-date-picker>
+                                        <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
                                       </div>
                                       
 
@@ -721,7 +721,7 @@
                         
                                                                         <td></td>
                                                                         <ng-container *ngFor="let dayWiseStatus of attendanceReportResponse.dayWiseStatusList">
-                                                                            <td class="text-center" [ngClass]="{'absent': (dayWiseStatus.status == ABSENT || dayWiseStatus.status == UNMARKED), 'present': (dayWiseStatus.status == PRESENT), 'holiday' : (dayWiseStatus.status == WEEKEND || dayWiseStatus.status == HOLIDAY)}">{{ (dayWiseStatus.status[0] == 'U') ? 'A'  : dayWiseStatus.status[0]}}</td>
+                                                                            <td class="text-center" [ngClass]="{'leave' : (dayWiseStatus.status == LEAVE), 'absent': (dayWiseStatus.status == UNMARKED), 'present': (dayWiseStatus.status == PRESENT), 'holiday' : (dayWiseStatus.status == WEEKEND || dayWiseStatus.status == HOLIDAY)}">{{ (dayWiseStatus.status[0] == 'U') ? 'A'  : dayWiseStatus.status[0]}}</td>
                                                                         </ng-container>
                                                                         
                                                                     </tr>
