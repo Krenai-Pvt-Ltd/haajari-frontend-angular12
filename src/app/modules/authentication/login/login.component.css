@@ -359,7 +359,7 @@ a.neq-login-link {
 }
 .te-tourpack-bottom ul li a{
     font-size: 12px;
-    color: #d0d0d0;
+    color: #d0d0d0 !important;
     padding-right: 15px;
     text-align: center;
 }
