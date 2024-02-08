@@ -209,9 +209,31 @@ button.btn.add-card-btn {
 
   .selected-btn{
     width: 100px;
-    background-color: #6666f3;
+    background-color: transparent;
     border-radius: 6px;
-    color: #fff;
-    margin-top: 10px;
-    padding: 4px 9px; 
+    color: #878A9A;
+    padding: 3px 5px;
+    border: 1px solid #878A9A;
+    line-height: 23px;
+  }
+
+  .border-line{
+    margin: 0.5rem 0;
+  }
+
+  .active-select{
+    width: 100px;
+    background-color: #878A9A;
+    border-radius: 6px;
+    color: #ffffff;
+    padding: 3px 5px;
+    border: 1px solid #878A9A;
+  }
+  .off-box h5{
+     color:#000;
+     font-size: 22px;
+     font-weight: 600;
+     line-height: 24px;
+     margin-top: 0px;
+     margin-bottom: 0px;
   }
