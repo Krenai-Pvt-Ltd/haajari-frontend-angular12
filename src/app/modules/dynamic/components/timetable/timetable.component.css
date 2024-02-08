@@ -847,3 +847,12 @@ td.text-right {
     background-color: #6666f3;
     border-color: #6666f3;
 }
+
+.attendance-date{
+    font-size: 14px; 
+    position: relative; 
+    top: 0px; 
+    color: #686868; 
+    margin-bottom: 0px; 
+    text-align: center;
+}
