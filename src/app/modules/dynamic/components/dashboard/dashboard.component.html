@@ -690,13 +690,12 @@
                                             <tbody>
                                                 
                                                 <ng-container *ngFor="let attendanceReportResponse of attendanceReportResponseList; let i = index">
-                                                    <tr style="border-bottom: 1px solid #f7f7f7; ">
-                                                        <td class="text-left plandtlMainicon">
-                                                            <i class="bi bi-chevron-right month-d projectdIcon collapsed" data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i" role="button" aria-expanded="false" aria-controls="collapseExamplesheet0"></i>
-                                                                    
-                                                            {{extractFirstNameFromEmail(attendanceReportResponse.userName)}}
-                                                            <p class="attendance-name" >{{attendanceReportResponse.userEmail}}</p>
-                                                        </td>
+                                                        <tr style="border-bottom: 1px solid #f7f7f7; " [ngStyle]="{'border-bottom': expandedStates[i] ? 'none' : '1px solid #f7f7f7'}">
+                                                            <td class="text-left plandtlMainicon">
+                                                                <i class="bi bi-chevron-right month-d projectdIcon collapsed" data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i" role="button" aria-expanded="false" aria-controls="collapseExamplesheet0" (click)="toggleCollapse(i)"></i>
+                                                                {{extractFirstNameFromEmail(attendanceReportResponse.userName)}}
+                                                                <p class="attendance-name">{{attendanceReportResponse.userEmail}}</p>
+                                                            </td>
                                                         
                                                         <td class="text-center">{{attendanceReportResponse.present}}</td>
                                                         <td class="text-center">-</td>
