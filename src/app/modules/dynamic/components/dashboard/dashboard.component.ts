@@ -711,7 +711,7 @@ getDataFromDate(): Promise<any> {
   downloadAttendanceDataInExcelFormatMethodCall(){
     
     this.downloadingFlag = true;
-    this.dataService.downloadAttendanceDataInExcelFormat(this.startDateStr, this.endDateStr).subscribe((response) => {
+    this.dataService.downloadAttendanceDataInExcelFormat(this.startDate, this.endDate).subscribe((response) => {
       console.log(response);
 
       const downloadLink = document.createElement("a");
