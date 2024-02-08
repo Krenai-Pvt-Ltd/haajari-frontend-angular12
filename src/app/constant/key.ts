@@ -148,5 +148,8 @@ export class Key{
     public static WEEKEND = "Weekend";
     public static HOLIDAY = "Holiday";
     
+
+    main_url = "http://localhost:8080/api/v2/";
+    get_subscription = "subcription-plan"; 
     
 }
