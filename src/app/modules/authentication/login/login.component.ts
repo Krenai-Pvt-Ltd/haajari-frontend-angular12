@@ -184,6 +184,10 @@ confiirmPassword: string='';
           if(response.isExistingUser==false){
            this.errorMessage = "Please register yourself first Or contact to your admin!";
           }
+
+          if(response.isEnableStatus==false){
+            this.errorMessage = "You are disabled by admin, please contact to your admin!";
+          }
           if(response.isPassword==true){
             this.enterPasswordFlag=true;
             this.errorMessage = '';

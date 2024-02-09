@@ -736,7 +736,8 @@ export class EmployeeProfileComponent implements OnInit {
     this.isLeaveShimmer = true;
     // this.selectStatusFlag=true;
 
-    if (this.selectedStatus) {
+    if (this.selectedStatus && this.selectedStatus!= 'ALL') {
+      console.log("selectedStatus :" + this.selectedStatus)
       this.dataService.getUserLeaveLogByStatus(this.userId, this.selectedStatus).subscribe(
         (data) => {
           this.userLeaveLog = data;
@@ -750,7 +751,7 @@ export class EmployeeProfileComponent implements OnInit {
         }
       );
     } else {
-
+      console.log("selectedStatus :" + this.selectedStatus)
       this.dataService.getUserLeaveLog(this.userId).subscribe(
         (data) => {
           this.userLeaveLog = data;
@@ -998,8 +999,14 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   selectStatus(status: string): void {
+    if(status== ''){
+      this.selectedStatus = 'ALL';
+      this.isLeavePlaceholder=false;
+      this.getUserLeaveLogByUuid();
+    }else{
     this.selectedStatus = status;
     this.getUserLeaveLogByUuid();
+    }
   }
 
   previewString: string = ''
