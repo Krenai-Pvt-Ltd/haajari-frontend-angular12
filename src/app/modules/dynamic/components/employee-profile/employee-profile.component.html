@@ -604,7 +604,7 @@
                                                                             (click)="selectStatus('approved')">Approved</a>
                                                                     </li>
                                                                     <li><a class="dropdown-item"
-                                                                            (click)="selectStatus('pending')">Applied</a>
+                                                                            (click)="selectStatus('pending')">Pending</a>
                                                                     </li>
                                                                     <li><a class="dropdown-item"
                                                                             (click)="selectStatus('rejected')">Rejected</a>
@@ -2011,9 +2011,10 @@
                         <div class="mb-2">
                             <label for="username" style="padding-bottom: 6px">Notes <span
                                     class="optional">(optional)</span></label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Notes" rows="3"
-                                style="height:100px !important;" formControlName="optNotes"
+                            <textarea class="form-control" #maxWords id="exampleFormControlTextarea1" placeholder="Notes" rows="3"
+                                style="height:100px !important;" formControlName="optNotes" [maxLength]="255"
                                 [(ngModel)]="userLeaveRequest.optNotes"> </textarea>
+                            <small *ngIf="maxWords.value.length > 254" style="color:red">The maximum number of characters allowed in above field is 255!</small>
                         </div>
                     </form>
                 </div>
