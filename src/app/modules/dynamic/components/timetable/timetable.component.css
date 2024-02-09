@@ -254,10 +254,14 @@ select.form-control {
 }
 .approved-right i {
     color: #b0b0b0;
+    top: 11px;
+    position: relative;
 }
 
 .approved-left i{
     color: #b0b0b0;
+    top: 11px;
+    position: relative;
 }
 
 .active-color i{
@@ -434,6 +438,20 @@ select.form-control {
     border: none;
     font-size: 16px;
 }
+
+
+  
+  
+/* #attendance-date{
+    padding: 5px;
+    border-radius: 50%;
+} */
+
+#attendance-date:hover{
+    cursor: pointer;
+    /* background-color: #ececec; */
+}
+  
 
 .new-deopdown i {
     position: absolute;

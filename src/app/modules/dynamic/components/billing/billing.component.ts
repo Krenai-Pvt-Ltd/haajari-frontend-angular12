@@ -10,20 +10,24 @@ import { SubscriptionPlanService } from 'src/app/services/subscription-plan.serv
 export class BillingComponent implements OnInit {
 
   subscriptionList :any[] = new Array() ;
+  loading: boolean = false;
 
   constructor(private _subscriptionPlanService:SubscriptionPlanService,
     private _router: Router) { }
 
   ngOnInit(): void {
-    this.getSubscription();
+    this.getAllSubscription();
   }
 
-  getSubscription(){
+  getAllSubscription(){
     debugger
+    this.loading = true
     this._subscriptionPlanService.getAllSubscriptionPlan().subscribe(response=>{
       if(response.status){
         this.subscriptionList = response.object;
+        this.loading = false;
       }
+      this.loading = false;
     })
   }
 

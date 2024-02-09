@@ -828,7 +828,7 @@ export class EmployeeProfileComponent implements OnInit {
     const start = new Date(startDate);
     const timeDifference = end.getTime() - start.getTime();
     const daysDifference = timeDifference / (1000 * 3600 * 24);
-    return daysDifference;
+    return daysDifference+1;
   }
 
 

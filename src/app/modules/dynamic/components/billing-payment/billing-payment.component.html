@@ -4,38 +4,167 @@
             <div class="mt-3">
                 <div class="row">
                     <div class="col-md-7">
-                        <div class="payment-detail">
+                        <div class="payment-detail mb-3">
+                            <div class="mt-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="mb-3">Total Employee</label>
+                                    <input type="number" min="2" (keyup)="getCalcu(employeeCount.value)" #employeeCount class="form-control" id="exampleInputEmployee" aria-describedby="emailHelp" placeholder="Enter enployee" [(ngModel)]="sbscriptionPlanReq.noOfEmployee" oninput="this.value = this.value.replace(/^[^2-9]/g, '').replace(/(\..*)\./g, '$1');">
+                                    <span style="font-size: 12px;">minimum 2 employee required*</span>
+                                  </div>
+                            </div>
 
-                            <h3 class="">₹49</h3>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="monthly-plan">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="">
+                                                <div class="d-flex align-items-center" style="gap:10px">
+                                                    <h4>Annual Plan</h4>
+                                                    <!-- <span class="annual-plan-active">Active</span> -->
+                                                </div>
 
-                            <h1>WhatsApp Based Attandance</h1>
+                                              
+                                                
+                                               
+                                            </div>
+                                            <div class="off-box">
+                                                <h5>20% Off</h5>
+                                            </div>
 
-                            <div class="d-flex align-items-center justify-content-between insurer-text">
+                                        </div>
+
+                                        <div class="d-flex">
+                                            <p>Amount : </p> <p style="margin-left: 5px;">₹{{annualAmount | number:'1.0-0'}}</p>
+                                        </div>
+
+                                        <div class="mt-3 d-flex justify-content-between " style="margin-left: 10px;">
+                                            <div class="img-group d-flex">
+                                                <a href="" class="user-avatar ng-star-inserted">
+                                                    <span class="members-name ng-star-inserted">R</span>
+                                                    </a>
+                                                    
+                                                    <a href="" class="user-avatar ms-n3 ng-star-inserted">
+                                                        <span class="ng-star-inserted">
+                                                            <img alt="u" class="thumb-xs rounded-circle" src="https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/uploads%2F1705479975446_1535446202596.jpeg?alt=media&amp;token=13415ad0-db24-4a27-8481-22a8c406cc7b"></span>
+                                                            
+                                                        </a>
+                                                        <a href="" class="user-avatar ms-n3 ng-star-inserted">
+                                                            <span class="ng-star-inserted">
+                                                                <img alt="u" class="thumb-xs rounded-circle" src="https://avatars.slack-edge.com/2022-04-12/3381157715620_4cd6f0e0ee4aefeafb42_original.jpg">
+                                                            </span>
+                                                        </a>
+                                                        <a href="" class="user-avatar ms-n3 ng-star-inserted">
+                                                            <span class="ng-star-inserted">
+                                                                <img alt="u" class="thumb-xs rounded-circle" src="https://avatars.slack-edge.com/2022-04-12/3381157715620_4cd6f0e0ee4aefeafb42_original.jpg">
+                                                            </span>
+                                                        </a>
+                                                        <a href="" class="user-avatar ms-n3 ng-star-inserted">
+                                                            <span class="ng-star-inserted">
+                                                                <img alt="u" class="thumb-xs rounded-circle" src="https://avatars.slack-edge.com/2022-04-12/3381157715620_4cd6f0e0ee4aefeafb42_original.jpg">
+                                                            </span>
+                                                        </a>   
+                                                        <a class="user-avatar ng-star-inserted">
+                                                            <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold">+9</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="align-self-center">
+                                                        <p class="mb-0"> 10 of 15 users </p>
+                                                    </div>
+                                         </div>
+                                    <hr class="border-line">
+                                    <div class="d-flex justify-content-end">
+                                        <button [ngClass]="{'btn selected-btn': (sbscriptionPlanReq.planType == 'monthly' || sbscriptionPlanReq.planType == null),'btn active-select': sbscriptionPlanReq.planType == 'annual'}" type="button" (click)="selecrPlanType(annual.value)" #annual value="annual">Selected <i class="bi bi-arrow-up-right" style="padding-left: 5px;"></i></button>
+                                    </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="monthly-plan">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="">
+                                                <div class="d-flex align-items-center" style="gap:10px">
+                                                    <h4>Monthly Plan</h4>
+                                                   
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                            
+
+                                        </div>
+                                        <div class="d-flex">
+                                            <p>Amount : </p> <p style="margin-left: 5px;"> ₹{{monthlyAmount | number:'1.0-0'}}</p>
+                                        </div>
+
+                                        <div class="mt-3 d-flex justify-content-between " style="margin-left: 10px;">
+                                            <div class="img-group d-flex">
+                                                <a href="" class="user-avatar ng-star-inserted">
+                                                    <span class="members-name ng-star-inserted">R</span>
+                                                    </a>
+                                                    
+                                                    <a href="" class="user-avatar ms-n3 ng-star-inserted">
+                                                        <span class="ng-star-inserted">
+                                                            <img alt="u" class="thumb-xs rounded-circle" src="https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/uploads%2F1705479975446_1535446202596.jpeg?alt=media&amp;token=13415ad0-db24-4a27-8481-22a8c406cc7b"></span>
+                                                            
+                                                        </a>
+                                                        <a href="" class="user-avatar ms-n3 ng-star-inserted">
+                                                            <span class="ng-star-inserted">
+                                                                <img alt="u" class="thumb-xs rounded-circle" src="https://avatars.slack-edge.com/2022-04-12/3381157715620_4cd6f0e0ee4aefeafb42_original.jpg">
+                                                            </span>
+                                                        </a>
+                                                        <a href="" class="user-avatar ms-n3 ng-star-inserted">
+                                                            <span class="ng-star-inserted">
+                                                                <img alt="u" class="thumb-xs rounded-circle" src="https://avatars.slack-edge.com/2022-04-12/3381157715620_4cd6f0e0ee4aefeafb42_original.jpg">
+                                                            </span>
+                                                        </a>
+                                                        <a href="" class="user-avatar ms-n3 ng-star-inserted">
+                                                            <span class="ng-star-inserted">
+                                                                <img alt="u" class="thumb-xs rounded-circle" src="https://avatars.slack-edge.com/2022-04-12/3381157715620_4cd6f0e0ee4aefeafb42_original.jpg">
+                                                            </span>
+                                                        </a>   
+                                                        <a class="user-avatar ng-star-inserted">
+                                                            <span class="thumb-xs justify-content-center d-flex align-items-center bg-soft-info rounded-circle fw-semibold">+9</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="align-self-center">
+                                                        <p class="mb-0"> 10 of 15 users </p>
+                                                    </div>
+                                    </div>
+                                    <hr class="border-line">
+                                    <div class="d-flex justify-content-end">
+                                        <button [ngClass]="{'btn selected-btn': (sbscriptionPlanReq.planType == 'annual' || sbscriptionPlanReq.planType == null),'btn active-select': sbscriptionPlanReq.planType == 'monthly'}" type="button"
+                                        (click)="selecrPlanType(month.value)" #month value="monthly">Select <i class="bi bi-arrow-up-right" style="padding-left: 5px;"></i></button>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <h3 class="">{{subscriptionPlan.amount}}</h3>
+
+                            <h1>{{subscriptionPlan.description}}</h1> -->
+
+                            <!-- <div class="d-flex align-items-center justify-content-between insurer-text">
 
                                 <h5>WhatsApp Based Attandance  <span class="responisibilities"> ₹49 </span></h5>
                                 <button class="btn add-card-btn" type="button"><i class="bi bi-plus"></i> Add card</button>
-                            </div>
-                            <p class="insurance-pra">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                            </div> -->
+                            <!-- <p class="insurance-pra">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p> -->
 
                             <!-- <div class="d-flex align-items-center justify-content-between aetna">
                                 <p class="mb-0">Aetna - open Accsess</p>
                                 <p class="mb-0">OAP</p>
                             </div> -->
 
-                            <div class="mt-3">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1" class="mb-3">Total Employee</label>
-                                    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter enployee">
-                                  </div>
-                            </div>
+                            
 
 
-                            <div class="d-flex align-items-center justify-content-between insurer-text mt-4">
+                            <!-- <div class="d-flex align-items-center justify-content-between insurer-text mt-4">
 
                                 <h5>Patient Balance -  <span class="responisibilities"> ₹49 </span></h5>
                                 <button class="btn add-card-btn" type="button"><i class="bi bi-plus"></i> Add card</button>
-                            </div>
-                            <p class="insurance-pra">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                            </div> -->
+                            <!-- <p class="insurance-pra">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p> -->
 
                             <!-- <div class="d-flex align-items-center justify-content-between aetna">
                                 <p class="mb-0">Aetna - open Accsess</p>
@@ -54,7 +183,7 @@
 
                                 <div class="payment-option">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked>
+                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
                                         <label class="form-check-label" for="exampleRadios2">
                                             Wallet
                                         </label>
@@ -62,7 +191,7 @@
                                 </div>
                                 <div class="payment-option">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" checked>
+                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
                                         <label class="form-check-label" for="exampleRadios3">
                                             UPI
                                         </label>
@@ -70,7 +199,7 @@
                                 </div>
                             </div>
                             <div class="" style="width:100%;">
-                                <button class="btn proceed-add">Proceed to Payment</button>
+                                <button class="btn proceed-add" [disabled]="sbscriptionPlanReq.planType == '' || sbscriptionPlanReq.planType == null" >Proceed to Payment</button>
                             </div>
 
                         </div>
@@ -85,55 +214,29 @@
                             <div class="mt-3 border-bottom">
 
                                 <div class="d-flex justify-content-between align-items-center contract-plan">
-                                    <p class="mb-0">Contract Price</p>
-                                    <p class="mb-0">₹49</p>
+                                    <p class="mb-0">No of Employee</p>
+                                    <p class="mb-0">{{sbscriptionPlanReq.noOfEmployee?sbscriptionPlanReq.noOfEmployee:0}}</p>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center contract-plan">
-                                    <p class="mb-0">Contract Price</p>
-                                    <p class="mb-0">₹49</p>
+                                    <p class="mb-0">Amount</p>
+                                    <p class="mb-0">₹{{sbscriptionPlanReq.amount?sbscriptionPlanReq?.amount:0}}</p>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center contract-plan">
-                                    <p class="mb-0">Contract Price</p>
-                                    <p class="mb-0">₹49</p>
+                                    <p class="mb-0">Tax</p>
+                                    <p class="mb-0">18%</p>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center contract-plan">
-                                    <p class="mb-0">Contract Price</p>
-                                    <p class="mb-0">₹49</p>
+                                    <p class="mb-0">Tax Amount</p>
+                                    <p class="mb-0">₹{{taxAmount | number: '1.0-0'}}</p>
                                 </div>
-                               
-
-                            </div>
-                            <div class="mt-3 border-bottom">
-
-                                <div class="d-flex justify-content-between align-items-center contract-plan">
-                                    <p class="mb-0">Contract Price</p>
-                                    <p class="mb-0">₹49</p>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center contract-plan">
-                                    <p class="mb-0">Contract Price</p>
-                                    <p class="mb-0">₹49</p>
-                                </div>
-
-                               
-
-                            </div>
-                            <div class="mt-3 border-bottom">
-
-                                <div class="d-flex justify-content-between align-items-center contract-plan">
-                                    <p class="mb-0">Contract Price</p>
-                                    <p class="mb-0">₹49</p>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center contract-plan">
-                                    <p class="mb-0">Contract Price</p>
-                                    <p class="mb-0">₹49</p>
-                                </div>
+                            
                             </div>
 
                             <div class="mt-3">
 
                                 <div class="d-flex justify-content-between align-items-center contract-plan mb-0">
                                     <p class="mb-0" style=" color: #6666f3; font-size: 14px;"><b>Total</b></p>
-                                    <p class="mb-0" style=" color: #6666f3; font-size: 14px;"> <b>₹49</b></p>
+                                    <p class="mb-0" style=" color: #6666f3; font-size: 14px;"> <b>₹{{totalAmount | number : '1.0-0'}}</b></p>
                                 </div>
                             </div>
 

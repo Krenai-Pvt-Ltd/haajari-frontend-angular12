@@ -147,9 +147,11 @@ export class Key{
     public static UNMARKED = "Unmarked";
     public static WEEKEND = "Weekend";
     public static HOLIDAY = "Holiday";
+    public static LEAVE = "Leave";
     
 
     main_url = "http://localhost:8080/api/v2/";
     get_subscription = "subcription-plan"; 
+    get_active_user_count = "users/active-user-count"; 
     
 }

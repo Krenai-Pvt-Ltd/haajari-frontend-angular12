@@ -78,6 +78,14 @@ export class TopbarComponent implements OnInit {
       routeValue = "Referral Program";
     }
 
+    if(routeValue.includes("billing-payment?id=")){
+      routeValue = "Billing & Payment";
+    }
+
+    if(routeValue.includes("setting/billing")){
+      routeValue = "Subscription & Plan";
+    }
+
     this.topbarValue = this.capitalizeFirstLetter(routeValue);
   }
 

@@ -20,7 +20,11 @@ import { Key } from "../constant/key";
 
     getSubscriptionPlan(id: any){
       return this._httpClient.get<any>(this._key.main_url+this._key.get_subscription+"/"+id)
-  }
+    }
+
+    getActiveUserCount(){
+      return this._httpClient.get<any>(this._key.main_url+this._key.get_active_user_count)
+    }
 
 
   }

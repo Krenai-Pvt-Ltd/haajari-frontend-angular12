@@ -256,14 +256,19 @@ span.members-name {
    color: #eb5050!important;
 }
 
-.half-day {
-    color: #f9af47!important;
+.leave {
+    color: #ffa500;
     background-color: #faf5ee!important;
 }
 
 .present{
     background-color: #e0ffe0!important;
     color: #3e993e!important;
+}
+
+.holiday{
+    color: #6666f3;
+    background-color: #c6c6ff;
 }
 
 .pagination{
@@ -482,6 +487,10 @@ span.total-holiday {
     padding-top: 5px;
 }
 
+.Approved span{
+    font-size: 10px;
+}
+
 
 
 .pending-css p {
@@ -531,5 +540,6 @@ span.total-holiday {
 }
 
 .Approved:last-child{
+    width: 57px;
     border-right: none;
 }

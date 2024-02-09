@@ -46,6 +46,7 @@
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.25.3",
+    "ng-otp-input": "^1.9.3",
     "ng-zorro-antd": "^12.1.1",
     "ng2-tel-input": "^2.3.0",
     "ng2-tooltip-directive": "^2.10.3",

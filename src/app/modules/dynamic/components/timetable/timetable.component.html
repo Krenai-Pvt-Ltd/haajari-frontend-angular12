@@ -177,16 +177,18 @@
       <div class="row">
         <div class="col-md-12 search-area mt-4" style="display: flex; justify-content: space-between; align-items: center;">
           <div class="col-md-6">
+            <p style="font-size: 14px; position: relative; top: 0px; color: #686868; margin-bottom: 0px; text-align: center;">Attendance Date</p>
             <div class="date-all-approved d-flex align-items-center" style="gap:20px">
-                <span class="approved-left active-color" (click)="selectPreviousDay()"><i class="bi bi-chevron-left"></i></span>
-                <div class="text-center">
-                  <input type="date" id="input-date" class="attendance-date" [(ngModel)]="inputDate" (ngModelChange)="getAttendanceDetailsReportByDateMethodCall()" [max]="getCurrentDate()">
-                  <p style="font-size: 10px; position: relative; top: 0px; color: #686868; margin-bottom: 0px;">Attendance Date</p>
+                <span id="attendance-date" class="approved-left active-color" (click)="selectPreviousDay()"><i class="bi bi-chevron-left"></i></span>
+                <div class="text-center col-md-3">
+                  <nz-date-picker class="attendance-date" nzMode="date" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableDates"></nz-date-picker>
+                  <!-- <nz-date-picker [nzFormat]="dateFormat"></nz-date-picker> -->
+                  <!-- <input type="date" id="input-date" class="attendance-date" [(ngModel)]="inputDate" (ngModelChange)="getAttendanceDetailsReportByDateMethodCall()" [max]="getCurrentDate()"> -->
                 </div>
              
                       
               
-              <span class="approved-right active-color" (click)="selectNextDay()"><i class="bi bi-chevron-right"></i></span> 
+              <span id="attendance-date" class="approved-right active-color" (click)="selectNextDay()"><i class="bi bi-chevron-right"></i></span> 
                 <!-- <span class="cal-icon"><i class="bi bi-calendar3"></i></span> -->
             </div>
 
@@ -301,7 +303,7 @@
       </div>
 
       <div class="row mb-3 mt-3">
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
           <div class="monthly-heading" *ngIf="filterCriteria == 'PRESENT'">
             <h5 class="d-flex align-items-center" style="gap: 10px">
               Present Employees: <span class="monthly-span">{{total}}</span>
@@ -322,7 +324,7 @@
               All Employees: <span class="monthly-span">{{total}}</span>
             </h5>
           </div>
-        </div>
+        </div> -->
 
 
 
@@ -399,7 +401,7 @@
                 <!-- <span class="attendance-id">123</span> -->
               </h5>
   
-              <p [ngClass]="{'in-time-color' : (attendanceDetailsResponse.currentStatus == 'Working'), 'break-color': (attendanceDetailsResponse.currentStatus == 'On Break'), 'out-time-color' : (attendanceDetailsResponse.currentStatus == 'Checked Out' || attendanceDetailsResponse.currentStatus == 'Absent' || attendanceDetailsResponse.currentStatus == 'Not Marked')}">{{attendanceDetailsResponse.currentStatus}}</p>
+              <p [ngClass]="{'in-time-color' : (attendanceDetailsResponse.currentStatus == 'Working'), 'break-color': (attendanceDetailsResponse.currentStatus == 'On Break' || attendanceDetailsResponse.currentStatus == 'On Leave'), 'out-time-color' : (attendanceDetailsResponse.currentStatus == 'Checked Out' || attendanceDetailsResponse.currentStatus == 'Absent' || attendanceDetailsResponse.currentStatus == 'Not Marked')}">{{attendanceDetailsResponse.currentStatus}}</p>
               <div class="add-note d-flex" style="gap: 10px">
                 <a
                   href=""
