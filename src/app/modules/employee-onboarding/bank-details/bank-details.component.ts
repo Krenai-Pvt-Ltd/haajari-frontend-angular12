@@ -158,6 +158,7 @@ return
   this.isFormInvalid = false;
 }
 }
+
 @ViewChild("dismissSuccessModalButton") dismissSuccessModalButton!:ElementRef;
 routeToFormPreview() {
   this.dismissSuccessModalButton.nativeElement.click();

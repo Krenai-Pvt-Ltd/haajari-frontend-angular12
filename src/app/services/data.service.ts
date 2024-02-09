@@ -50,11 +50,11 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = "http://localhost:8080/api/v2";
+  // private baseUrl = "http://localhost:8080/api/v2";
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  // private baseUrl = "https://production.hajiri.work/api/v2";
+  private baseUrl = "https://production.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -1188,7 +1188,15 @@ getOrganizationRegistrationDate(): Observable<any>{
   return this.httpClient.get<any>(`${this.baseUrl}/organization/registration/date/get`);
 }
 
+signInByWhatsapp(phoneNumber: string): Observable<any> {
+  const url = `${this.baseUrl}/user/auth/sent/otp-whatsapp?phoneNumber=${phoneNumber}`;
+  return this.httpClient.post<any>(url, {});
+}
 
+verifyOtpByWhatsapp(phoneNumber: string, otp: String): Observable<any> {
+  const url = `${this.baseUrl}/user/auth/verify/otp-whatsapp?phoneNumber=${phoneNumber}&otp=${otp}`;
+  return this.httpClient.post<any>(url, {});
+}
 
 
 

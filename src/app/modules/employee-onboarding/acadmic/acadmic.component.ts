@@ -226,7 +226,7 @@ displayModal = false;
       'Certificate of Elementary Education', 'Elementary School Completion Certificate', 'Basic Education Certificate', 'Primary School Achievement Certificate'],
     'Middle School': ['Middle School Completion Certificate', 'Lower Secondary Education Certificate', 'Junior High School Diploma', 'Secondary School Certificate'],
     'Associate\'s Degree': ['A.A.', 'A.S.', 'A.A.S.', 'A.E.T.', 'A.P.S.'],
-    'Bachelor\'s Degree': ['B.Tech', 'B.Sc', 'B.Com', 'B.A', 'BBA', 'B.F.A.', 'B.Ed.', 'B.E.', 'LL.B.', 'B.Arch.', 'B.Pharm.', 'B.S.N.'],
+    'Bachelor\'s Degree': ["B.Tech", "B.Sc", "B.Com", "B.A", "BBA", "B.F.A.", "B.Ed.", "B.E.", "LL.B.", "B.Arch.", "B.Pharm.", "B.S.N.", "BCA", "other"]    ,
     'Graduate Certificate': ['Grad Cert in Business', 'Grad Cert in Education', 'Grad Cert in Engineering', 'Grad Cert in Information Technology', 'Grad Cert in Public Health'],
     'Postgraduate Diploma': ['PGD in Management', 'PGD in Education', 'PGD in Computer Science', 'PGD in Public Health', 'PGD in Clinical Psychology'],
     'Master\'s Degree': ['M.Tech', 'M.Sc', 'M.Com', 'M.A', 'MBA', 'M.Ed.', 'M.F.A.', 'LL.M.', 'M.S.W.', 'M.P.H.', 'M.S.N.', 'M.P.A.', 'M.I.S.', 'M.F.S.'],
