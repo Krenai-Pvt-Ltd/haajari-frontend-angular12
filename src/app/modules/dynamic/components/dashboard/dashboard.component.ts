@@ -89,13 +89,8 @@ export class DashboardComponent implements OnInit {
 
   onMonthChange(month: Date): void {
     this.selectedDate = month;
-    console.log("CURRENT MONTH:- "+this.selectedDate);
-    console.log(this.getCurrentDate());
-    console.log(new Date());
     this.getFirstAndLastDateOfMonth(this.selectedDate);
     this.getAttendanceReportByDateDurationMethodCall();
-    console.log(this.startDate, this.endDate)
-    console.log(this.organizationRegistrationDate);
   }
 
   getFirstAndLastDateOfMonth(selectedDate : Date){
@@ -209,18 +204,18 @@ export class DashboardComponent implements OnInit {
     this.networkConnectionErrorPlaceHolderForBestPerformer = false;
   }
 
-  selectMonth(selectedMonth: string): void {
-    this.month = selectedMonth;
-    const selectedDate = moment().month(selectedMonth).startOf('month');
-    this.startDateStr = selectedDate.format('YYYY-MM-DD');
-    this.endDateStr = selectedDate.endOf('month').format('YYYY-MM-DD');
+  // selectMonth(selectedMonth: string): void {
+  //   this.month = selectedMonth;
+  //   const selectedDate = moment().month(selectedMonth).startOf('month');
+  //   this.startDateStr = selectedDate.format('YYYY-MM-DD');
+  //   this.endDateStr = selectedDate.endOf('month').format('YYYY-MM-DD');
     
-    // Fetch data using the selected start and end dates
-    this.getAttendanceTopPerformerDetails();
-    // this.getAttendanceLatePerformerDetails();
-    // this.getDataFromDate();
-    this.getAttendanceReportByDateDurationMethodCall();
-  }
+  //   // Fetch data using the selected start and end dates
+  //   this.getAttendanceTopPerformerDetails();
+  //   // this.getAttendanceLatePerformerDetails();
+  //   // this.getDataFromDate();
+  //   this.getAttendanceReportByDateDurationMethodCall();
+  // }
   
 
   // checkAccessToken(){
@@ -243,16 +238,6 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-//   leaveCount!: number;
-
-//   getTodaysLiveLeaveCount(){
-//   this.dataService.getTodaysLeaveCount().subscribe((data) => {
-//     this.leaveCount=data;
-//     console.log(this.leaveCount);
-//   }, (error) => {
-//     console.log(error);
-//   })
-// }
 
 isAttendanceShimer: boolean=false;
 errorToggleMain: boolean=false;
@@ -664,6 +649,11 @@ getDataFromDate(): Promise<any> {
                 reject(error);
             });
     });
+  }
+
+  expandedStates: boolean[] = [];
+  toggleCollapse(index: number): void {
+    this.expandedStates[index] = !this.expandedStates[index];
   }
 
   // getAttendanceReportByDateDurationMethodCall(){
