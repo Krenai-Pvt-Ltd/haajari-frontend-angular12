@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -90,6 +91,7 @@ confiirmPassword: string='';
   enableBack:boolean=false;
   signInWithEmail(){
     this.enableBack=true;
+    this.isWhatsappLogin= false;
     const res = document.getElementById("mt-3") as HTMLElement | null;
     if(res){
       res.style.display="none";
@@ -133,7 +135,12 @@ confiirmPassword: string='';
   createPasswordFlag:boolean=false;
   otpErrorMessage:string='';
   verifyOtp() {
+    
     debugger
+    if(this.isWhatsappLogin){
+      this.verifyOtpByWhatsappMethodCall();
+    } else {
+
     this.dataService.verifyUserOtp(this.email,this.otp)
       .subscribe(
         (response) => {
@@ -151,6 +158,8 @@ confiirmPassword: string='';
           console.error('Verification failed:', error);
         }
       );
+    }
+
   }
 
   registerPassLoader:boolean=false;
@@ -280,5 +289,67 @@ confiirmPassword: string='';
     this.verifyOtpButtonFlag=true;
   }
 
+ 
+  @ViewChild('otpVerificationModalButton') otpVerificationModalButton !: ElementRef
+  isWhatsappLogin: boolean = false;
+  phoneNumber: string = '';
+  signInByWhatsappMethodCall(){
+    this.checkFormValidation();
 
+  if(this.isFormInvalid==true){
+    return
+  } else{
+    this.dataService.signInByWhatsapp(this.phoneNumber)
+    .subscribe(
+      (response) => {
+        this.otpVerificationModalButton.nativeElement.click();
+        console.log('OTP sent successfully:', response);
+      },
+      (error) => {
+        console.log("error :", error);
+      }
+    );
+  }
+  }
+
+  verifyOtpByWhatsappMethodCall(){
+    this.dataService.verifyOtpByWhatsapp(this.phoneNumber, this.otp)
+    .subscribe(
+      (response) => {
+
+        this.router.navigate(['/dashboard']);
+        this.otpVerification.nativeElement.click();
+
+        console.log('OTP Verified successfully:', response);
+      },
+      (error) => {
+        this.otpErrorMessage=error.error.message;
+        console.log("error :", error);
+      }
+    );
+  }
+
+
+  signInWithWhatsapp(){
+    debugger
+    
+    this.enableBack=true;
+    this.isWhatsappLogin= true;
+    const res = document.getElementById("mt-3") as HTMLElement | null;
+    if(res){
+      res.style.display="none";
+    }
+  
+  }
+
+  isFormInvalid: boolean = false;
+@ViewChild ('loginForm') loginForm !: NgForm
+checkFormValidation(){
+if(this.loginForm.invalid){
+this.isFormInvalid = true;
+return
+} else {
+  this.isFormInvalid = false;
+}
+}
 }
