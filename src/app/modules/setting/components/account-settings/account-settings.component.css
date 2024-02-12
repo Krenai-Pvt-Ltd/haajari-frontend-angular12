@@ -242,3 +242,25 @@ input, textarea {
     background: linear-gradient(rgb(248, 251, 255) 0%, rgb(247, 250, 255) 105.11%);
     height: 307px;
 }
+
+
+  .input-group {
+    position: relative;
+    display: flex;
+    width: 100%;
+  }
+  
+  .password-input {
+    flex: 1;
+  }
+  
+  .toggle-password {
+    position: absolute;
+    right: 0;
+    border: 0;
+    background: transparent;
+    z-index: 10; /* Ensure the button is above the input */
+    cursor: pointer;
+  }
+  
+  
