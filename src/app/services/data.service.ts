@@ -1196,7 +1196,15 @@ getOrganizationRegistrationDate(): Observable<any>{
   return this.httpClient.get<any>(`${this.baseUrl}/organization/registration/date/get`);
 }
 
+signInByWhatsapp(phoneNumber: string): Observable<any> {
+  const url = `${this.baseUrl}/user/auth/sent/otp-whatsapp?phoneNumber=${phoneNumber}`;
+  return this.httpClient.post<any>(url, {});
+}
 
+verifyOtpByWhatsapp(phoneNumber: string, otp: String): Observable<any> {
+  const url = `${this.baseUrl}/user/auth/verify/otp-whatsapp?phoneNumber=${phoneNumber}&otp=${otp}`;
+  return this.httpClient.post<any>(url, {});
+}
 
 
 

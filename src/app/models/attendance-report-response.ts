@@ -6,13 +6,13 @@ export class AttendanceReportResponse {
     userName : string = '';
 	userEmail : string = '';
 	userImage : string = '';
-	present : number = 0;
+	presentUpToToday : number = 0;
 	absentUpToToday : number = 0;
 	halfDays : number = 0;
 	overTime : number = 0;
-	unmarked : number = 0;
-	paidLeave : number = 0;
-	unpaidLeave : number = 0;
-	totalPayOutDays : number = 0;
+	unmarkedUpToToday : number = 0;
+	paidLeaveUpToToday : number = 0;
+	unpaidLeaveUpToToday : number = 0;
+	totalPayOutDaysUpToToday : number = 0;
 	dayWiseStatusList : DayWiseStatus[] = [];
 }

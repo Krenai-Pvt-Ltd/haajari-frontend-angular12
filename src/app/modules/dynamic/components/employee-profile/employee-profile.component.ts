@@ -221,12 +221,17 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
+
   toggle = false;
   approvedToggle=false;
   @ViewChild("closeRejectModalButton") closeRejectModalButton!:ElementRef;
   updateStatusUserByUuid(type: string) {
-    if(type=="REJECTED")
+    if(type=="REJECTED"){
     this.toggle = true;
+    if(this.requestForMoreDocs== true){
+      type = 'REQUESTED';
+    }
+  }
     if(type=="APPROVED"){
     this.approvedToggle=true;
     }
@@ -1216,6 +1221,12 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
       this.helperService.showToast(error.message, Key.TOAST_STATUS_SUCCESS);
     }
   );
+}
+
+requestForMoreDocs: boolean = false;
+requestUserForMoreDocs(){
+  this.openRejectModal.nativeElement.click();
+  this.requestForMoreDocs = true;
 }
 
 }

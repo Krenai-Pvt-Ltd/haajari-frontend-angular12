@@ -1124,3 +1124,11 @@ div#eventsModal .modal-dialog::after{
   .notes-month section {
     font-size: 28px;
   }
+
+.add-filtter a {
+    margin-bottom: 0px;
+    color: #6666f3 !important;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
