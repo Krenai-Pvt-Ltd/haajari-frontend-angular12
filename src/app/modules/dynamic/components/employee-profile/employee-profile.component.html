@@ -1516,9 +1516,9 @@
                                                 <div class="">
                                                     <table class="table table-bordered" >
 
-                                                        <tbody class="table-design" *ngIf="!isDocsPlaceholder">
-                                                            <tr>
-                                                                <td colspan="3"  *ngIf="documentsEmployee?.aadhaarCard">
+                                                        <tbody class="table-design" *ngIf="!isDocsPlaceholder && (documentsEmployee.length!=0)">
+                                                            <tr  *ngFor="let docs of documentsEmployee">
+                                                                <td colspan="3"  >
                                                                     <div class="d-flex align-items-center justify-content-between document-deta"
                                                                        >
                                                                         <div class="d-flex align-items-center ">
@@ -1526,146 +1526,19 @@
                                                                                 style="gap:10px;">
                                                                                 <i class="bi bi-file-earmark-text"></i>
                                                                                 <p class="mb-0 text-lineclamp">
-                                                                                    aadhaar_card.pdf</p>
+                                                                                    {{docs.documentName}}</p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex align-items-center justify-content-end"
                                                                             style="gap:10px; cursor: pointer;">
                                                                             <!-- <i class="bi bi-trash delete-coloe"></i> -->
                                                                             <i class="bi bi-eye pointer download-color"
-                                                                                (click)="openPdfModel('aadhaarCard')"></i>
+                                                                                (click)="openPdfModel(docs.documentUrl)"></i>
                                                                             <i class="bi bi-download download-color"
-                                                                                (click)="downloadSingleImage((documentsEmployee?.aadhaarCard).toString())"></i>
+                                                                                (click)="downloadSingleImage((docs.documentUrl).toString())"></i>
                                                                         </div>
                                                                     </div>
                                                                 </td>
-
-                                                                <td colspan="3" *ngIf="documentsEmployee?.pancard">
-                                                                    <div class="d-flex align-items-center justify-content-between document-deta"
-                                                                        >
-                                                                        <div class="d-flex align-items-center ">
-                                                                            <div class="d-flex align-items-center "
-                                                                                style="gap:10px;">
-                                                                                <i class="bi bi-file-earmark-text"></i>
-                                                                                <p class="mb-0 text-lineclamp">
-                                                                                    pancard.pdf</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex align-items-center justify-content-end"
-                                                                            style="gap:10px; cursor: pointer;">
-                                                                            <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                                                            <i class="bi bi-eye pointer download-color"
-                                                                                (click)="openPdfModel('pancard')"></i>
-                                                                            <i class="bi bi-download download-color"
-                                                                                (click)="downloadSingleImage((documentsEmployee?.pancard).toString())"></i>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </td>
-
-                                                                <td colspan="3" *ngIf="documentsEmployee?.highSchoolCertificate">
-                                                                    <div class="d-flex align-items-center justify-content-between document-deta"
-                                                                        >
-                                                                        <div class="d-flex align-items-center ">
-                                                                            <div class="d-flex align-items-center "
-                                                                                style="gap:10px;">
-                                                                                <i class="bi bi-file-earmark-text"></i>
-                                                                                <p class="mb-0 text-lineclamp">
-                                                                                    10th_Cert.pdf</p>
-                                                                                <!-- <p class="mb-0" *ngIf="documentsEmployee.highestQualificationDegree">Graduation_Cert.pdf</p>
-                                                                        <p class="mb-0" *ngIf="documentsEmployee.secondarySchoolCertificate">12th_Cert.pdf</p>
-                                                                        <p class="mb-0" *ngIf="documentsEmployee.testimonialReccomendation">Testimonial.pdf</p> -->
-
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex align-items-center justify-content-end"
-                                                                            style="gap:10px; cursor: pointer;">
-                                                                            <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                                                            <i class="bi bi-eye pointer download-color"
-                                                                                (click)="openPdfModel('highschool')"></i>
-                                                                            <i class="bi bi-download download-color"
-                                                                                (click)="downloadSingleImage((documentsEmployee.highSchoolCertificate).toString())"></i>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </td>
-
-
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td colspan="3" *ngIf="documentsEmployee?.highestQualificationDegree">
-                                                                    <div class="d-flex align-items-center justify-content-between document-deta"
-                                                                        >
-                                                                        <div class="d-flex align-items-center ">
-                                                                            <div class="d-flex align-items-center "
-                                                                                style="gap:10px;">
-                                                                                <i class="bi bi-file-earmark-text"></i>
-                                                                                <p class="mb-0 text-lineclamp">
-                                                                                    Graduation_Cert.pdf</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex align-items-center justify-content-end"
-                                                                            style="gap:10px; cursor: pointer;">
-                                                                            <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                                                            <i class="bi bi-eye pointer download-color"
-                                                                                (click)="openPdfModel('degree')"></i>
-                                                                            <i class="bi bi-download download-color"
-                                                                                (click)="downloadSingleImage((documentsEmployee?.highestQualificationDegree).toString())"></i>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </td>
-                                                                <td colspan="3" *ngIf="documentsEmployee?.secondarySchoolCertificate">
-                                                                    <div class="d-flex align-items-center justify-content-between document-deta"
-                                                                        >
-                                                                        <div class="d-flex align-items-center ">
-                                                                            <div class="d-flex align-items-center "
-                                                                                style="gap:10px;">
-                                                                                <i class="bi bi-file-earmark-text"></i>
-                                                                                <p class="mb-0 text-lineclamp">
-                                                                                    12th_Cert.pdf</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex align-items-center justify-content-end"
-                                                                            style="gap:10px; cursor: pointer;">
-                                                                            <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                                                            <i class="bi bi-eye pointer download-color"
-                                                                                (click)="openPdfModel('secondaryschool')"></i>
-                                                                            <i class="bi bi-download download-color"
-                                                                                (click)="downloadSingleImage((documentsEmployee?.secondarySchoolCertificate).toString())"></i>
-                                                                        </div>
-                                                                    </div>
-
-
-                                                                </td>
-                                                                <td colspan="3" *ngIf="documentsEmployee?.testimonialReccomendation">
-                                                                    <div class="d-flex align-items-center justify-content-between document-deta"
-                                                                        >
-                                                                        <div class="d-flex align-items-center ">
-                                                                            <div class="d-flex align-items-center "
-                                                                                style="gap:10px;">
-                                                                                <i class="bi bi-file-earmark-text"></i>
-                                                                                <p class="mb-0 text-lineclamp">
-                                                                                    Testimonial.pdf</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex align-items-center justify-content-end"
-                                                                            style="gap:10px; cursor: pointer;">
-                                                                            <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                                                            <i class="bi bi-eye pointer download-color"
-                                                                                (click)="openPdfModel('testimonial')"></i>
-                                                                            <i class="bi bi-download download-color"
-                                                                                (click)="downloadSingleImage((documentsEmployee?.testimonialReccomendation).toString())"></i>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </td>
-                                                            </tr>
-
-
-
-
                                                         </tbody>
                                                         <tbody *ngIf="isDocsPlaceholder">
                                                             <tr>
