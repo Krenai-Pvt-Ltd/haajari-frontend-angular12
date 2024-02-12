@@ -78,9 +78,16 @@
                     <div class="form-group" *ngIf="!createPasswordFlag ">
                         <div *ngIf="!isWhatsappLogin">
                             <label for="exampleInputEmail1" class="mb-2">Email address</label>
-                            <input type="email" required class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" 
-                                   aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="email" 
+                            <input type="email" required class="form-control" id="exampleInputEmail1" name="exampleInputEmail1"
+                                   aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="email" #emailAddress="ngModel"
                                    autocomplete="username" style="height: 45px !important;">
+                                   <div *ngIf="(emailAddress.touched && emailAddress.invalid) || isFormInvalid">
+                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="emailAddress.errors?.required">
+                                        <i class="bi bi-exclamation-circle"></i>
+                                        Email is required.
+                                    </p>
+     
+                                </div>   
                         </div>
                         
                         <!-- Conditionally show Phone number input -->
