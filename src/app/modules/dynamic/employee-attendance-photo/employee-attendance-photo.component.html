@@ -1,0 +1,63 @@
+<div class="staff-location-section">
+    <div class="containernn">
+      <div class="row">
+        <div class="col-md-3 border-right">
+           <div class="location-sidebar">
+             <div class="d-flex align-items-center justify-content-between loaction-side-div" >
+                <div class="pagnition-list">
+
+                    <ul class="staff-page-list">
+                        <li class="staff-pagnition">1</li>
+                        <li class="staff-pagnition active-pagnition">2</li>
+                    </ul>
+
+                </div>
+                <div class="set-new-location">
+                    <img src="assets/images/gallery.svg" style="width: 80px;">
+                    <h4>Add Photos</h4>
+                    <p>Please add at least 1 photos of <br> your flat in order to get your <br> property onboard</p>
+                    
+                </div>
+                <div class="set-new-location" >
+                    <h6 style="">Save and Exit</h6>
+                    <p class="mb-0" style="">Call 0000-000-000</p>
+                    
+                </div>
+
+             </div>
+           </div>
+        </div>
+        <div class="col-md-9">
+            <div class="set-loation">
+
+                <div class="location-setting pb-2">
+                    <h4>Upload Photos</h4>
+                </div>
+
+             
+
+                <div class="location-map mt-3">
+                    <!-- Webcam component -->
+                    <webcam *ngIf="!captureImage" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
+                    <!-- Button to trigger snapshot -->
+                    <button *ngIf="!captureImage" class="btn btn-success" (click)="triggerSnapshot();">Take A Snapshot</button>
+                    <!-- Display captured image -->
+                    <div *ngIf="captureImage" id="results">
+                        <!-- Your captured image will appear here... -->
+                        <img [src]="captureImage" height="300px">
+                    </div>
+                </div>
+                
+
+                <div class="set-location-btn d-flex align-items-center justify-content-end mt-4" >
+                    <!-- <button class="btn previous-stap"> <i class="bi bi-chevron-left pl-2"></i> Previous</button> -->
+                    <button type="button" (click)="routeToLocationValidator()" class="btn previous-stap"> <i class="bi bi-chevron-left pl-2"></i> Previous</button>
+                    <button type="button" (click)="markAttendaceWithLocationMethodCall()" class="btn next-stap">Mark Attendance <i class="bi bi-chevron-right pl-2"></i></button>
+                </div>
+
+            </div>
+
+        </div>
+      </div>
+    </div>
+</div>

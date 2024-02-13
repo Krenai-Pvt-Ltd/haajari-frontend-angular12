@@ -61,7 +61,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SuccessComponent } from './components/success/success.component';
 import { EmployeeLocationValidatorComponent } from './employee-location-validator/employee-location-validator.component';
 import { WebcamModule } from 'ngx-webcam';
-
+import { AgmCoreModule } from '@agm/core';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/employee-attendance-photo.component';
 @NgModule({
   declarations: [
     DynamicComponent,
@@ -101,7 +103,8 @@ import { WebcamModule } from 'ngx-webcam';
     EmployeeOnboardingDataComponent,
     BillingPaymentComponent,
     SuccessComponent,
-    EmployeeLocationValidatorComponent
+    EmployeeLocationValidatorComponent,
+    EmployeeAttendancePhotoComponent
 
 
   ],
@@ -125,6 +128,11 @@ import { WebcamModule } from 'ngx-webcam';
     SharedModule,
     NzDatePickerModule,
     MatProgressSpinnerModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
+      libraries: ["places"]
+    }),
+    GooglePlaceModule,
     
 
     

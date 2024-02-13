@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { StaffAttendanceLocationComponent } from './components/staff-attendance-location/staff-attendance-location.component';
 import { UploadPhotoComponent } from './components/upload-photo/upload-photo.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 
 @NgModule({
@@ -39,6 +40,8 @@ import { UploadPhotoComponent } from './components/upload-photo/upload-photo.com
         NgxPaginationModule,
         NgxShimmerLoadingModule,
         DynamicModule,
+        NgxMaskModule.forRoot(),
+        
        
         
     ]
