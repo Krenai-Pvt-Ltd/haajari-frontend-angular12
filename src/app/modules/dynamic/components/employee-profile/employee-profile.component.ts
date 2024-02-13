@@ -220,12 +220,17 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
+
   toggle = false;
   approvedToggle=false;
   @ViewChild("closeRejectModalButton") closeRejectModalButton!:ElementRef;
   updateStatusUserByUuid(type: string) {
-    if(type=="REJECTED")
+    if(type=="REJECTED"){
     this.toggle = true;
+    if(this.requestForMoreDocs== true){
+      type = 'REQUESTED';
+    }
+  }
     if(type=="APPROVED"){
     this.approvedToggle=true;
     }
@@ -736,7 +741,8 @@ export class EmployeeProfileComponent implements OnInit {
     this.isLeaveShimmer = true;
     // this.selectStatusFlag=true;
 
-    if (this.selectedStatus) {
+    if (this.selectedStatus && this.selectedStatus!= 'ALL') {
+      console.log("selectedStatus :" + this.selectedStatus)
       this.dataService.getUserLeaveLogByStatus(this.userId, this.selectedStatus).subscribe(
         (data) => {
           this.userLeaveLog = data;
@@ -750,7 +756,7 @@ export class EmployeeProfileComponent implements OnInit {
         }
       );
     } else {
-
+      console.log("selectedStatus :" + this.selectedStatus)
       this.dataService.getUserLeaveLog(this.userId).subscribe(
         (data) => {
           this.userLeaveLog = data;
@@ -998,8 +1004,14 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   selectStatus(status: string): void {
+    if(status== ''){
+      this.selectedStatus = 'ALL';
+      this.isLeavePlaceholder=false;
+      this.getUserLeaveLogByUuid();
+    }else{
     this.selectedStatus = status;
     this.getUserLeaveLogByUuid();
+    }
   }
 
   previewString: string = ''
@@ -1207,6 +1219,12 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
       this.helperService.showToast(error.message, Key.TOAST_STATUS_SUCCESS);
     }
   );
+}
+
+requestForMoreDocs: boolean = false;
+requestUserForMoreDocs(){
+  this.openRejectModal.nativeElement.click();
+  this.requestForMoreDocs = true;
 }
 
 }

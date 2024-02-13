@@ -72,17 +72,39 @@
                </div>
 
 
-            
-
-
-
-            
                
-                <form id="signin-with-email-2" style="width: 100%;"  *ngIf="enableBack">
+                <form  #loginForm="ngForm" (ngSubmit)="signInByWhatsappMethodCall()" id="signin-with-email-2" style="width: 100%;"  *ngIf="enableBack">
                    
-                    <div class="form-group" *ngIf="!createPasswordFlag">
-                      <label for="exampleInputEmail1" class="mb-2">Email address</label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="email" autocomplete="username" style="height: 45px !important;">
+                    <div class="form-group" *ngIf="!createPasswordFlag ">
+                        <div *ngIf="!isWhatsappLogin">
+                            <label for="exampleInputEmail1" class="mb-2">Email address</label>
+                            <input type="email" required class="form-control" id="exampleInputEmail1" name="exampleInputEmail1"
+                                   aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="email" #emailAddress="ngModel"
+                                   autocomplete="username" style="height: 45px !important;">
+                                   <div *ngIf="(emailAddress.touched && emailAddress.invalid) || isFormInvalid">
+                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="emailAddress.errors?.required">
+                                        <i class="bi bi-exclamation-circle"></i>
+                                        Email is required.
+                                    </p>
+     
+                                </div>   
+                        </div>
+                        
+                        <!-- Conditionally show Phone number input -->
+                        <div *ngIf="isWhatsappLogin">
+                            <label for="examplePhoneNumber1" class="mb-2">Phone Number</label>
+                            <input type="text" required mask="0000000000" class="form-control" id="examplePhoneNumber1" name="examplePhoneNumber1" 
+                                   aria-describedby="phoneHelp" placeholder="Enter phone number" #phoneNumberOtp="ngModel"   [(ngModel)]="phoneNumber" 
+                                    style="height: 45px !important;">
+                                    <div *ngIf="(phoneNumberOtp.touched && phoneNumberOtp.invalid) || isFormInvalid">
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumberOtp.errors?.required">
+                                            <i class="bi bi-exclamation-circle"></i>
+                                            Phone Number is required.
+                                        </p>
+         
+                                    </div>   
+                            
+                        </div> 
                     </div>
                     <small class="" *ngIf="verifyOtpButtonFlag && showMessageFlag" style="color:chocolate">You have not created your password yet, Please create your password by verifying your OTP!</small>
 
@@ -94,7 +116,7 @@
                             <label for="exampleInputPassword1" class="mb-2">Password</label>
                             <!-- <span style="align-items:end;color: red;">Forgot Your Password?</span> -->
                             <input type="password" class="form-control" id="exampleInputPassword1" name="exampleInputPassword1" placeholder="Password" [(ngModel)]="password" autocomplete="current-password" style="height: 45px !important;">
-                            <span class="text-muted" style="color:red !important" (click)="forgotPasswordFun()">Forgot password?</span>
+                            <span class="text-muted" style="color:red !important; display: flex; justify-content: flex-end; margin-top: 5px;" (click)="forgotPasswordFun()">Forgot password?</span>
                         </div>
                         
                         <!-- <button type="button" class="btn btn-light" style="align-items: end; color: cornflowerblue;" (click)="forgotPasswordFun()">Forgot Your Password?</button> -->
@@ -102,8 +124,8 @@
                     
                     <div *ngIf="createPasswordFlag">
                         <div class="form-group">
-                            <label for="exampleInputPassword1" class="mb-2">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" name="exampleInputPassword1" placeholder="Password" [(ngModel)]="password" autocomplete="current-password" style="height: 45px !important;">
+                            <label for="exampleInputPassword3" class="mb-2">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword3" name="exampleInputPassword3" placeholder="Password" [(ngModel)]="password" autocomplete="current-password" style="height: 45px !important;">
                           </div>
                           <br>
                           <div class="form-group">
@@ -123,8 +145,21 @@
                     <!-- <div *ngIf="errorMessage && verifyOtpButtonFlag" class="alert alert-danger" style="color:green; background-color:rgba(158, 215, 142, 0.945)">
                         {{ errorMessage }}
                     </div> -->
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#otpVerification" class="btn btn-primary d-flex align-items-center justify-content-center" style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px" *ngIf="verifyOtpButtonFlag" (click)="sendUserOtpToMail()">Send OTP</button>
-                    <button type="button" class="btn btn-primary d-flex align-items-center justify-content-center" style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px" *ngIf="!enterPasswordFlag && !verifyOtpButtonFlag && !createPasswordFlag && !resetPasswordFlag" (click)="checkUserPresence()" >
+                    <!-- Button shown when isWhatsappLogin is false -->
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#otpVerification" 
+                        class="btn btn-primary d-flex align-items-center justify-content-center" 
+                        style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px" 
+                        *ngIf="verifyOtpButtonFlag && !isWhatsappLogin" 
+                        (click)="sendUserOtpToMail()">Send OTP</button>
+
+                        <!-- Button shown when isWhatsappLogin is true -->
+                        <button type="submit" 
+                        class="btn btn-primary d-flex align-items-center justify-content-center" 
+                        style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px" 
+                        *ngIf="isWhatsappLogin" 
+                        >Send OTP</button>
+
+                    <button type="button" class="btn btn-primary d-flex align-items-center justify-content-center" style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px" *ngIf="!enterPasswordFlag && !verifyOtpButtonFlag && !createPasswordFlag && !resetPasswordFlag && !isWhatsappLogin" (click)="checkUserPresence()" >
                         <ng-container *ngIf="loginButtonLoader; else loginButton">
                             <div class="dot-opacity-loader">
                                 <span></span>
@@ -204,7 +239,7 @@
                         </a>
                     </div>
                     <div class="mb-2 position-relative">
-                        <a href=""><img src="assets/images/pngwing.com.png" style="width:25px; margin-right:6px"> Sign in with Whatsapp  <i class="bi bi-chevron-right right-arrow"></i></a>
+                        <a (click)="signInWithWhatsapp()"><img src="assets/images/pngwing.com.png" style="width:25px; margin-right:6px"> Sign in with Whatsapp  <i class="bi bi-chevron-right right-arrow"></i></a>
                     </div>
                     <div class="mb-2 position-relative signin-with-email-button" style="cursor: pointer;">
                         <a (click)="signInWithEmail()">
@@ -305,6 +340,11 @@
         </div>
     </div>
 </div>
+
+<button type="button" style="display: none;" id="otpVerificationModalButton" #otpVerificationModalButton class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#otpVerification">
+    Open OTP Verification
+  </button>
+  
 
 <div class="modal fade" id="otpVerification" #otpVerification tabindex="-1" role="dialog" aria-labelledby="otpVerificationLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 450px;" role="document">

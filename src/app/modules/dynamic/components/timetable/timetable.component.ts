@@ -382,14 +382,13 @@ export class TimetableComponent implements OnInit {
       console.log(error);
       this.networkConnectionErrorForAttendanceDetailsResposne = true;
     })
-
   }
 
 
 
   breakTimingsList : BreakTimings[] = [];
   getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(uuid : string){
-    this.dataService.getAttendanceDetailsBreakTimingsReportByDateByUser(uuid, this.inputDate).subscribe((response) => {
+    this.dataService.getAttendanceDetailsBreakTimingsReportByDateByUser(uuid, this.helperService.formatDateToYYYYMMDD(this.selectedDate)).subscribe((response) => {
       this.breakTimingsList = response.object;
       console.log(this.breakTimingsList);
     }, (error) => {
