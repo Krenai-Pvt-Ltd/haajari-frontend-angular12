@@ -69,6 +69,7 @@ export class DashboardComponent implements OnInit {
   WEEKEND = Key.WEEKEND;
   HOLIDAY = Key.HOLIDAY;
   LEAVE = Key.LEAVE;
+  HALFDAY = Key.HALFDAY;
 
   
 
