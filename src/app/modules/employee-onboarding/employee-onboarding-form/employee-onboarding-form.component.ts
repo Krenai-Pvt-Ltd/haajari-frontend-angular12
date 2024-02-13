@@ -223,9 +223,10 @@ if (this.userPersonalInformationRequest.department === 'Other') {
                 this.isLoading = false;
                 this.employeeOnboardingFormStatus=response.employeeOnboardingStatus.response;
              
-                if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
+                if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL' && (this.employeeOnboardingFormStatus != 'REJECTED' && this.employeeOnboardingFormStatus != 'REQUESTED')){
                   this.successMessageModalButton.nativeElement.click();
                 }
+                
                 if(response.employeeOnboardingStatus.response == "PENDING"){
                   this.isNewUser = false;
                 }

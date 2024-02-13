@@ -31,6 +31,8 @@ import { OnboardingSidebarResponse } from "../models/onboarding-sidebar-response
 import { ReasonOfRejectionProfile } from "../models/reason-of-rejection-profile";
 import { HelperService } from "./helper.service";
 import { RoleBasedAccessControlService } from "./role-based-access-control.service";
+import { UserPasswordRequest } from "../models/user-password-request";
+
 
 
 @Injectable({
@@ -707,6 +709,14 @@ export class DataService {
     return this.httpClient.get(url, {params});
   }
 
+  getEmployeeDocumentAsList(userUuid: string): Observable<any> {
+    debugger
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    const url = `${this.baseUrl}/user-documents-details/get/user-documents-as-List`;
+    return this.httpClient.get(url, {params});
+  }
+
   setEmployeeExperienceDetails(experiences: UserExperience[], userUuid: string): Observable<any> {
     const params = new HttpParams().set("userUuid", userUuid);
     return this.httpClient.put<any>(`${this.baseUrl}/user-experiences/save/experience`, experiences, { params })
@@ -1198,6 +1208,20 @@ verifyOtpByWhatsapp(phoneNumber: string, otp: String): Observable<any> {
   return this.httpClient.post<any>(url, {});
 }
 
+updateUserProfilePassword(userPasswordRequest: UserPasswordRequest): Observable<any> {
+  const url = `${this.baseUrl}/user/auth/update/password`; 
+  return this.httpClient.post<any>(url, userPasswordRequest);
+}
 
+getUserAccountDetails(): Observable<any> {
+
+  return this.httpClient.get<any>(`${this.baseUrl}/account-setting/details`);
+}
+
+updateProfilePicture(userPersonalInformationRequest :UserPersonalInformationRequest): Observable<any> {
+  debugger
+  const url = `${this.baseUrl}/account-setting/update/profile-picture`; 
+  return this.httpClient.put<any>(url, userPersonalInformationRequest);
+}
 
 }

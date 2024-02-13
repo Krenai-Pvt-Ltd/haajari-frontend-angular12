@@ -185,6 +185,11 @@ confiirmPassword: string='';
  showMessageFlag:boolean=false;
   checkUserPresence() {
     debugger
+    this.checkFormValidation();
+
+    if(this.isFormInvalid==true){
+      return
+    } else{
     this.loginButtonLoader=true;
     this.dataService.checkUserPresence(this.email)
       .subscribe(
@@ -213,6 +218,7 @@ confiirmPassword: string='';
 
         }
       );
+    }
   }
 
   sendUserOtpToMail() {
@@ -298,6 +304,7 @@ confiirmPassword: string='';
   isWhatsappLogin: boolean = false;
   phoneNumber: string = '';
   signInByWhatsappMethodCall(){
+    debugger
     this.checkFormValidation();
 
   if(this.isFormInvalid==true){
@@ -317,10 +324,15 @@ confiirmPassword: string='';
   }
 
   verifyOtpByWhatsappMethodCall(){
+    debugger
     this.dataService.verifyOtpByWhatsapp(this.phoneNumber, this.otp)
     .subscribe(
       (response) => {
+console.log(response);
+        this.helperService.subModuleResponseList = response.subModuleResponseList;
 
+       localStorage.setItem('token', response.tokenResponse.access_token);
+       localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
         this.router.navigate(['/dashboard']);
         this.otpVerification.nativeElement.click();
 
