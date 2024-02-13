@@ -61,6 +61,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SuccessComponent } from './components/success/success.component';
 import { EmployeeLocationValidatorComponent } from './employee-location-validator/employee-location-validator.component';
 import { WebcamModule } from 'ngx-webcam';
+import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 
 @NgModule({
   declarations: [
@@ -117,6 +118,7 @@ import { WebcamModule } from 'ngx-webcam';
     NgxShimmerLoadingModule,
     NgbModule,
     FullCalendarModule,
+    NzCalendarModule,
     AngularFireModule.initializeApp(environment.firebase, "cloud"),
     AngularFireStorageModule,
     AngularFireAuthModule,

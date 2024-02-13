@@ -155,6 +155,7 @@ export class Key{
     public static WEEKEND = "Weekend";
     public static HOLIDAY = "Holiday";
     public static LEAVE = "Leave";
+    public static HALFDAY = "Halfday";
     
     
 }

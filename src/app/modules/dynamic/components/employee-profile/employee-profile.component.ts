@@ -22,6 +22,7 @@ import { Key } from 'src/app/constant/key';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { UserDocumentsAsList } from 'src/app/models/UserDocumentsMain';
 
 @Component({
   selector: 'app-employee-profile',
@@ -958,7 +959,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   isDocsPlaceholder: boolean = false;
-  documentsEmployee: any;
+  documentsEmployee: UserDocumentsAsList[]=[];
   highSchoolCertificate: string = '';
   degreeCert: string = '';
   intermediateCertificate: string = '';
@@ -969,19 +970,19 @@ export class EmployeeProfileComponent implements OnInit {
   getEmployeeDocumentsDetailsByUuid() {
     debugger
     // this.isDocumentsShimmer=true;
-    this.dataService.getEmployeeDocumentsDetails(this.userId).subscribe(
+    this.dataService.getEmployeeDocumentAsList(this.userId).subscribe(
       (data) => {
-        this.documentsEmployee = data.userDocuments;
-        if (data.userDocuments != null) {
-          this.highSchoolCertificate = data.userDocuments.secondarySchoolCertificate;
-          this.degreeCert = data.userDocuments.highestQualificationDegree;
-          this.intermediateCertificate = data.userDocuments.highSchoolCertificate;
-          this.testimonialsString = data.userDocuments.testimonialReccomendation;
-          this.aadhaarCardString = data.userDocuments.aadhaarCard;
-          this.pancardString = data.userDocuments.pancard;
-        }
+        this.documentsEmployee = data;
+        // if (data.userDocuments != null) {
+        //   this.highSchoolCertificate = data.userDocuments.secondarySchoolCertificate;
+        //   this.degreeCert = data.userDocuments.highestQualificationDegree;
+        //   this.intermediateCertificate = data.userDocuments.highSchoolCertificate;
+        //   this.testimonialsString = data.userDocuments.testimonialReccomendation;
+        //   this.aadhaarCardString = data.userDocuments.aadhaarCard;
+        //   this.pancardString = data.userDocuments.pancard;
+        // }
         // this.isDocumentsShimmer=false;
-        else {
+        if((this.documentsEmployee.length==0)) {
           this.isDocsPlaceholder = true;
         }
 
@@ -1018,19 +1019,20 @@ export class EmployeeProfileComponent implements OnInit {
   @ViewChild('openViewModal') openViewModal!: ElementRef;
   openPdfModel(viewString: string) {
     debugger
-    if (viewString == "highschool") {
-      this.previewString = this.highSchoolCertificate;
-    } else if (viewString == "degree") {
-      this.previewString = this.degreeCert;
-    } else if (viewString == "secondaryschool") {
-      this.previewString = this.intermediateCertificate;
-    } else if (viewString == "testimonial") {
-      this.previewString = this.testimonialsString;
-    } else if (viewString == "aadhaarCard") {
-      this.previewString = this.aadhaarCardString;
-    } else if (viewString == "pancard") {
-      this.previewString = this.pancardString;
-    }
+    this.previewString = viewString;
+    // if (viewString == "highSchool") {
+    //   this.previewString = this.highSchoolCertificate;
+    // } else if (viewString == "highestQualification") {
+    //   this.previewString = this.degreeCert;
+    // } else if (viewString == "secondarySchool") {
+    //   this.previewString = this.intermediateCertificate;
+    // } else if (viewString == "testimonial") {
+    //   this.previewString = this.testimonialsString;
+    // } else if (viewString == "aadhaarCard") {
+    //   this.previewString = this.aadhaarCardString;
+    // } else if (viewString == "pancard") {
+    //   this.previewString = this.pancardString;
+    // }
 
     this.openViewModal.nativeElement.click();
   }
@@ -1228,3 +1230,4 @@ requestUserForMoreDocs(){
 }
 
 }
+

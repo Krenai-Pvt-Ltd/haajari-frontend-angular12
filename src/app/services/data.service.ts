@@ -709,6 +709,14 @@ export class DataService {
     return this.httpClient.get(url, {params});
   }
 
+  getEmployeeDocumentAsList(userUuid: string): Observable<any> {
+    debugger
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    const url = `${this.baseUrl}/user-documents-details/get/user-documents-as-List`;
+    return this.httpClient.get(url, {params});
+  }
+
   setEmployeeExperienceDetails(experiences: UserExperience[], userUuid: string): Observable<any> {
     const params = new HttpParams().set("userUuid", userUuid);
     return this.httpClient.put<any>(`${this.baseUrl}/user-experiences/save/experience`, experiences, { params })
