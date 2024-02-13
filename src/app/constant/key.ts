@@ -87,6 +87,16 @@ export class Key{
         "/add-role",
         "/setting/billing-payment"
     ];
+
+
+    public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
+        "/organization-onboarding/personal-information",
+        "/organization-onboarding/attendance-rule-setup",
+        "/organization-onboarding/leave-rule-setup",
+        "/organization-onboarding/holiday-rule-setup"
+    ];
+
+
     
 
 
