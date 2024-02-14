@@ -61,8 +61,7 @@
 .thumb-xl {
     height: 50px;
     width:50px;
-    font-size: 32px;
-    font-weight: 700;
+    object-fit: cover;
 }
 
 .rounded-circle {
