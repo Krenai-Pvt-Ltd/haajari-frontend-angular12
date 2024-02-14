@@ -16,42 +16,42 @@ export class SubscriptionPlanService {
   }
 
   getAllSubscriptionPlan() {
-    return this._httpClient.get<any>(this._key.main_url + this._key.get_subscription)
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription)
   }
 
   getSubscriptionPlan(id: any) {
-    return this._httpClient.get<any>(this._key.main_url + this._key.get_subscription + "/" + id)
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription + "/" + id)
   }
 
   getActiveUserCount() {
-    return this._httpClient.get<any>(this._key.main_url + this._key.get_active_user_count)
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_active_user_count)
   }
 
   getPurchasedStatus() {
-    return this._httpClient.get<any>(this._key.main_url + this._key.get_purchased_status)
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_purchased_status)
   }
   getPlanPurchasedStatus(planId:any) {
     const params = new HttpParams()
       .set("planId", planId);
-    return this._httpClient.get<any>(this._key.main_url + this._key.get_plan_purchased_status,{params})
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_plan_purchased_status,{params})
   }
   
   addMoreEmployee(noOfEmployee: number) {
     const params = new HttpParams()
       .set("no_of_employee", noOfEmployee);
-    return this._httpClient.post<any>(this._key.main_url + this._key.add_more_employee, {}, { params })
+    return this._httpClient.post<any>(this._key.base_url + this._key.add_more_employee, {}, { params })
   }
 
   getInvoices(){
-    return this._httpClient.get<any>(this._key.main_url + this._key.get_invoices)
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_invoices)
   }
 
   getDueInvoices(){
-    return this._httpClient.get<any>(this._key.main_url + this._key.get_due_invoices)
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_due_invoices)
   }
 
   getOrgSubsPlanMonthDetail(){
-    return this._httpClient.get<any>(this._key.main_url + this._key.get_org_subs_plan_month_detail)
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_org_subs_plan_month_detail)
   }
 
   getPlanPurchasedLog(databaseHelper:DatabaseHelper){
@@ -60,7 +60,7 @@ export class SubscriptionPlanService {
       .set('currentPage', databaseHelper.currentPage)
       .set('sortBy', "id")
       .set('sortOrder', "desc")
-    return this._httpClient.get<any>(this._key.main_url + this._key.get_plan_purchased_log, {params})
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_plan_purchased_log, {params})
   }
 
 }

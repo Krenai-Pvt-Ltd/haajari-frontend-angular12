@@ -147,7 +147,11 @@ export class Key{
     public static LEAVE = "Leave";
     
 
-    main_url = "http://localhost:8080/api/v2/";
+    // base_url = "http://localhost:8080/api/v2/";
+
+    /* ------------------  Staging urls ----------------*/
+    base_url = "https://backend.hajiri.work/api/v2";
+    
 
     get_subscription = "subcription-plan"; 
     get_active_user_count = "users/active-user-count";
