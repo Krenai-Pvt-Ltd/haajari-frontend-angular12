@@ -93,7 +93,11 @@ export class Key{
         "/organization-onboarding/personal-information",
         "/organization-onboarding/attendance-rule-setup",
         "/organization-onboarding/leave-rule-setup",
-        "/organization-onboarding/holiday-rule-setup"
+        "/organization-onboarding/holiday-rule-setup",
+        "/organization-onboarding/automation-rules",
+        "/organization-onboarding/creat-rule",
+        "/organization-onboarding/leave-setting-create",
+        "/organization-onboarding/add-shift-time"
     ];
 
 

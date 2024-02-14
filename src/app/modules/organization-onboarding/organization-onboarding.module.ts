@@ -8,6 +8,11 @@ import { AttendanceRuleSetupComponent } from './components/attendance-rule-setup
 import { LeaveRuleSetupComponent } from './components/leave-rule-setup/leave-rule-setup.component';
 import { HolidayRuleSetupComponent } from './components/holiday-rule-setup/holiday-rule-setup.component';
 import { OrganizationOnboardingSidebarComponent } from './components/organization-onboarding-sidebar/organization-onboarding-sidebar.component';
+import { AutomationRulesComponent } from './components/automation-rules/automation-rules.component';
+import { CreatRuleComponent } from './components/creat-rule/creat-rule.component';
+import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
+import { LeaveSettingCreateComponent } from './components/leave-setting-create/leave-setting-create.component';
+import { AddShiftTimeComponent } from './components/add-shift-time/add-shift-time.component';
 
 
 @NgModule({
@@ -17,7 +22,12 @@ import { OrganizationOnboardingSidebarComponent } from './components/organizatio
     AttendanceRuleSetupComponent,
     LeaveRuleSetupComponent,
     HolidayRuleSetupComponent,
-    OrganizationOnboardingSidebarComponent
+    OrganizationOnboardingSidebarComponent,
+    AutomationRulesComponent,
+    CreatRuleComponent,
+    LeaveSettingComponent,
+    LeaveSettingCreateComponent,
+    AddShiftTimeComponent
   ],
   imports: [
     CommonModule,
