@@ -566,7 +566,7 @@ getDataFromDate(): Promise<any> {
     debugger
     this.preRuleForShimmersAndErrorPlaceholdersForBestPerformerMethodCall();
     this.dataService.getBestPerformerAttendanceDetails(this.startDateStr, this.endDateStr).subscribe((response) => {
-      this.bestPerformerAttendanceDetailsResponseList = response.listOfObject;
+      this.bestPerformerAttendanceDetailsResponseList = response;
 
       if(response === undefined || response === null || response.listOfObject.length === 0){
         this.dataNotFoundPlaceholderForBestPerfomer = true;
