@@ -251,24 +251,29 @@ span.members-name {
     margin-bottom: 0px;
 }
 
-.absent{
+.red{
    background-color: rgb(248, 215, 215);
    color: #eb5050!important;
 }
 
-.leave {
+.orange {
     color: #ffa500;
     background-color: #faf5ee!important;
 }
 
-.present{
+.green{
     background-color: #e0ffe0!important;
     color: #3e993e!important;
 }
 
-.holiday{
+.blue{
     color: #6666f3;
     background-color: #c6c6ff;
+}
+
+.black{
+    color : #000000;
+    background-color: #e8e8e8;
 }
 
 .pagination{

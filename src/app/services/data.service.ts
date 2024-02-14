@@ -709,6 +709,14 @@ export class DataService {
     return this.httpClient.get(url, {params});
   }
 
+  getEmployeeDocumentAsList(userUuid: string): Observable<any> {
+    debugger
+    const params = new HttpParams()
+    .set("userUuid", userUuid);
+    const url = `${this.baseUrl}/user-documents-details/get/user-documents-as-List`;
+    return this.httpClient.get(url, {params});
+  }
+
   setEmployeeExperienceDetails(experiences: UserExperience[], userUuid: string): Observable<any> {
     const params = new HttpParams().set("userUuid", userUuid);
     return this.httpClient.put<any>(`${this.baseUrl}/user-experiences/save/experience`, experiences, { params })
@@ -1219,11 +1227,18 @@ updateProfilePicture(userPersonalInformationRequest :UserPersonalInformationRequ
 lat: number = 0;
 lng: number = 0;
 radius: string = '';
-saveEmployeeCurrentLocationLatLng(lat: number, lng: number, radius: string ) {
+attendanceMode: number = 0;
+saveEmployeeCurrentLocationLatLng(lat: number, lng: number, radius: string, attendanceMode: number ) {
 
   this.lat = lat;
   this.lng = lng;
   this.radius = radius;
+  this.attendanceMode = attendanceMode;
+}
+
+checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
+  const url = `${this.baseUrl}/user/auth/location-validator-url?uniqueId=${uniqueId}`;
+  return this.httpClient.get<any>(url, {});
 }
 
 }

@@ -26,16 +26,8 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router, private activateRoute: ActivatedRoute, private helper : HelperService, private afStorage: AngularFireStorage) { }
 
   ngOnInit(): void {
-    if(this.dataService.lat == 0 && this.dataService.lng == 0 ) {
-      this.helper.showToast("Please Fetch Your Current Location Again!", Key.TOAST_STATUS_ERROR);
-      setTimeout(x=>{
-
-      let navExtra: NavigationExtras = {
-        queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
-      };
-      this.router.navigate(['/attendance-photo'], navExtra);
-    }, 2000);
-    }
+    
+   this.missingLatLng();
   }
 
   routeToLocationValidator() {
@@ -45,11 +37,14 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
     this.router.navigate(['/location-validator'], navExtra);
   }
 
+  submitButton: boolean = false;
   toggle = false;
 markAttendaceWithLocationMethodCall(){
   // this.getCurrentLocation();
   debugger
+  this.toggle = true;
   // this.uploadFile(this.imageFile, 'webcamImage');
+  this.missingLatLng();
   const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
   this.employeeAttendanceLocation.latitude = this.dataService.lat.toString();
   this.employeeAttendanceLocation.longitude = this.dataService.lng.toString();
@@ -59,11 +54,14 @@ markAttendaceWithLocationMethodCall(){
   .subscribe(
     (response: EmployeeAttendanceLocation) => {
       console.log(response);  
+      this.toggle = false;
       if(response.status=='Already Checked In'){
         this.helper.showToast("You're Already Checked In", Key.TOAST_STATUS_ERROR);
       }
 
       if(response.status=='In'){
+        this.dataService.lat = 0;
+        this.dataService.lng = 0;
         this.helper.showToast("You're Successfully Checked In", Key.TOAST_STATUS_SUCCESS);
         this.toggle = true;
       }
@@ -80,6 +78,7 @@ markAttendaceWithLocationMethodCall(){
 
 
   public triggerSnapshot(): void {
+    this.toggle = true;
     this.trigger.next();
   }
 
@@ -88,9 +87,11 @@ markAttendaceWithLocationMethodCall(){
     return this.trigger.asObservable();
 }
 
+  isShimmer: boolean = true;
   public get nextWebcamObservable(): Observable<any>  {
-
+      
     return this.nextWebcam.asObservable();
+   
   }
   
    dataURLtoBlob(dataurl: string) {
@@ -140,9 +141,10 @@ markAttendaceWithLocationMethodCall(){
       finalize(() => {
         fileRef.getDownloadURL().subscribe(
           url => {
+            this.toggle = false;
             console.log(url);
             this.employeeAttendanceLocation.imageUrl = url;
-            
+            this.submitButton = true;
           },
           error => {
             console.error("Error getting download URL:", error);
@@ -159,5 +161,30 @@ markAttendaceWithLocationMethodCall(){
         
       }
     );
+  }
+
+  missingLatLng(){
+    debugger
+    if(this.dataService.lat == 0 && this.dataService.lng == 0 ) {
+      this.helper.showToast("Please Fetch Your Current Location Again!", Key.TOAST_STATUS_ERROR);
+      setTimeout(x=>{
+
+      let navExtra: NavigationExtras = {
+        queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+      };
+      this.router.navigate(['/location-validator'], navExtra);
+    }, 2000);
+    } else {
+      return;
+    } 
+      
+    
+  }
+
+  clickAgain(){
+    this.employeeAttendanceLocation.imageUrl = '';
+    this.submitButton = false;
+    this.captureImage = '';
+    
   }
 }

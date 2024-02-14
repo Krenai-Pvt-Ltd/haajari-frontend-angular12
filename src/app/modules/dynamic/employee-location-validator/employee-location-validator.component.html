@@ -1,6 +1,7 @@
 <div class="staff-location-section">
     <div class="containernn">
-      <div class="row">
+      <app-unauthorized *ngIf="isInvalid"></app-unauthorized>
+      <div class="row" *ngIf="!isInvalid">
         <div class="col-md-3 border-right">
            <div class="location-sidebar">
              <div class="d-flex align-items-center justify-content-between loaction-side-div" >
@@ -15,12 +16,12 @@
                 <div class="set-new-location">
                     <img src="assets/images/specification.svg" style="width: 80px;">
                     <h4>Set Location</h4>
-                    <p>Please Set your location that <br> you want to show to peopllooking<br> for property</p>
+                    <p>Be Present, No Matter Where: Mark Attendance with Your Current Spot.</p>
                     
                 </div>
                 <div class="set-new-location" >
-                    <h6 style="font-size: 13px;">Save and Exit</h6>
-                    <p class="mb-0" style="font-size: 11px;">Call 0000-000-000</p>
+                    <!-- <h6 style="font-size: 13px;">Save and Exit</h6>
+                    <p class="mb-0" style="font-size: 11px;">Call 0000-000-000</p> -->
                     
                 </div>
 
@@ -45,13 +46,13 @@
                 </div>
                 </div> -->
 
-                <div class="location-setting">
+                <div class="location-setting border-bottom pb-3">
                     <h4>Set Location</h4>
                 </div>
 
                 <div class="d-flex align-items-center justify-content-between mt-4 location-mobile" style="gap:0px;"> 
                     <div class="location-new-heading">
-                        <h4>Current Location</h4>
+                        <h4 style="font-size: 18px;">Current Location</h4>
                     </div>
                     <!-- <div class="location-dropdown">
                         <div class="dropdown " >
@@ -82,10 +83,22 @@
                   
                 </div>
 
-                <div class="set-location-btn d-flex align-items-center justify-content-between mt-4" >
+                <div class="set-location-btn d-flex align-items-center justify-content-end mt-4" >
                     <!-- <button class="btn previous-stap"> <i class="bi bi-chevron-left pl-2"></i> Previous</button> -->
 
-                    <button type="button" (click)="this.calculateDistance()" class="btn next-stap">Next Step <i class="bi bi-chevron-right pl-2"></i></button>
+                    <button type="button" (click)="calculateDistance()" class="btn next-stap">
+                      <!-- Conditionally display button text based on attendanceMode -->
+                      <div *ngIf="toggle" class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      <span *ngIf="!toggle">
+                      {{ attendanceMode == 2 ? 'Mark Attendance' : 'Next Step' }} 
+                      <i class="bi bi-chevron-right pl-2"></i>
+                      </span>
+                    </button>
+                    
                 </div>
 
             </div>

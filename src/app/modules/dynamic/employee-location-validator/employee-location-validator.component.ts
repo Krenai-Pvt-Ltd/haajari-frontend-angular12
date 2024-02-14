@@ -40,14 +40,23 @@ export class EmployeeLocationValidatorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getOrganizationLatLongMethodCall();
+    
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: userUuid},
     };
     // this.router.navigate(['/location-validator'], navExtra);
-    this.getCurrentLocation();
+    
   }
+
+  // uniqueId: string = '';
+  // saveUniqueId(){
+  //   const uniqueId = new URLSearchParams(window.location.search).get('uniqueId');
+  //   if(uniqueId){
+  //     this.uniqueId = uniqueId;
+  //   } 
+  // }
+
 
   routeToEmployeePhoto() {
     let navExtra: NavigationExtras = {
@@ -64,7 +73,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
       this.address = '';
     }
     if ('geolocation' in navigator) {
-      this.toggle = true;
+      
       navigator.geolocation.getCurrentPosition((position) => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
@@ -110,10 +119,18 @@ export class EmployeeLocationValidatorComponent implements OnInit {
     this.helper.showToast("Oops! Looks like you're not close enough to the company to mark your attendance. Please try again when you're nearby!", Key.TOAST_STATUS_ERROR);
     console.log("cannot mark attendance");
   }else{
+    this.toggle = false;
 this.enableSubmitToggle=true;
 // this.markAttendaceWithLocationMethodCall();
-this.dataService.saveEmployeeCurrentLocationLatLng(this.lat, this.lng, this.radius);
+if(this.attendanceMode==3){
+
+
+this.dataService.saveEmployeeCurrentLocationLatLng(this.lat, this.lng, this.radius, this.attendanceMode);
 this.routeToEmployeePhoto();
+} else if (this.attendanceMode==2){
+  this.markAttendaceWithLocationMethodCall();
+  
+}
   }
     
   }
@@ -124,6 +141,7 @@ this.routeToEmployeePhoto();
 
   getOrganizationLatLongMethodCall(){
     debugger
+    
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
     if (userUuid) {
     this.dataService.getOrganizationLatLong(userUuid).subscribe(
@@ -273,6 +291,27 @@ uploadFile(imageFile: File, documentType: string): void {
   );
 }
 
+isInvalid: boolean = false;
+checkAttendanceLocationLinkStatusMethodCall() {
+  const uniqueId = new URLSearchParams(window.location.search).get('uniqueId');
+  if (uniqueId) {
+    this.dataService.checkAttendanceLocationLinkStatus(uniqueId).subscribe({
+      next: (response) => {
+        this.checkAttendanceLocationLinkStatusMethodCall(); 
+        this.getOrganizationLatLongMethodCall();
+        this.getCurrentLocation();
+        console.log('Link status:', response);
+      },
+      error: (error) => {
+       this.isInvalid = true
+        console.error('Error fetching link status:', error);
+      }
+    });
+  } else {
+    this.isInvalid = true;
+    console.error('No uniqueId found in the URL');
+  }
+}
 
 
 }

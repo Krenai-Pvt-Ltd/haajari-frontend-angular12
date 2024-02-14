@@ -64,6 +64,8 @@ import { WebcamModule } from 'ngx-webcam';
 import { AgmCoreModule } from '@agm/core';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/employee-attendance-photo.component';
+import { NzCalendarModule } from 'ng-zorro-antd/calendar';
+
 @NgModule({
   declarations: [
     DynamicComponent,
@@ -104,7 +106,8 @@ import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/em
     BillingPaymentComponent,
     SuccessComponent,
     EmployeeLocationValidatorComponent,
-    EmployeeAttendancePhotoComponent
+    EmployeeAttendancePhotoComponent,
+    
 
 
   ],
@@ -120,6 +123,7 @@ import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/em
     NgxShimmerLoadingModule,
     NgbModule,
     FullCalendarModule,
+    NzCalendarModule,
     AngularFireModule.initializeApp(environment.firebase, "cloud"),
     AngularFireStorageModule,
     AngularFireAuthModule,
@@ -133,6 +137,7 @@ import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/em
       libraries: ["places"]
     }),
     GooglePlaceModule,
+
     
 
     

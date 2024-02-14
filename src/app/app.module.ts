@@ -26,6 +26,7 @@ import { SharedModule } from './shared/shared.module';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { UnauthorizedComponent } from './modules/sharable/unauthorized/unauthorized.component';
+import { InvalidLinkPageComponent } from './invalid-link-page/invalid-link-page.component';
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
 
 
@@ -38,7 +39,8 @@ import { UnauthorizedComponent } from './modules/sharable/unauthorized/unauthori
     SlackDataLoaderComponent,
     DurationPickerComponent,
     SharedComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    InvalidLinkPageComponent
  
     // AuthenticationComponent,
   ],
