@@ -720,7 +720,7 @@
                         
                                                                         <td></td>
                                                                         <ng-container *ngFor="let dayWiseStatus of attendanceReportResponse.dayWiseStatusList">
-                                                                            <td class="text-center" [ngClass]="{'leave' : (dayWiseStatus.status == LEAVE), 'absent': (dayWiseStatus.status == UNMARKED), 'present': (dayWiseStatus.status == PRESENT), 'holiday' : (dayWiseStatus.status == WEEKEND || dayWiseStatus.status == HOLIDAY)}">{{ (dayWiseStatus.status[0] == 'U') ? 'A'  : dayWiseStatus.status[0]}}</td>
+                                                                            <td class="text-center" [ngClass]="{'orange' : (dayWiseStatus.status == LEAVE || dayWiseStatus.status == HALFDAY), 'red': (dayWiseStatus.status == UNMARKED), 'green': (dayWiseStatus.status == PRESENT), 'blue' : (dayWiseStatus.status == WEEKEND || dayWiseStatus.status == HOLIDAY)}">{{ (dayWiseStatus.status[0] == 'U') ? 'A'  : dayWiseStatus.status[0]}}</td>
                                                                         </ng-container>
                                                                         
                                                                     </tr>
