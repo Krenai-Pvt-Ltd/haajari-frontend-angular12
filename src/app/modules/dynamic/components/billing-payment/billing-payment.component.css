@@ -178,8 +178,8 @@ button.btn.add-card-btn {
 
 
   .monthly-plan{
-    background-color: #f8f8f8;
-    border: 1px solid #f1f1f1;
+    background-color: #f1f1fd;
+    border: 1px dashed #6666f3;
     padding: 15px;
     border-radius: 6px;
   }
@@ -211,9 +211,9 @@ button.btn.add-card-btn {
     width: 100px;
     background-color: transparent;
     border-radius: 6px;
-    color: #878A9A;
+    color: #6666f3;
     padding: 3px 5px;
-    border: 1px solid #878A9A;
+    border: 1px solid #6666f3;
     line-height: 23px;
   }
 
@@ -223,14 +223,14 @@ button.btn.add-card-btn {
 
   .active-select{
     width: 100px;
-    background-color: #878A9A;
+    background-color: #6666f3;
     border-radius: 6px;
     color: #ffffff;
     padding: 3px 5px;
-    border: 1px solid #878A9A;
+    border: 1px solid #6666f3;
   }
   .off-box h5{
-     color:#000;
+     color:#6666f3;
      font-size: 22px;
      font-weight: 600;
      line-height: 24px;
