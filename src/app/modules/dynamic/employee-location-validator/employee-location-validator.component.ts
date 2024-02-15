@@ -40,7 +40,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    this.checkAttendanceLocationLinkStatusMethodCall();
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: userUuid},
@@ -65,6 +65,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
     this.router.navigate(['/attendance-photo'], navExtra);
   }
 
+  enableSubmitToggle:boolean=false;
   address: string = ''; // Add this property to hold the fetched address
   city: string = '';
    getCurrentLocation() {
@@ -91,6 +92,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
             this.city = results[0].address_components[2].long_name;
             this.address  = address;
             console.log(address); // Log the address to console or update the UI as needed
+            this.enableSubmitToggle=true;
             (document.getElementById('exampleInputText') as HTMLInputElement).value = address; // Update the input field with address
           } else {
             console.log('No results found');
@@ -108,19 +110,19 @@ export class EmployeeLocationValidatorComponent implements OnInit {
   
 
   
-  enableSubmitToggle:boolean=false;
+ 
    calculateDistance(){
     this.enableSubmitToggle=false;
     var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat, this.lng), new google.maps.LatLng(Number(this.organizationLat),Number(this.OrganizationLong)));       
     console.log(distance+"---"+this.radius);
     if(distance>this.radius){
       this.toggle = false;
-    this.enableSubmitToggle=false;
+    
     this.helper.showToast("Oops! Looks like you're not close enough to the company to mark your attendance. Please try again when you're nearby!", Key.TOAST_STATUS_ERROR);
     console.log("cannot mark attendance");
   }else{
     this.toggle = false;
-this.enableSubmitToggle=true;
+// this.enableSubmitToggle=true;
 // this.markAttendaceWithLocationMethodCall();
 if(this.attendanceMode==3){
 
@@ -293,17 +295,17 @@ uploadFile(imageFile: File, documentType: string): void {
 
 isInvalid: boolean = false;
 checkAttendanceLocationLinkStatusMethodCall() {
+  
   const uniqueId = new URLSearchParams(window.location.search).get('uniqueId');
   if (uniqueId) {
     this.dataService.checkAttendanceLocationLinkStatus(uniqueId).subscribe({
-      next: (response) => {
-        this.checkAttendanceLocationLinkStatusMethodCall(); 
+      next: (response) => { 
         this.getOrganizationLatLongMethodCall();
         this.getCurrentLocation();
         console.log('Link status:', response);
       },
-      error: (error) => {
-       this.isInvalid = true
+      error: (error) => { 
+        this.isInvalid = true;
         console.error('Error fetching link status:', error);
       }
     });
@@ -312,6 +314,7 @@ checkAttendanceLocationLinkStatusMethodCall() {
     console.error('No uniqueId found in the URL');
   }
 }
+
 
 
 }
