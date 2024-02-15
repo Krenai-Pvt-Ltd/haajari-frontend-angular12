@@ -25,6 +25,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AngularFireMessagingModule,
     NgxMaskModule.forRoot(),
     NgbModule,
+    GooglePlaceModule
   ]
 })
 export class OrganizationOnboardingModule { }
