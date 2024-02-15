@@ -11,6 +11,7 @@ import { AddToSlackComponent } from './add-to-slack/add-to-slack.component';
 import { LoginComponent } from './login/login.component';
 import { OtpVerificationComponent } from './otp-verification/otp-verification.component';
 import { NgOtpInputModule } from  'ng-otp-input';
+import { NgxMaskModule } from 'ngx-mask';
 
 
 
@@ -29,7 +30,8 @@ import { NgOtpInputModule } from  'ng-otp-input';
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
-    NgOtpInputModule
+    NgOtpInputModule,
+    NgxMaskModule.forRoot(),
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

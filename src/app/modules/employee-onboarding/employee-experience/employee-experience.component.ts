@@ -52,24 +52,24 @@ export class EmployeeExperienceComponent implements OnInit {
 
   }
 
-  addMoreExperience() {
-    const newExperience: UserExperience = {
-      companyName: '',
-      // employementDuration: '',
-      lastJobDepartment: '',
-      lastSalary: '',
-      lastJobPosition: '',
-      jobResponisibilities: '',
-      fresher: false, // or true, depending on your logic
-      statusId: 0,
-      directSave: false,
-      employeeOnboardingFormStatus: '',
-      employeeOnboardingStatus: '',
-      startDate: undefined,
-      endDate: undefined
-    };
-    this.userExperiences.push(newExperience);
-}
+//   addMoreExperience() {
+//     const newExperience: UserExperience = {
+//       companyName: '',
+//       // employementDuration: '',
+//       lastJobDepartment: '',
+//       lastSalary: '',
+//       lastJobPosition: '',
+//       jobResponisibilities: '',
+//       fresher: false, // or true, depending on your logic
+//       statusId: 0,
+//       directSave: false,
+//       employeeOnboardingFormStatus: '',
+//       employeeOnboardingStatus: '',
+//       startDate: undefined,
+//       endDate: undefined
+//     };
+//     this.userExperiences.push(newExperience);
+// }
 
   
   

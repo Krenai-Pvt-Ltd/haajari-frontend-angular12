@@ -87,6 +87,20 @@ export class Key{
         "/add-role",
         "/setting/billing-payment"
     ];
+
+
+    public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
+        "/organization-onboarding/personal-information",
+        "/organization-onboarding/attendance-rule-setup",
+        "/organization-onboarding/leave-rule-setup",
+        "/organization-onboarding/holiday-rule-setup",
+        "/organization-onboarding/automation-rules",
+        "/organization-onboarding/creat-rule",
+        "/organization-onboarding/leave-setting-create",
+        "/organization-onboarding/add-shift-time"
+    ];
+
+
     
 
 
@@ -145,6 +159,7 @@ export class Key{
     public static WEEKEND = "Weekend";
     public static HOLIDAY = "Holiday";
     public static LEAVE = "Leave";
+    public static HALFDAY = "Halfday";
     
 
     // base_url = "http://localhost:8080/api/v2/";
