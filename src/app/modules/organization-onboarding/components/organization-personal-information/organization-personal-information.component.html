@@ -6,7 +6,7 @@
     <div class="page-content-tab">
         <div class="container-fluid">
 
-            <div class="row" >
+            <div class="row">
                 <div class="col-md-12">
                 <div class="persnol-details">
                     <h5>Personal Information</h5>
@@ -28,11 +28,6 @@
                                           <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> JPEG, JPG or PNG (max. 100px*100px)</span>
                                         </label>
                                       </div>
-                                      
-                                 
-                                      
-                                  
-                                     
                                    
                                     </div>
                                    
@@ -51,7 +46,7 @@
                               <div class="col-md-6">
                                 <div class="mb-3">
                                   <label for="name" class="pb-2">Organization Name <span class="text-optional">*</span></label>
-                                  <input type="text" class="form-control" id="name" (keydown)="preventLeadingWhitespace($event)" placeholder="Enter organization name" name="name" >                            
+                                  <input type="text" class="form-control" id="name" [(ngModel)]="organizationPersonalInformation.name" (keydown)="preventLeadingWhitespace($event)" placeholder="Enter organization name" name="name" >                            
                                 </div>
                              
                               </div>    
@@ -59,7 +54,7 @@
                               <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="email" class="pb-2">Email Id <span class="text-optional">*</span></label>
-                                    <input type="email" class="form-control" id="email" (keydown)="preventLeadingWhitespace($event)" name="email" aria-describedby="emailHelp" placeholder="Enter email id" >
+                                    <input type="email" class="form-control" id="email" [(ngModel)]="organizationPersonalInformation.email" (keydown)="preventLeadingWhitespace($event)" name="email" aria-describedby="emailHelp" placeholder="Enter email id" >
                                 </div>
                               
                             </div>
@@ -67,7 +62,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="password" class="pb-2"> Password <span class="text-optional">*</span></label>
-                                    <input type="password" class="form-control" (keydown)="preventLeadingWhitespace($event)"  id="password" name="password" aria-describedby="emailHelp" placeholder="Enter password" >
+                                    <input type="password" class="form-control" (keydown)="preventLeadingWhitespace($event)" [(ngModel)]="organizationPersonalInformation.password"  id="password" name="password" aria-describedby="emailHelp" placeholder="Enter password" >
                                 </div>
                               
                             </div>
@@ -77,7 +72,7 @@
                             <div class="col-md-6">
                               <div class="mb-3">
                                   <label for="phone" class="pb-2">Phone <span class="text-optional">*</span></label>
-                                  <input type="text" mask="0000000000" class="form-control" id="phone" name="phone" aria-describedby="phoneHelp"  placeholder="Enter phone" >
+                                  <input type="text" mask="0000000000" class="form-control" id="phone" name="phone" [(ngModel)]="organizationPersonalInformation.phoneNumber" aria-describedby="phoneHelp"  placeholder="Enter phone" >
                               </div>
                             
                           </div>
@@ -85,21 +80,22 @@
                           <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="addressLine1" class="pb-2">Address line 1 </label>
-                                <textarea class="form-control" id="addressLine1" (keydown)="preventLeadingWhitespace($event)" name="addressLine1" rows="3" placeholder="Enter address line 1"></textarea>
+                                <textarea class="form-control" id="addressLine1" (keydown)="preventLeadingWhitespace($event)"  [(ngModel)]="organizationPersonalInformation.addressLine1" name="addressLine1" rows="3" placeholder="Enter address line 1"></textarea>
+
                             </div>
-                          </div>
+                        </div>
 
                           <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="addressLine2" class="pb-2">Address line 2 </label>
-                                <textarea class="form-control" id="addressLine2" (keydown)="preventLeadingWhitespace($event)" rows="3" name="addressLine2" placeholder="Enter address line 2"></textarea>
+                                <textarea class="form-control" id="addressLine2" (keydown)="preventLeadingWhitespace($event)" rows="3"  [(ngModel)]="organizationPersonalInformation.addressLine2" name="addressLine2" placeholder="Enter address line 2"></textarea>
                             </div>
                           </div>
 
                           <div class="col-md-3">
                             <div class="mb-3">
                                 <label for="city" class="pb-2">City <span class="text-optional">*</span></label>
-                                <input type="text"  class="form-control" id="city" (keydown)="preventLeadingWhitespaceAndNumber($event)" name="city" aria-describedby="phoneHelp" placeholder="Enter City" >
+                                <input type="text"  class="form-control" id="city" (keydown)="preventLeadingWhitespaceAndNumber($event)" name="city" [(ngModel)]="organizationPersonalInformation.city"  aria-describedby="phoneHelp" placeholder="Enter City" >
                             </div>
                           
                         </div>
@@ -135,7 +131,7 @@
                                 </div> -->
                                 <div class="mb-3">
                                     <label for="state" class="pb-2">State <span class="text-optional">*</span></label>
-                                    <input type="text"  class="form-control" id="state" name="state" (keydown)="preventLeadingWhitespaceAndNumber($event)" aria-describedby="phoneHelp"  placeholder="Enter phone" >
+                                    <input type="text"  class="form-control" id="state" name="state" (keydown)="preventLeadingWhitespaceAndNumber($event)" aria-describedby="phoneHelp"  placeholder="Enter State" >
                                 </div>
                             </div>
 
@@ -178,43 +174,21 @@
                             <div class="col-md-3">
                                 <div class="mb-3">
                                     <label for="pincode" class="pb-2">Pincode <span class="text-optional">*</span></label>
-                                    <input type="text" mask="000000" class="form-control" id="pincode" name="pincode" aria-describedby="phoneHelp" placeholder="Enter Pincode" >
+                                    <input type="text" mask="000000" class="form-control" id="pincode" name="pincode" [(ngModel)]="organizationPersonalInformation.pincode" aria-describedby="phoneHelp" placeholder="Enter Pincode" >
                                 </div>
                               
                             </div>
                            
-
-
-                         
-
                           <div class="col-md-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary"> Save </button>
                         </div>
-
-
-                          
-                
-                        
-                          
-                          
-
-                          
-                        
-                        
-                       
-                      
-                    
-                    
-
-                        
       
                             </div>
                         </div>
-                    </div>
-                  </form>
-                  
+
+                       </div>
+                    </form>
                 </div>
-            </div>
             </div>
 
         </div>
@@ -226,7 +200,7 @@
 
 
 
-   <!-- <button type="button" style="display: none;"  data-bs-toggle="modal" data-bs-target="#successMessageModal" #successMessageModalButton id="successMessageModalButton"></button>
+<!-- <button type="button" style="display: none;"  data-bs-toggle="modal" data-bs-target="#successMessageModal" #successMessageModalButton id="successMessageModalButton"></button>
    <div class="modal fade"  id="successMessageModal" #successMessageModal aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered mx-auto">
         <div class="modal-content">
@@ -259,4 +233,3 @@
 </div>
 
  -->
-
