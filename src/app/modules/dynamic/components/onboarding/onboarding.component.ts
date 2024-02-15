@@ -360,6 +360,10 @@ export class OnboardingComponent implements OnInit {
     state: '',
     country: '',
     logo: '',
+    phoneNumber: '',
+    addressLine1: '',
+    addressLine2: '',
+    pincode: '',
     organization: {
       id: 0,
       name: "",
