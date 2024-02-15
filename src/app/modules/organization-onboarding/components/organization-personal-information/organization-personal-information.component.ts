@@ -1,6 +1,7 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 
 
 import { OrganizationPersonalInformation } from 'src/app/models/organization-personal-information';
@@ -115,4 +116,28 @@ submit(){
   } else{
   }
 }
+
+@ViewChild("placesRef") placesRef! : GooglePlaceDirective;
+
+  public handleAddressChange(e: any) {
+    debugger
+    this.organizationPersonalInformation.addressLine1=e.formatted_address.toString() ;
+    e?.address_components?.forEach((entry: any) => {
+      console.log(entry);
+      if (entry.types?.[0] === "locality") {
+        this.organizationPersonalInformation.city = entry.long_name
+      }
+      if (entry.types?.[0] === "administrative_area_level_1") {
+        this.organizationPersonalInformation.state = entry.long_name
+      }
+      if (entry.types?.[0] === "country") {
+        this.organizationPersonalInformation.country = entry.long_name
+      }
+      if (entry.types?.[0] === "postal_code") {
+        this.organizationPersonalInformation.pincode = entry.long_name
+      }
+
+    });
+  }
+
 }
