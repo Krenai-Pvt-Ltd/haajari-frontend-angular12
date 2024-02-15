@@ -75,9 +75,9 @@
                             </div>
 
                             <div class="form-fild"*ngIf="!isLoading">
-                                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone number" #phoneNumber="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.phoneNumber" minlength="10" maxlength="10" pattern="[0-9]*">
+                                <input type="text" class="form-control" mask="0000000000" id="phoneNumber" name="phoneNumber" placeholder="Phone number" #phoneNumber="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.phoneNumber" minlength="10" maxlength="10" pattern="[0-9]*">
     
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.errors?.minlength || phoneNumber.errors?.maxlength">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.dirty && (phoneNumber.errors?.minlength || phoneNumber.errors?.maxlength)">
                                     <i class="bi bi-exclamation-circle"></i> Phone number should be of 10 digits.
                                 </p>
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.errors?.pattern">

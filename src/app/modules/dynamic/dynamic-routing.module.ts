@@ -33,6 +33,7 @@ import { BillingPaymentComponent } from './components/billing-payment/billing-pa
 import { SuccessComponent } from './components/success/success.component';
 import { EmployeeLocationValidatorComponent } from './employee-location-validator/employee-location-validator.component';
 import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.component';
+import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/employee-attendance-photo.component';
 
 
   const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
@@ -62,6 +63,7 @@ import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.com
     {path : 'billing-payment', component: BillingPaymentComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/billing-payment' }},
     {path : 'success', component: SuccessComponent},
     {path : 'location-validator', component: EmployeeLocationValidatorComponent},
+    {path : 'attendance-photo', component: EmployeeAttendancePhotoComponent},
     {path : 'unauthorized', component: UnauthorizedComponent}
   ] }
   ];

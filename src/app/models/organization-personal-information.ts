@@ -10,6 +10,7 @@ export class OrganizationPersonalInformation {
   state: string='';
   country: string='';
   logo: string='';
+  city: string='';
   phoneNumber: string='';
   addressLine1: string='';
   addressLine2: string='';

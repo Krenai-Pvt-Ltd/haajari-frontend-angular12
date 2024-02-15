@@ -1224,4 +1224,21 @@ updateProfilePicture(userPersonalInformationRequest :UserPersonalInformationRequ
   return this.httpClient.put<any>(url, userPersonalInformationRequest);
 }
 
+lat: number = 0;
+lng: number = 0;
+radius: string = '';
+attendanceMode: number = 0;
+saveEmployeeCurrentLocationLatLng(lat: number, lng: number, radius: string, attendanceMode: number ) {
+
+  this.lat = lat;
+  this.lng = lng;
+  this.radius = radius;
+  this.attendanceMode = attendanceMode;
+}
+
+checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
+  const url = `${this.baseUrl}/user/auth/location-validator-url?uniqueId=${uniqueId}`;
+  return this.httpClient.get<any>(url, {});
+}
+
 }

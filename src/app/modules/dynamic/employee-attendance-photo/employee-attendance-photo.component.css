@@ -23,7 +23,7 @@ ul.staff-page-list {
 .set-new-location {
     text-align: center
 }
-
+/* 
 .set-new-location h4 {
         font-size: 16px;
         font-weight: 600;
@@ -34,7 +34,7 @@ ul.staff-page-list {
         font-size: 12px;
         font-weight: 400;
         color: #303e67;
-    }
+    } */
 
     
     .active-pagnition {
@@ -131,7 +131,7 @@ ul.staff-page-list {
     }
 
     .location-searchbar{
-        width: 78%;
+        width: 80%;
     }
     .location-dropdown{
         width: 20%;
@@ -209,29 +209,31 @@ ul.staff-page-list {
     @media screen and (max-width: 2600px) {
       .map-img{
         width:100%;
-         height: 650px; 
+         height: 730px; 
          object-fit: cover;
+         border: 2px dashed #e8ebef;
+    border-radius: 6px;
       }
 
-      .set-new-location h4 {
-        font-size: 24px;
-        font-weight: 600;
-        margin-top: 15px;
-    }
-    
-    .set-new-location p {
-        font-size: 16px;
-        font-weight: 400;
-        color: #303e67;
-    }
-    
-    .set-new-location h6 {
-      font-size: 18px;
-    }
-    
-    .set-new-location p{
-        font-size: 16px;
-      }
+.set-new-location h4 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 15px;
+}
+
+.set-new-location p {
+    font-size: 16px;
+    font-weight: 400;
+    color: #303e67;
+}
+
+.set-new-location h6 {
+  font-size: 18px;
+}
+
+.set-new-location p{
+    font-size: 16px;
+  }
     }
 
     @media screen and (max-width: 1300px) {
@@ -243,10 +245,13 @@ ul.staff-page-list {
               font-size: 12px;
             }
         .map-img{
-          width:100%;
-           height: 350px; 
-           object-fit: cover;
+            width: 100%;
+            height: 432px;
+            object-fit: cover;
+            border: 2px dashed #e8ebef;
+    border-radius: 6px;
         }
+
         .set-new-location h4 {
             font-size: 16px;
             font-weight: 600;
@@ -275,7 +280,7 @@ ul.staff-page-list {
     }
     .map-img {
         width: 100%;
-        height: 300px;
+        height: 400px;
         object-fit: cover;
     }
     .location-mobile{
@@ -339,9 +344,14 @@ ul.staff-page-list {
         display: block;
     }
     }
-    agm-map{
-        height: 450px
-    }
+
+
+    #results img{
+        width: 100%;
+        height: 505px;
+        object-fit: cover;
+    } 
+
 
     .dot-opacity-loader {
         display: flex;
