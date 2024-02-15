@@ -10,6 +10,10 @@ export class OrganizationPersonalInformation {
   state: string='';
   country: string='';
   logo: string='';
+  phoneNumber: string='';
+  addressLine1: string='';
+  addressLine2: string='';
+  pincode: string='';
 //   organizationPic!: any; 
   organization: Organization=new Organization();
 }

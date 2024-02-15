@@ -13,6 +13,8 @@ import { CreatRuleComponent } from './components/creat-rule/creat-rule.component
 import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
 import { LeaveSettingCreateComponent } from './components/leave-setting-create/leave-setting-create.component';
 import { AddShiftTimeComponent } from './components/add-shift-time/add-shift-time.component';
+import { BrowserModule} from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -31,6 +33,7 @@ import { AddShiftTimeComponent } from './components/add-shift-time/add-shift-tim
   ],
   imports: [
     CommonModule,
+    FormsModule,
     OrganizationOnboardingRoutingModule
   ]
 })
