@@ -35,6 +35,7 @@ import { EmployeeLocationValidatorComponent } from './employee-location-validato
 import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.component';
 import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 
+import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/employee-attendance-photo.component';
 
 
   const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
@@ -67,6 +68,8 @@ import { LeaveManagementComponent } from './components/leave-management/leave-ma
     {path : 'unauthorized', component: UnauthorizedComponent},
     {path : 'leave-management', component: LeaveManagementComponent},
     
+    {path : 'attendance-photo', component: EmployeeAttendancePhotoComponent},
+    {path : 'unauthorized', component: UnauthorizedComponent}
   ] }
   ];
 

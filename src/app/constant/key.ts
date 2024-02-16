@@ -164,5 +164,25 @@ export class Key{
     public static LEAVE = "Leave";
     public static HALFDAY = "Halfday";
     
+
+    // base_url = "http://localhost:8080/api/v2/";
+
+    /* ------------------  Staging urls ----------------*/
+    base_url = "https://backend.hajiri.work/api/v2/";
+    
+
+    get_subscription = "subcription-plan"; 
+    get_active_user_count = "users/active-user-count";
+    get_purchased_status = "organization-subs-plan/status"; 
+
+    add_more_employee = "organization-subs-plan/add-more-employee"
+
+    get_invoices = "invoices"
+    get_due_invoices = "invoices/due-invoices"
+
+    get_plan_purchased_log = "subcription-plan-log"
+    get_plan_purchased_status = "organization-subs-plan/plan-purchased-status";
+    
+    get_org_subs_plan_month_detail = "organization-subs-plan-month-detail"
     
 }

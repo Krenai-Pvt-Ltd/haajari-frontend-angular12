@@ -14,6 +14,19 @@ import { LeaveSettingComponent } from './components/leave-setting/leave-setting.
 import { LeaveSettingCreateComponent } from './components/leave-setting-create/leave-setting-create.component';
 import { AddShiftTimeComponent } from './components/add-shift-time/add-shift-time.component';
 import { HolidaySettingComponent } from './components/holiday-setting/holiday-setting.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { DynamicRoutingModule } from '../dynamic/dynamic-routing.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { environment } from 'src/environments/environment';
+import { NgxMaskModule } from 'ngx-mask';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 
 @NgModule({
@@ -33,7 +46,19 @@ import { HolidaySettingComponent } from './components/holiday-setting/holiday-se
   ],
   imports: [
     CommonModule,
-    OrganizationOnboardingRoutingModule
+    OrganizationOnboardingRoutingModule,
+    RouterModule,
+    FormsModule,
+    DynamicRoutingModule,
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase, "cloud"),
+    AngularFireStorageModule,
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    AngularFireMessagingModule,
+    NgxMaskModule.forRoot(),
+    NgbModule,
+    GooglePlaceModule
   ]
 })
 export class OrganizationOnboardingModule { }

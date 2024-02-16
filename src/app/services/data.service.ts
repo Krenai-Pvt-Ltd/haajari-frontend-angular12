@@ -31,8 +31,8 @@ import { OnboardingSidebarResponse } from "../models/onboarding-sidebar-response
 import { ReasonOfRejectionProfile } from "../models/reason-of-rejection-profile";
 import { HelperService } from "./helper.service";
 import { RoleBasedAccessControlService } from "./role-based-access-control.service";
+import { keys } from "lodash";
 import { UserPasswordRequest } from "../models/user-password-request";
-
 
 
 @Injectable({
@@ -1222,6 +1222,23 @@ updateProfilePicture(userPersonalInformationRequest :UserPersonalInformationRequ
   debugger
   const url = `${this.baseUrl}/account-setting/update/profile-picture`; 
   return this.httpClient.put<any>(url, userPersonalInformationRequest);
+}
+
+lat: number = 0;
+lng: number = 0;
+radius: string = '';
+attendanceMode: number = 0;
+saveEmployeeCurrentLocationLatLng(lat: number, lng: number, radius: string, attendanceMode: number ) {
+
+  this.lat = lat;
+  this.lng = lng;
+  this.radius = radius;
+  this.attendanceMode = attendanceMode;
+}
+
+checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
+  const url = `${this.baseUrl}/user/auth/location-validator-url?uniqueId=${uniqueId}`;
+  return this.httpClient.get<any>(url, {});
 }
 
 }
