@@ -46,9 +46,16 @@
                               <div class="col-md-6">
                                 <div class="mb-3">
                                   <label for="name" class="pb-2">Organization Name <span class="text-optional">*</span></label>
-                                  <input type="text" class="form-control" id="name" [(ngModel)]="organizationPersonalInformation.name" (keydown)="preventLeadingWhitespace($event)" placeholder="Enter organization name" name="name" >                            
+                                  <input type="text" class="form-control" id="name" [(ngModel)]="organizationPersonalInformation.name" (keydown)="preventLeadingWhitespace($event)" placeholder="Enter organization name" name="name" #name="ngModel" minlength="5" >                            
                                 </div>
-                             
+                                <div *ngIf="name?.dirty  || isFormInvalid">
+                                    <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name.errors?.required"><i
+                                            class="bi bi-exclamation-circle"></i>
+                                        Name is required.</p>
+                                    <p class="errortxt mt-2 mb-0 " style="color:red" *ngIf="name.errors?.minlength"><i
+                                            class="bi bi-exclamation-circle"></i>
+                                        Please enter minimum five characters name.</p>
+                                </div>
                               </div>    
 
                               <div class="col-md-6">
