@@ -33,6 +33,8 @@ import { BillingPaymentComponent } from './components/billing-payment/billing-pa
 import { SuccessComponent } from './components/success/success.component';
 import { EmployeeLocationValidatorComponent } from './employee-location-validator/employee-location-validator.component';
 import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.component';
+import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
+
 import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/employee-attendance-photo.component';
 
 
@@ -41,7 +43,7 @@ import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/em
   children:[
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/dashboard' } }, //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
     { path: 'timetable', component: TimetableComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/timetable' }},
-    { path: 'project', component: ProjectComponent, data: { requiredSubmodule: '/project' }},
+    { path: 'project', component: ProjectComponent },
     { path: 'team', component: TeamComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/team' }},
     { path: 'task-manager', component: TaskManagerComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/task-manager' }},
     { path: 'onboarding', component: OnboardingComponent, canActivate: [AuthGuard]},
@@ -63,6 +65,9 @@ import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/em
     {path : 'billing-payment', component: BillingPaymentComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/billing-payment' }},
     {path : 'success', component: SuccessComponent},
     {path : 'location-validator', component: EmployeeLocationValidatorComponent},
+    {path : 'unauthorized', component: UnauthorizedComponent},
+    {path : 'leave-management', component: LeaveManagementComponent},
+    
     {path : 'attendance-photo', component: EmployeeAttendancePhotoComponent},
     {path : 'unauthorized', component: UnauthorizedComponent}
   ] }

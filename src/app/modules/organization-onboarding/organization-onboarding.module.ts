@@ -13,6 +13,7 @@ import { CreatRuleComponent } from './components/creat-rule/creat-rule.component
 import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
 import { LeaveSettingCreateComponent } from './components/leave-setting-create/leave-setting-create.component';
 import { AddShiftTimeComponent } from './components/add-shift-time/add-shift-time.component';
+import { HolidaySettingComponent } from './components/holiday-setting/holiday-setting.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { DynamicRoutingModule } from '../dynamic/dynamic-routing.module';
@@ -40,7 +41,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     CreatRuleComponent,
     LeaveSettingComponent,
     LeaveSettingCreateComponent,
-    AddShiftTimeComponent
+    AddShiftTimeComponent,
+    HolidaySettingComponent
   ],
   imports: [
     CommonModule,
