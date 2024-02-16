@@ -1,0 +1,66 @@
+
+.project-logo img{
+    width: 30px;
+}
+
+.project-logo{
+    background-color: rgb(241 241 255);
+    padding: 10px;
+    border-radius:10px ;
+}
+
+.project-detail h4{
+   font-size: 16px;
+   font-weight: 500;
+   margin-bottom: 0px;
+   margin-top: 0px;
+   color:#444444;
+
+}
+
+.progress {
+    background-color: #f1f5fa;
+    height: 8px;
+    width: 77%;
+    margin: 0px;
+}
+
+.project-complete{
+    font-size: 12px;
+    color:#878A9A;
+    font-weight: 400;
+}
+
+span.members-name {
+    background-color: #a69ff3;
+    width: 33px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+    text-transform: uppercase;
+    box-shadow: 0 0 0 2px #f9fafb;
+}
+
+.project-board{
+    gap: 15px;
+    text-align: right;
+    float: right;
+    position: absolute;
+    right: 0px;
+    top: 9px;
+}
+.project-overview {
+    font-size: 12px;
+    padding: 1px 10px;
+    font-weight: 400;
+    border-radius: 6px;
+    line-height: 20px;
+    color: #6666f4;
+    cursor: pointer;
+} 
+.project-overview.active{
+    background-color: #f1f1fd;
+}

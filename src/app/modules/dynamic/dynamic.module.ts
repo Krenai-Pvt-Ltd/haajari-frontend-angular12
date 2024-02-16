@@ -62,6 +62,7 @@ import { SuccessComponent } from './components/success/success.component';
 import { EmployeeLocationValidatorComponent } from './employee-location-validator/employee-location-validator.component';
 import { WebcamModule } from 'ngx-webcam';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
+import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { NzCalendarModule } from 'ng-zorro-antd/calendar';
     EmployeeOnboardingDataComponent,
     BillingPaymentComponent,
     SuccessComponent,
-    EmployeeLocationValidatorComponent
+    EmployeeLocationValidatorComponent,
+    LeaveManagementComponent
 
 
   ],

@@ -13,6 +13,7 @@ import { CreatRuleComponent } from './components/creat-rule/creat-rule.component
 import { LeaveSettingComponent } from './components/leave-setting/leave-setting.component';
 import { LeaveSettingCreateComponent } from './components/leave-setting-create/leave-setting-create.component';
 import { AddShiftTimeComponent } from './components/add-shift-time/add-shift-time.component';
+import { HolidaySettingComponent } from './components/holiday-setting/holiday-setting.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { AddShiftTimeComponent } from './components/add-shift-time/add-shift-tim
     CreatRuleComponent,
     LeaveSettingComponent,
     LeaveSettingCreateComponent,
-    AddShiftTimeComponent
+    AddShiftTimeComponent,
+    HolidaySettingComponent
   ],
   imports: [
     CommonModule,
