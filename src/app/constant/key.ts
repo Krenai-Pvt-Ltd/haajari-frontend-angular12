@@ -26,6 +26,7 @@ export class Key{
     public static ADDTOSLACK = `${Key.DYNAMIC}/addtoslack`;
     public static WATING = `${Key.DYNAMIC}/waiting`;
     public static TEAMDETAIL = `${Key.DYNAMIC}/team-detail`;
+    public static LEAVEMANAGEMENT = `${Key.DYNAMIC}/leave-management`;
 
 
     public static HEADER_ROUTES = [

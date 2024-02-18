@@ -402,3 +402,23 @@
 .col-md-8 {
     width: 72%;
 }
+
+.pagination{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+span.members-name {
+    background-color: #a69ff3;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 30px;
+    text-transform: uppercase;
+    box-shadow: 0 0 0 2px #f9fafb;
+}

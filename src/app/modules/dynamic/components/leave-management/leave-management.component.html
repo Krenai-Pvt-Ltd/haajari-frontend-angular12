@@ -1,840 +1,211 @@
 <div class="page-wrapper">
     <div class="page-content-tab">
-      <div class="container-fluid">
+        <div class="container-fluid">
             <div class="row">
             </div>
 
-            <div  class="row mb-3 mt-3 align-items-center search-area" style="padding-bottom: 15px;">
+            <div class="row mb-3 mt-3 align-items-center search-area" style="padding-bottom: 15px;">
                 <div class="col-md-4">
-                    <form  novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
-                        <div  class="form-group" style="width: 100%; position: relative;">
-                            <input  type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search" style="padding: 10px 30px;" ng-reflect-model="" ng-reflect-options="[object Object]">
-                <i  class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
-                    </div>
+
+                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
+                        <div class="form-group" style="width: 100%; position: relative;">
+                            <input type="text" id="searchText" placeholder="Search"
+                                class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                                style="padding: 10px 30px;" ng-reflect-model="" ng-reflect-options="[object Object]"
+                                [(ngModel)]="searchString" (keyup)="filterLeaves(searchString)" name="searchText">
+                            <!-- <button
+                            type="button"
+                            class="btn close-btn"
+                            (click)="reloadPage()"
+                            *ngIf="crossFlag"
+                          >
+                            <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                          </button>
+                            -->
+
+                            <!-- <input  type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search" style="padding: 10px 30px;" ng-reflect-model="" ng-reflect-options="[object Object]"> -->
+                            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
+                        </div>
                     </form>
-    </div>
-    <div class="col-md-8">
-       
-            </div>
-        </div>
-
-        <div class="p-3 leave-section mt-3"  >
-
-            <div class="row align-items-center mb-3 border-bottom pb-3" >
-                <!-- <div class="col-md-12 mb-3">
-                    <div class="d-flex justify-content-end">
-                        <button class="btn btn-primary" type="button">Request</button>
-                    </div>
-                </div> -->
-                <div class="col-md-4">
-                    <div class="leave-name">
-
-                        <div class="d-flex align-items-center " style="gap:15px;">
-                            <div class="">
-                                <img style="width: 70px; border-radius: 50%; height: 70px;" src="https://avatars.slack-edge.com/2023-06-02/5389748862400_0a00db935761a841358a_original.jpg">
-                            </div>
-                            <div class="project-detail">
-                                <h4>Pradeep Yadav</h4>
-                                <p class="mb-0">pradeep@krenai.com</p>
-
-                                <div class="add-note d-flex mt-2" style="gap: 10px;">
-                               
-                                    <a class="d-flex align-items-center" style="gap:5px;" data-bs-toggle="collapse" href="#multiCollapseExample33" role="button" aria-expanded="false"
-                                    aria-controls="multiCollapseExample33"> Request <span class="request-count">2</span></a>
-                                </div>
-                                
-                            </div>
-                        </div>
-
-                    </div>
-
                 </div>
-
                 <div class="col-md-8">
 
-                    <span class="right-arrow-sine"><i class="bi bi-arrow-right"></i></span>
-
-                    <div class="d-flex align-items-center leave-asign-sertion">
-
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5> Sick Leave</h5>
-                            </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5> Annual Leave</h5>
-                            </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5> Casual Leave</h5>
-                            </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5> Sick Leave</h5>
-                            </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5> Sick Leave</h5>
-                            </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="mt-3 logs-box collapse multi-collapse"  id="multiCollapseExample33">
-                    <div style="text-align: left; position: relative;" class="mb-4 add-border-css">
-                        <!-- <div class="d-flex align-items-center justify-content-between">
-                            <h5 class="mb-2">Leaves Request</h5>
-                        </div> -->
-                        <div class="mt-2 leaves-request-type d-flex align-items-center" style="gap:15px;">
-                            <!-- <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5> Pradeep Yadav </h5>
-                                 <p>Has requseted a leave</p>
-                            </div> -->
-                            <!-- <div class="mb-1" style="color: #cccc;">|</div> -->
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Leave Type : </h5>
-                                 <p>Annual Leave</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Start Date : </h5>
-                                 <p>22-02-2024</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>End Date : </h5>
-                                 <p>25-02-2024</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Leave Entitled : </h5>
-                                 <p>10</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Total Approved : </h5>
-                                 <p>4</p>
-                            </div>
-                           
-                            
-                   
-                        </div>
-                    
-                        <div class="d-flex align-items-center leaves-request-type mt-3" style="gap:15px;">
-                            <h5 style="font-size: 14px;">Notes : </h5>
-                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-                        </div>
-                        <div class="d-flex align-items-center btn-box mt-2" style="gap:15px;">
-                           <button class="btn approved" type="button">Approve</button>
-                           <button class="btn deny" type="button">Deny</button>
-                        </div>
-                        
-                    </div>
-
-                    <div style="text-align: left; position: relative;">
-                        <!-- <div class="d-flex align-items-center justify-content-between">
-                            <h5 class="mb-2">Leaves Request</h5>
-                        </div> -->
-                        <div class="mt-2 leaves-request-type d-flex align-items-center" style="gap:15px;">
-                            <!-- <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5> Pradeep Yadav </h5>
-                                 <p>Has requseted a leave</p>
-                            </div> -->
-                            <!-- <div class="mb-1" style="color: #cccc;">|</div> -->
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Leave Type : </h5>
-                                 <p>Annual Leave</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Start Date : </h5>
-                                 <p>22-02-2024</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>End Date : </h5>
-                                 <p>25-02-2024</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Leave Entitled : </h5>
-                                 <p>10</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Total Approved : </h5>
-                                 <p>4</p>
-                            </div>
-                           
-                            
-                   
-                        </div>
-                    
-                        <div class="d-flex align-items-center leaves-request-type mt-3" style="gap:15px;">
-                            <h5 style="font-size: 14px;">Notes : </h5>
-                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-                        </div>
-                        <div class="d-flex align-items-center btn-box mt-2" style="gap:15px;">
-                           <button class="btn approved" type="button">Approve</button>
-                           <button class="btn deny" type="button">Deny</button>
-                        </div>
-                        
-                    </div>
                 </div>
             </div>
 
-            <div class="row align-items-center mb-3 border-bottom pb-3" >
-                <!-- <div class="col-md-12 mb-3">
-                    <div class="d-flex justify-content-end">
-                        <button class="btn btn-primary" type="button">Request</button>
-                    </div>
-                </div> -->
-                <div class="col-md-4">
-                    <div class="leave-name">
+            <div class="p-3 leave-section mt-3">
 
-                        <div class="d-flex align-items-center " style="gap:15px;">
-                            <div class="">
-                                <img style="width: 70px; border-radius: 50%; height: 70px;" src="https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/uploads%2F1705479975446_1535446202596.jpeg?alt=media&token=13415ad0-db24-4a27-8481-22a8c406cc7b">
-                            </div>
-                            <div class="project-detail">
-                                <h4>Pushpendra</h4>
-                                <p class="mb-0">pushpendra@krenai.com</p>
+                <div class="row align-items-center mb-3 border-bottom pb-3"
+                    *ngFor="let uLDeets of userLeaveDetailResponse; let i = index">
+                    <div class="col-md-4">
+                        <div class="leave-name">
 
-                                <div class="add-note d-flex mt-2" style="gap: 10px;">
-                                  
-                                    <a class="d-flex align-items-center" style="gap:5px;" data-bs-toggle="collapse" href="#multiCollapseExample34" role="button" aria-expanded="false"
-                                    aria-controls="multiCollapseExample34"> Request <span class="request-count">2</span></a>
+                            <div class="d-flex align-items-center " style="gap:15px;">
+                                <div class="" *ngIf="uLDeets.userDetails.image !== null">
+                                    <img [src]="uLDeets.userDetails.image"
+                                        style="width: 70px; border-radius: 50%; height: 70px;">
                                 </div>
-                                
+                                <span class="members-name" *ngIf="uLDeets.userDetails.image == null">
+                                    <!-- <img [src]="{{
+                                    uLDeets.userDetails.name[0]}}" style="width: 70px; border-radius: 50%; height: 70px;"> -->
+                                    {{uLDeets.userDetails.name[0]}}
+                                </span>
+
+                                <!-- <div class="members-name" *ngIf="uLDeets.userDetails.image==null" style="width: 70px; border-radius: 50%; height: 70px;">{{
+                                uLDeets.userDetails.name[0]
+                              }}</div> -->
+
+
+                                <div class="project-detail">
+                                    <h4>{{uLDeets.userDetails.name}}</h4>
+                                    <p class="mb-0">{{uLDeets.userDetails.email}}</p>
+
+                                    <div class="add-note d-flex mt-2" style="gap: 10px;"
+                                        *ngIf="uLDeets.userDetails.requestedLeaves >0">
+
+                                        <a class="d-flex align-items-center" style="gap:5px;" data-bs-toggle="collapse"
+                                            [href]="'#collapse' + uLDeets.userDetails.uuid" role="button"
+                                            aria-expanded="false"
+                                            [attr.aria-controls]="'collapse' + uLDeets.userDetails.uuid"
+                                            (click)="getRequestedLeaveLogs(uLDeets.userDetails.uuid)"> Request <span
+                                                class="request-count">{{uLDeets.userDetails.requestedLeaves}}</span></a>
+                                    </div>
+
+                                </div>
                             </div>
+
                         </div>
 
                     </div>
 
-                </div>
+                    <div class="col-md-8">
 
-                <div class="col-md-8">
+                        <div *ngIf="(uLDeets.leaveDetails.length) > 2">
+                        <span class="right-arrow-sine"><i class="bi bi-arrow-right"></i></span></div>
 
-                    <span class="right-arrow-sine"><i class="bi bi-arrow-right"></i></span>
+                        <div class="d-flex align-items-center leave-asign-sertion">
 
-                    <div class="d-flex align-items-center leave-asign-sertion">
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5> Sick Leave</h5>
+                            <div class="" *ngFor="let leaves of uLDeets.leaveDetails">
+                                <div class="sick-leave">
+                                    <h5> {{leaves.leaveName}}</h5>
+                                </div>
+
+                                <div class="leave-section-box text-center">
+                                    <div class="d-flex align-items-center">
+                                        <div class="Approved rejected-css">
+                                            <p class="mb-0">{{leaves.totalLeave}}</p><span class="total-holiday"
+                                                style="color:black !important;">Total</span>
+                                        </div>
+                                        <div class="Approved">
+                                            <p class="mb-0" style="color:#3e993e">{{leaves.approvedLeave}}</p>
+                                            <span class="total-holiday">Approved</span>
+                                        </div>
+                                        <div class="Approved pending-css">
+                                            <p class="mb-0">{{leaves.pendingLeave}}</p>
+                                            <span class="total-holiday">Pending</span>
+                                        </div>
+                                        <div class="Approved remaining-css">
+                                            <p class="mb-0">{{leaves.remainingLeave}}</p>
+                                            <span class="total-holiday">Remaining</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
                         </div>
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5> Annual Leave</h5>
-                            </div>
 
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5> Casual Leave</h5>
-                            </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5> Sick Leave</h5>
-                            </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5> Sick Leave</h5>
-                            </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
                     </div>
 
-                </div>
 
+                    <div class="mt-3 logs-box collapse multi-collapse" [id]="'collapse' + uLDeets.userDetails.uuid"
+                        [class.show]="currentlyOpenUserUuid === uLDeets.userDetails.uuid" *ngIf="uLDeets.userDetails.requestedLeaves >0">
 
-                <div class="mt-3 logs-box collapse multi-collapse"  id="multiCollapseExample34">
-                    <div style="text-align: left; position: relative;" class="mb-4 add-border-css">
-                        <!-- <div class="d-flex align-items-center justify-content-between">
+                        <div style="text-align: left; position: relative;" class="mb-4 add-border-css"
+                            *ngFor="let log of userLeaveLogs[uLDeets.userDetails.uuid]">
+                            <!-- <div class="d-flex align-items-center justify-content-between">
                             <h5 class="mb-2">Leaves Request</h5>
                         </div> -->
-                        <div class="mt-2 leaves-request-type d-flex align-items-center" style="gap:15px;">
-                            <!-- <div class="d-flex align-items-center mb-1" style="gap:15px;">
+                            <div class="mt-2 leaves-request-type d-flex align-items-center" style="gap:15px;">
+                                <!-- <div class="d-flex align-items-center mb-1" style="gap:15px;">
                                 <h5> Pradeep Yadav </h5>
                                  <p>Has requseted a leave</p>
                             </div> -->
-                            <!-- <div class="mb-1" style="color: #cccc;">|</div> -->
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Leave Type : </h5>
-                                 <p>Annual Leave</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Start Date : </h5>
-                                 <p>22-02-2024</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>End Date : </h5>
-                                 <p>25-02-2024</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Leave Entitled : </h5>
-                                 <p>10</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Total Approved : </h5>
-                                 <p>4</p>
-                            </div>
-                           
-                            
-                   
-                        </div>
-                    
-                        <div class="d-flex align-items-center leaves-request-type mt-3" style="gap:15px;">
-                            <h5 style="font-size: 14px;">Notes : </h5>
-                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-                        </div>
-                        <div class="d-flex align-items-center btn-box mt-2" style="gap:15px;">
-                           <button class="btn approved" type="button">Approve</button>
-                           <button class="btn deny" type="button">Deny</button>
-                        </div>
-                        
-                    </div>
+                                <!-- <div class="mb-1" style="color: #cccc;">|</div> -->
+                                <div class="d-flex align-items-center mb-1" style="gap:15px;">
+                                    <h5>Leave Type : </h5>
+                                    <p>{{log.leavetype}}</p>
+                                </div>
+                                <div class="mb-1" style="color: #cccc;">|</div>
+                                <div class="d-flex align-items-center mb-1" style="gap:15px;">
+                                    <h5>Start Date : </h5>
+                                    <p>{{log.startdate | date}}</p>
+                                </div>
+                                <div class="mb-1" style="color: #cccc;">|</div>
+                                <div class="d-flex align-items-center mb-1" style="gap:15px;">
+                                    <h5>End Date : </h5>
+                                    <p>{{log.enddate | date}}</p>
+                                </div>
+                                <div class="mb-1" style="color: #cccc;">|</div>
+                                <div class="d-flex align-items-center mb-1" style="gap:15px;">
+                                    <h5>Leave Entitled : </h5>
+                                    <p>{{log.totalleaves}}</p>
+                                </div>
+                                <div class="mb-1" style="color: #cccc;">|</div>
+                                <div class="d-flex align-items-center mb-1" style="gap:15px;">
+                                    <h5>Total Approved : </h5>
+                                    <p>{{log.approvedleaves}}</p>
+                                </div>
 
-                    <div style="text-align: left; position: relative;">
-                        <!-- <div class="d-flex align-items-center justify-content-between">
-                            <h5 class="mb-2">Leaves Request</h5>
-                        </div> -->
-                        <div class="mt-2 leaves-request-type d-flex align-items-center" style="gap:15px;">
-                            <!-- <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5> Pradeep Yadav </h5>
-                                 <p>Has requseted a leave</p>
-                            </div> -->
-                            <!-- <div class="mb-1" style="color: #cccc;">|</div> -->
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Leave Type : </h5>
-                                 <p>Annual Leave</p>
                             </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Start Date : </h5>
-                                 <p>22-02-2024</p>
+
+                            <div class="d-flex align-items-center leaves-request-type mt-3" style="gap:15px;">
+                                <h5 style="font-size: 14px;">Notes : </h5>
+                                <p>{{log.notes}}</p>
                             </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>End Date : </h5>
-                                 <p>25-02-2024</p>
+                            <div class="d-flex align-items-center btn-box mt-2" style="gap:15px;"
+                                *ngIf="(log.manager===logInUserUuid) || (ROLE=='ADMIN')">
+                                <button class="btn approved" type="button"
+                                    (click)="approveOrDeny(log.id, 'approved')">Approve</button>
+                                <button class="btn deny" type="button"
+                                    (click)="approveOrDeny(log.id, 'rejected')">Deny</button>
                             </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Leave Entitled : </h5>
-                                 <p>10</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Total Approved : </h5>
-                                 <p>4</p>
-                            </div>
-                           
-                            
-                   
+
                         </div>
-                    
-                        <div class="d-flex align-items-center leaves-request-type mt-3" style="gap:15px;">
-                            <h5 style="font-size: 14px;">Notes : </h5>
-                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-                        </div>
-                        <div class="d-flex align-items-center btn-box mt-2" style="gap:15px;">
-                           <button class="btn approved" type="button">Approve</button>
-                           <button class="btn deny" type="button">Deny</button>
-                        </div>
-                        
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="pagination pl-3" *ngIf="isShimmer == false && userLeaveDetailResponse.length > 0 && total > 5">
+                <p class="mb-0" style="padding-left: 15px">
+                    Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                    {{ total }} teams
+                </p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-end">
+                                <li class="page-item" [class.disabled]="pageNumber == 1">
+                                    <a class="page-link" href="javascript:void(0);" aria-label="Previous"
+                                        (click)="changePage('prev')">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item" *ngFor="let page of getPages()"
+                                    [class.active]="pageNumber == page">
+                                    <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page
+                                        }}</a>
+                                </li>
+                                <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                                    <a class="page-link" href="javascript:void(0);" aria-label="Next"
+                                        (click)="changePage('next')">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
-
-
-             <div class="row align-items-center mb-3 border-bottom pb-3" >
-                <!-- <div class="col-md-12 mb-3">
-                    <div class="d-flex justify-content-end">
-                        <button class="btn btn-primary" type="button">Request</button>
-                    </div>
-                </div> -->
-                <div class="col-md-4">
-                    <div class="leave-name">
-
-                        <div class="d-flex align-items-center " style="gap:15px;">
-                            <div class="">
-                                <img style="width: 70px; border-radius: 50%; height: 70px;" src="https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/uploads%2F1706546786638_WhatsApp%20Image%202024-01-29%20at%2010.12.40%20PM.jpeg?alt=media&token=111bd096-fbe0-4963-b51f-db8a39733437">
-                            </div>
-                            <div class="project-detail">
-                                <h4>Anchal Sharma</h4>
-                                <p class="mb-0">anchal.sharma@krenai.com</p>
-
-                                <div class="add-note d-flex mt-2" style="gap: 10px;">
-                                    <a class="d-flex align-items-center" style="gap:5px;" data-bs-toggle="collapse" href="#multiCollapseExample35" role="button" aria-expanded="false"
-                                    aria-controls="multiCollapseExample35"> Request <span class="request-count">2</span></a>
-                                </div>
-                                
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-8">
-
-                    <span class="right-arrow-sine"><i class="bi bi-arrow-right"></i></span>
-
-                    <div class="d-flex align-items-center leave-asign-sertion">
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5> Sick Leave</h5>
-                            </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5> Annual Leave</h5>
-                            </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
-
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5>Casual Leave</h5>
-                            </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
-
-                        
-                      
-                        
-                       
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5>Casual Leave</h5>
-                            </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
-                        <div class="">
-                            <div class="sick-leave">
-                                <h5>Casual Leave</h5>
-                            </div>
-
-                           <div class="leave-section-box text-center">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0">16</p><span class="total-holiday" style="color:black !important;">Total</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0" style="color:#3e993e">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">16</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                           </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="mt-3 logs-box collapse multi-collapse"  id="multiCollapseExample35">
-                    <div style="text-align: left; position: relative;" class="mb-4 add-border-css">
-                        <!-- <div class="d-flex align-items-center justify-content-between">
-                            <h5 class="mb-2">Leaves Request</h5>
-                        </div> -->
-                        <div class="mt-2 leaves-request-type d-flex align-items-center" style="gap:15px;">
-                            <!-- <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5> Pradeep Yadav </h5>
-                                 <p>Has requseted a leave</p>
-                            </div> -->
-                            <!-- <div class="mb-1" style="color: #cccc;">|</div> -->
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Leave Type : </h5>
-                                 <p>Annual Leave</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Start Date : </h5>
-                                 <p>22-02-2024</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>End Date : </h5>
-                                 <p>25-02-2024</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Leave Entitled : </h5>
-                                 <p>10</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Total Approved : </h5>
-                                 <p>4</p>
-                            </div>
-                           
-                            
-                   
-                        </div>
-                    
-                        <div class="d-flex align-items-center leaves-request-type mt-3" style="gap:15px;">
-                            <h5 style="font-size: 14px;">Notes : </h5>
-                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-                        </div>
-                        <div class="d-flex align-items-center btn-box mt-2" style="gap:15px;">
-                           <button class="btn approved" type="button">Approve</button>
-                           <button class="btn deny" type="button">Deny</button>
-                        </div>
-                        
-                    </div>
-
-                    <div style="text-align: left; position: relative;">
-                        <!-- <div class="d-flex align-items-center justify-content-between">
-                            <h5 class="mb-2">Leaves Request</h5>
-                        </div> -->
-                        <div class="mt-2 leaves-request-type d-flex align-items-center" style="gap:15px;">
-                            <!-- <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5> Pradeep Yadav </h5>
-                                 <p>Has requseted a leave</p>
-                            </div> -->
-                            <!-- <div class="mb-1" style="color: #cccc;">|</div> -->
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Leave Type : </h5>
-                                 <p>Annual Leave</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Start Date : </h5>
-                                 <p>22-02-2024</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>End Date : </h5>
-                                 <p>25-02-2024</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Leave Entitled : </h5>
-                                 <p>10</p>
-                            </div>
-                            <div class="mb-1" style="color: #cccc;">|</div>
-                            <div class="d-flex align-items-center mb-1" style="gap:15px;">
-                                <h5>Total Approved : </h5>
-                                 <p>4</p>
-                            </div>
-                           
-                            
-                   
-                        </div>
-                    
-                        <div class="d-flex align-items-center leaves-request-type mt-3" style="gap:15px;">
-                            <h5 style="font-size: 14px;">Notes : </h5>
-                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-                        </div>
-                        <div class="d-flex align-items-center btn-box mt-2" style="gap:15px;">
-                           <button class="btn approved" type="button">Approve</button>
-                           <button class="btn deny" type="button">Deny</button>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-
-
-
-        </div>
         </div>
     </div>
 </div>
-
-
