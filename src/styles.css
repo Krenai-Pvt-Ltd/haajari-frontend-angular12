@@ -260,3 +260,7 @@ nz-date-picker {
 .location-map .webcam-wrapper {
     width: 100% !important;
 }
+
+.shimmer-redias .shimmer-redias-1{
+    border-radius: 50%;
+}
