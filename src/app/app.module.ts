@@ -26,6 +26,7 @@ import { SharedModule } from './shared/shared.module';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { UnauthorizedComponent } from './modules/sharable/unauthorized/unauthorized.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
 
@@ -61,7 +62,8 @@ import { UnauthorizedComponent } from './modules/sharable/unauthorized/unauthori
     SettingModule,
     BrowserAnimationsModule,
     Ng2TelInputModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    DragDropModule
     // OnboardingSidebarResponse
 
     
