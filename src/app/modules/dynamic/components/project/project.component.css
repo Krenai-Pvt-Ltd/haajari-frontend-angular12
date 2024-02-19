@@ -64,3 +64,73 @@ span.members-name {
 .project-overview.active{
     background-color: #f1f1fd;
 }
+
+.add-new-task{
+    background-color: #f1f1fd;
+    padding: 8px;
+    text-align: center;
+    border-radius: 6px;
+    border: 1px dashed #6666f4;
+    width: 100%;
+    color: #6666f4;
+    line-height: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.add-new-task i{
+    font-size: 20px;
+    line-height: 20px;
+}
+
+span.blocking-issue {
+    background-color: #fff;
+    border-radius: 9px;
+    width: 30px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dotblock{
+    background-color: #fa3c98;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+}
+
+.dottodo{
+    background-color: orange;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+}
+
+.dotprogress{
+    background-color: green;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+}
+.dottesting{
+    background-color: #6666f4;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+}
+.dotdone{
+    background-color: #ff095f;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+}
+
+.design{
+    background: #ff9200c2;
+}
+.branding{
+    background-color: pink;
+}
+
