@@ -246,3 +246,17 @@ nz-date-picker {
   .attendance-date .ant-picker {
     border: none !important;
 }
+
+
+
+.location-map webcam video {
+    width: 100% !important;
+    height: 500px !important;
+    object-fit: cover !important;
+}
+.location-map {
+    width: 100%;
+}
+.location-map .webcam-wrapper {
+    width: 100% !important;
+}

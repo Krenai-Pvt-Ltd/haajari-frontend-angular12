@@ -45,7 +45,11 @@ export class HeaderComponent implements OnInit {
   MANAGER = Key.MANAGER;
 
   ROLE = this.rbacService.getRole();
-  UUID = this.rbacService.getUUID();
+  UUID : any;
+
+  async getUserUUID(){
+    this.UUID = this.rbacService.getUUID();
+  }
 
   async getLoggedInUserDetails(){
     this.loggedInUser = await this.helperService.getDecodedValueFromToken();

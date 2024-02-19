@@ -55,7 +55,8 @@ export class Key{
         "/setting/leave-setting",
         "/setting/account-settings",
         "/add-role",
-        "/setting/billing-payment"
+        "/setting/billing-payment",
+        "/leave-management"
     ];
 
     public static TOPBAR_ROUTES = [
@@ -85,7 +86,8 @@ export class Key{
         "/setting/leave-setting",
         "/setting/account-settings",
         "/add-role",
-        "/setting/billing-payment"
+        "/setting/billing-payment",
+        "/leave-management"
     ];
 
 
@@ -97,7 +99,8 @@ export class Key{
         "/organization-onboarding/automation-rules",
         "/organization-onboarding/creat-rule",
         "/organization-onboarding/leave-setting-create",
-        "/organization-onboarding/add-shift-time"
+        "/organization-onboarding/add-shift-time",
+        "/organization-onboarding/holiday-setting",
     ];
 
 

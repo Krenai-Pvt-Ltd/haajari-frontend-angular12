@@ -20,8 +20,8 @@ const routes: Routes = [{ path: '', redirectTo: '/setting/attendance-setting', p
   {path: 'selery-setting', component: SelerySettingComponent, canActivate: [AuthGuard]},
   {path: 'leave-setting', component: LeaveSettingComponent, canActivate: [AuthGuard]},
   {path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGuard]},
-  {path: 'staff-attendance-location', component: StaffAttendanceLocationComponent, canActivate: [AuthGuard]},
-  {path: 'upload-photo', component: UploadPhotoComponent, canActivate: [AuthGuard]}
+  {path: 'staff-attendance-location', component: StaffAttendanceLocationComponent},
+  {path: 'upload-photo', component: UploadPhotoComponent}
   ] }
 ];
 
