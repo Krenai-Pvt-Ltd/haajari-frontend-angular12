@@ -54,7 +54,7 @@ export class TopbarComponent implements OnInit {
       routeValue = "Company Setting";
     }
 
-    if(routeValue.includes("selery-setting")){
+    if(routeValue.includes("salary-setting")){
       routeValue = "Salary Setting";
     }
 
