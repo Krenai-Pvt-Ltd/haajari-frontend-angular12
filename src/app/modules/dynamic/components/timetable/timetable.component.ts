@@ -391,11 +391,12 @@ export class TimetableComponent implements OnInit {
   }
 
   breakTimingsList : BreakTimings[] = [];
-  getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(uuid : string, show : boolean){
-    this.toggleChevron(show);
+  getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(uuid : string){
+    // this.toggleChevron(show);
     this.dataService.getAttendanceDetailsBreakTimingsReportByDateByUser(uuid, this.helperService.formatDateToYYYYMMDD(this.selectedDate)).subscribe((response) => {
       this.breakTimingsList = response.object;
       console.log(this.breakTimingsList);
+      this.toggleChevron(false);
     }, (error) => {
       console.log(error);
     })

@@ -449,9 +449,9 @@
               </div>
 
                 <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount !== 0;">
-                  <div class="in-time total-break-time-box position-relativ" (mouseover)="getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(attendanceDetailsResponse.uuid, true)" (mouseout)="toggleChevron(false)">
+                  <div class="in-time total-break-time-box position-relativ" (mouseover)="getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(attendanceDetailsResponse.uuid)">
                     <span>Break Timings</span> <span>|</span>
-                    <p class="mb-0">&nbsp; &nbsp;<i style="color: black;" id="dropdownMenuButton" class="bi" [ngClass]="{'bi-chevron-down': !showUp, 'bi-chevron-up': showUp}"></i></p>
+                    <p class="mb-0">&nbsp; &nbsp;<i style="color: black;" id="dropdownMenuButton" class="bi bi-chevron-down"></i></p>
                     <div class="total-braek-time">
     
                       <div *ngIf="breakTimingsList !== null && breakTimingsList !== undefined && breakTimingsList.length!==0">
