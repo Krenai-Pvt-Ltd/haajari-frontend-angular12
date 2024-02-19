@@ -569,7 +569,7 @@ getDataFromDate(): Promise<any> {
     this.dataService.getBestPerformerAttendanceDetails(this.startDateStr, this.endDateStr).subscribe((response) => {
       this.bestPerformerAttendanceDetailsResponseList = response;
 
-      if(response === undefined || response === null || response.listOfObject.length === 0){
+      if(response === undefined || response === null || response.length === 0){
         this.dataNotFoundPlaceholderForBestPerfomer = true;
       }
     }, (error) => {
