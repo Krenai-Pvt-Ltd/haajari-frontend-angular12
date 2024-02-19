@@ -1,3 +1,4 @@
+<p>salary-setting works!</p>
 <div class="page-wrapper">
 
     <!-- Page Content-->
@@ -59,13 +60,13 @@
 
 <div class="company-settinh">
 
-    <div class="mb-3 border-buttom-setting d-flex align-items-center justify-content-between" >
+    <!-- <div class="mb-3 border-buttom-setting d-flex align-items-center justify-content-between" >
      <h5 class="mt-0" style="margin-top: 10px !important; margin-bottom: 20px !important;">Salary Setting</h5>
        
-    </div>
+    </div> -->
 
 
- <div class="row mt-4">
+ <div class="row mt-4"> 
 
    
 
@@ -221,12 +222,57 @@
 
          <div class="col-md-4 mt-3 mb-3">
              <div class="form-roe-data">
-                 <h5>Staff Bank Account Details </h5>
+                 <h5>Manage your Statutories</h5>
                  <p>A quick snapshot of your company.</p>
              </div>
          </div>
 
-         <div class="col-md-7 mt-3 mb-3">
+         <div class="col-md-7">
+        
+            <br>
+
+            <div class="row mb-3">
+               <div class="attendance-settin-list">
+                   <div class="categryCustomizecard d-flex pointer">
+                       <div class="categryCustomizeinfo">
+                           <label for="customizecategory1" class="mb-0">
+                               <h3> EPF (Employees' Provident Fund)</h3>
+                               <p> Large images are best for products where every detail is a part of the product’s value.</p>
+                           </label>
+                       </div>
+                       <div class="active-check">
+                        <nz-switch [(ngModel)]="switchValue"></nz-switch>
+                       </div>
+                   </div>
+                   <div class="categryCustomizecard d-flex pointer">
+                       <div class="categryCustomizeinfo">
+                           <label for="customizecategory1" class="mb-0">
+                               <h3> ESI (Employees' State Insurance)</h3>
+                               <p> Large images are best for products where every detail is a part of the product’s value.</p>
+                           </label>
+                       </div>
+                       <div class="noactive-check">
+                         <nz-switch [(ngModel)]="switchValue"></nz-switch>
+                       </div>
+                   </div>
+                   <div class="categryCustomizecard d-flex pointer">
+                       <div class="categryCustomizeinfo">
+                           <label for="customizecategory1" class="mb-0">
+                               <h3> Professional Taxes</h3>
+                               <p> Large images are best for products where every detail is a part of the product’s value.</p>
+                           </label>
+                       </div>
+                       <div class="noactive-check">
+                            <nz-switch [(ngModel)]="switchValue"></nz-switch>
+                       </div>
+                   </div>
+               </div>
+            </div>
+        </div>
+
+
+
+         <!-- <div class="col-md-7 mt-3 mb-3">
              <div class="row">
                  <div class="col-md-6">
                     <div class="vertion">
@@ -298,7 +344,7 @@
              
          </div>
              
-         </div>
+        </div> -->
 
          
          <div class="col-md-12">
@@ -635,3 +681,33 @@
         </div><!--end modal-content-->
     </div><!--end modal-dialog-->
 </div><!--end modal-->
+
+
+
+
+<!-- Modal with an *ngIf directive to conditionally render based on `switchValue` -->
+<div *ngIf="switchValue" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom" style="background-color: white;">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees' State Insurance</h6>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="switchValue = false"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mb-3">
+                    <label for="exampleInputEmail1">Employees' Contribution</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="0.75% (of Gross Pay)" readonly>
+                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="exampleInputPassword1">Employers' Contribution</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" value="03.75% (of Gross Pay)" readonly>
+                  </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="switchValue = false">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValue = false">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
