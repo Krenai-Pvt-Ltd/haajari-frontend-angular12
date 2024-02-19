@@ -34,6 +34,7 @@ export class LeaveManagementComponent implements OnInit {
     //   this.shouldShowRightScroll[index] = true;
     //   this.shouldShowLeftScroll[index] = false;
     // });
+    this.checkArrowsVisibility();
 
   }
 
@@ -42,17 +43,19 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   checkArrowsVisibility(): void {
+    debugger
     this.cdr.detectChanges();
     
-    if((this.userLeaveDetailResponse!=undefined)){
+    // if((this.userLeaveDetailResponse!=undefined)){
     setTimeout(() => {
       this.userLeaveDetailResponse.forEach((_, index) => {
         this.checkInitialArrowVisibility(index);
       });
     });
-    }
+    // }
   }
   checkInitialArrowVisibility(index: number): void {
+    debugger
     const element = this.scrollContainers.toArray()[index]?.nativeElement;
     if (element) {
       this.shouldShowRightScroll[index] = element.scrollWidth > element.clientWidth;
@@ -165,16 +168,16 @@ export class LeaveManagementComponent implements OnInit {
   //   );
   // }
 
-  getRequestedLeaveLogs(userUuid: string): void {
-    if (!this.userLeaveLogs[userUuid]) {
-      this.dataService.getRequestedLeaveDetailsForUser(userUuid).subscribe(logs => {
-        this.userLeaveLogs[userUuid] = logs;
-        this.currentlyOpenUserUuid = userUuid;
-      });
-    } else {
-      this.currentlyOpenUserUuid = this.currentlyOpenUserUuid === userUuid ? null : userUuid;
-    }
-  }
+  // getRequestedLeaveLogs(userUuid: string): void {
+  //   if (!this.userLeaveLogs[userUuid]) {
+  //     this.dataService.getRequestedLeaveDetailsForUser(userUuid).subscribe(logs => {
+  //       this.userLeaveLogs[userUuid] = logs;
+  //       this.currentlyOpenUserUuid = userUuid;
+  //     });
+  //   } else {
+  //     this.currentlyOpenUserUuid = this.currentlyOpenUserUuid === userUuid ? null : userUuid;
+  //   }
+  // }
 
   // isRequestedLeaveManagerFlag: boolean=false;
 
@@ -186,21 +189,59 @@ export class LeaveManagementComponent implements OnInit {
   //   }
   // }
 
-  approveOrDeny(requestId: number, requestedString: string) {
-    debugger
-    this.dataService.approveOrRejectLeave(requestId, requestedString, this.logInUserUuid).subscribe(logs => {
-      console.log('success!');
-      this.getEmployeesLeaveDetails();
-      if (requestedString == 'approved') {
-        this.helperService.showToast("Leave approved successfully!", Key.TOAST_STATUS_SUCCESS);
-      } else if (requestedString == 'rejected') {
-        this.helperService.showToast("Leave rejected successfully!", Key.TOAST_STATUS_SUCCESS);
+  getRequestedLeaveLogs(userUuid: string): void {
+    this.dataService.getRequestedLeaveDetailsForUser(userUuid).subscribe({
+      next: (logs) => {
+        this.userLeaveLogs[userUuid] = logs;
+        this.currentlyOpenUserUuid = userUuid;
+        this.cdr.markForCheck();
+      },
+      error: (error) => {
+        console.error('Error fetching leave logs', error);
       }
-    }, (error) => {
-      console.error('There was an error!', error);
-      this.helperService.showToast("Error!", Key.TOAST_STATUS_ERROR);
     });
   }
+  
+
+  approveOrDeny(requestId: number, requestedString: string, userUuid: string) {
+    debugger;
+    this.dataService.approveOrRejectLeave(requestId, requestedString, this.logInUserUuid).subscribe({
+      next: (logs) => {
+        console.log('success!');
+        // Directly refresh the list of leave requests for the specific user
+        this.getRequestedLeaveLogs(userUuid);
+        if (requestedString === 'approved') {
+          this.helperService.showToast("Leave approved successfully!", Key.TOAST_STATUS_SUCCESS);
+        } else if (requestedString === 'rejected') {
+          this.helperService.showToast("Leave rejected successfully!", Key.TOAST_STATUS_SUCCESS);
+        }
+        this.getEmployeesLeaveDetails();
+
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+        this.helperService.showToast("Error!", Key.TOAST_STATUS_ERROR);
+      }
+    });
+  }
+  
+
+  // approveOrDeny(requestId: number, requestedString: string, userUuid:string) {
+  //   debugger
+  //   this.dataService.approveOrRejectLeave(requestId, requestedString, this.logInUserUuid).subscribe(logs => {
+  //     console.log('success!');
+  //     this.getEmployeesLeaveDetails();
+  //     if (requestedString == 'approved') {
+  //       this.helperService.showToast("Leave approved successfully!", Key.TOAST_STATUS_SUCCESS);
+  //     } else if (requestedString == 'rejected') {
+  //       this.helperService.showToast("Leave rejected successfully!", Key.TOAST_STATUS_SUCCESS);
+  //     }
+  //     this.getRequestedLeaveLogs(userUuid);
+  //   }, (error) => {
+  //     console.error('There was an error!', error);
+  //     this.helperService.showToast("Error!", Key.TOAST_STATUS_ERROR);
+  //   });
+  // }
 
   @ViewChildren('scrollContainer') private scrollContainers!: QueryList<ElementRef>;
   shouldShowRightScroll: boolean[] = [];
