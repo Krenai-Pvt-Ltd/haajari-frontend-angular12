@@ -108,7 +108,7 @@ import { LeaveManagementComponent } from './components/leave-management/leave-ma
     SuccessComponent,
     EmployeeLocationValidatorComponent,
     EmployeeAttendancePhotoComponent,
-    
+    LeaveManagementComponent
 
 
   ],

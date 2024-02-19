@@ -86,7 +86,7 @@ export class HeaderComponent implements OnInit {
 
     shouldDisplay(moduleName: string): boolean {
     const role = this.rbacService.getRoles(); // Assuming getRole returns a Promise<string>
-    const modulesToShowForManager = ['dashboard', 'team', 'project', 'reports', 'attendance'];
+    const modulesToShowForManager = ['dashboard', 'team', 'project', 'reports', 'attendance', 'leave-management'];
     const modulesToShowForUser = ['team', 'project'];
   
     return role === Key.ADMIN || 
