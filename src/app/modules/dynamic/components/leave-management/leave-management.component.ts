@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component,ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { UserLeaveDetailsWrapper } from 'src/app/models/UserLeaveDetailsWrapper';
 import { TotalRequestedLeavesReflection } from 'src/app/models/totalRequestedLeaveReflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+
 
 interface UserLeaveLogs {
   [uuid: string]: TotalRequestedLeavesReflection[];
@@ -20,7 +21,7 @@ export class LeaveManagementComponent implements OnInit {
   userLeaveLogs: UserLeaveLogs = {};
   currentlyOpenUserUuid: string | null = null;
 
-  constructor(private dataService: DataService, private rbacService: RoleBasedAccessControlService, private helperService: HelperService) { }
+  constructor(private dataService: DataService, private rbacService: RoleBasedAccessControlService,private cdr: ChangeDetectorRef, private helperService: HelperService, private renderer: Renderer2) { }
 
   logInUserUuid: string = '';
   ROLE: string | null = '';
@@ -29,7 +30,36 @@ export class LeaveManagementComponent implements OnInit {
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
     this.getEmployeesLeaveDetails();
+    // this.userLeaveDetailResponse.forEach((_, index) => {
+    //   this.shouldShowRightScroll[index] = true;
+    //   this.shouldShowLeftScroll[index] = false;
+    // });
+
   }
+
+  ngAfterViewInit(): void {
+    this.checkArrowsVisibility();
+  }
+
+  checkArrowsVisibility(): void {
+    this.cdr.detectChanges();
+    
+    if((this.userLeaveDetailResponse!=undefined)){
+    setTimeout(() => {
+      this.userLeaveDetailResponse.forEach((_, index) => {
+        this.checkInitialArrowVisibility(index);
+      });
+    });
+    }
+  }
+  checkInitialArrowVisibility(index: number): void {
+    const element = this.scrollContainers.toArray()[index]?.nativeElement;
+    if (element) {
+      this.shouldShowRightScroll[index] = element.scrollWidth > element.clientWidth;
+      this.shouldShowLeftScroll[index] = false;
+    }
+  }
+  
 
 
   searchString: string = '';
@@ -41,16 +71,28 @@ export class LeaveManagementComponent implements OnInit {
   isShimmer: boolean = false;
 
 
+  isLeaveManagementShimmerFlag:boolean = false;
+  isPlaceholderFlag:boolean=false;
+  isErrorFlag:boolean=false;
   userLeaveDetailResponse!: UserLeaveDetailsWrapper[];
   getEmployeesLeaveDetails() {
+    this.isLeaveManagementShimmerFlag=true;
     this.dataService.getLeavesDetailsOfEmployees(this.searchString, this.searchStatus, this.pageNumber, this.itemPerPage).subscribe((data) => {
       this.userLeaveDetailResponse = data.userLeaveDetails;
       this.total = data.totalCount;
+      if(this.total==0){
+        this.isPlaceholderFlag=true;
+      }else{
+        this.isPlaceholderFlag=false;
+      }
+      this.isLeaveManagementShimmerFlag=false;
       this.totalPages = Math.ceil(this.total / this.itemPerPage);
       this.isShimmer = false;
       console.log(this.userLeaveDetailResponse);
     },
       (error) => {
+        this.isLeaveManagementShimmerFlag=false;
+        this.isErrorFlag=true;
         console.error('There was an error!', error);
       }
     );
@@ -66,8 +108,20 @@ export class LeaveManagementComponent implements OnInit {
       this.getEmployeesLeaveDetails();
     } else {
       this.searchString = '';
+      this.isLeaveManagementShimmerFlag=true;
+      this.resetfilterLeaves();
       this.getEmployeesLeaveDetails();
+
     }
+  }
+
+  emptySearch(){
+    this.searchString = '';
+    this.isPlaceholderFlag=false;
+    this.isErrorFlag=false;
+    this.isLeaveManagementShimmerFlag=true;
+    this.getEmployeesLeaveDetails();
+    this.resetfilterLeaves()
   }
 
 
@@ -146,6 +200,37 @@ export class LeaveManagementComponent implements OnInit {
       console.error('There was an error!', error);
       this.helperService.showToast("Error!", Key.TOAST_STATUS_ERROR);
     });
+  }
+
+  @ViewChildren('scrollContainer') private scrollContainers!: QueryList<ElementRef>;
+  shouldShowRightScroll: boolean[] = [];
+  shouldShowLeftScroll: boolean[] = [];
+
+
+  scrollRight(index: number): void {
+    const element = this.scrollContainers.toArray()[index].nativeElement;
+    element.scrollBy({ left: 200, behavior: 'smooth' }); // Adjust scroll amount as necessary
+  }
+
+  scrollLeft(index: number): void {
+    const element = this.scrollContainers.toArray()[index].nativeElement;
+    element.scrollBy({ left: -200, behavior: 'smooth' }); // Adjust scroll amount as necessary
+  }
+
+  checkScroll(event: any, index: number): void {
+    const element = event.target;
+    const maxScrollLeft = element.scrollWidth - element.clientWidth;
+    if (element.scrollLeft >= maxScrollLeft) {
+      this.shouldShowRightScroll[index] = false;
+    } else {
+      this.shouldShowRightScroll[index] = true;
+    }
+
+    if (element.scrollLeft > 0) {
+      this.shouldShowLeftScroll[index] = true;
+    } else {
+      this.shouldShowLeftScroll[index] = false;
+    }
   }
 
 }
