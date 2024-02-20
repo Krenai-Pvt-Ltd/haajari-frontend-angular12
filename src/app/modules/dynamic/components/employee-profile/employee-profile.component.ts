@@ -114,7 +114,7 @@ export class EmployeeProfileComponent implements OnInit {
   currentNewDate: any;
   async ngOnInit(): Promise<void> {
     this.ROLE= await this.roleService.getRole();
-    this.UUID= await this.roleService.getUUID();
+    this.UUID= await this.roleService.getUuid();
 
     if(this.ROLE==this.ADMIN){
     this.adminRoleFlag=true;
@@ -548,7 +548,7 @@ export class EmployeeProfileComponent implements OnInit {
       case 'Present':
         return '#e0ffe0'; 
       case 'Absent':
-        return '#C9C9FFF9'; 
+        return '#f8d7d7'; 
       case 'Weekly Holiday':
         return '#c6c6ff'; 
       case 'Universal Holiday':
@@ -556,15 +556,38 @@ export class EmployeeProfileComponent implements OnInit {
       case 'Custom Holiday':
         return '#f06d0640'; 
       case 'Half Day':
-        return 'FFE7BA';
+        return 'rgb(255, 213, 128)';
       case 'On Leave':
-        return 'yellow';
+        return 'rgb(255, 255, 143)';
       case 'Not Marked':
         return '#cccccc'; 
       default:
         return '#ffffff'; 
     }
   }
+
+  // getStatusColor(status: any): string {
+  //   switch (status) {
+  //     case 'Present':
+  //       return '#e0ffe0'; 
+  //     case 'Absent':
+  //       return '#f8d7d7'; 
+  //     case 'Weekly Holiday':
+  //       return '#c6c6ff'; 
+  //     case 'Universal Holiday':
+  //       return '#f06d0640'; 
+  //     case 'Custom Holiday':
+  //       return '#f06d0640'; 
+  //     case 'Half Day':
+  //       return 'blue';
+  //     case 'On Leave':
+  //       return 'skyblue';
+  //     case 'Not Marked':
+  //       return '#cccccc'; 
+  //     default:
+  //       return '#ffffff'; 
+  //   }
+  // }
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin],

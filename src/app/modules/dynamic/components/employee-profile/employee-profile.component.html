@@ -1949,6 +1949,13 @@
                     <p><b>Total Break: </b>{{userAttendanceDetailDateWise.breakCount}}</p>
                     <p><b>Break Duration: </b>{{userAttendanceDetailDateWise.breakDuration}}</p>
                 </div>
+                <div class="calenInfo" *ngIf="(userAttendanceDetailDateWise.checkInTime!=null) && (userAttendanceDetailDateWise.status=='Half Day')">
+                    <p><b>Check In Time: </b>{{userAttendanceDetailDateWise.checkInTime | timeFormat}}</p>
+                    <p><b>Check Out Time: </b>{{userAttendanceDetailDateWise.checkOutTime | timeFormat}}</p>
+                    <p><b>Total Hours: </b>{{userAttendanceDetailDateWise.totalWorkingHours}}</p>
+                    <p><b>Total Break: </b>{{userAttendanceDetailDateWise.breakCount}}</p>
+                    <p><b>Break Duration: </b>{{userAttendanceDetailDateWise.breakDuration}}</p>
+                </div>
                 <div class="calenInfo d-block"
                     *ngIf="((userAttendanceDetailDateWise.status=='Absent')) && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
                     <p><b>Absent!</b></p>
@@ -1960,10 +1967,6 @@
                 <div class="calenInfo d-block"
                     *ngIf="((userAttendanceDetailDateWise.status=='Universal Holiday') || (userAttendanceDetailDateWise.status=='Custom Holiday')) && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
                     <p><b>Holiday!</b></p>
-                </div>
-                <div class="calenInfo d-block"
-                    *ngIf="(userAttendanceDetailDateWise.status=='Half Day') && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
-                    <p><b>Half Day!</b></p>
                 </div>
                 <div class="calenInfo d-block"
                     *ngIf="(userAttendanceDetailDateWise.status=='On Leave') && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
