@@ -428,7 +428,7 @@ export class EmployeeProfileComponent implements OnInit {
               const attendance = this.attendances[i];
               let title = this.getStatusTitle(attendance);
               let color = this.getStatusColor(attendance.status);
-               if (attendance.status == 'Present') {
+               if ((attendance.status == 'Present') || (attendance.status == 'Half Day')) {
                 this.totalPresent++;
               } else if (attendance.status == 'Absent') {
                 this.totalAbsent++;
@@ -533,6 +533,10 @@ export class EmployeeProfileComponent implements OnInit {
       return 'H';
     }else if (attendance.status === 'Custom Holiday') {
       return 'H';
+    }else if (attendance.status === 'On Leave') {
+      return 'L';
+    }else if (attendance.status === 'Half Day') {
+      return 'H';
     } else if (attendance.status === 'Not Marked') {
       return '-';
     }
@@ -544,13 +548,17 @@ export class EmployeeProfileComponent implements OnInit {
       case 'Present':
         return '#e0ffe0'; 
       case 'Absent':
-        return '#f8d7d7'; 
+        return '#C9C9FFF9'; 
       case 'Weekly Holiday':
         return '#c6c6ff'; 
       case 'Universal Holiday':
         return '#f06d0640'; 
       case 'Custom Holiday':
         return '#f06d0640'; 
+      case 'Half Day':
+        return 'FFE7BA';
+      case 'On Leave':
+        return 'yellow';
       case 'Not Marked':
         return '#cccccc'; 
       default:
