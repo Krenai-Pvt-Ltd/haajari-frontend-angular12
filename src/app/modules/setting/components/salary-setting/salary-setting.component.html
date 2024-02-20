@@ -252,7 +252,7 @@
                            </label>
                        </div>
                        <div class="noactive-check">
-                         <nz-switch [(ngModel)]="switchValue"></nz-switch>
+                         <nz-switch [(ngModel)]="switchValueForESI"></nz-switch>
                        </div>
                    </div>
                    <div class="categryCustomizecard d-flex pointer">
@@ -263,7 +263,7 @@
                            </label>
                        </div>
                        <div class="noactive-check">
-                            <nz-switch [(ngModel)]="switchValue"></nz-switch>
+                            <nz-switch [(ngModel)]="switchValueForProfessionalTax"></nz-switch>
                        </div>
                    </div>
                </div>
@@ -685,32 +685,7 @@
 
 
 
-<!-- Modal with an *ngIf directive to conditionally render based on `switchValue` -->
-<div *ngIf="switchValue" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
-    <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
-        <div class="modal-content">
-            <div class="modal-header border-bottom" style="background-color: white;">
-                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees' State Insurance</h6>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="switchValue = false"></button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group mb-3">
-                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">Employees' Contribution</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="0.75% (of Gross Pay)" readonly>
-                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="exampleInputPassword1" style="padding-bottom: 6px;">Employers' Contribution</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" value="03.75% (of Gross Pay)" readonly>
-                  </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="switchValue = false">Cancel</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValue = false">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- Modal with an *ngIf directive to conditionally render based on `switchValue` -->
 <div *ngIf="switchValueForPF" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
@@ -718,7 +693,7 @@
         <div class="modal-content">
             <div class="modal-header border-bottom" style="background-color: white;">
                 <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees' State Insurance</h6>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="switchValueForPF = false"></button>
             </div>
             <div class="modal-body employees-provident">
                 <div class="form-group mb-3">
@@ -817,8 +792,397 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-de-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValue = false">Save</button>
+                <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="switchValueForPF = false">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValueForPF = false">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal with an *ngIf directive to conditionally render based on `switchValue` -->
+<div *ngIf="switchValueForESI" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom" style="background-color: white;">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees' State Insurance</h6>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="switchValueForESI = false"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mb-3">
+                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">Employees' Contribution</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="0.75% (of Gross Pay)" readonly>
+                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="exampleInputPassword1" style="padding-bottom: 6px;">Employers' Contribution</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" value="03.75% (of Gross Pay)" readonly>
+                  </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="switchValueForESI = false">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValueForESI = false">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="switchValueForProfessionalTax" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mx-auto modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom" style="background-color: white;">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Professional Tax (Read Professional Tax Policy)</h6>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="switchValueForProfessionalTax = false"></button>
+            </div>
+            <div class="modal-body employees-provident">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">Pt Number</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pt Number">
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                          </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">State</label>
+                            <div class="dropdown" style="width: 100%;">
+                                <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                                    State <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                                </button>
+                                <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Haryana
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Delhi
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                          </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">Deduction Frequency</label>
+                            <div class="dropdown" style="width: 100%;">
+                                <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                                    Deduction Frequency <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                                </button>
+                                <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Monthly
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Half Yearly
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Yearly
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                          </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">Exception Month </label>
+                            <div class="dropdown" style="width: 100%;">
+                                <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                                    Exception Month <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                                </button>
+                                <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%; height: 200px; overflow: scroll;">
+                                  <li>
+                                    <a class="dropdown-item">
+                                      None
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      January
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Fabruary
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      March
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      April
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      May
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      June
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      July
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      August
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Setember
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      October
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      November
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                          </div>
+                    </div>
+
+
+                     <div class="tax-slabs">
+                        <h5>Tax Slabs Based On Gross Salary</h5>
+                     </div>
+                    
+
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">START RANGE</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="0">
+                          </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">
+                                END RANGE</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="max">
+                          </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">
+                                MONTHLY TAX AMOUNT</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="₹0">
+                          </div>
+                    </div>
+                    
+                    <!-- <div class="add-filtter d-flex align-items-center justify-content-start">
+                        <a style="font-size: 16px; color: #6666f3 !important;">
+                            <i class="bi bi-plus"></i> Add Additional Slab 
+                        </a>
+                    </div> -->
+                   
+                </div>
+               
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="switchValueForProfessionalTax = false">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValueForProfessionalTax = false">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#examplefullpage">
+   Full Page Modal
+  </button> -->
+
+<div class="modal d-block" id="examplefullpage" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mx-auto modal-fullscreen" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom" style="background-color: white;">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Want to receive the salary according to the :-</h6>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" ></button>
+            </div>
+            <div class="modal-body employees-provident-tex">
+
+                <div class="row align-items-center">
+                    <div class="col-md-5">
+                        <div class="old-tex-redime text-left">
+                            <div class="tex-regime-haddng">
+                                <h5>New Tex Ragime</h5>
+                            </div>
+
+                            <div class="p-3">
+                                <div class="table-responsive bg-white">
+                                    <table class="table">
+                                        <thead class="thead-light table-design">
+                                            <tr> 
+                                                <th>Income Slab</th>
+                                                <th>New Tex Ragime</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-design">
+                                            <tr>
+                                                <td>₹0 - ₹2,50,000</td>
+                                                <td>  -  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹2,50,000  - ₹3,00,000</td>
+                                                <td> 5% </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹3,00,000 - ₹5,00,000</td>
+                                                <td>  5%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹5,00,000 - ₹6,00,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹6,00,000 - ₹7,50,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹7,50,000 - ₹9,00,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹9,00,000 - ₹10,00,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹10,00,000 - ₹12,00,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹12,00,000 - ₹12,50,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹12,50,000 - ₹15,00,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>>₹15,00,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="text-center">
+                            <p class="mb-0">or</p>
+                        </div>
+                      
+                    </div>
+                    <div class="col-md-5">
+                        <div class="old-tex-redime text-left">
+                            <div class="tex-regime-haddng">
+                                <h5>Old Tex Ragime</h5>
+                            </div>
+                            <div class="p-3">
+                                <div class="table-responsive bg-white">
+                                    <table class="table">
+                                        <thead class="thead-light table-design">
+                                            <tr> 
+                                                <th>Income Slab</th>
+                                                <th>Old Tax Regime</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-design">
+                                            <tr>
+                                                <td>₹0 - ₹2,50,000</td>
+                                                <td>  -  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹2,50,000  - ₹3,00,000</td>
+                                                <td> 5% </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹3,00,000 - ₹5,00,000</td>
+                                                <td>  5%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹5,00,000 - ₹6,00,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹6,00,000 - ₹7,50,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹7,50,000 - ₹9,00,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹9,00,000 - ₹10,00,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹10,00,000 - ₹12,00,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹12,00,000 - ₹12,50,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹12,50,000 - ₹15,00,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>>₹15,00,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                </div>
+             
+               
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-de-secondary" data-dismiss="modal" >Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" >Save</button>
             </div>
         </div>
     </div>
