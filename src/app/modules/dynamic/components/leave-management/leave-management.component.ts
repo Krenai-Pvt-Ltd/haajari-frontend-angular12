@@ -42,15 +42,16 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   checkArrowsVisibility(): void {
+    debugger
     this.cdr.detectChanges();
     
-    if((this.userLeaveDetailResponse!=undefined)){
+    // if((this.userLeaveDetailResponse!=undefined)){
     setTimeout(() => {
       this.userLeaveDetailResponse.forEach((_, index) => {
         this.checkInitialArrowVisibility(index);
       });
     });
-    }
+    // }
   }
   checkInitialArrowVisibility(index: number): void {
     const element = this.scrollContainers.toArray()[index]?.nativeElement;
