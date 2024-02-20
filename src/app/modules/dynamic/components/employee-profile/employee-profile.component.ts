@@ -114,7 +114,7 @@ export class EmployeeProfileComponent implements OnInit {
   currentNewDate: any;
   async ngOnInit(): Promise<void> {
     this.ROLE= await this.roleService.getRole();
-    this.UUID= await this.roleService.getUUID();
+    this.UUID= await this.roleService.getUuid();
 
     if(this.ROLE==this.ADMIN){
     this.adminRoleFlag=true;
@@ -428,7 +428,7 @@ export class EmployeeProfileComponent implements OnInit {
               const attendance = this.attendances[i];
               let title = this.getStatusTitle(attendance);
               let color = this.getStatusColor(attendance.status);
-               if (attendance.status == 'Present') {
+               if ((attendance.status == 'Present') || (attendance.status == 'Half Day')) {
                 this.totalPresent++;
               } else if (attendance.status == 'Absent') {
                 this.totalAbsent++;
@@ -533,6 +533,10 @@ export class EmployeeProfileComponent implements OnInit {
       return 'H';
     }else if (attendance.status === 'Custom Holiday') {
       return 'H';
+    }else if (attendance.status === 'On Leave') {
+      return 'L';
+    }else if (attendance.status === 'Half Day') {
+      return 'H';
     } else if (attendance.status === 'Not Marked') {
       return '-';
     }
@@ -551,12 +555,39 @@ export class EmployeeProfileComponent implements OnInit {
         return '#f06d0640'; 
       case 'Custom Holiday':
         return '#f06d0640'; 
+      case 'Half Day':
+        return 'rgb(255, 213, 128)';
+      case 'On Leave':
+        return 'rgb(255, 255, 143)';
       case 'Not Marked':
         return '#cccccc'; 
       default:
         return '#ffffff'; 
     }
   }
+
+  // getStatusColor(status: any): string {
+  //   switch (status) {
+  //     case 'Present':
+  //       return '#e0ffe0'; 
+  //     case 'Absent':
+  //       return '#f8d7d7'; 
+  //     case 'Weekly Holiday':
+  //       return '#c6c6ff'; 
+  //     case 'Universal Holiday':
+  //       return '#f06d0640'; 
+  //     case 'Custom Holiday':
+  //       return '#f06d0640'; 
+  //     case 'Half Day':
+  //       return 'blue';
+  //     case 'On Leave':
+  //       return 'skyblue';
+  //     case 'Not Marked':
+  //       return '#cccccc'; 
+  //     default:
+  //       return '#ffffff'; 
+  //   }
+  // }
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin],

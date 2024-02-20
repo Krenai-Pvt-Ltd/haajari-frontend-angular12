@@ -20,14 +20,23 @@ export class HeaderComponent implements OnInit {
     private helperService: HelperService,
     private dataService: DataService, 
     private rbacService: RoleBasedAccessControlService
-  ) { }
+  ) { 
+    // if (this.route.snapshot.queryParamMap.has('userId')) {
+    //     this.activeTab = 'dashboard';
+    //   }
+    }
 
   ngOnInit(): void {
+    this.getUserUUID();
     this.getLoggedInUserDetails();
 
     this.route.queryParams.subscribe(params => {
       const setting = params['setting'];
-      if (setting === 'accountDetails') {
+      const dashboardActive = params['dashboardActive'];
+
+      if (dashboardActive === 'true') {
+        this.activeTab = 'dashboard';
+      }else if (setting === 'accountDetails') {
         this.activeTab = 'accountDetails';
       } else if (setting === 'security') {
         this.activeTab = 'security';
@@ -40,15 +49,21 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  setActiveTabEmpty(){
+    this.activeTab = '';
+  }
+
   ADMIN = Key.ADMIN;
   USER = Key.USER;
   MANAGER = Key.MANAGER;
 
-  ROLE = this.rbacService.getRole();
+  // ROLE = this.rbacService.getRole();
+  ROLE: any;
   UUID : any;
 
   async getUserUUID(){
-    this.UUID = this.rbacService.getUUID();
+    this.UUID = await this.rbacService.getUUID();
+    this.ROLE = await this.rbacService.getRole();
   }
 
   async getLoggedInUserDetails(){
@@ -77,9 +92,11 @@ export class HeaderComponent implements OnInit {
     this.dataService.activeTab = tabName !== 'account';
     this.router.navigate(["/setting/account-settings"], { queryParams: {tab: tabName } });
   }
-
+   
   routeToEmployeeProfilePage(){
-    this.router.navigate(["/employee-profile"], { queryParams: {"userId":  this.UUID} });
+    // this.router.navigate(["/employee-profile"], { queryParams: {"userId":  this.UUID} });
+    this.activeTab = 'dashboard';
+    this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
   }
 
   show:boolean=false;

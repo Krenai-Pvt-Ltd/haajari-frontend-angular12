@@ -19,10 +19,18 @@
         <div class="menu-body navbar-vertical">
             <div class="collapse navbar-collapse tab-content" id="sidebarCollapse">
                 
-                <ng-containner *ngIf="(ROLE | async) === USER; else dashboardCondition">
+                <ng-containner *ngIf="ROLE === USER; else dashboardCondition">
                     <div class="bjRpmy">
                         <ul class="cfyCez">
-                            <li class="dagRMy" routerLinkActive="iUctsy" (click)="routeToEmployeeProfilePage()" style="cursor: pointer;">
+                            <!-- <li class="dagRMy" routerLinkActive="iUctsy" (click)="routeToEmployeeProfilePage()" style="cursor: pointer;">
+                                <a class="dashboard-list-active sc-3ee1404a-9 iUctsy-new">
+    
+                                    <span class=" sc-3ee1404a-10 evIlxu">
+                                        <i class="bi bi-house-door menu-icon pr-2"></i>
+                                        Dashboard</span>
+                                </a>
+                            </li> -->
+                            <li class="sc-3ee1404a-7 dagRMy" [ngClass]="{'iUctsy': activeTab === 'dashboard'}" routerLinkActive="iUctsy" (click)="routeToEmployeeProfilePage()" style="cursor: pointer;">
                                 <a class="dashboard-list-active sc-3ee1404a-9 iUctsy-new">
     
                                     <span class=" sc-3ee1404a-10 evIlxu">
@@ -48,6 +56,8 @@
                         </ul>
                     </div>
                 </ng-template>
+                
+        
 
                 <!-- <div class="bjRpmy">
                     <ul class="cfyCez">
@@ -66,7 +76,7 @@
 
 
 
-                        <li class="sc-3ee1404a-7 dagRMy" routerLinkActive="iUctsy" routerLink="/team"
+                        <li class="sc-3ee1404a-7 dagRMy" routerLinkActive="iUctsy" routerLink="/team" (click)="setActiveTabEmpty()"
                             style="cursor: pointer;">
                             <a class="sc-3ee1404a-9 iUctsy-new">
                                 <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
@@ -104,6 +114,15 @@
                                     Attendance</span>
                             </a>
                         </li>
+                        <li class="sc-3ee1404a-7 dagRMy" *ngIf="shouldDisplay('leave-management')" routerLinkActive="iUctsy" routerLink="/leave-management"
+                        style="cursor: pointer;">
+                        <a class="sc-3ee1404a-9 iUctsy-new">
+                            <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+                            </div>
+                            <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-kanban menu-icon"></i>
+                                Leave Management</span>
+                        </a>
+                    </li>
 
                         <li class="sc-3ee1404a-7 dagRMy" *ngIf="shouldDisplay('reports')" routerLinkActive="iUctsy" routerLink="/reports"
                             style="cursor: pointer;">
@@ -115,15 +134,7 @@
                             </a>
                         </li>
 
-                        <li class="sc-3ee1404a-7 dagRMy" *ngIf="shouldDisplay('leave-management')" routerLinkActive="iUctsy" routerLink="/leave-management"
-                        style="cursor: pointer;">
-                        <a class="sc-3ee1404a-9 iUctsy-new">
-                            <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
-                            </div>
-                            <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-kanban menu-icon"></i>
-                                Leave Management</span>
-                        </a>
-                    </li>
+                        
 
                         <!-- <li class="sc-3ee1404a-7 dagRMy" routerLink="/task-manager">
                         <a href="" class="sc-3ee1404a-9 iUctsy-new">
@@ -133,7 +144,7 @@
                 </a>
                 </li> -->
 
-                        <ng-container *ngIf="(ROLE | async) === ADMIN; else projectCondition">
+                        <ng-container *ngIf="ROLE === ADMIN; else projectCondition">
                             <li class="sc-3ee1404a-7 dagRMy" *ngIf="shouldDisplay('project')" style="cursor: pointer;">
                                 <a class="sc-3ee1404a-9 iUctsy-new">
                                     <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
@@ -225,7 +236,7 @@
 
 
 
-                <div class="bjRpmy" *ngIf="(ROLE | async) !== ADMIN" style="margin-bottom: 130px;">
+                <div class="bjRpmy" *ngIf="ROLE !== ADMIN" style="margin-bottom: 130px;">
 
                     <div class="sc-485d66d8-0 sc-39e987ab-0 iZfNPZ irmdrk sc-3ee1404a-4 izZYaK">ACCOUNT SETTINGS</div>
                     <ul class="cfyCez">

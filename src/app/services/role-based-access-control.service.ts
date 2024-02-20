@@ -68,6 +68,10 @@ export class RoleBasedAccessControlService {
     return this.userInfo.orgRefId;
   }
 
+  getUuid(){
+    return this.userInfo.uuid;
+  }
+
 
   async hasAccessToSubmodule(subModuleRouteValue: string): Promise<boolean> {
     debugger
