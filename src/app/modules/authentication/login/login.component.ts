@@ -40,10 +40,13 @@ confiirmPassword: string='';
     }
   }
 
+  ROLE:string | null = '';
+  UUID:string = '';
+
   signIn(){
     debugger
     this.loginButtonLoader = true;
-    this.dataService.loginUser(this.email, this.password).subscribe(response =>{
+    this.dataService.loginUser(this.email, this.password).subscribe(async response =>{
       debugger
       console.log(response);
       this.helperService.subModuleResponseList = response.subModuleResponseList;
@@ -51,7 +54,17 @@ confiirmPassword: string='';
       localStorage.setItem('token', response.tokenResponse.access_token);
       localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
 
-      this.router.navigate(['/dashboard']);
+      this.ROLE= await this.rbacService.getRole();
+      this.UUID= await this.rbacService.getUuid();
+  
+      if(this.ROLE==='USER'){
+        this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
+      }else{
+        this.router.navigate(['/dashboard']);
+      }
+      
+
+      // this.router.navigate(['/dashboard']);
       
     }, (error) =>{
       console.log(error.error.message);
