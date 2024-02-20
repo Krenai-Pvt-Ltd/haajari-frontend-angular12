@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelerySettingComponent } from './selery-setting.component';
+import { SalarySettingComponent } from './salary-setting.component';
 
-describe('SelerySettingComponent', () => {
-  let component: SelerySettingComponent;
-  let fixture: ComponentFixture<SelerySettingComponent>;
+describe('SalarySettingComponent', () => {
+  let component: SalarySettingComponent;
+  let fixture: ComponentFixture<SalarySettingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SelerySettingComponent ]
+      declarations: [ SalarySettingComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelerySettingComponent);
+    fixture = TestBed.createComponent(SalarySettingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
