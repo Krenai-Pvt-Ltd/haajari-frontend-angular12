@@ -261,7 +261,7 @@
                 </div>
 
                 <div *ngIf="!isLeaveManagementShimmerFlag && !isPlaceholderFlag">
-                    <div class="row align-items-center mb-3 border-bottom pb-3"
+                    <div class="row align-items-center mb-3 pb-3 leave-management-main"
                         *ngFor="let uLDeets of userLeaveDetailResponse; let i = index">
                         <div class="col-md-4">
                             <div class="leave-name">
@@ -333,9 +333,16 @@
                                                 <p class="mb-0">{{leaves.totalLeave}}</p><span class="total-holiday"
                                                     style="color:black !important;">Total</span>
                                             </div>
-                                            <div class="Approved">
+                                            <div class="Approved total-break-time-box">
                                                 <p class="mb-0" style="color:#3e993e">{{leaves.approvedLeave}}</p>
                                                 <span class="total-holiday">Approved</span>
+                                                <!-- <div class="total-braek-time">
+    
+                                                    <div>
+                                  
+          zvff
+                                                    </div>
+                                                </div> -->
                                             </div>
                                             <div class="Approved pending-css">
                                                 <p class="mb-0">{{leaves.pendingLeave}}</p>
@@ -365,44 +372,44 @@
                                 <!-- <div class="d-flex align-items-center justify-content-between">
                             <h5 class="mb-2">Leaves Request</h5>
                         </div> -->
-                                <div class="mt-2 leaves-request-type d-flex align-items-center" style="gap:15px;">
+                                <div class="mt-2 leaves-request-type d-flex align-items-center" style="gap:8px;">
                                     <!-- <div class="d-flex align-items-center mb-1" style="gap:15px;">
                                 <h5> Pradeep Yadav </h5>
                                  <p>Has requseted a leave</p>
                             </div> -->
                                     <!-- <div class="mb-1" style="color: #cccc;">|</div> -->
-                                    <div class="d-flex align-items-center mb-1" style="gap:15px;">
+                                    <div class="d-flex align-items-center mb-1" style="gap:5px;">
                                         <h5>Leave Type : </h5>
                                         <p>{{log.leavetype}}</p>
                                     </div>
                                     <div class="mb-1" style="color: #cccc;">|</div>
-                                    <div class="d-flex align-items-center mb-1" style="gap:15px;">
+                                    <div class="d-flex align-items-center mb-1" style="gap:5px;">
                                         <h5>Start Date : </h5>
                                         <p>{{log.startdate | date}}</p>
                                     </div>
                                     <div class="mb-1" style="color: #cccc;">|</div>
-                                    <div class="d-flex align-items-center mb-1" style="gap:15px;">
+                                    <div class="d-flex align-items-center mb-1" style="gap:5px;">
                                         <h5>End Date : </h5>
                                         <p>{{log.enddate | date}}</p>
                                     </div>
                                     <div class="mb-1" style="color: #cccc;">|</div>
-                                    <div class="d-flex align-items-center mb-1" style="gap:15px;">
+                                    <div class="d-flex align-items-center mb-1" style="gap:5px;">
                                         <h5>Leave Entitled : </h5>
                                         <p>{{log.totalleaves}}</p>
                                     </div>
                                     <div class="mb-1" style="color: #cccc;">|</div>
-                                    <div class="d-flex align-items-center mb-1" style="gap:15px;">
+                                    <div class="d-flex align-items-center mb-1" style="gap:5px;">
                                         <h5>Total Approved : </h5>
                                         <p>{{log.approvedleaves}}</p>
                                     </div>
 
                                 </div>
 
-                                <div class="d-flex align-items-center leaves-request-type mt-3" style="gap:15px;">
-                                    <div class="" style="width: 55px;">
+                                <div class="d-flex align-items-start leaves-request-type mt-3" style="gap:10px;">
+                                    <div class="" style="width: 50px;">
                                         <h5 style="font-size: 14px;">Notes : </h5>
                                     </div>
-                                    <div class="">
+                                    <div class="" style="width:75%">
                                         <p>{{log.notes}}</p>
                                     </div>
 
