@@ -436,3 +436,93 @@ a.add-more {
     background-color: #e9ebfe;
     border: 1px solid #4f5eee !important;
 }
+
+
+.py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+.bg-blue-50 {
+    background-color: #f0f6ff;
+}
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+.font-bold {
+    font-weight: 700;
+}
+.text-base {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+
+.font-medium {
+    font-weight: 500;
+}
+.text-xs {
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.p-4 {
+    padding: 1rem;
+}
+.bg-white {
+    background-color: #fff;
+}
+.border-gray-200 {
+    border-color: #e5e7eb;
+}
+.border {
+    border-width: 1px;
+}
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+.items-center {
+    align-items: center;
+}
+.flex {
+    display: flex;
+}
+
+.text-gray-600 {
+    color: #4b5563;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+
+.border-gray-200 {
+    border-color: #e5e7eb;
+}
+.border {
+    border-width: 1px;
+}
+.w-full {
+    width: 100%;
+}
+
+.employees-provident{
+    height: 450px;
+    overflow: scroll;
+    /* border: 1px solid #e8ebf3;
+    padding: 15px;
+    margin: 15px;
+    border-radius: 6px; */
+}
+
+.employees-provident::-webkit-scrollbar{
+    display: none;
+}

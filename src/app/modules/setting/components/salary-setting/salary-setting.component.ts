@@ -14,5 +14,6 @@ export class SalarySettingComponent implements OnInit {
 
 
   switchValue = false;
+  switchValueForPF = false;
 
 }
