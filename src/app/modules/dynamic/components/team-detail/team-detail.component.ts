@@ -44,7 +44,7 @@ export class TeamDetailComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.role =  await this.rbacService.getRole();
-    this.userUuid = this.rbacService.getUUID();
+    this.userUuid = await this.rbacService.getUUID();
     this.assignRole();
     this.getLoginDetailsId();
     this.getTeamMemberById();

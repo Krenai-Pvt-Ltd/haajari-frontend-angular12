@@ -114,7 +114,7 @@ export class EmployeeProfileComponent implements OnInit {
   currentNewDate: any;
   async ngOnInit(): Promise<void> {
     this.ROLE= await this.roleService.getRole();
-    this.UUID= this.roleService.getUUID();
+    this.UUID= await this.roleService.getUUID();
 
     if(this.ROLE==this.ADMIN){
     this.adminRoleFlag=true;
@@ -314,7 +314,7 @@ export class EmployeeProfileComponent implements OnInit {
   // var calendar = new Calendar(calendarEl, {
 
   @ViewChild('openEventsModal') openEventsModal!: ElementRef;
-  userAttendanceDetailDateWise:{checkInTime:string,checkOutTime:string, totalWorkingHours:string, breakCount:string, breakDuration:string, createdDate:string}={checkInTime:"",checkOutTime:"", totalWorkingHours:"", breakCount:"", breakDuration:"", createdDate:""};
+  userAttendanceDetailDateWise:{checkInTime:string,checkOutTime:string, totalWorkingHours:string, breakCount:string, breakDuration:string, createdDate:string, status:string}={checkInTime:"",checkOutTime:"", totalWorkingHours:"", breakCount:"", breakDuration:"", createdDate:"", status:""};
   attendanceDetailModalToggle:boolean=false;
   clientX:string="0px";
   clientY:string="0px";
@@ -328,12 +328,14 @@ export class EmployeeProfileComponent implements OnInit {
     this.userAttendanceDetailDateWise.breakDuration="";
     this.userAttendanceDetailDateWise.totalWorkingHours="";
     this.userAttendanceDetailDateWise.createdDate="";
+    this.userAttendanceDetailDateWise.status="";
     this.userAttendanceDetailDateWise.checkInTime=mouseEnterInfo.event._def.extendedProps.checkInTime;
     this.userAttendanceDetailDateWise.checkOutTime=mouseEnterInfo.event._def.extendedProps.checkOutTime;
     this.userAttendanceDetailDateWise.breakCount=mouseEnterInfo.event._def.extendedProps.breakCount;
     this.userAttendanceDetailDateWise.breakDuration=mouseEnterInfo.event._def.extendedProps.breakDuration;
     this.userAttendanceDetailDateWise.totalWorkingHours=mouseEnterInfo.event._def.extendedProps.totalWorkingHours;
     this.userAttendanceDetailDateWise.createdDate=mouseEnterInfo.event._def.extendedProps.createdDate;
+    this.userAttendanceDetailDateWise.status=mouseEnterInfo.event._def.extendedProps.status;
     // console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
     var rect = mouseEnterInfo.el.getBoundingClientRect();
     this.clientX=(rect.left)+"px";
@@ -361,9 +363,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.closeAttendanceModal();
   }
    
-  
-
-  
+    
   // });
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
 
@@ -425,49 +425,72 @@ export class EmployeeProfileComponent implements OnInit {
             //   this.attendanceDetails[0].length
             // );
             for (let i = 0; i < this.attendances.length; i++) {
-
-              const date = moment(this.attendances[i].createdDate).format('YYYY-MM-DD');
-              let title = '';
-             
-              if((date == moment(new Date()).format('YYYY-MM-DD')) && (this.attendances[i].checkInTime==null)){
-                title == '-';
-              } else {
-              title = this.attendances[i].checkInTime != null ? 'P' : 'A';
-              if (title == 'P') {
+              const attendance = this.attendances[i];
+              let title = this.getStatusTitle(attendance);
+              let color = this.getStatusColor(attendance.status);
+               if (attendance.status == 'Present') {
                 this.totalPresent++;
-              } else if (title == 'A') {
+              } else if (attendance.status == 'Absent') {
                 this.totalAbsent++;
               } 
-            }
-             
-              var checkInTime = this.attendances[i].checkInTime;
-              var checkOutTime = this.attendances[i].checkOutTime;
-              var breakCount = this.attendances[i].breakCount;
-              var breakDuration = this.attendances[i].totalBreakHours;
-              var totalWorkingHours = this.attendances[i].totalWorkingHours;
-              var createdDate = this.attendances[i].createdDate
-              var color = title == 'P' ? '#e0ffe0' : title == 'A' ? '#f8d7d7' : '';
-              var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, totalWorkingHours:any, createdDate:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, totalWorkingHours:totalWorkingHours, createdDate:createdDate };
-              this.events.push(tempEvent2);
+              const date = moment(this.attendances[i].createdDate).format('YYYY-MM-DD');
 
-              
-              if (i == this.attendances.length - 1) {
-                this.calendarOptions = {
-                  plugins: [dayGridPlugin],
-                  initialView: 'dayGridMonth',
-                  weekends: true,
-                  events: this.events,
-                  eventClick: this.openModal.bind(this),
-                  eventMouseEnter: this.openModal.bind(this),
-                  eventMouseLeave:this.mouseLeaveInfo.bind(this)
-                  // eventClick: function(mouseEnterInfo) {
-                  //   alert('Event: ' + mouseEnterInfo.event.title);
-                  // }
-                };
-              }
-              
+              var tempEvent2 = { 
+                title: title, 
+                date: date, 
+                color: color,
+                checkInTime: attendance.checkInTime,
+                checkOutTime: attendance.checkOutTime,
+                breakCount: attendance.breakCount,
+                breakDuration: attendance.totalBreakHours,
+                totalWorkingHours: attendance.totalWorkingHours,
+                createdDate: attendance.createdDate,
+                status: attendance.status
+              };
+              this.events.push(tempEvent2);
             }
           }
+  
+          this.updateCalendarOptions();
+            //   let title = '';
+             
+            //   if((date == moment(new Date()).format('YYYY-MM-DD')) && (this.attendances[i].checkInTime==null)){
+            //     title == '-';
+            //   } else {
+            //   title = this.attendances[i].checkInTime != null ? 'P' : 'A';
+            //   if (title == 'Present') {
+            //     this.totalPresent++;
+            //   } else if (title == 'Absent') {
+            //     this.totalAbsent++;
+            //   } 
+            // }
+             
+            //   var checkInTime = this.attendances[i].checkInTime;
+            //   var checkOutTime = this.attendances[i].checkOutTime;
+            //   var breakCount = this.attendances[i].breakCount;
+            //   var breakDuration = this.attendances[i].totalBreakHours;
+            //   var totalWorkingHours = this.attendances[i].totalWorkingHours;
+            //   var createdDate = this.attendances[i].createdDate
+            //   var color = title == 'Present' ? '#e0ffe0' : title == 'Absent' ? '#f8d7d7' : '';
+            //   var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, totalWorkingHours:any, createdDate:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, totalWorkingHours:totalWorkingHours, createdDate:createdDate };
+            //   this.events.push(tempEvent2);
+
+              
+              // if (i == this.attendances.length - 1) {
+              //   this.calendarOptions = {
+              //     plugins: [dayGridPlugin],
+              //     initialView: 'dayGridMonth',
+              //     weekends: true,
+              //     events: this.events,
+              //     eventClick: this.openModal.bind(this),
+              //     eventMouseEnter: this.openModal.bind(this),
+              //     eventMouseLeave:this.mouseLeaveInfo.bind(this)
+
+              //   };
+              // }
+              
+          //   }
+          // }
 
           var flag = false;
           if (!flag) {
@@ -484,6 +507,55 @@ export class EmployeeProfileComponent implements OnInit {
           // console.error('Error fetching data:', error);
         }
       );
+  }
+
+  updateCalendarOptions(): void {
+    this.calendarOptions = {
+      plugins: [dayGridPlugin],
+      initialView: 'dayGridMonth',
+      weekends: true,
+      events: this.events,
+      eventClick: this.openModal.bind(this),
+      eventMouseEnter: this.openModal.bind(this),
+      eventMouseLeave: this.mouseLeaveInfo.bind(this)
+    };
+  }
+  
+
+  getStatusTitle(attendance: { status: string; }): string {
+    if (attendance.status === 'Present') {
+      return 'P';
+    } else if (attendance.status === 'Absent') {
+      return 'A';
+    } else if (attendance.status === 'Weekly Holiday') {
+      return 'W';
+    } else if (attendance.status === 'Universal Holiday') {
+      return 'H';
+    }else if (attendance.status === 'Custom Holiday') {
+      return 'H';
+    } else if (attendance.status === 'Not Marked') {
+      return '-';
+    }
+    return '';
+  }
+
+  getStatusColor(status: any): string {
+    switch (status) {
+      case 'Present':
+        return '#e0ffe0'; 
+      case 'Absent':
+        return '#f8d7d7'; 
+      case 'Weekly Holiday':
+        return '#c6c6ff'; 
+      case 'Universal Holiday':
+        return '#f06d0640'; 
+      case 'Custom Holiday':
+        return '#f06d0640'; 
+      case 'Not Marked':
+        return '#cccccc'; 
+      default:
+        return '#ffffff'; 
+    }
   }
 
   calendarOptions: CalendarOptions = {

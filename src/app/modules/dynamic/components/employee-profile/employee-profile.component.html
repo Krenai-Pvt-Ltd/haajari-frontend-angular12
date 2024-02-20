@@ -1941,6 +1941,7 @@
         <div class="modal-content">
             <button type="button" class="d-none" #closeAttendanceDetailModalButton data-bs-dismiss="modal"></button>
             <div class="modal-body">
+
                 <div class="calenInfo" *ngIf="userAttendanceDetailDateWise.checkInTime!=null">
                     <p><b>Check In Time: </b>{{userAttendanceDetailDateWise.checkInTime | timeFormat}}</p>
                     <p><b>Check Out Time: </b>{{userAttendanceDetailDateWise.checkOutTime | timeFormat}}</p>
@@ -1949,8 +1950,16 @@
                     <p><b>Break Duration: </b>{{userAttendanceDetailDateWise.breakDuration}}</p>
                 </div>
                 <div class="calenInfo d-block"
-                    *ngIf="(userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined) && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
+                    *ngIf="((userAttendanceDetailDateWise.status=='Absent')) && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
                     <p><b>Absent!</b></p>
+                </div>
+                <div class="calenInfo d-block"
+                    *ngIf="((userAttendanceDetailDateWise.status=='Weekly Holiday')) && (userAttendanceDetailDateWise.status!=endDateStr)">
+                    <p><b>Weekends!</b></p>
+                </div>
+                <div class="calenInfo d-block"
+                    *ngIf="((userAttendanceDetailDateWise.status=='Universal Holiday') || (userAttendanceDetailDateWise.status=='Custom Holiday')) && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
+                    <p><b>Holiday!</b></p>
                 </div>
                 <div class="calenInfo d-block"
                     *ngIf="(userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined) && (userAttendanceDetailDateWise.createdDate==endDateStr)">
