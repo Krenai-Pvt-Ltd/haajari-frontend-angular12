@@ -410,9 +410,9 @@
                                 <div class="d-flex align-items-center btn-box mt-2" style="gap:15px;"
                                     *ngIf="(log.manager===logInUserUuid) || (ROLE=='ADMIN')">
                                     <button class="btn approved" type="button"
-                                        (click)="approveOrDeny(log.id, 'approved')">Approve</button>
+                                        (click)="approveOrDeny(log.id, 'approved', uLDeets.userDetails.uuid)">Approve</button>
                                     <button class="btn deny" type="button"
-                                        (click)="approveOrDeny(log.id, 'rejected')">Deny</button>
+                                        (click)="approveOrDeny(log.id, 'rejected', uLDeets.userDetails.uuid)">Deny</button>
                                 </div>
 
                             </div>
