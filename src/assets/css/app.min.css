@@ -3047,17 +3047,18 @@ a.badge:hover {
 }
 
 .modal-content .modal-header {
-    background-color: #0f172a
+    background-color: #fff;
+    border-bottom: 1px solid #eaf0f9;
 }
 
 .modal-content .modal-header .modal-title {
-    color: #fff;
+    color: #444;
     -ms-flex-item-align: center;
     align-self: center;
     font-weight: 500;
     margin-top: 0;
     font-family: Roboto, sans-serif;
-    font-size: 14px
+    font-size: 18px;
 }
 
 .modal-content .modal-footer {

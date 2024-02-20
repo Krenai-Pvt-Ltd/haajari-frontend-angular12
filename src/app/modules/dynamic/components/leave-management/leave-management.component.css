@@ -302,7 +302,7 @@
     display: flex;
 }
 .leaves-request-type h5{
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
     margin-bottom: 0px;
     color: #444;
@@ -310,7 +310,7 @@
 
 .leaves-request-type p{
     margin-bottom: 0px;
-    font-size: 12px;
+    font-size: 14px;
 }
 .approved{
     color: #3e993e;
@@ -482,3 +482,48 @@ span.members-name {
   .shimmer-main::-webkit-scrollbar{
     display: none;
   }
+
+  .leave-management-main{
+    border-bottom: 1px solid #e8ebf3;
+  }
+
+  .leave-management-main:last-child{
+    border-bottom: none;
+  }
+
+  .total-braek-time {
+    width: 160px;
+    border: 1px solid #f1f1f1;
+    /* padding : 15px; */
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    position: absolute;
+    z-index: 1;
+    top: 43px;
+    left: 7px;
+    background-color: #fff;
+    opacity: 0;
+    /* transition-duration: 1s; */
+    transform: translateY(15px);
+  transition: 0.2s linear;
+  border-radius: 10px;
+  visibility: hidden;
+}
+
+
+.total-braek-time p {
+    margin-bottom: 0px;
+    font-size: 11px;
+    color: #000444;
+    font-weight: 400;
+}
+
+.total-break-time-box:hover .total-braek-time{
+    opacity: 1 !important;
+    transform: translateY(0px);
+    visibility: visible;
+}
+
+.total-break-time-box{
+    cursor: pointer;
+    position: relative;
+}
