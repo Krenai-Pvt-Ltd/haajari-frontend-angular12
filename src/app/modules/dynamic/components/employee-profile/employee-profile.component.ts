@@ -1331,6 +1331,8 @@ requestUserForMoreDocs(){
   this.openRejectModal.nativeElement.click();
   this.requestForMoreDocs = true;
 }
-
+switchValueForPF = false;
+switchValueForESI = false;
+switchValueForProfessionalTax = false;
 }
 
