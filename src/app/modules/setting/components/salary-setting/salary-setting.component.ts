@@ -18,3 +18,4 @@ export class SalarySettingComponent implements OnInit {
   switchValueForProfessionalTax = false;
 
 }
+

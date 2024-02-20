@@ -138,7 +138,12 @@
              <div class="row">
                 <div class="col-md-12">
                     <div class="">
-                        <div class="d-flex align-items-center information-box">
+                        <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
+                            <a data-bs-toggle="modal" data-bs-target="#addsalarytemplate" style="font-size: 16px; color: #6666f3 !important;">
+                                <i class="bi bi-plus"></i> Add salary templates 
+                            </a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between information-box">
                             <div class="basic-text">
                                 <h5>Basic + DA</h5>
                                 <p class="mb-0">Included in PF calculation</p>
@@ -150,7 +155,8 @@
                                     <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i>
                                 </div>
                             </div>
-                            <div class="delete-btn">
+                            <div class="delete-btn d-flex align-items-center justify-content-end" style="gap:25px">
+                                <i class="bi bi-pencil-square edit-icon"></i>
                                 <i class="bi bi-trash"></i>
                             </div>
                         </div>
@@ -165,7 +171,8 @@
                                     <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i>
                                 </div>
                             </div>
-                            <div class="delete-btn">
+                            <div class="delete-btn d-flex align-items-center justify-content-end" style="gap:25px">
+                                <i class="bi bi-pencil-square edit-icon"></i>
                                 <i class="bi bi-trash"></i>
                             </div>
                         </div>
@@ -180,7 +187,8 @@
                                     <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i>
                                 </div>
                             </div>
-                            <div class="delete-btn">
+                            <div class="delete-btn d-flex align-items-center justify-content-end" style="gap:25px">
+                                <i class="bi bi-pencil-square edit-icon"></i>
                                 <i class="bi bi-trash"></i>
                             </div>
                         </div>
@@ -196,7 +204,8 @@
                                     <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i>
                                 </div>
                             </div>
-                            <div class="delete-btn">
+                            <div class="delete-btn d-flex align-items-center justify-content-end" style="gap:25px">
+                                <i class="bi bi-pencil-square edit-icon"></i>
                                 <i class="bi bi-trash"></i>
                             </div>
                         </div>
@@ -491,7 +500,8 @@
                                         <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i>
                                     </div>
                                 </div>
-                                <div class="delete-btn">
+                                <div class="delete-btn d-flex align-items-center" style="gap:10px;">
+                                    <i class="bi bi-pencil-square"></i>
                                     <i class="bi bi-trash"></i>
                                 </div>
                             </div>
@@ -1019,166 +1029,24 @@
    Full Page Modal
   </button> -->
 
-<div class="modal d-block" id="examplefullpage" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
-    <div class="modal-dialog modal-dialog-centered mx-auto modal-fullscreen" role="document">
+
+  <div id="addsalarytemplate" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
         <div class="modal-content">
             <div class="modal-header border-bottom" style="background-color: white;">
-                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Want to receive the salary according to the :-</h6>
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;"> Add more field</h6>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" ></button>
             </div>
-            <div class="modal-body employees-provident-tex">
-
-                <div class="row align-items-center">
-                    <div class="col-md-5">
-                        <div class="old-tex-redime text-left">
-                            <div class="tex-regime-haddng">
-                                <h5>New Tex Ragime</h5>
-                            </div>
-
-                            <div class="p-3">
-                                <div class="table-responsive bg-white">
-                                    <table class="table">
-                                        <thead class="thead-light table-design">
-                                            <tr> 
-                                                <th>Income Slab</th>
-                                                <th>New Tex Ragime</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-design">
-                                            <tr>
-                                                <td>₹0 - ₹2,50,000</td>
-                                                <td>  -  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹2,50,000  - ₹3,00,000</td>
-                                                <td> 5% </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹3,00,000 - ₹5,00,000</td>
-                                                <td>  5%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹5,00,000 - ₹6,00,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹6,00,000 - ₹7,50,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹7,50,000 - ₹9,00,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹9,00,000 - ₹10,00,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹10,00,000 - ₹12,00,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹12,00,000 - ₹12,50,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹12,50,000 - ₹15,00,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>>₹15,00,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                        </tbody>
-
-                                    </table>
-
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="text-center">
-                            <p class="mb-0">or</p>
-                        </div>
-                      
-                    </div>
-                    <div class="col-md-5">
-                        <div class="old-tex-redime text-left">
-                            <div class="tex-regime-haddng">
-                                <h5>Old Tex Ragime</h5>
-                            </div>
-                            <div class="p-3">
-                                <div class="table-responsive bg-white">
-                                    <table class="table">
-                                        <thead class="thead-light table-design">
-                                            <tr> 
-                                                <th>Income Slab</th>
-                                                <th>Old Tax Regime</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-design">
-                                            <tr>
-                                                <td>₹0 - ₹2,50,000</td>
-                                                <td>  -  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹2,50,000  - ₹3,00,000</td>
-                                                <td> 5% </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹3,00,000 - ₹5,00,000</td>
-                                                <td>  5%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹5,00,000 - ₹6,00,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹6,00,000 - ₹7,50,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹7,50,000 - ₹9,00,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹9,00,000 - ₹10,00,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹10,00,000 - ₹12,00,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹12,00,000 - ₹12,50,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹12,50,000 - ₹15,00,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>>₹15,00,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                        </tbody>
-
-                                    </table>
-
-                                </div>
-                                
-                            </div>
-                           
-                        </div>
-                    </div>
-
-                </div>
-             
-               
-               
+            <div class="modal-body">
+                <div class="form-group mb-3">
+                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">Field Name</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Field Name">
+                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="exampleInputPassword1" style="padding-bottom: 6px;">Percentage</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Percentage">
+                  </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-de-secondary" data-dismiss="modal" >Cancel</button>
@@ -1187,3 +1055,4 @@
         </div>
     </div>
 </div>
+
