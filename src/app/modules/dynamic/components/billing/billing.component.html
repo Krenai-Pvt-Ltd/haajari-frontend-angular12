@@ -149,72 +149,20 @@
                             <div class="mt-2">
                                 <ul id="myTab" role="tablist" class="nav nav-tabs">
                                     <li role="presentation" class="nav-item">
-                                        <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                                            role="tab" aria-controls="home" aria-selected="true" class="nav-link active" #templateSettingTab
-                                            (click)="getDueInvoices()">Due payments</button>
+                                        <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                                            type="button" role="tab" aria-controls="home" aria-selected="true"
+                                            class="nav-link active" #leaveCategoryTab (click)="getInvoices()">Payment history</button>
                                     </li>
                                     <li role="presentation" class="nav-item">
-                                        <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                                            type="button" role="tab" aria-controls="profile" aria-selected="false"
-                                            class="nav-link" #leaveCategoryTab (click)="getInvoices()">Payment history</button>
+                                        <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                                            role="tab" aria-controls="profile" aria-selected="false" class="nav-link" #templateSettingTab
+                                            (click)="getDueInvoices()">Due payments</button>
                                     </li>
                                 </ul>
 
                                 <div class="tab-content" id="myTabContent">
 
                                     <div class="tab-pane fade show active" id="home" role="tabpanel">
-                                        <div class="pt-3 pb-3">
-
-                                            <div class="">
-                                                
-                                                <div class="col-md-12" *ngIf="dueInvoicesList.length == 0" style="margin-left: 400px;">
-                                                    <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px;"
-                                                                >
-                                                                <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px;">
-                                                                    <div class="errorboxplaceholder">
-                                                                        <img src="assets/images/empty-box.svg" style="width:50px;" />
-                                                                    </div>
-                                                                    <div class="">
-                                                                        <h6 style="font-size: 13px; margin-bottom: 0px;">No Data Found</h6>
-                                                                        <!-- <p class="mb-0">There's no pending employees!</p> -->
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                </div>
-                                                <table class="table" *ngIf="dueInvoicesList.length > 0">
-                                                    <thead class="thead-light table-design">
-                                                        <tr>
-                                                            <th style="width:10%">Invoice Date</th>
-                                                            <th style="width:25%">Invoice Id</th>
-                                                            <th style="width:10%">Plan</th>
-                                                            <th style="width:10%">Due Date</th>
-                                                            <th style="width:10%">Status</th>
-                                                            <th style="width:10%">Amount</th>
-                                                            <th style="width:10%">Valid From</th>
-                                                            <th style="width:10%">Valid Till</th>
-                                                            <th style="width:10%">Invoice</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="table-design">
-                                                        <tr *ngFor="let dueInvoice of dueInvoicesList">
-                                                            <td><p class="tableinfo mb-0">{{dueInvoice.createdDate | date: 'dd MMM yyyy'}}</p> </td>
-                                                            <td><p class="tableinfo mb-0">{{dueInvoice.invoiceNo}}</p></td>
-                                                            <td><p class="tableinfo mb-0">{{dueInvoice.planName}}</p></td>
-                                                            <td><p class="tableinfo mb-0">{{dueInvoice.dueDate | date: 'dd MMM yyyy'}}</p> </td>
-                                                            <td><span class="unpaid">Unpaid</span></td>
-                                                            <td>₹{{dueInvoice.payableAmount}}</td>
-                                                            <td><p class="tableinfo mb-0">N/A</p></td>
-                                                            <td><p class="tableinfo mb-0">N/A</p></td>
-                                                            <td><button class="btn btn-primary" type="button">Pay</button></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="profile" role="tabpanel">
                                         <div class="pt-3 pb-3">
 
                                             <div class="">
@@ -277,6 +225,56 @@
 
                                         </div>
                                     </div>
+                                    <div class="tab-pane fade" id="profile" role="tabpanel">
+                                        <div class="pt-3 pb-3">
+
+                                            <div class="">
+                                                
+                                                <div class="col-md-12" *ngIf="dueInvoicesList.length == 0" style="margin-left: 400px;">
+                                                    <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px;"
+                                                                >
+                                                                <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px;">
+                                                                    <div class="errorboxplaceholder">
+                                                                        <img src="assets/images/empty-box.svg" style="width:50px;" />
+                                                                    </div>
+                                                                    <div class="">
+                                                                        <h6 style="font-size: 13px; margin-bottom: 0px;">No Data Found</h6>
+                                                                        <!-- <p class="mb-0">There's no pending employees!</p> -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                </div>
+                                                <table class="table" *ngIf="dueInvoicesList.length > 0">
+                                                    <thead class="thead-light table-design">
+                                                        <tr>
+                                                            <th style="width:10%">Invoice Date</th>
+                                                            <th style="width:25%">Invoice Id</th>
+                                                            <th style="width:10%">Plan</th>
+                                                            <th style="width:10%">Due Date</th>
+                                                            <th style="width:10%">Status</th>
+                                                            <th style="width:10%">Amount</th>
+                                                            <th style="width:10%">Valid From</th>
+                                                            <th style="width:10%">Valid Till</th>
+                                                            <th style="width:10%">Invoice</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table-design">
+                                                        <tr *ngFor="let dueInvoice of dueInvoicesList">
+                                                            <td><p class="tableinfo mb-0">{{dueInvoice.createdDate | date: 'dd MMM yyyy'}}</p> </td>
+                                                            <td><p class="tableinfo mb-0">{{dueInvoice.invoiceNo}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{dueInvoice.planName}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{dueInvoice.dueDate | date: 'dd MMM yyyy'}}</p> </td>
+                                                            <td><span class="unpaid">Unpaid</span></td>
+                                                            <td>₹{{dueInvoice.payableAmount}}</td>
+                                                            <td><p class="tableinfo mb-0">{{dueInvoice.fromDate | date: 'dd MMM yyyy'}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{dueInvoice.toDate | date: 'dd MMM yyyy'}}</p></td>
+                                                            <td><button class="btn btn-primary" type="button" (click)="proceedToPay(dueInvoice.payableAmount,dueInvoice.invoiceNo)">Pay</button></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
     
@@ -300,7 +298,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Add More Employee</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Employee</h1>
                 <button type="button" #closeMoreEmployee class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form #employeeAddForm="ngForm">

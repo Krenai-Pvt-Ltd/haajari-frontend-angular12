@@ -22,9 +22,8 @@ export class BillingComponent implements OnInit {
 
   
   currentDate: Date = new Date('2024-02-12');
-  midDateOfMonth: Date = new Date('2024-02-15');
   // currentDate: Date;
-  // midDateOfMonth: Date;
+  midDateOfMonth: Date;
 
   orgUuid: string = "";
   constructor(private _subscriptionPlanService:SubscriptionPlanService,
@@ -35,14 +34,14 @@ export class BillingComponent implements OnInit {
       this.orgUuid = helper.decodeToken(token).orgRefId;
 
       // this.currentDate = new Date();
-      // this.midDateOfMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 15);
+      this.midDateOfMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 15);
     
     }
 
   ngOnInit(): void {
     this.getAllSubscription();
     this.getPurchasedStatus();
-    this.getDueInvoices();
+    this.getInvoices();
     this.getOrgSubsPlanMonthDetail();
   }
 
@@ -97,8 +96,12 @@ export class BillingComponent implements OnInit {
     else
     {
       this.totalAmount = this.planAmount * this.newEmployee;
+      this.totalAmount = this.totalAmount+ this.totalAmount*18/100
+      this.paymentFor = "add_employee"
       if(this.OrgSubsPlanMonthDetail.planType=="annual"){
-        this.totalAmount = this.planAmount * this.newEmployee* this.OrgSubsPlanMonthDetail.remainingMonths
+        this.totalAmount = this.planAmount * this.newEmployee* this.OrgSubsPlanMonthDetail.remainingMonths;
+        this.totalAmount = this.totalAmount-this.totalAmount*20/100 //totalAmount with 20% discount
+        this.totalAmount = this.totalAmount+ this.totalAmount*18/100 //totalAmount with 18% gst include
       }
       this.openRazorPay();
     }
@@ -135,8 +138,8 @@ export class BillingComponent implements OnInit {
       // },
       "notes": {
         "orgUuid": this.orgUuid,
-        "orderId": "order-id",
-        "type": "add_employee",
+        "orderId": this.invoiceNo,
+        "type": this.paymentFor,
         "orderFrom": "Hajiri",
         "subscriptionPlanId":this.planId,
         "noOfEmployee": this.newEmployee,
@@ -151,7 +154,19 @@ export class BillingComponent implements OnInit {
   }
 
   checkout(value:any){
-    console.log(value);
+    debugger
+    if(this.paymentFor == 'add_employee'){
+      this.closeMoreEmployee.nativeElement.click();
+      this.helperService.showToast("Employee successfully added", Key.TOAST_STATUS_SUCCESS);
+      this.getInvoices();
+    }
+    else if(this.paymentFor == 'due_invoice')
+    {
+      this.helperService.showToast("Payment Successful", Key.TOAST_STATUS_SUCCESS);
+      this.getDueInvoices();
+    }
+    
+    
   }
 
   invoicesList: any[] = new Array();
@@ -201,6 +216,15 @@ export class BillingComponent implements OnInit {
         this.OrgSubsPlanMonthDetail = response.object;
       }
     })
+  }
+
+  invoiceNo: string = '';
+  paymentFor: string = '';
+  proceedToPay(amount:any, invoiceNo:any){
+    this.totalAmount = amount;
+    this.invoiceNo = invoiceNo;
+    this.paymentFor = "due_invoice"
+    this.openRazorPay();
   }
 
 }

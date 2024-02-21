@@ -147,10 +147,10 @@ export class Key{
     public static LEAVE = "Leave";
     
 
-    // base_url = "http://localhost:8080/api/v2/";
+    base_url = "http://localhost:8080/api/v2/";
 
     /* ------------------  Staging urls ----------------*/
-    base_url = "https://backend.hajiri.work/api/v2/";
+    // base_url = "https://backend.hajiri.work/api/v2/";
     
 
     get_subscription = "subcription-plan"; 
@@ -160,6 +160,7 @@ export class Key{
     add_more_employee = "organization-subs-plan/add-more-employee"
 
     get_invoices = "invoices"
+    get_last_invoices = "invoices/last-invoices"
     get_due_invoices = "invoices/due-invoices"
 
     get_plan_purchased_log = "subcription-plan-log"

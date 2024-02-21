@@ -45,6 +45,9 @@ export class SubscriptionPlanService {
   getInvoices(){
     return this._httpClient.get<any>(this._key.base_url + this._key.get_invoices)
   }
+  getLastInvoices(){
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_last_invoices)
+  }
 
   getDueInvoices(){
     return this._httpClient.get<any>(this._key.base_url + this._key.get_due_invoices)
