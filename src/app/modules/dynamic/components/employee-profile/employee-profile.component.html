@@ -884,7 +884,7 @@
 
 
 
-                                                    <div class="errorboxmain" style="min-height: 45vh;">
+                                                    <div class="errorboxmain" style="min-height: 45vh;" *ngIf="isSalaryPlaceholderFlag">
                                                         <div class="errorboxinner text-center">
                                                             <div class="errorboxplaceholder mb-2">
                                                                 <img src="assets/images/empty-box.svg"
@@ -1540,7 +1540,7 @@
 
                                                         <tbody class="table-design" *ngIf="!isDocsPlaceholder && (documentsEmployee.length!=0)">
                                                             <tr  *ngFor="let docs of documentsEmployee">
-                                                                <td colspan="3"  >
+                                                                <td colspan="3"  *ngIf="docs.documentUrl!=''">
                                                                     <div class="d-flex align-items-center justify-content-between document-deta"
                                                                        >
                                                                         <div class="d-flex align-items-center ">

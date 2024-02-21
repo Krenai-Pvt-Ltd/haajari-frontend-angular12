@@ -40,13 +40,13 @@ export class TeamComponent implements OnInit{
   rowNumber : number = 1;
 
   loginDetails = this.helperService.getDecodedValueFromToken();
-  assignRole(){
-    this.role = this.rbacService.getRole();
-    this.userUuid = this.rbacService.getUUID();
+  async assignRole(){
+    // this.role =  await this.rbacService.getRole();
+    // this.userUuid = await this.rbacService.getUUID();
     this.orgRefId = this.rbacService.getOrgRefUUID();
   }
-  role: any;
-  userUuid : any;
+  // role: any;
+  // userUuid : any;
   orgRefId : any;
   ROLE: any;
   logInUserUuid: string="";
@@ -486,7 +486,7 @@ export class TeamComponent implements OnInit{
   {
     this.slackDataPlaceholderFlag=true;
     // console.log(bulkId)
-    this.db.object("hajiri_notification"+"/"+"organization_"+this.orgRefId+"/"+"user_"+this.userUuid+"/"+this.uniqueUuid).valueChanges()
+    this.db.object("hajiri_notification"+"/"+"organization_"+this.orgRefId+"/"+"user_"+this.logInUserUuid+"/"+this.uniqueUuid).valueChanges()
       .subscribe(async res => {
 
         //@ts-ignore
@@ -521,7 +521,7 @@ export class TeamComponent implements OnInit{
     this.firebaseDataReloadFlag=true;
     this.rotateToggle=true;
     // console.log(bulkId)
-    this.db.object("hajiri_notification"+"/"+"organization_"+this.orgRefId+"/"+"user_"+this.userUuid+"/"+this.uniqueUuid).valueChanges()
+    this.db.object("hajiri_notification"+"/"+"organization_"+this.orgRefId+"/"+"user_"+this.logInUserUuid+"/"+this.uniqueUuid).valueChanges()
       .subscribe(async res => {
 
         //@ts-ignore

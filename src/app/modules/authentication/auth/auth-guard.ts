@@ -10,8 +10,16 @@ export class AuthGuard implements CanActivate {
 
   constructor(private router: Router, private rbacService: RoleBasedAccessControlService) {}
 
+  UUID:any;
+  ROLE:any;
+  async ngOnInit(): Promise<void> {
+    this.UUID = await this.rbacService.getUUID();
+    this.ROLE = await this.rbacService.getRole();
+
+  }
+
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-    
+    debugger
     const token = localStorage.getItem('token');
     if (! await (this.isValidTokenFormat(token))) {
       this.router.navigate(['/auth/login']);
@@ -23,7 +31,7 @@ export class AuthGuard implements CanActivate {
     if(route !== null && route.routeConfig !== null){
 
       if(await this.rbacService.getRole() == Key.USER && route.routeConfig.path == 'dashboard') {
-        this.router.navigate(['/employee-profile'], {queryParams : {"userId" : this.rbacService.getUUID()}});
+        this.router.navigate(['/employee-profile'], {queryParams : {"userId" : await this.rbacService.getUUID(), dashboardActive: 'true' }});
         return false;
       }
 
