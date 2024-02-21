@@ -435,7 +435,7 @@ button.btn.close-btn {
     height: 8px;
     border-radius: 50%;
     background-color: #6666f3; /* Change to your preferred color */
-    margin: 0 4px;
+    margin: 0 40px;
     animation: dotOpacity 1.4s infinite ease-in-out both;
 }
 

@@ -79,45 +79,107 @@
      </div>
 
      <div class="col-md-7">
-        
-
-         <div class="row mb-3">
-            <div class="attendance-settin-list">
-                <div class="categryCustomizecard d-flex pointer attendance-active">
-                    <div class="categryCustomizeinfo">
-                        <label for="customizecategory1" class="mb-0">
-                            <h3> Celendar Month</h3>
-                            <p> Large images are best for products where every detail is a part of the product’s value.</p>
-                        </label>
+        <ng-container *ngIf="isShimmerForSalaryCalculationMode && salaryCalculationModeList.length === 0 && !dataNotFoundPlaceholderForSalaryCalculationMode && !networkConnectionErrorPlaceHolderForSalaryCalculationMode; else salaryCalculationModeElseCondition">
+            <div class="row" >
+                <div class="col-md-12">
+                    <div class="attendance-settin-list mb-3">
+                        <ngx-shimmer-loading [width]="'100%'" [height]="'60px'" style="border-radius: 50%"></ngx-shimmer-loading>
                     </div>
-                    <div class="active-check">
-                        <i class="bi bi-check2"></i>
+                    <div class="attendance-settin-list mb-3">
+                        <ngx-shimmer-loading [width]="'100%'" [height]="'60px'" style="border-radius: 50%"></ngx-shimmer-loading>
                     </div>
-                </div>
-                <div class="categryCustomizecard d-flex pointer">
-                    <div class="categryCustomizeinfo">
-                        <label for="customizecategory1" class="mb-0">
-                            <h3> Every Month 30 Days</h3>
-                            <p> Large images are best for products where every detail is a part of the product’s value.</p>
-                        </label>
-                    </div>
-                    <div class="noactive-check">
-                        <i class="bi bi-check2"></i>
-                    </div>
-                </div>
-                <div class="categryCustomizecard d-flex pointer">
-                    <div class="categryCustomizeinfo">
-                        <label for="customizecategory1" class="mb-0">
-                            <h3> Exclude Weekly Offs</h3>
-                            <p> Large images are best for products where every detail is a part of the product’s value.</p>
-                        </label>
-                    </div>
-                    <div class="noactive-check">
-                        <i class="bi bi-check2"></i>
+                    <div class="attendance-settin-list mb-3">
+                        <ngx-shimmer-loading [width]="'100%'" [height]="'60px'" style="border-radius: 50%"></ngx-shimmer-loading>
                     </div>
                 </div>
             </div>
-         </div>
+        </ng-container>
+        
+        <ng-template #salaryCalculationModeElseCondition>
+            <ng-container *ngIf="salaryCalculationModeList.length !== 0 && !dataNotFoundPlaceholderForSalaryCalculationMode && !networkConnectionErrorPlaceHolderForSalaryCalculationMode; else errorInFetchingSalaryCalculationMode">
+                <div class="row mb-3">
+                    <div class="attendance-settin-list" *ngFor="let salaryCalculationMode of salaryCalculationModeList">
+                        <div class="categryCustomizecard d-flex pointer attendance-active" [ngClass]="{'attendance-active' : salaryCalculationMode.id == selectedSalaryCalculationModeId}" data-bs-toggle="modal" data-bs-target="#confirmationDialog">
+                            <div class="categryCustomizeinfo">
+                                <label for="customizecategory{{salaryCalculationMode.id}}" class="mb-0">
+                                    <h3> {{salaryCalculationMode.name}}</h3>
+                                    <p> Ex: {{salaryCalculationMode.example}} ({{salaryCalculationMode.description}})</p>
+                                </label>
+                            </div>
+                            <div class="active-check ng-star-inserted">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadio{{salaryCalculationMode.id}}" id="exampleRadio{{salaryCalculationMode.id}}" value="option{{salaryCalculationMode.id}}" [checked]="salaryCalculationMode.id == selectedSalaryCalculationModeId">
+                                  </div>
+                            </div>
+                        </div>
+                        <!-- <div class="categryCustomizecard d-flex pointer">
+                            <div class="categryCustomizeinfo">
+                                <label for="customizecategory1" class="mb-0">
+                                    <h3> Every Month 30 Days</h3>
+                                    <p> Large images are best for products where every detail is a part of the product’s value.</p>
+                                </label>
+                            </div>
+                            <div class="active-check ng-star-inserted">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios2" id="exampleRadios2" value="option2">
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="categryCustomizecard d-flex pointer">
+                            <div class="categryCustomizeinfo">
+                                <label for="customizecategory1" class="mb-0">
+                                    <h3> Exclude Weekly Offs</h3>
+                                    <p> Large images are best for products where every detail is a part of the product’s value.</p>
+                                </label>
+                            </div>
+                            <div class="active-check ng-star-inserted">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios3" id="exampleRadios3" value="option3">
+                                  </div>
+                            </div>
+                        </div> -->
+                    </div>
+                 </div>
+            </ng-container>
+        </ng-template>
+        
+        <ng-template #errorInFetchingSalaryCalculationMode>
+            <div class="empty-file" *ngIf="dataNotFoundPlaceholderForSalaryCalculationMode">
+                <div class="errorboxmain" >
+                    <div class="errorboxinner">
+                        <div class="errorboxplaceholder mb-2">
+                            <img src="assets/images/empty-box.svg" style="width:80px;"/>
+                        </div>
+                        <div class="">
+                            <p class="mb-0">Salary Calculation Mode Not Found</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolderForSalaryCalculationMode">
+                <div class="errorboxmain">
+                    <div class="errorboxinner text-center">
+                    <div class="errorboxplaceholder mb-2">
+                        <img
+                        src="assets/images/signal.svg"
+                        style="width: 80px"
+                        />
+                    </div>
+                    <div class="">
+                        <h4>Something went wrong</h4>
+                        <p>
+                        An error occurred while processing your
+                        request. Please refresh the page and try
+                        again.
+                        </p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+         
      </div>
 
      <div class="col-md-12">
@@ -138,7 +200,12 @@
              <div class="row">
                 <div class="col-md-12">
                     <div class="">
-                        <div class="d-flex align-items-center information-box">
+                        <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
+                            <a data-bs-toggle="modal" data-bs-target="#addsalarytemplate" style="font-size: 16px; color: #6666f3 !important;">
+                                <i class="bi bi-plus"></i> Add salary templates 
+                            </a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between information-box">
                             <div class="basic-text">
                                 <h5>Basic + DA</h5>
                                 <p class="mb-0">Included in PF calculation</p>
@@ -150,7 +217,8 @@
                                     <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i>
                                 </div>
                             </div>
-                            <div class="delete-btn">
+                            <div class="delete-btn d-flex align-items-center justify-content-end" style="gap:25px">
+                                <i class="bi bi-pencil-square edit-icon"></i>
                                 <i class="bi bi-trash"></i>
                             </div>
                         </div>
@@ -165,7 +233,8 @@
                                     <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i>
                                 </div>
                             </div>
-                            <div class="delete-btn">
+                            <div class="delete-btn d-flex align-items-center justify-content-end" style="gap:25px">
+                                <i class="bi bi-pencil-square edit-icon"></i>
                                 <i class="bi bi-trash"></i>
                             </div>
                         </div>
@@ -180,7 +249,8 @@
                                     <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i>
                                 </div>
                             </div>
-                            <div class="delete-btn">
+                            <div class="delete-btn d-flex align-items-center justify-content-end" style="gap:25px">
+                                <i class="bi bi-pencil-square edit-icon"></i>
                                 <i class="bi bi-trash"></i>
                             </div>
                         </div>
@@ -196,7 +266,8 @@
                                     <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i>
                                 </div>
                             </div>
-                            <div class="delete-btn">
+                            <div class="delete-btn d-flex align-items-center justify-content-end" style="gap:25px">
+                                <i class="bi bi-pencil-square edit-icon"></i>
                                 <i class="bi bi-trash"></i>
                             </div>
                         </div>
@@ -491,7 +562,8 @@
                                         <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i>
                                     </div>
                                 </div>
-                                <div class="delete-btn">
+                                <div class="delete-btn d-flex align-items-center" style="gap:10px;">
+                                    <i class="bi bi-pencil-square"></i>
                                     <i class="bi bi-trash"></i>
                                 </div>
                             </div>
@@ -1019,166 +1091,24 @@
    Full Page Modal
   </button> -->
 
-<div class="modal d-block" id="examplefullpage" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
-    <div class="modal-dialog modal-dialog-centered mx-auto modal-fullscreen" role="document">
+
+  <div id="addsalarytemplate" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
         <div class="modal-content">
             <div class="modal-header border-bottom" style="background-color: white;">
-                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Want to receive the salary according to the :-</h6>
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;"> Add more field</h6>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" ></button>
             </div>
-            <div class="modal-body employees-provident-tex">
-
-                <div class="row align-items-center">
-                    <div class="col-md-5">
-                        <div class="old-tex-redime text-left">
-                            <div class="tex-regime-haddng">
-                                <h5>New Tex Ragime</h5>
-                            </div>
-
-                            <div class="p-3">
-                                <div class="table-responsive bg-white">
-                                    <table class="table">
-                                        <thead class="thead-light table-design">
-                                            <tr> 
-                                                <th>Income Slab</th>
-                                                <th>New Tex Ragime</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-design">
-                                            <tr>
-                                                <td>₹0 - ₹2,50,000</td>
-                                                <td>  -  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹2,50,000  - ₹3,00,000</td>
-                                                <td> 5% </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹3,00,000 - ₹5,00,000</td>
-                                                <td>  5%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹5,00,000 - ₹6,00,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹6,00,000 - ₹7,50,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹7,50,000 - ₹9,00,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹9,00,000 - ₹10,00,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹10,00,000 - ₹12,00,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹12,00,000 - ₹12,50,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹12,50,000 - ₹15,00,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>>₹15,00,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                        </tbody>
-
-                                    </table>
-
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="text-center">
-                            <p class="mb-0">or</p>
-                        </div>
-                      
-                    </div>
-                    <div class="col-md-5">
-                        <div class="old-tex-redime text-left">
-                            <div class="tex-regime-haddng">
-                                <h5>Old Tex Ragime</h5>
-                            </div>
-                            <div class="p-3">
-                                <div class="table-responsive bg-white">
-                                    <table class="table">
-                                        <thead class="thead-light table-design">
-                                            <tr> 
-                                                <th>Income Slab</th>
-                                                <th>Old Tax Regime</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-design">
-                                            <tr>
-                                                <td>₹0 - ₹2,50,000</td>
-                                                <td>  -  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹2,50,000  - ₹3,00,000</td>
-                                                <td> 5% </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹3,00,000 - ₹5,00,000</td>
-                                                <td>  5%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹5,00,000 - ₹6,00,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹6,00,000 - ₹7,50,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹7,50,000 - ₹9,00,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹9,00,000 - ₹10,00,000</td>
-                                                <td>  20%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹10,00,000 - ₹12,00,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹12,00,000 - ₹12,50,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>₹12,50,000 - ₹15,00,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                            <tr>
-                                                <td>>₹15,00,000</td>
-                                                <td>  30%  </td>
-                                            </tr>
-                                        </tbody>
-
-                                    </table>
-
-                                </div>
-                                
-                            </div>
-                           
-                        </div>
-                    </div>
-
-                </div>
-             
-               
-               
+            <div class="modal-body">
+                <div class="form-group mb-3">
+                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">Field Name</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Field Name">
+                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="exampleInputPassword1" style="padding-bottom: 6px;">Percentage</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Percentage">
+                  </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-de-secondary" data-dismiss="modal" >Cancel</button>
@@ -1187,3 +1117,46 @@
         </div>
     </div>
 </div>
+
+
+
+<!-- <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
+    aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important;">
+        <div class="modal-content p-0" style="border-radius: 15px;">
+            <form #confirmationForm="ngForm">
+
+                <div class="modal-body text-center mt-1 mb-3">
+
+
+                    <img src="assets/images/delete.svg" style="width:70px;">
+
+                    <h3 class="confirm-detail">Are you sure, you wish to proceed? </h3>
+
+                    <p>Note: <span style="color: #a1a0a0;">By clicking on this, your changes will get reflect.</span></p>
+
+                    <div class="d-flex align-items-center justify-content-center mt-4" style="gap: 15px;">
+
+                        <button type="button" class="btn btn-primary btnmarkcancel" data-bs-dismiss="modal" #closeUserDeleteModal> Cancel
+                        </button>
+                        <button type="button" class="btn btnmarkdelete"> Proceed </button>
+
+
+                        <div class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div> -->
+
+
+
+  

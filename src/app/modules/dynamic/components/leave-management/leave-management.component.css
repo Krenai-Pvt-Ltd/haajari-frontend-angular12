@@ -310,7 +310,8 @@
 
 .leaves-request-type p{
     margin-bottom: 0px;
-    font-size: 14px;
+    font-size: 13px;
+    color: #878A9A;
 }
 .approved{
     color: #3e993e;
@@ -492,23 +493,27 @@ span.members-name {
   }
 
   .total-braek-time {
-    width: 160px;
+    width: 180px;
     border: 1px solid #f1f1f1;
-    /* padding : 15px; */
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     position: absolute;
     z-index: 1;
-    top: 43px;
-    left: 7px;
+    top: -41px;
+    padding-bottom: 0px !important;
+    left: 76px;
+    padding: 10px;
     background-color: #fff;
     opacity: 0;
-    /* transition-duration: 1s; */
     transform: translateY(15px);
-  transition: 0.2s linear;
-  border-radius: 10px;
-  visibility: hidden;
+    transition: 0.2s linear;
+    border-radius: 5px;
+    visibility: hidden;
+    height: 90px;
+    overflow: scroll;
 }
-
+.total-braek-time::-webkit-scrollbar{
+    display: none;
+}
 
 .total-braek-time p {
     margin-bottom: 0px;
@@ -526,4 +531,85 @@ span.members-name {
 .total-break-time-box{
     cursor: pointer;
     position: relative;
+}
+
+.calenInfo p{
+    margin-bottom: 0.4rem;
+    font-size: 12px;
+    color: #222 !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    grid-column-gap: 10px;
+    column-gap: 10px;
+}
+
+
+.hover-popup {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    top: 70%;
+    left: 5%;
+    width: 50ch;
+    margin: min(1rem, 20px);
+    font-size: .8rem;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1.5em;
+    z-index: 999;
+    transform: scale(0);
+    transition: transform 200ms ease;
+    transform-origin: 8% -10px;
+  }
+
+  .total-break-time-box:focus + .hover-popup,
+.hover-popup:hover{
+  transform: scale(1);
+  display: block;
+}
+
+.hover-popup :not(:first-child) {
+  margin-top: 1rem;
+}
+
+.hover-popup span {
+  color: rgb(200, 20, 0);
+  font-weight: 700;
+}
+
+.hover-popup::before {
+/* This is the triangle/arrow */
+  content: '';
+  position: absolute;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #fff;
+  top: -10px;
+}
+
+.hover-popup::after {
+  /* This is merely here to expand the hoverable area, as a buffer between the "Hover me" text and the popup. */
+  content: '';
+  position: absolute;
+  top: -1rem;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-delay: -1ms !important;
+    animation-duration: -1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
 }

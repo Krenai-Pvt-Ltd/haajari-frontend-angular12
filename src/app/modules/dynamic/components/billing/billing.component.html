@@ -5,7 +5,7 @@
             <div class="mt-3">
                  <div class="row">
                     <div class="col-md-4" *ngFor="let subscription of subscriptionList">
-                        <div class="bill-detail">
+                        <div class="bill-detail" [ngClass]="{'active-plan': subscription.isPurchased == 1}">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="">
                                    <div class="d-flex align-items-center" style="gap:15px;">
@@ -43,7 +43,7 @@
                                 <!-- <button type="button" class="btn plan-active-btn">Learn more</button> -->
                                 <button type="button" *ngIf="subscription.isPurchased == 0 && isPurchased" class="btn switch-plan" (click)="routeToBillingPaymentPage(subscription.id)"><i class="bi bi-arrow-left-right pr-2" style="padding-right: 10px;"></i>Switch Plan</button>
                                 <button type="button" *ngIf="subscription.isPurchased == 0 && !isPurchased" class="btn switch-plan" (click)="routeToBillingPaymentPage(subscription.id)">Subscribe</button>
-                                <button type="button" *ngIf="subscription.isPurchased == 1 && isPurchased" class="btn switch-plan" (click)="openAddMoreEmployeeModel(subscription.amount,subscription.id)">Add More Employee</button>
+                                <button type="button" *ngIf="subscription.isPurchased == 1 && isPurchased" class="btn btn-primary w-100" (click)="openAddMoreEmployeeModel(subscription.amount,subscription.id)">Add Employee</button>
                                 
                             </div>
 
@@ -149,20 +149,96 @@
                             <div class="mt-2">
                                 <ul id="myTab" role="tablist" class="nav nav-tabs">
                                     <li role="presentation" class="nav-item">
-                                        <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                                            role="tab" aria-controls="home" aria-selected="true" class="nav-link active" #templateSettingTab
-                                            (click)="getDueInvoices()">Due payments</button>
+                                        <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                                            type="button" role="tab" aria-controls="home" aria-selected="true"
+                                            class="nav-link active" #leaveCategoryTab (click)="getInvoices()">Payment history</button>
                                     </li>
                                     <li role="presentation" class="nav-item">
-                                        <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                                            type="button" role="tab" aria-controls="profile" aria-selected="false"
-                                            class="nav-link" #leaveCategoryTab (click)="getInvoices()">Payment history</button>
+                                        <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                                            role="tab" aria-controls="profile" aria-selected="false" class="nav-link" #templateSettingTab
+                                            (click)="getDueInvoices()">Due payments</button>
                                     </li>
                                 </ul>
 
                                 <div class="tab-content" id="myTabContent">
 
                                     <div class="tab-pane fade show active" id="home" role="tabpanel">
+                                        <div class="pt-3 pb-3">
+
+                                            <div class="">
+                                                
+                                                <tbody *ngIf="invoiceLoading">
+                                                    <tr>
+                                                        <td colspan="9" style="padding-left: 500px; height: 300px;">
+                                                            <div class="spinner-border text-center" role="status">
+                                                                <span class="visually-hidden">Loading...</span>
+                                                              </div>
+                                                        <!-- <span style="font-size: 20px; font-weight: 500; margin-top: 100px;">Loading...</span></td> -->
+                                                    </tr>
+                                                </tbody>
+                            
+                                                <tbody *ngIf="!invoiceLoading && invoicesList?.length == 0">
+                                                    <tr>
+                                                        <div class="col-md-12" *ngIf="invoicesList.length == 0" style="margin-left: 400px;">
+                                                            <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px;"
+                                                                        >
+                                                                        <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px;">
+                                                                            <div class="errorboxplaceholder">
+                                                                                <img src="assets/images/empty-box.svg" style="width:50px;" />
+                                                                            </div>
+                                                                            <div class="">
+                                                                                <h6 style="font-size: 13px; margin-bottom: 0px;">No Data Found</h6>
+                                                                                <!-- <p class="mb-0">There's no pending employees!</p> -->
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                        </div>
+                                                    </tr>
+                                                </tbody>
+                                                <table class="table" *ngIf="!invoiceLoading && invoicesList.length >0">
+                                                    <thead class="thead-light table-design">
+                                                        <tr>
+                                                            
+                                                            <th style="width:20%">Invoice Id</th>
+                                                            <th style="width:2%">Plan</th>
+                                                            <th style="width:15%">Created Date</th>
+                                                            <th style="width:12%">Invoice Type</th>
+                                                            <th style="width:3%">Amount</th>
+                                                            <th style="width:15%">Valid From</th>
+                                                            <th style="width:15%">Valid Till</th>
+                                                            <th style="width:5%">Payment Mode</th>
+                                                            <th style="width:15%">Payment Date</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table-design">
+                                                        <tr *ngFor="let invoice of invoicesList">
+                                                            <td><p class="tableinfo mb-0">{{invoice.invoiceNo}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{invoice.planName}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{invoice.createdDate | date: 'dd MMM yyyy'}}</p> </td>
+                                                            
+                                                            <td><p class="tableinfo mb-0">{{invoice.invoiceType}}</p> </td>
+                                                            <td><p class="tableinfo mb-0">₹{{invoice.payableAmount}}</p> </td>
+                                                            <td><p class="tableinfo mb-0">{{invoice.fromDate | date: 'dd MMM yyyy'}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{invoice.toDate | date: 'dd MMM yyyy'}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{invoice.paymentMode}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{invoice.paymentDate | date: 'dd MMM yyyy'}}</p></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="pagination justify-content-between border-top pt-2" *ngIf="invoicesList.length >0">
+                                                <p class="mb-0 " style="padding-left: 15px;">Showing {{invoicesList.length}} of  {{totalInvoicesItems}}</p>
+                                                <div class="row">
+                                                  <div class="col-md-12" *ngIf="totalInvoicesItems>10">
+                                                    <ngb-pagination [collectionSize]="totalInvoicesItems" [rotate]="true" (pageChange)="invoicesPageChanged($event)" [pageSize]="databaseHelper.itemPerPage"  [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
+                                                    
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile" role="tabpanel">
                                         <div class="pt-3 pb-3">
 
                                             <div class="">
@@ -203,78 +279,13 @@
                                                             <td><p class="tableinfo mb-0">{{dueInvoice.dueDate | date: 'dd MMM yyyy'}}</p> </td>
                                                             <td><span class="unpaid">Unpaid</span></td>
                                                             <td>₹{{dueInvoice.payableAmount}}</td>
-                                                            <td><p class="tableinfo mb-0">N/A</p></td>
-                                                            <td><p class="tableinfo mb-0">N/A</p></td>
-                                                            <td><button class="btn btn-primary" type="button">Pay</button></td>
+                                                            <td><p class="tableinfo mb-0">{{dueInvoice.fromDate | date: 'dd MMM yyyy'}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{dueInvoice.toDate | date: 'dd MMM yyyy'}}</p></td>
+                                                            <td><button class="btn btn-primary" type="button" (click)="proceedToPay(dueInvoice.payableAmount,dueInvoice.invoiceNo)">Pay</button></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="profile" role="tabpanel">
-                                        <div class="pt-3 pb-3">
-
-                                            <div class="">
-                                                <div class="col-md-12" *ngIf="invoicesList.length == 0" style="margin-left: 400px;">
-                                                    <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px;"
-                                                                >
-                                                                <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px;">
-                                                                    <div class="errorboxplaceholder">
-                                                                        <img src="assets/images/empty-box.svg" style="width:50px;" />
-                                                                    </div>
-                                                                    <div class="">
-                                                                        <h6 style="font-size: 13px; margin-bottom: 0px;">No Data Found</h6>
-                                                                        <!-- <p class="mb-0">There's no pending employees!</p> -->
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                </div>
-                                                <table class="table" *ngIf="invoicesList.length >0">
-                                                    <thead class="thead-light table-design">
-                                                        <tr>
-                                                            
-                                                            <th style="width:20%">Invoice Id</th>
-                                                            <th style="width:2%">Plan</th>
-                                                            <th style="width:15%"> Date</th>
-                                                            <th style="width:12%">Invoice Type</th>
-                                                            <th style="width:3%">Amount</th>
-                                                            <th style="width:15%">Valid From</th>
-                                                            <th style="width:15%">Valid Till</th>
-                                                            <th style="width:5%">Payment Mode</th>
-                                                            <th style="width:15%">Payment Date</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="table-design">
-                                                        <tr *ngFor="let invoice of invoicesList">
-                                                            <td><p class="tableinfo mb-0">{{invoice.invoiceNo}}</p></td>
-                                                            <td><p class="tableinfo mb-0">{{invoice.planName}}</p></td>
-                                                            <td><p class="tableinfo mb-0">{{invoice.createdDate | date: 'dd MMM yyyy'}}</p> </td>
-                                                            
-                                                            <td><p class="tableinfo mb-0">{{invoice.invoiceType}}</p> </td>
-                                                            <td><p class="tableinfo mb-0">₹{{invoice.payableAmount}}</p> </td>
-                                                            <td><p class="tableinfo mb-0">{{invoice.fromDate | date: 'dd MMM yyyy'}}</p></td>
-                                                            <td><p class="tableinfo mb-0">{{invoice.toDate | date: 'dd MMM yyyy'}}</p></td>
-                                                            <td><p class="tableinfo mb-0">{{invoice.paymentMode}}</p></td>
-                                                            <td><p class="tableinfo mb-0">{{invoice.paymentDate | date: 'dd MMM yyyy'}}</p></td>
-                                                        </tr>
-                                                        <!-- <tr>
-                                                            <td><p class="tableinfo mb-0">SAL/23-24/SUB-627</p></td>
-                                                            <td><p class="tableinfo mb-0">09/01/2024 </p> </td>
-                                                            
-                                                            <td><p class="tableinfo mb-0">SUBSCRIPTION-PLAN </p> </td>
-                                                            <td><p class="tableinfo mb-0"> ₹9,999 </p> </td>
-                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
-                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
-                                                            <td><p class="tableinfo mb-0">Online</p></td>
-                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
-                                                        </tr> -->
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
                                         </div>
                                     </div>
 
@@ -300,7 +311,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Add More Employee</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Employee</h1>
                 <button type="button" #closeMoreEmployee class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form #employeeAddForm="ngForm">
@@ -324,7 +335,7 @@
     Launch modal
 </button> -->
 <div class="modal fade" id="planpurchasedlog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Plan Purchased Log</h1>
@@ -377,10 +388,13 @@
                     </tbody>
                 </table>
             </div>
-            <div class="modal-footer">
-                <div *ngIf="!loading && planPurchasedLogList.length > 0" class="d-flex justify-content-center">
-                    <ngb-pagination [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"  [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
-                </div>
+            <div class="modal-footer justify-content-between pt-2" *ngIf="planPurchasedLogList.length >0">
+                    <p style="padding-left: 15px;">Showing {{planPurchasedLogList.length}} of {{totalItems}}</p>
+                    <div class="row">
+                      <div class="col-md-12" >
+                        <ngb-pagination [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)" [pageSize]="databaseHelper1.itemPerPage"  [(page)]="databaseHelper1.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
+                      </div>
+                    </div>
             </div>
             
         </div>
