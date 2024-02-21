@@ -1272,4 +1272,14 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/central-leave-management/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`,{});
   }
 
+  //Salary module
+  getAllSalaryCalculationMode():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/calculation/mode/get/all`);
+  }
+
+  getSalaryCalculationModeByOrganizationId(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/calculation/mode/get`);
+  
+  }
+
 }
