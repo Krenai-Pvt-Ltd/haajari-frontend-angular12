@@ -240,7 +240,7 @@ border: none;
 
 .delete-btn i{
     color: red;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .dudtion-type {
@@ -305,14 +305,15 @@ border: none;
     right:10px;
 }
 .information-box {
-    border-bottom: 1px solid #f1f1f1;
+    border: 1px solid #f1f1f1;
     margin-bottom: 15px;
-    padding-bottom: 15px;
+    padding: 15px;
+    border-radius: 6px;
 }
 
-.information-box:last-child {
+/* .information-box:last-child {
     border-bottom: none;
-}
+} */
 
 a.add-more {
     background-color: #6666f3;
@@ -569,6 +570,7 @@ i.bi.bi-plus {
 .tex-regime-haddng{
     border-bottom: 1px dashed #6666f3;;
     padding: 15px;
+    cursor: pointer;
 }
 
 .table .thead-light th {
@@ -609,4 +611,35 @@ tbody tr {
         max-height: 500px;
         overflow: scroll;
     }
+}
+
+
+.edit-icon{
+    color: #6666f3 !important;
+    cursor: pointer;
+}
+
+.basic-text h5{
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 24px;
+    color: #5c5c5c;
+    margin-bottom: 2px;
+    margin-top: 0px;
+}
+
+.basic-text P{
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    color: #878a9a;
+    margin-bottom: 0;
+}
+
+.add-filtter a {
+    margin-bottom: 0px;
+    color: #6666f3 !important;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
 }
