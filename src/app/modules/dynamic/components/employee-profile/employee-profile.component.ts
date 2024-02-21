@@ -109,6 +109,7 @@ export class EmployeeProfileComponent implements OnInit {
   MANAGER = Key.MANAGER;
   USER = Key.USER;
 
+  isSalaryPlaceholderFlag:boolean=false;
   // tokenUserRoleFlag:boolean=false;
   currentDate: Date = new Date();
   currentNewDate: any;

@@ -77,12 +77,11 @@ export class BillingPaymentComponent implements OnInit {
   }
 
   getCalcu(value:any){
-    this.sbscriptionPlanReq.planType = null;
     this.sbscriptionPlanReq.amount = 0;
     this.taxAmount = 0;
     this.monthlyAmount = value*this.subscriptionPlan?.amount;
-    this.annualAmount = this.monthlyAmount*12 - (this.monthlyAmount*12*20)/100;   
-      
+    this.annualAmount = this.monthlyAmount*12 - (this.monthlyAmount*12*20)/100;
+    this.selecrPlanType("annual");
   }
   
 
@@ -150,4 +149,15 @@ export class BillingPaymentComponent implements OnInit {
     })
   }
 
+
+  paymentMethod:string = '';
+  selectPaymentMethod(value:any){
+    this.paymentMethod = value;
+  }
+
+  proceedToPay(){
+    if(this.paymentMethod=="razorpay"){
+      this.openRazorPay();
+    }
+  }
 }

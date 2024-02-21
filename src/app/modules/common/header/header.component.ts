@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
+import { OrganizationSubscriptionPlanMonthDetail } from 'src/app/models/OrganizationSubscriptionPlanMonthDetail';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +21,8 @@ export class HeaderComponent implements OnInit {
     private route: ActivatedRoute,
     private helperService: HelperService,
     private dataService: DataService, 
-    private rbacService: RoleBasedAccessControlService
+    private rbacService: RoleBasedAccessControlService,
+    private _subscriptionPlanService:SubscriptionPlanService
   ) { 
     // if (this.route.snapshot.queryParamMap.has('userId')) {
     //     this.activeTab = 'dashboard';
@@ -46,7 +49,8 @@ export class HeaderComponent implements OnInit {
         this.activeTab = 'referralProgram';
       }
     });
-
+     
+    this.getOrgSubsPlanMonthDetail();
   }
 
   setActiveTabEmpty(){
@@ -89,8 +93,8 @@ export class HeaderComponent implements OnInit {
   }
 
   routeToAccountPage(tabName: string){
-    this.dataService.activeTab = tabName !== 'account';
-    this.router.navigate(["/setting/account-settings"], { queryParams: {tab: tabName } });
+    // this.dataService.activeTab = tabName !== 'account';
+    this.router.navigate(["/setting/account-settings"], { queryParams: {setting: tabName }});
   }
    
   routeToEmployeeProfilePage(){
@@ -122,5 +126,14 @@ export class HeaderComponent implements OnInit {
       queryParams : {"setting": settingType},
     }
     this.router.navigate(['/setting/account-settings'], navigationExtra);
+  }
+
+  OrgSubsPlanMonthDetail: OrganizationSubscriptionPlanMonthDetail = new OrganizationSubscriptionPlanMonthDetail();
+  getOrgSubsPlanMonthDetail(){
+    this._subscriptionPlanService.getOrgSubsPlanMonthDetail().subscribe(response=>{
+      if(response.status){
+        this.OrgSubsPlanMonthDetail = response.object;
+      }
+    })
   }
 }
