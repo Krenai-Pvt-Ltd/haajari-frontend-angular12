@@ -23,14 +23,23 @@ export class HeaderComponent implements OnInit {
     private dataService: DataService, 
     private rbacService: RoleBasedAccessControlService,
     private _subscriptionPlanService:SubscriptionPlanService
-  ) { }
+  ) { 
+    // if (this.route.snapshot.queryParamMap.has('userId')) {
+    //     this.activeTab = 'dashboard';
+    //   }
+    }
 
   ngOnInit(): void {
+    this.getUserUUID();
     this.getLoggedInUserDetails();
 
     this.route.queryParams.subscribe(params => {
       const setting = params['setting'];
-      if (setting === 'accountDetails') {
+      const dashboardActive = params['dashboardActive'];
+
+      if (dashboardActive === 'true') {
+        this.activeTab = 'dashboard';
+      }else if (setting === 'accountDetails') {
         this.activeTab = 'accountDetails';
       } else if (setting === 'security') {
         this.activeTab = 'security';
@@ -44,12 +53,22 @@ export class HeaderComponent implements OnInit {
     this.getOrgSubsPlanMonthDetail();
   }
 
+  setActiveTabEmpty(){
+    this.activeTab = '';
+  }
+
   ADMIN = Key.ADMIN;
   USER = Key.USER;
   MANAGER = Key.MANAGER;
 
-  ROLE = this.rbacService.getRole();
-  UUID = this.rbacService.getUUID();
+  // ROLE = this.rbacService.getRole();
+  ROLE: any;
+  UUID : any;
+
+  async getUserUUID(){
+    this.UUID = await this.rbacService.getUUID();
+    this.ROLE = await this.rbacService.getRole();
+  }
 
   async getLoggedInUserDetails(){
     this.loggedInUser = await this.helperService.getDecodedValueFromToken();
@@ -77,16 +96,18 @@ export class HeaderComponent implements OnInit {
     this.dataService.activeTab = tabName !== 'account';
     this.router.navigate(["/setting/account-settings"], { queryParams: {tab: tabName } });
   }
-
+   
   routeToEmployeeProfilePage(){
-    this.router.navigate(["/employee-profile"], { queryParams: {"userId":  this.UUID} });
+    // this.router.navigate(["/employee-profile"], { queryParams: {"userId":  this.UUID} });
+    this.activeTab = 'dashboard';
+    this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
   }
 
   show:boolean=false;
 
     shouldDisplay(moduleName: string): boolean {
     const role = this.rbacService.getRoles(); // Assuming getRole returns a Promise<string>
-    const modulesToShowForManager = ['dashboard', 'team', 'project', 'reports', 'attendance'];
+    const modulesToShowForManager = ['dashboard', 'team', 'project', 'reports', 'attendance', 'leave-management'];
     const modulesToShowForUser = ['team', 'project'];
   
     return role === Key.ADMIN || 

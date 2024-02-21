@@ -208,7 +208,7 @@
                                 </div>
                             </div>
                             <div class="" style="width:100%;">
-                                <button class="btn proceed-add" [disabled]="paymentMethod == '' || sbscriptionPlanReq.planType == '' || sbscriptionPlanReq.planType == null" (click)="proceedToPay()" >Proceed to Payment</button>
+                                <button class="btn proceed-add" [disabled]="employeeForm.invalid || paymentMethod == '' || sbscriptionPlanReq.planType == '' || sbscriptionPlanReq.planType == null" (click)="proceedToPay()" >Proceed to Payment</button>
                             </div>
 
                         </div>

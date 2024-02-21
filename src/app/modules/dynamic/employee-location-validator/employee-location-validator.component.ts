@@ -29,6 +29,8 @@ export class EmployeeLocationValidatorComponent implements OnInit {
   organizationAddressDetail : OrganizationAddressDetail = new OrganizationAddressDetail();
   lat: number=0;
   lng: number=0;
+  zoom: number = 15; // Initial zoom level of the map
+  markerPosition: any;
   attendanceMode: number=0;
 
   constructor(private dataService: DataService, private router: Router, private activateRoute: ActivatedRoute, private helper : HelperService, private afStorage: AngularFireStorage) { 
@@ -38,40 +40,99 @@ export class EmployeeLocationValidatorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getOrganizationLatLongMethodCall();
+    this.checkAttendanceLocationLinkStatusMethodCall();
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: userUuid},
     };
     // this.router.navigate(['/location-validator'], navExtra);
-    // this.getCurrentLocation();
+    
   }
 
+  // uniqueId: string = '';
+  // saveUniqueId(){
+  //   const uniqueId = new URLSearchParams(window.location.search).get('uniqueId');
+  //   if(uniqueId){
+  //     this.uniqueId = uniqueId;
+  //   } 
+  // }
 
+
+  routeToEmployeePhoto() {
+    let navExtra: NavigationExtras = {
+      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+    };
+    this.router.navigate(['/attendance-photo'], navExtra);
+  }
+
+  enableSubmitToggle:boolean=false;
+  address: string = ''; // Add this property to hold the fetched address
+  city: string = '';
    getCurrentLocation() {
+    debugger
+    if(this.address != ''){
+      this.address = '';
+    }
     if ('geolocation' in navigator) {
-      this.toggle = true;
+      
       navigator.geolocation.getCurrentPosition((position) => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
+        this.markerPosition = { lat: this.lat, lng: this.lng };
         console.log(this.lat+"-"+this.lng);
-        this.calculateDistance();
+
+         // Initialize the Geocoder
+      const geocoder = new google.maps.Geocoder();
+      const latlng = { lat: this.lat, lng: this.lng };
+      geocoder.geocode({ 'location':  latlng  }, (results: { formatted_address: string; }[], status: string) => {
+        if (status === google.maps.GeocoderStatus.OK) {
+          if (results[0]) {
+            const address = results[0].formatted_address;
+            //@ts-ignore
+            this.city = results[0].address_components[2].long_name;
+            this.address  = address;
+            console.log(address); // Log the address to console or update the UI as needed
+            this.enableSubmitToggle=true;
+            (document.getElementById('exampleInputText') as HTMLInputElement).value = address; // Update the input field with address
+          } else {
+            console.log('No results found');
+          }
+        } else {
+          console.log('Geocoder failed due to: ' + status);
+        }
+      });
+      
+        
       });
     }
   }
-  enableSubmitToggle:boolean=false;
-  private calculateDistance(){
+
+  
+
+  
+ 
+   calculateDistance(){
     this.enableSubmitToggle=false;
     var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat, this.lng), new google.maps.LatLng(Number(this.organizationLat),Number(this.OrganizationLong)));       
     console.log(distance+"---"+this.radius);
     if(distance>this.radius){
       this.toggle = false;
-    this.enableSubmitToggle=false;
+    
     this.helper.showToast("Oops! Looks like you're not close enough to the company to mark your attendance. Please try again when you're nearby!", Key.TOAST_STATUS_ERROR);
     console.log("cannot mark attendance");
   }else{
-this.enableSubmitToggle=true;
-this.markAttendaceWithLocationMethodCall();
+    this.toggle = false;
+// this.enableSubmitToggle=true;
+// this.markAttendaceWithLocationMethodCall();
+if(this.attendanceMode==3){
+
+
+this.dataService.saveEmployeeCurrentLocationLatLng(this.lat, this.lng, this.radius, this.attendanceMode);
+this.routeToEmployeePhoto();
+} else if (this.attendanceMode==2){
+  this.markAttendaceWithLocationMethodCall();
+  
+}
   }
     
   }
@@ -82,6 +143,7 @@ this.markAttendaceWithLocationMethodCall();
 
   getOrganizationLatLongMethodCall(){
     debugger
+    
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
     if (userUuid) {
     this.dataService.getOrganizationLatLong(userUuid).subscribe(
@@ -229,6 +291,28 @@ uploadFile(imageFile: File, documentType: string): void {
       
     }
   );
+}
+
+isInvalid: boolean = false;
+checkAttendanceLocationLinkStatusMethodCall() {
+  
+  const uniqueId = new URLSearchParams(window.location.search).get('uniqueId');
+  if (uniqueId) {
+    this.dataService.checkAttendanceLocationLinkStatus(uniqueId).subscribe({
+      next: (response) => { 
+        this.getOrganizationLatLongMethodCall();
+        this.getCurrentLocation();
+        console.log('Link status:', response);
+      },
+      error: (error) => { 
+        this.isInvalid = true;
+        console.error('Error fetching link status:', error);
+      }
+    });
+  } else {
+    this.isInvalid = true;
+    console.error('No uniqueId found in the URL');
+  }
 }
 
 

@@ -43,17 +43,17 @@
                                         <dt class="sc-f474212e-4 lkliht">Email </dt>
                                         <dd class="sc-f474212e-7 dUVSfj">
                                             <div class="sc-485d66d8-0 laMuYy"
-                                            ><div class="sc-485d66d8-0 sc-3a263705-1 dLkVjV csGfKv">abc@krenai.com</div>
+                                            ><div class="sc-485d66d8-0 sc-3a263705-1 dLkVjV csGfKv">{{ userEmail ? userEmail : 'N/A' }}</div>
                                         </div>
                                     </dd>
                                     
-                                    <div class="sc-485d66d8-0 sc-f474212e-1 dLkVjV dbRigD">
+                                    <!-- <div class="sc-485d66d8-0 sc-f474212e-1 dLkVjV dbRigD">
                                         <div class="sc-485d66d8-0 dLkVjV">
-                                            <button type="button" aria-label="Edit Email" class="edit-btns">
+                                            <button type="button"  aria-label="Edit Email" class="edit-btns">
                                                 <i class="bi bi-pencil"></i> Edit
                                             </button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm">
                                         <dt class="sc-f474212e-4 lkliht">Password </dt>
@@ -64,7 +64,7 @@
                                     
                                     <div class="sc-485d66d8-0 sc-f474212e-1 dLkVjV dbRigD">
                                         <div class="sc-485d66d8-0 dLkVjV">
-                                            <button type="button" aria-label="Edit Email" class="edit-btns">
+                                            <button type="button" aria-label="Edit Email" id="passwordEdit" data-bs-toggle="modal" data-bs-target="#passwordUpdateModal" class="edit-btns">
                                                 <i class="bi bi-pencil"></i>  Edit
                                             </button>
                                             </div>
@@ -73,16 +73,21 @@
                                 </div>
 
                                </div>
+                               <!-- profile image -->
                                <div class="col-md-4"style="padding-left: 0px; margin-left: 0px;">
-                                <div class="profile-mage-edit text-center position-relative">
-                                    <div class="" style="width: 110px; margin: 0 auto; position: relative;">
-                                        <span>
-                                            <img style="width: 100px; border-radius: 50%;" src="">
-                                        </span>
-                                        <span class="edit-profile" tabindex="0"><i class="bi bi-pencil"></i></span>
+                                <div class="profile-image-edit text-center position-relative">
+                                    <div style="width: 110px; margin: 0 auto; position: relative;">
+                                      <img style="width: 100px; height: 100px; border-radius: 50%;" [src]="userPersonalInformationRequest.image" alt="Profile Image">
+                                      <input type="file" accept="image/jpeg, image/jpg, image/png" #fileInput style="display: none" (change)="onFileSelected($event)">
+                                      <span class="edit-profile" tabindex="0" (click)="fileInput.click()"><i class="bi bi-pencil"></i></span>
                                     </div>
+                                    <div *ngIf="isInvalidFileType">
+                                        
+                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a JPG, JPEG, or PNG file.</p>
+                                      </div>
+                                  </div>
                                   
-                                </div>
+                                  
 
                                </div>
                             </div>
@@ -235,3 +240,65 @@
         </div>
     </div>
 </div>
+
+<!-- Update Password Modal -->
+
+  
+  <!-- Password Update Modal -->
+  <div class="modal fade" id="passwordUpdateModal" #passwordUpdateModal tabindex="-1" aria-labelledby="passwordUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="passwordUpdateModalLabel">Update Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+<form #updatePasswordForm="ngForm" (ngSubmit)="onSubmit(updatePasswordForm.value)">
+    <div class="form-group">
+        <label for="currentPassword">Enter Current Password</label>
+        <div class="input-group">
+          <input [type]="showCurrentPassword ? 'text' : 'password'" class="form-control" id="currentPassword" required [(ngModel)]="currentPassword" name="currentPassword">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default toggle-password" (click)="toggleCurrentPasswordVisibility()">
+              <i class="bi" [class]="showCurrentPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </button>
+          </span>
+        </div>
+        <div *ngIf="errorMessage">
+          <p class="errortxt mt-2 mb-0" style="color:red">
+            <i class="bi bi-exclamation-circle"></i> {{ errorMessage }}
+          </p>
+        </div>
+      </div>
+      
+    <div class="form-group">
+        <label for="newPassword">New Password</label>
+        <div class="input-group mb-3">
+            <input [type]="showNewPassword ? 'text' : 'password'" class="form-control" id="newPassword" required [(ngModel)]="newPassword" name="newPassword" aria-label="Password" aria-describedby="toggle-password">
+            <button class="btn btn-default toggle-password" type="button" id="toggle-password" (click)="toggleNewPasswordVisibility()">
+              <i class="bi" [class]="showNewPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </button>
+          </div>
+          
+      </div>
+      
+      
+    <div class="form-group">
+      <label for="confirmNewPassword">Confirm New Password</label>
+      <input type="text" class="form-control" id="confirmNewPassword" required [(ngModel)]="confirmNewPassword" name="confirmNewPassword" #confirmPass="ngModel">
+      <div *ngIf="newPassword && confirmNewPassword && newPassword !== confirmNewPassword" class="text-danger">
+        Password do not match!
+      </div>
+    </div>
+    <!-- <button type="submit" class="btn btn-primary" [disabled]="!updatePasswordForm.form.valid || newPassword !== confirmNewPassword">Update Password</button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button> -->
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  <button type="button" class="btn btn-primary" [disabled]="!updatePasswordForm.form.valid || newPassword !== confirmNewPassword" (click)="updatePasswordForm.ngSubmit.emit()" >Update Password</button>
+</div>
+</div>
+</div>
+</div>
+  

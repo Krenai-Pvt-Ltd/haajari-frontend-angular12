@@ -69,6 +69,7 @@ export class DashboardComponent implements OnInit {
   WEEKEND = Key.WEEKEND;
   HOLIDAY = Key.HOLIDAY;
   LEAVE = Key.LEAVE;
+  HALFDAY = Key.HALFDAY;
 
   
 
@@ -566,9 +567,9 @@ getDataFromDate(): Promise<any> {
     debugger
     this.preRuleForShimmersAndErrorPlaceholdersForBestPerformerMethodCall();
     this.dataService.getBestPerformerAttendanceDetails(this.startDateStr, this.endDateStr).subscribe((response) => {
-      this.bestPerformerAttendanceDetailsResponseList = response.listOfObject;
+      this.bestPerformerAttendanceDetailsResponseList = response;
 
-      if(response === undefined || response === null || response.listOfObject.length === 0){
+      if(response === undefined || response === null || response.length === 0){
         this.dataNotFoundPlaceholderForBestPerfomer = true;
       }
     }, (error) => {

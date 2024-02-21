@@ -61,6 +61,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SuccessComponent } from './components/success/success.component';
 import { EmployeeLocationValidatorComponent } from './employee-location-validator/employee-location-validator.component';
 import { WebcamModule } from 'ngx-webcam';
+import { AgmCoreModule } from '@agm/core';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/employee-attendance-photo.component';
+import { NzCalendarModule } from 'ng-zorro-antd/calendar';
+import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+
 
 @NgModule({
   declarations: [
@@ -101,7 +108,9 @@ import { WebcamModule } from 'ngx-webcam';
     EmployeeOnboardingDataComponent,
     BillingPaymentComponent,
     SuccessComponent,
-    EmployeeLocationValidatorComponent
+    EmployeeLocationValidatorComponent,
+    EmployeeAttendancePhotoComponent,
+    LeaveManagementComponent
 
 
   ],
@@ -117,6 +126,7 @@ import { WebcamModule } from 'ngx-webcam';
     NgxShimmerLoadingModule,
     NgbModule,
     FullCalendarModule,
+    NzCalendarModule,
     AngularFireModule.initializeApp(environment.firebase, "cloud"),
     AngularFireStorageModule,
     AngularFireAuthModule,
@@ -125,6 +135,13 @@ import { WebcamModule } from 'ngx-webcam';
     SharedModule,
     NzDatePickerModule,
     MatProgressSpinnerModule,
+    NzSwitchModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
+      libraries: ["places"]
+    }),
+    GooglePlaceModule,
+
     
 
     

@@ -448,54 +448,41 @@
                 </div>
               </div>
 
-              <div class="col-md-4" (mouseover)="getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(attendanceDetailsResponse.uuid)">
-                <div class="in-time total-break-time-box position-relativ">
-                  <span>Break Timings</span> <span>|</span>
-                  <p class="mb-0">&nbsp; &nbsp;<i style="color: black;" id="dropdownMenuButton" class="bi bi-chevron-down"></i></p>
-                  <div class="total-braek-time">
-  
-                    <div *ngIf="breakTimingsList !== null && breakTimingsList !== undefined && breakTimingsList.length!==0; else noBreaks;">
-  
-                      <table class="table">
-                        <thead class="table-light">
-                          <tr>
-                            <th class="text-left">Break</th>
-                            <th class="text-left">Back</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let breakTimings of breakTimingsList">
-                            <td class="text-left">{{breakTimings.breakTime | timeFormat}}</td>
-                            <td class="text-left">{{breakTimings.backTime | timeFormat}}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-  
-                    <ng-template #noBreaks>
-                      <p style="color: #009688; padding: 15px;">No breaks taken! 😐</p>
-                      <!-- <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div class="mt-3">
-                          <ngx-shimmer-loading [width]="'50%'" [height]="'12px'"
-                          style="border-radius: 50%"></ngx-shimmer-loading>
-                          <ngx-shimmer-loading [width]="'100%'" [height]="'8px'"
-                          style="border-radius: 50%"></ngx-shimmer-loading>
-                          <ngx-shimmer-loading [width]="'40%'" [height]="'8px'"
-                          style="border-radius: 50%"></ngx-shimmer-loading>
+                <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount !== 0;">
+                  <div class="in-time total-break-time-box position-relativ" (mouseover)="getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(attendanceDetailsResponse.uuid)">
+                    <span>Break Timings</span> <span>|</span>
+                    <p class="mb-0">&nbsp; &nbsp;<i style="color: black;" id="dropdownMenuButton" class="bi bi-chevron-down"></i></p>
+                    <div class="total-braek-time">
+    
+                      <div *ngIf="breakTimingsList !== null && breakTimingsList !== undefined && breakTimingsList.length!==0">
+    
+                        <table class="table">
+                          <thead class="table-light">
+                            <tr>
+                              <th class="text-left">Break</th>
+                              <th class="text-left">Back</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let breakTimings of breakTimingsList">
+                              <td class="text-left">{{breakTimings.breakTime | timeFormat}}</td>
+                              <td class="text-left">{{breakTimings.backTime | timeFormat}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
+                  </div>
+                  </div>
+                </div>
 
-                      <div class="mt-3">
-                          <ngx-shimmer-loading [width]="'50%'" [height]="'12px'"
-                          style="border-radius: 50%"></ngx-shimmer-loading>
-                          <ngx-shimmer-loading [width]="'100%'" [height]="'8px'"
-                          style="border-radius: 50%"></ngx-shimmer-loading>
-                      </div>
-                      </div> -->
-                      
-                    </ng-template>
+                <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount === 0;">
+                  <div class="in-time">
+                    <span style="color: #009688;">No breaks taken! 😐</span>
+                    <!-- <p class="mb-0">({{attendanceDetailsResponse.breakCount}}) </p> -->
+                  </div>
                 </div>
-                </div>
-              </div>
+
+              
   
               <div class="col-md-4">
                 <div class="in-time">

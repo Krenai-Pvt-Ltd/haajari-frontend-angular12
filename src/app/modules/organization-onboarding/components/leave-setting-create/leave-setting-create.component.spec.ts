@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelerySettingComponent } from './selery-setting.component';
+import { LeaveSettingCreateComponent } from './leave-setting-create.component';
 
-describe('SelerySettingComponent', () => {
-  let component: SelerySettingComponent;
-  let fixture: ComponentFixture<SelerySettingComponent>;
+describe('LeaveSettingCreateComponent', () => {
+  let component: LeaveSettingCreateComponent;
+  let fixture: ComponentFixture<LeaveSettingCreateComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SelerySettingComponent ]
+      declarations: [ LeaveSettingCreateComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelerySettingComponent);
+    fixture = TestBed.createComponent(LeaveSettingCreateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
