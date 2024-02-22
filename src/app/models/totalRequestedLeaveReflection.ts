@@ -8,4 +8,5 @@ export interface TotalRequestedLeavesReflection {
     manager: string;
     totalleaves: number;
     approvedleaves: number;
+    totaldays: number;
   }
