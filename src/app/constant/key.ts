@@ -122,6 +122,10 @@ export class Key{
     public static EARLY_EXIT_RULE = 3;
     public static OVERTIME_RULE = 4;
 
+    // Salary calculation mode Ids
+    public static UNRESTRICTED_PF_WAGE = 1;
+    public static RESTRICTED_PF_WAGE_UPTO_15000 = 2;
+
 
     public static PASTE = "paste";
     public static COPY = "copy";
