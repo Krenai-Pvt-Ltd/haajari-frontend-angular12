@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Invoices } from 'src/app/models/Invoices';
+import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
 @Component({
   selector: 'app-success',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SuccessComponent implements OnInit {
 
-  constructor() { }
+  invoices:Invoices = new Invoices();
+
+  constructor(private _subscriptionPlanService:SubscriptionPlanService) { }
 
   ngOnInit(): void {
+    this.getLastInvoice();
+  }
+
+
+  getLastInvoice(){
+    this._subscriptionPlanService.getLastInvoices().subscribe(response=>{
+      if(response.status){
+        this.invoices = response.object;
+      }
+    })
   }
 
 }

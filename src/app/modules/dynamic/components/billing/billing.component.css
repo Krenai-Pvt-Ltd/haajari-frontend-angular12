@@ -121,3 +121,8 @@ span.unpaid {
 .table .table-design tr:last-child{
     border-bottom: none !important;
 }
+
+.active-plan{
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}

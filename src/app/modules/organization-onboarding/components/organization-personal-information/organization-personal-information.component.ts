@@ -1,7 +1,11 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
+
+import { Router, ActivatedRoute } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+
 
 
 import { OrganizationPersonalInformation } from 'src/app/models/organization-personal-information';
@@ -15,10 +19,15 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class OrganizationPersonalInformationComponent implements OnInit {
 
-  constructor(private dataService:DataService) { }
+  constructor(private dataService:DataService, private router: Router, private activateRoute: ActivatedRoute, private afStorage: AngularFireStorage) { }
 
   ngOnInit(): void {
     this.getOrganizationDetails();
+  }
+
+  routeToAttendanceRuleSetting() {
+   debugger
+    this.router.navigate(['/organization-onboarding/attendance-rule-setup']);
   }
 
 
@@ -55,7 +64,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     this.dataService.registerOrganizationPersonalInformation(this.organizationPersonalInformation)
       .subscribe(response => {
         console.log("organization personal Info Registered Successfully");
-
+        this.routeToAttendanceRuleSetting();
       },(error) => {
           console.log(error.error.message);
       });
@@ -67,9 +76,18 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       (data)=> {
           this.organizationPersonalInformation = data;          
           console.log(this.organizationPersonalInformation);
+          if (data.logo) {
+            this.setImageUrlFromDatabase(data.logo);
+        }
       }, (error) => {
         console.log(error);
       });
+  }
+
+  dbImageUrl: string | null = null;
+
+  setImageUrlFromDatabase(url: string) {
+      this.dbImageUrl = url;
   }
 
   preventLeadingWhitespace(event: KeyboardEvent): void {
@@ -114,7 +132,92 @@ submit(){
   if(this.isFormInvalid==true){
     return
   } else{
+    this.registerOrganizationPersonalInformation();
   }
+}
+
+showNewPassword: boolean = false
+toggleNewPasswordVisibility() {
+  this.showNewPassword = !this.showNewPassword;
+}
+
+selectedFile: File | null = null;
+isFileSelected = false;
+imagePreviewUrl: any = null;
+onFileSelected(event: Event): void {
+  debugger
+  const element = event.currentTarget as HTMLInputElement;
+  const fileList: FileList | null = element.files;
+
+  if (fileList && fileList.length > 0) {
+    const file = fileList[0];
+
+    // Check if the file type is valid
+    if (this.isValidFileType(file)) {
+      this.selectedFile = file;
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        // Set the loaded image as the preview
+        this.imagePreviewUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      this.uploadFile(file);
+    } else {
+      element.value = '';
+      this.organizationPersonalInformation.logo = '';
+      // Handle invalid file type here (e.g., show an error message)
+      console.error('Invalid file type. Please select a jpg, jpeg, or png file.');
+    }
+  } else {
+    this.isFileSelected = false;
+  }
+}
+
+// Helper function to check if the file type is valid
+isInvalidFileType = false; 
+isValidFileType(file: File): boolean {
+  const validExtensions = ['jpg', 'jpeg', 'png', 'svg'];
+  const fileType = file.type.split('/').pop(); // Get the file extension from the MIME type
+
+  if (fileType && validExtensions.includes(fileType.toLowerCase())) {
+    this.isInvalidFileType = false;
+    return true;
+  }
+  console.log(this.isInvalidFileType);
+  this.isInvalidFileType = true;
+  return false;
+}
+
+getImageUrl(e: any){
+  console.log(e);
+  if(e!=null && e.length>0){
+  
+  }
+}
+
+
+
+uploadFile(file: File): void {
+  debugger
+  const filePath = `logo/${new Date().getTime()}_${file.name}`;
+  const fileRef = this.afStorage.ref(filePath);
+  const task = this.afStorage.upload(filePath, file);
+
+  task.snapshotChanges().toPromise().then(() => {
+    console.log("Upload completed");
+    fileRef.getDownloadURL().toPromise().then(url => {
+      console.log("File URL:", url);
+      this.organizationPersonalInformation.logo = url;
+    }).catch(error => {
+      console.error("Failed to get download URL", error);
+    });
+  }).catch(error => {
+    console.error("Error in upload snapshotChanges:", error);
+  });
+  
+  
 }
 
 @ViewChild("placesRef") placesRef! : GooglePlaceDirective;
@@ -139,5 +242,6 @@ submit(){
 
     });
   }
+
 
 }
