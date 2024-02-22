@@ -22,8 +22,8 @@ export class BillingComponent implements OnInit {
   databaseHelper: DatabaseHelper = new DatabaseHelper();
 
   
-  currentDate: Date = new Date('2024-02-18');
-  // currentDate: Date;
+  // currentDate: Date = new Date('2024-02-18');
+  currentDate: Date;
   midDateOfMonth: Date;
 
   orgUuid: string = "";
@@ -34,7 +34,7 @@ export class BillingComponent implements OnInit {
       const helper = new JwtHelperService();
       this.orgUuid = helper.decodeToken(token).orgRefId;
 
-      // this.currentDate = new Date();
+      this.currentDate = new Date();
       this.midDateOfMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 15);
     
     }

@@ -3,6 +3,19 @@
         <div class="container-fluid">
 
             <div class="mt-3">
+                <div class="row">
+                    <div class="col-md-12 mb-2">
+                        <div class="bill-detail">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="">
+                                   <div class="d-flex align-items-center" style="gap:10px;">
+                                    <h3>Active Plan</h3>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                  <div class="row">
                     <div class="col-md-4" *ngFor="let subscription of subscriptionList">
                         <div class="bill-detail" [ngClass]="{'active-plan': subscription.isPurchased == 1}">
@@ -227,7 +240,7 @@
                                                 </table>
                                             </div>
                                             <div class="pagination justify-content-between border-top pt-2" *ngIf="invoicesList.length >0">
-                                                <p class="mb-0 " style="padding-left: 15px;">Showing {{invoicesList.length}} of  {{totalInvoicesItems}}</p>
+                                                <p class="mb-0 " style="padding-left: 15px;">Showing {{invoicesList.length}} of {{totalInvoicesItems}}</p>
                                                 <div class="row">
                                                   <div class="col-md-12" *ngIf="totalInvoicesItems>10">
                                                     <ngb-pagination [collectionSize]="totalInvoicesItems" [rotate]="true" (pageChange)="invoicesPageChanged($event)" [pageSize]="databaseHelper.itemPerPage"  [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
