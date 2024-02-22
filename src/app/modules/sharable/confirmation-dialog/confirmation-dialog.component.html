@@ -1,4 +1,23 @@
-<!-- <div id="confirmationDialog" tabindex="-1"
+<div class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <i mat-dialog-title class="bi bi-question-circle"></i>
+        <h2 mat-dialog-title>Are you sure, you want to proceed?</h2>
+        <mat-dialog-content class="dialog-content">
+        <p>Note: By clicking on this, your changes will get reflected.</p>
+        </mat-dialog-content>
+        <mat-dialog-actions align="end">
+        <button mat-button [mat-dialog-close]="false" class="cancel-button">Cancel</button>
+        <button mat-button color="warn" [mat-dialog-close]="true" cdkFocusInitial class="proceed-button">Proceed</button>
+        </mat-dialog-actions>
+      </div>
+    </div>
+</div>
+
+
+
+
+<!-- <div class="modal fade" id="confirmationDialog" tabindex="-1"
     aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
     <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important;">
         <div class="modal-content p-0" style="border-radius: 15px;">
@@ -8,40 +27,32 @@
 
 
                     <i class="bi bi-question-circle"></i>
-                    <mat-dialog-content class="dialog-content">
-                        <h3 class="confirm-detail" mat-dialog-title>Are you sure, you want to proceed? </h3>
-                        <p>Note: <span style="color: #a1a0a0;">By clicking on this, your changes will get reflect.</span></p>
-                    </mat-dialog-content>
 
-                        <div mat-dialog-actions>
-                            <button class="btn btnmarkcancel" mat-button [mat-dialog-close]="false" data-bs-dismiss="modal">Cancel</button>
-                            &nbsp;
-                            <button class="btn btnmarkproceed" mat-button [mat-dialog-close]="true" cdkFocusInitial>
-                                <ng-container *ngIf="!dotOpacityLoader; else dotOpacityLoaderElseCondition">
-                                    Proceed 
-                                </ng-container>
-                                <ng-template #dotOpacityLoaderElseCondition>
-                                    <div class="dot-opacity-loader">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </ng-template>
-                            </button>
-                        </div>
+                    <h3 class="confirm-detail" mat-dialog-title>Are you sure, you want to proceed? </h3>
+
+                    <p>Note: <span style="color: #a1a0a0;">By clicking on this, your changes will get reflect.</span></p>
+
+                        <button type="button" class="btn btnmarkcancel" (click)="onCancel()" data-bs-dismiss="modal"> Cancel
+                        </button>
+                        <button type="button" class="btn btnmarkproceed" (click)="onProceed()">
+                            <ng-container *ngIf="!dotOpacityLoader; else dotOpacityLoaderElseCondition">
+                                Proceed 
+                            </ng-container>
+                            <ng-template #dotOpacityLoaderElseCondition>
+                                <div class="dot-opacity-loader">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </ng-template>
+                        </button>
                 </div>
 
             </form>
         </div>
     </div>
 </div> -->
+  
 
-    <h2 mat-dialog-title>Are you sure, you want to proceed?</h2>
-    <mat-dialog-content class="dialog-content">
-    <p>Note: By clicking on this, your changes will get reflected.</p>
-    </mat-dialog-content>
-    <mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="false">Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Proceed</button>
-    </mat-dialog-actions>
+
 

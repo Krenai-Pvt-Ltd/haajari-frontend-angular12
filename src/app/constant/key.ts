@@ -46,7 +46,7 @@ export class Key{
         "/employee-onboarding-data",
         "/setting/attendance-setting",
         "/setting/company-setting",
-        // "/setting/salary-setting",
+        "/setting/salary-setting",
         "/role",
         "/employee-onboarding-sidebar",
         "/reports",
@@ -121,6 +121,10 @@ export class Key{
     public static BREAK_RULE = 2;
     public static EARLY_EXIT_RULE = 3;
     public static OVERTIME_RULE = 4;
+
+    // Salary calculation mode Ids
+    public static UNRESTRICTED_PF_WAGE = 1;
+    public static RESTRICTED_PF_WAGE_UPTO_15000 = 2;
 
 
     public static PASTE = "paste";

@@ -66,6 +66,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     width: 100vw; /* Cover the full viewport width */
     height: 100vh; /* Cover the full viewport height */
     background-color: rgba(211, 211, 211, 0.5); /* Lighter grey background with some transparency */
+
 }
 
 /* The rest of your CSS for .modal, .modal-dialog-centered, etc., remains the same. */
