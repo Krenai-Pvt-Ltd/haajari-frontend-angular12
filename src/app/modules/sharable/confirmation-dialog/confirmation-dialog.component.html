@@ -7,7 +7,7 @@
   <button mat-button mat-dialog-close="true" cdkFocusInitial class="proceed-button">Proceed</button>
 </mat-dialog-actions> -->
 
-<div class="modal fade" id="confirmationDialog" tabindex="-1"
+<!-- <div class="modal fade" id="confirmationDialog" tabindex="-1"
     aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
     <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important;">
         <div class="modal-content p-0" style="border-radius: 15px;">
@@ -44,4 +44,15 @@
             </form>
         </div>
     </div>
-</div>
+</div> -->
+
+
+<h2 mat-dialog-title>Are you sure, you want to proceed?</h2>
+<mat-dialog-content class="dialog-content">
+  <p>Note: By clicking on this, your changes will get reflected.</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-button color="warn" [mat-dialog-close]="true" cdkFocusInitial>Proceed</button>
+</mat-dialog-actions>
+
