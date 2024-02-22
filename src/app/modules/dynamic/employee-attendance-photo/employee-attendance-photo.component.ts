@@ -64,6 +64,7 @@ markAttendaceWithLocationMethodCall(){
         this.dataService.lng = 0;
         this.helper.showToast("You're Successfully Checked In", Key.TOAST_STATUS_SUCCESS);
         this.toggle = true;
+        window.location.href = 'https://api.whatsapp.com/send/?phone=918799754156&text=Your%20custom%20message%20here&type=phone_number&app_absent=0';
       }
     this.toggle = false;
       
