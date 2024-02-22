@@ -3,19 +3,39 @@
         <div class="container-fluid">
 
             <div class="mt-3">
-                <div class="row">
+                <!-- <div class="row" *ngIf="OrgSubsPlanMonthDetail.viewCard==1">
                     <div class="col-md-12 mb-2">
-                        <div class="bill-detail">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="">
-                                   <div class="d-flex align-items-center" style="gap:10px;">
-                                    <h3>Active Plan</h3>
-                                   </div>
+                        <div class="bill-detail active-plan">
+                            <span class="position-absolute top-0 start-90 translate-middle badge rounded-pill bg-warning">
+                                upcoming
+                              </span>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="col-8">
+                                    <p style="margin-bottom: 5px;">Plan</p>
+                                    <h5>{{OrgSubsPlanMonthDetail.planName}} ({{OrgSubsPlanMonthDetail.planType}})</h5>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-primary">Upgrade Subscription</button>
+                                    <button type="button" class="btn" style="margin-left: 5px; color: red;">Cancel Subscription</button>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="col-3">
+                                    <p style="margin-bottom: 0px;">Start Date</p>
+                                    <h5>1 Feb 2024</h5>
+                                </div>
+                                <div class="col-3">
+                                    <p style="margin-bottom: 0px;">Next Billing Date</p>
+                                    <h5>1 Mar 2024</h5>
+                                </div>
+                                <div class="col-3">
+                                    <p style="margin-bottom: 0px;">Next Billing Amount</p>
+                                    <h5>₹2350</h5>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                  <div class="row">
                     <div class="col-md-4" *ngFor="let subscription of subscriptionList">
                         <div class="bill-detail" [ngClass]="{'active-plan': subscription.isPurchased == 1}">
@@ -31,7 +51,7 @@
                                 <div class="justify-content-end d-flex align-items-end" style="flex-direction: column;">
 
                                     <h3>₹{{subscription.amount}}</h3>
-                                    <p class="mb-0" style="font-size: 12px;">Per month</p>
+                                    <p class="mb-0" style="font-size: 12px;">Per User</p>
                                     
                                 </div>
                             </div>
@@ -215,12 +235,13 @@
                                                             <th style="width:20%">Invoice Id</th>
                                                             <th style="width:2%">Plan</th>
                                                             <th style="width:15%">Created Date</th>
-                                                            <th style="width:12%">Invoice Type</th>
+                                                            <!-- <th style="width:12%">Invoice Type</th> -->
                                                             <th style="width:3%">Amount</th>
                                                             <th style="width:15%">Valid From</th>
                                                             <th style="width:15%">Valid Till</th>
                                                             <th style="width:5%">Payment Mode</th>
                                                             <th style="width:15%">Payment Date</th>
+                                                            <th style="width:5%">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="table-design">
@@ -229,12 +250,13 @@
                                                             <td><p class="tableinfo mb-0">{{invoice.planName}}</p></td>
                                                             <td><p class="tableinfo mb-0">{{invoice.createdDate | date: 'dd MMM yyyy'}}</p> </td>
                                                             
-                                                            <td><p class="tableinfo mb-0">{{invoice.invoiceType}}</p> </td>
+                                                            <!-- <td><p class="tableinfo mb-0">{{invoice.invoiceType}}</p> </td> -->
                                                             <td><p class="tableinfo mb-0">₹{{invoice.payableAmount}}</p> </td>
                                                             <td><p class="tableinfo mb-0">{{invoice.fromDate | date: 'dd MMM yyyy'}}</p></td>
                                                             <td><p class="tableinfo mb-0">{{invoice.toDate | date: 'dd MMM yyyy'}}</p></td>
                                                             <td><p class="tableinfo mb-0">{{invoice.paymentMode}}</p></td>
                                                             <td><p class="tableinfo mb-0">{{invoice.paymentDate | date: 'dd MMM yyyy'}}</p></td>
+                                                            <td *ngIf="invoice.invoiceUrl !='' && invoice.invoiceUrl != null"><button class="btn btn-primary" type="button" (click)="downloadInvocie(invoice.invoiceUrl)"><i class="bi bi-download" style="color: white;"></i></button></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -395,7 +417,7 @@
                             <td>{{log.validTill | date: 'dd MMM yyyy'}}</td>
                             <td>{{log.noOfEmployee}}</td>
                             <td>{{log.totalEmployee}}</td>
-                            <td>{{log.amount}}</td>
+                            <td>₹{{log.amount}}</td>
                             <td>{{log.transactionId?log.transactionId:"Free Quota"}}</td>
                         </tr>
                     </tbody>
@@ -404,7 +426,7 @@
             <div class="modal-footer justify-content-between pt-2" *ngIf="planPurchasedLogList.length >0">
                     <p style="padding-left: 15px;">Showing {{planPurchasedLogList.length}} of {{totalItems}}</p>
                     <div class="row">
-                      <div class="col-md-12" >
+                      <div class="col-md-12" *ngIf="totalItems>10">
                         <ngb-pagination [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)" [pageSize]="databaseHelper1.itemPerPage"  [(page)]="databaseHelper1.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
                       </div>
                     </div>
