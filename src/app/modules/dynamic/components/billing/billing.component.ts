@@ -6,6 +6,7 @@ import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { OrganizationSubscriptionPlanMonthDetail } from 'src/app/models/OrganizationSubscriptionPlanMonthDetail';
 import { HelperService } from 'src/app/services/helper.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
+import { HttpClient } from '@angular/common/http';
 declare var Razorpay: any;
 
 @Component({
@@ -22,19 +23,20 @@ export class BillingComponent implements OnInit {
   databaseHelper: DatabaseHelper = new DatabaseHelper();
 
   
-  currentDate: Date = new Date('2024-02-18');
-  // currentDate: Date;
+  // currentDate: Date = new Date('2024-02-18');
+  currentDate: Date;
   midDateOfMonth: Date;
 
   orgUuid: string = "";
   constructor(private _subscriptionPlanService:SubscriptionPlanService,
     private _router: Router,
-    private helperService: HelperService) { 
+    private helperService: HelperService,
+    private http: HttpClient) { 
       let token = localStorage.getItem("token")!;
       const helper = new JwtHelperService();
       this.orgUuid = helper.decodeToken(token).orgRefId;
 
-      // this.currentDate = new Date();
+      this.currentDate = new Date();
       this.midDateOfMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 15);
     
     }
@@ -81,7 +83,7 @@ export class BillingComponent implements OnInit {
     })
   }
 
-  totalAmount:number = 0;
+  totalAmount: number = 0;
   planAmount: number = 0;
   planId: number = 0;
   @ViewChild('addMoreEmployeeModal')addMoreEmployeeModal!:ElementRef
@@ -219,7 +221,6 @@ export class BillingComponent implements OnInit {
   }
 
   pageToggle: boolean = false;
-  p: number = 0;
   invoicesPageChanged(page: any){
     debugger
     this.databaseHelper.currentPage = page;
@@ -268,6 +269,7 @@ export class BillingComponent implements OnInit {
     this._subscriptionPlanService.getOrgSubsPlanMonthDetail().subscribe(response=>{
       if(response.status){
         this.OrgSubsPlanMonthDetail = response.object;
+        this.OrgSubsPlanMonthDetail.viewCard = 1;
       }
     })
   }
@@ -279,6 +281,22 @@ export class BillingComponent implements OnInit {
     this.invoiceNo = invoiceNo;
     this.paymentFor = "due_invoice";
     this.openRazorPay();
+  }
+
+  downloadInvocie(invoiceUrl:string){
+    var fileName = (invoiceUrl.substring(invoiceUrl.lastIndexOf('/'))).split('%2F').join('/');
+    fileName =fileName.split('%26').join('/');
+    fileName = (fileName.substring(fileName.lastIndexOf('/')))
+    if (fileName.charAt(0) == '/') {
+      fileName = fileName.substring(1);
+    }
+    fileName = (fileName.substring(0,fileName.lastIndexOf('?')));
+    this.http.get(invoiceUrl, { responseType: 'blob' }).subscribe((blob: Blob) => {
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      link.click();
+    });
   }
 
 }
