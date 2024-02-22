@@ -46,7 +46,7 @@ export class Key{
         "/employee-onboarding-data",
         "/setting/attendance-setting",
         "/setting/company-setting",
-        "/setting/salary-setting",
+        // "/setting/salary-setting",
         "/role",
         "/employee-onboarding-sidebar",
         "/reports",

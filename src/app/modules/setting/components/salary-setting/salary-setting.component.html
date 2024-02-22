@@ -99,7 +99,7 @@
             <ng-container *ngIf="salaryCalculationModeList.length !== 0 && !dataNotFoundPlaceholderForSalaryCalculationMode && !networkConnectionErrorPlaceHolderForSalaryCalculationMode; else errorInFetchingSalaryCalculationMode">
                 <div class="row mb-3">
                     <div class="attendance-settin-list" *ngFor="let salaryCalculationMode of salaryCalculationModeList">
-                        <div class="categryCustomizecard d-flex pointer attendance-active" [ngClass]="{'attendance-active' : salaryCalculationMode.id == selectedSalaryCalculationModeId}" data-bs-toggle="modal" data-bs-target="#confirmationDialog">
+                        <div class="categryCustomizecard d-flex pointer attendance-active" [ngClass]="{'attendance-active' : salaryCalculationMode.id == selectedSalaryCalculationModeId}" data-bs-toggle="modal"  (click)="updateSalaryCalculationMode(salaryCalculationMode.id)">
                             <div class="categryCustomizeinfo">
                                 <label for="customizecategory{{salaryCalculationMode.id}}" class="mb-0">
                                     <h3> {{salaryCalculationMode.name}}</h3>

@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SalaryCalculationMode } from 'src/app/models/salary-calculation-mode';
+import { ConfirmationDialogService } from 'src/app/services/confirmation-dialog.service';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class SalarySettingComponent implements OnInit {
 
-  constructor(private dataService : DataService) { }
+  constructor(private dataService : DataService, private confirmationDialogService : ConfirmationDialogService) { }
 
   ngOnInit(): void {
     this.getAllSalaryCalculationModeMethodCall();
@@ -60,8 +61,27 @@ export class SalarySettingComponent implements OnInit {
     })
   }
 
-  updateSalaryCalculationMode(a : any){
 
+  someMethodThatRequiresConfirmation() {
+    this.confirmationDialogService.openConfirmDialog(
+      () => this.onProceed(),
+      () => this.onCancel()
+    );
+  }
+
+  onProceed() {
+    // Logic for when 'Proceed' is clicked
+  }
+
+  onCancel() {
+    // Logic for when 'Cancel' is clicked (optional)
+  }
+
+  updateSalaryCalculationMode(a : any){
+    this.confirmationDialogService.openConfirmDialog(
+      () => this.onProceed(),
+      () => this.onCancel()
+    );
   }
 
   @ViewChild("deleteConfirmationModal") deleteConfirmationModal !: ElementRef;
