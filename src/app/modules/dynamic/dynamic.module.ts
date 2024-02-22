@@ -66,6 +66,9 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/employee-attendance-photo.component';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { LinkExpiredPageComponent } from './components/link-expired-page/link-expired-page.component';
+import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+
 
 @NgModule({
   declarations: [
@@ -110,6 +113,7 @@ import { LinkExpiredPageComponent } from './components/link-expired-page/link-ex
     EmployeeAttendancePhotoComponent,
     LinkExpiredPageComponent,
     
+    LeaveManagementComponent
 
 
   ],
@@ -134,6 +138,7 @@ import { LinkExpiredPageComponent } from './components/link-expired-page/link-ex
     SharedModule,
     NzDatePickerModule,
     MatProgressSpinnerModule,
+    NzSwitchModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ["places"]

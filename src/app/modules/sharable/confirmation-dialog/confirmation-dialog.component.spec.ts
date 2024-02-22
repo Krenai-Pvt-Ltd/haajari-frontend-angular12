@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelerySettingComponent } from './selery-setting.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog.component';
 
-describe('SelerySettingComponent', () => {
-  let component: SelerySettingComponent;
-  let fixture: ComponentFixture<SelerySettingComponent>;
+describe('ConfirmationDialogComponent', () => {
+  let component: ConfirmationDialogComponent;
+  let fixture: ComponentFixture<ConfirmationDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SelerySettingComponent ]
+      declarations: [ ConfirmationDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelerySettingComponent);
+    fixture = TestBed.createComponent(ConfirmationDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

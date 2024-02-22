@@ -123,11 +123,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     height: 37px;
 }
 
+.btnmarkproceed{
+    background-color: #ececf4;
+    border: 1px solid #6666f3;
+    color: #6666f3!important;
+    height: 37px;
+}
+
 .btnmarkcancel {
-    background-color: #f5f5f5;
+    background-color: transparent;
     border: 1px solid #aeaeae;
     color: #444!important;
     height: 37px;
+    border-radius: 3px;
+}
+
+.btnmarkcancel:hover {
+    background-color: #f5f5f5;
 }
 
 nz-date-picker {
@@ -259,4 +271,14 @@ nz-date-picker {
 }
 .location-map .webcam-wrapper {
     width: 100% !important;
+}
+
+.shimmer-redias .shimmer-redias-1{
+    border-radius: 50%;
+}
+
+.bi-question-circle{
+    font-size: 40px;
+    /* color: #6666f3; */
+    /* background-color: #c6c6ff; */
 }

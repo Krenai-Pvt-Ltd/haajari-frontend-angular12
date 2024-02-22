@@ -26,6 +26,7 @@ export class Key{
     public static ADDTOSLACK = `${Key.DYNAMIC}/addtoslack`;
     public static WATING = `${Key.DYNAMIC}/waiting`;
     public static TEAMDETAIL = `${Key.DYNAMIC}/team-detail`;
+    public static LEAVEMANAGEMENT = `${Key.DYNAMIC}/leave-management`;
 
 
     public static HEADER_ROUTES = [
@@ -45,7 +46,7 @@ export class Key{
         "/employee-onboarding-data",
         "/setting/attendance-setting",
         "/setting/company-setting",
-        "/setting/selery-setting",
+        "/setting/salary-setting",
         "/role",
         "/employee-onboarding-sidebar",
         "/reports",
@@ -55,7 +56,8 @@ export class Key{
         "/setting/leave-setting",
         "/setting/account-settings",
         "/add-role",
-        "/setting/billing-payment"
+        "/setting/billing-payment",
+        "/leave-management"
     ];
 
     public static TOPBAR_ROUTES = [
@@ -75,7 +77,7 @@ export class Key{
         "/employee-onboarding-data",
         "/setting/attendance-setting",
         "/setting/company-setting",
-        "/setting/selery-setting",
+        "/setting/salary-setting",
         "/role",
         "/employee-onboarding-sidebar",
         "/reports",
@@ -85,7 +87,8 @@ export class Key{
         "/setting/leave-setting",
         "/setting/account-settings",
         "/add-role",
-        "/setting/billing-payment"
+        "/setting/billing-payment",
+        "/leave-management"
     ];
 
 
@@ -97,7 +100,8 @@ export class Key{
         "/organization-onboarding/automation-rules",
         "/organization-onboarding/creat-rule",
         "/organization-onboarding/leave-setting-create",
-        "/organization-onboarding/add-shift-time"
+        "/organization-onboarding/add-shift-time",
+        "/organization-onboarding/holiday-setting",
     ];
 
 
@@ -162,10 +166,10 @@ export class Key{
     public static HALFDAY = "Halfday";
     
 
-    // base_url = "http://localhost:8080/api/v2/";
+    base_url = "http://localhost:8080/api/v2/";
 
     /* ------------------  Staging urls ----------------*/
-    base_url = "https://backend.hajiri.work/api/v2/";
+    // base_url = "https://backend.hajiri.work/api/v2/";
     
 
     get_subscription = "subcription-plan"; 
@@ -175,7 +179,9 @@ export class Key{
     add_more_employee = "organization-subs-plan/add-more-employee"
 
     get_invoices = "invoices"
+    get_last_invoices = "invoices/last-invoices"
     get_due_invoices = "invoices/due-invoices"
+    get_due_pending_Status = "invoices/due-pending-status"
 
     get_plan_purchased_log = "subcription-plan-log"
     get_plan_purchased_status = "organization-subs-plan/plan-purchased-status";

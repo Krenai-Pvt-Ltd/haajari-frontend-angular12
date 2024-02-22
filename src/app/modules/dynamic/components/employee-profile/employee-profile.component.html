@@ -592,8 +592,7 @@
                                                                 <button type="button" id="dropdownMenuButton1"
                                                                     data-bs-toggle="dropdown" aria-expanded="false"
                                                                     class="btn btn-secondary dropdown-toggle new-deopdown">
-                                                                    {{ capitalizeFirstLetter(selectedStatus) || 'Leave
-                                                                    Status' }} <i class="bi bi-chevron-down"
+                                                                    {{ capitalizeFirstLetter(selectedStatus) || 'Leave Status' }} <i class="bi bi-chevron-down"
                                                                         style="color: #444; font-size: 15px;"></i>
                                                                 </button>
                                                                 <ul aria-labelledby="dropdownMenuButton1"
@@ -882,6 +881,23 @@
                                                             <p class="mb-0 pay-half">Half Day</p>
                                                          </div>
                                                     </div> -->
+
+
+
+                                                    <div class="errorboxmain" style="min-height: 45vh;" *ngIf="isSalaryPlaceholderFlag">
+                                                        <div class="errorboxinner text-center">
+                                                            <div class="errorboxplaceholder mb-2">
+                                                                <img src="assets/images/empty-box.svg"
+                                                                    style="width:80px;" />
+                                                            </div>
+                                                            <div class="">
+                                                                <h4>No Data Found</h4>
+                                                                <p class="mb-3">We're unable to locate a record
+                                                                    associated with the information you entered.</p>
+                                                                <a data-bs-toggle="modal" data-bs-target="#add-tax-redime" style="font-size: 16px; color: #6666f3 !important; margin-top: 15px;"><i class="bi bi-plus" style="font-size: 20px;"></i> Configure Salary Settings </a>
+                                                            </div>
+                                                </div>
+                                                </div>
 
 
 
@@ -1524,7 +1540,7 @@
 
                                                         <tbody class="table-design" *ngIf="!isDocsPlaceholder && (documentsEmployee.length!=0)">
                                                             <tr  *ngFor="let docs of documentsEmployee">
-                                                                <td colspan="3"  >
+                                                                <td colspan="3"  *ngIf="docs.documentUrl!=''">
                                                                     <div class="d-flex align-items-center justify-content-between document-deta"
                                                                        >
                                                                         <div class="d-flex align-items-center ">
@@ -1765,7 +1781,7 @@
 
 
 
-<div class="modal fade apply-leave" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal fade apply-leave" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered mx-auto">
         <div class="modal-content">
             <div class="modal-header">
@@ -1941,7 +1957,15 @@
         <div class="modal-content">
             <button type="button" class="d-none" #closeAttendanceDetailModalButton data-bs-dismiss="modal"></button>
             <div class="modal-body">
-                <div class="calenInfo" *ngIf="userAttendanceDetailDateWise.checkInTime!=null">
+
+                <div class="calenInfo" *ngIf="(userAttendanceDetailDateWise.checkInTime!=null) && (userAttendanceDetailDateWise.status=='Present')">
+                    <p><b>Check In Time: </b>{{userAttendanceDetailDateWise.checkInTime | timeFormat}}</p>
+                    <p><b>Check Out Time: </b>{{userAttendanceDetailDateWise.checkOutTime | timeFormat}}</p>
+                    <p><b>Total Hours: </b>{{userAttendanceDetailDateWise.totalWorkingHours}}</p>
+                    <p><b>Total Break: </b>{{userAttendanceDetailDateWise.breakCount}}</p>
+                    <p><b>Break Duration: </b>{{userAttendanceDetailDateWise.breakDuration}}</p>
+                </div>
+                <div class="calenInfo" *ngIf="(userAttendanceDetailDateWise.checkInTime!=null) && (userAttendanceDetailDateWise.status=='Half Day')">
                     <p><b>Check In Time: </b>{{userAttendanceDetailDateWise.checkInTime | timeFormat}}</p>
                     <p><b>Check Out Time: </b>{{userAttendanceDetailDateWise.checkOutTime | timeFormat}}</p>
                     <p><b>Total Hours: </b>{{userAttendanceDetailDateWise.totalWorkingHours}}</p>
@@ -1949,8 +1973,20 @@
                     <p><b>Break Duration: </b>{{userAttendanceDetailDateWise.breakDuration}}</p>
                 </div>
                 <div class="calenInfo d-block"
-                    *ngIf="(userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined) && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
+                    *ngIf="((userAttendanceDetailDateWise.status=='Absent')) && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
                     <p><b>Absent!</b></p>
+                </div>
+                <div class="calenInfo d-block"
+                    *ngIf="((userAttendanceDetailDateWise.status=='Weekly Holiday')) && (userAttendanceDetailDateWise.status!=endDateStr)">
+                    <p><b>Weekends!</b></p>
+                </div>
+                <div class="calenInfo d-block"
+                    *ngIf="((userAttendanceDetailDateWise.status=='Universal Holiday') || (userAttendanceDetailDateWise.status=='Custom Holiday')) && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
+                    <p><b>Holiday!</b></p>
+                </div>
+                <div class="calenInfo d-block"
+                    *ngIf="(userAttendanceDetailDateWise.status=='On Leave') && (userAttendanceDetailDateWise.createdDate!=endDateStr)">
+                    <p><b>On Leave!</b></p>
                 </div>
                 <div class="calenInfo d-block"
                     *ngIf="(userAttendanceDetailDateWise.checkInTime==null || userAttendanceDetailDateWise.checkInTime==undefined) && (userAttendanceDetailDateWise.createdDate==endDateStr)">
@@ -2007,6 +2043,579 @@
                         Save Changes
                     </span>
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="add-tax-redime" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mx-auto modal-fullscreen" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom" style="background-color: white;">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Want to receive the salary according to the :-</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+            </div>
+            <div class="modal-body p-5 employees-provident-tex">
+
+                <div class="row align-items-center">
+                    <div class="col-md-5">
+                        <div class="old-tex-redime text-left">
+                            <div class="tex-regime-haddng">
+                                <h5>New Tex Ragime</h5>
+
+                                
+                            </div>
+
+                            <div class="p-3">
+                                <div class="table-responsive bg-white">
+                                    <table class="table">
+                                        <thead class="thead-light table-design">
+                                            <tr> 
+                                                <th>Income Slab</th>
+                                                <th>New Tex Ragime</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-design">
+                                            <tr>
+                                                <td>₹0 - ₹2,50,000</td>
+                                                <td>  -  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹2,50,000  - ₹3,00,000</td>
+                                                <td> 5% </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹3,00,000 - ₹5,00,000</td>
+                                                <td>  5%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹5,00,000 - ₹6,00,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹6,00,000 - ₹7,50,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹7,50,000 - ₹9,00,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹9,00,000 - ₹10,00,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹10,00,000 - ₹12,00,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹12,00,000 - ₹12,50,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹12,50,000 - ₹15,00,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>>₹15,00,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="text-center">
+                            <p class="mb-0" style="font-size: 22px; color: #444;">or</p>
+                        </div>
+                      
+                    </div>
+                    <div class="col-md-5">
+                        <div class="old-tex-redime text-left">
+                            <div class="tex-regime-haddng">
+                                <h5>Old Tex Ragime</h5>
+                            </div>
+                            <div class="p-3">
+                                <div class="table-responsive bg-white">
+                                    <table class="table">
+                                        <thead class="thead-light table-design">
+                                            <tr> 
+                                                <th>Income Slab</th>
+                                                <th>Old Tax Regime</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-design">
+                                            <tr>
+                                                <td>₹0 - ₹2,50,000</td>
+                                                <td>  -  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹2,50,000  - ₹3,00,000</td>
+                                                <td> 5% </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹3,00,000 - ₹5,00,000</td>
+                                                <td>  5%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹5,00,000 - ₹6,00,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹6,00,000 - ₹7,50,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹7,50,000 - ₹9,00,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹9,00,000 - ₹10,00,000</td>
+                                                <td>  20%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹10,00,000 - ₹12,00,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹12,00,000 - ₹12,50,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>₹12,50,000 - ₹15,00,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                            <tr>
+                                                <td>>₹15,00,000</td>
+                                                <td>  30%  </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="row mt-4">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-3">
+                        <div class="form-roe-data">
+                            <h5>Manage your Statutories</h5>
+                            <p>A quick snapshot of your company.</p>
+                        </div>
+
+                    </div>
+                   
+                   <div class="col-md-7">
+                    <div class="">
+                        <div class="attendance-settin-list">
+                            <div class="categryCustomizecard d-flex pointer">
+                                <div class="categryCustomizeinfo"
+                                ><label for="customizecategory1" class="mb-0">
+                                    <h3> EPF (Employees' Provident Fund)</h3>
+                                    <p> Large images are best for products where every detail is a part of the product’s value.</p>
+                                </label>
+                            </div>
+                            <div class="active-check">
+                                <nz-switch [(ngModel)]="switchValueForPF" class="ng-valid ng-dirty ng-touched">
+                                    <button nz-wave="" type="button" class="ant-switch" ng-reflect-nz-wave-extra-node="true">
+                                        <span class="ant-switch-handle"></span>
+                                        <span class="ant-switch-inner"></span>
+                                        <div class="ant-click-animating-node"></div>
+                                    </button>
+                                </nz-switch>
+                            </div>
+                        </div>
+                        <div class="categryCustomizecard d-flex pointer">
+                            <div class="categryCustomizeinfo">
+                                <label for="customizecategory1" class="mb-0">
+                                    <h3> ESI (Employees' State Insurance)</h3>
+                                    <p> Large images are best for products where every detail is a part of the product’s value.</p>
+                                </label>
+                            </div>
+                            <div class="noactive-check">
+                                <nz-switch [(ngModel)]="switchValueForESI" class="ng-untouched ng-pristine ng-valid">
+                                    <button nz-wave="" type="button" class="ant-switch" ng-reflect-nz-wave-extra-node="true">
+                                        <span class="ant-switch-handle"> </span>
+                                        <span class="ant-switch-inner"></span>
+                                        <div class="ant-click-animating-node"></div>
+                                    </button>
+                                </nz-switch>
+                            </div>
+                        </div>
+                        <div class="categryCustomizecard d-flex pointer">
+                            <div class="categryCustomizeinfo">
+                                <label for="customizecategory1" class="mb-0">
+                                    <h3> Professional Taxes</h3>
+                                    <p> Large images are best for products where every detail is a part of the product’s value.</p>
+                                </label>
+                            </div>
+                            <div class="noactive-check">
+                                <nz-switch [(ngModel)]="switchValueForProfessionalTax" class="ng-untouched ng-pristine ng-valid">
+                                    <button nz-wave="" type="button" class="ant-switch" ng-reflect-nz-wave-extra-node="true">
+                                        <span class="ant-switch-handle"></span>
+                                        <span class="ant-switch-inner"></span>
+                                        <div class="ant-click-animating-node"></div>
+                                    </button>
+                                </nz-switch>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                </div>
+
+
+             
+               
+               
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-de-secondary" data-dismiss="modal" >Cancel</button> -->
+                <button type="button" class="btn btn-primary" data-dismiss="modal" >Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="switchValueForPF" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom" style="background-color: white;">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees' State Insurance</h6>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="switchValueForPF = false"></button>
+            </div>
+            <div class="modal-body employees-provident">
+                <div class="form-group mb-3">
+                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">Employees' Provident Fund</label>
+                    <div class="dropdown" style="width: 100%;">
+                        <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                            Employer Contribution Rate <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                        </button>
+                        <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                          <li>
+                            <a class="dropdown-item">
+                                12% of PF wage (Unrestricted)
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item">
+                                12% of PF Wage (Restrict Contribution to 15000 )
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">Employer Contribution Rate</label>
+                    <div class="dropdown" style="width: 100%;">
+                        <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                            Employer Contribution Rate <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                        </button>
+                        <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                          <li>
+                            <a class="dropdown-item">
+                                12% of PF wage (Unrestricted)
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item">
+                                12% of PF Wage (Restrict Contribution to 15000 )
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="exampleInputPassword1" style="padding-bottom: 6px;">Employee Contribution Rate</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" value="12% of PF wage (Unrestricted)">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="exampleInputPassword1" style="padding-bottom: 6px;">Employer PF Wage Restriction Limit</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="₹15000">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="exampleInputPassword1" style="padding-bottom: 6px;">Employee PF Wage Restriction Limit</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="₹15000">
+                  </div>
+
+                  <div class="rounded-lg bg-blue-50 px-6 py-4">
+                    <p class="text-base mb-1 font-bold">Sample EPF Calculation</p>
+                    <div class="text-xs font-medium">Let's assume PF wage is ₹  15,000, the breakup will be:</div>
+                    <div class="mt-4 rounded-lg border border-gray-200 bg-white p-4"><div>
+                        <div class="text-xs font-bold">Employee Contribution</div>
+                        <div class="mt-4 flex items-center justify-between">
+                            <div class="text-xs font-bold text-gray-600">EPF
+                                <span class="text-gray-600">(12% of ₹  15,000)</span>
+                            </div>
+                            <div class="text-xs min-w-min font-bold">₹  1,800</div>
+                        </div>
+                    </div>
+                        <div class="my-3 w-full border border-gray-200">
+
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold">Employer Contribution</div>
+                            <div class="mt-4 flex items-center justify-between">
+                                <div class="text-xs font-bold text-gray-600">EPS
+                                    <span class="text-gray-600">(8.33% of ₹  0, Max of 15000)</span>
+                                </div>
+                                <div class="text-xs font-bold">₹  0</div>
+                            </div>
+                            <div class="mt-4 flex items-center justify-between">
+                                <div class="text-xs font-bold text-gray-600">EPF
+                                    <span class="text-gray-600">(12% of ₹  0 - EPS)</span>
+                                </div>
+                                <div class="text-xs font-bold">₹  0</div>
+                            </div>
+                            <div class="my-3 w-full border border-gray-200">
+
+                            </div>
+                            <div class="mt-3 flex items-center justify-between">
+                                <div class="text-xs font-bold text-gray-600">Total</div>
+                                <div class="text-xs font-bold">₹  0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="switchValueForPF = false">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValueForPF = false">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal with an *ngIf directive to conditionally render based on `switchValue` -->
+<div *ngIf="switchValueForESI" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom" style="background-color: white;">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees' State Insurance</h6>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="switchValueForESI = false"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mb-3">
+                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">Employees' Contribution</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="0.75% (of Gross Pay)" readonly>
+                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="exampleInputPassword1" style="padding-bottom: 6px;">Employers' Contribution</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" value="03.75% (of Gross Pay)" readonly>
+                  </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="switchValueForESI = false">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValueForESI = false">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="switchValueForProfessionalTax" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mx-auto modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom" style="background-color: white;">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Professional Tax (Read Professional Tax Policy)</h6>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="switchValueForProfessionalTax = false"></button>
+            </div>
+            <div class="modal-body employees-provident">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">Pt Number</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pt Number">
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                          </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">State</label>
+                            <div class="dropdown" style="width: 100%;">
+                                <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                                    State <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                                </button>
+                                <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Haryana
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Delhi
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                          </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">Deduction Frequency</label>
+                            <div class="dropdown" style="width: 100%;">
+                                <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                                    Deduction Frequency <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                                </button>
+                                <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Monthly
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Half Yearly
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Yearly
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                          </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">Exception Month </label>
+                            <div class="dropdown" style="width: 100%;">
+                                <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                                    Exception Month <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                                </button>
+                                <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%; height: 200px; overflow: scroll;">
+                                  <li>
+                                    <a class="dropdown-item">
+                                      None
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      January
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Fabruary
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      March
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      April
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      May
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      June
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      July
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      August
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      Setember
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      October
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item">
+                                      November
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                          </div>
+                    </div>
+
+
+                     <div class="tax-slabs">
+                        <h5>Tax Slabs Based On Gross Salary</h5>
+                     </div>
+                    
+
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">START RANGE</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="0">
+                          </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">
+                                END RANGE</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="max">
+                          </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1" style="padding-bottom: 6px;">
+                                MONTHLY TAX AMOUNT</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="₹0">
+                          </div>
+                    </div>
+                    
+                    <!-- <div class="add-filtter d-flex align-items-center justify-content-start">
+                        <a style="font-size: 16px; color: #6666f3 !important;">
+                            <i class="bi bi-plus"></i> Add Additional Slab 
+                        </a>
+                    </div> -->
+                   
+                </div>
+               
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="switchValueForProfessionalTax = false">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValueForProfessionalTax = false">Save</button>
             </div>
         </div>
     </div>

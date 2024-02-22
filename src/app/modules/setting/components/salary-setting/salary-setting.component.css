@@ -240,7 +240,7 @@ border: none;
 
 .delete-btn i{
     color: red;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .dudtion-type {
@@ -305,14 +305,15 @@ border: none;
     right:10px;
 }
 .information-box {
-    border-bottom: 1px solid #f1f1f1;
+    border: 1px solid #f1f1f1;
     margin-bottom: 15px;
-    padding-bottom: 15px;
+    padding: 15px;
+    border-radius: 6px;
 }
 
-.information-box:last-child {
+/* .information-box:last-child {
     border-bottom: none;
-}
+} */
 
 a.add-more {
     background-color: #6666f3;
@@ -436,3 +437,215 @@ a.add-more {
     background-color: #e9ebfe;
     border: 1px solid #4f5eee !important;
 }
+
+
+.py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+.bg-blue-50 {
+    background-color: #f0f6ff;
+}
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+.font-bold {
+    font-weight: 700;
+}
+.text-base {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+
+.font-medium {
+    font-weight: 500;
+}
+.text-xs {
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.p-4 {
+    padding: 1rem;
+}
+.bg-white {
+    background-color: #fff;
+}
+.border-gray-200 {
+    border-color: #e5e7eb;
+}
+.border {
+    border-width: 1px;
+}
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+.items-center {
+    align-items: center;
+}
+.flex {
+    display: flex;
+}
+
+.text-gray-600 {
+    color: #4b5563;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+
+.border-gray-200 {
+    border-color: #e5e7eb;
+}
+.border {
+    border-width: 1px;
+}
+.w-full {
+    width: 100%;
+}
+
+.employees-provident{
+    max-height: 450px;
+    overflow: scroll;
+    /* border: 1px solid #e8ebf3;
+    padding: 15px;
+    margin: 15px;
+    border-radius: 6px; */
+}
+
+.employees-provident::-webkit-scrollbar{
+    display: none;
+}
+
+.tax-slabs h5{
+    font-size: 16px;
+    font-weight: 600;
+    color: #444;
+    line-height: 24px;
+}
+
+[class^="bi-"]::before, [class*=" bi-"]::before {
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: 800 !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: text-bottom;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+i.bi.bi-plus {
+    font-size: 20px;
+}
+.old-tex-redime{
+    text-align: center;
+    /* background-color: #f1f1fd; */
+    border: 1px dashed #6666f3;
+    border-radius: 6px;
+}
+
+.old-tex-redime h5{
+    margin-bottom: 0px;
+    color: #6666f3;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+}
+
+.tex-regime-haddng{
+    border-bottom: 1px dashed #6666f3;;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.table .thead-light th {
+    color: #8997bd;
+    background-color: #f9fafb;
+    border-color: #e8ebf3;
+    border-bottom: none;
+    font-size: 13px;
+}
+
+.table-design tr th {
+    border: 1px solid #e0e0e0;
+    text-align: left;
+}
+
+.table>:not(:first-child) {
+    border-top: 0 solid #e8ebf3;
+}
+tbody tr {
+    border-bottom: 1px solid #ececec;
+}
+.table-design tr td {
+    border: 1px solid #e0e0e0;
+    text-align: left;
+}
+
+
+
+@media screen and (max-width: 2600px){
+    .employees-provident-tex{
+        max-height: 800px;
+        overflow: scroll;
+    }
+}
+
+@media screen and (max-width: 1300px){
+    .employees-provident-tex{
+        max-height: 500px;
+        overflow: scroll;
+    }
+}
+
+
+.edit-icon{
+    color: #6666f3 !important;
+    cursor: pointer;
+}
+
+.basic-text h5{
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 24px;
+    color: #5c5c5c;
+    margin-bottom: 2px;
+    margin-top: 0px;
+}
+
+.basic-text P{
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    color: #878a9a;
+    margin-bottom: 0;
+}
+
+.add-filtter a {
+    margin-bottom: 0px;
+    color: #6666f3 !important;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* .attendance-settin-list>div{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+} */
