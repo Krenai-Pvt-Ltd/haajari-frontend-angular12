@@ -312,7 +312,7 @@ confiirmPassword: string='';
   } else{
     this.dataService.signInByWhatsapp(this.phoneNumber)
     .subscribe(
-      (response) => {
+      (response: any) => {
         this.otpVerificationModalButton.nativeElement.click();
         console.log('OTP sent successfully:', response);
       },

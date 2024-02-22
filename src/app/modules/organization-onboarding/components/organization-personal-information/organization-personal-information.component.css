@@ -649,3 +649,18 @@ a.select-file {
     justify-content: center;
     margin: 0 auto;
   }
+
+  .password-input {
+    flex: 1;
+  }
+  
+
+  
+  .toggle-password {
+    position: absolute;
+    right: 0;
+    border: 0;
+    background: transparent;
+    z-index: 10; /* Ensure the button is above the input */
+    cursor: pointer;
+  }

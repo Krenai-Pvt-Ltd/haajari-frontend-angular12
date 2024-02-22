@@ -65,6 +65,7 @@ import { AgmCoreModule } from '@agm/core';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/employee-attendance-photo.component';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
+import { LinkExpiredPageComponent } from './components/link-expired-page/link-expired-page.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import { NzCalendarModule } from 'ng-zorro-antd/calendar';
     SuccessComponent,
     EmployeeLocationValidatorComponent,
     EmployeeAttendancePhotoComponent,
+    LinkExpiredPageComponent,
     
 
 
