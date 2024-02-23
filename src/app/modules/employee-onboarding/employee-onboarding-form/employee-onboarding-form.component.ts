@@ -49,13 +49,44 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   }
 
 
+
   routeToUserDetails() {
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
     };
     this.router.navigate(['/employee-onboarding/employee-address-detail'], navExtra);
   }
-
+  routeToLastSavedStep(lastSavedStep: number) {
+    // Extract userUuid from URL
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    let navExtra: NavigationExtras = {
+      queryParams: { userUuid: userUuid },
+    };
+  
+    // Determine the route based on lastSavedStep
+    let route;
+    if (lastSavedStep === 18) {
+      route = '/employee-onboarding/employee-address-detail';
+    } else if (lastSavedStep === 19) {
+      route = '/employee-onboarding/employee-document';
+    } else if (lastSavedStep === 20) {
+      route = '/employee-onboarding/acadmic';
+    } else if (lastSavedStep === 21) {
+      route = '/employee-onboarding/employee-experience';
+    } else if (lastSavedStep === 22) {
+      route = '/employee-onboarding/bank-details';
+    } else if (lastSavedStep === 23) {
+      route = '/employee-onboarding/emergency-contact';
+    } else {
+      console.error('Invalid lastSavedStep provided:', lastSavedStep);
+      // Optionally, handle invalid step (e.g., redirect to a default page or show an error message)
+      return;
+    }
+  
+    // Navigate to the determined route
+    this.router.navigate([route], navExtra);
+  }
+  
   isFileSelected = false;
   imagePreviewUrl: any = null;
   onFileSelected(event: Event): void {
@@ -207,6 +238,7 @@ if (this.userPersonalInformationRequest.department === 'Other') {
 
   
 
+  lastSavedStep: number = 0;
   isNewUser: boolean = true;
   isLoading:boolean = true;
   employeeOnboardingFormStatus:string|null=null;
@@ -222,7 +254,11 @@ if (this.userPersonalInformationRequest.department === 'Other') {
                 this.userPersonalInformationRequest = response;
                 this.isLoading = false;
                 this.employeeOnboardingFormStatus=response.employeeOnboardingStatus.response;
-             
+                // if(response.employeeOnboardingFormStatus.id && this.employeeOnboardingFormStatus != 'REJECTED' ){
+                //   this.lastSavedStep = response.employeeOnboardingFormStatus.id;
+                //   this.routeToLastSavedStep(this.lastSavedStep);
+                // }
+                
                 if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL' && (this.employeeOnboardingFormStatus != 'REJECTED' && this.employeeOnboardingFormStatus != 'REQUESTED')){
                   this.successMessageModalButton.nativeElement.click();
                 }
