@@ -75,4 +75,8 @@ export class SubscriptionPlanService {
     return this._httpClient.get<any>(this._key.base_url + this._key.get_plan_purchased_log, {params})
   }
 
+  cancelSubscription(){
+    return this._httpClient.get<any>(this._key.base_url + this._key.cancel_subscription)
+  }
+
 }

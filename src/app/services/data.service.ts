@@ -56,9 +56,9 @@ export class DataService {
   
   // private baseUrl = "http://localhost:8080/api/v2";
 
-  private baseUrl = "https://backend.hajiri.work/api/v2";
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  // private baseUrl = "https://production.hajiri.work/api/v2";
+  private baseUrl = "https://production.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -1282,4 +1282,19 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
   
   }
 
+
+  updateSalaryCalculationMode(salaryCalculationModeId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set('salary_calculation_mode_id', salaryCalculationModeId);
+
+    return this.httpClient.put<any>(`${this.baseUrl}/salary/calculation/mode/update`, {}, {params});
+  }
+
+  getPFContributionRate():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/statutory/pf-contribution-rate`);
+  }
+
+  
+  
 }

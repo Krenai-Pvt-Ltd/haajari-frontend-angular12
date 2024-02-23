@@ -378,8 +378,9 @@
 
 .btn-box {
     position: absolute;
-    top: -15px;
+    top: 26px;
     right: 0px;
+    bottom: 7px;
 }
 @keyframes horizontal-shaking {
     0% { transform: translateX(0) }
