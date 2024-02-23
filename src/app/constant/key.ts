@@ -172,7 +172,7 @@ export class Key{
     // base_url = "https://backend.hajiri.work/api/v2/";
 
     /* ------------------  Production urls ----------------*/
-    // base_url = "https://production.hajiri.work/api/v2";
+    // base_url = "https://production.hajiri.work/api/v2/";
     
 
     get_subscription = "subcription-plan"; 

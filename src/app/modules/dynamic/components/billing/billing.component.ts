@@ -274,6 +274,9 @@ export class BillingComponent implements OnInit {
     })
   }
 
+  num1: number = 10
+  num2: number = 10;
+
   invoiceNo: string = '';
   paymentFor: string = '';
   proceedToPay(amount:any, invoiceNo:any){
