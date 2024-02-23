@@ -284,3 +284,9 @@ nz-date-picker {
     /* color: #6666f3; */
     /* background-color: #c6c6ff; */
 }
+
+.btnCancel {
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    color: #515151;
+}

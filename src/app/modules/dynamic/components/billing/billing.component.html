@@ -1,13 +1,12 @@
 <div class="page-wrapper">
     <div class="page-content-tab">
         <div class="container-fluid">
-
             <div class="mt-3">
-                <!-- <div class="row" *ngIf="OrgSubsPlanMonthDetail.viewCard==1">
+                <div class="row" *ngIf="OrgSubsPlanMonthDetail.viewCard==1">
                     <div class="col-md-12 mb-2">
                         <div class="bill-detail active-plan">
-                            <span class="position-absolute top-0 start-90 translate-middle badge rounded-pill bg-warning">
-                                upcoming
+                            <span class="position-absolute top-0 translate-middle badge rounded-pill bg-warning" style="margin-left: 7px;">
+                                Active Plan
                               </span>
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="col-8">
@@ -15,27 +14,34 @@
                                     <h5>{{OrgSubsPlanMonthDetail.planName}} ({{OrgSubsPlanMonthDetail.planType}})</h5>
                                 </div>
                                 <div class="col-4">
-                                    <button type="button" class="btn btn-primary">Upgrade Subscription</button>
-                                    <button type="button" class="btn" style="margin-left: 5px; color: red;">Cancel Subscription</button>
+                                    <button type="button" class="btn btn-primary py-1" (click)="openAddMoreEmployeeModel(OrgSubsPlanMonthDetail.planAmount,OrgSubsPlanMonthDetail.planId)">Add Employee</button>
+                                    <!-- <button type="button" class="btn" style="margin-left: 5px; color: red;" data-bs-toggle="modal"
+                                    data-bs-target="#cancelsubscription" (click)="cancelSubscription()">Cancel Subscription</button> -->
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex">
+                                <div class="col-3">
+                                    <p style="margin-bottom: 5px;">Employee</p>
+                                    <div class="progress" style="height: 7px; margin-left: 0;" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar" [style.width.%]="(OrgSubsPlanMonthDetail.subscribers / OrgSubsPlanMonthDetail.totalEmployee) * 100"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between" style="margin-left: -2px; margin-right: 68px;">
+                                        <p><i class="bi bi-person"></i>{{OrgSubsPlanMonthDetail.subscribers}} ({{ (OrgSubsPlanMonthDetail.subscribers / OrgSubsPlanMonthDetail.totalEmployee) * 100 | number:'1.0-0' }}%)</p>
+                                        <p>{{OrgSubsPlanMonthDetail.totalEmployee}}</p>
+                                    </div>
+                                </div>
                                 <div class="col-3">
                                     <p style="margin-bottom: 0px;">Start Date</p>
-                                    <h5>1 Feb 2024</h5>
+                                    <h5>{{OrgSubsPlanMonthDetail.startDate | date: 'dd MMM yyyy' }}</h5>
                                 </div>
                                 <div class="col-3">
                                     <p style="margin-bottom: 0px;">Next Billing Date</p>
-                                    <h5>1 Mar 2024</h5>
-                                </div>
-                                <div class="col-3">
-                                    <p style="margin-bottom: 0px;">Next Billing Amount</p>
-                                    <h5>₹2350</h5>
+                                    <h5>{{OrgSubsPlanMonthDetail.nextBillingDate | date: 'dd MMM yyyy' }}</h5>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
                  <div class="row">
                     <div class="col-md-4" *ngFor="let subscription of subscriptionList">
                         <div class="bill-detail" [ngClass]="{'active-plan': subscription.isPurchased == 1}">
@@ -43,7 +49,7 @@
                                 <div class="">
                                    <div class="d-flex align-items-center" style="gap:15px;">
                                     <h3>{{subscription.name}}</h3>
-                                    <span class="currentplan" *ngIf="subscription.isPurchased == 1">Current Plan</span>
+                                    <!-- <span class="currentplan" *ngIf="subscription.isPurchased == 1">Current Plan</span> -->
                                    </div>
                                     <p class="mb-0">{{subscription.description}}</p>
 
@@ -73,10 +79,10 @@
                             </div>
 
                             <div class="">
-                                <!-- <button type="button" class="btn plan-active-btn">Learn more</button> -->
                                 <button type="button" *ngIf="subscription.isPurchased == 0 && isPurchased" class="btn switch-plan" (click)="routeToBillingPaymentPage(subscription.id)"><i class="bi bi-arrow-left-right pr-2" style="padding-right: 10px;"></i>Switch Plan</button>
                                 <button type="button" *ngIf="subscription.isPurchased == 0 && !isPurchased" class="btn switch-plan" (click)="routeToBillingPaymentPage(subscription.id)">Subscribe</button>
-                                <button type="button" *ngIf="subscription.isPurchased == 1 && isPurchased" class="btn btn-primary w-100" (click)="openAddMoreEmployeeModel(subscription.amount,subscription.id)">Add Employee</button>
+                                <!-- <button type="button" *ngIf="subscription.isPurchased == 1 && isPurchased" class="btn btn-primary w-100" (click)="openAddMoreEmployeeModel(subscription.amount,subscription.id)">Add Employee</button> -->
+                                <button type="button" *ngIf="subscription.isPurchased == 1 && isPurchased" class="btn btn-primary w-100" >Current Plan</button>
                                 
                             </div>
 
@@ -349,14 +355,14 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Add Employee</h1>
                 <button type="button" #closeMoreEmployee class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form #employeeAddForm="ngForm">
+            <form #addEmployeeForm="ngForm">
                 <div class="modal-body" style="height: 50px;">
                     <div class="setupformmain mb-3">
-                        <input type="number" class="form-control setupformmain1 ng-untouched ng-pristine" placeholder="Enter Employee" name="tag" [(ngModel)]="newEmployee" ngModel oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');" required>
+                        <input type="number" min="1" class="form-control setupformmain1 ng-untouched ng-pristine" placeholder="Enter Employee" name="tag" [(ngModel)]="newEmployee" ngModel oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');" required>
                     </div>
                 </div>
                 <div class="modal-footer" style="border: none;">
-                    <button type="button" class="btn btn-success" [disabled]="employeeAddForm.invalid" (click)="addMoreEmployee()">Add</button>
+                    <button type="button" class="btn btn-success" [disabled]="addEmployeeForm.invalid || loading" (click)="addMoreEmployee()">Add</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </form>
@@ -436,3 +442,27 @@
     </div>
 </div>
 <!-- plan purchased log modal end-->
+
+<!-- Cancel Subscription confirm modal start -->
+<div class="modal fade" id="cancelsubscription" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="border:none;">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <!-- <i class="fa fa-trash-o" aria-hidden="true"></i> -->
+                <h1>Are you sure?</h1>
+                <label>You are going to cancel active plan.</label>
+            </div>
+            <div class="modal-footer justify-content-center" style="border:none;">
+                <button type="button" class="btn btn-primary px-3 py-2" >
+                    Confirm <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+                </button>
+                <button type="button" class="btn btnCancel px-3 py-2" data-bs-dismiss="modal"
+                    #closeCancelSubscriptionModel>Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Cancel Subscription confirm modal end -->

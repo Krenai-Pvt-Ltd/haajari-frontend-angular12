@@ -194,5 +194,6 @@ export class Key{
     get_plan_purchased_status = "organization-subs-plan/plan-purchased-status";
     
     get_org_subs_plan_month_detail = "organization-subs-plan-month-detail"
+    cancel_subscription = "organization-subs-plan-month-detail"
     
 }

@@ -126,3 +126,18 @@ span.unpaid {
     border: 1px solid lightgray;
     border-radius: 5px;
 }
+.progress {
+    width: 200px;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background-color: #007bff;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    line-height: 20px; /* Center progress text vertically */
+  }
