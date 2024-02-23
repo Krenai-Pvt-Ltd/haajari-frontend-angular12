@@ -35,6 +35,7 @@ import { keys } from "lodash";
 import { UserPasswordRequest } from "../models/user-password-request";
 import { UserLeaveDetailsWrapper } from "../models/UserLeaveDetailsWrapper";
 import { TotalRequestedLeavesReflection } from "../models/totalRequestedLeaveReflection";
+import { StatutoryRequest } from "../models/statutory-request";
 
 
 @Injectable({
@@ -1295,6 +1296,21 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/pf-contribution-rate`);
   }
 
-  
+  getAllStatutories():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/statutory/get/all`);
+  }
+
+  enableOrDisableStatutory(statutoryRequest : StatutoryRequest):Observable<any>{
+
+    return this.httpClient.post<any>(`${this.baseUrl}/statutory/enable-disable`, statutoryRequest);
+  }
+
+  getStatutoryAttributeByStatutoryId(statutoryId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set('statutory_id', statutoryId);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/statutory/attribute/get`, {params});
+  }
   
 }

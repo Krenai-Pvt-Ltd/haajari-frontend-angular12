@@ -2,6 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
 import { SalaryCalculationMode } from 'src/app/models/salary-calculation-mode';
+import { Statutory } from 'src/app/models/statutory';
+import { StatutoryAttribute } from 'src/app/models/statutory-attribute';
+import { StatutoryRequest } from 'src/app/models/statutory-request';
 import { ConfirmationDialogService } from 'src/app/services/confirmation-dialog.service';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -19,6 +22,7 @@ export class SalarySettingComponent implements OnInit {
     this.getAllSalaryCalculationModeMethodCall();
     this.getSalaryCalculationModeByOrganizationIdMethodCall();
     this.getPFContributionRateMethodCall();
+    this.getAllStatutoriesMethodCall();
   }
 
 
@@ -27,7 +31,26 @@ export class SalarySettingComponent implements OnInit {
   switchValueForESI = false;
   switchValueForProfessionalTax = false;
 
+  EPF_ID = 1;
+  ESI_ID = 2;
+  PROFESSIONAL_TAX_ID = 3;
 
+  turnOnTheToggle(statutory : Statutory, state: boolean){
+
+    if(statutory.id == this.EPF_ID){
+      this.switchValueForPF = true;
+    } else if(statutory.id == this.ESI_ID){
+      this.switchValueForESI = true;
+    } else if(statutory.id == this.PROFESSIONAL_TAX_ID){
+      this.switchValueForProfessionalTax = true;
+    }
+
+    this.getStatutoryAttributeByStatutoryIdMethodCall(statutory.id);
+    this.statutoryRequest.id = statutory.id;
+    this.statutoryRequest.name = statutory.name;
+    this.statutoryRequest.switchValue = true;
+  }
+  
 
   UNRESTRICTED_PF_WAGE = Key.UNRESTRICTED_PF_WAGE;
   RESTRICTED_PF_WAGE_UPTO_15000 = Key.RESTRICTED_PF_WAGE_UPTO_15000;
@@ -109,15 +132,79 @@ export class SalarySettingComponent implements OnInit {
     })
   }
 
-  selectedPFContributionRateForEmployees : PFContributionRate = new PFContributionRate();
+  //Fetching the statutories from the database
+  statutoryList : Statutory[] = [];
+  getAllStatutoriesMethodCall(){
+    this.dataService.getAllStatutories().subscribe((response) => {
+      this.statutoryList = response.listOfObject;
+    }, (error) => {
+
+    })
+  }
+
+  selectedPFContributionRateForEmployees : PFContributionRate = {
+    id: 1,
+    name: '12% of PF Wage (Unrestricted)',
+    description: ''
+  };
   selectPFContributionRateForEmployees(pFContributionRate: PFContributionRate) {
     this.selectedPFContributionRateForEmployees = pFContributionRate;
   }
 
-  selectedPFContributionRateForEmployers : PFContributionRate = new PFContributionRate();
+  selectedPFContributionRateForEmployers: PFContributionRate = {
+    id: 1,
+    name: '12% of PF Wage (Unrestricted)',
+    description: ''
+  };
+
   selectPFContributionRateForEmployers(pFContributionRate: PFContributionRate) {
     this.selectedPFContributionRateForEmployers = pFContributionRate;
   }
 
+
+  statutoryRequest : StatutoryRequest = new StatutoryRequest();
+  enableOrDisableStatutoryMethodCall(){
+    this.dataService.enableOrDisableStatutory(this.statutoryRequest).subscribe((response) => {
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+    }, (error) => {
+      this.helperService.showToast("Error in updating "+this.statutoryRequest.name, Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+
+  //Fetching statutory's attributes
+  statutoryAttributeList : StatutoryAttribute[] = [];
+  getStatutoryAttributeByStatutoryIdMethodCall(statutoryId : number){
+    this.dataService.getStatutoryAttributeByStatutoryId(statutoryId).subscribe((response) => {
+      this.statutoryAttributeList = response.listOfObject;
+      if (this.pFContributionRateList.length > 0) {
+        const defaultPFContributionRate = this.pFContributionRateList[0];
+        this.statutoryAttributeList.forEach(attr => {
+          attr.selectedRate = defaultPFContributionRate;
+        });
+      }
+    }, (error) => {
+
+    })
+  }
+
+  //Disable other inputs if Employer's PF Contribution input is selected as Unirestricted
+  inputsDisabled: boolean = true;
+  selectPFContributionRate(statutoryAttribute: StatutoryAttribute, pFContributionRate: PFContributionRate, index : number) {
+    
+    statutoryAttribute.selectedRate = pFContributionRate;
+
+    console.log(this.statutoryAttributeList);
+
+    if (index === 0 && this.pFContributionRateList.indexOf(pFContributionRate) === 0) {
+      this.inputsDisabled = true;
+    } else {
+      this.inputsDisabled = false;
+    }
+  }
+
+  shouldDisableInput(attributeIndex: number): boolean {
+    return this.inputsDisabled && attributeIndex !== 0;
+  }
 }
 

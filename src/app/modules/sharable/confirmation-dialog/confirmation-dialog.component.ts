@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-confirmation-dialog',
@@ -12,6 +12,7 @@ export class ConfirmationDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  @Input() define:string='';
   dotOpacityLoader = false;
   @Output() proceed = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();
