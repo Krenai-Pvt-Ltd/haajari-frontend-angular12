@@ -27,6 +27,7 @@ import { environment } from 'src/environments/environment';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     AngularFireMessagingModule,
     NgxMaskModule.forRoot(),
     NgbModule,
-    GooglePlaceModule
+    GooglePlaceModule,
+    NgxPaginationModule
   ]
 })
 export class OrganizationOnboardingModule { }

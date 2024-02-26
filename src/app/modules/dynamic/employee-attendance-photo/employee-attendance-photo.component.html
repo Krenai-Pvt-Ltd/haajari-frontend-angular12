@@ -46,7 +46,7 @@
                          </div> -->
                 <div class="location-map mt-3">
                     <!-- Webcam component -->
-                    <webcam *ngIf="!captureImage" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
+                    <webcam *ngIf="!captureImage" [trigger]="triggerObservable" [videoOptions]="{deviceId: currentDeviceId}" (imageCapture)="handleImage($event)"></webcam>
                     <!-- Button to trigger snapshot -->
                     <!-- <button *ngIf="!captureImage" class="btn btn-success" (click)="triggerSnapshot();">Take A Snapshot</button> -->
                    
