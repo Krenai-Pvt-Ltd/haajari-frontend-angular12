@@ -59,7 +59,7 @@
                             <ng-template #attendanceModeData>
                                 <div class="attendance-settin-list" *ngFor="let attendanceMode of attendanceModeList">
                                     <div class="categryCustomizecard d-flex pointer" 
-                                    
+                                   
                                          [ngClass]="{'attendance-active': attendanceMode.id === selectedAttendanceModeId}" 
                                          (click)="updateAttendanceModeMethodCall(attendanceMode.id)">
                                         <div class="categryCustomizeinfo">
