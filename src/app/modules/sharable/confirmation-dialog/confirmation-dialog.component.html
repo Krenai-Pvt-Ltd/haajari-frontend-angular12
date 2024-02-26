@@ -1,13 +1,20 @@
-<!-- <h2 mat-dialog-title class="dialog-title">Are you sure, you want to proceed?</h2>
-<mat-dialog-content class="dialog-content">
-  <p>Note: By clicking on this, your changes will get reflected.</p>
-</mat-dialog-content>
-<mat-dialog-actions class="dialog-actions">
-  <button mat-button mat-dialog-close="false" class="cancel-button">Cancel</button>
-  <button mat-button mat-dialog-close="true" cdkFocusInitial class="proceed-button">Proceed</button>
-</mat-dialog-actions> -->
+<div class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <i mat-dialog-title class="bi bi-question-circle"></i>
+        <h2 mat-dialog-title>Are you sure, you want to proceed?</h2>
+        <mat-dialog-content class="dialog-content">
+        <p>Note: By clicking on this, your changes will get reflected.</p>
+        </mat-dialog-content>
+        <mat-dialog-actions align="end">
+        <button mat-button [mat-dialog-close]="false" class="cancel-button">Cancel</button>
+        <button mat-button color="warn" [mat-dialog-close]="true" cdkFocusInitial class="proceed-button">Proceed</button>
+        </mat-dialog-actions>
+      </div>
+    </div>
+</div>
 
-<div class="modal fade" id="confirmationDialog" tabindex="-1"
+<!-- <div class="modal fade" id="confirmationDialog" tabindex="-1"
     aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
     <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important;">
         <div class="modal-content p-0" style="border-radius: 15px;">
@@ -18,11 +25,9 @@
 
                     <i class="bi bi-question-circle"></i>
 
-                    <h3 class="confirm-detail">Are you sure, you want to proceed? </h3>
+                    <h3 class="confirm-detail" mat-dialog-title>Are you sure, you want to proceed? </h3>
 
                     <p>Note: <span style="color: #a1a0a0;">By clicking on this, your changes will get reflect.</span></p>
-
-                    <div class="d-flex align-items-center justify-content-center mt-4" style="gap: 15px;">
 
                         <button type="button" class="btn btnmarkcancel" (click)="onCancel()" data-bs-dismiss="modal"> Cancel
                         </button>
@@ -38,10 +43,20 @@
                                 </div>
                             </ng-template>
                         </button>
-                    </div>
                 </div>
 
             </form>
         </div>
     </div>
-</div>
+</div> -->
+
+
+<!-- <h2 mat-dialog-title>Are you sure, you want to proceed?</h2>
+<mat-dialog-content class="dialog-content">
+  <p>Note: By clicking on this, your changes will get reflected.</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-button color="warn" [mat-dialog-close]="true" cdkFocusInitial>Proceed</button>
+</mat-dialog-actions> -->
+

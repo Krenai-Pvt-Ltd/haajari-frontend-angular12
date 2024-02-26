@@ -24,4 +24,5 @@ export class ConfirmationDialogComponent implements OnInit {
     this.cancel.emit();
   }
 
+
 }

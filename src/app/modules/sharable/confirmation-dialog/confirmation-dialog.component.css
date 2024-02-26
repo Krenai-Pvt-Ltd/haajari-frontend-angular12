@@ -1,45 +1,54 @@
-/* Dialog title */
-.dialog-title {
-    font-size: 24px; /* Adjust font size as needed */
-    text-align: center;
-    margin-top: 16px; /* Adjust spacing as needed */
-  }
+/* The backdrop covering the entire viewport */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
   
-  /* Dialog content */
-  .dialog-content {
-    padding: 20px;
-    text-align: center; /* Center the text */
-  }
-  
-  /* Dialog actions */
-  .dialog-actions {
-    display: flex;
-    justify-content: center; /* Center the buttons */
-    padding-bottom: 20px;
-  }
-  
-  /* Cancel button styles */
-  .cancel-button {
-    color: #000; /* Adjust color as needed */
-    border: 1px solid #ccc; /* Adjust border as needed */
-    border-radius: 4px; /* Adjust border-radius as needed */
-    margin-right: 8px; /* Space between buttons */
-  }
-  
-  /* Proceed button styles */
-  .proceed-button {
-    color: #fff; /* Adjust text color as needed */
-    background-color: #f00; /* Adjust background color as needed */
-    border: none;
-    border-radius: 4px; /* Adjust border-radius as needed */
-  }
-  
-  /* Additional styles for the buttons */
-  button.mat-button {
-    min-width: 80px; /* Minimum width of buttons */
-    box-shadow: none; /* Remove box shadow */
-    font-weight: bold;
-  }
+}
+
+/* The modal dialog is centered within the backdrop */
+.modal-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* The modal content has a specific maximum width and is centered */
+.modal-content {
+  max-width: 500px;
+  margin: auto;
+  border-radius: 15px;
+  padding: 30px;
+  padding-bottom: 10%;
+  overflow: hidden; /* Ensures no content spills out */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ensure that the mat-dialog-actions are flexed to space buttons */
+mat-dialog-actions {
+  display: flex;
+  justify-content: space-around; /* Or 'space-between' depending on the exact layout */
+  padding: 1rem; /* Adjust to match the design */
+}
+
+button[mat-button] {
+  min-width: 80px; 
+}
+
+mat-dialog-content.dialog-content {
+  padding: 0; /* Adjust as needed */
+}
+
+
 
 
 
@@ -71,4 +80,28 @@
 @keyframes dotOpacity {
     0%, 80%, 100% { opacity: 0; }
     40% { opacity: 1; }
+}
+
+/* .confirmation-dialog{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.cancel-button{
+  background-color: #f5f5f5;
+  border: 1px solid #aeaeae !important;
+  color: #444!important;
+  height: 37px;
+}
+
+.proceed-button{
+  background-color: #ececf4;
+  border: 1px solid #6666f3 !important;
+  color: #6666f3!important;
+  height: 37px;
+}
+
+.proceed-button:hover, .cancel-button:hover{
+  background-color: transparent;
 }
