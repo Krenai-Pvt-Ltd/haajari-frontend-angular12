@@ -302,17 +302,20 @@
             <br>
 
             <div class="row mb-3">
-               <div class="attendance-settin-list" *ngFor="let statutory of statutoryList; let i = index">
+               <div class="attendance-settin-list" *ngFor="let statutoryResponse of statutoryResponseList; let i = index">
                    <div class="categryCustomizecard d-flex pointer">
                        <div class="categryCustomizeinfo">
                            <label for="customizecategory{{i}}" class="mb-0">
-                               <h3> {{statutory.name}}</h3>
-                               <p> {{statutory.description}}</p>
+                               <h3> {{statutoryResponse.name}}</h3>
+                               <p> {{statutoryResponse.description}}</p>
                            </label>
                        </div>
                        <div class="active-check">
                         <!-- <nz-switch [(ngModel)]="statutory.switchValue" (click)="turnOnTheToggle(statutory, $event)"></nz-switch> -->
-                        <nz-switch [ngModel]="statutory.switchValue" (ngModelChange)="turnOnTheToggle(statutory, $event)"></nz-switch>
+                        <!-- <nz-switch [ngModel]="statutory.switchValue" (ngModelChange)="turnOnTheToggle(statutory, $event)"></nz-switch>
+                        <nz-switch [ngModel]="true" nzLoading></nz-switch> -->
+                        <nz-switch [(ngModel)]="statutoryResponse.switchValue" [nzControl]="true" (click)="clickSwitch(statutoryResponse)" [nzLoading]="statutoryResponse.loading"></nz-switch>
+
                     </div>
                    </div>
 
@@ -771,77 +774,22 @@
 </div><!--end modal-->
 
 
-
-
-
-
 <!-- Modal with an *ngIf directive to conditionally render based on `switchValue` -->
 <div *ngIf="switchValueForPF" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
     <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
         <div class="modal-content">
             <div class="modal-header border-bottom" style="background-color: white;">
                 <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees' Provident Fund</h6>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="switchValueForPF = false"></button>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="getAllStatutoriesMethodCall()"></button>
             </div>
             <div class="modal-body employees-provident">
-                <!-- <div class="form-group mb-3">
-                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">Employers' Contribution Rate</label>
-                      <div class="dropdown" style="width: 100%;">
-                        <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                            {{ selectedPFContributionRateForEmployers?.name || "Select PFContribution rate" }} <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
-                        </button>
-                        <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
-                            <li *ngFor="let pFContributionRate of pFContributionRateList">
-                                <a class="dropdown-item" (click)="selectPFContributionRateForEmployers(pFContributionRate)">
-                                  {{ pFContributionRate.name }}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">Employees' Contribution Rate</label>
-                    <div class="dropdown" style="width: 100%;">
-                        <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown" [disabled]="selectedPFContributionRateForEmployers.id == UNRESTRICTED_PF_WAGE">
-                            {{ selectedPFContributionRateForEmployees?.name || "Select PFContribution rate" }} <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
-                        </button>
-                        <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
-                            <li *ngFor="let pFContributionRate of pFContributionRateList">
-                                <a class="dropdown-item" (click)="selectPFContributionRateForEmployees(pFContributionRate)">
-                                  {{ pFContributionRate.name }}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div> -->
-
-                <!-- <div *ngFor="let statutoryAttribute of statutoryAttributeList">
-                    <div class="form-group mb-3">
-                        <label for="exampleInputEmail1" style="padding-bottom: 6px;">{{statutoryAttribute.name}}</label>
-                          <div class="dropdown" style="width: 100%;">
-                            <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                                {{ selectedPFContributionRateForEmployers?.name || "Select PFContribution rate" }} <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
-                            </button>
-                            <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
-                                <li *ngFor="let pFContributionRate of pFContributionRateList">
-                                    <a class="dropdown-item" (click)="selectPFContributionRateForEmployers(pFContributionRate)">
-                                      {{ pFContributionRate.name }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> -->
-
-
                 <div *ngFor="let statutoryAttribute of statutoryAttributeList; let i = index">
                     <div class="form-group mb-3">
                       <label style="padding-bottom: 6px;">{{ statutoryAttribute.name }}</label>
                       <div class="dropdown" style="width: 100%;">
                         <button type="button" [id]="'dropdownMenuButton' + i" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"
                         [disabled]="shouldDisableInput(i)">
-                          {{ statutoryAttribute.selectedRate?.name || "Select PFContribution rate" }}
+                          {{  statutoryAttribute.value || "Select PFContribution rate" }}
                           <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
                         </button>
                         <ul [attr.aria-labelledby]="'dropdownMenuButton' + i" class="dropdown-menu" style="width: 100%;">
@@ -854,9 +802,6 @@
                       </div>
                     </div>
                 </div>
-                  
-                  
-                
 
                   <ng-container *ngIf="selectedPFContributionRateForEmployees.id == RESTRICTED_PF_WAGE_UPTO_15000 && selectedPFContributionRateForEmployers.id ==  RESTRICTED_PF_WAGE_UPTO_15000; else otherConditionsForSampleEPFCalculation">
                     <div class="rounded-lg bg-blue-50 px-6 py-4">
@@ -988,16 +933,10 @@
                         </div>
                     </div>
                   </ng-template>
-
-
-
-                  
-
-
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="switchValueForPF = false">Cancel</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValueForPF = false">Save</button>
+                <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="getAllStatutoriesMethodCall()">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="enableOrDisableStatutoryMethodCall()">Save</button>
             </div>
         </div>
     </div>
@@ -1013,10 +952,31 @@
                 <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees' State Insurance</h6>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="switchValueForESI = false"></button>
             </div>
-            <div class="modal-body">
-                <div class="form-group mb-3">
-                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">Employees' Contribution</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="0.75% (of Gross Pay)" readonly>
+            <div class="modal-body" *ngFor="let statutoryAttribute of statutoryAttributeList; let i = index">
+
+                <!-- <div *ngFor="let statutoryAttribute of statutoryAttributeList; let i = index">
+                    <div class="form-group mb-3">
+                      <label style="padding-bottom: 6px;">{{ statutoryAttribute.name }}</label>
+                      <div class="dropdown" style="width: 100%;">
+                        <button type="button" [id]="'dropdownMenuButton' + i" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"
+                        [disabled]="shouldDisableInput(i)">
+                          {{  statutoryAttribute.value || "Select PFContribution rate" }}
+                          <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                        </button>
+                        <ul [attr.aria-labelledby]="'dropdownMenuButton' + i" class="dropdown-menu" style="width: 100%;">
+                          <li *ngFor="let pFContributionRate of pFContributionRateList">
+                            <a class="dropdown-item" (click)="selectPFContributionRate(statutoryAttribute, pFContributionRate, i)">
+                              {{ pFContributionRate.name }}
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                </div> -->
+
+                  <div class="form-group mb-3">
+                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">{{statutoryAttribute.name}}</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="statutoryAttribute.value" readonly>
                     <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                   </div>
                   <div class="form-group mb-3">

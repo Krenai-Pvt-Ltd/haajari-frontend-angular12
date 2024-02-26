@@ -1,6 +1,4 @@
-import { PFContributionRate } from "./p-f-contribution-rate";
-
-export class StatutoryAttribute {
+export class OrganizationStatutoryAttributeRequest {
 
     id : number = 0;
     name : string = '';
