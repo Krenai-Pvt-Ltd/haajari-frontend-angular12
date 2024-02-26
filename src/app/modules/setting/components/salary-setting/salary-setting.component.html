@@ -446,7 +446,7 @@
 
        
 
-    <div class="col-md-1"></div>
+    <!-- <div class="col-md-1"></div>
          <div class="col-md-10 mt-4 ">
 
           
@@ -454,7 +454,7 @@
                     <button type="button" class="btn btn-primary company-save-btn">Save</button>
                 </div>
               
-         </div>
+         </div> -->
     
 
         
@@ -950,7 +950,7 @@
         <div class="modal-content">
             <div class="modal-header border-bottom" style="background-color: white;">
                 <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees' State Insurance</h6>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="switchValueForESI = false"></button>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="getAllStatutoriesMethodCall()"></button>
             </div>
             <div class="modal-body" *ngFor="let statutoryAttribute of statutoryAttributeList; let i = index">
 
@@ -974,26 +974,22 @@
                     </div>
                 </div> -->
 
-                  <div class="form-group mb-3">
+                  <div class="form-group">
                     <label for="exampleInputEmail1" style="padding-bottom: 6px;">{{statutoryAttribute.name}}</label>
                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="statutoryAttribute.value" readonly>
                     <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                   </div>
-                  <div class="form-group mb-3">
-                    <label for="exampleInputPassword1" style="padding-bottom: 6px;">Employers' Contribution</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" value="03.75% (of Gross Pay)" readonly>
-                  </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="switchValueForESI = false">Cancel</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValueForESI = false">Save</button>
+                <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="getAllStatutoriesMethodCall()">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="enableOrDisableStatutoryMethodCall()">Save</button>
             </div>
         </div>
     </div>
 </div>
 
 
-<div *ngIf="switchValueForProfessionalTax" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+<!-- <div *ngIf="switchValueForProfessionalTax" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
     <div class="modal-dialog modal-dialog-centered mx-auto modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header border-bottom" style="background-color: white;">
@@ -1006,7 +1002,6 @@
                         <div class="form-group mb-3">
                             <label for="exampleInputEmail1" style="padding-bottom: 6px;">Pt Number</label>
                             <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pt Number">
-                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                           </div>
                     </div>
 
@@ -1159,12 +1154,6 @@
                             <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="₹0">
                           </div>
                     </div>
-                    
-                    <!-- <div class="add-filtter d-flex align-items-center justify-content-start">
-                        <a style="font-size: 16px; color: #6666f3 !important;">
-                            <i class="bi bi-plus"></i> Add Additional Slab 
-                        </a>
-                    </div> -->
                    
                 </div>
                
@@ -1173,6 +1162,23 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="switchValueForProfessionalTax = false">Cancel</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValueForProfessionalTax = false">Save</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div *ngIf="switchValueForProfessionalTax" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mx-auto modal-lg" role="document">
+
+        <div class="modal-content">
+            <div class="col-md-12">
+                <p></p>
+                <div class="modal-body text-center mt-1 mb-3">
+
+                    <h3>Hey User,</h3>
+                    <h3>We're working hard to come out with this feature.</h3>
+                    <h3> Thanks for your patience! 😐</h3>
+                </div>
             </div>
         </div>
     </div>

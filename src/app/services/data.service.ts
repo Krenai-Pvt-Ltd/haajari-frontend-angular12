@@ -1318,5 +1318,19 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
 
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/attribute/get`, {params});
   }
+
+  updateTaxRegimeByUserId(taxRegimeId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set('tax_regime_id', taxRegimeId);
+
+    return this.httpClient.put<any>(`${this.baseUrl}/statutory/tax-regime/update`, {params});
+  }
+
+  getAllTaxRegime():Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/statutory/tax-regime/get/all`);
+  }
   
+
 }

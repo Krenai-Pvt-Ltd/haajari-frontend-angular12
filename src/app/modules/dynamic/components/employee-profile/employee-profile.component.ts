@@ -23,6 +23,7 @@ import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-pro
 import { constant } from 'src/app/constant/constant';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { UserDocumentsAsList } from 'src/app/models/UserDocumentsMain';
+import { TaxRegime } from 'src/app/models/tax-regime';
 
 @Component({
   selector: 'app-employee-profile',
@@ -114,6 +115,9 @@ export class EmployeeProfileComponent implements OnInit {
   currentDate: Date = new Date();
   currentNewDate: any;
   async ngOnInit(): Promise<void> {
+    this.getAllTaxRegimeMethodCall();
+
+    
     this.ROLE= await this.roleService.getRole();
     this.UUID= await this.roleService.getUuid();
 
@@ -1327,13 +1331,36 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
   );
 }
 
-requestForMoreDocs: boolean = false;
-requestUserForMoreDocs(){
-  this.openRejectModal.nativeElement.click();
-  this.requestForMoreDocs = true;
+  requestForMoreDocs: boolean = false;
+  requestUserForMoreDocs(){
+    this.openRejectModal.nativeElement.click();
+    this.requestForMoreDocs = true;
+  }
+  switchValueForPF = false;
+  switchValueForESI = false;
+  switchValueForProfessionalTax = false;
+
+
+  //Code written by Shivendra
+  taxRegimeId : number = 0;
+  updateTaxRegimeByUserIdMethodCall(){
+    this.dataService.updateTaxRegimeByUserId(this.taxRegimeId).subscribe((response) => {
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+    }, (error) => {
+      this.helperService.showToast("Error in updating tax regime!", Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+  taxRegimeList : TaxRegime[] = [];
+  getAllTaxRegimeMethodCall(){
+    this.dataService.getAllTaxRegime().subscribe((response) => {
+      this.taxRegimeList = response.listOfObject;
+    }, (error) => {
+
+    })
+  }
+
 }
-switchValueForPF = false;
-switchValueForESI = false;
-switchValueForProfessionalTax = false;
-}
+
+
 

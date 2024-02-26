@@ -24,6 +24,7 @@ export class SalarySettingComponent implements OnInit {
     this.getAllSalaryCalculationModeMethodCall();
     this.getSalaryCalculationModeByOrganizationIdMethodCall();
     this.getPFContributionRateMethodCall();
+    this.getESIContributionRateMethodCall();
     this.getAllStatutoriesMethodCall();
   }
 
@@ -39,6 +40,12 @@ export class SalarySettingComponent implements OnInit {
 
   UNRESTRICTED_PF_WAGE = Key.UNRESTRICTED_PF_WAGE;
   RESTRICTED_PF_WAGE_UPTO_15000 = Key.RESTRICTED_PF_WAGE_UPTO_15000;
+
+  setStatutoryVariablesToFalse(){
+    this.switchValueForPF = false;
+    this.switchValueForESI = false;
+    this.switchValueForProfessionalTax = false;
+  }
 
 
   //Code for shimmers and placeholders
@@ -132,7 +139,7 @@ export class SalarySettingComponent implements OnInit {
   getAllStatutoriesMethodCall(){
     this.dataService.getAllStatutories().subscribe((response) => {
       this.statutoryResponseList = response.listOfObject;
-      this.switchValueForPF = false;
+      this.setStatutoryVariablesToFalse();
     }, (error) => {
 
     })
@@ -213,11 +220,10 @@ export class SalarySettingComponent implements OnInit {
 
 
   statutoryRequest : StatutoryRequest = new StatutoryRequest();
-  statutoryResponse : StatutoryResponse = new StatutoryResponse();
   enableOrDisableStatutoryMethodCall(){
 
     this.dataService.enableOrDisableStatutory(this.statutoryRequest).subscribe((response) => {
-      this.switchValueForPF = false;
+      this.setStatutoryVariablesToFalse();
       this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
       this.getAllStatutoriesMethodCall();
     }, (error) => {
@@ -255,7 +261,8 @@ export class SalarySettingComponent implements OnInit {
         }
       } else if(statutoryId == this.ESI_ID){
         this.statutoryAttributeList.forEach(attr => {
-        const matchingESIRate = this.eSIContributionRateList.find((statutory) => statutory.id === attr.id);
+        const matchingESIRate = this.eSIContributionRateList.find((iterator) => iterator.statutoryAttribute.id === attr.id);
+        console.log(this.eSIContributionRateList);
         if (matchingESIRate) {
           attr.value = matchingESIRate.name;
           }
