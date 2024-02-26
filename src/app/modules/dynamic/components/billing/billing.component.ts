@@ -69,7 +69,7 @@ export class BillingComponent implements OnInit {
         
       }else
       {
-        this.helperService.showToast("Invoice Due Pendding", Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast("Invoice Due! Please pay previous invoice first", Key.TOAST_STATUS_ERROR);
         
       }
       
@@ -99,13 +99,14 @@ export class BillingComponent implements OnInit {
   addMoreEmployee(){
     debugger
     this.paymentFor = "add_employee"
-
+    this.loading = true;
     if(this.OrgSubsPlanMonthDetail.planType == "monthly"){
       if(this.currentDate > this.midDateOfMonth){
         this._subscriptionPlanService.addMoreEmployee(this.newEmployee).subscribe(response=>{
           if(response.status){
            this.closeMoreEmployee.nativeElement.click();
            this.helperService.showToast("Employee successfully added", Key.TOAST_STATUS_SUCCESS);
+           this.getOrgSubsPlanMonthDetail();
           }
         })
       }
@@ -131,10 +132,12 @@ export class BillingComponent implements OnInit {
           if(response.status){
             this.closeMoreEmployee.nativeElement.click();
             this.helperService.showToast("Employee successfully added", Key.TOAST_STATUS_SUCCESS);
+            this.getOrgSubsPlanMonthDetail();
           }
         })
       }
     }
+    this.loading = false;
   }
 
   processingPayment: boolean = false;
@@ -185,16 +188,19 @@ export class BillingComponent implements OnInit {
 
   checkout(value:any){
     debugger
-    if(this.paymentFor == "add_employee"){
+    // if(this.paymentFor == "add_employee"){
+      this.getInvoices();
+      this.getOrgSubsPlanMonthDetail();
+      this.getDueInvoices();
       this.closeMoreEmployee.nativeElement.click();
       this.helperService.showToast("Employee successfully added", Key.TOAST_STATUS_SUCCESS);
-      this.getInvoices();
-    }
-    else if(this.paymentFor == "due_invoice")
-    {
-      this.helperService.showToast("Payment Successful", Key.TOAST_STATUS_SUCCESS);
-      this.getDueInvoices();
-    }
+      
+    // }
+    // else if(this.paymentFor == "due_invoice")
+    // {
+    //   this.helperService.showToast("Payment Successful", Key.TOAST_STATUS_SUCCESS);
+    //   this.getDueInvoices();
+    // }
     
     
   }
@@ -297,6 +303,18 @@ export class BillingComponent implements OnInit {
       link.download = fileName;
       link.click();
     });
+  }
+
+  cancelSubscription(){
+    this._subscriptionPlanService.cancelSubscription().subscribe(response=>{
+      if(response.status){
+
+        console.log("cancel subscription");
+        
+
+      }
+    })
+
   }
 
 }

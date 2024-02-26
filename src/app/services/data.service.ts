@@ -1282,4 +1282,19 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
   
   }
 
+
+  updateSalaryCalculationMode(salaryCalculationModeId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set('salary_calculation_mode_id', salaryCalculationModeId);
+
+    return this.httpClient.put<any>(`${this.baseUrl}/salary/calculation/mode/update`, {}, {params});
+  }
+
+  getPFContributionRate():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/statutory/pf-contribution-rate`);
+  }
+
+  
+  
 }
