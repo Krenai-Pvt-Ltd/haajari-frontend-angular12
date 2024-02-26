@@ -70,7 +70,6 @@ export class BillingComponent implements OnInit {
       }else
       {
         this.helperService.showToast("Invoice Due! Please pay previous invoice first", Key.TOAST_STATUS_ERROR);
-        
       }
       
     })
@@ -189,12 +188,12 @@ export class BillingComponent implements OnInit {
   checkout(value:any){
     debugger
     // if(this.paymentFor == "add_employee"){
+      
+      this.closeMoreEmployee.nativeElement.click();
+      this.helperService.showToast("Employee successfully added", Key.TOAST_STATUS_SUCCESS);
       this.getInvoices();
       this.getOrgSubsPlanMonthDetail();
       this.getDueInvoices();
-      this.closeMoreEmployee.nativeElement.click();
-      this.helperService.showToast("Employee successfully added", Key.TOAST_STATUS_SUCCESS);
-      
     // }
     // else if(this.paymentFor == "due_invoice")
     // {
