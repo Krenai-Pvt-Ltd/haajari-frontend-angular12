@@ -126,6 +126,11 @@ export class Key{
     public static UNRESTRICTED_PF_WAGE = 1;
     public static RESTRICTED_PF_WAGE_UPTO_15000 = 2;
 
+    // Statutory calculation mode Ids
+    public static EPF_ID = 1;
+    public static ESI_ID = 2;
+    public static PROFESSIONAL_TAX_ID = 3;
+
 
     public static PASTE = "paste";
     public static COPY = "copy";
