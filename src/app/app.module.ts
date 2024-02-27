@@ -30,6 +30,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ConfirmationDialogComponent } from './modules/sharable/confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+
 
 
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
@@ -71,6 +73,7 @@ import { MatButtonModule } from '@angular/material/button';
     DragDropModule,
     MatDialogModule,
     MatButtonModule, 
+    NzSwitchModule
     // OnboardingSidebarResponse
 
     
