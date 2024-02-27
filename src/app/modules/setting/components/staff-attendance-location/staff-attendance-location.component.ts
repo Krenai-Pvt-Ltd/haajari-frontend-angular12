@@ -12,4 +12,5 @@ export class StaffAttendanceLocationComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  str:string='abcd';
 }
