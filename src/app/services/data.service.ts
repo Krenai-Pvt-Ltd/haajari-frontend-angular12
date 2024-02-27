@@ -1324,7 +1324,7 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     const params = new HttpParams()
     .set('tax_regime_id', taxRegimeId);
 
-    return this.httpClient.put<any>(`${this.baseUrl}/statutory/tax-regime/update`, {params});
+    return this.httpClient.put<any>(`${this.baseUrl}/statutory/tax-regime/update`, {}, {params});
   }
 
   getAllTaxRegime():Observable<any>{
@@ -1333,4 +1333,8 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
   }
   
 
+  getStatutoryByOrganizationId(): Observable<any>{
+    debugger
+    return this.httpClient.get<any>(`${this.baseUrl}/statutory/employee/get/all`);
+  }
 }
