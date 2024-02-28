@@ -200,5 +200,9 @@ export class Key{
     
     get_org_subs_plan_month_detail = "organization-subs-plan-month-detail"
     cancel_subscription = "organization-subs-plan-month-detail"
+
+    //user notification
+    get_notification = "user-notification";
+    read_all_notification = "user-notification/read-all";
     
 }

@@ -1,3 +1,11 @@
 .topbar{
     border-bottom: 1px solid #f1f1f1;
 }
+.notification
+{
+    background-color: #eef1ff;
+}
+.read-notification
+{
+    background-color: white;
+}

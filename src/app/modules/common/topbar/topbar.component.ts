@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { Notification } from 'src/app/models/Notification';
 import { DataService } from 'src/app/services/data.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { UserNotificationService } from 'src/app/services/user-notification.service';
 
 @Component({
   selector: 'app-topbar',
@@ -9,7 +13,14 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class TopbarComponent implements OnInit {
 
-  constructor(public dataService: DataService, private router: Router) { }
+  
+  databaseHelper: DatabaseHelper = new DatabaseHelper();
+
+  constructor(public dataService: DataService, 
+    private router: Router,
+    private rbacService: RoleBasedAccessControlService,
+    private _notificationService: UserNotificationService,
+    private elementRef: ElementRef) { }
 
   topbarValue: string | undefined;
 
@@ -21,6 +32,7 @@ export class TopbarComponent implements OnInit {
     this.router.events.subscribe(event => {
       this.updateTopbarValue();
     });
+    this.getUserUUID();
   }
 
   private updateTopbarValue() {
@@ -101,6 +113,47 @@ export class TopbarComponent implements OnInit {
     return input.charAt(0).toUpperCase() + input.slice(1);
   }
 
+  UUID : any;
+  async getUserUUID(){
+    this.UUID = await this.rbacService.getUUID();
+    this.getNotification(this.UUID)
+  }
+
+  notificationList: Notification[]= new Array();
+  loading: boolean = false;
+  totalNewNotification: number = 0;
+  getNotification(uuid:any){
+    this.loading = true;
+    this._notificationService.getNotification(uuid, this.databaseHelper).subscribe(response=>{
+      if(response.status){
+        this.notificationList = response.object;
+        this.totalNewNotification = response.totalItems;
+        this.loading = false;
+      }
+      this.loading = false;
+    })
+  }
+
+  markAsReadAll(){
+    this._notificationService.readAllNotification(this.UUID).subscribe(response=>{
+      if(response.status){
+        this.getNotification(this.UUID);
+        
+      }
+    })
+  }
+
+  scrollDownPagination(event: any) {
+    const element = this.elementRef.nativeElement;
+    const atBottom = element.scrollTop + element.clientHeight >= element.scrollHeight;
+
+    console.log("vjndfn");
+    if (atBottom && !this.loading && this.notificationList.length < this.totalNewNotification) {
+      console.log("vjndfn");
+      
+      this.loading = true;
+    }
+  }
   
 
 }
