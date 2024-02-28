@@ -111,32 +111,6 @@
                                   </div>
                             </div>
                         </div>
-                        <!-- <div class="categryCustomizecard d-flex pointer">
-                            <div class="categryCustomizeinfo">
-                                <label for="customizecategory1" class="mb-0">
-                                    <h3> Every Month 30 Days</h3>
-                                    <p> Large images are best for products where every detail is a part of the product’s value.</p>
-                                </label>
-                            </div>
-                            <div class="active-check ng-star-inserted">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios2" id="exampleRadios2" value="option2">
-                                  </div>
-                            </div>
-                        </div>
-                        <div class="categryCustomizecard d-flex pointer">
-                            <div class="categryCustomizeinfo">
-                                <label for="customizecategory1" class="mb-0">
-                                    <h3> Exclude Weekly Offs</h3>
-                                    <p> Large images are best for products where every detail is a part of the product’s value.</p>
-                                </label>
-                            </div>
-                            <div class="active-check ng-star-inserted">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios3" id="exampleRadios3" value="option3">
-                                  </div>
-                            </div>
-                        </div> -->
                     </div>
                  </div>
             </ng-container>
@@ -301,63 +275,75 @@
         
             <br>
 
-            <div class="row mb-3">
-               <div class="attendance-settin-list" *ngFor="let statutoryResponse of statutoryResponseList; let i = index">
-                   <div class="categryCustomizecard d-flex pointer">
-                       <div class="categryCustomizeinfo">
-                           <label for="customizecategory{{i}}" class="mb-0">
-                               <h3> {{statutoryResponse.name}}</h3>
-                               <p> {{statutoryResponse.description}}</p>
-                           </label>
-                       </div>
-                       <div class="active-check">
-                        <!-- <nz-switch [(ngModel)]="statutory.switchValue" (click)="turnOnTheToggle(statutory, $event)"></nz-switch> -->
-                        <!-- <nz-switch [ngModel]="statutory.switchValue" (ngModelChange)="turnOnTheToggle(statutory, $event)"></nz-switch>
-                        <nz-switch [ngModel]="true" nzLoading></nz-switch> -->
-                        <nz-switch [(ngModel)]="statutoryResponse.switchValue" [nzControl]="true" (click)="clickSwitch(statutoryResponse)" [nzLoading]="statutoryResponse.loading"></nz-switch>
-
+            <ng-container *ngIf="isShimmerForStatutory && statutoryResponseList.length === 0 && !dataNotFoundPlaceholderForStatutory && !networkConnectionErrorPlaceHolderForStatutory; else statutoryElseCondition">
+                <div class="row" >
+                    <div class="col-md-12">
+                        <div class="attendance-settin-list mb-3">
+                            <ngx-shimmer-loading [width]="'100%'" [height]="'60px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                        </div>
+                        <div class="attendance-settin-list mb-3">
+                            <ngx-shimmer-loading [width]="'100%'" [height]="'60px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                        </div>
+                        <div class="attendance-settin-list mb-3">
+                            <ngx-shimmer-loading [width]="'100%'" [height]="'60px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                        </div>
                     </div>
-                   </div>
-
-
-                   <!-- <div class="attendance-setting-list" *ngFor="let statutory of statutoryList; let i = index">
-                    <div class="categoryCustomizecard d-flex pointer">
-                      <div class="categoryCustomizeinfo">
-                        <label for="customizecategory{{ i }}" class="mb-0">
-                          <h3>{{ statutory.name }}</h3>
-                          <p>Large images are best for products where every detail is a part of the product’s value.</p>
-                        </label>
-                      </div>
-                      <div class="active-check">
-                        <nz-switch [(ngModel)]="statutory.switchValue"></nz-switch>
-                      </div>
+                </div>
+            </ng-container>
+            <ng-template #statutoryElseCondition>
+                <ng-container *ngIf="statutoryResponseList.length !== 0 && !dataNotFoundPlaceholderForStatutory && !networkConnectionErrorPlaceHolderForStatutory; else errorInFetchingStatutory">
+                    <div class="row mb-3">
+                        <div class="attendance-settin-list" *ngFor="let statutoryResponse of statutoryResponseList; let i = index">
+                            <div class="categryCustomizecard d-flex pointer">
+                                <div class="categryCustomizeinfo">
+                                    <label for="customizecategory{{i}}" class="mb-0">
+                                        <h3> {{statutoryResponse.name}}</h3>
+                                        <p> {{statutoryResponse.description}}</p>
+                                    </label>
+                                </div>
+                                <div class="active-check">
+                                 <nz-switch [(ngModel)]="statutoryResponse.switchValue" [nzControl]="true" (click)="clickSwitch(statutoryResponse)" [nzLoading]="statutoryResponse.loading"></nz-switch>
+                             </div>
+                            </div>
+                        </div>
+                     </div>
+                </ng-container>
+            </ng-template>
+            <ng-template #errorInFetchingStatutory>
+                <div class="empty-file" *ngIf="dataNotFoundPlaceholderForStatutory">
+                    <div class="errorboxmain" >
+                        <div class="errorboxinner">
+                            <div class="errorboxplaceholder mb-2">
+                                <img src="assets/images/empty-box.svg" style="width:80px;"/>
+                            </div>
+                            <div class="">
+                                <p class="mb-0">No Statutory Found!</p>
+                            </div>
+                        </div>
                     </div>
-                  </div> -->
-                  
-                   <!-- <div class="categryCustomizecard d-flex pointer">
-                       <div class="categryCustomizeinfo">
-                           <label for="customizecategory1" class="mb-0">
-                               <h3> ESI (Employees' State Insurance)</h3>
-                               <p> Large images are best for products where every detail is a part of the product’s value.</p>
-                           </label>
-                       </div>
-                       <div class="noactive-check">
-                         <nz-switch [(ngModel)]="switchValueForESI"></nz-switch>
-                       </div>
-                   </div>
-                   <div class="categryCustomizecard d-flex pointer">
-                       <div class="categryCustomizeinfo">
-                           <label for="customizecategory1" class="mb-0">
-                               <h3> Professional Taxes</h3>
-                               <p> Large images are best for products where every detail is a part of the product’s value.</p>
-                           </label>
-                       </div>
-                       <div class="noactive-check">
-                            <nz-switch [(ngModel)]="switchValueForProfessionalTax"></nz-switch>
-                       </div>
-                   </div> -->
-               </div>
-            </div>
+                </div>
+    
+                <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolderForStatutory">
+                    <div class="errorboxmain">
+                        <div class="errorboxinner text-center">
+                        <div class="errorboxplaceholder mb-2">
+                            <img
+                            src="assets/images/signal.svg"
+                            style="width: 80px"
+                            />
+                        </div>
+                        <div class="">
+                            <h4>Something went wrong</h4>
+                            <p>
+                            An error occurred while processing your
+                            request. Please refresh the page and try
+                            again.
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
         </div>
 
 
@@ -783,18 +769,18 @@
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="getAllStatutoriesMethodCall()"></button>
             </div>
             <div class="modal-body employees-provident">
-                <div *ngFor="let statutoryAttribute of statutoryAttributeList; let i = index">
+                <div *ngFor="let statutoryAttributeResponse of statutoryAttributeResponseList; let i = index">
                     <div class="form-group mb-3">
-                      <label style="padding-bottom: 6px;">{{ statutoryAttribute.name }}</label>
+                      <label style="padding-bottom: 6px;">{{ statutoryAttributeResponse.name }}</label>
                       <div class="dropdown" style="width: 100%;">
                         <button type="button" [id]="'dropdownMenuButton' + i" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"
                         [disabled]="shouldDisableInput(i)">
-                          {{  statutoryAttribute.value || "Select PFContribution rate" }}
+                          {{  statutoryAttributeResponse.value || "Select PFContribution rate" }}
                           <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
                         </button>
                         <ul [attr.aria-labelledby]="'dropdownMenuButton' + i" class="dropdown-menu" style="width: 100%;">
                           <li *ngFor="let pFContributionRate of pFContributionRateList">
-                            <a class="dropdown-item" (click)="selectPFContributionRate(statutoryAttribute, pFContributionRate, i)">
+                            <a class="dropdown-item" (click)="selectPFContributionRate(statutoryAttributeResponse, pFContributionRate, i)">
                               {{ pFContributionRate.name }}
                             </a>
                           </li>
@@ -952,31 +938,10 @@
                 <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees' State Insurance</h6>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="getAllStatutoriesMethodCall()"></button>
             </div>
-            <div class="modal-body" *ngFor="let statutoryAttribute of statutoryAttributeList; let i = index">
-
-                <!-- <div *ngFor="let statutoryAttribute of statutoryAttributeList; let i = index">
-                    <div class="form-group mb-3">
-                      <label style="padding-bottom: 6px;">{{ statutoryAttribute.name }}</label>
-                      <div class="dropdown" style="width: 100%;">
-                        <button type="button" [id]="'dropdownMenuButton' + i" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"
-                        [disabled]="shouldDisableInput(i)">
-                          {{  statutoryAttribute.value || "Select PFContribution rate" }}
-                          <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
-                        </button>
-                        <ul [attr.aria-labelledby]="'dropdownMenuButton' + i" class="dropdown-menu" style="width: 100%;">
-                          <li *ngFor="let pFContributionRate of pFContributionRateList">
-                            <a class="dropdown-item" (click)="selectPFContributionRate(statutoryAttribute, pFContributionRate, i)">
-                              {{ pFContributionRate.name }}
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                </div> -->
-
+            <div class="modal-body" *ngFor="let statutoryAttributeResponse of statutoryAttributeResponseList; let i = index">
                   <div class="form-group">
-                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">{{statutoryAttribute.name}}</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="statutoryAttribute.value" readonly>
+                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">{{statutoryAttributeResponse.name}}</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="statutoryAttributeResponse.value" readonly>
                     <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                   </div>
             </div>

@@ -5,6 +5,7 @@ import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
 import { SalaryCalculationMode } from 'src/app/models/salary-calculation-mode';
 import { Statutory } from 'src/app/models/statutory';
 import { StatutoryAttribute } from 'src/app/models/statutory-attribute';
+import { StatutoryAttributeResponse } from 'src/app/models/statutory-attribute-response';
 import { StatutoryRequest } from 'src/app/models/statutory-request';
 import { StatutoryResponse } from 'src/app/models/statutory-response';
 import { ConfirmationDialogService } from 'src/app/services/confirmation-dialog.service';
@@ -57,6 +58,16 @@ export class SalarySettingComponent implements OnInit {
     this.dataNotFoundPlaceholderForSalaryCalculationMode = false;
     this.networkConnectionErrorPlaceHolderForSalaryCalculationMode = false;
   }
+
+  isShimmerForStatutory = false;
+  dataNotFoundPlaceholderForStatutory = false;
+  networkConnectionErrorPlaceHolderForStatutory = false;
+  preRuleForShimmersAndErrorPlaceholdersForStatutoryMethodCall(){
+    this.isShimmerForStatutory = true;
+    this.dataNotFoundPlaceholderForStatutory = false;
+    this.networkConnectionErrorPlaceHolderForStatutory = false;
+  }
+
   
 
   //Fetching all the salary calculation mode from the database
@@ -137,11 +148,16 @@ export class SalarySettingComponent implements OnInit {
   //Fetching the statutories from the database
   statutoryResponseList : StatutoryResponse[] = [];
   getAllStatutoriesMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForStatutoryMethodCall();
     this.dataService.getAllStatutories().subscribe((response) => {
       this.statutoryResponseList = response.listOfObject;
       this.setStatutoryVariablesToFalse();
-    }, (error) => {
 
+      if(response === null || response === undefined || response.listOfObject === null || response.listOfObject === undefined || response.listOfObject.length === 0){
+        this.dataNotFoundPlaceholderForStatutory = true;
+      }
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForStatutory = true;
     })
   }
 
@@ -189,20 +205,19 @@ export class SalarySettingComponent implements OnInit {
   //   this.statutoryRequest.switchValue = !statutoryResponse.switchValue;
   // }
 
-  clickSwitch(statutoryResponse : StatutoryResponse){
-    debugger
+  async clickSwitch(statutoryResponse : StatutoryResponse){
     if(!statutoryResponse.loading){
       statutoryResponse.loading = true;
     }
 
-    this.getStatutoryAttributeByStatutoryIdMethodCall(statutoryResponse.id);
+    await this.getStatutoryAttributeByStatutoryIdMethodCall(statutoryResponse.id);
 
     this.statutoryRequest.id = statutoryResponse.id;
     this.statutoryRequest.name = statutoryResponse.name;
     this.statutoryRequest.switchValue = !statutoryResponse.switchValue;
-    this.statutoryRequest.organizationStatutoryAttributeRequestList = this.statutoryAttributeList;
+    this.statutoryRequest.statutoryAttributeRequestList = this.statutoryAttributeResponseList;
 
-    console.log(this.statutoryAttributeList);
+    console.log(this.statutoryAttributeResponseList);
 
     if(statutoryResponse.switchValue === false){
       if(statutoryResponse.id == this.EPF_ID){
@@ -246,31 +261,37 @@ export class SalarySettingComponent implements OnInit {
   };
 
   //Fetching statutory's attributes
-  statutoryAttributeList : StatutoryAttribute[] = [];
+  statutoryAttributeResponseList : StatutoryAttributeResponse[] = [];
   getStatutoryAttributeByStatutoryIdMethodCall(statutoryId : number){
     debugger
-    this.dataService.getStatutoryAttributeByStatutoryId(statutoryId).subscribe((response) => {
-      this.statutoryAttributeList = response.listOfObject;
-
-      if(statutoryId == this.EPF_ID){
-        if (this.pFContributionRateList.length > 0) {
-          const defaultPFContributionRate = this.pFContributionRateList[0];
-          this.statutoryAttributeList.forEach(attr => {
-            attr.value = defaultPFContributionRate.name;
-          });
-        }
-      } else if(statutoryId == this.ESI_ID){
-        this.statutoryAttributeList.forEach(attr => {
-        const matchingESIRate = this.eSIContributionRateList.find((iterator) => iterator.statutoryAttribute.id === attr.id);
-        console.log(this.eSIContributionRateList);
-        if (matchingESIRate) {
-          attr.value = matchingESIRate.name;
+    return new Promise((resolve, reject) => {
+        this.dataService.getStatutoryAttributeByStatutoryId(statutoryId).subscribe((response) => {
+          this.statutoryAttributeResponseList = response.listOfObject;
+    
+          if(statutoryId == this.EPF_ID){
+            if (this.pFContributionRateList.length > 0) {
+              const defaultPFContributionRate = this.pFContributionRateList[0];
+              this.statutoryAttributeResponseList.forEach(attr => {
+                if(attr.value === undefined || attr.value === null || attr.value === ""){
+                  attr.value = defaultPFContributionRate.name;
+                }
+              });
+            }
+          } else if(statutoryId == this.ESI_ID){
+            this.statutoryAttributeResponseList.forEach(attr => {
+            const matchingESIRate = this.eSIContributionRateList.find((iterator) => iterator.statutoryAttribute.id === attr.id);
+            console.log(this.eSIContributionRateList);
+            if (matchingESIRate) {
+              if(attr.value === undefined || attr.value === null || attr.value === ""){
+                  attr.value = matchingESIRate.name;
+                }
+              }
+            });   
           }
-        });   
-      }
-
-    }, (error) => {
-
+          resolve(response);
+        }, (error) => {
+          reject(error);
+      })
     })
   }
 
@@ -280,7 +301,7 @@ export class SalarySettingComponent implements OnInit {
     
     statutoryAttribute.value = pFContributionRate.name;
 
-    console.log(this.statutoryAttributeList);
+    console.log(this.statutoryAttributeResponseList);
 
     if (index === 0 && this.pFContributionRateList.indexOf(pFContributionRate) === 0) {
       this.inputsDisabled = true;
@@ -288,7 +309,7 @@ export class SalarySettingComponent implements OnInit {
       this.inputsDisabled = false;
     }
 
-    this.statutoryRequest.organizationStatutoryAttributeRequestList = this.statutoryAttributeList;
+    this.statutoryRequest.statutoryAttributeRequestList = this.statutoryAttributeResponseList;
   }
 
   shouldDisableInput(attributeIndex: number): boolean {
