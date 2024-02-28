@@ -290,3 +290,10 @@ nz-date-picker {
     border: 1px solid #ddd;
     color: #515151;
 }
+
+.border-active{
+    background-color: #e9ebfe;
+    border: 1px solid #4f5eee !important;
+}
+
+

@@ -35,6 +35,8 @@ import { keys } from "lodash";
 import { UserPasswordRequest } from "../models/user-password-request";
 import { UserLeaveDetailsWrapper } from "../models/UserLeaveDetailsWrapper";
 import { TotalRequestedLeavesReflection } from "../models/totalRequestedLeaveReflection";
+import { StatutoryRequest } from "../models/statutory-request";
+import { StatutoryAttribute } from "../models/statutory-attribute";
 
 
 @Injectable({
@@ -54,11 +56,11 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = "http://localhost:8080/api/v2";
+  // private baseUrl = "http://localhost:8080/api/v2";
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  // private baseUrl = "https://production.hajiri.work/api/v2";
+  private baseUrl = "https://production.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -1295,6 +1297,7 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/pf-contribution-rate`);
   }
 
+
   generateNewAttendanceLink(userUuid: string):Observable<any>{
     let params = new HttpParams().set('userUuid', userUuid);
     return this.httpClient.post<any>(`${this.baseUrl}/attendance/regenerate-attendance-link`,{} ,{ params });
@@ -1304,4 +1307,46 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
   //   return this.httpClient.get<any>(`${this.baseUrl}/account-setting/get/subscription-plan-id`);
   // }
   
+
+  getESIContributionRate():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/statutory/esi-contribution-rate`);
+  }
+
+  getAllStatutories():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/statutory/get/all`);
+  }
+
+  enableOrDisableStatutory(statutoryRequest : StatutoryRequest):Observable<any>{
+
+    debugger
+    return this.httpClient.post<any>(`${this.baseUrl}/statutory/enable-disable`, statutoryRequest);
+  }
+
+  getStatutoryAttributeByStatutoryId(statutoryId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set('statutory_id', statutoryId);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/statutory/attribute/get`, {params});
+  }
+
+  updateTaxRegimeByUserId(taxRegimeId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set('tax_regime_id', taxRegimeId);
+
+    return this.httpClient.put<any>(`${this.baseUrl}/statutory/tax-regime/update`, {}, {params});
+  }
+
+  getAllTaxRegime():Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/statutory/tax-regime/get/all`);
+  }
+  
+
+  getStatutoryByOrganizationId(): Observable<any>{
+    debugger
+    return this.httpClient.get<any>(`${this.baseUrl}/statutory/employee/get/all`);
+  }
+
 }

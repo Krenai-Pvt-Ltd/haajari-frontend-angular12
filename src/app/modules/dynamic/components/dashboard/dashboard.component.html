@@ -246,7 +246,7 @@
 
    
    
-        <div class="row mb-3">
+        <div class="row mb-3" *ngIf="lateEmployeeAttendanceDetailsResponseList.length>0">
             <div class="col-md-12">
                 <div class="col d-flex align-items-center justify-content-between mb-3">                      
                      <h4 class="card-title" style="font-size: 18px;">Late Employee</h4>
@@ -387,7 +387,7 @@
                             <img src="assets/images/empty-box.svg" style="width:80px;"/>
                         </div>
                         <div class="">
-                            <h4>No Data Found</h4>
+                            <h4>No Late Employees Found</h4>
                             <p class="mb-0">There's no late employees for today!</p>
                         </div>
                     </div>
