@@ -12,6 +12,7 @@ export class ConfirmationDialogService {
   openConfirmDialog(proceedCallback: () => void, cancelCallback?: () => void) {
     const dialogRef = this.matDialog.open(ConfirmationDialogComponent, {
       width: '400px',
+      height: '100vh',
     });
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {

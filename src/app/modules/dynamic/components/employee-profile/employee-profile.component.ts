@@ -1349,6 +1349,13 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
   // #####################################################################
   //Code written by Shivendra
 
+  clearInputValues(){
+    this.statutoryAccountNumber = '';
+  }
+
+  isFormValid: boolean = false;
+  @ViewChild ('ePFForm') ePFForm !: NgForm;
+
   EPF_ID = Key.EPF_ID;
   ESI_ID = Key.ESI_ID;
   PROFESSIONAL_TAX_ID = Key.PROFESSIONAL_TAX_ID;
@@ -1409,6 +1416,7 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
     this.dataService.getStatutoryByOrganizationId().subscribe((response) => {
       this.statutoryResponseList = response.listOfObject;
       this.setStatutoryVariablesToFalse();
+      this.clearInputValues();
     }, (error) => {
 
     })
@@ -1421,6 +1429,7 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
       return new Promise((resolve, reject) => {
         this.dataService.getStatutoryAttributeByStatutoryId(statutoryId).subscribe((response) => {
           this.statutoryAttributeResponseList = response.listOfObject;
+          console.log(response);
           resolve(response);
         }, (error) => {
           reject(error);
@@ -1465,7 +1474,7 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
       this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
       this.getStatutoryByOrganizationIdMethodCall();
     }, (error) => {
-      this.helperService.showToast("Error in updating "+this.statutoryRequest.name, Key.TOAST_STATUS_ERROR);
+      this.helperService.showToast(error.error.message, Key.TOAST_STATUS_ERROR);
       this.getStatutoryByOrganizationIdMethodCall();
     })
   }
