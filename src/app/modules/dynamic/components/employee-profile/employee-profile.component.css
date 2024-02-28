@@ -1343,3 +1343,7 @@ tbody tr {
     background-color: #e9ebfe;
     border: 1px solid #4f5eee !important;
 }
+
+.border-box {
+    border-bottom: 1px solid #f5f5f5;
+}

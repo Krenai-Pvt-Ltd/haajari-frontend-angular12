@@ -58,6 +58,16 @@ export class SalarySettingComponent implements OnInit {
     this.dataNotFoundPlaceholderForSalaryCalculationMode = false;
     this.networkConnectionErrorPlaceHolderForSalaryCalculationMode = false;
   }
+
+  isShimmerForStatutory = false;
+  dataNotFoundPlaceholderForStatutory = false;
+  networkConnectionErrorPlaceHolderForStatutory = false;
+  preRuleForShimmersAndErrorPlaceholdersForStatutoryMethodCall(){
+    this.isShimmerForStatutory = true;
+    this.dataNotFoundPlaceholderForStatutory = false;
+    this.networkConnectionErrorPlaceHolderForStatutory = false;
+  }
+
   
 
   //Fetching all the salary calculation mode from the database
@@ -138,11 +148,16 @@ export class SalarySettingComponent implements OnInit {
   //Fetching the statutories from the database
   statutoryResponseList : StatutoryResponse[] = [];
   getAllStatutoriesMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForStatutoryMethodCall();
     this.dataService.getAllStatutories().subscribe((response) => {
       this.statutoryResponseList = response.listOfObject;
       this.setStatutoryVariablesToFalse();
-    }, (error) => {
 
+      if(response === null || response === undefined || response.listOfObject === null || response.listOfObject === undefined || response.listOfObject.length === 0){
+        this.dataNotFoundPlaceholderForStatutory = true;
+      }
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForStatutory = true;
     })
   }
 
