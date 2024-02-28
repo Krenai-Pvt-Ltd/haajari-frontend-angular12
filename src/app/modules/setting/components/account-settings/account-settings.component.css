@@ -262,5 +262,26 @@ input, textarea {
     z-index: 10; /* Ensure the button is above the input */
     cursor: pointer;
   }
+
+  .notification-option {
+    margin-bottom: 10px; /* Add space between options */
+}
+
+.notification-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px; /* Space between options */
+}
+
+.notification-option label {
+    flex-grow: 1; /* Allow the label to fill the space */
+}
+
+.material-switch {
+    /* Your existing styles for the switch */
+    /* You might need to reset flex-grow if it's inherited from .notification-option */
+    flex-grow: 0;
+}
   
   

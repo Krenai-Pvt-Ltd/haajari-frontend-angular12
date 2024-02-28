@@ -21,4 +21,7 @@ export class UserPersonalInformationRequest {
         employeeOnboardingFormStatus!: EmployeeOnboardingFormStatus;
         statusId!: number;
         directSave!: boolean;
+        subscriptionPlan!: boolean;
+	subscriptionPlanId!: number;
+        notificationVia!: number;
 }
