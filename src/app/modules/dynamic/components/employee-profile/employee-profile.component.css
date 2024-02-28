@@ -1339,3 +1339,7 @@ tbody tr {
     }
 }
 
+.border-active{
+    background-color: #e9ebfe;
+    border: 1px solid #4f5eee !important;
+}
