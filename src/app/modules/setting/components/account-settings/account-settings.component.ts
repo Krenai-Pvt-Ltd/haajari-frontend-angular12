@@ -1,9 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Key } from 'src/app/constant/key';
+import { NotificationVia } from 'src/app/models/notification-via';
 
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-account-settings',
@@ -13,7 +16,7 @@ import { DataService } from 'src/app/services/data.service';
 export class AccountSettingsComponent implements OnInit, AfterViewInit {
 
   userPersonalInformationRequest: UserPersonalInformationRequest = new UserPersonalInformationRequest();
-
+  notificationVia: NotificationVia = new NotificationVia();
   accountDetailsTab: string | null = null;
   securityTab: any;
   profilePreferencesTab: any;
@@ -21,7 +24,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
 
   constructor(private _routeParam: ActivatedRoute,
     public _data: DataService,
-    private cdr: ChangeDetectorRef, private afStorage: AngularFireStorage) {
+    private cdr: ChangeDetectorRef, private afStorage: AngularFireStorage, private helper : HelperService) {
     debugger
     if (this._routeParam.snapshot.queryParamMap.has('setting')) {
       this.accountDetailsTab = this._routeParam.snapshot.queryParamMap.get('setting');
@@ -134,7 +137,18 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
         this.userEmail = response.email; // Handle the response, e.g., store it for display
         this.userPersonalInformationRequest.image =  response.image;
         this.isSubscriptionPlanActive = response.subscriptionPlan; // Handle the response, e.g., store it for display
+
         this.subscriptionPlanId =  response.subscriptionPlanId;
+        if(response.phoneNumber){
+          this.phoneNumber = response.phoneNumber;
+        }
+        if(response.notificationVia==2){
+          this.notifications.slack=false
+          this.notifications.whatsapp=true
+        } else {
+          this.notifications.slack=true
+          this.notifications.whatsapp=false
+        }
        if (this.isSubscriptionPlanActive== true && this.subscriptionPlanId==2){
           this.isPlanActive=true;
         } else if (this.isSubscriptionPlanActive== true && this.subscriptionPlanId==3){
@@ -250,6 +264,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     };
     toggleNotification(type: 'whatsapp' | 'slack') {
       if (type === 'whatsapp') {
+        this.updateNotificationSettingMethodCall(type);
         // If WhatsApp is already true and clicked again, it will disable itself and enable Slack
         this.notifications.whatsapp = !this.notifications.whatsapp;
         this.notifications.slack = !this.notifications.whatsapp;
@@ -257,9 +272,106 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
         // If Slack is already true and clicked again, it will disable itself and enable WhatsApp
         this.notifications.slack = !this.notifications.slack;
         this.notifications.whatsapp = !this.notifications.slack;
+        this.updateNotificationSettingMethodCall(type);
+        
       }
     }
+
+
+    @ViewChild('otpModalButton') otpModalButton!: ElementRef
+    updateNotificationSettingMethodCall(type: 'whatsapp' | 'slack'): void {
+      debugger
+      if (type === 'whatsapp' && this.notifications.slack == true) {
+        this.notificationVia.id = 2;
+      } else if(type === 'slack' && this.notifications.slack == true) {
+        this.notificationVia.id = 1;
+      } else if (type === 'slack' && this.notifications.slack == false){
+        this.notificationVia.id = 2;
+      } else if (type === 'whatsapp' && this.notifications.whatsapp == false){
+        this.notificationVia.id = 1;
+      }
+      this._data.updateNotificationSetting(this.notificationVia).subscribe({
+        next: (response: UserPersonalInformationRequest) => {
+          // Handle successful update
+          if(response.phoneNumber && response.notificationVia == 2){
+           
+            this.helper.showToast("Notification Setting Updated Successfully", Key.TOAST_STATUS_SUCCESS);
+            console.log('Notification settings updated successfully', response);
+          } else if(response.phoneNumber== null && this.notifications.whatsapp == true){
+            this.notifications.whatsapp = false;
+            this.notifications.slack = true;
+            this.phoneNumber='';
+            this.otpModalButton.nativeElement.click();
+            this.helper.showToast("You need to add your Whatsapp number for notification", Key.TOAST_STATUS_ERROR);
+          } else {
+            this.helper.showToast("Notification Setting Updated Successfully", Key.TOAST_STATUS_SUCCESS);
+
+          }
+          
+        },
+        error: (error) => {
+          // Handle error
+          console.error('Error updating notification settings', error);
+     
+        }
+      });
+    }
+
+
+ 
     
+    otpSent: boolean = false;
+    phoneNumber: string = '';
+    sendOtptoSavePhoneNumberMethodCall(): void {
+      debugger
+      this.toggle=true;
+      this._data.sendOtptoSavePhoneNumber(this.phoneNumber).subscribe({
+        next: (response: any) => {
+          // Handle the response here, e.g., showing a success message
+          if(response==true){
+            this.otpSent = true;
+            this.toggle=false;
+            this.otp=0;
+            this.helper.showToast("OTP sent successfully", Key.TOAST_STATUS_SUCCESS);
+            console.log('OTP sent successfully', response);
+          } else {
+            this.helper.showToast("Invalid number or Whatsapp Account not found", Key.TOAST_STATUS_ERROR);
+          }
+          
+          // You might want to navigate the user or enable further UI elements here
+        },
+        error: (error) => {
+          // Handle any errors here, e.g., showing an error message
+          this.helper.showToast("Invalid number or Whatsapp Account not found", Key.TOAST_STATUS_ERROR);
+          console.error('Error sending OTP', error);
+        }
+      });
+    }
+   
+    toggle: boolean = false;
+    otp: number = 0;
+    verifyOtpMethodCall(): void {
+      this.toggle=true;
+      this._data.verifyOtpForUpdatingPhoneNumber(this.phoneNumber, this.otp).subscribe({
+        next: (response: any) => {
+          if(response==true){
+            this.toggle= false
+            this.helper.showToast("OTP verified successfully", Key.TOAST_STATUS_SUCCESS);
+            this.otpModalButton.nativeElement.click();
+            this.notifications.whatsapp= true;
+            this.notifications.slack = false;
+            console.log('OTP sent successfully', response);
+          } else {
+            this.helper.showToast("Invalid number or Whatsapp Account not found", Key.TOAST_STATUS_ERROR);
+          }
+        },
+        error: (error) => {
+          // Handle any errors here, e.g., showing an error message
+          this.helper.showToast("Invalid OTP", Key.TOAST_STATUS_ERROR);
+          console.error('Error sending OTP', error);
+        }
+    });
+  }
 
 
 }

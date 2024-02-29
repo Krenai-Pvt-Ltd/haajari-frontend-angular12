@@ -20,7 +20,7 @@ import { MediaManagerCropComponent } from './media-manager-crop/media-manager-cr
     DurationPickerComponent,
     CommonComponent,
     HeaderComponent,
-    MediaManagerCropComponent,
+    MediaManagerCropComponent
   ],
   imports: [
     CommonModule,
