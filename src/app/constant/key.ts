@@ -211,5 +211,8 @@ export class Key{
     read_notification = "user-notification/read";
     read_all_notification = "user-notification/read-all";
     get_mail = "user-notification/mail";
+
+    //Coupon
+    verify_coupon = "coupon";
     
 }

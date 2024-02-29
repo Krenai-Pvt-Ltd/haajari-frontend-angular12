@@ -1,4 +1,5 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { NavigationEnd, Router } from '@angular/router';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Notification } from 'src/app/models/Notification';
@@ -21,7 +22,7 @@ export class TopbarComponent implements OnInit {
     private rbacService: RoleBasedAccessControlService,
     private _notificationService: UserNotificationService,
     private _router: Router,
-    private elementRef: ElementRef) { }
+    private db: AngularFireDatabase) { }
 
   topbarValue: string | undefined;
 
@@ -34,6 +35,7 @@ export class TopbarComponent implements OnInit {
       this.updateTopbarValue();
     });
     this.getUserUUID();
+    this.getFirebase();
   }
 
   private updateTopbarValue() {
@@ -246,6 +248,38 @@ export class TopbarComponent implements OnInit {
         this.getNotification(this.UUID,"notify");
       }
     }
+  }
+
+  getFirebase()
+  {
+    // this.slackDataPlaceholderFlag=true;
+    // console.log(bulkId)
+    this.db.object("user_notification"+"/"+"organization_"+"/"+"user_").valueChanges()
+      .subscribe(async res => {
+
+        console.log(res);
+        
+        //@ts-ignore
+        var res = res;
+
+
+        //@ts-ignore
+        this.percentage = res.percentage; 
+
+
+        //@ts-ignore
+        // if (res != undefined && res != null) {
+
+          
+
+        //    //@ts-ignore
+        //   // if(res.flag==1){
+        //   //   this.slackDataPlaceholderFlag=false;
+        //   //   localStorage.removeItem('uniqueId');
+        //   //   this.getTeamsByFiltersFunction();
+        //   // }
+        // }
+      });
   }
   
 
