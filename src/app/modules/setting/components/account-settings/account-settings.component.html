@@ -321,4 +321,69 @@
 </div>
 </div>
 </div>
+
+
+<!-- Button trigger modal -->
+<button type="button"id="otpModalButton" class="btn btn-primary" data-bs-toggle="modal"  #otpModalButton data-bs-target="#otpModal">
+    Launch OTP Modal
+  </button>
+  
+  <!-- Modal -->
+  <!-- OTP Modal -->
+<div class="modal fade" id="otpModal" tabindex="-1" aria-labelledby="otpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="otpModalLabel">{{otpSent ? 'Verify OTP' : 'Enter Phone Number'}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="otpSent = false; phoneNumber = '';"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Send OTP Form -->
+          <form *ngIf="!otpSent" #sendOtpForm="ngForm" (ngSubmit)="sendOtptoSavePhoneNumberMethodCall()">
+            <div class="mb-3">
+              <label for="phoneNumber" class="form-label">Phone Number</label>
+              <input type="tel" mask="0000000000" name="phoneNumber" class="form-control" id="phoneNumber" [(ngModel)]="phoneNumber" placeholder="Enter Phone Number without country code ">
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">
+                  <div *ngIf="toggle; else showText" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <ng-template #showText>
+                    <span class="button-text">Send OTP</span>
+                  </ng-template>
+                </button>
+              </div>
+              
+          </form>
+          <!-- Verify OTP Form -->
+          <form *ngIf="otpSent" #verifyOtpForm="ngForm" (ngSubmit)="verifyOtpMethodCall()">
+            <div class="mb-3">
+              <label for="otp" class="form-label">OTP</label>
+              <input type="text" mask="000000" name="otp" class="form-control" id="otp" [(ngModel)]="otp" placeholder="Enter OTP">
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">
+                  <div *ngIf="toggle; else showText" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <ng-template #showText>
+                    <span class="button-text">Verify OTP</span>
+                  </ng-template>
+                </button>
+              </div>
+              
+              
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
   
