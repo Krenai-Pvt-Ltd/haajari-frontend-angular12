@@ -2519,7 +2519,7 @@ mark {
 }
 
 .dropdown-menu .dropdown-item:focus,
-.dropdown-menu .dropdown-item:hover {
+.dropdown-menu {
     background-color: #f9fafb;
     color: #000444
 }
