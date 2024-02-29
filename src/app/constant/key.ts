@@ -173,6 +173,11 @@ export class Key{
     public static HOLIDAY = "Holiday";
     public static LEAVE = "Leave";
     public static HALFDAY = "Halfday";
+
+    // Salary setting configuration
+    public static CONFIGURE_SALARY_SETTING = 1;
+    public static MANAGE_STATUTORY = 2;
+    public static PAY_SLIP = 3;
     
 
     base_url = "http://localhost:8080/api/v2/";

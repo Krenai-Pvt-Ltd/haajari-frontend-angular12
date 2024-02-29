@@ -1297,6 +1297,17 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/pf-contribution-rate`);
   }
 
+
+  generateNewAttendanceLink(userUuid: string):Observable<any>{
+    let params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient.post<any>(`${this.baseUrl}/attendance/regenerate-attendance-link`,{} ,{ params });
+  }
+
+  // getUserSubscriptionPlanId():Observable<any>{
+  //   return this.httpClient.get<any>(`${this.baseUrl}/account-setting/get/subscription-plan-id`);
+  // }
+  
+
   getESIContributionRate():Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/esi-contribution-rate`);
   }
@@ -1337,4 +1348,5 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     debugger
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/employee/get/all`);
   }
+
 }

@@ -38,6 +38,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getUserAccountDetailsMethodCall();
+   
   }
 
 
@@ -121,7 +122,10 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     this.showCurrentPassword = !this.showCurrentPassword;
   }
 
-
+  isPlan1: boolean =  false;  
+  isPlanActive: boolean = false;
+  isSubscriptionPlanActive: boolean = false;
+  subscriptionPlanId: number = 0;
   userEmail: String = '';
   getUserAccountDetailsMethodCall() {
     debugger
@@ -129,6 +133,15 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
       next: (response: UserPersonalInformationRequest) => {
         this.userEmail = response.email; // Handle the response, e.g., store it for display
         this.userPersonalInformationRequest.image =  response.image;
+        this.isSubscriptionPlanActive = response.subscriptionPlan; // Handle the response, e.g., store it for display
+        this.subscriptionPlanId =  response.subscriptionPlanId;
+       if (this.isSubscriptionPlanActive== true && this.subscriptionPlanId==2){
+          this.isPlanActive=true;
+        } else if (this.isSubscriptionPlanActive== true && this.subscriptionPlanId==3){
+          this.isPlanActive=true;
+        } else if (this.isSubscriptionPlanActive== true && this.subscriptionPlanId==1){
+          this.isPlan1=true;
+        }
       },
       error: (error) => {
         console.error("Error fetching user account details:", error); // Handle any errors
@@ -209,6 +222,44 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
 }
 
 
+
+    // getUserSubscriptionPlanIdMethodCall(){
+    //   debugger
+    //   this._data.getUserSubscriptionPlanId().subscribe({
+    //     next: (response: UserPersonalInformationRequest) => {
+    //       this.isSubscriptionPlanActive = response.subscriptionPlan; // Handle the response, e.g., store it for display
+    //       this.subscriptionPlanId =  response.subscriptionPlanId;
+    //      if (this.isSubscriptionPlanActive== true && this.subscriptionPlanId==2){
+    //         this.isPlanActive=true;
+    //       } else if (this.isSubscriptionPlanActive== true && this.subscriptionPlanId==3){
+    //         this.isPlanActive=true;
+    //       } else if (this.isSubscriptionPlanActive== true && this.subscriptionPlanId==1){
+    //         this.isPlan1=true;
+    //       }
+    //     },
+    //     error: (error) => {
+    //       console.error("Error fetching user Plan details:", error); // Handle any errors
+    //     }
+    //   });
+    // }
+
+
+    notifications = {
+      whatsapp: false,
+      slack: true // Default to enabled if isPlanActive is true
+    };
+    toggleNotification(type: 'whatsapp' | 'slack') {
+      if (type === 'whatsapp') {
+        // If WhatsApp is already true and clicked again, it will disable itself and enable Slack
+        this.notifications.whatsapp = !this.notifications.whatsapp;
+        this.notifications.slack = !this.notifications.whatsapp;
+      } else {
+        // If Slack is already true and clicked again, it will disable itself and enable WhatsApp
+        this.notifications.slack = !this.notifications.slack;
+        this.notifications.whatsapp = !this.notifications.slack;
+      }
+    }
+    
 
 
 }
