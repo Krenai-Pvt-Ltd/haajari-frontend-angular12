@@ -13,19 +13,41 @@ export class UserNotificationService {
 
   }
 
-  getNotification(uuid:any,databaseHelper:DatabaseHelper){
+  getNotification(uuid:any,databaseHelper:DatabaseHelper,notificationType:any){
     const params = new HttpParams()
       .set('uuid', uuid)
       .set('itemPerPage', databaseHelper.itemPerPage)
       .set('currentPage', databaseHelper.currentPage)
       .set('sortBy', "id")
       .set('sortOrder', "desc")
+      .set('notificationType', notificationType)
+
     return this._httpClient.get<any>(this._key.base_url + this._key.get_notification, {params})
   }
 
-  readAllNotification(uuid:any){
+  getMailNotification(uuid:any,databaseHelper:DatabaseHelper,notificationType:any){
     const params = new HttpParams()
-      .set('uuid', uuid);
+      .set('uuid', uuid)
+      .set('itemPerPage', databaseHelper.itemPerPage)
+      .set('currentPage', databaseHelper.currentPage)
+      .set('sortBy', "id")
+      .set('sortOrder', "desc")
+      .set('notificationType', notificationType)
+
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_mail, {params})
+  }
+  
+
+  readNotification(id:any){
+    const params = new HttpParams()
+      .set('id', id)
+    return this._httpClient.get<any>(this._key.base_url + this._key.read_notification, {params})
+  }
+
+  readAllNotification(uuid:any,notificationType:any){
+    const params = new HttpParams()
+      .set('uuid', uuid)
+      .set('notificationType', notificationType)
     return this._httpClient.get<any>(this._key.base_url + this._key.read_all_notification, {params})
   }
 }

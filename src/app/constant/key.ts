@@ -203,6 +203,8 @@ export class Key{
 
     //user notification
     get_notification = "user-notification";
+    read_notification = "user-notification/read";
     read_all_notification = "user-notification/read-all";
+    get_mail = "user-notification/mail";
     
 }

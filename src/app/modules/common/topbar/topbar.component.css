@@ -9,3 +9,7 @@
 {
     background-color: white;
 }
+div.scroll {
+    height: 300px;
+    overflow-y: scroll;
+  }
