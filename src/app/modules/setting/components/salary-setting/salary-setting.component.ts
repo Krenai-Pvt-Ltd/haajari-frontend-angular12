@@ -69,6 +69,7 @@ export class SalarySettingComponent implements OnInit {
   }
 
   
+  
 
   //Fetching all the salary calculation mode from the database
   salaryCalculationModeList : SalaryCalculationMode[] = [];
