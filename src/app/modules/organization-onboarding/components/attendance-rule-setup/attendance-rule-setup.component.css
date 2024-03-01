@@ -754,8 +754,9 @@ a.select-file {
 }
 
 
-.attendance-active {
-    border: 2px solid blue;
+.attendance-active{
+    background-color: #e9ebfe;
+    border: 1px solid #4f5eee !important;
 }
 .categryCustomizecard {
     align-items: center;

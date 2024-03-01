@@ -29,7 +29,8 @@ import { UnauthorizedComponent } from './modules/sharable/unauthorized/unauthori
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ConfirmationDialogComponent } from './modules/sharable/confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button'; // If you're using mat-button
+import { MatButtonModule } from '@angular/material/button';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 
 
@@ -72,6 +73,7 @@ import { MatButtonModule } from '@angular/material/button'; // If you're using m
     DragDropModule,
     MatDialogModule,
     MatButtonModule, 
+    NzSwitchModule
     // OnboardingSidebarResponse
 
     

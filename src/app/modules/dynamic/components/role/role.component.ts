@@ -36,7 +36,6 @@ isShimmer: boolean = true;
   ngOnInit(): void {
     this.getUserAndControlRolesByFilterMethodCall();
     this.getUsersByFilterMethodCall();
-    this.call();
     this.getAllRolesMethodCall();
     
     debugger
@@ -341,13 +340,6 @@ isShimmer: boolean = true;
   // this.settingSubModuleRequestValue(privilegeId, module);
 }
 
-  call(){
-    this.dataService.callingHelloWorld().subscribe((data) => {
-      console.log(data.text);
-    }, (error) => {
-      console.log(error);
-    })
-  }
 
   deleteUser(id:number){
     this.dataService.deleteUserOfRoleAndSecurity(id).subscribe((data) => {

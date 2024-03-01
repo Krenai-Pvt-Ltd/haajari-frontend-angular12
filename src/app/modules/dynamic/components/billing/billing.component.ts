@@ -46,6 +46,7 @@ export class BillingComponent implements OnInit {
     this.getPurchasedStatus();
     this.getInvoices();
     this.getOrgSubsPlanMonthDetail();
+    this.getDuePendingStatus();
   }
 
   getAllSubscription(){
@@ -63,16 +64,20 @@ export class BillingComponent implements OnInit {
 
   routeToBillingPaymentPage(id: number) {
     debugger
-    this._subscriptionPlanService.getDuePendingStatus().subscribe(response=>{
-      if(!response){
+      if(!this.isDuePending){
         this._router.navigate(["/setting/billing-payment"], { queryParams: { id: id } });
         
       }else
       {
-        this.helperService.showToast("Invoice Due Pendding", Key.TOAST_STATUS_ERROR);
-        
+        this.helperService.showToast("Invoice Due! Please pay previous invoice first", Key.TOAST_STATUS_ERROR);
       }
-      
+  }
+
+  isDuePending: boolean = false;
+  getDuePendingStatus() {
+    debugger
+    this._subscriptionPlanService.getDuePendingStatus().subscribe(response=>{
+        this.isDuePending = response;
     })
   }
 
@@ -90,22 +95,28 @@ export class BillingComponent implements OnInit {
   @ViewChild('closeMoreEmployee')closeMoreEmployee!:ElementRef
   openAddMoreEmployeeModel(amount:any, planId:any){
     debugger
-    this.newEmployee = 0;
-    this.addMoreEmployeeModal.nativeElement.click();
-    this.planAmount = amount;
-    this.planId = planId;
+      if(!this.isDuePending){
+        this.newEmployee = 0;
+        this.addMoreEmployeeModal.nativeElement.click();
+        this.planAmount = amount;
+        this.planId = planId;
+      }else
+      {
+        this.helperService.showToast("Invoice Due! Please pay previous invoice first", Key.TOAST_STATUS_ERROR);
+      }
   }
 
   addMoreEmployee(){
     debugger
     this.paymentFor = "add_employee"
-
+    this.loading = true;
     if(this.OrgSubsPlanMonthDetail.planType == "monthly"){
       if(this.currentDate > this.midDateOfMonth){
         this._subscriptionPlanService.addMoreEmployee(this.newEmployee).subscribe(response=>{
           if(response.status){
            this.closeMoreEmployee.nativeElement.click();
            this.helperService.showToast("Employee successfully added", Key.TOAST_STATUS_SUCCESS);
+           this.getOrgSubsPlanMonthDetail();
           }
         })
       }
@@ -131,10 +142,12 @@ export class BillingComponent implements OnInit {
           if(response.status){
             this.closeMoreEmployee.nativeElement.click();
             this.helperService.showToast("Employee successfully added", Key.TOAST_STATUS_SUCCESS);
+            this.getOrgSubsPlanMonthDetail();
           }
         })
       }
     }
+    this.loading = false;
   }
 
   processingPayment: boolean = false;
@@ -185,16 +198,19 @@ export class BillingComponent implements OnInit {
 
   checkout(value:any){
     debugger
-    if(this.paymentFor == "add_employee"){
+    // if(this.paymentFor == "add_employee"){
+      
       this.closeMoreEmployee.nativeElement.click();
       this.helperService.showToast("Employee successfully added", Key.TOAST_STATUS_SUCCESS);
       this.getInvoices();
-    }
-    else if(this.paymentFor == "due_invoice")
-    {
-      this.helperService.showToast("Payment Successful", Key.TOAST_STATUS_SUCCESS);
+      this.getOrgSubsPlanMonthDetail();
       this.getDueInvoices();
-    }
+    // }
+    // else if(this.paymentFor == "due_invoice")
+    // {
+    //   this.helperService.showToast("Payment Successful", Key.TOAST_STATUS_SUCCESS);
+    //   this.getDueInvoices();
+    // }
     
     
   }
@@ -297,6 +313,18 @@ export class BillingComponent implements OnInit {
       link.download = fileName;
       link.click();
     });
+  }
+
+  cancelSubscription(){
+    this._subscriptionPlanService.cancelSubscription().subscribe(response=>{
+      if(response.status){
+
+        console.log("cancel subscription");
+        
+
+      }
+    })
+
   }
 
 }

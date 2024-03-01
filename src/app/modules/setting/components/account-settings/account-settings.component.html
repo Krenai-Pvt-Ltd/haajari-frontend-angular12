@@ -121,21 +121,41 @@
                                          </div>
          
                                          <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm">
-                                             <dt class="sc-f474212e-4 lkliht">Turn on notifications </dt>
-                                             <dd class="sc-f474212e-7 dUVSfj">
-                                                 <div class="sc-485d66d8-0 laMuYy"><div class="sc-485d66d8-0 sc-3a263705-1 dLkVjV csGfKv">  Receive updates by email</div>
-                                             </div>
-                                         </dd>
-                                         
-                                         <div class="sc-485d66d8-0 sc-f474212e-1 dLkVjV dbRigD">
-                                             <div class="sc-485d66d8-0 dLkVjV">
-                                                <div class="material-switch">
-                                                    <input type="checkbox" id="switch399c5e32-92e1-11ee-9706-021adfee087e" class="ng-untouched ng-pristine ng-valid">
-                                                    <label class="label-success" for="switch399c5e32-92e1-11ee-9706-021adfee087e"></label>
+                                            <dt class="sc-f474212e-4 lkliht">Turn on notifications</dt>
+                                            
+                                            <dd class="sc-f474212e-7 dUVSfj">
+                                                <!-- Email notifications -->
+                                                <div class="notification-settings">
+                                                    <div class="notification-option" >
+                                                        <label for="emailSwitch">Receive updates by email</label>
+                                                        <div class="material-switch">
+                                                            <input type="checkbox" id="emailSwitch" class="ng-untouched ng-pristine ng-valid">
+                                                            <label class="label-success" for="emailSwitch"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="notification-option">
+                                                        <label for="whatsappSwitch">Receive attendance notifications by WhatsApp</label>
+                                                        <div class="material-switch">
+                                                          <input type="checkbox" id="whatsappSwitch" [(ngModel)]="notifications.whatsapp"
+                                                                 (click)="toggleNotification('whatsapp')" class="ng-untouched ng-pristine ng-valid">
+                                                          <label class="label-success" for="whatsappSwitch"></label>
+                                                        </div>
+                                                      </div>
+                                                      <div class="notification-option" *ngIf="isPlanActive">
+                                                        <label for="slackSwitch">Receive attendance notifications by Slack</label>
+                                                        <div class="material-switch">
+                                                          <input type="checkbox" id="slackSwitch" [(ngModel)]="notifications.slack"
+                                                                 (click)="toggleNotification('slack')" class="ng-untouched ng-pristine ng-valid">
+                                                          <label class="label-success" for="slackSwitch"></label>
+                                                        </div>
+                                                      </div>
+                                                      
                                                 </div>
-                                                 </div>
-                                             </div>
-                                         </div>
+                                                
+                                                
+                                            </dd>
+                                        </div>
+                                        
 
 
 
@@ -301,4 +321,69 @@
 </div>
 </div>
 </div>
+
+
+<!-- Button trigger modal -->
+<button type="button"id="otpModalButton" class="btn btn-primary" data-bs-toggle="modal"  #otpModalButton data-bs-target="#otpModal">
+    Launch OTP Modal
+  </button>
+  
+  <!-- Modal -->
+  <!-- OTP Modal -->
+<div class="modal fade" id="otpModal" tabindex="-1" aria-labelledby="otpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="otpModalLabel">{{otpSent ? 'Verify OTP' : 'Enter Phone Number'}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="otpSent = false; phoneNumber = '';"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Send OTP Form -->
+          <form *ngIf="!otpSent" #sendOtpForm="ngForm" (ngSubmit)="sendOtptoSavePhoneNumberMethodCall()">
+            <div class="mb-3">
+              <label for="phoneNumber" class="form-label">Phone Number</label>
+              <input type="tel" mask="0000000000" name="phoneNumber" class="form-control" id="phoneNumber" [(ngModel)]="phoneNumber" placeholder="Enter Phone Number without country code ">
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">
+                  <div *ngIf="toggle; else showText" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <ng-template #showText>
+                    <span class="button-text">Send OTP</span>
+                  </ng-template>
+                </button>
+              </div>
+              
+          </form>
+          <!-- Verify OTP Form -->
+          <form *ngIf="otpSent" #verifyOtpForm="ngForm" (ngSubmit)="verifyOtpMethodCall()">
+            <div class="mb-3">
+              <label for="otp" class="form-label">OTP</label>
+              <input type="text" mask="000000" name="otp" class="form-control" id="otp" [(ngModel)]="otp" placeholder="Enter OTP">
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">
+                  <div *ngIf="toggle; else showText" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <ng-template #showText>
+                    <span class="button-text">Verify OTP</span>
+                  </ng-template>
+                </button>
+              </div>
+              
+              
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
   

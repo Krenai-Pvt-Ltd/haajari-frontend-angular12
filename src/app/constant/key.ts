@@ -126,6 +126,11 @@ export class Key{
     public static UNRESTRICTED_PF_WAGE = 1;
     public static RESTRICTED_PF_WAGE_UPTO_15000 = 2;
 
+    // Statutory calculation mode Ids
+    public static EPF_ID = 1;
+    public static ESI_ID = 2;
+    public static PROFESSIONAL_TAX_ID = 3;
+
 
     public static PASTE = "paste";
     public static COPY = "copy";
@@ -168,17 +173,22 @@ export class Key{
     public static HOLIDAY = "Holiday";
     public static LEAVE = "Leave";
     public static HALFDAY = "Halfday";
+
+    // Salary setting configuration
+    public static CONFIGURE_SALARY_SETTING = 1;
+    public static MANAGE_STATUTORY = 2;
+    public static PAY_SLIP = 3;
     
 
-    // base_url = "http://localhost:8080/api/v2/";
+    base_url = "http://localhost:8080/api/v2/";
 
     /* ------------------  Staging urls ----------------*/
     // base_url = "https://backend.hajiri.work/api/v2/";
 
     /* ------------------  Production urls ----------------*/
-    base_url = "https://production.hajiri.work/api/v2/";
+    // base_url = "https://production.hajiri.work/api/v2/";
     
-
+    
     get_subscription = "subcription-plan"; 
     get_active_user_count = "users/active-user-count";
     get_purchased_status = "organization-subs-plan/status"; 
@@ -194,5 +204,15 @@ export class Key{
     get_plan_purchased_status = "organization-subs-plan/plan-purchased-status";
     
     get_org_subs_plan_month_detail = "organization-subs-plan-month-detail"
+    cancel_subscription = "organization-subs-plan-month-detail"
+
+    //user notification
+    get_notification = "user-notification";
+    read_notification = "user-notification/read";
+    read_all_notification = "user-notification/read-all";
+    get_mail = "user-notification/mail";
+
+    //Coupon
+    verify_coupon = "coupon";
     
 }
