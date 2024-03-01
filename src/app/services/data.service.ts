@@ -37,6 +37,7 @@ import { UserLeaveDetailsWrapper } from "../models/UserLeaveDetailsWrapper";
 import { TotalRequestedLeavesReflection } from "../models/totalRequestedLeaveReflection";
 import { StatutoryRequest } from "../models/statutory-request";
 import { StatutoryAttribute } from "../models/statutory-attribute";
+import { NotificationVia } from "../models/notification-via";
 
 
 @Injectable({
@@ -1297,6 +1298,17 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/pf-contribution-rate`);
   }
 
+
+  generateNewAttendanceLink(userUuid: string):Observable<any>{
+    let params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient.post<any>(`${this.baseUrl}/attendance/regenerate-attendance-link`,{} ,{ params });
+  }
+
+  // getUserSubscriptionPlanId():Observable<any>{
+  //   return this.httpClient.get<any>(`${this.baseUrl}/account-setting/get/subscription-plan-id`);
+  // }
+  
+
   getESIContributionRate():Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/esi-contribution-rate`);
   }
@@ -1337,4 +1349,34 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     debugger
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/employee/get/all`);
   }
+
+  getSalaryConfigurationStep(): Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/configuration/step/get`);
+  }
+
+  updateSalaryConfigurationStep(salaryConfigurationStepId : number) : Observable<any>{
+
+    const params = new HttpParams()
+    .set('salary_configuration_step_id', salaryConfigurationStepId);
+
+    return this.httpClient.put<any>(`${this.baseUrl}/salary/configuration/step/update`, {}, {params});
+  }
+  updateNotificationSetting(notificationVia : NotificationVia):Observable<any>{
+    return this.httpClient.put<any>(`${this.baseUrl}/account-setting/update/notification-via`, notificationVia);
+  }
+
+  sendOtptoSavePhoneNumber(phoneNumber : string):Observable<boolean>{
+    const params = new HttpParams()
+    .set('phoneNumber', phoneNumber);
+    return this.httpClient.post<boolean>(`${this.baseUrl}/account-setting/send-otp/phoneNumber`, {}, {params});
+  }
+
+  verifyOtpForUpdatingPhoneNumber(phoneNumber : string, otp : number):Observable<any>{
+    let params = new HttpParams()
+    .set('phoneNumber', phoneNumber)
+    .set('otp', otp);
+    return this.httpClient.post<any>(`${this.baseUrl}/account-setting/verifyOtp`, {}, {params});
+  }
+
 }
