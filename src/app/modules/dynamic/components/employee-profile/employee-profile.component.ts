@@ -550,6 +550,8 @@ export class EmployeeProfileComponent implements OnInit {
       return 'L';
     }else if (attendance.status === 'Half Day') {
       return 'H';
+    }else if (attendance.status === 'Late') {
+      return 'L';
     } else if (attendance.status === 'Not Marked') {
       return '-';
     }
@@ -572,6 +574,8 @@ export class EmployeeProfileComponent implements OnInit {
         return 'rgb(255, 213, 128)';
       case 'On Leave':
         return 'rgb(255, 255, 143)';
+      case 'Late':
+        return '#D3D3D3';
       case 'Not Marked':
         return '#cccccc'; 
       default:
