@@ -816,7 +816,7 @@
                                 
                             </div>
 
-                            <div class="pagination pl-3" *ngIf="(total > 11 && attendanceReportResponseList.length > 11 && !dataNotFoundPlaceholderForAttendanceData && !networkConnectionErrorPlaceHolderForAttendanceData) || pageNumber === lastPageNumber">
+                            <div class="pagination pl-3" *ngIf="(total > 11 && attendanceReportResponseList.length > 11 && !dataNotFoundPlaceholderForAttendanceData && !networkConnectionErrorPlaceHolderForAttendanceData) || (pageNumber === lastPageNumber && firstPageNumber !== lastPageNumber)">
                                 <p class="mb-0 " style="padding-left: 15px;">Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} users</p>
                                 <div class="row">
                                   <div class="col-md-12">
