@@ -72,17 +72,20 @@ export class BillingPaymentComponent implements OnInit {
     this.taxAmount = this.sbscriptionPlanReq.amount*18/100;
     this.totalAmount = this.sbscriptionPlanReq.amount + this.taxAmount;
 
+    this.couponCode = '';
+    this.isCouponVerify = false;
+    this.couponDiscount = 0;
 
-    
   }
 
   getCalcu(value:any){
-    this.sbscriptionPlanReq.planType = null;
     this.sbscriptionPlanReq.amount = 0;
     this.taxAmount = 0;
     this.monthlyAmount = value*this.subscriptionPlan?.amount;
-    this.annualAmount = this.monthlyAmount*12 - (this.monthlyAmount*12*20)/100;   
-      
+    this.annualAmount = this.monthlyAmount*12 - (this.monthlyAmount*12*20)/100;
+    this.selecrPlanType("annual");
+    this.couponCode = '';
+    this.getCouponInput();
   }
   
 
@@ -133,8 +136,10 @@ export class BillingPaymentComponent implements OnInit {
     rzp.open();
   }
 
+  isPaymentDone:boolean = false;
   checkout(value:any){
     console.log("transaction id",value);
+    // this.isPaymentDone = true;
     window.location.reload();
 
   }
@@ -150,4 +155,48 @@ export class BillingPaymentComponent implements OnInit {
     })
   }
 
+
+  paymentMethod:string = '';
+  selectPaymentMethod(value:any){
+    this.paymentMethod = value;
+  }
+
+  proceedToPay(){
+    if(this.paymentMethod=="razorpay"){
+      this.openRazorPay();
+    }
+  }
+
+  couponCode:string = '';
+  coupon:any;
+  message:string = '';
+  isCouponVerify: boolean = false;
+  tempTotalAmount:number = 0;
+  couponDiscount:number = 0;
+  applyCoupon(){
+    this._subscriptionPlanService.verifyCoupon(this.couponCode, this.totalAmount).subscribe(response=>{
+      if(response.status){
+        this.coupon = response.object;
+        this.tempTotalAmount = this.totalAmount;
+        this.couponDiscount =  this.totalAmount - response.totalItems;
+        this.totalAmount = response.totalItems;
+        this.isCouponVerify = true;
+        
+      }
+      else{ 
+        
+        this.message = "Invalid coupon code"
+        ;
+      }
+    })
+  }
+
+  getCouponInput(){
+    this.message = '';
+    if(this.isCouponVerify){
+      this.totalAmount = this.tempTotalAmount;
+    }
+    this.isCouponVerify = false;
+    this.couponDiscount = 0;
+  }
 }

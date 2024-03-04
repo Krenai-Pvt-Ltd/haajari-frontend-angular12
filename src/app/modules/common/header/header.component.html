@@ -120,7 +120,7 @@
                             <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
                             </div>
                             <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-kanban menu-icon"></i>
-                                Leave Management</span>
+                                Leaves</span>
                         </a>
                     </li>
 
@@ -339,6 +339,7 @@
                     <span class="sc-3ee1404a-10 evIlxu">  <i class="bi bi-file-earmark-code menu-icon"></i> Document </span>
                 </a>
                 </li> -->
+                
 
                         <li class="sc-3ee1404a-7 dagRMy" routerLinkActive="iUctsy" routerLink="/role"
                             style="cursor: pointer;">
@@ -367,7 +368,8 @@
                         </div>
                         <div class="" style="cursor:pointer;">
                             <a class="mb-0" routerLink="/setting/billing"><i class="bi bi-lightning-fill"></i>
-                                Upgrade</a>
+                                {{OrgSubsPlanMonthDetail.planName?OrgSubsPlanMonthDetail.planName:"Upgrade"}}
+                                </a>
                         </div>
                     </div>
                     <div class="d-flex align-items-center" style="gap:20px; padding: 10px; background-color: #f1f1fd;">
@@ -390,7 +392,7 @@
                                 <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
 
                                     <div class="manager-list" style="cursor: pointer;"
-                                        (click)="routeToAccountPage('account')">
+                                        (click)="routeToAccountPage('accountDetails')">
                                         <a class="dropdown-item"> <i class="bi bi-gear"
                                                 style="padding-right: 10px;"></i> Account Settings</a>
                                     </div>

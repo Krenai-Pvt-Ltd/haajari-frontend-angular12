@@ -237,3 +237,7 @@ button.btn.add-card-btn {
      margin-top: 0px;
      margin-bottom: 0px;
   }
+  .active-col{
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}

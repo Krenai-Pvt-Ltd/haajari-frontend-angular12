@@ -46,13 +46,13 @@ export class LeaveManagementComponent implements OnInit {
     debugger
     this.cdr.detectChanges();
     
-    // if((this.userLeaveDetailResponse!=undefined)){
+    if((this.userLeaveDetailResponse!=undefined)){
     setTimeout(() => {
       this.userLeaveDetailResponse.forEach((_, index) => {
         this.checkInitialArrowVisibility(index);
       });
     });
-    // }
+    }
   }
   checkInitialArrowVisibility(index: number): void {
     debugger
@@ -190,6 +190,7 @@ export class LeaveManagementComponent implements OnInit {
   // }
 
   getRequestedLeaveLogs(userUuid: string): void {
+    debugger
     this.dataService.getRequestedLeaveDetailsForUser(userUuid).subscribe({
       next: (logs) => {
         this.userLeaveLogs[userUuid] = logs;

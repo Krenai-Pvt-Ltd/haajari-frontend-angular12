@@ -42,12 +42,24 @@ export class SubscriptionPlanService {
     return this._httpClient.post<any>(this._key.base_url + this._key.add_more_employee, {}, { params })
   }
 
-  getInvoices(){
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_invoices)
+  getInvoices(databaseHelper:DatabaseHelper){
+    const params = new HttpParams()
+      .set('itemPerPage', databaseHelper.itemPerPage)
+      .set('currentPage', databaseHelper.currentPage)
+      .set('sortBy', "id")
+      .set('sortOrder', "desc")
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_invoices, {params})
+  }
+  getLastInvoices(){
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_last_invoices)
   }
 
   getDueInvoices(){
     return this._httpClient.get<any>(this._key.base_url + this._key.get_due_invoices)
+  }
+
+  getDuePendingStatus(){
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_due_pending_Status)
   }
 
   getOrgSubsPlanMonthDetail(){
@@ -62,5 +74,17 @@ export class SubscriptionPlanService {
       .set('sortOrder', "desc")
     return this._httpClient.get<any>(this._key.base_url + this._key.get_plan_purchased_log, {params})
   }
+
+  cancelSubscription(){
+    return this._httpClient.get<any>(this._key.base_url + this._key.cancel_subscription)
+  }
+
+  verifyCoupon(couponCode:string, amount:number){
+    const params = new HttpParams()
+      .set('couponCode', couponCode)
+      .set('amount', Math.round(amount) )
+    return this._httpClient.get<any>(this._key.base_url + this._key.verify_coupon, {params})
+  }
+
 
 }

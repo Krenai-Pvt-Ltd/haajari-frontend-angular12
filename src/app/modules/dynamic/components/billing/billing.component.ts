@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { OrganizationSubscriptionPlanMonthDetail } from 'src/app/models/OrganizationSubscriptionPlanMonthDetail';
 import { HelperService } from 'src/app/services/helper.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
+import { HttpClient } from '@angular/common/http';
 declare var Razorpay: any;
 
 @Component({
@@ -21,29 +23,30 @@ export class BillingComponent implements OnInit {
   databaseHelper: DatabaseHelper = new DatabaseHelper();
 
   
-  currentDate: Date = new Date('2024-02-12');
-  midDateOfMonth: Date = new Date('2024-02-15');
-  // currentDate: Date;
-  // midDateOfMonth: Date;
+  // currentDate: Date = new Date('2024-02-18');
+  currentDate: Date;
+  midDateOfMonth: Date;
 
   orgUuid: string = "";
   constructor(private _subscriptionPlanService:SubscriptionPlanService,
     private _router: Router,
-    private helperService: HelperService) { 
+    private helperService: HelperService,
+    private http: HttpClient) { 
       let token = localStorage.getItem("token")!;
       const helper = new JwtHelperService();
       this.orgUuid = helper.decodeToken(token).orgRefId;
 
-      // this.currentDate = new Date();
-      // this.midDateOfMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 15);
+      this.currentDate = new Date();
+      this.midDateOfMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 15);
     
     }
 
   ngOnInit(): void {
     this.getAllSubscription();
     this.getPurchasedStatus();
-    this.getDueInvoices();
+    this.getInvoices();
     this.getOrgSubsPlanMonthDetail();
+    this.getDuePendingStatus();
   }
 
   getAllSubscription(){
@@ -61,7 +64,21 @@ export class BillingComponent implements OnInit {
 
   routeToBillingPaymentPage(id: number) {
     debugger
-    this._router.navigate(["/setting/billing-payment"], { queryParams: { id: id } });
+      if(!this.isDuePending){
+        this._router.navigate(["/setting/billing-payment"], { queryParams: { id: id } });
+        
+      }else
+      {
+        this.helperService.showToast("Invoice Due! Please pay previous invoice first", Key.TOAST_STATUS_ERROR);
+      }
+  }
+
+  isDuePending: boolean = false;
+  getDuePendingStatus() {
+    debugger
+    this._subscriptionPlanService.getDuePendingStatus().subscribe(response=>{
+        this.isDuePending = response;
+    })
   }
 
   isPurchased: boolean = false;
@@ -71,37 +88,66 @@ export class BillingComponent implements OnInit {
     })
   }
 
-  totalAmount:number = 0;
+  totalAmount: number = 0;
   planAmount: number = 0;
   planId: number = 0;
   @ViewChild('addMoreEmployeeModal')addMoreEmployeeModal!:ElementRef
   @ViewChild('closeMoreEmployee')closeMoreEmployee!:ElementRef
   openAddMoreEmployeeModel(amount:any, planId:any){
     debugger
-    this.newEmployee = 0;
-    this.addMoreEmployeeModal.nativeElement.click();
-    this.planAmount = amount;
-    this.planId = planId;
+      if(!this.isDuePending){
+        this.newEmployee = 0;
+        this.addMoreEmployeeModal.nativeElement.click();
+        this.planAmount = amount;
+        this.planId = planId;
+      }else
+      {
+        this.helperService.showToast("Invoice Due! Please pay previous invoice first", Key.TOAST_STATUS_ERROR);
+      }
   }
 
   addMoreEmployee(){
     debugger
-    if(this.currentDate > this.midDateOfMonth){
-      this._subscriptionPlanService.addMoreEmployee(this.newEmployee).subscribe(response=>{
-        if(response.status){
-         this.closeMoreEmployee.nativeElement.click();
-         this.helperService.showToast("Employee successfully added", Key.TOAST_STATUS_SUCCESS);
-        }
-      })
+    this.paymentFor = "add_employee"
+    this.loading = true;
+    if(this.OrgSubsPlanMonthDetail.planType == "monthly"){
+      if(this.currentDate > this.midDateOfMonth){
+        this._subscriptionPlanService.addMoreEmployee(this.newEmployee).subscribe(response=>{
+          if(response.status){
+           this.closeMoreEmployee.nativeElement.click();
+           this.helperService.showToast("Employee successfully added", Key.TOAST_STATUS_SUCCESS);
+           this.getOrgSubsPlanMonthDetail();
+          }
+        })
+      }
+      else
+      {
+        this.totalAmount = this.planAmount * this.newEmployee;
+        this.totalAmount = this.totalAmount+ this.totalAmount*18/100
+        this.openRazorPay();
+      }
     }
     else
     {
-      this.totalAmount = this.planAmount * this.newEmployee;
-      if(this.OrgSubsPlanMonthDetail.planType=="annual"){
-        this.totalAmount = this.planAmount * this.newEmployee* this.OrgSubsPlanMonthDetail.remainingMonths
-      }
+      if(this.OrgSubsPlanMonthDetail.remainingMonths>0){
+        this.totalAmount = this.planAmount * this.newEmployee* this.OrgSubsPlanMonthDetail.remainingMonths;
+      this.totalAmount = this.totalAmount-this.totalAmount*20/100 //totalAmount with 20% discount
+      this.totalAmount = this.totalAmount+ this.totalAmount*18/100 //totalAmount with 18% gst include
+      
       this.openRazorPay();
+      }
+      else
+      {
+        this._subscriptionPlanService.addMoreEmployee(this.newEmployee).subscribe(response=>{
+          if(response.status){
+            this.closeMoreEmployee.nativeElement.click();
+            this.helperService.showToast("Employee successfully added", Key.TOAST_STATUS_SUCCESS);
+            this.getOrgSubsPlanMonthDetail();
+          }
+        })
+      }
     }
+    this.loading = false;
   }
 
   processingPayment: boolean = false;
@@ -135,8 +181,8 @@ export class BillingComponent implements OnInit {
       // },
       "notes": {
         "orgUuid": this.orgUuid,
-        "orderId": "order-id",
-        "type": "add_employee",
+        "orderId": this.invoiceNo,
+        "type": this.paymentFor,
         "orderFrom": "Hajiri",
         "subscriptionPlanId":this.planId,
         "noOfEmployee": this.newEmployee,
@@ -151,17 +197,51 @@ export class BillingComponent implements OnInit {
   }
 
   checkout(value:any){
-    console.log(value);
+    debugger
+    // if(this.paymentFor == "add_employee"){
+      
+      this.closeMoreEmployee.nativeElement.click();
+      this.helperService.showToast("Employee successfully added", Key.TOAST_STATUS_SUCCESS);
+      this.getInvoices();
+      this.getOrgSubsPlanMonthDetail();
+      this.getDueInvoices();
+    // }
+    // else if(this.paymentFor == "due_invoice")
+    // {
+    //   this.helperService.showToast("Payment Successful", Key.TOAST_STATUS_SUCCESS);
+    //   this.getDueInvoices();
+    // }
+    
+    
   }
 
   invoicesList: any[] = new Array();
+  totalInvoicesItems: number = 0 ;
+  invoiceLoading: boolean = false;
   getInvoices(){
+    debugger
+    this.invoiceLoading = true;
     this.invoicesList = [];
-    this._subscriptionPlanService.getInvoices().subscribe(response=>{
+    if (!this.pageToggle) {
+      this.databaseHelper.currentPage = 1;
+    }
+    this._subscriptionPlanService.getInvoices(this.databaseHelper).subscribe(response=>{
       if(response.status){
+        this.pageToggle = false;
         this.invoicesList = response.object;
+        this.totalInvoicesItems = response.totalItems;
+        this.invoiceLoading = false;
       }
+      this.invoiceLoading = false;
     })
+  }
+
+  pageToggle: boolean = false;
+  invoicesPageChanged(page: any){
+    debugger
+    this.databaseHelper.currentPage = page;
+    this.pageToggle = true;
+    this.getInvoices();
   }
 
   dueInvoicesList: any[] = new Array();
@@ -175,11 +255,16 @@ export class BillingComponent implements OnInit {
 
   planPurchasedLogList: any[] = new Array();
   totalItems: number = 0;
+  databaseHelper1: DatabaseHelper = new DatabaseHelper();
   getPlanPurchasedLog(){
     this.loading = true;
     this.planPurchasedLogList = [];
-    this._subscriptionPlanService.getPlanPurchasedLog(this.databaseHelper).subscribe(response=>{
+    if (!this.pageToggle) {
+      this.databaseHelper1.currentPage = 1;
+    }
+    this._subscriptionPlanService.getPlanPurchasedLog(this.databaseHelper1).subscribe(response=>{
       if(response.status){
+        this.pageToggle = false;
         this.planPurchasedLogList = response.object;
         this.totalItems = response.totalItems;
         this.loading = false;
@@ -190,17 +275,56 @@ export class BillingComponent implements OnInit {
 
   pageChanged(page: any) {
     debugger
-    this.databaseHelper.currentPage = page;
+    this.databaseHelper1.currentPage = page;
+    this.pageToggle = true;
     this.getPlanPurchasedLog();
   }
 
-  OrgSubsPlanMonthDetail: any;
+  OrgSubsPlanMonthDetail: OrganizationSubscriptionPlanMonthDetail = new OrganizationSubscriptionPlanMonthDetail();
   getOrgSubsPlanMonthDetail(){
     this._subscriptionPlanService.getOrgSubsPlanMonthDetail().subscribe(response=>{
       if(response.status){
         this.OrgSubsPlanMonthDetail = response.object;
+        this.OrgSubsPlanMonthDetail.viewCard = 1;
       }
     })
+  }
+
+  invoiceNo: string = '';
+  paymentFor: string = '';
+  proceedToPay(amount:any, invoiceNo:any){
+    this.totalAmount = amount;
+    this.invoiceNo = invoiceNo;
+    this.paymentFor = "due_invoice";
+    this.openRazorPay();
+  }
+
+  downloadInvocie(invoiceUrl:string){
+    var fileName = (invoiceUrl.substring(invoiceUrl.lastIndexOf('/'))).split('%2F').join('/');
+    fileName =fileName.split('%26').join('/');
+    fileName = (fileName.substring(fileName.lastIndexOf('/')))
+    if (fileName.charAt(0) == '/') {
+      fileName = fileName.substring(1);
+    }
+    fileName = (fileName.substring(0,fileName.lastIndexOf('?')));
+    this.http.get(invoiceUrl, { responseType: 'blob' }).subscribe((blob: Blob) => {
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      link.click();
+    });
+  }
+
+  cancelSubscription(){
+    this._subscriptionPlanService.cancelSubscription().subscribe(response=>{
+      if(response.status){
+
+        console.log("cancel subscription");
+        
+
+      }
+    })
+
   }
 
 }

@@ -643,3 +643,9 @@ tbody tr {
     font-weight: 500;
     cursor: pointer;
 }
+
+/* .attendance-settin-list>div{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+} */

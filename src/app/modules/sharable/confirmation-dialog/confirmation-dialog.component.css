@@ -1,0 +1,107 @@
+/* The backdrop covering the entire viewport */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  
+}
+
+/* The modal dialog is centered within the backdrop */
+.modal-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* The modal content has a specific maximum width and is centered */
+.modal-content {
+  max-width: 500px;
+  margin: auto;
+  border-radius: 15px;
+  padding: 30px;
+  padding-bottom: 10%;
+  overflow: hidden; /* Ensures no content spills out */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ensure that the mat-dialog-actions are flexed to space buttons */
+mat-dialog-actions {
+  display: flex;
+  justify-content: space-around; /* Or 'space-between' depending on the exact layout */
+  padding: 1rem; /* Adjust to match the design */
+}
+
+button[mat-button] {
+  min-width: 80px; 
+}
+
+mat-dialog-content.dialog-content {
+  padding: 0; /* Adjust as needed */
+}
+
+
+
+
+
+  .dot-opacity-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 6px;
+}
+
+.dot-opacity-loader span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #6666f3; /* Change to your preferred color */
+    margin: 0px 4px;
+    animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-loader span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.dot-opacity-loader span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes dotOpacity {
+    0%, 80%, 100% { opacity: 0; }
+    40% { opacity: 1; }
+}
+
+/* .confirmation-dialog{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.cancel-button{
+  background-color: #f5f5f5;
+  border: 1px solid #aeaeae !important;
+  color: #444!important;
+  height: 37px;
+}
+
+.proceed-button{
+  background-color: #ececf4;
+  border: 1px solid #6666f3 !important;
+  color: #6666f3!important;
+  height: 37px;
+}
+
+.proceed-button:hover, .cancel-button:hover{
+  background-color: transparent;
+}

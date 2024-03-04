@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
-import { WebcamImage } from 'ngx-webcam';
+import { WebcamImage, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
@@ -64,6 +64,7 @@ markAttendaceWithLocationMethodCall(){
         this.dataService.lng = 0;
         this.helper.showToast("You're Successfully Checked In", Key.TOAST_STATUS_SUCCESS);
         this.toggle = true;
+        window.location.href = 'https://api.whatsapp.com/send/?phone=918799754156&type=phone_number&app_absent=0';
       }
     this.toggle = false;
       
@@ -187,4 +188,21 @@ markAttendaceWithLocationMethodCall(){
     this.captureImage = '';
     
   }
+
+  public devices: MediaDeviceInfo[] = []; 
+  public currentDeviceId: string | undefined;
+  
+    public getAvailableCameras(): void {
+      WebcamUtil.getAvailableVideoInputs().then((devices: MediaDeviceInfo[]) => {
+          this.devices = devices;
+
+          // Attempt to set the front camera as default
+          // This code assumes device labels are available and contain "front" for the front camera.
+          // Adjust based on actual device label characteristics or use facingMode constraints if available.
+          const frontCamera = devices.find(device => device.label.toLowerCase().includes('front'));
+          if (frontCamera) {
+              this.currentDeviceId = frontCamera.deviceId;
+          }
+      });
+    }
 }

@@ -49,6 +49,8 @@ export class EmployeeLocationValidatorComponent implements OnInit {
     
   }
 
+  
+
   // uniqueId: string = '';
   // saveUniqueId(){
   //   const uniqueId = new URLSearchParams(window.location.search).get('uniqueId');
@@ -185,7 +187,8 @@ markAttendaceWithLocationMethodCall(){
   this.dataService.markAttendaceWithLocation(this.employeeAttendanceLocation, userUuid)
   .subscribe(
     (response: EmployeeAttendanceLocation) => {
-      console.log(response);  
+      console.log(response); 
+      this.enableSubmitToggle=true; 
       if(response.status=='Already Checked In'){
         this.helper.showToast("You're Already Checked In", Key.TOAST_STATUS_ERROR);
       }
@@ -193,6 +196,7 @@ markAttendaceWithLocationMethodCall(){
       if(response.status=='In'){
         this.helper.showToast("You're Successfully Checked In", Key.TOAST_STATUS_SUCCESS);
         this.toggle = true;
+        window.location.href = 'https://api.whatsapp.com/send/?phone=918799754156&type=phone_number&app_absent=0';
       }
     this.toggle = false;
       

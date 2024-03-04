@@ -23,6 +23,14 @@ import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-pro
 import { constant } from 'src/app/constant/constant';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { UserDocumentsAsList } from 'src/app/models/UserDocumentsMain';
+import { TaxRegime } from 'src/app/models/tax-regime';
+import { StatutoryResponse } from 'src/app/models/statutory-response';
+import { Statutory } from 'src/app/models/statutory';
+import { StatutoryRequest } from 'src/app/models/statutory-request';
+import { StatutoryAttribute } from 'src/app/models/statutory-attribute';
+import { ESIContributionRate } from 'src/app/models/e-si-contribution-rate';
+import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
+import { StatutoryAttributeResponse } from 'src/app/models/statutory-attribute-response';
 
 @Component({
   selector: 'app-employee-profile',
@@ -109,10 +117,16 @@ export class EmployeeProfileComponent implements OnInit {
   MANAGER = Key.MANAGER;
   USER = Key.USER;
 
+  isSalaryPlaceholderFlag:boolean=false;
   // tokenUserRoleFlag:boolean=false;
   currentDate: Date = new Date();
   currentNewDate: any;
   async ngOnInit(): Promise<void> {
+    this.getAllTaxRegimeMethodCall();
+    this.getStatutoryByOrganizationIdMethodCall();
+    this.getSalaryConfigurationStepMethodCall();
+
+    
     this.ROLE= await this.roleService.getRole();
     this.UUID= await this.roleService.getUuid();
 
@@ -537,6 +551,8 @@ export class EmployeeProfileComponent implements OnInit {
       return 'L';
     }else if (attendance.status === 'Half Day') {
       return 'H';
+    }else if (attendance.status === 'Late') {
+      return 'L';
     } else if (attendance.status === 'Not Marked') {
       return '-';
     }
@@ -559,6 +575,8 @@ export class EmployeeProfileComponent implements OnInit {
         return 'rgb(255, 213, 128)';
       case 'On Leave':
         return 'rgb(255, 255, 143)';
+      case 'Late':
+        return '#D3D3D3';
       case 'Not Marked':
         return '#cccccc'; 
       default:
@@ -1326,13 +1344,186 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
   );
 }
 
-requestForMoreDocs: boolean = false;
-requestUserForMoreDocs(){
-  this.openRejectModal.nativeElement.click();
-  this.requestForMoreDocs = true;
+  requestForMoreDocs: boolean = false;
+  requestUserForMoreDocs(){
+    this.openRejectModal.nativeElement.click();
+    this.requestForMoreDocs = true;
+  }
+
+
+  // #####################################################################
+  //Code written by Shivendra
+
+  clearInputValues(){
+    this.statutoryAccountNumber = '';
+  }
+
+  isFormValid: boolean = false;
+  @ViewChild ('ePFForm') ePFForm !: NgForm;
+
+  EPF_ID = Key.EPF_ID;
+  ESI_ID = Key.ESI_ID;
+  PROFESSIONAL_TAX_ID = Key.PROFESSIONAL_TAX_ID;
+
+  CONFIGURE_SALARY_SETTING = Key.CONFIGURE_SALARY_SETTING;
+  MANAGE_STATUTORY = Key.MANAGE_STATUTORY;
+  PAY_SLIP = Key.PAY_SLIP;
+
+  switchValueForPF = false;
+  switchValueForESI = false;
+  switchValueForProfessionalTax = false;
+  setStatutoryVariablesToFalse(){
+    this.switchValueForPF = false;
+    this.switchValueForESI = false;
+    this.switchValueForProfessionalTax = false;
+  }
+
+  salaryConfigurationStepId : number = 0;
+  getSalaryConfigurationStepMethodCall(){
+    this.dataService.getSalaryConfigurationStep().subscribe((response) => {
+      this.salaryConfigurationStepId = response.count;
+    }, (error) => {
+
+    })
+  }
+
+
+    //Fetching the PF contribution rates from the database
+    pFContributionRateList : PFContributionRate[] = [];
+    getPFContributionRateMethodCall(){
+      this.dataService.getPFContributionRate().subscribe((response) => {
+        this.pFContributionRateList = response.listOfObject;
+        console.log(response.listOfObject);
+      }, (error) =>{
+  
+      })
+    }
+  
+  
+    eSIContributionRateList : ESIContributionRate[] = [];
+    getESIContributionRateMethodCall(){
+      this.dataService.getESIContributionRate().subscribe((response) => {
+        this.eSIContributionRateList = response.listOfObject;
+      }, (error) => {
+  
+      })
+    }
+
+  updateTaxRegimeByUserIdMethodCall(taxRegimeId : number){
+    this.dataService.updateTaxRegimeByUserId(taxRegimeId).subscribe((response) => {
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      this.getAllTaxRegimeMethodCall();
+    }, (error) => {
+      this.helperService.showToast("Error in updating tax regime!", Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+  taxRegimeList : TaxRegime[] = [];
+  getAllTaxRegimeMethodCall(){
+    this.dataService.getAllTaxRegime().subscribe((response) => {
+      this.taxRegimeList = response.listOfObject;
+    }, (error) => {
+
+    })
+  }
+
+
+  statutoryResponseList : StatutoryResponse[] = [];
+  getStatutoryByOrganizationIdMethodCall(){
+    debugger
+    this.dataService.getStatutoryByOrganizationId().subscribe((response) => {
+      this.statutoryResponseList = response.listOfObject;
+      this.setStatutoryVariablesToFalse();
+      this.clearInputValues();
+    }, (error) => {
+
+    })
+  }
+
+
+    //Fetching statutory's attributes
+    statutoryAttributeResponseList : StatutoryAttributeResponse[] = [];
+    getStatutoryAttributeByStatutoryIdMethodCall(statutoryId : number){
+      return new Promise((resolve, reject) => {
+        this.dataService.getStatutoryAttributeByStatutoryId(statutoryId).subscribe((response) => {
+          this.statutoryAttributeResponseList = response.listOfObject;
+          console.log(response);
+          resolve(response);
+        }, (error) => {
+          reject(error);
+        })
+      })
+    }
+
+  async clickSwitch(statutoryResponse : StatutoryResponse){
+    if(!statutoryResponse.loading){
+      statutoryResponse.loading = true;
+    }
+    
+    await this.getStatutoryAttributeByStatutoryIdMethodCall(statutoryResponse.id);
+
+    this.statutoryRequest.id = statutoryResponse.id;
+    this.statutoryRequest.name = statutoryResponse.name;
+    this.statutoryRequest.switchValue = !statutoryResponse.switchValue;
+    this.statutoryRequest.statutoryAttributeRequestList = this.statutoryAttributeResponseList;
+
+    console.log(this.statutoryAttributeResponseList);
+
+    if(statutoryResponse.switchValue === false){
+      if(statutoryResponse.id == this.EPF_ID){
+        this.switchValueForPF = true;
+      } else if(statutoryResponse.id == this.ESI_ID){
+        this.switchValueForESI = true;
+      } else if(statutoryResponse.id == this.PROFESSIONAL_TAX_ID){
+        this.switchValueForProfessionalTax = true;
+      }
+
+    } else{
+      this.enableOrDisableStatutoryMethodCall();
+    }
+  }
+
+  statutoryAccountNumber : string = '';
+  statutoryRequest : StatutoryRequest = new StatutoryRequest();
+  enableOrDisableStatutoryMethodCall(){
+    this.statutoryRequest.statutoryAccountNumber = this.statutoryAccountNumber;
+    this.dataService.enableOrDisableStatutory(this.statutoryRequest).subscribe((response) => {
+      this.setStatutoryVariablesToFalse();
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      this.getStatutoryByOrganizationIdMethodCall();
+    }, (error) => {
+      this.helperService.showToast(error.error.message, Key.TOAST_STATUS_ERROR);
+      this.getStatutoryByOrganizationIdMethodCall();
+    })
+  }
+
+  BUTTON_LOADER = false;
+  updateSalaryConfigurationStepMethodCall(salaryConfigurationStepId : number){
+    this.BUTTON_LOADER = true;
+    this.dataService.updateSalaryConfigurationStep(salaryConfigurationStepId).subscribe((response) => {
+      this.getSalaryConfigurationStepMethodCall();
+      this.BUTTON_LOADER = false;
+    }, (error) => {
+      this.BUTTON_LOADER = false;
+    })
+  }
+
+  goToManageStatutory(){
+    this.salaryConfigurationStepId = this.MANAGE_STATUTORY;
+    const configureSalarySettingDiv = document.getElementById("configure-salary-setting") as HTMLInputElement | null;
+    const manageStatutoryDiv = document.getElementById("manage-statutory") as HTMLInputElement | null;
+
+    if(configureSalarySettingDiv){
+      configureSalarySettingDiv.style.display = "none";
+
+      if(manageStatutoryDiv){
+        manageStatutoryDiv.style.display = "block";
+      }
+    }
+  }
+
+
 }
-switchValueForPF = false;
-switchValueForESI = false;
-switchValueForProfessionalTax = false;
-}
+
+
 

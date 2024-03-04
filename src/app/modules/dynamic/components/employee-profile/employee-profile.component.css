@@ -1339,3 +1339,58 @@ tbody tr {
     }
 }
 
+.border-active{
+    background-color: #e9ebfe;
+    border: 1px solid #4f5eee !important;
+}
+
+.border-box {
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.dot-opacity-loader-finish-setup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dot-opacity-loader-finish-setup span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: white; /* Change to your preferred color */
+    margin: 0 4px;
+    animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-loader-finish-setup span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.dot-opacity-loader-finish-setup span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes dotOpacity {
+    0%, 80%, 100% { opacity: 0; }
+    40% { opacity: 1; }
+}
+
+.button-text-invisible {
+    visibility: hidden;
+    position: absolute;
+  }
+  
+  .dot-opacity-loader-finish-setup {
+    display: none; /* Initially hidden */
+  }
+  
+  /* When loader is active, hide the text and show the loader */
+  .BUTTON_LOADER .button-text {
+    visibility: hidden;
+  }
+  
+  .BUTTON_LOADER .dot-opacity-loader-finish-setup {
+    display: flex;
+  }

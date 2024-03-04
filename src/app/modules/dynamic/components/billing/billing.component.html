@@ -1,16 +1,55 @@
 <div class="page-wrapper">
     <div class="page-content-tab">
         <div class="container-fluid">
-
             <div class="mt-3">
+                <div class="row" *ngIf="OrgSubsPlanMonthDetail.viewCard==1">
+                    <div class="col-md-12 mb-2">
+                        <div class="bill-detail active-plan">
+                            <span class="position-absolute top-0 translate-middle badge rounded-pill bg-warning" style="margin-left: 7px;">
+                                Active Plan
+                              </span>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="col-8">
+                                    <p style="margin-bottom: 5px;">Plan</p>
+                                    <h5>{{OrgSubsPlanMonthDetail.planName}} ({{OrgSubsPlanMonthDetail.planType}})</h5>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-primary py-1" (click)="openAddMoreEmployeeModel(OrgSubsPlanMonthDetail.planAmount,OrgSubsPlanMonthDetail.planId)">Add Employee</button>
+                                    <!-- <button type="button" class="btn" style="margin-left: 5px; color: red;" data-bs-toggle="modal"
+                                    data-bs-target="#cancelsubscription" (click)="cancelSubscription()">Cancel Subscription</button> -->
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-3">
+                                    <p style="margin-bottom: 5px;">Employee</p>
+                                    <div class="progress" style="height: 7px; margin-left: 0;" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar" [style.width.%]="(OrgSubsPlanMonthDetail.subscribers / OrgSubsPlanMonthDetail.totalEmployee) * 100"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between" style="margin-left: -2px; margin-right: 68px;">
+                                        <p><i class="bi bi-person"></i>{{OrgSubsPlanMonthDetail.subscribers}} ({{ (OrgSubsPlanMonthDetail.subscribers / OrgSubsPlanMonthDetail.totalEmployee) * 100 | number:'1.0-0' }}%)</p>
+                                        <p>{{OrgSubsPlanMonthDetail.totalEmployee}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <p style="margin-bottom: 0px;">Start Date</p>
+                                    <h5>{{OrgSubsPlanMonthDetail.startDate | date: 'dd MMM yyyy' }}</h5>
+                                </div>
+                                <div class="col-3">
+                                    <p style="margin-bottom: 0px;">Next Billing Date</p>
+                                    <h5>{{OrgSubsPlanMonthDetail.nextBillingDate | date: 'dd MMM yyyy' }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                  <div class="row">
                     <div class="col-md-4" *ngFor="let subscription of subscriptionList">
-                        <div class="bill-detail">
+                        <div class="bill-detail" [ngClass]="{'active-plan': subscription.isPurchased == 1}">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="">
                                    <div class="d-flex align-items-center" style="gap:15px;">
                                     <h3>{{subscription.name}}</h3>
-                                    <span class="currentplan" *ngIf="subscription.isPurchased == 1">Current Plan</span>
+                                    <!-- <span class="currentplan" *ngIf="subscription.isPurchased == 1">Current Plan</span> -->
                                    </div>
                                     <p class="mb-0">{{subscription.description}}</p>
 
@@ -18,7 +57,7 @@
                                 <div class="justify-content-end d-flex align-items-end" style="flex-direction: column;">
 
                                     <h3>₹{{subscription.amount}}</h3>
-                                    <p class="mb-0" style="font-size: 12px;">Per month</p>
+                                    <p class="mb-0" style="font-size: 12px;">Per User</p>
                                     
                                 </div>
                             </div>
@@ -40,10 +79,10 @@
                             </div>
 
                             <div class="">
-                                <!-- <button type="button" class="btn plan-active-btn">Learn more</button> -->
                                 <button type="button" *ngIf="subscription.isPurchased == 0 && isPurchased" class="btn switch-plan" (click)="routeToBillingPaymentPage(subscription.id)"><i class="bi bi-arrow-left-right pr-2" style="padding-right: 10px;"></i>Switch Plan</button>
                                 <button type="button" *ngIf="subscription.isPurchased == 0 && !isPurchased" class="btn switch-plan" (click)="routeToBillingPaymentPage(subscription.id)">Subscribe</button>
-                                <button type="button" *ngIf="subscription.isPurchased == 1 && isPurchased" class="btn switch-plan" (click)="openAddMoreEmployeeModel(subscription.amount,subscription.id)">Add More Employee</button>
+                                <!-- <button type="button" *ngIf="subscription.isPurchased == 1 && isPurchased" class="btn btn-primary w-100" (click)="openAddMoreEmployeeModel(subscription.amount,subscription.id)">Add Employee</button> -->
+                                <button type="button" *ngIf="subscription.isPurchased == 1 && isPurchased" class="btn btn-primary w-100" >Current Plan</button>
                                 
                             </div>
 
@@ -141,28 +180,106 @@
                                     <h4>Payment History</h4>
                                     <p>Access all your Previous invoices </p>
                                 </div>
-                                <div>
+                                <!-- <div>
                                     <a data-bs-toggle="modal" data-bs-target="#planpurchasedlog" (click)="getPlanPurchasedLog()">log</a>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="mt-2">
                                 <ul id="myTab" role="tablist" class="nav nav-tabs">
                                     <li role="presentation" class="nav-item">
-                                        <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                                            role="tab" aria-controls="home" aria-selected="true" class="nav-link active" #templateSettingTab
-                                            (click)="getDueInvoices()">Due payments</button>
+                                        <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                                            type="button" role="tab" aria-controls="home" aria-selected="true"
+                                            class="nav-link active" #leaveCategoryTab (click)="getInvoices()">Payment history</button>
                                     </li>
                                     <li role="presentation" class="nav-item">
-                                        <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                                            type="button" role="tab" aria-controls="profile" aria-selected="false"
-                                            class="nav-link" #leaveCategoryTab (click)="getInvoices()">Payment history</button>
+                                        <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                                            role="tab" aria-controls="profile" aria-selected="false" class="nav-link" #templateSettingTab
+                                            (click)="getDueInvoices()">Due payments</button>
                                     </li>
                                 </ul>
 
                                 <div class="tab-content" id="myTabContent">
 
                                     <div class="tab-pane fade show active" id="home" role="tabpanel">
+                                        <div class="pt-3 pb-3">
+
+                                            <div class="">
+                                                
+                                                <tbody *ngIf="invoiceLoading">
+                                                    <tr>
+                                                        <td colspan="9" style="padding-left: 500px; height: 300px;">
+                                                            <div class="spinner-border text-center" role="status">
+                                                                <span class="visually-hidden">Loading...</span>
+                                                              </div>
+                                                        <!-- <span style="font-size: 20px; font-weight: 500; margin-top: 100px;">Loading...</span></td> -->
+                                                    </tr>
+                                                </tbody>
+                            
+                                                <tbody *ngIf="!invoiceLoading && invoicesList?.length == 0">
+                                                    <tr>
+                                                        <div class="col-md-12" *ngIf="invoicesList.length == 0" style="margin-left: 400px;">
+                                                            <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px;"
+                                                                        >
+                                                                        <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px;">
+                                                                            <div class="errorboxplaceholder">
+                                                                                <img src="assets/images/empty-box.svg" style="width:50px;" />
+                                                                            </div>
+                                                                            <div class="">
+                                                                                <h6 style="font-size: 13px; margin-bottom: 0px;">No Data Found</h6>
+                                                                                <!-- <p class="mb-0">There's no pending employees!</p> -->
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                        </div>
+                                                    </tr>
+                                                </tbody>
+                                                <table class="table" *ngIf="!invoiceLoading && invoicesList.length >0">
+                                                    <thead class="thead-light table-design">
+                                                        <tr>
+                                                            
+                                                            <th style="width:20%">Invoice Id</th>
+                                                            <th style="width:2%">Plan</th>
+                                                            <th style="width:15%">Created Date</th>
+                                                            <!-- <th style="width:12%">Invoice Type</th> -->
+                                                            <th style="width:3%">Amount</th>
+                                                            <th style="width:15%">Valid From</th>
+                                                            <th style="width:15%">Valid Till</th>
+                                                            <th style="width:5%">Payment Mode</th>
+                                                            <th style="width:15%">Payment Date</th>
+                                                            <th style="width:5%">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table-design">
+                                                        <tr *ngFor="let invoice of invoicesList">
+                                                            <td><p class="tableinfo mb-0">{{invoice.invoiceNo}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{invoice.planName}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{invoice.createdDate | date: 'dd MMM yyyy'}}</p> </td>
+                                                            
+                                                            <!-- <td><p class="tableinfo mb-0">{{invoice.invoiceType}}</p> </td> -->
+                                                            <td><p class="tableinfo mb-0">₹{{invoice.payableAmount}}</p> </td>
+                                                            <td><p class="tableinfo mb-0">{{invoice.fromDate | date: 'dd MMM yyyy'}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{invoice.toDate | date: 'dd MMM yyyy'}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{invoice.paymentMode}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{invoice.paymentDate | date: 'dd MMM yyyy'}}</p></td>
+                                                            <td *ngIf="invoice.invoiceUrl !='' && invoice.invoiceUrl != null"><button class="btn btn-primary" type="button" (click)="downloadInvocie(invoice.invoiceUrl)"><i class="bi bi-download" style="color: white;"></i></button></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="pagination justify-content-between border-top pt-2" *ngIf="invoicesList.length >0">
+                                                <p class="mb-0 " style="padding-left: 15px;">Showing {{invoicesList.length}} of {{totalInvoicesItems}}</p>
+                                                <div class="row">
+                                                  <div class="col-md-12" *ngIf="totalInvoicesItems>10">
+                                                    <ngb-pagination [collectionSize]="totalInvoicesItems" [rotate]="true" (pageChange)="invoicesPageChanged($event)" [pageSize]="databaseHelper.itemPerPage"  [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
+                                                    
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile" role="tabpanel">
                                         <div class="pt-3 pb-3">
 
                                             <div class="">
@@ -203,78 +320,13 @@
                                                             <td><p class="tableinfo mb-0">{{dueInvoice.dueDate | date: 'dd MMM yyyy'}}</p> </td>
                                                             <td><span class="unpaid">Unpaid</span></td>
                                                             <td>₹{{dueInvoice.payableAmount}}</td>
-                                                            <td><p class="tableinfo mb-0">N/A</p></td>
-                                                            <td><p class="tableinfo mb-0">N/A</p></td>
-                                                            <td><button class="btn btn-primary" type="button">Pay</button></td>
+                                                            <td><p class="tableinfo mb-0">{{dueInvoice.fromDate | date: 'dd MMM yyyy'}}</p></td>
+                                                            <td><p class="tableinfo mb-0">{{dueInvoice.toDate | date: 'dd MMM yyyy'}}</p></td>
+                                                            <td><button class="btn btn-primary" type="button" (click)="proceedToPay(dueInvoice.payableAmount,dueInvoice.invoiceNo)">Pay</button></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="profile" role="tabpanel">
-                                        <div class="pt-3 pb-3">
-
-                                            <div class="">
-                                                <div class="col-md-12" *ngIf="invoicesList.length == 0" style="margin-left: 400px;">
-                                                    <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px;"
-                                                                >
-                                                                <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px;">
-                                                                    <div class="errorboxplaceholder">
-                                                                        <img src="assets/images/empty-box.svg" style="width:50px;" />
-                                                                    </div>
-                                                                    <div class="">
-                                                                        <h6 style="font-size: 13px; margin-bottom: 0px;">No Data Found</h6>
-                                                                        <!-- <p class="mb-0">There's no pending employees!</p> -->
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                </div>
-                                                <table class="table" *ngIf="invoicesList.length >0">
-                                                    <thead class="thead-light table-design">
-                                                        <tr>
-                                                            
-                                                            <th style="width:20%">Invoice Id</th>
-                                                            <th style="width:2%">Plan</th>
-                                                            <th style="width:15%"> Date</th>
-                                                            <th style="width:12%">Invoice Type</th>
-                                                            <th style="width:3%">Amount</th>
-                                                            <th style="width:15%">Valid From</th>
-                                                            <th style="width:15%">Valid Till</th>
-                                                            <th style="width:5%">Payment Mode</th>
-                                                            <th style="width:15%">Payment Date</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="table-design">
-                                                        <tr *ngFor="let invoice of invoicesList">
-                                                            <td><p class="tableinfo mb-0">{{invoice.invoiceNo}}</p></td>
-                                                            <td><p class="tableinfo mb-0">{{invoice.planName}}</p></td>
-                                                            <td><p class="tableinfo mb-0">{{invoice.createdDate | date: 'dd MMM yyyy'}}</p> </td>
-                                                            
-                                                            <td><p class="tableinfo mb-0">{{invoice.invoiceType}}</p> </td>
-                                                            <td><p class="tableinfo mb-0">₹{{invoice.payableAmount}}</p> </td>
-                                                            <td><p class="tableinfo mb-0">{{invoice.fromDate | date: 'dd MMM yyyy'}}</p></td>
-                                                            <td><p class="tableinfo mb-0">{{invoice.toDate | date: 'dd MMM yyyy'}}</p></td>
-                                                            <td><p class="tableinfo mb-0">{{invoice.paymentMode}}</p></td>
-                                                            <td><p class="tableinfo mb-0">{{invoice.paymentDate | date: 'dd MMM yyyy'}}</p></td>
-                                                        </tr>
-                                                        <!-- <tr>
-                                                            <td><p class="tableinfo mb-0">SAL/23-24/SUB-627</p></td>
-                                                            <td><p class="tableinfo mb-0">09/01/2024 </p> </td>
-                                                            
-                                                            <td><p class="tableinfo mb-0">SUBSCRIPTION-PLAN </p> </td>
-                                                            <td><p class="tableinfo mb-0"> ₹9,999 </p> </td>
-                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
-                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
-                                                            <td><p class="tableinfo mb-0">Online</p></td>
-                                                            <td><p class="tableinfo mb-0">01/01/2024</p></td>
-                                                        </tr> -->
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
                                         </div>
                                     </div>
 
@@ -300,17 +352,17 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Add More Employee</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Employee</h1>
                 <button type="button" #closeMoreEmployee class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form #employeeAddForm="ngForm">
+            <form #addEmployeeForm="ngForm">
                 <div class="modal-body" style="height: 50px;">
                     <div class="setupformmain mb-3">
-                        <input type="number" class="form-control setupformmain1 ng-untouched ng-pristine" placeholder="Enter Employee" name="tag" [(ngModel)]="newEmployee" ngModel oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');" required>
+                        <input type="number" min="1" class="form-control setupformmain1 ng-untouched ng-pristine" placeholder="Enter Employee" name="tag" [(ngModel)]="newEmployee" ngModel oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');" required>
                     </div>
                 </div>
                 <div class="modal-footer" style="border: none;">
-                    <button type="button" class="btn btn-success" [disabled]="employeeAddForm.invalid" (click)="addMoreEmployee()">Add</button>
+                    <button type="button" class="btn btn-success" [disabled]="addEmployeeForm.invalid || loading" (click)="addMoreEmployee()">Add</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </form>
@@ -324,7 +376,7 @@
     Launch modal
 </button> -->
 <div class="modal fade" id="planpurchasedlog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Plan Purchased Log</h1>
@@ -371,19 +423,46 @@
                             <td>{{log.validTill | date: 'dd MMM yyyy'}}</td>
                             <td>{{log.noOfEmployee}}</td>
                             <td>{{log.totalEmployee}}</td>
-                            <td>{{log.amount}}</td>
+                            <td>₹{{log.amount}}</td>
                             <td>{{log.transactionId?log.transactionId:"Free Quota"}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="modal-footer">
-                <div *ngIf="!loading && planPurchasedLogList.length > 0" class="d-flex justify-content-center">
-                    <ngb-pagination [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"  [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
-                </div>
+            <div class="modal-footer justify-content-between pt-2" *ngIf="planPurchasedLogList.length >0">
+                    <p style="padding-left: 15px;">Showing {{planPurchasedLogList.length}} of {{totalItems}}</p>
+                    <div class="row">
+                      <div class="col-md-12" *ngIf="totalItems>10">
+                        <ngb-pagination [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)" [pageSize]="databaseHelper1.itemPerPage"  [(page)]="databaseHelper1.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
+                      </div>
+                    </div>
             </div>
             
         </div>
     </div>
 </div>
 <!-- plan purchased log modal end-->
+
+<!-- Cancel Subscription confirm modal start -->
+<div class="modal fade" id="cancelsubscription" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="border:none;">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <!-- <i class="fa fa-trash-o" aria-hidden="true"></i> -->
+                <h1>Are you sure?</h1>
+                <label>You are going to cancel active plan.</label>
+            </div>
+            <div class="modal-footer justify-content-center" style="border:none;">
+                <button type="button" class="btn btn-primary px-3 py-2" >
+                    Confirm <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+                </button>
+                <button type="button" class="btn btnCancel px-3 py-2" data-bs-dismiss="modal"
+                    #closeCancelSubscriptionModel>Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Cancel Subscription confirm modal end -->

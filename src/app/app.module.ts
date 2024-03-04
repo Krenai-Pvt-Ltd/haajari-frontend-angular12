@@ -27,6 +27,12 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { UnauthorizedComponent } from './modules/sharable/unauthorized/unauthorized.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { ConfirmationDialogComponent } from './modules/sharable/confirmation-dialog/confirmation-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+
+
 
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
 
@@ -41,6 +47,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     DurationPickerComponent,
     SharedComponent,
     UnauthorizedComponent,
+    ConfirmationDialogComponent,
  
     // AuthenticationComponent,
   ],
@@ -63,7 +70,10 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     BrowserAnimationsModule,
     Ng2TelInputModule,
     NgxMaskModule.forRoot(),
-    DragDropModule
+    DragDropModule,
+    MatDialogModule,
+    MatButtonModule, 
+    NzSwitchModule
     // OnboardingSidebarResponse
 
     
