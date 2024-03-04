@@ -38,6 +38,7 @@ import { TotalRequestedLeavesReflection } from "../models/totalRequestedLeaveRef
 import { StatutoryRequest } from "../models/statutory-request";
 import { StatutoryAttribute } from "../models/statutory-attribute";
 import { NotificationVia } from "../models/notification-via";
+import { SalaryTemplateComponentRequest } from "../models/salary-template-component-request";
 
 
 @Injectable({
@@ -57,9 +58,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  // private baseUrl = "http://localhost:8080/api/v2";
+  private baseUrl = "http://localhost:8080/api/v2";
 
-  private baseUrl = "https://backend.hajiri.work/api/v2";
+  // private baseUrl = "https://backend.hajiri.work/api/v2";
 
   // private baseUrl = "https://production.hajiri.work/api/v2";
 
@@ -1380,4 +1381,8 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/account-setting/verifyOtp`, {}, {params});
   }
 
+  registerSalaryTemplate(salaryTemplateComponentRequest : SalaryTemplateComponentRequest): Observable<any>{
+
+    return this.httpClient.put<any>(`${this.baseUrl}/salary/template/register`, salaryTemplateComponentRequest, {});
+  }
 }

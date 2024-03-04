@@ -3,6 +3,7 @@ import { Key } from 'src/app/constant/key';
 import { ESIContributionRate } from 'src/app/models/e-si-contribution-rate';
 import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
 import { SalaryCalculationMode } from 'src/app/models/salary-calculation-mode';
+import { SalaryTemplateComponentRequest } from 'src/app/models/salary-template-component-request';
 import { Statutory } from 'src/app/models/statutory';
 import { StatutoryAttribute } from 'src/app/models/statutory-attribute';
 import { StatutoryAttributeResponse } from 'src/app/models/statutory-attribute-response';
@@ -315,6 +316,16 @@ export class SalarySettingComponent implements OnInit {
 
   shouldDisableInput(attributeIndex: number): boolean {
     return this.inputsDisabled && attributeIndex !== 0;
+  }
+
+  //register salary template with attribute
+  salaryTemplateComponentRequest : SalaryTemplateComponentRequest = new SalaryTemplateComponentRequest();
+  registerSalaryTemplateMethodCall(){
+    this.dataService.registerSalaryTemplate(this.salaryTemplateComponentRequest).subscribe((response) => {
+
+    }, (error) => {
+      
+    })
   }
 }
 
