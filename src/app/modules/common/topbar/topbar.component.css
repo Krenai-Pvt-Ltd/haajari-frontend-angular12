@@ -10,6 +10,7 @@
     background-color: white;
 }
 div.scroll {
-    height: 300px;
+    min-height: auto;
+    max-height: 200px;
     overflow-y: scroll;
   }

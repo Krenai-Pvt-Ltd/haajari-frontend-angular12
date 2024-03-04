@@ -1350,7 +1350,6 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/employee/get/all`);
   }
 
-<<<<<<< HEAD
   getSalaryConfigurationStep(): Observable<any>{
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary/configuration/step/get`);
@@ -1363,7 +1362,6 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
 
     return this.httpClient.put<any>(`${this.baseUrl}/salary/configuration/step/update`, {}, {params});
   }
-=======
   updateNotificationSetting(notificationVia : NotificationVia):Observable<any>{
     return this.httpClient.put<any>(`${this.baseUrl}/account-setting/update/notification-via`, notificationVia);
   }
@@ -1381,5 +1379,4 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/account-setting/verifyOtp`, {}, {params});
   }
 
->>>>>>> 0e7ef2f90cc38bb9fcc38bbc94b45a5bd5203620
 }

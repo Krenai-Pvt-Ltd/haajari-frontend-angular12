@@ -1019,3 +1019,7 @@ a.select-file {
     font-size: 10px;
     font-weight: 400;
 }
+
+.pointer{
+    cursor: pointer;
+}
