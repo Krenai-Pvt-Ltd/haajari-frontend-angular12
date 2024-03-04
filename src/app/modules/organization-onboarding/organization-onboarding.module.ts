@@ -28,6 +28,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { UploadTeamComponent } from './components/upload-team/upload-team.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     LeaveSettingComponent,
     LeaveSettingCreateComponent,
     AddShiftTimeComponent,
-    HolidaySettingComponent
+    HolidaySettingComponent,
+    UploadTeamComponent
   ],
   imports: [
     CommonModule,
