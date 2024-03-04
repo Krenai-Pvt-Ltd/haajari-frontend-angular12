@@ -6,320 +6,496 @@
     <div class="page-content-tab">
         <div class="container-fluid">
 
-            <div class="row" >
+            <div class="row">
                 <div class="col-md-12">
-                <div class="persnol-details">
+                    <div class="persnol-details">
 
-                    <div class="d-flex align-items-center" style="gap:15px">
-                        <div class="add-filtter" (click)="back()">
-                            <a><i class="bi bi-chevron-left"></i></a>
-                        </div>
-                        <div class="">
-                            <h5>Create Leave Template</h5>
-                           
-                        </div>
-                       
-                    </div>
-                   
-                    
-                      <form>
-                        <div class="form-group">
-                        <div class="persnol-info mt-3">
-                          <div class="row mb-4">
-
-
-                            <ul id="myTab" role="tablist" class="nav nav-tabs">
-                                <li role="presentation" class="nav-item">
-                                    <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" class="nav-link active"> Template Setting</button>
-                                </li>
-                                <li role="presentation" class="nav-item">
-                                    <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link">Leave Categories</button>
-                                </li>
-                                <li role="presentation" class="nav-item"><button id="staffSelection-tab" data-bs-toggle="tab" data-bs-target="#staffSelection" type="button" role="tab" aria-controls="staffSelection" aria-selected="false" class="nav-link">Staff selection</button>
-                                </li>
-                            </ul>
-
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active pt-4" id="home" role="tabpanel">
-                                   
-            
-                                        <div class="d-align-center" >
-                                            <h4 class="sc-hBUSln cDSAtg w-400">Template Name</h4>
-                                            <div class="ant-row ant-form-item mb-0">
-                                                <div class="ant-form-item-control-input-content">
-                                                    <input placeholder="Enter Template Name" class="form-control ng-untouched ng-pristine ng-invalid" style="width:230px;" type="text" value="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="ant-divider ant-divider-horizontal my16" role="separator"></div>
-                                        <div class="d-align-center" >
-                                            <h4 class="sc-hBUSln cDSAtg w-400">Leave Policy Cycle</h4>
-            
-                                            <div class="ant-row ant-form-item mb-0">
-                                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                                                    <label class="btn btn-outline-primary" for="btnradio1">Monthly</label>
-                                                  
-                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                                                    <label class="btn btn-outline-primary" for="btnradio2">Yearly</label>
-                                                  </div>
-                                            </div>
-                                           
-                                        </div>
-                                        <div class="ant-divider ant-divider-horizontal my16" role="separator"></div>
-                                        <div class="d-align-center" >
-                                            <h4 class="sc-hBUSln cDSAtg w-400">Leave Period</h4>
-                                            <div class="ant-row ant-form-item mb-0">
-                                                <div class="ant-form-item-control-input-content d-flex align-items-center" style="gap:15px">
-                                                    <input placeholder="Enter Template Name" class="form-control ng-untouched ng-pristine ng-invalid" style="width:230px;" type="date" value="">
-                                                    <input placeholder="Enter Template Name" class="form-control ng-untouched ng-pristine ng-invalid" style="width:230px;" type="date" value="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="ant-divider ant-divider-horizontal my16" role="separator"></div>
-                                        <div class="d-align-center" >
-                                            <h4 class="sc-hBUSln cDSAtg w-400">Accrual Type</h4>
-                                            <div class="ant-row ant-form-item mb-0">
-                                                <div class="dropdown" style="width: 200px;">
-                                                    <button type="button" id="accrualTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select Accrual <i class="bi bi-chevron-down"></i></button>
-                                                    <ul aria-labelledby="accrualTypeDropdown" class="dropdown-menu" style="width: 100%;">
-                                                        <li><a class="dropdown-item">All at once</a></li>
-                                                        <li><a class="dropdown-item">Month Start</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="ant-divider ant-divider-horizontal my16" role="separator"></div>
-                                        <div class="d-align-center" >
-                                            <h4 class="sc-hBUSln cDSAtg w-400">Sandwich Leaves</h4>
-                                            <div class="ant-row ant-form-item mb-0">
-                                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" checked>
-                                                    <label class="btn btn-outline-primary" for="btnradio3">Count</label>
-                                                  
-                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
-                                                    <label class="btn btn-outline-primary" for="btnradio4">Ignore</label>
-                                                  </div>
-                                            </div>
-                                        </div>
-                                </div>
-
-
-
-
-                                <div class="tab-pane fade pt-4" id="profile" role="tabpanel">
-                                    <div class="row">
-                        
-                             
-             
-                                         
-                                        <div class="form-group row mb-3 ng-untouched ng-pristine ng-invalid" ng-reflect-name="0">
-                                            <div class="col-md-3">
-                                                <label class="mb-2">Leave Category Name</label>
-                                                <input type="text" formcontrolname="leaveName" placeholder="Enter Leave Name" required="" class="form-control ng-untouched ng-pristine ng-invalid" ng-reflect-required="" ng-reflect-name="leaveName">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="mb-2">Leave Count</label>
-                                            <input type="number" formcontrolname="leaveCount" placeholder="Day per year" required="" class="form-control ng-untouched ng-pristine ng-invalid" ng-reflect-required="" ng-reflect-name="leaveCount">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="leaveRules" class="mb-2">Unused Leave Rule</label>
-                                            <div class="dropdown" style="width: 100%;">
-                                                <button type="button" id="leaveRulesDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select Rule <i class="bi bi-chevron-down"></i></button>
-                                                <ul aria-labelledby="leaveRulesDropdown" class="dropdown-menu" style="width: 100%;">
-                                                    <li>
-                                                        <a class="dropdown-item">Lapse</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item">Carry Forward</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item">Encash</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="mb-2">Carry Forward Limit</label>
-                                            <input type="number" formcontrolname="carryForwardDays" placeholder="Days" class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="carryForwardDays" readonly="">
-                                        </div>
-                                        </div>
-                                        <div class="form-group row mb-3 ng-untouched ng-pristine ng-invalid" ng-reflect-name="0">
-                                            <div class="col-md-3">
-                                                <label class="mb-2">Leave Category Name</label>
-                                                <input type="text" formcontrolname="leaveName" placeholder="Enter Leave Name" required="" class="form-control ng-untouched ng-pristine ng-invalid" ng-reflect-required="" ng-reflect-name="leaveName">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="mb-2">Leave Count</label>
-                                            <input type="number" formcontrolname="leaveCount" placeholder="Day per year" required="" class="form-control ng-untouched ng-pristine ng-invalid" ng-reflect-required="" ng-reflect-name="leaveCount">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="leaveRules" class="mb-2">Unused Leave Rule</label>
-                                            <div class="dropdown" style="width: 100%;">
-                                                <button type="button" id="leaveRulesDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select Rule <i class="bi bi-chevron-down"></i></button>
-                                                <ul aria-labelledby="leaveRulesDropdown" class="dropdown-menu" style="width: 100%;">
-                                                    <li>
-                                                        <a class="dropdown-item">Lapse</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item">Carry Forward</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item">Encash</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="mb-2">Carry Forward Limit</label>
-                                            <input type="number" formcontrolname="carryForwardDays" placeholder="Days" class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="carryForwardDays" readonly="">
-                                        </div>
-        
-                                        <div class="leave-delet-btn">
-                                            <i class="bi bi-trash"></i>
-                                        </div>
-                                        </div>
-        
-                                        <div id="back-and-submit" class=" d-flex align-items-center justify-content-between">
-                                            <button type="button" class="btn skip-btn-new"><i class="bi bi-plus" style="font-size: 23px;"></i> Add Leave Category</button>
-                                                <button type="submit" class="btn btn-primary skip-btn" style="margin-right: 15px;" >Next</button>
-                                        </div>
-                                         
-                                         </div>
-                                </div>
-                                <div class="tab-pane fade pt-4" id="staffSelection" role="tabpanel">
-                                    <div class="row">
-                        
-                                        
-             
-                                        <div class="staf-list-box">
-                                            <div class="row mb-3">
-                                                <div>
-                                                    <div>
-                                                        <ul id="myTab" role="tablist" class="nav nav-tabs" style="border-bottom: 0px;">
-                                                            <li role="presentation" class="nav-item">
-                                                                <button id="home-tab" data-bs-toggle="tab" data-bs-target="#userlist" type="button" role="tab" aria-controls="userlist" aria-selected="true" class="nav-link staff-section active"> Staff selection Userlist</button>
-                                                            </li>
-                                                            <li role="presentation" class="nav-item">
-                                                                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#mapped" type="button" role="tab" aria-controls="mapped" aria-selected="false" class="nav-link staff-section">Mapped Userlist</button>
-                                                            </li>
-                                                        </ul>
-                                                        <div id="myTabContent" class="tab-content">
-                                                            <div id="userlist" role="tabpanel" class="tab-pane fade show active">
-                                                                <div class="mt-3">
-                                                                    <div class="row border-top border-bottom pb-2 pt-2">
-                                                                        <div class="col-md-8">
-                                                                            <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
-                                                                                <div class="form-group" style="position: relative; width: 300px;">
-                                                                                    <input type="text" id="searchText" name="searchUsers" placeholder="Search by name and role" class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search" style="padding: 10px 50px 10px 30px;" ng-reflect-name="searchUsers" ng-reflect-model="" ng-reflect-options="[object Object]">
-                                            <i class="bi bi-search search-icon" style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-md-4 d-flex justify-content-end" style="gap: 10px;">
-                                    <div class="user-list">
-    
-                                    </div>
-                                </div>
+                        <div class="d-flex align-items-center" style="gap:15px">
+                            <div class="add-filtter" (click)="back()">
+                                <a><i class="bi bi-chevron-left"></i></a>
                             </div>
-                                          <div>
-                                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                        </div>
-                                        <table class="table mt-3">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th style="width: 0%;">
-                                                        <input type="checkbox" class="form-check-input ng-untouched ng-pristine ng-valid" style="cursor: pointer;" ng-reflect-options="[object Object]" ng-reflect-model="false">
-                                                    </th>
-                                                        <th style="width: 25%; padding: 12px 15px;"> Name</th>
-                                                        <th style="width: 50%; padding: 12px 15px;"> Email</th>
-                                                        <th style="width: 25%; padding: 12px 15px;"> Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr style="border-bottom: 1px solid #dddddd;">
-                                                        <td>
-                                                            <div class="form-check">
-                                                                <input type="checkbox" class="form-check-input ng-untouched ng-pristine ng-valid" style="cursor: pointer;" ng-reflect-options="[object Object]" ng-reflect-model="false">
+                            <div class="">
+                                <h5>Create Leave Template</h5>
+
+                            </div>
+
+                        </div>
+
+
+                        <form #leaveSetForm="ngForm">
+                            <div class="form-group">
+                                <div class="persnol-info mt-3">
+                                    <div class="row mb-4">
+
+                                        <ul id="myTab" role="tablist" class="nav nav-tabs">
+                                            <li role="presentation" class="nav-item">
+                                                <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                                                    type="button" role="tab" aria-controls="home" aria-selected="true"
+                                                    class="nav-link active" #templateSettingTab>Template
+                                                    Setting</button>
+                                            </li>
+                                            <li role="presentation" class="nav-item">
+                                                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+                                                    type="button" role="tab" aria-controls="profile"
+                                                    aria-selected="false" class="nav-link" #leaveCategoryTab>Leave
+                                                    Categories</button>
+                                            </li>
+                                            <li role="presentation" class="nav-item"><button id="staffSelection-tab"
+                                                    data-bs-toggle="tab" data-bs-target="#staffSelection" type="button"
+                                                    role="tab" aria-controls="staffSelection" aria-selected="false"
+                                                    class="nav-link" (click)="openStaffSelection()"
+                                                    #staffSelectionTab>Staff selection</button>
+                                            </li>
+                                        </ul>
+
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade show active pt-4" id="home" role="tabpanel">
+                                                <form #leaveSettingForm="ngForm">
+
+                                                    <div class="d-align-center">
+                                                        <h4 class="sc-hBUSln cDSAtg w-400">Template Name</h4>
+                                                        <div class="ant-row ant-form-item mb-0">
+                                                            <div class="ant-form-item-control-input-content">
+                                                                <input [(ngModel)]="leaveSettingResponse.templateName"
+                                                                    [ngModelOptions]="{standalone: true}"
+                                                                    id="templateName" name="templateName"
+                                                                    placeholder="Leave Policy" class="form-control"
+                                                                    minlength="3" maxlength="50" required
+                                                                    #templateName="ngModel"
+                                                                    (input)="checkFormValidity(leaveSettingForm)" />
                                                             </div>
-                                                        </td>
-                                                        <td style="padding: 12px 15px;">Hajiri</td>
-                                                        <td style="padding: 12px 15px;">hajiri0852@gmail.com</td>
-                                                        <td>
-                                                            <span>
-                                            <button class="btn btn-outline-primary btn-sm editdata-edit ng-untouched ng-pristine ng-valid" ng-reflect-model="false">Add</button>
-                                        </span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div id="mapped" role="tabpanel" class="tab-pane fade">
-                    <div class="mt-3">
-                        <div class="row border-top border-bottom pb-2 pt-2">
-                            <div class="col-md-6">
-                                <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
-                                    <div class="form-group" style="position: relative;">
-                                        <input type="text" id="searchTextUser" name="searchLeaveUsers" placeholder="Search by name and role" class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search" style="padding: 10px 50px 10px 30px;" ng-reflect-name="searchLeaveUsers" ng-reflect-model="" ng-reflect-options="[object Object]">
-    
-                                            <i class="bi bi-search search-icon" style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ant-divider ant-divider-horizontal my16"
+                                                        role="separator">
+                                                    </div>
+                                                    <div class="d-align-center">
+                                                        <h4 class="sc-hBUSln cDSAtg w-400">Leave Policy Cycle</h4>
+
+                                                        <div class="ant-row ant-form-item mb-0">
+                                                            <div class="btn-group" role="group"
+                                                                aria-label="Basic radio toggle button group">
+                                                                <input type="radio" class="btn-check" name="leaveCycle"
+                                                                    [ngModelOptions]="{standalone: true}"
+                                                                    id="monthlyRadio"
+                                                                    [(ngModel)]="leaveSettingResponse.leaveCycle"
+                                                                    value="Monthly">
+                                                                <label for="monthlyRadio"
+                                                                    [class.selected]="leaveSettingResponse.leaveCycle === 'Monthly'"
+                                                                    class="btn btn-outline-primary">Monthly</label>
+
+                                                                <input type="radio" class="btn-check" name="leaveCycle"
+                                                                    id="yearlyRadio"
+                                                                    [ngModelOptions]="{standalone: true}"
+                                                                    [(ngModel)]="leaveSettingResponse.leaveCycle"
+                                                                    value="Yearly">
+                                                                <label for="yearlyRadio"
+                                                                    [class.selected]="leaveSettingResponse.leaveCycle === 'Yearly'"
+                                                                    class="btn btn-outline-primary">Yearly</label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="ant-divider ant-divider-horizontal my16"
+                                                        role="separator">
+                                                    </div>
+                                                    <div class="d-align-center"
+                                                        *ngIf="leaveSettingResponse.leaveCycle === 'Yearly'">
+                                                        <h4 class="sc-hBUSln cDSAtg w-400">Leave Period</h4>
+                                                        <div class="ant-row ant-form-item mb-0">
+                                                            <div class="ant-form-item-control-input-content d-flex align-items-center"
+                                                                style="gap:15px">
+                                                                <input type="date"
+                                                                    class="form-control ng-untouched ng-pristine ng-invalid"
+                                                                    style="width:230px;" name="startDate"
+                                                                    [(ngModel)]="leaveSettingResponse.yearlyCycleStart"
+                                                                    id="startDate" (change)="updateEndDate()">
+                                                                <input type="date"
+                                                                    class="form-control ng-untouched ng-pristine ng-invalid"
+                                                                    style="width:230px;" name="endDate"
+                                                                    [(ngModel)]="leaveSettingResponse.yearlyCycleEnd"
+                                                                    id="endDate"
+                                                                    [min]="leaveSettingResponse.yearlyCycleStart">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ant-divider ant-divider-horizontal my16"
+                                                        role="separator">
+                                                    </div>
+                                                    <div class="d-align-center"
+                                                        *ngIf="leaveSettingResponse.leaveCycle === 'Yearly'">
+                                                        <h4 class="sc-hBUSln cDSAtg w-400">Accrual Type</h4>
+                                                        <div class="ant-row ant-form-item mb-0">
+                                                            <div class="dropdown" style="width: 200px;">
+                                                                <button type="button" id="accrualTypeDropdown"
+                                                                    data-bs-toggle="dropdown" aria-expanded="false"
+                                                                    class="btn btn-secondary dropdown-toggle new-deopdown">
+                                                                    {{ leaveSettingResponse.accrualType ?
+                                                                    leaveSettingResponse.accrualType : 'Select Accrual'
+                                                                    }}
+                                                                    <i class="bi bi-chevron-down"></i></button>
+                                                                <ul aria-labelledby="accrualTypeDropdown"
+                                                                    class="dropdown-menu" style="width: 100%;">
+                                                                    <li><a class="dropdown-item"
+                                                                            (click)="setAccrualType('All At Once')">All
+                                                                            at once</a></li>
+                                                                    <li><a class="dropdown-item"
+                                                                            (click)="setAccrualType('Month Start')">Month
+                                                                            Start</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ant-divider ant-divider-horizontal my16"
+                                                        role="separator">
+                                                    </div>
+                                                    <div class="d-align-center">
+                                                        <h4 class="sc-hBUSln cDSAtg w-400">Sandwich Leaves</h4>
+                                                        <div class="ant-row ant-form-item mb-0">
+                                                            <div class="btn-group" role="group"
+                                                                aria-label="Basic radio toggle button group">
+                                                                <input type="radio" class="btn-check"
+                                                                    name="sandwichLeaves" id="countRadio"
+                                                                    [ngModelOptions]="{standalone: true}"
+                                                                    (change)="setSandwichRules('Count')"
+                                                                    [(ngModel)]="leaveSettingResponse.sandwichRules"
+                                                                    value="Count">
+                                                                <label for="countRadio"
+                                                                    [class.selected]="leaveSettingResponse.sandwichRules === 'Count'"
+                                                                    class="btn btn-outline-primary">Count</label>
+
+
+                                                                <input type="radio" class="btn-check"
+                                                                    name="sandwichLeaves" id="ignoreRadio"
+                                                                    [ngModelOptions]="{standalone: true}"
+                                                                    (change)="setSandwichRules('Ignore')"
+                                                                    [(ngModel)]="leaveSettingResponse.sandwichRules"
+                                                                    value="Ignore">
+                                                                <label for="ignoreRadio"
+                                                                    [class.selected]="leaveSettingResponse.sandwichRules === 'Ignore'"
+                                                                    class="btn btn-outline-primary">Ignore</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="back-and-submit "
+                                                        class="d-flex justify-content-end align-items-end">
+                                                        <button type="submit" [disabled]="!isFormValid"
+                                                            (click)="goToLeaveCategoryTab()"
+                                                            class="btn btn-primary">Next</button>
+
+                                                    </div>
+                                                </form>
+                                            </div>
+
+
+
+
+                                            <div class="tab-pane fade pt-4" id="profile" role="tabpanel">
+
+                                                <div class="row">
+                                                    <form [formGroup]="form">
+                                                        <div class="form-group row mb-3"
+                                                            *ngFor="let category of categories.controls; let i = index"
+                                                            [formGroupName]="i">
+                                                            <div class="col-md-3">
+                                                                <label class="mb-2">Leave Category Name</label>
+                                                                <input type="text" formControlName="leaveName"
+                                                                    class="form-control" placeholder="Enter Leave Name"
+                                                                    required>
+
+                                                                <p class="errortxt mt-2 mb-0" style="color: red"
+                                                                    *ngIf="hasError('leaveName', i, 'required')">
+                                                                    <i class="bi bi-exclamation-circle"></i> Please fill
+                                                                    this field.
+                                                                </p>
+
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label class="mb-2">Leave Count</label>
+                                                                <input type="number" class="form-control"
+                                                                    formControlName="leaveCount"
+                                                                    placeholder="Day per year" required>
+                                                                <p class="errortxt mt-2 mb-0" style="color: red"
+                                                                    *ngIf="hasError('leaveCount', i, 'required') || hasError('leaveCount', i, 'min')">
+                                                                    <i class="bi bi-exclamation-circle"></i> Please
+                                                                    enter a valid
+                                                                    number.
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label for="leaveRules" class="mb-2">Unused Leave
+                                                                    Rule</label>
+                                                                <div class="dropdown" style="width: 100%;">
+                                                                    <button type="button" id="leaveRulesDropdown"
+                                                                        data-bs-toggle="dropdown" aria-expanded="false"
+                                                                        class="btn btn-secondary dropdown-toggle new-deopdown">
+                                                                        {{
+                                                                        categories.controls[i]!.get('leaveRules')?.value
+                                                                        ?
+                                                                        categories.controls[i]!.get('leaveRules')?.value
+                                                                        :
+                                                                        'Select Rule' }}
+                                                                        <i class="bi bi-chevron-down"></i></button>
+                                                                    <ul aria-labelledby="leaveRulesDropdown"
+                                                                        class="dropdown-menu" style="width: 100%;">
+                                                                        <li><a class="dropdown-item"
+                                                                                (click)="setLeaveRule(i, 'Lapse')">Lapse</a>
+                                                                        </li>
+                                                                        <li><a class="dropdown-item"
+                                                                                (click)="setLeaveRule(i, 'Carry Forward')">Carry
+                                                                                Forward</a></li>
+                                                                        <li><a class="dropdown-item"
+                                                                                (click)="setLeaveRule(i, 'Encash')">Encash</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label class="mb-2">Carry Forward Limit</label>
+                                                                <input type="number" class="form-control"
+                                                                    formControlName="carryForwardDays"
+                                                                    placeholder="Days"
+                                                                    [readOnly]="(categories.controls[i]!.get('leaveRules')?.value === 'Lapse') || (categories.controls[i]!.get('leaveRules')?.value === '')">
+                                                            </div>
+                                                            <div class="leave-delet-btn" (click)="deleteRow(i)"
+                                                                *ngIf="i>0">
+                                                                <i class="bi bi-trash"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="back-and-submit"
+                                                            class=" d-flex align-items-center justify-content-between">
+                                                            <button type="button" class="btn skip-btn-new"
+                                                                (click)="addRow()"><i class="bi bi-plus"
+                                                                    style="font-size: 23px;"></i> Add
+                                                                Leave Category</button>
+                                                            <button type="submit" class="btn btn-primary skip-btn"
+                                                                style="margin-right: 15px;"
+                                                                (click)="goToStaffSelectionTab()">Next</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                            <div class="tab-pane fade pt-4" id="staffSelection" role="tabpanel">
+                                                <div class="row">
+
+
+
+                                                    <div class="staf-list-box">
+                                                        <div class="row mb-3">
+                                                            <div>
+                                                                <div>
+                                                                    <ul id="myTab" role="tablist" class="nav nav-tabs"
+                                                                        style="border-bottom: 0px;">
+                                                                        <li role="presentation" class="nav-item">
+                                                                            <button id="home-tab" data-bs-toggle="tab"
+                                                                                data-bs-target="#userlist" type="button"
+                                                                                role="tab" aria-controls="userlist"
+                                                                                aria-selected="true"
+                                                                                class="nav-link staff-section active"
+                                                                                #newStaffSelectionTab>
+                                                                                Staff selection Userlist</button>
+                                                                        </li>
+                                                                        <li role="presentation" class="nav-item">
+                                                                            <button id="profile-tab"
+                                                                                data-bs-toggle="tab"
+                                                                                data-bs-target="#mapped" type="button"
+                                                                                role="tab" aria-controls="mapped"
+                                                                                aria-selected="false"
+                                                                                class="nav-link staff-section">Mapped
+                                                                                Userlist</button>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div id="myTabContent" class="tab-content">
+                                                                        <div id="userlist" role="tabpanel"
+                                                                            class="tab-pane fade show active">
+                                                                            <div class="mt-3">
+                                                                                <div
+                                                                                    class="row border-top border-bottom pb-2 pt-2">
+                                                                                    <div class="col-md-8">
+                                                                                        <form novalidate=""
+                                                                                            role="search"
+                                                                                            (submit)="searchUsers()"
+                                                                                            class="searching ng-untouched ng-pristine ng-valid">
+                                                                                            <div class="form-group"
+                                                                                                style="position: relative; width: 300px;">
+                                                                                                <input type="text"
+                                                                                                    id="searchText"
+                                                                                                    name="searchUsers"
+                                                                                                    placeholder="Search by name and role"
+                                                                                                    class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                                                                                                    style="padding: 10px 50px 10px 30px;"
+                                                                                                    (keyup)="searchUsers()"
+                                                                                                    [(ngModel)]="searchText"
+                                                                                                    [ngModelOptions]="{ standalone: true }">
+                                                                                                <i class="bi bi-search search-icon"
+                                                                                                    style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
+                                                                                                <button type="button"
+                                                                                                    class="btn close-btn"
+                                                                                                    (click)="clearSearchUsers()"
+                                                                                                    *ngIf="crossFlag">
+                                                                                                    <i
+                                                                                                        class="bi bi-x"></i>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                    <div class="col-md-4 d-flex justify-content-end"
+                                                                                        style="gap: 10px;">
+                                                                                        <div class="user-list">
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <div
+                                                                                        style="display: flex; justify-content: space-between; align-items: center;">
+                                                                                    </div>
+                                                                                    <table class="table mt-3">
+                                                                                        <thead class="thead-light">
+                                                                                            <tr>
+                                                                                                <th style="width: 0%;">
+                                                                                                    <input
+                                                                                                        type="checkbox"
+                                                                                                        class="form-check-input ng-untouched ng-pristine ng-valid"
+                                                                                                        style="cursor: pointer;"
+                                                                                                        ng-reflect-options="[object Object]"
+                                                                                                        ng-reflect-model="false">
+                                                                                                </th>
+                                                                                                <th
+                                                                                                    style="width: 25%; padding: 12px 15px;">
+                                                                                                    Name</th>
+                                                                                                <th
+                                                                                                    style="width: 50%; padding: 12px 15px;">
+                                                                                                    Email</th>
+                                                                                                <th
+                                                                                                    style="width: 25%; padding: 12px 15px;">
+                                                                                                    Action</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            <tr
+                                                                                                style="border-bottom: 1px solid #dddddd;">
+                                                                                                <td>
+                                                                                                    <div
+                                                                                                        class="form-check">
+                                                                                                        <input
+                                                                                                            type="checkbox"
+                                                                                                            class="form-check-input ng-untouched ng-pristine ng-valid"
+                                                                                                            style="cursor: pointer;"
+                                                                                                            ng-reflect-options="[object Object]"
+                                                                                                            ng-reflect-model="false">
+                                                                                                    </div>
+                                                                                                </td>
+                                                                                                <td
+                                                                                                    style="padding: 12px 15px;">
+                                                                                                    Hajiri</td>
+                                                                                                <td
+                                                                                                    style="padding: 12px 15px;">
+                                                                                                    hajiri0852@gmail.com
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <span>
+                                                                                                        <button
+                                                                                                            class="btn btn-outline-primary btn-sm editdata-edit ng-untouched ng-pristine ng-valid"
+                                                                                                            ng-reflect-model="false">Add</button>
+                                                                                                    </span>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div id="mapped" role="tabpanel"
+                                                                            class="tab-pane fade">
+                                                                            <div class="mt-3">
+                                                                                <div
+                                                                                    class="row border-top border-bottom pb-2 pt-2">
+                                                                                    <div class="col-md-6">
+                                                                                        <form novalidate=""
+                                                                                            role="search"
+                                                                                            class="searching ng-untouched ng-pristine ng-valid">
+                                                                                            <div class="form-group"
+                                                                                                style="position: relative;">
+                                                                                                <input type="text"
+                                                                                                    id="searchTextUser"
+                                                                                                    name="searchLeaveUsers"
+                                                                                                    placeholder="Search by name and role"
+                                                                                                    class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                                                                                                    style="padding: 10px 50px 10px 30px;"
+                                                                                                    ng-reflect-name="searchLeaveUsers"
+                                                                                                    ng-reflect-model=""
+                                                                                                    ng-reflect-options="[object Object]">
+
+                                                                                                <i class="bi bi-search search-icon"
+                                                                                                    style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="errorboxmain text-center">
+                                                                                    <div class="errorboxinner">
+                                                                                        <div
+                                                                                            class="errorboxplaceholder mb-2">
+                                                                                            <img src="assets/images/empty-box.svg"
+                                                                                                style="width: 80px;">
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            <h4>No Data Found</h4>
+                                                                                            <p class="mb-0">We're unable
+                                                                                                to locate a record
+                                                                                                associated with the
+                                                                                                information you entered.
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="back-and-submit">
+                                                            <div class="modal-footer d-flex align-items-center justify-content-end">
+                                                                <button type="button" class="btn btn-primary"
+                                                                    (click)="saveLeaveSettingRules(true)"
+                                                                    *ngIf="!submitLeaveLoader">Submit</button>
+                                                                <div class="dot-opacity-loader" *ngIf="submitLeaveLoader">
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         </div>
-                                    </form>
-                                </div>
-                                <div class="col-md-6">
-    
+
+
+
+
+                                    </div>
+
+
+
+
+
                                 </div>
                             </div>
-                            <div class="errorboxmain text-center">
-                                <div class="errorboxinner">
-                                    <div class="errorboxplaceholder mb-2">
-                                        <img src="assets/images/empty-box.svg" style="width: 80px;">
-                                    </div>
-                                    <div>
-                                        <h4>No Data Found</h4>
-                                        <p class="mb-0">We're unable to locate a record associated with the information you entered. </p>
-                                    </div>
-                                </div>
-                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="back-and-submit">
-                        <div class="modal-footer d-flex align-items-center justify-content-end">
-                            <button type="button" class="btn btn-primary skip-btn">Submit</button>
-                        </div>
+                        </form>
+
                     </div>
                 </div>
-                                         
-                                         </div>
-                                </div>
-                            </div>
-                        
-                          
-
-                            
-                            </div>
-
-
-                           
-
-                                
-                        </div>
-                    </div>
-                  </form>
-                  
-                </div>
-            </div>
             </div>
 
         </div>
     </div>
 </div>
-
-
-
