@@ -24,8 +24,10 @@
                             -->
 
                             <!-- <input  type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search" style="padding: 10px 30px;" ng-reflect-model="" ng-reflect-options="[object Object]"> -->
-                            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;" *ngIf="(searchString=='')"></i>
-                            <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px;"  *ngIf="(searchString)" (click)="emptySearch()"></i>
+                            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"
+                                *ngIf="(searchString=='')"></i>
+                            <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px;"
+                                *ngIf="(searchString)" (click)="emptySearch()"></i>
 
                         </div>
                     </form>
@@ -307,19 +309,14 @@
 
                         <div class="col-md-8">
 
-                            <!-- <div *ngIf="(uLDeets.leaveDetails.length) > 2">
-                        <span class="right-arrow-sine"><i class="bi bi-arrow-right"></i></span></div> -->
+
                             <span class="left-arrow-sine" *ngIf="shouldShowLeftScroll[i]" (click)="scrollLeft(i)">
                                 <i class="bi bi-arrow-left"></i>
                             </span>
                             <div class="d-flex align-items-center leave-asign-sertion" #scrollContainer
                                 style="overflow-x:auto;" (scroll)="checkScroll($event, i)">
 
-                                <!-- <div *ngIf="(uLDeets.leaveDetails.length) > 2">
-                                <span class="right-arrow-sine" (click)="scrollRight()">
-                                    <i class="bi bi-arrow-right"></i>
-                                </span>
-                            </div> -->
+
 
 
                                 <div class="" *ngFor="let leaves of uLDeets.leaveDetails">
@@ -333,36 +330,18 @@
                                                 <p class="mb-0">{{leaves.totalLeave}}</p><span class="total-holiday"
                                                     style="color:black !important;">Total</span>
                                             </div>
-                                            <div class="Approved total-break-time-box">
+                                            <div class="Approved total-break-time-box" *ngIf="leaves.approvedLeave ===0">
                                                 <p class="mb-0" style="color:#3e993e">{{leaves.approvedLeave}}</p>
                                                 <span class="total-holiday">Approved</span>
-                                                <!-- <div class="total-braek-time">
-    
-                                                    <div>
-                                  
-                                                        <div class="calenInfo ng-star-inserted">
-                                                            <p><b>Leaves Type: </b> Casual Leave</p>
-                                                            <p><b>Start Date : </b>Feb 26, 2024</p>
-                                                            <p><b>End Date : </b>Feb 27, 2024</p>
-                                                            <p><b>Total Days: </b>1</p>
-                                                            <hr>
-                                                            <p><b>Leaves Type: </b> Casual Leave</p>
-                                                            <p><b>Start Date : </b>Feb 26, 2024</p>
-                                                            <p><b>End Date : </b>Feb 27, 2024</p>
-                                                            <p><b>Total Days: </b>1</p>
-                                                            <hr>
-                                                            <p><b>Leaves Type: </b> Casual Leave</p>
-                                                            <p><b>Start Date : </b>Feb 26, 2024</p>
-                                                            <p><b>End Date : </b>Feb 27, 2024</p>
-                                                            <p><b>Total Days: </b>1</p>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-                                                <aside class="hover-popup">
-                                                    <h2>Additional info here</h2>
-                                                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora similique <span>quia corporis</span> libero. In dolor qui repudiandae ullam! Corporis minus veritatis consequuntur natus. Neque, quidem?</p>
-                                                  </aside>
                                             </div>
+                                            <div class="Approved total-break-time-box" data-bs-toggle="collapse" *ngIf="leaves.approvedLeave > 0"
+                                                [attr.data-bs-target]="'#approvedCollapse' + uLDeets.userDetails.uuid"
+                                                (click)="getApprovedLeaveLogs(uLDeets.userDetails.uuid, leaves.leaveName)">
+                                                <p class="mb-0" style="color:#3e993e">{{leaves.approvedLeave}}</p>
+                                                <span class="total-holiday">Approved</span>
+                                            </div>
+                                           
+                                            
                                             <div class="Approved pending-css">
                                                 <p class="mb-0">{{leaves.pendingLeave}}</p>
                                                 <span class="total-holiday">Pending</span>
@@ -419,11 +398,11 @@
                                     <div class="mb-1" style="color: #cccc;">|</div>
                                     <div class="d-flex align-items-center mb-1" style="gap:5px;">
                                         <h5>Total Approved : </h5>
-                                        <p >{{log.approvedleaves}}</p>
+                                        <p>{{log.approvedleaves}}</p>
                                     </div>
                                     <div class="d-flex align-items-center mb-1" style="gap:5px;">
                                         <h5>Total Days Count: </h5>
-                                        <p >{{log.totaldays}}</p>
+                                        <p>{{log.totaldays}}</p>
                                     </div>
 
                                 </div>
@@ -450,15 +429,401 @@
                         </div>
 
                         <!-- ################ approved leaves -->
-                        
-                        
+
+
+                        <div class="mt-3 logs-box collapse multi-collapse" 
+                        [id]="'approvedCollapse' + uLDeets.userDetails.uuid + '_' + selectedLeaveTypes[uLDeets.userDetails.uuid]"
+                        [class.show]="approvedCurrentlyOpenUserUuid.startsWith(uLDeets.userDetails.uuid + '_' + selectedLeaveTypes[uLDeets.userDetails.uuid])">
+
+
+                            <div style="text-align: left;">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h5 class="mb-3">Approved Leave Logs</h5>
+
+                                </div>
+                                <div class="row">
+                                </div>
+                                <div class="mt-2 ng-star-inserted">
+                                    <div class="scroll-box-logs">
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li
+                                                *ngFor="let log of approvedUserLeaveLogs[approvedCurrentlyOpenUserUuid]">
+                                                <h6 class="fs-md mt-0"> {{log.leavetype}} | <span style="color: green;"
+                                                        class="ng-star-inserted">Approved<span> By </span>
+                                                    </span>
+                                                    <span> - </span>
+                                                    <span style="color: #6cbee8;">{{log.manager}}</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;">
+                                                    <span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                            {{
+                                                                formatDateIn(
+                                                                  formatDate(log.leaveDate)
+                                                                )
+                                                            }}&nbsp;<span>{{
+                                                                formatTime(log.leaveDate)
+                                                            }}
+                                                            </span>
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span>
+                                                        <span> : </span> {{formatDateIn(
+                                                            formatDate(log.startdate)
+                                                          )}} - {{formatDateIn(
+                                          formatDate(log.enddate)
+                                        )}}<span
+                                                            class="space-box"> | </span>
+                                                        <span class="ng-star-inserted">
+                                                            <span><b>Total Days Count</b></span> :
+                                                            {{log.totaldays}}</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0">
+                                                    <b>Reason : </b>{{log.notes}}
+                                                </p>
+                                            </li>
+                                        </ul>
+                                        <!-- <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Casual Leave | <span style="color: red;"
+                                                        class="ng-star-inserted">Rejected<span> By </span></span>
+                                                    <span> - </span>
+                                                    <span style="color: #6cbee8;">Hajiri</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;">
+                                                    <span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        20February, 2024&nbsp;<span>06:24 AM</span></span>
+                                                </div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 26March, 2024 -
+                                                        26March, 2024 <span class="space-box">|</span>
+                                                        <span class="ng-star-inserted">
+                                                            <span><b>Total Days Count</b></span> : 1</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0">
+                                                    <b>Reason : </b>N/A
+                                                </p>
+                                            </li>
+                                        </ul>
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Casual Leave |
+                                                    <span style="color: orange;" class="ng-star-inserted">Applied<span>
+                                                            To </span></span>
+                                                    <span> - </span><span style="color: #6cbee8;">Shivendra
+                                                        Shrivastwa</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;"><span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        20February, 2024&nbsp;<span>06:18 AM</span></span></div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 26March, 2024 -
+                                                        26March, 2024 <span class="space-box">|</span><span
+                                                            class="ng-star-inserted"><span><b>Total Days
+                                                                    Count</b></span> : 1</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0"><b>Reason : </b>N/A </p>
+                                            </li>
+                                        </ul>
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Sick Leave | <span style="color: green;"
+                                                        class="ng-star-inserted">Approved<span> By </span></span>
+                                                    <span> - </span><span style="color: #6cbee8;">Shivendra
+                                                        Shrivastwa</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;"><span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        09February, 2024&nbsp;<span>12:41 PM</span></span></div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 08April, 2024 -
+                                                        09April, 2024 <span class="space-box">|</span><span
+                                                            class="ng-star-inserted"><span><b>Total Days
+                                                                    Count</b></span> : 2</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0"><b>Reason : </b>N/A </p>
+                                            </li>
+                                        </ul>
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Sick Leave |
+                                                    <span style="color: orange;" class="ng-star-inserted">Applied<span>
+                                                            To </span></span>
+                                                    <span> - </span><span style="color: #6cbee8;">Shivendra
+                                                        Shrivastwa</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;"><span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        09February, 2024&nbsp;<span>12:41 PM</span></span></div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 08April, 2024 -
+                                                        09April, 2024 <span class="space-box">|</span><span
+                                                            class="ng-star-inserted"><span><b>Total Days
+                                                                    Count</b></span> : 2</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0"><b>Reason : </b>N/A </p>
+                                            </li>
+                                        </ul>
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Sick Leave |
+                                                    <span style="color: red;" class="ng-star-inserted">Rejected<span> By
+                                                        </span></span>
+                                                    <span> - </span><span style="color: #6cbee8;">Shivendra
+                                                        Shrivastwa</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;"><span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        09February, 2024&nbsp;<span>12:41 PM</span></span></div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 05April, 2024 -
+                                                        06April, 2024 <span class="space-box">|</span><span
+                                                            class="ng-star-inserted"><span><b>Total Days
+                                                                    Count</b></span> : 2</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0"><b>Reason : </b>N/A </p>
+                                            </li>
+                                        </ul>
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Sick Leave |
+                                                    <span style="color: orange;" class="ng-star-inserted">Applied<span>
+                                                            To </span></span>
+                                                    <span> - </span><span style="color: #6cbee8;">Shivendra
+                                                        Shrivastwa</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;"><span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        09February, 2024&nbsp;<span>12:41 PM</span></span></div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 05April, 2024 -
+                                                        06April, 2024 <span class="space-box">|</span><span
+                                                            class="ng-star-inserted"><span><b>Total Days
+                                                                    Count</b></span> : 2</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0"><b>Reason : </b>N/A </p>
+                                            </li>
+                                        </ul>
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Sick Leave | <span style="color: green;"
+                                                        class="ng-star-inserted">Approved<span> By </span></span>
+                                                    <span> - </span><span style="color: #6cbee8;">Shivendra
+                                                        Shrivastwa</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;"><span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        09February, 2024&nbsp;<span>12:35 PM</span></span></div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 03April, 2024 -
+                                                        04April, 2024 <span class="space-box">|</span><span
+                                                            class="ng-star-inserted"><span><b>Total Days
+                                                                    Count</b></span> : 2</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0"><b>Reason : </b>N/A </p>
+                                            </li>
+                                        </ul>
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Sick Leave |
+                                                    <span style="color: orange;" class="ng-star-inserted">Applied<span>
+                                                            To </span></span>
+                                                    <span> - </span><span style="color: #6cbee8;">Shivendra
+                                                        Shrivastwa</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;"><span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        09February, 2024&nbsp;<span>12:35 PM</span></span></div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 03April, 2024 -
+                                                        04April, 2024 <span class="space-box">|</span><span
+                                                            class="ng-star-inserted"><span><b>Total Days
+                                                                    Count</b></span> : 2</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0"><b>Reason : </b>N/A </p>
+                                            </li>
+                                        </ul>
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Sick Leave |
+                                                    <span style="color: red;" class="ng-star-inserted">Rejected<span> By
+                                                        </span></span>
+                                                    <span> - </span><span style="color: #6cbee8;">Shivendra
+                                                        Shrivastwa</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;"><span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        09February, 2024&nbsp;<span>12:30 PM</span></span></div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 01April, 2024 -
+                                                        03April, 2024 <span class="space-box">|</span><span
+                                                            class="ng-star-inserted"><span><b>Total Days
+                                                                    Count</b></span> : 3</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0"><b>Reason : </b>dxfgchjkl;jghfdgdhfjgkhlj
+                                                </p>
+                                            </li>
+                                        </ul>
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Sick Leave |
+                                                    <span style="color: orange;" class="ng-star-inserted">Applied<span>
+                                                            To </span></span>
+                                                    <span> - </span><span style="color: #6cbee8;">Shivendra
+                                                        Shrivastwa</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;"><span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        09February, 2024&nbsp;<span>12:29 PM</span></span></div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 01April, 2024 -
+                                                        03April, 2024 <span class="space-box">|</span><span
+                                                            class="ng-star-inserted"><span><b>Total Days
+                                                                    Count</b></span> : 3</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0"><b>Reason : </b>dxfgchjkl;jghfdgdhfjgkhlj
+                                                </p>
+                                            </li>
+                                        </ul>
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Sick Leave |
+                                                    <span style="color: red;" class="ng-star-inserted">Rejected<span> By
+                                                        </span></span>
+                                                    <span> - </span><span style="color: #6cbee8;">Shivendra
+                                                        Shrivastwa</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;"><span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        09February, 2024&nbsp;<span>11:21 AM</span></span></div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 16February, 2024 -
+                                                        16February, 2024 <span class="space-box">|</span><span
+                                                            class="ng-star-inserted"><span><b>Total Days
+                                                                    Count</b></span> : 1</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0"><b>Reason : </b>N/A </p>
+                                            </li>
+                                        </ul>
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Sick Leave |
+                                                    <span style="color: orange;" class="ng-star-inserted">Applied<span>
+                                                            To </span></span>
+                                                    <span> - </span><span style="color: #6cbee8;">Shivendra
+                                                        Shrivastwa</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;"><span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        09February, 2024&nbsp;<span>11:21 AM</span></span></div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 16February, 2024 -
+                                                        16February, 2024 <span class="space-box">|</span><span
+                                                            class="ng-star-inserted"><span><b>Total Days
+                                                                    Count</b></span> : 1</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0"><b>Reason : </b>N/A </p>
+                                            </li>
+                                        </ul>
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Sick Leave | <span style="color: green;"
+                                                        class="ng-star-inserted">Approved<span> By </span></span>
+                                                    <span> - </span><span style="color: #6cbee8;">pushpendra</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;"><span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        06February, 2024&nbsp;<span>11:52 AM</span></span></div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 06February, 2024 -
+                                                        07February, 2024 <span class="space-box">|</span><span
+                                                            class="ng-star-inserted"><span><b>Total Days
+                                                                    Count</b></span> : 2</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0"><b>Reason : </b>Sir, I am not feeling well
+                                                    due to sudden illness, and find myself unable to attend work today.
+                                                    I kindly request your approval for a sick leave for the day. </p>
+                                            </li>
+                                        </ul>
+                                        <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted">
+                                            <li>
+                                                <h6 class="fs-md mt-0"> Sick Leave |
+                                                    <span style="color: orange;" class="ng-star-inserted">Applied<span>
+                                                            To </span></span>
+                                                    <span> - </span><span style="color: #6cbee8;">pushpendra</span>
+                                                </h6>
+                                                <div style="display: block; margin-top: 5px; color: #6c757d;"><span
+                                                        style="font-size: 13px; font-weight: 600; vertical-align: middle;"><i
+                                                            class="bi bi-calendar3" style="margin-right: 5px;"></i>
+                                                        06February, 2024&nbsp;<span>11:42 AM</span></span></div>
+                                                <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                                                    <p class="mb-0" style="font-size: 12px;">
+                                                        <span><b>Duration</b></span><span> : </span> 06February, 2024 -
+                                                        07February, 2024 <span class="space-box">|</span><span
+                                                            class="ng-star-inserted"><span><b>Total Days
+                                                                    Count</b></span> : 2</span>
+                                                    </p>
+                                                </div>
+                                                <p class="text-muted mb-0"><b>Reason : </b>Sir, I am not feeling well
+                                                    due to sudden illness, and find myself unable to attend work today.
+                                                    I kindly request your approval for a sick leave for the day. </p>
+                                            </li>
+                                        </ul> -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 
 
             </div>
-            <div class="pagination pl-3"
-                *ngIf="!isLeaveManagementShimmerFlag && total > 5">
+            <div class="pagination pl-3" *ngIf="!isLeaveManagementShimmerFlag && total > 5">
                 <p class="mb-0" style="padding-left: 15px">
                     Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                     {{ total }} teams

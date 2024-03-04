@@ -57,11 +57,11 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  // private baseUrl = "http://localhost:8080/api/v2";
+  private baseUrl = "http://localhost:8080/api/v2";
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  private baseUrl = "https://production.hajiri.work/api/v2";
+  // private baseUrl = "https://production.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -1264,6 +1264,11 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
   getRequestedLeaveDetailsForUser(userUuid: string): Observable<TotalRequestedLeavesReflection[]> {
     let params = new HttpParams().set('userUuid', userUuid);
     return this.httpClient.get<TotalRequestedLeavesReflection[]>(`${this.baseUrl}/central-leave-management/total-requested-leaves`, { params });
+  }
+
+  getApprovedLeaveDetailsForUser(userUuid: string, leaveType:string): Observable<TotalRequestedLeavesReflection[]> {
+    let params = new HttpParams().set('userUuid', userUuid).set('leaveType', leaveType);
+    return this.httpClient.get<TotalRequestedLeavesReflection[]>(`${this.baseUrl}/central-leave-management/total-approved-leaves`, { params });
   }
 
   approveOrRejectLeave(requestedLeaveId: number, appRejString: string, logInUserUuid:string): Observable<any> {
