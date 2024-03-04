@@ -10,6 +10,7 @@ import { HolidaySettingComponent } from './components/holiday-setting/holiday-se
 import { LeaveRuleSetupComponent } from './components/leave-rule-setup/leave-rule-setup.component';
 import { LeaveSettingCreateComponent } from './components/leave-setting-create/leave-setting-create.component';
 import { OrganizationPersonalInformationComponent } from './components/organization-personal-information/organization-personal-information.component';
+import { UploadTeamComponent } from './components/upload-team/upload-team.component';
 import { OrganizationOnboardingComponent } from './organization-onboarding.component';
 
 const routes: Routes = [{ path: '', component: OrganizationOnboardingComponent,
@@ -23,6 +24,7 @@ children:[
   {path: 'leave-setting-create', component: LeaveSettingCreateComponent},
   {path: 'add-shift-time', component: AddShiftTimeComponent},
   {path: 'holiday-setting', component: HolidaySettingComponent},
+  {path: 'upload-team', component: UploadTeamComponent}
   
   ]
 

@@ -136,7 +136,7 @@ body.dark-sidebar .left-sidebar {
 .tracking-steps::after {
     content: '';
     width: 2px !important;
-    height: 85% !important;
+    height: 82% !important;
     background-color: transparent;
     top: 20px !important;
     left: 27px !important;
