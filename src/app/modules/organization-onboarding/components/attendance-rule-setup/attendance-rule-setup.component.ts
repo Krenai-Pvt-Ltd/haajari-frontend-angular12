@@ -86,6 +86,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
   }
   skipAutomationRulesSetting(){
+    this.dataService.markStepAsCompleted(2);
     this.router.navigate(['/organization-onboarding/leave-rule-setup']);
 
   }
@@ -492,6 +493,7 @@ debugger
         this.closeShiftTimingModal.nativeElement.click();
         this.getAllShiftTimingsMethodCall();
         this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_SUCCESS);
+        this.dataService.markStepAsCompleted(2);
       }, (error) => {
         console.log(error);
         this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_ERROR);
@@ -581,4 +583,6 @@ debugger
           // Handle invalid form case
       }
     }
+
+
 }

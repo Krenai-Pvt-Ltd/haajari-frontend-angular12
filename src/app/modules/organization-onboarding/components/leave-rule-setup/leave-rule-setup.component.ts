@@ -33,7 +33,8 @@ export class LeaveRuleSetupComponent implements OnInit {
   }
 
   skipLeaveSetting() {
-    this._router.navigate(['/organization-onboarding/holiday-setting']);
+    this.dataService.markStepAsCompleted(3);
+    this._router.navigate(['/organization-onboarding/upload-team']);
   }
 
   readonly constants = constant;
@@ -320,7 +321,7 @@ export class LeaveRuleSetupComponent implements OnInit {
         } else {
           this.leaveSettingPlaceholder = false;
         }
-        this.deleteLeaveLoader = false;
+        // this.deleteLeaveLoader = false;
       }, error => {
         this.isLeaveErrorPlaceholder = true;
         this.isLoading = false;
@@ -422,7 +423,7 @@ export class LeaveRuleSetupComponent implements OnInit {
   deleteLeaveLoader:boolean=false;
   deleteLeaveSettingRule(leaveSettingId: number): void {
     this.deleteLeaveLoaderStatus[leaveSettingId] = true;
-    this.deleteLeaveLoader = true;
+    // this.deleteLeaveLoader = true;
     this.dataService.deleteLeaveSettingRule(leaveSettingId).subscribe(
       () => {
         this.deleteLeaveLoaderStatus[leaveSettingId] = false;

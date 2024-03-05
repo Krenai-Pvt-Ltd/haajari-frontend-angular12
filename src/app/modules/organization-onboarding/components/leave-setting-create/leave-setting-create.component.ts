@@ -51,7 +51,7 @@ export class LeaveSettingCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserByFiltersMethodCall(0);
-
+    this.emptyAddLeaveSettingRule();
     const leaveId = localStorage.getItem("tempId");
 
     if(leaveId!=null){
@@ -70,32 +70,6 @@ export class LeaveSettingCreateComponent implements OnInit {
   leaveSettingPlaceholder: boolean = false;
 
   leaveSettingResponse: LeaveSettingResponse = new LeaveSettingResponse();
-
-  
-
-  isFormValid:boolean = false;
-  checkFormValidity(form: NgForm | null) {
-    debugger
-    this.errorTemplateNameFlag = false;
-    this.isFormValid = form?.valid ?? false; 
-  }
-
-
-  // registerLeaveSettingTemplate() {
-  //   this.leaveCategoryTab.nativeElement.click();
-  //   this.dataService
-  //     .registerLeaveSettingTemplate(this.leaveSettingResponse)
-  //     .subscribe(
-  //       (response) => {
-  //         this.leaveSettingResponse.id = response.id;
-  //         localStorage.setItem("tempId", response.id.toString());
-  //         console.log('Leave setting registered successfully:', response);
-  //       },
-  //       (error) => {
-  //         console.error('Error registering leave setting:', error);
-  //       }
-  //     );
-  // }
 
   setAccrualType(accrualType: string) {
     this.leaveSettingResponse.accrualType = accrualType;
@@ -509,7 +483,6 @@ export class LeaveSettingCreateComponent implements OnInit {
         //   this.isMappedStaffEmpty=false;
         // }
         if(this.leaveSettingResponse!=null){
-        this.isFormValid=true;
         }
         // this.checkFormValidity(this.leaveSettingForm);
         // this.form.reset();
@@ -561,10 +534,10 @@ export class LeaveSettingCreateComponent implements OnInit {
     this.selectedStaffsUuidsUser = [];
     // this.selectedStaffsUuids.length = 0; 
     
-    this.leaveSettingForm.form.reset();
+    // this.leaveSettingForm.form.reset();
     this.leaveSettingResponse = new LeaveSettingResponse();
     this.leaveSettingResponse.templateName = '';
-    this.form.reset();
+    // this.form.reset();
     
     // Clear the existing form controls
     const categoriesArray = this.form.get('categories') as FormArray;
@@ -683,7 +656,6 @@ export class LeaveSettingCreateComponent implements OnInit {
 
   goToLeaveCategoryTab(){
     if(this.leaveSettingResponse.templateName==null){
-      this.isFormValid = false;
       return;
     }
     this.errorTemplateNameFlag=false;

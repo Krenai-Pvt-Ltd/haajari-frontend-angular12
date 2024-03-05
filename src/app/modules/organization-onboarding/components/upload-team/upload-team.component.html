@@ -1,0 +1,269 @@
+<div class="page-wrapper">
+    <div class="page-content-tab">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="persnol-details">
+                        <div class="d-flex align-items-center" style="gap:15px">
+                            <div class="add-filtter">
+                                <a><i class="bi bi-chevron-left"></i></a>
+                            </div>
+                            <div class="">
+                                <h5 class="mb-0">Upload Team</h5>
+                            </div>
+                        </div>
+
+
+
+                        <div class="team-deta mt-4">
+                            <div class="d-flex align-items-center justify-content-center"
+                                style="gap:20px; flex-direction: column;">
+                                <div class="" (click)="selectMethod('excel')">
+                                    <div class="importfilebox">
+                                        <label>
+                                            <img src="assets/images/excel.svg" style="width:50px;">
+                                            <span>Excel Upload</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="or-text-tab">
+                                    <p class="mb-0">OR</p>
+                                </div>
+
+                                <div class="" (click)="selectMethod('mannual')">
+                                    <div class="importfilebox">
+                                        <label>
+                                            <img src="assets/images/checklist.svg" style="width:50px;">
+                                            <span>Manual Upload</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="add-new-user mt-4" *ngIf="uploadMethod=='mannual'">
+                            <div class="row">
+                                <!-- <form #userForm="ngForm"> -->
+                                <form [formGroup]="form">
+                                    <div formArrayName="categories">
+                                        <div class="form-group row mb-3"
+                                            *ngFor="let category of categories.controls; let i = index"
+                                            [formGroupName]="i">
+                                            <div class="col-md-4">
+                                                <label class="mb-2"> Name</label>
+                                                <input type="text" formControlName="userName" class="form-control"
+                                                    placeholder="Enter Leave Name" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="mb-2">Phone Number</label>
+                                                <input type="tel" formControlName="userPhone" 
+                                                    placeholder="Phon Number" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="mb-2">Email </label>
+                                                <input type="email" formControlName="userEmail"
+                                                    placeholder="Email" class="form-control">
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                <div id="back-and-submit" class=" d-flex align-items-center justify-content-between">
+                                    <button type="button" class="btn skip-btn-new" [disabled]="form.invalid" (click)="addRow()"><i
+                                            class="bi bi-plus" style="font-size: 23px;"></i> Add New User</button>
+
+                                </div>
+                                </form>
+                                <div id="back-and-submit" class=" d-flex align-items-center justify-content-between">
+                                    <p></p>
+                                    <button type="submit" class="btn btn-primary skip-btn"
+                                        style="margin-right: 15px;">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!----- Import ------>
+    <button type="button" class="btn btn-primary d-none" #importModalOpen data-bs-toggle="modal" data-bs-target="#importrecharge">
+        Launch demo modal
+    </button>
+    <div id="importrecharge" tabindex="-1" aria-labelledby="importrechargemodal" class="modal blur-bg-2"
+        aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-dialog-centered excelUploadoModal modal-xl">
+            <div class="modal-content">
+                <div class="modal-header pb-3 border-bottom">
+                    <!-- <h4 id="createOrglmodal" class="modal-title">Reward Import</h4> -->
+                    <h4 id="createOrglmodal" class="modal-title">User Import</h4>
+                    <div class="d-flex justify-content-end gap-2 align-items-center">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal()"></button>
+                    </div>
+
+                </div>
+                <div class="modal-body" style="padding: 10px;">
+                    <!-- csvManHeight -->
+                    <div class="">
+                        <div class="row w-100">
+                            <div class="col-lg-3">
+                                <div class="modal-body text-left d-flex p-0">
+                                </div>
+                                <!-- sample file for user -->
+                                <h6 class="mediaupldtitle">To import user please use our
+                                    <a href="" style="color: darkblue;">Sample Template</a>
+                                </h6>
+                                <div class="csvmodalUploadmain mt-4">
+                                    <div class="docUploadBxmain">
+                                        <div class="align-items-center d-flex h-100 justify-content-center"
+                                            style="background: rgb(255, 255, 255); border: 1px dashed rgb(209, 213, 219); border-radius: 5px;">
+                                            <!-- file input for user-->
+                                            <div class="docUploadBxarea" (change)="selectFile($event)">
+                                                <input type="file" name="userFile" id="userFile"
+                                                    class="d-none" accept=".xlsx" #userFileInput />
+                                                <label for="userFile" class="dropzoneLabelinner">
+                                                    <div class="text-center">
+                                                        <img src="assets/images/csv.svg" alt="" />
+                                                        <p>Click or drag and drop a file</p>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-9" style="height: 450px">
+
+                                <div class="table-responsive">
+                                    <table id="order-listing" class="table">
+                                        <thead scroll="no" style="overflow-x: hidden;">
+                                            <tr>
+                                                <th class="border-0"
+                                                    style="border-radius: 6px 0px 0px 0px; width: 60px;">
+                                                    <span>S.No.</span>
+                                                </th>
+                                                <th class="border-0 text-center" style="width: 150px;"><span>Created
+                                                        Date</span>
+                                                </th>
+                                                <th class="border-0 text-center"><span>File Name</span></th>
+                                                <th class="border-0 text-center" style="width: 120px;">
+                                                    <span>Status</span>
+                                                </th>
+                                                <th class="border-0 text-right"
+                                                    style="width: 150px; border-radius: 0px 6px 0px 0px;">
+                                                    <span>Action</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody *ngIf="importToggle">
+                                            <tr *ngIf="importLoading">
+                                                <td colspan="9" style="text-align: center; height: 300px;"><div class="spinner-border" role="status">
+                                                  </div></td>
+                                            </tr>
+
+                                            <tr *ngIf="!importLoading && importReport.length == 0">
+                                                <td colspan="9" style="text-align: center; height: 300px;">
+                                                <span style="font-size: 20px; font-weight: 500;">No Data Available</span></td>
+                                            </tr>
+                                        </tbody>
+                                        
+                                        <tbody *ngIf="importToggle">
+                                            <tr>
+                                                <td>
+                                                    <span>1.</span>
+                                                </td>
+                                                <td>
+                                                    <div class="csvcrrentview">
+                                                        <span>{{uploadDate | date : 'dd/MM/yyyy hh:mm a'}}</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="csvcrrentview">
+                                                        <h6 class="m-0 text-center"><i
+                                                                class="bi bi-file-earmark-text"></i>{{fileName}}</h6>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="csvuploadstatusbtn csvstatusuplding text-center">
+                                                        In-Process
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex justify-content-end align-items-center">
+
+                                                        <a class="csvstatusaction csvdwnladBtn" type="button"><i class="bi bi-download"></i></a>
+                                                        <button class="csvstatusaction csvdeleBtn" type="button"><i
+                                                                class="bi bi-trash3"></i></button>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+
+                                        <tbody *ngIf="!importLoading && importReport.length > 0">
+                                            <tr *ngFor="let report of importReport;let i= index">
+                                                <td>
+                                                    <span>{{i+1+((databaseHelper.currentPage-1)*databaseHelper.itemPerPage)}}.</span>
+                                                </td>
+                                                <td>
+                                                    <div class="csvcrrentview">
+                                                        <span>{{report.createdDate |
+                                                            date : 'dd/MM/yyyy hh:mm a'}}</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="csvcrrentview">
+                                                        <h6 class="m-0 text-center"><i
+                                                                class="bi bi-file-earmark-text"></i>{{report.name}}</h6>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="csvuploadstatusbtn csvstatusuplded">
+                                                        upload
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex justify-content-end align-items-center">
+                                                        <button class="csvstatusaction csvdeleBtn" type="button"
+                                                        (click)="deleteReport(report.id)"><i
+                                                                class="bi bi-trash3"></i></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row justify-content-between" *ngIf="importReport.length > 0 && totalItems > 5">
+                                    <div class="col-sm-12 col-md-5">
+                                        <div class="dataTables_info" id="example_info" role="status" aria-live="polite">
+                                            Showing
+                                            {{importReport.length}} of {{totalItems}} entries</div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-7">
+                                        <div class="dataTables_paginate paging_simple_numbers" id="example_paginate">
+                                            <ul class="pagination justify-content-end">
+                                                <ngb-pagination [collectionSize]="totalItems" [rotate]="true"
+                                                    (pageChange)="pageChangedImport($event)" [pageSize]="5"
+                                                    [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                                                    [boundaryLinks]="true">
+                                                </ngb-pagination>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Import end -->

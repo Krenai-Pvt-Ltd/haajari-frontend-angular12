@@ -234,7 +234,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="">
+                                        <div class="" *ngIf="!isLoading">
                                             <div class="add-filtter d-flex align-items-center justify-content-end">
                                                 <a routerLink="/organization-onboarding/leave-setting-create"
                                                     style="font-size: 16px; color: #6666f3;">
@@ -255,14 +255,14 @@
                                                             class="bi bi-pencil-square" style="color: #6666f3 ;"
                                                             (click)="getLeaveSettingInformationById(newLeaveSetting.leaveSetting.id)"></i></a>
                 
-                                                    <a class="delete-rule"
-                                                        (click)="deleteLeaveSettingRule(newLeaveSetting.leaveSetting.id)" *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.leaveSetting.id)"><i
-                                                            class="bi bi-trash"></i></a>
-                                                            <div class="dot-opacity-loader" *ngIf="deleteLeaveLoader">
-                                                                <span></span>
-                                                                <span></span>
-                                                                <span></span>
-                                                            </div>
+                                                            <a class="delete-rule"
+                                                            (click)="deleteLeaveSettingRule(newLeaveSetting.leaveSetting.id)" *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.leaveSetting.id)"><i
+                                                                class="bi bi-trash"></i></a>
+                                                                <div class="dot-opacity-loader" *ngIf="deleteLeaveTemplateLoader(newLeaveSetting.leaveSetting.id)">
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                </div>
                                                     </div>
                                                 </div>
                                                 <div class="row mt-2 p-3 pb-1 pt-0 page-sepresen" *ngFor="let category of newLeaveSetting.leaveSettingCategories">

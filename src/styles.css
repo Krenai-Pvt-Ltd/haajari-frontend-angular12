@@ -359,4 +359,7 @@ nz-date-picker {
     40% { opacity: 1; }
 }
 
+.pointer{
+    cursor: pointer;
+}
 
