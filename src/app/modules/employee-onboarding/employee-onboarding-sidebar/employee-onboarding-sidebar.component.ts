@@ -57,8 +57,8 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
       return false;
     }
 
-    
-}
+  }
+  
 onboardingStatus: string = ""
 getEmployeeStatusMethodCall() {
   debugger

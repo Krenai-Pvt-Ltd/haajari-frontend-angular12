@@ -1,8 +1,9 @@
 export interface TotalRequestedLeavesReflection {
     username: string;
     id: number;
-    startdate: string; 
-    enddate: string; 
+    leaveDate: any;
+    startdate: any; 
+    enddate: any; 
     notes: string;
     leavetype: string;
     manager: string;

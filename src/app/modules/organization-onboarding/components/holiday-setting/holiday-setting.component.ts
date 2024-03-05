@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HolidaySettingComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _location:Location) { }
 
   ngOnInit(): void {
+  }
+
+  back(){
+    this._location.back();
   }
 
 }

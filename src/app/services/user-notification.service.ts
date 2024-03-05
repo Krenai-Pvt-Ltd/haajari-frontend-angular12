@@ -13,9 +13,10 @@ export class UserNotificationService {
 
   }
 
-  getNotification(uuid:any,databaseHelper:DatabaseHelper,notificationType:any){
+  getNotification(orgUuid:any, uuid:any,databaseHelper:DatabaseHelper,notificationType:any){
     const params = new HttpParams()
       .set('uuid', uuid)
+      .set('orgUuid', orgUuid)
       .set('itemPerPage', databaseHelper.itemPerPage)
       .set('currentPage', databaseHelper.currentPage)
       .set('sortBy', "id")
