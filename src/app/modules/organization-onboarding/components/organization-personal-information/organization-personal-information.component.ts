@@ -25,11 +25,6 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     this.getOrganizationDetails();
   }
 
-  routeToAttendanceRuleSetting() {
-   debugger
-    this.router.navigate(['/organization-onboarding/attendance-rule-setup']);
-  }
-
 
   organizationPersonalInformation: OrganizationPersonalInformation = {
     id: 0,
@@ -64,7 +59,8 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     this.dataService.registerOrganizationPersonalInformation(this.organizationPersonalInformation)
       .subscribe(response => {
         console.log("organization personal Info Registered Successfully");
-        this.routeToAttendanceRuleSetting();
+        this.router.navigate(['/organization-onboarding/attendance-rule-setup']);
+        this.dataService.markStepAsCompleted(1);
       },(error) => {
           console.log(error.error.message);
       });

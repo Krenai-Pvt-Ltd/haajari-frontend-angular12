@@ -217,5 +217,9 @@ export class Key{
 
     //Coupon
     verify_coupon = "coupon";
+
+
+    //user import
+    user_import = "whatsapp-user-onboarding/import";
     
 }
