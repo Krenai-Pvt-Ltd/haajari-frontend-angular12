@@ -58,9 +58,9 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = "http://localhost:8080/api/v2";
+  // private baseUrl = "http://localhost:8080/api/v2";
 
-  // private baseUrl = "https://backend.hajiri.work/api/v2";
+  private baseUrl = "https://backend.hajiri.work/api/v2";
 
   // private baseUrl = "https://production.hajiri.work/api/v2";
 
@@ -1267,6 +1267,11 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<TotalRequestedLeavesReflection[]>(`${this.baseUrl}/central-leave-management/total-requested-leaves`, { params });
   }
 
+  getApprovedLeaveDetailsForUser(userUuid: string, leaveType:string): Observable<TotalRequestedLeavesReflection[]> {
+    let params = new HttpParams().set('userUuid', userUuid).set('leaveType', leaveType);
+    return this.httpClient.get<TotalRequestedLeavesReflection[]>(`${this.baseUrl}/central-leave-management/total-approved-leaves`, { params });
+  }
+
   approveOrRejectLeave(requestedLeaveId: number, appRejString: string, logInUserUuid:string): Observable<any> {
     // let params = new HttpParams()
     //   .set('requestedLeaveId', requestedLeaveId.toString())
@@ -1363,7 +1368,6 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
 
     return this.httpClient.put<any>(`${this.baseUrl}/salary/configuration/step/update`, {}, {params});
   }
-
   updateNotificationSetting(notificationVia : NotificationVia):Observable<any>{
     return this.httpClient.put<any>(`${this.baseUrl}/account-setting/update/notification-via`, notificationVia);
   }

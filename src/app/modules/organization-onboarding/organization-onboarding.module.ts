@@ -29,6 +29,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UploadTeamComponent } from './components/upload-team/upload-team.component';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { UploadTeamComponent } from './components/upload-team/upload-team.compon
     NgxMaskModule.forRoot(),
     NgbModule,
     GooglePlaceModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgxShimmerLoadingModule,
   ]
 })
 export class OrganizationOnboardingModule { }

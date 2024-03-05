@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-organization-onboarding-sidebar',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrganizationOnboardingSidebarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
   }
 
+  isStepCompleted(stepIndex: number): boolean {
+    if(stepIndex<=this.dataService.stepIndex){
+      return true;
+    }else{
+      return false;
+    }
+
+  }
 }
