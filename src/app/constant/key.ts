@@ -57,7 +57,8 @@ export class Key{
         "/setting/account-settings",
         "/add-role",
         "/setting/billing-payment",
-        "/leave-management"
+        "/leave-management",
+        "/upload-team"
     ];
 
     public static TOPBAR_ROUTES = [
@@ -88,7 +89,8 @@ export class Key{
         "/setting/account-settings",
         "/add-role",
         "/setting/billing-payment",
-        "/leave-management"
+        "/leave-management",
+        "/upload-team"
     ];
 
 
@@ -102,6 +104,7 @@ export class Key{
         "/organization-onboarding/leave-setting-create",
         "/organization-onboarding/add-shift-time",
         "/organization-onboarding/holiday-setting",
+        "/organization-onboarding/upload-team"
     ];
 
 
@@ -180,15 +183,15 @@ export class Key{
     public static PAY_SLIP = 3;
     
 
-    // base_url = "http://localhost:8080/api/v2/";
+    base_url = "http://localhost:8080/api/v2/";
 
     /* ------------------  Staging urls ----------------*/
     // base_url = "https://backend.hajiri.work/api/v2/";
 
     /* ------------------  Production urls ----------------*/
-    base_url = "https://production.hajiri.work/api/v2/";
+    // base_url = "https://production.hajiri.work/api/v2/";
     
-
+    
     get_subscription = "subcription-plan"; 
     get_active_user_count = "users/active-user-count";
     get_purchased_status = "organization-subs-plan/status"; 
@@ -205,5 +208,14 @@ export class Key{
     
     get_org_subs_plan_month_detail = "organization-subs-plan-month-detail"
     cancel_subscription = "organization-subs-plan-month-detail"
+
+    //user notification
+    get_notification = "user-notification";
+    read_notification = "user-notification/read";
+    read_all_notification = "user-notification/read-all";
+    get_mail = "user-notification/mail";
+
+    //Coupon
+    verify_coupon = "coupon";
     
 }

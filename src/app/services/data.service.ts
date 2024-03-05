@@ -38,6 +38,7 @@ import { TotalRequestedLeavesReflection } from "../models/totalRequestedLeaveRef
 import { StatutoryRequest } from "../models/statutory-request";
 import { StatutoryAttribute } from "../models/statutory-attribute";
 import { NotificationVia } from "../models/notification-via";
+import { SalaryTemplateComponentRequest } from "../models/salary-template-component-request";
 
 
 @Injectable({
@@ -1266,6 +1267,11 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<TotalRequestedLeavesReflection[]>(`${this.baseUrl}/central-leave-management/total-requested-leaves`, { params });
   }
 
+  getApprovedLeaveDetailsForUser(userUuid: string, leaveType:string): Observable<TotalRequestedLeavesReflection[]> {
+    let params = new HttpParams().set('userUuid', userUuid).set('leaveType', leaveType);
+    return this.httpClient.get<TotalRequestedLeavesReflection[]>(`${this.baseUrl}/central-leave-management/total-approved-leaves`, { params });
+  }
+
   approveOrRejectLeave(requestedLeaveId: number, appRejString: string, logInUserUuid:string): Observable<any> {
     // let params = new HttpParams()
     //   .set('requestedLeaveId', requestedLeaveId.toString())
@@ -1350,6 +1356,19 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/employee/get/all`);
   }
 
+  getSalaryConfigurationStep(): Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/configuration/step/get`);
+  }
+
+  updateSalaryConfigurationStep(salaryConfigurationStepId : number) : Observable<any>{
+
+    const params = new HttpParams()
+    .set('salary_configuration_step_id', salaryConfigurationStepId);
+
+    return this.httpClient.put<any>(`${this.baseUrl}/salary/configuration/step/update`, {}, {params});
+  }
+
   updateNotificationSetting(notificationVia : NotificationVia):Observable<any>{
     return this.httpClient.put<any>(`${this.baseUrl}/account-setting/update/notification-via`, notificationVia);
   }
@@ -1367,4 +1386,8 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/account-setting/verifyOtp`, {}, {params});
   }
 
+  registerSalaryTemplate(salaryTemplateComponentRequest : SalaryTemplateComponentRequest): Observable<any>{
+
+    return this.httpClient.put<any>(`${this.baseUrl}/salary/template/register`, salaryTemplateComponentRequest, {});
+  }
 }

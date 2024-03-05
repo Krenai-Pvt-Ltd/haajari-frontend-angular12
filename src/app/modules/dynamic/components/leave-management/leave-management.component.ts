@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component,ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { UserLeaveDetailsWrapper } from 'src/app/models/UserLeaveDetailsWrapper';
@@ -11,6 +12,10 @@ interface UserLeaveLogs {
   [uuid: string]: TotalRequestedLeavesReflection[];
 }
 
+interface ApprovedUserLeaveLogs {
+  [uuid: string]: TotalRequestedLeavesReflection[];
+}
+
 @Component({
   selector: 'app-leave-management',
   templateUrl: './leave-management.component.html',
@@ -19,9 +24,12 @@ interface UserLeaveLogs {
 export class LeaveManagementComponent implements OnInit {
 
   userLeaveLogs: UserLeaveLogs = {};
+  approvedUserLeaveLogs: ApprovedUserLeaveLogs = {};
   currentlyOpenUserUuid: string | null = null;
+  approvedCurrentlyOpenUserUuid: string = '';
 
-  constructor(private dataService: DataService, private rbacService: RoleBasedAccessControlService,private cdr: ChangeDetectorRef, private helperService: HelperService, private renderer: Renderer2) { }
+  constructor(private dataService: DataService, private datePipe: DatePipe,
+    private rbacService: RoleBasedAccessControlService,private cdr: ChangeDetectorRef, private helperService: HelperService, private renderer: Renderer2) { }
 
   logInUserUuid: string = '';
   ROLE: string | null = '';
@@ -46,13 +54,13 @@ export class LeaveManagementComponent implements OnInit {
     debugger
     this.cdr.detectChanges();
     
-    // if((this.userLeaveDetailResponse!=undefined)){
+    if((this.userLeaveDetailResponse!=undefined)){
     setTimeout(() => {
       this.userLeaveDetailResponse.forEach((_, index) => {
         this.checkInitialArrowVisibility(index);
       });
     });
-    // }
+    }
   }
   checkInitialArrowVisibility(index: number): void {
     debugger
@@ -190,6 +198,7 @@ export class LeaveManagementComponent implements OnInit {
   // }
 
   getRequestedLeaveLogs(userUuid: string): void {
+    debugger
     this.dataService.getRequestedLeaveDetailsForUser(userUuid).subscribe({
       next: (logs) => {
         this.userLeaveLogs[userUuid] = logs;
@@ -201,6 +210,83 @@ export class LeaveManagementComponent implements OnInit {
       }
     });
   }
+
+ selectedLeaveTypes: { [userId: string]: string } = {};
+  getApprovedLeaveLogs(userUuid: string, leaveType: string): void {
+    const key = `${userUuid}_${leaveType}`;
+
+    if (this.approvedCurrentlyOpenUserUuid === key) {
+      this.approvedCurrentlyOpenUserUuid = ''; 
+    } else {
+      this.selectedLeaveTypes[userUuid] = leaveType;
+      this.dataService.getApprovedLeaveDetailsForUser(userUuid, leaveType).subscribe({
+        next: (logs) => {
+          this.approvedUserLeaveLogs[key] = logs;
+          this.approvedCurrentlyOpenUserUuid = key;
+          this.cdr.markForCheck();
+        },
+        error: (error) => console.error('Error fetching approved leave logs', error)
+      });
+    }
+  }
+  
+
+//   selectedLeaveTypes: { [userId: string]: string } = {};
+// getApprovedLeaveLogs(userUuid: string, leaveType: string): void {
+
+//   this.selectedLeaveTypes[userUuid] = leaveType;
+//   const key = `${userUuid}_${leaveType}`;
+
+//   this.dataService.getApprovedLeaveDetailsForUser(userUuid, leaveType).subscribe({
+//     next: (logs) => {
+//       this.approvedUserLeaveLogs[key] = logs;
+//       this.approvedCurrentlyOpenUserUuid = key;
+//       this.cdr.markForCheck();
+//     },
+//     error: (error) => console.error('Error fetching approved leave logs', error)
+//   });
+// }
+
+formatDate(date: Date) {
+  const dateObject = new Date(date);
+  const formattedDate = this.datePipe.transform(dateObject, 'yyyy-MM-dd');
+  return formattedDate;
+}
+
+formatTime(date: Date) {
+  const dateObject = new Date(date);
+  const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
+  return formattedTime;
+}
+
+formatDateIn(newdate:any) {
+  const date = new Date(newdate);
+  const formattedDate = this.datePipe.transform(date, 'ddMMMM, yyyy');
+  return formattedDate;
+}
+
+  
+  // getApprovedLeaveLogs(userUuid: string, leaveType:string): void {
+  //   debugger
+  //   this.dataService.getApprovedLeaveDetailsForUser(userUuid, leaveType).subscribe({
+  //     next: (logs) => {
+  //       this.approvedUserLeaveLogs[userUuid] = logs;
+  //       this.approvedCurrentlyOpenUserUuid = userUuid;
+  //       this.cdr.markForCheck();
+  //     },
+  //     error: (error) => {
+  //       console.error('Error fetching leave approved logs', error);
+  //     }
+  //   });
+  // }
+
+  // toggleApprovedLeaveLogs(userUuid: string, leaveType:string): void {
+  //   this.approvedCurrentlyOpenUserUuid = this.approvedCurrentlyOpenUserUuid === userUuid ? null : userUuid;
+  //   if (!this.approvedUserLeaveLogs[userUuid]) {
+  //       this.getApprovedLeaveLogs(userUuid, leaveType);
+  //   }
+  //   }
+
   
 
   approveOrDeny(requestId: number, requestedString: string, userUuid: string) {

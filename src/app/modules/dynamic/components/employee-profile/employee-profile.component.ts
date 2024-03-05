@@ -124,6 +124,7 @@ export class EmployeeProfileComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.getAllTaxRegimeMethodCall();
     this.getStatutoryByOrganizationIdMethodCall();
+    this.getSalaryConfigurationStepMethodCall();
 
     
     this.ROLE= await this.roleService.getRole();
@@ -550,6 +551,8 @@ export class EmployeeProfileComponent implements OnInit {
       return 'L';
     }else if (attendance.status === 'Half Day') {
       return 'H';
+    }else if (attendance.status === 'Late') {
+      return 'L';
     } else if (attendance.status === 'Not Marked') {
       return '-';
     }
@@ -572,6 +575,8 @@ export class EmployeeProfileComponent implements OnInit {
         return 'rgb(255, 213, 128)';
       case 'On Leave':
         return 'rgb(255, 255, 143)';
+      case 'Late':
+        return '#D3D3D3';
       case 'Not Marked':
         return '#cccccc'; 
       default:
@@ -1360,6 +1365,10 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
   ESI_ID = Key.ESI_ID;
   PROFESSIONAL_TAX_ID = Key.PROFESSIONAL_TAX_ID;
 
+  CONFIGURE_SALARY_SETTING = Key.CONFIGURE_SALARY_SETTING;
+  MANAGE_STATUTORY = Key.MANAGE_STATUTORY;
+  PAY_SLIP = Key.PAY_SLIP;
+
   switchValueForPF = false;
   switchValueForESI = false;
   switchValueForProfessionalTax = false;
@@ -1367,6 +1376,15 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
     this.switchValueForPF = false;
     this.switchValueForESI = false;
     this.switchValueForProfessionalTax = false;
+  }
+
+  salaryConfigurationStepId : number = 0;
+  getSalaryConfigurationStepMethodCall(){
+    this.dataService.getSalaryConfigurationStep().subscribe((response) => {
+      this.salaryConfigurationStepId = response.count;
+    }, (error) => {
+
+    })
   }
 
 
@@ -1477,6 +1495,31 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
       this.helperService.showToast(error.error.message, Key.TOAST_STATUS_ERROR);
       this.getStatutoryByOrganizationIdMethodCall();
     })
+  }
+
+  BUTTON_LOADER = false;
+  updateSalaryConfigurationStepMethodCall(salaryConfigurationStepId : number){
+    this.BUTTON_LOADER = true;
+    this.dataService.updateSalaryConfigurationStep(salaryConfigurationStepId).subscribe((response) => {
+      this.getSalaryConfigurationStepMethodCall();
+      this.BUTTON_LOADER = false;
+    }, (error) => {
+      this.BUTTON_LOADER = false;
+    })
+  }
+
+  goToManageStatutory(){
+    this.salaryConfigurationStepId = this.MANAGE_STATUTORY;
+    const configureSalarySettingDiv = document.getElementById("configure-salary-setting") as HTMLInputElement | null;
+    const manageStatutoryDiv = document.getElementById("manage-statutory") as HTMLInputElement | null;
+
+    if(configureSalarySettingDiv){
+      configureSalarySettingDiv.style.display = "none";
+
+      if(manageStatutoryDiv){
+        manageStatutoryDiv.style.display = "block";
+      }
+    }
   }
 
 
