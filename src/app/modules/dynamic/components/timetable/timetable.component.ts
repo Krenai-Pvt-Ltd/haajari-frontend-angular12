@@ -11,6 +11,7 @@ import { BreakTimings } from 'src/app/models/break-timings';
 import { NavigationExtras, Router } from '@angular/router';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
+import { clearTimeout } from 'timers';
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 
@@ -322,66 +323,29 @@ export class TimetableComponent implements OnInit {
   }
 
   attendanceDetailsResponseList : AttendanceDetailsResponse[] = [];
-  getAttendanceDetailsReportByDateMethodCall(){
-      // window.scroll(0,0);
-      // this.isShimer=true;
-      // this.errorToggleTimetable=false;
-      // this.placeholder=false;
-      this.preRuleForShimmersAndOtherConditionsMethodCall();
-      this.dataService.getAttendanceDetailsReportByDate(this.helperService.formatDateToYYYYMMDD(this.selectedDate), this.pageNumber, this.itemPerPage, this.searchText, 'name', '','', this.filterCriteria).subscribe((response) => {
-        debugger
-        this.attendanceDetailsResponseList = response.listOfObject;
-        console.log(this.attendanceDetailsResponseList);
-        this.total = response.totalItems;
-        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-        this.isShimmerForAttendanceDetailsResponse = false;
+  debounceTimer : any;
+  getAttendanceDetailsReportByDateMethodCall(debounceTime : number = 300){
+     
+    clearTimeout(this.debounceTimer);
+      this.debounceTimer = setTimeout(() => {
+        this.preRuleForShimmersAndOtherConditionsMethodCall();
+        this.dataService.getAttendanceDetailsReportByDate(this.helperService.formatDateToYYYYMMDD(this.selectedDate), this.pageNumber, this.itemPerPage, this.searchText, 'name', '','', this.filterCriteria).subscribe((response) => {
+          debugger
+          this.attendanceDetailsResponseList = response.listOfObject;
+          console.log(this.attendanceDetailsResponseList);
+          this.total = response.totalItems;
+          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+          this.isShimmerForAttendanceDetailsResponse = false;
 
+          if(this.attendanceDetailsResponseList === undefined || this.attendanceDetailsResponseList === null || this.attendanceDetailsResponseList.length === 0){
+            this.dataNotFoundForAttendanceDetailsResponse = true;
+          }
 
-
-
-
-        // const data = response.mapOfObject;
-
-        // if(data == null){
-        //   this.placeholder = true;
-        //   this.attendanceDataByDateKey = [];
-        //   this.isShimer=false;
-        //   return;
-        // }
-        // this.total = response.totalItems;
-        // this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-        // this.attendanceDataByDateKey = Object.keys(data);
-        // this.attendanceDataByDateValue = Object.values(data);
-
-        // if(this.attendanceDataByDateKey!=null){
-        //   this.placeholder=true;
-        // }else{
-        //   this.placeholder=false;
-        // }
-
-        // this.attendanceDataByDate = data;
-        // this.isShimer=false;
-        // console.log(this.attendanceDataByDateKey);
-        // console.log(this.attendanceDataByDate);
-
-        // for(let i=0; i<this.attendanceDataByDateValue.length; i++){
-        //   if(+(this.attendanceDataByDateValue[i].duration[0]) < 7){
-        //     this.halfDayUsers++;
-        //   }
-        // }
-
-        if(this.attendanceDetailsResponseList === undefined || this.attendanceDetailsResponseList === null || this.attendanceDetailsResponseList.length === 0){
-          this.dataNotFoundForAttendanceDetailsResponse = true;
-        }
-
-    }, (error) => {
-      // this.isShimer=false;
-      // this.placeholder=false;
-      // this.errorToggleTimetable=true;
-      debugger
-      console.log(error);
-      this.networkConnectionErrorForAttendanceDetailsResposne = true;
-    })
+      }, (error) => {
+        console.log(error);
+        this.networkConnectionErrorForAttendanceDetailsResposne = true;
+      })
+      }, debounceTime);
   }
 
 
