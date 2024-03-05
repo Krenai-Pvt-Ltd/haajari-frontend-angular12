@@ -1,6 +1,6 @@
-import { Component, ElementRef, Injectable, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Injectable, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, iif } from 'rxjs';
+import { Observable, Subject, iif } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
@@ -22,7 +22,7 @@ import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-detail
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy{
 
   constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService, private rbacService : RoleBasedAccessControlService) {
 
@@ -37,8 +37,15 @@ export class DashboardComponent implements OnInit {
     
    }
 
+    private searchSubject = new Subject<string>();
+    private readonly debounceTimeMs = 300;
+    ngOnDestroy(): void {
+      this.searchSubject.complete();
+    }
+
   itemPerPage : number = 12;
   pageNumber : number = 1;
+  firstPageNumber : number = 1;
   lastPageNumber : number = 0;
   total !: number;
   totalLateEmployees : number = 0;
@@ -133,6 +140,11 @@ export class DashboardComponent implements OnInit {
   
 
   ngOnInit(): void {
+
+    this.searchSubject.pipe(debounceTime(this.debounceTimeMs)).subscribe((searchText) => {
+      this.getAttendanceReportByDateDurationMethodCall();
+    });
+    
     this.getOrganizationRegistrationDateMethodCall();
     // this.checkAccessToken();
    
@@ -300,7 +312,7 @@ getDataFromDate(): Promise<any> {
 
   // #########Searching#################
   resetCriteriaFilter(){
-    this.itemPerPage = 8;
+    this.itemPerPage = 12;
     this.pageNumber = 1;
   }
   searchUsers(event: Event) {
@@ -623,33 +635,40 @@ getDataFromDate(): Promise<any> {
   // ######################################################################
 
   attendanceReportResponseList : AttendanceReportResponse[] = [];
-  getAttendanceReportByDateDurationMethodCall(){
-    return new Promise((resolve, reject) => {
-        this.attendanceReportResponseList = [];
-        this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
-        
-        this.dataService.getAttendanceReportByDateDuration(this.startDate, this.endDate, this.pageNumber, this.itemPerPage, this.searchText, this.searchBy).toPromise()
-            .then((response) => {
+  debounceTimer: any;
+  getAttendanceReportByDateDurationMethodCall(debounceTime: number = 300) {
+      return new Promise((resolve, reject) => {
+          if (this.debounceTimer) {
+              clearTimeout(this.debounceTimer);
+          }
 
-                if(response === null || response === undefined || response.object === undefined || response.object === null || response.object.length === 0){
-                    this.dataNotFoundPlaceholderForAttendanceData = true;
-                    reject('Data not found');
-                    return;
-                }
+          this.debounceTimer = setTimeout(() => {
+              this.attendanceReportResponseList = [];
+              this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
 
-                this.attendanceReportResponseList = response.object;
-                this.total = response.totalItems;
+              this.dataService.getAttendanceReportByDateDuration(this.startDate, this.endDate, this.pageNumber, this.itemPerPage, this.searchText, this.searchBy).toPromise()
+                  .then((response) => {
 
-                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-                console.log(response);
-                resolve(response);
-            })
-            .catch((error) => {
-                console.log(error);
-                this.networkConnectionErrorPlaceHolderForAttendanceData = true;
-                reject(error);
-            });
-    });
+                      if (response === null || response === undefined || response.object === undefined || response.object === null || response.object.length === 0) {
+                          this.dataNotFoundPlaceholderForAttendanceData = true;
+                          reject('Data not found');
+                          return;
+                      }
+
+                      this.attendanceReportResponseList = response.object;
+                      this.total = response.totalItems;
+
+                      this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+                      console.log(response);
+                      resolve(response);
+                  })
+                  .catch((error) => {
+                      console.log(error);
+                      this.networkConnectionErrorPlaceHolderForAttendanceData = true;
+                      reject(error);
+                  });
+          }, debounceTime);
+      });
   }
 
   expandedStates: boolean[] = [];
