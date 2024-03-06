@@ -218,8 +218,15 @@ export class Key{
     //Coupon
     verify_coupon = "coupon";
 
-
+    
     //user import
+    create_user = "whatsapp-user-onboarding";
     user_import = "whatsapp-user-onboarding/import";
+
+    get_report = "user-import"
+    check_number_existence = "whatsapp-user-onboarding/check-number-existence"
+
+    save_organization_onboarding_step = "organization/save-onboarding-step"
+    get_organization_onboarding_step = "organization/onboarding-step"
     
 }

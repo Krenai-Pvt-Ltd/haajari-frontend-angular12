@@ -824,7 +824,8 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
   get stepsCompletionStatus$() {
     return this.stepsCompletionStatus.asObservable();
   }
-stepIndex:number=-1;
+  
+  stepIndex:number=-1;
   markStepAsCompleted(stepIndex: number): void {
     this.stepIndex=stepIndex;
   }
