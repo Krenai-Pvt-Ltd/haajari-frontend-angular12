@@ -1390,4 +1390,28 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
 
     return this.httpClient.put<any>(`${this.baseUrl}/salary/template/register`, salaryTemplateComponentRequest, {});
   }
+
+
+  // #########  holidays ###########
+
+
+  registerHoliday(customHolidayRequest: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/holiday/register-custom-holidays`, customHolidayRequest);
+  }
+
+  getUniversalHolidays(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/holiday/total-universal-holidays`);
+  }
+
+  registerCustomHolidays(orgUuid: string, customHolidaysRequest: any[]): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/holiday/register-custom-holidays?orgUuid=${orgUuid}`, customHolidaysRequest);
+  }
+
+  getCustomHolidays(orgUuid: string): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/holiday/total-custom-holidays?orgUuid=${orgUuid}`);
+  }
+  
+  deleteCustomHolidays(ids: number[]): Observable<any> {
+    return this.httpClient.delete(`${this.baseUrl}/holiday/delete-custom-holidays`, { params: { ids: ids.join(',') } });
+  }
 }
