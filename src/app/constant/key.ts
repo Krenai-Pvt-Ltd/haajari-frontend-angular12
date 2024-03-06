@@ -181,6 +181,14 @@ export class Key{
     public static CONFIGURE_SALARY_SETTING = 1;
     public static MANAGE_STATUTORY = 2;
     public static PAY_SLIP = 3;
+
+    // Salary component id
+    public static BASIC_PAY_ID = 1;
+    public static HRA_ID = 2;
+    public static CONVEYANCE_ID = 3;
+    public static MEDICAL_ALLOWANCE = 4;
+    public static SPECIAL_ALLOWANCE = 5;
+    public static ADDITIONAL_ALLOWANCE = 6;
     
 
     base_url = "http://localhost:8080/api/v2/";
@@ -217,5 +225,16 @@ export class Key{
 
     //Coupon
     verify_coupon = "coupon";
+
+    
+    //user import
+    create_user = "whatsapp-user-onboarding";
+    user_import = "whatsapp-user-onboarding/import";
+
+    get_report = "user-import"
+    check_number_existence = "whatsapp-user-onboarding/check-number-existence"
+
+    save_organization_onboarding_step = "organization/save-onboarding-step"
+    get_organization_onboarding_step = "organization/onboarding-step"
     
 }

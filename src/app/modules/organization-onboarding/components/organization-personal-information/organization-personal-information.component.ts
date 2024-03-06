@@ -10,6 +10,7 @@ import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 
 import { OrganizationPersonalInformation } from 'src/app/models/organization-personal-information';
 import { DataService } from 'src/app/services/data.service';
+import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 
 
 @Component({
@@ -19,15 +20,14 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class OrganizationPersonalInformationComponent implements OnInit {
 
-  constructor(private dataService:DataService, private router: Router, private activateRoute: ActivatedRoute, private afStorage: AngularFireStorage) { }
+  constructor(private dataService:DataService, 
+    private router: Router, 
+    private activateRoute: ActivatedRoute, 
+    private afStorage: AngularFireStorage,
+    private _onboardingService: OrganizationOnboardingService) { }
 
   ngOnInit(): void {
     this.getOrganizationDetails();
-  }
-
-  routeToAttendanceRuleSetting() {
-   debugger
-    this.router.navigate(['/organization-onboarding/attendance-rule-setup']);
   }
 
 
@@ -64,7 +64,9 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     this.dataService.registerOrganizationPersonalInformation(this.organizationPersonalInformation)
       .subscribe(response => {
         console.log("organization personal Info Registered Successfully");
-        this.routeToAttendanceRuleSetting();
+        this.router.navigate(['/organization-onboarding/attendance-rule-setup']);
+        this.dataService.markStepAsCompleted(1);
+        this._onboardingService.saveOrgOnboardingStep(1).subscribe();
       },(error) => {
           console.log(error.error.message);
       });

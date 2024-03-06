@@ -824,7 +824,8 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
   get stepsCompletionStatus$() {
     return this.stepsCompletionStatus.asObservable();
   }
-stepIndex:number=-1;
+  
+  stepIndex:number=-1;
   markStepAsCompleted(stepIndex: number): void {
     this.stepIndex=stepIndex;
   }
@@ -1368,7 +1369,6 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
 
     return this.httpClient.put<any>(`${this.baseUrl}/salary/configuration/step/update`, {}, {params});
   }
-
   updateNotificationSetting(notificationVia : NotificationVia):Observable<any>{
     return this.httpClient.put<any>(`${this.baseUrl}/account-setting/update/notification-via`, notificationVia);
   }
@@ -1390,4 +1390,20 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
 
     return this.httpClient.put<any>(`${this.baseUrl}/salary/template/register`, salaryTemplateComponentRequest, {});
   }
+  
+
+  getAllSalaryComponents(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/component/get/all`);
+  }
+
+  getSalaryTemplateById(salaryTemplateId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set('salary_template_id', salaryTemplateId);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get/by/id`, {params});
+  }
+
+
+  
 }

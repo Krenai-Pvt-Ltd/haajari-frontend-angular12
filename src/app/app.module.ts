@@ -34,6 +34,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 
 
+
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
 
 
@@ -73,7 +74,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     DragDropModule,
     MatDialogModule,
     MatButtonModule, 
-    NzSwitchModule
+    NzSwitchModule    
     // OnboardingSidebarResponse
 
     

@@ -3,6 +3,7 @@ import { Key } from 'src/app/constant/key';
 import { ESIContributionRate } from 'src/app/models/e-si-contribution-rate';
 import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
 import { SalaryCalculationMode } from 'src/app/models/salary-calculation-mode';
+import { SalaryComponent } from 'src/app/models/salary-component';
 import { SalaryTemplateComponentRequest } from 'src/app/models/salary-template-component-request';
 import { Statutory } from 'src/app/models/statutory';
 import { StatutoryAttribute } from 'src/app/models/statutory-attribute';
@@ -28,6 +29,7 @@ export class SalarySettingComponent implements OnInit {
     this.getPFContributionRateMethodCall();
     this.getESIContributionRateMethodCall();
     this.getAllStatutoriesMethodCall();
+    // this.getAllSalaryComponentsMethodCall();
   }
 
 
@@ -319,11 +321,50 @@ export class SalarySettingComponent implements OnInit {
   }
 
   //register salary template with attribute
+
+  readonly BASIC_PAY_ID = Key.BASIC_PAY_ID;
+  readonly HRA_ID = Key.HRA_ID;
+
   salaryTemplateComponentRequest : SalaryTemplateComponentRequest = new SalaryTemplateComponentRequest();
   registerSalaryTemplateMethodCall(){
+
+    this.salaryComponentList.forEach((item) => {
+      if (item.value !== null){
+        this.salaryTemplateComponentRequest.salaryComponentRequestList.push(item);
+      }
+    })
+
     this.dataService.registerSalaryTemplate(this.salaryTemplateComponentRequest).subscribe((response) => {
 
     }, (error) => {
+      
+    })
+  }
+
+
+  demoValue = 0;
+  formatterPercent = (value: number): string => `${value} %`;
+  parserPercent = (value: string): string => value.replace(' %', '');
+  formatterDollar = (value: number): string => `$ ${value}`;
+  parserDollar = (value: string): string => value.replace('$ ', '');
+
+
+  //Fetching salary components
+  salaryComponentList : SalaryComponent[] = [];
+  getAllSalaryComponentsMethodCall(){
+    this.dataService.getAllSalaryComponents().subscribe((response) => {
+      this.salaryComponentList = response.listOfObject;
+      this.salaryComponentList.forEach((item) => {
+        item.toggle = false;
+      })
+      this.salaryComponentList[0].toggle = true;
+    }, (error) => {
+
+    })
+  }
+
+  getSalaryTemplateByIdMethodCall(){
+    this.dataService.getSalaryTemplateById(1).subscribe((data) => {
       
     })
   }
