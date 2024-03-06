@@ -11,6 +11,7 @@ import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 
 @Component({
   selector: 'app-attendance-rule-setup',
@@ -31,7 +32,11 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
   organizationAddressDetail : OrganizationAddressDetail = new OrganizationAddressDetail();
   organizationShiftTimingRequest : OrganizationShiftTimingRequest = new OrganizationShiftTimingRequest();
-  constructor(private dataService : DataService, private helperService : HelperService, private router: Router, private el: ElementRef) { }
+  constructor(private dataService : DataService,
+    private helperService : HelperService,
+    private router: Router,
+    private el: ElementRef,
+    private _onboardingService: OrganizationOnboardingService) { }
 
   ngOnInit(): void {
     this.getAttendanceModeAllMethodCall();
@@ -87,6 +92,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
   }
   skipAutomationRulesSetting(){
     this.dataService.markStepAsCompleted(2);
+    this._onboardingService.saveOrgOnboardingStep(2).subscribe();
     this.router.navigate(['/organization-onboarding/leave-rule-setup']);
 
   }
