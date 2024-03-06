@@ -174,8 +174,8 @@
                 <div class="col-md-12">
                     <div class="">
                         <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
-                            <a data-bs-toggle="modal" data-bs-target="#addsalarytemplate" style="font-size: 16px; color: #6666f3 !important;">
-                                <i class="bi bi-plus"></i> Add salary templates 
+                            <a data-bs-toggle="modal" data-bs-target="#addsalarytemplate" style="font-size: 16px; color: #6666f3 !important;"  (click)="getAllSalaryComponentsMethodCall()">
+                                <i class="bi bi-plus"></i> Create your own salary template
                             </a>
                         </div>
                         <!-- <div class="d-flex align-items-center justify-content-between information-box">
@@ -265,7 +265,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="shift-deta">
-                                        <p class="mb-0">Basic + DA | <span style="color: #009688;">24%</span></p>
+                                        <p class="mb-0">Basic Pay | <span style="color: #009688;">24%</span></p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -299,7 +299,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="shift-deta">
-                                        <p class="mb-0">Basic + DA | <span style="color: #009688;">24%</span></p>
+                                        <p class="mb-0">Basic Pay | <span style="color: #009688;">24%</span></p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -631,7 +631,7 @@
                         <div class="">
                             <div class="d-flex align-items-center information-box">
                                 <div class="basic-text">
-                                    <h5>Basic + DA</h5>
+                                    <h5>Basic Pay</h5>
                                     <p class="mb-0">Included in PF calculation</p>
                                 </div>
                                 <div class="enter-ammount position-relative">
@@ -648,7 +648,7 @@
                             </div>
                             <div class="d-flex align-items-center information-box">
                                 <div class="basic-text">
-                                    <h5>HRA</h5>
+                                    <h5>HRA (House Rent Allowance)</h5>
                                 </div>
                                 <div class="enter-ammount position-relative">
                                     <div class="">
@@ -1233,43 +1233,50 @@
     <div class="modal-dialog modal-dialog-centered mx-auto" role="document" style="max-width: 560px;">
         <div class="modal-content">
             <div class="modal-header border-bottom" style="background-color: white;">
-                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;"> Add more field</h6>
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;"> Create your salary template:</h6>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" ></button>
             </div>
             <div class="modal-body">
-                <!-- <div class="form-group mb-3">
-                    <label for="exampleInputEmail1" style="padding-bottom: 6px;">Field Name</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Field Name">
-                   
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="exampleInputPassword1" style="padding-bottom: 6px;">Percentage</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Percentage">
-                  </div> -->
-
-                  <div class="">
-                    <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
-                        <a style="font-size: 16px; color: #6666f3 !important;"><i class="bi bi-plus"></i> Add Templates </a>
+                <div class="d-flex align-items-center justify-content-between information-box">
+                    <h5>Salary Template Name:</h5>
+                    <input nz-input placeholder="Enter your template name here" width="500px;" type="text" [(ngModel)]="salaryTemplateComponentRequest.name"/>
+                </div>
+                <div class="col-md-12">
+                    <div class="border-box">
+           
                     </div>
+                </div>
+
+                  <div class="" *ngFor="let salaryComponent of salaryComponentList">
                     <div class="d-flex align-items-center justify-content-between information-box">
                         <div class="basic-text">
-                            <h5>Basic + DA</h5>
+                            <h5>{{salaryComponent.name}}</h5>
                         </div>
                         <div class="enter-ammount position-relative">
                             <div class="">
-                                <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Amount">
+                                <!-- <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Amount">
 
-                                <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i>
+                                <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i> -->
+                                <nz-input-number
+                                [(ngModel)]="demoValue"
+                                [nzMin]="1"
+                                [nzMax]="100"
+                                [nzStep]="1"
+                                [nzFormatter]="formatterPercent"
+                                [nzParser]="parserPercent"
+                                [nzSize]="'large'"
+                                [nzDisabled]="salaryComponent.toggle == false"
+                                style="width: 100%;"
+                                ></nz-input-number>
                             </div>
                         </div>
                         <div class="delete-btn d-flex align-items-center justify-content-end" style="gap:25px">
-                            <i class="bi bi-pencil-square edit-icon"></i>
-                            <i class="bi bi-trash"></i>
+                            <nz-switch [(ngModel)]="salaryComponent.toggle" [nzDisabled]="salaryComponent.id === BASIC_PAY_ID"></nz-switch>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center information-box">
+                    <!-- <div class="d-flex align-items-center information-box">
                         <div class="basic-text">
-                            <h5>HRA</h5>
+                            <h5>HRA (House Rent Allowance)</h5>
                         </div>
                         <div class="enter-ammount position-relative">
                             <div class="">
@@ -1315,8 +1322,10 @@
                             <i class="bi bi-pencil-square edit-icon"></i>
                             <i class="bi bi-trash"></i>
                         </div>
-                    </div>
-                  
+                    </div> -->
+                </div>
+                <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
+                    <a style="font-size: 16px; color: #6666f3 !important;"><i class="bi bi-plus"></i> Add more </a>
                 </div>
             </div>
             <div class="modal-footer">
