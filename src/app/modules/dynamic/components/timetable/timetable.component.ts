@@ -324,11 +324,14 @@ export class TimetableComponent implements OnInit {
 
   attendanceDetailsResponseList : AttendanceDetailsResponse[] = [];
   debounceTimer : any;
-  getAttendanceDetailsReportByDateMethodCall(debounceTime : number = 300){
+  getAttendanceDetailsReportByDateMethodCall(debounceTime : number = 3000){
      
-    clearTimeout(this.debounceTimer);
-      this.debounceTimer = setTimeout(() => {
-        this.preRuleForShimmersAndOtherConditionsMethodCall();
+    // clearTimeout(this.debounceTimer);
+      // this.debounceTimer = setTimeout(() => {
+        
+      // }, debounceTime);
+
+      this.preRuleForShimmersAndOtherConditionsMethodCall();
         this.dataService.getAttendanceDetailsReportByDate(this.helperService.formatDateToYYYYMMDD(this.selectedDate), this.pageNumber, this.itemPerPage, this.searchText, 'name', '','', this.filterCriteria).subscribe((response) => {
           debugger
           this.attendanceDetailsResponseList = response.listOfObject;
@@ -345,7 +348,6 @@ export class TimetableComponent implements OnInit {
         console.log(error);
         this.networkConnectionErrorForAttendanceDetailsResposne = true;
       })
-      }, debounceTime);
   }
 
 

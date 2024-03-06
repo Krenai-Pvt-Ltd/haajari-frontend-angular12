@@ -417,21 +417,29 @@ isShimmer: boolean = true;
 
   userAndControlRoles : UserAndControl[] = [];
   userAndControlRolesTotalCount : number = 0;
-  getUserAndControlRolesByFilterMethodCall(){
-    this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
-    this.dataService.getUserAndControlRolesByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((data) => {
-      
-      this.userAndControlRoles = data.object;
-      this.total = data.totalItems;
-      
-      if(data === undefined || data === null || this.userAndControlRoles.length === 0){
-        this.dataNotFoundPlaceholderForUserAndControl = true;
-      }
-      console.log(this.userAndControlRoles,this.total);
-    }, (error) => {
-      console.log(error);
-      this.networkConnectionErrorPlaceHolderForUserAndControl = true;
-    })
+  debounceTimer : any;
+  getUserAndControlRolesByFilterMethodCall(debounceTime : number = 300){
+
+    if(this.debounceTimer){
+      clearTimeout(this.debounceTimer);
+    }
+
+    this.debounceTimer = setTimeout(() => {
+      this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
+      this.dataService.getUserAndControlRolesByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((data) => {
+        
+        this.userAndControlRoles = data.object;
+        this.total = data.totalItems;
+        
+        if(data === undefined || data === null || this.userAndControlRoles.length === 0){
+          this.dataNotFoundPlaceholderForUserAndControl = true;
+        }
+        console.log(this.userAndControlRoles,this.total);
+      }, (error) => {
+        console.log(error);
+        this.networkConnectionErrorPlaceHolderForUserAndControl = true;
+      })
+    }, debounceTime)
   }
 
 
