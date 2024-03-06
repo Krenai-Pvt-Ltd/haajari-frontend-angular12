@@ -14,6 +14,7 @@ import { Staff } from 'src/app/models/staff';
 import { StaffSelectionUserList } from 'src/app/models/staff-selection-userlist';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 @Component({
   selector: 'app-leave-rule-setup',
   templateUrl: './leave-rule-setup.component.html',
@@ -25,7 +26,8 @@ export class LeaveRuleSetupComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private dataService: DataService,
     private helperService: HelperService,
-    private _router: Router) {
+    private _router: Router,
+    private _onboardingService: OrganizationOnboardingService) {
     this.form = this.fb.group({
       categories: this.fb.array([])
     });
@@ -34,6 +36,7 @@ export class LeaveRuleSetupComponent implements OnInit {
 
   skipLeaveSetting() {
     this.dataService.markStepAsCompleted(3);
+    this._onboardingService.saveOrgOnboardingStep(3).subscribe();
     this._router.navigate(['/organization-onboarding/upload-team']);
   }
 
