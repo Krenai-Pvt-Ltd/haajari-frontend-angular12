@@ -1414,4 +1414,21 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
   deleteCustomHolidays(ids: number[]): Observable<any> {
     return this.httpClient.delete(`${this.baseUrl}/holiday/delete-custom-holidays`, { params: { ids: ids.join(',') } });
   }
+
+  
+
+  getAllSalaryComponents(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/component/get/all`);
+  }
+
+  getSalaryTemplateById(salaryTemplateId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set('salary_template_id', salaryTemplateId);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get/by/id`, {params});
+  }
+
+
+  
 }
