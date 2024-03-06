@@ -11,6 +11,7 @@ import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 
 @Component({
   selector: 'app-attendance-rule-setup',
@@ -19,34 +20,87 @@ import { HelperService } from 'src/app/services/helper.service';
 })
 export class AttendanceRuleSetupComponent implements OnInit {
 
+  stepFirst: boolean = false;
+  stepSecond: boolean = false;
+  stepThird: boolean = false;
+
+  attendanceMode: boolean = false;
+  shiftSettingMode: boolean = false;
+  automationRulesSettingMode: boolean = false;
+
+  isAddedAutomationRule: boolean = false;
+
   organizationAddressDetail : OrganizationAddressDetail = new OrganizationAddressDetail();
   organizationShiftTimingRequest : OrganizationShiftTimingRequest = new OrganizationShiftTimingRequest();
-  constructor(private dataService : DataService, private helperService : HelperService, private router: Router, private el: ElementRef) { }
+  constructor(private dataService : DataService,
+    private helperService : HelperService,
+    private router: Router,
+    private el: ElementRef,
+    private _onboardingService: OrganizationOnboardingService) { }
 
   ngOnInit(): void {
+    this.getAttendanceModeAllMethodCall();
     this.getAttendanceModeMethodCall();
     this.getAllShiftTimingsMethodCall();
+    this.attendanceMode = true;
+    this.stepFirst = true;
+  }
+
+  attendanceStep(){
+    this.attendanceMode = true;
+    this.shiftSettingMode = false;
+    this.automationRulesSettingMode = false;
+    this.stepFirst = true;
+    this.stepSecond = false;
+    this.stepThird = false;
+  }
+
+  shiftSettingStep(){
+    this.attendanceMode = false;
+    this.shiftSettingMode = true;
+    this.automationRulesSettingMode = false;
+    this.stepFirst = true;
+    this.stepSecond = true;
+    this.stepThird = false;
+  }
+
+  automationRulesSettingStep(){
+    this.attendanceMode = false;
+    this.shiftSettingMode = false;
+    this.automationRulesSettingMode = true;
+    this.stepFirst = true;
+    this.stepSecond = true;
+    this.stepThird = true;
   }
 
   skip: boolean=false;
-  skipForNowAttendanceMethod(){
-    this.skip = true;
+  skipAttendanceMethod(){
+    this.attendanceMode = false;
+    this.shiftSettingMode = true;
+    this.stepSecond = true;
+    this.getAllShiftTimingsMethodCall();
   }
   skipShift: boolean=false;
+
   skipShiftSetting(){
-    this.skipShift= true;
-    this.skipShiftSettingDataToggle = true;
+    this.shiftSettingMode = false;
+    this.isShiftAdded = false;
+    this.automationRulesSettingMode = true;
+    
+    this.stepThird = true;
+
+  }
+  skipAutomationRulesSetting(){
+    this.dataService.markStepAsCompleted(2);
+    this._onboardingService.saveOrgOnboardingStep(2).subscribe();
+    this.router.navigate(['/organization-onboarding/leave-rule-setup']);
+
   }
 
   skipShiftSettingDataToggle: boolean = false;
   skipShiftSettingData(){
     this.skipShiftSettingDataToggle = true;
 
-  }
-
-  skipAutomation: boolean = false;
-  skipAutomationRule(){
-    this.skipAutomation = true;
   }
 
   attendanceModeList : AttendanceMode[] = [];
@@ -63,6 +117,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
   // Modal
 
+  isAttendanceModeSelected: boolean = false;
   @ViewChild("attendancewithlocationssButton") attendancewithlocationssButton !: ElementRef;
   updateAttendanceModeMethodCall(attendanceModeId : number){
    
@@ -75,6 +130,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
       setTimeout(() => {
         if (attendanceModeId == 1){
           this.helperService.showToast("Attedance Mode updated successfully.", Key.TOAST_STATUS_SUCCESS);
+          this.isAttendanceModeSelected = true;
         }
         // console.log("Second line executed after 3 seconds");
       }, 1000);
@@ -91,7 +147,6 @@ export class AttendanceRuleSetupComponent implements OnInit {
     this.dataService.getAttendanceMode().subscribe((response) => {
       debugger
       this.selectedAttendanceModeId = response.id;
-      this.getAttendanceModeAllMethodCall();
       // console.log(this.selectedAttendanceModeId);
     }, (error) => {
       console.log(error);
@@ -431,11 +486,10 @@ debugger
     }
 
   
-  
+  isShiftAdded: boolean = false;
     @ViewChild("closeShiftTimingModal") closeShiftTimingModal !: ElementRef;
 
     registerOrganizationShiftTimingMethodCall(){
-  
       debugger
       this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
   
@@ -445,6 +499,7 @@ debugger
         this.closeShiftTimingModal.nativeElement.click();
         this.getAllShiftTimingsMethodCall();
         this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_SUCCESS);
+        this.dataService.markStepAsCompleted(2);
       }, (error) => {
         console.log(error);
         this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_ERROR);
@@ -534,4 +589,6 @@ debugger
           // Handle invalid form case
       }
     }
+
+
 }

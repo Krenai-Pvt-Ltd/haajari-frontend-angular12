@@ -38,6 +38,7 @@ import { TotalRequestedLeavesReflection } from "../models/totalRequestedLeaveRef
 import { StatutoryRequest } from "../models/statutory-request";
 import { StatutoryAttribute } from "../models/statutory-attribute";
 import { NotificationVia } from "../models/notification-via";
+import { SalaryTemplateComponentRequest } from "../models/salary-template-component-request";
 
 
 @Injectable({
@@ -57,11 +58,11 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  // private baseUrl = "http://localhost:8080/api/v2";
+  private baseUrl = "http://localhost:8080/api/v2";
 
   // private baseUrl = "https://backend.hajiri.work/api/v2";
 
-  private baseUrl = "https://production.hajiri.work/api/v2";
+  // private baseUrl = "https://production.hajiri.work/api/v2";
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -823,7 +824,8 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
   get stepsCompletionStatus$() {
     return this.stepsCompletionStatus.asObservable();
   }
-stepIndex:number=-1;
+  
+  stepIndex:number=-1;
   markStepAsCompleted(stepIndex: number): void {
     this.stepIndex=stepIndex;
   }
@@ -1266,6 +1268,11 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<TotalRequestedLeavesReflection[]>(`${this.baseUrl}/central-leave-management/total-requested-leaves`, { params });
   }
 
+  getApprovedLeaveDetailsForUser(userUuid: string, leaveType:string): Observable<TotalRequestedLeavesReflection[]> {
+    let params = new HttpParams().set('userUuid', userUuid).set('leaveType', leaveType);
+    return this.httpClient.get<TotalRequestedLeavesReflection[]>(`${this.baseUrl}/central-leave-management/total-approved-leaves`, { params });
+  }
+
   approveOrRejectLeave(requestedLeaveId: number, appRejString: string, logInUserUuid:string): Observable<any> {
     // let params = new HttpParams()
     //   .set('requestedLeaveId', requestedLeaveId.toString())
@@ -1362,7 +1369,6 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
 
     return this.httpClient.put<any>(`${this.baseUrl}/salary/configuration/step/update`, {}, {params});
   }
-
   updateNotificationSetting(notificationVia : NotificationVia):Observable<any>{
     return this.httpClient.put<any>(`${this.baseUrl}/account-setting/update/notification-via`, notificationVia);
   }
@@ -1380,4 +1386,32 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/account-setting/verifyOtp`, {}, {params});
   }
 
+  registerSalaryTemplate(salaryTemplateComponentRequest : SalaryTemplateComponentRequest): Observable<any>{
+
+    return this.httpClient.put<any>(`${this.baseUrl}/salary/template/register`, salaryTemplateComponentRequest, {});
+  }
+
+
+  // #########  holidays ###########
+
+
+  registerHoliday(customHolidayRequest: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/holiday/register-custom-holidays`, customHolidayRequest);
+  }
+
+  getUniversalHolidays(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/holiday/total-universal-holidays`);
+  }
+
+  registerCustomHolidays(orgUuid: string, customHolidaysRequest: any[]): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/holiday/register-custom-holidays?orgUuid=${orgUuid}`, customHolidaysRequest);
+  }
+
+  getCustomHolidays(orgUuid: string): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/holiday/total-custom-holidays?orgUuid=${orgUuid}`);
+  }
+  
+  deleteCustomHolidays(ids: number[]): Observable<any> {
+    return this.httpClient.delete(`${this.baseUrl}/holiday/delete-custom-holidays`, { params: { ids: ids.join(',') } });
+  }
 }

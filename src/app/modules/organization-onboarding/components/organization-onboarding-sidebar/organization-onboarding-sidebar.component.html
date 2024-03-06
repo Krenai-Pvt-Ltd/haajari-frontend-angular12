@@ -11,7 +11,7 @@
                 <div class="tracking-body">
                     <ul class="tracking-steps">
                         
-                        <li class="tracking-item tracking-itemActive newline" >
+                        <li class="tracking-item tracking-itemActive newline">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon active">
                                     <i class="bi bi-check2" ></i>
@@ -24,11 +24,11 @@
                         </li>
                         <!-- Repeat for each step, changing the index number in isStepCompleted() and the displayed number -->
                         <!-- Placeholder for Address Details -->
-                        <li class="tracking-item " >
+                        <li class="tracking-item" [ngClass]="{'tracking-itemActive newline': isStepCompleted(2) }">
                             <div class="d-flex new-stap">
-                                <div class="tracing-icon">
-                                    <!-- <i class="bi bi-check2"></i> -->
-                                    <span>2</span>
+                                <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(2)}">
+                                    <i class="bi bi-check2" *ngIf="isStepCompleted(2)"></i>
+                                    <span *ngIf="!isStepCompleted(2)">2</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Attendance Rule Setting</p>
@@ -36,11 +36,12 @@
                             </div>
                         </li>
                         <!-- Placeholder for Documents -->
-                        <li class="tracking-item " >
+                        <li class="tracking-item" [ngClass]="{'tracking-itemActive newline': isStepCompleted(3) }" >
                             <div class="d-flex new-stap">
-                                <div class="tracing-icon">
+                                <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(3)}">
                                     <!-- <i class="bi bi-check2" ></i> -->
-                                    <span>3</span>
+                                    <i class="bi bi-check2" *ngIf="isStepCompleted(3)"></i>
+                                    <span *ngIf="!isStepCompleted(3)">3</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Leave Setting</p>
@@ -56,6 +57,17 @@
                                 </div>
                                 <div class="tracking-data">
                                     <p>Holiday Setting</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tracking-item ">
+                            <div class="d-flex new-stap">
+                                <div class="tracing-icon">
+                                    <!-- <i class="bi bi-check2"></i> -->
+                                    <span>5</span>
+                                </div>
+                                <div class="tracking-data">
+                                    <p>Upload Team</p>
                                 </div>
                             </div>
                         </li>

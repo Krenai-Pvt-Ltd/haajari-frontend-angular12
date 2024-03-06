@@ -34,8 +34,7 @@ export class TopbarComponent implements OnInit {
     this.router.events.subscribe(event => {
       this.updateTopbarValue();
     });
-    this.getUserUUID();
-    this.getFirebase();
+    this.getUuids();
   }
 
   private updateTopbarValue() {
@@ -117,19 +116,20 @@ export class TopbarComponent implements OnInit {
   }
 
   UUID : any;
-  async getUserUUID(){
+  orgUuid:any;
+  async getUuids(){
     this.UUID = await this.rbacService.getUUID();
-    this.getNotification(this.UUID,'notify')
-    this.getMailNotification(this.UUID,'mail')
+    this.orgUuid = await this.rbacService.getOrgRefUUID();
+    this.getFirebase(this.orgUuid,this.UUID);
   }
 
   notificationList: Notification[]= new Array();
   totalNotification: number =0;
   loading: boolean = false;
   totalNewNotification: number = 0;
-  getNotification(uuid:any,notificationType:string){
+  getNotification(orgUuid:any, uuid:any,notificationType:string){
     this.loading = true;
-    this._notificationService.getNotification(uuid, this.databaseHelper,notificationType).subscribe(response=>{
+    this._notificationService.getNotification(orgUuid,uuid, this.databaseHelper,notificationType).subscribe(response=>{
       if(response.status){
         this.notificationList = [...this.notificationList, ...response.object]
         this.totalNewNotification = response.object[0].newNotificationCount;
@@ -148,7 +148,6 @@ export class TopbarComponent implements OnInit {
     this.mailLoading = true;
     this._notificationService.getMailNotification(uuid, this.databaseHelper,notificationType).subscribe(response=>{
       if(response.status){
-        // this.mailList = response.object;
         this.mailList = [...this.mailList, ...response.object]
         this.totalNewMailNotification = response.object[0].newNotificationCount;
         this.totalMailNotification = response.totalItems;
@@ -167,7 +166,7 @@ export class TopbarComponent implements OnInit {
     }
     else
     {
-      this.getNotification(this.UUID,notificationType);
+      this.getNotification(this.orgUuid,this.UUID,notificationType);
     }
 
   }
@@ -175,7 +174,7 @@ export class TopbarComponent implements OnInit {
   markAsReadAll(notificationType: string){
     this._notificationService.readAllNotification(this.UUID,notificationType).subscribe(response=>{
       if(response.status){
-        this.getNotification(this.UUID,notificationType);
+        this.getNotification(this.orgUuid,this.UUID,notificationType);
         
       }
     })
@@ -241,44 +240,30 @@ export class TopbarComponent implements OnInit {
   
   @HostListener('window:scroll', ['$event'])
   onNotificationScroll(event:any) {
+    console.log("scroll working");
+    
     if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight-3) {
+      console.log("scroll workign with height");
+      
       if (this.notificationList.length < this.totalNotification && !this.loading &&
         this.databaseHelper.currentPage <= (this.totalNotification / this.databaseHelper.itemPerPage)) {
         this.databaseHelper.currentPage++;
-        this.getNotification(this.UUID,"notify");
+        this.getNotification(this.orgUuid,this.UUID,"notify");
       }
     }
   }
 
-  getFirebase()
-  {
-    // this.slackDataPlaceholderFlag=true;
-    // console.log(bulkId)
-    this.db.object("user_notification"+"/"+"organization_"+"/"+"user_").valueChanges()
+  newNotiication:boolean = false;
+  getFirebase(orgUuid:any,userUuid:any){
+    this.db.object("user_notification"+"/"+"organization_"+orgUuid+"/"+"user_"+userUuid).valueChanges()
       .subscribe(async res => {
 
-        console.log(res);
-        
         //@ts-ignore
         var res = res;
 
-
         //@ts-ignore
-        this.percentage = res.percentage; 
+        this.newNotiication = res.flag==1?true:false; 
 
-
-        //@ts-ignore
-        // if (res != undefined && res != null) {
-
-          
-
-        //    //@ts-ignore
-        //   // if(res.flag==1){
-        //   //   this.slackDataPlaceholderFlag=false;
-        //   //   localStorage.removeItem('uniqueId');
-        //   //   this.getTeamsByFiltersFunction();
-        //   // }
-        // }
       });
   }
   

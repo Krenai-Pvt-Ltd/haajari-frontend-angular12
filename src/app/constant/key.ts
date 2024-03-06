@@ -57,7 +57,8 @@ export class Key{
         "/setting/account-settings",
         "/add-role",
         "/setting/billing-payment",
-        "/leave-management"
+        "/leave-management",
+        "/upload-team"
     ];
 
     public static TOPBAR_ROUTES = [
@@ -88,7 +89,8 @@ export class Key{
         "/setting/account-settings",
         "/add-role",
         "/setting/billing-payment",
-        "/leave-management"
+        "/leave-management",
+        "/upload-team"
     ];
 
 
@@ -102,6 +104,7 @@ export class Key{
         "/organization-onboarding/leave-setting-create",
         "/organization-onboarding/add-shift-time",
         "/organization-onboarding/holiday-setting",
+        "/organization-onboarding/upload-team"
     ];
 
 
@@ -214,5 +217,16 @@ export class Key{
 
     //Coupon
     verify_coupon = "coupon";
+
+    
+    //user import
+    create_user = "whatsapp-user-onboarding";
+    user_import = "whatsapp-user-onboarding/import";
+
+    get_report = "user-import"
+    check_number_existence = "whatsapp-user-onboarding/check-number-existence"
+
+    save_organization_onboarding_step = "organization/save-onboarding-step"
+    get_organization_onboarding_step = "organization/onboarding-step"
     
 }
