@@ -31,18 +31,20 @@
                             <div class="col-md-8">
                                 <div class="attendance-rule">
 
-                                    <div class="d-flex align-items-center attendance-rule-box">
+                                    <div class="d-flex align-items-center attendance-rule-box"
+                                    *ngFor="let attendanceRuleResponse of attendanceRuleResponseList; let i = index">
                                         <div class="late-icon">
                                             <i class="bi bi-person"></i>
                                         </div>
                                         <div class="late-rule">
-                                            <h5 style="color: #444;">Late Entry Rules</h5>
-                                            <p class="mb-0">Define the late entry rules for the employees</p></div>
+                                            <h5 style="color: #444;">{{attendanceRuleResponse.name}}</h5>
+                                            <p class="mb-0">{{attendanceRuleResponse.description}}</p></div>
                                         <div class="late-btn d-flex justify-content-end" style="gap: 10px; ">
-                                            <a routerLink="/organization-onboarding/creat-rule" class="create-rule" style="font-size: 12px;"> Create your first rule <i class="bi bi-chevron-right"></i></a>
+                                            <!-- <a routerLink="/organization-onboarding/creat-rule" class="create-rule" style="font-size: 12px;"> Create your first rule <i class="bi bi-chevron-right"></i></a> -->
+                                            <a (click)="routeToCreate(i)" class="create-rule" style="font-size: 12px;"> Create your first rule <i class="bi bi-chevron-right"></i></a>
                                         </div>
                                     </div>
-                                    <div class="d-flex align-items-center attendance-rule-box">
+                                    <!-- <div class="d-flex align-items-center attendance-rule-box">
                                         <div class="late-icon">
                                             <i class="bi bi-person"></i>
                                         </div>
@@ -86,7 +88,7 @@
                                         <div class="late-btn d-flex justify-content-end" style="gap: 10px;">
                                             <a href="" class="create-rule" style="font-size: 12px;"> Create your first rule <i class="bi bi-chevron-right"></i></a>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                 </div>
                             </div>

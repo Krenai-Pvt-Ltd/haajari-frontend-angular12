@@ -39,6 +39,8 @@ import { StatutoryRequest } from "../models/statutory-request";
 import { StatutoryAttribute } from "../models/statutory-attribute";
 import { NotificationVia } from "../models/notification-via";
 import { SalaryTemplateComponentRequest } from "../models/salary-template-component-request";
+import { WeeklyHoliday } from "../models/WeeklyHoliday";
+import { WeekDay } from "../models/WeekDay";
 
 
 @Injectable({
@@ -99,11 +101,11 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-for-user-by-date-duration`,{params});
   }
 
-  getAttendanceDetailsByDate(date : string): Observable<any>{
-    const params = new HttpParams()
-    .set("date", date)
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date`, {params});
-  }
+  // getAttendanceDetailsByDate(date : string): Observable<any>{
+  //   const params = new HttpParams()
+  //   .set("date", date)
+  //   return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date`, {params});
+  // }
 
 
   getAttendanceDetailsReportByDate(date : string, pageNumber: number, itemPerPage: number, search: string, searchBy: string, sort: string, sortBy: string, filterCriteria: string): Observable<any>{
@@ -1403,20 +1405,39 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<any[]>(`${this.baseUrl}/holiday/total-universal-holidays`);
   }
 
-  registerCustomHolidays(orgUuid: string, customHolidaysRequest: any[]): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/holiday/register-custom-holidays?orgUuid=${orgUuid}`, customHolidaysRequest);
+  registerCustomHolidays(customHolidaysRequest: any[]): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/holiday/register-custom-holidays?orgUuid`, customHolidaysRequest);
   }
 
-  getCustomHolidays(orgUuid: string): Observable<any[]> {
-    return this.httpClient.get<any[]>(`${this.baseUrl}/holiday/total-custom-holidays?orgUuid=${orgUuid}`);
+  getCustomHolidays(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/holiday/total-custom-holidays?orgUuid`);
   }
   
-  deleteCustomHolidays(ids: number[]): Observable<any> {
-    return this.httpClient.delete(`${this.baseUrl}/holiday/delete-custom-holidays`, { params: { ids: ids.join(',') } });
+  deleteCustomHolidays(ids: number): Observable<any> {
+    return this.httpClient.delete(`${this.baseUrl}/holiday/delete-custom-holidays`, { params: { ids: ids} });
   }
 
-  
+  getWeeklyHolidays(): Observable<WeeklyHoliday[]> {
+    // let params = new HttpParams().set('orgUuid', orgUuid);
+    return this.httpClient.get<WeeklyHoliday[]>(`${this.baseUrl}/holiday/total-weekly-holidays`);
+  }
 
+  getWeekDays(): Observable<WeekDay[]> {
+    return this.httpClient.get<WeekDay[]>(`${this.baseUrl}/holiday/get-week-days`);
+  }
+
+  registerWeeklyHolidays(weeklyHolidays: string[]): Observable<any> {
+    // let params = new HttpParams().set('orgUuid', orgUuid);
+    return this.httpClient.post(`${this.baseUrl}/holiday/register-weekly-holidays`, weeklyHolidays);
+  }
+
+  deleteWeeklyHolidays(id: number): Observable<any> {
+    let params = new HttpParams().set('id', id.toString());
+    return this.httpClient.delete(`${this.baseUrl}/holiday/delete-weekly-holidays`, { params });
+  }
+  
+  // ###############
+  
   getAllSalaryComponents(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/salary/component/get/all`);
   }

@@ -124,6 +124,12 @@ ul.staff-page-list {
         padding: 8px 30px;
     }
 
+    @media (max-width: 768px) { /* or whichever breakpoint you prefer for mobile devices */
+        .next-stap {
+            padding: 8px 15px; /* Adjust padding for mobile view */
+            /* Add any other styles for mobile view here if necessary */
+        }
+    }
 
     .loaction-side-div{
         flex-direction:column;
@@ -379,4 +385,15 @@ ul.staff-page-list {
     @keyframes dotOpacity {
         0%, 80%, 100% { opacity: 0; }
         40% { opacity: 1; }
+    }
+
+    /* Base mobile view styles */
+    @media (max-width: 768px) {
+        .set-location-btn .btn {
+            margin-right: 5px; /* Adds right margin to each button except the last one */
+        }
+    
+        .set-location-btn .btn:last-child {
+            margin-right: 0; /* Ensures the last button doesn't have a right margin */
+        }
     }
