@@ -135,11 +135,13 @@
                                                     </div>
                                                     <div class="notification-option">
                                                         <label for="whatsappSwitch">Receive attendance notifications by WhatsApp</label>
-                                                        <div class="material-switch">
+                                                        <div class="material-switch" [class.disabled]="isDisabled">
                                                           <input type="checkbox" id="whatsappSwitch" [(ngModel)]="notifications.whatsapp"
-                                                                 (click)="toggleNotification('whatsapp')" class="ng-untouched ng-pristine ng-valid">
+                                                                 (click)="toggleNotification('whatsapp')" [disabled]="isDisabled">
                                                           <label class="label-success" for="whatsappSwitch"></label>
                                                         </div>
+                                                        
+                                                        
                                                       </div>
                                                       <div class="notification-option" *ngIf="isPlanActive">
                                                         <label for="slackSwitch">Receive attendance notifications by Slack</label>
