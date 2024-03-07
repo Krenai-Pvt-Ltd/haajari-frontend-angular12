@@ -21,6 +21,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -50,7 +51,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
         NgxMaskModule.forRoot(),
         NzInputNumberModule,
         NzDatePickerModule,
-        NzCalendarModule
+        NzCalendarModule,
         
        
         

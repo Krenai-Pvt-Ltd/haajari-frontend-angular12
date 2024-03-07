@@ -1405,16 +1405,16 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<any[]>(`${this.baseUrl}/holiday/total-universal-holidays`);
   }
 
-  registerCustomHolidays(orgUuid: string, customHolidaysRequest: any[]): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/holiday/register-custom-holidays?orgUuid=${orgUuid}`, customHolidaysRequest);
+  registerCustomHolidays(customHolidaysRequest: any[]): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/holiday/register-custom-holidays?orgUuid`, customHolidaysRequest);
   }
 
   getCustomHolidays(): Observable<any[]> {
     return this.httpClient.get<any[]>(`${this.baseUrl}/holiday/total-custom-holidays?orgUuid`);
   }
   
-  deleteCustomHolidays(ids: number[]): Observable<any> {
-    return this.httpClient.delete(`${this.baseUrl}/holiday/delete-custom-holidays`, { params: { ids: ids.join(',') } });
+  deleteCustomHolidays(ids: number): Observable<any> {
+    return this.httpClient.delete(`${this.baseUrl}/holiday/delete-custom-holidays`, { params: { ids: ids} });
   }
 
   getWeeklyHolidays(): Observable<WeeklyHoliday[]> {
@@ -1426,9 +1426,9 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<WeekDay[]>(`${this.baseUrl}/holiday/get-week-days`);
   }
 
-  registerWeeklyHolidays(orgUuid: string, weeklyHolidays: string[]): Observable<any> {
-    let params = new HttpParams().set('orgUuid', orgUuid);
-    return this.httpClient.post(`${this.baseUrl}/holiday/register-weekly-holidays`, weeklyHolidays, { params });
+  registerWeeklyHolidays(weeklyHolidays: string[]): Observable<any> {
+    // let params = new HttpParams().set('orgUuid', orgUuid);
+    return this.httpClient.post(`${this.baseUrl}/holiday/register-weekly-holidays`, weeklyHolidays);
   }
 
   deleteWeeklyHolidays(id: number): Observable<any> {
@@ -1437,7 +1437,7 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
   }
   
   // ###############
-
+  
   getAllSalaryComponents(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/salary/component/get/all`);
   }

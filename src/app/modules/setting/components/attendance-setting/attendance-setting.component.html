@@ -344,7 +344,26 @@
 
 
                     <div class="col-md-7 mt-3 mb-3">
-                        <div class="">
+
+                        <div class="empty-file" *ngIf="isHolidayErrorPlaceholder">
+                            <div class="errorboxmain">
+                                <div class="errorboxinner text-center">
+                                    <div class="errorboxplaceholder mb-2">
+                                        <img src="assets/images/signal.svg" style="width: 80px" />
+                                    </div>
+                                    <div class="">
+                                        <h4>Something went wrong</h4>
+                                        <p>
+                                            An error occurred while processing your
+                                            request. Please refresh the page and try
+                                            again.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="" *ngIf="!isHolidayErrorPlaceholder">
                             <div class="add-filtter d-flex align-items-center justify-content-end">
                                 <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal"
                                     data-bs-target="#addholiday"><i class="bi bi-plus"></i> Add more custom Holiday's </a>
@@ -399,9 +418,10 @@
                                 </div>
 
                                 <div class="row mt-2 p-2">
-                                    <div class="col-md-4" *ngFor="let customHol of customHolidays">
+                                    <div class="col-md-6" *ngFor="let customHol of customHolidays">
                                         <div class="shift-deta">
-                                            <p class="mb-0"><span style="color: #009688;">{{customHol.name}}</span> - <span style="color:black">{{formatDateIn(customHol.date)}}</span> </p>
+                                            <p class="mb-0 d-flex justify-content-between"><span style="color: #009688;">{{customHol.name}}</span> - <span style="color:black">{{formatDateIn(customHol.date)}}</span> <span style="color: #EB5050" (click)="deleteCustomHolidays(customHol.id)" *ngIf="isDateGreaterThanToday(customHol.date)"><i class="bi bi-trash"></i></span></p>
+
                                         </div>
                                     </div>
                                     <!-- <div class="col-md-4">
@@ -452,7 +472,25 @@
 
                     <div class="col-md-7 mt-3 mb-3">
 
-                        <div class="">
+                        <div class="empty-file" *ngIf="isWeeklyHolidayErrorPlaceholder">
+                            <div class="errorboxmain">
+                                <div class="errorboxinner text-center">
+                                    <div class="errorboxplaceholder mb-2">
+                                        <img src="assets/images/signal.svg" style="width: 80px" />
+                                    </div>
+                                    <div class="">
+                                        <h4>Something went wrong</h4>
+                                        <p>
+                                            An error occurred while processing your
+                                            request. Please refresh the page and try
+                                            again.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="" *ngIf="!isWeeklyHolidayErrorPlaceholder">
                             <div class="add-filtter d-flex align-items-center justify-content-end">
                                 <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal"
                                     data-bs-target="#addweeklyholiday"><i class="bi bi-plus"></i>Add Weekly Holiday's
@@ -470,8 +508,9 @@
 
 
                                     <div class="col-md-6" *ngFor="let weeklyHol of weeklyHolidays">
-                                        <div class="shift-deta">
-                                            <p class="mb-0"><span style="color: #009688;">{{weeklyHol.name}}</span> </p>
+                                        <div class="shift-deta ">
+                                            <p class="mb-0 d-flex justify-content-between"><span style="color: #009688;">{{weeklyHol.name}}</span><span style="color: #EB5050" (click)="deleteWeeklyHolidays(weeklyHol.id)"><i class="bi bi-trash"></i></span></p>
+
                                         </div>
                                     </div>
                                     <!-- <div class="col-md-4">
@@ -1498,6 +1537,52 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Add Holiday(s)</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" #customHolidayModal aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form #holidayForm="ngForm">
+                <div *ngFor="let holiday of holidayList; let i = index" class="form-group row mb-3">
+                  <div class="col-md-5">
+                    <input type="text" name="holidayName{{i}}" [(ngModel)]="holiday.name" class="form-control" placeholder="Enter Holiday Name" required>
+                  </div>
+                  <div class="col-md-5">
+                    <nz-date-picker class="nz-overlay-container"
+                      name="holidayDate{{i}}" 
+                      [(ngModel)]="holiday.date" 
+                      ngModel 
+                      required 
+                      nzPlaceHolder="Select Holiday Date">
+                    </nz-date-picker>
+                  </div>
+                  <div class="col-md-2">
+                    <button type="button" class="btn btn-outline-danger" (click)="removeHoliday(i)" *ngIf="holidayList.length > 1">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="add-more-holiday" (click)="addHoliday()">
+                    <i class="bi bi-plus"></i> Add More
+                  </span>
+                  <button type="submit" class="btn btn-success" (click)="registerCustomHolidays()" [disabled]="holidayForm.invalid" *ngIf="!isCustomHolidayLoader">Submit</button>
+                  <div class="dot-opacity-loader" *ngIf="isCustomHolidayLoader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+    <!-- <div class="modal fade" id="addholiday" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Holiday(s)</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         #closeShiftTimingModal></button>
             </div>
@@ -1529,12 +1614,44 @@
           </div>
         </div>
       </div>
-      
+       -->
 
+       <div class="modal fade" id="addweeklyholiday" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">Weekly Holiday</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeWeeklyHolidayModal></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="week-checkbox" *ngFor="let day of weekDay; let i = index">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" [(ngModel)]="day.selected" [id]="'weekDay' + i">
+                                    <label class="form-check-label" [for]="'weekDay' + i">{{day.name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btnmarkcancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btnmarkdelete" (click)="submitWeeklyHolidays()" *ngIf="!submitWeeklyHolidaysLoader">Submit</button>
+                    <div class="dot-opacity-loader" *ngIf="submitWeeklyHolidaysLoader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
     
 
 
-    <div class="modal fade" id="addweeklyholiday" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    <!-- <div class="modal fade" id="addweeklyholiday" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
 
@@ -1543,78 +1660,19 @@
                     <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Weekly Holiday</h6>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         #closeShiftTimingModal></button>
-                </div><!--end modal-header-->
+                </div>
                 <div class="modal-body">
                     <div class="row">
                         <div clss="col-md-12">
                             <div class="week-checkbox" *ngFor="let weekdays of weekDay">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" [(ngModel)]="weekdays.selected" id="{{weekdays.name}}">
                                     <label class="form-check-label" for="defaultCheck1">{{weekdays.name}}
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <!-- <div clss="col-md-12">
-                            <div class="week-checkbox">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    <label class="form-check-label" for="defaultCheck1">
-                                        Monday
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div clss="col-md-12">
-                            <div class="week-checkbox">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    <label class="form-check-label" for="defaultCheck1">
-                                        Tuesday
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div clss="col-md-12">
-                            <div class="week-checkbox">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    <label class="form-check-label" for="defaultCheck1">
-                                        Wednesday
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div clss="col-md-12">
-                            <div class="week-checkbox">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    <label class="form-check-label" for="defaultCheck1">
-                                        Thursday
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div clss="col-md-12">
-                            <div class="week-checkbox">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    <label class="form-check-label" for="defaultCheck1">
-                                        Friday
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div clss="col-md-12">
-                            <div class="week-checkbox">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    <label class="form-check-label" for="defaultCheck1">
-                                        Saturday
-                                    </label>
-                                </div>
-                            </div>
-                        </div> -->
+                        
                     </div>
                 </div>
 
@@ -1628,7 +1686,7 @@
 
             </div>
         </div>
-    </div>
+    </div> -->
 
 
     <div class="modal fade" id="automation-rules" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"

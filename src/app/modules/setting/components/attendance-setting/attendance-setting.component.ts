@@ -1029,22 +1029,36 @@ unselectAllUsers() {
 
   // ##########  holidays #############
 
+  isHolidayErrorPlaceholder:boolean=false;
   universalHolidays: UniversalHoliday[] = [];
 
   getUniversalHolidays() {
-    this.dataService.getUniversalHolidays().subscribe(holidays => {
-      this.universalHolidays = holidays;
+    this.dataService.getUniversalHolidays().subscribe({
+      next: (holidays) => {
+        this.universalHolidays = holidays;
+      },
+      error: (error) => {
+        this.isHolidayErrorPlaceholder=true;
+        console.error('Error fetching universal holidays:', error);
+      }
     });
   }
-
+  
   customHolidays: CustomHolidays[] = [];
 
   getCustomHolidays() {
-    this.dataService.getCustomHolidays().subscribe(holidays => {
-      this.customHolidays = holidays;
+    this.dataService.getCustomHolidays().subscribe({
+      next: (holidays) => {
+        this.customHolidays = holidays;
+      },
+      error: (error) => {
+        this.isHolidayErrorPlaceholder=true;
+        console.error('Error fetching custom holidays:', error);
+      }
     });
   }
-
+  
+  isWeeklyHolidayErrorPlaceholder:boolean=false;
   weeklyHolidays: WeeklyHoliday[] = [];
 
   getWeeklyHolidays() {
@@ -1052,21 +1066,94 @@ unselectAllUsers() {
       this.weeklyHolidays = holidays;
       this.getWeekDays();
 
+    },(error) => {
+      this.isWeeklyHolidayErrorPlaceholder=true;
+      console.error('Error fetching custom holidays:', error);
     });
   }
 
   weekDay: WeekDay[] = [];
 
+  // getWeekDays() {
+  //   debugger
+  //   this.dataService.getWeekDays().subscribe(holidays => {
+  //     this.weekDay = holidays;
+  //     console.log(this.weekDay);
+  //   });
+  // }
+
   getWeekDays() {
     this.dataService.getWeekDays().subscribe(holidays => {
-      this.weekDay = holidays;
-      
+      this.weekDay = holidays.map(day => ({
+        ...day,
+        selected: day.selected === 1
+      }));
+      console.log(this.weekDay); 
     });
+  }
+  
+
+  // getWeekDays() {
+  //   this.dataService.getWeekDays().subscribe(holidays => {
+  //     console.log(this.weekDay);
+
+  //     this.weekDay = holidays.map(day => ({
+  //       ...day,
+  //       selected: day.selected === true 
+  //     }));
+  //     console.log(this.weekDay);
+  //   });
+  // }
+
+  submitWeeklyHolidaysLoader:boolean=false;
+  @ViewChild("closeWeeklyHolidayModal") closeWeeklyHolidayModal!:ElementRef;
+  submitWeeklyHolidays() {
+    const selectedWeekDays = this.weekDay
+                              .filter(day => day.selected)
+                              .map(day => day.name);
+     this.submitWeeklyHolidaysLoader=true;
+    this.dataService.registerWeeklyHolidays(selectedWeekDays).subscribe({
+      next: (response) => {
+        console.log('Weekly holidays registered successfully', response);
+        this.getWeeklyHolidays(); 
+        this.submitWeeklyHolidaysLoader=false;
+        this.closeWeeklyHolidayModal.nativeElement.click();
+      },
+      error: (error) => {
+        this.submitWeeklyHolidaysLoader=false;
+        console.error('Failed to register weekly holidays', error);
+      }
+    });
+  }
+
+  deleteWeeklyHolidays(id: number) {
+      this.dataService.deleteWeeklyHolidays(id).subscribe(
+        response => {
+          console.log(response);
+          // alert('Weekly holiday deleted successfully');
+          this.getWeeklyHolidays(); 
+        },
+        error => {
+          console.error('Error deleting weekly holiday:', error);
+        }
+      );
+  }
+
+  deleteCustomHolidays(id:number){
+    this.dataService.deleteCustomHolidays(id).subscribe(
+      response => {
+        console.log(response);
+        this.getCustomHolidays(); 
+      },
+      error => {
+        console.error('Error deleting weekly holiday:', error);
+      }
+    );
   }
 
   formatDateIn(newdate:any) {
     const date = new Date(newdate);
-    const formattedDate = this.datePipe.transform(date, 'ddMMMM, yyyy');
+    const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
     return formattedDate;
   }
 
@@ -1085,8 +1172,30 @@ unselectAllUsers() {
     this.holidayList.splice(index, 1);
   }
 
-  create() {
+  isCustomHolidayLoader:boolean=false;
+  @ViewChild("customHolidayModal") customHolidayModal!:ElementRef;
+  registerCustomHolidays() {
     console.log(this.holidayList);
+    this.isCustomHolidayLoader=true;
+    this.dataService.registerCustomHolidays(this.holidayList).subscribe({
+      next: (response) => {
+        console.log('Custom Holidays Registered Successfully', response)
+        this.getCustomHolidays();
+        this.isCustomHolidayLoader=false;
+        this.holidayList= [{ name: '', date: '' }];
+        this.customHolidayModal.nativeElement.click();
+      },
+      error: (error) => {
+        this.isCustomHolidayLoader=false;
+        console.error('Error registering custom holidays:', error)}
+    });
   }
 
+  isDateGreaterThanToday(date: string): boolean {
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    let compareDate = new Date(date);
+
+    return compareDate > today;
+  }
 }
