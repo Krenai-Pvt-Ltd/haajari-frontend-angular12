@@ -11,7 +11,8 @@
                 <div class="tracking-body">
                     <ul class="tracking-steps">
                         
-                        <li class="tracking-item tracking-itemActive newline">
+                        <!-- Placeholder for Personal info -->
+                        <li class="tracking-item tracking-itemActive newline pointer" (click)="navigateTo('/organization-onboarding/personal-information', 1)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon active">
                                     <i class="bi bi-check2" ></i>
@@ -22,9 +23,8 @@
                                 </div>
                             </div>
                         </li>
-                        <!-- Repeat for each step, changing the index number in isStepCompleted() and the displayed number -->
-                        <!-- Placeholder for Address Details -->
-                        <li class="tracking-item" [ngClass]="{'tracking-itemActive newline': isStepCompleted(2) }">
+                        <!-- Placeholder for Attendence rule setting -->
+                        <li class="tracking-item pointer" [ngClass]="{'tracking-itemActive newline': isStepCompleted(2) }" (click)="navigateTo('/organization-onboarding/attendance-rule-setup', 2)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(2)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(2)"></i>
@@ -35,8 +35,8 @@
                                 </div>
                             </div>
                         </li>
-                        <!-- Placeholder for Documents -->
-                        <li class="tracking-item" [ngClass]="{'tracking-itemActive newline': isStepCompleted(3) }" >
+                        <!-- Placeholder for Leave Setting -->
+                        <li class="tracking-item pointer" [ngClass]="{'tracking-itemActive newline': isStepCompleted(3) }" (click)="navigateTo('/organization-onboarding/leave-rule-setup', 3)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(3)}">
                                     <!-- <i class="bi bi-check2" ></i> -->
@@ -48,8 +48,8 @@
                                 </div>
                             </div>
                         </li>
-                        <!-- Placeholder for Academic -->
-                        <li class="tracking-item ">
+                        <!-- Placeholder for Holiday setting -->
+                        <li class="tracking-item pointer" (click)="navigateTo('/organization-onboarding/holiday-setting', 4)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon">
                                     <!-- <i class="bi bi-check2"></i> -->
@@ -60,7 +60,8 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="tracking-item ">
+                        <!-- Placeholder for Upload team -->
+                        <li class="tracking-item pointer" (click)="navigateTo('/organization-onboarding/upload-team', 5)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon">
                                     <!-- <i class="bi bi-check2"></i> -->
@@ -75,9 +76,6 @@
                     </ul>
                 </div>
             </div>
-
-        
-
         </div>
     </div>
 </div>

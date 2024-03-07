@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Key } from 'src/app/constant/key';
 import { AttendanceMode } from 'src/app/models/attendance-mode';
+import { AttendanceRuleWithAttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-with-attendance-rule-definition-response';
 import { OrganizationAddressDetail } from 'src/app/models/organization-address-detail';
 import { OrganizationShiftTimingRequest } from 'src/app/models/organization-shift-timing-request';
 import { OrganizationShiftTimingResponse } from 'src/app/models/organization-shift-timing-response';
@@ -30,10 +31,22 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
   isAddedAutomationRule: boolean = false;
 
-  organizationAddressDetail : OrganizationAddressDetail = new OrganizationAddressDetail();
-  organizationShiftTimingRequest : OrganizationShiftTimingRequest = new OrganizationShiftTimingRequest();
-  constructor(private dataService : DataService,
-    private helperService : HelperService,
+  readonly OVERTIME_RULE = Key.OVERTIME_RULE;
+
+  //input for selecting duration:
+  hours: number[] = Array.from({ length: 24 }, (_, i) => i);
+  minutes: number[] = Array.from({ length: 60 }, (_, i) => i);
+  selectedHours: number = 0;
+  selectedMinutes: number = 0;
+  duration: string = '';
+  selectedTime: string = '20:00';
+  readonly DEDUCTION_TYPE_PER_MINUTE = Key.DEDUCTION_TYPE_PER_MINUTE;
+  readonly OVERTIME_TYPE_FIXED_AMOUNT = Key.OVERTIME_TYPE_FIXED_AMOUNT;
+
+  organizationAddressDetail: OrganizationAddressDetail = new OrganizationAddressDetail();
+  organizationShiftTimingRequest: OrganizationShiftTimingRequest = new OrganizationShiftTimingRequest();
+  constructor(private dataService: DataService,
+    private helperService: HelperService,
     private router: Router,
     private el: ElementRef,
     private _onboardingService: OrganizationOnboardingService) { }
@@ -44,9 +57,10 @@ export class AttendanceRuleSetupComponent implements OnInit {
     this.getAllShiftTimingsMethodCall();
     this.attendanceMode = true;
     this.stepFirst = true;
+    this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
   }
 
-  attendanceStep(){
+  attendanceStep() {
     this.attendanceMode = true;
     this.shiftSettingMode = false;
     this.automationRulesSettingMode = false;
@@ -55,7 +69,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
     this.stepThird = false;
   }
 
-  shiftSettingStep(){
+  shiftSettingStep() {
     this.attendanceMode = false;
     this.shiftSettingMode = true;
     this.automationRulesSettingMode = false;
@@ -64,33 +78,35 @@ export class AttendanceRuleSetupComponent implements OnInit {
     this.stepThird = false;
   }
 
-  automationRulesSettingStep(){
+  automationRulesSettingStep() {
     this.attendanceMode = false;
     this.shiftSettingMode = false;
     this.automationRulesSettingMode = true;
     this.stepFirst = true;
     this.stepSecond = true;
     this.stepThird = true;
+    this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall()
   }
 
-  skip: boolean=false;
-  skipAttendanceMethod(){
+  skip: boolean = false;
+  skipAttendanceMethod() {
     this.attendanceMode = false;
     this.shiftSettingMode = true;
     this.stepSecond = true;
     this.getAllShiftTimingsMethodCall();
   }
-  skipShift: boolean=false;
+  skipShift: boolean = false;
 
-  skipShiftSetting(){
+  skipShiftSetting() {
     this.shiftSettingMode = false;
     this.isShiftAdded = false;
     this.automationRulesSettingMode = true;
-    
+
     this.stepThird = true;
+    this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
 
   }
-  skipAutomationRulesSetting(){
+  skipAutomationRulesSetting() {
     this.dataService.markStepAsCompleted(2);
     this._onboardingService.saveOrgOnboardingStep(2).subscribe();
     this.router.navigate(['/organization-onboarding/leave-rule-setup']);
@@ -98,18 +114,18 @@ export class AttendanceRuleSetupComponent implements OnInit {
   }
 
   skipShiftSettingDataToggle: boolean = false;
-  skipShiftSettingData(){
+  skipShiftSettingData() {
     this.skipShiftSettingDataToggle = true;
 
   }
 
-  attendanceModeList : AttendanceMode[] = [];
-  getAttendanceModeAllMethodCall(){
- debugger
+  attendanceModeList: AttendanceMode[] = [];
+  getAttendanceModeAllMethodCall() {
+    debugger
     this.dataService.getAttendanceModeAll().subscribe((response) => {
       this.attendanceModeList = response;
       // console.log(response);
-    }, (error) =>{
+    }, (error) => {
       console.log(error);
     })
   }
@@ -119,31 +135,66 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
   isAttendanceModeSelected: boolean = false;
   @ViewChild("attendancewithlocationssButton") attendancewithlocationssButton !: ElementRef;
-  updateAttendanceModeMethodCall(attendanceModeId : number){
-   
+  updateAttendanceModeMethodCall(attendanceModeId: number) {
+
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe((response) => {
       // console.log(response);
       this.getAttendanceModeMethodCall();
-      if(attendanceModeId == 2 || attendanceModeId == 3){
+      if (attendanceModeId == 2 || attendanceModeId == 3) {
         this.attendancewithlocationssButton.nativeElement.click();
       }
       setTimeout(() => {
-        if (attendanceModeId == 1){
+        if (attendanceModeId == 1) {
           this.helperService.showToast("Attedance Mode updated successfully.", Key.TOAST_STATUS_SUCCESS);
           this.isAttendanceModeSelected = true;
         }
         // console.log("Second line executed after 3 seconds");
       }, 1000);
-      
-    }, (error)=>{
+
+    }, (error) => {
       console.log(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
 
-  selectedAttendanceModeId : number = 0;
-  getAttendanceModeMethodCall(){
-   
+  deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionId: number) {
+    debugger
+    this.dataService.deleteAttendanceRuleDefinition(attendanceRuleDefinitionId).subscribe((response) => {
+      // console.log(response);
+      this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
+      this.helperService.showToast("Attendance rule settings deleted successfully", Key.TOAST_STATUS_SUCCESS);
+
+    }, (error) => {
+      console.log(error);
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+  attendanceRuleWithAttendanceRuleDefinitionResponseList: AttendanceRuleWithAttendanceRuleDefinitionResponse[] = [];
+
+  attendanceRuleWithAttendanceRuleDefinitionLoading: boolean = false;
+  getAttendanceRuleWithAttendanceRuleDefinitionMethodCall() {
+    this.attendanceRuleWithAttendanceRuleDefinitionLoading = true;
+    this.dataService.getAttendanceRuleWithAttendanceRuleDefinition().subscribe((response) => {
+
+      this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
+      this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response;
+      console.log("response.size", response.length);
+      if (response.length > 0) {
+        this.attendanceMode = false;
+        this.shiftSettingMode = false;
+        this.automationRulesSettingMode = true;
+        this.stepFirst = true;
+        this.stepSecond = true;
+        this.stepThird = true;
+      }
+    }, (error) => {
+      console.log(error);
+    })
+  }
+  selectedAttendanceModeId: number = 0;
+  getAttendanceModeMethodCall() {
+
     this.dataService.getAttendanceMode().subscribe((response) => {
       debugger
       this.selectedAttendanceModeId = response.id;
@@ -154,43 +205,43 @@ export class AttendanceRuleSetupComponent implements OnInit {
   }
   toggle = false;
   @ViewChild("closeAddressModal") closeAddressModal !: ElementRef;
-  setOrganizationAddressDetailMethodCall(){
+  setOrganizationAddressDetailMethodCall() {
     this.toggle = true;
     this.dataService.setOrganizationAddressDetail(this.organizationAddressDetail)
-    .subscribe(
-      (response: OrganizationAddressDetail) => {
-        // console.log(response);  
-        this.toggle=false;
-       this.closeAddressModal.nativeElement.click();
-       this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
-      
-        
-      },
-      (error) => {
-        console.error(error);
-        
-      })
-   
-    ;
+      .subscribe(
+        (response: OrganizationAddressDetail) => {
+          // console.log(response);  
+          this.toggle = false;
+          this.closeAddressModal.nativeElement.click();
+          this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
+
+
+        },
+        (error) => {
+          console.error(error);
+
+        })
+
+      ;
   }
-  @ViewChild("placesRef") placesRef! : GooglePlaceDirective;
+  @ViewChild("placesRef") placesRef!: GooglePlaceDirective;
 
   public handleAddressChange(e: any) {
     debugger
-    var id=this.organizationAddressDetail.id;
-    this.organizationAddressDetail=new OrganizationAddressDetail();
-    this.organizationAddressDetail.id=id;
+    var id = this.organizationAddressDetail.id;
+    this.organizationAddressDetail = new OrganizationAddressDetail();
+    this.organizationAddressDetail.id = id;
     this.organizationAddressDetail.longitude = e.geometry.location.lng();
     this.organizationAddressDetail.latitude = e.geometry.location.lat();
 
     console.log(e.geometry.location.lat());
     console.log(e.geometry.location.lng());
-    this.organizationAddressDetail.addressLine1=e.name + ", " + e.vicinity;
+    this.organizationAddressDetail.addressLine1 = e.name + ", " + e.vicinity;
 
 
     e?.address_components?.forEach((entry: any) => {
       // console.log(entry);
-      
+
       if (entry.types?.[0] === "route") {
         this.organizationAddressDetail.addressLine2 = entry.long_name + ",";
       }
@@ -217,30 +268,30 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
   getOrganizationAddressDetailMethodCall() {
     this.dataService.getOrganizationAddressDetail().subscribe(
-        (response: OrganizationAddressDetail) => {
-            if (response) {
-              // console.log(response);
-                this.organizationAddressDetail = response;
-            } else {
-                console.log('No address details found');
-                
-               
-            }
-        },
-        (error: any) => {
-            console.error('Error fetching address details:', error);
+      (response: OrganizationAddressDetail) => {
+        if (response) {
+          // console.log(response);
+          this.organizationAddressDetail = response;
+        } else {
+          console.log('No address details found');
+
+
         }
+      },
+      (error: any) => {
+        console.error('Error fetching address details:', error);
+      }
     );
   }
 
-  openAddShiftTimeModal(){
+  openAddShiftTimeModal() {
     this.getShiftTypeMethodCall();
     this.getUserByFiltersMethodCall();
     this.clearShiftTimingModel();
     this.skipShift = true;
   }
-  shiftTypeList : ShiftType[] = [];
-  getShiftTypeMethodCall(){
+  shiftTypeList: ShiftType[] = [];
+  getShiftTypeMethodCall() {
     this.dataService.getAllShiftType().subscribe((response) => {
       this.shiftTypeList = response;
       // console.log(response);
@@ -248,14 +299,14 @@ export class AttendanceRuleSetupComponent implements OnInit {
       console.log(error);
     })
   }
-  
-  itemPerPage : number = 8;
-  pageNumber : number = 1;
+
+  itemPerPage: number = 8;
+  pageNumber: number = 1;
   total !: number;
-  rowNumber : number = 1;
-  searchText : string = '';
-  staffs : Staff[] = [];
-  selectedStaffsUuids : string[] = [];
+  rowNumber: number = 1;
+  searchText: string = '';
+  staffs: Staff[] = [];
+  selectedStaffsUuids: string[] = [];
   selectedStaffs: Staff[] = [];
   isAllSelected: boolean = false;
 
@@ -266,7 +317,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
         selected: this.selectedStaffsUuids.includes(staff.uuid)
       }));
       this.total = response.count;
-  
+
       this.isAllSelected = this.staffs.every(staff => staff.selected);
     }, (error) => {
       console.error(error);
@@ -274,7 +325,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
   }
 
 
-  clearShiftTimingModel(){
+  clearShiftTimingModel() {
     this.shiftTimingActiveTab.nativeElement.click();
     this.organizationShiftTimingRequest = new OrganizationShiftTimingRequest();
     this.selectedShiftType = new ShiftType();
@@ -287,30 +338,30 @@ export class AttendanceRuleSetupComponent implements OnInit {
   }
   @ViewChild("staffActiveTabInShiftTiming") staffActiveTabInShiftTiming !: ElementRef;
 
-  staffActiveTabInShiftTimingMethod(){
+  staffActiveTabInShiftTimingMethod() {
 
-    if(this.isValidForm()){
+    if (this.isValidForm()) {
       this.staffActiveTabInShiftTiming.nativeElement.click();
     }
-    
+
   }
 
   @ViewChild("shiftTimingActiveTab") shiftTimingActiveTab !: ElementRef;
 
-  shiftTimingActiveTabMethod(){
+  shiftTimingActiveTabMethod() {
     this.shiftTimingActiveTab.nativeElement.click();
   }
 
-  selectedShiftType : ShiftType = new ShiftType();
+  selectedShiftType: ShiftType = new ShiftType();
 
-  selectShiftType(shiftType : ShiftType){
+  selectShiftType(shiftType: ShiftType) {
     this.selectedShiftType = shiftType;
     this.organizationShiftTimingRequest.shiftTypeId = shiftType.id;
   }
 
-  organizationShiftTimingWithShiftTypeResponseList : OrganizationShiftTimingWithShiftTypeResponse[] = [];
-  getAllShiftTimingsMethodCall(){
-debugger
+  organizationShiftTimingWithShiftTypeResponseList: OrganizationShiftTimingWithShiftTypeResponse[] = [];
+  getAllShiftTimingsMethodCall() {
+    debugger
     // this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
 
     // this.isShimmer = true;
@@ -319,14 +370,14 @@ debugger
 
     this.dataService.getAllShiftTimings().subscribe((response) => {
       this.organizationShiftTimingWithShiftTypeResponseList = response;
-      if(response[0]!=null){
+      if (response[0] != null) {
         this.skip = true;
         this.skipShift = true
       }
-      
+
       // console.log(this.organizationShiftTimingWithShiftTypeResponseList);
 
-      if(response === undefined || response === null || response.length === 0){
+      if (response === undefined || response === null || response.length === 0) {
         // this.dataNotFoundPlaceholder = true;
       }
     }, (error) => {
@@ -337,7 +388,7 @@ debugger
   }
 
 
-  updateOrganizationShiftTiming(organizationShiftTimingResponse : OrganizationShiftTimingResponse){
+  updateOrganizationShiftTiming(organizationShiftTimingResponse: OrganizationShiftTimingResponse) {
 
     this.shiftTimingActiveTab.nativeElement.click();
     debugger
@@ -351,8 +402,8 @@ debugger
 
   }
 
-  deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId : number){
-    this.dataService.deleteOrganizationShiftTiming(organizationShiftTimingId).subscribe((response)=>{
+  deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
+    this.dataService.deleteOrganizationShiftTiming(organizationShiftTimingId).subscribe((response) => {
       // console.log(response);
       this.getAllShiftTimingsMethodCall();
       this.helperService.showToast("Shift timing deleted successfully", Key.TOAST_STATUS_SUCCESS);
@@ -368,7 +419,7 @@ debugger
     return response.users.map((user: { uuid: any; }) => user.uuid);
   }
 
-  activeModel2:boolean=false;
+  activeModel2: boolean = false;
   isAllUsersSelected: boolean = false;
 
   unselectAllUsers() {
@@ -380,13 +431,13 @@ debugger
   }
 
   selectAllUsers(isChecked: boolean) {
-  
+
     // const inputElement = event.target as HTMLInputElement;
     // const isChecked = inputElement ? inputElement.checked : false;
     this.isAllUsersSelected = isChecked;
     this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
     this.staffs.forEach(staff => staff.selected = isChecked); // Update each staff's selected property
-    
+
     if (isChecked) {
       // If selecting all, add all user UUIDs to the selectedStaffsUuids list
       this.activeModel2 = true;
@@ -397,13 +448,13 @@ debugger
       this.selectedStaffsUuids = [];
       this.activeModel2 = false;
     }
-  
+
   }
-  
+
   selectAll(checked: boolean) {
     this.isAllSelected = checked;
     this.staffs.forEach(staff => staff.selected = checked);
-    
+
     // Update the selectedStaffsUuids based on the current page selection
     if (checked) {
       this.activeModel2 = true;
@@ -432,7 +483,7 @@ debugger
     this.isAllSelected = this.staffs.length > 0 && this.staffs.every(staff => staff.selected);
     this.isAllUsersSelected = this.selectedStaffsUuids.length === this.total;
   }
-  
+
 
   updateSelectedStaffs() {
     this.staffs.forEach(staff => {
@@ -444,151 +495,150 @@ debugger
     });
 
     this.checkAndUpdateAllSelected();
-    
-    this.activeModel2=true;
 
-    if(this.selectedStaffsUuids.length === 0){
+    this.activeModel2 = true;
+
+    if (this.selectedStaffsUuids.length === 0) {
       this.activeModel2 = false;
     }
   }
 
-    // ##### Pagination ############
-    changePage(page: number | string) {
-      if (typeof page === 'number') {
-        this.pageNumber = page;
-      } else if (page === 'prev' && this.pageNumber > 1) {
-        this.pageNumber--;
-      } else if (page === 'next' && this.pageNumber < this.totalPages) {
-        this.pageNumber++;
-      }
-      this.getUserByFiltersMethodCall();
+  // ##### Pagination ############
+  changePage(page: number | string) {
+    if (typeof page === 'number') {
+      this.pageNumber = page;
+    } else if (page === 'prev' && this.pageNumber > 1) {
+      this.pageNumber--;
+    } else if (page === 'next' && this.pageNumber < this.totalPages) {
+      this.pageNumber++;
     }
+    this.getUserByFiltersMethodCall();
+  }
 
-    getPages(): number[] {
-      const totalPages = Math.ceil(this.total / this.itemPerPage);
-      return Array.from({ length: totalPages }, (_, index) => index + 1);
-    }
-  
-    get totalPages(): number {
-      return Math.ceil(this.total / this.itemPerPage);
-    }
-    getStartIndex(): number {
-      return (this.pageNumber - 1) * this.itemPerPage + 1;
-    }
-    getEndIndex(): number {
-      const endIndex = this.pageNumber * this.itemPerPage;
-      return endIndex > this.total ? this.total : endIndex;
-    }
-  
-    onTableDataChange(event : any)
-    {
-      this.pageNumber=event;
-    }
+  getPages(): number[] {
+    const totalPages = Math.ceil(this.total / this.itemPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
 
-  
+  get totalPages(): number {
+    return Math.ceil(this.total / this.itemPerPage);
+  }
+  getStartIndex(): number {
+    return (this.pageNumber - 1) * this.itemPerPage + 1;
+  }
+  getEndIndex(): number {
+    const endIndex = this.pageNumber * this.itemPerPage;
+    return endIndex > this.total ? this.total : endIndex;
+  }
+
+  onTableDataChange(event: any) {
+    this.pageNumber = event;
+  }
+
+
   isShiftAdded: boolean = false;
-    @ViewChild("closeShiftTimingModal") closeShiftTimingModal !: ElementRef;
+  @ViewChild("closeShiftTimingModal") closeShiftTimingModal !: ElementRef;
 
-    registerOrganizationShiftTimingMethodCall(){
+  registerOrganizationShiftTimingMethodCall() {
+    debugger
+    this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
+
+    this.dataService.registerShiftTiming(this.organizationShiftTimingRequest).subscribe((response) => {
       debugger
-      this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
-  
-      this.dataService.registerShiftTiming(this.organizationShiftTimingRequest).subscribe((response) => {
-        debugger
-        // console.log(response);
-        this.closeShiftTimingModal.nativeElement.click();
-        this.getAllShiftTimingsMethodCall();
-        this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_SUCCESS);
-        this.dataService.markStepAsCompleted(2);
-      }, (error) => {
-        console.log(error);
-        this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_ERROR);
-      })
-    }
+      // console.log(response);
+      this.closeShiftTimingModal.nativeElement.click();
+      this.getAllShiftTimingsMethodCall();
+      this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_SUCCESS);
+      this.dataService.markStepAsCompleted(2);
+    }, (error) => {
+      console.log(error);
+      this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_ERROR);
+    })
+  }
 
-    searchUsers(){
-      this.getUserByFiltersMethodCall();
-    }
+  searchUsers() {
+    this.getUserByFiltersMethodCall();
+  }
 
 
-    calculateTimes(): void {
-      const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
-    
-      // Reset errors and calculated times
-      this.organizationShiftTimingValidationErrors = {};
-      this.organizationShiftTimingRequest.lunchHour = '';
-      this.organizationShiftTimingRequest.workingHour = '';
-    
-      // Helper function to convert time string to minutes
-      const timeToMinutes = (time : any) => {
-        if (!time) return 0;
-        const [hours, minutes] = time.split(':').map(Number);
-        return hours * 60 + minutes;
-      };
-    
-      // Convert times to minutes
-      const inTimeMinutes = timeToMinutes(inTime);
-      const outTimeMinutes = timeToMinutes(outTime);
-      const startLunchMinutes = timeToMinutes(startLunch);
-      const endLunchMinutes = timeToMinutes(endLunch);
-    
-      // Check for valid in and out times
-      if (inTime && outTime) {
-        if (outTimeMinutes < inTimeMinutes) {
-          this.organizationShiftTimingValidationErrors['outTime'] = 'Out time must be after in time.';
-        } else {
-          const totalWorkedMinutes = outTimeMinutes - inTimeMinutes;
-          this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(totalWorkedMinutes);
-        }
-      }
-    
-      // Check for valid lunch start time
-      if (startLunch && (startLunchMinutes < inTimeMinutes || startLunchMinutes > outTimeMinutes)) {
-        this.organizationShiftTimingValidationErrors['startLunch'] = 'Lunch time should be within in and out times.';
-      }
-    
-      // Check for valid lunch end time
-      if (endLunch && (endLunchMinutes < inTimeMinutes || endLunchMinutes > outTimeMinutes)) {
-        this.organizationShiftTimingValidationErrors['endLunch'] = 'Lunch time should be within in and out times.';
-      }
-    
-      // Calculate lunch hour and adjust working hours if lunch times are valid
-      if (startLunch && endLunch && startLunchMinutes < endLunchMinutes) {
-        const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
-        this.organizationShiftTimingRequest.lunchHour = this.formatMinutesToTime(lunchBreakMinutes);
-    
-        if (this.organizationShiftTimingRequest.workingHour) {
-          const adjustedWorkedMinutes = timeToMinutes(this.organizationShiftTimingRequest.workingHour) - lunchBreakMinutes;
-          this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(adjustedWorkedMinutes);
-        }
-      }
-    
-      // Additional validation for lunch times
-      if (startLunch && endLunch) {
-        if (endLunchMinutes <= startLunchMinutes) {
-          this.organizationShiftTimingValidationErrors['endLunch'] = 'Please enter a valid back time from lunch.';
-        }
-        if (startLunchMinutes >= endLunchMinutes) {
-          this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
-        }
-      }
-    }
+  calculateTimes(): void {
+    const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
 
-    formatMinutesToTime(minutes : any) {
-      const hours = Math.floor(minutes / 60);
-      const mins = minutes % 60;
-      return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
-    }
-    
+    // Reset errors and calculated times
+    this.organizationShiftTimingValidationErrors = {};
+    this.organizationShiftTimingRequest.lunchHour = '';
+    this.organizationShiftTimingRequest.workingHour = '';
 
-    submitShiftTimingForm(): void {
-      this.calculateTimes();
-      if (this.isValidForm()) {
-          // Proceed with form submission logic
+    // Helper function to convert time string to minutes
+    const timeToMinutes = (time: any) => {
+      if (!time) return 0;
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours * 60 + minutes;
+    };
+
+    // Convert times to minutes
+    const inTimeMinutes = timeToMinutes(inTime);
+    const outTimeMinutes = timeToMinutes(outTime);
+    const startLunchMinutes = timeToMinutes(startLunch);
+    const endLunchMinutes = timeToMinutes(endLunch);
+
+    // Check for valid in and out times
+    if (inTime && outTime) {
+      if (outTimeMinutes < inTimeMinutes) {
+        this.organizationShiftTimingValidationErrors['outTime'] = 'Out time must be after in time.';
       } else {
-          // Handle invalid form case
+        const totalWorkedMinutes = outTimeMinutes - inTimeMinutes;
+        this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(totalWorkedMinutes);
       }
     }
+
+    // Check for valid lunch start time
+    if (startLunch && (startLunchMinutes < inTimeMinutes || startLunchMinutes > outTimeMinutes)) {
+      this.organizationShiftTimingValidationErrors['startLunch'] = 'Lunch time should be within in and out times.';
+    }
+
+    // Check for valid lunch end time
+    if (endLunch && (endLunchMinutes < inTimeMinutes || endLunchMinutes > outTimeMinutes)) {
+      this.organizationShiftTimingValidationErrors['endLunch'] = 'Lunch time should be within in and out times.';
+    }
+
+    // Calculate lunch hour and adjust working hours if lunch times are valid
+    if (startLunch && endLunch && startLunchMinutes < endLunchMinutes) {
+      const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
+      this.organizationShiftTimingRequest.lunchHour = this.formatMinutesToTime(lunchBreakMinutes);
+
+      if (this.organizationShiftTimingRequest.workingHour) {
+        const adjustedWorkedMinutes = timeToMinutes(this.organizationShiftTimingRequest.workingHour) - lunchBreakMinutes;
+        this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(adjustedWorkedMinutes);
+      }
+    }
+
+    // Additional validation for lunch times
+    if (startLunch && endLunch) {
+      if (endLunchMinutes <= startLunchMinutes) {
+        this.organizationShiftTimingValidationErrors['endLunch'] = 'Please enter a valid back time from lunch.';
+      }
+      if (startLunchMinutes >= endLunchMinutes) {
+        this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
+      }
+    }
+  }
+
+  formatMinutesToTime(minutes: any) {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+  }
+
+
+  submitShiftTimingForm(): void {
+    this.calculateTimes();
+    if (this.isValidForm()) {
+      // Proceed with form submission logic
+    } else {
+      // Handle invalid form case
+    }
+  }
 
 
 }

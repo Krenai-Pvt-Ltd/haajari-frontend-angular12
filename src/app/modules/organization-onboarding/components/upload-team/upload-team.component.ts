@@ -33,6 +33,10 @@ export class UploadTeamComponent implements OnInit {
   back(){
     this.uploadMethod = '';
   }
+
+  backPage(){
+      this._location.back();
+  }
   uploadMethod: string = '';
   selectMethod(method:string){
     if(method == "excel"){
