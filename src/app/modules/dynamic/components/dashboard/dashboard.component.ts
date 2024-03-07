@@ -22,7 +22,7 @@ import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-detail
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit, OnDestroy{
+export class DashboardComponent implements OnInit{
 
   constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService, private rbacService : RoleBasedAccessControlService) {
 
@@ -36,12 +36,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
     this.getFirstAndLastDateOfMonth(this.selectedDate);
     
    }
-
-    private searchSubject = new Subject<string>();
-    private readonly debounceTimeMs = 300;
-    ngOnDestroy(): void {
-      this.searchSubject.complete();
-    }
 
   itemPerPage : number = 12;
   pageNumber : number = 1;
@@ -140,11 +134,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
   
 
   ngOnInit(): void {
-
-    this.searchSubject.pipe(debounceTime(this.debounceTimeMs)).subscribe((searchText) => {
-      this.getAttendanceReportByDateDurationMethodCall();
-    });
-    
     this.getOrganizationRegistrationDateMethodCall();
     // this.checkAccessToken();
    
@@ -622,14 +611,14 @@ getDataFromDate(): Promise<any> {
   }
   
 
-    visibleManagersCount: number = 1; // Set this to the number of managers you want to show initially
+    visibleManagersCount: number = 1;
 
     showAllManagers(length : number) {
         this.visibleManagersCount = length;
     }
 
     hideSomeManagers() {
-        this.visibleManagersCount = 1; // Set this back to the number of managers you want to show by default
+        this.visibleManagersCount = 1;
     }
 
   // ######################################################################

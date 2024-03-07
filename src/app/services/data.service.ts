@@ -39,6 +39,8 @@ import { StatutoryRequest } from "../models/statutory-request";
 import { StatutoryAttribute } from "../models/statutory-attribute";
 import { NotificationVia } from "../models/notification-via";
 import { SalaryTemplateComponentRequest } from "../models/salary-template-component-request";
+import { WeeklyHoliday } from "../models/WeeklyHoliday";
+import { WeekDay } from "../models/WeekDay";
 
 
 @Injectable({
@@ -1407,11 +1409,47 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/holiday/register-custom-holidays?orgUuid=${orgUuid}`, customHolidaysRequest);
   }
 
-  getCustomHolidays(orgUuid: string): Observable<any[]> {
-    return this.httpClient.get<any[]>(`${this.baseUrl}/holiday/total-custom-holidays?orgUuid=${orgUuid}`);
+  getCustomHolidays(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/holiday/total-custom-holidays?orgUuid`);
   }
   
   deleteCustomHolidays(ids: number[]): Observable<any> {
     return this.httpClient.delete(`${this.baseUrl}/holiday/delete-custom-holidays`, { params: { ids: ids.join(',') } });
   }
+
+  getWeeklyHolidays(): Observable<WeeklyHoliday[]> {
+    // let params = new HttpParams().set('orgUuid', orgUuid);
+    return this.httpClient.get<WeeklyHoliday[]>(`${this.baseUrl}/holiday/total-weekly-holidays`);
+  }
+
+  getWeekDays(): Observable<WeekDay[]> {
+    return this.httpClient.get<WeekDay[]>(`${this.baseUrl}/holiday/get-week-days`);
+  }
+
+  registerWeeklyHolidays(orgUuid: string, weeklyHolidays: string[]): Observable<any> {
+    let params = new HttpParams().set('orgUuid', orgUuid);
+    return this.httpClient.post(`${this.baseUrl}/holiday/register-weekly-holidays`, weeklyHolidays, { params });
+  }
+
+  deleteWeeklyHolidays(id: number): Observable<any> {
+    let params = new HttpParams().set('id', id.toString());
+    return this.httpClient.delete(`${this.baseUrl}/holiday/delete-weekly-holidays`, { params });
+  }
+  
+  // ###############
+
+  getAllSalaryComponents(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/component/get/all`);
+  }
+
+  getSalaryTemplateById(salaryTemplateId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set('salary_template_id', salaryTemplateId);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get/by/id`, {params});
+  }
+
+
+  
 }

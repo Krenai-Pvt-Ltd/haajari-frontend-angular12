@@ -70,6 +70,7 @@ import { LeaveManagementComponent } from './components/leave-management/leave-ma
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 
+
 @NgModule({
   declarations: [
     DynamicComponent,
@@ -143,7 +144,8 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ["places"]
     }),
-    GooglePlaceModule,
+    GooglePlaceModule
+    
 
     
 

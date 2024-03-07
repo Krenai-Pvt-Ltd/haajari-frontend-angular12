@@ -940,3 +940,15 @@ button.btn.close-btn {
     color: #fff !important;
     height: 37px;
 }
+
+.add-more-holiday {
+    color: #6666f3; 
+    cursor: pointer !important;
+    display: inline-block;
+    margin: 5px 0; 
+  }
+  
+  .add-more-holiday:hover {
+    text-decoration: underline;
+  }
+  

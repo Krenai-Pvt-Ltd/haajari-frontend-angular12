@@ -1,13 +1,18 @@
+import { DatePipe } from '@angular/common';
 import { Directive,Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Key } from 'src/app/constant/key';
+import { UniversalHoliday } from 'src/app/models/UniversalHoliday';
+import { WeekDay } from 'src/app/models/WeekDay';
+import { WeeklyHoliday } from 'src/app/models/WeeklyHoliday';
 import { AttendanceMode } from 'src/app/models/attendance-mode';
 import { AttendanceRuleDefinitionRequest } from 'src/app/models/attendance-rule-definition-request';
 import { AttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-definition-response';
 import { AttendanceRuleResponse } from 'src/app/models/attendance-rule-response';
 import { AttendanceRuleWithAttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-with-attendance-rule-definition-response';
+import { CustomHolidays } from 'src/app/models/customHolidays';
 import { DeductionType } from 'src/app/models/deduction-type';
 import { OrganizationAddressDetail } from 'src/app/models/organization-address-detail';
 import { OrganizationShiftTimingRequest } from 'src/app/models/organization-shift-timing-request';
@@ -32,7 +37,8 @@ export class AttendanceSettingComponent implements OnInit {
 
   readonly OVERTIME_RULE = Key.OVERTIME_RULE;
 
-  constructor(private dataService : DataService, private helperService : HelperService, private router: Router, private el: ElementRef) {
+  constructor(private dataService : DataService, private datePipe: DatePipe,
+    private helperService : HelperService, private fb: FormBuilder, private router: Router, private el: ElementRef) {
    }
 
   ngOnInit(): void {
@@ -48,6 +54,11 @@ export class AttendanceSettingComponent implements OnInit {
     if(localStorage.getItem("staffSelectionActive")=="true"){
       this.activeModel=true;
     }
+
+    this.getUniversalHolidays();
+    this.getCustomHolidays();
+    this.getWeeklyHolidays();
+    this.getWeekDays();
 
   }
 
@@ -1018,5 +1029,64 @@ unselectAllUsers() {
 
   // ##########  holidays #############
 
+  universalHolidays: UniversalHoliday[] = [];
+
+  getUniversalHolidays() {
+    this.dataService.getUniversalHolidays().subscribe(holidays => {
+      this.universalHolidays = holidays;
+    });
+  }
+
+  customHolidays: CustomHolidays[] = [];
+
+  getCustomHolidays() {
+    this.dataService.getCustomHolidays().subscribe(holidays => {
+      this.customHolidays = holidays;
+    });
+  }
+
+  weeklyHolidays: WeeklyHoliday[] = [];
+
+  getWeeklyHolidays() {
+    this.dataService.getWeeklyHolidays().subscribe(holidays => {
+      this.weeklyHolidays = holidays;
+      this.getWeekDays();
+
+    });
+  }
+
+  weekDay: WeekDay[] = [];
+
+  getWeekDays() {
+    this.dataService.getWeekDays().subscribe(holidays => {
+      this.weekDay = holidays;
+      
+    });
+  }
+
+  formatDateIn(newdate:any) {
+    const date = new Date(newdate);
+    const formattedDate = this.datePipe.transform(date, 'ddMMMM, yyyy');
+    return formattedDate;
+  }
+
+  // isHoliday(weekDayId: number): boolean {
+  //   return this.weeklyHolidays.some(holiday => holiday.id === weekDayId);
+  // }
+
   
+  holidayList: { name: string; date: string }[] = [{ name: '', date: '' }];
+
+  addHoliday() {
+    this.holidayList.push({ name: '', date: '' });
+  }
+
+  removeHoliday(index: number) {
+    this.holidayList.splice(index, 1);
+  }
+
+  create() {
+    console.log(this.holidayList);
+  }
+
 }
