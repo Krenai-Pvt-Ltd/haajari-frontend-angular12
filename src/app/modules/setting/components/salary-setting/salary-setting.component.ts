@@ -5,6 +5,7 @@ import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
 import { SalaryCalculationMode } from 'src/app/models/salary-calculation-mode';
 import { SalaryComponent } from 'src/app/models/salary-component';
 import { SalaryTemplateComponentRequest } from 'src/app/models/salary-template-component-request';
+import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
 import { Statutory } from 'src/app/models/statutory';
 import { StatutoryAttribute } from 'src/app/models/statutory-attribute';
 import { StatutoryAttributeResponse } from 'src/app/models/statutory-attribute-response';
@@ -363,9 +364,12 @@ export class SalarySettingComponent implements OnInit {
     })
   }
 
+  salaryTemplateComponent : SalaryTemplateComponentResponse = new SalaryTemplateComponentResponse();
   getSalaryTemplateByIdMethodCall(){
-    this.dataService.getSalaryTemplateById(1).subscribe((data) => {
+    this.dataService.getSalaryTemplateById(1).subscribe((response) => {
       
+    }, (error) => {
+
     })
   }
 }
