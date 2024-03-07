@@ -1274,7 +1274,7 @@ export class EmployeeProfileComponent implements OnInit {
 
 formatDateIn(newdate:any) {
   const date = new Date(newdate);
-  const formattedDate = this.datePipe.transform(date, 'ddMMMM, yyyy');
+  const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
   return formattedDate;
 }
 
