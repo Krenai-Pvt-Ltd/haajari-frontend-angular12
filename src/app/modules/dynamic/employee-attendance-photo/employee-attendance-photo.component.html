@@ -61,13 +61,13 @@
                 <div class="set-location-btn d-flex align-items-center justify-content-between mt-4" >
                     <!-- <button class="btn previous-stap"> <i class="bi bi-chevron-left pl-2"></i> Previous</button> -->
 
-                    <div class="d-flex" style="gap:10px;">
+                    <div >
                         <!-- <button type="button" (click)="routeToLocationValidator()" class="btn previous-stap"> <i class="bi bi-chevron-left pl-2"></i> Previous</button> -->
-                        <button *ngIf="submitButton" class="btn next-stap" (click)="clickAgain();">Click Again <i class="bi bi-camera pl-2"></i></button>
+                        <button *ngIf="submitButton" class="btn next-stap mobile-margin" (click)="clickAgain();">Click Again <i class="bi bi-camera pl-2"></i></button>
                     </div>
                     
                     <!-- Button to take a snapshot, shown only if captureImage is false -->
-                    <button type="button" *ngIf="!captureImage; else markAttendance" (click)="triggerSnapshot()" class="btn next-stap">
+                    <button type="button" *ngIf="!captureImage; else markAttendance" (click)="triggerSnapshot()" class="btn next-stap mobile-margin">
                         <div *ngIf="toggle" class="dot-opacity-loader">
                             <span></span>
                             <span></span>
