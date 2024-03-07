@@ -130,6 +130,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   isSubscriptionPlanActive: boolean = false;
   subscriptionPlanId: number = 0;
   userEmail: String = '';
+isDisabled: boolean = false;
   getUserAccountDetailsMethodCall() {
     debugger
     this._data.getUserAccountDetails().subscribe({
@@ -148,6 +149,9 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
         } else {
           this.notifications.slack=true
           this.notifications.whatsapp=false
+        }
+        if(response.notificationVia == null){
+          this.isDisabled = true;
         }
        if (this.isSubscriptionPlanActive== true && this.subscriptionPlanId==2){
           this.isPlanActive=true;

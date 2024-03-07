@@ -30,6 +30,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UploadTeamComponent } from './components/upload-team/upload-team.component';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 
 
 @NgModule({
@@ -65,6 +66,8 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
     GooglePlaceModule,
     NgxPaginationModule,
     NgxShimmerLoadingModule,
+    NzTimePickerModule
+
   ]
 })
 export class OrganizationOnboardingModule { }

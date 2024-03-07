@@ -1,4 +1,4 @@
-export class SalaryComponentRequest {
+export class SalaryComponent {
 
     id : number = 0;
     name : string = ''

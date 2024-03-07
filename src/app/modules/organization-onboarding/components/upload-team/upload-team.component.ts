@@ -1,6 +1,9 @@
+import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { UserListReq } from 'src/app/models/UserListReq';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 
 @Component({
@@ -18,21 +21,27 @@ export class UploadTeamComponent implements OnInit {
   @ViewChild('importModalOpen')importModalOpen!:ElementRef
 
   constructor(private fb: FormBuilder,
-    private _onboardingService: OrganizationOnboardingService) {
-    this.form = this.fb.group({
-      categories: this.fb.array([])
-    });
-    this.addRow();
+    private _onboardingService: OrganizationOnboardingService,
+    private _location:Location,
+    private _router:Router) {
    }
 
   ngOnInit(): void {
-    // this.userList.push(this.user);
+    this.userList.push(this.user);
   }
 
+  back(){
+    this.uploadMethod = '';
+  }
+
+  backPage(){
+      this._location.back();
+  }
   uploadMethod: string = '';
   selectMethod(method:string){
     if(method == "excel"){
       this.uploadMethod = '';
+      this.getReport();
       this.importModalOpen.nativeElement.click();
     }
     else
@@ -42,31 +51,16 @@ export class UploadTeamComponent implements OnInit {
     
   }
 
-  // user:{name:string; phone:number; email:string}={name:'',phone:0, email:''};
+  user:{name:string; phone:string; email:string}={name:'',phone:'', email:''};
   
-  // addUser(){
-  //   // var tempElement = JSON.parse(JSON.stringify(this.user))
-  //   this.userList.push(this.user);
-  //   this.user = { name: '', phone: 0, email: ''};
-  // }
+  addUser(){
+    this.user = { name: '', phone: '', email: ''};
+    this.userList.push(this.user);
+    
+  }
 
   removeUser(index: number) {
     this.userList.splice(index, 1);
-  }
-
-  get categories(): FormArray {
-    return this.form.get('categories') as FormArray;
-  }
-
-  addRow() {
-    const newRow = this.fb.group({
-      userName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
-      userPhone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-      userEmail: ['', [Validators.required, Validators.email, Validators.minLength(3), Validators.maxLength(50)]],
-
-    });
-
-    this.categories.push(newRow);
   }
 
   fileName: any;
@@ -100,11 +94,9 @@ export class UploadTeamComponent implements OnInit {
     this._onboardingService.userImport(file, fileName).subscribe((response: any) => {
       if (response.status) {
         this.importToggle = false;
+        this.getReport();
       }
-      else
-      {
         this.importToggle = false;
-      }
     })
   }
 
@@ -119,39 +111,61 @@ export class UploadTeamComponent implements OnInit {
 
   uploadDate: Date= new Date();
 
-  getReport(type: string) {
+  getReport() {
     debugger
     this.importReport = [];
     this.importLoading = true;
     this.databaseHelper.itemPerPage = 5;
     this.databaseHelper.sortBy = "createdDate";
     this.databaseHelper.sortOrder = "Desc";
-    // this._userService.getReport(type,this.databaseHelper).subscribe((response: any) => {
-    //   if (response.status) {
-    //     this.importReport = response.object;
-    //     this.totalItems = response.totalItems;
-    //   }
-    //   this.importLoading = false;
-    // }, (error) => {
-    //   this.toastr.showToasterError("Network Error", "error");
-    //   this.importLoading = false;
-    // })
+    this._onboardingService.getReport(this.databaseHelper).subscribe((response: any) => {
+      if (response.status) {
+        this.importReport = response.object;
+        this.totalItems = response.totalItems;
+      }
+      this.importLoading = false;
+    }, (error) => {
+      this.importLoading = false;
+    })
   }
 
-  deleteReport(id: number){
-    // this._userService.deleteReport(id).subscribe((response: any) => {
-    //   if (response.status) {
-    //     this.getReport(this.importType);
-    //   }
-    // }, (error) => {
-    //   this.toastr.showToasterError("Network Error", "error");
-    // })
-  }
+  // deleteReport(id: number){
+  //   this._userService.deleteReport(id).subscribe((response: any) => {
+  //     if (response.status) {
+  //       this.getReport(this.importType);
+  //     }
+  //   }, (error) => {
+  //     this.toastr.showToasterError("Network Error", "error");
+  //   })
+  // }
 
   pageChangedImport(page: any) {
-    // if (page != this.databaseHelper.currentPage) {
-    //   this.databaseHelper.currentPage = page;
-    //   this.getReport(this.importType);
-    // }
+    if (page != this.databaseHelper.currentPage) {
+      this.databaseHelper.currentPage = page;
+      this.getReport();
+    }
+  }
+
+  userListReq: UserListReq = new UserListReq();
+  create(){
+    this.userListReq.userList= this.userList;
+    this._onboardingService.createUser(this.userListReq).subscribe((response: any) => {
+      if (response.status) {
+        // this._router.navigate(['/dashboard']);
+      }
+    }, (error) => {
+      
+    })
+
+  }
+
+  isNumberExist: boolean = false;
+  checkExistance(number:string){
+    this._onboardingService.checkNumberExist(number).subscribe((response: any) => {
+        this.isNumberExist = response;
+    }, (error) => {
+      
+    })
+
   }
 }

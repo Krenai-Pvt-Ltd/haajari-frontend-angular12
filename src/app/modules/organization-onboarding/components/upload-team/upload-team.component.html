@@ -5,18 +5,26 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="persnol-details">
-                        <div class="d-flex align-items-center" style="gap:15px">
-                            <div class="add-filtter">
+                        <div class="d-flex align-items-center" style="gap:15px" *ngIf="uploadMethod==''">
+                            <div class="add-filtter" (click)="backPage()">
                                 <a><i class="bi bi-chevron-left"></i></a>
                             </div>
                             <div class="">
                                 <h5 class="mb-0">Upload Team</h5>
                             </div>
                         </div>
+                        <div class="d-flex align-items-center" style="gap:15px" *ngIf="uploadMethod=='mannual'">
+                            <div class="add-filtter" (click)="back()">
+                                <a><i class="bi bi-chevron-left"></i></a>
+                            </div>
+                            <div class="">
+                                <h5 class="mb-0">Back</h5>
+                            </div>
+                        </div>
 
 
 
-                        <div class="team-deta mt-4">
+                        <div class="team-deta mt-4" *ngIf="uploadMethod==''">
                             <div class="d-flex align-items-center justify-content-center"
                                 style="gap:20px; flex-direction: column;">
                                 <div class="" (click)="selectMethod('excel')">
@@ -46,7 +54,7 @@
                         <div class="add-new-user mt-4" *ngIf="uploadMethod=='mannual'">
                             <div class="row">
                                 <!-- <form #userForm="ngForm"> -->
-                                <form [formGroup]="form">
+                                <!-- <form [formGroup]="form">
                                     <div formArrayName="categories">
                                         <div class="form-group row mb-3"
                                             *ngFor="let category of categories.controls; let i = index"
@@ -75,12 +83,47 @@
                                             class="bi bi-plus" style="font-size: 23px;"></i> Add New User</button>
 
                                 </div>
+                                </form> -->
+                                <form #userForm="ngForm">
+                                    <div class="form-group row mb-3" *ngFor="let user of userList; let i = index">
+                                        <div class="col-md-4">
+                                            <label class="mb-2"> Name</label>
+                                            <input type="text" name="userName{{i}}" [(ngModel)]="user.name"
+                                                class="form-control" placeholder="Enter Leave Name" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="mb-2">Phone Number</label>
+                                            <input type="tel" name="userPhone{{i}}" [(ngModel)]="user.phone"
+                                                placeholder="Phone Number" minlength="10" maxlength="10" class="form-control"
+                                                oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
+                                                (keyup)="checkExistance(user.phone)" required>
+                                                <p *ngIf="isNumberExist" class="error text-danger" id="{{i}}">this number already exist</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="mb-2">Email </label>
+                                            <input type="email" name="userEmail{{i}}" [(ngModel)]="user.email"
+                                                placeholder="Email" class="form-control">
+                                        </div>
+                                        <div class="leave-delet-btn pointer" (click)="removeUser(i)" *ngIf="i>0">
+                                            <i class="bi bi-trash"></i>
+                                        </div>
+
+                                    </div>
+
+                                    <div id="back-and-submit"
+                                        class=" d-flex align-items-center justify-content-between">
+                                        <button type="button" class="btn skip-btn-new" (click)="addUser()" [disabled]="userForm.invalid || isNumberExist"><i
+                                                class="bi bi-plus" style="font-size: 23px;"></i> Add
+                                            New User</button>
+
+                                    </div>
+                                    <div id="back-and-submit"
+                                        class=" d-flex align-items-center justify-content-between">
+                                        <p></p>
+                                        <button type="submit" class="btn btn-primary skip-btn"
+                                            style="margin-right: 15px;" (click)="create()" [disabled]="userForm.invalid || isNumberExist">Submit</button>
+                                    </div>
                                 </form>
-                                <div id="back-and-submit" class=" d-flex align-items-center justify-content-between">
-                                    <p></p>
-                                    <button type="submit" class="btn btn-primary skip-btn"
-                                        style="margin-right: 15px;">Submit</button>
-                                </div>
                             </div>
                         </div>
 
@@ -93,7 +136,8 @@
     </div>
 
     <!----- Import ------>
-    <button type="button" class="btn btn-primary d-none" #importModalOpen data-bs-toggle="modal" data-bs-target="#importrecharge">
+    <button type="button" class="btn btn-primary d-none" #importModalOpen data-bs-toggle="modal"
+        data-bs-target="#importrecharge">
         Launch demo modal
     </button>
     <div id="importrecharge" tabindex="-1" aria-labelledby="importrechargemodal" class="modal blur-bg-2"
@@ -125,11 +169,11 @@
                                             style="background: rgb(255, 255, 255); border: 1px dashed rgb(209, 213, 219); border-radius: 5px;">
                                             <!-- file input for user-->
                                             <div class="docUploadBxarea" (change)="selectFile($event)">
-                                                <input type="file" name="userFile" id="userFile"
-                                                    class="d-none" accept=".xlsx" #userFileInput />
+                                                <input type="file" name="userFile" id="userFile" class="d-none"
+                                                    accept=".xlsx" #userFileInput />
                                                 <label for="userFile" class="dropzoneLabelinner">
                                                     <div class="text-center">
-                                                        <img src="assets/images/csv.svg" alt="" />
+                                                        <!-- <img src="assets/images/csv.svg" alt="" /> -->
                                                         <p>Click or drag and drop a file</p>
                                                     </div>
                                                 </label>
@@ -148,32 +192,36 @@
                                                     style="border-radius: 6px 0px 0px 0px; width: 60px;">
                                                     <span>S.No.</span>
                                                 </th>
-                                                <th class="border-0 text-center" style="width: 150px;"><span>Created
+                                                <th class="border-0 text-center" style="width: 170px;"><span>Created
                                                         Date</span>
                                                 </th>
                                                 <th class="border-0 text-center"><span>File Name</span></th>
-                                                <th class="border-0 text-center" style="width: 120px;">
+                                                <th class="border-0 text-center" style="width: 150px;">
                                                     <span>Status</span>
                                                 </th>
-                                                <th class="border-0 text-right"
-                                                    style="width: 150px; border-radius: 0px 6px 0px 0px;">
+                                                <!-- <th class="border-0 text-right"
+                                                    style="width: 100px; border-radius: 0px 6px 0px 0px;">
                                                     <span>Action</span>
-                                                </th>
+                                                </th> -->
                                             </tr>
                                         </thead>
 
-                                        <tbody *ngIf="importToggle">
+                                        <tbody *ngIf="!importToggle">
                                             <tr *ngIf="importLoading">
-                                                <td colspan="9" style="text-align: center; height: 300px;"><div class="spinner-border" role="status">
-                                                  </div></td>
+                                                <td colspan="9" style="text-align: center; height: 300px;">
+                                                    <div class="spinner-border" role="status">
+                                                    </div>
+                                                </td>
                                             </tr>
 
                                             <tr *ngIf="!importLoading && importReport.length == 0">
                                                 <td colspan="9" style="text-align: center; height: 300px;">
-                                                <span style="font-size: 20px; font-weight: 500;">No Data Available</span></td>
+                                                    <span style="font-size: 20px; font-weight: 500;">No Data
+                                                        Available</span>
+                                                </td>
                                             </tr>
                                         </tbody>
-                                        
+
                                         <tbody *ngIf="importToggle">
                                             <tr>
                                                 <td>
@@ -195,15 +243,14 @@
                                                         In-Process
                                                     </span>
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <div class="d-flex justify-content-end align-items-center">
 
                                                         <a class="csvstatusaction csvdwnladBtn" type="button"><i class="bi bi-download"></i></a>
-                                                        <button class="csvstatusaction csvdeleBtn" type="button"><i
-                                                                class="bi bi-trash3"></i></button>
+                                                        <button class="csvstatusaction csvdeleBtn" type="button"><i class="bi bi-trash"></i></button>
                                                     </div>
 
-                                                </td>
+                                                </td> -->
                                             </tr>
 
                                         </tbody>
@@ -215,7 +262,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="csvcrrentview">
-                                                        <span>{{report.createdDate |
+                                                        <span style="color: black;">{{report.createdDate |
                                                             date : 'dd/MM/yyyy hh:mm a'}}</span>
                                                     </div>
                                                 </td>
@@ -227,21 +274,22 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <span class="csvuploadstatusbtn csvstatusuplded">
-                                                        upload
+                                                        uploaded
                                                     </span>
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <div class="d-flex justify-content-end align-items-center">
                                                         <button class="csvstatusaction csvdeleBtn" type="button"
                                                         (click)="deleteReport(report.id)"><i
-                                                                class="bi bi-trash3"></i></button>
+                                                                class="bi bi-trash"></i></button>
                                                     </div>
-                                                </td>
+                                                </td> -->
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="row justify-content-between" *ngIf="importReport.length > 0 && totalItems > 5">
+                                <div class="row justify-content-between"
+                                    *ngIf="importReport.length > 0 && totalItems > 5">
                                     <div class="col-sm-12 col-md-5">
                                         <div class="dataTables_info" id="example_info" role="status" aria-live="polite">
                                             Showing

@@ -18,6 +18,10 @@ import { UploadPhotoComponent } from './components/upload-photo/upload-photo.com
 import { NgxMaskModule } from 'ngx-mask';
 import { SalarySettingComponent } from './components/salary-setting/salary-setting.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzCalendarModule } from 'ng-zorro-antd/calendar';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -45,7 +49,9 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
         NzSwitchModule,
         DynamicModule,
         NgxMaskModule.forRoot(),
-        
+        NzInputNumberModule,
+        NzDatePickerModule,
+        NzCalendarModule,
         
        
         

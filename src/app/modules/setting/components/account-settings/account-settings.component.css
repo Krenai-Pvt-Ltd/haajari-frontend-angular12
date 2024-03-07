@@ -314,5 +314,14 @@ input, textarea {
     0%, 80%, 100% { opacity: 0; }
     40% { opacity: 1; }
 }
+
+.material-switch.disabled {
+    opacity: 0.5; /* Makes the whole switch appear faded */
+  }
+  
+  .material-switch.disabled .label-success {
+    background-color: #ccc; /* Change the label's background to grey (or any color indicating 'disabled') */
+  }
+  
   
   
