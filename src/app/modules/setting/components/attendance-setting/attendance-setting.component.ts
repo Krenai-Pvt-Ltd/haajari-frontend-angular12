@@ -37,8 +37,12 @@ export class AttendanceSettingComponent implements OnInit {
 
   readonly OVERTIME_RULE = Key.OVERTIME_RULE;
 
-  constructor(private dataService : DataService, private datePipe: DatePipe,
-    private helperService : HelperService, private fb: FormBuilder, private router: Router, private el: ElementRef) {
+  constructor(private dataService : DataService,
+    private datePipe: DatePipe,
+    private helperService : HelperService,
+    private fb: FormBuilder,
+    private router: Router,
+    private el: ElementRef) {
    }
 
   ngOnInit(): void {
