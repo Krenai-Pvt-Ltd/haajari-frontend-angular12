@@ -363,3 +363,10 @@ nz-date-picker {
     cursor: pointer;
 }
 
+/* for nz-date-picker */
+.nz-overlay-container {
+    z-index: 2000 !important;
+  }
+  .cdk-overlay-container {
+    z-index: 1080 !important;
+}

@@ -242,14 +242,15 @@ export class EmployeeProfileComponent implements OnInit {
   updateStatusUserByUuid(type: string) {
     if(type=="REJECTED"){
     this.toggle = true;
+    this.setReasonOfRejectionMethodCall();
     if(this.requestForMoreDocs== true){
       type = 'REQUESTED';
     }
-  }
-    if(type=="APPROVED"){
+  }else if(type=="APPROVED"){
     this.approvedToggle=true;
     }
-    this.setReasonOfRejectionMethodCall();
+    
+   
     this.dataService.updateStatusUser(this.userId, type).subscribe(
       (data) => {
         // console.log('status updated:' + type);
@@ -1274,7 +1275,7 @@ export class EmployeeProfileComponent implements OnInit {
 
 formatDateIn(newdate:any) {
   const date = new Date(newdate);
-  const formattedDate = this.datePipe.transform(date, 'ddMMMM, yyyy');
+  const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
   return formattedDate;
 }
 
