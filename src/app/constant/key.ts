@@ -237,9 +237,13 @@ export class Key{
     
     //user import
     create_user = "whatsapp-user-onboarding";
-    user_import = "whatsapp-user-onboarding/import";
+    get_onboarding_user = "whatsapp-user-onboarding/onboarding-user";
+    delete_onboarding_user = "whatsapp-user-onboarding";
+    edit_onboarding_user = "whatsapp-user-onboarding";
 
+    user_import = "whatsapp-user-onboarding/import";
     get_report = "user-import"
+
     check_number_existence = "whatsapp-user-onboarding/check-number-existence"
 
     save_organization_onboarding_step = "organization/save-onboarding-step"

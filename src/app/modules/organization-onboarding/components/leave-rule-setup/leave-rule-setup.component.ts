@@ -37,7 +37,7 @@ export class LeaveRuleSetupComponent implements OnInit {
   skipLeaveSetting() {
     this.dataService.markStepAsCompleted(3);
     this._onboardingService.saveOrgOnboardingStep(3).subscribe();
-    this._router.navigate(['/organization-onboarding/upload-team']);
+    this._router.navigate(['/organization-onboarding/holiday-setting']);
   }
 
   readonly constants = constant;
@@ -45,7 +45,6 @@ export class LeaveRuleSetupComponent implements OnInit {
   ngOnInit(): void {
     this.getUserByFiltersMethodCall(0);
     this.getFullLeaveSettingInformation();
-    // this.findUsersOfLeaveSetting(30);
 
     const leaveId = localStorage.getItem("tempId");
 

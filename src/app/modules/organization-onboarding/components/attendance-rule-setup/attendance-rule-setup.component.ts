@@ -57,7 +57,6 @@ export class AttendanceRuleSetupComponent implements OnInit {
     this.getAllShiftTimingsMethodCall();
     this.attendanceMode = true;
     this.stepFirst = true;
-    this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
   }
 
   attendanceStep() {
@@ -179,15 +178,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
       this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
       this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response;
-      console.log("response.size", response.length);
-      if (response.length > 0) {
-        this.attendanceMode = false;
-        this.shiftSettingMode = false;
-        this.automationRulesSettingMode = true;
-        this.stepFirst = true;
-        this.stepSecond = true;
-        this.stepThird = true;
-      }
+      
     }, (error) => {
       console.log(error);
     })
