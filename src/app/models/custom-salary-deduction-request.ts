@@ -1,7 +1,7 @@
 export class CustomSalaryDeductionRequest {
     
     occurrenceType : string = 'Count';
-    occurrenceCount : number = 0;
+    occurrenceCount! : number;
     occurrenceDuration : string = '';
     amountInRupees : number = 0;
     hours : number = 0;

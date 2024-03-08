@@ -1447,3 +1447,31 @@ button.btn.close-btn {
     padding-top: 5px;
   }
   /* User Import Modal Css*/
+
+  
+.table .thead-light th {
+    color: #8997bd;
+    background-color: #f9fafb;
+    border-color: #e8ebf3;
+    border-bottom: none;
+    font-size: 13px;
+}
+p.tableinfo.mb-0 {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+}
+
+span.unpaid {
+    color: #fff;
+    font-size: 13px;
+    background-color: red;
+    padding: 3px 10px;
+    border-radius: 6px;
+}
+.table .table-design tr{
+    border-bottom: 1px solid #f9fafb;
+}
+
+.table .table-design tr:last-child{
+    border-bottom: none !important;
+}
