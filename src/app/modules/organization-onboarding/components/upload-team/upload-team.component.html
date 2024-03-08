@@ -51,6 +51,31 @@
 
                         </div>
 
+                        <!-- <div class="team-deta mt-4" *ngIf="selectedMethod==''">
+                            <div class="d-flex align-items-center justify-content-center"
+                                style="gap:20px;">
+                                <div class="" (click)="selectMethod('excel')">
+                                    <div class="importfilebox1">
+                                        <label>
+                                            <img src="assets/images/excel.svg" style="width:50px;">
+                                            <span>Excel Upload</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="" (click)="selectMethod('mannual')">
+                                    <div class="importfilebox1">
+                                        <label>
+                                            <img src="assets/images/checklist.svg" style="width:50px;">
+                                            <span>Manual Upload</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div> -->
+
+
 
                         <table class="table" *ngIf="selectedMethod=='' && onboardUserList.length>0">
                             <thead class="thead-light table-design">
@@ -89,6 +114,17 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-end">
+                            
+                            <button type="submit" class="btn btn-success" (click)="onBoardingCompleted()"
+                            [disabled]="onboardUserList.length==0" *ngIf="selectedMethod==''">
+                                <span>Complete</span></button>
+                            <!-- <div class="dot-opacity-loader" *ngIf="editLoader">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div> -->
+                        </div>
 
                         <div class="add-new-user mt-4" *ngIf="selectedMethod=='mannual'">
                             <div class="row">
@@ -199,7 +235,7 @@
                     <!-- <h4 id="createOrglmodal" class="modal-title">Reward Import</h4> -->
                     <h4 id="createOrglmodal" class="modal-title">User Import</h4>
                     <div class="d-flex justify-content-end gap-2 align-items-center">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal()"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeImportModal()"></button>
                     </div>
 
                 </div>

@@ -235,6 +235,7 @@ span.members-namess {
     cursor: pointer;
     width: 230px;
 }
+
 .input[type="file"] {
     position: absolute;
     margin: 0;
@@ -258,6 +259,7 @@ span.members-namess {
     cursor: pointer;
     gap: 20px;
 }
+
 .team-deta {
     padding-bottom: 100px;
     padding-top: 100px;
@@ -272,6 +274,7 @@ span.members-namess {
     margin-bottom: 0px;
 }
 
+
 .importfilebox label button {
     background: #6666f3;
     border-radius: 4px;
@@ -285,6 +288,8 @@ span.members-namess {
     padding: 5px 15px;
     min-width: 110px;
 }
+
+
 
 a.select-file {
     color: #6666f3 !important;
@@ -1262,6 +1267,8 @@ button.btn.close-btn {
     cursor: pointer;
 }
 
+
+
 .or-text-tab p{
     color: #444444;
     font-size: 14px;
@@ -1474,4 +1481,55 @@ span.unpaid {
 
 .table .table-design tr:last-child{
     border-bottom: none !important;
+}
+
+
+.importfilebox1 {
+    position: relative;
+    cursor: pointer;
+    width: 230px;
+}
+
+.importfilebox1 input[type=file] {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    opacity: 0;
+    cursor: pointer;
+}
+.importfilebox1 label button {
+    background: #6666f3;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    padding: 5px 15px;
+    min-width: 110px;
+}
+.importfilebox1 label span {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: left;
+    color: #444444;
+    margin-bottom: 0px;
+}
+
+.importfilebox1 label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f9faff;
+    border: 1px dashed #878a9a;
+    border-radius: 6px;
+    height: 80px;
+    cursor: pointer;
+    gap: 20px;
 }
