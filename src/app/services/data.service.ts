@@ -101,11 +101,11 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-for-user-by-date-duration`,{params});
   }
 
-  getAttendanceDetailsByDate(date : string): Observable<any>{
-    const params = new HttpParams()
-    .set("date", date)
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date`, {params});
-  }
+  // getAttendanceDetailsByDate(date : string): Observable<any>{
+  //   const params = new HttpParams()
+  //   .set("date", date)
+  //   return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date`, {params});
+  // }
 
 
   getAttendanceDetailsReportByDate(date : string, pageNumber: number, itemPerPage: number, search: string, searchBy: string, sort: string, sortBy: string, filterCriteria: string): Observable<any>{
