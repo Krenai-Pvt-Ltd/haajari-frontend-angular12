@@ -352,21 +352,23 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <button class="btn btn-primary save-button"
+                                                <div class="row">
+                                                    <div class="col-md-12 d-flex justify-content-end">
+                                                        <button class="btn btn-primary save-button"
+                                                        (click)="skipShiftSetting()" type="button"  aria-label="Next Step">
+                                                                Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!-- <button class="btn btn-primary save-button"
                                                 (click)="skipShiftSetting()" type="button" 
                                                     aria-label="Next Step">
-                                                    <!-- <div class="dot-opacity-loader">
-                                                        <span></span>
-                                                        <span></span>
-                                                        <span></span>
-                                                    </div> -->
                                                     <span>
                                                         Next <i class="bi bi-arrow-right"
                                                             style="padding-left: 8px;"></i>
                                                     </span>
 
-                                                </button>
+                                                </button> -->
                                             </div>
                                         </div>
                                         <!-- </ng-container> -->
@@ -476,15 +478,16 @@
                                         </ng-container>
                                         <ng-container
                                         *ngIf="attendanceRuleWithAttendanceRuleDefinitionResponseList.length !== 0">
-                                        <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
-        
-                                            <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal"
-                                                data-bs-target="#automation-rules"
-                                                routerLink="/organization-onboarding/automation-rules"><i class="bi bi-plus"></i>
-                                                Add Automation Rules </a>
-        
-                                        </div>
+                                        
                                         <div class="" *ngIf="!attendanceRuleWithAttendanceRuleDefinitionLoading && automationRulesSettingMode && attendanceRuleWithAttendanceRuleDefinitionResponseList.length>0">
+                                            <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
+        
+                                                <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal"
+                                                    data-bs-target="#automation-rules"
+                                                    routerLink="/organization-onboarding/automation-rules"><i class="bi bi-plus"></i>
+                                                    Add Automation Rules </a>
+            
+                                            </div>
                                             <div class="mt-3" *ngFor="let attendanceRuleWithAttendanceRuleDefinitionResponse of attendanceRuleWithAttendanceRuleDefinitionResponseList">
                                                 <div class="rule-main-box">
                                                     <div class="d-flex align-items-center attendance-boxx">
@@ -710,6 +713,15 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 d-flex justify-content-end">
+                                                    <button class="btn btn-primary save-button"
+                                                    (click)="skipAutomationRulesSetting()" type="button"  aria-label="Next Step">
+                                                            Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                                    </button>
                                                 </div>
                                             </div>
                                             <!-- <div class="mt-3">
