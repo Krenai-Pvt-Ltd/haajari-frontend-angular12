@@ -706,3 +706,72 @@ tbody tr {
 .shift-deta p {
     font-size: 10px;
 }
+.description-main-box{
+    -webkit-box-align: baseline;
+    align-items: baseline;
+    display: flex;
+    margin: 0px;
+    gap: 20px;
+}
+.eTjDuD {
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1.57143;
+    letter-spacing: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    background-color: rgb(239, 247, 255);
+    border-radius: 50%;
+    color: blue;
+    display: grid;
+    height: 25px;
+    place-items: center;
+    width: 25px;
+}
+
+.dot-opacity-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 6px;
+}
+
+.dot-opacity-loader span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: white; /* Change to your preferred color */
+    margin: 0 4px;
+    animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-loader span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.dot-opacity-loader span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes dotOpacity {
+    0%, 80%, 100% { opacity: 0; }
+    40% { opacity: 1; }
+}
+
+@media screen and (max-width:2600px) {
+    .salary-template{
+        height: 70vh;
+        overflow: scroll;
+    }
+}
+
+
+@media screen and (max-width:1300px) {
+    .salary-template{
+        height: 60vh;
+        overflow: scroll;
+    }
+}
+

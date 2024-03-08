@@ -30,7 +30,8 @@ export class SalarySettingComponent implements OnInit {
     this.getPFContributionRateMethodCall();
     this.getESIContributionRateMethodCall();
     this.getAllStatutoriesMethodCall();
-    // this.getAllSalaryComponentsMethodCall();
+    this.getAllSalaryTemplateComponentByOrganizationIdMethodCall();
+    this.getAllSalaryComponentsMethodCall();
   }
 
 
@@ -326,19 +327,24 @@ export class SalarySettingComponent implements OnInit {
   readonly BASIC_PAY_ID = Key.BASIC_PAY_ID;
   readonly HRA_ID = Key.HRA_ID;
 
+  salaryTemplateRegisterButtonLoader : boolean = false;
   salaryTemplateComponentRequest : SalaryTemplateComponentRequest = new SalaryTemplateComponentRequest();
   registerSalaryTemplateMethodCall(){
-
+    this.salaryTemplateRegisterButtonLoader = true;
     this.salaryComponentList.forEach((item) => {
-      if (item.value !== null){
+      if (item.value !== 0 && item.toggle === true){
         this.salaryTemplateComponentRequest.salaryComponentRequestList.push(item);
       }
     })
 
     this.dataService.registerSalaryTemplate(this.salaryTemplateComponentRequest).subscribe((response) => {
-
+      this.salaryTemplateRegisterButtonLoader = false;
+      this.cancelSalaryTemplateModal.nativeElement.click();
+      this.getAllSalaryTemplateComponentByOrganizationIdMethodCall();
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
-      
+      this.helperService.showToast("Error while registering salary template!", Key.TOAST_STATUS_ERROR);
+      this.salaryTemplateRegisterButtonLoader = false;
     })
   }
 
@@ -357,20 +363,63 @@ export class SalarySettingComponent implements OnInit {
       this.salaryComponentList = response.listOfObject;
       this.salaryComponentList.forEach((item) => {
         item.toggle = false;
+        item.value = 0;
       })
       this.salaryComponentList[0].toggle = true;
+      this.salaryComponentList[0].value = 100;
     }, (error) => {
 
     })
   }
 
-  salaryTemplateComponent : SalaryTemplateComponentResponse = new SalaryTemplateComponentResponse();
-  getSalaryTemplateByIdMethodCall(){
-    this.dataService.getSalaryTemplateById(1).subscribe((response) => {
-      
+  getSalaryTemplateComponentByIdMethodCall(salaryTemplateComponentId : number){
+    this.dataService.getSalaryTemplateComponentById(salaryTemplateComponentId).subscribe((response) => {
+      this.salaryTemplateComponentRequest = response.object;
     }, (error) => {
 
     })
   }
+
+
+
+  salaryTemplateComponentResponseList : SalaryTemplateComponentResponse[] = [];
+  getAllSalaryTemplateComponentByOrganizationIdMethodCall(){
+    this.dataService.getAllSalaryTemplateComponentByOrganizationId().subscribe((response) => {
+      this.salaryTemplateComponentResponseList = response.listOfObject;
+    }, (error) => {
+
+    })
+  }
+
+  @ViewChild('salaryTemplateModal') salaryTemplateModal !: ElementRef;
+  @ViewChild('cancelSalaryTemplateModal') cancelSalaryTemplateModal !: ElementRef;
+  updateSalaryTemplateComponentBySalaryTemplateId(salaryTemplateComponentResponse : SalaryTemplateComponentResponse){
+    debugger
+    this.salaryTemplateComponentRequest.id = salaryTemplateComponentResponse.id;
+    this.salaryTemplateComponentRequest.name = salaryTemplateComponentResponse.name;
+    this.salaryTemplateComponentRequest.description = salaryTemplateComponentResponse.description;
+    this.salaryTemplateComponentRequest.userUuids = salaryTemplateComponentResponse.userUuids;
+
+    salaryTemplateComponentResponse.salaryComponentResponseList.forEach((salaryComponentResponse) => {
+      const matchingSalaryComponent = this.salaryComponentList.find((salaryComponent) => salaryComponent.id === salaryComponentResponse.id);
+      if (matchingSalaryComponent) {
+        matchingSalaryComponent.value = salaryComponentResponse.value;
+        matchingSalaryComponent.toggle = true;
+      }
+    });
+
+    this.salaryComponentList.sort((a, b) => (b.toggle ? 1 : 0) - (a.toggle ? 1 : 0));
+
+  }
+
+  clearSalaryTemplateModal(){
+    this.salaryTemplateComponentRequest = new SalaryTemplateComponentRequest();
+    this.getAllSalaryComponentsMethodCall();
+  }
+
+  resetValueToZero(salaryComponent : SalaryComponent){
+    salaryComponent.value = 0;
+  }
+
 }
 
