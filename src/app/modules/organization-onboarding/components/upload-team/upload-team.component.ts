@@ -106,7 +106,8 @@ export class UploadTeamComponent implements OnInit {
     })
   }
 
-  closeModal(){
+  closeImportModal(){
+    this.getUser();
 
   }
 
@@ -228,5 +229,10 @@ export class UploadTeamComponent implements OnInit {
       
     })
 
+  }
+
+  onBoardingCompleted(){
+    this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
+    this._router.navigate(['/dashboard'])
   }
 }
