@@ -61,31 +61,10 @@
                                                                         <label for="hoursInput" class="pb-2">If staff is
                                                                             late by </label>
                                                                         <div class="input-group">
-                                                                            <!-- <select id="hoursInput" name="hours"
-                                                                                class="form-control"
-                                                                                style="width: 40px; padding: 0px; text-align: center; margin-right: 0px; border-radius: 6px 0px 0px 6px; "
-                                                                                [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.hours"
-                                                                                (change)="onTimeChange(attendanceRuleDefinitionRequest.customSalaryDeduction)">
-                                                                                <option value="0">HH</option>
-                                                                                <option *ngFor="let hour of hours"
-                                                                                    [value]="hour">{{ hour }}</option>
-                                                                            </select> -->
-
-                                                                            <nz-time-picker [(ngModel)]="this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration" nzFormat="HH:mm" (ngModelChange)="getlateDuration($event)" name="hours"></nz-time-picker>
-                                                                            <!-- <span
-                                                                                style="background-color: #fff; height: 40px; line-height: 34px;">:</span> -->
-
-                                                                            <!-- <select id="minutesInput" name="minutes"
-                                                                                class="form-control"
-                                                                                style=" width: 40px; padding: 0px; text-align: center; border-radius: 0px 6px 6px 0px;"
-                                                                                [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.minutes"
-                                                                                [ngModelOptions]="{standalone: true}">
-                                                                                <option value="0">MM</option>
-                                                                                <option *ngFor="let minute of minutes"
-                                                                                    [value]="minute">{{ minute }}
-                                                                                </option>
-                                                                            </select> -->
-
+                                                                            <nz-time-picker [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration" 
+                                                                                nzFormat="HH:mm" (ngModelChange)="getlateDuration($event)" name="latDuration">
+                                                                            </nz-time-picker>
+                                                                            
                                                                             <span><b>hrs.</b></span>
                                                                         </div>
                                                                     </div>
@@ -148,10 +127,9 @@
                                                                             </div>
                                                                         </div>
                                                                     </ng-template>
-                                                                    <div id="amount-in-rupees">
+                                                                    <div *ngIf="selectedDeductionType?.type == 'FIXED AMOUNT'">
                                                                         <label for="exampleInputEmail1"
-                                                                            class="pb-2">Amount in
-                                                                            rupees:</label>
+                                                                            class="pb-2">Amount in rupees:</label>
                                                                         <div class="d-flex" style="gap:20px">
 
                                                                             <input type="number" class="form-control"
@@ -246,6 +224,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="mt-2">
+                                                                <!-- Deduct half day salary -->
                                                                 <div class="form-check pb-3">
                                                                     <input class="form-check-input"
                                                                         style="cursor: pointer;" type="checkbox"
@@ -261,41 +240,10 @@
                                                                         <div class="if-late">
                                                                             <label for="exampleInputEmail1"
                                                                                 class="pb-2">{{attendanceRuleResponse.ruleSubHeader}}</label>
-                                                                            <!-- <div class="d-flex" style="width: 145px; gap:20px; justify-content: center; align-items: center;">
-                                                    <input type="time" class="form-control"
-                                                        aria-describedby="emailHelp" placeholder="Start Time"
-                                                        [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration">
-                                                        <span>hrs.</span>
-                                                </div> -->
-
                                                                             <div class="input-group">
-                                                                                <select id="hoursInput" name="hours"
-                                                                                    class="form-control"
-                                                                                    style="width: 40px; padding: 0px; text-align: center; margin-right: 0px; border-radius: 6px 0px 0px 6px;"
-                                                                                    [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.hours"
-                                                                                    (change)="onTimeChange(attendanceRuleDefinitionRequest.fullDaySalaryDeduction)"
-                                                                                    [ngModelOptions]="{standalone: true}">
-                                                                                    <option value="0">HH</option>
-                                                                                    <option *ngFor="let hour of hours"
-                                                                                        [value]="hour">{{ hour }}
-                                                                                    </option>
-                                                                                </select>
-                                                                                <span
-                                                                                    style="background-color: #fff; height: 40px; line-height: 34px;">:</span>
-
-                                                                                <select id="minutesInput" name="minutes"
-                                                                                    class="form-control"
-                                                                                    style="width: 40px; padding: 0px; text-align: center; border-radius: 0px 6px 6px 0px;"
-                                                                                    [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.minutes"
-                                                                                    (change)="onTimeChange(attendanceRuleDefinitionRequest.fullDaySalaryDeduction)"
-                                                                                    [ngModelOptions]="{standalone: true}">
-                                                                                    <option value="0">MM</option>
-                                                                                    <option
-                                                                                        *ngFor="let minute of minutes"
-                                                                                        [value]="minute">{{ minute }}
-                                                                                    </option>
-                                                                                </select>
-
+                                                                                <nz-time-picker [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration" 
+                                                                                    nzFormat="HH:mm" (ngModelChange)="getHalfDaylateDuration($event)" name="halfDayLateDuration">
+                                                                                </nz-time-picker>
                                                                                 <span><b>hrs.</b></span>
                                                                             </div>
                                                                         </div>
@@ -398,13 +346,14 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
+                                                                <!-- Deduct full day salary start-->
                                                                 <div class="form-check pb-3">
                                                                     <input type="checkbox" [checked]="isfullDayy"
                                                                         (click)="showFullDayy()" value="" id="selery"
                                                                         class="form-check-input"
                                                                         style="cursor: pointer;">
-                                                                    <label for="selery" class="form-check-label"> Deduct
-                                                                        full day salary </label>
+                                                                    <label for="selery" class="form-check-label"> Deduct full day salary </label>
                                                                 </div>
 
                                                                 <div class="dudtion-type" *ngIf="isfullDayy">
@@ -414,196 +363,8 @@
                                                                             <label for="hoursInput"
                                                                                 class="pb-2">{{attendanceRuleResponse.ruleSubHeader}}</label>
                                                                             <div class="input-group">
-                                                                                <select id="hoursInput" name="hours"
-                                                                                    class="form-control ng-untouched ng-pristine ng-valid"
-                                                                                    style="width: 40px; padding: 0px; text-align: center; margin-right: 0px; border-radius: 6px 0px 0px 6px;"
-                                                                                    ng-reflect-name="hours"
-                                                                                    ng-reflect-model="0">
-                                                                                    <option value="0"
-                                                                                        ng-reflect-value="0">HH</option>
-                                                                                    <option value="0"
-                                                                                        ng-reflect-value="0">0</option>
-                                                                                    <option value="1"
-                                                                                        ng-reflect-value="1">1</option>
-                                                                                    <option value="2"
-                                                                                        ng-reflect-value="2">2</option>
-                                                                                    <option value="3"
-                                                                                        ng-reflect-value="3">3</option>
-                                                                                    <option value="4"
-                                                                                        ng-reflect-value="4">4</option>
-                                                                                    <option value="5"
-                                                                                        ng-reflect-value="5">5</option>
-                                                                                    <option value="6"
-                                                                                        ng-reflect-value="6">6</option>
-                                                                                    <option value="7"
-                                                                                        ng-reflect-value="7">7</option>
-                                                                                    <option value="8"
-                                                                                        ng-reflect-value="8">8</option>
-                                                                                    <option value="9"
-                                                                                        ng-reflect-value="9">9</option>
-                                                                                    <option value="10"
-                                                                                        ng-reflect-value="10">10
-                                                                                    </option>
-                                                                                    <option value="11"
-                                                                                        ng-reflect-value="11">11
-                                                                                    </option>
-                                                                                    <option value="12"
-                                                                                        ng-reflect-value="12">12
-                                                                                    </option>
-                                                                                    <option value="13"
-                                                                                        ng-reflect-value="13">13
-                                                                                    </option>
-                                                                                    <option value="14"
-                                                                                        ng-reflect-value="14">14
-                                                                                    </option>
-                                                                                    <option value="15"
-                                                                                        ng-reflect-value="15">15
-                                                                                    </option>
-                                                                                    <option value="16"
-                                                                                        ng-reflect-value="16">16
-                                                                                    </option>
-                                                                                    <option value="17"
-                                                                                        ng-reflect-value="17">17
-                                                                                    </option>
-                                                                                    <option value="18"
-                                                                                        ng-reflect-value="18">18
-                                                                                    </option>
-                                                                                    <option value="19"
-                                                                                        ng-reflect-value="19">19
-                                                                                    </option>
-                                                                                    <option value="20"
-                                                                                        ng-reflect-value="20">20
-                                                                                    </option>
-                                                                                    <option value="21"
-                                                                                        ng-reflect-value="21">21
-                                                                                    </option>
-                                                                                    <option value="22"
-                                                                                        ng-reflect-value="22">22
-                                                                                    </option>
-                                                                                    <option value="23"
-                                                                                        ng-reflect-value="23">23
-                                                                                    </option>
-                                                                                </select>
-                                                                                <span
-                                                                                    style="background-color: #fff; height: 40px; line-height: 34px;">:</span>
-                                                                                <select id="minutesInput" name="minutes"
-                                                                                    class="form-control ng-untouched ng-pristine ng-valid"
-                                                                                    style="width: 40px; padding: 0px; text-align: center; border-radius: 0px 6px 6px 0px;"
-                                                                                    ng-reflect-name="minutes"
-                                                                                    ng-reflect-model="0">
-                                                                                    <option value="0"
-                                                                                        ng-reflect-value="0">MM</option>
-                                                                                    <option value="0"
-                                                                                        ng-reflect-value="0">0</option>
-                                                                                    <option value="1"
-                                                                                        ng-reflect-value="1">1</option>
-                                                                                    <option value="2"
-                                                                                        ng-reflect-value="2">2</option>
-                                                                                    <option value="3"
-                                                                                        ng-reflect-value="3">3</option>
-                                                                                    <option value="4"
-                                                                                        ng-reflect-value="4">4</option>
-                                                                                    <option value="5"
-                                                                                        ng-reflect-value="5">5</option>
-                                                                                    <option value="6"
-                                                                                        ng-reflect-value="6">6</option>
-                                                                                    <option value="7"
-                                                                                        ng-reflect-value="7">7</option>
-                                                                                    <option value="8"
-                                                                                        ng-reflect-value="8">8</option>
-                                                                                    <option value="9"
-                                                                                        ng-reflect-value="9">9</option>
-                                                                                    <option value="10"
-                                                                                        ng-reflect-value="10">10
-                                                                                    </option>
-                                                                                    <option value="11"
-                                                                                        ng-reflect-value="11">11
-                                                                                    </option>
-                                                                                    <option value="12"
-                                                                                        ng-reflect-value="12">12
-                                                                                    </option>
-                                                                                    <option value="13"
-                                                                                        ng-reflect-value="13">13
-                                                                                    </option>
-                                                                                    <option value="14"
-                                                                                        ng-reflect-value="14">14
-                                                                                    </option>
-                                                                                    <option value="15"
-                                                                                        ng-reflect-value="15">15
-                                                                                    </option>
-                                                                                    <option value="16"
-                                                                                        ng-reflect-value="16">16
-                                                                                    </option>
-                                                                                    <option value="17"
-                                                                                        ng-reflect-value="17">17
-                                                                                    </option>
-                                                                                    <option value="18"
-                                                                                        ng-reflect-value="18">18
-                                                                                    </option>
-                                                                                    <option value="19"
-                                                                                        ng-reflect-value="19">19
-                                                                                    </option>
-                                                                                    <option value="20"
-                                                                                        ng-reflect-value="20">20
-                                                                                    </option>
-                                                                                    <option value="21"
-                                                                                        ng-reflect-value="21">21
-                                                                                    </option>
-                                                                                    <option value="22"
-                                                                                        ng-reflect-value="22">22
-                                                                                    </option>
-                                                                                    <option value="23"
-                                                                                        ng-reflect-value="23">23
-                                                                                    </option>
-                                                                                    <option value="24"
-                                                                                        ng-reflect-value="24">24
-                                                                                    </option>
-                                                                                    <option value="25"
-                                                                                        ng-reflect-value="25">25
-                                                                                    </option>
-                                                                                    <option value="26"
-                                                                                        ng-reflect-value="26">26
-                                                                                    </option>
-
-                                                                                    <option value="27"
-                                                                                        ng-reflect-value="27">27
-                                                                                    </option>
-                                                                                    <option value="28"
-                                                                                        ng-reflect-value="28">28
-                                                                                    </option>
-                                                                                    <option value="29"
-                                                                                        ng-reflect-value="29">29
-                                                                                    </option>
-                                                                                    <option value="30"
-                                                                                        ng-reflect-value="30">30
-                                                                                    </option>
-                                                                                    <option value="31"
-                                                                                        ng-reflect-value="31">31
-                                                                                    </option>
-                                                                                    <option value="32"
-                                                                                        ng-reflect-value="32">32
-                                                                                    </option>
-                                                                                    <option value="33"
-                                                                                        ng-reflect-value="33">33
-                                                                                    </option>
-
-                                                                                    <option value="34"
-                                                                                        ng-reflect-value="34">34
-                                                                                    </option>
-                                                                                    <option value="35"
-                                                                                        ng-reflect-value="35">35
-                                                                                    </option>
-                                                                                    <option value="36"
-                                                                                        ng-reflect-value="36">36
-                                                                                    </option>
-                                                                                    <option value="37"
-                                                                                        ng-reflect-value="37">37
-                                                                                    </option>
-                                                                                    <option value="38"
-                                                                                        ng-reflect-value="38">38
-                                                                                    </option>
-
-                                                                                </select>
+                                                                                <nz-time-picker [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration" nzFormat="HH:mm" (ngModelChange)="getFullDaylateDuration($event)" name="fullDayLateDuration"></nz-time-picker>
+                                                                               
                                                                                 <span class="ml-2">
                                                                                     <b
                                                                                         style="padding-left: 6px;">hrs.</b>
@@ -657,6 +418,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <!-- Deduct full day salary end-->
                                                             </div>
                                                         </div>
                                                         <div

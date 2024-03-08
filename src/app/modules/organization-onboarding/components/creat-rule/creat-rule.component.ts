@@ -7,6 +7,8 @@ import { AttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule
 import { AttendanceRuleResponse } from 'src/app/models/attendance-rule-response';
 import { AttendanceRuleWithAttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-with-attendance-rule-definition-response';
 import { DeductionType } from 'src/app/models/deduction-type';
+import { FullDaySalaryDeductionRequest } from 'src/app/models/full-day-salary-deduction-request';
+import { HalfDaySalaryDeductionRequest } from 'src/app/models/half-day-salary-deduction-request';
 import { OvertimeType } from 'src/app/models/overtime-type';
 import { Staff } from 'src/app/models/staff';
 import { DataService } from 'src/app/services/data.service';
@@ -99,8 +101,8 @@ export class CreatRuleComponent implements OnInit {
     this.selectedDeductionType = deductionType;
     this.attendanceRuleDefinitionRequest.deductionTypeId = deductionType.id;
 
-    const res = document.getElementById('amount-in-rupees') as HTMLElement;
-    res.style.display = this.selectedDeductionType?.type === "FIXED AMOUNT" ? 'block' : 'none';
+    // const res = document.getElementById('amount-in-rupees') as HTMLElement;
+    // res.style.display = this.selectedDeductionType?.type === "FIXED AMOUNT" ? 'block' : 'none';
   }
 
   selectedOvertimeType: OvertimeType = new OvertimeType();
@@ -558,10 +560,20 @@ export class CreatRuleComponent implements OnInit {
     });
   }
 
-  time= new Date();
+  // time= new Date();
   getlateDuration(event:Date){
-    let lateDuration = this.helperService.formatDateToHHmmss(event);
-    this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration = lateDuration;
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration = duration;
+  }
+
+  getHalfDaylateDuration(event:Date){
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration = duration;
+  }
+
+  getFullDaylateDuration(event:Date){
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration = duration;
   }
 
 }
