@@ -341,7 +341,7 @@ confiirmPassword: string='';
     this.dataService.verifyOtpByWhatsapp(this.phoneNumber, this.otp)
     .subscribe(
       (response) => {
-console.log(response);
+        console.log(response);
         this.helperService.subModuleResponseList = response.subModuleResponseList;
 
        localStorage.setItem('token', response.tokenResponse.access_token);
