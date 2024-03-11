@@ -1632,7 +1632,10 @@
                       id="verify-employee"
                       role="tabpanel"
                     >
+                 
                       <div class="" *ngIf="!isCompanyPlaceholder">
+
+                        <div *ngIf="!isFresher; else noExperience">
                         <div
                           class="row"
                           *ngFor="let exp of experienceEmployee; let i = index"
@@ -1680,6 +1683,12 @@
                             </tbody>
                           </table>
                         </div>
+                      </div>
+                      <ng-template #noExperience>
+                        <div class="row">
+                          <h5 style="text-align: left">Fresher</h5>
+                        </div>
+                      </ng-template>
                       </div>
 
                       <div class="">
