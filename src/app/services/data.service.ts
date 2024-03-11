@@ -1453,5 +1453,13 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get/all`);
   }
 
+
+  deleteSalaryTemplateById(salaryTemplateId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set('salary_template_id', salaryTemplateId);
+
+    return this.httpClient.delete<any>(`${this.baseUrl}/salary/template/delete-by-id`, {params});
+  }
   
 }
