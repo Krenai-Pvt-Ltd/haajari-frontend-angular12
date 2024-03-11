@@ -1487,7 +1487,8 @@ span.unpaid {
 .importfilebox1 {
     position: relative;
     cursor: pointer;
-    width: 230px;
+    width: 130px;
+    height: 40px;
 }
 
 .importfilebox1 input[type=file] {
@@ -1510,12 +1511,12 @@ span.unpaid {
     color: #ffffff;
     border: none;
     outline: none;
-    padding: 5px 15px;
+    padding: 5px;
     min-width: 110px;
 }
 .importfilebox1 label span {
     font-weight: 500;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 24px;
     text-align: left;
     color: #444444;
@@ -1529,7 +1530,7 @@ span.unpaid {
     background: #f9faff;
     border: 1px dashed #878a9a;
     border-radius: 6px;
-    height: 80px;
+    height: 35px;
     cursor: pointer;
-    gap: 20px;
+    /* gap: 20px; */
 }

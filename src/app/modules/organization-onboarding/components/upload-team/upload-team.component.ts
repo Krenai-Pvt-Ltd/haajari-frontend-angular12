@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { UserListReq } from 'src/app/models/UserListReq';
+import { User } from 'src/app/models/user';
 import { UserReq } from 'src/app/models/userReq';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
@@ -61,6 +62,7 @@ export class UploadTeamComponent implements OnInit {
   
   addUser(){
     // this.user = { name: '', phone: '', email: ''};
+    this.user = new UserReq();
     this.userList.push(this.user);
     
   }
@@ -232,6 +234,7 @@ export class UploadTeamComponent implements OnInit {
   }
 
   onBoardingCompleted(){
+    this._onboardingService.saveOrgOnboardingStep(6).subscribe();
     this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
     this._router.navigate(['/dashboard'])
   }

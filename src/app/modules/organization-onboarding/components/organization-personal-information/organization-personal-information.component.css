@@ -663,4 +663,5 @@ a.select-file {
     background: transparent;
     z-index: 10; /* Ensure the button is above the input */
     cursor: pointer;
+    top:34px;
   }
