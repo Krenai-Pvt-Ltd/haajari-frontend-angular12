@@ -62,7 +62,7 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  private baseUrl = this._key.baseUrl;
+  private baseUrl = this._key.base_url;
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
