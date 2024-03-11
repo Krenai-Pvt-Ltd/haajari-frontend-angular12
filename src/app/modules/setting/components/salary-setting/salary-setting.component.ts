@@ -73,6 +73,15 @@ export class SalarySettingComponent implements OnInit {
     this.networkConnectionErrorPlaceHolderForStatutory = false;
   }
 
+  isShimmerForSalaryTemplate = false;
+  dataNotFoundPlaceholderForSalaryTemplate = false;
+  networkConnectionErrorPlaceHolderForSalaryTemplate = false;
+  preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall(){
+    this.isShimmerForSalaryTemplate = true;
+    this.dataNotFoundPlaceholderForSalaryTemplate = false;
+    this.networkConnectionErrorPlaceHolderForSalaryTemplate = false;
+  }
+
   
   
 
@@ -135,7 +144,7 @@ export class SalarySettingComponent implements OnInit {
   getPFContributionRateMethodCall(){
     this.dataService.getPFContributionRate().subscribe((response) => {
       this.pFContributionRateList = response.listOfObject;
-      console.log(response.listOfObject);
+      // console.log(response.listOfObject);
     }, (error) =>{
 
     })
@@ -329,13 +338,29 @@ export class SalarySettingComponent implements OnInit {
 
   salaryTemplateRegisterButtonLoader : boolean = false;
   salaryTemplateComponentRequest : SalaryTemplateComponentRequest = new SalaryTemplateComponentRequest();
+  
   registerSalaryTemplateMethodCall(){
+    debugger
     this.salaryTemplateRegisterButtonLoader = true;
+
     this.salaryComponentList.forEach((item) => {
-      if (item.value !== 0 && item.toggle === true){
-        this.salaryTemplateComponentRequest.salaryComponentRequestList.push(item);
-      }
+
+      const matchingSalaryComponent = this.salaryTemplateComponentRequest.salaryComponentRequestList.find((salaryComponent) => salaryComponent.id === item.id);
+
+      if(matchingSalaryComponent){
+        if(item.toggle && item.value != matchingSalaryComponent){
+          matchingSalaryComponent.value = item.value;
+        } else{
+          matchingSalaryComponent.toggle = false;
+        }
+      } else{
+        if(item.toggle){
+          this.salaryTemplateComponentRequest.salaryComponentRequestList.push(item);
+        }
+      }      
     })
+
+    console.log(this.salaryTemplateComponentRequest);
 
     this.dataService.registerSalaryTemplate(this.salaryTemplateComponentRequest).subscribe((response) => {
       this.salaryTemplateRegisterButtonLoader = false;
@@ -349,7 +374,6 @@ export class SalarySettingComponent implements OnInit {
   }
 
 
-  demoValue = 0;
   formatterPercent = (value: number): string => `${value} %`;
   parserPercent = (value: string): string => value.replace(' %', '');
   formatterDollar = (value: number): string => `$ ${value}`;
@@ -384,20 +408,26 @@ export class SalarySettingComponent implements OnInit {
 
   salaryTemplateComponentResponseList : SalaryTemplateComponentResponse[] = [];
   getAllSalaryTemplateComponentByOrganizationIdMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall();
     this.dataService.getAllSalaryTemplateComponentByOrganizationId().subscribe((response) => {
       this.salaryTemplateComponentResponseList = response.listOfObject;
-    }, (error) => {
 
+      if(response === undefined || response === null || response.listOfObject.length === 0 || response.listOfObject === undefined || response.listOfObject === null){
+        this.dataNotFoundPlaceholderForSalaryTemplate = true;
+      }
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForSalaryTemplate = true;
     })
   }
 
   @ViewChild('salaryTemplateModal') salaryTemplateModal !: ElementRef;
   @ViewChild('cancelSalaryTemplateModal') cancelSalaryTemplateModal !: ElementRef;
   updateSalaryTemplateComponentBySalaryTemplateId(salaryTemplateComponentResponse : SalaryTemplateComponentResponse){
-    debugger
+        
     this.salaryTemplateComponentRequest.id = salaryTemplateComponentResponse.id;
     this.salaryTemplateComponentRequest.name = salaryTemplateComponentResponse.name;
     this.salaryTemplateComponentRequest.description = salaryTemplateComponentResponse.description;
+    this.salaryTemplateComponentRequest.salaryComponentRequestList = salaryTemplateComponentResponse.salaryComponentResponseList;
     this.salaryTemplateComponentRequest.userUuids = salaryTemplateComponentResponse.userUuids;
 
     salaryTemplateComponentResponse.salaryComponentResponseList.forEach((salaryComponentResponse) => {
@@ -417,8 +447,22 @@ export class SalarySettingComponent implements OnInit {
     this.getAllSalaryComponentsMethodCall();
   }
 
-  resetValueToZero(salaryComponent : SalaryComponent){
-    salaryComponent.value = 0;
+  // toggleSalaryComponent(salaryComponent: SalaryComponent): void {
+  //   if (salaryComponent.toggle) {
+  //     salaryComponent.value = salaryComponent.previousValue;
+  //   } else {
+  //     salaryComponent.previousValue = salaryComponent.value;
+  //     salaryComponent.value = 0;
+  //   }
+  // }
+
+  deleteSalaryTemplateByIdMethodCall(salaryTemplateId : number){
+    this.dataService.deleteSalaryTemplateById(salaryTemplateId).subscribe((response) => {
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      this.getAllSalaryTemplateComponentByOrganizationIdMethodCall();
+    }, (error) => {
+      this.helperService.showToast("Error in deleting salary template!", Key.TOAST_STATUS_ERROR)
+    })
   }
 
 }

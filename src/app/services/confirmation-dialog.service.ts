@@ -13,7 +13,7 @@ export class ConfirmationDialogService {
     const dialogRef = this.matDialog.open(ConfirmationDialogComponent, {
       width: '100vw',
       height: '100vh',
-      panelClass: 'no-animation'
+      // panelClass: 'custom-modal-style', 
     });
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
