@@ -1080,4 +1080,41 @@ a.select-file {
     0%, 80%, 100% { opacity: 0; }
     40% { opacity: 1; }
 }
+.count-box label{
+    border: 1px solid #e8ebf3;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0px;
+    padding: 5px 20px;
+    transition: 0.1s linear;
+    border-radius: 0.25rem;
+}
 
+.count-box p{
+    color: #444;
+    font-size: 13px;
+}
+
+.selected {
+    color: #6666f3;
+    font-weight: bold; /* Optional: Make the selected option bold */
+    border-color: #6666f3 !important;
+  }
+
+.leave-delet-btn i{
+    color: #eb5050;
+}
+
+.leave-delet-btn {
+    position: relative;
+    top: -70px;
+    right: -95%;
+}
+
+#back-and-submit{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

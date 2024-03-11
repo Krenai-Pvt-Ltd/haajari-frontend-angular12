@@ -229,6 +229,9 @@ export class Key{
     
     //user import
     create_user = "/whatsapp-user-onboarding";
+    create_admin = "/organization/register-organization-using-number";
+
+
     get_onboarding_user = "/whatsapp-user-onboarding/onboarding-user";
     delete_onboarding_user = "/whatsapp-user-onboarding";
     edit_onboarding_user = "/whatsapp-user-onboarding";

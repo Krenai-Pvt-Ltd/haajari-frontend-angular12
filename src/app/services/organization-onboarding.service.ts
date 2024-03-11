@@ -21,7 +21,12 @@ export class OrganizationOnboardingService {
     return this._httpClient.post(this._key.base_url + this._key.user_import, formdata);
   }
 
-  createUser(userList:UserListReq) {
+  createAdmin(user:UserReq) {
+    debugger
+    return this._httpClient.post(this._key.base_url + this._key.create_admin, user);
+  }
+
+  createOnboardUser(userList:UserListReq) {
     debugger
     return this._httpClient.post(this._key.base_url + this._key.create_user, userList);
   }
