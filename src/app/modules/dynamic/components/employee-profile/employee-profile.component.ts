@@ -245,6 +245,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.setReasonOfRejectionMethodCall();
     if(this.requestForMoreDocs== true){
       type = 'REQUESTED';
+      this.approvedToggle=false;
     }
   }else if(type=="APPROVED"){
     this.approvedToggle=true;
