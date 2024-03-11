@@ -41,6 +41,7 @@ import { NotificationVia } from "../models/notification-via";
 import { SalaryTemplateComponentRequest } from "../models/salary-template-component-request";
 import { WeeklyHoliday } from "../models/WeeklyHoliday";
 import { WeekDay } from "../models/WeekDay";
+import { Key } from '../constant/key';
 
 
 @Injectable({
@@ -50,6 +51,7 @@ export class DataService {
 
   private stepsCompletionStatus = new BehaviorSubject<boolean[]>([false, false, false, false, false, false, false]);
   orgId: any;
+  private _key: Key = new Key();
   constructor(private httpClient: HttpClient) {}
   private orgIdEmitter = new EventEmitter<number>();
   activeTab:boolean=false;
@@ -60,11 +62,7 @@ export class DataService {
     return this.orgIdEmitter;
   }
   
-  // private baseUrl = "http://localhost:8080/api/v2";
-
-  private baseUrl = "https://backend.hajiri.work/api/v2";
-
-  // private baseUrl = "https://production.hajiri.work/api/v2";
+  private baseUrl = this._key.baseUrl;
 
   openSidebar: boolean = true;
   registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
@@ -1442,7 +1440,7 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/component/get/all`);
   }
 
-  getSalaryTemplateById(salaryTemplateId : number): Observable<any>{
+  getSalaryTemplateComponentById(salaryTemplateId : number): Observable<any>{
 
     const params = new HttpParams()
     .set('salary_template_id', salaryTemplateId);
@@ -1450,6 +1448,10 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get/by/id`, {params});
   }
 
+  getAllSalaryTemplateComponentByOrganizationId(): Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get/all`);
+  }
 
   
 }

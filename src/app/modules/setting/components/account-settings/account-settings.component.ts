@@ -50,16 +50,21 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   @ViewChild('profilePreferencesSetting') profilePreferencesSetting!: ElementRef;
   @ViewChild('settingSecure') settingSecure!: ElementRef;
   tabName: string = '';
-  openTabOnClick() {
+
+  openTabOnClick(str:string) {
     debugger
     // if (this.accountDetailsTab == 'accountDetails') {
-    //   this.account.nativeElement.click();
+    //   // this.account.nativeElement.click();
+    //   this.accountDetailsTab = 'accountDetails';
     // } else if (this.accountDetailsTab == 'security') {
-    //   this.settingSecure.nativeElement.click();
+    //   // this.settingSecure.nativeElement.click();
+    //   this.accountDetailsTab = 'security';
     // } else if (this.accountDetailsTab == 'profilePreferences') {
-    //   this.profilePreferencesSetting.nativeElement.click();
+    //   // this.profilePreferencesSetting.nativeElement.click();
+    //   this.accountDetailsTab = 'profilePreferences';
     // } else if (this.accountDetailsTab == 'referralProgram') {
-    //   this.refer.nativeElement.click();
+    //   // this.refer.nativeElement.click();
+    //   this.accountDetailsTab = 'referralProgram';
     // }
   }
 
