@@ -5,12 +5,33 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="persnol-details">
-                        <div class="d-flex align-items-center" style="gap:15px" *ngIf="selectedMethod==''">
-                            <div class="add-filtter" (click)="backPage()">
-                                <a><i class="bi bi-chevron-left"></i></a>
+                        <div class="d-flex justify-content-between mb-2" *ngIf="selectedMethod==''">
+                            <div class="d-flex align-items-center" style="gap:15px">
+                                <div class="add-filtter" (click)="backPage()">
+                                    <a><i class="bi bi-chevron-left"></i></a>
+                                </div>
+                                <div class="">
+                                    <h5 class="mb-0">Upload Team</h5>
+                                </div>
                             </div>
-                            <div class="">
-                                <h5 class="mb-0">Upload Team</h5>
+                            <div class="d-flex justify-content-end" style="gap:20px;" *ngIf="onboardUserList.length>0">
+                                <div class="" (click)="selectMethod('excel')">
+                                    <div class="importfilebox1">
+                                        <label>
+                                            <img src="assets/images/excel.svg" style="width:25px;">
+                                            <span>Excel Upload</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="" (click)="selectMethod('mannual')">
+                                    <div class="importfilebox1">
+                                        <label>
+                                            <img src="assets/images/checklist.svg" style="width:25px;">
+                                            <span>Manual Upload</span>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="d-flex align-items-center" style="gap:15px" *ngIf="selectedMethod=='mannual'">
@@ -24,7 +45,7 @@
 
 
 
-                        <div class="team-deta mt-4" *ngIf="selectedMethod==''">
+                        <div class="team-deta mt-4" *ngIf="selectedMethod=='' && onboardUserList.length==0">
                             <div class="d-flex align-items-center justify-content-center"
                                 style="gap:20px; flex-direction: column;">
                                 <div class="" (click)="selectMethod('excel')">
@@ -50,74 +71,55 @@
                             </div>
 
                         </div>
+                        <div class="row" *ngIf="selectedMethod=='' && onboardUserList.length>0">
+                            <table class="table">
+                                <thead class="thead-light table-design">
+                                    <tr>
+                                        <th style="width:10%" class="text-center">#</th>
+                                        <th style="width:25%" class="text-center">Name</th>
+                                        <th style="width:20%" class="text-center">Phone</th>
+                                        <th style="width:25%" class="text-center">Email</th>
+                                        <th style="width:20%" class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-design">
+                                    <tr *ngFor="let onboardUser of onboardUserList; let i = index">
+                                        <td>
+                                            <p class="tableinfo mb-0 text-center"><b>{{i+1}}</b></p>
+                                        </td>
+                                        <td>
+                                            <p class="tableinfo mb-0 text-center"><b>{{onboardUser.name}}</b>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="tableinfo mb-0 text-center"><b>{{onboardUser.phone}}</b>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="tableinfo mb-0 text-center"><b>{{onboardUser.email}}</b>
+                                            </p>
+                                        </td>
+                                        <td class="d-flex justify-content-center">
+                                            <p class="tableinfo mb-0 pointer text-center" style="color: darkblue;"
+                                                (click)="openUserEditModal(onboardUser)">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </p>
+                                            <p class="tableinfo mb-0 pointer text-center"
+                                                style="color: red; margin-left: 10px;"
+                                                (click)="deleteUser(onboardUser.id)">
+                                                <i class="bi bi-trash"></i>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                        <!-- <div class="team-deta mt-4" *ngIf="selectedMethod==''">
-                            <div class="d-flex align-items-center justify-content-center"
-                                style="gap:20px;">
-                                <div class="" (click)="selectMethod('excel')">
-                                    <div class="importfilebox1">
-                                        <label>
-                                            <img src="assets/images/excel.svg" style="width:50px;">
-                                            <span>Excel Upload</span>
-                                        </label>
-                                    </div>
-                                </div>
 
-                                <div class="" (click)="selectMethod('mannual')">
-                                    <div class="importfilebox1">
-                                        <label>
-                                            <img src="assets/images/checklist.svg" style="width:50px;">
-                                            <span>Manual Upload</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div> -->
-
-
-
-                        <table class="table" *ngIf="selectedMethod=='' && onboardUserList.length>0">
-                            <thead class="thead-light table-design">
-                                <tr>
-                                    <th style="width:10%" class="text-center">#</th>
-                                    <th style="width:25%" class="text-center">Name</th>
-                                    <th style="width:20%" class="text-center">Phone</th>
-                                    <th style="width:25%" class="text-center">Email</th>
-                                    <th style="width:20%" class="text-center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-design">
-                                <tr *ngFor="let onboardUser of onboardUserList; let i = index">
-                                    <td>
-                                        <p class="tableinfo mb-0 text-center"><b>{{i+1}}</b></p>
-                                    </td>
-                                    <td>
-                                        <p class="tableinfo mb-0 text-center"><b>{{onboardUser.name}}</b></p>
-                                    </td>
-                                    <td>
-                                        <p class="tableinfo mb-0 text-center"><b>{{onboardUser.phone}}</b></p>
-                                    </td>
-                                    <td>
-                                        <p class="tableinfo mb-0 text-center"><b>{{onboardUser.email}}</b></p>
-                                    </td>
-                                    <td class="d-flex justify-content-center">
-                                        <p class="tableinfo mb-0 pointer text-center" style="color: darkblue;" 
-                                        (click)="openUserEditModal(onboardUser)">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </p>
-                                        <p class="tableinfo mb-0 pointer text-center" style="color: red; margin-left: 10px;"
-                                        (click)="deleteUser(onboardUser.id)">
-                                            <i class="bi bi-trash"></i>
-                                        </p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                         <div class="d-flex justify-content-end">
-                            
+
                             <button type="submit" class="btn btn-success" (click)="onBoardingCompleted()"
-                            [disabled]="onboardUserList.length==0" *ngIf="selectedMethod==''">
+                                [disabled]="onboardUserList.length==0" *ngIf="selectedMethod==''">
                                 <span>Complete</span></button>
                             <!-- <div class="dot-opacity-loader" *ngIf="editLoader">
                                 <span></span>
@@ -128,37 +130,6 @@
 
                         <div class="add-new-user mt-4" *ngIf="selectedMethod=='mannual'">
                             <div class="row">
-                                <!-- <form #userForm="ngForm"> -->
-                                <!-- <form [formGroup]="form">
-                                    <div formArrayName="categories">
-                                        <div class="form-group row mb-3"
-                                            *ngFor="let category of categories.controls; let i = index"
-                                            [formGroupName]="i">
-                                            <div class="col-md-4">
-                                                <label class="mb-2"> Name</label>
-                                                <input type="text" formControlName="userName" class="form-control"
-                                                    placeholder="Enter Leave Name" required>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label class="mb-2">Phone Number</label>
-                                                <input type="tel" formControlName="userPhone" 
-                                                    placeholder="Phon Number" class="form-control">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label class="mb-2">Email </label>
-                                                <input type="email" formControlName="userEmail"
-                                                    placeholder="Email" class="form-control">
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                <div id="back-and-submit" class=" d-flex align-items-center justify-content-between">
-                                    <button type="button" class="btn skip-btn-new" [disabled]="form.invalid" (click)="addRow()"><i
-                                            class="bi bi-plus" style="font-size: 23px;"></i> Add New User</button>
-
-                                </div>
-                                </form> -->
                                 <form #userForm="ngForm">
                                     <div class="form-group row mb-3" *ngFor="let user of userList; let i = index">
                                         <div class="col-md-4">
@@ -191,8 +162,7 @@
                                         class=" d-flex align-items-center justify-content-between">
                                         <button type="button" class="btn skip-btn-new" (click)="addUser()"
                                             [disabled]="userForm.invalid || isNumberExist"><i class="bi bi-plus"
-                                                style="font-size: 23px;"></i> Add
-                                            New User</button>
+                                                style="font-size: 23px;"></i> Add New User</button>
 
                                     </div>
                                     <div id="back-and-submit"
@@ -208,14 +178,10 @@
                                                 <span></span>
                                             </div>
                                         </button>
-
                                     </div>
                                 </form>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
             </div>
@@ -235,7 +201,8 @@
                     <!-- <h4 id="createOrglmodal" class="modal-title">Reward Import</h4> -->
                     <h4 id="createOrglmodal" class="modal-title">User Import</h4>
                     <div class="d-flex justify-content-end gap-2 align-items-center">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeImportModal()"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            (click)="closeImportModal()"></button>
                     </div>
 
                 </div>
@@ -409,7 +376,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit User</h5>
-                    <button type="button" #closeUserEditModal class="btn-close" data-bs-dismiss="modal" 
+                    <button type="button" #closeUserEditModal class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -417,14 +384,13 @@
                         <div class="form-group row mb-3">
                             <div class="col-md-4">
                                 <label class="mb-2"> Name</label>
-                                <input type="text" name="Name" [(ngModel)]="user.name"
-                                    class="form-control" placeholder="Enter Name" required>
+                                <input type="text" name="Name" [(ngModel)]="user.name" class="form-control"
+                                    placeholder="Enter Name" required>
                             </div>
                             <div class="col-md-4">
                                 <label class="mb-2">Phone Number</label>
-                                <input type="tel" name="phone" [(ngModel)]="user.phone"
-                                    placeholder="Phone Number" minlength="10" maxlength="10"
-                                    class="form-control"
+                                <input type="tel" name="phone" [(ngModel)]="user.phone" placeholder="Phone Number"
+                                    minlength="10" maxlength="10" class="form-control"
                                     oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
                                     (keyup)="checkExistance(user.phone)" required>
                                 <p *ngIf="isNumberExist" class="error text-danger">this number
@@ -432,14 +398,14 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="mb-2">Email </label>
-                                <input type="email" name="email" [(ngModel)]="user.email"
-                                    placeholder="Email" class="form-control">
+                                <input type="email" name="email" [(ngModel)]="user.email" placeholder="Email"
+                                    class="form-control">
                             </div>
-                            
+
                         </div>
                         <div class="d-flex justify-content-end">
-                            
-                            <button type="submit" class="btn btn-success" 
+
+                            <button type="submit" class="btn btn-success"
                                 [disabled]="editUserForm.invalid || isNumberExist" (click)="editUser()">
                                 <span *ngIf="!editLoader">Submit</span></button>
                             <div class="dot-opacity-loader" *ngIf="editLoader">
