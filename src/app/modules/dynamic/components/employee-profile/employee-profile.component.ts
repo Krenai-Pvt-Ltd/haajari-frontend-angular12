@@ -249,8 +249,10 @@ export class EmployeeProfileComponent implements OnInit {
     if(this.requestForMoreDocs== true){
       type = 'REQUESTED';
       this.approvedToggle=false;
+
       // this.toggle = false;
       
+
     }
   }else if(type=="APPROVED"){
     this.approvedToggle=true;

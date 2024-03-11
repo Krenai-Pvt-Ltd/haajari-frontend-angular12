@@ -13,13 +13,21 @@
         >
           <!-- routerLink="/employee-onboarding" -->
           <!-- {{tokenUserRoleFlag}} -->
+          <!-- {{userId}} - {{UUID}} -->
           <div
             class="back-btns-box"
             (click)="location.back()"
             *ngIf="ROLE != 'USER'"
           >
+          
             <i class="bi bi-chevron-left"></i>
           </div>
+          <div
+          class="back-btns-box"
+          (click)="location.back()"
+          *ngIf="ROLE == 'USER' && (userId !== UUID)"
+        >  <i class="bi bi-chevron-left"></i>
+      </div>
           <h5 class="mt-0" style="margin-top: 10px !important">
             {{ user?.name || "N/A" }}
           </h5>
