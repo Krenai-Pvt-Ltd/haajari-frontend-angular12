@@ -229,6 +229,12 @@ export class HolidaySettingComponent implements OnInit {
     })
 
   }
+
+  // skipThisStep(){
+  //   if(this.onboardingViaString==='WHATSAPP'){
+      
+  //   }
+  // }
   
 
 }
