@@ -375,7 +375,14 @@
                   <div *ngIf="otpErrorMessage" class="alert alert-danger">
                     {{ otpErrorMessage }}
                  </div>
-                  <button class="verify-button" (click)="verifyOtp()">Verify</button>
+                  <button class="verify-button" (click)="verifyOtp()">
+                    <span *ngIf="!loading">Verify</span>
+                    <div class="dot-opacity-loader" *ngIf="loading">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
                   <!-- <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button> -->
 
 
@@ -389,7 +396,7 @@
     </div>
   </div>
 
-  <button class="d-none" #userCreateModal data-bs-toggle="modal" data-bs-target="#createUser"></button>
+  <!-- <button class="d-none" #userCreateModal data-bs-toggle="modal" data-bs-target="#createUser"></button>
     <div class="modal fade" id="createUser" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -412,8 +419,6 @@
                                     minlength="10" maxlength="10" class="form-control"
                                     oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
                                      required disabled>
-                                <!-- <p *ngIf="isNumberExist" class="error text-danger">this number
-                                    already exist</p> -->
                             </div>
                             <div class="col-md-4">
                                 <label class="mb-2">Email </label>
@@ -425,16 +430,18 @@
                         <div class="d-flex justify-content-end">
 
                             <button type="submit" class="btn btn-success"
-                                [disabled]="UserForm.invalid" (click)="createUser()">
-                                <span *ngIf="!createLoader">Submit</span></button>
-                            <!-- <div class="dot-opacity-loader" *ngIf="createLoader">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div> -->
+                                [disabled]="UserForm.invalid" (click)="create()">
+                                <span *ngIf="!createLoader">Submit</span>
+                                <div class="dot-opacity-loader" *ngIf="createLoader">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </button>
+                            
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->

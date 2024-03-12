@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -344,21 +345,53 @@ export class LoginComponent implements OnInit {
 
   @ViewChild('closeOtpVerifyModal') closeOtpVerifyModal!: ElementRef;
 
+  loading: boolean = false;
   verifyOtpByWhatsappMethodCall() {
     debugger
     this.dataService.verifyOtpByWhatsapp(this.phoneNumber, this.otp).subscribe((response) => {
+      this.loading = true;
       if (response == null) {
         this.userReq.phone = this.phoneNumber;
-        this.closeOtpVerifyModal.nativeElement.click();
-        this.userCreateModal.nativeElement.click();
+        this._onboardingService.createAdmin(this.userReq).subscribe((response: any) => {
+          if (response != null) {
+            localStorage.setItem('token', response.access_token);
+            localStorage.setItem('refresh_token', response.refresh_token);
+
+            // let token = localStorage.getItem("token")!;
+            const helper = new JwtHelperService();
+            const onboardingStep = helper.decodeToken(response.access_token).statusResponse;
+            console.log("user token step",helper.decodeToken(response.access_token).statusResponse);
+            if(onboardingStep=="6"){
+              this.router.navigate(['/dashboard']);
+            }else
+            {
+              this.router.navigate(['/organization-onboarding/personal-information']);
+            }
+
+
+            
+            this.loading = false;
+          }
+        }, (error) => {
+          this.loading = false;
+        })
 
       } else {
 
         this.helperService.subModuleResponseList = response.subModuleResponseList;
         localStorage.setItem('token', response.tokenResponse.access_token);
         localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
-        this.router.navigate(['/dashboard']);
-        this.otpVerification.nativeElement.click();
+        // this.router.navigate(['/dashboard']);
+        const helper = new JwtHelperService();
+            const onboardingStep = helper.decodeToken(response.tokenResponse.access_token).statusResponse;
+            console.log("user token step",helper.decodeToken(response.tokenResponse.access_token).statusResponse);
+            if(onboardingStep=="6"){
+              this.router.navigate(['/dashboard']);
+            }else
+            {
+              this.router.navigate(['/organization-onboarding/personal-information']);
+            }
+        // this.otpVerification.nativeElement.click();
       }
     },
       (error) => {
@@ -396,20 +429,10 @@ export class LoginComponent implements OnInit {
   @ViewChild('closeUserCreateModal') closeUserCreateModal!: ElementRef;
   userReq: UserReq = new UserReq();
   createLoader: boolean = false;
-  createUser() {
-    this.createLoader = true;
-    this._onboardingService.createAdmin(this.userReq).subscribe((response: any) => {
-      if (response != null) {
-        // this.closeUserCreateModal.nativeElement.click();
-        localStorage.setItem('token', response.access_token);
-        localStorage.setItem('refresh_token', response.refresh_token);
-        this.router.navigate(['/organization-onboarding/personal-information']);
-        this.createLoader = false;
-      }
-    }, (error) => {
-      this.createLoader = false;
-    })
+  // create() {
+  //   this.createLoader = true;
 
-  }
+
+  // }
 
 }
