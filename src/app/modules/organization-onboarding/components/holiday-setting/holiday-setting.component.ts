@@ -1,12 +1,14 @@
 import { DatePipe, Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Key } from 'src/app/constant/key';
 import { CustomHolidays } from 'src/app/models/customHolidays';
 import { OrganizationAddressDetail } from 'src/app/models/organization-address-detail';
 import { UniversalHoliday } from 'src/app/models/UniversalHoliday';
 import { WeekDay } from 'src/app/models/WeekDay';
 import { WeeklyHoliday } from 'src/app/models/WeeklyHoliday';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 
 @Component({
@@ -23,10 +25,13 @@ export class HolidaySettingComponent implements OnInit {
     private dataService : DataService,
     private datePipe: DatePipe,
     private _router:Router,
-    private _onboardingService: OrganizationOnboardingService) { }
+    private _onboardingService: OrganizationOnboardingService,
+    private helperService: HelperService) { }
+
+  onboardingViaString:string='';
 
   ngOnInit(): void {
-    
+    this.getOnboardingStep();
     this.getUniversalHolidays();
     this.getCustomHolidays();
     this.getWeeklyHolidays();
@@ -202,9 +207,34 @@ export class HolidaySettingComponent implements OnInit {
 
   next(){
     this.dataService.markStepAsCompleted(4);
-    this._onboardingService.saveOrgOnboardingStep(4).subscribe();
-    this._router.navigate(["/organization-onboarding/upload-team"]);
+    
+    if(this.onboardingViaString==='SLACK'){
+      this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
+      this._onboardingService.saveOrgOnboardingStep(6).subscribe();
+      this._router.navigate(["/dashboard"]);
+    }else{
+      this._onboardingService.saveOrgOnboardingStep(4).subscribe();
+      this._router.navigate(["/organization-onboarding/upload-team"]);
+    }
   }
+
+  getOnboardingStep(){
+    debugger
+    this._onboardingService.getOrgOnboardingStep().subscribe((response:any)=>{
+      if(response.status){
+        this.dataService.markStepAsCompleted(response.object.step);
+        this.onboardingViaString = response.object.onboardingString;
+      }
+      
+    })
+
+  }
+
+  // skipThisStep(){
+  //   if(this.onboardingViaString==='WHATSAPP'){
+      
+  //   }
+  // }
   
 
 }

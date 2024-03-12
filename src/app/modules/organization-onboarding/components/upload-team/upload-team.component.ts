@@ -236,6 +236,7 @@ export class UploadTeamComponent implements OnInit {
   }
 
   onBoardingCompleted(){
+    this._onboardingService.saveOrgOnboardingStep(6).subscribe();
     this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
     this.dataService.markStepAsCompleted(6);
     this._onboardingService.saveOrgOnboardingStep(6).subscribe();

@@ -355,7 +355,6 @@ export class LoginComponent implements OnInit {
       } else {
 
         this.helperService.subModuleResponseList = response.subModuleResponseList;
-
         localStorage.setItem('token', response.tokenResponse.access_token);
         localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
         this.router.navigate(['/dashboard']);

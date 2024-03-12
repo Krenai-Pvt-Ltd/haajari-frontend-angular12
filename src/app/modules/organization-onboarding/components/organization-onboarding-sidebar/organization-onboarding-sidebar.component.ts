@@ -14,6 +14,8 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
     private _onboardingService: OrganizationOnboardingService,
     private router: Router) { }
 
+  onboardingViaString:string='';
+
   ngOnInit(): void {
     this.getOnboardingStep();
     
@@ -29,11 +31,12 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
 
   }
 
-  getOnboardingStep() {
-    this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
-      if (response.status) {
-        this.dataService.markStepAsCompleted(response.object);
-        this.goToStep(this.dataService.stepIndex);
+  getOnboardingStep(){
+    debugger
+    this._onboardingService.getOrgOnboardingStep().subscribe((response:any)=>{
+      if(response.status){
+        this.dataService.markStepAsCompleted(response.object.step);
+        this.onboardingViaString = response.object.onboardingString;
       }
     })
   }
