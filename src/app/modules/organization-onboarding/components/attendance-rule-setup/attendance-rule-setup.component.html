@@ -110,9 +110,11 @@
 
                                             </div>
                                         </div>
-                                        <div class="d-flex align-items-center justify-content-between mt-3">
+                                        <div class="d-flex align-items-center justify-content-start mt-3">
                                             <button class="btn skip-btn-new" *ngIf="attendanceMode && selectedAttendanceModeId==0" type="button"
                                                 (click)="skipAttendanceMethod()">Skip for now</button>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-end mt-3">
                                             <button type="button" *ngIf="attendanceMode && selectedAttendanceModeId>0" (click)="skipAttendanceMethod()"
                                                 class="btn btn-primary skip-btn">Next</button>
                                         </div>
@@ -139,7 +141,7 @@
                                                             <div class="">
                                                                 <button type="button" data-bs-toggle="modal"
                                                                     data-bs-target="#shiftTime"
-                                                                    (click)="openAddShiftTimeModal()"
+                                                                    routerLink="/organization-onboarding/add-shift-time"
                                                                     class="btn btn-primary skip-btn"> Add Shift Time
                                                                 </button>
                                                                 <p class="skip-btn-para">Lorem Ipsum is simply dummy
