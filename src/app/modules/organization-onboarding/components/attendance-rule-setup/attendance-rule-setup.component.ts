@@ -173,8 +173,12 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
   attendanceRuleWithAttendanceRuleDefinitionLoading: boolean = false;
   getAttendanceRuleWithAttendanceRuleDefinitionMethodCall() {
+    debugger
     this.attendanceRuleWithAttendanceRuleDefinitionLoading = true;
     this.dataService.getAttendanceRuleWithAttendanceRuleDefinition().subscribe((response) => {
+
+      console.log(response);
+      
 
       this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
       this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response;
@@ -185,7 +189,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
   }
   selectedAttendanceModeId: number = 0;
   getAttendanceModeMethodCall() {
-
+debugger
     this.dataService.getAttendanceMode().subscribe((response) => {
       debugger
       this.selectedAttendanceModeId = response.id;
