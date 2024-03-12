@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem,CdkDrag,CdkDropList } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-project',
@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProjectComponent implements OnInit {
 
-  constructor() { }
+  constructor(private eRef: ElementRef) { }
 
   ngOnInit(): void {
   }
@@ -54,7 +54,104 @@ export class ProjectComponent implements OnInit {
       );
     }
   }
+  menuToggle: boolean = false;
+  menuToggleFunction() {
+    this.menuToggle = !this.menuToggle;
+  }
 
+  noAssigneeFlag:boolean=false;
+  hideInputInfoFlag:boolean=true;
+  noAssignee(){
+    this.noAssigneeFlag=true;
+  }
+
+  hideInputInfo(){
+    this.noAssigneeFlag=false;
+    this.hideInputInfoFlag=false;
+  }
+
+  // @ViewChild('inputBox') inputBox!: ElementRef;
+
+  // @HostListener('document:click', ['$event'])
+  // clickOutside(event: any): void {
+  //   if (!this.inputBox.nativeElement.contains(event.target)) {
+  //     this.outsideClick();
+  //   }
+  // }
+
+  // outsideClick(): void {
+  //   this.noAssigneeFlag=false;
+  //   console.log('Clicked outside the input box');
+  // }
+
+  date = null;
+  onChange(result: Date): void {
+    console.log('onChange: ', result);
+  }
+
+  dueDateFlag:boolean=false;
+  dueDate(){
+  this.dueDateFlag=true;
+  }
+
+  addProjectFlag:boolean=false;
+  addProject(){
+    this.addProjectFlag=true;
+  }
+
+  addDependenciesFlag:boolean=false;
+  addDependencies(){
+    this.addDependenciesFlag=true;
+  }
+
+  addNewtaskFlag:boolean=false;
+  addNewtask(){
+    this.addNewtaskFlag=true;
+  }
+
+  addNewmemberFlag:boolean=false;
+  addNewmember(){
+    if(this.addNewmemberFlag==true){
+      this.addNewmemberFlag=false;
+    }else{
+       this.addNewmemberFlag=true;
+    }
+  }
+
+  isOpenInput:boolean=false;
+  openInput(){
+    this.isOpenInput=true;
+  }
+
+  isAsigneeInput:boolean=false;
+  asigneeInput(){
+    this.isAsigneeInput=true;
+  }
+
+  isDueInput:boolean=false;
+  duedateInput(){
+    this.isDueInput=true;
+  }
+
+  isPriortyInput:boolean=false;
+  priortyInput(){
+    this.isPriortyInput=true;
+  }
+
+  isStatusInput:boolean=false;
+  statusInput(){
+    this.isStatusInput=true;
+  }
+
+  addAnotherRow:boolean=false;
+  addRow(){
+  this.addAnotherRow=true
+  }
+
+  isAddInput:boolean=false;
+  addfildInput(){
+  this.isAddInput=true
+  }
 }
 
 

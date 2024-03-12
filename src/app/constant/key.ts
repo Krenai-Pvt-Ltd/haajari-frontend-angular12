@@ -197,13 +197,13 @@ export class Key{
     base_url = "https://backend.hajiri.work/api/v2/";
 // 
     /* ------------------  Production urls ----------------*/
-    base_url = "https://production.hajiri.work/api/v2/";
+    // base_url = "https://production.hajiri.work/api/v2/";
 
 
 
-    baseUrl = "http://localhost:8080/api/v2";
+    // baseUrl = "http://localhost:8080/api/v2";
 
-    // baseUrl = "https://backend.hajiri.work/api/v2";
+    baseUrl = "https://backend.hajiri.work/api/v2";
 
     // baseUrl = "https://production.hajiri.work/api/v2";
     
