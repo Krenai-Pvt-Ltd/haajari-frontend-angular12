@@ -1225,9 +1225,28 @@
                                     <div class="active-check ng-star-inserted">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="exampleRadio{{taxRegime.id}}" id="exampleRadio{{taxRegime.id}}" value="option{{taxRegime.id}}" [checked]="taxRegime.selected == true">
-                                          </div>
+                                        </div>
                                     </div>
                                 </div>
+                                <!-- <div class="accordion" id="accordionExample">
+                                  
+                                  <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                      
+                                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="radio" name="exampleRadio{{taxRegime.id}}" id="exampleRadio{{taxRegime.id}}" value="option{{taxRegime.id}}" [checked]="taxRegime.selected == true">
+                                        </div>
+                                        Accordion Item #1
+                                      </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                      <div class="accordion-body">
+                                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div> -->
                             </div>
                             </div>
                            </div>
@@ -1640,7 +1659,10 @@
                       id="verify-employee"
                       role="tabpanel"
                     >
+                 
                       <div class="" *ngIf="!isCompanyPlaceholder">
+
+                        <div *ngIf="!isFresher; else noExperience">
                         <div
                           class="row"
                           *ngFor="let exp of experienceEmployee; let i = index"
@@ -1688,6 +1710,12 @@
                             </tbody>
                           </table>
                         </div>
+                      </div>
+                      <ng-template #noExperience>
+                        <div class="row">
+                          <h5 style="text-align: left">Fresher</h5>
+                        </div>
+                      </ng-template>
                       </div>
 
                       <div class="">

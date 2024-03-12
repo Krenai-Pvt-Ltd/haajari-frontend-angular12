@@ -5,7 +5,9 @@ import { Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { UserListReq } from 'src/app/models/UserListReq';
+import { User } from 'src/app/models/user';
 import { UserReq } from 'src/app/models/userReq';
+import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 
@@ -25,6 +27,7 @@ export class UploadTeamComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private _onboardingService: OrganizationOnboardingService,
+    private dataService: DataService,
     private _location:Location,
     private _router:Router,
     private helperService : HelperService) {
@@ -61,6 +64,7 @@ export class UploadTeamComponent implements OnInit {
   
   addUser(){
     // this.user = { name: '', phone: '', email: ''};
+    this.user = new UserReq();
     this.userList.push(this.user);
     
   }
@@ -158,7 +162,7 @@ export class UploadTeamComponent implements OnInit {
   create(){
     this.userListReq.userList= this.userList;
     this.createLoading = true;
-    this._onboardingService.createUser(this.userListReq).subscribe((response: any) => {
+    this._onboardingService.createOnboardUser(this.userListReq).subscribe((response: any) => {
       if (response.status) {
         this.selectedMethod = '';
         this.createLoading = false;
@@ -177,11 +181,11 @@ export class UploadTeamComponent implements OnInit {
     this._onboardingService.getOnboardUser().subscribe((response: any) => {
       if (response.status) {
         this.onboardUserList = response.object;
-        this.loading = false;
       }
       else{
         this.onboardUserList = [];
       }
+      this.loading = false;
     }, (error) => {
       this.loading = false;
     })
@@ -232,7 +236,10 @@ export class UploadTeamComponent implements OnInit {
   }
 
   onBoardingCompleted(){
+    this._onboardingService.saveOrgOnboardingStep(6).subscribe();
     this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
+    this.dataService.markStepAsCompleted(6);
+    this._onboardingService.saveOrgOnboardingStep(6).subscribe();
     this._router.navigate(['/dashboard'])
   }
 }

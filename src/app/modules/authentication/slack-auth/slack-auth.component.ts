@@ -46,10 +46,10 @@ export class SlackAuthComponent implements OnInit{
       debugger
       console.log(decodedValue);
       
-      if(decodedValue.httpCustomStatus === ("UPDATED") && decodedValue.statusResponse === ("ORGANIZATION_REGISTRATION_SUCCESSFULL")){
+      if(decodedValue.httpCustomStatus === ("UPDATED") && decodedValue.statusResponse === ("Registration Completed")){
         this.router.navigate(['/dashboard']);
       }else{
-        this.router.navigate(['/onboarding']);
+        this.router.navigate(['/organization-onboarding/personal-information']);
       }
 
     }, (error) => {

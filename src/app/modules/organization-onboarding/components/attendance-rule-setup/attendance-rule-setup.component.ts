@@ -144,7 +144,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
       }
       setTimeout(() => {
         if (attendanceModeId == 1) {
-          this.helperService.showToast("Attedance Mode updated successfully.", Key.TOAST_STATUS_SUCCESS);
+          // this.helperService.showToast("Attedance Mode updated successfully.", Key.TOAST_STATUS_SUCCESS);
           this.isAttendanceModeSelected = true;
         }
         // console.log("Second line executed after 3 seconds");
@@ -173,8 +173,12 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
   attendanceRuleWithAttendanceRuleDefinitionLoading: boolean = false;
   getAttendanceRuleWithAttendanceRuleDefinitionMethodCall() {
+    debugger
     this.attendanceRuleWithAttendanceRuleDefinitionLoading = true;
     this.dataService.getAttendanceRuleWithAttendanceRuleDefinition().subscribe((response) => {
+
+      console.log(response);
+      
 
       this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
       this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response;
@@ -185,7 +189,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
   }
   selectedAttendanceModeId: number = 0;
   getAttendanceModeMethodCall() {
-
+debugger
     this.dataService.getAttendanceMode().subscribe((response) => {
       debugger
       this.selectedAttendanceModeId = response.id;
