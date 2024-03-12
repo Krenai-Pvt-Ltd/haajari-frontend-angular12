@@ -173,11 +173,6 @@
              <div class="row">
                 <div class="col-md-12">
                     <div class="">
-                        <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
-                            <a data-bs-toggle="modal" data-bs-target="#addsalarytemplate" style="font-size: 16px; color: #6666f3 !important;" (click)="clearSalaryTemplateModal()">
-                                <i class="bi bi-plus"></i> Create your own salary template
-                            </a>
-                        </div>
                         <!-- <div class="d-flex align-items-center justify-content-between information-box">
                             <div class="basic-text">
                                 <h5>Basic + DA</h5>
@@ -245,47 +240,160 @@
                             </div>
                         </div> -->
 
-                        <div class="rule-main-box mt-3 ng-star-inserted" *ngFor="let salaryTemplateComponentResponse of salaryTemplateComponentResponseList">
-                            <div class="row mt-2 p-2 ng-star-inserted">
-                                <div class="col-md-12 d-flex justify-content-between align-items-center">
-                                    <p class="mb-0 mb-2" style="font-size: 12px; font-weight: 500;">{{salaryTemplateComponentResponse.name}}</p>
-                                    <div class="late-btn d-flex align-items-center justify-content-end mb-2" style="gap: 20px; margin-right: 15px;">
-                                        <a style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#addsalarytemplate" (click)="updateSalaryTemplateComponentBySalaryTemplateId(salaryTemplateComponentResponse)">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                        <a class="delete-rule" style="cursor: pointer;">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
+                        
+                    <ng-container *ngIf="isShimmerForSalaryTemplate && salaryTemplateComponentResponseList.length === 0 && !dataNotFoundPlaceholderForSalaryTemplate && !networkConnectionErrorPlaceHolderForSalaryTemplate; else salaryTemplateElseCondition">
+                        <div class="">
+                            <div class="text-end">
+                                <ngx-shimmer-loading [width]="'40%'" [height]="'20px'"
+                                    style="border-radius: 50%"></ngx-shimmer-loading>
+                            </div>
+                        </div>
+
+                        <div class=" mt-3" style="border: 1px solid #f5f5f5; padding:5px; border-radius: 6px;">
+
+                            <div class="row"
+                                style="border-bottom: 1px solid #f5f5f5; padding-top: 10px; padding-bottom: 10px;">
+                                <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
+                                            style="border-radius: 50%"></ngx-shimmer-loading>
                                     </div>
-                                </div>
-                                <div class="row mt-2 p-2 ng-star-inserted">
-                                    <div class="col-md-6" *ngFor="let salaryComponentResponse of salaryTemplateComponentResponse.salaryComponentResponseList">
-                                        <div class="shift-deta">
-                                            <p class="mb-0">{{salaryComponentResponse.name}} | <span style="color: #009688;">{{salaryComponentResponse.value}}%</span></p>
-                                        </div>
-                                    </div>
-<!--     
-                                    <div class="col-md-6">
-                                        <div class="shift-deta">
-                                            <p class="mb-0">HRA | <span style="color: #009688;">20%</span></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="shift-deta">
-                                            <p class="mb-0">Medical Allowance | <span style="color: #009688;">12%</span></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="shift-deta">
-                                            <p class="mb-0">Special Allowance | <span style="color: #009688;">30%</span></p>
-                                        </div>
-                                    </div> -->
                                 </div>
                             </div>
 
-                    </div>
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
+                                            style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                            </div>
 
-                      
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                            style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                            style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                            style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                            style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                            style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                            style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #salaryTemplateElseCondition>
+                        <ng-container *ngIf="salaryTemplateComponentResponseList.length !== 0 && !dataNotFoundPlaceholderForSalaryTemplate && !networkConnectionErrorPlaceHolderForSalaryTemplate; else errorInFetchingSalaryTemplate">
+                            <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
+                                <a data-bs-toggle="modal" data-bs-target="#addsalarytemplate" style="font-size: 16px; color: #6666f3 !important;">
+                                    <i class="bi bi-plus"></i> Create your own salary template
+                                </a>
+                            </div>
+                            <div class="rule-main-box mt-3 ng-star-inserted" *ngFor="let salaryTemplateComponentResponse of salaryTemplateComponentResponseList">
+                                <div class="row mt-2 p-2 ng-star-inserted">
+                                    <div class="col-md-12 d-flex justify-content-between align-items-center">
+                                        <p class="mb-0 mb-2" style="font-size: 12px; font-weight: 500;">{{salaryTemplateComponentResponse.name}}</p>
+                                        <div class="late-btn d-flex align-items-center justify-content-end mb-2" style="gap: 20px; margin-right: 15px;">
+                                            <a style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#addsalarytemplate" (click)="updateSalaryTemplateComponentBySalaryTemplateId(salaryTemplateComponentResponse)">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                            <a class="delete-rule" style="cursor: pointer;" (click)="deleteSalaryTemplateByIdMethodCall(salaryTemplateComponentResponse.id)">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2 p-2 ng-star-inserted">
+                                        <div class="col-md-6" *ngFor="let salaryComponentResponse of salaryTemplateComponentResponse.salaryComponentResponseList">
+                                            <div class="shift-deta">
+                                                <p class="mb-0">{{salaryComponentResponse.name}} | <span style="color: #009688;">{{salaryComponentResponse.value}}%</span></p>
+                                            </div>
+                                        </div>
+    <!--     
+                                        <div class="col-md-6">
+                                            <div class="shift-deta">
+                                                <p class="mb-0">HRA | <span style="color: #009688;">20%</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="shift-deta">
+                                                <p class="mb-0">Medical Allowance | <span style="color: #009688;">12%</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="shift-deta">
+                                                <p class="mb-0">Special Allowance | <span style="color: #009688;">30%</span></p>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+    
+                        </div>
+                        </ng-container>
+                    </ng-template>
+                    <ng-template #errorInFetchingSalaryTemplate>
+                        <div class="empty-file" *ngIf="dataNotFoundPlaceholderForSalaryTemplate">
+                            <div class="errorboxmain" >
+                                <div class="errorboxinner">
+                                    <div class="add-filtter mt-2 mb-3" style="text-align: center;">
+                                        <h3 class="" style="color: #6666f3; cursor: pointer;" data-bs-toggle="modal"
+                                            data-bs-target="#addsalarytemplate"><i class="bi bi-plus"></i> Create salary template </h3>
+                                    </div>
+                                    <div class="" style="text-align: center;">
+                                        <p class="mb-0">You can create salary template by clicking on this button.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolderForSalaryTemplate">
+                            <div class="errorboxmain">
+                                <div class="errorboxinner text-center">
+                                <div class="errorboxplaceholder mb-2">
+                                    <img
+                                    src="assets/images/signal.svg"
+                                    style="width: 80px"
+                                    />
+                                </div>
+                                <div class="">
+                                    <h4>Something went wrong</h4>
+                                    <p>
+                                    An error occurred while processing your
+                                    request. Please refresh the page and try
+                                    again.
+                                    </p>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
                     </div>
                   
                 </div>
@@ -1172,8 +1280,10 @@
 
 <div *ngIf="switchValueForProfessionalTax" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
     <div class="modal-dialog modal-dialog-centered mx-auto modal-lg" role="document">
-
         <div class="modal-content">
+            <div class="modal-header border-bottom" style="background-color: white;">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="getAllStatutoriesMethodCall()"></button>
+            </div>    
             <div class="col-md-12">
                 <p></p>
                 <div class="modal-body text-center mt-1 mb-3">
@@ -1182,6 +1292,9 @@
                     <h3>We're working hard to come out with this feature.</h3>
                     <h3> Thanks for your patience! 😐</h3>
                 </div>
+            </div>
+            <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+                <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="getAllStatutoriesMethodCall()"><i class="bi bi-x-circle"></i> Close</button>
             </div>
         </div>
     </div>
@@ -1199,7 +1312,7 @@
             <div class="modal-content">
                 <div class="modal-header border-bottom" style="background-color: white;">
                     <h3 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;"> Create your salary template:</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearSalaryTemplateModal()"></button>
                 </div>
                 <div class="modal-body salary-template">
                     <!-- <div class="d-flex align-items-center justify-content-between information-box">
@@ -1222,8 +1335,8 @@
                         </div>
                         <div class="mt-3">
                             <div class="mb-3">
-                                <label for="name" class="pb-2">Name</label>
-                                <input type="text" id="name" placeholder="Enter the role name here" name="nameField" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="salaryTemplateComponentRequest.name" #nameField="ngModel" required minlength="3" maxlength="50" [ngModelOptions]="{standalone: true}">
+                                <label for="name" class="pb-2">Name <span style="color: red;">*</span></label>
+                                <input type="text" id="name" placeholder="Enter the template name here" name="nameField" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="salaryTemplateComponentRequest.name" #nameField="ngModel" required minlength="3" maxlength="50" [ngModelOptions]="{standalone: true}">
                                 <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="text-danger">
                                     <div *ngIf="nameField.errors?.required">Name is required.</div>
                                     <div *ngIf="nameField.errors?.minlength">Name must be at least 3 characters long.</div>
@@ -1233,9 +1346,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="pb-2">Description</label>
-                                <textarea id="description" placeholder="Enter a short description about the role here" name="descriptionField" class="form-control ng-untouched ng-pristine ng-invalid role-description-size" [(ngModel)]="salaryTemplateComponentRequest.description" #descriptionField="ngModel" required minlength="30" maxlength="200" [ngModelOptions]="{standalone: true}"></textarea>
+                                <textarea id="description" placeholder="Enter a short description about the template here" name="descriptionField" class="form-control ng-untouched ng-pristine ng-invalid role-description-size" [(ngModel)]="salaryTemplateComponentRequest.description" #descriptionField="ngModel" minlength="30" maxlength="200" [ngModelOptions]="{standalone: true}"></textarea>
                                 <div *ngIf="descriptionField.invalid && (descriptionField.dirty || descriptionField.touched)" class="text-danger">
-                                    <div *ngIf="descriptionField.errors?.required">Description is required.</div>
                                     <div *ngIf="descriptionField.errors?.minlength">Description must be at least 30 characters long.</div>
                                     <div *ngIf="descriptionField.errors?.maxlength">Description cannot exceed 200 characters.</div>
                                 </div>
@@ -1278,7 +1390,7 @@
                                     </div>
                                 </div>
                                 <div class="delete-btn d-flex align-items-center justify-content-end" style="gap:25px">
-                                    <nz-switch [(ngModel)]="salaryComponent.toggle" (click)="resetValueToZero(salaryComponent)" [ngModelOptions]="{standalone: true}" [nzDisabled]="salaryComponent.id === BASIC_PAY_ID"></nz-switch>
+                                    <nz-switch [(ngModel)]="salaryComponent.toggle" [ngModelOptions]="{standalone: true}" [nzDisabled]="salaryComponent.id === BASIC_PAY_ID"></nz-switch>
                                 </div>
                             </div>
                             <!-- <div class="d-flex align-items-center information-box">
@@ -1338,7 +1450,7 @@
                     </div> -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" #cancelSalaryTemplateModal>Cancel</button>
+                    <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" #cancelSalaryTemplateModal (click)="clearSalaryTemplateModal()">Cancel</button>
                     <button type="submit" class="btn btn-primary" data-dismiss="modal" [disabled]="salaryTemplateForm.invalid">
                         <ng-container *ngIf="salaryTemplateRegisterButtonLoader; else registerButton">
                             <div *ngIf="salaryTemplateRegisterButtonLoader" class="dot-opacity-loader">
