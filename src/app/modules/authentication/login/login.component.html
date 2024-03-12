@@ -353,9 +353,8 @@
       <div class="modal-content">
         <!-- <div class="modal-header"> -->
           <!-- <h5 class="modal-title" id="deleteConfirmationModalLabel">Otp Verification</h5> -->
-          <!-- <button type="button" class="close" aria-label="Close" (click)="closeDeleteModal()">
-            <span aria-hidden="true">&times;</span>
-          </button> -->
+          <button type="button" class="close" #closeOtpVerifyModal aria-label="Close" data-bs-dismiss="modal" >
+          </button>
         <!-- </div> -->
         
         <div class="modal-body">
@@ -389,3 +388,53 @@
       </div>
     </div>
   </div>
+
+  <button class="d-none" #userCreateModal data-bs-toggle="modal" data-bs-target="#createUser"></button>
+    <div class="modal fade" id="createUser" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create User</h5>
+                    <button type="button" #closeUserCreateModal class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form #UserForm="ngForm">
+                        <div class="form-group row mb-3">
+                            <div class="col-md-4">
+                                <label class="mb-2"> Name</label>
+                                <input type="text" name="Name" [(ngModel)]="userReq.name" class="form-control"
+                                    placeholder="Enter Name" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="mb-2">Phone Number</label>
+                                <input type="tel" name="phone" [(ngModel)]="userReq.phone" placeholder="Phone Number"
+                                    minlength="10" maxlength="10" class="form-control"
+                                    oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
+                                     required disabled>
+                                <!-- <p *ngIf="isNumberExist" class="error text-danger">this number
+                                    already exist</p> -->
+                            </div>
+                            <div class="col-md-4">
+                                <label class="mb-2">Email </label>
+                                <input type="email" name="email" [(ngModel)]="userReq.email" placeholder="Email"
+                                    class="form-control">
+                            </div>
+
+                        </div>
+                        <div class="d-flex justify-content-end">
+
+                            <button type="submit" class="btn btn-success"
+                                [disabled]="UserForm.invalid" (click)="createUser()">
+                                <span *ngIf="!createLoader">Submit</span></button>
+                            <!-- <div class="dot-opacity-loader" *ngIf="createLoader">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div> -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
