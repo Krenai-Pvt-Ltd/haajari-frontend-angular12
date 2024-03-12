@@ -323,17 +323,20 @@ export class LoginComponent implements OnInit {
   @ViewChild('otpVerificationModalButton') otpVerificationModalButton !: ElementRef
   isWhatsappLogin: boolean = false;
   phoneNumber: string = '';
+  showOtpInput:boolean = false
   signInByWhatsappMethodCall() {
     debugger
     this.checkFormValidation();
 
     if (this.isFormInvalid == true) {
+      
       return
     } else {
       this.dataService.signInByWhatsapp(this.phoneNumber)
         .subscribe(
           (response: any) => {
-            this.otpVerificationModalButton.nativeElement.click();
+            this.showOtpInput = true;
+            // this.otpVerificationModalButton.nativeElement.click();
             console.log('OTP sent successfully:', response);
           },
           (error) => {
@@ -349,6 +352,9 @@ export class LoginComponent implements OnInit {
   verifyOtpByWhatsappMethodCall() {
     debugger
     this.dataService.verifyOtpByWhatsapp(this.phoneNumber, this.otp).subscribe((response) => {
+
+      console.log("login response", response);
+      
       this.loading = true;
       if (response == null) {
         this.userReq.phone = this.phoneNumber;
@@ -366,10 +372,7 @@ export class LoginComponent implements OnInit {
             }else
             {
               this.router.navigate(['/organization-onboarding/personal-information']);
-            }
-
-
-            
+            }            
             this.loading = false;
           }
         }, (error) => {
@@ -429,10 +432,5 @@ export class LoginComponent implements OnInit {
   @ViewChild('closeUserCreateModal') closeUserCreateModal!: ElementRef;
   userReq: UserReq = new UserReq();
   createLoader: boolean = false;
-  // create() {
-  //   this.createLoader = true;
-
-
-  // }
 
 }
