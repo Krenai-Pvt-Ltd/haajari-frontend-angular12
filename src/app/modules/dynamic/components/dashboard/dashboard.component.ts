@@ -234,7 +234,6 @@ export class DashboardComponent implements OnInit{
     this.dataService.getTodayEmployeesData().subscribe((data) => {
       this.currentDayEmployeesData=data;
       debugger
-      console.log(this.currentDayEmployeesData);
     }, (error) => {
       console.log(error);
     })
@@ -597,7 +596,6 @@ getDataFromDate(): Promise<any> {
     this.dataService.getLateEmployeeAttendanceDetails(this.dataFetchingType).subscribe((response) => {
       this.lateEmployeeAttendanceDetailsResponseList = response.listOfObject;
       this.totalLateEmployees = response.totalItems;
-      console.log(response);
 
       if(response === undefined || response === null || response.listOfObject.length === 0){
         this.dataNotFoundPlaceholder = true;

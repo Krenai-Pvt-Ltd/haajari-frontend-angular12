@@ -194,9 +194,13 @@
                                     </div>
 
                                     <div class="row" *ngIf="onboardingViaString!='SLACK'">
-                                        <div class="col-md-12 d-flex justify-content-between">
-                                            <button class="btn skip-btn-new" type="button" (click)="next()"
-                                            >Skip for now</button>
+                                        <div class="col-md-12 d-flex justify-content-start"
+                                        *ngIf="weeklyHolidays.length==0 && customHolidays.length==0">
+                                            <button class="btn skip-btn-new" type="button" (click)="next()">Skip for now</button>
+                                            
+                                        </div>
+                                        <div class="col-md-12 d-flex justify-content-end"
+                                        *ngIf="weeklyHolidays.length>0 || customHolidays.length>0">
                                             <button class="btn btn-primary save-button"
                                             (click)="next()" type="button"  aria-label="Next Step">
                                                     Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>

@@ -352,7 +352,7 @@ export class LoginComponent implements OnInit {
   verifyOtpByWhatsappMethodCall() {
     debugger
     this.loading = true;
-    this.dataService.verifyOtpByWhatsappNew(this.phoneNumber, this.otp).subscribe((response:any) => {
+    this.dataService.verifyOtpByWhatsappNew(this.phoneNumber, this.otp).subscribe((response: any) => {
       if (response.status) {
         this.loading = false;
         this.helperService.subModuleResponseList = response.object.subModuleResponseList;
@@ -369,28 +369,30 @@ export class LoginComponent implements OnInit {
       } else {
 
         this.userReq.phone = this.phoneNumber;
-        this._onboardingService.createAdmin(this.userReq).subscribe((response: any) => {
-          if (response != null) {
+        this._onboardingService.createAdminNew(this.userReq).subscribe((response: any) => {
+          if (response.status) {
             this.loading = false;
-            localStorage.setItem('token', response.access_token);
-            localStorage.setItem('refresh_token', response.refresh_token);
+            this.helperService.subModuleResponseList = response.object.subModuleResponseList;
+            localStorage.setItem('token', response.object.tokenResponse.access_token);
+            localStorage.setItem('refresh_token', response.object.tokenResponse.refresh_token);
 
             const helper = new JwtHelperService();
-            const onboardingStep = helper.decodeToken(response.access_token).statusResponse;
+            const onboardingStep = helper.decodeToken(response.object.tokenResponse.access_token).statusResponse;
             if (onboardingStep == "6") {
               this.router.navigate(['/dashboard']);
             } else {
               this.router.navigate(['/organization-onboarding/personal-information']);
             }
           }
+          this.loading = false;
         }, (error) => {
           this.loading = false;
         })
       }
-      
     },
       (error) => {
         this.otpErrorMessage = error.error.message;
+        this.loading = false;
       }
     );
   }

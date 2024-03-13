@@ -192,14 +192,14 @@ export class HolidaySettingComponent implements OnInit {
   }
 
   next(){
-    this.dataService.markStepAsCompleted(5);
-    
     if(this.onboardingViaString==='SLACK'){
+      this.dataService.markStepAsCompleted(4);
       this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
-      this._onboardingService.saveOrgOnboardingStep(7).subscribe();
-      this._router.navigate(["/dashboard"]);
+      this._onboardingService.saveOrgOnboardingStep(4).subscribe();
+      this._router.navigate(["/organization-onboarding/attendance-rule-setup"]);
     }else{
-      this._onboardingService.saveOrgOnboardingStep(5).subscribe();
+      this.dataService.markStepAsCompleted(3);
+      this._onboardingService.saveOrgOnboardingStep(3).subscribe();
       this._router.navigate(["/organization-onboarding/upload-team"]);
     }
   }
@@ -214,12 +214,6 @@ export class HolidaySettingComponent implements OnInit {
     })
 
   }
-
-  // skipThisStep(){
-  //   if(this.onboardingViaString==='WHATSAPP'){
-      
-  //   }
-  // }
   
 
 }
