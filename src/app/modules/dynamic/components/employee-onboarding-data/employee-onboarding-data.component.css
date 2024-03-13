@@ -152,39 +152,44 @@
 }
 
 .full-per{
-    background-color: green !important;
-    color: #fff;
-    padding: 10px 20px;
+    background-color: #d0ffd063 !important;
+    color: green;
+    padding: 6px 15px;
     text-align: center;
+    border-radius: 6px;
 }
 
 
 .rej-per{
-    background-color: red !important;
-    color: #fff;
-    padding: 10px 20px;
+    background-color: #ffbfbf59 !important;
+    color: red;
+    padding: 6px 15px;
     text-align: center;
+    border-radius: 6px;
 }
 
 .req-per{
-    background-color: blueviolet;
-    color: #fff;
-    padding: 10px 20px;
+    background-color: #efddff52;
+    color: #8a2be2;
+    padding: 6px 15px;
     text-align: center;
+    border-radius: 6px;
 }
 
 .new-user-per{
     background-color: rgb(117, 121, 125);
     color: #fff;
-    padding: 10px 20px;
+    padding: 6px 15px;
     text-align: center;
+    border-radius: 6px;
 }
 
 .half-per{
-    background-color: orange;
-    color: #fff;
-    padding: 10px 20px;
+    background-color: #ffe6b95c;
+    color: #ffa500;
+    padding: 6px 15px;
     text-align: center;
+    border-radius: 6px;
 }
 
 
@@ -195,6 +200,14 @@
   width: 100px;
   font-size: 12px;
   color: #878a9a;
+}
+
+.table td {
+    font-weight: 500;
+    vertical-align: middle;
+    border-color: #e8ebf3;
+    font-size: 13px;
+    padding: 10px 15px !important;
 }
 
 .weekly-pro-name{

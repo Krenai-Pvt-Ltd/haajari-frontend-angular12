@@ -191,10 +191,10 @@ export class Key{
     public static ADDITIONAL_ALLOWANCE = 6;
     
 
-    base_url = "http://localhost:8080/api/v2";
+    // base_url = "http://localhost:8080/api/v2";
 
     /* ------------------  Staging urls ----------------*/
-    // base_url = "https://backend.hajiri.work/api/v2";
+    base_url = "https://backend.hajiri.work/api/v2";
 
     /* ------------------  Production urls ----------------*/
     // base_url = "https://production.hajiri.work/api/v2";

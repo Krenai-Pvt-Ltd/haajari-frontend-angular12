@@ -68,6 +68,7 @@ import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { LinkExpiredPageComponent } from './components/link-expired-page/link-expired-page.component';
 import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 
@@ -144,7 +145,8 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ["places"]
     }),
-    GooglePlaceModule
+    GooglePlaceModule,
+    DragDropModule
     
 
     
