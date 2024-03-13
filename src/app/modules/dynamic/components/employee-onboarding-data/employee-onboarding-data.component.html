@@ -555,28 +555,37 @@
                                                     </td>
 
                                                     <!-- <td class="text-center">13</td>  -->
-                                                    <td class="half-per"
-                                                        *ngIf="(user.employeeOnboardingStatus.response)== pendingResponse">
-                                                        <span class="">{{user.employeeOnboardingStatus.response}}</span>
+                                                    <td *ngIf="(user.employeeOnboardingStatus.response)== pendingResponse">
+                                                        <div class="half-per">
+                                                            <span class="">{{user.employeeOnboardingStatus.response}}</span>
+                                                        </div>
                                                     </td>
-                                                    <td class="full-per"
-                                                        *ngIf="(user.employeeOnboardingStatus.response)== approvedResponse">
-                                                        <span class="">{{user.employeeOnboardingStatus.response}}</span>
+                                                    <td *ngIf="(user.employeeOnboardingStatus.response)== approvedResponse">
+                                                        <div class="full-per">
+                                                            <span class="">{{user.employeeOnboardingStatus.response}}</span>
+                                                        </div>
                                                     </td>
-                                                    <td class="rej-per"
-                                                        *ngIf="(user.employeeOnboardingStatus.response)== rejectedResponse">
-                                                        <span class="">{{user.employeeOnboardingStatus.response}}</span>
+                                                    
+                                                    <td *ngIf="(user.employeeOnboardingStatus.response)== rejectedResponse">
+                                                        <div class="rej-per">
+                                                            <span class="">{{user.employeeOnboardingStatus.response}}</span>
+                                                        </div>
+                                                       
                                                     </td>
-                                                    <td class="req-per"
-                                                        *ngIf="(user.employeeOnboardingStatus.response)== requestedResponse">
-                                                        <span class="">{{user.employeeOnboardingStatus.response}}</span>
+                                                    <td  *ngIf="(user.employeeOnboardingStatus.response)== requestedResponse">
+                                                        <div class="req-per">
+                                                            <span class="">{{user.employeeOnboardingStatus.response}}</span>
+                                                        </div>
+                                                        
                                                     </td>
-                                                    <td class="new-user-per"
-                                                        *ngIf="(user.employeeOnboardingStatus.response)== newUserResponse">
-                                                        <span class="">AWAITED</span>
+                                                    <td *ngIf="(user.employeeOnboardingStatus.response)== newUserResponse">
+                                                        <div class="new-user-per">
+                                                            <span class="">AWAITED</span>
+                                                        </div>
+                                                        
                                                     </td>
                                                     <td>
-                                                        <div class="hstack gap-3 justify-content-center">
+                                                        <div class="hstack gap-3 justify-content-start">
 
                                                             <a href="javascript:void(0);"
                                                                 class="link-success text-decoration-underline success-btn"
