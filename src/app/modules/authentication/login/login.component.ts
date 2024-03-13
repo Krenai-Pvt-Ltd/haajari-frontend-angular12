@@ -161,7 +161,6 @@ export class LoginComponent implements OnInit {
     if (this.isWhatsappLogin) {
       this.verifyOtpByWhatsappMethodCall();
     } else {
-
       this.dataService.verifyUserOtp(this.email, this.otp)
         .subscribe(
           (response) => {
@@ -171,7 +170,7 @@ export class LoginComponent implements OnInit {
             this.createPasswordFlag = true;
             this.showMessageFlag = false;
             this.verifyOtpButtonFlag = false;
-            this.otpVerification.nativeElement.click();
+            // this.otpVerification.nativeElement.click();
             console.log('Verification successful:', response);
           },
           (error) => {
