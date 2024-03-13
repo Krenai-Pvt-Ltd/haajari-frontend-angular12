@@ -47,7 +47,6 @@ export class HelperService {
     return new Promise((resolve, reject) => {
       this.dataService.getAccessibleSubModuleResponse().subscribe({
         next: (data: any) => {
-          console.log(data);
           resolve(data);
         },
         error: (error) => reject(error)

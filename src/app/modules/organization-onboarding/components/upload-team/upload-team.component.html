@@ -161,11 +161,16 @@
                         </div>
 
 
+                        <div class="d-flex justify-content-start">
+                            <button class="btn skip-btn-new" type="button" (click)="next()"
+                            *ngIf="selectedMethod=='' && onboardUserList.length==0"
+                            >Skip for now</button>
+                        </div>
                         <div class="d-flex justify-content-end">
 
-                            <button type="submit" class="btn btn-success" (click)="onBoardingCompleted()"
-                                [disabled]="onboardUserList.length==0" *ngIf="selectedMethod==''">
-                                <span>Complete</span></button>
+                            <button type="submit" class="btn btn-success" (click)="next()"
+                             *ngIf="selectedMethod=='' && onboardUserList.length>0">
+                                <span>Next</span></button>
                             <!-- <div class="dot-opacity-loader" *ngIf="editLoader">
                                 <span></span>
                                 <span></span>
@@ -415,7 +420,7 @@
     </div>
     <!-- Import end -->
 
-    <button #userEditModal data-bs-toggle="modal" data-bs-target="#editUser"></button>
+    <button #userEditModal class="d-none" data-bs-toggle="modal" data-bs-target="#editUser"></button>
     <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">

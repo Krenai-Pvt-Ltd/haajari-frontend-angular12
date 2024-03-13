@@ -61,10 +61,11 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('token', response.tokenResponse.access_token);
       localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
 
-      this.ROLE = await this.rbacService.getRole();
-      this.UUID = await this.rbacService.getUuid();
-
-      if (this.ROLE === 'USER') {
+      this.ROLE= await this.rbacService.getRole();
+      this.UUID= await this.rbacService.getUuid();
+  
+      debugger
+      if(this.ROLE==='USER'){
         this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
       } else {
         this.router.navigate(['/dashboard']);
@@ -322,13 +323,13 @@ export class LoginComponent implements OnInit {
   @ViewChild('otpVerificationModalButton') otpVerificationModalButton !: ElementRef
   isWhatsappLogin: boolean = false;
   phoneNumber: string = '';
-  showOtpInput:boolean = false
+  showOtpInput: boolean = false
   signInByWhatsappMethodCall() {
     debugger
     this.checkFormValidation();
 
     if (this.isFormInvalid == true) {
-      
+
       return
     } else {
       this.dataService.signInByWhatsapp(this.phoneNumber)
@@ -350,54 +351,48 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
   verifyOtpByWhatsappMethodCall() {
     debugger
-    this.dataService.verifyOtpByWhatsapp(this.phoneNumber, this.otp).subscribe((response) => {
-
-      console.log("login response", response);
-      
-      this.loading = true;
-      if (response == null) {
-        this.userReq.phone = this.phoneNumber;
-        this._onboardingService.createAdmin(this.userReq).subscribe((response: any) => {
-          if (response != null) {
-            localStorage.setItem('token', response.access_token);
-            localStorage.setItem('refresh_token', response.refresh_token);
-
-            // let token = localStorage.getItem("token")!;
-            const helper = new JwtHelperService();
-            const onboardingStep = helper.decodeToken(response.access_token).statusResponse;
-            console.log("user token step",helper.decodeToken(response.access_token).statusResponse);
-            if(onboardingStep=="6"){
-              this.router.navigate(['/dashboard']);
-            }else
-            {
-              this.router.navigate(['/organization-onboarding/personal-information']);
-            }            
-            this.loading = false;
-          }
-        }, (error) => {
-          this.loading = false;
-        })
+    this.loading = true;
+    this.dataService.verifyOtpByWhatsappNew(this.phoneNumber, this.otp).subscribe((response: any) => {
+      if (response.status) {
+        this.loading = false;
+        this.helperService.subModuleResponseList = response.object.subModuleResponseList;
+        localStorage.setItem('token', response.object.tokenResponse.access_token);
+        localStorage.setItem('refresh_token', response.object.tokenResponse.refresh_token);
+        const helper = new JwtHelperService();
+        const onboardingStep = helper.decodeToken(response.object.tokenResponse.access_token).statusResponse;
+        if (onboardingStep == "6") {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.router.navigate(['/organization-onboarding/personal-information']);
+        }
 
       } else {
 
-        this.helperService.subModuleResponseList = response.subModuleResponseList;
-        localStorage.setItem('token', response.tokenResponse.access_token);
-        localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
-        // this.router.navigate(['/dashboard']);
-        const helper = new JwtHelperService();
-            const onboardingStep = helper.decodeToken(response.tokenResponse.access_token).statusResponse;
-            console.log("user token step",helper.decodeToken(response.tokenResponse.access_token).statusResponse);
-            if(onboardingStep=="6"){
+        this.userReq.phone = this.phoneNumber;
+        this._onboardingService.createAdminNew(this.userReq).subscribe((response: any) => {
+          if (response.status) {
+            this.loading = false;
+            this.helperService.subModuleResponseList = response.object.subModuleResponseList;
+            localStorage.setItem('token', response.object.tokenResponse.access_token);
+            localStorage.setItem('refresh_token', response.object.tokenResponse.refresh_token);
+
+            const helper = new JwtHelperService();
+            const onboardingStep = helper.decodeToken(response.object.tokenResponse.access_token).statusResponse;
+            if (onboardingStep == "6") {
               this.router.navigate(['/dashboard']);
-            }else
-            {
+            } else {
               this.router.navigate(['/organization-onboarding/personal-information']);
             }
-        // this.otpVerification.nativeElement.click();
+          }
+          this.loading = false;
+        }, (error) => {
+          this.loading = false;
+        })
       }
     },
       (error) => {
         this.otpErrorMessage = error.error.message;
+        this.loading = false;
       }
     );
   }

@@ -230,6 +230,7 @@ export class Key{
     //user import
     create_user = "/whatsapp-user-onboarding";
     create_admin = "/organization/register-organization-using-number";
+    create_admin_new = "/organization/register-organization-using-number-new";
 
 
     get_onboarding_user = "/whatsapp-user-onboarding/onboarding-user";

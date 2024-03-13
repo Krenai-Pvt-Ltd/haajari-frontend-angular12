@@ -235,11 +235,10 @@ export class UploadTeamComponent implements OnInit {
 
   }
 
-  onBoardingCompleted(){
-    this._onboardingService.saveOrgOnboardingStep(6).subscribe();
-    this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
-    this.dataService.markStepAsCompleted(6);
-    this._onboardingService.saveOrgOnboardingStep(6).subscribe();
-    this._router.navigate(['/dashboard'])
+  next(){
+    // this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
+    this.dataService.markStepAsCompleted(4);
+    this._onboardingService.saveOrgOnboardingStep(4).subscribe();
+    this._router.navigate(['/organization-onboarding/attendance-rule-setup'])
   }
 }

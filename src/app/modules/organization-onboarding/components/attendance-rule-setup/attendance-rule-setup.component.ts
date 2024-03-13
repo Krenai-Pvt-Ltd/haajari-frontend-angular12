@@ -87,7 +87,6 @@ export class AttendanceRuleSetupComponent implements OnInit {
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall()
   }
 
-  skip: boolean = false;
   skipAttendanceMethod() {
     this.attendanceMode = false;
     this.shiftSettingMode = true;
@@ -106,8 +105,8 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
   }
   skipAutomationRulesSetting() {
-    this.dataService.markStepAsCompleted(2);
-    this._onboardingService.saveOrgOnboardingStep(2).subscribe();
+    this.dataService.markStepAsCompleted(5);
+    this._onboardingService.saveOrgOnboardingStep(5).subscribe();
     this.router.navigate(['/organization-onboarding/leave-rule-setup']);
 
   }
@@ -123,7 +122,6 @@ export class AttendanceRuleSetupComponent implements OnInit {
     debugger
     this.dataService.getAttendanceModeAll().subscribe((response) => {
       this.attendanceModeList = response;
-      // console.log(response);
     }, (error) => {
       console.log(error);
     })
@@ -135,23 +133,18 @@ export class AttendanceRuleSetupComponent implements OnInit {
   isAttendanceModeSelected: boolean = false;
   @ViewChild("attendancewithlocationssButton") attendancewithlocationssButton !: ElementRef;
   updateAttendanceModeMethodCall(attendanceModeId: number) {
-
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe((response) => {
-      // console.log(response);
       this.getAttendanceModeMethodCall();
       if (attendanceModeId == 2 || attendanceModeId == 3) {
         this.attendancewithlocationssButton.nativeElement.click();
       }
       setTimeout(() => {
         if (attendanceModeId == 1) {
-          // this.helperService.showToast("Attedance Mode updated successfully.", Key.TOAST_STATUS_SUCCESS);
           this.isAttendanceModeSelected = true;
         }
-        // console.log("Second line executed after 3 seconds");
       }, 1000);
 
     }, (error) => {
-      console.log(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
@@ -159,12 +152,10 @@ export class AttendanceRuleSetupComponent implements OnInit {
   deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionId: number) {
     debugger
     this.dataService.deleteAttendanceRuleDefinition(attendanceRuleDefinitionId).subscribe((response) => {
-      // console.log(response);
       this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
       this.helperService.showToast("Attendance rule settings deleted successfully", Key.TOAST_STATUS_SUCCESS);
 
     }, (error) => {
-      console.log(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
@@ -175,29 +166,29 @@ export class AttendanceRuleSetupComponent implements OnInit {
   getAttendanceRuleWithAttendanceRuleDefinitionMethodCall() {
     debugger
     this.attendanceRuleWithAttendanceRuleDefinitionLoading = true;
-    this.dataService.getAttendanceRuleWithAttendanceRuleDefinition().subscribe((response) => {
-
-      console.log(response);
-      
-
+    this.dataService.getAttendanceRuleWithAttendanceRuleDefinitionNew().subscribe((response: any) => {
+      if (response.status) {
+        this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response.object;
+      }
       this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
-      this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response;
-      
     }, (error) => {
-      console.log(error);
+      this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
     })
   }
+
   selectedAttendanceModeId: number = 0;
   getAttendanceModeMethodCall() {
-debugger
-    this.dataService.getAttendanceMode().subscribe((response) => {
+    debugger
+    this.dataService.getAttendanceModeNew().subscribe((response:any) => {
       debugger
-      this.selectedAttendanceModeId = response.id;
-      // console.log(this.selectedAttendanceModeId);
+      if(response.status){
+        this.selectedAttendanceModeId = response.object.id;
+      }
     }, (error) => {
       console.log(error);
     })
   }
+  
   toggle = false;
   @ViewChild("closeAddressModal") closeAddressModal !: ElementRef;
   setOrganizationAddressDetailMethodCall() {
@@ -355,18 +346,14 @@ debugger
   }
 
   organizationShiftTimingWithShiftTypeResponseList: OrganizationShiftTimingWithShiftTypeResponse[] = [];
+  allShiftTimingsLoader: boolean = false;
   getAllShiftTimingsMethodCall() {
     debugger
-    // this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
-
-    // this.isShimmer = true;
-    // this.dataNotFoundPlaceholder = false;
-    // this.networkConnectionErrorPlaceHolder = false;
-
+    this.allShiftTimingsLoader = true;
     this.dataService.getAllShiftTimings().subscribe((response) => {
       this.organizationShiftTimingWithShiftTypeResponseList = response;
+      this.allShiftTimingsLoader = false;
       if (response[0] != null) {
-        this.skip = true;
         this.skipShift = true
       }
 
@@ -544,7 +531,7 @@ debugger
       this.closeShiftTimingModal.nativeElement.click();
       this.getAllShiftTimingsMethodCall();
       this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_SUCCESS);
-      this.dataService.markStepAsCompleted(2);
+      this.dataService.markStepAsCompleted(5);
     }, (error) => {
       console.log(error);
       this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_ERROR);

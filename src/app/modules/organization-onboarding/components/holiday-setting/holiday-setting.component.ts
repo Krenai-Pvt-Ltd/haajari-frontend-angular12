@@ -95,11 +95,6 @@ export class HolidaySettingComponent implements OnInit {
     const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
     return formattedDate;
   }
-
-  // isHoliday(weekDayId: number): boolean {
-  //   return this.weeklyHolidays.some(holiday => holiday.id === weekDayId);
-  // }
-
   
   holidayList: { name: string; date: string }[] = [{ name: '', date: '' }];
 
@@ -186,15 +181,6 @@ export class HolidaySettingComponent implements OnInit {
     });
   }
 
-
-  // getWeekDays() {
-  //   debugger
-  //   this.dataService.getWeekDays().subscribe(holidays => {
-  //     this.weekDay = holidays;
-  //     console.log(this.weekDay);
-  //   });
-  // }
-
   getWeekDays() {
     this.dataService.getWeekDays().subscribe(holidays => {
       this.weekDay = holidays.map(day => ({
@@ -206,14 +192,14 @@ export class HolidaySettingComponent implements OnInit {
   }
 
   next(){
-    this.dataService.markStepAsCompleted(4);
-    
     if(this.onboardingViaString==='SLACK'){
+      this.dataService.markStepAsCompleted(4);
       this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
-      this._onboardingService.saveOrgOnboardingStep(6).subscribe();
-      this._router.navigate(["/dashboard"]);
-    }else{
       this._onboardingService.saveOrgOnboardingStep(4).subscribe();
+      this._router.navigate(["/organization-onboarding/attendance-rule-setup"]);
+    }else{
+      this.dataService.markStepAsCompleted(3);
+      this._onboardingService.saveOrgOnboardingStep(3).subscribe();
       this._router.navigate(["/organization-onboarding/upload-team"]);
     }
   }
@@ -222,19 +208,12 @@ export class HolidaySettingComponent implements OnInit {
     debugger
     this._onboardingService.getOrgOnboardingStep().subscribe((response:any)=>{
       if(response.status){
-        this.dataService.markStepAsCompleted(response.object.step);
         this.onboardingViaString = response.object.onboardingString;
       }
       
     })
 
   }
-
-  // skipThisStep(){
-  //   if(this.onboardingViaString==='WHATSAPP'){
-      
-  //   }
-  // }
   
 
 }

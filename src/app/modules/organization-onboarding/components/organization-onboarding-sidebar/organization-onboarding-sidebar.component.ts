@@ -14,11 +14,11 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
     private _onboardingService: OrganizationOnboardingService,
     private router: Router) { }
 
-  onboardingViaString:string='';
+  onboardingViaString: string = '';
 
   ngOnInit(): void {
     this.getOnboardingStep();
-    
+
   }
 
   navigateTo(route: string, stepIndex: number): void {
@@ -31,59 +31,58 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
 
   }
 
-  getOnboardingStep(){
+  getOnboardingStep() {
     debugger
-    this._onboardingService.getOrgOnboardingStep().subscribe((response:any)=>{
-      if(response.status){
+    this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
+      if (response.status) {
         this.dataService.markStepAsCompleted(response.object.step);
         this.onboardingViaString = response.object.onboardingString;
+        this.goToStep(response.object.step);
       }
     })
   }
 
-  goToStep(index: number) {
-console.log("Index to Go", index);
-
+  goToStep(index: string) {
+    console.log("Index to Go :", index);
     switch (index) {
-      case 1: {
+      case "1": {
         console.log("Step 1 is calling");
-        this.router.navigate(['/organization-onboarding/attendance-rule-setup']);
-        //statements; 
+        this.router.navigate(['/organization-onboarding/personal-information']);
         break;
       }
-      case 2: {
+      case "2": {
         console.log("Step 2 is calling");
-        this.router.navigate(['/organization-onboarding/leave-rule-setup']);
-        //statements; 
-        break;
-      }
-      case 3: {
-        console.log("Step 3 is calling");
         this.router.navigate(['/organization-onboarding/holiday-setting']);
-        //statements; 
         break;
       }
-      case 4: {
+      case "3": {
+        console.log("Step 3 is calling");
         this.router.navigate(['/organization-onboarding/upload-team']);
+        break;
+      }
+      case "4": {
+        this.router.navigate(['/organization-onboarding/attendance-rule-setup']);
         console.log("Step 4 is calling");
-        //statements; 
         break;
       }
-      case 5: {
+      case "5": {
         console.log("Step 5 is calling");
-        //statements; 
+          this.router.navigate(['/organization-onboarding/leave-rule-setup']);
         break;
       }
-      case 6: {
+      case "6": {
         this.router.navigate(['/dashboard']);
         console.log("Step 6 is calling");
-        //statements; 
+        break;
+      }
+      case "7": {
+        this.router.navigate(['/dashboard']);
+        console.log("Step 7 is calling");
         break;
       }
       default: {
         this.router.navigate(['/organization-onboarding/personal-information']);
         console.log("Step default is calling");
-        //statements; 
         break;
       }
     }
