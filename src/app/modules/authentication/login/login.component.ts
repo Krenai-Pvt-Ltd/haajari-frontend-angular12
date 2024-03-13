@@ -57,6 +57,7 @@ confiirmPassword: string='';
       this.ROLE= await this.rbacService.getRole();
       this.UUID= await this.rbacService.getUuid();
   
+      debugger
       if(this.ROLE==='USER'){
         this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
       }else{
