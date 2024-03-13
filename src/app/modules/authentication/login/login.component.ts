@@ -351,11 +351,10 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
   verifyOtpByWhatsappMethodCall() {
     debugger
+    this.loading = true;
     this.dataService.verifyOtpByWhatsappNew(this.phoneNumber, this.otp).subscribe((response:any) => {
-
-      console.log(" user login response", response);
-      this.loading = true;
       if (response.status) {
+        this.loading = false;
         this.helperService.subModuleResponseList = response.object.subModuleResponseList;
         localStorage.setItem('token', response.object.tokenResponse.access_token);
         localStorage.setItem('refresh_token', response.object.tokenResponse.refresh_token);
@@ -372,6 +371,7 @@ export class LoginComponent implements OnInit {
         this.userReq.phone = this.phoneNumber;
         this._onboardingService.createAdmin(this.userReq).subscribe((response: any) => {
           if (response != null) {
+            this.loading = false;
             localStorage.setItem('token', response.access_token);
             localStorage.setItem('refresh_token', response.refresh_token);
 
@@ -382,12 +382,12 @@ export class LoginComponent implements OnInit {
             } else {
               this.router.navigate(['/organization-onboarding/personal-information']);
             }
-            this.loading = false;
           }
         }, (error) => {
           this.loading = false;
         })
       }
+      
     },
       (error) => {
         this.otpErrorMessage = error.error.message;

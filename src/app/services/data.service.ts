@@ -978,6 +978,10 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/mode/get`);
   }
 
+  getAttendanceModeNew(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/mode/get-new`);
+  }
+
   updateAttendanceMode(attendanceModeId: number): Observable<any> {
     const params = new HttpParams()
       .set("attendance_mode_id", attendanceModeId);

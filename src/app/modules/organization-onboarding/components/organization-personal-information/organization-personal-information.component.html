@@ -67,7 +67,7 @@
                       <div *ngIf="adminName?.dirty  || isFormInvalid">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="adminName.errors?.required"><i
                             class="bi bi-exclamation-circle"></i>
-                          Name is required.</p>
+                          Admin Name is required.</p>
                         <p class="errortxt mt-2 mb-0 " style="color:red" *ngIf="adminName.errors?.minlength"><i
                             class="bi bi-exclamation-circle"></i>
                           Please enter minimum five characters name.</p>
@@ -84,7 +84,7 @@
                       </div>
                       <div *ngIf="adminEmail?.touched || isFormInvalid">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="adminEmail.errors?.required">
-                          <i class="bi bi-exclamation-circle"></i> Email Id is required.
+                          <i class="bi bi-exclamation-circle"></i> Admin Email Id is required.
                         </p>
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="adminEmail.errors?.email">
                           <i class="bi bi-exclamation-circle"></i> Please enter a valid email address.
@@ -357,7 +357,14 @@
                     </div>
 
                     <div class="col-md-12 d-flex justify-content-end">
-                      <button type="submit" class="btn btn-primary"> Save </button>
+                      <button type="submit" class="btn btn-primary">  
+                        <span *ngIf="!loading">Save</span>
+                            <div class="dot-opacity-loader" *ngIf="loading">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                      </button>
                     </div>
 
                   </div>

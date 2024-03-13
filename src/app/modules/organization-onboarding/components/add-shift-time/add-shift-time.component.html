@@ -330,7 +330,13 @@
                                                             <button type="button" class="btn btn-outline-primary"
                                                                 (click)="shiftTimingActiveTabMethod()">Back</button>
                                                             <button type="button" class="btn btn-primary"
-                                                                (click)="registerOrganizationShiftTimingMethodCall()">Submit</button>
+                                                                (click)="registerOrganizationShiftTimingMethodCall()">
+                                                                <span *ngIf="!loading">Submit</span>
+                                                                <div class="dot-opacity-loader" *ngIf="loading">
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                </div></button>
                                                         </div>
                                                     </div>
                         

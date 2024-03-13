@@ -87,7 +87,6 @@ export class AttendanceRuleSetupComponent implements OnInit {
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall()
   }
 
-  skip: boolean = false;
   skipAttendanceMethod() {
     this.attendanceMode = false;
     this.shiftSettingMode = true;
@@ -106,8 +105,8 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
   }
   skipAutomationRulesSetting() {
-    this.dataService.markStepAsCompleted(2);
-    this._onboardingService.saveOrgOnboardingStep(2).subscribe();
+    this.dataService.markStepAsCompleted(3);
+    this._onboardingService.saveOrgOnboardingStep(3).subscribe();
     this.router.navigate(['/organization-onboarding/leave-rule-setup']);
 
   }
@@ -123,7 +122,6 @@ export class AttendanceRuleSetupComponent implements OnInit {
     debugger
     this.dataService.getAttendanceModeAll().subscribe((response) => {
       this.attendanceModeList = response;
-      // console.log(response);
     }, (error) => {
       console.log(error);
     })
@@ -177,17 +175,20 @@ export class AttendanceRuleSetupComponent implements OnInit {
       this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
     })
   }
+
   selectedAttendanceModeId: number = 0;
   getAttendanceModeMethodCall() {
     debugger
-    this.dataService.getAttendanceMode().subscribe((response) => {
+    this.dataService.getAttendanceModeNew().subscribe((response:any) => {
       debugger
-      this.selectedAttendanceModeId = response.id;
-      // console.log(this.selectedAttendanceModeId);
+      if(response.status){
+        this.selectedAttendanceModeId = response.object.id;
+      }
     }, (error) => {
       console.log(error);
     })
   }
+  
   toggle = false;
   @ViewChild("closeAddressModal") closeAddressModal !: ElementRef;
   setOrganizationAddressDetailMethodCall() {
@@ -353,7 +354,6 @@ export class AttendanceRuleSetupComponent implements OnInit {
       this.organizationShiftTimingWithShiftTypeResponseList = response;
       this.allShiftTimingsLoader = false;
       if (response[0] != null) {
-        this.skip = true;
         this.skipShift = true
       }
 
@@ -531,7 +531,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
       this.closeShiftTimingModal.nativeElement.click();
       this.getAllShiftTimingsMethodCall();
       this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_SUCCESS);
-      this.dataService.markStepAsCompleted(2);
+      this.dataService.markStepAsCompleted(3);
     }, (error) => {
       console.log(error);
       this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_ERROR);

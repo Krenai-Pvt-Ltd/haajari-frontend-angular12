@@ -61,15 +61,18 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     }
   };
  
-
+loading: boolean = false;
   registerOrganizationPersonalInformation() {
+    this.loading = true;
     this.dataService.registerOrganizationPersonalInformation(this.organizationPersonalInformation)
       .subscribe(response => {
+        this.loading = false;
         console.log("organization personal Info Registered Successfully");
         this.router.navigate(['/organization-onboarding/attendance-rule-setup']);
-        this.dataService.markStepAsCompleted(1);
-        this._onboardingService.saveOrgOnboardingStep(1).subscribe();
+        this.dataService.markStepAsCompleted(2);
+        this._onboardingService.saveOrgOnboardingStep(2).subscribe();
       },(error) => {
+        this.loading = false;
           console.log(error.error.message);
       });
   }
