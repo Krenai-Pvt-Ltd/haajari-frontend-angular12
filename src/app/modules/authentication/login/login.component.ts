@@ -323,13 +323,13 @@ export class LoginComponent implements OnInit {
   @ViewChild('otpVerificationModalButton') otpVerificationModalButton !: ElementRef
   isWhatsappLogin: boolean = false;
   phoneNumber: string = '';
-  showOtpInput:boolean = false
+  showOtpInput: boolean = false
   signInByWhatsappMethodCall() {
     debugger
     this.checkFormValidation();
 
     if (this.isFormInvalid == true) {
-      
+
       return
     } else {
       this.dataService.signInByWhatsapp(this.phoneNumber)
@@ -351,50 +351,42 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
   verifyOtpByWhatsappMethodCall() {
     debugger
-    this.dataService.verifyOtpByWhatsapp(this.phoneNumber, this.otp).subscribe((response) => {
+    this.dataService.verifyOtpByWhatsappNew(this.phoneNumber, this.otp).subscribe((response:any) => {
 
-      console.log("login response", response);
-      
+      console.log(" user login response", response);
       this.loading = true;
-      if (response == null) {
+      if (response.status) {
+        this.helperService.subModuleResponseList = response.object.subModuleResponseList;
+        localStorage.setItem('token', response.object.tokenResponse.access_token);
+        localStorage.setItem('refresh_token', response.object.tokenResponse.refresh_token);
+        const helper = new JwtHelperService();
+        const onboardingStep = helper.decodeToken(response.object.tokenResponse.access_token).statusResponse;
+        if (onboardingStep == "6") {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.router.navigate(['/organization-onboarding/personal-information']);
+        }
+
+      } else {
+
         this.userReq.phone = this.phoneNumber;
         this._onboardingService.createAdmin(this.userReq).subscribe((response: any) => {
           if (response != null) {
             localStorage.setItem('token', response.access_token);
             localStorage.setItem('refresh_token', response.refresh_token);
 
-            // let token = localStorage.getItem("token")!;
             const helper = new JwtHelperService();
             const onboardingStep = helper.decodeToken(response.access_token).statusResponse;
-            console.log("user token step",helper.decodeToken(response.access_token).statusResponse);
-            if(onboardingStep=="6"){
+            if (onboardingStep == "6") {
               this.router.navigate(['/dashboard']);
-            }else
-            {
+            } else {
               this.router.navigate(['/organization-onboarding/personal-information']);
-            }            
+            }
             this.loading = false;
           }
         }, (error) => {
           this.loading = false;
         })
-
-      } else {
-
-        this.helperService.subModuleResponseList = response.subModuleResponseList;
-        localStorage.setItem('token', response.tokenResponse.access_token);
-        localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
-        // this.router.navigate(['/dashboard']);
-        const helper = new JwtHelperService();
-            const onboardingStep = helper.decodeToken(response.tokenResponse.access_token).statusResponse;
-            console.log("user token step",helper.decodeToken(response.tokenResponse.access_token).statusResponse);
-            if(onboardingStep=="6"){
-              this.router.navigate(['/dashboard']);
-            }else
-            {
-              this.router.navigate(['/organization-onboarding/personal-information']);
-            }
-        // this.otpVerification.nativeElement.click();
       }
     },
       (error) => {

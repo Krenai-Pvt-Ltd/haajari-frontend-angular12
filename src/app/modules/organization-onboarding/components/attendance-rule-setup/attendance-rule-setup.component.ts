@@ -135,23 +135,18 @@ export class AttendanceRuleSetupComponent implements OnInit {
   isAttendanceModeSelected: boolean = false;
   @ViewChild("attendancewithlocationssButton") attendancewithlocationssButton !: ElementRef;
   updateAttendanceModeMethodCall(attendanceModeId: number) {
-
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe((response) => {
-      // console.log(response);
       this.getAttendanceModeMethodCall();
       if (attendanceModeId == 2 || attendanceModeId == 3) {
         this.attendancewithlocationssButton.nativeElement.click();
       }
       setTimeout(() => {
         if (attendanceModeId == 1) {
-          // this.helperService.showToast("Attedance Mode updated successfully.", Key.TOAST_STATUS_SUCCESS);
           this.isAttendanceModeSelected = true;
         }
-        // console.log("Second line executed after 3 seconds");
       }, 1000);
 
     }, (error) => {
-      console.log(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
@@ -159,12 +154,10 @@ export class AttendanceRuleSetupComponent implements OnInit {
   deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionId: number) {
     debugger
     this.dataService.deleteAttendanceRuleDefinition(attendanceRuleDefinitionId).subscribe((response) => {
-      // console.log(response);
       this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
       this.helperService.showToast("Attendance rule settings deleted successfully", Key.TOAST_STATUS_SUCCESS);
 
     }, (error) => {
-      console.log(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
@@ -175,21 +168,18 @@ export class AttendanceRuleSetupComponent implements OnInit {
   getAttendanceRuleWithAttendanceRuleDefinitionMethodCall() {
     debugger
     this.attendanceRuleWithAttendanceRuleDefinitionLoading = true;
-    this.dataService.getAttendanceRuleWithAttendanceRuleDefinition().subscribe((response) => {
-
-      console.log(response);
-      
-
+    this.dataService.getAttendanceRuleWithAttendanceRuleDefinitionNew().subscribe((response: any) => {
+      if (response.status) {
+        this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response;
+      }
       this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
-      this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response;
-      
     }, (error) => {
-      console.log(error);
+      this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
     })
   }
   selectedAttendanceModeId: number = 0;
   getAttendanceModeMethodCall() {
-debugger
+    debugger
     this.dataService.getAttendanceMode().subscribe((response) => {
       debugger
       this.selectedAttendanceModeId = response.id;
@@ -355,16 +345,13 @@ debugger
   }
 
   organizationShiftTimingWithShiftTypeResponseList: OrganizationShiftTimingWithShiftTypeResponse[] = [];
+  allShiftTimingsLoader: boolean = false;
   getAllShiftTimingsMethodCall() {
     debugger
-    // this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
-
-    // this.isShimmer = true;
-    // this.dataNotFoundPlaceholder = false;
-    // this.networkConnectionErrorPlaceHolder = false;
-
+    this.allShiftTimingsLoader = true;
     this.dataService.getAllShiftTimings().subscribe((response) => {
       this.organizationShiftTimingWithShiftTypeResponseList = response;
+      this.allShiftTimingsLoader = false;
       if (response[0] != null) {
         this.skip = true;
         this.skipShift = true

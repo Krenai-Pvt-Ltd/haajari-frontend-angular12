@@ -830,7 +830,7 @@
                                                                                     <button
                                                                                         class="btn btn-outline-primary btn-sm editdata-edit"
                                                                                         [(ngModel)]="staff.selected" *ngIf="!addEmployeeLoader(staff)"
-                                                                                        (click)="addUser(staff.uuid, idOfLeaveSetting)">Add</button>
+                                                                                        (click)="addUser(staff.uuid, idOfLeaveSetting)" [ngModelOptions]="{standalone: true}">Add</button>
                                                                                        
                                                                                 </span>
                                                                                 
@@ -839,7 +839,7 @@
                                                                                 <span *ngIf="staff.isAdded ">
                                                                                     <button
                                                                                         class="btn btn-outline-primary btn-sm editdata-edit"
-                                                                                        [(ngModel)]="staff.selected">Added</button>
+                                                                                        [(ngModel)]="staff.selected" [ngModelOptions]="{standalone: true}">Added</button>
                                                                                 </span>
                                                                                 <!-- <span *ngIf="staff.selected && addedUserFlag">
                                                                                     <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"

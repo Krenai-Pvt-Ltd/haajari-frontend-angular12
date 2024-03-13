@@ -33,6 +33,8 @@ export class OrganizationPersonalInformationComponent implements OnInit {
 
   organizationPersonalInformation: OrganizationPersonalInformation = {
     id: 0,
+    adminName: '',
+    adminEmail: '',
     name: '',
     email: '',
     password: '',
