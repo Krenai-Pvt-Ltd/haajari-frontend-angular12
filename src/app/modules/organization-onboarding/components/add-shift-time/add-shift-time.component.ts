@@ -80,7 +80,6 @@ export class AddShiftTimeComponent implements OnInit {
       this.loading = false;
       this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_SUCCESS);
       this.router.navigate(['/organization-onboarding/attendance-rule-setup'])
-      this.dataService.markStepAsCompleted(2);
     }, (error) => {
       this.loading = false;
     })

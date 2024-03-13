@@ -191,10 +191,10 @@ export class Key{
     public static ADDITIONAL_ALLOWANCE = 6;
     
 
-    // base_url = "http://localhost:8080/api/v2";
+    base_url = "http://localhost:8080/api/v2";
 
     /* ------------------  Staging urls ----------------*/
-    base_url = "https://backend.hajiri.work/api/v2";
+    // base_url = "https://backend.hajiri.work/api/v2";
 
     /* ------------------  Production urls ----------------*/
     // base_url = "https://production.hajiri.work/api/v2";
@@ -230,6 +230,7 @@ export class Key{
     //user import
     create_user = "/whatsapp-user-onboarding";
     create_admin = "/organization/register-organization-using-number";
+    create_admin_new = "/organization/register-organization-using-number-new";
 
 
     get_onboarding_user = "/whatsapp-user-onboarding/onboarding-user";

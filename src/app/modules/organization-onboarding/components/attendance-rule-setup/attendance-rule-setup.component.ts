@@ -105,8 +105,8 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
   }
   skipAutomationRulesSetting() {
-    this.dataService.markStepAsCompleted(3);
-    this._onboardingService.saveOrgOnboardingStep(3).subscribe();
+    this.dataService.markStepAsCompleted(5);
+    this._onboardingService.saveOrgOnboardingStep(5).subscribe();
     this.router.navigate(['/organization-onboarding/leave-rule-setup']);
 
   }
@@ -168,7 +168,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
     this.attendanceRuleWithAttendanceRuleDefinitionLoading = true;
     this.dataService.getAttendanceRuleWithAttendanceRuleDefinitionNew().subscribe((response: any) => {
       if (response.status) {
-        this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response;
+        this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response.object;
       }
       this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
     }, (error) => {
@@ -531,7 +531,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
       this.closeShiftTimingModal.nativeElement.click();
       this.getAllShiftTimingsMethodCall();
       this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_SUCCESS);
-      this.dataService.markStepAsCompleted(3);
+      this.dataService.markStepAsCompleted(5);
     }, (error) => {
       console.log(error);
       this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_ERROR);
