@@ -61,10 +61,11 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('token', response.tokenResponse.access_token);
       localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
 
-      this.ROLE = await this.rbacService.getRole();
-      this.UUID = await this.rbacService.getUuid();
-
-      if (this.ROLE === 'USER') {
+      this.ROLE= await this.rbacService.getRole();
+      this.UUID= await this.rbacService.getUuid();
+  
+      debugger
+      if(this.ROLE==='USER'){
         this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
       } else {
         this.router.navigate(['/dashboard']);
