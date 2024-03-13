@@ -35,8 +35,8 @@ export class LeaveRuleSetupComponent implements OnInit {
   }
 
   skipLeaveSetting() {
-    this.dataService.markStepAsCompleted(3);
-    this._onboardingService.saveOrgOnboardingStep(3).subscribe();
+    this.dataService.markStepAsCompleted(4);
+    this._onboardingService.saveOrgOnboardingStep(4).subscribe();
     this._router.navigate(['/organization-onboarding/holiday-setting']);
   }
 
