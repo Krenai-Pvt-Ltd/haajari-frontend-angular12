@@ -1,12 +1,14 @@
 import { DatePipe, Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Key } from 'src/app/constant/key';
 import { CustomHolidays } from 'src/app/models/customHolidays';
 import { OrganizationAddressDetail } from 'src/app/models/organization-address-detail';
 import { UniversalHoliday } from 'src/app/models/UniversalHoliday';
 import { WeekDay } from 'src/app/models/WeekDay';
 import { WeeklyHoliday } from 'src/app/models/WeeklyHoliday';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 
 @Component({
@@ -23,10 +25,13 @@ export class HolidaySettingComponent implements OnInit {
     private dataService : DataService,
     private datePipe: DatePipe,
     private _router:Router,
-    private _onboardingService: OrganizationOnboardingService) { }
+    private _onboardingService: OrganizationOnboardingService,
+    private helperService: HelperService) { }
+
+  onboardingViaString:string='';
 
   ngOnInit(): void {
-    
+    this.getOnboardingStep();
     this.getUniversalHolidays();
     this.getCustomHolidays();
     this.getWeeklyHolidays();
@@ -90,11 +95,6 @@ export class HolidaySettingComponent implements OnInit {
     const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
     return formattedDate;
   }
-
-  // isHoliday(weekDayId: number): boolean {
-  //   return this.weeklyHolidays.some(holiday => holiday.id === weekDayId);
-  // }
-
   
   holidayList: { name: string; date: string }[] = [{ name: '', date: '' }];
 
@@ -181,15 +181,6 @@ export class HolidaySettingComponent implements OnInit {
     });
   }
 
-
-  // getWeekDays() {
-  //   debugger
-  //   this.dataService.getWeekDays().subscribe(holidays => {
-  //     this.weekDay = holidays;
-  //     console.log(this.weekDay);
-  //   });
-  // }
-
   getWeekDays() {
     this.dataService.getWeekDays().subscribe(holidays => {
       this.weekDay = holidays.map(day => ({
@@ -201,9 +192,27 @@ export class HolidaySettingComponent implements OnInit {
   }
 
   next(){
-    this.dataService.markStepAsCompleted(4);
-    this._onboardingService.saveOrgOnboardingStep(4).subscribe();
-    this._router.navigate(["/organization-onboarding/upload-team"]);
+    if(this.onboardingViaString==='SLACK'){
+      this.dataService.markStepAsCompleted(4);
+      this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
+      this._onboardingService.saveOrgOnboardingStep(4).subscribe();
+      this._router.navigate(["/organization-onboarding/attendance-rule-setup"]);
+    }else{
+      this.dataService.markStepAsCompleted(3);
+      this._onboardingService.saveOrgOnboardingStep(3).subscribe();
+      this._router.navigate(["/organization-onboarding/upload-team"]);
+    }
+  }
+
+  getOnboardingStep(){
+    debugger
+    this._onboardingService.getOrgOnboardingStep().subscribe((response:any)=>{
+      if(response.status){
+        this.onboardingViaString = response.object.onboardingString;
+      }
+      
+    })
+
   }
   
 

@@ -758,13 +758,14 @@
                                                             <div
                                                                 class="modal-footer d-flex align-items-center justify-content-end">
                                                                 <button type="button" class="btn btn-primary"
-                                                                    (click)="saveLeaveSettingRules(true)"
-                                                                    *ngIf="!submitLeaveLoader">Submit</button>
+                                                                    (click)="saveLeaveSettingRules(true)">
+                                                                    <span *ngIf="!submitLeaveLoader">Submit</span>
                                                                 <div class="dot-opacity-loader" *ngIf="submitLeaveLoader">
                                                                     <span></span>
                                                                     <span></span>
                                                                     <span></span>
                                                                 </div>
+                                                            </button>
                                                             </div>
                                                         </div>
                                                     </div>

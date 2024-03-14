@@ -52,7 +52,8 @@ export class RoleBasedAccessControlService {
   }
 
   async getUUID(): Promise<string> {
-    return Promise.resolve(this.userInfo.uuid);
+    // return Promise.resolve(this.userInfo!.uuid);\
+    return Promise.resolve(this.userInfo!.uuid);
   }
 
   // getUUID(){
@@ -65,11 +66,11 @@ export class RoleBasedAccessControlService {
   // }
 
   getOrgRefUUID() {
-    return this.userInfo.orgRefId;
+    return this.userInfo!.orgRefId;
   }
 
   getUuid(){
-    return this.userInfo.uuid;
+    return this.userInfo!.uuid;
   }
 
 

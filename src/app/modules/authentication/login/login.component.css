@@ -283,7 +283,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6px 6px;
 }
 
 .dot-opacity-loader span {
@@ -294,6 +293,7 @@
     background-color: white; /* Change to your preferred color */
     margin: 0 4px;
     animation: dotOpacity 1.4s infinite ease-in-out both;
+    color: #4caf50;
 }
 
 .dot-opacity-loader span:nth-child(1) {

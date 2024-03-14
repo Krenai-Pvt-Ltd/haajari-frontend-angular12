@@ -1,8 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
@@ -11,13 +14,17 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-email:string= '';
-password: string='';
-confiirmPassword: string='';
+  email: string = '';
+  password: string = '';
+  confiirmPassword: string = '';
   //accessTokensAr: any = localStorage.getItem("accessTokens") || [];
   //accessTokenArray: any = JSON.parse(this.accessTokensAr);
 
-  constructor(private dataService : DataService, private router : Router, private rbacService : RoleBasedAccessControlService, private helperService : HelperService) { }
+  constructor(private dataService: DataService,
+    private router: Router,
+    private rbacService: RoleBasedAccessControlService,
+    private helperService: HelperService,
+    private _onboardingService: OrganizationOnboardingService) { }
 
   ngOnInit(): void {
 
@@ -25,28 +32,28 @@ confiirmPassword: string='';
     // localStorage.setItem('loginData', JSON.stringify(loginData));
   }
 
-  otp : string='';
-  loginButtonLoader : boolean = false;
-  errorMessage: string = ''; 
+  otp: string = '';
+  loginButtonLoader: boolean = false;
+  errorMessage: string = '';
   verifyOtpButtonFlag: boolean = false;
   enterPasswordFlag: boolean = false;
   errorPasswordFlag: boolean = false;
 
-  confirmPassError:boolean=false;
-  checkConfirmPassword(){
+  confirmPassError: boolean = false;
+  checkConfirmPassword() {
     this.confirmPassError = false;
-    if(this.confiirmPassword!=this.password){
+    if (this.confiirmPassword != this.password) {
       this.confirmPassError = true;
     }
   }
 
-  ROLE:string | null = '';
-  UUID:string = '';
+  ROLE: string | null = '';
+  UUID: string = '';
 
-  signIn(){
+  signIn() {
     debugger
     this.loginButtonLoader = true;
-    this.dataService.loginUser(this.email, this.password).subscribe(async response =>{
+    this.dataService.loginUser(this.email, this.password).subscribe(async response => {
       debugger
       console.log(response);
       this.helperService.subModuleResponseList = response.subModuleResponseList;
@@ -57,18 +64,19 @@ confiirmPassword: string='';
       this.ROLE= await this.rbacService.getRole();
       this.UUID= await this.rbacService.getUuid();
   
+      debugger
       if(this.ROLE==='USER'){
         this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
-      }else{
+      } else {
         this.router.navigate(['/dashboard']);
       }
-      
+
 
       // this.router.navigate(['/dashboard']);
-      
-    }, (error) =>{
+
+    }, (error) => {
       console.log(error.error.message);
-      this.errorMessage = error.error.message; 
+      this.errorMessage = error.error.message;
       // if(this.errorMessage == "OTP sent to your email. Please verify to set your password."){
       //   this.verifyOtpButton=true;
       // }else if(this.errorMessage == "Please Enter Valid Password."){
@@ -87,10 +95,10 @@ confiirmPassword: string='';
   //     next: (response) => {
   //       console.log(response);
   //       this.helperService.subModuleResponseList = response.subModuleResponseList;
-  
+
   //       localStorage.setItem('token', response.tokenResponse.access_token);
   //       localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
-  
+
   //       this.router.navigate(['/dashboard']);
   //     },
   //     error: (error) => {
@@ -99,43 +107,43 @@ confiirmPassword: string='';
   //     }
   //   });
   // }
-  
 
-  enableBack:boolean=false;
-  signInWithEmail(){
-    this.enableBack=true;
-    this.isWhatsappLogin= false;
+
+  enableBack: boolean = false;
+  signInWithEmail() {
+    this.enableBack = true;
+    this.isWhatsappLogin = false;
     const res = document.getElementById("mt-3") as HTMLElement | null;
-    if(res){
-      res.style.display="none";
+    if (res) {
+      res.style.display = "none";
     }
 
     const res2 = document.getElementById("signin-with-email") as HTMLElement | null;
-    if(res2){
-      res2.style.display="block";
+    if (res2) {
+      res2.style.display = "block";
     }
   }
 
-  redirectToRegister(){
+  redirectToRegister() {
     this.router.navigate(['/onboarding']);
 
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.autoplayVideo();
   }
 
-  autoplayVideo(){
+  autoplayVideo() {
 
-    var div= document.getElementById("videoId");
-    if(div){
-        //@ts-ignore
-        div!.muted = true;
-        //@ts-ignore
-        div.autoplay=true;
-         //@ts-ignore
+    var div = document.getElementById("videoId");
+    if (div) {
+      //@ts-ignore
+      div!.muted = true;
+      //@ts-ignore
+      div.autoplay = true;
+      //@ts-ignore
       div!.play();
-    } 
+    }
   }
 
 
@@ -144,44 +152,43 @@ confiirmPassword: string='';
   }
 
   @ViewChild('otpInput') otpInput: any;
-  
-  createPasswordFlag:boolean=false;
-  otpErrorMessage:string='';
+
+  createPasswordFlag: boolean = false;
+  otpErrorMessage: string = '';
   verifyOtp() {
-    
+
     debugger
-    if(this.isWhatsappLogin){
+    if (this.isWhatsappLogin) {
       this.verifyOtpByWhatsappMethodCall();
     } else {
-
-    this.dataService.verifyUserOtp(this.email,this.otp)
-      .subscribe(
-        (response) => {
-          this.errorMessage = '';
-          this.verifyOtpButtonFlag=false;
-          this.otp = '';
-          this.createPasswordFlag=true;
-          this.showMessageFlag=false;
-          this.verifyOtpButtonFlag=false;
-          this.otpVerification.nativeElement.click();
-          console.log('Verification successful:', response);
-        },
-        (error) => {
-          this.otpErrorMessage=error.error.message;
-          console.error('Verification failed:', error);
-        }
-      );
+      this.dataService.verifyUserOtp(this.email, this.otp)
+        .subscribe(
+          (response) => {
+            this.errorMessage = '';
+            this.verifyOtpButtonFlag = false;
+            this.otp = '';
+            this.createPasswordFlag = true;
+            this.showMessageFlag = false;
+            this.verifyOtpButtonFlag = false;
+            // this.otpVerification.nativeElement.click();
+            console.log('Verification successful:', response);
+          },
+          (error) => {
+            this.otpErrorMessage = error.error.message;
+            console.error('Verification failed:', error);
+          }
+        );
     }
 
   }
 
-  registerPassLoader:boolean=false;
+  registerPassLoader: boolean = false;
   registerUserPassword() {
-    this.registerPassLoader=true;
-    this.dataService.registerPassword(this.email,this.password)
+    this.registerPassLoader = true;
+    this.dataService.registerPassword(this.email, this.password)
       .subscribe(
         (response) => {
-          this.registerPassLoader=false;
+          this.registerPassLoader = false;
           console.log('Password Created successfully:', response);
           this.password = '';
           this.confiirmPassword = '';
@@ -189,48 +196,48 @@ confiirmPassword: string='';
           this.enterPasswordFlag = true;
         },
         (error) => {
-          this.registerPassLoader=false;
+          this.registerPassLoader = false;
           console.error('Verification failed:', error);
         }
       );
   }
 
- showMessageFlag:boolean=false;
+  showMessageFlag: boolean = false;
   checkUserPresence() {
     debugger
     this.checkFormValidation();
 
-    if(this.isFormInvalid==true){
+    if (this.isFormInvalid == true) {
       return
-    } else{
-    this.loginButtonLoader=true;
-    this.dataService.checkUserPresence(this.email)
-      .subscribe(
-        (response) => {
-          this.loginButtonLoader=false;
-          if(response.isExistingUser==false){
-           this.errorMessage = "Please register yourself first Or contact to your admin!";
-          }
+    } else {
+      this.loginButtonLoader = true;
+      this.dataService.checkUserPresence(this.email)
+        .subscribe(
+          (response) => {
+            this.loginButtonLoader = false;
+            if (response.isExistingUser == false) {
+              this.errorMessage = "Please register yourself first Or contact to your admin!";
+            }
 
-          if(response.isEnableStatus==false){
-            this.errorMessage = "You are disabled by admin, please contact to your admin!";
-          }
-          if(response.isPassword==true){
-            this.enterPasswordFlag=true;
-            this.errorMessage = '';
-          }else if(response.isPassword==false){
-            this.showMessageFlag=true;
-            this.verifyOtpButtonFlag=true;
-            this.errorMessage = '';
-          }
-          console.log("response :", response);
-        },
-        (error) => {
-          this.loginButtonLoader=false;
-          console.log("error :", error);
+            if (response.isEnableStatus == false) {
+              this.errorMessage = "You are disabled by admin, please contact to your admin!";
+            }
+            if (response.isPassword == true) {
+              this.enterPasswordFlag = true;
+              this.errorMessage = '';
+            } else if (response.isPassword == false) {
+              this.showMessageFlag = true;
+              this.verifyOtpButtonFlag = true;
+              this.errorMessage = '';
+            }
+            console.log("response :", response);
+          },
+          (error) => {
+            this.loginButtonLoader = false;
+            console.log("error :", error);
 
-        }
-      );
+          }
+        );
     }
   }
 
@@ -247,12 +254,12 @@ confiirmPassword: string='';
       );
   }
 
-  resetUserPassword(){
+  resetUserPassword() {
     this.registerPassLoader = true;
     this.dataService.resetPassword(this.email, this.password)
       .subscribe(
         (response) => {
-          this.registerPassLoader=false;
+          this.registerPassLoader = false;
           console.log('Password Created successfully:', response);
           this.password = '';
           this.confiirmPassword = '';
@@ -260,15 +267,15 @@ confiirmPassword: string='';
           this.enterPasswordFlag = true;
         },
         (error) => {
-          this.registerPassLoader=false;
+          this.registerPassLoader = false;
           console.log("error :", error);
 
         }
       );
-    
+
   }
 
-  
+
 
 
   // password:string='';
@@ -296,89 +303,128 @@ confiirmPassword: string='';
 
   @ViewChild('otpVerification') otpVerification: any;
 
-  closeDeleteModal() { 
+  closeDeleteModal() {
     this.otpVerification.nativeElement.click();
   }
 
-  resetPasswordFlag:boolean=false;
-  forgotPasswordFun(){
+  resetPasswordFlag: boolean = false;
+  forgotPasswordFun() {
     this.errorMessage = '';
     this.password = '';
-    this.otp='';
-    this.otpErrorMessage='';
+    this.otp = '';
+    this.otpErrorMessage = '';
     // this.createPasswordFlag=true;
-    this.enterPasswordFlag=false;
+    this.enterPasswordFlag = false;
     // this.resetPasswordFlag=true;
-    this.verifyOtpButtonFlag=true;
+    this.verifyOtpButtonFlag = true;
   }
 
- 
+
   @ViewChild('otpVerificationModalButton') otpVerificationModalButton !: ElementRef
   isWhatsappLogin: boolean = false;
   phoneNumber: string = '';
-  signInByWhatsappMethodCall(){
+  showOtpInput: boolean = false
+  signInByWhatsappMethodCall() {
     debugger
     this.checkFormValidation();
 
-  if(this.isFormInvalid==true){
-    return
-  } else{
-    this.dataService.signInByWhatsapp(this.phoneNumber)
-    .subscribe(
-      (response: any) => {
-        this.otpVerificationModalButton.nativeElement.click();
-        console.log('OTP sent successfully:', response);
-      },
-      (error) => {
-        console.log("error :", error);
-      }
-    );
-  }
-  }
+    if (this.isFormInvalid == true) {
 
-  verifyOtpByWhatsappMethodCall(){
-    debugger
-    this.dataService.verifyOtpByWhatsapp(this.phoneNumber, this.otp)
-    .subscribe(
-      (response) => {
-console.log(response);
-        this.helperService.subModuleResponseList = response.subModuleResponseList;
-
-       localStorage.setItem('token', response.tokenResponse.access_token);
-       localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
-        this.router.navigate(['/dashboard']);
-        this.otpVerification.nativeElement.click();
-
-        console.log('OTP Verified successfully:', response);
-      },
-      (error) => {
-        this.otpErrorMessage=error.error.message;
-        console.log("error :", error);
-      }
-    );
-  }
-
-
-  signInWithWhatsapp(){
-    debugger
-    
-    this.enableBack=true;
-    this.isWhatsappLogin= true;
-    const res = document.getElementById("mt-3") as HTMLElement | null;
-    if(res){
-      res.style.display="none";
+      return
+    } else {
+      this.dataService.signInByWhatsapp(this.phoneNumber)
+        .subscribe(
+          (response: any) => {
+            this.showOtpInput = true;
+            // this.otpVerificationModalButton.nativeElement.click();
+            console.log('OTP sent successfully:', response);
+          },
+          (error) => {
+            console.log("error :", error);
+          }
+        );
     }
-  
+  }
+
+  @ViewChild('closeOtpVerifyModal') closeOtpVerifyModal!: ElementRef;
+
+  loading: boolean = false;
+  verifyOtpByWhatsappMethodCall() {
+    debugger
+    this.loading = true;
+    this.dataService.verifyOtpByWhatsappNew(this.phoneNumber, this.otp).subscribe((response: any) => {
+      if (response.status) {
+        this.loading = false;
+        this.helperService.subModuleResponseList = response.object.subModuleResponseList;
+        localStorage.setItem('token', response.object.tokenResponse.access_token);
+        localStorage.setItem('refresh_token', response.object.tokenResponse.refresh_token);
+        const helper = new JwtHelperService();
+        const onboardingStep = helper.decodeToken(response.object.tokenResponse.access_token).statusResponse;
+        if (onboardingStep == "6") {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.router.navigate(['/organization-onboarding/personal-information']);
+        }
+
+      } else {
+
+        this.userReq.phone = this.phoneNumber;
+        this._onboardingService.createAdminNew(this.userReq).subscribe((response: any) => {
+          if (response.status) {
+            this.loading = false;
+            this.helperService.subModuleResponseList = response.object.subModuleResponseList;
+            localStorage.setItem('token', response.object.tokenResponse.access_token);
+            localStorage.setItem('refresh_token', response.object.tokenResponse.refresh_token);
+
+            const helper = new JwtHelperService();
+            const onboardingStep = helper.decodeToken(response.object.tokenResponse.access_token).statusResponse;
+            if (onboardingStep == "6") {
+              this.router.navigate(['/dashboard']);
+            } else {
+              this.router.navigate(['/organization-onboarding/personal-information']);
+            }
+          }
+          this.loading = false;
+        }, (error) => {
+          this.loading = false;
+        })
+      }
+    },
+      (error) => {
+        this.otpErrorMessage = error.error.message;
+        this.loading = false;
+      }
+    );
+  }
+
+
+  signInWithWhatsapp() {
+    debugger
+
+    this.enableBack = true;
+    this.isWhatsappLogin = true;
+    const res = document.getElementById("mt-3") as HTMLElement | null;
+    if (res) {
+      res.style.display = "none";
+    }
+
   }
 
   isFormInvalid: boolean = false;
-@ViewChild ('loginForm') loginForm !: NgForm
-checkFormValidation(){
-if(this.loginForm.invalid){
-this.isFormInvalid = true;
-return
-} else {
-  this.isFormInvalid = false;
-}
-}
+  @ViewChild('loginForm') loginForm !: NgForm
+  checkFormValidation() {
+    if (this.loginForm.invalid) {
+      this.isFormInvalid = true;
+      return
+    } else {
+      this.isFormInvalid = false;
+    }
+  }
+
+
+  @ViewChild('userCreateModal') userCreateModal!: ElementRef;
+  @ViewChild('closeUserCreateModal') closeUserCreateModal!: ElementRef;
+  userReq: UserReq = new UserReq();
+  createLoader: boolean = false;
+
 }

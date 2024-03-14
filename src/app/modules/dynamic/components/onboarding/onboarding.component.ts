@@ -354,6 +354,8 @@ export class OnboardingComponent implements OnInit {
 
   organizationPersonalInformation: OrganizationPersonalInformation = {
     id: 0,
+    adminName: '',
+    adminEmail: '',
     name: '',
     email: '',
     password: '',

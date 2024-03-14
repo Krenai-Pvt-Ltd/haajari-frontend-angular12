@@ -1345,7 +1345,7 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
       
     //  console.log("mail send successfully");
     
-     this.helperService.showToast("Mail Send Successfully", Key.TOAST_STATUS_SUCCESS);
+     this.helperService.showToast("Mail Sent Successfully", Key.TOAST_STATUS_SUCCESS);
      this.getUserByUuid();
     //  this.closeRejectModalButton.nativeElement.click();
 

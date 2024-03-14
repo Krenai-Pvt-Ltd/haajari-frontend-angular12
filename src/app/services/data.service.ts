@@ -52,51 +52,51 @@ export class DataService {
   private stepsCompletionStatus = new BehaviorSubject<boolean[]>([false, false, false, false, false, false, false]);
   orgId: any;
   private _key: Key = new Key();
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
   private orgIdEmitter = new EventEmitter<number>();
-  activeTab:boolean=false;
+  activeTab: boolean = false;
   setOrgId(orgId: number) {
     this.orgIdEmitter.emit(orgId);
   }
   getOrgIdEmitter(): EventEmitter<number> {
     return this.orgIdEmitter;
   }
-  
+
   private baseUrl = this._key.base_url;
 
   openSidebar: boolean = true;
-  registerOrganizationUsingCodeParam(codeParam: string): Observable<any>{
+  registerOrganizationUsingCodeParam(codeParam: string): Observable<any> {
     const params = new HttpParams().set("code_param", codeParam);
-    return this.httpClient.put<any>(`${this.baseUrl}/organization/register-organization-using-code-param`, {}, {params});
+    return this.httpClient.put<any>(`${this.baseUrl}/organization/register-organization-using-code-param`, {}, { params });
   }
-  
+
   //Attendance module
 
-  downloadAttendanceDataInExcelFormat(startDate : string, endDate : string): Observable<any> {
+  downloadAttendanceDataInExcelFormat(startDate: string, endDate: string): Observable<any> {
     const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
+      .set('start_date', startDate)
+      .set('end_date', endDate);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/excel/download`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/excel/download`, { params });
   }
-  getAttendanceDetailsByDateDuration(startDate : string, endDate : string, pageNumber: number, itemPerPage: number, search: string, searchBy: string) : Observable<any>{
+  getAttendanceDetailsByDateDuration(startDate: string, endDate: string, pageNumber: number, itemPerPage: number, search: string, searchBy: string): Observable<any> {
     const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    .set("page_number", pageNumber.toString())
-    .set("item_per_page", itemPerPage.toString())
-    .set('search', search)
-    .set('search_by', searchBy);
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date-duration`,{params});
+      .set('start_date', startDate)
+      .set('end_date', endDate)
+      .set("page_number", pageNumber.toString())
+      .set("item_per_page", itemPerPage.toString())
+      .set('search', search)
+      .set('search_by', searchBy);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-by-date-duration`, { params });
   }
 
-  getUserAttendanceDetailsByDateDuration(userUuid:string, role:string, startDate : string, endDate : string) : Observable<any>{
+  getUserAttendanceDetailsByDateDuration(userUuid: string, role: string, startDate: string, endDate: string): Observable<any> {
     const params = new HttpParams()
-    .set('user_uuid', userUuid)
-    .set('user_role', role)
-    .set('start_date', startDate)
-    .set('end_date', endDate);
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-for-user-by-date-duration`,{params});
+      .set('user_uuid', userUuid)
+      .set('user_role', role)
+      .set('start_date', startDate)
+      .set('end_date', endDate);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-for-user-by-date-duration`, { params });
   }
 
   // getAttendanceDetailsByDate(date : string): Observable<any>{
@@ -106,29 +106,29 @@ export class DataService {
   // }
 
 
-  getAttendanceDetailsReportByDate(date : string, pageNumber: number, itemPerPage: number, search: string, searchBy: string, sort: string, sortBy: string, filterCriteria: string): Observable<any>{
+  getAttendanceDetailsReportByDate(date: string, pageNumber: number, itemPerPage: number, search: string, searchBy: string, sort: string, sortBy: string, filterCriteria: string): Observable<any> {
     const params = new HttpParams()
-    .set("date", date)
-    .set("page_number", pageNumber.toString())
-    .set("item_per_page", itemPerPage.toString())
-    .set('search', search)
-    .set('search_by', searchBy)
-    .set('sort_order', sort)
-    .set('sort_by', sortBy)
-    .set('filter_criteria', filterCriteria);
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-report-by-date`, {params});
+      .set("date", date)
+      .set("page_number", pageNumber.toString())
+      .set("item_per_page", itemPerPage.toString())
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('sort_order', sort)
+      .set('sort_by', sortBy)
+      .set('filter_criteria', filterCriteria);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-report-by-date`, { params });
   }
 
 
-  getAttendanceDetailsBreakTimingsReportByDateByUser(uuid : string, date : string){
+  getAttendanceDetailsBreakTimingsReportByDateByUser(uuid: string, date: string) {
     const params = new HttpParams()
-    .set('uuid', uuid)
-    .set('date', date);
+      .set('uuid', uuid)
+      .set('date', date);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-break-timings`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-break-timings`, { params });
   }
-  
-  getTodayEmployeesData(): Observable<any>{
+
+  getTodayEmployeesData(): Observable<any> {
     debugger
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-current-date-employees-data`, {});
   }
@@ -136,7 +136,7 @@ export class DataService {
     const params = new HttpParams()
       .set("startDate", startDate)
       .set("endDate", endDate)
-    return this.httpClient.get<AttendanceWithTopPerformerResponseDto>(`${this.baseUrl}/attendance/get-attendance-top-late-performers-details`, {params});
+    return this.httpClient.get<AttendanceWithTopPerformerResponseDto>(`${this.baseUrl}/attendance/get-attendance-top-late-performers-details`, { params });
   }
   //Organization daily question module
   registerDailyQuestionaire(dailyQuestions: any): Observable<any> {
@@ -168,93 +168,93 @@ export class DataService {
     return this.httpClient.put(`${this.baseUrl}/organization-shift-timing/register`, shiftTiming);
   }
 
-  registerShiftTiming(shiftTimingRequest : any): Observable<any>{
+  registerShiftTiming(shiftTimingRequest: any): Observable<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/organization-shift-timing/register`, shiftTimingRequest);
   }
-  
+
   getShiftTimings(): Observable<any> {
     return this.httpClient.get<ShiftTimings[]>(`${this.baseUrl}/organization-shift-timing/get/last-detail`);
   }
 
-  getAllShiftTimings(): Observable<any>{
+  getAllShiftTimings(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/get/all`);
   }
 
-  deleteOrganizationShiftTiming(organizationShiftTimingId : number): Observable<any>{
+  deleteOrganizationShiftTiming(organizationShiftTimingId: number): Observable<any> {
 
     const params = new HttpParams()
-    .set("organization_shift_timing_id", organizationShiftTimingId);
+      .set("organization_shift_timing_id", organizationShiftTimingId);
 
-    return this.httpClient.delete<any>(`${this.baseUrl}/organization-shift-timing/delete-by-id`, {params});
+    return this.httpClient.delete<any>(`${this.baseUrl}/organization-shift-timing/delete-by-id`, { params });
   }
-  getAllShiftType(): Observable<any>{
+  getAllShiftType(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/shift-type-get-all`);
   }
 
   //User module
-  getUsersByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
+  getUsersByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string): Observable<any> {
     const params = new HttpParams()
-    .set("item_per_page", itemPerPage.toString())
-    .set("page_number", pageNumber.toString())
-    .set('sort_order', sort)
-    .set('sort_by', sortBy)
-    .set('search', search)
-    .set('search_by', searchBy);
-    return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {params});
+      .set("item_per_page", itemPerPage.toString())
+      .set("page_number", pageNumber.toString())
+      .set('sort_order', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy);
+    return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, { params });
   }
 
-  getUsersByFilterForLeaveSetting(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string, leaveSettingId:number) : Observable<any>{
+  getUsersByFilterForLeaveSetting(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string, leaveSettingId: number): Observable<any> {
     const params = new HttpParams()
-    .set("item_per_page", itemPerPage.toString())
-    .set("page_number", pageNumber.toString())
-    .set('sort_order', sort)
-    .set('sort_by', sortBy)
-    .set('search', search)
-    .set('search_by', searchBy)
-    .set('leave_setting_id', leaveSettingId);
-    return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters-leave-setting`, {params});
+      .set("item_per_page", itemPerPage.toString())
+      .set("page_number", pageNumber.toString())
+      .set('sort_order', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('leave_setting_id', leaveSettingId);
+    return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters-leave-setting`, { params });
   }
 
-  getAllUsers(sort: string, sortBy: string, search: string, searchBy: string) : Observable<any>{
+  getAllUsers(sort: string, sortBy: string, search: string, searchBy: string): Observable<any> {
     const params = new HttpParams()
-    .set('sortOrder', sort)
-    .set('sortBy', sortBy)
-    .set('search', search)
-    .set('searchBy', searchBy);
-    return this.httpClient.get<any>(`${this.baseUrl}/users/get/all/by-filters`, {params});
+      .set('sortOrder', sort)
+      .set('sortBy', sortBy)
+      .set('search', search)
+      .set('searchBy', searchBy);
+    return this.httpClient.get<any>(`${this.baseUrl}/users/get/all/by-filters`, { params });
   }
-  
-  changeStatusById(presenceStatus: Boolean, userUuid:string): Observable<any> {
+
+  changeStatusById(presenceStatus: Boolean, userUuid: string): Observable<any> {
     const params = new HttpParams()
       .set("presenceStatus", presenceStatus.toString())
-      .set("userUuid", userUuid );
-    return this.httpClient.put<any>(`${this.baseUrl}/users/change-status`,{},{params});
+      .set("userUuid", userUuid);
+    return this.httpClient.put<any>(`${this.baseUrl}/users/change-status`, {}, { params });
   }
   getActiveUsersCount(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/users/active-count`);
   }
 
-  getPresentUsersCountByDate(date : string): Observable<any>{
+  getPresentUsersCountByDate(date: string): Observable<any> {
     const params = new HttpParams()
-    .set("date", date);
+      .set("date", date);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/present-users-by-date-count`, {params});
-  } 
-  
-  getAbsentUsersCountByDate(date : string): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/present-users-by-date-count`, { params });
+  }
+
+  getAbsentUsersCountByDate(date: string): Observable<any> {
     const params = new HttpParams()
-    .set("date", date);
+      .set("date", date);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/absent-users-by-date-count`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/absent-users-by-date-count`, { params });
   }
   //Team module
   registerTeam(userIds: any, name: string, description: string): Observable<any> {
     const params = new HttpParams()
-    .set("name", name)
-    .set("description", description)
-    return this.httpClient.post(`${this.baseUrl}/team/register`, userIds, {params});
+      .set("name", name)
+      .set("description", description)
+    return this.httpClient.post(`${this.baseUrl}/team/register`, userIds, { params });
   }
-  getTeamsByFilter(itemPerPage: number, pageNumber: number, search: string, searchBy: string, sortBy:string, sortOrder:string): Observable<any> {
+  getTeamsByFilter(itemPerPage: number, pageNumber: number, search: string, searchBy: string, sortBy: string, sortOrder: string): Observable<any> {
     const params = new HttpParams()
       .set("item_per_page", itemPerPage.toString())
       .set("page_number", pageNumber.toString())
@@ -263,7 +263,7 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/team/get-all-by-filters`, { params });
   }
   getAllTeamsWithUsersByUserId(): Observable<TeamResponse[]> {
-    
+
     return this.httpClient.get<TeamResponse[]>(`${this.baseUrl}/team/get-all-teams-with-users-by-user-id`);
   }
 
@@ -272,13 +272,13 @@ export class DataService {
 
     const refreshToken = localStorage.getItem('refresh_token');
 
-    if(refreshToken === null || refreshToken === undefined) {
+    if (refreshToken === null || refreshToken === undefined) {
       throw new Error("Refresh token not found");
     }
-    
+
     const params = new HttpParams().set("refresh_token", refreshToken);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/firebase/refresh-access-token`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/firebase/refresh-access-token`, { params });
   }
 
   registerOnboardingDetails(
@@ -307,7 +307,7 @@ export class DataService {
       params,
     });
   }
-  
+
   // ##################################
   getOrg(orgId: any): Observable<any> {
     const params = new HttpParams().set("id", orgId);
@@ -326,9 +326,9 @@ export class DataService {
       sav
     );
   }
-  
-  
-// #############################################################################
+
+
+  // #############################################################################
   saveDailyQuestions(dailyQuestionsData: any): Observable<any> {
     return this.httpClient.post(
       `http://localhost:8080/api/v1/attendance/save-daily-questions`,
@@ -383,15 +383,15 @@ export class DataService {
   //     params,
   //   });
   // }
-//  ###################################################################################################
-  saveTokenForOrganization(organization : Organization): Observable<any> {
-   
-    return this.httpClient.post(this.baseUrl+ '/savetoken', organization);
+  //  ###################################################################################################
+  saveTokenForOrganization(organization: Organization): Observable<any> {
+
+    return this.httpClient.post(this.baseUrl + '/savetoken', organization);
   }
   saveUserData(token: any): Observable<any> {
     const params = new HttpParams()
-    .set('token', token)
-    return this.httpClient.post(this.baseUrl+'/save-slack-data', {params});
+      .set('token', token)
+    return this.httpClient.post(this.baseUrl + '/save-slack-data', { params });
   }
   loginUser(email: string, password: string): Observable<any> {
     const params = new HttpParams()
@@ -402,10 +402,10 @@ export class DataService {
     });
   }
 
-  logoutUser(email : string): Observable<any>{
+  logoutUser(email: string): Observable<any> {
 
     const params = new HttpParams()
-    .set("email", email);
+      .set("email", email);
 
     return this.httpClient.get(`${this.baseUrl}/user/auth/logout`, {
       params,
@@ -413,18 +413,18 @@ export class DataService {
   }
 
   // saveTokenForOrganization(organization : Organization): Observable<any> {
-   
+
   //   return this.httpClient.post<any>(this.baseUrl+ '/savetoken', organization);
   // }
-  
+
   // getAccessToken(code: string): Observable<any> {
   //   const params = new HttpParams().set("code", code);
   //   return this.httpClient.get(this.baseUrl + "/get-token", { params });
   // }
-  
-  saveLeaveRequest(userUuid:string, request: any): Observable<any> {
+
+  saveLeaveRequest(userUuid: string, request: any): Observable<any> {
     const params = new HttpParams().set("uuid", userUuid);
-    return this.httpClient.post( this.baseUrl+'/user-leave/save-users-leave',request,  {params});
+    return this.httpClient.post(this.baseUrl + '/user-leave/save-users-leave', request, { params });
   }
 
   // TODO
@@ -443,24 +443,24 @@ export class DataService {
       params,
     });
   }
-  
+
   //Just for testing
-  getUserByUserName(name : string) : Observable<any>{
+  getUserByUserName(name: string): Observable<any> {
     const params = new HttpParams().set("name", name);
-    return this.httpClient.get<any>(`${this.baseUrl}/get/user`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/get/user`, { params });
   }
-  
-  assignManagerRoleToMember(teamUuid: string, userUuid: string): Observable<any>{
+
+  assignManagerRoleToMember(teamUuid: string, userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("teamUuid", teamUuid)
-    .set("userUuid", userUuid);
-    return this.httpClient.put(`${this.baseUrl}/team/assign-manager-role-to-member`, {}, {params});
+      .set("teamUuid", teamUuid)
+      .set("userUuid", userUuid);
+    return this.httpClient.put(`${this.baseUrl}/team/assign-manager-role-to-member`, {}, { params });
   }
-  assignMemberRoleToManager(teamUuid: string, userUuid: string): Observable<any>{
+  assignMemberRoleToManager(teamUuid: string, userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("teamUuid", teamUuid)
-    .set("userUuid", userUuid);
-    return this.httpClient.put(`${this.baseUrl}/team/assign-member-role-to-manager`, {}, {params});
+      .set("teamUuid", teamUuid)
+      .set("userUuid", userUuid);
+    return this.httpClient.put(`${this.baseUrl}/team/assign-member-role-to-manager`, {}, { params });
   }
   removeUserFromTeam(teamUuid: string, userUuid: string): Observable<string> {
     const url = `${this.baseUrl}/team/removeUser?teamUuid=${teamUuid}&userUuid=${userUuid}`;
@@ -478,17 +478,17 @@ export class DataService {
     };
     return this.httpClient.post<string>(url, null, httpOptions);
   }
-  
-  checkingUserRole(): Observable<boolean>{
+
+  checkingUserRole(): Observable<boolean> {
     return this.httpClient.get<boolean>(`${this.baseUrl}/team/checking-user-role`);
   }
-  sendInviteToUsers(emails : any): Observable<any>{
+  sendInviteToUsers(emails: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/email/send-invite-to-users`, emails);
   }
-  
-  deleteTeam(id : number): Observable<any>{
+
+  deleteTeam(id: number): Observable<any> {
     const params = new HttpParams().set("teamId", id);
-    return this.httpClient.delete(`${this.baseUrl}/team/delete-team/Id`,{params});
+    return this.httpClient.delete(`${this.baseUrl}/team/delete-team/Id`, { params });
   }
   // deleteTeam(teamId: any): Observable<any> {
   //   return this.httpClient.delete(
@@ -496,95 +496,95 @@ export class DataService {
   //   );
   // }SS
   // ###################################################################
-  
-  
+
+
   // ###########################################################
-  
+
   getTodaysLeaveCount(): Observable<any> {
-    return this.httpClient.get( this.baseUrl+'/user-leave/todays-leave-count');
+    return this.httpClient.get(this.baseUrl + '/user-leave/todays-leave-count');
   }
 
   // slackDataPlaceholderFlag:boolean=false;
   getSlackChannelsDataToTeam(uniqueUuid: string): Observable<any> {
     const params = new HttpParams().set("uniqueUuid", uniqueUuid);
-    return this.httpClient.get<any>(`${this.baseUrl}/team/users`, {params});
-    
+    return this.httpClient.get<any>(`${this.baseUrl}/team/users`, { params });
+
   }
-  
-  
-  getAllRoles(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string, ownerRoleId: number) : Observable<any>{
+
+
+  getAllRoles(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string, ownerRoleId: number): Observable<any> {
     const params = new HttpParams()
-    .set("item_per_page", itemPerPage.toString())
-    .set("page_number", pageNumber.toString())
-    .set('sort_order', sort)
-    .set('sort_by', sortBy)
-    .set('search', search)
-    .set('search_by', searchBy)
-    .set('owner_role_id', ownerRoleId);
-    return this.httpClient.get<any>(`${this.baseUrl}/role/get/all`, {params});
+      .set("item_per_page", itemPerPage.toString())
+      .set("page_number", pageNumber.toString())
+      .set('sort_order', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('owner_role_id', ownerRoleId);
+    return this.httpClient.get<any>(`${this.baseUrl}/role/get/all`, { params });
   }
   getAttendanceLatePerformers(startDate: string, endDate: string): Observable<AttendanceWithLatePerformerResponseDto> {
     const params = new HttpParams()
       .set("startDate", startDate)
       .set("endDate", endDate)
-    return this.httpClient.get<AttendanceWithLatePerformerResponseDto>(`${this.baseUrl}/attendance/get-attendance-late-performers-details`, {params});
+    return this.httpClient.get<AttendanceWithLatePerformerResponseDto>(`${this.baseUrl}/attendance/get-attendance-late-performers-details`, { params });
   }
-  getSubModuleByRole(roleId : number): Observable<any>{
+  getSubModuleByRole(roleId: number): Observable<any> {
     const params = new HttpParams().set("role_id", roleId);
-    return this.httpClient.get<any>(`${this.baseUrl}/role/sub-module`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/role/sub-module`, { params });
   }
 
-  createRole(roleRequest : RoleRequest): Observable<any>{
+  createRole(roleRequest: RoleRequest): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/role/register`, roleRequest);
   }
-  updateRoleWithPermissions(roleRequest : RoleRequest): Observable<any> {
+  updateRoleWithPermissions(roleRequest: RoleRequest): Observable<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/role/update`, roleRequest);
   }
-  
+
   //Just for testing purpose
-  callingHelloWorld():Observable<any>{
+  callingHelloWorld(): Observable<any> {
     debugger
     return this.httpClient.get<any>(`${this.baseUrl}/slack/hello`);
   }
 
-  getEmployeesStatus():Observable<any>{
+  getEmployeesStatus(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-employee-onboarding-status`);
   }
 
-  
-  getLastApprovedAndLastRejecetd():Observable<any>{
+
+  getLastApprovedAndLastRejecetd(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-status`);
   }
 
-  
-  getUserByUuid(userUuid:any):Observable<any>{
+
+  getUserByUuid(userUuid: any): Observable<any> {
     const params = new HttpParams()
-    .set("uuid", userUuid);
-    return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-user-by-uuid`, {params});
+      .set("uuid", userUuid);
+    return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-user-by-uuid`, { params });
   }
 
-  assignRoleToUserInUserAndControl(userId: any, roleId: any, description: string): Observable<any>{
+  assignRoleToUserInUserAndControl(userId: any, roleId: any, description: string): Observable<any> {
     const params = new HttpParams()
-    .set("user_id", Number(userId))
-    .set("role_id", Number(roleId))
-    .set("description", description);
-    return this.httpClient.post<any>(`${this.baseUrl}/user-and-control/register`,{}, {params});
+      .set("user_id", Number(userId))
+      .set("role_id", Number(roleId))
+      .set("description", description);
+    return this.httpClient.post<any>(`${this.baseUrl}/user-and-control/register`, {}, { params });
   }
-   
-  updateStatusUser(userUuid:string, statusType:string):Observable<any>{
+
+  updateStatusUser(userUuid: string, statusType: string): Observable<any> {
     const params = new HttpParams()
-    .set("user_uuid", userUuid)
-    .set("status_type", statusType);
+      .set("user_uuid", userUuid)
+      .set("status_type", statusType);
     debugger
-    return this.httpClient.put<any>(`${this.baseUrl}/employee-onboarding-status/change-employee-onboarding-status`,{}, {params});
+    return this.httpClient.put<any>(`${this.baseUrl}/employee-onboarding-status/change-employee-onboarding-status`, {}, { params });
   }
 
   setEmployeePersonalDetails(userPersonalInformationRequest: UserPersonalInformationRequest, userUuid: string): Observable<any> {
     debugger
     const params = new HttpParams()
-    .set("userUuid", userUuid);
+      .set("userUuid", userUuid);
     console.log("save")
-    return this.httpClient.put<any>(`${this.baseUrl}/users/save/employeePersonalDetails`, userPersonalInformationRequest, {params})
+    return this.httpClient.put<any>(`${this.baseUrl}/users/save/employeePersonalDetails`, userPersonalInformationRequest, { params })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Error in setEmployeePersonalDetails:', error);
@@ -596,9 +596,9 @@ export class DataService {
   setEmployeeOnboardingPersonalDetails(userPersonalInformationRequest: UserPersonalInformationRequest, userUuid: string): Observable<any> {
     debugger
     const params = new HttpParams()
-    .set("userUuid", userUuid);
+      .set("userUuid", userUuid);
     console.log("save")
-    return this.httpClient.put<any>(`${this.baseUrl}/users/save/onboardingPersonalDetail`, userPersonalInformationRequest, {params})
+    return this.httpClient.put<any>(`${this.baseUrl}/users/save/onboardingPersonalDetail`, userPersonalInformationRequest, { params })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Error in setEmployeePersonalDetails:', error);
@@ -611,7 +611,7 @@ export class DataService {
     debugger
     // const params = new HttpParams()
     // .set("userUuid", userUuid);
-   
+
     return this.httpClient.put<any>(`${this.baseUrl}/users/save/employeePersonalDetails`, userPersonalInformationRequest)
       .pipe(
         catchError((error: HttpErrorResponse) => {
@@ -619,40 +619,40 @@ export class DataService {
           return throwError(error);
         })
       );
-    }
-  getUserAndControlRolesByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string):Observable<any>{
+  }
+  getUserAndControlRolesByFilter(itemPerPage: number, pageNumber: number, sort: string, sortBy: string, search: string, searchBy: string): Observable<any> {
     const params = new HttpParams()
-    .set("item_per_page", itemPerPage.toString())
-    .set("page_number", pageNumber.toString())
-    .set('sort', sort)
-    .set('sort_by', sortBy)
-    .set('search', search)
-    .set('search_by', searchBy);
+      .set("item_per_page", itemPerPage.toString())
+      .set("page_number", pageNumber.toString())
+      .set('sort', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy);
     debugger
-    return this.httpClient.get<any>(`${this.baseUrl}/user-and-control/get-all`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/user-and-control/get-all`, { params });
   }
 
-  addAdditionalNotes(additionalNotes: AdditionalNotes, uuid: string): Observable<any>{
+  addAdditionalNotes(additionalNotes: AdditionalNotes, uuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("uuid", uuid);
+      .set("uuid", uuid);
 
-    return this.httpClient.post<any>(`${this.baseUrl}/additional-notes/add`, additionalNotes, {params});
+    return this.httpClient.post<any>(`${this.baseUrl}/additional-notes/add`, additionalNotes, { params });
   }
-  
-  
+
+
 
   getNewUserPersonalInformation(userUuid: string): Observable<any> {
     debugger
     const params = new HttpParams()
-    .set("userUuid", userUuid);
+      .set("userUuid", userUuid);
     const url = `${this.baseUrl}/users/get/employeePersonalDetails`;
-    return this.httpClient.get(url, {params});
+    return this.httpClient.get(url, { params });
   }
-  
+
   setEmployeeAddressDetails(userAddressDetailsRequest: UserAddressDetailsRequest, userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("userUuid", userUuid);
-    return this.httpClient.put<any>(`${this.baseUrl}/user-address/save/user-address`, userAddressDetailsRequest, {params})
+      .set("userUuid", userUuid);
+    return this.httpClient.put<any>(`${this.baseUrl}/user-address/save/user-address`, userAddressDetailsRequest, { params })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Error in setEmployeePersonalDetails:', error);
@@ -660,18 +660,18 @@ export class DataService {
         })
       );
   }
-  
+
   getNewUserAddressDetails(userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("userUuid", userUuid);
+      .set("userUuid", userUuid);
     const url = `${this.baseUrl}/user-address/get/user-address`;
-    return this.httpClient.get(url, {params});
+    return this.httpClient.get(url, { params });
   }
 
   setEmployeeAcademics(userAcademicsDetailRequest: UserAcademicsDetailRequest, userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("userUuid", userUuid);
-    return this.httpClient.put<any>(`${this.baseUrl}/user-academics/save/user-academics`, userAcademicsDetailRequest, {params})
+      .set("userUuid", userUuid);
+    return this.httpClient.put<any>(`${this.baseUrl}/user-academics/save/user-academics`, userAcademicsDetailRequest, { params })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Error in setEmployeePersonalDetails:', error);
@@ -682,23 +682,23 @@ export class DataService {
 
   getUserAcademicDetails(userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("userUuid", userUuid);
+      .set("userUuid", userUuid);
     const url = `${this.baseUrl}/user-academics/get/user-academics`;
-    return this.httpClient.get(url, {params});
+    return this.httpClient.get(url, { params });
   }
 
-  getEmployeeAdressDetails(userUuid:string):Observable<any>{
+  getEmployeeAdressDetails(userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("userUuid", userUuid)
-   
-    return this.httpClient.get<any>(`${this.baseUrl}/user-address/get/user-address`, {params});
+      .set("userUuid", userUuid)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/user-address/get/user-address`, { params });
   }
-  
+
   setEmployeeDocumentsDetails(userDocumentsDetailsRequest: UserDocumentsDetailsRequest, userUuid: string): Observable<any> {
     debugger
     const params = new HttpParams()
-    .set("userUuid", userUuid);
-    return this.httpClient.put<any>(`${this.baseUrl}/user-documents-details/save/user-documents`, userDocumentsDetailsRequest, {params})
+      .set("userUuid", userUuid);
+    return this.httpClient.put<any>(`${this.baseUrl}/user-documents-details/save/user-documents`, userDocumentsDetailsRequest, { params })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Error in setEmployeePersonalDetails:', error);
@@ -710,56 +710,56 @@ export class DataService {
   getEmployeeDocumentDetails(userUuid: string): Observable<any> {
     debugger
     const params = new HttpParams()
-    .set("userUuid", userUuid);
+      .set("userUuid", userUuid);
     const url = `${this.baseUrl}/user-documents-details/get/user-documents`;
-    return this.httpClient.get(url, {params});
+    return this.httpClient.get(url, { params });
   }
 
   getEmployeeDocumentAsList(userUuid: string): Observable<any> {
     debugger
     const params = new HttpParams()
-    .set("userUuid", userUuid);
+      .set("userUuid", userUuid);
     const url = `${this.baseUrl}/user-documents-details/get/user-documents-as-List`;
-    return this.httpClient.get(url, {params});
+    return this.httpClient.get(url, { params });
   }
 
   setEmployeeExperienceDetails(experiences: UserExperience[], userUuid: string): Observable<any> {
     const params = new HttpParams().set("userUuid", userUuid);
     return this.httpClient.put<any>(`${this.baseUrl}/user-experiences/save/experience`, experiences, { params })
-        .pipe(
-            catchError((error: HttpErrorResponse) => {
-                console.error('Error in setEmployeeExperienceDetails:', error);
-                return throwError(error);
-            })
-        );
-}
-getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperience[]> {
-  debugger
-  const params = new HttpParams().set("userUuid", userUuid);
-  return this.httpClient.get<UserExperience[]>(`${this.baseUrl}/user-experiences/getExperiences`, { params });
-}
-
-
-  getEmployeeExperiencesDetails(userUuid:string):Observable<any>{
-    const params = new HttpParams()
-    .set("userUuid", userUuid)
-   
-    return this.httpClient.get<any>(`${this.baseUrl}/user-experiences/getExperiences`, {params});
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeeExperienceDetails:', error);
+          return throwError(error);
+        })
+      );
+  }
+  getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperience[]> {
+    debugger
+    const params = new HttpParams().set("userUuid", userUuid);
+    return this.httpClient.get<UserExperience[]>(`${this.baseUrl}/user-experiences/getExperiences`, { params });
   }
 
-  
 
-  getEmployeeAcademicDetails(userUuid:string):Observable<any>{
+  getEmployeeExperiencesDetails(userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("userUuid", userUuid)
-   
-    return this.httpClient.get<any>(`${this.baseUrl}/user-academics/user/getUserAcademics`, {params});
+      .set("userUuid", userUuid)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/user-experiences/getExperiences`, { params });
+  }
+
+
+
+  getEmployeeAcademicDetails(userUuid: string): Observable<any> {
+    const params = new HttpParams()
+      .set("userUuid", userUuid)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/user-academics/user/getUserAcademics`, { params });
   }
 
   setEmployeeEmergencyContactDetails(userEmergencyContactDetailsRequest: UserEmergencyContactDetailsRequest[], userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("userUuid", userUuid);
-    return this.httpClient.put<any>(`${this.baseUrl}/user-emergency-contacts/save/emergency-contacts`, userEmergencyContactDetailsRequest, {params})
+      .set("userUuid", userUuid);
+    return this.httpClient.put<any>(`${this.baseUrl}/user-emergency-contacts/save/emergency-contacts`, userEmergencyContactDetailsRequest, { params })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Error in setEmployeePersonalDetails:', error);
@@ -767,17 +767,17 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
         })
       );
   }
-  getEmployeeContactsDetails(userUuid:string):Observable<UserEmergencyContactDetailsRequest[]>{
+  getEmployeeContactsDetails(userUuid: string): Observable<UserEmergencyContactDetailsRequest[]> {
     const params = new HttpParams()
-    .set("userUuid", userUuid)
-   
-    return this.httpClient.get<UserEmergencyContactDetailsRequest[]>(`${this.baseUrl}/user-emergency-contacts/get/emergency-contacts-new`, {params});
+      .set("userUuid", userUuid)
+
+    return this.httpClient.get<UserEmergencyContactDetailsRequest[]>(`${this.baseUrl}/user-emergency-contacts/get/emergency-contacts-new`, { params });
   }
 
   setEmployeeBankDetails(userBankDetailRequest: UserBankDetailRequest, userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("userUuid", userUuid);
-    return this.httpClient.put<any>(`${this.baseUrl}/user-bank-details/save/bank-details`, userBankDetailRequest, {params})
+      .set("userUuid", userUuid);
+    return this.httpClient.put<any>(`${this.baseUrl}/user-bank-details/save/bank-details`, userBankDetailRequest, { params })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Error in setEmployeePersonalDetails:', error);
@@ -785,25 +785,25 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
         })
       );
   }
-  getEmployeeBankDetails(userUuid:string):Observable<any>{
+  getEmployeeBankDetails(userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("userUuid", userUuid)
-   
-    return this.httpClient.get<any>(`${this.baseUrl}/user-bank-details/get/bank-details`, {params});
+      .set("userUuid", userUuid)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/user-bank-details/get/bank-details`, { params });
   }
 
-  getOnboardingFormPreview(userUuid:string):Observable<any>{
+  getOnboardingFormPreview(userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("userUuid", userUuid)
-    
-    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/preview`, {params});
+      .set("userUuid", userUuid)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/get/onboarding/preview`, { params });
   }
 
-  getUserLeaveLog(userUuid:string):Observable<any>{
+  getUserLeaveLog(userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("userUuid", userUuid)
-   
-    return this.httpClient.get<any>(`${this.baseUrl}/user-leave-logs/leave-log`, {params});
+      .set("userUuid", userUuid)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave-logs/leave-log`, { params });
   }
 
   getUserLeaveLogByStatus(userUuid: string, status?: string): Observable<any> {
@@ -813,90 +813,95 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     }
     return this.httpClient.get<any>(`${this.baseUrl}/user-leave-logs/leave-log-by-status`, { params });
   }
-  
-  getOrganizationOnboardingDate(userUuid:string):Observable<any>{
+
+  getOrganizationOnboardingDate(userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("uuid", userUuid)
-   
-    return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-organization-onboarding-date`, {params});
+      .set("uuid", userUuid)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/employee-onboarding-status/get-organization-onboarding-date`, { params });
   }
 
   get stepsCompletionStatus$() {
     return this.stepsCompletionStatus.asObservable();
   }
-  
-  stepIndex:number=-1;
+
+  stepIndex: number = -1;
   markStepAsCompleted(stepIndex: number): void {
-    this.stepIndex=stepIndex;
+    this.stepIndex = stepIndex;
   }
 
 
-  getAttendanceRuleByOrganization(){
+  getAttendanceRuleByOrganization() {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/get`);
   }
 
-  getRegisteredAttendanceRuleByOrganization(){
+  getRegisteredAttendanceRuleByOrganization() {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/get/registered-response`);
   }
 
-  registerAttendanceRuleDefinition(attendanceRuleDefinitionRequest : AttendanceRuleDefinitionRequest):Observable<any>{
+  registerAttendanceRuleDefinition(attendanceRuleDefinitionRequest: AttendanceRuleDefinitionRequest): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/attendance/rule/definition/register`, attendanceRuleDefinitionRequest);
   }
 
-  getAttendanceRuleWithAttendanceRuleDefinition(): Observable<any>{
+  getAttendanceRuleWithAttendanceRuleDefinition(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/with/attendance/rule/definition/get`);
   }
 
-  getAttendanceRuleDefinitionById(attendanceRuleDefinitionId : number): Observable<any>{
+  //used in onboarding process (new api)
+  getAttendanceRuleWithAttendanceRuleDefinitionNew(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/with/attendance/rule/definition/get-new`);
+  }
+
+  getAttendanceRuleDefinitionById(attendanceRuleDefinitionId: number): Observable<any> {
 
     const params = new HttpParams()
-    .set("attendance_rule_definition_id", attendanceRuleDefinitionId);
+      .set("attendance_rule_definition_id", attendanceRuleDefinitionId);
 
     debugger
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/get/by/id`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/get/by/id`, { params });
   }
 
-  getAttendanceRuleDefinition(attendanceRuleId : number): Observable<any>{
+  getAttendanceRuleDefinition(attendanceRuleId: number): Observable<any> {
     const params = new HttpParams()
-    .set("attendance_rule_id", attendanceRuleId);
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/get`,{params});
+      .set("attendance_rule_id", attendanceRuleId);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/get`, { params });
   }
 
-  getDeductionType():Observable<any>{
+  getDeductionType(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/deduction-type/get`);
   }
 
-  getOvertimeType():Observable<any>{
+  getOvertimeType(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/rule/definition/overtime-type/get`);
   }
 
-  deleteAttendanceRuleDefinition(attendanceRuleDefinitionId : number): Observable<any>{
+  deleteAttendanceRuleDefinition(attendanceRuleDefinitionId: number): Observable<any> {
     const params = new HttpParams()
-    .set("attendance_rule_definition_id",attendanceRuleDefinitionId);
+      .set("attendance_rule_definition_id", attendanceRuleDefinitionId);
 
-    return this.httpClient.delete<any>(`${this.baseUrl}/attendance/rule/definition/delete`,{params});
+    return this.httpClient.delete<any>(`${this.baseUrl}/attendance/rule/definition/delete`, { params });
   }
 
-  getEmployeeManagerDetails(userUuid:string):Observable<any>{
+  getEmployeeManagerDetails(userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("uuid", userUuid)
-   
-    return this.httpClient.get<UserDto[]>(`${this.baseUrl}/employee-onboarding-status/get-manager`, {params});
+      .set("uuid", userUuid)
+
+    return this.httpClient.get<UserDto[]>(`${this.baseUrl}/employee-onboarding-status/get-manager`, { params });
   }
 
-  getEmployeeDocumentsDetails(userUuid:string):Observable<any>{
+  getEmployeeDocumentsDetails(userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("userUuid", userUuid)
-   
-    return this.httpClient.get<UserDto[]>(`${this.baseUrl}/user-documents-details/get/user-documents`, {params});
-  }
-  
-  selectUserForAttendanceRule(isSelectedForAttendanceRule : boolean, userUuid : string): Observable<any>{
-    const params = new HttpParams()
-    .set("is_selected_for_attendance_rule", isSelectedForAttendanceRule.toString())
-    .set("user_uuid", userUuid);
+      .set("userUuid", userUuid)
 
-    return this.httpClient.put<any>(`${this.baseUrl}/users/select-for-attendance-rule`, {}, {params});
+    return this.httpClient.get<UserDto[]>(`${this.baseUrl}/user-documents-details/get/user-documents`, { params });
+  }
+
+  selectUserForAttendanceRule(isSelectedForAttendanceRule: boolean, userUuid: string): Observable<any> {
+    const params = new HttpParams()
+      .set("is_selected_for_attendance_rule", isSelectedForAttendanceRule.toString())
+      .set("user_uuid", userUuid);
+
+    return this.httpClient.put<any>(`${this.baseUrl}/users/select-for-attendance-rule`, {}, { params });
   }
 
 
@@ -938,7 +943,7 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
 
     // const params = { orgUuid };
 
-    return this.httpClient.get<FullLeaveSettingResponse[]>(`${this.baseUrl}/user-leave-rule/get/leave-full-rule`, { headers});
+    return this.httpClient.get<FullLeaveSettingResponse[]>(`${this.baseUrl}/user-leave-rule/get/leave-full-rule`, { headers });
   }
 
   getLeaveSettingInformationById(leaveSettingId: number): Observable<FullLeaveSettingResponse> {
@@ -957,41 +962,45 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.delete<void>(url);
   }
 
-  sendMailToEmployeesToCompleteOnboarding(email:string):Observable<any>{
+  sendMailToEmployeesToCompleteOnboarding(email: string): Observable<any> {
 
     const params = new HttpParams()
-    .set("email", email);
-    return this.httpClient.post<any>(`${this.baseUrl}/users/send-invite-to-employees`, {}, {params});
+      .set("email", email);
+    return this.httpClient.post<any>(`${this.baseUrl}/users/send-invite-to-employees`, {}, { params });
   }
 
-  getAttendanceModeAll(): Observable<any>{
+  getAttendanceModeAll(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/mode/get/all`);
   }
 
 
-  getAttendanceMode() : Observable<any>{
+  getAttendanceMode(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/mode/get`);
+  }
+
+  getAttendanceModeNew(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/mode/get-new`);
   }
 
   updateAttendanceMode(attendanceModeId: number): Observable<any> {
     const params = new HttpParams()
-    .set("attendance_mode_id", attendanceModeId);
+      .set("attendance_mode_id", attendanceModeId);
 
-    return this.httpClient.put<any>(`${this.baseUrl}/organization/update/attendance-mode`, {}, {params});
+    return this.httpClient.put<any>(`${this.baseUrl}/organization/update/attendance-mode`, {}, { params });
   }
 
-  getBestPerformerAttendanceDetails(startDate : string, endDate : string): Observable<any>{
+  getBestPerformerAttendanceDetails(startDate: string, endDate: string): Observable<any> {
     const params = new HttpParams()
-    .set("start_date", startDate)
-    .set("end_date", endDate);
+      .set("start_date", startDate)
+      .set("end_date", endDate);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-best-performer-attendance-details`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-best-performer-attendance-details`, { params });
   }
-  getLateEmployeeAttendanceDetails(dataFetchingType : string): Observable<any>{
+  getLateEmployeeAttendanceDetails(dataFetchingType: string): Observable<any> {
     const params = new HttpParams()
-    .set("data_fetching_type", dataFetchingType);
+      .set("data_fetching_type", dataFetchingType);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-late-employee-attendance-details`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-late-employee-attendance-details`, { params });
   }
 
 
@@ -1005,63 +1014,63 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     );
   }
 
-  getAttendanceReportByDateDuration(startDate : string, endDate : string, pageNumber : number, itemPerPage : number, search : string, searchBy : string): Observable<any>{
+  getAttendanceReportByDateDuration(startDate: string, endDate: string, pageNumber: number, itemPerPage: number, search: string, searchBy: string): Observable<any> {
 
     const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    .set("page_number", pageNumber.toString())
-    .set("item_per_page", itemPerPage.toString())
-    .set('search', search)
-    .set('search_by', searchBy);
+      .set('start_date', startDate)
+      .set('end_date', endDate)
+      .set("page_number", pageNumber.toString())
+      .set("item_per_page", itemPerPage.toString())
+      .set('search', search)
+      .set('search_by', searchBy);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration`, { params });
   }
 
-  getDayWiseStatus(userUuid : string,startDate : string, endDate : string): Observable<any>{
+  getDayWiseStatus(userUuid: string, startDate: string, endDate: string): Observable<any> {
     const params = new HttpParams()
-    .set("user_uuid", userUuid)
-    .set("start_date", startDate)
-    .set("end_date", endDate);
+      .set("user_uuid", userUuid)
+      .set("start_date", startDate)
+      .set("end_date", endDate);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-day-wise-status`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-day-wise-status`, { params });
   }
 
-  getAttendanceReportByDateDurationByUser(startDate : string, endDate : string): Observable<any>{
+  getAttendanceReportByDateDurationByUser(startDate: string, endDate: string): Observable<any> {
     const params = new HttpParams()
-    .set("start_date", startDate)
-    .set("end_date", endDate);
+      .set("start_date", startDate)
+      .set("end_date", endDate);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration-by-user`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration-by-user`, { params });
   }
 
 
-  checkinCheckoutInSlack(userUuid : string, command : string): Observable<any>{
+  checkinCheckoutInSlack(userUuid: string, command: string): Observable<any> {
     const params = new HttpParams()
-    .set("user_uuid", userUuid)
-    .set("command", command);
+      .set("user_uuid", userUuid)
+      .set("command", command);
 
-    return this.httpClient.post<any>(`${this.baseUrl}/attendance/checkin-checkout-from-dashboard`, {}, {params});
+    return this.httpClient.post<any>(`${this.baseUrl}/attendance/checkin-checkout-from-dashboard`, {}, { params });
   }
 
-  checkinCheckoutStatus(userUuid : string): Observable<any>{
+  checkinCheckoutStatus(userUuid: string): Observable<any> {
     const params = new HttpParams()
-    .set("user_uuid", userUuid)
+      .set("user_uuid", userUuid)
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/checkin-checkout-status`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/checkin-checkout-status`, { params });
   }
 
-  getAttendanceLogs(uuid : string, date : string): Observable<any>{
+  getAttendanceLogs(uuid: string, date: string): Observable<any> {
     const params = new HttpParams()
-    .set("uuid", uuid)
-    .set("date", date);
+      .set("uuid", uuid)
+      .set("date", date);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-logs`,{params});
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-logs`, { params });
   }
 
-  findUsersOfLeaveSetting(leaveSettingId: number , searchText: string, pageNumber: number, itemPerPage: number): Observable<any> {
+  findUsersOfLeaveSetting(leaveSettingId: number, searchText: string, pageNumber: number, itemPerPage: number): Observable<any> {
     const params = new HttpParams().set('search', searchText).set('leaveSettingId', leaveSettingId)
-    .set('pageNumber', pageNumber).set('itemPerPage', itemPerPage);
+      .set('pageNumber', pageNumber).set('itemPerPage', itemPerPage);
     return this.httpClient.get(`${this.baseUrl}/user-leave-rule/leaveSettingId/users-leave-setting`, { params });
   }
 
@@ -1076,14 +1085,14 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     const url = `${this.baseUrl}/user-leave-rule/delete-user-from-leave-setting-rule?userUuid=${userUuid}`;
     return this.httpClient.delete<void>(url);
   }
-  
+
 
   addUserToLeaveRule(userUuid: string, leaveSettingId: number): Observable<any> {
     const url = `${this.baseUrl}/user-leave-rule/add-users-in-leave-setting?userUuid=${userUuid}&leaveSettingId=${leaveSettingId}`;
     return this.httpClient.post<any>(url, {});
   }
 
-  testing(testing : Testing): Observable<any>{
+  testing(testing: Testing): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/testing/register`, testing);
   }
 
@@ -1108,7 +1117,7 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
   }
 
 
-  setOrganizationAddressDetail(organizationAddressDetail: OrganizationAddressDetail): Observable<any>{
+  setOrganizationAddressDetail(organizationAddressDetail: OrganizationAddressDetail): Observable<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/organization-address/save-address`, organizationAddressDetail);
 
   }
@@ -1118,17 +1127,17 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     return this.httpClient.get<any>(url);
   }
 
-  getAllRoleAccessibilityType():Observable<any> {
+  getAllRoleAccessibilityType(): Observable<any> {
 
     return this.httpClient.get<any>(`${this.baseUrl}/role/get-all-accessibility-type`, {});
   }
 
-  getOrganizationLatLong(userUuid: string):Observable<any> {
+  getOrganizationLatLong(userUuid: string): Observable<any> {
     const url = `${this.baseUrl}/user-verification/address/latlong?userUuid=${userUuid}`;
     return this.httpClient.get<any>(url, {});
   }
 
-  markAttendaceWithLocation(employeeAttendanceLocation :EmployeeAttendanceLocation, userUuid: string): Observable<any>{
+  markAttendaceWithLocation(employeeAttendanceLocation: EmployeeAttendanceLocation, userUuid: string): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/attendance/check-in-location?userUuid=${userUuid}`, employeeAttendanceLocation);
 
   }
@@ -1137,116 +1146,121 @@ getEmployeeExperiencesDetailsOnboarding(userUuid: string): Observable<UserExperi
     const url = `${this.baseUrl}/sidebar-component/get-onboarding-status?userUuid=${userUuid}`;
     return this.httpClient.get<OnboardingSidebarResponse>(url, {});
   }
-  
-  getRoleById(roleId: number): Observable<any>{
-    const params = new HttpParams()
-    .set("role_id", roleId);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/role/get-by-id`, {params});
+  getRoleById(roleId: number): Observable<any> {
+    const params = new HttpParams()
+      .set("role_id", roleId);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/role/get-by-id`, { params });
   }
 
   setReasonOfRejection(userUuid: string, reasonOfRejectionProfile: ReasonOfRejectionProfile): Observable<any> {
     const url = `${this.baseUrl}/employee-onboarding-status/save-rejection-reason?userUuid=${userUuid}`;
     return this.httpClient.put<any>(url, reasonOfRejectionProfile);
-}
+  }
 
-statusResponseMailToUser(userUuid:string, requestString:string): Observable<any> {
+  statusResponseMailToUser(userUuid: string, requestString: string): Observable<any> {
 
-  const params = new HttpParams()
-    .set("userUuid", userUuid)
-    .set("requestString", requestString);
+    const params = new HttpParams()
+      .set("userUuid", userUuid)
+      .set("requestString", requestString);
 
-    return this.httpClient.post<any>(`${this.baseUrl}/notification/send/statusNotification/user`, {}, {params});
-}
+    return this.httpClient.post<any>(`${this.baseUrl}/notification/send/statusNotification/user`, {}, { params });
+  }
 
-getAttendanceDetailsCount(date : string): Observable<any> {
-  const params = new HttpParams().set("date", date);
+  getAttendanceDetailsCount(date: string): Observable<any> {
+    const params = new HttpParams().set("date", date);
 
-  return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-count`, {params});
-}
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-details-count`, { params });
+  }
 
-getAccessibleSubModuleResponse(): Observable<any>{
-  return this.httpClient.get<any>(`${this.baseUrl}/role/get-accessible-sub-module-by-role-id`);
-}
+  getAccessibleSubModuleResponse(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/role/get-accessible-sub-module-by-role-id`);
+  }
 
-verifyUserOtp(email: string, otp: string): Observable<any> {
-  const params = new HttpParams().set("email", email).set("otp", otp);
-  return this.httpClient.post(`${this.baseUrl}/user/auth/verify/otp`, {}, { params });
-}
+  verifyUserOtp(email: string, otp: string): Observable<any> {
+    const params = new HttpParams().set("email", email).set("otp", otp);
+    return this.httpClient.post(`${this.baseUrl}/user/auth/verify/otp`, {}, { params });
+  }
 
-checkUserPresence(email: string): Observable<any> {
-  const params = new HttpParams().set("email", email);
-  return this.httpClient.post(`${this.baseUrl}/user/auth/check/user/presence`, {}, { params });
-}
+  checkUserPresence(email: string): Observable<any> {
+    const params = new HttpParams().set("email", email);
+    return this.httpClient.post(`${this.baseUrl}/user/auth/check/user/presence`, {}, { params });
+  }
 
-sendUserOtpToMail(email: string): Observable<any> {
-  const params = new HttpParams().set("email", email);
-  return this.httpClient.post(`${this.baseUrl}/user/auth/sent/otp`, {}, { params });
-}
+  sendUserOtpToMail(email: string): Observable<any> {
+    const params = new HttpParams().set("email", email);
+    return this.httpClient.post(`${this.baseUrl}/user/auth/sent/otp`, {}, { params });
+  }
 
-registerPassword(email: string, password: string): Observable<any> {
-  const params = new HttpParams().set("email", email).set("password", password);
-  return this.httpClient.post(`${this.baseUrl}/user/auth/save/password`, {}, { params });
-}
+  registerPassword(email: string, password: string): Observable<any> {
+    const params = new HttpParams().set("email", email).set("password", password);
+    return this.httpClient.post(`${this.baseUrl}/user/auth/save/password`, {}, { params });
+  }
 
-resetPassword(email: string, password: string): Observable<any> {
-  const params = new HttpParams().set("email", email).set("password", password);
-  return this.httpClient.post(`${this.baseUrl}/user/auth/reset/password`, {}, { params });
-}
+  resetPassword(email: string, password: string): Observable<any> {
+    const params = new HttpParams().set("email", email).set("password", password);
+    return this.httpClient.post(`${this.baseUrl}/user/auth/reset/password`, {}, { params });
+  }
 
-saveUserOnboardingFormStatus(userUuid: string): Observable<any> {
-  // Construct the URL with userUuid as a parameter
-  const url = `${this.baseUrl}/get/onboarding/save-form-status?userUuid=${userUuid}`;
-  return this.httpClient.put<any>(url, {});
-}
+  saveUserOnboardingFormStatus(userUuid: string): Observable<any> {
+    // Construct the URL with userUuid as a parameter
+    const url = `${this.baseUrl}/get/onboarding/save-form-status?userUuid=${userUuid}`;
+    return this.httpClient.put<any>(url, {});
+  }
 
-getOrganizationRegistrationDate(): Observable<any>{
+  getOrganizationRegistrationDate(): Observable<any> {
 
-  return this.httpClient.get<any>(`${this.baseUrl}/organization/registration/date/get`);
-}
+    return this.httpClient.get<any>(`${this.baseUrl}/organization/registration/date/get`);
+  }
 
-signInByWhatsapp(phoneNumber: string): Observable<any> {
-  const url = `${this.baseUrl}/user/auth/sent/otp-whatsapp?phoneNumber=${phoneNumber}`;
-  return this.httpClient.post<any>(url, {});
-}
+  signInByWhatsapp(phoneNumber: string): Observable<any> {
+    const url = `${this.baseUrl}/user/auth/sent/otp-whatsapp?phoneNumber=${phoneNumber}`;
+    return this.httpClient.post<any>(url, {});
+  }
 
-verifyOtpByWhatsapp(phoneNumber: string, otp: String): Observable<any> {
-  const url = `${this.baseUrl}/user/auth/verify/otp-whatsapp?phoneNumber=${phoneNumber}&otp=${otp}`;
-  return this.httpClient.post<any>(url, {});
-}
+  verifyOtpByWhatsapp(phoneNumber: string, otp: String): Observable<any> {
+    const url = `${this.baseUrl}/user/auth/verify/otp-whatsapp?phoneNumber=${phoneNumber}&otp=${otp}`;
+    return this.httpClient.post<any>(url, {});
+  }
 
-updateUserProfilePassword(userPasswordRequest: UserPasswordRequest): Observable<any> {
-  const url = `${this.baseUrl}/user/auth/update/password`; 
-  return this.httpClient.post<any>(url, userPasswordRequest);
-}
+  verifyOtpByWhatsappNew(phoneNumber: string, otp: String): Observable<any> {
+    const url = `${this.baseUrl}/user/auth/verify/otp-whatsapp-new?phoneNumber=${phoneNumber}&otp=${otp}`;
+    return this.httpClient.post<any>(url, {});
+  }
 
-getUserAccountDetails(): Observable<any> {
+  updateUserProfilePassword(userPasswordRequest: UserPasswordRequest): Observable<any> {
+    const url = `${this.baseUrl}/user/auth/update/password`;
+    return this.httpClient.post<any>(url, userPasswordRequest);
+  }
 
-  return this.httpClient.get<any>(`${this.baseUrl}/account-setting/details`);
-}
+  getUserAccountDetails(): Observable<any> {
 
-updateProfilePicture(userPersonalInformationRequest :UserPersonalInformationRequest): Observable<any> {
-  debugger
-  const url = `${this.baseUrl}/account-setting/update/profile-picture`; 
-  return this.httpClient.put<any>(url, userPersonalInformationRequest);
-}
+    return this.httpClient.get<any>(`${this.baseUrl}/account-setting/details`);
+  }
 
-lat: number = 0;
-lng: number = 0;
-radius: string = '';
-attendanceMode: number = 0;
-saveEmployeeCurrentLocationLatLng(lat: number, lng: number, radius: string, attendanceMode: number ) {
+  updateProfilePicture(userPersonalInformationRequest: UserPersonalInformationRequest): Observable<any> {
+    debugger
+    const url = `${this.baseUrl}/account-setting/update/profile-picture`;
+    return this.httpClient.put<any>(url, userPersonalInformationRequest);
+  }
 
-  this.lat = lat;
-  this.lng = lng;
-  this.radius = radius;
-  this.attendanceMode = attendanceMode;
-}
+  lat: number = 0;
+  lng: number = 0;
+  radius: string = '';
+  attendanceMode: number = 0;
+  saveEmployeeCurrentLocationLatLng(lat: number, lng: number, radius: string, attendanceMode: number) {
 
-checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
-  const url = `${this.baseUrl}/user/auth/location-validator-url?uniqueId=${uniqueId}`;
-  return this.httpClient.get<any>(url, {});
-}
+    this.lat = lat;
+    this.lng = lng;
+    this.radius = radius;
+    this.attendanceMode = attendanceMode;
+  }
+
+  checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
+    const url = `${this.baseUrl}/user/auth/location-validator-url?uniqueId=${uniqueId}`;
+    return this.httpClient.get<any>(url, {});
+  }
 
   getLeavesDetailsOfEmployees(searchName: string, searchStatus: string, pageNumber: number, itemPerPage: number): Observable<{ totalCount: number; userLeaveDetails: UserLeaveDetailsWrapper[] }> {
     let params = new HttpParams()
@@ -1268,125 +1282,125 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     return this.httpClient.get<TotalRequestedLeavesReflection[]>(`${this.baseUrl}/central-leave-management/total-requested-leaves`, { params });
   }
 
-  getApprovedLeaveDetailsForUser(userUuid: string, leaveType:string): Observable<TotalRequestedLeavesReflection[]> {
+  getApprovedLeaveDetailsForUser(userUuid: string, leaveType: string): Observable<TotalRequestedLeavesReflection[]> {
     let params = new HttpParams().set('userUuid', userUuid).set('leaveType', leaveType);
     return this.httpClient.get<TotalRequestedLeavesReflection[]>(`${this.baseUrl}/central-leave-management/total-approved-leaves`, { params });
   }
 
-  approveOrRejectLeave(requestedLeaveId: number, appRejString: string, logInUserUuid:string): Observable<any> {
+  approveOrRejectLeave(requestedLeaveId: number, appRejString: string, logInUserUuid: string): Observable<any> {
     // let params = new HttpParams()
     //   .set('requestedLeaveId', requestedLeaveId.toString())
     //   .set('appRejString', appRejString)
     //   .set('userUuid',logInUserUuid);
 
-    return this.httpClient.post<any>(`${this.baseUrl}/central-leave-management/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`,{});
+    return this.httpClient.post<any>(`${this.baseUrl}/central-leave-management/approve-reject-leaves?requestedLeaveId=${requestedLeaveId}&appRejString=${appRejString}&userUuid=${logInUserUuid}`, {});
   }
 
   //Salary module
-  getAllSalaryCalculationMode():Observable<any>{
+  getAllSalaryCalculationMode(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/calculation/mode/get/all`);
   }
 
-  getSalaryCalculationModeByOrganizationId(): Observable<any>{
+  getSalaryCalculationModeByOrganizationId(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/calculation/mode/get`);
-  
+
   }
 
 
-  updateSalaryCalculationMode(salaryCalculationModeId : number): Observable<any>{
+  updateSalaryCalculationMode(salaryCalculationModeId: number): Observable<any> {
 
     const params = new HttpParams()
-    .set('salary_calculation_mode_id', salaryCalculationModeId);
+      .set('salary_calculation_mode_id', salaryCalculationModeId);
 
-    return this.httpClient.put<any>(`${this.baseUrl}/salary/calculation/mode/update`, {}, {params});
+    return this.httpClient.put<any>(`${this.baseUrl}/salary/calculation/mode/update`, {}, { params });
   }
 
-  getPFContributionRate():Observable<any>{
+  getPFContributionRate(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/pf-contribution-rate`);
   }
 
 
-  generateNewAttendanceLink(userUuid: string):Observable<any>{
+  generateNewAttendanceLink(userUuid: string): Observable<any> {
     let params = new HttpParams().set('userUuid', userUuid);
-    return this.httpClient.post<any>(`${this.baseUrl}/attendance/regenerate-attendance-link`,{} ,{ params });
+    return this.httpClient.post<any>(`${this.baseUrl}/attendance/regenerate-attendance-link`, {}, { params });
   }
 
   // getUserSubscriptionPlanId():Observable<any>{
   //   return this.httpClient.get<any>(`${this.baseUrl}/account-setting/get/subscription-plan-id`);
   // }
-  
 
-  getESIContributionRate():Observable<any>{
+
+  getESIContributionRate(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/esi-contribution-rate`);
   }
 
-  getAllStatutories():Observable<any>{
+  getAllStatutories(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/get/all`);
   }
 
-  enableOrDisableStatutory(statutoryRequest : StatutoryRequest):Observable<any>{
+  enableOrDisableStatutory(statutoryRequest: StatutoryRequest): Observable<any> {
 
     debugger
     return this.httpClient.post<any>(`${this.baseUrl}/statutory/enable-disable`, statutoryRequest);
   }
 
-  getStatutoryAttributeByStatutoryId(statutoryId : number): Observable<any>{
+  getStatutoryAttributeByStatutoryId(statutoryId: number): Observable<any> {
 
     const params = new HttpParams()
-    .set('statutory_id', statutoryId);
+      .set('statutory_id', statutoryId);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/statutory/attribute/get`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/statutory/attribute/get`, { params });
   }
 
-  updateTaxRegimeByUserId(taxRegimeId : number): Observable<any>{
+  updateTaxRegimeByUserId(taxRegimeId: number): Observable<any> {
 
     const params = new HttpParams()
-    .set('tax_regime_id', taxRegimeId);
+      .set('tax_regime_id', taxRegimeId);
 
-    return this.httpClient.put<any>(`${this.baseUrl}/statutory/tax-regime/update`, {}, {params});
+    return this.httpClient.put<any>(`${this.baseUrl}/statutory/tax-regime/update`, {}, { params });
   }
 
-  getAllTaxRegime():Observable<any>{
+  getAllTaxRegime(): Observable<any> {
 
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/tax-regime/get/all`);
   }
-  
 
-  getStatutoryByOrganizationId(): Observable<any>{
+
+  getStatutoryByOrganizationId(): Observable<any> {
     debugger
     return this.httpClient.get<any>(`${this.baseUrl}/statutory/employee/get/all`);
   }
 
-  getSalaryConfigurationStep(): Observable<any>{
+  getSalaryConfigurationStep(): Observable<any> {
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary/configuration/step/get`);
   }
 
-  updateSalaryConfigurationStep(salaryConfigurationStepId : number) : Observable<any>{
+  updateSalaryConfigurationStep(salaryConfigurationStepId: number): Observable<any> {
 
     const params = new HttpParams()
-    .set('salary_configuration_step_id', salaryConfigurationStepId);
+      .set('salary_configuration_step_id', salaryConfigurationStepId);
 
-    return this.httpClient.put<any>(`${this.baseUrl}/salary/configuration/step/update`, {}, {params});
+    return this.httpClient.put<any>(`${this.baseUrl}/salary/configuration/step/update`, {}, { params });
   }
-  updateNotificationSetting(notificationVia : NotificationVia):Observable<any>{
+  updateNotificationSetting(notificationVia: NotificationVia): Observable<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/account-setting/update/notification-via`, notificationVia);
   }
 
-  sendOtptoSavePhoneNumber(phoneNumber : string):Observable<boolean>{
+  sendOtptoSavePhoneNumber(phoneNumber: string): Observable<boolean> {
     const params = new HttpParams()
-    .set('phoneNumber', phoneNumber);
-    return this.httpClient.post<boolean>(`${this.baseUrl}/account-setting/send-otp/phoneNumber`, {}, {params});
+      .set('phoneNumber', phoneNumber);
+    return this.httpClient.post<boolean>(`${this.baseUrl}/account-setting/send-otp/phoneNumber`, {}, { params });
   }
 
-  verifyOtpForUpdatingPhoneNumber(phoneNumber : string, otp : number):Observable<any>{
+  verifyOtpForUpdatingPhoneNumber(phoneNumber: string, otp: number): Observable<any> {
     let params = new HttpParams()
-    .set('phoneNumber', phoneNumber)
-    .set('otp', otp);
-    return this.httpClient.post<any>(`${this.baseUrl}/account-setting/verifyOtp`, {}, {params});
+      .set('phoneNumber', phoneNumber)
+      .set('otp', otp);
+    return this.httpClient.post<any>(`${this.baseUrl}/account-setting/verifyOtp`, {}, { params });
   }
 
-  registerSalaryTemplate(salaryTemplateComponentRequest : SalaryTemplateComponentRequest): Observable<any>{
+  registerSalaryTemplate(salaryTemplateComponentRequest: SalaryTemplateComponentRequest): Observable<any> {
 
     return this.httpClient.put<any>(`${this.baseUrl}/salary/template/register`, salaryTemplateComponentRequest, {});
   }
@@ -1410,9 +1424,9 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
   getCustomHolidays(): Observable<any[]> {
     return this.httpClient.get<any[]>(`${this.baseUrl}/holiday/total-custom-holidays?orgUuid`);
   }
-  
+
   deleteCustomHolidays(ids: number): Observable<any> {
-    return this.httpClient.delete(`${this.baseUrl}/holiday/delete-custom-holidays`, { params: { ids: ids} });
+    return this.httpClient.delete(`${this.baseUrl}/holiday/delete-custom-holidays`, { params: { ids: ids } });
   }
 
   getWeeklyHolidays(): Observable<WeeklyHoliday[]> {
@@ -1433,22 +1447,22 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
     let params = new HttpParams().set('id', id.toString());
     return this.httpClient.delete(`${this.baseUrl}/holiday/delete-weekly-holidays`, { params });
   }
-  
+
   // ###############
-  
-  getAllSalaryComponents(): Observable<any>{
+
+  getAllSalaryComponents(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/component/get/all`);
   }
 
-  getSalaryTemplateComponentById(salaryTemplateId : number): Observable<any>{
+  getSalaryTemplateComponentById(salaryTemplateId: number): Observable<any> {
 
     const params = new HttpParams()
-    .set('salary_template_id', salaryTemplateId);
+      .set('salary_template_id', salaryTemplateId);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get/by/id`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get/by/id`, { params });
   }
 
-  getAllSalaryTemplateComponentByOrganizationId(): Observable<any>{
+  getAllSalaryTemplateComponentByOrganizationId(): Observable<any> {
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get/all`);
   }
@@ -1459,5 +1473,13 @@ checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
         .set('phoneNumber', ''); 
     return this.httpClient.post<any>(`${this.baseUrl}/account-setting/update/language-preferred`, null, { params }); 
 }
+
+  deleteSalaryTemplateById(salaryTemplateId: number): Observable<any> {
+
+    const params = new HttpParams()
+      .set('salary_template_id', salaryTemplateId);
+
+    return this.httpClient.delete<any>(`${this.baseUrl}/salary/template/delete-by-id`, { params });
+  }
 
 }
