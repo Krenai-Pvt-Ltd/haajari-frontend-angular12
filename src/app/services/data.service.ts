@@ -1467,6 +1467,12 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get/all`);
   }
 
+  updateLanguagePreferredForNotification(languagePreferred: number): Observable<any> {
+    const params = new HttpParams()
+        .set('languagePreferred', languagePreferred) 
+        .set('phoneNumber', ''); 
+    return this.httpClient.post<any>(`${this.baseUrl}/account-setting/update/language-preferred`, null, { params }); 
+}
 
   deleteSalaryTemplateById(salaryTemplateId: number): Observable<any> {
 

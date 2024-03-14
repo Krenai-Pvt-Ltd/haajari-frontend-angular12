@@ -148,6 +148,12 @@ isDisabled: boolean = false;
         if(response.phoneNumber){
           this.phoneNumber = response.phoneNumber;
         }
+        if(response.languagePreferred == 2){
+
+          this.languagePreferredHindi = 2;
+        } else {
+          this.languagePreferredEnglish = 1;
+        }
         if(response.notificationVia==2){
           this.notifications.slack=false
           this.notifications.whatsapp=true
@@ -296,7 +302,7 @@ isDisabled: boolean = false;
         this.notificationVia.id = 1;
       } else if (type === 'slack' && this.notifications.slack == false){
         this.notificationVia.id = 2;
-      } else if (type === 'whatsapp' && this.notifications.whatsapp == false){
+      } else if (type === 'whatsapp' && this.notifications.whatsapp == true){
         this.notificationVia.id = 1;
       }
       this._data.updateNotificationSetting(this.notificationVia).subscribe({
@@ -381,6 +387,41 @@ isDisabled: boolean = false;
         }
     });
   }
+
+  languagePreferred: number = 0;
+  
+  languagePreferredEnglish: number = 0;
+  languagePreferredHindi: number = 0;
+  updateLanguagePreferredForNotificationMethodCall(value: number): void {
+    if (this.languagePreferred === value) {
+        // Toggle off the currently selected option
+        this.languagePreferred = 0;
+    } else {
+        // Set the selected option
+        this.languagePreferred = value;
+    }
+
+    // Set languagePreferredEnglish and languagePreferredHindi based on the selected option
+    if (this.languagePreferred === 1) {
+        this.languagePreferredEnglish = 1;
+        this.languagePreferredHindi = 0;
+    } else if (this.languagePreferred === 2) {
+        this.languagePreferredEnglish = 0;
+        this.languagePreferredHindi = 1;
+    } else {
+        // Both toggles are off
+        this.languagePreferredEnglish = 0;
+        this.languagePreferredHindi = 0;
+    }
+
+    // Call the API to update language preference
+    this._data.updateLanguagePreferredForNotification(this.languagePreferred).subscribe({
+        next: (response: any) => {
+            this.helper.showToast("Language Updated Successfully", Key.TOAST_STATUS_SUCCESS);
+        }
+    });
+}
+
 
 
 }
