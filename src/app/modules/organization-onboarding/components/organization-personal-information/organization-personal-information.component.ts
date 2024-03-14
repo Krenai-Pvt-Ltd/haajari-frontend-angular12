@@ -68,7 +68,7 @@ loading: boolean = false;
       .subscribe(response => {
         this.loading = false;
         console.log("organization personal Info Registered Successfully");
-        this.router.navigate(['/organization-onboarding/attendance-rule-setup']);
+        this.router.navigate(['/organization-onboarding/holiday-setting']);
         this.dataService.markStepAsCompleted(2);
         this._onboardingService.saveOrgOnboardingStep(2).subscribe();
       },(error) => {
@@ -79,23 +79,22 @@ loading: boolean = false;
 
   getOrganizationDetails(){
     debugger
-    this.dataService.getOrganizationDetails().subscribe(
-      (data)=> {
+    this.dataService.getOrganizationDetails().subscribe((data)=> {
           this.organizationPersonalInformation = data;          
           console.log(this.organizationPersonalInformation);
-          if (data.logo) {
-            this.setImageUrlFromDatabase(data.logo);
-        }
+        //   if (data.logo) {
+        //     this.setImageUrlFromDatabase(data.logo);
+        // }
       }, (error) => {
         console.log(error);
       });
   }
 
-  dbImageUrl: string | null = null;
+  // dbImageUrl: string | null = null;
 
-  setImageUrlFromDatabase(url: string) {
-      this.dbImageUrl = url;
-  }
+  // setImageUrlFromDatabase(url: string) {
+  //     this.dbImageUrl = url;
+  // }
 
   preventLeadingWhitespace(event: KeyboardEvent): void {
     const inputElement = event.target as HTMLInputElement;
@@ -249,6 +248,11 @@ uploadFile(file: File): void {
 
     });
   }
+
+  removeImage(){
+    this.organizationPersonalInformation.logo = '';
+  }
+
 
 
 }

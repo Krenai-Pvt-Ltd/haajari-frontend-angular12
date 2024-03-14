@@ -447,10 +447,9 @@
                                             </div>
                                         </ng-container>
                                         <ng-container
-                                            *ngIf="attendanceRuleWithAttendanceRuleDefinitionResponseList.length !== 0">
+                                            *ngIf="!attendanceRuleWithAttendanceRuleDefinitionLoading && attendanceRuleWithAttendanceRuleDefinitionResponseList.length != 0">
 
-                                            <div class=""
-                                                *ngIf="!attendanceRuleWithAttendanceRuleDefinitionLoading && automationRulesSettingMode && attendanceRuleWithAttendanceRuleDefinitionResponseList.length>0">
+                                            <div class="">
                                                 <div
                                                     class="add-filtter d-flex align-items-center justify-content-end mb-3">
 
