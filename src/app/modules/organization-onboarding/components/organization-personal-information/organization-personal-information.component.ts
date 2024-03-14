@@ -253,6 +253,4 @@ uploadFile(file: File): void {
     this.organizationPersonalInformation.logo = '';
   }
 
-
-
 }
