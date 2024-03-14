@@ -157,6 +157,31 @@
                                                 
                                             </dd>
                                         </div>
+
+                                        <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm">
+                                          <dt class="sc-f474212e-4 lkliht">Language Preferred</dt>
+                                          
+                                          <dd class="sc-f474212e-7 dUVSfj">
+                                              <div class="notification-settings">
+                                                  <div class="notification-option">
+                                                      <label for="englishSwitch">English</label>
+                                                      <div class="material-switch">
+                                                          <input type="checkbox" id="englishSwitch" [(ngModel)]="languagePreferredEnglish" class="ng-untouched ng-pristine ng-valid"
+                                                          (click)="updateLanguagePreferredForNotificationMethodCall(1)"  >
+                                                          <label class="label-success" for="englishSwitch"></label>
+                                                      </div>
+                                                  </div>
+                                                  <div class="notification-option">
+                                                      <label for="hindiSwitch">Hindi</label>
+                                                      <div class="material-switch">
+                                                          <input type="checkbox" id="hindiSwitch" [(ngModel)]="languagePreferredHindi" class="ng-untouched ng-pristine ng-valid"
+                                                          (click)="updateLanguagePreferredForNotificationMethodCall(2)" >
+                                                          <label class="label-success" for="hindiSwitch"></label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </dd>
+                                      </div>
                                         
 
 
