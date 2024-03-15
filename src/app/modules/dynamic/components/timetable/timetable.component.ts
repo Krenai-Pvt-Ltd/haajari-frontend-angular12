@@ -386,8 +386,9 @@ export class TimetableComponent implements OnInit {
     this.attendanceDataByDateKey = [];
     this.attendanceDataByDateValue = [];
     this.total = 0;
-    this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
+    this.resetCriteriaFilter();
 
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.getAttendanceDetailsReportByDateMethodCall();
   }
 
