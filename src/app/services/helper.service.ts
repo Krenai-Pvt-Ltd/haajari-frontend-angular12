@@ -107,7 +107,7 @@ export class HelperService {
     this.start();
     setTimeout(() => {
       this.done();
-    }, 3000);
+    }, 5000);
   }
 
 
