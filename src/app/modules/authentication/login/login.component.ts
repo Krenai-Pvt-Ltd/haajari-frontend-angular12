@@ -61,11 +61,11 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('token', response.tokenResponse.access_token);
       localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
 
-      this.ROLE= await this.rbacService.getRole();
-      this.UUID= await this.rbacService.getUuid();
-  
+      this.ROLE = await this.rbacService.getRole();
+      this.UUID = await this.rbacService.getUuid();
+
       debugger
-      if(this.ROLE==='USER'){
+      if (this.ROLE === 'USER') {
         this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
       } else {
         this.router.navigate(['/dashboard']);
@@ -324,25 +324,25 @@ export class LoginComponent implements OnInit {
   isWhatsappLogin: boolean = false;
   phoneNumber: string = '';
   showOtpInput: boolean = false
+  sendOtpLoader: boolean = false;
   signInByWhatsappMethodCall() {
     debugger
+    this.sendOtpLoader = true;
     this.checkFormValidation();
 
     if (this.isFormInvalid == true) {
-
       return
     } else {
-      this.dataService.signInByWhatsapp(this.phoneNumber)
-        .subscribe(
-          (response: any) => {
-            this.showOtpInput = true;
-            // this.otpVerificationModalButton.nativeElement.click();
-            console.log('OTP sent successfully:', response);
-          },
-          (error) => {
-            console.log("error :", error);
-          }
-        );
+      this.dataService.signInByWhatsappNew(this.phoneNumber).subscribe((response: any) => {
+        if (response.status) {
+          this.sendOtpLoader = false;
+          this.showOtpInput = true;
+          console.log('OTP sent successfully:', response);
+        }
+      },(error) => {
+          console.log("error :", error);
+        }
+      );
     }
   }
 
@@ -360,11 +360,17 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('refresh_token', response.object.tokenResponse.refresh_token);
         const helper = new JwtHelperService();
         const onboardingStep = helper.decodeToken(response.object.tokenResponse.access_token).statusResponse;
-        if (onboardingStep == "6") {
-          this.router.navigate(['/dashboard']);
+        const role = helper.decodeToken(response.object.tokenResponse.access_token).role;
+        if (role == "ADMIN") {
+          if (onboardingStep == "6") {
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.router.navigate(['/organization-onboarding/personal-information']);
+          }
         } else {
-          this.router.navigate(['/organization-onboarding/personal-information']);
+          this.router.navigate(['/dashboard']);
         }
+
 
       } else {
 
@@ -378,10 +384,15 @@ export class LoginComponent implements OnInit {
 
             const helper = new JwtHelperService();
             const onboardingStep = helper.decodeToken(response.object.tokenResponse.access_token).statusResponse;
-            if (onboardingStep == "6") {
-              this.router.navigate(['/dashboard']);
+            const role = helper.decodeToken(response.object.tokenResponse.access_token).role;
+            if (role == "ADMIN") {
+              if (onboardingStep == "6") {
+                this.router.navigate(['/dashboard']);
+              } else {
+                this.router.navigate(['/organization-onboarding/personal-information']);
+              }
             } else {
-              this.router.navigate(['/organization-onboarding/personal-information']);
+              this.router.navigate(['/dashboard']);
             }
           }
           this.loading = false;

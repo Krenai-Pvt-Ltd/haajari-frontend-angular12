@@ -316,9 +316,9 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="requestLeave" (click)="emptyAddLeaveSettingRule()">Add Leave Settings</h5>
+                <h5 class="modal-title" id="requestLeave">Add Leave Settings</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    id="requestLeaveCloseModel" #requestLeaveCloseModel></button>
+                    id="requestLeaveCloseModel" #requestLeaveCloseModel (click)="emptyAddLeaveSettingRule()"></button>
             </div>
 
 
@@ -326,9 +326,6 @@
 
             <form #leaveSetForm="ngForm">
                 <div class="modal-body">
-
-
-
                     <div class="">
                         <ul id="myTab" role="tablist" class="nav nav-tabs">
                             <li role="presentation" class="nav-item">
@@ -609,15 +606,8 @@
 
                                 <!-- <div class="tab-pane fade" id="profile" role="tabpanel"> -->
                                 <div class="staf-list-box mt-3">
-
-
                                     <div class="row mb-3">
-
-
-
                                         <div class="">
-
-
                                             <div class="">
                                                 <ul id="myTab" role="tablist" class="nav nav-tabs"
                                                     style="border-bottom: 0px;">
@@ -639,13 +629,9 @@
 
 
                                                 <div class="tab-content" id="myTabContent">
-
                                                     <div class="tab-pane fade show active" id="userlist"
                                                         role="tabpanel">
-
-
                                                         <div class=" mt-3">
-                                                            <!-- border-bottom border-top pt-3 pb-3 -->
                                                             <div class="row border-top border-bottom pb-2 pt-2 ">
                                                                 <div class="col-md-8">
 

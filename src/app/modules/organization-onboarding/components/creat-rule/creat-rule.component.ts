@@ -138,13 +138,16 @@ export class CreatRuleComponent implements OnInit {
 
   @ViewChild("staffActiveTab") staffActiveTab !: ElementRef;
 
+  isStaffTab: boolean = false;
   staffActiveTabMethod() {
+    this.isStaffTab = true;
     this.staffActiveTab.nativeElement.click();
   }
 
   @ViewChild("ruleActiveTab") ruleActiveTab !: ElementRef;
 
   ruleActiveTabMethod() {
+    this.isStaffTab = false;
     this.ruleActiveTab.nativeElement.click();
   }
 

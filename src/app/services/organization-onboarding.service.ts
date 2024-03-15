@@ -68,6 +68,20 @@ export class OrganizationOnboardingService {
     return this._httpClient.get(this._key.base_url + this._key.check_number_existence, {params});
   }
 
+  checkNumberExist1(number: string) {
+    debugger
+    const params = new HttpParams()
+      .set('phone', number);
+    return this._httpClient.get(this._key.base_url + this._key.check_number_existence, {params});
+  }
+
+  checkEmailExist(email: string) {
+    debugger
+    const params = new HttpParams()
+      .set('email', email);
+    return this._httpClient.get(this._key.base_url + this._key.check_email_existence, {params});
+  }
+
   
   saveOrgOnboardingStep(step: number) {
     debugger

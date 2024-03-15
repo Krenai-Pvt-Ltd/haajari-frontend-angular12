@@ -252,7 +252,7 @@ span.members-namess {
     background: #f9faff;
     border: 1px dashed #878a9a;
     border-radius: 6px;
-    height: 90px;
+    height: 200px;
     cursor: pointer;
     gap: 20px;
     padding-left: 20px;
@@ -302,6 +302,7 @@ a.select-file {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 6px 0px;
 }
 
 .dot-opacity-loader span {
@@ -310,7 +311,7 @@ a.select-file {
     height: 8px;
     border-radius: 50%;
     background-color: white; /* Change to your preferred color */
-    margin: 0 4px;
+    margin: 0 1px;
     animation: dotOpacity 1.4s infinite ease-in-out both;
 }
 

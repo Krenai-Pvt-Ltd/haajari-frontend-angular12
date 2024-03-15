@@ -150,11 +150,13 @@ export class HolidaySettingComponent implements OnInit {
   }
   
   customHolidays: CustomHolidays[] = [];
-
+  customHolidaysLoader:boolean = false;
   getCustomHolidays() {
+    this.customHolidaysLoader = true;
     this.dataService.getCustomHolidays().subscribe({
       next: (holidays) => {
         this.customHolidays = holidays;
+        this.customHolidaysLoader = false;
       },
       error: (error) => {
         this.isHolidayErrorPlaceholder=true;

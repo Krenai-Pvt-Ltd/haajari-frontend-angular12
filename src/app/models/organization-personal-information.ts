@@ -5,7 +5,6 @@ export class OrganizationPersonalInformation {
 
   id: number=0;
   adminName: string = '';
-  adminEmail: string = '';
   name: string='';
   email: string='';
   password: string='';

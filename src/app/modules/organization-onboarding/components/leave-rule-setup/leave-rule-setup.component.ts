@@ -33,7 +33,7 @@ export class LeaveRuleSetupComponent implements OnInit {
     });
     this.addRow();
   }
-  onBoardingCompleted(){
+  onBoardingCompleted() {
     // this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
     this.dataService.markStepAsCompleted(7);
     this._onboardingService.saveOrgOnboardingStep(7).subscribe();
@@ -319,7 +319,7 @@ export class LeaveRuleSetupComponent implements OnInit {
         this.isLoading = false;
         if (response == null || response.length == 0) {
           this.leaveSettingPlaceholder = true;
-          
+
         } else {
           this.leaveSettingPlaceholder = false;
         }
@@ -389,20 +389,17 @@ export class LeaveRuleSetupComponent implements OnInit {
     this.newStaffSelectionTab.nativeElement.click();
   }
   @ViewChild("leaveSettingForm") leaveSettingForm!: NgForm;
-  //  leaveSettingForm!: NgForm;
+
   emptyAddLeaveSettingRule() {
     debugger
-
     this.idOfLeaveSetting = 0;
     this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
     this.staffsUser = [];
     this.totalUser = 0;
     this.isMappedStaffEmpty = true;
-    // this.getUserByFiltersMethodCall();
     this.unselectAllUsers();
     this.selectedStaffsUuids = [];
     this.selectedStaffsUuidsUser = [];
-    // this.selectedStaffsUuids.length = 0; 
 
     this.leaveSettingForm.form.reset();
     this.leaveSettingResponse = new LeaveSettingResponse();
@@ -422,7 +419,7 @@ export class LeaveRuleSetupComponent implements OnInit {
   }
 
   deleteLeaveLoaderStatus: { [key: string]: boolean } = {};
-  deleteLeaveLoader:boolean=false;
+  deleteLeaveLoader: boolean = false;
   deleteLeaveSettingRule(leaveSettingId: number): void {
     this.deleteLeaveLoaderStatus[leaveSettingId] = true;
     // this.deleteLeaveLoader = true;

@@ -26,12 +26,7 @@
                                                 <p>A quick snapshot of your company.</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 mt-3 mb-1">
-                                            <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal"
-                                                data-bs-target="#addholiday"><i class="bi bi-plus"></i> Add more custom
-                                                Holiday's
-                                            </a>
-                                        </div>
+                                        
                                     </div>
 
                                     <div class="row">
@@ -79,9 +74,31 @@
                                                     </div>
                                                 </div>
                                                 <div class="rule-main-box mt-3">
-                                                    <div class="d-flex align-items-center attendance-boxx">
-                                                        <div class="late-rule" style="width:70%">
-                                                            <h5>Custom Holiday's </h5>
+                                                    <div class="row d-flex justify-content-between">
+                                                        <div class="col-md-8 mt-3 mb-3">
+                                                            <div class="form-roe-data">
+                                                                <h5>Custom Holiday's</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 mt-3 mb-3 d-flex justify-content-end">
+                                                                <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal"
+                                                                    data-bs-target="#addholiday"><i class="bi bi-plus"></i>Add more custom
+                                                                    Holiday's
+                                                                </a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="empty-file" *ngIf="!customHolidaysLoader && customHolidays.length==0">
+                                                        <div class="errorboxmain">
+                                                            <div class="errorboxinner text-center">
+                                                                <div class="errorboxplaceholder mb-2">
+                                                                    <img src="assets/images/empty-box.svg" style="width: 80px" />
+                                                                </div>
+                                                                <div class="">
+                                                                    <h4>no custom holidays available</h4>
+                                                                   
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -116,7 +133,7 @@
                                                     days</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 mt-3 mb-3">
+                                        <div class="col-md-4 mt-3 mb-3 d-flex justify-content-end">
                                             <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal"
                                                 data-bs-target="#addweeklyholiday"><i class="bi bi-plus"></i>Add Weekly
                                                 Holiday's
@@ -278,7 +295,7 @@
 
 
 <div class="modal fade" id="addweeklyholiday" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title">Weekly Holiday</h6>
