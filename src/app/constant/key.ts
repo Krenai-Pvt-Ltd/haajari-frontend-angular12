@@ -189,6 +189,10 @@ export class Key{
     public static MEDICAL_ALLOWANCE = 4;
     public static SPECIAL_ALLOWANCE = 5;
     public static ADDITIONAL_ALLOWANCE = 6;
+
+    // Data format
+    public static BOARD = 1;
+    public static LIST = 2;
     
 
     base_url = "http://localhost:8080/api/v2";
