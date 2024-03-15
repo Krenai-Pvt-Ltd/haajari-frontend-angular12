@@ -200,7 +200,9 @@
                                         <div class="col-md-4">
                                             <label class="mb-2">Email </label>
                                             <input type="email" name="userEmail{{i}}" [(ngModel)]="user.email"
-                                                placeholder="Email" class="form-control">
+                                                placeholder="Email" class="form-control" (keyup)="checkEmailExistance(user.email)">
+                                                <p *ngIf="isEmailExist" class="error text-danger">this email
+                                                    already exist</p>
                                         </div>
                                         <div class="leave-delet-btn pointer" (click)="removeUser(i)" *ngIf="i>0">
                                             <i class="bi bi-trash"></i>
@@ -211,7 +213,7 @@
                                     <div id="back-and-submit"
                                         class=" d-flex align-items-center justify-content-between">
                                         <button type="button" class="btn skip-btn-new" (click)="addUser()"
-                                            [disabled]="userForm.invalid || isNumberExist"><i class="bi bi-plus"
+                                            [disabled]="userForm.invalid || isNumberExist || isEmailExist"><i class="bi bi-plus"
                                                 style="font-size: 23px;"></i> Add New User</button>
 
                                     </div>
@@ -220,7 +222,7 @@
                                         <p></p>
                                         <button type="submit" class="btn btn-primary skip-btn"
                                             style="margin-right: 15px;" (click)="create()"
-                                            [disabled]="userForm.invalid || isNumberExist">
+                                            [disabled]="userForm.invalid || isNumberExist || isEmailExist">
                                             <span *ngIf="!createLoading">Submit</span>
                                             <div class="dot-opacity-loader" *ngIf="createLoading">
                                                 <span></span>
@@ -482,14 +484,16 @@
                             <div class="col-md-4">
                                 <label class="mb-2">Email </label>
                                 <input type="email" name="email" [(ngModel)]="user.email" placeholder="Email"
-                                    class="form-control">
+                                    class="form-control" (keyup)="checkEmailExistance(user.email)">
+                                    <p *ngIf="isEmailExist" class="error text-danger">this email
+                                        already exist</p>
                             </div>
 
                         </div>
                         <div class="d-flex justify-content-end">
 
                             <button type="submit" class="btn btn-success"
-                                [disabled]="editUserForm.invalid || isNumberExist" (click)="editUser()">
+                                [disabled]="editUserForm.invalid || isNumberExist || isEmailExist" (click)="editUser()">
                                 <span *ngIf="!editLoader">Submit</span></button>
                             <div class="dot-opacity-loader" *ngIf="editLoader">
                                 <span></span>

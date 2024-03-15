@@ -200,7 +200,7 @@ export class Key{
     // base_url = "https://production.hajiri.work/api/v2";
 
     
-    
+    //subscription plan
     get_subscription = "/subcription-plan"; 
     get_active_user_count = "/users/active-user-count";
     get_purchased_status = "/organization-subs-plan/status"; 
@@ -241,6 +241,7 @@ export class Key{
     get_report = "/user-import"
 
     check_number_existence = "/whatsapp-user-onboarding/check-number-existence"
+    check_email_existence = "/whatsapp-user-onboarding/check-email-existence"
 
     save_organization_onboarding_step = "/organization/save-onboarding-step"
     get_organization_onboarding_step = "/organization/onboarding-step"

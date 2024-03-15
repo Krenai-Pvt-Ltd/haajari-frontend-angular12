@@ -235,6 +235,17 @@ export class UploadTeamComponent implements OnInit {
 
   }
 
+  isEmailExist: boolean = false;
+  checkEmailExistance(email:string){
+    this._onboardingService.checkEmailExist(email).subscribe((response: any) => {
+        this.isEmailExist = response;
+    }, (error) => {
+      console.log(error);
+      
+    })
+
+  }
+
   next(){
     // this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
     this.dataService.markStepAsCompleted(4);

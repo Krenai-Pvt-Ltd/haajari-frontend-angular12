@@ -81,7 +81,7 @@ loading: boolean = false;
     debugger
     this.dataService.getOrganizationDetails().subscribe((data)=> {
           this.organizationPersonalInformation = data;          
-          console.log(this.organizationPersonalInformation);
+          // console.log(this.organizationPersonalInformation);
         //   if (data.logo) {
         //     this.setImageUrlFromDatabase(data.logo);
         // }
