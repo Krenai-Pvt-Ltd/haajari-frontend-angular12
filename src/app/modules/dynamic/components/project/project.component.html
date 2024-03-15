@@ -96,11 +96,11 @@
                         </div>
 
                         <div class="d-flex project-board">
-                            <span class="project-overview active"><i class="bi bi-border-all"
+                            <span class="project-overview active" changeDataFormat(BOARD)><i class="bi bi-border-all"
                                     style="padding-right: 5px;"></i> Board</span>
                             <!-- <span class="project-overview"><i class="bi bi-border-all" style="padding-right: 5px;"></i>
                                 Table</span> -->
-                            <span class="project-overview"><i class="bi bi-list-task" style="padding-right: 5px;"></i>
+                            <span class="project-overview" changeDataFormat(LIST)><i class="bi bi-list-task" style="padding-right: 5px;"></i>
                                 List</span>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                         </div>
                         <div class="tab-pane fade mt-2" id="payslip" role="tabpanel">
                             <div class="row pt-3" style="background-color: #f7f7f7; padding: 15px; border-radius: 6px; "
-                                cdkDropListGroup>
+                                cdkDropListGroup *ngIf="dataFormat == LIST">
                                 <div class="col-lg-12">
                                     <div class="project-task-content">
                                         <div class="project-task-content-col">
@@ -653,7 +653,7 @@
 
 
 
-                            <div class="rowv pt-2 pb-3">
+                            <div class="rowv pt-2 pb-3" *ngIf="dataFormat == LIST">
 
                                 <div class="list-view-b0x-filter d-flex align-items-center justify-content-between">
                                     <div class="">

@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem,CdkDrag,CdkDropList } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Key } from 'src/app/constant/key';
 
 @Component({
   selector: 'app-project',
@@ -33,6 +34,14 @@ export class ProjectComponent implements OnInit {
   //   // }
   // }
 
+
+  BOARD = Key.BOARD;
+  LIST = Key.LIST;
+  dataFormat = Key.BOARD;
+
+  changeDateFormat(dataFormat : number){
+    this.dataFormat = dataFormat;
+  }
 
   backlog = ['6', '5', '7', '8'];
   done=['9', '10', '11','12','13','14'];
