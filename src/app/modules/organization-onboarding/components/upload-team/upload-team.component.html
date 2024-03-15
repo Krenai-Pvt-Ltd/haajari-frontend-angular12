@@ -185,24 +185,22 @@
                                         <div class="col-md-4">
                                             <label class="mb-2"> Name</label>
                                             <input type="text" name="userName{{i}}" [(ngModel)]="user.name"
-                                                class="form-control" placeholder="Enter Leave Name" required>
+                                                class="form-control" placeholder="Enter Employee Name" required>
                                         </div>
                                         <div class="col-md-4">
                                             <label class="mb-2">Phone Number</label>
-                                            <input type="tel" name="userPhone{{i}}" [(ngModel)]="user.phone"
-                                                placeholder="Phone Number" minlength="10" maxlength="10"
-                                                class="form-control"
-                                                oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
-                                                (keyup)="checkExistance(user.phone)" required>
-                                            <p *ngIf="isNumberExist" class="error text-danger" id="{{i}}">this number
-                                                already exist</p>
+                                            <input type="text" name="userPhone{{i}}" [(ngModel)]="user.phone"
+                                                placeholder="Enter Whatsapp Phone Number" minlength="10" maxlength="10"
+                                                class="form-control" 
+                                                (keyup)="checkNumberExistance(i,user.phone)" required>
+                                            <p *ngIf="userList[i].isPhoneExist" class="error text-danger">this number already exist</p>
+                                            <!-- <p *ngIf="isNumberExist" class="error text-danger">this number already exist</p> -->
                                         </div>
                                         <div class="col-md-4">
-                                            <label class="mb-2">Email </label>
+                                            <label class="mb-2">Email <span class="text-optional">(Optional)</span></label>
                                             <input type="email" name="userEmail{{i}}" [(ngModel)]="user.email"
-                                                placeholder="Email" class="form-control" (keyup)="checkEmailExistance(user.email)">
-                                                <p *ngIf="isEmailExist" class="error text-danger">this email
-                                                    already exist</p>
+                                                placeholder="Enter Email" class="form-control" (keyup)="checkEmailExistance(i,user.email)">
+                                                <p *ngIf="userList[i].isEmailExist" class="error text-danger">this email already exist</p>
                                         </div>
                                         <div class="leave-delet-btn pointer" (click)="removeUser(i)" *ngIf="i>0">
                                             <i class="bi bi-trash"></i>
@@ -477,14 +475,14 @@
                                 <input type="tel" name="phone" [(ngModel)]="user.phone" placeholder="Phone Number"
                                     minlength="10" maxlength="10" class="form-control"
                                     oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
-                                    (keyup)="checkExistance(user.phone)" required>
+                                    (keyup)="checkNumberExistance(0,user.phone)" required>
                                 <p *ngIf="isNumberExist" class="error text-danger">this number
                                     already exist</p>
                             </div>
                             <div class="col-md-4">
                                 <label class="mb-2">Email </label>
                                 <input type="email" name="email" [(ngModel)]="user.email" placeholder="Email"
-                                    class="form-control" (keyup)="checkEmailExistance(user.email)">
+                                    class="form-control" (keyup)="checkEmailExistance(0,user.email)">
                                     <p *ngIf="isEmailExist" class="error text-danger">this email
                                         already exist</p>
                             </div>

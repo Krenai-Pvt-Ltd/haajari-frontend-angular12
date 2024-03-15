@@ -1,5 +1,7 @@
+import { UserReq } from "./userReq";
+
 export class UserListReq {
-    userList:any[] = new Array();
+    userList:UserReq[] = new Array();
     
   }
   

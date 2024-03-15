@@ -324,25 +324,25 @@ export class LoginComponent implements OnInit {
   isWhatsappLogin: boolean = false;
   phoneNumber: string = '';
   showOtpInput: boolean = false
+  sendOtpLoader: boolean = false;
   signInByWhatsappMethodCall() {
     debugger
+    this.sendOtpLoader = true;
     this.checkFormValidation();
 
     if (this.isFormInvalid == true) {
-
       return
     } else {
-      this.dataService.signInByWhatsapp(this.phoneNumber)
-        .subscribe(
-          (response: any) => {
-            this.showOtpInput = true;
-            // this.otpVerificationModalButton.nativeElement.click();
-            console.log('OTP sent successfully:', response);
-          },
-          (error) => {
-            console.log("error :", error);
-          }
-        );
+      this.dataService.signInByWhatsappNew(this.phoneNumber).subscribe((response: any) => {
+        if (response.status) {
+          this.sendOtpLoader = false;
+          this.showOtpInput = true;
+          console.log('OTP sent successfully:', response);
+        }
+      },(error) => {
+          console.log("error :", error);
+        }
+      );
     }
   }
 

@@ -20,9 +20,9 @@ import { OrganizationOnboardingService } from 'src/app/services/organization-onb
 })
 export class OrganizationPersonalInformationComponent implements OnInit {
 
-  constructor(private dataService:DataService, 
-    private router: Router, 
-    private activateRoute: ActivatedRoute, 
+  constructor(private dataService: DataService,
+    private router: Router,
+    private activateRoute: ActivatedRoute,
     private afStorage: AngularFireStorage,
     private _onboardingService: OrganizationOnboardingService) { }
 
@@ -30,11 +30,23 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     this.getOrganizationDetails();
   }
 
+  isNumberExist: boolean = false;
+  checkExistance(number:string){
+    if(number != '' && number.length>=10){
+      this._onboardingService.checkNumberExist(number).subscribe((response: any) => {
+          this.isNumberExist = response;
+      }, (error) => {
+        console.log(error);
+        
+      })
+    }
+    
+
+  }
 
   organizationPersonalInformation: OrganizationPersonalInformation = {
     id: 0,
     adminName: '',
-    adminEmail: '',
     name: '',
     email: '',
     password: '',
@@ -57,11 +69,12 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       webhook: "",
       appId: "",
       userToken: "",
-      configureUrl: ""
+      configureUrl: "",
+      onboardingVia:  ""
     }
   };
- 
-loading: boolean = false;
+
+  loading: boolean = false;
   registerOrganizationPersonalInformation() {
     this.loading = true;
     this.dataService.registerOrganizationPersonalInformation(this.organizationPersonalInformation)
@@ -71,23 +84,23 @@ loading: boolean = false;
         this.router.navigate(['/organization-onboarding/holiday-setting']);
         this.dataService.markStepAsCompleted(2);
         this._onboardingService.saveOrgOnboardingStep(2).subscribe();
-      },(error) => {
+      }, (error) => {
         this.loading = false;
-          console.log(error.error.message);
+        console.log(error.error.message);
       });
   }
 
-  getOrganizationDetails(){
+  getOrganizationDetails() {
     debugger
-    this.dataService.getOrganizationDetails().subscribe((data)=> {
-          this.organizationPersonalInformation = data;          
-          // console.log(this.organizationPersonalInformation);
-        //   if (data.logo) {
-        //     this.setImageUrlFromDatabase(data.logo);
-        // }
-      }, (error) => {
-        console.log(error);
-      });
+    this.dataService.getOrganizationDetails().subscribe((data) => {
+      this.organizationPersonalInformation = data;
+      // console.log(this.organizationPersonalInformation);
+      //   if (data.logo) {
+      //     this.setImageUrlFromDatabase(data.logo);
+      // }
+    }, (error) => {
+      console.log(error);
+    });
   }
 
   // dbImageUrl: string | null = null;
@@ -98,11 +111,11 @@ loading: boolean = false;
 
   preventLeadingWhitespace(event: KeyboardEvent): void {
     const inputElement = event.target as HTMLInputElement;
-  
+
     // Prevent space if it's the first character
     if (event.key === ' ' && inputElement.value.length === 0) {
       event.preventDefault();
-  }
+    }
     // if (!isNaN(Number(event.key)) && event.key !== ' ') {
     //   event.preventDefault();
     // }
@@ -110,7 +123,7 @@ loading: boolean = false;
 
   preventLeadingWhitespaceAndNumber(event: KeyboardEvent): void {
     const inputElement = event.target as HTMLInputElement;
-  
+
     // Prevent space if it's the first character
     if (event.key === ' ' && inputElement.selectionStart === 0) {
       event.preventDefault();
@@ -120,117 +133,120 @@ loading: boolean = false;
     }
   }
 
-  
+
   isFormInvalid: boolean = false;
-  @ViewChild ('personalInformationForm') personalInformationForm !: NgForm
-checkFormValidation(){
-  if(this.personalInformationForm.invalid){
-  this.isFormInvalid = true;
-  return
-  } else {
-    this.isFormInvalid = false;
-  }
-}
-
-submit(){
-  this.checkFormValidation();
-
-  if(this.isFormInvalid==true){
-    return
-  } else{
-    this.registerOrganizationPersonalInformation();
-  }
-}
-
-showNewPassword: boolean = false
-toggleNewPasswordVisibility() {
-  this.showNewPassword = !this.showNewPassword;
-}
-
-selectedFile: File | null = null;
-isFileSelected = false;
-imagePreviewUrl: any = null;
-onFileSelected(event: Event): void {
-  debugger
-  const element = event.currentTarget as HTMLInputElement;
-  const fileList: FileList | null = element.files;
-
-  if (fileList && fileList.length > 0) {
-    const file = fileList[0];
-
-    // Check if the file type is valid
-    if (this.isValidFileType(file)) {
-      this.selectedFile = file;
-
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        // Set the loaded image as the preview
-        this.imagePreviewUrl = e.target.result;
-      };
-      reader.readAsDataURL(file);
-
-      this.uploadFile(file);
+  @ViewChild('personalInformationForm') personalInformationForm !: NgForm
+  checkFormValidation() {
+    if (this.personalInformationForm.invalid) {
+      this.isFormInvalid = true;
+      return
     } else {
-      element.value = '';
-      this.organizationPersonalInformation.logo = '';
-      // Handle invalid file type here (e.g., show an error message)
-      console.error('Invalid file type. Please select a jpg, jpeg, or png file.');
+      this.isFormInvalid = false;
     }
-  } else {
-    this.isFileSelected = false;
   }
-}
 
-// Helper function to check if the file type is valid
-isInvalidFileType = false; 
-isValidFileType(file: File): boolean {
-  const validExtensions = ['jpg', 'jpeg', 'png', 'svg'];
-  const fileType = file.type.split('/').pop(); // Get the file extension from the MIME type
+  submit() {
+    this.checkFormValidation();
 
-  if (fileType && validExtensions.includes(fileType.toLowerCase())) {
-    this.isInvalidFileType = false;
-    return true;
+    if (this.isFormInvalid == true) {
+      return
+    } else {
+      this.registerOrganizationPersonalInformation();
+    }
   }
-  console.log(this.isInvalidFileType);
-  this.isInvalidFileType = true;
-  return false;
-}
 
-getImageUrl(e: any){
-  console.log(e);
-  if(e!=null && e.length>0){
-  
+  showNewPassword: boolean = false
+  toggleNewPasswordVisibility() {
+    this.showNewPassword = !this.showNewPassword;
   }
-}
+
+  selectedFile: File | null = null;
+  isFileSelected = false;
+  imagePreviewUrl: any = null;
+  onFileSelected(event: Event): void {
+    debugger
+    const element = event.currentTarget as HTMLInputElement;
+    const fileList: FileList | null = element.files;
+
+    if (fileList && fileList.length > 0) {
+      const file = fileList[0];
+
+      // Check if the file type is valid
+      if (this.isValidFileType(file)) {
+        this.selectedFile = file;
+
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          // Set the loaded image as the preview
+          // this.imagePreviewUrl = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        this.uploadFile(file);
+      } else {
+        element.value = '';
+        this.organizationPersonalInformation.logo = '';
+        // Handle invalid file type here (e.g., show an error message)
+        console.error('Invalid file type. Please select a jpg, jpeg, or png file.');
+      }
+    } else {
+      this.isFileSelected = false;
+    }
+  }
+
+  // Helper function to check if the file type is valid
+  isInvalidFileType = false;
+  isValidFileType(file: File): boolean {
+    const validExtensions = ['jpg', 'jpeg', 'png', 'svg'];
+    const fileType = file.type.split('/').pop(); // Get the file extension from the MIME type
+
+    if (fileType && validExtensions.includes(fileType.toLowerCase())) {
+      this.isInvalidFileType = false;
+      return true;
+    }
+    console.log(this.isInvalidFileType);
+    this.isInvalidFileType = true;
+    return false;
+  }
+
+  getImageUrl(e: any) {
+    console.log(e);
+    if (e != null && e.length > 0) {
+
+    }
+  }
 
 
+  uploadImageLoader: boolean = false;
+  uploadFile(file: File): void {
+    debugger
+    this.uploadImageLoader = true;
+    const filePath = `logo/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
 
-uploadFile(file: File): void {
-  debugger
-  const filePath = `logo/${new Date().getTime()}_${file.name}`;
-  const fileRef = this.afStorage.ref(filePath);
-  const task = this.afStorage.upload(filePath, file);
+    task.snapshotChanges().toPromise().then(() => {
+      console.log("Upload completed");
+      fileRef.getDownloadURL().toPromise().then(url => {
+        console.log("File URL:", url);
+        this.organizationPersonalInformation.logo = url;
 
-  task.snapshotChanges().toPromise().then(() => {
-    console.log("Upload completed");
-    fileRef.getDownloadURL().toPromise().then(url => {
-      console.log("File URL:", url);
-      this.organizationPersonalInformation.logo = url;
+        this.uploadImageLoader = false;
+      }).catch(error => {
+        console.error("Failed to get download URL", error);
+      });
     }).catch(error => {
-      console.error("Failed to get download URL", error);
+      console.error("Error in upload snapshotChanges:", error);
     });
-  }).catch(error => {
-    console.error("Error in upload snapshotChanges:", error);
-  });
-  
-  
-}
 
-@ViewChild("placesRef") placesRef! : GooglePlaceDirective;
+
+  }
+
+  @ViewChild("placesRef") placesRef!: GooglePlaceDirective;
 
   public handleAddressChange(e: any) {
     debugger
-    this.organizationPersonalInformation.addressLine1=e.formatted_address.toString() ;
+    this.organizationPersonalInformation.addressLine1 = e.formatted_address.toString();
     e?.address_components?.forEach((entry: any) => {
       console.log(entry);
       if (entry.types?.[0] === "locality") {
@@ -249,7 +265,7 @@ uploadFile(file: File): void {
     });
   }
 
-  removeImage(){
+  removeImage() {
     this.organizationPersonalInformation.logo = '';
   }
 

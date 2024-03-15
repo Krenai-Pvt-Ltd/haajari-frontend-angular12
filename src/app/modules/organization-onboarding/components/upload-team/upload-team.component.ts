@@ -19,7 +19,7 @@ import { OrganizationOnboardingService } from 'src/app/services/organization-onb
 export class UploadTeamComponent implements OnInit {
 
   form!: FormGroup;
-  userList:any[]= new Array();
+  userList:UserReq[]= new Array();
   databaseHelper: DatabaseHelper = new DatabaseHelper();
 
 
@@ -34,7 +34,6 @@ export class UploadTeamComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.userList.push(this.user);
     this.getUser();
   }
 
@@ -55,6 +54,9 @@ export class UploadTeamComponent implements OnInit {
     else
     {
       this.selectedMethod = method;
+      this.userList = [];
+      this.user = new UserReq();
+      this.userList.push(this.user)
     }
     
   }
@@ -226,22 +228,23 @@ export class UploadTeamComponent implements OnInit {
   }
 
   isNumberExist: boolean = false;
-  checkExistance(number:string){
+  checkNumberExistance(index:number, number:string){
     this._onboardingService.checkNumberExist(number).subscribe((response: any) => {
+      if(index>=0){
+        this.userList[index].isPhoneExist = response;
+      }
         this.isNumberExist = response;
-    }, (error) => {
-      
     })
 
   }
 
   isEmailExist: boolean = false;
-  checkEmailExistance(email:string){
+  checkEmailExistance(index:number, email:string){
     this._onboardingService.checkEmailExist(email).subscribe((response: any) => {
+      if(index>=0){
+        this.userList[index].isEmailExist = response;
+      }
         this.isEmailExist = response;
-    }, (error) => {
-      console.log(error);
-      
     })
 
   }
