@@ -1,9 +1,9 @@
 .notifaction-box {
-    background-color: #000;  
-    border: 1px solid #9ed587;
+    background-color: #fff;  
+    /* border: 1px solid #9ed587; */
     display: flex;
     width: fit-content;
-    padding: 15px;
+    /* padding: 15px; */
     margin: 0 auto;
     bottom: 30px;
     left: 50%;
@@ -21,7 +21,7 @@
 
 
 .notifaction-box p{
-    color: #fff;
+    color: #000;
 }
 
 
@@ -67,6 +67,15 @@
   border: 1px solid #ff4242;
 }
 
+.success-background{
+  background-color: #E1FEE1 !important;
+}
+
+.error-background{
+  background-color: #FEE1E1 !important;
+}
+
+
 .notifaction-box-success{
   border: 1px solid #9ed587;
 
@@ -75,4 +84,7 @@
 .notifaction-box-error{
   border: 1px solid #ff4242;
 
+}
+.checkbox-successfully-background{
+  border-radius: 6px 0 0 6px;
 }
