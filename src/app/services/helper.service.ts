@@ -47,7 +47,6 @@ export class HelperService {
     return new Promise((resolve, reject) => {
       this.dataService.getAccessibleSubModuleResponse().subscribe({
         next: (data: any) => {
-          console.log(data);
           resolve(data);
         },
         error: (error) => reject(error)
@@ -108,7 +107,7 @@ export class HelperService {
     this.start();
     setTimeout(() => {
       this.done();
-    }, 3000);
+    }, 5000);
   }
 
 

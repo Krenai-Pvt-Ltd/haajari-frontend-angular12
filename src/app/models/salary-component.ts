@@ -5,4 +5,5 @@ export class SalaryComponent {
     description : string = '';
     toggle : boolean = false;
     value : any;
+    previousValue : any;
 }

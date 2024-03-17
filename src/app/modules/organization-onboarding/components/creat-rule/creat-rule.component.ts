@@ -7,6 +7,8 @@ import { AttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule
 import { AttendanceRuleResponse } from 'src/app/models/attendance-rule-response';
 import { AttendanceRuleWithAttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-with-attendance-rule-definition-response';
 import { DeductionType } from 'src/app/models/deduction-type';
+import { FullDaySalaryDeductionRequest } from 'src/app/models/full-day-salary-deduction-request';
+import { HalfDaySalaryDeductionRequest } from 'src/app/models/half-day-salary-deduction-request';
 import { OvertimeType } from 'src/app/models/overtime-type';
 import { Staff } from 'src/app/models/staff';
 import { DataService } from 'src/app/services/data.service';
@@ -83,7 +85,7 @@ export class CreatRuleComponent implements OnInit {
   }
 
   isdeductHalf: boolean = false;
-  showeDeductHalf() {
+  showDeductHalf() {
     this.isdeductHalf = this.isdeductHalf == true ? false : true;
   }
 
@@ -98,9 +100,6 @@ export class CreatRuleComponent implements OnInit {
   selectDeductionType(deductionType: DeductionType) {
     this.selectedDeductionType = deductionType;
     this.attendanceRuleDefinitionRequest.deductionTypeId = deductionType.id;
-
-    const res = document.getElementById('amount-in-rupees') as HTMLElement;
-    res.style.display = this.selectedDeductionType?.type === "FIXED AMOUNT" ? 'block' : 'none';
   }
 
   selectedOvertimeType: OvertimeType = new OvertimeType();
@@ -139,13 +138,16 @@ export class CreatRuleComponent implements OnInit {
 
   @ViewChild("staffActiveTab") staffActiveTab !: ElementRef;
 
+  isStaffTab: boolean = false;
   staffActiveTabMethod() {
+    this.isStaffTab = true;
     this.staffActiveTab.nativeElement.click();
   }
 
   @ViewChild("ruleActiveTab") ruleActiveTab !: ElementRef;
 
   ruleActiveTabMethod() {
+    this.isStaffTab = false;
     this.ruleActiveTab.nativeElement.click();
   }
 
@@ -154,24 +156,24 @@ export class CreatRuleComponent implements OnInit {
   selectedStaffs: Staff[] = [];
   isAllSelected: boolean = false;
   activeModel2: boolean = false;
-  // @ViewChild('attendanceRuleDefinitionModalClose') attendanceRuleDefinitionModalClose !: ElementRef;
+
+  saveAttendanceRuleDefinitionLoading: boolean = false;
   registerAttendanceRuleDefinitionMethodCall() {
     debugger
-
+    this.saveAttendanceRuleDefinitionLoading = true;
     this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
     this.preRegisterAttendanceRuleDefinitionMethodCall();
 
     this.dataService.registerAttendanceRuleDefinition(this.attendanceRuleDefinitionRequest).subscribe((response) => {
-      // console.log(response);
+      this.saveAttendanceRuleDefinitionLoading = false;
 
       localStorage.removeItem("staffSelectionActive");
 
-      // this.attendanceRuleDefinitionModalClose.nativeElement.click();
       this.activeModel2 = false;
       this.helperService.showToast("Attendance rule registered successfully", Key.TOAST_STATUS_SUCCESS);
-      setTimeout(() => {
+      // setTimeout(() => {
         this.router.navigate(['/organization-onboarding/attendance-rule-setup'])
-      }, 2000);
+      // }, 2000);
     }, (error) => {
       console.log(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
@@ -558,10 +560,36 @@ export class CreatRuleComponent implements OnInit {
     });
   }
 
-  time= new Date();
+  // set late duration
   getlateDuration(event:Date){
-    let lateDuration = this.helperService.formatDateToHHmmss(event);
-    this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration = lateDuration;
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration = duration;
+  }
+
+  getHalfDaylateDuration(event:Date){
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration = duration;
+  }
+
+  getFullDaylateDuration(event:Date){
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration = duration;
+  }
+
+  // set occurrence duration
+  getLateOccurrenceDuration(event:Date){
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDuration = duration;
+  }
+
+  getHalfDayOccurrenceDuration(event:Date){
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDuration = duration;
+  }
+
+  getFullDayOccurrenceDuration(event:Date){
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDuration = duration;
   }
 
 }

@@ -31,6 +31,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { UploadTeamComponent } from './components/upload-team/upload-team.component';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
     GooglePlaceModule,
     NgxPaginationModule,
     NgxShimmerLoadingModule,
-    NzTimePickerModule
+    NzTimePickerModule,
+    NzDatePickerModule
 
   ]
 })

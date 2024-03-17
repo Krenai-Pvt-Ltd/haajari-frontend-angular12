@@ -240,11 +240,7 @@ export class TopbarComponent implements OnInit {
   
   @HostListener('window:scroll', ['$event'])
   onNotificationScroll(event:any) {
-    console.log("scroll working");
-    
     if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight-3) {
-      console.log("scroll workign with height");
-      
       if (this.notificationList.length < this.totalNotification && !this.loading &&
         this.databaseHelper.currentPage <= (this.totalNotification / this.databaseHelper.itemPerPage)) {
         this.databaseHelper.currentPage++;

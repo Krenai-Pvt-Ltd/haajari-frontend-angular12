@@ -31,6 +31,8 @@ import { StatutoryAttribute } from 'src/app/models/statutory-attribute';
 import { ESIContributionRate } from 'src/app/models/e-si-contribution-rate';
 import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
 import { StatutoryAttributeResponse } from 'src/app/models/statutory-attribute-response';
+import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
+import { EmployeeExperienceComponent } from 'src/app/modules/employee-onboarding/employee-experience/employee-experience.component';
 
 @Component({
   selector: 'app-employee-profile',
@@ -41,6 +43,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   reasonOfRejectionProfile: ReasonOfRejectionProfile = new ReasonOfRejectionProfile();
   userAddressDetailsRequest: UserAddressDetailsRequest = new UserAddressDetailsRequest();
+  userExperienceDetailRequest: UserExperienceDetailRequest = new UserExperienceDetailRequest();
   userLeaveForm!: FormGroup;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
@@ -242,19 +245,27 @@ export class EmployeeProfileComponent implements OnInit {
   updateStatusUserByUuid(type: string) {
     if(type=="REJECTED"){
     this.toggle = true;
+    this.setReasonOfRejectionMethodCall();
     if(this.requestForMoreDocs== true){
       type = 'REQUESTED';
+      this.approvedToggle=false;
+
+      // this.toggle = false;
+      
+
     }
-  }
-    if(type=="APPROVED"){
+  }else if(type=="APPROVED"){
     this.approvedToggle=true;
     }
-    this.setReasonOfRejectionMethodCall();
+    
+   
     this.dataService.updateStatusUser(this.userId, type).subscribe(
       (data) => {
+        this.closeRejectModalButton.nativeElement.click();
         // console.log('status updated:' + type);
         this.sendStatusResponseMailToUser(this.userId, type);
-        // this.toggle = false
+        this.reasonOfRejectionProfile= new ReasonOfRejectionProfile();
+        this.toggle = false
 
         // location.reload();
         // location.reload();
@@ -994,13 +1005,20 @@ export class EmployeeProfileComponent implements OnInit {
 
 
 
+  isFresher: boolean = false;
   experienceEmployee: any;
   isCompanyPlaceholder: boolean = false;
   getEmployeeExperiencesDetailsByUuid() {
     this.dataService.getEmployeeExperiencesDetails(this.userId).subscribe(
-      (data) => {
+      (data: UserExperienceDetailRequest) => {
         this.experienceEmployee = data;
-        if (data == null || data.length == 0) {
+       
+      if(this.experienceEmployee[0].fresher== true){
+        this.isFresher = this.experienceEmployee[0].fresher;
+
+      }
+        console.log("experience length" + this.experienceEmployee.length);
+        if (data == null || data.experiences.length == 0) {
           this.isCompanyPlaceholder = true;
         }
         this.count++;
@@ -1324,11 +1342,12 @@ calculateDateDifferenceDuration(endDate:any, startDate:any) {
 sendStatusResponseMailToUser(userUuid:string, requestString:string) {
   this.dataService.statusResponseMailToUser(userUuid, requestString).subscribe(
     (data) => {
+      
     //  console.log("mail send successfully");
     
-     this.helperService.showToast("Mail Send Successfully", Key.TOAST_STATUS_SUCCESS);
+     this.helperService.showToast("Mail Sent Successfully", Key.TOAST_STATUS_SUCCESS);
      this.getUserByUuid();
-     this.closeRejectModalButton.nativeElement.click();
+    //  this.closeRejectModalButton.nativeElement.click();
 
      if(requestString=="APPROVED"){
      this.toggle = false;

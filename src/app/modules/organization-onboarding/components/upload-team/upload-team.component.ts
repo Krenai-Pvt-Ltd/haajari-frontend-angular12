@@ -2,8 +2,13 @@ import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { UserListReq } from 'src/app/models/UserListReq';
+import { User } from 'src/app/models/user';
+import { UserReq } from 'src/app/models/userReq';
+import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 
 @Component({
@@ -14,7 +19,7 @@ import { OrganizationOnboardingService } from 'src/app/services/organization-onb
 export class UploadTeamComponent implements OnInit {
 
   form!: FormGroup;
-  userList:any[]= new Array();
+  userList:UserReq[]= new Array();
   databaseHelper: DatabaseHelper = new DatabaseHelper();
 
 
@@ -22,39 +27,46 @@ export class UploadTeamComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private _onboardingService: OrganizationOnboardingService,
+    private dataService: DataService,
     private _location:Location,
-    private _router:Router) {
+    private _router:Router,
+    private helperService : HelperService) {
    }
 
   ngOnInit(): void {
-    this.userList.push(this.user);
+    this.getUser();
   }
 
   back(){
-    this.uploadMethod = '';
+    this.selectedMethod = '';
   }
 
   backPage(){
       this._location.back();
   }
-  uploadMethod: string = '';
+  selectedMethod: string = '';
   selectMethod(method:string){
     if(method == "excel"){
-      this.uploadMethod = '';
+      this.selectedMethod = '';
       this.getReport();
       this.importModalOpen.nativeElement.click();
     }
     else
     {
-      this.uploadMethod = method;
+      this.selectedMethod = method;
+      this.userList = [];
+      this.user = new UserReq();
+      this.userList.push(this.user)
     }
     
   }
 
-  user:{name:string; phone:string; email:string}={name:'',phone:'', email:''};
+  // user:{name:string; phone:string; email:string}={name:'',phone:'', email:''};
+  user:UserReq = new UserReq();
   
   addUser(){
-    this.user = { name: '', phone: '', email: ''};
+    // this.user = { name: '', phone: '', email: ''};
+    this.user = new UserReq();
     this.userList.push(this.user);
     
   }
@@ -100,7 +112,8 @@ export class UploadTeamComponent implements OnInit {
     })
   }
 
-  closeModal(){
+  closeImportModal(){
+    this.getUser();
 
   }
 
@@ -147,25 +160,99 @@ export class UploadTeamComponent implements OnInit {
   }
 
   userListReq: UserListReq = new UserListReq();
+  createLoading: boolean = false;
   create(){
     this.userListReq.userList= this.userList;
-    this._onboardingService.createUser(this.userListReq).subscribe((response: any) => {
+    this.createLoading = true;
+    this._onboardingService.createOnboardUser(this.userListReq).subscribe((response: any) => {
       if (response.status) {
-        // this._router.navigate(['/dashboard']);
+        this.selectedMethod = '';
+        this.createLoading = false;
+        this.getUser();
       }
     }, (error) => {
-      
+      this.createLoading = false;
     })
 
   }
 
-  isNumberExist: boolean = false;
-  checkExistance(number:string){
-    this._onboardingService.checkNumberExist(number).subscribe((response: any) => {
-        this.isNumberExist = response;
+  onboardUserList:any[]= new Array();
+  loading: boolean = false;
+  getUser(){
+    this.loading = true;
+    this._onboardingService.getOnboardUser().subscribe((response: any) => {
+      if (response.status) {
+        this.onboardUserList = response.object;
+      }
+      else{
+        this.onboardUserList = [];
+      }
+      this.loading = false;
     }, (error) => {
-      
+      this.loading = false;
+    })
+  }
+
+
+  @ViewChild('userEditModal')userEditModal!:ElementRef;
+  openUserEditModal(user:any){
+    this.user = JSON.parse(JSON.stringify(user));
+    this.userEditModal.nativeElement.click();
+    
+  }
+
+  @ViewChild('closeUserEditModal')closeUserEditModal!:ElementRef;
+  editLoader: boolean = false
+  editUser(){
+    this._onboardingService.editOnboardUser(this.user).subscribe((response: any) => {
+      this.editLoader = true
+      if (response.status) {
+        this.getUser();
+        this.closeUserEditModal.nativeElement.click();
+        this.editLoader = false;
+        this.helperService.showToast("user update sucessfully", Key.TOAST_STATUS_SUCCESS);
+      }
+    }, (error) => {
+      this.editLoader = false
+    })
+  }
+
+
+  deleteUser(id:number){
+    this._onboardingService.deleteOnboardUser(id).subscribe((response: any) => {
+      if (response.status) {
+        this.getUser();
+      }
+    }, (error) => {
+    })
+  }
+
+  isNumberExist: boolean = false;
+  checkNumberExistance(index:number, number:string){
+    this._onboardingService.checkNumberExist(number).subscribe((response: any) => {
+      if(index>=0){
+        this.userList[index].isPhoneExist = response;
+      }
+        this.isNumberExist = response;
     })
 
+  }
+
+  isEmailExist: boolean = false;
+  checkEmailExistance(index:number, email:string){
+    this._onboardingService.checkEmailExist(email).subscribe((response: any) => {
+      if(index>=0){
+        this.userList[index].isEmailExist = response;
+      }
+        this.isEmailExist = response;
+    })
+
+  }
+
+  next(){
+    // this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
+    this.dataService.markStepAsCompleted(4);
+    this._onboardingService.saveOrgOnboardingStep(4).subscribe();
+    this._router.navigate(['/organization-onboarding/attendance-rule-setup'])
   }
 }

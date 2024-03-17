@@ -189,52 +189,65 @@ export class Key{
     public static MEDICAL_ALLOWANCE = 4;
     public static SPECIAL_ALLOWANCE = 5;
     public static ADDITIONAL_ALLOWANCE = 6;
+
+    // Data format
+    public static BOARD = 1;
+    public static LIST = 2;
     
 
-    base_url = "http://localhost:8080/api/v2/";
+    // base_url = "http://localhost:8080/api/v2";
 
     /* ------------------  Staging urls ----------------*/
-    // base_url = "https://backend.hajiri.work/api/v2/";
+    base_url = "https://backend.hajiri.work/api/v2";
 
     /* ------------------  Production urls ----------------*/
-    // base_url = "https://production.hajiri.work/api/v2/";
-    
-    
-    get_subscription = "subcription-plan"; 
-    get_active_user_count = "users/active-user-count";
-    get_purchased_status = "organization-subs-plan/status"; 
+    // base_url = "https://production.hajiri.work/api/v2";
 
-    add_more_employee = "organization-subs-plan/add-more-employee"
-
-    get_invoices = "invoices"
-    get_last_invoices = "invoices/last-invoices"
-    get_due_invoices = "invoices/due-invoices"
-    get_due_pending_Status = "invoices/due-pending-status"
-
-    get_plan_purchased_log = "subcription-plan-log"
-    get_plan_purchased_status = "organization-subs-plan/plan-purchased-status";
     
-    get_org_subs_plan_month_detail = "organization-subs-plan-month-detail"
-    cancel_subscription = "organization-subs-plan-month-detail"
+    //subscription plan
+    get_subscription = "/subcription-plan"; 
+    get_active_user_count = "/users/active-user-count";
+    get_purchased_status = "/organization-subs-plan/status"; 
+
+    add_more_employee = "/organization-subs-plan/add-more-employee"
+
+    get_invoices = "/invoices"
+    get_last_invoices = "/invoices/last-invoices"
+    get_due_invoices = "/invoices/due-invoices"
+    get_due_pending_Status = "/invoices/due-pending-status"
+
+    get_plan_purchased_log = "/subcription-plan-log"
+    get_plan_purchased_status = "/organization-subs-plan/plan-purchased-status";
+    
+    get_org_subs_plan_month_detail = "/organization-subs-plan-month-detail"
+    cancel_subscription = "/organization-subs-plan-month-detail"
 
     //user notification
-    get_notification = "user-notification";
-    read_notification = "user-notification/read";
-    read_all_notification = "user-notification/read-all";
-    get_mail = "user-notification/mail";
+    get_notification = "/user-notification";
+    read_notification = "/user-notification/read";
+    read_all_notification = "/user-notification/read-all";
+    get_mail = "/user-notification/mail";
 
     //Coupon
-    verify_coupon = "coupon";
-
+    verify_coupon = "/coupon";
     
     //user import
-    create_user = "whatsapp-user-onboarding";
-    user_import = "whatsapp-user-onboarding/import";
+    create_user = "/whatsapp-user-onboarding";
+    create_admin = "/organization/register-organization-using-number";
+    create_admin_new = "/organization/register-organization-using-number-new";
 
-    get_report = "user-import"
-    check_number_existence = "whatsapp-user-onboarding/check-number-existence"
 
-    save_organization_onboarding_step = "organization/save-onboarding-step"
-    get_organization_onboarding_step = "organization/onboarding-step"
+    get_onboarding_user = "/whatsapp-user-onboarding/onboarding-user";
+    delete_onboarding_user = "/whatsapp-user-onboarding";
+    edit_onboarding_user = "/whatsapp-user-onboarding";
+
+    user_import = "/whatsapp-user-onboarding/import";
+    get_report = "/user-import"
+
+    check_number_existence = "/whatsapp-user-onboarding/check-number-existence"
+    check_email_existence = "/whatsapp-user-onboarding/check-email-existence"
+
+    save_organization_onboarding_step = "/organization/save-onboarding-step"
+    get_organization_onboarding_step = "/organization/onboarding-step"
     
 }
