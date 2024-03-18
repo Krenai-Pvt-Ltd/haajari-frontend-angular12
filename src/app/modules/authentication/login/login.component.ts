@@ -161,23 +161,28 @@ export class LoginComponent implements OnInit {
     if (this.isWhatsappLogin) {
       this.verifyOtpByWhatsappMethodCall();
     } else {
-      this.dataService.verifyUserOtp(this.email, this.otp)
-        .subscribe(
-          (response) => {
-            this.errorMessage = '';
-            this.verifyOtpButtonFlag = false;
-            this.otp = '';
-            this.createPasswordFlag = true;
-            this.showMessageFlag = false;
-            this.verifyOtpButtonFlag = false;
-            // this.otpVerification.nativeElement.click();
-            console.log('Verification successful:', response);
-          },
-          (error) => {
-            this.otpErrorMessage = error.error.message;
-            console.error('Verification failed:', error);
-          }
-        );
+      this.dataService.verifyUserOtp(this.email, this.otp).subscribe((response: any) => {
+        console.log("login with email", response);
+        if (response.object) {
+          this.errorMessage = '';
+          this.verifyOtpButtonFlag = false;
+          this.otp = '';
+          this.createPasswordFlag = true;
+          this.showMessageFlag = false;
+          this.isOtpVerify = false;
+          // this.otpVerification.nativeElement.click();
+        }
+        else {
+          this.isOtpVerify = true;
+          this.loading = false;
+        }
+      },
+        (error) => {
+          this.otpErrorMessage = error.error.message;
+          this.loading = false;
+          console.error('Verification failed:', error);
+        }
+      );
     }
 
   }
@@ -189,6 +194,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (response) => {
           this.registerPassLoader = false;
+          this.showOtpInput = false;
           console.log('Password Created successfully:', response);
           this.password = '';
           this.confiirmPassword = '';
@@ -242,6 +248,8 @@ export class LoginComponent implements OnInit {
   }
 
   sendUserOtpToMail() {
+    debugger
+    this.showOtpInput = true;
     this.dataService.sendUserOtpToMail(this.email)
       .subscribe(
         (response) => {
@@ -255,11 +263,13 @@ export class LoginComponent implements OnInit {
   }
 
   resetUserPassword() {
+    debugger
     this.registerPassLoader = true;
     this.dataService.resetPassword(this.email, this.password)
       .subscribe(
         (response) => {
           this.registerPassLoader = false;
+          this.showOtpInput = false;
           console.log('Password Created successfully:', response);
           this.password = '';
           this.confiirmPassword = '';
@@ -335,6 +345,7 @@ export class LoginComponent implements OnInit {
     } else {
       this.dataService.signInByWhatsappNew(this.phoneNumber).subscribe((response: any) => {
         if (response.status) {
+          this.verifyOtpButtonFlag = true;
           this.sendOtpLoader = false;
           this.showOtpInput = true;
           console.log('OTP sent successfully:', response);
