@@ -139,6 +139,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AngularFireMessagingModule,
     SharedModule,
     NzDatePickerModule,
+    NzCalendarModule,
     MatProgressSpinnerModule,
     NzSwitchModule,
     AgmCoreModule.forRoot({

@@ -1482,4 +1482,19 @@ export class DataService {
     return this.httpClient.delete<any>(`${this.baseUrl}/salary/template/delete-by-id`, { params });
   }
 
+
+  //  Attendance Report 
+
+  generateAttendanceReport(startDate: string, endDate: string): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('startDate', startDate); 
+    params = params.append('endDate', endDate);
+
+    return this.httpClient.post(`${this.baseUrl}/generate-reports/save-attendance-report-logs`, null, { params });
+  }
+
+  getAttendanceReportLogs(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/generate-reports/get-attendance-report-logs`);
+  }
+
 }
