@@ -12,11 +12,15 @@
                             <h4 class="heading">Attendance Reports </h4>
                             <div class="">
                                 <div class="Attendance-report-deta">
-                                  <h5>Attendance Report (Staff leave summry cycle)</h5>
-                                  <div class="report-icon">
-                                    <i class="bi bi-chevron-right"></i>
-                                </div>
-                                </div>
+                                    <h5>Attendance Report</h5>
+                                    <div class="report-icon" data-bs-toggle="modal" data-bs-target="#dateRangeModal">
+                                      <i *ngIf="!isLoading; else loadingTemplate" class="bi bi-chevron-right"></i>
+                                    </div>
+                                  </div>
+                                  
+                                  <ng-template #loadingTemplate>
+                                    <div class="loading-icon">Loading...</div>
+                                  </ng-template>
                                 <div class="Attendance-report-deta">
                                     <h5>Daily Attendance Report </h5>
                                     <div class="report-icon">
@@ -199,60 +203,41 @@
 
 
                         <div class="downlord-report">
-                        <div style="text-align: left; border-bottom: 1px solid #f2f2f2; padding-bottom: 15px;">
-                            <h5 class="mb-3" style="font-size: 16px;">30-11-2023</h5>
-
+                        <div  class="scroll-box-logs" style="text-align: left; border-bottom: 1px solid #f2f2f2; padding-bottom: 15px;">
+                            <!-- <h5 class="mb-3" style="font-size: 16px;">30-11-2023</h5> -->
 
                             <ul class="acitivity-timeline-2 list-unstyled mb-0">
-                                <li>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h6 class="fs-md mt-0"> Attendance Report</h6>
-
-                                        <div class="attendance-log-download d-flex" style="gap:20px">
-                                           
-                                                    <a href="" class="excel-box" ngbTooltip="Download Excel" placement="top"><img src="assets/images/excel.svg" style="width:20px"></a>
-                                              
-                                                    <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top"><img src="assets/images/pdf.svg" style="width:20px"></a>
-                                                
-                                                    <a href="#!" class="excel-box" ngbTooltip="Download Doc" placement="top"><img src="assets/images/doc.svg" style="width:20px"></a>
-                                             
-                                        </div>
-
-                                    </div>
-                                    
-                                    <div class="d-flex align-items-center mb-2 gap-3">
-                                        <p class="mb-0">
-                                            <i class="bi bi-calendar align-baseline me-1"></i> 30-11-2023 
-                                        </p>
-                                        </div>
-                                        <!-- <p class="text-muted mb-0">Anchal Sharma chose Subscription plan of 8999.0/year against email:- nelyqiri@clout.wiki</p> -->
-                                    </li>
-                                    <li>
+                                    <li *ngFor="let log of attendanceReportLogs">
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <h6 class="fs-md mt-0"> Attendance Report</h6>
+                                            <h6 class="fs-md mt-0"> {{log.reportName}}</h6>
     
                                             <div class="attendance-log-download d-flex" style="gap:20px">
                                                
-                                                <a href="" class="excel-box" ngbTooltip="Download Excel" placement="top"><img src="assets/images/excel.svg" style="width:20px"></a>
-                                              
-                                                <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top"><img src="assets/images/pdf.svg" style="width:20px"></a>
-                                            
-                                                <a href="#!" class="excel-box" ngbTooltip="Download Doc" placement="top"><img src="assets/images/doc.svg" style="width:20px"></a>
+                                                        <a href="{{log.reportExcelLink}}" class="excel-box" ngbTooltip="Download Excel" placement="top" target="_blank"><img src="assets/images/excel.svg" style="width:20px" ></a>
+                                                  
+                                                        <a href="{{log.reportPdfLink}}" class="excel-box" ngbTooltip="Download Pdf" placement="top" target="_blank"><img src="assets/images/pdf.svg" style="width:20px"></a>
+                                                    
+                                                        <a href="{{log.statusReportPdfLink}}" class="excel-box" ngbTooltip="Download Doc" placement="top" target="_blank"><img src="assets/images/pdf.svg" style="width:20px"></a>
                                                  
                                             </div>
     
                                         </div>
                                         <div class="d-flex align-items-center mb-2 gap-3">
-                                            <p class="mb-0">
-                                                <i class="bi bi-calendar align-baseline me-1"></i> 30-11-2023 
-                                            </p>
+                                        <p class="mb-0">
+                                            <i class="bi bi-calendar align-baseline me-1"></i>
+                                            {{
+                                                formatDateIn(
+                                                  formatDate2(log.createdDate)
+                                                ) || "N/A"
+                                              }}&nbsp; - &nbsp;<span>{{
+                                                formatTime(log.createdDate) || "N/A"
+                                              }}</span>
+                                        </p>
                                         </div>
-                                        <!-- <p class="text-muted mb-0">Subscription Invoice generated for As and sent to nelyqiri@clout.wiki</p> -->
+                                        <!-- <p class="text-muted mb-0">Anchal Sharma chose Subscription plan of 8999.0/year against email:- nelyqiri@clout.wiki</p> -->
                                     </li>
-                                    </ul>
-
-
-                            
+                                   
+                                    </ul>   
                         </div>
 
                         <div style="text-align: left; border-bottom: 1px solid #f2f2f2; padding-bottom: 15px; padding-top: 20px;">
@@ -375,3 +360,28 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="dateRangeModal" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel" aria-hidden="true" #dateRangeModal>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dateRangeModalLabel">Select Date Range</h5>
+          <!-- <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        </div>
+        <div class="modal-body">
+          <!-- Start Date Picker -->
+          <nz-date-picker nzMode="date" [(ngModel)]="startDate" nzPlaceHolder="Start Date"></nz-date-picker>
+          <br>
+          <br>
+          <!-- End Date Picker -->
+          <nz-date-picker nzMode="date" [(ngModel)]="endDate" nzPlaceHolder="End Date"></nz-date-picker>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #dateRangeModalClose>Close</button>
+          <button type="button" class="btn btn-primary" (click)="handleOk()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

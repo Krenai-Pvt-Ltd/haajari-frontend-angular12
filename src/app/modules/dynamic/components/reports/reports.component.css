@@ -371,3 +371,23 @@ span.members-name {
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     justify-content: center;
 }
+
+.bi-arrow-repeat {
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+.scroll-box-logs{
+    height: 180px;
+    overflow-x: auto;
+}
+
+.scroll-box-logs::-webkit-scrollbar{
+    display: none;
+}
+
+  
