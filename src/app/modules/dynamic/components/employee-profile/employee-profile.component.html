@@ -2532,12 +2532,19 @@
                 id="exampleFormControlTextarea1"
                 placeholder="Notes"
                 rows="3"
+                required
                 style="height: 100px !important"
                 formControlName="optNotes"
                 [maxLength]="255"
                 [(ngModel)]="userLeaveRequest.optNotes"
               >
               </textarea>
+              <div
+              class="form-text text-danger"
+              *ngIf="OptNotes?.errors?.['required'] && (OptNotes?.touched || OptNotes?.dirty)"
+            >
+              Notes is Required.
+            </div>
               <small *ngIf="maxWords.value.length > 254" style="color: red"
                 >The maximum number of characters allowed in above field is
                 255!</small
