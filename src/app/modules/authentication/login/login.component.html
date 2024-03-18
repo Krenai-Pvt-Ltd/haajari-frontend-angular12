@@ -71,14 +71,10 @@
                         <h4>Hey,<br>Welcome Back!</h4>
                         <p>We are very happy to see you back!</p>
                     </div>
+                    <form #loginForm="ngForm" id="signin-with-email-2" style="width: 100%;" *ngIf="enableBack">
 
-
-
-                    <form #loginForm="ngForm" id="signin-with-email-2"
-                        style="width: 100%;" *ngIf="enableBack">
-
-                        <div class="form-group" *ngIf="!createPasswordFlag ">
-                            <div *ngIf="!isWhatsappLogin">
+                        <div class="form-group">
+                            <div *ngIf="!isWhatsappLogin && !showOtpInput">
                                 <label for="exampleInputEmail1" class="mb-2">Email address</label>
                                 <input type="email" required class="form-control" id="exampleInputEmail1"
                                     name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"
@@ -95,38 +91,37 @@
                             </div>
 
                             <!-- Conditionally show Phone number input -->
-                            <div *ngIf="isWhatsappLogin">
-                                <div *ngIf="!showOtpInput">
-                                <label for="examplePhoneNumber1" class="mb-2">Phone Number</label>
-                                <input type="text" required mask="0000000000" class="form-control"
-                                    id="examplePhoneNumber1" name="examplePhoneNumber1" aria-describedby="phoneHelp"
-                                    placeholder="Enter phone number" #phoneNumberOtp="ngModel" [(ngModel)]="phoneNumber"
-                                    style="height: 45px !important;">
-                                <div *ngIf="(phoneNumberOtp.touched && phoneNumberOtp.invalid) || isFormInvalid">
-                                    <p class="errortxt mt-2 mb-0" style="color:red"
-                                        *ngIf="phoneNumberOtp.errors?.required">
-                                        <i class="bi bi-exclamation-circle"></i>
-                                        Phone Number is required.
-                                    </p>
+                            <div *ngIf="isWhatsappLogin && !showOtpInput">
+                                <!-- <div *ngIf=""> -->
+                                    <label for="examplePhoneNumber1" class="mb-2">Phone Number</label>
+                                    <input type="text" required mask="0000000000" class="form-control"
+                                        id="examplePhoneNumber1" name="examplePhoneNumber1" aria-describedby="phoneHelp"
+                                        placeholder="Enter phone number" #phoneNumberOtp="ngModel"
+                                        [(ngModel)]="phoneNumber" style="height: 45px !important;">
+                                    <div *ngIf="(phoneNumberOtp.touched && phoneNumberOtp.invalid) || isFormInvalid">
+                                        <p class="errortxt mt-2 mb-0" style="color:red"
+                                            *ngIf="phoneNumberOtp.errors?.required">
+                                            <i class="bi bi-exclamation-circle"></i>
+                                            Phone Number is required.
+                                        </p>
 
-                                </div>
+                                    </div>
+                                <!-- </div> -->
                             </div>
 
-                                <div class="" *ngIf="showOtpInput">
-                                    <div class="otp-card">
-                                        <p class="otp-title" style="font-size: 25px;">Enter verification code</p>
-                                        <div class="otp-input-container">
-                                            <ng-otp-input (onInputChange)="onOtpChange($event)"
-                                                [config]="{length:6}"></ng-otp-input>
+                            <div class="" *ngIf="showOtpInput && verifyOtpButtonFlag">
+                                <div class="otp-card">
+                                    <p class="otp-title" style="font-size: 25px;">Enter verification code</p>
+                                    <div class="otp-input-container">
+                                        <ng-otp-input (onInputChange)="onOtpChange($event)"
+                                            [config]="{length:6}"></ng-otp-input>
 
-                                        </div>
-                                        <br>
-                                        <div *ngIf="otpErrorMessage" class="alert alert-danger">
-                                            {{ otpErrorMessage }}
-                                        </div>
+                                    </div>
+                                    <br>
+                                    <div *ngIf="otpErrorMessage" class="alert alert-danger">
+                                        {{ otpErrorMessage }}
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <small class="" *ngIf="verifyOtpButtonFlag && showMessageFlag" style="color:chocolate">You have
@@ -146,8 +141,6 @@
                                     style="color:red !important; display: flex; justify-content: flex-end; margin-top: 5px;"
                                     (click)="forgotPasswordFun()">Forgot password?</span>
                             </div>
-
-                            <!-- <button type="button" class="btn btn-light" style="align-items: end; color: cornflowerblue;" (click)="forgotPasswordFun()">Forgot Your Password?</button> -->
                         </div>
 
                         <div *ngIf="createPasswordFlag">
@@ -184,10 +177,9 @@
                         {{ errorMessage }}
                     </div> -->
                         <!-- Button shown when isWhatsappLogin is false -->
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#otpVerification"
-                            class="btn btn-primary d-flex align-items-center justify-content-center"
+                        <button type="button" class="btn btn-primary d-flex align-items-center justify-content-center"
                             style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px"
-                            *ngIf="verifyOtpButtonFlag && !isWhatsappLogin" (click)="sendUserOtpToMail()">Send
+                            *ngIf="verifyOtpButtonFlag && !isWhatsappLogin && !showOtpInput" (click)="sendUserOtpToMail()">Send
                             OTP</button>
 
                         <!-- Button shown when isWhatsappLogin is true -->
@@ -199,11 +191,12 @@
                                 <span></span>
                                 <span></span>
                                 <span></span>
-                            </div></button>
+                            </div>
+                        </button>
 
-                            <button type="submit" class="btn btn-success d-flex align-items-center justify-content-center"
+                        <button type="submit" class="btn btn-success d-flex align-items-center justify-content-center"
                             style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px"
-                            *ngIf="isWhatsappLogin && showOtpInput"(click)="verifyOtp()">
+                            *ngIf="showOtpInput && verifyOtpButtonFlag" (click)="verifyOtp()">
                             <span *ngIf="!loading">Verify</span>
                             <div class="dot-opacity-loader" *ngIf="loading">
                                 <span></span>
@@ -308,7 +301,8 @@
                                 </a> -->
                                 <a
                                     href="https://slack.com/oauth/v2/authorize?client_id=2411087939271.5829197320647&scope=app_mentions:read,channels:history,channels:read,chat:write,chat:write.customize,chat:write.public,commands,files:write,groups:read,im:history,im:read,team:read,users.profile:read,users:read,users:read.email,im:write&user_scope=users:read&redirect_uri=https://app.hajiri.in/auth/slackauth&state=">
-                                    <img src="assets/images/slack-1.svg" style="width:26px; margin-right:6px"> Add To Slack <i class="bi bi-chevron-right right-arrow"></i>
+                                    <img src="assets/images/slack-1.svg" style="width:26px; margin-right:6px"> Add To
+                                    Slack <i class="bi bi-chevron-right right-arrow"></i>
                                 </a>
                             </div>
                             <div class="mb-2 position-relative">
