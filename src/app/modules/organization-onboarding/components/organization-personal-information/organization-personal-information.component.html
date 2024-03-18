@@ -144,7 +144,7 @@
                           (keydown)="preventLeadingWhitespace($event)" placeholder="Enter organization name" name="name"
                           #name="ngModel" minlength="5">
                       </div>
-                      <div *ngIf="name?.dirty  || isFormInvalid">
+                      <div *ngIf="name?.dirty && isFormInvalid">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name.errors?.required"><i
                             class="bi bi-exclamation-circle"></i>
                           Name is required.</p>
@@ -166,7 +166,7 @@
                           (click)="toggleNewPasswordVisibility()">
                           <i class="bi" [class]="showNewPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
                         </button>
-                        <div *ngIf="password?.touched">
+                        <div *ngIf="password?.dirty && isFormInvalid">
                           <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="password.errors?.required">
                             <i class="bi bi-exclamation-circle"></i> Password is required.
                           </p>

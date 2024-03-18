@@ -177,6 +177,9 @@
                         <div *ngIf="errorMessage" class="alert alert-danger">
                             {{ errorMessage }}
                         </div>
+                        <div *ngIf="isOtpVerify" class="alert alert-danger">
+                            Otp is not valid
+                        </div>
                         <!-- <div *ngIf="errorMessage && verifyOtpButtonFlag" class="alert alert-danger" style="color:green; background-color:rgba(158, 215, 142, 0.945)">
                         {{ errorMessage }}
                     </div> -->
