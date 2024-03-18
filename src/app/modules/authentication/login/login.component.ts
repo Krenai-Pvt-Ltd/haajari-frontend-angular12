@@ -339,9 +339,9 @@ export class LoginComponent implements OnInit {
           this.showOtpInput = true;
           console.log('OTP sent successfully:', response);
         }
-      },(error) => {
-          console.log("error :", error);
-        }
+      }, (error) => {
+        console.log("error :", error);
+      }
       );
     }
   }
@@ -349,6 +349,7 @@ export class LoginComponent implements OnInit {
   @ViewChild('closeOtpVerifyModal') closeOtpVerifyModal!: ElementRef;
 
   loading: boolean = false;
+  isOtpVerify: boolean = false;
   verifyOtpByWhatsappMethodCall() {
     debugger
     this.loading = true;
@@ -374,31 +375,33 @@ export class LoginComponent implements OnInit {
 
       } else {
 
-        this.userReq.phone = this.phoneNumber;
-        this._onboardingService.createAdminNew(this.userReq).subscribe((response: any) => {
-          if (response.status) {
-            this.loading = false;
-            this.helperService.subModuleResponseList = response.object.subModuleResponseList;
-            localStorage.setItem('token', response.object.tokenResponse.access_token);
-            localStorage.setItem('refresh_token', response.object.tokenResponse.refresh_token);
+        this.isOtpVerify = true;
+        this.loading = false;
+        // this.userReq.phone = this.phoneNumber;
+        // this._onboardingService.createAdminNew(this.userReq).subscribe((response: any) => {
+        //   if (response.status) {
+        //     this.loading = false;
+        //     this.helperService.subModuleResponseList = response.object.subModuleResponseList;
+        //     localStorage.setItem('token', response.object.tokenResponse.access_token);
+        //     localStorage.setItem('refresh_token', response.object.tokenResponse.refresh_token);
 
-            const helper = new JwtHelperService();
-            const onboardingStep = helper.decodeToken(response.object.tokenResponse.access_token).statusResponse;
-            const role = helper.decodeToken(response.object.tokenResponse.access_token).role;
-            if (role == "ADMIN") {
-              if (onboardingStep == "6") {
-                this.router.navigate(['/dashboard']);
-              } else {
-                this.router.navigate(['/organization-onboarding/personal-information']);
-              }
-            } else {
-              this.router.navigate(['/dashboard']);
-            }
-          }
-          this.loading = false;
-        }, (error) => {
-          this.loading = false;
-        })
+        //     const helper = new JwtHelperService();
+        //     const onboardingStep = helper.decodeToken(response.object.tokenResponse.access_token).statusResponse;
+        //     const role = helper.decodeToken(response.object.tokenResponse.access_token).role;
+        //     if (role == "ADMIN") {
+        //       if (onboardingStep == "6") {
+        //         this.router.navigate(['/dashboard']);
+        //       } else {
+        //         this.router.navigate(['/organization-onboarding/personal-information']);
+        //       }
+        //     } else {
+        //       this.router.navigate(['/dashboard']);
+        //     }
+        //   }
+        //   this.loading = false;
+        // }, (error) => {
+        //   this.loading = false;
+        // })
       }
     },
       (error) => {
