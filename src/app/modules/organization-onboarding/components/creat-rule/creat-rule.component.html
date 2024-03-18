@@ -412,14 +412,8 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div
-                                                                style="display: flex; justify-content: space-between; align-items : center;">
+                                                            <div style="display: flex; justify-content: space-between; align-items : center;">
 
-                                                                <!-- <th style="width:0%; ">
-                                                <input type="checkbox" style="cursor: pointer;" class="form-check-input"
-                                                       [(ngModel)]="isAllUsersSelected"
-                                                       (change)="selectAllUsers($event)">
-                                            </th> -->
                                                                 <div *ngIf="selectedStaffsUuids.length > 0">
                                                                     <ng-container
                                                                         *ngIf="selectedStaffsUuids.length === total; else elseCondition2">
@@ -494,7 +488,7 @@
                                                             </table>
                                                         </div>
                                                         <!-- *ngIf="staffs.length > 8" -->
-                                                        <div class="pagination pl-3">
+                                                        <div class="pagination pl-3 d-flex justify-content-between">
                                                             <p class="mb-0" style="padding-left: 15px">
                                                                 Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                                                                 {{ total }} teams
@@ -579,7 +573,7 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="tracking-dataaa active-rule d-flex " style="gap:8px">
+                                                <div class="tracking-dataaa d-flex" [ngClass]="{'active-rule':!isStaffTab}" style="gap:8px">
                                                     <div class="rule-stap">
                                                         <h5>2</h5>
                                                     </div>
@@ -591,7 +585,7 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="tracking-dataaa d-flex " style="gap:8px">
+                                                <div class="tracking-dataaa d-flex" [ngClass]="{'active-rule':isStaffTab}" style="gap:8px">
                                                     <div class="rule-stap">
                                                         <h5>3</h5>
                                                     </div>

@@ -72,6 +72,19 @@ export class HeaderComponent implements OnInit {
 
   async getLoggedInUserDetails(){
     this.loggedInUser = await this.helperService.getDecodedValueFromToken();
+    if(this.loggedInUser.name==''){
+    this.getOrganizationName();
+    }
+    
+  }
+
+  getOrganizationName(){
+    debugger
+    this.dataService.getOrganizationDetails().subscribe((data)=> {
+      this.loggedInUser.name = data.name;
+      }, (error) => {
+        console.log(error);
+      });
   }
 
   getFirstAndLastLetterFromName(name: string): string {

@@ -189,18 +189,22 @@ export class Key{
     public static MEDICAL_ALLOWANCE = 4;
     public static SPECIAL_ALLOWANCE = 5;
     public static ADDITIONAL_ALLOWANCE = 6;
+
+    // Data format
+    public static BOARD = 1;
+    public static LIST = 2;
     
 
-    base_url = "http://localhost:8080/api/v2";
+    // base_url = "http://localhost:8080/api/v2";
 
     /* ------------------  Staging urls ----------------*/
-    // base_url = "https://backend.hajiri.work/api/v2";
+    base_url = "https://backend.hajiri.work/api/v2";
 
     /* ------------------  Production urls ----------------*/
     // base_url = "https://production.hajiri.work/api/v2";
 
     
-    
+    //subscription plan
     get_subscription = "/subcription-plan"; 
     get_active_user_count = "/users/active-user-count";
     get_purchased_status = "/organization-subs-plan/status"; 
@@ -241,6 +245,7 @@ export class Key{
     get_report = "/user-import"
 
     check_number_existence = "/whatsapp-user-onboarding/check-number-existence"
+    check_email_existence = "/whatsapp-user-onboarding/check-email-existence"
 
     save_organization_onboarding_step = "/organization/save-onboarding-step"
     get_organization_onboarding_step = "/organization/onboarding-step"

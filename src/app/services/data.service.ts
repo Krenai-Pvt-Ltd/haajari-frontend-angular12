@@ -1219,6 +1219,12 @@ export class DataService {
     return this.httpClient.post<any>(url, {});
   }
 
+  signInByWhatsappNew(phoneNumber: string): Observable<any> {
+    const url = `${this.baseUrl}/user/auth/sent/otp-whatsapp-new?phoneNumber=${phoneNumber}`;
+    return this.httpClient.post<any>(url, {});
+  }
+
+
   verifyOtpByWhatsapp(phoneNumber: string, otp: String): Observable<any> {
     const url = `${this.baseUrl}/user/auth/verify/otp-whatsapp?phoneNumber=${phoneNumber}&otp=${otp}`;
     return this.httpClient.post<any>(url, {});
