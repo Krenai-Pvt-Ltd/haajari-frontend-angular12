@@ -74,11 +74,12 @@
                     <form #loginForm="ngForm" id="signin-with-email-2" style="width: 100%;" *ngIf="enableBack">
 
                         <div class="form-group">
+                            <!-- show email number input -->
                             <div *ngIf="!isWhatsappLogin && !showOtpInput">
                                 <label for="exampleInputEmail1" class="mb-2">Email address</label>
                                 <input type="email" required class="form-control" id="exampleInputEmail1"
                                     name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"
-                                    [(ngModel)]="email" #emailAddress="ngModel" autocomplete="username"
+                                    [(ngModel)]="email" #emailAddress="ngModel" autocomplete="email"
                                     style="height: 45px !important;">
                                 <div *ngIf="(emailAddress.touched && emailAddress.invalid) || isFormInvalid">
                                     <p class="errortxt mt-2 mb-0" style="color:red"
@@ -86,38 +87,41 @@
                                         <i class="bi bi-exclamation-circle"></i>
                                         Email is required.
                                     </p>
-
                                 </div>
                             </div>
 
                             <!-- Conditionally show Phone number input -->
                             <div *ngIf="isWhatsappLogin && !showOtpInput">
-                                <!-- <div *ngIf=""> -->
-                                    <label for="examplePhoneNumber1" class="mb-2">Phone Number</label>
-                                    <input type="text" required mask="0000000000" class="form-control"
-                                        id="examplePhoneNumber1" name="examplePhoneNumber1" aria-describedby="phoneHelp"
-                                        placeholder="Enter phone number" #phoneNumberOtp="ngModel"
-                                        [(ngModel)]="phoneNumber" style="height: 45px !important;">
-                                    <div *ngIf="(phoneNumberOtp.touched && phoneNumberOtp.invalid) || isFormInvalid">
-                                        <p class="errortxt mt-2 mb-0" style="color:red"
-                                            *ngIf="phoneNumberOtp.errors?.required">
-                                            <i class="bi bi-exclamation-circle"></i>
-                                            Phone Number is required.
-                                        </p>
-
-                                    </div>
-                                <!-- </div> -->
+                                <label for="examplePhoneNumber1" class="mb-2">Phone Number</label>
+                                <input type="text" required mask="0000000000" class="form-control"
+                                    id="examplePhoneNumber1" name="examplePhoneNumber1" aria-describedby="phoneHelp"
+                                    placeholder="Enter phone number" #phoneNumberOtp="ngModel" [(ngModel)]="phoneNumber"
+                                    style="height: 45px !important;">
+                                <div *ngIf="(phoneNumberOtp.touched && phoneNumberOtp.invalid) || isFormInvalid">
+                                    <p class="errortxt mt-2 mb-0" style="color:red"
+                                        *ngIf="phoneNumberOtp.errors?.required">
+                                        <i class="bi bi-exclamation-circle"></i>
+                                        Phone Number is required.
+                                    </p>
+                                </div>
                             </div>
 
+                            <!-- otp input box -->
                             <div class="" *ngIf="showOtpInput && verifyOtpButtonFlag">
                                 <div class="otp-card">
                                     <p class="otp-title" style="font-size: 25px;">Enter verification code</p>
                                     <div class="otp-input-container">
                                         <ng-otp-input (onInputChange)="onOtpChange($event)"
                                             [config]="{length:6}"></ng-otp-input>
-
                                     </div>
                                     <br>
+
+                                    <!-- resend otp -->
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-primary" 
+                                        [disabled]="counter>0" (click)="resendOtp()">Resend Otp 
+                                            <span *ngIf="counter>0">({{transform(counter)}})</span></button>
+                                    </div>
                                     <div *ngIf="otpErrorMessage" class="alert alert-danger">
                                         {{ otpErrorMessage }}
                                     </div>
@@ -128,12 +132,9 @@
                             not created your password yet, Please create your password by verifying your OTP!</small>
 
                         <br>
-                        <!-- <span *ngIf="verifyOtpButtonFlag"></span> -->
-                        <div *ngIf="enterPasswordFlag">
+                        <div *ngIf="enterPasswordFlag && !isWhatsappLogin">
                             <div class="form-group">
-
                                 <label for="exampleInputPassword1" class="mb-2">Password</label>
-                                <!-- <span style="align-items:end;color: red;">Forgot Your Password?</span> -->
                                 <input type="password" class="form-control" id="exampleInputPassword1"
                                     name="exampleInputPassword1" placeholder="Password" [(ngModel)]="password"
                                     autocomplete="current-password" style="height: 45px !important;">
@@ -161,7 +162,7 @@
                             </div>
                         </div>
                         <br>
-                        <div class="login-new-text ">
+                        <div class="login-new-text">
                             <p>By signing, you are creating a COMMIT account, and you agree to COMMIT <a href=""
                                     class="neq-login-link"> Terms of Use </a> and <a href=""
                                     class="neq-login-link">privacy Policy.</a></p>
@@ -173,19 +174,20 @@
                         <div *ngIf="isOtpVerify" class="alert alert-danger">
                             Otp is not valid
                         </div>
-                        <!-- <div *ngIf="errorMessage && verifyOtpButtonFlag" class="alert alert-danger" style="color:green; background-color:rgba(158, 215, 142, 0.945)">
-                        {{ errorMessage }}
-                    </div> -->
-                        <!-- Button shown when isWhatsappLogin is false -->
+
+                        <!-- Button shown when Email Login -->
                         <button type="button" class="btn btn-primary d-flex align-items-center justify-content-center"
                             style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px"
-                            *ngIf="verifyOtpButtonFlag && !isWhatsappLogin && !showOtpInput" (click)="sendUserOtpToMail()">Send
+                            [disabled]="email == null || email == ''"
+                            *ngIf="verifyOtpButtonFlag && !isWhatsappLogin && !showOtpInput"
+                            (click)="sendUserOtpToMail()">Send
                             OTP</button>
 
-                        <!-- Button shown when isWhatsappLogin is true -->
+                        <!-- Button shown when Number Login -->
                         <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center"
                             style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px"
-                            *ngIf="isWhatsappLogin && !showOtpInput" (click)="signInByWhatsappMethodCall()">
+                            [disabled]="phoneNumber == null || phoneNumber == ''"
+                            *ngIf="isWhatsappLogin && !showOtpInput" (click)="signInByWhatsapp()">
                             <span *ngIf="!sendOtpLoader">Send OTP</span>
                             <div class="dot-opacity-loader" *ngIf="sendOtpLoader">
                                 <span></span>
@@ -196,6 +198,7 @@
 
                         <button type="submit" class="btn btn-success d-flex align-items-center justify-content-center"
                             style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px"
+                            [disabled]="otp==null || otp==''"
                             *ngIf="showOtpInput && verifyOtpButtonFlag" (click)="verifyOtp()">
                             <span *ngIf="!loading">Verify</span>
                             <div class="dot-opacity-loader" *ngIf="loading">
@@ -253,7 +256,7 @@
                         <button type="button"
                             class="btn btn-primary d-flex align-items-center justify-content-center mb-5"
                             style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px"
-                            *ngIf="!verifyOtpButtonFlag && enterPasswordFlag" (click)="signIn()">
+                            *ngIf="!verifyOtpButtonFlag && enterPasswordFlag && !isWhatsappLogin" (click)="signIn()">
                             <ng-container *ngIf="loginButtonLoader; else loginButton">
                                 <div class="dot-opacity-loader">
                                     <span></span>

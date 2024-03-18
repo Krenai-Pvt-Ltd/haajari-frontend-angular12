@@ -21,15 +21,15 @@ export class OrganizationOnboardingService {
     return this._httpClient.post(this._key.base_url + this._key.user_import, formdata);
   }
 
-  createAdmin(user:UserReq) {
-    debugger
-    return this._httpClient.post(this._key.base_url + this._key.create_admin, user);
-  }
+  // createAdmin(user:UserReq) {
+  //   debugger
+  //   return this._httpClient.post(this._key.base_url + this._key.create_admin, user);
+  // }
 
-  createAdminNew(user:UserReq) {
-    debugger
-    return this._httpClient.post(this._key.base_url + this._key.create_admin_new, user);
-  }
+  // createAdminNew(user:UserReq) {
+  //   debugger
+  //   return this._httpClient.post(this._key.base_url + this._key.create_admin_new, user);
+  // }
 
   createOnboardUser(userList:UserListReq) {
     debugger
