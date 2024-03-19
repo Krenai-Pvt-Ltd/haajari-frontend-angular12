@@ -1495,6 +1495,14 @@ export class DataService {
 
 
   //  Attendance Report 
+  
+  generateAttendanceSummary(startDate: string, endDate: string): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('startDate', startDate); 
+    params = params.append('endDate', endDate);
+
+    return this.httpClient.post(`${this.baseUrl}/generate-reports/save-attendance-summary-logs`, null, { params });
+  }
 
   generateAttendanceReport(startDate: string, endDate: string): Observable<any> {
     let params = new HttpParams();
