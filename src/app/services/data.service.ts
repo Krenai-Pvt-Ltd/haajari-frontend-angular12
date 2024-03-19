@@ -1193,6 +1193,11 @@ export class DataService {
     return this.httpClient.post(`${this.baseUrl}/user/auth/sent/otp`, {}, { params });
   }
 
+  sendUserOtpToMailNew(email: string): Observable<any> {
+    const params = new HttpParams().set("email", email);
+    return this.httpClient.post(`${this.baseUrl}/user/auth/sent/otp-new`, {}, { params });
+  }
+
   registerPassword(email: string, password: string): Observable<any> {
     const params = new HttpParams().set("email", email).set("password", password);
     return this.httpClient.post(`${this.baseUrl}/user/auth/save/password`, {}, { params });

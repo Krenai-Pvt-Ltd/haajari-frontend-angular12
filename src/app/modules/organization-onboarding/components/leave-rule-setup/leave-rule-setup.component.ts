@@ -422,7 +422,6 @@ export class LeaveRuleSetupComponent implements OnInit {
   deleteLeaveLoader: boolean = false;
   deleteLeaveSettingRule(leaveSettingId: number): void {
     this.deleteLeaveLoaderStatus[leaveSettingId] = true;
-    // this.deleteLeaveLoader = true;
     this.dataService.deleteLeaveSettingRule(leaveSettingId).subscribe(
       () => {
         this.deleteLeaveLoaderStatus[leaveSettingId] = false;

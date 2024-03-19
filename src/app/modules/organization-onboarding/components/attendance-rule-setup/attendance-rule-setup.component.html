@@ -214,8 +214,14 @@
                                                                         class="bi bi-pencil-square"></i></a>
 
                                                                 <a style="cursor: pointer" class="delete-rule"
-                                                                    (click)="deleteOrganizationShiftTimingMethodCall(organizationShiftTimingResponse.id)"><i
-                                                                        class="bi bi-trash"></i></a>
+                                                                    (click)="deleteOrganizationShiftTimingMethodCall(organizationShiftTimingResponse.id)"
+                                                                    *ngIf="!deleteOrganizationShiftTimingTemplateLoader(organizationShiftTimingResponse.id)">
+                                                                    <i class="bi bi-trash"></i></a>
+                                                                    <div class="dot-opacity-loader" *ngIf="deleteOrganizationShiftTimingTemplateLoader(organizationShiftTimingResponse.id)">
+                                                                        <span style="background-color: #6666f3;"></span>
+                                                                        <span style="background-color: #6666f3;"></span>
+                                                                        <span style="background-color: #6666f3;"></span>
+                                                                    </div>
 
                                                             </div>
                                                         </div>
@@ -440,8 +446,15 @@
                                                                             class="bi bi-pencil-square"
                                                                             style=" color: #6666f3;"></i></a>
                                                                     <a class="delete-rule" style="cursor: pointer;"
-                                                                        (click)="deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionResponse.id)"><i
-                                                                            class="bi bi-trash"></i></a>
+                                                                        (click)="deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionResponse.id)"
+                                                                        *ngIf="!deleteAttendanceRuleTemplateLoader(attendanceRuleDefinitionResponse.id)">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </a>
+                                                                    <div class="dot-opacity-loader" *ngIf="deleteAttendanceRuleTemplateLoader(attendanceRuleDefinitionResponse.id)">
+                                                                        <span style="background-color: #6666f3;"></span>
+                                                                        <span style="background-color: #6666f3;"></span>
+                                                                        <span style="background-color: #6666f3;"></span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
