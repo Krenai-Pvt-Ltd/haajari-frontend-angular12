@@ -186,13 +186,23 @@ export class AttendanceRuleSetupComponent implements OnInit {
     })
   }
 
+
+  deleteAttendanceRuleTemplateLoader(id: any): boolean {
+    return this.deleteAttendanceRuleLoaderStatus[id] || false;
+  }
+
+  deleteAttendanceRuleLoaderStatus: { [key: string]: boolean } = {};
+  deleteAttendanceRuleLoader: boolean = false;
   deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionId: number) {
     debugger
+    this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = true;
     this.dataService.deleteAttendanceRuleDefinition(attendanceRuleDefinitionId).subscribe((response) => {
+      this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = false;
       this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
       this.helperService.showToast("Attendance rule settings deleted successfully", Key.TOAST_STATUS_SUCCESS);
 
     }, (error) => {
+      this.deleteAttendanceRuleLoader = false;
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
@@ -424,9 +434,19 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
   }
 
+
+  deleteOrganizationShiftTimingTemplateLoader(id: any): boolean {
+    return this.deleteOrganizationShiftTimingLoaderStatus[id] || false;
+  }
+
+  deleteOrganizationShiftTimingLoaderStatus: { [key: string]: boolean } = {};
+  deleteOrganizationShiftTimingLoader: boolean = false;
+
   deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
+    debugger
+    this.deleteOrganizationShiftTimingLoaderStatus[organizationShiftTimingId] = true;
     this.dataService.deleteOrganizationShiftTiming(organizationShiftTimingId).subscribe((response) => {
-      // console.log(response);
+      this.deleteOrganizationShiftTimingLoaderStatus[organizationShiftTimingId] = false;
       this.getAllShiftTimingsMethodCall();
       this.helperService.showToast("Shift timing deleted successfully", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {

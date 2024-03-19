@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   //accessTokenArray: any = JSON.parse(this.accessTokensAr);
 
   countDown: Subscription;
-  counter:number = 10;
+  counter: number = 10;
   tick = 1000;
 
   constructor(private dataService: DataService,
@@ -31,18 +31,16 @@ export class LoginComponent implements OnInit {
     private rbacService: RoleBasedAccessControlService,
     private helperService: HelperService,
     private _onboardingService: OrganizationOnboardingService) {
-      
-      this.countDown = timer(0, this.tick).pipe(take(this.counter)).subscribe(() => {
-        --this.counter;
-        if (this.counter == 0) {
-          this.countDown.unsubscribe();
-        }
-      });
-     }
+
+    this.countDown = timer(0, this.tick).pipe(take(this.counter)).subscribe(() => {
+      --this.counter;
+      if (this.counter == 0) {
+        this.countDown.unsubscribe();
+      }
+    });
+  }
 
   ngOnInit(): void {
-
-   
 
     // const loginData = {id: 1, name: "richa", role: "ADMIN", orgRefId: 1, httpCustomStatus: "UPDATED"};
     // localStorage.setItem('loginData', JSON.stringify(loginData));
@@ -87,19 +85,9 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/dashboard']);
       }
 
-
-      // this.router.navigate(['/dashboard']);
-
     }, (error) => {
       console.log(error.error.message);
       this.errorMessage = error.error.message;
-      // if(this.errorMessage == "OTP sent to your email. Please verify to set your password."){
-      //   this.verifyOtpButton=true;
-      // }else if(this.errorMessage == "Please Enter Valid Password."){
-      //   this.enterPasswordFlag=true;
-      // }else if(this.errorMessage == "Invalid login. Please check your credentials."){
-      //   this.errorPasswordFlag=true;
-      // }
       this.loginButtonLoader = false;
     })
   }
@@ -111,6 +99,9 @@ export class LoginComponent implements OnInit {
     this.isWhatsappLogin = false;
     this.showOtpInput = false;
     this.enterPasswordFlag = false;
+    this.isOtpVerify = false;
+    this.verifyOtpButtonFlag = false;
+    this.otpErrorMessage = '';
   }
 
   signInWithWhatsapp() {
@@ -243,18 +234,35 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  // sendUserOtpToMail() {
+  //   debugger
+  //   this.showOtpInput = true;
+  //   this.startTimer();
+  //   this.dataService.sendUserOtpToMail(this.email).subscribe((response) => {
+  //     console.log("response otp send to mail :", response);
+  //   },
+  //     (error) => {
+  //       console.log("error :", error);
+  //     }
+  //   );
+  // }
+
   sendUserOtpToMail() {
     debugger
-    this.showOtpInput = true;
-    this.counter = 5;
-    this.dataService.sendUserOtpToMail(this.email).subscribe((response) => {
-          console.log("response :", response);
-        },
-        (error) => {
-          console.log("error :", error);
-
-        }
-      );
+    this.sendOtpLoader = true;
+    this.dataService.sendUserOtpToMailNew(this.email).subscribe((response:any) => {
+      if(response.status){
+        this.sendOtpLoader = false;
+        this.showOtpInput = true;
+        clearInterval(this.interval);
+        this.time = 30;
+        this.startTimer();
+      }
+    },
+      (error) => {
+        console.log("error :", error);
+      }
+    );
   }
 
   resetUserPassword() {
@@ -312,25 +320,21 @@ export class LoginComponent implements OnInit {
   signInByWhatsapp() {
     debugger
     this.sendOtpLoader = true;
-    // this.checkFormValidation();
-
-    // if (this.isFormInvalid == true) {
-    //   return
-    // } else {
-      this.counter = 5;
-      this.dataService.signInByWhatsappNew(this.phoneNumber).subscribe((response: any) => {
-        if (response.status) {
-          this.verifyOtpButtonFlag = true;
-          this.sendOtpLoader = false;
-          this.showOtpInput = true;
-        }
-      }, (error) => {
-        console.log("error :", error);
+    this.dataService.signInByWhatsappNew(this.phoneNumber).subscribe((response: any) => {
+      if (response.status) {
+        clearInterval(this.interval);
+        this.time = 30;
+        this.startTimer();
+        this.verifyOtpButtonFlag = true;
+        this.sendOtpLoader = false;
+        this.showOtpInput = true;
       }
-      );
-    // }
+    }, (error) => {
+      console.log("error :", error);
+    }
+    );
   }
-  
+
 
   @ViewChild('closeOtpVerifyModal') closeOtpVerifyModal!: ElementRef;
 
@@ -372,7 +376,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-  
+
 
   isFormInvalid: boolean = false;
   @ViewChild('loginForm') loginForm !: NgForm
@@ -402,14 +406,24 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  resendOtp(){
-    if(!this.isWhatsappLogin){
+  resendOtp() {
+    if (!this.isWhatsappLogin) {
       this.sendUserOtpToMail();
     }
-    else
-    {
+    else {
       this.signInByWhatsapp();
     }
+  }
+
+  time: number = 30;
+  interval: any;
+  startTimer() {
+    this.interval = setInterval(() => {
+      this.time--;
+      if (this.time == 0) {
+        clearInterval(this.interval);
+      }
+    }, 1000)
   }
 
 }
