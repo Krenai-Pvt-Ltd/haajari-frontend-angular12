@@ -203,8 +203,32 @@
 
 
                         <div class="downlord-report">
-                        <div  class="scroll-box-logs" style="text-align: left; border-bottom: 1px solid #f2f2f2; padding-bottom: 15px;">
-                            <!-- <h5 class="mb-3" style="font-size: 16px;">30-11-2023</h5> -->
+                        
+                            <div
+                                    class="errorboxmain"
+                                    style="text-align: center"
+                                    *ngIf="isAttendanceLogsPlaceholder"
+                                  >
+                                    <div class="errorboxinner">
+                                      <div class="errorboxplaceholder mb-2">
+                                        <img
+                                          src="assets/images/empty-box.svg"
+                                          style="width: 80px"
+                                        />
+                                      </div>
+                                      <div class="">
+                                        <h4>No Data Found</h4>
+                                        <p class="mb-0">
+                                          We're unable to locate a record
+                                          associated with the information you
+                                          entered.
+                                        </p>
+                                      </div>
+                                    </div>
+                            </div>
+                        <!-- {{isAttendanceLogsPlaceholder}} -->
+                        <div  class="scroll-box-logs" style="text-align: left; border-bottom: 1px solid #f2f2f2; padding-bottom: 15px;" *ngIf="!isAttendanceLogsPlaceholder">
+                           
 
                             <ul class="acitivity-timeline-2 list-unstyled mb-0">
                                     <li *ngFor="let log of attendanceReportLogs">
@@ -234,7 +258,7 @@
                                               }}</span>
                                         </p>
                                         </div>
-                                        <!-- <p class="text-muted mb-0">Anchal Sharma chose Subscription plan of 8999.0/year against email:- nelyqiri@clout.wiki</p> -->
+                                        
                                     </li>
                                    
                                     </ul>   
@@ -361,22 +385,16 @@
     </div>
 </div>
 
+
 <div class="modal fade" id="dateRangeModal" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel" aria-hidden="true" #dateRangeModal>
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="dateRangeModalLabel">Select Date Range</h5>
-          <!-- <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button> -->
+          <h5 class="modal-title" id="dateRangeModalLabel">Select Month and Year</h5>
         </div>
         <div class="modal-body">
-          <!-- Start Date Picker -->
-          <nz-date-picker nzMode="date" [(ngModel)]="startDate" nzPlaceHolder="Start Date"></nz-date-picker>
-          <br>
-          <br>
-          <!-- End Date Picker -->
-          <nz-date-picker nzMode="date" [(ngModel)]="endDate" nzPlaceHolder="End Date"></nz-date-picker>
+          <!-- Month and Year Picker for Start Date -->
+          <nz-date-picker nzMode="month" [(ngModel)]="selectedMonth" nzPlaceHolder="Select Month" [nzDisabledDate]="disableBeforeOnboarding"></nz-date-picker>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #dateRangeModalClose>Close</button>
@@ -385,3 +403,24 @@
       </div>
     </div>
   </div>
+
+
+<!-- <div class="modal fade" id="dateRangeModal" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel" aria-hidden="true" #dateRangeModal>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dateRangeModalLabel">Select Date Range</h5>
+        </div>
+        <div class="modal-body">
+          <nz-date-picker nzMode="date" [(ngModel)]="startDate" nzPlaceHolder="Start Date"></nz-date-picker>
+          <br>
+          <br>
+          <nz-date-picker nzMode="date" [(ngModel)]="endDate" nzPlaceHolder="End Date"></nz-date-picker>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #dateRangeModalClose>Close</button>
+          <button type="button" class="btn btn-primary" (click)="handleOk()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div> -->

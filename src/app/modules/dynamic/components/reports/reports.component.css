@@ -390,4 +390,17 @@ span.members-name {
     display: none;
 }
 
+.errorboxmain {
+    padding: 30px;
+}
+.errorboxmain {
+    min-height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fff;
+}
+
+
   
