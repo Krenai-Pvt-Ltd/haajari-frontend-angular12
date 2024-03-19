@@ -63,7 +63,7 @@ export class ReportsComponent implements OnInit {
     return currentMonth < onboardingMonth || currentEndOfMonth > new Date(now.getFullYear(), now.getMonth() + 1, 0);
   };
 
-  handleOk(): void {
+  handleOkOfAttendanceSummary(): void {
     if (this.selectedMonth) {
       const startOfMonth = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth(), 1);
       const endOfMonth = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth() + 1, 0); // Sets day as the last day of the month
@@ -80,7 +80,7 @@ export class ReportsComponent implements OnInit {
       this.helperService.showToast("Please Wait! We're loading your Attendance Records.", Key.TOAST_STATUS_SUCCESS);
       let formattedStartDate = this.formatDate(this.startDate);
       let formattedEndDate = this.formatDate(this.endDate);
-      this.generateAttendanceReport(formattedStartDate, formattedEndDate);
+      this.generateAttendanceSummary(formattedStartDate, formattedEndDate);
      
       this.closeModal();
     }
@@ -105,8 +105,8 @@ export class ReportsComponent implements OnInit {
     this.isModalVisible = false;
   }
 
-  generateAttendanceReport(startDate: string, endDate: string): void {
-    this.dataService.generateAttendanceReport(startDate, endDate).subscribe({
+  generateAttendanceSummary(startDate: string, endDate: string): void {
+    this.dataService.generateAttendanceSummary(startDate, endDate).subscribe({
       next: (response) => {
         console.log('Report Generation Successful', response);
         this.isLoading = false;
@@ -188,6 +188,52 @@ export class ReportsComponent implements OnInit {
     return formattedDate;
   }
 
+  isLoading2:boolean=false;
 
+  handleOkOfAttendanceReport(): void {
+    if (this.selectedMonth) {
+      const startOfMonth = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth(), 1);
+      const endOfMonth = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth() + 1, 0); // Sets day as the last day of the month
   
+      this.startDate = startOfMonth;
+      this.endDate = endOfMonth;
+  
+      console.log('Start Date:', this.startDate);
+      console.log('End Date:', this.endDate);
+
+      // this.isModalVisible = false;
+    if (this.startDate && this.endDate) {
+      this.isLoading2 = true;
+      this.helperService.showToast("Please Wait! We're loading your Attendance Records.", Key.TOAST_STATUS_SUCCESS);
+      let formattedStartDate = this.formatDate(this.startDate);
+      let formattedEndDate = this.formatDate(this.endDate);
+      this.generateAttendanceReport(formattedStartDate, formattedEndDate);
+     
+      this.closeModal2();
+    }
+    this.selectedMonth="";
+    }
+  }
+
+  generateAttendanceReport(startDate: string, endDate: string): void {
+    this.dataService.generateAttendanceReport(startDate, endDate).subscribe({
+      next: (response) => {
+        console.log('Report Generation Successful', response);
+        this.isLoading2 = false;
+        this.getAttendanceReportLogs();
+        this.helperService.showToast("Attendance Records Fetched Successfully!", Key.TOAST_STATUS_SUCCESS);
+
+      },
+      error: (error) => {
+        console.error('Error generating report', error);
+        this.isLoading2 = false;
+      }
+    });
+  }
+
+  @ViewChild("closeDateRangeModal2") closeDateRangeModal2!:ElementRef;
+  
+  closeModal2(): void {
+    this.closeDateRangeModal2.nativeElement.click();
+  }
 }

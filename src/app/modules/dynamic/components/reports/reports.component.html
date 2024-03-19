@@ -12,21 +12,30 @@
                             <h4 class="heading">Attendance Reports </h4>
                             <div class="">
                                 <div class="Attendance-report-deta">
-                                    <h5>Attendance Report</h5>
+                                    <h5>Attendance Summary</h5>
                                     <div class="report-icon" data-bs-toggle="modal" data-bs-target="#dateRangeModal">
                                       <i *ngIf="!isLoading; else loadingTemplate" class="bi bi-chevron-right"></i>
                                     </div>
                                   </div>
-                                  
                                   <ng-template #loadingTemplate>
                                     <div class="loading-icon">Loading...</div>
                                   </ng-template>
+                                  
+                                <div class="Attendance-report-deta">
+                                    <h5>Attendance Report</h5>
+                                    <div class="report-icon" data-bs-toggle="modal" data-bs-target="#dateRangeModal2">
+                                        <i *ngIf="!isLoading2; else loadingTemplate2" class="bi bi-chevron-right"></i>
+                                    </div>
+                                </div>
+                                <ng-template #loadingTemplate2>
+                                    <div class="loading-icon">Loading...</div>
+                                </ng-template>
                                 <div class="Attendance-report-deta">
                                     <h5>Daily Attendance Report </h5>
                                     <div class="report-icon">
                                         <i class="bi bi-chevron-right"></i>
                                     </div>
-                                  </div>
+                                </div>
                                   <div class="Attendance-report-deta">
                                     <h5>Leave Balance</h5>
                                     <div class="report-icon">
@@ -241,7 +250,7 @@
                                                   
                                                         <a href="{{log.reportPdfLink}}" class="excel-box" ngbTooltip="Download Pdf" placement="top" target="_blank"><img src="assets/images/pdf.svg" style="width:20px"></a>
                                                     
-                                                        <a href="{{log.statusReportPdfLink}}" class="excel-box" ngbTooltip="Download Doc" placement="top" target="_blank"><img src="assets/images/pdf.svg" style="width:20px"></a>
+                                                        <!-- <a href="{{log.statusReportPdfLink}}" class="excel-box" ngbTooltip="Download Doc" placement="top" target="_blank"><img src="assets/images/pdf.svg" style="width:20px"></a> -->
                                                  
                                             </div>
     
@@ -398,7 +407,25 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #dateRangeModalClose>Close</button>
-          <button type="button" class="btn btn-primary" (click)="handleOk()">Save changes</button>
+          <button type="button" class="btn btn-primary" (click)="handleOkOfAttendanceSummary()">Generate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="dateRangeModal2" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel" aria-hidden="true" #dateRangeModal2>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dateRangeModalLabel">Select Month and Year</h5>
+        </div>
+        <div class="modal-body">
+          <!-- Month and Year Picker for Start Date -->
+          <nz-date-picker nzMode="month" [(ngModel)]="selectedMonth" nzPlaceHolder="Select Month" [nzDisabledDate]="disableBeforeOnboarding"></nz-date-picker>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeDateRangeModal2>Close</button>
+          <button type="button" class="btn btn-primary" (click)="handleOkOfAttendanceReport()">Generate</button>
         </div>
       </div>
     </div>
