@@ -353,7 +353,7 @@ export class LoginComponent implements OnInit {
         const onboardingStep = helper.decodeToken(response.object.tokenResponse.access_token).statusResponse;
         const role = helper.decodeToken(response.object.tokenResponse.access_token).role;
         if (role == "ADMIN") {
-          if (onboardingStep == "6") {
+          if (onboardingStep == "7") {
             this.router.navigate(['/dashboard']);
           } else {
             this.router.navigate(['/organization-onboarding/personal-information']);
