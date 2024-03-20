@@ -355,7 +355,7 @@
                   <button
                     type="button"
                     class="btn create-team-on-slack"
-                    (click)="getFlagOfSlackPlaceholder()"
+                    (click)="getFlagOfSlackPlaceholder()" *ngIf="onboardingVia=='Slack'"
                   >
                     Slack Data Sync..
                   </button>

@@ -49,6 +49,7 @@ export class TeamComponent implements OnInit{
   // userUuid : any;
   orgRefId : any;
   ROLE: any;
+  onboardingVia:string = '';
   logInUserUuid: string="";
   showManagerTickForUuid: string = '';
 
@@ -85,7 +86,7 @@ export class TeamComponent implements OnInit{
   //   localStorage.setItem(this.localStorageKey, 'true');
   // }
    
-   
+   this.getOnboardingVia();
   }
 
   constructor(private router : Router, public dataService: DataService,  private activateRoute : ActivatedRoute, private modalService: ModalService, private helperService: HelperService, private db: AngularFireDatabase, private rbacService:RoleBasedAccessControlService) { 
@@ -113,6 +114,15 @@ export class TeamComponent implements OnInit{
   //   // this.openModal();
 
   // }
+
+  getOnboardingVia(){
+    debugger
+    this.dataService.getOrganizationDetails().subscribe((data)=> {
+      this.onboardingVia = data.organization.onboardingVia;
+      }, (error) => {
+        console.log(error);
+      });
+  }
 
   openModal() {
     this.modalService.openModal();
