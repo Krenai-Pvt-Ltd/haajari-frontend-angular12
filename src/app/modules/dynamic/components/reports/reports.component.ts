@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, KeyValue } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { Key } from 'src/app/constant/key';
@@ -149,26 +149,60 @@ export class ReportsComponent implements OnInit {
   //   return date.toISOString().split('T')[0];
   // }
 
-  attendanceReportLogs: AttendanceReportLogs[] = [];
-  isAttendanceLogsPlaceholder:boolean=false;
+  // attendanceReportLogs: AttendanceReportLogs[] = [];
+  // isAttendanceLogsPlaceholder:boolean=false;
+  // getAttendanceReportLogs(): void {
+  //   this.dataService.getAttendanceReportLogs().subscribe({
+  //     next: (response) => {
+  //       console.log('userUuid', this.userUuid);
+  //       console.log('Logs Generation Successful', response);
+  //       this.attendanceReportLogs = response.listOfObject;
+  //       if(this.attendanceReportLogs.length===0){
+  //       this.isAttendanceLogsPlaceholder=true;
+  //       }else{
+  //         this.isAttendanceLogsPlaceholder=false;
+  //       }
+  //     },
+  //     error: (error) => {
+  //       this.isAttendanceLogsPlaceholder=false;
+  //       console.error('Error generating report', error);
+  //     }
+  //   });
+  // }
+
+  groupedLogs: { [date: string]: any[] } = {}; // Use a more specific type if possible
+  isAttendanceLogsPlaceholder: boolean = true;
   getAttendanceReportLogs(): void {
     this.dataService.getAttendanceReportLogs().subscribe({
       next: (response) => {
-        console.log('userUuid', this.userUuid);
-        console.log('Logs Generation Successful', response);
-        this.attendanceReportLogs = response.listOfObject;
-        if(this.attendanceReportLogs.length===0){
-        this.isAttendanceLogsPlaceholder=true;
-        }else{
-          this.isAttendanceLogsPlaceholder=false;
-        }
+        this.groupedLogs = response;
+        this.isAttendanceLogsPlaceholder = Object.keys(this.groupedLogs).length === 0;
       },
       error: (error) => {
-        this.isAttendanceLogsPlaceholder=false;
         console.error('Error generating report', error);
+        this.isAttendanceLogsPlaceholder = true;
       }
     });
   }
+  sortDatesDescending = (a: { key: string | number | Date; }, b: { key: string | number | Date; }) => {
+    return +new Date(b.key) - +new Date(a.key);
+  }
+
+  // groupLogsByDate(logs: AttendanceReportLogs[]): void {
+  //   logs.forEach(log => {
+  //     const dateStr = new Date(log.createdDate).toLocaleDateString(); // Adjust based on your date format
+  //     if (!this.groupedLogs[dateStr]) {
+  //       this.groupedLogs[dateStr] = [];
+  //     }
+  //     this.groupedLogs[dateStr].push(log);
+  //   });
+  // }
+
+  // keepOriginalOrder = (a: KeyValue<string, AttendanceReportLogs[]>, b: KeyValue<string, AttendanceReportLogs[]>): number => {
+  //   return 0;
+  // }
+  
+
 
   formatDate2(date: Date) {
     const dateObject = new Date(date);

@@ -212,8 +212,60 @@
 
 
                         <div class="downlord-report">
+<!-- {{isAttendanceLogsPlaceholder}} -->
+                            <!-- reports.component.html -->
+<div class="" style="text-align: left; border-bottom: 1px solid #f2f2f2; padding-bottom: 15px;" *ngIf="!isAttendanceLogsPlaceholder; else placeholderTemplate">
+    <div *ngFor="let date of groupedLogs | keyvalue: sortDatesDescending" class="scroll-box-logs" style="margin-top: 30px;">
+      <h5 class="mb-3">{{ formatDateIn(date.key | date: 'mediumDate') }}</h5>
+      <ul class="acitivity-timeline-2 list-unstyled mb-0">
+        <li *ngFor="let log of date.value">
+          <div class="d-flex align-items-center justify-content-between">
+            <h6 class="fs-md mt-0">{{ log.reportName }}</h6>
+            <div class="attendance-log-download d-flex" style="gap:20px">
+              <a href="{{ log.reportExcelLink }}" target="_blank"><img src="assets/images/excel.svg" style="width:20px"></a>
+              <a href="{{ log.reportPdfLink }}" target="_blank"><img src="assets/images/pdf.svg" style="width:20px"></a>
+            </div>
+          </div>
+          <div class="d-flex align-items-center mb-2 gap-3">
+            <!-- <p class="mb-0">
+              <i class="bi bi-calendar align-baseline me-1"></i>
+              {{ log.createdDate | date:'medium' }}
+            </p> -->
+            <p class="mb-0">
+                <i class="bi bi-calendar align-baseline me-1"></i>
+                {{
+                    formatDateIn(
+                      formatDate2(log.createdDate)
+                    ) || "N/A"
+                  }}&nbsp; - &nbsp;<span>{{
+                    formatTime(log.createdDate) || "N/A"
+                  }}</span>
+            </p>
+          </div>
+        </li>
+      </ul>   
+    </div>
+  </div>
+  
+  <ng-template #placeholderTemplate>
+    <div class="errorboxmain" style="text-align: center">
+      <div class="errorboxinner">
+        <div class="errorboxplaceholder mb-2">
+          <img src="assets/images/empty-box.svg" style="width: 80px"/>
+        </div>
+        <div>
+          <h4>No Data Found</h4>
+          <p class="mb-0">
+            We're unable to locate a record associated with the information you entered.
+          </p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+                              
                         
-                            <div
+                            <!-- <div
                                     class="errorboxmain"
                                     style="text-align: center"
                                     *ngIf="isAttendanceLogsPlaceholder"
@@ -235,9 +287,9 @@
                                       </div>
                                     </div>
                             </div>
-                        <!-- {{isAttendanceLogsPlaceholder}} -->
+                    
                         <div  class="scroll-box-logs" style="text-align: left; border-bottom: 1px solid #f2f2f2; padding-bottom: 15px;" *ngIf="!isAttendanceLogsPlaceholder">
-                           
+                            <h5 class="mb-3" style="font-size: 16px;">30-11-2023</h5>
 
                             <ul class="acitivity-timeline-2 list-unstyled mb-0">
                                     <li *ngFor="let log of attendanceReportLogs">
@@ -249,9 +301,7 @@
                                                         <a href="{{log.reportExcelLink}}" class="excel-box" ngbTooltip="Download Excel" placement="top" target="_blank"><img src="assets/images/excel.svg" style="width:20px" ></a>
                                                   
                                                         <a href="{{log.reportPdfLink}}" class="excel-box" ngbTooltip="Download Pdf" placement="top" target="_blank"><img src="assets/images/pdf.svg" style="width:20px"></a>
-                                                    
-                                                        <!-- <a href="{{log.statusReportPdfLink}}" class="excel-box" ngbTooltip="Download Doc" placement="top" target="_blank"><img src="assets/images/pdf.svg" style="width:20px"></a> -->
-                                                 
+                                                                                                 
                                             </div>
     
                                         </div>
@@ -272,8 +322,8 @@
                                    
                                     </ul>   
                         </div>
-
-                        <div style="text-align: left; border-bottom: 1px solid #f2f2f2; padding-bottom: 15px; padding-top: 20px;">
+ -->
+                        <!-- <div style="text-align: left; border-bottom: 1px solid #f2f2f2; padding-bottom: 15px; padding-top: 20px;">
                             <h5 class="mb-3" style="font-size: 16px;">30-11-2023</h5>
 
 
@@ -298,7 +348,6 @@
                                             <i class="bi bi-calendar align-baseline me-1"></i> 30-11-2023 
                                         </p>
                                         </div>
-                                        <!-- <p class="text-muted mb-0">Anchal Sharma chose Subscription plan of 8999.0/year against email:- nelyqiri@clout.wiki</p> -->
                                     </li>
                                     <li>
                                         <div class="d-flex align-items-center justify-content-between">
@@ -320,7 +369,7 @@
                                                 <i class="bi bi-calendar align-baseline me-1"></i> 30-11-2023 
                                             </p>
                                         </div>
-                                        <!-- <p class="text-muted mb-0">Subscription Invoice generated for As and sent to nelyqiri@clout.wiki</p> -->
+                                       
                                     </li>
                                     </ul>
 
@@ -353,7 +402,6 @@
                                             <i class="bi bi-calendar align-baseline me-1"></i> 30-11-2023 
                                         </p>
                                         </div>
-                                        <!-- <p class="text-muted mb-0">Anchal Sharma chose Subscription plan of 8999.0/year against email:- nelyqiri@clout.wiki</p> -->
                                     </li>
                                     <li>
                                         <div class="d-flex align-items-center justify-content-between">
@@ -375,14 +423,13 @@
                                                 <i class="bi bi-calendar align-baseline me-1"></i> 30-11-2023 
                                             </p>
                                         </div>
-                                        <!-- <p class="text-muted mb-0">Subscription Invoice generated for As and sent to nelyqiri@clout.wiki</p> -->
                                     </li>
                                     </ul>
 
 
                             
-                        </div>
-                    </div>
+                        </div> -->
+                    <!-- </div> -->
 
                         </div>
                     </div>
