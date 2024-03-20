@@ -232,14 +232,14 @@ export class Key{
     verify_coupon = "/coupon";
     
     //user import
-    create_user = "/whatsapp-user-onboarding";
+    create_user = "/whatsapp-user-onboarding/create";
     // create_admin = "/organization/register-organization-using-number";
     // create_admin_new = "/organization/register-organization-using-number-new";
 
 
     get_onboarding_user = "/whatsapp-user-onboarding/onboarding-user";
-    delete_onboarding_user = "/whatsapp-user-onboarding";
-    edit_onboarding_user = "/whatsapp-user-onboarding";
+    delete_onboarding_user = "/whatsapp-user-onboarding/delete";
+    edit_onboarding_user = "/whatsapp-user-onboarding/update";
 
     user_import = "/whatsapp-user-onboarding/import";
     get_report = "/user-import"
