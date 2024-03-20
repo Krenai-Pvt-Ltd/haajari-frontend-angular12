@@ -142,7 +142,7 @@
                         <input type="text" required class="form-control" id="name"
                           [(ngModel)]="organizationPersonalInformation.name"
                           (keydown)="preventLeadingWhitespace($event)" placeholder="Enter organization name" name="name"
-                          #name="ngModel" minlength="5" autocomplete="off">
+                          #name="ngModel" minlength="5">
                       </div>
                       <div *ngIf="name?.dirty && isFormInvalid">
                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name.errors?.required"><i
@@ -312,10 +312,10 @@
 
                       </div>
                     </div>
-
+                    <!-- [disabled]="personalInformationForm.invalid" -->
                     <div class="col-md-12 d-flex justify-content-end">
                       <button type="submit" class="btn btn-primary" (click)="submit()"
-                        [disabled]="personalInformationForm.invalid">
+                       >
                         <span *ngIf="!loading">Save</span>
                         <div class="dot-opacity-loader" *ngIf="loading">
                           <span></span>
