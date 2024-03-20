@@ -81,7 +81,7 @@ export class HeaderComponent implements OnInit {
   getOrganizationName(){
     debugger
     this.dataService.getOrganizationDetails().subscribe((data)=> {
-      this.loggedInUser.name = data.name;
+      this.loggedInUser.name = data.adminName;
       }, (error) => {
         console.log(error);
       });
