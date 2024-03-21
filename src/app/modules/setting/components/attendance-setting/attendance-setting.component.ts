@@ -410,6 +410,7 @@ export class AttendanceSettingComponent implements OnInit {
       }
       else
       {
+        // this.dataNotFoundPlaceholder = true;
         this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
         this.dataNotFoundPlaceholderForAttendanceRule = true;
       }
