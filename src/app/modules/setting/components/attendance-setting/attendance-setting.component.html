@@ -628,7 +628,7 @@
                         <ng-template #attendanceRuleWithDefinitionData>
 
                             <ng-container
-                                *ngIf="attendanceRuleWithAttendanceRuleDefinitionResponseList.length !== 0 && !dataNotFoundPlaceholder && !networkConnectionErrorPlaceHolder; else errorInFetchingAttendanceRuleWithAttendanceRuleDefinitionData">
+                                *ngIf="attendanceRuleWithAttendanceRuleDefinitionResponseList.length !== 0 && !dataNotFoundPlaceholderForAttendanceRule && !networkConnectionErrorPlaceHolderForAttendanceRule; else errorInFetchingAttendanceRuleWithAttendanceRuleDefinitionData">
                                 <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
 
                                     <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal"
@@ -890,7 +890,7 @@
                         </ng-template>
 
                         <ng-template #errorInFetchingAttendanceRuleWithAttendanceRuleDefinitionData>
-                            <div class="empty-file" *ngIf="dataNotFoundPlaceholder">
+                            <div class="empty-file" *ngIf="dataNotFoundPlaceholderForAttendanceRule">
 
                                 <div class="errorboxmain">
                                     <div class="errorboxinner">
@@ -898,7 +898,7 @@
                                             <img src="assets/images/empty-box.svg" style="width:80px;" />
                                         </div>
                                         <div class="">
-                                            <p class="mb-0">Automation Rules Not Found</p>
+                                            <p class="mb-0">Define your automation rule here</p>
                                         </div>
                                         <div class="add-filtter mt-2 mb-3" style="text-align: center;">
                                             <a class="" style="font-size: 14px; color: #6666f3;" data-bs-toggle="modal"
@@ -913,7 +913,7 @@
 
 
 
-                            <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolder">
+                            <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolderForAttendanceRule">
                                 <div class="errorboxmain">
                                     <div class="errorboxinner text-center">
                                         <div class="errorboxplaceholder mb-2">

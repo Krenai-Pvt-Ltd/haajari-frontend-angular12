@@ -76,6 +76,15 @@ export class AttendanceSettingComponent implements OnInit {
     this.networkConnectionErrorPlaceHolder = false;
   }
 
+  isShimmerForAttendanceRule = false;
+  dataNotFoundPlaceholderForAttendanceRule = false;
+  networkConnectionErrorPlaceHolderForAttendanceRule = false;
+  preRuleForShimmersAndErrorPlaceholdersForAttendanceRuleWithDefinitionMethodCall(){
+    this.isShimmerForAttendanceRule = true;
+    this.dataNotFoundPlaceholderForAttendanceRule = false;
+    this.networkConnectionErrorPlaceHolderForAttendanceRule = false;
+  }
+
   //input for selecting duration:
   hours: number[] = Array.from({ length: 24 }, (_, i) => i);
   minutes: number[] = Array.from({ length: 60 }, (_, i) => i);
@@ -222,10 +231,13 @@ export class AttendanceSettingComponent implements OnInit {
   attendanceRuleDefinitionResponseList : AttendanceRuleDefinitionResponse[] = [];
   getAttendanceRuleDefinitionMethodCall(attendanceRuleId : number){
     this.dataService.getAttendanceRuleDefinition(attendanceRuleId).subscribe((response) => {
+
       this.attendanceRuleDefinitionResponseList = response;
       // console.log(this.attendanceRuleDefinitionResponseList);
+      
     }, (error) =>{
       console.log(error);
+      this.networkConnectionErrorPlaceHolderForAttendanceRule = true;
     }) 
   }
 
