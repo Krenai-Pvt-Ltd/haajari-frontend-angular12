@@ -490,6 +490,7 @@
                                 </div>
                             </div>
                         </div>
+                       
 
                         <div class="" *ngIf="!isWeeklyHolidayErrorPlaceholder">
                             <div class="add-filtter d-flex align-items-center justify-content-end">
@@ -497,8 +498,22 @@
                                     data-bs-target="#addweeklyholiday"><i class="bi bi-plus"></i>Add Weekly Holiday's
                                 </a>
                             </div>
-
-                            <div class="rule-main-box mt-3">
+                            <div class="empty-file" *ngIf="weeklyHolidays.length===0">
+                                <div class="errorboxmain">
+                                    <div class="errorboxinner text-center">
+                                        <div class="errorboxplaceholder mb-2">
+                                            <img src="assets/images/empty-box.svg" style="width: 80px" />
+                                        </div>
+                                        <div class="">
+                                            <h4>No Not Found</h4>
+                                            <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                           
+                            <div class="rule-main-box mt-3" *ngIf="weeklyHolidays.length>0">
                                 <div class="d-flex align-items-center attendance-boxx">
                                     <div class="late-rule" style="width:70%">
                                         <h5>Weekly Holidays</h5>
