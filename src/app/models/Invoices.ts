@@ -1,3 +1,5 @@
+import { OrganizationPersonalInformation } from "./organization-personal-information";
+
 export class Invoices{
 
     id: number = 0;
@@ -16,4 +18,5 @@ export class Invoices{
     invoiceUrl: string = '';
     invoiceType: string = '';
     remark: string = '';
+    organizationPersonalInformation: OrganizationPersonalInformation = new OrganizationPersonalInformation();
 }

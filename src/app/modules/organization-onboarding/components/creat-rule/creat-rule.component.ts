@@ -171,12 +171,11 @@ export class CreatRuleComponent implements OnInit {
 
       this.activeModel2 = false;
       this.helperService.showToast("Attendance rule registered successfully", Key.TOAST_STATUS_SUCCESS);
-      // setTimeout(() => {
-        this.router.navigate(['/organization-onboarding/attendance-rule-setup'])
-      // }, 2000);
+        this.router.navigate(['/organization-onboarding/attendance-rule-setup']);
     }, (error) => {
       console.log(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      this.saveAttendanceRuleDefinitionLoading = false;
     })
   }
 

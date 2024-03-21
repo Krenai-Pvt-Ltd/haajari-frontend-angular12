@@ -16,11 +16,8 @@
                             </div>
                             <div class="">
                                 <h5>Create Leave Template</h5>
-
                             </div>
-
                         </div>
-
 
                         <form #leaveSetForm="ngForm">
                             <div class="form-group">
@@ -93,9 +90,9 @@
                                                         </div>
 
                                                     </div>
-                                                    <div class="ant-divider ant-divider-horizontal my16"
+                                                    <!-- <div class="ant-divider ant-divider-horizontal my16"
                                                         role="separator">
-                                                    </div>
+                                                    </div> -->
                                                     <div class="d-align-center"
                                                         *ngIf="leaveSettingResponse.leaveCycle === 'Yearly'">
                                                         <h4 class="sc-hBUSln cDSAtg w-400">Leave Period</h4>
@@ -250,7 +247,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3">
-                                                                    <label class="mb-2">Carry Forward Limit</label>
+                                                                    <!-- <label class="mb-2">Carry Forward Limit</label> -->
+                                                                    <label class="mb-2" *ngIf="(categories.controls[i]!.get('leaveRules')?.value === 'Lapse') || (categories.controls[i]!.get('leaveRules')?.value === '')">Lapse</label>
+                                                                    <label class="mb-2" *ngIf="categories.controls[i]!.get('leaveRules')?.value === 'Carry Forward'">Carry Forward Limit</label>
+                                                                    <label class="mb-2" *ngIf="categories.controls[i]!.get('leaveRules')?.value === 'Encash'">Encash Limit</label>
                                                                     <input type="number" class="form-control"
                                                                         formControlName="carryForwardDays"
                                                                         placeholder="Days"
@@ -425,8 +425,7 @@
                                                                                                 <span><b>{{selectedStaffsUuids!.length}}</b>
                                                                                                     selected of
                                                                                                     <b>{{total}}</b></span>
-                                                                                                <span
-                                                                                                    style="cursor:pointer;"
+                                                                                                <span style="cursor:pointer;"
                                                                                                     (click)="unselectAllUsers()"><i
                                                                                                         class="bi bi-x"></i></span>
                                                                                             </ng-template>
@@ -581,8 +580,7 @@
                                                                                                     class="btn close-btn"
                                                                                                     (click)="clearSearchSelectedUsers()"
                                                                                                     *ngIf="crossFlagUser">
-                                                                                                    <i
-                                                                                                        class="bi bi-x"></i>
+                                                                                                    <i class="bi bi-x"></i>
                                                                                                 </button>
                                                                                                 <i class="bi bi-search search-icon"
                                                                                                     style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
