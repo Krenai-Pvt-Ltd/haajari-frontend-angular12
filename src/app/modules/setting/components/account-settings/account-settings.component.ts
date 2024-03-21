@@ -161,7 +161,7 @@ isDisabled: boolean = false;
           this.notifications.slack=true
           this.notifications.whatsapp=false
         }
-        if(response.notificationVia == null){
+        if(response.notificationVia == null || response.slackUserId == null){
           this.isDisabled = true;
         }
        if (this.isSubscriptionPlanActive== true && this.subscriptionPlanId==2){
