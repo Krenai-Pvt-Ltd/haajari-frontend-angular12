@@ -417,8 +417,22 @@
                                         <h5>Custom Holiday's </h5>
                                     </div>
                                 </div>
+                                <div class="empty-file" *ngIf="customHolidays.length===0">
+                                    <div class="errorboxmain">
+                                        <div class="errorboxinner text-center">
+                                            <div class="errorboxplaceholder mb-2">
+                                                <img src="assets/images/empty-box.svg" style="width: 80px" />
+                                            </div>
+                                            <div class="">
+                                                <h4>No Not Found</h4>
+                                                <p class="mb-0">We're unable to locate a record associated with the information you entered.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        
 
-                                <div class="row mt-2 p-2">
+                                <div class="row mt-2 p-2" *ngIf="customHolidays.length>0">
                                     <div class="col-md-6" *ngFor="let customHol of customHolidays">
                                         <div class="shift-deta">
                                             <p class="mb-0 d-flex justify-content-between"><span style="color: #009688;">{{customHol.name}}</span> - <span style="color:black">{{formatDateIn(customHol.date)}}</span> <span style="color: #EB5050" (click)="deleteCustomHolidays(customHol.id)" *ngIf="isDateGreaterThanToday(customHol.date)"><i class="bi bi-trash"></i></span></p>
@@ -570,7 +584,7 @@
                     <div class="col-md-7 mt-3 mb-3">
 
                         <ng-container
-                            *ngIf="isShimmerForAttendanceRule && attendanceRuleWithAttendanceRuleDefinitionResponseList.length === 0 && !dataNotFoundPlaceholderForAttendanceRule && !networkConnectionErrorPlaceHolderForAttendanceRule; else attendanceRuleWithDefinitionData">
+                            *ngIf="isShimmer && attendanceRuleWithAttendanceRuleDefinitionResponseList.length === 0 && !dataNotFoundPlaceholder && !networkConnectionErrorPlaceHolder; else attendanceRuleWithDefinitionData">
                             <div class="">
                                 <div class="text-end">
                                     <ngx-shimmer-loading [width]="'40%'" [height]="'20px'"
@@ -643,7 +657,7 @@
                         <ng-template #attendanceRuleWithDefinitionData>
 
                             <ng-container
-                                *ngIf="attendanceRuleWithAttendanceRuleDefinitionResponseList.length !== 0 && !dataNotFoundPlaceholderForAttendanceRule && !networkConnectionErrorPlaceHolderForAttendanceRule; else errorInFetchingAttendanceRuleWithAttendanceRuleDefinitionData">
+                                *ngIf="attendanceRuleWithAttendanceRuleDefinitionResponseList.length !== 0 && !dataNotFoundPlaceholder && !networkConnectionErrorPlaceHolder; else errorInFetchingAttendanceRuleWithAttendanceRuleDefinitionData">
                                 <div class="add-filtter d-flex align-items-center justify-content-end mb-3">
 
                                     <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal"
@@ -899,7 +913,7 @@
                         </ng-template>
 
                         <ng-template #errorInFetchingAttendanceRuleWithAttendanceRuleDefinitionData>
-                            <div class="empty-file" *ngIf="dataNotFoundPlaceholderForAttendanceRule">
+                            <div class="empty-file" *ngIf="dataNotFoundPlaceholder">
 
                                 <div class="errorboxmain">
                                     <div class="errorboxinner">
@@ -907,7 +921,7 @@
                                             <img src="assets/images/empty-box.svg" style="width:80px;" />
                                         </div>
                                         <div class="">
-                                            <p class="mb-0">Define your automation rule here</p>
+                                            <p class="mb-0">Automation Rules Not Found</p>
                                         </div>
                                         <div class="add-filtter mt-2 mb-3" style="text-align: center;">
                                             <a class="" style="font-size: 14px; color: #6666f3;" data-bs-toggle="modal"
@@ -922,7 +936,7 @@
 
 
 
-                            <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolderForAttendanceRule">
+                            <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolder">
                                 <div class="errorboxmain">
                                     <div class="errorboxinner text-center">
                                         <div class="errorboxplaceholder mb-2">
