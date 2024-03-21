@@ -76,6 +76,15 @@ export class AttendanceSettingComponent implements OnInit {
     this.networkConnectionErrorPlaceHolder = false;
   }
 
+  isShimmerForAttendanceRule = false;
+  dataNotFoundPlaceholderForAttendanceRule = false;
+  networkConnectionErrorPlaceHolderForAttendanceRule = false;
+  preRuleForShimmersAndErrorPlaceholdersForAttendanceRuleWithDefinitionMethodCall(){
+    this.isShimmerForAttendanceRule = true;
+    this.dataNotFoundPlaceholderForAttendanceRule = false;
+    this.networkConnectionErrorPlaceHolderForAttendanceRule = false;
+  }
+
   //input for selecting duration:
   hours: number[] = Array.from({ length: 24 }, (_, i) => i);
   minutes: number[] = Array.from({ length: 60 }, (_, i) => i);
@@ -175,25 +184,25 @@ export class AttendanceSettingComponent implements OnInit {
 
   activeModel2:boolean=false;
   @ViewChild('attendanceRuleDefinitionModalClose') attendanceRuleDefinitionModalClose !: ElementRef;
+  @ViewChild('addAttendanceRuleDefinitionModalClose') addAttendanceRuleDefinitionModalClose !: ElementRef;
   attendanceRuleDefinitionRequest : AttendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
+  saveAttendanceRuleDefinitionLoading: boolean = false;
   registerAttendanceRuleDefinitionMethodCall(){
-
     debugger
-    console.log(this.selectedStaffsUuids);
-
+    this.saveAttendanceRuleDefinitionLoading = true;
     this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
     this.preRegisterAttendanceRuleDefinitionMethodCall();
 
     this.dataService.registerAttendanceRuleDefinition(this.attendanceRuleDefinitionRequest).subscribe((response) => {
-      // console.log(response);
-      
       localStorage.removeItem("staffSelectionActive");
-      
-      this.attendanceRuleDefinitionModalClose.nativeElement.click();
+      this.addAttendanceRuleDefinitionModalClose.nativeElement.click();
       this.activeModel2=false;
+      this.saveAttendanceRuleDefinitionLoading = false;
       this.helperService.showToast("Attendance rule registered successfully", Key.TOAST_STATUS_SUCCESS);
+      this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     }, (error) =>{
       console.log(error);
+      this.saveAttendanceRuleDefinitionLoading = false;
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
@@ -222,24 +231,35 @@ export class AttendanceSettingComponent implements OnInit {
   attendanceRuleDefinitionResponseList : AttendanceRuleDefinitionResponse[] = [];
   getAttendanceRuleDefinitionMethodCall(attendanceRuleId : number){
     this.dataService.getAttendanceRuleDefinition(attendanceRuleId).subscribe((response) => {
+
       this.attendanceRuleDefinitionResponseList = response;
       // console.log(this.attendanceRuleDefinitionResponseList);
+      
     }, (error) =>{
       console.log(error);
+      this.networkConnectionErrorPlaceHolderForAttendanceRule = true;
     }) 
   }
 
   showToastMessage : boolean = false;
 
+  deleteAttendanceRuleTemplateLoader(id: any): boolean {
+    return this.deleteAttendanceRuleLoaderStatus[id] || false;
+  }
+
+  deleteAttendanceRuleLoaderStatus: { [key: string]: boolean } = {};
   deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionId : number){
     debugger
+    this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = true;
     this.dataService.deleteAttendanceRuleDefinition(attendanceRuleDefinitionId).subscribe((response) => {
       // console.log(response);
-      this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
+      this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = false;
       this.helperService.showToast("Attendance rule settings deleted successfully", Key.TOAST_STATUS_SUCCESS);
+      this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
 
     }, (error) =>{
       console.log(error);
+      this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = false;
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
@@ -337,6 +357,38 @@ export class AttendanceSettingComponent implements OnInit {
     // this.selectCountDurationDropdown(attendanceRuleDefinitionResponse)
   }
 
+  // set late duration
+  getlateDuration(event:Date){
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration = duration;
+  }
+
+  getHalfDaylateDuration(event:Date){
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration = duration;
+  }
+
+  getFullDaylateDuration(event:Date){
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration = duration;
+  }
+
+  // set occurrence duration
+  getLateOccurrenceDuration(event:Date){
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDuration = duration;
+  }
+
+  getHalfDayOccurrenceDuration(event:Date){
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDuration = duration;
+  }
+
+  getFullDayOccurrenceDuration(event:Date){
+    let duration = this.helperService.formatDateToHHmmss(event);
+    this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDuration = duration;
+  }
+
   getAttendanceRuleDefinitionByIdMethodCall(){
     this.dataService.getAttendanceRuleDefinitionById(this.attendanceRuleDefinitionResponse.id).subscribe((response) => {
       // console.log(response);
@@ -346,12 +398,25 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   attendanceRuleWithAttendanceRuleDefinitionResponseList : AttendanceRuleWithAttendanceRuleDefinitionResponse[] = [];
+  attendanceRuleWithAttendanceRuleDefinitionLoading: boolean = false;
   getAttendanceRuleWithAttendanceRuleDefinitionMethodCall(){
-    this.dataService.getAttendanceRuleWithAttendanceRuleDefinition().subscribe((response) => {
-      this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response;
-      // console.log(response);
+    this.attendanceRuleWithAttendanceRuleDefinitionLoading = true;
+    this.dataService.getAttendanceRuleWithAttendanceRuleDefinitionNew().subscribe((response) => {
+      if (response.status) {
+        this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
+        this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response.object;
+        this.dataNotFoundPlaceholder = false;
+        this.networkConnectionErrorPlaceHolder = false;
+      }
+      else
+      {
+        this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
+        this.dataNotFoundPlaceholderForAttendanceRule = true;
+      }
     }, (error) => {
+      this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
       console.log(error);
+      this.networkConnectionErrorPlaceHolder = true;
     })
   }
 

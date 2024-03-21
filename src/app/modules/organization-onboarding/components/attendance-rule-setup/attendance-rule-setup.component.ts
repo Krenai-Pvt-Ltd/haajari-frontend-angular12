@@ -79,11 +79,9 @@ export class AttendanceRuleSetupComponent implements OnInit {
       let step = localStorage.getItem("AttendanceRuleStep");
       if(step=="2"){
         this.shiftSettingStep();
-        // localStorage.removeItem("AttendanceRuleStep");
       }
       else if (step=="3"){
         this.automationRulesSettingStep();
-        // localStorage.removeItem("AttendanceRuleStep");
       }
     }
   }
@@ -99,29 +97,26 @@ export class AttendanceRuleSetupComponent implements OnInit {
     this.attendanceMode = true;
     this.shiftSettingMode = false;
     this.automationRulesSettingMode = false;
-    this.stepFirst = true;
-    this.stepSecond = false;
-    this.stepThird = false;
   }
 
   shiftSettingStep() {
-    this.attendanceMode = false;
-    this.shiftSettingMode = true;
-    this.automationRulesSettingMode = false;
-    this.stepFirst = true;
-    this.stepSecond = true;
-    this.stepThird = false;
-    this.getAllShiftTimingsMethodCall();
+    if(this.stepSecond == true){
+      this.attendanceMode = false;
+      this.shiftSettingMode = true;
+      this.automationRulesSettingMode = false;
+      this.getAllShiftTimingsMethodCall();
+    }
+    
   }
 
   automationRulesSettingStep() {
-    this.attendanceMode = false;
-    this.shiftSettingMode = false;
-    this.automationRulesSettingMode = true;
-    this.stepFirst = true;
-    this.stepSecond = true;
-    this.stepThird = true;
-    this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall()
+    if(this.stepThird == true){
+      this.attendanceMode = false;
+      this.shiftSettingMode = false;
+      this.automationRulesSettingMode = true;
+      this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall()
+    }
+    
   }
 
   skipAttendanceMethod() {
@@ -136,7 +131,6 @@ export class AttendanceRuleSetupComponent implements OnInit {
     this.shiftSettingMode = false;
     this.isShiftAdded = false;
     this.automationRulesSettingMode = true;
-
     this.stepThird = true;
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
 
@@ -192,7 +186,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
   }
 
   deleteAttendanceRuleLoaderStatus: { [key: string]: boolean } = {};
-  deleteAttendanceRuleLoader: boolean = false;
+  // deleteAttendanceRuleLoader: boolean = false;
   deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionId: number) {
     debugger
     this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = true;
@@ -202,7 +196,8 @@ export class AttendanceRuleSetupComponent implements OnInit {
       this.helperService.showToast("Attendance rule settings deleted successfully", Key.TOAST_STATUS_SUCCESS);
 
     }, (error) => {
-      this.deleteAttendanceRuleLoader = false;
+      // this.deleteAttendanceRuleLoader = false;
+      this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = false;
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
@@ -685,9 +680,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
   @ViewChild('attendanceRuleDefinitionModalClose') attendanceRuleDefinitionModalClose !: ElementRef;
   attendanceRuleDefinitionRequest : AttendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
   registerAttendanceRuleDefinitionMethodCall(){
-
     debugger
-    console.log(this.selectedStaffsUuids);
 
     this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
     this.preRegisterAttendanceRuleDefinitionMethodCall();

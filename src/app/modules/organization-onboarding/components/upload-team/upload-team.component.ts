@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
@@ -159,6 +159,26 @@ export class UploadTeamComponent implements OnInit {
     }
   }
 
+  isFormInvalid: boolean = false;
+  @ViewChild('userForm') userForm !: NgForm
+  checkFormValidation() {
+    if (this.userForm.invalid) {
+      this.isFormInvalid = true;
+      return
+    } else {
+      this.isFormInvalid = false;
+    }
+  }
+
+  submit() {
+    this.checkFormValidation();
+    if (this.isFormInvalid == true) {
+      return
+    } else {
+      this.create();
+    }
+  }
+
   userListReq: UserListReq = new UserListReq();
   createLoading: boolean = false;
   create(){
@@ -240,12 +260,15 @@ export class UploadTeamComponent implements OnInit {
 
   isEmailExist: boolean = false;
   checkEmailExistance(index:number, email:string){
-    this._onboardingService.checkEmailExist(email).subscribe((response: any) => {
-      if(index>=0){
-        this.userList[index].isEmailExist = response;
-      }
-        this.isEmailExist = response;
-    })
+    if(email.length>5){
+      this._onboardingService.checkEmailExist(email).subscribe((response: any) => {
+        if(index>=0){
+          this.userList[index].isEmailExist = response;
+        }
+          this.isEmailExist = response;
+      })
+    }
+   
 
   }
 
