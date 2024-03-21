@@ -25,4 +25,5 @@ export class UserPersonalInformationRequest {
 	subscriptionPlanId!: number;
         notificationVia!: number;
         languagePreferred!: number;
+        slackUserId!: string;
 }
