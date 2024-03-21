@@ -21,6 +21,8 @@ export class SuccessComponent implements OnInit {
   getLastInvoice(){
     this._subscriptionPlanService.getLastInvoices().subscribe(response=>{
       if(response.status){
+        console.log(response.object);
+        
         this.invoices = response.object;
       }
     })

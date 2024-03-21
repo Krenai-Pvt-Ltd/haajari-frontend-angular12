@@ -14,26 +14,25 @@
                     <div class="col-md-9">
                       <div class="row">
                         <div class="col-md-12">
-                          <div class="mb-3">
+                          <div class="mb-2">
                             <label for="name" class="pb-2">Name <span class="text-optional">*</span></label>
                             <input type="text" required class="form-control" id="adminname"
                               [(ngModel)]="organizationPersonalInformation.adminName"
                               (keydown)="preventLeadingWhitespace($event)" placeholder="Enter admin name"
-                              name="adminName" #adminName="ngModel" minlength="3">
+                              name="adminName" #adminName="ngModel" minlength="5">
                           </div>
-                          <div *ngIf="adminName?.dirty">
-                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="adminName.errors?.required"><i
-                                class="bi bi-exclamation-circle"></i>
-                              Admin Name is required.</p>
-                            <p class="errortxt mt-2 mb-0 " style="color:red"
-                              *ngIf="adminName?.touched && adminName.errors?.minlength"><i
-                                class="bi bi-exclamation-circle"></i>
-                              Please enter minimum five characters name.</p>
+                          <div *ngIf="adminName?.dirty || isFormInvalid">
+                            <p class="errortxt mb-2" style="color:red" *ngIf="adminName.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> Name is required.
+                            </p>
+                            <p class="errortxt mb-2" style="color:red" *ngIf="adminName.errors?.minlength">
+                              <i class="bi bi-exclamation-circle"></i> Please enter minimum five characters name.
+                            </p>
                           </div>
                         </div>
                         <div class="col-md-12"
                           *ngIf="organizationPersonalInformation.organization.onboardingVia == 'WHATSAPP'">
-                          <div class="mb-3">
+                          <div class="mb-2">
                             <label for="phone" class="pb-2">Phone <span class="text-optional">*</span></label>
                             <input type="tel" id="phone" name="phone"
                               [(ngModel)]="organizationPersonalInformation.phoneNumber" placeholder="Enter Phone Number"
@@ -48,13 +47,13 @@
                             <p *ngIf="isNumberExist" class="error text-danger">this number already exist</p>
                           </div>
                           <div *ngIf="phone?.touched && phone.invalid">
-                            <p class="errortxt mt-2 mb-0" style="color:red">
+                            <p class="errortxt mb-2" style="color:red">
                               <i class="bi bi-exclamation-circle"></i> Phone number is invalid.
                             </p>
 
                           </div>
                           <div *ngIf="phone?.touched || isFormInvalid">
-                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone.errors?.required">
+                            <p class="errortxt mb-2" style="color:red" *ngIf="phone.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Phone number is required.
                             </p>
 
@@ -62,7 +61,7 @@
                         </div>
                         <div class="col-md-12"
                           *ngIf="organizationPersonalInformation.organization.onboardingVia == 'Slack'">
-                          <div class="mb-3">
+                          <div class="mb-2">
                             <label for="phone" class="pb-2">Phone <span class="text-optional">*</span></label>
                             <input type="text" required mask="0000000000" class="form-control" id="phone" name="phone"
                               [(ngModel)]="organizationPersonalInformation.phoneNumber" aria-describedby="phoneHelp"
@@ -70,26 +69,26 @@
 
                           </div>
                           <div *ngIf="phone?.touched">
-                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone.errors?.required">
+                            <p class="errortxt mb-2" style="color:red" *ngIf="phone.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Phone number is required.
                             </p>
 
                           </div>
                         </div>
                         <div class="col-md-12">
-                          <div class="mb-3">
+                          <div class="mb-2">
                             <label for="email" class="pb-2">Email Id <span
-                                class="text-optional">(Optional)</span></label>
+                                class="text-optional">*</span></label>
                             <input type="email" class="form-control" id="email"
                               [(ngModel)]="organizationPersonalInformation.email"
                               (keydown)="preventLeadingWhitespace($event)" name="email" aria-describedby="emailHelp"
-                              #email="ngModel" placeholder="Enter email id">
+                              #email="ngModel" placeholder="Enter email id" required>
                           </div>
-                          <div *ngIf="email?.touched || isFormInvalid">
-                            <!-- <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email.errors?.required">
+                          <div *ngIf="email?.dirty || isFormInvalid">
+                            <p class="errortxt mb-2" style="color:red" *ngIf="email.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Email Id is required.
-                            </p> -->
-                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email.errors?.email">
+                            </p>
+                            <p class="errortxt mb-2" style="color:red" *ngIf="email.errors?.email">
                               <i class="bi bi-exclamation-circle"></i> Please enter a valid email address.
                             </p>
                           </div>
@@ -137,25 +136,25 @@
                   </div>
                   <div class="row">
                     <div class="col-md-6">
-                      <div class="mb-3">
+                      <div class="mb-2">
                         <label for="name" class="pb-2">Organization Name <span class="text-optional">*</span></label>
                         <input type="text" required class="form-control" id="name"
                           [(ngModel)]="organizationPersonalInformation.name"
                           (keydown)="preventLeadingWhitespace($event)" placeholder="Enter organization name" name="name"
                           #name="ngModel" minlength="5">
                       </div>
-                      <div *ngIf="name?.dirty && isFormInvalid">
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name.errors?.required"><i
+                      <div *ngIf="name?.dirty || isFormInvalid">
+                        <p class="errortxt mb-2" style="color:red" *ngIf="name.errors?.required"><i
                             class="bi bi-exclamation-circle"></i>
-                          Name is required.</p>
-                        <p class="errortxt mt-2 mb-0 " style="color:red" *ngIf="name.errors?.minlength"><i
+                          Organization Name is required.</p>
+                        <p class="errortxt mb-2" style="color:red" *ngIf="name.errors?.minlength"><i
                             class="bi bi-exclamation-circle"></i>
                           Please enter minimum five characters name.</p>
                       </div>
                     </div>
 
                     <div class="col-md-6">
-                      <div class="mb-3">
+                      <div class="mb-2">
                         <label for="password" class="pb-2">Password <span class="text-optional">*</span></label>
                         <input [type]="showNewPassword ? 'text' : 'password'" class="form-control"
                           (keydown)="preventLeadingWhitespace($event)"
@@ -166,14 +165,14 @@
                           (click)="toggleNewPasswordVisibility()">
                           <i class="bi" [class]="showNewPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
                         </button>
-                        <div *ngIf="password?.dirty && isFormInvalid">
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="password.errors?.required">
+                        <div *ngIf="password?.dirty || isFormInvalid">
+                          <p class="errortxt mb-2" style="color:red" *ngIf="password.errors?.required">
                             <i class="bi bi-exclamation-circle"></i> Password is required.
                           </p>
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="password.errors?.minlength">
+                          <p class="errortxt mb-2" style="color:red" *ngIf="password.errors?.minlength">
                             <i class="bi bi-exclamation-circle"></i> Password must be at least 8 characters long.
                           </p>
-                          <p class="errortxt mt-2 mb-0" style="color:red"
+                          <p class="errortxt mb-2" style="color:red"
                             *ngIf="password.errors?.pattern && !password.errors?.minlength">
                             <i class="bi bi-exclamation-circle"></i> Password must contain at least one uppercase
                             letter, one lowercase letter, and one number.
@@ -183,7 +182,7 @@
                     </div>
                     <div class="row">
                       <div class="col-md-6">
-                        <div class="mb-3">
+                        <div class="mb-2">
                           <label for="addressLine1" class="pb-2">Address line 1<span
                               class="text-optional">*</span></label>
                           <textarea class="form-control" required id="addressLine1"
@@ -196,15 +195,15 @@
 
                         </div>
                         <div *ngIf="addressLine1.touched || isFormInvalid">
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine1.errors?.required">
+                          <p class="errortxt mb-2" style="color:red" *ngIf="addressLine1.errors?.required">
                             <i class="bi bi-exclamation-circle"></i>
                             Address Line 1 is required.
                           </p>
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine1.errors?.minlength">
+                          <p class="errortxt mb-2" style="color:red" *ngIf="addressLine1.errors?.minlength">
                             <i class="bi bi-exclamation-circle"></i>
                             Please enter a minimum of five characters.
                           </p>
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine1.errors?.maxlength">
+                          <p class="errortxt mb-2" style="color:red" *ngIf="addressLine1.errors?.maxlength">
                             <i class="bi bi-exclamation-circle"></i> Maximum 150 characters allowed.
                           </p>
 
@@ -212,7 +211,7 @@
                       </div>
 
                       <div class="col-md-6">
-                        <div class="mb-3">
+                        <div class="mb-2">
                           <label for="addressLine2" class="pb-2">Address line 2<span
                               class="text-optional">*</span></label>
                           <textarea class="form-control" id="addressLine2" required #addressLine2="ngModel"
@@ -222,15 +221,15 @@
                             style="resize: none;height: 80px !important;"></textarea>
                         </div>
                         <div *ngIf="addressLine2.touched || isFormInvalid">
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine2.errors?.required">
+                          <p class="errortxt mb-2" style="color:red" *ngIf="addressLine2.errors?.required">
                             <i class="bi bi-exclamation-circle"></i>
                             Address Line 2 is required.
                           </p>
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine2.errors?.minlength">
+                          <p class="errortxt mb-2" style="color:red" *ngIf="addressLine2.errors?.minlength">
                             <i class="bi bi-exclamation-circle"></i>
                             Please enter a minimum of five characters.
                           </p>
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine2.errors?.maxlength">
+                          <p class="errortxt mb-2" style="color:red" *ngIf="addressLine2.errors?.maxlength">
                             <i class="bi bi-exclamation-circle"></i> Maximum 100 characters allowed.
                           </p>
                           <!-- You can add more error conditions here if needed -->
@@ -240,7 +239,7 @@
 
 
                     <div class="col-md-3">
-                      <div class="mb-3">
+                      <div class="mb-2">
                         <label for="city" class="pb-2">City <span class="text-optional">*</span></label>
                         <input type="text" maxlength="30" #city="ngModel" required class="form-control" id="city"
                           (keydown)="preventLeadingWhitespaceAndNumber($event)" name="city"
@@ -248,18 +247,18 @@
                           placeholder="Enter City">
                       </div>
                       <div *ngIf="city.touched || isFormInvalid">
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="city.errors?.required">
+                        <p class="errortxt mb-2" style="color:red" *ngIf="city.errors?.required">
                           <i class="bi bi-exclamation-circle"></i>
                           City is required.
                         </p>
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="city.errors?.maxlength">
+                        <p class="errortxt mb-2" style="color:red" *ngIf="city.errors?.maxlength">
                           <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
                         </p>
                       </div>
                     </div>
 
                     <div class="col-md-3">
-                      <div class="mb-3">
+                      <div class="mb-2">
                         <label for="state" class="pb-2">State <span class="text-optional">*</span></label>
                         <input type="text" required maxlength="30" #state="ngModel" class="form-control" id="state"
                           name="state" (keydown)="preventLeadingWhitespaceAndNumber($event)"
@@ -271,14 +270,14 @@
                           <i class="bi bi-exclamation-circle"></i>
                           State is required.
                         </p>
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="state.errors?.maxlength">
+                        <p class="errortxt mb-2" style="color:red" *ngIf="state.errors?.maxlength">
                           <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
                         </p>
                       </div>
                     </div>
 
                     <div class="col-md-3">
-                      <div class="mb-3">
+                      <div class="mb-2">
                         <label for="country" class="pb-2">Country <span class="text-optional">*</span></label>
                         <input type="text" required maxlength="30" #country="ngModel" class="form-control" id="country"
                           name="country" (keydown)="preventLeadingWhitespaceAndNumber($event)"
@@ -286,11 +285,11 @@
                           placeholder="Enter Country">
                       </div>
                       <div *ngIf="country.touched || isFormInvalid">
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="country.errors?.required">
+                        <p class="errortxt mb-2" style="color:red" *ngIf="country.errors?.required">
                           <i class="bi bi-exclamation-circle"></i>
                           Country is required.
                         </p>
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="country.errors?.maxlength">
+                        <p class="errortxt mb-2" style="color:red" *ngIf="country.errors?.maxlength">
                           <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
                         </p>
                       </div>
@@ -298,14 +297,14 @@
 
 
                     <div class="col-md-3">
-                      <div class="mb-3">
+                      <div class="mb-2">
                         <label for="pincode" class="pb-2">Pincode <span class="text-optional">*</span></label>
                         <input type="text" required #pincode="ngModel" mask="000000" class="form-control" id="pincode"
                           name="pincode" [(ngModel)]="organizationPersonalInformation.pincode"
                           aria-describedby="phoneHelp" placeholder="Enter Pincode">
                       </div>
                       <div *ngIf="pincode.touched || isFormInvalid">
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="pincode.errors?.required">
+                        <p class="errortxt mb-2" style="color:red" *ngIf="pincode.errors?.required">
                           <i class="bi bi-exclamation-circle"></i>
                           Pincode is required.
                         </p>
