@@ -253,9 +253,9 @@ export class AttendanceSettingComponent implements OnInit {
     this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = true;
     this.dataService.deleteAttendanceRuleDefinition(attendanceRuleDefinitionId).subscribe((response) => {
       // console.log(response);
-      this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
       this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = false;
       this.helperService.showToast("Attendance rule settings deleted successfully", Key.TOAST_STATUS_SUCCESS);
+      this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
 
     }, (error) =>{
       console.log(error);
@@ -411,7 +411,7 @@ export class AttendanceSettingComponent implements OnInit {
       else
       {
         this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
-        this.dataNotFoundPlaceholder = true;
+        this.dataNotFoundPlaceholderForAttendanceRule = true;
       }
     }, (error) => {
       this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
