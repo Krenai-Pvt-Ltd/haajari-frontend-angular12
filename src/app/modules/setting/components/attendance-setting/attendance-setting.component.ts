@@ -407,6 +407,7 @@ export class AttendanceSettingComponent implements OnInit {
         this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response.object;
         this.dataNotFoundPlaceholder = false;
         this.networkConnectionErrorPlaceHolder = false;
+        this.dataNotFoundPlaceholderForAttendanceRule = false;
       }
       else
       {
