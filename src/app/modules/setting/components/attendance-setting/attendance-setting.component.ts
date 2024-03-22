@@ -363,8 +363,9 @@ export class AttendanceSettingComponent implements OnInit {
     this.dataService.getAttendanceRuleWithAttendanceRuleDefinition().subscribe((response) => {
       if(response === undefined || response === null || response.listOfObject === undefined || response.listOfObject === null || response.listOfObject.length === 0){
         this.dataNotFoundPlaceholderForAttendanceRule = true;
+      } else{
+        this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response.listOfObject;
       }
-      this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response;
       // console.log(response);
     }, (error) => {
       console.log(error);
