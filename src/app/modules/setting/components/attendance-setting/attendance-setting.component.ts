@@ -122,30 +122,64 @@ export class AttendanceSettingComponent implements OnInit {
     salaryDeduction.updateOccurrenceDuration();
   }
 
-  isFull:boolean=false;
-  showFullDay(){
-    this.isFull= this.isFull == true ? false:true;
+  customCheckbox : boolean = true;
+  halfDayCheckbox : boolean = false;
+  fullDayCheckbox : boolean = false;
+
+  tickCustomCheckbox(){
+    this.customCheckbox = !this.customCheckbox;
   }
 
-  isHalf:boolean=false;
-  showHalfDay(){
-    this.isHalf= this.isHalf == true ? false:true;
+  tickHalfDayCheckbox(){
+    this.halfDayCheckbox = !this.halfDayCheckbox;
   }
 
-  isBreak:boolean=false;
-  showBreak(){
-    this.isBreak= this.isBreak == true ? false:true;
+  tickFullDayCheckbox(){
+    this.fullDayCheckbox = !this.fullDayCheckbox;
   }
 
-  isdeductHalf:boolean=false;
-  showeDeductHalf(){
-    this.isdeductHalf= this.isdeductHalf == true ? false:true;
+
+  customOccurrenceCheckbox : boolean = false;
+  halfDayOccurrenceCheckbox : boolean = false;
+  fullDayOccurrenceCheckbox : boolean = false;
+
+  tickCustomOccurrenceCheckbox(){
+    this.customOccurrenceCheckbox = !this.customOccurrenceCheckbox;
   }
 
-  isfullDayy:boolean=false;
-  showFullDayy(){
-    this.isfullDayy= this.isfullDayy == true ? false:true;
+  tickHalfDayOccurrenceCheckbox(){
+    this.halfDayOccurrenceCheckbox = !this.halfDayOccurrenceCheckbox;
   }
+
+  tickFullDayOccurrenceCheckbox(){
+    this.fullDayOccurrenceCheckbox = !this.fullDayOccurrenceCheckbox;
+  }
+
+
+  // isFull:boolean=false;
+  // showFullDay(){
+  //   this.isFull= this.isFull == true ? false:true;
+  // }
+
+  // isHalf:boolean=false;
+  // showHalfDay(){
+  //   this.isHalf= this.isHalf == true ? false:true;
+  // }
+
+  // isBreak:boolean=false;
+  // showBreak(){
+  //   this.isBreak= this.isBreak == true ? false:true;
+  // }
+
+  // isdeductHalf:boolean=false;
+  // showeDeductHalf(){
+  //   this.isdeductHalf= this.isdeductHalf == true ? false:true;
+  // }
+
+  // isfullDayy:boolean=false;
+  // showFullDayy(){
+  //   this.isfullDayy= this.isfullDayy == true ? false:true;
+  // }
 
 
   attendanceRuleResponseList : AttendanceRuleResponse[] = [];
@@ -162,7 +196,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   registeredAttendanceRuleResponseList : AttendanceRuleResponse[] = [];
   getRegisteredAttendanceRuleByOrganizationMethodCall(){
-    debugger
+    
     this.dataService.getRegisteredAttendanceRuleByOrganization().subscribe((response) => {
       // console.log(response);
       this.registeredAttendanceRuleResponseList = response;
@@ -345,11 +379,11 @@ export class AttendanceSettingComponent implements OnInit {
       this.selectDeductionType(attendanceRuleDefinitionResponse.deductionType);
     }
 
-    this.isFull = true;
-    this.isHalf = true;
-    this.isBreak = true;
-    this.isdeductHalf = true;
-    this.isfullDayy = true;
+    // this.isFull = true;
+    // this.isHalf = true;
+    // this.isBreak = true;
+    // this.isdeductHalf = true;
+    // this.isfullDayy = true;
 
     this.selectedOccurenceDropdownForCustomSalrayDeduction = attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceType;
     this.selectedOccurenceDropdownForHalfDaySalrayDeduction = attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceType;
@@ -400,24 +434,17 @@ export class AttendanceSettingComponent implements OnInit {
   attendanceRuleWithAttendanceRuleDefinitionResponseList : AttendanceRuleWithAttendanceRuleDefinitionResponse[] = [];
   attendanceRuleWithAttendanceRuleDefinitionLoading: boolean = false;
   getAttendanceRuleWithAttendanceRuleDefinitionMethodCall(){
-    this.attendanceRuleWithAttendanceRuleDefinitionLoading = true;
-    this.dataService.getAttendanceRuleWithAttendanceRuleDefinitionNew().subscribe((response) => {
-      if (response.status) {
-        this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
-        this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response.object;
-        this.dataNotFoundPlaceholder = false;
-        this.networkConnectionErrorPlaceHolder = false;
-        this.dataNotFoundPlaceholderForAttendanceRule = false;
-      }
-      else
-      {
-        this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
+    this.preRuleForShimmersAndErrorPlaceholdersForAttendanceRuleWithDefinitionMethodCall();
+    this.dataService.getAttendanceRuleWithAttendanceRuleDefinition().subscribe((response) => {
+
+      if(response == null || response == undefined || response.listOfObject == null || response.listOfObject == undefined || response.listOfObject.length == 0){
         this.dataNotFoundPlaceholderForAttendanceRule = true;
+      } else{
+        this.attendanceRuleWithAttendanceRuleDefinitionResponseList = response.listOfObject;
       }
     }, (error) => {
-      this.attendanceRuleWithAttendanceRuleDefinitionLoading = false;
       console.log(error);
-      this.networkConnectionErrorPlaceHolder = true;
+      this.networkConnectionErrorPlaceHolderForAttendanceRule = true;
     })
   }
 
@@ -686,11 +713,11 @@ unselectAllUsers() {
     this.activeModel = false;
     this.activeModel2 = false;
 
-    this.isFull = false;
-    this.isHalf = false;
-    this.isBreak = false;
-    this.isdeductHalf = false;
-    this.isfullDayy = false;
+    // this.isFull = false;
+    // this.isHalf = false;
+    // this.isBreak = false;
+    // this.isdeductHalf = false;
+    // this.isfullDayy = false;
 
     this.selectedDeductionType = new DeductionType();
     this.selectedStaffsUuids = [];
@@ -1267,5 +1294,11 @@ unselectAllUsers() {
     let compareDate = new Date(date);
 
     return compareDate > today;
+  }
+
+  //#######################################################################
+
+  submitAttendanceRuleForm(){
+    
   }
 }
