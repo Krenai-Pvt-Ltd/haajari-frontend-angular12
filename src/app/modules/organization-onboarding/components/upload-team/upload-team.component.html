@@ -238,11 +238,12 @@
                                                     address.
                                                 </p>
                                             </div>
+                                            <div class="leave-delet-btn pointer" (click)="removeUser(i)" *ngIf="i>0">
+                                                <i class="bi bi-trash"></i>
+                                            </div>
+    
                                         </div>
-                                        <div class="leave-delet-btn pointer" (click)="removeUser(i)" *ngIf="i>0">
-                                            <i class="bi bi-trash"></i>
-                                        </div>
-
+                                        
                                     </div>
 
                                     <div id="back-and-submit"

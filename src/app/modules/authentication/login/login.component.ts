@@ -78,11 +78,17 @@ export class LoginComponent implements OnInit {
       this.ROLE = await this.rbacService.getRole();
       this.UUID = await this.rbacService.getUuid();
 
-      debugger
+      
       if (this.ROLE === 'USER') {
         this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
       } else {
-        this.router.navigate(['/dashboard']);
+        const helper = new JwtHelperService();
+        const onboardingStep = helper.decodeToken(response.tokenResponse.access_token).statusResponse;
+          if (onboardingStep == "7") {
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.router.navigate(['/organization-onboarding/personal-information']);
+          }
       }
 
     }, (error) => {
@@ -102,6 +108,7 @@ export class LoginComponent implements OnInit {
     this.isOtpVerify = false;
     this.verifyOtpButtonFlag = false;
     this.otpErrorMessage = '';
+    this.errorMessage = '';
   }
 
   signInWithWhatsapp() {
@@ -112,6 +119,7 @@ export class LoginComponent implements OnInit {
     this.phoneNumber = '';
     this.isOtpVerify = false;
     this.otpErrorMessage = '';
+    this.errorMessage = '';
   }
 
   redirectToRegister() {
