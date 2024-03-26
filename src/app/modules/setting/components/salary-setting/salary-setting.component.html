@@ -333,7 +333,14 @@
                                     <div class="row mt-2 p-2 ng-star-inserted">
                                         <div class="col-md-6" *ngFor="let salaryComponentResponse of salaryTemplateComponentResponse.salaryComponentResponseList">
                                             <div class="shift-deta">
-                                                <p class="mb-0">{{salaryComponentResponse.name}} | <span style="color: #009688;">{{salaryComponentResponse.value}}%</span></p>
+                                                <p class="mb-0">{{salaryComponentResponse.name}} | 
+                                                    <span style="color: #009688;" *ngIf="salaryComponentResponse.percentageOfBasicPay">
+                                                        {{salaryComponentResponse.value}}% (of Basic Pay)
+                                                    </span>
+                                                    <span style="color: #009688;" *ngIf="!salaryComponentResponse.percentageOfBasicPay">
+                                                        {{salaryComponentResponse.value}}%
+                                                    </span>
+                                                </p>
                                             </div>
                                         </div>
     <!--     

@@ -1833,11 +1833,11 @@
     
     
                                                 <div class="dudtion-type" *ngIf="customCheckbox">
-                                                    <div class="d-flex align-items-center" style="gap:20px">
+                                                    <div class="d-flex align-items-center">
                                                         <div class="if-late">
                                                             <label for="hoursInput" class="pb-2">{{attendanceRuleResponse.ruleSubHeader}}</label>
     
-                                                            <div class="input-group">
+                                                            <div class="d-flex justify-content-center align-items-center">
                                                                 <nz-time-picker [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration" nzFormat="HH:mm" (ngModelChange)="getlateDuration($event)" name="lateDuration"> </nz-time-picker>
                                                                 <span><b>hrs.</b></span>
                                                             </div>

@@ -1453,6 +1453,7 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
     this.dataService.getStatutoryByOrganizationId().subscribe((response) => {
       this.statutoryResponseList = response.listOfObject;
       this.setStatutoryVariablesToFalse();
+      console.log(this.statutoryResponseList);
       this.clearInputValues();
     }, (error) => {
 
