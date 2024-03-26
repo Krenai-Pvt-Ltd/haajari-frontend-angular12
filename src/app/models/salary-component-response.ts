@@ -5,4 +5,5 @@ export class SalaryComponentResponse {
     description : string = '';
     toggle : boolean = false;
     value : any;
+    percentageOfBasicPay : boolean = false;
 }
