@@ -180,11 +180,20 @@
                         </div>
                       </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-2">
                       <div class="col-md-6">
                         <div class="mb-2">
-                          <label for="addressLine1" class="pb-2">Address line 1<span
+                          <div class="d-flex justify-content-between">
+                            <label for="addressLine1" class="pb-2">Address line 1 <span
                               class="text-optional">*</span></label>
+                              <a (click)="currentLocation()" *ngIf="!locationLoader"><i class="bi bi-geo-alt" style="color: green;"></i></a>
+                              <div class="dot-opacity-loader" *ngIf="locationLoader">
+                                <span style="background-color: #6666f3;"></span>
+                                <span style="background-color: #6666f3;"></span>
+                                <span style="background-color: #6666f3;"></span>
+                            </div>
+                          </div>
+                          
                           <textarea class="form-control" required id="addressLine1"
                             (keydown)="preventLeadingWhitespace($event)"
                             [(ngModel)]="organizationPersonalInformation.addressLine1" name="addressLine1" rows="10"
@@ -212,7 +221,7 @@
 
                       <div class="col-md-6">
                         <div class="mb-2">
-                          <label for="addressLine2" class="pb-2">Address line 2<span
+                          <label for="addressLine2" class="pb-2">Address line 2 <span
                               class="text-optional">*</span></label>
                           <textarea class="form-control" id="addressLine2" required #addressLine2="ngModel"
                             (keydown)="preventLeadingWhitespace($event)" rows="5"
