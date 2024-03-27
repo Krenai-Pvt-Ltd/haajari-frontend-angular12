@@ -76,17 +76,22 @@ export class HelperService {
   }
 
   formatDateToHHmmss(date: Date): string {
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    let seconds = date.getSeconds();
-  
-    // Pad with leading zeros if necessary
-    let strhours = hours < 10 ? '0' + hours : hours;
-    let strminutes = minutes < 10 ? '0' + minutes : minutes;
-    let strseconds = seconds < 10 ? '0' + seconds : seconds;
-  
-    // Construct formatted time string
-    return `${strhours}:${strminutes}:${strseconds}`;
+    if(date != null){
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+      let seconds = date.getSeconds();
+    
+      // Pad with leading zeros if necessary
+      let strhours = hours < 10 ? '0' + hours : hours;
+      let strminutes = minutes < 10 ? '0' + minutes : minutes;
+      // let strseconds = seconds < 10 ? '0' + seconds : seconds;
+      let strseconds = '00';
+    
+      // Construct formatted time string
+      return `${strhours}:${strminutes}:${strseconds}`;
+    }
+    return '';
+    
   }
   
 
