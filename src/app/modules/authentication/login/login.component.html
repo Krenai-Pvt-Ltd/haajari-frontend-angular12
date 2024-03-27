@@ -18,10 +18,10 @@
                             <!-- show email number input -->
                             <div *ngIf="!isWhatsappLogin && !showOtpInput">
                                 <label for="exampleInputEmail1" class="mb-2">Email address</label>
-                                <input type="email" required class="form-control" id="exampleInputEmail1"
-                                    name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"
-                                    [(ngModel)]="email" #emailAddress="ngModel" autocomplete="email"
-                                    style="height: 45px !important;">
+                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                    name="exampleInputEmail1" placeholder="Enter email"
+                                    [(ngModel)]="email" #emailAddress="ngModel" autocomplete="on"
+                                    style="height: 45px !important;" required>
                                 <div *ngIf="(emailAddress.touched && emailAddress.invalid) || isFormInvalid">
                                     <p class="errortxt mt-2 mb-0" style="color:red"
                                         *ngIf="emailAddress.errors?.required">
@@ -59,7 +59,7 @@
                                     <!-- resend otp button -->
                                     <div class="d-flex justify-content-end mt-3">
                                         <button class="btn btn-primary" (click)="resendOtp()" [disabled]="time>0">
-                                            <span>Resend OTP </span>
+                                            <span>Resend OTP</span>
                                             <span *ngIf="time>0">({{time}})</span>
                                         </button>
                                     </div>
@@ -71,6 +71,8 @@
                         </div>
                         <small class="" *ngIf="verifyOtpButtonFlag && showMessageFlag" style="color:chocolate">You have
                             not created your password yet, Please create your password by verifying your OTP!</small>
+
+                        <!-- password input to login with email -->
                         <div *ngIf="enterPasswordFlag && !isWhatsappLogin">
                             <div class="form-group">
                                 <label for="exampleInputPassword1" class="mb-2">Password</label>
@@ -102,9 +104,9 @@
                         </div>
 
                         <div class="login-new-text">
-                            <p>By signing, you are creating a COMMIT account, and you agree to COMMIT <a href=""
-                                    class="neq-login-link"> Terms of Use </a> and <a href=""
-                                    class="neq-login-link">privacy Policy.</a></p>
+                            <p>By signing, you are creating a COMMIT account, and you agree to COMMIT 
+                                <a href="" class="neq-login-link"> Terms of Use </a> and 
+                                <a href="" class="neq-login-link">privacy Policy.</a></p>
                         </div>
 
                         <div *ngIf="errorMessage" class="alert alert-danger mt-2">

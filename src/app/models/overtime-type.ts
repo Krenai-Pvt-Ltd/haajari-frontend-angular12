@@ -1,5 +1,5 @@
 export class OvertimeType {
     id !: number;
-    type !: string;
+    type : string = '';
     description !: string;
 }
