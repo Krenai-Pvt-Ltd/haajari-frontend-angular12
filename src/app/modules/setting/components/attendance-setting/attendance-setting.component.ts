@@ -510,8 +510,8 @@ export class AttendanceSettingComponent implements OnInit {
     this.selectedDeductionType = deductionType;
     this.attendanceRuleDefinitionRequest.deductionTypeId = deductionType.id;
   
-    const res = document.getElementById('amount-in-rupees') as HTMLElement;
-    res.style.display = this.selectedDeductionType?.type === "FIXED AMOUNT" ? 'block' : 'none';
+    // const res = document.getElementById('amount-in-rupees') as HTMLElement;
+    // res.style.display = this.selectedDeductionType?.type === "FIXED AMOUNT" ? 'block' : 'none';
   }
   
 
@@ -522,8 +522,8 @@ export class AttendanceSettingComponent implements OnInit {
     this.selectedOvertimeType = overtimeType;
     this.attendanceRuleDefinitionRequest.overtimeTypeId = overtimeType.id;
 
-    const res = document.getElementById('amount-in-rupees') as HTMLElement;
-    res.style.display = this.selectedOvertimeType?.type === "FIXED AMOUNT" ? 'block' : 'none';
+    // const res = document.getElementById('amount-in-rupees') as HTMLElement;
+    // res.style.display = this.selectedOvertimeType?.type === "FIXED AMOUNT" ? 'block' : 'none';
   }
 
   //Extra
