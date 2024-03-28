@@ -72,7 +72,6 @@
                             <p class="errortxt mb-2" style="color:red" *ngIf="phone.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Phone number is required.
                             </p>
-
                           </div>
                         </div>
                         <div class="col-md-12">
@@ -109,6 +108,7 @@
                             <span><b>Drop your file here or <a class="select-file"> Select a file
                                 </a></b><br>SVG, JPEG, JPG or PNG (max. 100px*100px)</span>
                           </div>
+                          
                           <!-- loader -->
                           <div *ngIf="uploadImageLoader">
                             <div class="spinner-border spinner-border-sm" role="status">
@@ -127,7 +127,7 @@
                           style="height: 120px;width: 180px;border-radius: 0.6rem;">
                           <img src="{{organizationPersonalInformation.logo}}" alt="..." style="width: 190px">
                           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
-                            <i class="fa fa-times mx-2 pointer" aria-hidden="true" (click)="removeImage()"></i>
+                            <i class="fa fa-times mx-2 pointer" aria-hidden="true" (click)="organizationPersonalInformation.logo = ''"></i>
                           </span>
                         </div>
                       </label>
@@ -149,7 +149,7 @@
                           Organization Name is required.</p>
                         <p class="errortxt mb-2" style="color:red" *ngIf="name.errors?.minlength"><i
                             class="bi bi-exclamation-circle"></i>
-                          Please enter minimum five characters name.</p>
+                          Please enter minimum five characters.</p>
                       </div>
                     </div>
 
