@@ -810,6 +810,7 @@ unselectAllUsers() {
   }
 
   organizationShiftTimingValidationErrors: { [key: string]: string } = {};
+  
 
   calculateTimes(): void {
     const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;

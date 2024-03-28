@@ -267,11 +267,6 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     });
   }
 
-  removeImage() {
-    this.organizationPersonalInformation.logo = '';
-  }
-
-
 
 /************ GET CURRENT LOCATION ***********/
 locationLoader: boolean = false;
@@ -281,16 +276,16 @@ currentLocation(){
     this.placesService.getLocationDetails(coords.latitude, coords.longitude)
       .then(details => {
         this.locationLoader = false;
-        // console.log('formatted_address:', details);
+        console.log('formatted_address:', details);
         this.organizationPersonalInformation.addressLine1 = details.formatted_address;
         this.organizationPersonalInformation.addressLine2 = '';
-        if (details.address_components[2].long_name) {
+        if (details.address_components[1].types[0] === "locality") {
           this.organizationPersonalInformation.city = details.address_components[2].long_name
         }
-        if (details.address_components[4].long_name) {
+        if (details.address_components[4].types[0] === "administrative_area_level_1") {
           this.organizationPersonalInformation.state = details.address_components[4].long_name
         }
-        if (details.address_components[5].long_name) {
+        if (details.address_components[5].types[0] === "country") {
           this.organizationPersonalInformation.country = details.address_components[5].long_name
         }
       })

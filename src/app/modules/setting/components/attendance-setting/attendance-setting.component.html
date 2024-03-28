@@ -1255,7 +1255,7 @@
                                                 </td>
                                                 <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
                                                 <td style="padding: 12px 15px;">{{ staff.name }}</td>
-                                                <td style="padding: 12px 15px;">{{ staff.email }}</td>
+                                                <td style="padding: 12px 15px;">{{ staff.email?staff.email:"N/A" }}</td>
 
                                             </tr>
                                         </tbody>
@@ -2206,10 +2206,7 @@
 
                                     <div class="tab-pane fade" id="profile" role="tabpanel">
                                         <div class="staf-list-box mt-3">
-
-
                                             <div class="row mb-3">
-
                                                 <div class="col-md-6">
                                                     <div>
                                                         <h5>Userlist <span
@@ -2297,13 +2294,12 @@
                                                         </td>
                                                         <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
                                                         <td style="padding: 12px 15px;">{{ staff.name }}</td>
-                                                        <td style="padding: 12px 15px;">{{ staff.email }}</td>
+                                                        <td style="padding: 12px 15px;">{{ staff.email?staff.email:"N/A" }}</td>
 
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <!-- *ngIf="staffs.length > 8" -->
                                         <div class="pagination pl-3">
                                             <p class="mb-0" style="padding-left: 15px">
                                                 Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
