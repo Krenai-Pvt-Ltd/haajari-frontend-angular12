@@ -153,6 +153,7 @@ export class SalarySettingComponent implements OnInit {
 
   eSIContributionRateList : ESIContributionRate[] = [];
   getESIContributionRateMethodCall(){
+    debugger
     this.dataService.getESIContributionRate().subscribe((response) => {
       this.eSIContributionRateList = response.listOfObject;
     }, (error) => {
@@ -221,6 +222,7 @@ export class SalarySettingComponent implements OnInit {
   // }
 
   async clickSwitch(statutoryResponse : StatutoryResponse){
+    debugger
     if(!statutoryResponse.loading){
       statutoryResponse.loading = true;
     }
