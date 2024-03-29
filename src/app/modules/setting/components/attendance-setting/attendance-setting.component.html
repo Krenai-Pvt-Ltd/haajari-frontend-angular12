@@ -1796,7 +1796,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> {{attendanceRuleResponse.name}} </h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #addAttendanceRuleDefinitionModalClose></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #addAttendanceRuleDefinitionModalClose
+                    (click)="clearAttendanceRuleDefinitionModal()"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -1830,8 +1831,6 @@
                                                     </label>
                                                 </div>
     
-    
-    
                                                 <div class="dudtion-type" *ngIf="customCheckbox">
                                                     <div class="col-md-12">
                                                         <div class="row">
@@ -1849,6 +1848,14 @@
                                                                         class="text-danger" style="font-size: 13px;">
                                                                         Duration is required.
                                                                     </div>
+                                                                    <div *ngIf="invalidCustomlateDuration1"
+                                                                            class="text-danger" style="font-size: 13px;">
+                                                                            Custom Duration should be less than Half Day Duration.
+                                                                        </div>
+                                                                        <div *ngIf="invalidCustomlateDuration2"
+                                                                            class="text-danger" style="font-size: 13px;">
+                                                                            Custom Duration should be less than full Day Duration.
+                                                                        </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
@@ -2017,6 +2024,14 @@
                                                                             <span><b>hrs.</b></span>
                                                                             
                                                                         </div>
+                                                                        <div *ngIf="invalidHalfDaylateDuration1"
+                                                                            class="text-danger" style="font-size: 13px;">
+                                                                            Half Day Duration should be greater than Custom Day Duration.
+                                                                        </div>
+                                                                        <div *ngIf="invalidHalfDaylateDuration2"
+                                                                            class="text-danger" style="font-size: 13px;">
+                                                                            Half Day Duration should be less than full Day Duration.
+                                                                        </div>
                                                                         <div *ngIf="halfDayLateDuration?.touched && halfDayLateDuration.errors?.required"
                                                                             class="text-danger" style="font-size: 13px;">
                                                                             Duration is required.
@@ -2116,6 +2131,14 @@
                                                                             </nz-time-picker>
                                                                             <span><b>hrs.</b></span>
                                                                         </div>
+                                                                        <div *ngIf="invalidFullDaylateDuration1"
+                                                                            class="text-danger" style="font-size: 13px;">
+                                                                            Full Day Duration should be greater than Custom Day Duration.
+                                                                        </div>
+                                                                        <div *ngIf="invalidFullDaylateDuration2"
+                                                                            class="text-danger" style="font-size: 13px;">
+                                                                            Full Day Duration should be greater than Half Day Duration.
+                                                                        </div>
                                                                         <div *ngIf="fullDayLateDuration?.touched && fullDayLateDuration.errors?.required"
                                                                             class="text-danger" style="font-size: 13px;">
                                                                             Duration is required.
@@ -2197,7 +2220,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary" [disabled]="(!customCheckbox && !halfDayCheckbox && !fullDayCheckbox) || (selectedDeductionType?.type == '' && selectedOvertimeType?.type == '') || attendanceRuleForm.invalid"
+                                                <button type="submit" class="btn btn-primary" [disabled]="(!customCheckbox && !halfDayCheckbox && !fullDayCheckbox) || (selectedDeductionType?.type == '' && selectedOvertimeType?.type == '') || attendanceRuleForm.invalid || compareTimesValidation()"
                                                     (click)="staffActiveTabMethod()">Next</button>
                                             </div>
                                             

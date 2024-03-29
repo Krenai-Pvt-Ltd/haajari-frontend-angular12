@@ -230,12 +230,12 @@ export class Key{
 
     //Coupon
     verify_coupon = "/coupon";
+
+    check_user_email_existence = "/users/check-email-existence";
+    check_user_phone_existence = "/users/check-phone-existence";
     
     //user import
     create_user = "/whatsapp-user-onboarding/create";
-    // create_admin = "/organization/register-organization-using-number";
-    // create_admin_new = "/organization/register-organization-using-number-new";
-
 
     get_onboarding_user = "/whatsapp-user-onboarding/onboarding-user";
     delete_onboarding_user = "/whatsapp-user-onboarding/delete";
@@ -246,6 +246,7 @@ export class Key{
 
     check_number_existence = "/whatsapp-user-onboarding/check-number-existence"
     check_email_existence = "/whatsapp-user-onboarding/check-email-existence"
+    
 
     save_organization_onboarding_step = "/organization/save-onboarding-step"
     get_organization_onboarding_step = "/organization/onboarding-step"
