@@ -32,20 +32,6 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     this.getOrganizationDetails();
   }
 
-  isNumberExist: boolean = false;
-  checkExistance(number:string){
-    if(number != '' && number.length>=10){
-      this._onboardingService.checkNumberExist(number).subscribe((response: any) => {
-          this.isNumberExist = response;
-      }, (error) => {
-        console.log(error);
-        
-      })
-    }
-    
-
-  }
-
   organizationPersonalInformation: OrganizationPersonalInformation = {
     id: 0,
     adminName: '',
@@ -288,6 +274,9 @@ currentLocation(){
         if (details.address_components[5].types[0] === "country") {
           this.organizationPersonalInformation.country = details.address_components[5].long_name
         }
+        if (details.address_components[6].types[0] === "postal_code") {
+          this.organizationPersonalInformation.pincode = details.address_components[6].long_name
+        }
       })
       .catch(error => console.error(error));
   }).catch(error => console.error(error));
@@ -307,5 +296,32 @@ currentLocation(){
     });
   }
   /************ GET CURRENT LOCATION ***********/
+
+
+  /************ CHECK EXISTANCE ***********/
+
+  isNumberExist: boolean = false;
+  checkExistance(number:string){
+    if(number != '' && number.length>=10){
+      this._onboardingService.checkAdminNumberExist(number).subscribe((response: any) => {
+          this.isNumberExist = response;
+      }, (error) => {
+        console.log(error);
+        
+      })
+    }
+  }
+
+  isEmailExist: boolean = false;
+  checkEmailExistance(email:string){
+    if(email != null && email.length>5){
+      this._onboardingService.checkAdminEmailExist(email).subscribe((response: any) => {
+          this.isEmailExist = response;
+      })
+    }
+  }
+
+  /************ CHECK EXISTANCE **********/
+
 
 }
