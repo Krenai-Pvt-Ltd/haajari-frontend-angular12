@@ -47,7 +47,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
   }
 
   goToStep(index: string) {
-    console.log("Index to Go :", index);
+    // console.log("Index to Go :", index);
     switch (index) {
       case "1": {
         this.router.navigate(['/organization-onboarding/personal-information']);

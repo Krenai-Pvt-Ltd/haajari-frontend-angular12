@@ -50,13 +50,11 @@
                             <p class="errortxt mb-2" style="color:red">
                               <i class="bi bi-exclamation-circle"></i> Phone number is invalid.
                             </p>
-
                           </div>
                           <div *ngIf="phone?.touched || isFormInvalid">
                             <p class="errortxt mb-2" style="color:red" *ngIf="phone.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Phone number is required.
                             </p>
-
                           </div>
                         </div>
                         <div class="col-md-12"
@@ -66,13 +64,11 @@
                             <input type="text" required mask="0000000000" class="form-control" id="phone" name="phone"
                               [(ngModel)]="organizationPersonalInformation.phoneNumber" aria-describedby="phoneHelp"
                               #phone="ngModel" placeholder="Enter phone">
-
                           </div>
                           <div *ngIf="phone?.touched">
                             <p class="errortxt mb-2" style="color:red" *ngIf="phone.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Phone number is required.
                             </p>
-
                           </div>
                         </div>
                         <div class="col-md-12">
@@ -82,8 +78,10 @@
                             <input type="email" class="form-control" id="email"
                               [(ngModel)]="organizationPersonalInformation.email"
                               (keydown)="preventLeadingWhitespace($event)" name="email" aria-describedby="emailHelp"
-                              #email="ngModel" placeholder="Enter email id" required>
+                              #email="ngModel" (keyup)="checkEmailExistance(organizationPersonalInformation.email)" placeholder="Enter email id" required>
                           </div>
+                          <p *ngIf="isEmailExist" class="error text-danger">this email
+                            already exist</p>
                           <div *ngIf="email?.dirty || isFormInvalid">
                             <p class="errortxt mb-2" style="color:red" *ngIf="email.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Email Id is required.
@@ -109,6 +107,7 @@
                             <span><b>Drop your file here or <a class="select-file"> Select a file
                                 </a></b><br>SVG, JPEG, JPG or PNG (max. 100px*100px)</span>
                           </div>
+                          
                           <!-- loader -->
                           <div *ngIf="uploadImageLoader">
                             <div class="spinner-border spinner-border-sm" role="status">
@@ -127,7 +126,7 @@
                           style="height: 120px;width: 180px;border-radius: 0.6rem;">
                           <img src="{{organizationPersonalInformation.logo}}" alt="..." style="width: 190px">
                           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
-                            <i class="fa fa-times mx-2 pointer" aria-hidden="true" (click)="removeImage()"></i>
+                            <i class="fa fa-times mx-2 pointer" aria-hidden="true" (click)="organizationPersonalInformation.logo = ''"></i>
                           </span>
                         </div>
                       </label>
@@ -149,7 +148,7 @@
                           Organization Name is required.</p>
                         <p class="errortxt mb-2" style="color:red" *ngIf="name.errors?.minlength"><i
                             class="bi bi-exclamation-circle"></i>
-                          Please enter minimum five characters name.</p>
+                          Please enter minimum five characters.</p>
                       </div>
                     </div>
 
@@ -180,11 +179,20 @@
                         </div>
                       </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-2">
                       <div class="col-md-6">
                         <div class="mb-2">
-                          <label for="addressLine1" class="pb-2">Address line 1<span
+                          <div class="d-flex justify-content-between">
+                            <label for="addressLine1" class="pb-2">Address line 1 <span
                               class="text-optional">*</span></label>
+                              <a (click)="currentLocation()" *ngIf="!locationLoader"><i class="bi bi-geo-alt" style="color: green;"></i></a>
+                              <div class="dot-opacity-loader" *ngIf="locationLoader">
+                                <span style="background-color: #6666f3;"></span>
+                                <span style="background-color: #6666f3;"></span>
+                                <span style="background-color: #6666f3;"></span>
+                            </div>
+                          </div>
+                          
                           <textarea class="form-control" required id="addressLine1"
                             (keydown)="preventLeadingWhitespace($event)"
                             [(ngModel)]="organizationPersonalInformation.addressLine1" name="addressLine1" rows="10"
@@ -212,15 +220,14 @@
 
                       <div class="col-md-6">
                         <div class="mb-2">
-                          <label for="addressLine2" class="pb-2">Address line 2<span
-                              class="text-optional">*</span></label>
-                          <textarea class="form-control" id="addressLine2" required #addressLine2="ngModel"
+                          <label for="addressLine2" class="pb-2">Address line 2</label>
+                          <textarea class="form-control" id="addressLine2" #addressLine2="ngModel"
                             (keydown)="preventLeadingWhitespace($event)" rows="5"
                             [(ngModel)]="organizationPersonalInformation.addressLine2" name="addressLine2"
                             placeholder="Apartment, suite, unit, building, floor, etc." maxlength="150"
                             style="resize: none;height: 80px !important;"></textarea>
                         </div>
-                        <div *ngIf="addressLine2.touched || isFormInvalid">
+                        <!-- <div *ngIf="addressLine2.touched || isFormInvalid">
                           <p class="errortxt mb-2" style="color:red" *ngIf="addressLine2.errors?.required">
                             <i class="bi bi-exclamation-circle"></i>
                             Address Line 2 is required.
@@ -232,8 +239,7 @@
                           <p class="errortxt mb-2" style="color:red" *ngIf="addressLine2.errors?.maxlength">
                             <i class="bi bi-exclamation-circle"></i> Maximum 100 characters allowed.
                           </p>
-                          <!-- You can add more error conditions here if needed -->
-                        </div>
+                        </div> -->
                       </div>
                     </div>
 

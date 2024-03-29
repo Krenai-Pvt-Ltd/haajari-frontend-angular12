@@ -22,8 +22,6 @@ export class BillingComponent implements OnInit {
 
   databaseHelper: DatabaseHelper = new DatabaseHelper();
 
-  
-  // currentDate: Date = new Date('2024-02-18');
   currentDate: Date;
   midDateOfMonth: Date;
 

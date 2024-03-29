@@ -76,11 +76,14 @@ export class AttendanceRuleSetupComponent implements OnInit {
     }
 
     if(localStorage.getItem("AttendanceRuleStep")!="" && localStorage.getItem("AttendanceRuleStep")!= null){
+      debugger
       let step = localStorage.getItem("AttendanceRuleStep");
       if(step=="2"){
+        this.stepSecond = true;
         this.shiftSettingStep();
       }
       else if (step=="3"){
+        this.stepThird = true;
         this.automationRulesSettingStep();
       }
     }
@@ -111,6 +114,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
 
   automationRulesSettingStep() {
     if(this.stepThird == true){
+      this.stepSecond = true;
       this.attendanceMode = false;
       this.shiftSettingMode = false;
       this.automationRulesSettingMode = true;
