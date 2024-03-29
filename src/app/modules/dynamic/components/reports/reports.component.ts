@@ -25,7 +25,7 @@ export class ReportsComponent implements OnInit {
   constructor(private dataService: DataService, private helperService: HelperService,  private datePipe: DatePipe, private rbacService: RoleBasedAccessControlService) { }
 
   async ngOnInit(): Promise<void> {
-    this.getAttendanceReportLogs();
+    this.getFullReportLogs();
     this.userUuid = await this.rbacService.getUUID();
     this.getOrganizationOnboardingDateByUuid();
   }
@@ -61,6 +61,24 @@ export class ReportsComponent implements OnInit {
     const now = new Date();
     const currentEndOfMonth = new Date(current.getFullYear(), current.getMonth() + 1, 0);
     return currentMonth < onboardingMonth || currentEndOfMonth > new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  };
+
+  disableBeforeOnboardingForSalary = (current: Date): boolean => {
+    
+    const onboardingYear = this.organizationOnboardingDate.getFullYear();
+    const onboardingMonth = this.organizationOnboardingDate.getMonth();
+  
+    const currentYear = current.getFullYear();
+    const currentMonth = current.getMonth();
+  
+    const now = new Date();
+    const nowYear = now.getFullYear();
+    const nowMonth = now.getMonth();
+  
+    return currentYear < onboardingYear || 
+           (currentYear === onboardingYear && currentMonth < onboardingMonth) ||
+           currentYear > nowYear || 
+           (currentYear === nowYear && currentMonth >= nowMonth);
   };
 
   handleOkOfAttendanceSummary(): void {
@@ -110,7 +128,7 @@ export class ReportsComponent implements OnInit {
       next: (response) => {
         console.log('Report Generation Successful', response);
         this.isLoading = false;
-        this.getAttendanceReportLogs();
+        this.getFullReportLogs();
         this.helperService.showToast("Attendance Records Fetched Successfully!", Key.TOAST_STATUS_SUCCESS);
 
       },
@@ -172,8 +190,8 @@ export class ReportsComponent implements OnInit {
 
   groupedLogs: { [date: string]: any[] } = {}; // Use a more specific type if possible
   isAttendanceLogsPlaceholder: boolean = true;
-  getAttendanceReportLogs(): void {
-    this.dataService.getAttendanceReportLogs().subscribe({
+  getFullReportLogs(): void {
+    this.dataService.getAllReportLogs().subscribe({
       next: (response) => {
         this.groupedLogs = response;
         this.isAttendanceLogsPlaceholder = Object.keys(this.groupedLogs).length === 0;
@@ -254,7 +272,7 @@ export class ReportsComponent implements OnInit {
       next: (response) => {
         console.log('Report Generation Successful', response);
         this.isLoading2 = false;
-        this.getAttendanceReportLogs();
+        this.getFullReportLogs();
         this.helperService.showToast("Attendance Records Fetched Successfully!", Key.TOAST_STATUS_SUCCESS);
 
       },
@@ -269,5 +287,55 @@ export class ReportsComponent implements OnInit {
   
   closeModal2(): void {
     this.closeDateRangeModal2.nativeElement.click();
+  }
+
+
+  isLoading3:boolean=false;
+
+  handleOkOfSalaryReport(): void {
+    if (this.selectedMonth) {
+      const startOfMonth = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth(), 1);
+      const endOfMonth = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth() + 1, 0); 
+  
+      this.startDate = startOfMonth;
+      this.endDate = endOfMonth;
+  
+      console.log('Start Date:', this.startDate);
+      console.log('End Date:', this.endDate);
+
+      // this.isModalVisible = false;
+    if (this.startDate && this.endDate) {
+      this.isLoading3 = true;
+      this.helperService.showToast("Please Wait! We're loading your Attendance Records.", Key.TOAST_STATUS_SUCCESS);
+      let formattedStartDate = this.formatDate(this.startDate);
+      let formattedEndDate = this.formatDate(this.endDate);
+      this.generateSalaryReport(formattedStartDate, formattedEndDate);
+     
+      this.closeModal3();
+    }
+    this.selectedMonth="";
+    }
+  }
+
+  generateSalaryReport(startDate: string, endDate: string): void {
+    this.dataService.generateSalaryReport(startDate, endDate).subscribe({
+      next: (response) => {
+        console.log('Report Generation Successful', response);
+        this.isLoading3 = false;
+        this.getFullReportLogs();
+        this.helperService.showToast("Salary Records Fetched Successfully!", Key.TOAST_STATUS_SUCCESS);
+
+      },
+      error: (error) => {
+        console.error('Error generating report', error);
+        this.isLoading3 = false;
+      }
+    });
+  }
+
+  @ViewChild("closeDateRangeModal3") closeDateRangeModal3!:ElementRef;
+  
+  closeModal3(): void {
+    this.closeDateRangeModal3.nativeElement.click();
   }
 }
