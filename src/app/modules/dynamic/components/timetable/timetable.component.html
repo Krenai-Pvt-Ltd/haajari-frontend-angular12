@@ -449,12 +449,12 @@
               </div>
 
                 <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount !== 0;">
-                  <div class="in-time total-break-time-box position-relativ" (mouseover)="getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(attendanceDetailsResponse.uuid)">
+                  <div class="in-time total-break-time-box position-relativ" (mouseover)="getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(attendanceDetailsResponse)">
                     <span>Break Timings</span> <span>|</span>
                     <p class="mb-0">&nbsp; &nbsp;<i style="color: black;" id="dropdownMenuButton" class="bi bi-chevron-down"></i></p>
                     <div class="total-braek-time">
     
-                      <div *ngIf="breakTimingsList !== null && breakTimingsList !== undefined && breakTimingsList.length!==0">
+                      <div *ngIf="attendanceDetailsResponse.breakTimingsList !== null && attendanceDetailsResponse.breakTimingsList !== undefined && attendanceDetailsResponse.breakTimingsList.length!==0; else errorInFetchingBreakTimings">
     
                         <table class="table">
                           <thead class="table-light">
@@ -464,13 +464,15 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="let breakTimings of breakTimingsList">
+                            <tr *ngFor="let breakTimings of attendanceDetailsResponse.breakTimingsList">
                               <td class="text-left">{{breakTimings.breakTime | timeFormat}}</td>
                               <td class="text-left">{{breakTimings.backTime | timeFormat}}</td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
+                      <ng-template #errorInFetchingBreakTimings>
+                      </ng-template>
                   </div>
                   </div>
                 </div>
