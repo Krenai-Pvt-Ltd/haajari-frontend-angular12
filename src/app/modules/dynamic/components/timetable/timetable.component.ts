@@ -356,16 +356,22 @@ export class TimetableComponent implements OnInit {
     this.showUp = show;
   }
 
-  breakTimingsList : BreakTimings[] = [];
-  getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(uuid : string){
+  // breakTimingsList : BreakTimings[] = [];
+  getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(attendanceDetailsResponse : AttendanceDetailsResponse){
     // this.toggleChevron(show);
-    this.dataService.getAttendanceDetailsBreakTimingsReportByDateByUser(uuid, this.helperService.formatDateToYYYYMMDD(this.selectedDate)).subscribe((response) => {
-      this.breakTimingsList = response.object;
-      console.log(this.breakTimingsList);
-      this.toggleChevron(false);
-    }, (error) => {
-      console.log(error);
-    })
+    if(attendanceDetailsResponse.breakTimingsList == undefined || attendanceDetailsResponse.breakTimingsList == null || attendanceDetailsResponse.breakTimingsList.length == 0){
+      debugger
+      this.dataService.getAttendanceDetailsBreakTimingsReportByDateByUser(attendanceDetailsResponse.uuid, this.helperService.formatDateToYYYYMMDD(this.selectedDate)).subscribe((response) => {
+        // this.breakTimingsList = response.listOfObject;
+        attendanceDetailsResponse.breakTimingsList = response.listOfObject;
+        // console.log(this.breakTimingsList);
+        this.toggleChevron(false);
+      }, (error) => {
+        console.log(error);
+      })
+    } else{
+      // this.breakTimingsList = attendanceDetailsResponse.breakTimingsList;
+    }
   }
 
   attendanceDetailsCountResponse : AttendanceDetailsCountResponse = new AttendanceDetailsCountResponse();
