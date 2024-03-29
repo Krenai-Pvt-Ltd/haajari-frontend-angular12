@@ -1,5 +1,6 @@
 export class UserReq {
     id:number = 0;
+    uuid: string = '';
     name:string = '';
     phone:string = '';
     email: string = '';

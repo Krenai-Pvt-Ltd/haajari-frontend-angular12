@@ -21,6 +21,7 @@ export class UploadTeamComponent implements OnInit {
   form!: FormGroup;
   userList:UserReq[]= new Array();
   databaseHelper: DatabaseHelper = new DatabaseHelper();
+  sampleFileUrl: string = ''; //put sample file url
 
 
   @ViewChild('importModalOpen')importModalOpen!:ElementRef
@@ -142,16 +143,6 @@ export class UploadTeamComponent implements OnInit {
     })
   }
 
-  // deleteReport(id: number){
-  //   this._userService.deleteReport(id).subscribe((response: any) => {
-  //     if (response.status) {
-  //       this.getReport(this.importType);
-  //     }
-  //   }, (error) => {
-  //     this.toastr.showToasterError("Network Error", "error");
-  //   })
-  // }
-
   pageChangedImport(page: any) {
     if (page != this.databaseHelper.currentPage) {
       this.databaseHelper.currentPage = page;
@@ -216,6 +207,8 @@ export class UploadTeamComponent implements OnInit {
 
   @ViewChild('userEditModal')userEditModal!:ElementRef;
   openUserEditModal(user:any){
+    this.isEmailExist = false;
+    this.isNumberExist = false;
     this.user = JSON.parse(JSON.stringify(user));
     this.userEditModal.nativeElement.click();
     
@@ -248,8 +241,8 @@ export class UploadTeamComponent implements OnInit {
   }
 
   isNumberExist: boolean = false;
-  checkNumberExistance(index:number, number:string){
-    this._onboardingService.checkNumberExist(number).subscribe((response: any) => {
+  checkNumberExistance(index:number, number:string, uuid:string){
+    this._onboardingService.checkEmployeeNumberExist(number, uuid).subscribe((response: any) => {
       if(index>=0){
         this.userList[index].isPhoneExist = response;
       }
@@ -259,21 +252,19 @@ export class UploadTeamComponent implements OnInit {
   }
 
   isEmailExist: boolean = false;
-  checkEmailExistance(index:number, email:string){
-    if(email.length>5){
-      this._onboardingService.checkEmailExist(email).subscribe((response: any) => {
+  checkEmailExistance(index:number, email:string, uuid:string){
+    this.userList[index].isEmailExist = false;
+    if(email != null && email.length>5){
+      this._onboardingService.checkEmployeeEmailExist(email, uuid).subscribe((response: any) => {
         if(index>=0){
           this.userList[index].isEmailExist = response;
         }
           this.isEmailExist = response;
       })
     }
-   
-
   }
 
   next(){
-    // this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
     this.dataService.markStepAsCompleted(4);
     this._onboardingService.saveOrgOnboardingStep(4).subscribe();
     this._router.navigate(['/organization-onboarding/attendance-rule-setup'])

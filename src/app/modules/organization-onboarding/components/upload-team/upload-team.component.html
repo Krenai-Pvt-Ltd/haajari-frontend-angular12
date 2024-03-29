@@ -204,7 +204,7 @@
                                                     class="text-optional">*</span></label>
                                             <input type="tel" name="userPhone{{i}}" [(ngModel)]="user.phone"
                                                 placeholder="Enter Whatsapp Phone Number" minlength="10" maxlength="10"
-                                                class="form-control" (keyup)="checkNumberExistance(i,user.phone)"
+                                                class="form-control" (keyup)="checkNumberExistance(i,user.phone, user.uuid)"
                                                 #phone="ngModel" required>
                                             <p *ngIf="userList[i].isPhoneExist" class="error text-danger">this number
                                                 already exist</p>
@@ -225,7 +225,7 @@
                                             <label class="mb-2">Email <span class="text-optional">*</span></label>
                                             <input type="email" name="userEmail{{i}}" [(ngModel)]="user.email"
                                                 #email="ngModel" placeholder="Enter Email" class="form-control"
-                                                (keyup)="checkEmailExistance(i,user.email)" required>
+                                                (keyup)="checkEmailExistance(i,user.email, user.uuid)" required>
                                             <p *ngIf="userList[i].isEmailExist" class="error text-danger">this email
                                                 already exist</p>
                                             <div *ngIf="email?.dirty || isFormInvalid">
@@ -295,7 +295,6 @@
 
                 </div>
                 <div class="modal-body" style="padding: 10px;">
-                    <!-- csvManHeight -->
                     <div class="">
                         <div class="row w-100">
                             <div class="col-lg-3">
@@ -303,7 +302,7 @@
                                 </div>
                                 <!-- sample file for user -->
                                 <h6 class="mediaupldtitle">To import user please use our
-                                    <a href="" style="color: darkblue;">Sample Template</a>
+                                    <a href="{{sampleFileUrl}}" style="color: blue;" target="_blank">Sample Template</a>
                                 </h6>
                                 <div class="csvmodalUploadmain mt-4">
                                     <div class="docUploadBxmain">
@@ -315,7 +314,6 @@
                                                     accept=".xlsx" #userFileInput />
                                                 <label for="userFile" class="dropzoneLabelinner">
                                                     <div class="text-center">
-                                                        <!-- <img src="assets/images/csv.svg" alt="" /> -->
                                                         <p>Click or drag and drop a file</p>
                                                     </div>
                                                 </label>
@@ -396,8 +394,7 @@
                                                     <div class="errorboxplaceholder mb-2">
                                                         <img src="assets/images/empty-box.svg" style="width: 80px" />
                                                     </div>
-                                                    <span style="font-size: 20px; font-weight: 500;">No Data
-                                                        Available</span>
+                                                    <span style="font-size: 20px; font-weight: 500;">No Data Available</span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -496,6 +493,7 @@
     </div>
     <!-- Import end -->
 
+    <!-- user edit modal -->
     <button #userEditModal class="d-none" data-bs-toggle="modal" data-bs-target="#editUser"></button>
     <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -518,14 +516,14 @@
                                 <input type="tel" name="phone" [(ngModel)]="user.phone" placeholder="Phone Number"
                                     minlength="10" maxlength="10" class="form-control"
                                     oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
-                                    (keyup)="checkNumberExistance(0,user.phone)" required>
+                                    (keyup)="checkNumberExistance(-1,user.phone, user.uuid)" required>
                                 <p *ngIf="isNumberExist" class="error text-danger">this number
                                     already exist</p>
                             </div>
                             <div class="col-md-4">
                                 <label class="mb-2">Email </label>
                                 <input type="email" name="email" [(ngModel)]="user.email" placeholder="Email"
-                                    class="form-control" (keyup)="checkEmailExistance(0,user.email)">
+                                    class="form-control" (keyup)="checkEmailExistance(-1,user.email,user.uuid)">
                                 <p *ngIf="isEmailExist" class="error text-danger">this email
                                     already exist</p>
                             </div>
