@@ -143,16 +143,6 @@ export class UploadTeamComponent implements OnInit {
     })
   }
 
-  // deleteReport(id: number){
-  //   this._userService.deleteReport(id).subscribe((response: any) => {
-  //     if (response.status) {
-  //       this.getReport(this.importType);
-  //     }
-  //   }, (error) => {
-  //     this.toastr.showToasterError("Network Error", "error");
-  //   })
-  // }
-
   pageChangedImport(page: any) {
     if (page != this.databaseHelper.currentPage) {
       this.databaseHelper.currentPage = page;
@@ -263,6 +253,7 @@ export class UploadTeamComponent implements OnInit {
 
   isEmailExist: boolean = false;
   checkEmailExistance(index:number, email:string, uuid:string){
+    this.userList[index].isEmailExist = false;
     if(email != null && email.length>5){
       this._onboardingService.checkEmployeeEmailExist(email, uuid).subscribe((response: any) => {
         if(index>=0){
