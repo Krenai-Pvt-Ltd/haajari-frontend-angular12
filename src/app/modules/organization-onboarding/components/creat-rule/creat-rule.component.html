@@ -377,52 +377,64 @@
                                                                             </label>
                                                                         </div>
                                                                         <div class="d-flex align-items-center mt-2" style="gap:10px;"
-                                                                        *ngIf="fullDayOccurrenceCheckbox">
-                
-                                                                            <div class="dropdown">
-                                                                                <button
-                                                                                    class="btn btn-secondary dropdown-toggle"
-                                                                                    type="button" id="dropdownMenuButton1"
-                                                                                    data-bs-toggle="dropdown" aria-expanded="false"
-                                                                                    style=" text-align: right; background-color: white; color: black; border-color: #ced4da; width: 100%;">
-                                                                                    {{ selectedOccurenceDropdownForFullDaySalrayDeduction ?
-                                                                                    selectedOccurenceDropdownForFullDaySalrayDeduction :
-                                                                                    "Select occurrence type" }}
-                                                                                    <i class="bi bi-chevron-down"></i>
-                                                                                </button>
-                                                                                <ul class="dropdown-menu"
-                                                                                    aria-labelledby="dropdownMenuButton1"
-                                                                                    style="width: 100%">
-                                                                                    <li *ngFor="let countDurationDropdown of countDurationDropdownList">
-                                                                                        <a class="dropdown-item"
-                                                                                            (click)="selectOccurenceDropdownForFullDaySalrayDeduction(countDurationDropdown)">{{ countDurationDropdown }}</a>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                            <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;"
-                                                                                *ngIf="selectedOccurenceDropdownForFullDaySalrayDeduction === 'Count'">
-                                                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count"
-                                                                                    [(ngModel)]="attendanceRuleDefinitionRequest!.fullDaySalaryDeduction!.occurrenceCount"
-                                                                                    name="fullDayOccurrenceCount" required>
-                                                                                <span>times</span>
-                                                                            </div>
-                                                                            <div class="dudct-type d-flex align-items-center" style="width: 135px; gap:10px;"
-                                                                                *ngIf="selectedOccurenceDropdownForFullDaySalrayDeduction === 'Duration'">
-                                                                                <nz-time-picker [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDuration" 
-                                                                                nzFormat="HH:mm" (ngModelChange)="getFullDayOccurrenceDuration($event)" name="fullDayOccurrenceDuration" required>
-                                                                            </nz-time-picker>
-                
-                                                                                <span><b>hrs.</b></span>
+                                                                            *ngIf="fullDayOccurrenceCheckbox">
+                                                                            <div class="col-md-12">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-2">
+                                                                                        <div class="dropdown">
+                                                                                            <button class="btn btn-secondary dropdown-toggle"
+                                                                                                type="button" id="dropdownMenuButton1"
+                                                                                                data-bs-toggle="dropdown" aria-expanded="false"
+                                                                                                style=" text-align: right; background-color: white; color: black; border-color: #ced4da; width: 100%;">
+                                                                                                {{ selectedOccurenceDropdownForFullDaySalrayDeduction ?
+                                                                                                selectedOccurenceDropdownForFullDaySalrayDeduction :
+                                                                                                "Select occurrence type" }}
+                                                                                                <i class="bi bi-chevron-down"></i>
+                                                                                            </button>
+                                                                                            <ul class="dropdown-menu"
+                                                                                                aria-labelledby="dropdownMenuButton1"
+                                                                                                style="width: 100%">
+                                                                                                <li *ngFor="let countDurationDropdown of countDurationDropdownList">
+                                                                                                    <a class="dropdown-item"
+                                                                                                        (click)="selectOccurenceDropdownForFullDaySalrayDeduction(countDurationDropdown)">{{ countDurationDropdown }}</a>
+                                                                                                </li>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-4" *ngIf="selectedOccurenceDropdownForFullDaySalrayDeduction === 'Count'">
+                                                                                        <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;">
+                                                                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count"
+                                                                                                [(ngModel)]="attendanceRuleDefinitionRequest!.fullDaySalaryDeduction!.occurrenceCount"
+                                                                                                name="fullDayOccurrenceCount" #fullDayOccurrenceCount="ngModel" required>
+                                                                                            <span>times</span>
+                                                                                        </div>
+                                                                                        <div *ngIf="fullDayOccurrenceCount?.touched && fullDayOccurrenceCount.errors?.required"
+                                                                                            class="text-danger" style="font-size: 13px;">
+                                                                                            Count is required.
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-4" *ngIf="selectedOccurenceDropdownForFullDaySalrayDeduction === 'Duration'">
+                                                                                        <div class="dudct-type d-flex align-items-center" style="width: 135px; gap:10px;">
+                                                                                            <nz-time-picker [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDuration" 
+                                                                                                nzFormat="HH:mm" (ngModelChange)="getFullDayOccurrenceDuration($event)" name="fullDayOccurrenceDuration" #fullDayOccurrenceDuration="ngModel" required>
+                                                                                            </nz-time-picker>
+                                                                                            <span><b>hrs.</b></span>
+                                                                                        </div>
+                                                                                        <div *ngIf="fullDayOccurrenceDuration?.touched && fullDayOccurrenceDuration.errors?.required"
+                                                                                            class="text-danger" style="font-size: 13px;">
+                                                                                            Duration is required.
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                
-                                                                <!-- Deduct full day salary end-->
+                                                            <!-- Deduct full day salary end-->
+
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="modal-footer d-flex align-items-center justify-content-end">
+                                                        <div class="modal-footer d-flex align-items-center justify-content-end">
                                                             <button type="button" class="btn btn-outline-primary" [disabled]="(selectedDeductionType?.type == '' && selectedOvertimeType?.type == '') || createAttendanceRuleForm.invalid" 
                                                                 (click)="staffActiveTabMethod()">Next</button>
                                                         </div>

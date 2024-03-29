@@ -19,8 +19,6 @@ export class LoginComponent implements OnInit {
   email: string = '';
   password: string = '';
   confiirmPassword: string = '';
-  //accessTokensAr: any = localStorage.getItem("accessTokens") || [];
-  //accessTokenArray: any = JSON.parse(this.accessTokensAr);
 
   countDown: Subscription;
   counter: number = 10;
@@ -42,8 +40,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // const loginData = {id: 1, name: "richa", role: "ADMIN", orgRefId: 1, httpCustomStatus: "UPDATED"};
-    // localStorage.setItem('loginData', JSON.stringify(loginData));
   }
 
   otp: string = '';
@@ -242,19 +238,6 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  // sendUserOtpToMail() {
-  //   debugger
-  //   this.showOtpInput = true;
-  //   this.startTimer();
-  //   this.dataService.sendUserOtpToMail(this.email).subscribe((response) => {
-  //     console.log("response otp send to mail :", response);
-  //   },
-  //     (error) => {
-  //       console.log("error :", error);
-  //     }
-  //   );
-  // }
-
   sendUserOtpToMail() {
     debugger
     this.sendOtpLoader = true;
@@ -298,7 +281,6 @@ export class LoginComponent implements OnInit {
 
   onOtpChange(event: any) {
     this.otp = event;
-    console.log('OTP changed:', this.otp);
   }
 
   @ViewChild('otpVerification') otpVerification: any;
@@ -313,9 +295,7 @@ export class LoginComponent implements OnInit {
     this.password = '';
     this.otp = '';
     this.otpErrorMessage = '';
-    // this.createPasswordFlag=true;
     this.enterPasswordFlag = false;
-    // this.resetPasswordFlag=true;
     this.verifyOtpButtonFlag = true;
   }
 
@@ -402,8 +382,6 @@ export class LoginComponent implements OnInit {
   @ViewChild('closeUserCreateModal') closeUserCreateModal!: ElementRef;
   userReq: UserReq = new UserReq();
   createLoader: boolean = false;
-
-
 
   transform(value: number): string {
     const minutes: number = Math.floor(value / 60);
