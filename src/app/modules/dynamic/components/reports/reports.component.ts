@@ -306,7 +306,7 @@ export class ReportsComponent implements OnInit {
       // this.isModalVisible = false;
     if (this.startDate && this.endDate) {
       this.isLoading3 = true;
-      this.helperService.showToast("Please Wait! We're loading your Attendance Records.", Key.TOAST_STATUS_SUCCESS);
+      this.helperService.showToast("Please wait, salary report is getting downloded...", Key.TOAST_STATUS_SUCCESS);
       let formattedStartDate = this.formatDate(this.startDate);
       let formattedEndDate = this.formatDate(this.endDate);
       this.generateSalaryReport(formattedStartDate, formattedEndDate);
