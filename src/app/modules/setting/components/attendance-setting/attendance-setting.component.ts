@@ -1004,7 +1004,7 @@ unselectAllUsers() {
 
   organizationShiftTimingWithShiftTypeResponseList : OrganizationShiftTimingWithShiftTypeResponse[] = [];
   getAllShiftTimingsMethodCall(){
-
+     debugger
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
 
     // this.isShimmer = true;
@@ -1014,12 +1014,14 @@ unselectAllUsers() {
     this.dataService.getAllShiftTimings().subscribe((response) => {
       this.organizationShiftTimingWithShiftTypeResponseList = response;
       // console.log(this.organizationShiftTimingWithShiftTypeResponseList);
-
+      // this.isShimmer = false;
+      // this.dataNotFoundPlaceholder = true;
       if(response === undefined || response === null || response.length === 0){
         this.dataNotFoundPlaceholder = true;
       }
     }, (error) => {
       console.log(error);
+      // this.isShimmer = false;
       this.networkConnectionErrorPlaceHolder = true;
     })
 

@@ -1,0 +1,44 @@
+<div class="form-container">
+    <div class="form-header">
+      Apply for a Leave
+    </div>
+    <form>
+      <div class="form-field">
+        <label for="starting-date">Pick a starting date</label>
+        <input type="date" id="starting-date" name="starting-date">
+      </div>
+      <div class="form-field">
+        <label for="ending-date">Pick an ending date (optional)</label>
+        <input type="date" id="ending-date" name="ending-date">
+      </div>
+      <div class="form-field">
+        <label for="leave-type">Select the type of leave you want to request</label>
+        <select id="leave-type" name="leave-type">
+          <option value="">Select leave type</option>
+          <option value="annual">Annual Leave</option>
+          <option value="sick">Sick Leave</option>
+          <option value="unpaid">Unpaid Leave</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <input type="checkbox" id="half-leave" name="half-leave">
+        <label for="half-leave">Half Leave (optional)</label>
+      </div>
+      <div class="form-field">
+        <label for="leave-from">Select user to request the leave from</label>
+        <select id="leave-from" name="leave-from">
+          <option value="">Select a user</option>
+          <option value="sick">Richa</option>
+          <option value="unpaid">Lakshay</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="notes">Notes</label>
+        <input type="text" id="notes" name="notes" placeholder="Write something">
+      </div>
+      <div class="form-field">
+        <button type="submit" class="form-button">Submit</button>
+      </div>
+    </form>
+  </div>
+  
