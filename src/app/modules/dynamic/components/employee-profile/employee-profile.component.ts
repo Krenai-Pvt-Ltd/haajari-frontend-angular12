@@ -453,7 +453,7 @@ export class EmployeeProfileComponent implements OnInit {
               const attendance = this.attendances[i];
               let title = this.getStatusTitle(attendance);
               let color = this.getStatusColor(attendance.status);
-               if ((attendance.status == 'Present') || (attendance.status == 'Half Day')) {
+               if ((attendance.status == 'Present') || (attendance.status == 'Half Day') || (attendance.status == 'Late')) {
                 this.totalPresent++;
               } else if (attendance.status == 'Absent') {
                 this.totalAbsent++;
@@ -555,15 +555,15 @@ export class EmployeeProfileComponent implements OnInit {
     } else if (attendance.status === 'Weekly Holiday') {
       return 'W';
     } else if (attendance.status === 'Universal Holiday') {
-      return 'H';
+      return 'h';
     }else if (attendance.status === 'Custom Holiday') {
-      return 'H';
+      return 'h';
     }else if (attendance.status === 'On Leave') {
       return 'L';
     }else if (attendance.status === 'Half Day') {
       return 'H';
     }else if (attendance.status === 'Late') {
-      return 'L';
+      return 'l';
     } else if (attendance.status === 'Not Marked') {
       return '-';
     }

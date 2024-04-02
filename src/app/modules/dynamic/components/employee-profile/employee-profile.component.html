@@ -3,42 +3,27 @@
     <!-- {{count}} -->
     <app-hajiri-page-loader *ngIf="count < 6"></app-hajiri-page-loader>
     <div class="container-fluid" *ngIf="count >= 6">
-      <div
-        class="mb-4 mt-3 pb-3 border-buttom-setting d-flex align-items-center justify-content-between"
-        style="gap: 20px"
-      >
-        <div
-          class="d-flex align-items-center justify-content-between"
-          style="gap: 20px"
-        >
+      <div class="mb-4 mt-3 pb-3 border-buttom-setting d-flex align-items-center justify-content-between"
+        style="gap: 20px">
+        <div class="d-flex align-items-center justify-content-between" style="gap: 20px">
           <!-- routerLink="/employee-onboarding" -->
           <!-- {{tokenUserRoleFlag}} -->
           <!-- {{userId}} - {{UUID}} -->
-          <div
-            class="back-btns-box"
-            (click)="location.back()"
-            *ngIf="ROLE != 'USER'"
-          >
-          
+          <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE != 'USER'">
+
             <i class="bi bi-chevron-left"></i>
           </div>
-          <div
-          class="back-btns-box"
-          (click)="location.back()"
-          *ngIf="ROLE == 'USER' && (userId !== UUID)"
-        >  <i class="bi bi-chevron-left"></i>
-      </div>
+          <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE == 'USER' && (userId !== UUID)"> <i
+              class="bi bi-chevron-left"></i>
+          </div>
           <h5 class="mt-0" style="margin-top: 10px !important">
             {{ user?.name || "N/A" }}
           </h5>
         </div>
-        <div
-          [ngClass]="{
+        <div [ngClass]="{
             'd-none': !userRoleFlag,
             'd-flex align-items-center': userRoleFlag
-          }"
-          style="gap: 20px"
-        >
+          }" style="gap: 20px">
           <!-- <div *ngIf="InOutLoader">
                         <div class="dot-opacity-loader">
                             <span></span>
@@ -47,41 +32,24 @@
                         </div>
                     </div> -->
           <span *ngIf="status == 'out'">
-            <button
-              class="btn sand-request approved"
-              type="button"
-              (click)="checkinCheckout('/in')"
-            >
+            <button class="btn sand-request approved" type="button" (click)="checkinCheckout('/in')">
               Check-In
             </button>
           </span>
           <span *ngIf="status == 'in' || status == 'back'">
-            <button
-              class="btn sand-request approved break-btn"
-              ngbTooltip="Start your break"
-              placement="top"
-              type="button"
-              (click)="checkinCheckout('/break')"
-            >
+            <button class="btn sand-request approved break-btn" ngbTooltip="Start your break" placement="top"
+              type="button" (click)="checkinCheckout('/break')">
               <img src="assets/images/mug-hot-1.svg" style="width: 100%" />
             </button>
           </span>
           <span *ngIf="status == 'break'">
-            <button
-              class="btn sand-request approved break-btn"
-              ngbTooltip="End your break"
-              placement="top"
-              type="button"
-              (click)="checkinCheckout('/back')"
-            >
+            <button class="btn sand-request approved break-btn" ngbTooltip="End your break" placement="top"
+              type="button" (click)="checkinCheckout('/back')">
               <img src="assets/images/no-coffee.svg" style="width: 100%" />
             </button>
           </span>
           <span *ngIf="status == 'in' || status == 'back' || status == 'break'">
-            <button
-              class="btn sand-request rejected"
-              (click)="checkinCheckout('/out')"
-            >
+            <button class="btn sand-request rejected" (click)="checkinCheckout('/out')">
               Check-Out
             </button>
           </span>
@@ -93,28 +61,17 @@
           <div class="employee-profile-deta">
             <div class="d-flex" style="gap: 10px">
               <div class="profile-image-name position-relative">
-                <span
-                  class="profile-image-name-span"
-                  *ngIf="user!.employeeOnboardingStatus?.response == 'APPROVED'"
-                >
+                <span class="profile-image-name-span" *ngIf="user!.employeeOnboardingStatus?.response == 'APPROVED'">
                   <i class="bi bi-check2"></i>
                 </span>
-                <span
-                  class="profile-image-name-span-reject"
-                  *ngIf="user!.employeeOnboardingStatus?.response == 'REJECTED'"
-                >
+                <span class="profile-image-name-span-reject"
+                  *ngIf="user!.employeeOnboardingStatus?.response == 'REJECTED'">
                   <i class="bi bi-exclamation-circle"></i>
                 </span>
 
-                <div
-                  class=""
-                  style="width: 110px; margin: 0 auto; position: relative"
-                >
+                <div class="" style="width: 110px; margin: 0 auto; position: relative">
                   <span *ngIf="isImage">
-                    <img
-                      src="{{ user?.image }}"
-                      style="width: 100px; border-radius: 50%; height: 100px"
-                    />
+                    <img src="{{ user?.image }}" style="width: 100px; border-radius: 50%; height: 100px" />
                   </span>
                   <span class="members-name" *ngIf="!isImage">{{
                     user?.name[0]
@@ -180,10 +137,7 @@
                   </table>
                 </div>
 
-                <div
-                  class="project-num d-flex mt- align-items-center justify-content-center"
-                  style="gap: 20px"
-                >
+                <div class="project-num d-flex mt- align-items-center justify-content-center" style="gap: 20px">
                   <!-- <div class="text-center" style="width:50%; ">
                                         <h5>15</h5>
                                         <p class="mb-0">Project</p>
@@ -197,26 +151,17 @@
                                     <button class="btn sand-request" type="button" routerLink="/employee-onboarding-form">Edit Profile</button>
                                 </div> -->
 
-                <div
-                  [ngClass]="{
+                <div [ngClass]="{
                     'd-none': !adminRoleFlag,
                     'mt-1': adminRoleFlag
-                  }"
-                >
-                  <div
-                    class="d-flex"
-                    style="gap: 10px"
-                    *ngIf="
+                  }">
+                  <div class="d-flex" style="gap: 10px" *ngIf="
                       user!.employeeOnboardingStatus?.response == 'PENDING' ||
                       user!.employeeOnboardingStatus?.response == 'REQUESTED' ||
                       user!.employeeOnboardingStatus?.response == 'NEW_USER'
-                    "
-                  >
-                    <button
-                      class="btn sand-request approved"
-                      type="button"
-                      (click)="updateStatusUserByUuid('APPROVED')"
-                    >
+                    ">
+                    <button class="btn sand-request approved" type="button"
+                      (click)="updateStatusUserByUuid('APPROVED')">
                       <div *ngIf="!approvedToggle">Approve</div>
 
                       <div class="approve-button-loader" *ngIf="approvedToggle">
@@ -226,12 +171,8 @@
                       </div>
                     </button>
 
-                    <button
-                      class="btn sand-request rejected"
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target="#showRejectModal"
-                    >
+                    <button class="btn sand-request rejected" type="button" data-bs-toggle="modal"
+                      data-bs-target="#showRejectModal">
                       Reject
                     </button>
                     <!-- <div *ngIf="approvedToggle" class="dot-opacity-loader">
@@ -244,12 +185,9 @@
                                         <button class="btn sand-request approved" type="button" *ngIf="(user!.employeeOnboardingStatus?.response=='APPROVED')">{{user!.employeeOnboardingStatus?.response}}</button>
                                         <button class="btn sand-request rejected" type="button" *ngIf="(user!.employeeOnboardingStatus?.response=='REJECTED')">{{user!.employeeOnboardingStatus?.response}}</button>
                                     </div> -->
-                  <div
-                    *ngIf="
+                  <div *ngIf="
                       user!.employeeOnboardingStatus?.response == 'APPROVED'
-                    "
-                    class="add-filtter"
-                  >
+                    " class="add-filtter">
                     <a type="button" (click)="requestUserForMoreDocs()">
                       <i class="bi bi-plus" style="font-size: 23px"></i> Request
                       user for more Documents
@@ -489,29 +427,16 @@
                                     </div> -->
                 <!-- </div> -->
                 <div class="">
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
+                  <div class="d-flex justify-content-between align-items-center">
                     <div class="">
                       <div class="date-all-approved d-flex align-items-center">
-                        <span
-                          class="approved-left active-color"
-                          (click)="goBackward()"
-                          *ngIf="backwardFlag"
-                          ><i class="bi bi-chevron-left"></i
-                        ></span>
-                        <span
-                          class="approved-right active-color"
-                          (click)="goforward()"
-                          *ngIf="forwordFlag"
-                          ><i class="bi bi-chevron-right"></i
-                        ></span>
+                        <span class="approved-left active-color" (click)="goBackward()" *ngIf="backwardFlag"><i
+                            class="bi bi-chevron-left"></i></span>
+                        <span class="approved-right active-color" (click)="goforward()" *ngIf="forwordFlag"><i
+                            class="bi bi-chevron-right"></i></span>
                       </div>
                     </div>
-                    <div
-                      class="today-btn d-flex align-items-center"
-                      style="gap: 20px"
-                    >
+                    <div class="today-btn d-flex align-items-center" style="gap: 20px">
                       <p class="mb-0">
                         Present
                         <span class="total-present">{{ totalPresent }}</span>
@@ -521,21 +446,81 @@
                         <span class="total-absent">{{ totalAbsent }}</span>
                       </p>
 
-                      <button
-                        class="btn today"
-                        type="button"
-                        (click)="goToday()"
-                      >
+                      <button class="btn today" type="button" (click)="goToday()">
                         Today
                       </button>
                     </div>
                   </div>
                   <!-- <button class="btn btn-primary; justify-content-right-end align-items-right-end" (click)="goToday()">Today</button> -->
-                  <full-calendar
-                    [options]="calendarOptions"
-                    id="calendar"
-                    #calendar
-                  ></full-calendar>
+                  <full-calendar [options]="calendarOptions" id="calendar" #calendar></full-calendar>
+
+                  <!-- <div class="legends-section" style="margin-top: 20px;">
+                    <div class="legend" style="display: inline-block; margin-right: 20px;">
+                        <span class="status-dot" style="height: 15px; width: 15px; background-color: #e0ffe0; border-radius: 50%; display: inline-block;"></span> P - Present
+                    </div>
+                    <div class="legend" style="display: inline-block; margin-right: 20px;">
+                        <span class="status-dot" style="height: 15px; width: 15px; background-color: #f8d7d7; border-radius: 50%; display: inline-block;"></span> A - Absent
+                    </div>
+                    <div class="legend" style="display: inline-block; margin-right: 20px;">
+                        <span class="status-dot" style="height: 15px; width: 15px; background-color: rgb(255, 255, 143); border-radius: 50%; display: inline-block;"></span> L - Leave
+                    </div>
+                    <div class="legend" style="display: inline-block; margin-right: 20px;">
+                      <span class="status-dot" style="height: 15px; width: 15px; background-color: #c6c6ff; border-radius: 50%; display: inline-block;"></span> W - Weekly Holiday
+                  </div>
+                  <div class="legend" style="display: inline-block; margin-right: 20px;">
+                    <span class="status-dot" style="height: 15px; width: 15px; background-color: #f06d0640; border-radius: 50%; display: inline-block;"></span> h - Holiday
+                  </div>
+                  <div class="legend" style="display: inline-block; margin-right: 20px;">
+                  <span class="status-dot" style="height: 15px; width: 15px; background-color: rgb(255, 213, 128); border-radius: 50%; display: inline-block;"></span> H - Half Day
+                  </div>
+                  <div class="legend" style="display: inline-block; margin-right: 20px;">
+                    <span class="status-dot" style="height: 15px; width: 15px; background-color: #D3D3D3; border-radius: 50%; display: inline-block;"></span> l - Late
+                    </div>
+                </div> -->
+
+                  <!-- second -- -->
+
+                  <div class="legends-section" style="margin-top: 20px; font-size: 13px;">
+                    <div class="legend" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                      <span class="status-letter"
+                        style="background-color: #e0ffe0; padding: 2px 8px; border-radius: 4px; color: green; font-weight: bold;">P</span>
+                      <span style="margin-left: 4px;">- Present</span>
+                    </div>
+                    <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                      <span class="status-letter"
+                        style="background-color: #f8d7d7; padding: 2px 8px; border-radius: 4px; color: red; font-weight: bold;">A</span>
+                      <span style="margin-left: 4px;">- Absent</span>
+                    </div>
+                    <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                      <span class="status-letter"
+                        style="background-color: rgb(255, 255, 143); padding: 2px 8px; border-radius: 4px; color: #d4d40a; font-weight: bold;">L</span>
+                      <span style="margin-left: 4px;">- Leave</span>
+                    </div>
+                    <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                      <span class="status-letter"
+                        style="background-color: #c6c6ff; padding: 2px 8px; border-radius: 4px; color: #4949ac; font-weight: bold;">W</span>
+                      <span style="margin-left: 4px;">- Weekly Holiday</span>
+                    </div>
+                    <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                      <span class="status-letter"
+                        style="background-color: #f06d0640; padding: 2px 8px; border-radius: 4px; color: #b35636; font-weight: bold;">h</span>
+                      <span style="margin-left: 4px;">- Holiday</span>
+                    </div>
+                    <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                      <span class="status-letter"
+                        style="background-color: rgb(255, 213, 128); padding: 2px 8px; border-radius: 4px; color: #d4972a; font-weight: bold;">H</span>
+                      <span style="margin-left: 4px;">- Half Day</span>
+                    </div>
+                    <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                      <span class="status-letter"
+                        style="background-color: #D3D3D3; padding: 2px 8px; border-radius: 4px; color: #a9a9a9; font-weight: bold;">l</span>
+                      <span style="margin-left: 4px;">- Late</span>
+                    </div>
+                  </div>
+
+
+
+
                 </div>
 
                 <!-- <div class="mt-3">
@@ -549,159 +534,78 @@
               </div>
             </div>
             <!-- [ngClass]="{'d-none': hideDetailsFlag, 'mt-3': (!hideDetailsFlag || ROLE=='ADMIN')}" -->
-            <div
-              class="mt-3"
-              [ngClass]="{
+            <div class="mt-3" [ngClass]="{
                 'd-none': hideDetailsFlag,
                 'mt-3': !hideDetailsFlag
-              }"
-            >
+              }">
               <div class="onboare-deta">
                 <div class="">
                   <ul id="myTab" role="tablist" class="nav nav-tabs">
                     <li role="presentation" class="nav-item">
-                      <button
-                        id="home-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#leave-setting"
-                        type="button"
-                        role="tab"
-                        aria-controls="leave-setting"
-                        aria-selected="true"
-                        class="nav-link active"
-                      >
+                      <button id="home-tab" data-bs-toggle="tab" data-bs-target="#leave-setting" type="button"
+                        role="tab" aria-controls="leave-setting" aria-selected="true" class="nav-link active">
                         Leave
                       </button>
                     </li>
                     <li role="presentation" class="nav-item">
-                      <button
-                        id="home-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#payslip"
-                        type="button"
-                        role="tab"
-                        aria-controls="payslip"
-                        aria-selected="true"
-                        class="nav-link"
-                      >
+                      <button id="home-tab" data-bs-toggle="tab" data-bs-target="#payslip" type="button" role="tab"
+                        aria-controls="payslip" aria-selected="true" class="nav-link">
                         Pay Slip
                       </button>
                     </li>
                     <li role="presentation" class="nav-item">
-                      <button
-                        id="home-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#pending-employee"
-                        type="button"
-                        role="tab"
-                        aria-controls="pending-employee"
-                        aria-selected="true"
-                        class="nav-link"
-                      >
+                      <button id="home-tab" data-bs-toggle="tab" data-bs-target="#pending-employee" type="button"
+                        role="tab" aria-controls="pending-employee" aria-selected="true" class="nav-link">
                         Address Details
                       </button>
                     </li>
                     <li role="presentation" class="nav-item">
-                      <button
-                        id="profile-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#verify-employee"
-                        type="button"
-                        role="tab"
-                        aria-controls="verify-employee"
-                        aria-selected="false"
-                        class="nav-link"
-                      >
+                      <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#verify-employee" type="button"
+                        role="tab" aria-controls="verify-employee" aria-selected="false" class="nav-link">
                         Employee Experience
                       </button>
                     </li>
                     <li role="presentation" class="nav-item">
-                      <button
-                        id="profile-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#not-verify-employee"
-                        type="button"
-                        role="tab"
-                        aria-controls="not-verify-employee"
-                        aria-selected="false"
-                        class="nav-link"
-                      >
+                      <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#not-verify-employee" type="button"
+                        role="tab" aria-controls="not-verify-employee" aria-selected="false" class="nav-link">
                         Employee Education
                       </button>
                     </li>
                     <li role="presentation" class="nav-item">
-                      <button
-                        id="profile-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#emergency-contact"
-                        type="button"
-                        role="tab"
-                        aria-controls="emergency-contact"
-                        aria-selected="false"
-                        class="nav-link"
-                      >
+                      <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#emergency-contact" type="button"
+                        role="tab" aria-controls="emergency-contact" aria-selected="false" class="nav-link">
                         Emergency Contact
                       </button>
                     </li>
                     <li role="presentation" class="nav-item">
-                      <button
-                        id="profile-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#bank-details"
-                        type="button"
-                        role="tab"
-                        aria-controls="bank-details"
-                        aria-selected="false"
-                        class="nav-link"
-                      >
+                      <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#bank-details" type="button"
+                        role="tab" aria-controls="bank-details" aria-selected="false" class="nav-link">
                         Bank Details
                       </button>
                     </li>
                     <li role="presentation" class="nav-item">
-                      <button
-                        id="profile-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#doucment"
-                        type="button"
-                        role="tab"
-                        aria-controls="doucment"
-                        aria-selected="false"
-                        class="nav-link"
-                      >
+                      <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#doucment" type="button" role="tab"
+                        aria-controls="doucment" aria-selected="false" class="nav-link">
                         Documents
                       </button>
                     </li>
                   </ul>
 
                   <div class="tab-content" id="myTabContent">
-                    <div
-                      class="tab-pane fade show active mt-2"
-                      id="leave-setting"
-                      role="tabpanel"
-                    >
+                    <div class="tab-pane fade show active mt-2" id="leave-setting" role="tabpanel">
                       <div class="">
-                        <div
-                          class="align-items-center d-flex justify-content-end add-filtter mb-2"
-                          *ngIf="userRoleFlag"
-                        >
-                          <a
-                            class="btn"
-                            data-bs-toggle="modal"
-                            data-bs-target=".apply-leave"
-                            ><i class="bi bi-plus" style="font-size: 20px"></i>
-                            Apply for a Leave</a
-                          >
+                        <div class="align-items-center d-flex justify-content-end add-filtter mb-2"
+                          *ngIf="userRoleFlag">
+                          <a class="btn" data-bs-toggle="modal" data-bs-target=".apply-leave"><i class="bi bi-plus"
+                              style="font-size: 20px"></i>
+                            Apply for a Leave</a>
                         </div>
 
-                        <ng-container
-                          *ngIf="
+                        <ng-container *ngIf="
                             userLeave.length !== 0 && !leaveCountPlaceholderFlag
-                          "
-                        >
-                          <div
-                            class="d-flex align-items-center justify-content-between leves-type-s mb-2"
-                            *ngFor="let ul of userLeave"
-                          >
+                          ">
+                          <div class="d-flex align-items-center justify-content-between leves-type-s mb-2"
+                            *ngFor="let ul of userLeave">
                             <div class="">
                               <h5>{{ ul?.leaveType }}</h5>
                             </div>
@@ -755,9 +659,7 @@
 
                       <div class="mt-3 logs-box">
                         <div style="text-align: left">
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
+                          <div class="d-flex align-items-center justify-content-between">
                             <h5 class="mb-3">Leaves Logs</h5>
 
                             <div class="" style="width: 175px">
@@ -768,66 +670,30 @@
                                                             <option value="rejected">Rejected</option>
                                                    </select> -->
 
-                              <div
-                                class="dropdown"
-                                style="width: 100%"
-                                *ngIf="selectStatusFlag"
-                              >
-                                <button
-                                  type="button"
-                                  id="dropdownMenuButton1"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                  class="btn btn-secondary dropdown-toggle new-deopdown"
-                                >
+                              <div class="dropdown" style="width: 100%" *ngIf="selectStatusFlag">
+                                <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                  aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
                                   {{
-                                    capitalizeFirstLetter(selectedStatus) ||
-                                      "Leave Status"
+                                  capitalizeFirstLetter(selectedStatus) ||
+                                  "Leave Status"
                                   }}
-                                  <i
-                                    class="bi bi-chevron-down"
-                                    style="color: #444; font-size: 15px"
-                                  ></i>
+                                  <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
                                 </button>
-                                <ul
-                                  aria-labelledby="dropdownMenuButton1"
-                                  class="dropdown-menu"
-                                  style="width: 100%"
-                                >
+                                <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%">
                                   <li>
-                                    <a
-                                      class="dropdown-item"
-                                      (click)="selectStatus('')"
-                                      >All</a
-                                    >
+                                    <a class="dropdown-item" (click)="selectStatus('')">All</a>
                                   </li>
                                   <li>
-                                    <a
-                                      class="dropdown-item"
-                                      (click)="selectStatus('approved')"
-                                      >Approved</a
-                                    >
+                                    <a class="dropdown-item" (click)="selectStatus('approved')">Approved</a>
                                   </li>
                                   <li>
-                                    <a
-                                      class="dropdown-item"
-                                      (click)="selectStatus('pending')"
-                                      >Pending</a
-                                    >
+                                    <a class="dropdown-item" (click)="selectStatus('pending')">Pending</a>
                                   </li>
                                   <li>
-                                    <a
-                                      class="dropdown-item"
-                                      (click)="selectStatus('rejected')"
-                                      >Rejected</a
-                                    >
+                                    <a class="dropdown-item" (click)="selectStatus('rejected')">Rejected</a>
                                   </li>
                                   <li>
-                                    <a
-                                      class="dropdown-item"
-                                      (click)="selectStatus('requested')"
-                                      >Requested</a
-                                    >
+                                    <a class="dropdown-item" (click)="selectStatus('requested')">Requested</a>
                                   </li>
                                 </ul>
                               </div>
@@ -840,42 +706,27 @@
                                 <div class="row">
                                   <div class="col-md-4">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                   <div class="col-md-2">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                   <div class="col-md-2">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                   <div class="col-md-2">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                   <div class="col-md-2">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                 </div>
@@ -884,42 +735,27 @@
                                 <div class="row">
                                   <div class="col-md-4">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                   <div class="col-md-2">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                   <div class="col-md-2">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                   <div class="col-md-2">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                   <div class="col-md-2">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                 </div>
@@ -928,42 +764,27 @@
                                 <div class="row">
                                   <div class="col-md-4">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                   <div class="col-md-2">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                   <div class="col-md-2">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                   <div class="col-md-2">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                   <div class="col-md-2">
                                     <h4>
-                                      <ngx-shimmer-loading
-                                        [width]="'100%'"
-                                        [height]="'15px'"
-                                      ></ngx-shimmer-loading>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </h4>
                                   </div>
                                 </div>
@@ -971,16 +792,10 @@
                             </div>
                           </div>
 
-                          <div
-                            class="errorboxmain text-center"
-                            *ngIf="!isLeaveShimmer && isLeaveErrorPlaceholder"
-                          >
+                          <div class="errorboxmain text-center" *ngIf="!isLeaveShimmer && isLeaveErrorPlaceholder">
                             <div class="errorboxinner">
                               <div class="errorboxplaceholder mb-2">
-                                <img
-                                  src="assets/images/signal.svg"
-                                  style="width: 80px"
-                                />
+                                <img src="assets/images/signal.svg" style="width: 80px" />
                               </div>
                               <div class="">
                                 <h4>Something went wrong!</h4>
@@ -992,16 +807,10 @@
                               </div>
                             </div>
                           </div>
-                          <div
-                            class="errorboxmain text-center"
-                            *ngIf="!isLeaveShimmer && isLeavePlaceholder"
-                          >
+                          <div class="errorboxmain text-center" *ngIf="!isLeaveShimmer && isLeavePlaceholder">
                             <div class="errorboxinner">
                               <div class="errorboxplaceholder mb-2">
-                                <img
-                                  src="assets/images/empty-box.svg"
-                                  style="width: 80px"
-                                />
+                                <img src="assets/images/empty-box.svg" style="width: 80px" />
                               </div>
                               <div class="">
                                 <h4>No Data Found</h4>
@@ -1013,121 +822,81 @@
                             </div>
                           </div>
 
-                          <div
-                            *ngIf="!isLeaveShimmer && !isLeavePlaceholder"
-                            class="mt-2"
-                          >
+                          <div *ngIf="!isLeaveShimmer && !isLeavePlaceholder" class="mt-2">
                             <div class="scroll-box-logs">
-                              <ul
-                                class="acitivity-timeline-2 list-unstyled mb-0"
-                                *ngFor="let leaves of userLeaveLog"
-                              >
+                              <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="let leaves of userLeaveLog">
                                 <li>
                                   <h6 class="fs-md mt-0">
                                     {{ leaves.leaveType }} |
-                                    <span
-                                      *ngIf="leaves.status == 'approved'"
-                                      style="color: green"
-                                      >{{ capitalizeFirstLetter(leaves?.status)
-                                      }}<span> By </span></span
-                                    >
-                                    <span
-                                      *ngIf="leaves.status == 'pending'"
-                                      style="color: orange"
-                                      >{{ capitalizeFirstLetter("applied")
-                                      }}<span> To </span></span
-                                    >
-                                    <span
-                                      *ngIf="leaves.status == 'rejected'"
-                                      style="color: red"
-                                      >{{ capitalizeFirstLetter(leaves?.status)
-                                      }}<span> By </span></span
-                                    >
-                                    <span
-                                      *ngIf="leaves.status == 'requested'"
-                                      style="color: rgb(102 102 243)"
-                                      >{{ capitalizeFirstLetter(leaves?.status)
-                                      }}<span> To </span></span
-                                    >
+                                    <span *ngIf="leaves.status == 'approved'" style="color: green">{{
+                                      capitalizeFirstLetter(leaves?.status)
+                                      }}<span> By </span></span>
+                                    <span *ngIf="leaves.status == 'pending'" style="color: orange">{{
+                                      capitalizeFirstLetter("applied")
+                                      }}<span> To </span></span>
+                                    <span *ngIf="leaves.status == 'rejected'" style="color: red">{{
+                                      capitalizeFirstLetter(leaves?.status)
+                                      }}<span> By </span></span>
+                                    <span *ngIf="leaves.status == 'requested'" style="color: rgb(102 102 243)">{{
+                                      capitalizeFirstLetter(leaves?.status)
+                                      }}<span> To </span></span>
 
-                                    <span> - </span
-                                    ><span style="color: #6cbee8">{{
+                                    <span> - </span><span style="color: #6cbee8">{{
                                       leaves!.manager?.name
-                                    }}</span>
+                                      }}</span>
                                   </h6>
-                                  <div
-                                    style="
+                                  <div style="
                                       display: block;
                                       margin-top: 5px;
                                       color: #6c757d;
-                                    "
-                                  >
-                                    <span
-                                      style="
+                                    ">
+                                    <span style="
                                         font-size: 13px;
                                         font-weight: 600;
                                         vertical-align: middle;
-                                      "
-                                    >
-                                      <i
-                                        class="bi bi-calendar3"
-                                        style="margin-right: 5px"
-                                      ></i>
+                                      ">
+                                      <i class="bi bi-calendar3" style="margin-right: 5px"></i>
                                       {{
-                                        formatDateIn(
-                                          formatDate(leaves?.leaveDate)
-                                        ) || "N/A"
+                                      formatDateIn(
+                                      formatDate(leaves?.leaveDate)
+                                      ) || "N/A"
                                       }}&nbsp;<span>{{
                                         formatTime(leaves?.leaveDate) || "N/A"
-                                      }}</span>
+                                        }}</span>
                                     </span>
                                     <!-- <span style="font-size: 14px; margin-left: 5px;">
                                                                     
                                                                 </span> -->
                                   </div>
-                                  <div
-                                    class="d-flex align-items-center mb-1 mt-2 gap-3"
-                                  >
+                                  <div class="d-flex align-items-center mb-1 mt-2 gap-3">
                                     <p class="mb-0" style="font-size: 12px">
-                                      <span><b>Duration</b></span
-                                      ><span> : </span>
+                                      <span><b>Duration</b></span><span> : </span>
                                       {{
-                                        formatDateIn(
-                                          formatDate(leaves?.startDate)
-                                        ) || "N/A"
+                                      formatDateIn(
+                                      formatDate(leaves?.startDate)
+                                      ) || "N/A"
                                       }}
                                       -
                                       {{
-                                        formatDateIn(
-                                          formatDate(leaves?.endDate)
-                                        ) || "N/A"
+                                      formatDateIn(
+                                      formatDate(leaves?.endDate)
+                                      ) || "N/A"
                                       }}
-                                      <span class="space-box">|</span
-                                      ><span *ngIf="leaves?.halfLeave == false"
-                                        ><span><b>Total Days Count</b></span> :
+                                      <span class="space-box">|</span><span
+                                        *ngIf="leaves?.halfLeave == false"><span><b>Total Days Count</b></span> :
                                         {{
-                                          calculateDateDifference(
-                                            leaves.endDate,
-                                            leaves.startDate
-                                          ) || "N/A"
-                                        }}</span
-                                      >
-                                      <span *ngIf="leaves?.halfLeave == true"
-                                        ><span><b>Half Day Leave</b></span> :
-                                        <span *ngIf="leaves?.dayShift == true"
-                                          >Morning Shift</span
-                                        ><span
-                                          *ngIf="leaves?.eveningShift == true"
-                                          >Evening Shift</span
-                                        ><span
-                                          *ngIf="
+                                        calculateDateDifference(
+                                        leaves.endDate,
+                                        leaves.startDate
+                                        ) || "N/A"
+                                        }}</span>
+                                      <span *ngIf="leaves?.halfLeave == true"><span><b>Half Day Leave</b></span> :
+                                        <span *ngIf="leaves?.dayShift == true">Morning Shift</span><span
+                                          *ngIf="leaves?.eveningShift == true">Evening Shift</span><span *ngIf="
                                             leaves?.dayShift == false &&
                                             leaves?.eveningShift == false &&
                                             leaves?.halfLeave == true
-                                          "
-                                          >'N/A'</span
-                                        ></span
-                                      >
+                                          ">'N/A'</span></span>
                                     </p>
                                     <!-- <p class="mb-0" style="font-size: 12px;"> 
                                                                     <i class="bi bi-calendar align-baseline me-1"></i> {{leaves.startDate || 'N/A'}} - <span><b>Start Date</b></span> <span class="space-box"> | </span> {{leaves.endDate || 'N/A'}} - <span><b>End Date</b></span> <span class="space-box"> | </span>  {{calculateDateDifference(leaves.endDate, leaves.startDate) || 'N/A'}} - <span><b>Total Leave</b></span> <span class="space-box"> | </span> {{formatDate(leaves.leaveDate) || 'N/A'}} <span> | </span> {{formatTime(leaves.leaveDate) || 'N/A'}} -  <span><b>Apply Date</b></span> 
@@ -1136,8 +905,7 @@
                                   </div>
 
                                   <p class="text-muted mb-0">
-                                    <b>Reason : </b
-                                    >{{ leaves?.optNotes || "N/A" }}
+                                    <b>Reason : </b>{{ leaves?.optNotes || "N/A" }}
                                   </p>
                                 </li>
                                 <!-- <li>
@@ -1156,18 +924,16 @@
                       </div>
                     </div>
 
-                    
+
                     <div class="tab-pane fade show mt-2" id="payslip" role="tabpanel">
                       <div class="mt-3">
 
 
-                        <div id="configure-salary-setting" class="errorboxmain" style="min-height: 45vh" *ngIf="salaryConfigurationStepId == CONFIGURE_SALARY_SETTING" (click)="goToManageStatutory()">
+                        <div id="configure-salary-setting" class="errorboxmain" style="min-height: 45vh"
+                          *ngIf="salaryConfigurationStepId == CONFIGURE_SALARY_SETTING" (click)="goToManageStatutory()">
                           <div class="errorboxinner text-center">
                             <div class="errorboxplaceholder mb-2">
-                              <img
-                                src="assets/images/empty-box.svg"
-                                style="width: 80px"
-                              />
+                              <img src="assets/images/empty-box.svg" style="width: 80px" />
                             </div>
                             <div class="">
                               <h4>No Data Found</h4>
@@ -1175,17 +941,11 @@
                                 We're unable to locate a record associated with
                                 the information you entered.
                               </p>
-                              <a
-                                data-bs-toggle="modal"
-                                style="
+                              <a data-bs-toggle="modal" style="
                                   font-size: 16px;
                                   color: #6666f3 !important;
                                   margin-top: 15px;
-                                "
-                                ><i
-                                  class="bi bi-plus"
-                                  style="font-size: 20px"
-                                ></i>
+                                "><i class="bi bi-plus" style="font-size: 20px"></i>
                                 Configure Salary Settings
                               </a>
                             </div>
@@ -1196,38 +956,46 @@
                         <div id="manage-statutory" *ngIf="salaryConfigurationStepId == MANAGE_STATUTORY">
                           <div class="form-roe-data" style="text-align: left;">
                             <h3>Configure Salary Settings:</h3>
-                            <p>These are the default setting which is done by organization, you can modify according to your preference.</p>
+                            <p>These are the default setting which is done by organization, you can modify according to
+                              your preference.</p>
                           </div>
 
-                          <div class="col-md-12"><div class="border-box"></div></div>
+                          <div class="col-md-12">
+                            <div class="border-box"></div>
+                          </div>
 
                           <div class="row mt-4" style="display: flex; justify-content: space-between;">
                             <!-- <div class="col-md-1"></div> -->
                             <div class="col-md-4">
-                                <div class="form-roe-data" style="text-align: left;">
-                                    <h5>Choose your tax regime</h5>
-                                    <p>A quick snapshot of your company.</p>
-                                </div>
-        
+                              <div class="form-roe-data" style="text-align: left;">
+                                <h5>Choose your tax regime</h5>
+                                <p>A quick snapshot of your company.</p>
+                              </div>
+
                             </div>
-                           
-                           <div class="col-md-7">
-                            <div class="">
-                              <div class="attendance-settin-list" *ngFor="let taxRegime of taxRegimeList">
-                                <div class="categryCustomizecard d-flex pointer border-active" [ngClass]="{'border-active' : taxRegime.selected == true}" (click)="updateTaxRegimeByUserIdMethodCall(taxRegime.id)">
-                                        <div class="categryCustomizeinfo" style="text-align: left;">
-                                        <label for="customizecategory1" class="mb-0">
-                                            <h3> {{taxRegime.name}}</h3>
-                                            <p> Large images are best for products where every detail is a part of the product’s value.</p>
-                                        </label>
+
+                            <div class="col-md-7">
+                              <div class="">
+                                <div class="attendance-settin-list" *ngFor="let taxRegime of taxRegimeList">
+                                  <div class="categryCustomizecard d-flex pointer border-active"
+                                    [ngClass]="{'border-active' : taxRegime.selected == true}"
+                                    (click)="updateTaxRegimeByUserIdMethodCall(taxRegime.id)">
+                                    <div class="categryCustomizeinfo" style="text-align: left;">
+                                      <label for="customizecategory1" class="mb-0">
+                                        <h3> {{taxRegime.name}}</h3>
+                                        <p> Large images are best for products where every detail is a part of the
+                                          product’s value.</p>
+                                      </label>
                                     </div>
                                     <div class="active-check ng-star-inserted">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="exampleRadio{{taxRegime.id}}" id="exampleRadio{{taxRegime.id}}" value="option{{taxRegime.id}}" [checked]="taxRegime.selected == true">
-                                        </div>
+                                      <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="exampleRadio{{taxRegime.id}}"
+                                          id="exampleRadio{{taxRegime.id}}" value="option{{taxRegime.id}}"
+                                          [checked]="taxRegime.selected == true">
+                                      </div>
                                     </div>
-                                </div>
-                                <!-- <div class="accordion" id="accordionExample">
+                                  </div>
+                                  <!-- <div class="accordion" id="accordionExample">
                                   
                                   <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingOne">
@@ -1246,44 +1014,50 @@
                                     </div>
                                   </div>
                                 </div> -->
+                                </div>
+                              </div>
                             </div>
-                            </div>
-                           </div>
-                           <div class="col-md-1"></div>
-                        </div>
+                            <div class="col-md-1"></div>
+                          </div>
 
 
-                        <div class="col-md-12 mt-3"><div class="border-box"></div></div>
+                          <div class="col-md-12 mt-3">
+                            <div class="border-box"></div>
+                          </div>
 
 
-                        <div class="row mt-4" style="display: flex; justify-content: space-between;">
+                          <div class="row mt-4" style="display: flex; justify-content: space-between;">
                             <!-- <div class="col-md-1"></div> -->
                             <div class="col-md-4">
-                                <div class="form-roe-data" style="text-align: left;">
-                                    <h5>Manage your Statutories</h5>
-                                    <p>A quick snapshot of your company.</p>
-                                </div>
-        
+                              <div class="form-roe-data" style="text-align: left;">
+                                <h5>Manage your Statutories</h5>
+                                <p>A quick snapshot of your company.</p>
+                              </div>
+
                             </div>
-                           
-                           <div class="col-md-7">
-                            <div class="">
-                              <div class="attendance-settin-list" *ngFor="let statutoryResponse of statutoryResponseList; let i = index;">
-                                <div class="categryCustomizecard d-flex pointer">
-                                  <div class="categryCustomizeinfo" style="text-align: left;">
+
+                            <div class="col-md-7">
+                              <div class="">
+                                <div class="attendance-settin-list"
+                                  *ngFor="let statutoryResponse of statutoryResponseList; let i = index;">
+                                  <div class="categryCustomizecard d-flex pointer">
+                                    <div class="categryCustomizeinfo" style="text-align: left;">
                                       <label for="customizecategory{{i}}" class="mb-0">
-                                          <h3> {{statutoryResponse.name}}</h3>
-                                          <p> {{statutoryResponse.description}}</p>
+                                        <h3> {{statutoryResponse.name}}</h3>
+                                        <p> {{statutoryResponse.description}}</p>
                                       </label>
-                                  </div>
-                                  <div class="active-check">
-                                   <nz-switch [(ngModel)]="statutoryResponse.switchValue" [nzControl]="true" (click)="clickSwitch(statutoryResponse)" [nzLoading]="statutoryResponse.loading"></nz-switch>
+                                    </div>
+                                    <div class="active-check">
+                                      <nz-switch [(ngModel)]="statutoryResponse.switchValue" [nzControl]="true"
+                                        (click)="clickSwitch(statutoryResponse)"
+                                        [nzLoading]="statutoryResponse.loading"></nz-switch>
+                                    </div>
                                   </div>
                                 </div>
-                            </div>
-                            </div>
-                            <div class="modal-footer d-flex align-items-center justify-content-end">
-                              <button class="btn btn-primary" style="padding: 15px;" type="submit" aria-label="Next Step" (click)="updateSalaryConfigurationStepMethodCall(PAY_SLIP)">
+                              </div>
+                              <div class="modal-footer d-flex align-items-center justify-content-end">
+                                <button class="btn btn-primary" style="padding: 15px;" type="submit"
+                                  aria-label="Next Step" (click)="updateSalaryConfigurationStepMethodCall(PAY_SLIP)">
                                   <div *ngIf="BUTTON_LOADER" class="dot-opacity-loader-finish-setup">
                                     <span></span>
                                     <span></span>
@@ -1293,11 +1067,11 @@
                                     Finish Setup <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                                   </span>
                                 </button>
+                              </div>
                             </div>
-                           </div>
-                           <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                          </div>
                         </div>
-                      </div>
 
 
                         <div id="pay_slip" *ngIf="salaryConfigurationStepId == PAY_SLIP">
@@ -1317,183 +1091,142 @@
                               </div>
                             </div>
                             <div style="text-align: end;">
-                              <span style="color: #6666f3; font-size: 16px; font-weight: bold; cursor: pointer;" (click)="goToManageStatutory()">Edit salary configuration <i class="bi bi-pencil"></i></span>
+                              <span style="color: #6666f3; font-size: 16px; font-weight: bold; cursor: pointer;"
+                                (click)="goToManageStatutory()">Edit salary configuration <i
+                                  class="bi bi-pencil"></i></span>
                             </div>
                           </div>
-                          <div class="d-flex align-items-center justify-content-between leves-type-s mb-2" >
-                          <div class="">
-                            <h5>Pay Slip</h5>
-                          </div>
-                          <div class="d-flex align-items-center">
-                            <div class="Approved-pay rejected-css">
-                              <p class="mb-0 pay-absent">2</p>
+                          <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
+                            <div class="">
+                              <h5>Pay Slip</h5>
                             </div>
-                            <div class="Approved-pay">
-                              <p class="mb-0 pay-present">28</p>
-                            </div>
+                            <div class="d-flex align-items-center">
+                              <div class="Approved-pay rejected-css">
+                                <p class="mb-0 pay-absent">2</p>
+                              </div>
+                              <div class="Approved-pay">
+                                <p class="mb-0 pay-present">28</p>
+                              </div>
 
-                            <div class="Approved-pay pending-css">
-                              <p class="mb-0 pay-leave">4</p>
+                              <div class="Approved-pay pending-css">
+                                <p class="mb-0 pay-leave">4</p>
+                              </div>
+                              <div class="Approved-pay remaining-css">
+                                <p class="mb-0 pay-half">2</p>
+                              </div>
                             </div>
-                            <div class="Approved-pay remaining-css">
-                              <p class="mb-0 pay-half">2</p>
-                            </div>
-                          </div>
-                          <div class="">
-                            <p
-                              class="mb-0"
-                              style="
+                            <div class="">
+                              <p class="mb-0" style="
                                 font-size: 12px;
                                 color: #555;
                                 font-weight: 500;
-                              "
-                            >
-                              Krenai
-                            </p>
-                          </div>
+                              ">
+                                Krenai
+                              </p>
+                            </div>
 
-                          <div class="">
-                            <p
-                              class="mb-0"
-                              style="
+                            <div class="">
+                              <p class="mb-0" style="
                                 font-size: 12px;
                                 color: #555;
                                 font-weight: 500;
-                              "
-                            >
-                              Jan 1, 2023
-                            </p>
+                              ">
+                                Jan 1, 2023
+                              </p>
+                            </div>
+                            <div class="">
+                              <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top"><img
+                                  src="assets/images/pdf.svg" style="width: 20px" /></a>
+                            </div>
                           </div>
-                          <div class="">
-                            <a
-                              href=""
-                              class="excel-box"
-                              ngbTooltip="Download Pdf"
-                              placement="top"
-                              ><img
-                                src="assets/images/pdf.svg"
-                                style="width: 20px"
-                            /></a>
-                          </div>
-                        </div>
 
-                        <div
-                          class="d-flex align-items-center justify-content-between leves-type-s mb-2"
-                        >
-                          <div class="">
-                            <h5>Pay Slip</h5>
-                          </div>
-                          <div class="d-flex align-items-center">
-                            <div class="Approved-pay rejected-css">
-                              <p class="mb-0 pay-absent">2</p>
+                          <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
+                            <div class="">
+                              <h5>Pay Slip</h5>
                             </div>
-                            <div class="Approved-pay">
-                              <p class="mb-0 pay-present">28</p>
-                            </div>
+                            <div class="d-flex align-items-center">
+                              <div class="Approved-pay rejected-css">
+                                <p class="mb-0 pay-absent">2</p>
+                              </div>
+                              <div class="Approved-pay">
+                                <p class="mb-0 pay-present">28</p>
+                              </div>
 
-                            <div class="Approved-pay pending-css">
-                              <p class="mb-0 pay-leave">4</p>
+                              <div class="Approved-pay pending-css">
+                                <p class="mb-0 pay-leave">4</p>
+                              </div>
+                              <div class="Approved-pay remaining-css">
+                                <p class="mb-0 pay-half">2</p>
+                              </div>
                             </div>
-                            <div class="Approved-pay remaining-css">
-                              <p class="mb-0 pay-half">2</p>
-                            </div>
-                          </div>
-                          <div class="">
-                            <p
-                              class="mb-0"
-                              style="
+                            <div class="">
+                              <p class="mb-0" style="
                                 font-size: 12px;
                                 color: #555;
                                 font-weight: 500;
-                              "
-                            >
-                              Krenai
-                            </p>
-                          </div>
+                              ">
+                                Krenai
+                              </p>
+                            </div>
 
-                          <div class="">
-                            <p
-                              class="mb-0"
-                              style="
+                            <div class="">
+                              <p class="mb-0" style="
                                 font-size: 12px;
                                 color: #555;
                                 font-weight: 500;
-                              "
-                            >
-                              Jan 1, 2023
-                            </p>
-                          </div>
-                          <div class="">
-                            <a
-                              href=""
-                              class="excel-box"
-                              ngbTooltip="Download Pdf"
-                              placement="top"
-                              ><img
-                                src="assets/images/pdf.svg"
-                                style="width: 20px"
-                            /></a>
-                          </div>
-                        </div>
-                        <div
-                          class="d-flex align-items-center justify-content-between leves-type-s mb-2"
-                        >
-                          <div class="">
-                            <h5>Pay Slip</h5>
-                          </div>
-                          <div class="d-flex align-items-center">
-                            <div class="Approved-pay rejected-css">
-                              <p class="mb-0 pay-absent">2</p>
+                              ">
+                                Jan 1, 2023
+                              </p>
                             </div>
-                            <div class="Approved-pay">
-                              <p class="mb-0 pay-present">28</p>
+                            <div class="">
+                              <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top"><img
+                                  src="assets/images/pdf.svg" style="width: 20px" /></a>
+                            </div>
+                          </div>
+                          <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
+                            <div class="">
+                              <h5>Pay Slip</h5>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <div class="Approved-pay rejected-css">
+                                <p class="mb-0 pay-absent">2</p>
+                              </div>
+                              <div class="Approved-pay">
+                                <p class="mb-0 pay-present">28</p>
+                              </div>
+
+                              <div class="Approved-pay pending-css">
+                                <p class="mb-0 pay-leave">4</p>
+                              </div>
+                              <div class="Approved-pay remaining-css">
+                                <p class="mb-0 pay-half">2</p>
+                              </div>
                             </div>
 
-                            <div class="Approved-pay pending-css">
-                              <p class="mb-0 pay-leave">4</p>
-                            </div>
-                            <div class="Approved-pay remaining-css">
-                              <p class="mb-0 pay-half">2</p>
-                            </div>
-                          </div>
-
-                          <div class="">
-                            <p
-                              class="mb-0"
-                              style="
+                            <div class="">
+                              <p class="mb-0" style="
                                 font-size: 12px;
                                 color: #555;
                                 font-weight: 500;
-                              "
-                            >
-                              Krenai
-                            </p>
-                          </div>
+                              ">
+                                Krenai
+                              </p>
+                            </div>
 
-                          <div class="">
-                            <p
-                              class="mb-0"
-                              style="
+                            <div class="">
+                              <p class="mb-0" style="
                                 font-size: 12px;
                                 color: #555;
                                 font-weight: 500;
-                              "
-                            >
-                              Jan 1, 2023
-                            </p>
+                              ">
+                                Jan 1, 2023
+                              </p>
+                            </div>
+                            <div class="">
+                              <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top"><img
+                                  src="assets/images/pdf.svg" style="width: 20px" /></a>
+                            </div>
                           </div>
-                          <div class="">
-                            <a
-                              href=""
-                              class="excel-box"
-                              ngbTooltip="Download Pdf"
-                              placement="top"
-                              ><img
-                                src="assets/images/pdf.svg"
-                                style="width: 20px"
-                            /></a>
-                          </div>
-                        </div>
                         </div>
 
                       </div>
@@ -1504,20 +1237,14 @@
 
 
 
-                    <div
-                      class="tab-pane fade show mt-3"
-                      id="pending-employee"
-                      role="tabpanel"
-                    >
+                    <div class="tab-pane fade show mt-3" id="pending-employee" role="tabpanel">
                       <div class="">
-                        <div
-                          *ngIf="
+                        <div *ngIf="
                             !isAddressPlaceholder &&
                             addressEmployee != undefined &&
                             addressEmployee != null &&
                             addressEmployee.length > 0
-                          "
-                        >
+                          ">
                           <div class="row">
                             <div class="col-md-12">
                               <div class="text-left" style="text-align: left">
@@ -1531,7 +1258,7 @@
                                   <td colspan="4">
                                     Address Line 1 :
                                     {{
-                                      addressEmployee[0]!.addressLine1 || "N/A"
+                                    addressEmployee[0]!.addressLine1 || "N/A"
                                     }}
                                   </td>
                                   <!-- <td colspan="2"> Address Line 2 :
@@ -1570,19 +1297,16 @@
                             </div>
 
                             <table class="table table-bordered">
-                              <tbody
-                                class="table-design"
-                                *ngIf="
+                              <tbody class="table-design" *ngIf="
                                   addressEmployee != undefined &&
                                   addressEmployee != null &&
                                   addressEmployee.length > 1
-                                "
-                              >
+                                ">
                                 <tr>
                                   <td colspan="4">
                                     Address Line 1 :
                                     {{
-                                      addressEmployee[1]!.addressLine1 || "N/A"
+                                    addressEmployee[1]!.addressLine1 || "N/A"
                                     }}
                                   </td>
                                   <!-- <td colspan="2"> Address Line 2 :
@@ -1622,10 +1346,7 @@
                                   <div class="errorboxmain">
                                     <div class="errorboxinner">
                                       <div class="errorboxplaceholder mb-2">
-                                        <img
-                                          src="assets/images/empty-box.svg"
-                                          style="width: 80px"
-                                        />
+                                        <img src="assets/images/empty-box.svg" style="width: 80px" />
                                       </div>
                                       <div class="">
                                         <h4>No Data Found</h4>
@@ -1653,68 +1374,61 @@
                       </div>
                     </div>
 
-                    <div
-                      class="tab-pane fade mt-3"
-                      id="verify-employee"
-                      role="tabpanel"
-                    >
-                 
+                    <div class="tab-pane fade mt-3" id="verify-employee" role="tabpanel">
+
                       <div class="" *ngIf="!isCompanyPlaceholder">
 
                         <div *ngIf="!isFresher; else noExperience">
-                        <div
-                          class="row"
-                          *ngFor="let exp of experienceEmployee; let i = index"
-                        >
-                          <h5 style="text-align: left">
-                            Experience - {{ i + 1 }}
-                          </h5>
+                          <div class="row" *ngFor="let exp of experienceEmployee; let i = index">
+                            <h5 style="text-align: left">
+                              Experience - {{ i + 1 }}
+                            </h5>
 
-                          <table class="table table-bordered">
-                            <tbody class="table-design">
-                              <tr>
-                                <td colspan="3">
-                                  Company Name : {{ exp.companyName || "N/A" }}
-                                </td>
+                            <table class="table table-bordered">
+                              <tbody class="table-design">
+                                <tr>
+                                  <td colspan="3">
+                                    Company Name : {{ exp.companyName || "N/A" }}
+                                  </td>
 
-                                <td colspan="3">
-                                  Duration :
-                                  {{
+                                  <td colspan="3">
+                                    Duration :
+                                    {{
                                     calculateDateDifferenceDuration(
-                                      exp.endDate,
-                                      exp.startDate
+                                    exp.endDate,
+                                    exp.startDate
                                     )
-                                  }}
-                                </td>
+                                    }}
+                                  </td>
 
-                                <td colspan="3">
-                                  Department :
-                                  {{ exp.lastJobDepartment || "N/A" }}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td colspan="3">
-                                  Last Salary : {{ exp.lastSalary || "N/A" }}
-                                </td>
+                                  <td colspan="3">
+                                    Department :
+                                    {{ exp.lastJobDepartment || "N/A" }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td colspan="3">
+                                    Last Salary : {{ exp.lastSalary || "N/A" }}
+                                  </td>
 
-                                <td colspan="3">
-                                  Position : {{ exp.lastJobPosition || "N/A" }}
-                                </td>
+                                  <td colspan="3">
+                                    Position : {{ exp.lastJobPosition || "N/A" }}
+                                  </td>
 
-                                <td colspan="3">
-                                  Responsibilities :
-                                  {{ exp.jobResponisibilities || "N/A" }}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                                  <td colspan="3">
+                                    Responsibilities :
+                                    {{ exp.jobResponisibilities || "N/A" }}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
-                      </div>
-                      <ng-template #noExperience>
-                        <div class="row">
-                          <h5 style="text-align: left">Fresher</h5>
-                        </div>
-                      </ng-template>
+                        <ng-template #noExperience>
+                          <div class="row">
+                            <h5 style="text-align: left">Fresher</h5>
+                          </div>
+                        </ng-template>
                       </div>
 
                       <div class="">
@@ -1746,10 +1460,7 @@
                                 <div class="errorboxmain">
                                   <div class="errorboxinner">
                                     <div class="errorboxplaceholder mb-2">
-                                      <img
-                                        src="assets/images/empty-box.svg"
-                                        style="width: 80px"
-                                      />
+                                      <img src="assets/images/empty-box.svg" style="width: 80px" />
                                     </div>
                                     <div class="">
                                       <h4>No Data Found</h4>
@@ -1777,11 +1488,7 @@
                         </table>
                       </div>
                     </div>
-                    <div
-                      class="tab-pane fade mt-3"
-                      id="not-verify-employee"
-                      role="tabpanel"
-                    >
+                    <div class="tab-pane fade mt-3" id="not-verify-employee" role="tabpanel">
                       <div class="">
                         <div class="" *ngIf="!isAcademicPlaceholder">
                           <!-- <div class="row">
@@ -1824,19 +1531,19 @@
                                 <td>
                                   Highest Qualification :
                                   {{
-                                    academicEmployee?.highestEducationalLevel ||
-                                      "N/A"
+                                  academicEmployee?.highestEducationalLevel ||
+                                  "N/A"
                                   }}
                                 </td>
                                 <td>
                                   Degree/Diploma :
                                   {{
-                                    academicEmployee?.degreeObtained || "N/A"
+                                  academicEmployee?.degreeObtained || "N/A"
                                   }}
                                 </td>
                                 <td>
                                   Field of Study :{{
-                                    academicEmployee?.fieldOfStudy || "N/A"
+                                  academicEmployee?.fieldOfStudy || "N/A"
                                   }}
                                 </td>
                               </tr>
@@ -1844,18 +1551,18 @@
                                 <td>
                                   Institution Name :
                                   {{
-                                    academicEmployee?.institutionName || "N/A"
+                                  academicEmployee?.institutionName || "N/A"
                                   }}
                                 </td>
                                 <td>
                                   Grade/CGPA :{{
-                                    academicEmployee?.grade || "N/A"
+                                  academicEmployee?.grade || "N/A"
                                   }}
                                 </td>
                                 <td>
                                   Graduating Year :
                                   {{
-                                    academicEmployee?.graduationYear || "N/A"
+                                  academicEmployee?.graduationYear || "N/A"
                                   }}
                                 </td>
                               </tr>
@@ -1894,10 +1601,7 @@
                                 <div class="errorboxmain">
                                   <div class="errorboxinner">
                                     <div class="errorboxplaceholder mb-2">
-                                      <img
-                                        src="assets/images/empty-box.svg"
-                                        style="width: 80px"
-                                      />
+                                      <img src="assets/images/empty-box.svg" style="width: 80px" />
                                     </div>
                                     <div class="">
                                       <h4>No Data Found</h4>
@@ -1993,10 +1697,7 @@
                                 <div class="errorboxmain">
                                   <div class="errorboxinner">
                                     <div class="errorboxplaceholder mb-2">
-                                      <img
-                                        src="assets/images/empty-box.svg"
-                                        style="width: 80px"
-                                      />
+                                      <img src="assets/images/empty-box.svg" style="width: 80px" />
                                     </div>
                                     <div class="">
                                       <h4>No Data Found</h4>
@@ -2023,11 +1724,7 @@
                         </table>
                       </div>
                     </div>
-                    <div
-                      class="tab-pane fade mt-3"
-                      id="bank-details"
-                      role="tabpanel"
-                    >
+                    <div class="tab-pane fade mt-3" id="bank-details" role="tabpanel">
                       <div class="">
                         <div class="row">
                           <table class="table table-bordered">
@@ -2036,8 +1733,8 @@
                                 <td colspan="3">
                                   Name :
                                   {{
-                                    bankDetailsEmployee?.accountHolderName ||
-                                      "N/A"
+                                  bankDetailsEmployee?.accountHolderName ||
+                                  "N/A"
                                   }}
                                 </td>
 
@@ -2049,7 +1746,7 @@
                                 <td colspan="3">
                                   Account Number :
                                   {{
-                                    bankDetailsEmployee?.accountNumber || "N/A"
+                                  bankDetailsEmployee?.accountNumber || "N/A"
                                   }}
                                 </td>
 
@@ -2063,54 +1760,35 @@
                         </div>
                       </div>
                     </div>
-                    <div
-                      class="tab-pane fade mt-3"
-                      id="doucment"
-                      role="tabpanel"
-                    >
+                    <div class="tab-pane fade mt-3" id="doucment" role="tabpanel">
                       <div class="">
                         <div class="">
                           <table class="table table-bordered">
-                            <tbody
-                              class="table-design"
-                              *ngIf="
+                            <tbody class="table-design" *ngIf="
                                 !isDocsPlaceholder &&
                                 documentsEmployee.length != 0
-                              "
-                            >
+                              ">
                               <tr *ngFor="let docs of documentsEmployee">
                                 <td colspan="3" *ngIf="docs.documentUrl != ''">
-                                  <div
-                                    class="d-flex align-items-center justify-content-between document-deta"
-                                  >
+                                  <div class="d-flex align-items-center justify-content-between document-deta">
                                     <div class="d-flex align-items-center">
-                                      <div
-                                        class="d-flex align-items-center"
-                                        style="gap: 10px"
-                                      >
+                                      <div class="d-flex align-items-center" style="gap: 10px">
                                         <i class="bi bi-file-earmark-text"></i>
                                         <p class="mb-0 text-lineclamp">
                                           {{ docs.documentName }}
                                         </p>
                                       </div>
                                     </div>
-                                    <div
-                                      class="d-flex align-items-center justify-content-end"
-                                      style="gap: 10px; cursor: pointer"
-                                    >
+                                    <div class="d-flex align-items-center justify-content-end"
+                                      style="gap: 10px; cursor: pointer">
                                       <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                      <i
-                                        class="bi bi-eye pointer download-color"
-                                        (click)="openPdfModel(docs.documentUrl)"
-                                      ></i>
-                                      <i
-                                        class="bi bi-download download-color"
-                                        (click)="
+                                      <i class="bi bi-eye pointer download-color"
+                                        (click)="openPdfModel(docs.documentUrl)"></i>
+                                      <i class="bi bi-download download-color" (click)="
                                           downloadSingleImage(
                                             docs.documentUrl.toString()
                                           )
-                                        "
-                                      ></i>
+                                        "></i>
                                     </div>
                                   </div>
                                 </td>
@@ -2120,16 +1798,10 @@
                             <tbody *ngIf="isDocsPlaceholder">
                               <tr>
                                 <td colspan="4">
-                                  <div
-                                    class="errorboxmain"
-                                    style="text-align: center"
-                                  >
+                                  <div class="errorboxmain" style="text-align: center">
                                     <div class="errorboxinner">
                                       <div class="errorboxplaceholder mb-2">
-                                        <img
-                                          src="assets/images/empty-box.svg"
-                                          style="width: 80px"
-                                        />
+                                        <img src="assets/images/empty-box.svg" style="width: 80px" />
                                       </div>
                                       <div class="">
                                         <h4>No Data Found</h4>
@@ -2328,29 +2000,16 @@
   </div>
 </div>
 
-<div
-  class="modal fade apply-leave"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="mySmallModalLabel"
-  aria-hidden="true"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
->
+<div class="modal fade apply-leave" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered mx-auto">
     <div class="modal-content">
       <div class="modal-header">
         <h6 class="modal-title m-0" id="exampleModalCenterTitle">
           Apply for a Leave
         </h6>
-        <button
-          type="button"
-          class="btn-close"
-          id="requestLeaveCloseModel"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          #requestLeaveCloseModel
-        ></button>
+        <button type="button" class="btn-close" id="requestLeaveCloseModel" data-bs-dismiss="modal" aria-label="Close"
+          #requestLeaveCloseModel></button>
       </div>
       <div class="modal-body">
         <div class="apply-leave-main-box">
@@ -2361,64 +2020,38 @@
           </div>
           <form [formGroup]="userLeaveForm" #formDirective="ngForm">
             <div class="mb-2">
-              <label for="username" style="padding-bottom: 6px"
-                >Pick a starting date</label
-              >
-              <input
-                type="date"
-                id="username"
-                placeholder="Enter title ..."
-                required=""
-                class="form-control ng-untouched ng-pristine ng-invalid"
-                formControlName="startDate"
-                [(ngModel)]="userLeaveRequest.startDate"
-                [min]="currentNewDate"
-              />
-              <div
-                class="form-text text-danger"
-                *ngIf="StartDate?.errors?.['required'] && (StartDate?.touched || StartDate?.dirty)"
-              >
+              <label for="username" style="padding-bottom: 6px">Pick a starting date</label>
+              <input type="date" id="username" placeholder="Enter title ..." required=""
+                class="form-control ng-untouched ng-pristine ng-invalid" formControlName="startDate"
+                [(ngModel)]="userLeaveRequest.startDate" [min]="currentNewDate" />
+              <div class="form-text text-danger"
+                *ngIf="StartDate?.errors?.['required'] && (StartDate?.touched || StartDate?.dirty)">
                 Start Date is Required.
               </div>
             </div>
             <!-- <span class="optional">(optional)</span> -->
             <div class="mb-2">
-              <label for="username" style="padding-bottom: 6px"
-                >Pick an ending date
+              <label for="username" style="padding-bottom: 6px">Pick an ending date
               </label>
-              <input
-                type="date"
-                id="username"
-                placeholder="Enter title ..."
-                class="form-control ng-untouched ng-pristine ng-invalid"
-                formControlName="endDate"
-                [(ngModel)]="userLeaveRequest.endDate"
-                [min]="userLeaveRequest.startDate"
-              />
+              <input type="date" id="username" placeholder="Enter title ..."
+                class="form-control ng-untouched ng-pristine ng-invalid" formControlName="endDate"
+                [(ngModel)]="userLeaveRequest.endDate" [min]="userLeaveRequest.startDate" />
             </div>
             <div class="mb-2">
-              <label for="username" style="padding-bottom: 6px"
-                >Select the type of leave you want to request</label
-              >
+              <label for="username" style="padding-bottom: 6px">Select the type of leave you want to request</label>
               <div class="" style="width: 100%; position: relative">
                 <div class="dropdown" style="width: 100%">
                   <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select leave type <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
                   </button> -->
-                  <select
-                    class="form-select"
-                    id="exampleFormControlSelect1"
-                    formControlName="leaveType"
-                    [(ngModel)]="userLeaveRequest.leaveType"
-                  >
+                  <select class="form-select" id="exampleFormControlSelect1" formControlName="leaveType"
+                    [(ngModel)]="userLeaveRequest.leaveType">
                     <option value="">Select Leave Type</option>
                     <option *ngFor="let ul of userLeave">
                       {{ ul.leaveType }}
                     </option>
                   </select>
-                  <div
-                    class="form-text text-danger"
-                    *ngIf="LeaveType?.errors?.['required'] && (LeaveType?.touched || LeaveType?.dirty)"
-                  >
+                  <div class="form-text text-danger"
+                    *ngIf="LeaveType?.errors?.['required'] && (LeaveType?.touched || LeaveType?.dirty)">
                     Leave Type Required.
                   </div>
                 </div>
@@ -2433,57 +2066,31 @@
             </div>
           </div> -->
             <div class="mb-2">
-              <label for="username" style="padding-bottom: 6px"
-                >Select if you are requesting Half Leave
-                <span class="optional">(optional)</span></label
-              >
+              <label for="username" style="padding-bottom: 6px">Select if you are requesting Half Leave
+                <span class="optional">(optional)</span></label>
               <div class="form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="halfLeaveToggle"
-                  [checked]="halfDayLeaveShiftToggle"
-                  formControlName="halfDayLeave"
-                  [(ngModel)]="userLeaveRequest.halfDayLeave"
-                  (click)="halfLeaveShiftToggle()"
-                />
-                <label class="form-check-label" for="halfLeaveToggle"
-                  >Half Day Leave</label
-                >
+                <input type="checkbox" class="form-check-input" id="halfLeaveToggle" [checked]="halfDayLeaveShiftToggle"
+                  formControlName="halfDayLeave" [(ngModel)]="userLeaveRequest.halfDayLeave"
+                  (click)="halfLeaveShiftToggle()" />
+                <label class="form-check-label" for="halfLeaveToggle">Half Day Leave</label>
               </div>
             </div>
             <div class="mb-2" *ngIf="halfDayLeaveShiftToggle">
               <label style="padding-bottom: 6px">Select Shift:</label>
               <div class="form-check">
-                <input
-                  type="radio"
-                  class="form-check-input"
-                  id="dayShiftType"
-                  [checked]="dayShiftToggle"
-                  (change)="dayShiftToggleFun('day')"
-                />
-                <label class="form-check-label" for="dayShiftType"
-                  >Day Shift</label
-                >
+                <input type="radio" class="form-check-input" id="dayShiftType" [checked]="dayShiftToggle"
+                  (change)="dayShiftToggleFun('day')" />
+                <label class="form-check-label" for="dayShiftType">Day Shift</label>
               </div>
               <div class="form-check">
-                <input
-                  type="radio"
-                  class="form-check-input"
-                  id="eveningShiftType"
-                  [checked]="eveningShiftToggle"
-                  (change)="dayShiftToggleFun('evening')"
-                />
-                <label class="form-check-label" for="eveningShiftType"
-                  >Night Shift</label
-                >
+                <input type="radio" class="form-check-input" id="eveningShiftType" [checked]="eveningShiftToggle"
+                  (change)="dayShiftToggleFun('evening')" />
+                <label class="form-check-label" for="eveningShiftType">Night Shift</label>
               </div>
             </div>
 
             <div class="mb-2">
-              <label for="username" style="padding-bottom: 6px"
-                >Select user to request the leave from</label
-              >
+              <label for="username" style="padding-bottom: 6px">Select user to request the leave from</label>
               <div class="" style="width: 100%; position: relative">
                 <div class="dropdown" style="width: 100%">
                   <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select a user <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
@@ -2497,25 +2104,15 @@
                 <div class="form-text text-danger" *ngIf="ManagerId?.errors?.['required'] && (ManagerId?.touched || ManagerId?.dirty)">
                     Select User to Request Leave Required.
                 </div> -->
-                  <select
-                    class="form-select"
-                    id="manager"
-                    formControlName="managerId"
-                    [(ngModel)]="selectedManagerId"
-                  >
+                  <select class="form-select" id="manager" formControlName="managerId" [(ngModel)]="selectedManagerId">
                     <option [ngValue]="undefined">Select Manager</option>
-                    <option
-                      *ngFor="let manager of managers"
-                      [ngValue]="manager.id"
-                    >
+                    <option *ngFor="let manager of managers" [ngValue]="manager.id">
                       {{ manager.name }}
                     </option>
                   </select>
 
-                  <div
-                    class="form-text text-danger"
-                    *ngIf="ManagerId?.errors?.['required'] && (ManagerId?.touched || ManagerId?.dirty)"
-                  >
+                  <div class="form-text text-danger"
+                    *ngIf="ManagerId?.errors?.['required'] && (ManagerId?.touched || ManagerId?.dirty)">
                     Select User to Request Leave Required.
                   </div>
                 </div>
@@ -2523,51 +2120,28 @@
             </div>
             <!-- <span class="optional">(optional)</span> -->
             <div class="mb-2">
-              <label for="username" style="padding-bottom: 6px"
-                >Notes </label
-              >
-              <textarea
-                class="form-control"
-                #maxWords
-                id="exampleFormControlTextarea1"
-                placeholder="Notes"
-                rows="3"
-                required
-                style="height: 100px !important"
-                formControlName="optNotes"
-                [maxLength]="255"
-                [(ngModel)]="userLeaveRequest.optNotes"
-              >
+              <label for="username" style="padding-bottom: 6px">Notes </label>
+              <textarea class="form-control" #maxWords id="exampleFormControlTextarea1" placeholder="Notes" rows="3"
+                required style="height: 100px !important" formControlName="optNotes" [maxLength]="255"
+                [(ngModel)]="userLeaveRequest.optNotes">
               </textarea>
-              <div
-              class="form-text text-danger"
-              *ngIf="OptNotes?.errors?.['required'] && (OptNotes?.touched || OptNotes?.dirty)"
-            >
-              Notes is Required.
-            </div>
-              <small *ngIf="maxWords.value.length > 254" style="color: red"
-                >The maximum number of characters allowed in above field is
-                255!</small
-              >
+              <div class="form-text text-danger"
+                *ngIf="OptNotes?.errors?.['required'] && (OptNotes?.touched || OptNotes?.dirty)">
+                Notes is Required.
+              </div>
+              <small *ngIf="maxWords.value.length > 254" style="color: red">The maximum number of characters allowed in
+                above field is
+                255!</small>
             </div>
           </form>
         </div>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-de-secondary"
-          data-bs-dismiss="modal"
-        >
+        <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal">
           Close
         </button>
-        <button
-          type="button"
-          class="btn btn-primary save-changes"
-          [disabled]="userLeaveForm.invalid"
-          (click)="saveLeaveRequestUser()"
-          *ngIf="!submitLeaveLoader"
-        >
+        <button type="button" class="btn btn-primary save-changes" [disabled]="userLeaveForm.invalid"
+          (click)="saveLeaveRequestUser()" *ngIf="!submitLeaveLoader">
           Submit
         </button>
         <div class="dot-opacity-loader" *ngIf="submitLeaveLoader">
@@ -2581,203 +2155,124 @@
 </div>
 
 <!-- show image modal -->
-<button
-  type="button"
-  class="btn btn-primary d-none"
-  data-bs-toggle="modal"
-  data-bs-target="#showImageModal"
-  #openViewModal
-  id="openViewModal"
-></button>
-<div
-  class="modal blur-bg-2"
-  id="showImageModal"
-  tabindex="-1"
-  data-bs-keyboard="false"
-  aria-labelledby="shareModalLabel1"
-  aria-hidden="true"
->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"
+  #openViewModal id="openViewModal"></button>
+<div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-keyboard="false"
+  aria-labelledby="shareModalLabel1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">PDF</h5>
-        <button
-          type="button"
-          class="btn btn-danger"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
           Close <i class="bi bi-x"></i>
         </button>
       </div>
-      <div
-        class="modal-body text-center"
-        style="overflow: scroll; min-height: 350px"
-      >
-        <iframe
-          [src]="previewString | safe"
-          style="width: 100%; height: 100vh"
-          frameborder="0"
-        ></iframe>
+      <div class="modal-body text-center" style="overflow: scroll; min-height: 350px">
+        <iframe [src]="previewString | safe" style="width: 100%; height: 100vh" frameborder="0"></iframe>
       </div>
     </div>
   </div>
 </div>
 
-<button
-  type="button"
-  class="btn btn-primary d-none"
-  data-bs-toggle="modal"
-  data-bs-target="#eventsModal"
-  #openEventsModal
-  id="openEventsModal"
-></button>
-<div
-  class="modal"
-  data-bs-backdrop="static"
-  id="eventsModal"
-  [ngStyle]="{ left: clientX, top: clientY, position: 'absolute' }"
-  #eventsModal
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="deleteConfirmationModalLabel"
-  aria-hidden="true"
->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#eventsModal"
+  #openEventsModal id="openEventsModal"></button>
+<div class="modal" data-bs-backdrop="static" id="eventsModal"
+  [ngStyle]="{ left: clientX, top: clientY, position: 'absolute' }" #eventsModal tabindex="-1" role="dialog"
+  aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
   <div class="modal-dialog m-0" role="document">
     <div class="modal-content">
-      <button
-        type="button"
-        class="d-none"
-        #closeAttendanceDetailModalButton
-        data-bs-dismiss="modal"
-      ></button>
+      <button type="button" class="d-none" #closeAttendanceDetailModalButton data-bs-dismiss="modal"></button>
       <div class="modal-body">
-        <div
-          class="calenInfo"
-          *ngIf="
+        <div class="calenInfo" *ngIf="
             userAttendanceDetailDateWise.checkInTime != null &&
             userAttendanceDetailDateWise.status == 'Present'
-          "
-        >
+          ">
           <p>
-            <b>Check In Time: </b
-            >{{ userAttendanceDetailDateWise.checkInTime | timeFormat }}
+            <b>Check In Time: </b>{{ userAttendanceDetailDateWise.checkInTime | timeFormat }}
           </p>
           <p>
-            <b>Check Out Time: </b
-            >{{ userAttendanceDetailDateWise.checkOutTime | timeFormat }}
+            <b>Check Out Time: </b>{{ userAttendanceDetailDateWise.checkOutTime | timeFormat }}
           </p>
           <p>
-            <b>Total Hours: </b
-            >{{ userAttendanceDetailDateWise.totalWorkingHours }}
+            <b>Total Hours: </b>{{ userAttendanceDetailDateWise.totalWorkingHours }}
           </p>
           <p>
             <b>Total Break: </b>{{ userAttendanceDetailDateWise.breakCount }}
           </p>
           <p>
-            <b>Break Duration: </b
-            >{{ userAttendanceDetailDateWise.breakDuration }}
+            <b>Break Duration: </b>{{ userAttendanceDetailDateWise.breakDuration }}
           </p>
         </div>
-        <div
-          class="calenInfo"
-          *ngIf="
+        <div class="calenInfo" *ngIf="
             userAttendanceDetailDateWise.checkInTime != null &&
             userAttendanceDetailDateWise.status == 'Half Day'
-          "
-        >
+          ">
           <p>
-            <b>Check In Time: </b
-            >{{ userAttendanceDetailDateWise.checkInTime | timeFormat }}
+            <b>Check In Time: </b>{{ userAttendanceDetailDateWise.checkInTime | timeFormat }}
           </p>
           <p>
-            <b>Check Out Time: </b
-            >{{ userAttendanceDetailDateWise.checkOutTime | timeFormat }}
+            <b>Check Out Time: </b>{{ userAttendanceDetailDateWise.checkOutTime | timeFormat }}
           </p>
           <p>
-            <b>Total Hours: </b
-            >{{ userAttendanceDetailDateWise.totalWorkingHours }}
+            <b>Total Hours: </b>{{ userAttendanceDetailDateWise.totalWorkingHours }}
           </p>
           <p>
             <b>Total Break: </b>{{ userAttendanceDetailDateWise.breakCount }}
           </p>
           <p>
-            <b>Break Duration: </b
-            >{{ userAttendanceDetailDateWise.breakDuration }}
+            <b>Break Duration: </b>{{ userAttendanceDetailDateWise.breakDuration }}
           </p>
         </div>
-        <div
-          class="calenInfo"
-          *ngIf="
+        <div class="calenInfo" *ngIf="
             userAttendanceDetailDateWise.checkInTime != null &&
             userAttendanceDetailDateWise.status == 'Late'
-          "
-        >
+          ">
           <p>
-            <b>Check In Time: </b
-            >{{ userAttendanceDetailDateWise.checkInTime | timeFormat }}
+            <b>Check In Time: </b>{{ userAttendanceDetailDateWise.checkInTime | timeFormat }}
           </p>
           <p>
-            <b>Check Out Time: </b
-            >{{ userAttendanceDetailDateWise.checkOutTime | timeFormat }}
+            <b>Check Out Time: </b>{{ userAttendanceDetailDateWise.checkOutTime | timeFormat }}
           </p>
           <p>
-            <b>Total Hours: </b
-            >{{ userAttendanceDetailDateWise.totalWorkingHours }}
+            <b>Total Hours: </b>{{ userAttendanceDetailDateWise.totalWorkingHours }}
           </p>
           <p>
             <b>Total Break: </b>{{ userAttendanceDetailDateWise.breakCount }}
           </p>
           <p>
-            <b>Break Duration: </b
-            >{{ userAttendanceDetailDateWise.breakDuration }}
+            <b>Break Duration: </b>{{ userAttendanceDetailDateWise.breakDuration }}
           </p>
         </div>
-        <div
-          class="calenInfo d-block"
-          *ngIf="
+        <div class="calenInfo d-block" *ngIf="
             userAttendanceDetailDateWise.status == 'Absent' &&
             userAttendanceDetailDateWise.createdDate != endDateStr
-          "
-        >
+          ">
           <p><b>Absent!</b></p>
         </div>
-        <div
-          class="calenInfo d-block"
-          *ngIf="
+        <div class="calenInfo d-block" *ngIf="
             userAttendanceDetailDateWise.status == 'Weekly Holiday' &&
             userAttendanceDetailDateWise.status != endDateStr
-          "
-        >
+          ">
           <p><b>Weekends!</b></p>
         </div>
-        <div
-          class="calenInfo d-block"
-          *ngIf="
+        <div class="calenInfo d-block" *ngIf="
             (userAttendanceDetailDateWise.status == 'Universal Holiday' ||
               userAttendanceDetailDateWise.status == 'Custom Holiday') &&
             userAttendanceDetailDateWise.createdDate != endDateStr
-          "
-        >
+          ">
           <p><b>Holiday!</b></p>
         </div>
-        <div
-          class="calenInfo d-block"
-          *ngIf="
+        <div class="calenInfo d-block" *ngIf="
             userAttendanceDetailDateWise.status == 'On Leave' &&
             userAttendanceDetailDateWise.createdDate != endDateStr
-          "
-        >
+          ">
           <p><b>On Leave!</b></p>
         </div>
-        <div
-          class="calenInfo d-block"
-          *ngIf="
+        <div class="calenInfo d-block" *ngIf="
             (userAttendanceDetailDateWise.checkInTime == null ||
               userAttendanceDetailDateWise.checkInTime == undefined) &&
             userAttendanceDetailDateWise.createdDate == endDateStr
-          "
-        >
+          ">
           <p><b>Not Marked Yet :)</b></p>
         </div>
       </div>
@@ -2785,83 +2280,41 @@
   </div>
 </div>
 
-<button
-  type="button"
-  class="btn btn-primary d-none"
-  data-bs-toggle="modal"
-  data-bs-target="#showRejectModal"
-  #openRejectModal
-  id="openRejectModal"
-></button>
-<div
-  class="modal"
-  id="showRejectModal"
-  tabindex="-1"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  aria-labelledby="shareModalLabel"
-  aria-hidden="true"
->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showRejectModal"
+  #openRejectModal id="openRejectModal"></button>
+<div class="modal" id="showRejectModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+  aria-labelledby="shareModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5
-          class="modal-title"
-          *ngIf="requestForMoreDocs; else rejectionReason"
-        >
+        <h5 class="modal-title" *ngIf="requestForMoreDocs; else rejectionReason">
           Reason for Request
         </h5>
         <ng-template #rejectionReason>
           <h5 class="modal-title">Reason for Rejection</h5>
         </ng-template>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <div class="modal-body">
         <ng-container *ngIf="requestForMoreDocs; else provideRejectionReason">
           <p>Please specify the list of documents needed:</p>
-          <textarea
-            class="form-control"
-            id="rejectionReason"
-            required
-            [(ngModel)]="reasonOfRejectionProfile.reason"
-            rows="3"
-            style="height: 100px !important"
-          ></textarea>
+          <textarea class="form-control" id="rejectionReason" required [(ngModel)]="reasonOfRejectionProfile.reason"
+            rows="3" style="height: 100px !important"></textarea>
         </ng-container>
 
         <ng-template #provideRejectionReason>
           <p>Please provide a reason for rejection:</p>
-          <textarea
-            class="form-control"
-            id="rejectionReason"
-            required
-            [(ngModel)]="reasonOfRejectionProfile.reason"
-            rows="3"
-            style="height: 100px !important"
-          ></textarea>
+          <textarea class="form-control" id="rejectionReason" required [(ngModel)]="reasonOfRejectionProfile.reason"
+            rows="3" style="height: 100px !important"></textarea>
         </ng-template>
       </div>
 
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-          #closeRejectModalButton
-        >
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeRejectModalButton>
           Cancel
         </button>
-        <button
-          type="button"
-          (click)="updateStatusUserByUuid('REJECTED')"
-          class="btn btn-primary"
-        >
+        <button type="button" (click)="updateStatusUserByUuid('REJECTED')" class="btn btn-primary">
           <div *ngIf="toggle" class="dot-loader">
             <span></span>
             <span></span>
@@ -2874,40 +2327,19 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="add-tax-redime"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalDefaultLabel"
-  style="background: rgba(0, 0, 0, 0.5)"
->
-  <div
-    class="modal-dialog modal-dialog-centered mx-auto modal-fullscreen"
-    role="document"
-  >
+<div class="modal fade" id="add-tax-redime" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+  style="background: rgba(0, 0, 0, 0.5)">
+  <div class="modal-dialog modal-dialog-centered mx-auto modal-fullscreen" role="document">
     <div class="modal-content">
       <div class="modal-header border-bottom" style="background-color: white">
-        <h6
-          class="modal-title m-0"
-          id="exampleModalDefaultLabel"
-          style="color: black; font-size: large"
-        >
+        <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large">
           Want to receive the salary according to the :-
         </h6>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body p-5 employees-provident-tex">
-        <div
-          class="row align-items-center"
-          style="display: flex; justify-content: center; align-items: center"
-          *ngFor="let taxRegime of taxRegimeList"
-        >
+        <div class="row align-items-center" style="display: flex; justify-content: center; align-items: center"
+          *ngFor="let taxRegime of taxRegimeList">
           <div class="col-md-5">
             <div class="old-tex-redime text-left">
               <div class="tex-regime-haddng">
@@ -3051,12 +2483,7 @@
                 </div> -->
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-de-secondary"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">
           Cancel
         </button>
 
@@ -3068,40 +2495,19 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="add-tax-redime"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalDefaultLabel"
-  style="background: rgba(0, 0, 0, 0.5)"
->
-  <div
-    class="modal-dialog modal-dialog-centered mx-auto modal-fullscreen"
-    role="document"
-  >
+<div class="modal fade" id="add-tax-redime" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+  style="background: rgba(0, 0, 0, 0.5)">
+  <div class="modal-dialog modal-dialog-centered mx-auto modal-fullscreen" role="document">
     <div class="modal-content">
       <div class="modal-header border-bottom" style="background-color: white">
-        <h6
-          class="modal-title m-0"
-          id="exampleModalDefaultLabel"
-          style="color: black; font-size: large"
-        >
+        <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large">
           Want to receive the salary according to the :-
         </h6>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body p-5 employees-provident-tex">
-        <div
-          class="row align-items-center"
-          style="display: flex; justify-content: center; align-items: center"
-          *ngFor="let taxRegime of taxRegimeList"
-        >
+        <div class="row align-items-center" style="display: flex; justify-content: center; align-items: center"
+          *ngFor="let taxRegime of taxRegimeList">
           <div class="col-md-5">
             <div class="old-tex-redime text-left">
               <div class="tex-regime-haddng">
@@ -3144,116 +2550,136 @@
 </div>
 
 
-<div *ngIf="switchValueForPF" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+<div *ngIf="switchValueForPF" class="modal show d-block" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
   <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
-      <div class="modal-content">
-        <form #ePFForm="ngForm" ngNativeValidate (ngSubmit)="enableOrDisableStatutoryMethodCall()">
-          <div class="modal-header border-bottom" style="background-color: white;">
-            <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees' Provident Fund:</h6>
-            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="getStatutoryByOrganizationIdMethodCall()"></button>
+    <div class="modal-content">
+      <form #ePFForm="ngForm" ngNativeValidate (ngSubmit)="enableOrDisableStatutoryMethodCall()">
+        <div class="modal-header border-bottom" style="background-color: white;">
+          <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees'
+            Provident Fund:</h6>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"
+            (click)="getStatutoryByOrganizationIdMethodCall()"></button>
         </div>
-          <div class="modal-body employees-provident">
+        <div class="modal-body employees-provident">
+          <div class="form-group mb-3">
+            <label style="padding-bottom: 6px;">EPF Number (AA/AAA/0000000/000) <span
+                style="color: red;">*</span></label>
+            <input type="text" class="form-control" id="epfNumberInput" aria-describedby="epfNumberHelp"
+              [(ngModel)]="statutoryAccountNumber" [ngModelOptions]="{standalone: true}" name="epfNumber"
+              #epfNumber="ngModel" required pattern="^[A-Z]{2}/[A-Z]{3}/[0-9]{7}/[0-9]{3}$"
+              placeholder="Enter Your EPF Number Here" />
+            <div *ngIf="epfNumber.errors?.['pattern'] && (epfNumber.dirty || epfNumber.touched)" class="text-danger">
+              <small id="epfNumberHelp" class="form-text" style="color: red;">Invalid EPF Number format.</small>
+            </div>
+            <div *ngIf="epfNumber.errors?.['required'] && (epfNumber.dirty || epfNumber.touched)" class="text-danger">
+              <small id="epfNumberHelp" class="form-text" style="color: red;">EPF Number is required.</small>
+            </div>
+          </div>
+
+          <div *ngFor="let statutoryAttributeResponse of statutoryAttributeResponseList; let i = index">
             <div class="form-group mb-3">
-              <label style="padding-bottom: 6px;">EPF Number (AA/AAA/0000000/000) <span style="color: red;">*</span></label>
-              <input type="text" class="form-control" id="epfNumberInput" aria-describedby="epfNumberHelp" [(ngModel)]="statutoryAccountNumber" [ngModelOptions]="{standalone: true}" name="epfNumber" #epfNumber="ngModel" required pattern="^[A-Z]{2}/[A-Z]{3}/[0-9]{7}/[0-9]{3}$" placeholder="Enter Your EPF Number Here"/>
-              <div *ngIf="epfNumber.errors?.['pattern'] && (epfNumber.dirty || epfNumber.touched)" class="text-danger">
-                <small id="epfNumberHelp" class="form-text" style="color: red;">Invalid EPF Number format.</small>
-              </div>
-              <div *ngIf="epfNumber.errors?.['required'] && (epfNumber.dirty || epfNumber.touched)" class="text-danger">
-                <small id="epfNumberHelp" class="form-text" style="color: red;">EPF Number is required.</small>
-              </div>
+              <label style="padding-bottom: 6px;">{{ statutoryAttributeResponse.name }} <span
+                  style="color: red;">*</span></label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                [(ngModel)]="statutoryAttributeResponse.value" [ngModelOptions]="{standalone: true}" readonly />
             </div>
-            
-            <div *ngFor="let statutoryAttributeResponse of statutoryAttributeResponseList; let i = index">
-                <div class="form-group mb-3">
-                  <label style="padding-bottom: 6px;">{{ statutoryAttributeResponse.name }} <span style="color: red;">*</span></label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="statutoryAttributeResponse.value" [ngModelOptions]="{standalone: true}" readonly/>
-                </div>
-            </div>
-            <div class="rounded-lg bg-blue-50 px-6 py-4">
-              <p class="text-base mb-1 font-bold">Sample EPF Calculation</p>
-              <div class="text-xs font-medium">Let's assume PF wage is ₹  25,000, the breakup will be:</div>
-              <div class="mt-4 rounded-lg border border-gray-200 bg-white p-4">
+          </div>
+          <div class="rounded-lg bg-blue-50 px-6 py-4">
+            <p class="text-base mb-1 font-bold">Sample EPF Calculation</p>
+            <div class="text-xs font-medium">Let's assume PF wage is ₹ 25,000, the breakup will be:</div>
+            <div class="mt-4 rounded-lg border border-gray-200 bg-white p-4">
               <div>
-              <div class="text-xs font-bold">Employee Contribution</div>
-                  <div class="mt-4 flex items-center justify-between">
-                      <div class="text-xs font-bold text-gray-600">EPF
-                          <span class="text-gray-600">(12% of ₹  25,000)</span>
-                      </div>
-                      <div class="text-xs min-w-min font-bold">₹  3,000</div>
+                <div class="text-xs font-bold">Employee Contribution</div>
+                <div class="mt-4 flex items-center justify-between">
+                  <div class="text-xs font-bold text-gray-600">EPF
+                    <span class="text-gray-600">(12% of ₹ 25,000)</span>
                   </div>
+                  <div class="text-xs min-w-min font-bold">₹ 3,000</div>
+                </div>
               </div>
-                  <div class="my-3 w-full border border-gray-200">
+              <div class="my-3 w-full border border-gray-200">
 
-                  </div>
-                  <div>
-                      <div class="text-xs font-bold">Employers' Contribution</div>
-                      <div class="mt-4 flex items-center justify-between">
-                          <div class="text-xs font-bold text-gray-600">EPS
-                              <span class="text-gray-600">(8.33% of ₹ 25000, Max of 15000)</span>
-                          </div>
-                          <div class="text-xs font-bold">₹ 1250</div>
-                      </div>
-                      <div class="mt-4 flex items-center justify-between">
-                          <div class="text-xs font-bold text-gray-600">EPF
-                              <span class="text-gray-600">(12% of ₹ 25000 - EPS)</span>
-                          </div>
-                          <div class="text-xs font-bold">₹ 1750</div>
-                      </div>
-                      <div class="my-3 w-full border border-gray-200">
-
-                      </div>
-                      <div class="mt-3 flex items-center justify-between">
-                          <div class="text-xs font-bold text-gray-600">Total</div>
-                          <div class="text-xs font-bold">₹ 6000</div>
-                      </div>
-                  </div>
               </div>
+              <div>
+                <div class="text-xs font-bold">Employers' Contribution</div>
+                <div class="mt-4 flex items-center justify-between">
+                  <div class="text-xs font-bold text-gray-600">EPS
+                    <span class="text-gray-600">(8.33% of ₹ 25000, Max of 15000)</span>
+                  </div>
+                  <div class="text-xs font-bold">₹ 1250</div>
+                </div>
+                <div class="mt-4 flex items-center justify-between">
+                  <div class="text-xs font-bold text-gray-600">EPF
+                    <span class="text-gray-600">(12% of ₹ 25000 - EPS)</span>
+                  </div>
+                  <div class="text-xs font-bold">₹ 1750</div>
+                </div>
+                <div class="my-3 w-full border border-gray-200">
+
+                </div>
+                <div class="mt-3 flex items-center justify-between">
+                  <div class="text-xs font-bold text-gray-600">Total</div>
+                  <div class="text-xs font-bold">₹ 6000</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="getStatutoryByOrganizationIdMethodCall()">Cancel</button>
-            <button type="submit" class="btn btn-primary" data-dismiss="modal" [disabled]="ePFForm.invalid">Save</button>
-          </div>
-        </form>
-      </div>
+          <button type="button" class="btn btn-de-secondary" data-dismiss="modal"
+            (click)="getStatutoryByOrganizationIdMethodCall()">Cancel</button>
+          <button type="submit" class="btn btn-primary" data-dismiss="modal" [disabled]="ePFForm.invalid">Save</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
 
-<div *ngIf="switchValueForESI" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
+<div *ngIf="switchValueForESI" class="modal show d-block" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);">
   <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
-      <div class="modal-content">
-        <form #ePFForm="ngForm" ngNativeValidate (ngSubmit)="enableOrDisableStatutoryMethodCall()">
-          <div class="modal-header border-bottom" style="background-color: white;">
-            <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees' State Insurance:</h6>
-            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="getStatutoryByOrganizationIdMethodCall()"></button>
+    <div class="modal-content">
+      <form #ePFForm="ngForm" ngNativeValidate (ngSubmit)="enableOrDisableStatutoryMethodCall()">
+        <div class="modal-header border-bottom" style="background-color: white;">
+          <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Employees'
+            State Insurance:</h6>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"
+            (click)="getStatutoryByOrganizationIdMethodCall()"></button>
         </div>
-          <div class="modal-body employees-provident">
+        <div class="modal-body employees-provident">
+          <div class="form-group mb-3">
+            <label style="padding-bottom: 6px;">ESI Number (00-00-000000-000-0000) <span
+                style="color: red;">*</span></label>
+            <input type="text" class="form-control" id="esiNumberInput" aria-describedby="epfNumberHelp"
+              [(ngModel)]="statutoryAccountNumber" [ngModelOptions]="{standalone: true}" name="epfNumber"
+              #epfNumber="ngModel" required pattern="^\d{2}-\d{2}-\d{6}-\d{3}-\d{4}$"
+              placeholder="Enter Your EPF Number Here" />
+            <div *ngIf="epfNumber.errors?.['pattern'] && (epfNumber.dirty || epfNumber.touched)" class="text-danger">
+              <small id="esiNumberHelp" class="form-text" style="color: red;">Invalid ESI Number format.</small>
+            </div>
+            <div *ngIf="epfNumber.errors?.['required'] && (epfNumber.dirty || epfNumber.touched)" class="text-danger">
+              <small id="esiNumberHelp" class="form-text" style="color: red;">ESI Number is required.</small>
+            </div>
+          </div>
+
+          <div *ngFor="let statutoryAttributeResponse of statutoryAttributeResponseList; let i = index">
             <div class="form-group mb-3">
-              <label style="padding-bottom: 6px;">ESI Number (00-00-000000-000-0000) <span style="color: red;">*</span></label>
-              <input type="text" class="form-control" id="esiNumberInput" aria-describedby="epfNumberHelp" [(ngModel)]="statutoryAccountNumber" [ngModelOptions]="{standalone: true}" name="epfNumber" #epfNumber="ngModel" required pattern="^\d{2}-\d{2}-\d{6}-\d{3}-\d{4}$" placeholder="Enter Your EPF Number Here"/>
-              <div *ngIf="epfNumber.errors?.['pattern'] && (epfNumber.dirty || epfNumber.touched)" class="text-danger">
-                <small id="esiNumberHelp" class="form-text" style="color: red;">Invalid ESI Number format.</small>
-              </div>
-              <div *ngIf="epfNumber.errors?.['required'] && (epfNumber.dirty || epfNumber.touched)" class="text-danger">
-                <small id="esiNumberHelp" class="form-text" style="color: red;">ESI Number is required.</small>
-              </div>
+              <label style="padding-bottom: 6px;">{{ statutoryAttributeResponse.name }} <span
+                  style="color: red;">*</span></label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                [(ngModel)]="statutoryAttributeResponse.value" [ngModelOptions]="{standalone: true}" readonly />
             </div>
-            
-            <div *ngFor="let statutoryAttributeResponse of statutoryAttributeResponseList; let i = index">
-                <div class="form-group mb-3">
-                  <label style="padding-bottom: 6px;">{{ statutoryAttributeResponse.name }} <span style="color: red;">*</span></label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="statutoryAttributeResponse.value" [ngModelOptions]="{standalone: true}" readonly/>
-                </div>
-            </div>
+          </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="getStatutoryByOrganizationIdMethodCall()">Cancel</button>
-            <button type="submit" class="btn btn-primary" data-dismiss="modal" [disabled]="ePFForm.invalid">Save</button>
-          </div>
-        </form>
-      </div>
+          <button type="button" class="btn btn-de-secondary" data-dismiss="modal"
+            (click)="getStatutoryByOrganizationIdMethodCall()">Cancel</button>
+          <button type="submit" class="btn btn-primary" data-dismiss="modal" [disabled]="ePFForm.invalid">Save</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -3528,77 +2954,38 @@
   </div>
 </div> -->
 
-<div
-  *ngIf="switchValueForProfessionalTax"
-  class="modal show d-block"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalDefaultLabel"
-  style="background: rgba(0, 0, 0, 0.5)"
->
-  <div
-    class="modal-dialog modal-dialog-centered mx-auto modal-lg"
-    role="document"
-  >
+<div *ngIf="switchValueForProfessionalTax" class="modal show d-block" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0, 0, 0, 0.5)">
+  <div class="modal-dialog modal-dialog-centered mx-auto modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header border-bottom" style="background-color: white">
-        <h6
-          class="modal-title m-0"
-          id="exampleModalDefaultLabel"
-          style="color: black; font-size: large"
-        >
+        <h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large">
           Professional Tax (Read Professional Tax Policy)
         </h6>
-        <button
-          type="button"
-          class="btn-close"
-          data-dismiss="modal"
-          aria-label="Close"
-          (click)="switchValueForProfessionalTax = false"
-        ></button>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"
+          (click)="switchValueForProfessionalTax = false"></button>
       </div>
       <div class="modal-body employees-provident">
         <div class="row">
           <div class="col-md-6">
             <div class="form-group mb-3">
-              <label for="exampleInputEmail1" style="padding-bottom: 6px"
-                >Pt Number</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Pt Number"
-              />
+              <label for="exampleInputEmail1" style="padding-bottom: 6px">Pt Number</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Pt Number" />
               <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
             </div>
           </div>
 
           <div class="col-md-6">
             <div class="form-group mb-3">
-              <label for="exampleInputEmail1" style="padding-bottom: 6px"
-                >State</label
-              >
+              <label for="exampleInputEmail1" style="padding-bottom: 6px">State</label>
               <div class="dropdown" style="width: 100%">
-                <button
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  class="btn btn-secondary dropdown-toggle new-deopdown"
-                >
+                <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                  class="btn btn-secondary dropdown-toggle new-deopdown">
                   State
-                  <i
-                    class="bi bi-chevron-down"
-                    style="color: #444; font-size: 15px"
-                  ></i>
+                  <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
                 </button>
-                <ul
-                  aria-labelledby="dropdownMenuButton1"
-                  class="dropdown-menu"
-                  style="width: 100%"
-                >
+                <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%">
                   <li>
                     <a class="dropdown-item"> Haryana </a>
                   </li>
@@ -3612,28 +2999,14 @@
 
           <div class="col-md-6">
             <div class="form-group mb-3">
-              <label for="exampleInputEmail1" style="padding-bottom: 6px"
-                >Deduction Frequency</label
-              >
+              <label for="exampleInputEmail1" style="padding-bottom: 6px">Deduction Frequency</label>
               <div class="dropdown" style="width: 100%">
-                <button
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  class="btn btn-secondary dropdown-toggle new-deopdown"
-                >
+                <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                  class="btn btn-secondary dropdown-toggle new-deopdown">
                   Deduction Frequency
-                  <i
-                    class="bi bi-chevron-down"
-                    style="color: #444; font-size: 15px"
-                  ></i>
+                  <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
                 </button>
-                <ul
-                  aria-labelledby="dropdownMenuButton1"
-                  class="dropdown-menu"
-                  style="width: 100%"
-                >
+                <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%">
                   <li>
                     <a class="dropdown-item"> Monthly </a>
                   </li>
@@ -3649,28 +3022,16 @@
           </div>
           <div class="col-md-6">
             <div class="form-group mb-3">
-              <label for="exampleInputEmail1" style="padding-bottom: 6px"
-                >Exception Month
+              <label for="exampleInputEmail1" style="padding-bottom: 6px">Exception Month
               </label>
               <div class="dropdown" style="width: 100%">
-                <button
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  class="btn btn-secondary dropdown-toggle new-deopdown"
-                >
+                <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                  class="btn btn-secondary dropdown-toggle new-deopdown">
                   Exception Month
-                  <i
-                    class="bi bi-chevron-down"
-                    style="color: #444; font-size: 15px"
-                  ></i>
+                  <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
                 </button>
-                <ul
-                  aria-labelledby="dropdownMenuButton1"
-                  class="dropdown-menu"
-                  style="width: 100%; height: 200px; overflow: scroll"
-                >
+                <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu"
+                  style="width: 100%; height: 200px; overflow: scroll">
                   <li>
                     <a class="dropdown-item"> None </a>
                   </li>
@@ -3718,44 +3079,23 @@
 
           <div class="col-md-4">
             <div class="form-group mb-3">
-              <label for="exampleInputEmail1" style="padding-bottom: 6px"
-                >START RANGE</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                value="0"
-              />
+              <label for="exampleInputEmail1" style="padding-bottom: 6px">START RANGE</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="0" />
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group mb-3">
               <label for="exampleInputEmail1" style="padding-bottom: 6px">
-                END RANGE</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                value="max"
-              />
+                END RANGE</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                value="max" />
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group mb-3">
               <label for="exampleInputEmail1" style="padding-bottom: 6px">
-                MONTHLY TAX AMOUNT</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                value="₹0"
-              />
+                MONTHLY TAX AMOUNT</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="₹0" />
             </div>
           </div>
 
@@ -3767,20 +3107,12 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-de-secondary"
-          data-dismiss="modal"
-          (click)="switchValueForProfessionalTax = false"
-        >
+        <button type="button" class="btn btn-de-secondary" data-dismiss="modal"
+          (click)="switchValueForProfessionalTax = false">
           Cancel
         </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-dismiss="modal"
-          (click)="switchValueForProfessionalTax = false"
-        >
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+          (click)="switchValueForProfessionalTax = false">
           Save
         </button>
       </div>

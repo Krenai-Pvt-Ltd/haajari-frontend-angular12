@@ -66,9 +66,15 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     // selectSearchCriteria(option: string) {
     //   this.searchCriteria = option;
     // }
-  
-    getUsersByFiltersFunction() {
+    debounceTimer: any;
+    getUsersByFiltersFunction(debounceTime: number = 300) {
+
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer);
+    }
+
       this.isUserShimer = true;
+      this.debounceTimer = setTimeout(() => {
       this.dataService
         .getUsersByFilter(
           this.itemPerPage,
@@ -106,6 +112,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             // }
           }
         );
+      }, debounceTime);
     }
   
     text = '';
