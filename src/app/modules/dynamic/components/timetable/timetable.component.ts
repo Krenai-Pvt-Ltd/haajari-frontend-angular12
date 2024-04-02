@@ -11,7 +11,7 @@ import { BreakTimings } from 'src/app/models/break-timings';
 import { NavigationExtras, Router } from '@angular/router';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
-import { clearTimeout } from 'timers';
+
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 
@@ -324,13 +324,11 @@ export class TimetableComponent implements OnInit {
 
   attendanceDetailsResponseList : AttendanceDetailsResponse[] = [];
   debounceTimer : any;
-  getAttendanceDetailsReportByDateMethodCall(debounceTime : number = 3000){
-     
-    // clearTimeout(this.debounceTimer);
-      // this.debounceTimer = setTimeout(() => {
-        
-      // }, debounceTime);
-
+  getAttendanceDetailsReportByDateMethodCall(debounceTime : number = 300){
+     if (this.debounceTimer) {
+              clearTimeout(this.debounceTimer);
+      }
+      this.debounceTimer = setTimeout(() => {
       this.preRuleForShimmersAndOtherConditionsMethodCall();
         this.dataService.getAttendanceDetailsReportByDate(this.helperService.formatDateToYYYYMMDD(this.selectedDate), this.pageNumber, this.itemPerPage, this.searchText, 'name', '','', this.filterCriteria).subscribe((response) => {
           debugger
@@ -347,7 +345,8 @@ export class TimetableComponent implements OnInit {
       }, (error) => {
         console.log(error);
         this.networkConnectionErrorForAttendanceDetailsResposne = true;
-      })
+      });
+    }, debounceTime);
   }
 
 

@@ -86,8 +86,13 @@ export class LeaveManagementComponent implements OnInit {
   isPlaceholderFlag:boolean=false;
   isErrorFlag:boolean=false;
   userLeaveDetailResponse!: UserLeaveDetailsWrapper[];
-  getEmployeesLeaveDetails() {
+  debounceTimer: any;
+  getEmployeesLeaveDetails(debounceTime: number = 300) {
     this.isLeaveManagementShimmerFlag=true;
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+  }
+  this.debounceTimer = setTimeout(() => {
     this.dataService.getLeavesDetailsOfEmployees(this.searchString, this.searchStatus, this.pageNumber, this.itemPerPage).subscribe((data) => {
       this.userLeaveDetailResponse = data.userLeaveDetails;
       this.total = data.totalCount;
@@ -107,6 +112,7 @@ export class LeaveManagementComponent implements OnInit {
         console.error('There was an error!', error);
       }
     );
+  }, debounceTime);
   }
 
   resetfilterLeaves() {
