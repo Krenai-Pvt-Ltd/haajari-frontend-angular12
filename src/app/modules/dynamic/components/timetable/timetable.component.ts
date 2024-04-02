@@ -56,21 +56,22 @@ export class TimetableComponent implements OnInit {
 
     onDateChange(date: Date): void {
       this.selectedDate = date;
-      console.log("CURRENT MONTH:- "+this.selectedDate);
-      console.log(this.getCurrentDate());
-      console.log(new Date());
       this.getAttendanceDetailsReportByDateMethodCall();
 
     }
 
+    
     disableDates = (current: Date): boolean => {
       const today = new Date();
+      console.log(today);
+      console.log(current);
       today.setHours(0, 0, 0, 0);
     
       const registrationDate = new Date(this.organizationRegistrationDate);
+
       registrationDate.setHours(0, 0, 0, 0);
     
-      return current.getTime() > today.getTime() || current.getTime() < registrationDate.getTime();
+      return current.getTime() >= today.getTime() + (24 * 60 * 60 * 1000) || current.getTime() < registrationDate.getTime();
     };
 
     organizationRegistrationDate : string = '';
