@@ -9,3 +9,6 @@ export class ESIContributionRate {
     statutoryAttribute : StatutoryAttribute = new StatutoryAttribute();
 
 }
+
+
+
