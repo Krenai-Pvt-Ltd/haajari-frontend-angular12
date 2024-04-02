@@ -255,11 +255,10 @@ export class TopbarComponent implements OnInit {
       .subscribe(async res => {
 
         //@ts-ignore
-        var res = res;
-
-        //@ts-ignore
-        this.newNotiication = res.flag==1?true:false; 
-
+        if(res?.flag != undefined && res?.flag != null){
+          //@ts-ignore
+          this.newNotiication = res?.flag==1?true:false; 
+        }
       });
   }
   
