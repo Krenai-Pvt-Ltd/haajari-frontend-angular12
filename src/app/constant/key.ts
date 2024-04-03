@@ -193,6 +193,9 @@ export class Key{
     // Data format
     public static BOARD = 1;
     public static LIST = 2;
+
+    // Krenai UUID
+    public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
     
 
     base_url = "http://localhost:8080/api/v2";

@@ -117,7 +117,7 @@ export class RoleAddComponent implements OnInit {
     this.buttonLoader = true;
 
     if(this.roleRequest.roleAccessibilityTypeId){
-    console.log(this.moduleRequestList);
+    // console.log(this.moduleRequestList);
 
     const uniqueModuleRequestList = [];
 
@@ -133,13 +133,15 @@ export class RoleAddComponent implements OnInit {
       }
     }
     
-    console.log(uniqueModuleRequestList);
+    // console.log(uniqueModuleRequestList);
     this.roleRequest.moduleRequestList = uniqueModuleRequestList;
- 
 
+    if(this.roleRequest.name == Key.ADMIN || this.roleRequest.name == Key.USER || this.roleRequest.name == Key.MANAGER){
+      this.roleRequest.default = true;
+    }
+ 
     this.dataService.updateRoleWithPermissions(this.roleRequest).subscribe((data) => {
-      console.log(data);
-      debugger
+
       this.buttonLoader = false;
       this.router.navigate(['/role']);
       this.helperService.setRoleSectionTab(true);

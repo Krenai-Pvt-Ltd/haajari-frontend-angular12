@@ -43,7 +43,7 @@ import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/em
   children:[
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/dashboard' } }, //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
     { path: 'timetable', component: TimetableComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/timetable' }},
-    { path: 'project', component: ProjectComponent },
+    { path: 'project', component: ProjectComponent, canActivate: [AuthGuard], data: {requiredSubmodule: '/project'}},
     { path: 'team', component: TeamComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/team' }},
     { path: 'task-manager', component: TaskManagerComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/task-manager' }},
     { path: 'onboarding', component: OnboardingComponent, canActivate: [AuthGuard]},

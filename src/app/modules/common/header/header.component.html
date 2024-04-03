@@ -72,10 +72,6 @@
 
                     <div class="sc-485d66d8-0 sc-39e987ab-0 iZfNPZ irmdrk sc-3ee1404a-4 izZYaK">PEOPLE</div>
                     <ul class="cfyCez">
-
-
-
-
                         <li class="sc-3ee1404a-7 dagRMy" routerLinkActive="iUctsy" routerLink="/team" (click)="setActiveTabEmpty()"
                             style="cursor: pointer;">
                             <a class="sc-3ee1404a-9 iUctsy-new">
@@ -144,7 +140,7 @@
                 </a>
                 </li> -->
 
-                        <ng-container *ngIf="ROLE === ADMIN; else projectCondition">
+                        <ng-container *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID; else projectCondition">
                             <li class="sc-3ee1404a-7 dagRMy" *ngIf="shouldDisplay('project')" style="cursor: pointer;">
                                 <a class="sc-3ee1404a-9 iUctsy-new">
                                     <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
@@ -173,23 +169,9 @@
                                                 <p class="mb-0">Wekreta</p>
                                             </a></li>
                                         <li>
-                                            <a class="project-link"> 
+                                            <a class="project-link" routerLink="/project"> 
                                                 <span class="project-list color-orange">#</span>
-                                                <p class="mb-0">Crddly</p>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a class="project-link"> 
-                                                <span class="project-list color-pink">#</span>
-                                                <p class="mb-0">1pyq</p>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a class="project-link"> 
-                                                <span class="project-list color-rede">#</span>
-                                                <p class="mb-0">Shai</p>
+                                                <p class="mb-0">Credily</p>
                                             </a>
                                         </li>
                                     </ul>

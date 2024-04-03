@@ -100,15 +100,18 @@ export class DashboardComponent implements OnInit{
     this.startDate = this.formatDateToYYYYMMDD(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1));
     this.endDate = this.formatDateToYYYYMMDD(new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0));
   }
-
+  
   disableMonths = (date: Date): boolean => {
+    
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
     const dateYear = date.getFullYear();
     const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
+    const organizationRegistrationMonth = new Date(this.organizationRegistrationDate).getMonth();
 
     // Disable if the month is before the organization registration month
-    if(date.getMonth() < new Date(this.organizationRegistrationDate).getMonth()){
+    if (dateYear < organizationRegistrationYear || (dateYear === organizationRegistrationYear && dateMonth < organizationRegistrationMonth)) {
       return true;
     }
   
