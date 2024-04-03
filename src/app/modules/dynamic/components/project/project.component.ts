@@ -43,6 +43,10 @@ export class ProjectComponent implements OnInit {
     this.dataFormat = dataFormat;
   }
 
+  changeDataFormat(dataFormat : number){
+    this.dataFormat = dataFormat;
+  }
+
   backlog = ['6', '5', '7', '8'];
   done=['9', '10', '11','12','13','14'];
   inprogress = ['1', '2','3','4'];
