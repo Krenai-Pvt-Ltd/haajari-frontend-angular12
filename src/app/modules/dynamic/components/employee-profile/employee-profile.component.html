@@ -75,10 +75,14 @@
                   </span>
                   <span class="members-name" *ngIf="!isImage">{{
                     user?.name[0]
-                    }}</span>
-                  <span class="edit-profile" routerLink="/employee-onboarding-form" *ngIf="
-                      user!.employeeOnboardingStatus?.response != 'APPROVED'
-                    "><i class="bi bi-pencil"></i></span>
+                  }}</span>
+                  <!-- <span
+                    class="edit-profile"
+                    routerLink="/employee-onboarding-form"
+                    *ngIf="
+                      user!.employeeOnboardingStatus?.response != 'APPROVED'">
+                      <i class="bi bi-pencil"></i>
+                  </span> -->
                 </div>
 
                 <div class="pt-2 pb-2">
