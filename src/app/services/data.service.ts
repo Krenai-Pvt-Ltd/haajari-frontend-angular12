@@ -427,6 +427,11 @@ export class DataService {
     return this.httpClient.post(this.baseUrl + '/user-leave/save-users-leave', request, { params });
   }
 
+  saveLeaveRequestFromWhatsapp(userUuid: string, request: any): Observable<any> {
+    const params = new HttpParams().set("userUuid", userUuid);
+    return this.httpClient.post(this.baseUrl + '/user-leave/whatsapp/save-users-leave', request, { params });
+  }
+
   // TODO
   // getPendingLeaveFlag(request: UserLeaveRequest ): Observable<any> {
   //   return this.httpClient.post<any>( this.baseUrl+'/user-leave/todays-pending-leave-count',request);
