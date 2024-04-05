@@ -224,6 +224,10 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/all/by-filters`, { params });
   }
 
+  getAllUserUuids():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/users/get/all/uuids`);
+  }
+
   changeStatusById(presenceStatus: Boolean, userUuid: string): Observable<any> {
     const params = new HttpParams()
       .set("presenceStatus", presenceStatus.toString())

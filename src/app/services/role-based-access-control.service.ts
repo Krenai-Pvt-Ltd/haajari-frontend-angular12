@@ -75,7 +75,7 @@ export class RoleBasedAccessControlService {
 
 
   async hasAccessToSubmodule(subModuleRouteValue: string): Promise<boolean> {
-    debugger
+    
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         let subModules = this.helperService.subModuleResponseList;

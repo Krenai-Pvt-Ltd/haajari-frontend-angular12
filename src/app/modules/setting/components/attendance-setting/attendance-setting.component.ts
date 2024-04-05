@@ -48,9 +48,7 @@ export class AttendanceSettingComponent implements OnInit {
   ngOnInit(): void {
 
     this.getOrganizationAddressDetailMethodCall();
-    // this.helperService.showTost("Attendance Settings deleted successfully", Key.TOAST_STATUS_SUCCESS);
     this.getAttendanceModeMethodCall();
-    // this.getAttendanceModeAllMethodCall();
     this.getAllShiftTimingsMethodCall();
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
@@ -63,7 +61,6 @@ export class AttendanceSettingComponent implements OnInit {
     this.getCustomHolidays();
     this.getWeeklyHolidays();
     this.getWeekDays();
-
   }
 
 
@@ -93,9 +90,7 @@ export class AttendanceSettingComponent implements OnInit {
   duration : string = '';
   selectedTime : string = '20:00';
   readonly DEDUCTION_TYPE_PER_MINUTE = Key.DEDUCTION_TYPE_PER_MINUTE;
-  readonly OVERTIME_TYPE_FIXED_AMOUNT = Key.OVERTIME_TYPE_FIXED_AMOUNT;
-
-  
+  readonly OVERTIME_TYPE_FIXED_AMOUNT = Key.OVERTIME_TYPE_FIXED_AMOUNT;  
 
 
   selectHours(hour: number) {
@@ -109,8 +104,7 @@ export class AttendanceSettingComponent implements OnInit {
   updateDuration(): void {
     const formattedHours = this.selectedHours.toString().padStart(2, '0');
     const formattedMinutes = this.selectedMinutes.toString().padStart(2, '0');
-
-    debugger
+    
     this.duration = `${formattedHours}:${formattedMinutes}`;
   }
 
@@ -201,7 +195,7 @@ export class AttendanceSettingComponent implements OnInit {
   attendanceRuleResponseList : AttendanceRuleResponse[] = [];
   getAttendanceRuleByOrganizationMethodCall(){
     this.dataService.getAttendanceRuleByOrganization().subscribe((response) => {
-      debugger
+      
       this.attendanceRuleResponseList = response;
     }, (error)=>{
 
@@ -237,9 +231,10 @@ export class AttendanceSettingComponent implements OnInit {
   attendanceRuleDefinitionRequest : AttendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
   saveAttendanceRuleDefinitionLoading: boolean = false;
   registerAttendanceRuleDefinitionMethodCall(){
-    debugger
+    
     this.saveAttendanceRuleDefinitionLoading = true;
     this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
+    // console.log(this.selectedStaffsUuids);
     this.preRegisterAttendanceRuleDefinitionMethodCall();
 
     this.dataService.registerAttendanceRuleDefinition(this.attendanceRuleDefinitionRequest).subscribe((response) => {
@@ -298,7 +293,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   deleteAttendanceRuleLoaderStatus: { [key: string]: boolean } = {};
   deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionId : number){
-    debugger
+    
     this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = true;
     this.dataService.deleteAttendanceRuleDefinition(attendanceRuleDefinitionId).subscribe((response) => {
       // console.log(response);
@@ -312,8 +307,6 @@ export class AttendanceSettingComponent implements OnInit {
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
-
-
 
   customLateDurationValue !: Date | null;
   halfDayLateDurationValue !: Date | null;
@@ -333,17 +326,8 @@ export class AttendanceSettingComponent implements OnInit {
     this.attendanceRuleResponse = attendanceRuleResponse;
 
     this.attendanceRuleDefinitionRequest = attendanceRuleDefinitionResponse;
+
     this.selectedStaffsUuids = attendanceRuleDefinitionResponse.userUuids;
-
-    // this.customLateDurationValue = this.convertTimeStringToDate(attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration);
-    // this.customLateOccurrenceDurationValue = this.convertTimeStringToDate(attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceDuration);
-
-    // this.halfDayLateDurationValue = this.convertTimeStringToDate(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration);
-    // this.halfDayLateOccurrenceDurationValue = this.convertTimeStringToDate(attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceDuration);
-
-    // this.fullDayLateDurationValue = this.convertTimeStringToDate(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration);
-    // this.fullDayLateOccurrenceDurationValue = this.convertTimeStringToDate(attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceDuration);
-
 
 
     if(attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration){
@@ -442,12 +426,6 @@ export class AttendanceSettingComponent implements OnInit {
       this.selectDeductionType(attendanceRuleDefinitionResponse.deductionType);
     }
 
-    // this.isFull = true;
-    // this.isHalf = true;
-    // this.isBreak = true;
-    // this.isdeductHalf = true;
-    // this.isfullDayy = true;
-
     this.selectedOccurenceDropdownForCustomSalrayDeduction = attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceType;
     this.selectedOccurenceDropdownForHalfDaySalrayDeduction = attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceType;
     this.selectedOccurenceDropdownForFullDaySalrayDeduction = attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceType;
@@ -465,7 +443,7 @@ export class AttendanceSettingComponent implements OnInit {
   invalidCustomlateDuration1: boolean = false;
   invalidCustomlateDuration2: boolean = false;
   getlateDuration(event:Date){
-    console.log(event);
+    // console.log(event);
     // let duration = this.helperService.formatDateToHHmmss(event);
     let duration = this.helperService.formatDateToHHmmss(event);
     this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration = duration;
@@ -621,7 +599,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   // getUserByFiltersMethodCall(){
   //   this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((response) => {
-  //     debugger;
+  //     ;
   //     this.staffs = response.users;
   //     this.total = response.count;
   //     console.log(response);
@@ -714,6 +692,9 @@ export class AttendanceSettingComponent implements OnInit {
   }
   
 
+
+
+  //User selection in staff selection tab
   selectedStaffsUuids : string[] = [];
   selectedStaffs: Staff[] = [];
   isAllSelected: boolean = false;
@@ -772,12 +753,12 @@ selectAllUsers(isChecked: boolean) {
   // const isChecked = inputElement ? inputElement.checked : false;
   this.isAllUsersSelected = isChecked;
   this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
-  this.staffs.forEach(staff => staff.selected = isChecked); // Update each staff's selected property
+  this.staffs.forEach(staff => staff.selected = isChecked);
   
   if (isChecked) {
     // If selecting all, add all user UUIDs to the selectedStaffsUuids list
     this.activeModel2 = true;
-    this.getAllUsersUuids().then(allUuids => {
+    this.getAllUserUuidsMethodCall().then(allUuids => {
       this.selectedStaffsUuids = allUuids;
     });
   } else {
@@ -817,6 +798,22 @@ async getAllUsersUuids(): Promise<string[]> {
   return response.users.map((user: { uuid: any; }) => user.uuid);
 }
 
+// Fetching all the uuids of the users by organization
+allUserUuids : string[] = [];
+async getAllUserUuidsMethodCall(){
+  return new Promise<string[]>((resolve, reject) =>{
+    this.dataService.getAllUserUuids().subscribe({
+      next: (response) => {
+        this.allUserUuids = response.listOfObject;
+        resolve(this.allUserUuids);
+      },
+      error: (error) => {
+        reject(error); 
+      }
+    });
+  })
+}
+
 // Call this method when the select all users checkbox value changes
 onSelectAllUsersChange(event : any) {
   this.selectAllUsers(event.target.checked);
@@ -840,51 +837,12 @@ unselectAllUsers() {
   clearModel(){
     this.ruleActiveTab.nativeElement.click();
     this.attendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
-    // this.attendanceRuleDefinitionRequest = {
-    //   id : 0,
-    //   deductionTypeId : 0,
-    //   overtimeTypeId : 0,
-    //   attendanceRuleId : 0,
-    //   userUuids : [],
-    //   customSalaryDeduction: {
-    //     hours : 0,
-    //     minutes : 0,
-    //     lateDuration : '',
-    //     occurrenceType : 'Count',
-    //     occurrenceCount : 0,
-    //     occurrenceDuration : '',
-    //     amountInRupees : 0
-    //   },
-    //   halfDaySalaryDeduction: {
-    //     hours : 0,
-    //     minutes : 0,
-    //     lateDuration: '',
-    //     occurrenceType : '',
-    //     occurrenceCount: 0,
-    //     occurrenceDuration: ''
-    //   },
-    //   fullDaySalaryDeduction: {
-    //     hours : 0,
-    //     minutes : 0,
-    //     lateDuration: '',
-    //     occurrenceType : '',
-    //     occurrenceCount: 0,
-    //     occurrenceDuration: ''
-    //   }
-    // };    
 
     this.activeModel = false;
     this.activeModel2 = false;
 
-    // this.isFull = false;
-    // this.isHalf = false;
-    // this.isBreak = false;
-    // this.isdeductHalf = false;
-    // this.isfullDayy = false;
-
     this.selectedDeductionType = new DeductionType();
     this.selectedStaffsUuids = [];
-
   }
 
   @ViewChild("staffActiveTab") staffActiveTab !: ElementRef;
@@ -941,11 +899,11 @@ unselectAllUsers() {
 
   registerOrganizationShiftTimingMethodCall(){
 
-    debugger
+    
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
 
     this.dataService.registerShiftTiming(this.organizationShiftTimingRequest).subscribe((response) => {
-      debugger
+      
       // console.log(response);
       this.closeShiftTimingModal.nativeElement.click();
       this.getAllShiftTimingsMethodCall();
@@ -1082,7 +1040,7 @@ unselectAllUsers() {
 
   organizationShiftTimingWithShiftTypeResponseList : OrganizationShiftTimingWithShiftTypeResponse[] = [];
   getAllShiftTimingsMethodCall(){
-     debugger
+     
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
 
     // this.isShimmer = true;
@@ -1134,7 +1092,7 @@ unselectAllUsers() {
   updateOrganizationShiftTiming(organizationShiftTimingResponse : OrganizationShiftTimingResponse){
 
     this.shiftTimingActiveTab.nativeElement.click();
-    debugger
+    
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
     this.organizationShiftTimingRequest.shiftTypeId = organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
@@ -1199,7 +1157,7 @@ unselectAllUsers() {
     this.isShimmer = true;
     this.getOrganizationAddressDetailMethodCall();
     this.dataService.getAttendanceMode().subscribe((response) => {
-      debugger
+      
       this.selectedAttendanceModeId = response.id;
       this.getAttendanceModeAllMethodCall();
       // console.log(this.selectedAttendanceModeId);
@@ -1231,15 +1189,15 @@ unselectAllUsers() {
   @ViewChild("placesRef") placesRef! : GooglePlaceDirective;
 
   public handleAddressChange(e: any) {
-    debugger
+    
     var id=this.organizationAddressDetail.id;
     this.organizationAddressDetail=new OrganizationAddressDetail();
     this.organizationAddressDetail.id=id;
     this.organizationAddressDetail.longitude = e.geometry.location.lng();
     this.organizationAddressDetail.latitude = e.geometry.location.lat();
 
-    console.log(e.geometry.location.lat());
-    console.log(e.geometry.location.lng());
+    // console.log(e.geometry.location.lat());
+    // console.log(e.geometry.location.lng());
     this.organizationAddressDetail.addressLine1=e.name + ", " + e.vicinity;
 
 
@@ -1338,7 +1296,7 @@ unselectAllUsers() {
   weekDay: WeekDay[] = [];
 
   // getWeekDays() {
-  //   debugger
+  //   
   //   this.dataService.getWeekDays().subscribe(holidays => {
   //     this.weekDay = holidays;
   //     console.log(this.weekDay);
@@ -1392,7 +1350,7 @@ unselectAllUsers() {
   deleteWeeklyHolidays(id: number) {
       this.dataService.deleteWeeklyHolidays(id).subscribe(
         response => {
-          console.log(response);
+          // console.log(response);
           // alert('Weekly holiday deleted successfully');
           this.getWeeklyHolidays(); 
         },
@@ -1405,7 +1363,7 @@ unselectAllUsers() {
   deleteCustomHolidays(id:number){
     this.dataService.deleteCustomHolidays(id).subscribe(
       response => {
-        console.log(response);
+        // console.log(response);
         this.getCustomHolidays(); 
       },
       error => {
@@ -1438,11 +1396,11 @@ unselectAllUsers() {
   isCustomHolidayLoader:boolean=false;
   @ViewChild("customHolidayModal") customHolidayModal!:ElementRef;
   registerCustomHolidays() {
-    console.log(this.holidayList);
+    // console.log(this.holidayList);
     this.isCustomHolidayLoader=true;
     this.dataService.registerCustomHolidays(this.holidayList).subscribe({
       next: (response) => {
-        console.log('Custom Holidays Registered Successfully', response)
+        // console.log('Custom Holidays Registered Successfully', response)
         this.getCustomHolidays();
         this.isCustomHolidayLoader=false;
         this.holidayList= [{ name: '', date: '' }];

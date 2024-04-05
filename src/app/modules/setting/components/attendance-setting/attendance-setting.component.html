@@ -1228,22 +1228,16 @@
                                            (change)="selectAllUsers($event)">
                                 </th> -->
                                         <div *ngIf="selectedStaffsUuids.length > 0">
-                                            <ng-container
-                                                *ngIf="selectedStaffsUuids.length === total; else elseCondition2">
-                                                <span (click)="unselectAllUsers()"
-                                                    style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 8px; border-radius: 5px;">Clear
-                                                    all users <i class="bi bi-x"></i></span>
+                                            <ng-container *ngIf="selectedStaffsUuids.length === total; else elseCondition2">
+                                                <span (click)="unselectAllUsers()" style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 8px; border-radius: 5px;">Clear all users<i class="bi bi-x"></i></span>
                                             </ng-container>
                                             <ng-template #elseCondition2>
-                                                <span (click)="selectAllUsers(true)"
-                                                    style="cursor: pointer; color: #4761F6; background-color: #EEF1FF; padding: 8px; border-radius: 5px;">Select
-                                                    all {{total}} users</span>
+                                                <span (click)="selectAllUsers(true)" style="cursor: pointer; color: #4761F6; background-color: #EEF1FF; padding: 8px; border-radius: 5px;">Select all {{total}} users</span>
                                             </ng-template>
                                         </div>
 
                                         <div *ngIf="selectedStaffsUuids.length !== 0">
-                                            <ng-container
-                                                *ngIf="selectedStaffsUuids.length === total; else elseCondition1">
+                                            <ng-container *ngIf="selectedStaffsUuids.length === total; else elseCondition1">
                                                 <span>All <b>{{total}}</b> users selected</span>
                                             </ng-container>
                                             <ng-template #elseCondition1>

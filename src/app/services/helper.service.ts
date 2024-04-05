@@ -14,7 +14,7 @@ import { formatDate } from '@angular/common';
 export class HelperService {
 
   constructor( private httpClient : HttpClient, private dataService: DataService) {
-    debugger
+    
    }
 
   clearHelperService(){
@@ -25,7 +25,7 @@ export class HelperService {
   
 
   async getDecodedValueFromToken(): Promise<any> {
-    debugger
+    
     return new Promise<any>((resolve, reject) => {
       try {
         const token = localStorage.getItem('token');
@@ -44,7 +44,7 @@ export class HelperService {
 
 
   async getAccessibleSubModuleResponseMethodCall(): Promise<any> {
-    debugger
+    
     return new Promise((resolve, reject) => {
       this.dataService.getAccessibleSubModuleResponse().subscribe({
         next: (data: any) => {
