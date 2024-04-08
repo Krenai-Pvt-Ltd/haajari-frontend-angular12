@@ -57,7 +57,7 @@ export class LeaveRequestFormComponent implements OnInit {
   selectedManagerId!: number;
 
   fetchManagerNames() {
-    this.dataService.getEmployeeManagerDetails(this.userUuid).subscribe(
+    this.dataService.getEmployeeManagerDetailsViaWhatsapp(this.userUuid).subscribe(
       (data: UserDto[]) => {
         this.managers = data;
       },
