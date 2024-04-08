@@ -1018,7 +1018,7 @@ export class EmployeeProfileComponent implements OnInit {
 
       }
         console.log("experience length" + this.experienceEmployee.length);
-        if (data == null || data.experiences.length == 0) {
+        if (data == undefined || data == null || data.experiences.length == 0) {
           this.isCompanyPlaceholder = true;
         }
         this.count++;
