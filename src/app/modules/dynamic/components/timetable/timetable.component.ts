@@ -585,7 +585,8 @@ export class TimetableComponent implements OnInit {
   networkConnectionErrorFlagForAttendanceLog:boolean=false;
   attendanceLogResponseList : AttendanceLogResponse[] = [];
   getAttendanceLogsMethodCall(){
-    this.dataService.getAttendanceLogs(this.userUuidToViewLogs, this.inputDate).subscribe((response) => {
+    this.dataService.getAttendanceLogs(this.userUuidToViewLogs, this.helperService.formatDateToYYYYMMDD(this.selectedDate)).subscribe((response) => {
+      debugger
       this.attendanceLogResponseList = response;
       // console.log(response);
       if(response === undefined || response === null || response.length === 0){

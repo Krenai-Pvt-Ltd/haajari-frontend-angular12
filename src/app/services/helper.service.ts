@@ -6,6 +6,7 @@ import { DataService } from './data.service';
 import { ModulesWithSubmodules } from '../models/modules-with-submodules';
 import { ModuleResponse } from '../models/module-response';
 import { RoleBasedAccessControlService } from './role-based-access-control.service';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -92,6 +93,10 @@ export class HelperService {
     }
     return '';
     
+  }
+
+  formatDateToHHmm(date : Date){
+    return formatDate(date, 'HH:mm', 'en-US');
   }
   
 

@@ -727,8 +727,7 @@
                                                         <span>Duration </span>
                                                         <span> | </span>
                                                         <span style="color: #009688;">
-                                                            <ng-container
-                                                                *ngIf="attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration !== null && attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration !== ''; else na">
+                                                            <ng-container *ngIf="attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration !== null && attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration !== ''; else na">
                                                                 <span>{{attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration}}</span>
                                                                 <span style="color: black;"> hrs.</span>
                                                             </ng-container>
@@ -1725,7 +1724,7 @@
     </div> -->
 
 
-    <div class="modal fade" id="automation-rules" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    <div class="modal fade" id="automation-rules" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
@@ -1750,9 +1749,7 @@
 
                                     <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"
                                         style="font-size: 12px;"
-                                        (click)="openAttendanceRuleResponseModal(attendanceRuleResponse)"> Create your
-                                        first
-                                        rule <i class="bi bi-chevron-right"></i></a>
+                                        (click)="openAttendanceRuleResponseModal(attendanceRuleResponse)"> Create rule from here<i class="bi bi-chevron-right"></i></a>
 
 
 
@@ -1819,7 +1816,7 @@
     </div>
 
 
-    <div class="modal fade" id="rules-value" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    <div class="modal fade" id="rules-value" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
@@ -1868,7 +1865,7 @@
                                                                     <label for="hoursInput" class="pb-2">{{attendanceRuleResponse.ruleSubHeader}}</label>
             
                                                                     <div class="d-flex justify-content-center align-items-center" style="gap: 5px;">
-                                                                        <nz-time-picker [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration" 
+                                                                        <nz-time-picker [(ngModel)]="customLateDurationValue" [ngModelOptions]="{standalone: true}"
                                                                             nzFormat="HH:mm" (ngModelChange)="getlateDuration($event)" name="lateDuration" required #lateDuration="ngModel"> 
                                                                         </nz-time-picker>
                                                                         <span><b>hrs.</b></span>
@@ -1947,7 +1944,7 @@
                                                                         <input type="number" class="form-control"
                                                                             aria-describedby="emailHelp"
                                                                             placeholder="Enter the amount here"
-                                                                            [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.amountInRupees" name="amount" #amount="ngModel" required>
+                                                                            [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.amountInRupees" [ngModelOptions]="{standalone: true}" name="amount" #amount="ngModel" required>
                                                                             <div *ngIf="amount?.touched && amount.errors?.required"
                                                                         class="text-danger" style="font-size: 13px;">
                                                                         Amount is required.
@@ -2000,7 +1997,7 @@
                                                                     <div class="col-md-4" *ngIf="selectedOccurenceDropdownForCustomSalrayDeduction === 'Count'">
                                                                         <div class="if-late d-flex align-items-center" style="width: 150px; gap:10px;">
                                                                             <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count"
-                                                                                [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.occurrenceCount" name="lateOccurrenceCount" 
+                                                                                [(ngModel)]="attendanceRuleDefinitionRequest!.customSalaryDeduction!.occurrenceCount" [ngModelOptions]="{standalone: true}" name="lateOccurrenceCount" 
                                                                                 #lateOccurrenceCount="ngModel" required>
                                                                             <span><b>times</b></span>
                                                                         </div>
@@ -2013,7 +2010,7 @@
                                                                     <div class="col-md-4" *ngIf="selectedOccurenceDropdownForCustomSalrayDeduction === 'Duration'">
                                                                         <div id="occurrence-type-duration" class="dudct-type d-flex align-items-center"
                                                                             style="width: 150px; gap:10px;">
-                                                                            <nz-time-picker [(ngModel)]="attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDuration" 
+                                                                            <nz-time-picker [(ngModel)]="customLateOccurrenceDurationValue" [ngModelOptions]="{standalone: true}"
                                                                                 nzFormat="HH:mm" (ngModelChange)="getLateOccurrenceDuration($event)" name="lateOccurrenceDuration" #lateOccurrenceDuration="ngModel" required>
                                                                             </nz-time-picker>
                                                                             <span><b>hrs.</b></span>
@@ -2047,7 +2044,7 @@
                                                                     <div class="if-late">
                                                                         <label for="exampleInputEmail1" class="pb-2">{{attendanceRuleResponse.ruleSubHeader}}</label>
                                                                         <div class="d-flex justify-content-center align-items-center" style="gap: 5px;">
-                                                                            <nz-time-picker [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration" 
+                                                                            <nz-time-picker [(ngModel)]="halfDayLateDurationValue" [ngModelOptions]="{standalone: true}"
                                                                                 nzFormat="HH:mm" (ngModelChange)="getHalfDaylateDuration($event)" name="halfDayLateDuration" #halfDayLateDuration="ngModel" required>
                                                                             </nz-time-picker>
                                                                             <span><b>hrs.</b></span>
@@ -2111,7 +2108,7 @@
                                                                         <div class="col-md-4" *ngIf="selectedOccurenceDropdownForHalfDaySalrayDeduction === 'Count'">
                                                                             <div class="if-late d-flex justify-content-center align-items-center" style="width: 150px; gap:10px;">
                                                                                 <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Count"
-                                                                                [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceCount" name="halfDayOccurrenceCount" #halfDayOccurrenceCount="ngModel" required>
+                                                                                [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceCount" [ngModelOptions]="{standalone: true}" name="halfDayOccurrenceCount" #halfDayOccurrenceCount="ngModel" required>
                                                                                 <span><b>times</b></span>
                                                                             </div>
                                                                             <div *ngIf="halfDayOccurrenceCount?.touched && halfDayOccurrenceCount.errors?.required"
@@ -2121,7 +2118,7 @@
                                                                         </div>
                                                                         <div class="col-md-4" *ngIf="selectedOccurenceDropdownForHalfDaySalrayDeduction === 'Duration'">
                                                                             <div class="if-late d-flex justify-content-center align-items-center" style="width: 150px; gap:10px;">
-                                                                                <nz-time-picker [(ngModel)]="attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDuration" 
+                                                                                <nz-time-picker [(ngModel)]="halfDayLateOccurrenceDurationValue" [ngModelOptions]="{standalone: true}"
                                                                                     nzFormat="HH:mm" (ngModelChange)="getHalfDayOccurrenceDuration($event)" name="halfDayOccurrenceDuration" #halfDayOccurrenceDuration="ngModel" required>
                                                                                 </nz-time-picker>
                                                                                 <span><b>hrs.</b></span>
@@ -2155,7 +2152,7 @@
                                                                         <label for="exampleInputEmail1" class="pb-2">{{attendanceRuleResponse.ruleSubHeader}}</label>
                                                                     
                                                                         <div class="d-flex justify-content-center align-items-center" style="gap: 5px;">
-                                                                            <nz-time-picker [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration" 
+                                                                            <nz-time-picker [(ngModel)]="fullDayLateDurationValue" [ngModelOptions]="{standalone: true}"
                                                                                 nzFormat="HH:mm" (ngModelChange)="getFullDaylateDuration($event)" name="fullDayLateDuration" #fullDayLateDuration="ngModel" required>
                                                                             </nz-time-picker>
                                                                             <span><b>hrs.</b></span>
@@ -2221,7 +2218,7 @@
                                                                             <div class="if-late d-flex justify-content-center align-items-center" style="width: 150px; gap:10px;">
                                                                                 <input type="text" class="form-control"
                                                                                     aria-describedby="emailHelp" placeholder="Count"
-                                                                                    [(ngModel)]="attendanceRuleDefinitionRequest!.fullDaySalaryDeduction!.occurrenceCount" name="fullDayOccurrenceCount" #fullDayOccurrenceCount="ngModel" required>
+                                                                                    [(ngModel)]="attendanceRuleDefinitionRequest!.fullDaySalaryDeduction!.occurrenceCount" [ngModelOptions]="{standalone: true}" name="fullDayOccurrenceCount" #fullDayOccurrenceCount="ngModel" required>
                                                                                 <span><b>times</b></span>
                                                                             </div>
                                                                             <div *ngIf="fullDayOccurrenceCount?.touched && fullDayOccurrenceCount.errors?.required"
@@ -2231,7 +2228,7 @@
                                                                         </div>
                                                                         <div class="col-md-4" *ngIf="selectedOccurenceDropdownForFullDaySalrayDeduction === 'Duration'">
                                                                             <div class="if-late d-flex justify-content-center align-items-center" style="width: 150px; gap:10px;">
-                                                                                <nz-time-picker [(ngModel)]="attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDuration" 
+                                                                                <nz-time-picker [(ngModel)]="fullDayLateOccurrenceDurationValue" [ngModelOptions]="{standalone: true}"
                                                                                     nzFormat="HH:mm" (ngModelChange)="getFullDayOccurrenceDuration($event)" name="fullDayOccurrenceDuration" #fullDayOccurrenceDuration="ngModel" required>
                                                                                 </nz-time-picker>
                                                                                 <span><b>hrs.</b></span>
