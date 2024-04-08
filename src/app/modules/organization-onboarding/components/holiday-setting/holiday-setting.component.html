@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="persnol-details">
+                    <div class="persNol-details">
                         <div class="d-flex align-items-center" style="gap:15px">
                             <div class="add-filtter" (click)="back()">
                                 <a><i class="bi bi-chevron-left"></i></a>
@@ -18,7 +18,7 @@
                         </div>
                         <form>
                             <div class="form-group">
-                                <div class="persnol-info mt-3">
+                                <div class="persNol-info mt-3">
                                     <div class="row">
                                         <div class="col-md-8 mt-3 mb-1">
                                             <div class="form-roe-data">
@@ -94,12 +94,19 @@
                                                                 <div class="errorboxplaceholder mb-2">
                                                                     <img src="assets/images/empty-box.svg" style="width: 80px" />
                                                                 </div>
+
                                                                 <a class="" style="font-size: 22px; color: #6666f3; margin-bottom: 20px;" data-bs-toggle="modal"
                                                                 data-bs-target="#addholiday"><i class="bi bi-plus"></i>Add Custom
                                                                 Holiday's
                                                             </a>
                                                             <p style="font-size: 14px; color: #666; font-weight: 400;">You can set custom holiday's for your organization</p>
                                                                
+<!-- 
+                                                                <div class="">
+                                                                    <h4>No custom holidays available</h4>
+                                                                   
+                                                                </div> -->
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -171,6 +178,7 @@
                                                         <div class="errorboxplaceholder mb-2">
                                                             <img src="assets/images/empty-box.svg" style="width: 80px" />
                                                         </div>
+
                                                         <a class="" style="font-size: 22px; color: #6666f3;" data-bs-toggle="modal"
                                                         data-bs-target="#addweeklyholiday"><i class="bi bi-plus"></i>Add Weekly
                                                         Holiday's
@@ -178,6 +186,10 @@
                                                     <p style="font-size: 14px; color: #666; font-weight: 400;">You can set weekely holiday's for your organization</p>
                                                         <!-- <div class="">
                                                             <h4>no weekly holidays available</h4>
+
+                                                        <div class="">
+                                                            <h4>No weekly holidays available</h4>
+
                                                            
                                                         </div> -->
                                                     </div>
@@ -220,7 +232,7 @@
                                     <div class="row" *ngIf="onboardingViaString!='SLACK'">
                                         <div class="col-md-12 d-flex justify-content-start"
                                         *ngIf="weeklyHolidays.length==0 && customHolidays.length==0">
-                                            <button class="btn skip-btn-new" type="button" (click)="next()">Skip for now</button>
+                                            <button class="btn skip-btn-new" type="button" (click)="next()">Skip for Now</button>
                                             
                                         </div>
                                         <div class="col-md-12 d-flex justify-content-end"

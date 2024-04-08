@@ -96,23 +96,28 @@
                         </div>
 
                         <div class="d-flex project-board">
-                            <span class="project-overview active" changeDataFormat(BOARD)><i class="bi bi-border-all"
-                                    style="padding-right: 5px;"></i> Board</span>
+                            <span class="project-overview active" [ngClass]="{'active' : dataFormat == BOARD}" (click)="changeDataFormat(BOARD)"><i class="bi bi-border-all" style="padding-right: 5px;"></i> Board</span>
                             <!-- <span class="project-overview"><i class="bi bi-border-all" style="padding-right: 5px;"></i>
                                 Table</span> -->
+                            <span class="project-overview" [ngClass]="{'active' : dataFormat == LIST}" (click)="changeDataFormat(LIST)"><i class="bi bi-list-task" style="padding-right: 5px;"></i> List</span>
+                        </div>
+
+                        <!-- <div class="d-flex project-board">
+                            <span class="project-overview active" changeDataFormat(BOARD)><i class="bi bi-border-all"
+                                    style="padding-right: 5px;"></i> Board</span>
                             <span class="project-overview" changeDataFormat(LIST)><i class="bi bi-list-task" style="padding-right: 5px;"></i>
                                 List</span>
-                        </div>
+                        </div> -->
                     </div>
 
 
                     <div id="myTabContent" class="tab-content">
                         <div class="tab-pane fade show mt-2 active" id="leave-setting" role="tabpanel">
-                            s
+                            Coming soon!
                         </div>
                         <div class="tab-pane fade mt-2" id="payslip" role="tabpanel">
                             <div class="row pt-3" style="background-color: #f7f7f7; padding: 15px; border-radius: 6px; "
-                                cdkDropListGroup *ngIf="dataFormat == LIST">
+                                cdkDropListGroup *ngIf="dataFormat == BOARD">
                                 <div class="col-lg-12">
                                     <div class="project-task-content">
                                         <div class="project-task-content-col">
@@ -678,7 +683,7 @@
                                                
                                                 <span class="add-option-btn"> <i class="bi bi-three-dots" style="font-size: 21px;"></i> </span>
                                             </a>
-                                            <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end" style="">
+                                            <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end">
                                                 <a href="#" class="dropdown-item">Create a public link</a>
                                                 <a href="#" class="dropdown-item">Searct this project</a>
                                                 <a href="#" class="dropdown-item">Dependency  management options</a>
@@ -1251,7 +1256,7 @@
                                                     <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
                                                        ----
                                                     </a>
-                                                    <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end" style="">
+                                                    <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end">
                                                         <a href="#" class="dropdown-item low-priorty" > Low</a>
                                                         <a href="#" class="dropdown-item medium-priorty">Medium</a>
                                                         <a href="#" class="dropdown-item high-priorty">High</a>
@@ -1269,7 +1274,7 @@
                                                     <a id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
                                                        ----
                                                     </a>
-                                                    <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end" style="">
+                                                    <div aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end">
                                                         <a href="#" class="dropdown-item low-priorty" > On track</a>
                                                         <a href="#" class="dropdown-item medium-priorty">At risk</a>
                                                         <a href="#" class="dropdown-item high-priorty">Off track</a>
@@ -1289,7 +1294,7 @@
                         </div>
                         <div class="tab-pane fade mt-3" id="pending-employee" role="tabpanel">
 
-                            sd
+                            Coming soon!
                         </div>
                     </div>
 

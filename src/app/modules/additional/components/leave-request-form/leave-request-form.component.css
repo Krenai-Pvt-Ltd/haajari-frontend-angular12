@@ -76,3 +76,63 @@ body, html {
     }
   }
   
+  .notes-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da; 
+    border-radius: 0.25rem; 
+  }
+
+  .error-message {
+    color: #d9534f; 
+    margin-top: 5px;
+    font-size: 0.875rem; 
+  }
+
+  
+  .submit-button {
+    background-color: #007bff; 
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+
+  .submitting-message {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .dot-opacity-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 6px;
+}
+
+.dot-opacity-loader span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #eeeef4; 
+    margin: 0 4px;
+    animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-loader span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.dot-opacity-loader span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes dotOpacity {
+    0%, 80%, 100% { opacity: 0; }
+    40% { opacity: 1; }
+}
+
+  
+  

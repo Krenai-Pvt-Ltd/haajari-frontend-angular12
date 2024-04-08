@@ -572,9 +572,14 @@ export class TeamComponent implements OnInit{
   isShimmer: boolean=false;
   isPlaceholder: boolean=false;
   errorToggleTeam:boolean=false;
+  debounceTimer: any;
+getTeamsByFiltersFunction(debounceTime: number = 300) {
 
-getTeamsByFiltersFunction() {
+  if (this.debounceTimer) {
+    clearTimeout(this.debounceTimer);
+}
   this.isShimmer=true;
+  this.debounceTimer = setTimeout(() => { 
   this.dataService.getTeamsByFilter(
     this.itemPerPage,
     this.pageNumber,
@@ -609,6 +614,8 @@ getTeamsByFiltersFunction() {
     this.isShimmer=false;
     this.errorToggleTeam=true;
   });
+}, debounceTime);
+
 }
 
 

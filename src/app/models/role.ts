@@ -9,3 +9,5 @@ export class Role {
     roleAccessibilityType : RoleAccessibilityType = new RoleAccessibilityType();
     count : number = 0;
 }
+
+
