@@ -339,4 +339,9 @@ export class AddShiftTimeComponent implements OnInit {
     this.organizationShiftTimingRequest.shiftTypeId = shiftType.id;
   }
 
+  clearSearch() {
+    this.searchText = "";
+    this.getUserByFiltersMethodCall();
+  }
+
 }

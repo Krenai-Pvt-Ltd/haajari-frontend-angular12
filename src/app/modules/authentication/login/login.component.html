@@ -57,11 +57,16 @@
                                     </div>
 
                                     <!-- resend otp button -->
-                                    <div class="d-flex justify-content-end mt-3">
-                                        <button class="btn btn-primary" (click)="resendOtp()" [disabled]="time>0">
+                                    <div class="d-flex justify-content-start mt-3">
+                                        <button type="button" class="btn btn-link" (click)="changeNumber()" style="margin-right: auto; cursor: pointer;">
+                                            {{ whatsappOtp ? 'Change Phone Number' : 'Change Email Id' }} <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        
+                                        <button type="button" class="btn btn-primary" (click)="resendOtp()" [disabled]="time>0">
                                             <span>Resend OTP</span>
                                             <span *ngIf="time>0">({{time}})</span>
                                         </button>
+                                        
                                     </div>
                                     <div *ngIf="otpErrorMessage" class="alert alert-danger">
                                         {{ otpErrorMessage }}
@@ -78,7 +83,7 @@
                                 <label for="exampleInputPassword1" class="mb-2">Password</label>
                                 <input type="password" class="form-control" id="exampleInputPassword1"
                                     name="exampleInputPassword1" placeholder="Password" [(ngModel)]="password"
-                                    autocomplete="current-password" style="height: 45px !important;">
+                                    autocomplete="new-password" style="height: 45px !important;">
                                 <span class="text-muted pointer"
                                     style="color:red !important; display: flex; justify-content: flex-end; margin-top: 5px;"
                                     (click)="forgotPasswordFun()">Forgot password?</span>
@@ -117,7 +122,7 @@
                         </div>
 
                         <!-- send otp Button shown when Email Login -->
-                        <button type="button" class="btn btn-primary d-flex align-items-center justify-content-center mt-3"
+                        <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center mt-3"
                             style="padding: 10px 25px; width:100%; height:45px"
                             [disabled]="email == null || email == ''"
                             *ngIf="verifyOtpButtonFlag && !isWhatsappLogin && !showOtpInput"
@@ -155,7 +160,7 @@
                             </div>
                         </button>
 
-                        <button type="button" class="btn btn-primary d-flex align-items-center justify-content-center mt-3"
+                        <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center mt-3"
                             style="padding: 10px 25px; width:100%; height:45px"
                             *ngIf="!enterPasswordFlag && !verifyOtpButtonFlag && !createPasswordFlag && !resetPasswordFlag && !isWhatsappLogin"
                             (click)="checkUserPresence()">
@@ -200,7 +205,7 @@
                                 Reset Password
                             </ng-template>
                         </button>
-                        <button type="button"
+                        <button type="submit"
                             class="btn btn-primary d-flex align-items-center justify-content-center mt-3"
                             style="padding: 10px 25px; width:100%; height:45px"
                             *ngIf="!verifyOtpButtonFlag && enterPasswordFlag && !isWhatsappLogin" (click)="signIn()">
