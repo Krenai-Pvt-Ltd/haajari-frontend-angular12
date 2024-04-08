@@ -238,8 +238,10 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  whatsappOtp: boolean = true;
   sendUserOtpToMail() {
     debugger
+    this.whatsappOtp = false;
     this.sendOtpLoader = true;
     this.dataService.sendUserOtpToMailNew(this.email).subscribe((response:any) => {
       if(response.status){
@@ -410,6 +412,15 @@ export class LoginComponent implements OnInit {
         clearInterval(this.interval);
       }
     }, 1000)
+  }
+
+
+  changeNumber() {
+    this.showOtpInput = false;
+    this.verifyOtpButtonFlag = false;
+    this.phoneNumber = "";
+    this.email = "";
+
   }
 
 }

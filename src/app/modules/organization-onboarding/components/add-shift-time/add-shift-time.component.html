@@ -219,8 +219,8 @@
                                                                             (keyup)="searchUsers()" [(ngModel)]="searchText"
                                                                             [ngModelOptions]="{ standalone: true }"
                                                                             style="padding: 10px 50px 10px 30px;">
-                                                                        <button type="button" class="btn close-btn">
-                                                                            <i class="bi bi-x"></i>
+                                                                        <button type="button"(click)="clearSearch()" class="btn close-btn">
+                                                                            <i *ngIf="searchText!=''" class="bi bi-x"></i>
                                                                         </button>
                                                                         <i class="bi bi-search search-icon"
                                                                             style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
@@ -296,7 +296,7 @@
                                                         </table>
                                                     </div>
                                                     <!-- *ngIf="staffs.length > 8" -->
-                                                    <div class="pagination pl-3 align-items-center justify-content-between">
+                                                    <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="itemPerPage>8">
                                                         <p style="padding-left: 15px">
                                                             Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                                                             {{ total }} teams
