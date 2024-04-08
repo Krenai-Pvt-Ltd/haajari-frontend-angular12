@@ -898,6 +898,13 @@ export class DataService {
     return this.httpClient.get<UserDto[]>(`${this.baseUrl}/employee-onboarding-status/get-manager`, { params });
   }
 
+  getEmployeeManagerDetailsViaWhatsapp(userUuid: string): Observable<any> {
+    const params = new HttpParams()
+      .set("uuid", userUuid)
+
+    return this.httpClient.get<UserDto[]>(`${this.baseUrl}/employee-onboarding-status/get-manager-whatsapp`, { params });
+  }
+
   getEmployeeDocumentsDetails(userUuid: string): Observable<any> {
     const params = new HttpParams()
       .set("userUuid", userUuid)
