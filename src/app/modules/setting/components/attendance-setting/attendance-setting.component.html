@@ -1013,9 +1013,7 @@
                         #closeShiftTimingModal></button>
                 </div>
                 <div class="modal-body">
-
                     <div class="">
-
                         <ul id="myTab" role="tablist" class="nav nav-tabs">
                             <li role="presentation" class="nav-item">
                                 <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button"
@@ -1228,22 +1226,16 @@
                                            (change)="selectAllUsers($event)">
                                 </th> -->
                                         <div *ngIf="selectedStaffsUuids.length > 0">
-                                            <ng-container
-                                                *ngIf="selectedStaffsUuids.length === total; else elseCondition2">
-                                                <span (click)="unselectAllUsers()"
-                                                    style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 8px; border-radius: 5px;">Clear
-                                                    all users <i class="bi bi-x"></i></span>
+                                            <ng-container *ngIf="selectedStaffsUuids.length === total; else elseCondition2">
+                                                <span (click)="unselectAllUsers()" style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 8px; border-radius: 5px;">Clear all users<i class="bi bi-x"></i></span>
                                             </ng-container>
                                             <ng-template #elseCondition2>
-                                                <span (click)="selectAllUsers(true)"
-                                                    style="cursor: pointer; color: #4761F6; background-color: #EEF1FF; padding: 8px; border-radius: 5px;">Select
-                                                    all {{total}} users</span>
+                                                <span (click)="selectAllUsers(true)" style="cursor: pointer; color: #4761F6; background-color: #EEF1FF; padding: 8px; border-radius: 5px;">Select all {{total}} users</span>
                                             </ng-template>
                                         </div>
 
                                         <div *ngIf="selectedStaffsUuids.length !== 0">
-                                            <ng-container
-                                                *ngIf="selectedStaffsUuids.length === total; else elseCondition1">
+                                            <ng-container *ngIf="selectedStaffsUuids.length === total; else elseCondition1">
                                                 <span>All <b>{{total}}</b> users selected</span>
                                             </ng-container>
                                             <ng-template #elseCondition1>
@@ -1346,8 +1338,7 @@
     </div>
 
 
-    <div class="modal fade" id="attendance-setting" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+    <div class="modal fade" id="attendance-setting" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1749,7 +1740,7 @@
 
                                     <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"
                                         style="font-size: 12px;"
-                                        (click)="openAttendanceRuleResponseModal(attendanceRuleResponse)"> Create rule from here<i class="bi bi-chevron-right"></i></a>
+                                        (click)="openAttendanceRuleResponseModal(attendanceRuleResponse)">Create rule from here<i class="bi bi-chevron-right"></i></a>
 
 
 
@@ -1768,7 +1759,7 @@
                                                 <div class="d-flex new-stap">
                                                     <div class="tracing-icon"><i class="bi bi-check2"></i></div>
                                                     <div class="tracking-data">
-                                                        <p>Create your first rule</p>
+                                                        <p>Create your rule</p>
                                                         <div>
                                                             <span>
                                                                 Automate Late fine for employee
@@ -1837,10 +1828,12 @@
                                             #ruleActiveTab>Rules</button>
                                     </li>
                                     <li role="presentation" class="nav-item">
-                                        <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                                            type="button" role="tab" aria-controls="profile" aria-selected="false"
-                                            class="nav-link" (click)="trueActiveModel();" #staffActiveTab>Staff
-                                            selection</button>
+                                        <button id="profile-tab" data-bs-toggle="tab" [class.disabled]="(!customCheckbox && !halfDayCheckbox && !fullDayCheckbox) || (selectedDeductionType?.type == '' && selectedOvertimeType?.type == '') || attendanceRuleForm.invalid || compareTimesValidation()"
+                                        [attr.aria-selected]="!attendanceRuleForm.invalid"
+                                        [attr.tabindex]="attendanceRuleForm.invalid ? -1 : null"
+                                        (click)="!attendanceRuleForm.invalid && staffActiveTabInAutomationRuleMethod()" 
+                                        data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" 
+                                        #staffActiveTabInAutomationRule>Staff selection</button>
                                     </li>
                                 </ul>
 
@@ -1885,8 +1878,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <div class="overtime-type"
-                                                            *ngIf="attendanceRuleResponse.id == OVERTIME_RULE; else deductionType">
+                                                                <div class="overtime-type" *ngIf="attendanceRuleResponse.id == OVERTIME_RULE; else deductionType">
                                                             <label for="exampleInputEmail1" class="pb-2">Overtime Type</label>
                                                             <div class="dropdown">
                                                                 <button
@@ -1955,7 +1947,7 @@
                                                          </div>
                                                     </div>
     
-                                                    <div class="mt-3">
+                                                    <div class="mt-3" *ngIf="attendanceRuleResponse.id != OVERTIME_RULE">
                                                         <div class="form-check">
                                                             <input class="form-check-input" style="cursor: pointer;"
                                                                 type="checkbox" value="" id="Occurrences" [checked]="customOccurrenceCheckbox"
@@ -2067,7 +2059,7 @@
                                                             </div>
                                                         </div>
     
-                                                        <div class="mt-3">
+                                                        <div class="mt-3" *ngIf="attendanceRuleResponse.id != OVERTIME_RULE">
                                                             <div class="form-check ">
                                                                 <input class="form-check-input" style="cursor: pointer;"
                                                                     type="checkbox" value="" id="Occurrences2"
@@ -2174,7 +2166,7 @@
                                                             </div>
                                                         </div>
     
-                                                        <div class="mt-3">
+                                                        <div class="mt-3" *ngIf="attendanceRuleResponse.id != OVERTIME_RULE">
                                                             <div class="form-check ">
                                                                 <input class="form-check-input" style="cursor: pointer;"
                                                                     type="checkbox" value="" id="Occurrences3"
@@ -2247,7 +2239,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="submit" class="btn btn-primary" [disabled]="(!customCheckbox && !halfDayCheckbox && !fullDayCheckbox) || (selectedDeductionType?.type == '' && selectedOvertimeType?.type == '') || attendanceRuleForm.invalid || compareTimesValidation()"
-                                                    (click)="staffActiveTabMethod()">Next</button>
+                                                    (click)="staffActiveTabInAutomationRuleMethod()">Next</button>
                                             </div>
                                             
                                         </form>

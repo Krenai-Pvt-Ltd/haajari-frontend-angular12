@@ -68,7 +68,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     this.dataService.registerOrganizationPersonalInformation(this.organizationPersonalInformation)
       .subscribe(response => {
         this.loading = false;
-        console.log("organization personal Info Registered Successfully");
+        console.log("Organization personal info registered successfully.");
         this.router.navigate(['/organization-onboarding/holiday-setting']);
         this.dataService.markStepAsCompleted(2);
         this._onboardingService.saveOrgOnboardingStep(2).subscribe();
