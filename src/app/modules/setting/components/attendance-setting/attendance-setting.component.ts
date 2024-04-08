@@ -845,16 +845,19 @@ unselectAllUsers() {
     this.selectedStaffsUuids = [];
   }
 
-  @ViewChild("staffActiveTab") staffActiveTab !: ElementRef;
-
-  staffActiveTabMethod(){
-    this.staffActiveTab.nativeElement.click();
-  }
 
   @ViewChild("ruleActiveTab") ruleActiveTab !: ElementRef;
 
   ruleActiveTabMethod(){
     this.ruleActiveTab.nativeElement.click();
+  }
+  
+
+  @ViewChild("staffActiveTabInAutomationRule") staffActiveTabInAutomationRule !: ElementRef;
+
+  staffActiveTabInAutomationRuleMethod(){
+    this.staffActiveTabInAutomationRule.nativeElement.click();
+    this.trueActiveModel();
   }
 
 
