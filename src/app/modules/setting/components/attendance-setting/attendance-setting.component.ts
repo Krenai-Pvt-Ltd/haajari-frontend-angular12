@@ -155,7 +155,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.fullDayOccurrenceCheckbox = !this.fullDayOccurrenceCheckbox;
   }
 
-  @ViewChild('attendanceRuleForm')attendanceRuleForm !: NgForm;
+  @ViewChild('attendanceRuleForm') attendanceRuleForm !: NgForm;
   @ViewChild('lateDuration') lateDurationControl !: NgModel;
 
   clearAttendanceRuleDefinitionModal(){
@@ -592,6 +592,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   itemPerPage : number = 8;
   pageNumber : number = 1;
+  lastPageNumber : number = 0;
   total !: number;
   rowNumber : number = 1;
   searchText : string = '';
@@ -706,6 +707,7 @@ export class AttendanceSettingComponent implements OnInit {
         selected: this.selectedStaffsUuids.includes(staff.uuid)
       }));
       this.total = response.count;
+      this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
   
       this.isAllSelected = this.staffs.every(staff => staff.selected);
     }, (error) => {
@@ -837,6 +839,7 @@ unselectAllUsers() {
   clearModel(){
     this.ruleActiveTab.nativeElement.click();
     this.attendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
+    this.clearSearchText();
 
     this.activeModel = false;
     this.activeModel2 = false;
@@ -852,7 +855,6 @@ unselectAllUsers() {
     this.ruleActiveTab.nativeElement.click();
   }
   
-
   @ViewChild("staffActiveTabInAutomationRule") staffActiveTabInAutomationRule !: ElementRef;
 
   staffActiveTabInAutomationRuleMethod(){
@@ -898,11 +900,15 @@ unselectAllUsers() {
 
   // #########################################################
 
+  clearSearchText(){
+    this.searchText = '';
+    this.getUserByFiltersMethodCall();
+  }
+
   @ViewChild("closeShiftTimingModal") closeShiftTimingModal !: ElementRef;
 
   registerOrganizationShiftTimingMethodCall(){
 
-    
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
 
     this.dataService.registerShiftTiming(this.organizationShiftTimingRequest).subscribe((response) => {
@@ -921,6 +927,7 @@ unselectAllUsers() {
     this.shiftTimingActiveTab.nativeElement.click();
     this.organizationShiftTimingRequest = new OrganizationShiftTimingRequest();
     this.selectedShiftType = new ShiftType();
+    this.clearSearchText();
   }
   organizationShiftTimingRequest : OrganizationShiftTimingRequest = new OrganizationShiftTimingRequest();
 

@@ -1208,8 +1208,9 @@
                                                         (keyup)="searchUsers()" [(ngModel)]="searchText"
                                                         [ngModelOptions]="{ standalone: true }"
                                                         style="padding: 10px 50px 10px 30px;">
-                                                    <button type="button" class="btn close-btn">
-                                                        <i class="bi bi-x"></i>
+                                                    <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn"
+                                                        (click)="clearSearchText()">
+                                                        <i class="bi bi-x mt-auto mb-auto pl-3"></i>
                                                     </button>
                                                     <i class="bi bi-search search-icon"
                                                         style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
@@ -1249,40 +1250,61 @@
 
                                     </div>
 
-                                    <table class="table">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th style="width:0%;">
-                                                    <input type="checkbox" style="cursor: pointer;"
-                                                        class="form-check-input" [(ngModel)]="isAllSelected"
-                                                        (change)="selectAll(isAllSelected)">
-                                                </th>
-                                                <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
-                                                <th style="width:25%; padding: 12px 15px;">Name</th>
-                                                <th style="width:25%; padding: 12px 15px;">Email</th>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
-                                                style="border-bottom: 1px solid #dddddd;">
-                                                <td>
-                                                    <div class="form-check">
+                                    <ng-container *ngIf="total > 0 else noDataFoundPlaceholderInAutomationRule;">
+                                        <table class="table">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th style="width:0%;">
                                                         <input type="checkbox" style="cursor: pointer;"
-                                                            class="form-check-input" [(ngModel)]="staff.selected"
-                                                            (change)="checkIndividualSelection()">
-                                                    </div>
-                                                </td>
-                                                <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
-                                                <td style="padding: 12px 15px;">{{ staff.name }}</td>
-                                                <td style="padding: 12px 15px;">{{ staff.email?staff.email:"N/A" }}</td>
+                                                            class="form-check-input" [(ngModel)]="isAllSelected"
+                                                            (change)="selectAll(isAllSelected)">
+                                                    </th>
+                                                    <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                                                    <th style="width:25%; padding: 12px 15px;">Name</th>
+                                                    <th style="width:25%; padding: 12px 15px;">Email</th>
+    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
+                                                    style="border-bottom: 1px solid #dddddd;">
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input type="checkbox" style="cursor: pointer;"
+                                                                class="form-check-input" [(ngModel)]="staff.selected"
+                                                                (change)="checkIndividualSelection()">
+                                                        </div>
+                                                    </td>
+                                                    <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                                                    <td style="padding: 12px 15px;">{{ staff.name }}</td>
+                                                    <td style="padding: 12px 15px;">{{ staff.email?staff.email:"N/A" }}</td>
+    
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </ng-container>
 
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <ng-template #noDataFoundPlaceholderInAutomationRule>
+                                            <div class="errorboxmain">
+                                                <div class="errorboxinner text-center">
+                                                    <div class="errorboxplaceholder mb-2">
+                                                        <img src="assets/images/addnewproduct.svg"
+                                                            style="width: 80px" />
+                                                    </div>
+        
+                                                    <h4>No Data Found</h4>
+                                                   
+                                                    <p>
+                                                        We're unable to locate a record associated with the information you entered.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                    </ng-template>
+                                    
                                 </div>
                                 <!-- *ngIf="staffs.length > 8" -->
-                                <div class="pagination pl-3">
+                                <div class="pagination pl-3" *ngIf="(total > (itemPerPage-1)) || (pageNumber === lastPageNumber && lastPageNumber !== 1)">
                                     <p class="mb-0" style="padding-left: 15px">
                                         Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                                         {{ total }} teams
@@ -2265,8 +2287,8 @@
                                                                 (keyup)="searchUsers()" [(ngModel)]="searchText"
                                                                 [ngModelOptions]="{ standalone: true }"
                                                                 style="padding: 10px 50px 10px 30px;">
-                                                            <button type="button" class="btn close-btn">
-                                                                <i class="bi bi-x"></i>
+                                                            <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn" (click)="clearSearchText()">
+                                                                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
                                                             </button>
                                                             <i class="bi bi-search search-icon"
                                                                 style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
@@ -2275,8 +2297,7 @@
                                                 </div>
                                             </div>
 
-                                            <div
-                                                style="display: flex; justify-content: space-between; align-items : center;">
+                                            <div style="display: flex; justify-content: space-between; align-items : center;">
 
                                                 <div *ngIf="selectedStaffsUuids.length > 0">
                                                     <ng-container
@@ -2308,40 +2329,60 @@
 
                                             </div>
 
-                                            <table class="table">
-                                                <thead class="thead-light">
-                                                    <tr>
-                                                        <th style="width:0%;">
-                                                            <input type="checkbox" style="cursor: pointer;"
-                                                                class="form-check-input" [(ngModel)]="isAllSelected"
-                                                                (change)="selectAll(isAllSelected)">
-                                                        </th>
-                                                        <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
-                                                        <th style="width:25%; padding: 12px 15px;">Name</th>
-                                                        <th style="width:25%; padding: 12px 15px;">Email</th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
-                                                        style="border-bottom: 1px solid #dddddd;">
-                                                        <td>
-                                                            <div class="form-check">
+                                            <ng-container *ngIf="total > 0 else noDataFoundPlaceholderInAutomationRule;">
+                                                <table class="table" >
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th style="width:0%;">
                                                                 <input type="checkbox" style="cursor: pointer;"
-                                                                    class="form-check-input"
-                                                                    [(ngModel)]="staff.selected"
-                                                                    (change)="checkIndividualSelection()">
-                                                            </div>
-                                                        </td>
-                                                        <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
-                                                        <td style="padding: 12px 15px;">{{ staff.name }}</td>
-                                                        <td style="padding: 12px 15px;">{{ staff.email?staff.email:"N/A" }}</td>
+                                                                    class="form-check-input" [(ngModel)]="isAllSelected"
+                                                                    (change)="selectAll(isAllSelected)">
+                                                            </th>
+                                                            <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                                                            <th style="width:25%; padding: 12px 15px;">Name</th>
+                                                            <th style="width:25%; padding: 12px 15px;">Email</th>
+    
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
+                                                            style="border-bottom: 1px solid #dddddd;">
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" style="cursor: pointer;"
+                                                                        class="form-check-input"
+                                                                        [(ngModel)]="staff.selected"
+                                                                        (change)="checkIndividualSelection()">
+                                                                </div>
+                                                            </td>
+                                                            <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                                                            <td style="padding: 12px 15px;">{{ staff.name }}</td>
+                                                            <td style="padding: 12px 15px;">{{ staff.email?staff.email:"N/A" }}</td>
+    
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </ng-container>
 
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                            <ng-template #noDataFoundPlaceholderInAutomationRule>
+                                                    <div class="errorboxmain">
+                                                        <div class="errorboxinner text-center">
+                                                            <div class="errorboxplaceholder mb-2">
+                                                                <img src="assets/images/addnewproduct.svg"
+                                                                    style="width: 80px" />
+                                                            </div>
+                
+                                                            <h4>No Data Found</h4>
+                                                           
+                                                            <p>
+                                                                We're unable to locate a record associated with the information you entered.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                            </ng-template>
                                         </div>
-                                        <div class="pagination pl-3">
+
+                                        <div class="pagination pl-3" *ngIf="(total > (itemPerPage-1)) || (pageNumber === lastPageNumber && lastPageNumber !== 1)">
                                             <p class="mb-0" style="padding-left: 15px">
                                                 Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                                                 {{ total }} teams
