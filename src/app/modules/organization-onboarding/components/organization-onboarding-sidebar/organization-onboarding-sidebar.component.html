@@ -21,47 +21,46 @@
                             </div>
                         </li>
                         <!-- Placeholder for Holiday setting -->
-                        <li class="tracking-item pointer" [ngClass]="{'tracking-itemActive newline': (isStepCompleted(3) &&  onboardingViaString!='SLACK')}" (click)="navigateTo('/organization-onboarding/holiday-setting', 3)">
+                        <li class="tracking-item pointer" [ngClass]="{'tracking-itemActive newline': isStepCompleted(3) }" (click)="navigateTo('/organization-onboarding/upload-team', 3)" *ngIf="onboardingViaString!='SLACK'">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(3)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(3)"></i>
                                     <span *ngIf="!isStepCompleted(3)">2</span>
                                 </div>
                                 <div class="tracking-data">
-                                    <p>Holiday Setting</p>
+                                    <p>Employee Details</p>
                                 </div>
                             </div>
                         </li>
                         <!-- {{onboardingViaString}} -->
                         <!-- Placeholder for Upload team -->
-                        <li class="tracking-item pointer" [ngClass]="{'tracking-itemActive newline': isStepCompleted(4) }" (click)="navigateTo('/organization-onboarding/upload-team', 4)" *ngIf="onboardingViaString!='SLACK'">
+                        <li class="tracking-item pointer" [ngClass]="{'tracking-itemActive newline': isStepCompleted(4) }" (click)="navigateTo('/organization-onboarding/shift-time', 4)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(4)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(4)"></i>
                                     <span *ngIf="!isStepCompleted(4)">3</span>
                                 </div>
                                 <div class="tracking-data">
-                                    <p>Upload Team</p>
+                                    <p>Shift Timing</p>
                                 </div>
                             </div>
                         </li>
                         <!-- Placeholder for Attendence rule setting -->
-                        <li class="tracking-item pointer" [ngClass]="{'tracking-itemActive newline': isStepCompleted(5) }" (click)="navigateTo('/organization-onboarding/attendance-rule-setup', 5)">
+                        <li class="tracking-item pointer" [ngClass]="{'tracking-itemActive newline': isStepCompleted(5) }" (click)="navigateTo('/organization-onboarding/attendance-mode', 5)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(5)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(5)"></i>
                                     <span *ngIf="!isStepCompleted(5)">4</span>
                                 </div>
                                 <div class="tracking-data">
-                                    <p>Attendance Rule Setting</p>
+                                    <p>Attendance Mode</p>
                                 </div>
                             </div>
                         </li>
                         <!-- Placeholder for Leave Setting -->
-                        <li class="tracking-item pointer" [ngClass]="{'tracking-itemActive newline': isStepCompleted(6) }" (click)="navigateTo('/organization-onboarding/leave-rule-setup', 6)">
+                        <!-- <li class="tracking-item pointer" [ngClass]="{'tracking-itemActive newline': isStepCompleted(6) }" (click)="navigateTo('/organization-onboarding/leave-rule-setup', 6)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(6)}">
-                                    <!-- <i class="bi bi-check2" ></i> -->
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(6)"></i>
                                     <span *ngIf="!isStepCompleted(6)">5</span>
                                 </div>
@@ -69,7 +68,7 @@
                                     <p>Leave Setting</p>
                                 </div>
                             </div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>

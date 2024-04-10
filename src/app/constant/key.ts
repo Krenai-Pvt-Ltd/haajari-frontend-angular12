@@ -104,7 +104,9 @@ export class Key{
         "/organization-onboarding/leave-setting-create",
         "/organization-onboarding/add-shift-time",
         "/organization-onboarding/holiday-setting",
-        "/organization-onboarding/upload-team"
+        "/organization-onboarding/upload-team",
+        "/organization-onboarding/shift-time",
+        "/organization-onboarding/attendance-mode"
     ];
 
 

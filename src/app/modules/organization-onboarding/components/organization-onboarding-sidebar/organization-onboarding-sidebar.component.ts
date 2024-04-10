@@ -28,7 +28,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
   navigateTo(route: string, stepIndex: number): void {
     debugger
     if (this.dataService.stepIndex < (stepIndex - 1)) {
-
+      
     } else {
       this.router.navigate([route]);
     }
