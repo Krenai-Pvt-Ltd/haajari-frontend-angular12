@@ -12,6 +12,8 @@ import { LeaveSettingCreateComponent } from './components/leave-setting-create/l
 import { OrganizationPersonalInformationComponent } from './components/organization-personal-information/organization-personal-information.component';
 import { UploadTeamComponent } from './components/upload-team/upload-team.component';
 import { OrganizationOnboardingComponent } from './organization-onboarding.component';
+import { AttendanceModeComponent } from './components/attendance-mode/attendance-mode.component';
+import { ShiftTimeComponent } from './components/shift-time/shift-time.component';
 
 const routes: Routes = [{ path: '', component: OrganizationOnboardingComponent,
 children:[
@@ -24,8 +26,9 @@ children:[
   {path: 'leave-setting-create', component: LeaveSettingCreateComponent},
   {path: 'add-shift-time', component: AddShiftTimeComponent},
   {path: 'holiday-setting', component: HolidaySettingComponent},
-  {path: 'upload-team', component: UploadTeamComponent}
-  
+  {path: 'upload-team', component: UploadTeamComponent},
+  {path: 'attendance-mode', component: AttendanceModeComponent},
+  {path: 'shift-time', component: ShiftTimeComponent}
   ]
 
 }];

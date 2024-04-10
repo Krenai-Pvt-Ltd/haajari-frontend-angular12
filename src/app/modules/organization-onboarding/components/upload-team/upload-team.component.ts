@@ -265,8 +265,8 @@ export class UploadTeamComponent implements OnInit {
   }
 
   next(){
-    this.dataService.markStepAsCompleted(4);
-    this._onboardingService.saveOrgOnboardingStep(4).subscribe();
-    this._router.navigate(['/organization-onboarding/attendance-rule-setup'])
+    this.dataService.markStepAsCompleted(3);
+    this._onboardingService.saveOrgOnboardingStep(3).subscribe();
+    this._router.navigate(['/organization-onboarding/shift-time'])
   }
 }

@@ -808,38 +808,7 @@ export class AttendanceRuleSetupComponent implements OnInit {
   clearModel(){
     this.ruleActiveTab.nativeElement.click();
     this.attendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
-    // this.attendanceRuleDefinitionRequest = {
-    //   id : 0,
-    //   deductionTypeId : 0,
-    //   overtimeTypeId : 0,
-    //   attendanceRuleId : 0,
-    //   userUuids : [],
-    //   customSalaryDeduction: {
-    //     hours : 0,
-    //     minutes : 0,
-    //     lateDuration : '',
-    //     occurrenceType : 'Count',
-    //     occurrenceCount : 0,
-    //     occurrenceDuration : '',
-    //     amountInRupees : 0
-    //   },
-    //   halfDaySalaryDeduction: {
-    //     hours : 0,
-    //     minutes : 0,
-    //     lateDuration: '',
-    //     occurrenceType : '',
-    //     occurrenceCount: 0,
-    //     occurrenceDuration: ''
-    //   },
-    //   fullDaySalaryDeduction: {
-    //     hours : 0,
-    //     minutes : 0,
-    //     lateDuration: '',
-    //     occurrenceType : '',
-    //     occurrenceCount: 0,
-    //     occurrenceDuration: ''
-    //   }
-    // };    
+
 
     this.activeModel = false;
     this.activeModel2 = false;

@@ -32,6 +32,8 @@ import { UploadTeamComponent } from './components/upload-team/upload-team.compon
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { AttendanceModeComponent } from './components/attendance-mode/attendance-mode.component';
+import { ShiftTimeComponent } from './components/shift-time/shift-time.component';
 
 
 @NgModule({
@@ -48,7 +50,9 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     LeaveSettingCreateComponent,
     AddShiftTimeComponent,
     HolidaySettingComponent,
-    UploadTeamComponent
+    UploadTeamComponent,
+    AttendanceModeComponent,
+    ShiftTimeComponent
   ],
   imports: [
     CommonModule,
