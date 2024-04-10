@@ -960,42 +960,20 @@
                             </div>
                         </ng-template>
 
-
-
-
-
-
-
-
                         <div class="col-md-12">
                             <div class="border-box">
 
                             </div>
                         </div>
 
-
-
-
                         <div class="col-md-1"></div>
                         <div class="col-md-12 mt-4 ">
                             <div class="d-flex align-items-center justify-content-end" style="gap:10px;">
-
-
                                 <button type="button" class="btn btn-primary company-save-btn">Save</button>
-
-
                             </div>
                         </div>
-
-
-
-
-
-
-                    </div><!--end row-->
-
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -1208,8 +1186,9 @@
                                                         (keyup)="searchUsers()" [(ngModel)]="searchText"
                                                         [ngModelOptions]="{ standalone: true }"
                                                         style="padding: 10px 50px 10px 30px;">
-                                                    <button type="button" class="btn close-btn">
-                                                        <i class="bi bi-x"></i>
+                                                    <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn"
+                                                        (click)="clearSearchText()">
+                                                        <i class="bi bi-x mt-auto mb-auto pl-3"></i>
                                                     </button>
                                                     <i class="bi bi-search search-icon"
                                                         style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
@@ -1220,11 +1199,6 @@
 
                                     <div style="display: flex; justify-content: space-between; align-items : center;">
 
-                                        <!-- <th style="width:0%; ">
-                                    <input type="checkbox" style="cursor: pointer;" class="form-check-input"
-                                           [(ngModel)]="isAllUsersSelected"
-                                           (change)="selectAllUsers($event)">
-                                </th> -->
                                         <div *ngIf="selectedStaffsUuids.length > 0">
                                             <ng-container *ngIf="selectedStaffsUuids.length === total; else elseCondition2">
                                                 <span (click)="unselectAllUsers()" style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 8px; border-radius: 5px;">Clear all users<i class="bi bi-x"></i></span>
@@ -1249,40 +1223,61 @@
 
                                     </div>
 
-                                    <table class="table">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th style="width:0%;">
-                                                    <input type="checkbox" style="cursor: pointer;"
-                                                        class="form-check-input" [(ngModel)]="isAllSelected"
-                                                        (change)="selectAll(isAllSelected)">
-                                                </th>
-                                                <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
-                                                <th style="width:25%; padding: 12px 15px;">Name</th>
-                                                <th style="width:25%; padding: 12px 15px;">Email</th>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
-                                                style="border-bottom: 1px solid #dddddd;">
-                                                <td>
-                                                    <div class="form-check">
+                                    <ng-container *ngIf="total > 0 else noDataFoundPlaceholderInShiftTiming;">
+                                        <table class="table">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th style="width:0%;">
                                                         <input type="checkbox" style="cursor: pointer;"
-                                                            class="form-check-input" [(ngModel)]="staff.selected"
-                                                            (change)="checkIndividualSelection()">
-                                                    </div>
-                                                </td>
-                                                <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
-                                                <td style="padding: 12px 15px;">{{ staff.name }}</td>
-                                                <td style="padding: 12px 15px;">{{ staff.email?staff.email:"N/A" }}</td>
+                                                            class="form-check-input" [(ngModel)]="isAllSelected"
+                                                            (change)="selectAll(isAllSelected)">
+                                                    </th>
+                                                    <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                                                    <th style="width:25%; padding: 12px 15px;">Name</th>
+                                                    <th style="width:25%; padding: 12px 15px;">Email</th>
+    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
+                                                    style="border-bottom: 1px solid #dddddd;">
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input type="checkbox" style="cursor: pointer;"
+                                                                class="form-check-input" [(ngModel)]="staff.selected"
+                                                                (change)="checkIndividualSelection()">
+                                                        </div>
+                                                    </td>
+                                                    <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                                                    <td style="padding: 12px 15px;">{{ staff.name }}</td>
+                                                    <td style="padding: 12px 15px;">{{ staff.email?staff.email:"N/A" }}</td>
+    
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </ng-container>
 
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <ng-template #noDataFoundPlaceholderInShiftTiming>
+                                            <div class="errorboxmain">
+                                                <div class="errorboxinner text-center">
+                                                    <div class="errorboxplaceholder mb-2">
+                                                        <img src="assets/images/addnewproduct.svg"
+                                                            style="width: 80px" />
+                                                    </div>
+        
+                                                    <h4>No Data Found</h4>
+                                                   
+                                                    <p>
+                                                        We're unable to locate a record associated with the information you entered.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                    </ng-template>
+                                    
                                 </div>
                                 <!-- *ngIf="staffs.length > 8" -->
-                                <div class="pagination pl-3">
+                                <div class="pagination pl-3" *ngIf="(total > (itemPerPage-1)) || (pageNumber === lastPageNumber && lastPageNumber !== 1)">
                                     <p class="mb-0" style="padding-left: 15px">
                                         Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                                         {{ total }} teams
@@ -1401,102 +1396,6 @@
             </div><!--end modal-content-->
         </div><!--end modal-dialog-->
     </div><!--end modal-->
-
-
-
-
-
-    <div class="modal fade" id="create-shift" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Create Shift</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div><!--end modal-header-->
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="pb-2">Shift Type</label>
-
-                                <div class="dropdown" style="width: 100%;">
-
-                                    <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button"
-                                        id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Shift Type <i class="bi bi-chevron-down"></i>
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-                                        style="width: 100%;">
-                                        <li><a class="dropdown-item">Day</a></li>
-                                        <li><a class="dropdown-item">Night</a></li>
-
-                                    </ul>
-                                </div>
-
-
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="pb-2">Shift Name</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" placeholder="Name">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="pb-2">Shift Time (start & end time)</label>
-                                <div class="d-flex" style="gap:20px">
-                                    <input type="time" class="form-control" aria-describedby="emailHelp"
-                                        placeholder="Start Time">
-
-                                    <input type="time" class="form-control" aria-describedby="emailHelp"
-                                        placeholder="End Time">
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="pb-2">Unpaid Braak</label>
-                                <div class="d-flex" style="gap:20px">
-                                    <div class="">
-                                        <button class="btn new-featucher-btn" type="button">Add</button>
-                                    </div>
-
-
-                                </div>
-
-                                <div class="filteredcol d-flex mt-3">
-                                    <p class="d-flex justify-content-between align-items-center">
-                                        <span>1:00 to 2:00</span>
-                                        <i class="bi bi-x "></i>
-                                    </p>
-
-                                    <p class="d-flex justify-content-between align-items-center">
-                                        <span>1:00 to 2:00</span>
-                                        <i class="bi bi-x "></i>
-                                    </p>
-
-                                    <p class="d-flex justify-content-between align-items-center">
-                                        <span>1:00 to 2:00</span>
-                                        <i class="bi bi-x "></i>
-                                    </p>
-                                    <p class="d-flex justify-content-between align-items-center">
-                                        <span>1:00 to 2:00</span>
-                                        <i class="bi bi-x "></i>
-                                    </p>
-
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-                <div class="modal-footer d-flex align-items-center justify-content-end">
-                    <button type="button" class="btn btn-primary">Submit</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 
@@ -1741,13 +1640,8 @@
                                     <a href="" data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule"
                                         style="font-size: 12px;"
                                         (click)="openAttendanceRuleResponseModal(attendanceRuleResponse)">Create rule from here<i class="bi bi-chevron-right"></i></a>
-
-
-
                                 </div>
                             </div>
-
-
                         </div>
                         <div class="col-md-4">
                             <div class="rule-section">
@@ -2265,8 +2159,8 @@
                                                                 (keyup)="searchUsers()" [(ngModel)]="searchText"
                                                                 [ngModelOptions]="{ standalone: true }"
                                                                 style="padding: 10px 50px 10px 30px;">
-                                                            <button type="button" class="btn close-btn">
-                                                                <i class="bi bi-x"></i>
+                                                            <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn" (click)="clearSearchText()">
+                                                                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
                                                             </button>
                                                             <i class="bi bi-search search-icon"
                                                                 style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
@@ -2275,8 +2169,7 @@
                                                 </div>
                                             </div>
 
-                                            <div
-                                                style="display: flex; justify-content: space-between; align-items : center;">
+                                            <div style="display: flex; justify-content: space-between; align-items : center;">
 
                                                 <div *ngIf="selectedStaffsUuids.length > 0">
                                                     <ng-container
@@ -2308,40 +2201,60 @@
 
                                             </div>
 
-                                            <table class="table">
-                                                <thead class="thead-light">
-                                                    <tr>
-                                                        <th style="width:0%;">
-                                                            <input type="checkbox" style="cursor: pointer;"
-                                                                class="form-check-input" [(ngModel)]="isAllSelected"
-                                                                (change)="selectAll(isAllSelected)">
-                                                        </th>
-                                                        <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
-                                                        <th style="width:25%; padding: 12px 15px;">Name</th>
-                                                        <th style="width:25%; padding: 12px 15px;">Email</th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
-                                                        style="border-bottom: 1px solid #dddddd;">
-                                                        <td>
-                                                            <div class="form-check">
+                                            <ng-container *ngIf="total > 0 else noDataFoundPlaceholderInAutomationRule;">
+                                                <table class="table" >
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th style="width:0%;">
                                                                 <input type="checkbox" style="cursor: pointer;"
-                                                                    class="form-check-input"
-                                                                    [(ngModel)]="staff.selected"
-                                                                    (change)="checkIndividualSelection()">
-                                                            </div>
-                                                        </td>
-                                                        <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
-                                                        <td style="padding: 12px 15px;">{{ staff.name }}</td>
-                                                        <td style="padding: 12px 15px;">{{ staff.email?staff.email:"N/A" }}</td>
+                                                                    class="form-check-input" [(ngModel)]="isAllSelected"
+                                                                    (change)="selectAll(isAllSelected)">
+                                                            </th>
+                                                            <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                                                            <th style="width:25%; padding: 12px 15px;">Name</th>
+                                                            <th style="width:25%; padding: 12px 15px;">Email</th>
+    
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
+                                                            style="border-bottom: 1px solid #dddddd;">
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" style="cursor: pointer;"
+                                                                        class="form-check-input"
+                                                                        [(ngModel)]="staff.selected"
+                                                                        (change)="checkIndividualSelection()">
+                                                                </div>
+                                                            </td>
+                                                            <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                                                            <td style="padding: 12px 15px;">{{ staff.name }}</td>
+                                                            <td style="padding: 12px 15px;">{{ staff.email?staff.email:"N/A" }}</td>
+    
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </ng-container>
 
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                            <ng-template #noDataFoundPlaceholderInAutomationRule>
+                                                    <div class="errorboxmain">
+                                                        <div class="errorboxinner text-center">
+                                                            <div class="errorboxplaceholder mb-2">
+                                                                <img src="assets/images/addnewproduct.svg"
+                                                                    style="width: 80px" />
+                                                            </div>
+                
+                                                            <h4>No Data Found</h4>
+                                                           
+                                                            <p>
+                                                                We're unable to locate a record associated with the information you entered.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                            </ng-template>
                                         </div>
-                                        <div class="pagination pl-3">
+
+                                        <div class="pagination pl-3" *ngIf="(total > (itemPerPage-1)) || (pageNumber === lastPageNumber && lastPageNumber !== 1)">
                                             <p class="mb-0" style="padding-left: 15px">
                                                 Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                                                 {{ total }} teams
