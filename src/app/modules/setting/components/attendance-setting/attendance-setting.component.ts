@@ -145,6 +145,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   tickCustomOccurrenceCheckbox(){
     this.customOccurrenceCheckbox = !this.customOccurrenceCheckbox;
+
   }
 
   tickHalfDayOccurrenceCheckbox(){
@@ -153,10 +154,19 @@ export class AttendanceSettingComponent implements OnInit {
 
   tickFullDayOccurrenceCheckbox(){
     this.fullDayOccurrenceCheckbox = !this.fullDayOccurrenceCheckbox;
+    console.log('Form Valid:', this.attendanceRuleForm.valid);
+    console.log('Custom Checkbox:', this.customCheckbox);
+    console.log('Half Day Checkbox:', this.halfDayCheckbox);
+    console.log('Full Day Checkbox:', this.fullDayCheckbox);
+    console.log('Selected Deduction Type:', this.selectedDeductionType?.type);
+    console.log('Selected Overtime Type:', this.selectedOvertimeType?.type);
+    console.log('Compare Times Validation:', this.compareTimesValidation());
   }
 
   @ViewChild('attendanceRuleForm') attendanceRuleForm !: NgForm;
   @ViewChild('lateDuration') lateDurationControl !: NgModel;
+
+
 
   clearAttendanceRuleDefinitionModal(){
     this.attendanceRuleForm.resetForm(); 
@@ -191,6 +201,9 @@ export class AttendanceSettingComponent implements OnInit {
       this.lateDurationControl.control.reset();
     }
   }
+
+
+
 
   attendanceRuleResponseList : AttendanceRuleResponse[] = [];
   getAttendanceRuleByOrganizationMethodCall(){
@@ -1319,7 +1332,7 @@ unselectAllUsers() {
         ...day,
         selected: day.selected === 1
       }));
-      console.log(this.weekDay); 
+      // console.log(this.weekDay); 
     });
   }
   
@@ -1345,7 +1358,7 @@ unselectAllUsers() {
      this.submitWeeklyHolidaysLoader=true;
     this.dataService.registerWeeklyHolidays(selectedWeekDays).subscribe({
       next: (response) => {
-        console.log('Weekly holidays registered successfully', response);
+        // console.log('Weekly holidays registered successfully', response);
         this.getWeeklyHolidays(); 
         this.submitWeeklyHolidaysLoader=false;
         this.closeWeeklyHolidayModal.nativeElement.click();
