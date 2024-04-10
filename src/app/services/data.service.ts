@@ -1541,6 +1541,11 @@ export class DataService {
     return this.httpClient.post(`${this.baseUrl}/generate-reports/save-salary-report-logs`, null, { params });
   }
 
-  
+  updateAttendanceNotificationSettingForManager(employeeAttendanceFlag: boolean): Observable<any> {
+    const params = new HttpParams()
+    .set('flag', employeeAttendanceFlag) 
+
+    return this.httpClient.post(`${this.baseUrl}/account-setting/update/Attendance-notification-setting`,null, { params });
+  }
 
 }

@@ -26,4 +26,5 @@ export class UserPersonalInformationRequest {
         notificationVia!: number;
         languagePreferred!: number;
         slackUserId!: string;
+        employeeAttendanceFlag!: boolean;
 }

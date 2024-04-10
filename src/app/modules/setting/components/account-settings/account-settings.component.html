@@ -121,7 +121,7 @@
                                          </div>
          
                                          <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm">
-                                            <dt class="sc-f474212e-4 lkliht">Turn on notifications</dt>
+                                            <dt class="sc-f474212e-4 lkliht">Attendance</dt>
                                             
                                             <dd class="sc-f474212e-7 dUVSfj">
                                                 <!-- Email notifications -->
@@ -183,6 +183,23 @@
                                           </dd>
                                       </div>
                                         
+
+                                      <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm" *ngIf="ROLE!= 'USER'">
+                                        <dt class="sc-f474212e-4 lkliht">Employee's Attendance</dt>
+                                        <dd class="sc-f474212e-7 dUVSfj">
+                                          <!-- Whatsapp Notification Setting for Manager -->
+                                          <div class="notification-settings">
+                                            <div class="notification-option">
+                                              <label for="employeeNotificationSwitch">Would you like to receive notifications for your employee's attendance?</label>
+                                              <div class="material-switch">
+                                                <input type="checkbox" id="employeeNotificationSwitch" [(ngModel)]="employeeAttendanceFlag" (change)="updateAttendanceNotificationSettingForManagerMethodCall()">
+                                                <label class="label-success" for="employeeNotificationSwitch"></label>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </dd>
+                                      </div>
+                                      
 
 
 
