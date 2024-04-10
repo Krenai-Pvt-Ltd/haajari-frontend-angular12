@@ -69,7 +69,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       .subscribe(response => {
         this.loading = false;
         console.log("Organization personal info registered successfully.");
-        this.router.navigate(['/organization-onboarding/holiday-setting']);
+        this.router.navigate(['/organization-onboarding/upload-team']);
         this.dataService.markStepAsCompleted(2);
         this._onboardingService.saveOrgOnboardingStep(2).subscribe();
       }, (error) => {
@@ -233,7 +233,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   @ViewChild("placesRef") placesRef!: GooglePlaceDirective;
 
   public handleAddressChange(e: any) {
-    debugger
+    
     this.organizationPersonalInformation.addressLine1 = e.formatted_address.toString();
     e?.address_components?.forEach((entry: any) => {
       console.log(entry);
