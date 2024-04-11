@@ -1112,10 +1112,10 @@ unselectAllUsers() {
     this.clearShiftTimingModel();
   }
 
-  updateOrganizationShiftTiming(organizationShiftTimingResponse : OrganizationShiftTimingResponse){
+  updateOrganizationShiftTiming(organizationShiftTimingResponse: OrganizationShiftTimingResponse, tab : string) {
 
-    this.shiftTimingActiveTab.nativeElement.click();
-    
+    // this.shiftTimingActiveTab.nativeElement.click();
+
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
     this.organizationShiftTimingRequest.shiftTypeId = organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
@@ -1124,6 +1124,11 @@ unselectAllUsers() {
     this.selectedShiftType = organizationShiftTimingResponse.shiftType;
     this.getUserByFiltersMethodCall();
 
+    setTimeout(() =>{
+      if(tab == 'STAFF_SELECTION'){
+        this.staffActiveTabInShiftTimingMethod();
+      }
+    }, 0)
   }
 
 
