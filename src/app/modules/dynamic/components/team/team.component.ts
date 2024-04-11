@@ -180,16 +180,20 @@ export class TeamComponent implements OnInit{
     }
   }
 
+  @ViewChild("closeCreateTeam") closeCreateTeam!:ElementRef;
+
   registerTeamSubmitButton(){
     // console.log(+this.getLoginDetailsOrgRefId());
     debugger
     this.dataService.registerTeam(this.userIds,this.teamName,this.teamDescription).subscribe((data) => {
 
       debugger
-      location.reload();
+      // location.reload();
+      this.closeCreateTeam.nativeElement.click();
+      this.getTeamsByFiltersFunction();
       this.helperService.showToast("Team saved successfully.", Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
-      location.reload();
+      // location.reload();
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
 
     })
@@ -345,16 +349,25 @@ export class TeamComponent implements OnInit{
     return name; 
   }
 
+  @ViewChild("assignManagerModalCloseButton") assignManagerModalCloseButton!: ElementRef;
+
   assignManagerRoleToMemberMethodCall(teamId: string, userId: string) {
+    debugger
     this.dataService.assignManagerRoleToMember(teamId,userId).subscribe((data) => {
-      const managerdata = {
-        teamUuid: teamId,
-        managerId: data.manager.uuid,
-      };
-      localStorage.setItem('managerFunc', JSON.stringify(managerdata));
-      location.reload();
+      // const managerdata = {
+      //   teamUuid: teamId,
+      //   managerId: data.manager.uuid,
+      // };
+      // localStorage.setItem('managerFunc', JSON.stringify(managerdata));
+      this.assignManagerModalCloseButton.nativeElement.click();
+      this.getTeamsByFiltersFunction();
+      this.helperService.showToast("Manager assigned successfully.", Key.TOAST_STATUS_SUCCESS);
+      // location.reload();
     }, (error) => {
-      location.reload();
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      // this.assignManagerModalCloseButton.nativeElement.click();
+      // this.getTeamsByFiltersFunction();
+      // location.reload();
     })
   }
 
@@ -710,6 +723,12 @@ delUserFromTeamUuid: string='';
     this.deleteConfirmationModal.nativeElement.click();
   }
 
+  routeToUserDetails(uuid: string) {
+    let navExtra: NavigationExtras = {
+      queryParams: { userId: uuid },
+    };
+    this.router.navigate(['/employee-profile'], navExtra);
+  }
 
   
 }

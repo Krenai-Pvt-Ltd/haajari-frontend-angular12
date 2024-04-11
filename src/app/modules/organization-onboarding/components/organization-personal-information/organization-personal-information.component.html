@@ -152,7 +152,7 @@
                       </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                       <div class="mb-2">
                         <label for="password" class="pb-2">Password <span class="text-optional">*</span></label>
                         <input [type]="showNewPassword ? 'text' : 'password'" class="form-control"
@@ -178,7 +178,7 @@
                           </p>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="row mt-2">
                       <div class="col-md-6">
                         <div class="mb-2" style="position: relative;">
@@ -186,7 +186,8 @@
                             <label for="addressLine1" class="pb-2">Address line 1 <span
                               class="text-optional">*</span></label>
                               <a (click)="currentLocation()" *ngIf="!locationLoader">
-                                <i class="bi bi-geo-alt" style="color: green; position: absolute; right: 8px; top: 36px; cursor: pointer;" ngbTooltip="Fetch your current location"></i>
+                                <i class="fa fa-crosshairs" style="color: green; position: absolute; right: 8px; top: 36px; cursor: pointer;" ngbTooltip="Fetch your current location"></i>
+                                
                             </a>
                             <div class="circle-loader" *ngIf="locationLoader"></div>
                             

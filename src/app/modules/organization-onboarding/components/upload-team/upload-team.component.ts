@@ -35,6 +35,8 @@ export class UploadTeamComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    
+    this.sampleFileUrl = 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2FUser Data (1).xlsx?alt=media';
     this.getUser();
   }
 

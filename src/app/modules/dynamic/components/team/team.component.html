@@ -864,6 +864,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            #closeCreateTeam
           ></button>
         </div>
         <!--end modal-header-->
@@ -1176,6 +1177,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            #assignManagerModalCloseButton
           ></button>
         </div>
         <!--end modal-header-->
@@ -1310,7 +1312,7 @@
                               >
                             </div>
                             <div class="manager-list">
-                              <a class="dropdown-item">View Profile</a>
+                              <a class="dropdown-item" (click)="routeToUserDetails(ul.uuid)">View Profile</a>
                             </div>
                             <div class="manager-list remove-team">
                               <a
