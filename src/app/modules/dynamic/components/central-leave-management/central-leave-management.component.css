@@ -1,0 +1,54 @@
+.centrel-leave-management-heding h3{
+    font-size: 18px;
+    margin-bottom: 0px;
+    line-height: 34px;
+    font-weight: 500;
+}
+.centrel-leave-management-heding p{
+    font-size: 12px;
+    color: #8d93a1!important;
+    margin-bottom: 0px;
+}
+
+.month-celender p{
+    font-size: 12px;
+    color: #8d93a1 !important;
+    margin-bottom: 0px;
+    font-weight: 400;
+}
+
+.month-celender h4{
+    font-size: 12px;
+    margin-bottom: 0px;
+    font-weight: 500;
+}
+
+.month-celender {
+    border: 1px solid #f1f1f1;
+    border-radius: 6px;
+    padding: 10px 15px;
+    gap: 20px;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+}
+
+.chart-box{
+    padding: 15px;
+    border: 1px solid #f1f1f1;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    border-radius: 6px;
+    min-height: 205px;
+}
+
+.chart-box h4{
+    font-size: 14px;
+    margin-bottom: 0px;
+    font-weight: 500;
+}
+.leave-type p{
+   font-size: 10px;
+}
+
+.leave-progress .progress{
+    height: 10px;
+    margin-bottom: 10px;
+}
