@@ -110,10 +110,9 @@
 
 
                         
-                                    <div class="d-flex align-items-center attendance-boxx">
-                                        <div class="late-rule" style="width:70%">
-                                            <h5>{{organizationShiftTimingWithShiftTypeResponse.shiftType.name}}
-                                            </h5>
+                                    <div class="attendance-boxx" style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div class="late-rule">
+                                            <h5>{{organizationShiftTimingWithShiftTypeResponse.shiftType.name}}</h5>
                                         </div>
                                     </div>
                         
@@ -121,17 +120,18 @@
                         
                                     <div class="row mt-2 p-2"
                                         *ngFor="let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList">
-                                        <div
-                                            class="col-md-12 d-flex justify-content-between align-items-center">
-                                            <p class="mb-0 mb-2"
-                                                style="font-size: 12px; font-weight: 500;">
-                                                {{organizationShiftTimingResponse.name}}</p>
+                                        <div class="col-md-12 d-flex justify-content-between align-items-center">
+                                            <p class="mb-0 mb-2" style="font-size: 12px; font-weight: 500;">{{organizationShiftTimingResponse.name}}</p>
                                             <div class="late-btn d-flex align-items-center justify-content-end mb-2"
                                                 style="gap: 20px;    margin-right: 15px;">
                         
                                                 <a style="cursor: pointer" data-bs-toggle="modal"
                                                     data-bs-target="#shiftTime"
-                                                    (click)="updateOrganizationShiftTiming(organizationShiftTimingResponse)"><i
+                                                    (click)="updateOrganizationShiftTiming(organizationShiftTimingResponse, 'STAFF_SELECTION')"><i
+                                                        class="bi bi-person-circle"></i></a>
+                                                <a style="cursor: pointer" data-bs-toggle="modal"
+                                                    data-bs-target="#shiftTime"
+                                                    (click)="updateOrganizationShiftTiming(organizationShiftTimingResponse, 'SHIFT_TIME')"><i
                                                         class="bi bi-pencil-square"></i></a>
                         
                                                 <a style="cursor: pointer" class="delete-rule"
@@ -245,20 +245,18 @@
     </div>
 </div>
 
-<div class="modal fade" id="shiftTime" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+<div class="modal fade" id="shiftTime" data-bs-dismiss="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
 
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title m-0" id="exampleModalDefaultLabel">Shift Time</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearShiftTimingModel()"
                     #closeShiftTimingModal></button>
             </div><!--end modal-header-->
             <div class="modal-body">
-
                 <div class="">
-
                     <ul id="myTab" role="tablist" class="nav nav-tabs">
                         <li role="presentation" class="nav-item">
                             <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button"

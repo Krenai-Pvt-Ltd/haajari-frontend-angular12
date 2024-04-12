@@ -55,33 +55,23 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
         break;
       }
       case "2": {
-        this.router.navigate(['/organization-onboarding/holiday-setting']);
+        this.router.navigate(['/organization-onboarding/upload-team']);
         // console.log("Step 2 is calling");
         break;
       }
       case "3": {
-        this.router.navigate(['/organization-onboarding/upload-team']);
+        this.router.navigate(['/organization-onboarding/shift-time']);
         // console.log("Step 3 is calling");
         break;
       }
       case "4": {
-        this.router.navigate(['/organization-onboarding/attendance-rule-setup']);
+        this.router.navigate(['/organization-onboarding/attendance-mode']);
         // console.log("Step 4 is calling");
         break;
       }
       case "5": {
-        this.router.navigate(['/organization-onboarding/leave-rule-setup']);
+        this.router.navigate(['/dashboard']);
         // console.log("Step 5 is calling");
-        break;
-      }
-      case "6": {
-        this.router.navigate(['/dashboard']);
-        // console.log("Step 6 is calling");
-        break;
-      }
-      case "7": {
-        this.router.navigate(['/dashboard']);
-        // console.log("Step 7 is calling");
         break;
       }
       default: {

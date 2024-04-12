@@ -104,10 +104,10 @@ export class ShiftTimeComponent implements OnInit {
 
   }
 
-  updateOrganizationShiftTiming(organizationShiftTimingResponse: OrganizationShiftTimingResponse) {
+  updateOrganizationShiftTiming(organizationShiftTimingResponse: OrganizationShiftTimingResponse, tab : string) {
 
-    this.shiftTimingActiveTab.nativeElement.click();
-    debugger
+    // this.shiftTimingActiveTab.nativeElement.click();    
+
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
     this.organizationShiftTimingRequest.shiftTypeId = organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
@@ -116,6 +116,11 @@ export class ShiftTimeComponent implements OnInit {
     this.selectedShiftType = organizationShiftTimingResponse.shiftType;
     this.getUserByFiltersMethodCall();
 
+    setTimeout(() =>{
+      if(tab == 'STAFF_SELECTION'){
+        this.staffActiveTabInShiftTimingMethod();
+      }
+    }, 0)
   }
 
 
@@ -164,6 +169,8 @@ export class ShiftTimeComponent implements OnInit {
       this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_ERROR);
     })
   }
+
+
 
     // ##### Pagination ############
     changePage(page: number | string) {
