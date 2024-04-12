@@ -1,13 +1,14 @@
 <div class="tost-design-box-box">
-    <div class="notifaction-box" [ngClass]="{'notifaction-box-success' : toastColorStatus == TOAST_STATUS_SUCCESS, 'notifaction-box-error': toastColorStatus == TOAST_STATUS_ERROR}">
-        <div class="d-flex " style="gap:10px">
-            <div class="">
+    <div class="notifaction-box">
+        <div class="d-flex " style="gap:10px;">
+            <div class="checkbox-successfully-background" style="padding: 15px;" [ngClass]="{'success-background' : toastColorStatus == TOAST_STATUS_SUCCESS,'error-background' : toastColorStatus == TOAST_STATUS_ERROR}">
                <span class="checkbox-successfully" [ngClass]="{'success' : toastColorStatus == TOAST_STATUS_SUCCESS, 'error' : toastColorStatus == TOAST_STATUS_ERROR}"> 
-                <i [ngClass]="{'bi-check2': toastColorStatus == TOAST_STATUS_SUCCESS, 'bi-x': toastColorStatus == TOAST_STATUS_ERROR}"></i>
-            </span>
+                <i [ngClass]="{'bi-check2': toastColorStatus == TOAST_STATUS_SUCCESS, 'bi-exclamation': toastColorStatus == TOAST_STATUS_ERROR}"></i>
+               </span>
             </div>
-            <p class="mb-0">{{toastMessage}}</p>
+            <p class="mb-0" style="padding: 15px;">{{toastMessage}}</p>
         </div>
     </div>
-    
 </div>
+
+

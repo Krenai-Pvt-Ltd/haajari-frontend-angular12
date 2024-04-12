@@ -34,7 +34,6 @@
              
             ],
             "scripts": [
-              "src/assets/timepicker.min.js",
               "node_modules/intl-tel-input/build/js/intlTelInput.min.js"
             ]
           },

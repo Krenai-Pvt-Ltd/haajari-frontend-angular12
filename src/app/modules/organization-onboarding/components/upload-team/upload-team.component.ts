@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
@@ -19,8 +19,9 @@ import { OrganizationOnboardingService } from 'src/app/services/organization-onb
 export class UploadTeamComponent implements OnInit {
 
   form!: FormGroup;
-  userList:any[]= new Array();
+  userList:UserReq[]= new Array();
   databaseHelper: DatabaseHelper = new DatabaseHelper();
+  sampleFileUrl: string = ''; //put sample file url
 
 
   @ViewChild('importModalOpen')importModalOpen!:ElementRef
@@ -34,7 +35,8 @@ export class UploadTeamComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.userList.push(this.user);
+    
+    this.sampleFileUrl = 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2FUser Data (1).xlsx?alt=media';
     this.getUser();
   }
 
@@ -55,6 +57,9 @@ export class UploadTeamComponent implements OnInit {
     else
     {
       this.selectedMethod = method;
+      this.userList = [];
+      this.user = new UserReq();
+      this.userList.push(this.user)
     }
     
   }
@@ -140,20 +145,30 @@ export class UploadTeamComponent implements OnInit {
     })
   }
 
-  // deleteReport(id: number){
-  //   this._userService.deleteReport(id).subscribe((response: any) => {
-  //     if (response.status) {
-  //       this.getReport(this.importType);
-  //     }
-  //   }, (error) => {
-  //     this.toastr.showToasterError("Network Error", "error");
-  //   })
-  // }
-
   pageChangedImport(page: any) {
     if (page != this.databaseHelper.currentPage) {
       this.databaseHelper.currentPage = page;
       this.getReport();
+    }
+  }
+
+  isFormInvalid: boolean = false;
+  @ViewChild('userForm') userForm !: NgForm
+  checkFormValidation() {
+    if (this.userForm.invalid) {
+      this.isFormInvalid = true;
+      return
+    } else {
+      this.isFormInvalid = false;
+    }
+  }
+
+  submit() {
+    this.checkFormValidation();
+    if (this.isFormInvalid == true) {
+      return
+    } else {
+      this.create();
     }
   }
 
@@ -194,6 +209,8 @@ export class UploadTeamComponent implements OnInit {
 
   @ViewChild('userEditModal')userEditModal!:ElementRef;
   openUserEditModal(user:any){
+    this.isEmailExist = false;
+    this.isNumberExist = false;
     this.user = JSON.parse(JSON.stringify(user));
     this.userEditModal.nativeElement.click();
     
@@ -226,20 +243,32 @@ export class UploadTeamComponent implements OnInit {
   }
 
   isNumberExist: boolean = false;
-  checkExistance(number:string){
-    this._onboardingService.checkNumberExist(number).subscribe((response: any) => {
+  checkNumberExistance(index:number, number:string, uuid:string){
+    this._onboardingService.checkEmployeeNumberExist(number, uuid).subscribe((response: any) => {
+      if(index>=0){
+        this.userList[index].isPhoneExist = response;
+      }
         this.isNumberExist = response;
-    }, (error) => {
-      
     })
 
   }
 
-  onBoardingCompleted(){
-    this._onboardingService.saveOrgOnboardingStep(6).subscribe();
-    this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
-    this.dataService.markStepAsCompleted(6);
-    this._onboardingService.saveOrgOnboardingStep(6).subscribe();
-    this._router.navigate(['/dashboard'])
+  isEmailExist: boolean = false;
+  checkEmailExistance(index:number, email:string, uuid:string){
+    this.userList[index].isEmailExist = false;
+    if(email != null && email.length>5){
+      this._onboardingService.checkEmployeeEmailExist(email, uuid).subscribe((response: any) => {
+        if(index>=0){
+          this.userList[index].isEmailExist = response;
+        }
+          this.isEmailExist = response;
+      })
+    }
+  }
+
+  next(){
+    this.dataService.markStepAsCompleted(3);
+    this._onboardingService.saveOrgOnboardingStep(3).subscribe();
+    this._router.navigate(['/organization-onboarding/shift-time'])
   }
 }

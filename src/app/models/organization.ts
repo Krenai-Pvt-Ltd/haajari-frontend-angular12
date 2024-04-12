@@ -11,6 +11,5 @@ export class Organization {
     appId : any;
     userToken:any;
     configureUrl:any;
-    
-
+    onboardingVia!: string;
 }

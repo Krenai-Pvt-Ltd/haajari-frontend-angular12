@@ -354,6 +354,7 @@ export class OnboardingComponent implements OnInit {
 
   organizationPersonalInformation: OrganizationPersonalInformation = {
     id: 0,
+    adminName: '',
     name: '',
     email: '',
     password: '',
@@ -376,7 +377,8 @@ export class OnboardingComponent implements OnInit {
       webhook: "",
       appId: "",
       userToken: "",
-      configureUrl: ""
+      configureUrl: "",
+      onboardingVia: ""
     }
   };
 

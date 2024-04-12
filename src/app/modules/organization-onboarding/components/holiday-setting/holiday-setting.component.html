@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="persnol-details">
+                    <div class="persNol-details">
                         <div class="d-flex align-items-center" style="gap:15px">
                             <div class="add-filtter" (click)="back()">
                                 <a><i class="bi bi-chevron-left"></i></a>
@@ -18,7 +18,7 @@
                         </div>
                         <form>
                             <div class="form-group">
-                                <div class="persnol-info mt-3">
+                                <div class="persNol-info mt-3">
                                     <div class="row">
                                         <div class="col-md-8 mt-3 mb-1">
                                             <div class="form-roe-data">
@@ -26,12 +26,7 @@
                                                 <p>A quick snapshot of your company.</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 mt-3 mb-1">
-                                            <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal"
-                                                data-bs-target="#addholiday"><i class="bi bi-plus"></i> Add more custom
-                                                Holiday's
-                                            </a>
-                                        </div>
+                                        
                                     </div>
 
                                     <div class="row">
@@ -79,9 +74,40 @@
                                                     </div>
                                                 </div>
                                                 <div class="rule-main-box mt-3">
-                                                    <div class="d-flex align-items-center attendance-boxx">
-                                                        <div class="late-rule" style="width:70%">
-                                                            <h5>Custom Holiday's </h5>
+                                                    <div class="row d-flex justify-content-between">
+                                                        <div class="col-md-8 mt-3 mb-3">
+                                                            <div class="form-roe-data">
+                                                                <h5>Custom Holiday's</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 mt-3 mb-3 d-flex justify-content-end" *ngIf="customHolidays.length!=0">
+                                                                <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal"
+                                                                    data-bs-target="#addholiday"><i class="bi bi-plus"></i>Add more Custom
+                                                                    Holiday's
+                                                                </a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="empty-file" *ngIf="!customHolidaysLoader && customHolidays.length==0">
+                                                        <div class="errorboxmain">
+                                                            <div class="errorboxinner text-center">
+                                                                <div class="errorboxplaceholder mb-2">
+                                                                    <img src="assets/images/empty-box.svg" style="width: 80px" />
+                                                                </div>
+
+                                                                <a class="" style="font-size: 22px; color: #6666f3; margin-bottom: 20px;" data-bs-toggle="modal"
+                                                                data-bs-target="#addholiday"><i class="bi bi-plus"></i>Add Custom
+                                                                Holiday's
+                                                            </a>
+                                                            <p style="font-size: 14px; color: #666; font-weight: 400;">You can set custom holiday's for your organization</p>
+                                                               
+<!-- 
+                                                                <div class="">
+                                                                    <h4>No custom holidays available</h4>
+                                                                   
+                                                                </div> -->
+
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -116,7 +142,7 @@
                                                     days</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 mt-3 mb-3">
+                                        <div class="col-md-4 mt-3 mb-3 d-flex justify-content-end" *ngIf="weeklyHolidays.length!=0">
                                             <a class="" style="font-size: 16px; color: #6666f3;" data-bs-toggle="modal"
                                                 data-bs-target="#addweeklyholiday"><i class="bi bi-plus"></i>Add Weekly
                                                 Holiday's
@@ -152,10 +178,20 @@
                                                         <div class="errorboxplaceholder mb-2">
                                                             <img src="assets/images/empty-box.svg" style="width: 80px" />
                                                         </div>
-                                                        <div class="">
+
+                                                        <a class="" style="font-size: 22px; color: #6666f3;" data-bs-toggle="modal"
+                                                        data-bs-target="#addweeklyholiday"><i class="bi bi-plus"></i>Add Weekly
+                                                        Holiday's
+                                                    </a>
+                                                    <p style="font-size: 14px; color: #666; font-weight: 400;">You can set weekely holiday's for your organization</p>
+                                                        <!-- <div class="">
                                                             <h4>no weekly holidays available</h4>
+
+                                                        <div class="">
+                                                            <h4>No weekly holidays available</h4>
+
                                                            
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -194,9 +230,13 @@
                                     </div>
 
                                     <div class="row" *ngIf="onboardingViaString!='SLACK'">
-                                        <div class="col-md-12 d-flex justify-content-between">
-                                            <button class="btn skip-btn-new" type="button" (click)="next()"
-                                            >Skip for now</button>
+                                        <div class="col-md-12 d-flex justify-content-start"
+                                        *ngIf="weeklyHolidays.length==0 && customHolidays.length==0">
+                                            <button class="btn skip-btn-new" type="button" (click)="next()">Skip for Now</button>
+                                            
+                                        </div>
+                                        <div class="col-md-12 d-flex justify-content-end"
+                                        *ngIf="weeklyHolidays.length>0 || customHolidays.length>0">
                                             <button class="btn btn-primary save-button"
                                             (click)="next()" type="button"  aria-label="Next Step">
                                                     Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
@@ -274,7 +314,7 @@
 
 
 <div class="modal fade" id="addweeklyholiday" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title">Weekly Holiday</h6>

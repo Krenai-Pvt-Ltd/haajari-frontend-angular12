@@ -60,18 +60,35 @@ export class HeaderComponent implements OnInit {
   ADMIN = Key.ADMIN;
   USER = Key.USER;
   MANAGER = Key.MANAGER;
+  KRENAI_UUID = Key.KRENAI_UUID;
 
   // ROLE = this.rbacService.getRole();
   ROLE: any;
   UUID : any;
+  ORGANIZATION_UUID: any;
+
 
   async getUserUUID(){
     this.UUID = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
+    this.ORGANIZATION_UUID = await this.rbacService.getOrgRefUUID();
   }
 
   async getLoggedInUserDetails(){
     this.loggedInUser = await this.helperService.getDecodedValueFromToken();
+    if(this.loggedInUser.name==''){
+    this.getOrganizationName();
+    }
+    
+  }
+
+  getOrganizationName(){
+    debugger
+    this.dataService.getOrganizationDetails().subscribe((data)=> {
+      this.loggedInUser.name = data.adminName;
+      }, (error) => {
+        console.log(error);
+      });
   }
 
   getFirstAndLastLetterFromName(name: string): string {

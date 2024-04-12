@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { AttendanceRuleDefinitionRequest } from 'src/app/models/attendance-rule-definition-request';
@@ -27,7 +28,8 @@ export class CreatRuleComponent implements OnInit {
     private router: Router,
     private el: ElementRef,
     private _location: Location,
-    private _activeRouter: ActivatedRoute) { }
+    private _activeRouter: ActivatedRoute) {
+     }
 
   ngOnInit(): void {
     if (localStorage.getItem("staffSelectionActive") == "true") {
@@ -69,29 +71,62 @@ export class CreatRuleComponent implements OnInit {
     salaryDeduction.updateOccurrenceDuration();
   }
 
-  isFull: boolean = false;
-  showFullDay() {
-    this.isFull = this.isFull == true ? false : true;
+  // isFull: boolean = false;
+  // showFullDay() {
+  //   this.isFull = this.isFull == true ? false : true;
+  // }
+
+  // isHalf: boolean = false;
+  // showHalfDay() {
+  //   this.isHalf = this.isHalf == true ? false : true;
+  // }
+
+  // isBreak: boolean = false;
+  // showBreak() {
+  //   this.isBreak = this.isBreak == true ? false : true;
+  // }
+
+  // isdeductHalf: boolean = false;
+  // showDeductHalf() {
+  //   this.isdeductHalf = this.isdeductHalf == true ? false : true;
+  // }
+
+  // isfullDayy: boolean = false;
+  // showFullDayy() {
+  //   this.isfullDayy = this.isfullDayy == true ? false : true;
+  // }
+
+  customCheckbox : boolean = true;
+  halfDayCheckbox : boolean = false;
+  fullDayCheckbox : boolean = false;
+
+  tickCustomCheckbox(){
+    this.customCheckbox = !this.customCheckbox;
   }
 
-  isHalf: boolean = false;
-  showHalfDay() {
-    this.isHalf = this.isHalf == true ? false : true;
+  tickHalfDayCheckbox(){
+    this.halfDayCheckbox = !this.halfDayCheckbox;
   }
 
-  isBreak: boolean = false;
-  showBreak() {
-    this.isBreak = this.isBreak == true ? false : true;
+  tickFullDayCheckbox(){
+    this.fullDayCheckbox = !this.fullDayCheckbox;
   }
 
-  isdeductHalf: boolean = false;
-  showDeductHalf() {
-    this.isdeductHalf = this.isdeductHalf == true ? false : true;
+
+  customOccurrenceCheckbox : boolean = false;
+  halfDayOccurrenceCheckbox : boolean = false;
+  fullDayOccurrenceCheckbox : boolean = false;
+
+  tickCustomOccurrenceCheckbox(){
+    this.customOccurrenceCheckbox = !this.customOccurrenceCheckbox;
   }
 
-  isfullDayy: boolean = false;
-  showFullDayy() {
-    this.isfullDayy = this.isfullDayy == true ? false : true;
+  tickHalfDayOccurrenceCheckbox(){
+    this.halfDayOccurrenceCheckbox = !this.halfDayOccurrenceCheckbox;
+  }
+
+  tickFullDayOccurrenceCheckbox(){
+    this.fullDayOccurrenceCheckbox = !this.fullDayOccurrenceCheckbox;
   }
 
   selectedDeductionType: DeductionType = new DeductionType();
@@ -108,8 +143,8 @@ export class CreatRuleComponent implements OnInit {
     this.selectedOvertimeType = overtimeType;
     this.attendanceRuleDefinitionRequest.overtimeTypeId = overtimeType.id;
 
-    const res = document.getElementById('amount-in-rupees') as HTMLElement;
-    res.style.display = this.selectedOvertimeType?.type === "FIXED AMOUNT" ? 'block' : 'none';
+    // const res = document.getElementById('amount-in-rupees') as HTMLElement;
+    // res.style.display = this.selectedOvertimeType?.type === "FIXED AMOUNT" ? 'block' : 'none';
   }
 
   //Extra
@@ -138,13 +173,16 @@ export class CreatRuleComponent implements OnInit {
 
   @ViewChild("staffActiveTab") staffActiveTab !: ElementRef;
 
+  isStaffTab: boolean = false;
   staffActiveTabMethod() {
+    this.isStaffTab = true;
     this.staffActiveTab.nativeElement.click();
   }
 
   @ViewChild("ruleActiveTab") ruleActiveTab !: ElementRef;
 
   ruleActiveTabMethod() {
+    this.isStaffTab = false;
     this.ruleActiveTab.nativeElement.click();
   }
 
@@ -168,12 +206,11 @@ export class CreatRuleComponent implements OnInit {
 
       this.activeModel2 = false;
       this.helperService.showToast("Attendance rule registered successfully", Key.TOAST_STATUS_SUCCESS);
-      // setTimeout(() => {
-        this.router.navigate(['/organization-onboarding/attendance-rule-setup'])
-      // }, 2000);
+        this.router.navigate(['/organization-onboarding/attendance-rule-setup']);
     }, (error) => {
       console.log(error);
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      this.saveAttendanceRuleDefinitionLoading = false;
     })
   }
 
@@ -400,11 +437,11 @@ export class CreatRuleComponent implements OnInit {
     this.activeModel = false;
     this.activeModel2 = false;
 
-    this.isFull = false;
-    this.isHalf = false;
-    this.isBreak = false;
-    this.isdeductHalf = false;
-    this.isfullDayy = false;
+    // this.isFull = false;
+    // this.isHalf = false;
+    // this.isBreak = false;
+    // this.isdeductHalf = false;
+    // this.isfullDayy = false;
 
     this.selectedDeductionType = new DeductionType();
     this.selectedStaffsUuids = [];
@@ -511,11 +548,11 @@ export class CreatRuleComponent implements OnInit {
       this.selectDeductionType(attendanceRuleDefinitionResponse.deductionType);
     }
 
-    this.isFull = true;
-    this.isHalf = true;
-    this.isBreak = true;
-    this.isdeductHalf = true;
-    this.isfullDayy = true;
+    // this.isFull = true;
+    // this.isHalf = true;
+    // this.isBreak = true;
+    // this.isdeductHalf = true;
+    // this.isfullDayy = true;
 
     this.selectedOccurenceDropdownForCustomSalrayDeduction = attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceType;
     this.selectedOccurenceDropdownForHalfDaySalrayDeduction = attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceType;
@@ -560,33 +597,45 @@ export class CreatRuleComponent implements OnInit {
   // set late duration
   getlateDuration(event:Date){
     let duration = this.helperService.formatDateToHHmmss(event);
-    this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration = duration;
+    if(duration != ''){
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration = duration;
+    }
   }
 
   getHalfDaylateDuration(event:Date){
     let duration = this.helperService.formatDateToHHmmss(event);
+    if(duration != ''){
     this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration = duration;
+    }
   }
 
   getFullDaylateDuration(event:Date){
     let duration = this.helperService.formatDateToHHmmss(event);
+    if(duration != ''){
     this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration = duration;
+    }
   }
 
   // set occurrence duration
   getLateOccurrenceDuration(event:Date){
     let duration = this.helperService.formatDateToHHmmss(event);
+    if(duration != ''){
     this.attendanceRuleDefinitionRequest.customSalaryDeduction.occurrenceDuration = duration;
+    }
   }
 
   getHalfDayOccurrenceDuration(event:Date){
     let duration = this.helperService.formatDateToHHmmss(event);
+    if(duration != ''){
     this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceDuration = duration;
+    }
   }
 
   getFullDayOccurrenceDuration(event:Date){
     let duration = this.helperService.formatDateToHHmmss(event);
+    if(duration != ''){
     this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceDuration = duration;
+    }
   }
 
 }

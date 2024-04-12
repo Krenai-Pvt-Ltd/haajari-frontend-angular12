@@ -11,10 +11,11 @@
                                     <a><i class="bi bi-chevron-left"></i></a>
                                 </div>
                                 <div class="">
-                                    <h5 class="mb-0">Upload Team</h5>
+                                    <h5 class="mb-0">Employee Details</h5>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-end" style="gap:20px;" *ngIf="selectedMethod=='' && onboardUserList.length>0">
+                            <div class="d-flex justify-content-end" style="gap:20px;"
+                                *ngIf="selectedMethod=='' && onboardUserList.length>0">
                                 <div class="" (click)="selectMethod('excel')">
                                     <div class="importfilebox1">
                                         <label>
@@ -72,7 +73,7 @@
                         </div>
 
                         <ng-container *ngIf="loading">
-                            <div class="" >
+                            <div class="">
                                 <div class="text-end">
                                     <ngx-shimmer-loading [width]="'30%'" [height]="'40px'"
                                         style="border-radius: 50%"></ngx-shimmer-loading>
@@ -80,7 +81,7 @@
                             </div>
 
                             <div class="mt-3 mb-2" style="border: 1px solid #f5f5f5; padding:5px; border-radius: 6px;"
-                            *ngFor="let number of [1,2,3,4,5]">
+                                *ngFor="let number of [1,2,3,4,5]">
                                 <div class="row mt-3">
                                     <div class="col-md-2">
                                         <div class="">
@@ -112,7 +113,7 @@
                                                 style="border-radius: 50%"></ngx-shimmer-loading>
                                         </div>
                                     </div>
-                                   
+
                                 </div>
                             </div>
                         </ng-container>
@@ -141,7 +142,8 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="tableinfo mb-0 text-center"><b>{{onboardUser.email}}</b>
+                                            <p class="tableinfo mb-0 text-center"><b>{{onboardUser.email?
+                                                    onboardUser.email:"N/A" }}</b>
                                             </p>
                                         </td>
                                         <td class="d-flex justify-content-center">
@@ -161,61 +163,102 @@
                         </div>
 
 
-                        <div class="d-flex justify-content-end">
-
-                            <button type="submit" class="btn btn-success" (click)="onBoardingCompleted()"
-                                [disabled]="onboardUserList.length==0" *ngIf="selectedMethod==''">
-                                <span>Complete</span></button>
-                            <!-- <div class="dot-opacity-loader" *ngIf="editLoader">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div> -->
+                        <!-- <div class="d-flex justify-content-start">
+                            <button class="btn skip-btn-new" type="button" (click)="next()"
+                                *ngIf="selectedMethod=='' && onboardUserList.length==0">Skip for now</button>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-md-12 d-flex justify-content-end">
+                                <button class="btn btn-primary save-button"
+                                    (click)="next()" type="button"
+                                    aria-label="Next Step">
+                                    Next <i class="bi bi-arrow-right"
+                                        style="padding-left: 8px;"></i>
+                                </button>
+                            </div>
                         </div>
+                        
 
                         <div class="add-new-user mt-4" *ngIf="selectedMethod=='mannual'">
                             <div class="row">
                                 <form #userForm="ngForm">
                                     <div class="form-group row mb-3" *ngFor="let user of userList; let i = index">
                                         <div class="col-md-4">
-                                            <label class="mb-2"> Name</label>
+                                            <label class="mb-2"> Name <span class="text-optional">*</span></label>
                                             <input type="text" name="userName{{i}}" [(ngModel)]="user.name"
-                                                class="form-control" placeholder="Enter Leave Name" required>
+                                                class="form-control" placeholder="Enter Employee Name" #name="ngModel"
+                                                minlength="5" required>
+                                                <div *ngIf="name?.dirty || isFormInvalid">
+                                                    <p class="errortxt mt-2 mb-2" style="color:red"
+                                                        *ngIf="name.errors?.required">
+                                                        <i class="bi bi-exclamation-circle"></i> Name is required.
+                                                    </p>
+                                                    <p class="errortxt mt-2 mb-2" style="color:red"
+                                                        *ngIf="name.errors?.minlength">
+                                                        <i class="bi bi-exclamation-circle"></i> Please enter minimum five characters name.
+                                                    </p>
+                                                </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <label class="mb-2">Phone Number</label>
+                                            <label class="mb-2">Phone Number <span
+                                                    class="text-optional">*</span></label>
                                             <input type="tel" name="userPhone{{i}}" [(ngModel)]="user.phone"
-                                                placeholder="Phone Number" minlength="10" maxlength="10"
-                                                class="form-control"
-                                                oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
-                                                (keyup)="checkExistance(user.phone)" required>
-                                            <p *ngIf="isNumberExist" class="error text-danger" id="{{i}}">this number
+                                                placeholder="Enter Whatsapp Phone Number" minlength="10" maxlength="10"
+                                                class="form-control" (keyup)="checkNumberExistance(i,user.phone, user.uuid)"
+                                                #phone="ngModel" required>
+                                            <p *ngIf="userList[i].isPhoneExist" class="error text-danger">this number
                                                 already exist</p>
+                                            <div *ngIf="phone?.dirty || isFormInvalid">
+                                                <p class="errortxt mt-2 mb-2" style="color:red"
+                                                    *ngIf="phone.errors?.required">
+                                                    <i class="bi bi-exclamation-circle"></i> Phone is required.
+                                                </p>
+                                                <p class="errortxt mt-2 mb-2" style="color:red"
+                                                    *ngIf="phone.errors?.minlength">
+                                                    <i class="bi bi-exclamation-circle"></i> Please enter a valid phone
+                                                    address.
+                                                </p>
+                                            </div>
+
                                         </div>
                                         <div class="col-md-4">
-                                            <label class="mb-2">Email </label>
+                                            <label class="mb-2">Email <span class="text-optional">*</span></label>
                                             <input type="email" name="userEmail{{i}}" [(ngModel)]="user.email"
-                                                placeholder="Email" class="form-control">
+                                                #email="ngModel" placeholder="Enter Email" class="form-control"
+                                                (keyup)="checkEmailExistance(i,user.email, user.uuid)" required>
+                                            <p *ngIf="userList[i].isEmailExist" class="error text-danger">this email
+                                                already exist</p>
+                                            <div *ngIf="email?.dirty || isFormInvalid">
+                                                <p class="errortxt mt-2 mb-2" style="color:red"
+                                                    *ngIf="email.errors?.required">
+                                                    <i class="bi bi-exclamation-circle"></i> Email Id is required.
+                                                </p>
+                                                <p class="errortxt mt-2 mb-2" style="color:red" *ngIf="email.errors?.email">
+                                                    <i class="bi bi-exclamation-circle"></i> Please enter a valid email
+                                                    address.
+                                                </p>
+                                            </div>
+                                            <div class="leave-delet-btn pointer" (click)="removeUser(i)" *ngIf="i>0">
+                                                <i class="bi bi-trash"></i>
+                                            </div>
+    
                                         </div>
-                                        <div class="leave-delet-btn pointer" (click)="removeUser(i)" *ngIf="i>0">
-                                            <i class="bi bi-trash"></i>
-                                        </div>
-
+                                        
                                     </div>
 
                                     <div id="back-and-submit"
                                         class=" d-flex align-items-center justify-content-between">
                                         <button type="button" class="btn skip-btn-new" (click)="addUser()"
-                                            [disabled]="userForm.invalid || isNumberExist"><i class="bi bi-plus"
-                                                style="font-size: 23px;"></i> Add New User</button>
+                                            [disabled]="userForm.invalid || isNumberExist || isEmailExist"><i
+                                                class="bi bi-plus" style="font-size: 23px;"></i> Add New User</button>
 
                                     </div>
                                     <div id="back-and-submit"
                                         class=" d-flex align-items-center justify-content-between">
                                         <p></p>
                                         <button type="submit" class="btn btn-primary skip-btn"
-                                            style="margin-right: 15px;" (click)="create()"
-                                            [disabled]="userForm.invalid || isNumberExist">
+                                            style="margin-right: 15px;" (click)="submit()"
+                                            [disabled]="isNumberExist || isEmailExist">
                                             <span *ngIf="!createLoading">Submit</span>
                                             <div class="dot-opacity-loader" *ngIf="createLoading">
                                                 <span></span>
@@ -252,7 +295,6 @@
 
                 </div>
                 <div class="modal-body" style="padding: 10px;">
-                    <!-- csvManHeight -->
                     <div class="">
                         <div class="row w-100">
                             <div class="col-lg-3">
@@ -260,7 +302,7 @@
                                 </div>
                                 <!-- sample file for user -->
                                 <h6 class="mediaupldtitle">To import user please use our
-                                    <a href="" style="color: darkblue;">Sample Template</a>
+                                    <a href="{{sampleFileUrl}}" style="color: blue;">Sample Template</a>
                                 </h6>
                                 <div class="csvmodalUploadmain mt-4">
                                     <div class="docUploadBxmain">
@@ -272,7 +314,6 @@
                                                     accept=".xlsx" #userFileInput />
                                                 <label for="userFile" class="dropzoneLabelinner">
                                                     <div class="text-center">
-                                                        <!-- <img src="assets/images/csv.svg" alt="" /> -->
                                                         <p>Click or drag and drop a file</p>
                                                     </div>
                                                 </label>
@@ -307,16 +348,53 @@
 
                                         <tbody *ngIf="!importToggle">
                                             <tr *ngIf="importLoading">
-                                                <td colspan="9" style="text-align: center; height: 300px;">
-                                                    <div class="spinner-border" role="status">
-                                                    </div>
+                                                <td colspan="9" class="p-0">
+                                                    <ng-container>
+                                                        <div class="mt-3 mb-2"
+                                                            style="border: 1px solid #f5f5f5; border-radius: 6px;"
+                                                            *ngFor="let number of [1,2,3,4,5]">
+                                                            <div class="row mt-3">
+                                                                <div class="col-md-1">
+                                                                    <div class="">
+                                                                        <ngx-shimmer-loading [width]="'100%'"
+                                                                            [height]="'30px'"
+                                                                            style="border-radius: 50%"></ngx-shimmer-loading>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <div class="">
+                                                                        <ngx-shimmer-loading [width]="'100%'"
+                                                                            [height]="'30px'"
+                                                                            style="border-radius: 50%"></ngx-shimmer-loading>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="">
+                                                                        <ngx-shimmer-loading [width]="'100%'"
+                                                                            [height]="'30px'"
+                                                                            style="border-radius: 50%"></ngx-shimmer-loading>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <div class="">
+                                                                        <ngx-shimmer-loading [width]="'100%'"
+                                                                            [height]="'30px'"
+                                                                            style="border-radius: 50%"></ngx-shimmer-loading>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
                                                 </td>
                                             </tr>
 
                                             <tr *ngIf="!importLoading && importReport.length == 0">
                                                 <td colspan="9" style="text-align: center; height: 300px;">
-                                                    <span style="font-size: 20px; font-weight: 500;">No Data
-                                                        Available</span>
+                                                    <div class="errorboxplaceholder mb-2">
+                                                        <img src="assets/images/empty-box.svg" style="width: 80px" />
+                                                    </div>
+                                                    <span style="font-size: 20px; font-weight: 500;">No Data Available</span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -415,7 +493,8 @@
     </div>
     <!-- Import end -->
 
-    <button #userEditModal data-bs-toggle="modal" data-bs-target="#editUser"></button>
+    <!-- user edit modal -->
+    <button #userEditModal class="d-none" data-bs-toggle="modal" data-bs-target="#editUser"></button>
     <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -437,21 +516,22 @@
                                 <input type="tel" name="phone" [(ngModel)]="user.phone" placeholder="Phone Number"
                                     minlength="10" maxlength="10" class="form-control"
                                     oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
-                                    (keyup)="checkExistance(user.phone)" required>
+                                    (keyup)="checkNumberExistance(-1,user.phone, user.uuid)" required>
                                 <p *ngIf="isNumberExist" class="error text-danger">this number
                                     already exist</p>
                             </div>
                             <div class="col-md-4">
                                 <label class="mb-2">Email </label>
                                 <input type="email" name="email" [(ngModel)]="user.email" placeholder="Email"
-                                    class="form-control">
+                                    class="form-control" (keyup)="checkEmailExistance(-1,user.email,user.uuid)">
+                                <p *ngIf="isEmailExist" class="error text-danger">This email already exist</p>
                             </div>
 
                         </div>
                         <div class="d-flex justify-content-end">
 
                             <button type="submit" class="btn btn-success"
-                                [disabled]="editUserForm.invalid || isNumberExist" (click)="editUser()">
+                                [disabled]="editUserForm.invalid || isNumberExist || isEmailExist" (click)="editUser()">
                                 <span *ngIf="!editLoader">Submit</span></button>
                             <div class="dot-opacity-loader" *ngIf="editLoader">
                                 <span></span>

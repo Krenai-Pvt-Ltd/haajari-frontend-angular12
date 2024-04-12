@@ -58,6 +58,9 @@
     top: 0;
     z-index: 1001;
     padding: 15px;
+    height: 600px;
+    overflow-x: auto;
+    
     /* box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
 }
 
@@ -371,3 +374,36 @@ span.members-name {
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     justify-content: center;
 }
+
+.bi-arrow-repeat {
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+/* .scroll-box-logs{
+    height: 650px;
+    overflow-x: auto;
+} */
+
+.scroll-box-logs::-webkit-scrollbar{
+    display: none;
+}
+
+.errorboxmain {
+    padding: 30px;
+}
+.errorboxmain {
+    min-height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fff;
+}
+
+
+  

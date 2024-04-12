@@ -104,7 +104,9 @@ export class Key{
         "/organization-onboarding/leave-setting-create",
         "/organization-onboarding/add-shift-time",
         "/organization-onboarding/holiday-setting",
-        "/organization-onboarding/upload-team"
+        "/organization-onboarding/upload-team",
+        "/organization-onboarding/shift-time",
+        "/organization-onboarding/attendance-mode"
     ];
 
 
@@ -189,18 +191,25 @@ export class Key{
     public static MEDICAL_ALLOWANCE = 4;
     public static SPECIAL_ALLOWANCE = 5;
     public static ADDITIONAL_ALLOWANCE = 6;
+
+    // Data format
+    public static BOARD = 1;
+    public static LIST = 2;
+
+    // Krenai UUID
+    public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
     
 
-    // base_url = "http://localhost:8080/api/v2";
+    base_url = "http://localhost:8080/api/v2";
 
     /* ------------------  Staging urls ----------------*/
-    base_url = "https://backend.hajiri.work/api/v2";
+    // base_url = "https://staging.hajiri.work/api/v2";
 
     /* ------------------  Production urls ----------------*/
     // base_url = "https://production.hajiri.work/api/v2";
 
     
-    
+    //subscription plan
     get_subscription = "/subcription-plan"; 
     get_active_user_count = "/users/active-user-count";
     get_purchased_status = "/organization-subs-plan/status"; 
@@ -226,22 +235,29 @@ export class Key{
 
     //Coupon
     verify_coupon = "/coupon";
+
+    check_user_email_existence = "/users/check-email-existence";
+    check_user_phone_existence = "/users/check-phone-existence";
     
     //user import
-    create_user = "/whatsapp-user-onboarding";
-    create_admin = "/organization/register-organization-using-number";
-
+    create_user = "/whatsapp-user-onboarding/create";
 
     get_onboarding_user = "/whatsapp-user-onboarding/onboarding-user";
-    delete_onboarding_user = "/whatsapp-user-onboarding";
-    edit_onboarding_user = "/whatsapp-user-onboarding";
+    delete_onboarding_user = "/whatsapp-user-onboarding/delete";
+    edit_onboarding_user = "/whatsapp-user-onboarding/update";
 
     user_import = "/whatsapp-user-onboarding/import";
     get_report = "/user-import"
 
     check_number_existence = "/whatsapp-user-onboarding/check-number-existence"
+    check_email_existence = "/whatsapp-user-onboarding/check-email-existence"
+    
 
     save_organization_onboarding_step = "/organization/save-onboarding-step"
     get_organization_onboarding_step = "/organization/onboarding-step"
+
+
+    // Organization Onboarding Steps:
+    
     
 }

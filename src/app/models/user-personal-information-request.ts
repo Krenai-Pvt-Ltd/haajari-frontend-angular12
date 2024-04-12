@@ -24,4 +24,7 @@ export class UserPersonalInformationRequest {
         subscriptionPlan!: boolean;
 	subscriptionPlanId!: number;
         notificationVia!: number;
+        languagePreferred!: number;
+        slackUserId!: string;
+        employeeAttendanceFlag!: boolean;
 }

@@ -36,7 +36,7 @@
 
                                                             <div class="">
                                                                 <button class="btn skip-btn-new" type="button"
-                                                                    (click)="skipLeaveSetting()">Skip it for
+                                                                    (click)="onBoardingCompleted()">Skip it for
                                                                     now</button>
                                                                 <p class="skip-btn-para">Lorem Ipsum is simply dummy
                                                                     text of the printing </p>
@@ -294,7 +294,7 @@
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-end mt-3">
-                                                <button type="button" class="btn btn-primary skip-btn" (click)="skipLeaveSetting()">Next</button>
+                                                <button type="button" class="btn btn-primary skip-btn" (click)="onBoardingCompleted()">Completed</button>
                                             </div>
 
                                         </div>
@@ -316,9 +316,9 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="requestLeave" (click)="emptyAddLeaveSettingRule()">Add Leave Settings</h5>
+                <h5 class="modal-title" id="requestLeave">Add Leave Settings</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    id="requestLeaveCloseModel" #requestLeaveCloseModel></button>
+                    id="requestLeaveCloseModel" #requestLeaveCloseModel (click)="emptyAddLeaveSettingRule()"></button>
             </div>
 
 
@@ -326,9 +326,6 @@
 
             <form #leaveSetForm="ngForm">
                 <div class="modal-body">
-
-
-
                     <div class="">
                         <ul id="myTab" role="tablist" class="nav nav-tabs">
                             <li role="presentation" class="nav-item">
@@ -609,15 +606,8 @@
 
                                 <!-- <div class="tab-pane fade" id="profile" role="tabpanel"> -->
                                 <div class="staf-list-box mt-3">
-
-
                                     <div class="row mb-3">
-
-
-
                                         <div class="">
-
-
                                             <div class="">
                                                 <ul id="myTab" role="tablist" class="nav nav-tabs"
                                                     style="border-bottom: 0px;">
@@ -639,13 +629,9 @@
 
 
                                                 <div class="tab-content" id="myTabContent">
-
                                                     <div class="tab-pane fade show active" id="userlist"
                                                         role="tabpanel">
-
-
                                                         <div class=" mt-3">
-                                                            <!-- border-bottom border-top pt-3 pb-3 -->
                                                             <div class="row border-top border-bottom pb-2 pt-2 ">
                                                                 <div class="col-md-8">
 
@@ -816,7 +802,7 @@
                                                                             <td style="padding: 12px 15px;">{{
                                                                                 staff.name }}</td>
                                                                             <td style="padding: 12px 15px;">{{
-                                                                                staff.email }}</td>
+                                                                                staff.email? staff.email:"N/A" }}</td>
 
                                                                             <td>
                                                                                 <!-- && !addedUserFlag -->
@@ -830,7 +816,7 @@
                                                                                     <button
                                                                                         class="btn btn-outline-primary btn-sm editdata-edit"
                                                                                         [(ngModel)]="staff.selected" *ngIf="!addEmployeeLoader(staff)"
-                                                                                        (click)="addUser(staff.uuid, idOfLeaveSetting)">Add</button>
+                                                                                        (click)="addUser(staff.uuid, idOfLeaveSetting)" [ngModelOptions]="{standalone: true}">Add</button>
                                                                                        
                                                                                 </span>
                                                                                 
@@ -839,7 +825,7 @@
                                                                                 <span *ngIf="staff.isAdded ">
                                                                                     <button
                                                                                         class="btn btn-outline-primary btn-sm editdata-edit"
-                                                                                        [(ngModel)]="staff.selected">Added</button>
+                                                                                        [(ngModel)]="staff.selected" [ngModelOptions]="{standalone: true}">Added</button>
                                                                                 </span>
                                                                                 <!-- <span *ngIf="staff.selected && addedUserFlag">
                                                                                     <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"

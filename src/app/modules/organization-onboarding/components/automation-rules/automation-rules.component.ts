@@ -23,14 +23,16 @@ export class AutomationRulesComponent implements OnInit {
     this._location.back();
   }
 
+  attendanceRuleLoading:boolean = false;
   attendanceRuleResponseList : AttendanceRuleResponse[] = [];
   getAttendanceRuleByOrganizationMethodCall(){
+    debugger
+    this.attendanceRuleLoading = true;
     this.dataService.getAttendanceRuleByOrganization().subscribe((response) => {
-      debugger
+      this.attendanceRuleLoading = false
       this.attendanceRuleResponseList = response;
-      // console.log(response);
     }, (error)=>{
-
+      this.attendanceRuleLoading = false
       console.log(error);
     });
   }

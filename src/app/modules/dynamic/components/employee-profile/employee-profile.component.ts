@@ -75,7 +75,7 @@ export class EmployeeProfileComponent implements OnInit {
         endDate: [""],
         leaveType: ["", Validators.required],
         managerId: ["", Validators.required],
-        optNotes: [""],
+        optNotes: ["", Validators.required],
         halfDayLeave: [false],
         dayShift: [false],
         eveningShift: [false],
@@ -453,7 +453,7 @@ export class EmployeeProfileComponent implements OnInit {
               const attendance = this.attendances[i];
               let title = this.getStatusTitle(attendance);
               let color = this.getStatusColor(attendance.status);
-               if ((attendance.status == 'Present') || (attendance.status == 'Half Day')) {
+               if ((attendance.status == 'Present') || (attendance.status == 'Half Day') || (attendance.status == 'Late')) {
                 this.totalPresent++;
               } else if (attendance.status == 'Absent') {
                 this.totalAbsent++;
@@ -555,15 +555,15 @@ export class EmployeeProfileComponent implements OnInit {
     } else if (attendance.status === 'Weekly Holiday') {
       return 'W';
     } else if (attendance.status === 'Universal Holiday') {
-      return 'H';
+      return 'h';
     }else if (attendance.status === 'Custom Holiday') {
-      return 'H';
+      return 'h';
     }else if (attendance.status === 'On Leave') {
       return 'L';
     }else if (attendance.status === 'Half Day') {
       return 'H';
     }else if (attendance.status === 'Late') {
-      return 'L';
+      return 'l';
     } else if (attendance.status === 'Not Marked') {
       return '-';
     }
@@ -1018,7 +1018,7 @@ export class EmployeeProfileComponent implements OnInit {
 
       }
         console.log("experience length" + this.experienceEmployee.length);
-        if (data == null || data.experiences.length == 0) {
+        if (data == undefined || data == null || data.experiences.length == 0) {
           this.isCompanyPlaceholder = true;
         }
         this.count++;
@@ -1453,6 +1453,7 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
     this.dataService.getStatutoryByOrganizationId().subscribe((response) => {
       this.statutoryResponseList = response.listOfObject;
       this.setStatutoryVariablesToFalse();
+      console.log(this.statutoryResponseList);
       this.clearInputValues();
     }, (error) => {
 
