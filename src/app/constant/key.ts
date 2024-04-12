@@ -58,7 +58,8 @@ export class Key{
         "/add-role",
         "/setting/billing-payment",
         "/leave-management",
-        "/upload-team"
+        "/upload-team",
+        "/central-leave-management"
     ];
 
     public static TOPBAR_ROUTES = [
@@ -90,7 +91,8 @@ export class Key{
         "/add-role",
         "/setting/billing-payment",
         "/leave-management",
-        "/upload-team"
+        "/upload-team",
+        "/central-leave-management"
     ];
 
 
@@ -200,13 +202,13 @@ export class Key{
     public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
     
 
-    base_url = "http://localhost:8080/api/v2";
+    // base_url = "http://localhost:8080/api/v2";
 
     /* ------------------  Staging urls ----------------*/
     // base_url = "https://staging.hajiri.work/api/v2";
 
     /* ------------------  Production urls ----------------*/
-    // base_url = "https://production.hajiri.work/api/v2";
+    base_url = "https://production.hajiri.work/api/v2";
 
     
     //subscription plan
