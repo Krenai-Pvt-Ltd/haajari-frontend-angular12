@@ -1400,6 +1400,12 @@ button.btn.close-btn {
     border: 1px solid #4660f6;
     color: #4660f6;
   }
+
+  .csvstatuserroruplding {
+    background-color: #eef1ff;
+    border: 1px solid #f67246;
+    color: #f67246;
+  }
   .csvstatusaction {
     border: 1px solid;
     width: 35px;
@@ -1533,4 +1539,10 @@ span.unpaid {
     height: 35px;
     cursor: pointer;
     /* gap: 20px; */
+}
+
+.error-message-row .alert-danger {
+  margin: 0; /* Remove margin if any */
+  width: 100%; /* Full width to fit within the column */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }

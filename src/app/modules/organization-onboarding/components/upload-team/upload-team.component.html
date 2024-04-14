@@ -402,7 +402,7 @@
                                         <tbody *ngIf="importToggle">
                                             <tr>
                                                 <td>
-                                                    <span>1.</span>
+                                                    <span>-></span>
                                                 </td>
                                                 <td>
                                                     <div class="csvcrrentview">
@@ -416,8 +416,11 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <span class="csvuploadstatusbtn csvstatusuplding text-center">
+                                                    <span class="csvuploadstatusbtn csvstatusuplding text-center" *ngIf="importToggle && isProgressToggle">
                                                         In-Process
+                                                    </span>
+                                                    <span class="csvuploadstatusbtn csvstatuserroruplding text-center" *ngIf="isErrorToggle">
+                                                        Error
                                                     </span>
                                                 </td>
                                                 <!-- <td>
@@ -429,8 +432,16 @@
 
                                                 </td> -->
                                             </tr>
+                                            <tr *ngIf="isErrorToggle" class="error-message-row">
+                                                <td colspan="6">
+                                                  <div class="alert alert-danger">
+                                                    {{ errorMessage }}
+                                                  </div>
+                                                </td>
+                                              </tr>
 
                                         </tbody>
+                    
 
                                         <tbody *ngIf="!importLoading && importReport.length > 0">
                                             <tr *ngFor="let report of importReport;let i= index">
