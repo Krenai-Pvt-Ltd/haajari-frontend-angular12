@@ -58,7 +58,8 @@ export class Key{
         "/add-role",
         "/setting/billing-payment",
         "/leave-management",
-        "/upload-team"
+        "/upload-team",
+        "/central-leave-management"
     ];
 
     public static TOPBAR_ROUTES = [
@@ -90,7 +91,8 @@ export class Key{
         "/add-role",
         "/setting/billing-payment",
         "/leave-management",
-        "/upload-team"
+        "/upload-team",
+        "/central-leave-management"
     ];
 
 
