@@ -273,7 +273,8 @@ export class UploadTeamComponent implements OnInit {
 
   isEmailExist: boolean = false;
   checkEmailExistance(index:number, email:string, uuid:string){
-    this.userList[index].isEmailExist = false;
+    debugger
+    // this.userList[index].isEmailExist = false;
     if(email != null && email.length>5){
       this._onboardingService.checkEmployeeEmailExist(email, uuid).subscribe((response: any) => {
         if(index>=0){
@@ -289,4 +290,13 @@ export class UploadTeamComponent implements OnInit {
     this._onboardingService.saveOrgOnboardingStep(3).subscribe();
     this._router.navigate(['/organization-onboarding/shift-time'])
   }
+
+  @ViewChild("closeUserUpload") closeUserUpload!: ElementRef;
+  closeUserUploadModal(){
+    this.importToggle = false;
+    this.closeImportModal();
+    this.closeUserUpload.nativeElement.click();
+  }
 }
+
+
