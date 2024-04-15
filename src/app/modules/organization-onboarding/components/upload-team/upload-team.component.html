@@ -167,7 +167,7 @@
                             <button class="btn skip-btn-new" type="button" (click)="next()"
                                 *ngIf="selectedMethod=='' && onboardUserList.length==0">Skip for now</button>
                         </div> -->
-                        <div class="row">
+                        <div class="row" *ngIf="selectedMethod!='mannual' && onboardUserList.length>0">
                             <div class="col-md-12 d-flex justify-content-end">
                                 <button class="btn btn-primary save-button"
                                     (click)="next()" type="button"
@@ -187,7 +187,7 @@
                                             <label class="mb-2"> Name <span class="text-optional">*</span></label>
                                             <input type="text" name="userName{{i}}" [(ngModel)]="user.name"
                                                 class="form-control" placeholder="Enter Employee Name" #name="ngModel"
-                                                minlength="5" required>
+                                                required>
                                                 <div *ngIf="name?.dirty || isFormInvalid">
                                                     <p class="errortxt mt-2 mb-2" style="color:red"
                                                         *ngIf="name.errors?.required">
@@ -221,11 +221,12 @@
                                             </div>
 
                                         </div>
+                                        <!-- <span class="text-optional">*</span> -->
                                         <div class="col-md-4">
-                                            <label class="mb-2">Email <span class="text-optional">*</span></label>
+                                            <label class="mb-2">Email</label>
                                             <input type="email" name="userEmail{{i}}" [(ngModel)]="user.email"
                                                 #email="ngModel" placeholder="Enter Email" class="form-control"
-                                                (keyup)="checkEmailExistance(i,user.email, user.uuid)" required>
+                                                (keyup)="checkEmailExistance(i,user.email, user.uuid)" >
                                             <p *ngIf="userList[i].isEmailExist" class="error text-danger">this email
                                                 already exist</p>
                                             <div *ngIf="email?.dirty || isFormInvalid">
@@ -289,7 +290,7 @@
                     <!-- <h4 id="createOrglmodal" class="modal-title">Reward Import</h4> -->
                     <h4 id="createOrglmodal" class="modal-title">User Import</h4>
                     <div class="d-flex justify-content-end gap-2 align-items-center">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" #closeUserUpload
                             (click)="closeImportModal()"></button>
                     </div>
 
@@ -321,8 +322,9 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
-                            <div class="col-lg-9" style="height: 450px">
+                            <div class="col-lg-9" style="height: 450px; overflow: scroll;" >
 
                                 <div class="table-responsive">
                                     <table id="order-listing" class="table">
@@ -402,7 +404,7 @@
                                         <tbody *ngIf="importToggle">
                                             <tr>
                                                 <td>
-                                                    <span>1.</span>
+                                                    <span>-></span>
                                                 </td>
                                                 <td>
                                                     <div class="csvcrrentview">
@@ -416,8 +418,11 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <span class="csvuploadstatusbtn csvstatusuplding text-center">
+                                                    <span class="csvuploadstatusbtn csvstatusuplding text-center" *ngIf="importToggle && isProgressToggle">
                                                         In-Process
+                                                    </span>
+                                                    <span class="csvuploadstatusbtn csvstatuserroruplding text-center" *ngIf="isErrorToggle">
+                                                        Error
                                                     </span>
                                                 </td>
                                                 <!-- <td>
@@ -429,8 +434,16 @@
 
                                                 </td> -->
                                             </tr>
+                                            <tr *ngIf="isErrorToggle" class="error-message-row">
+                                                <td colspan="6">
+                                                  <div class="alert alert-danger">
+                                                    {{ errorMessage }}
+                                                  </div>
+                                                </td>
+                                              </tr>
 
                                         </tbody>
+                    
 
                                         <tbody *ngIf="!importLoading && importReport.length > 0">
                                             <tr *ngFor="let report of importReport;let i= index">
@@ -451,7 +464,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <span class="csvuploadstatusbtn csvstatusuplded">
-                                                        uploaded
+                                                        Uploaded
                                                     </span>
                                                 </td>
                                                 <!-- <td>
@@ -484,6 +497,10 @@
                                         </div>
                                     </div>
                                 </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary save-button" (click)="closeUserUploadModal()">Proceed!</button>
                             </div>
                         </div>
                     </div>
@@ -517,7 +534,7 @@
                                     minlength="10" maxlength="10" class="form-control"
                                     oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
                                     (keyup)="checkNumberExistance(-1,user.phone, user.uuid)" required>
-                                <p *ngIf="isNumberExist" class="error text-danger">this number
+                                <p *ngIf="isNumberExist" class="error text-danger">This number
                                     already exist</p>
                             </div>
                             <div class="col-md-4">

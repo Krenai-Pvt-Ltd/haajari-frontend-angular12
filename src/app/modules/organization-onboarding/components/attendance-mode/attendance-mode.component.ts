@@ -13,7 +13,7 @@ import { OrganizationOnboardingService } from 'src/app/services/organization-onb
 })
 export class AttendanceModeComponent implements OnInit {
 
-  constructor(private dataService : DataService, private helperService : HelperService, private router : Router, private onboardingService: OrganizationOnboardingService) { }
+  constructor(private dataService: DataService, private helperService: HelperService, private router: Router, private onboardingService: OrganizationOnboardingService) { }
 
   ngOnInit(): void {
     this.getAttendanceModeAllMethodCall();
@@ -44,9 +44,9 @@ export class AttendanceModeComponent implements OnInit {
   selectedAttendanceModeId: number = 0;
   getAttendanceModeMethodCall() {
     debugger
-    this.dataService.getAttendanceModeNew().subscribe((response:any) => {
+    this.dataService.getAttendanceModeNew().subscribe((response: any) => {
       debugger
-      if(response.status){
+      if (response.status) {
         this.selectedAttendanceModeId = response.object.id;
       }
     }, (error) => {
@@ -64,10 +64,16 @@ export class AttendanceModeComponent implements OnInit {
     })
   }
 
-  goToDashboardSection(){
+  goToDashboardSection() {
     this.dataService.markStepAsCompleted(5);
     this.onboardingService.saveOrgOnboardingStep(5).subscribe();
     this.router.navigate(['/dashboard']);
+    this.dataService.sendOnboardingNotificationInWhatsapp().subscribe((response) => {
+      console.log("Messages Sent Successfully");
+    }, (error) => {
+      console.log(error);
+    })
+
   }
 
 

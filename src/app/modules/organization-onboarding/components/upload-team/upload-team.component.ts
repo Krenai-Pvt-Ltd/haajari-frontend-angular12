@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { error } from 'console';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { UserListReq } from 'src/app/models/UserListReq';
@@ -103,15 +104,32 @@ export class UploadTeamComponent implements OnInit {
   }
 
   importToggle: boolean = false;
+  isProgressToggle: boolean = true;
+  isErrorToggle: boolean = false;
+  errorMessage: string = '';
   uploadUserFile(file: any,fileName:string) {
     debugger
     this.importToggle = true;
+    this.isProgressToggle = true;
+    this.isErrorToggle = false;
+    this.errorMessage = '';
     this._onboardingService.userImport(file, fileName).subscribe((response: any) => {
       if (response.status) {
         this.importToggle = false;
+        this.isProgressToggle = false;
         this.getReport();
+      }else {
+        this.importToggle = true;
+        this.isErrorToggle = true;
+        this.isProgressToggle = false;
+        this.errorMessage = response.message; 
       }
-        this.importToggle = false;
+        // this.importToggle = false;
+    }, (error) => {
+      this.importToggle = true;
+      this.isErrorToggle = true;
+      this.isProgressToggle = false;
+      this.errorMessage = error.error.message; 
     })
   }
 
@@ -255,7 +273,8 @@ export class UploadTeamComponent implements OnInit {
 
   isEmailExist: boolean = false;
   checkEmailExistance(index:number, email:string, uuid:string){
-    this.userList[index].isEmailExist = false;
+    debugger
+    // this.userList[index].isEmailExist = false;
     if(email != null && email.length>5){
       this._onboardingService.checkEmployeeEmailExist(email, uuid).subscribe((response: any) => {
         if(index>=0){
@@ -271,4 +290,13 @@ export class UploadTeamComponent implements OnInit {
     this._onboardingService.saveOrgOnboardingStep(3).subscribe();
     this._router.navigate(['/organization-onboarding/shift-time'])
   }
+
+  @ViewChild("closeUserUpload") closeUserUpload!: ElementRef;
+  closeUserUploadModal(){
+    this.importToggle = false;
+    this.closeImportModal();
+    this.closeUserUpload.nativeElement.click();
+  }
 }
+
+
