@@ -1548,4 +1548,8 @@ export class DataService {
     return this.httpClient.post(`${this.baseUrl}/account-setting/update/Attendance-notification-setting`,null, { params });
   }
 
+  sendOnboardingNotificationInWhatsapp(): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/whatsapp-user-onboarding/send-whatsapp-onboarding-notification`, {});
+  }
+
 }
