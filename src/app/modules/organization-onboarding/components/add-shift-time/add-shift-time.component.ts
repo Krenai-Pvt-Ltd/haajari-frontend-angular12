@@ -343,5 +343,26 @@ export class AddShiftTimeComponent implements OnInit {
     this.searchText = "";
     this.getUserByFiltersMethodCall();
   }
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+  
+
+

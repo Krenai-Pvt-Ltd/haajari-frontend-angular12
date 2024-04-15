@@ -453,6 +453,37 @@ button.btn.close-btn {
 }
 
 
+.download-button-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 6px;
+}
+
+.download-button-loader span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #6666f3; /* Change to your preferred color */
+    margin: 0 4px;
+    animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.download-button-loader span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.download-button-loader span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes dotOpacity {
+    0%, 80%, 100% { opacity: 0; }
+    40% { opacity: 1; }
+}
+
+
 .confirm-detail{
     font-size: 22px;
     margin-bottom: 10px;
