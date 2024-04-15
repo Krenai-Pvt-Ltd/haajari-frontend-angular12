@@ -49,6 +49,102 @@
 }
 
 .leave-progress .progress{
-    height: 10px;
-    margin-bottom: 10px;
+    height: 7px;
+}
+
+.progress-heading{
+    font-size:  12px;
+    font-weight: 400 ;
+    color:#444;
+}
+span.total-leave-deta {
+    color: #d0d0d0;
+}
+
+.my-leave-log{
+    padding: 15px;
+    border: 1px solid #f1f1f1;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+    border-radius: 6px;
+}
+
+.my-leave-log-hedding h4{
+    font-size: 14px;
+    margin-bottom: 0px;
+    font-weight: 500;
+}
+
+.view-loges-btn {
+    color: #6666f3 !important;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.view-loges-btn i{
+    font-size: 13px;
+    margin-left: 2px;
+    transition: 0.1s linear;
+}
+
+.view-loges-btn:hover i {
+    margin-left: 4px;
+}
+
+.leave-logs h4{
+    font-size: 14px;
+    margin-bottom: 0px;
+    font-weight: 500;
+}
+.leave-logs p{
+    font-size: 12px;
+    color: #8d93a1 !important;
+    margin-bottom: 0px;
+    font-weight: 400;
+}
+
+
+.leave-logs ul li{
+    padding-bottom: 30px;
+    list-style: none;
+}
+
+
+.leave-logs ul li:after{
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 52px;
+    background-color: #efefef;
+    top: 22px;
+    left: -25px;
+    z-index: 999;
+}
+
+.leave-logs ul li:last-child:after{
+    height: 0px;
+}
+
+
+
+span.leave-pending {
+    border: 1px solid #ccc;
+    width: 12px;
+    height: 12px;
+    display: block;
+    border-radius: 50%;
+    position: absolute;
+    left: -30px;
+    top: 6px;
+}
+
+.pending-logs p{
+  color: orange !important;
+}
+
+.approved-logs p{
+   color: green !important;
+}
+
+.rejected-logs p{
+   color: red !important;
 }
