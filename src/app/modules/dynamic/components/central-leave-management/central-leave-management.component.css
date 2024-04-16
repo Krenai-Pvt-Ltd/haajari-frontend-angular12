@@ -122,6 +122,11 @@ span.total-leave-deta {
 
 .leave-logs ul li:last-child:after{
     height: 0px;
+   
+}
+
+.leave-logs ul li:last-child{
+    padding-bottom: 0px;
 }
 
 
@@ -147,4 +152,184 @@ span.leave-pending {
 
 .rejected-logs p{
    color: red !important;
+}
+
+span.leave-approved {
+    position: absolute;
+    left: -30px;
+}
+
+span.leave-rejected {
+    position: absolute;
+    left: -30px;
+}
+.panding-leave-box h4{
+    font-size: 12px;
+    margin-bottom: 0px;
+    FONT-WEIGHT: 600;
+}
+
+
+.panding-leave-box p{
+    font-size: 10px;
+    font-weight: 400;
+    margin-bottom: 0px;
+    color: #8d93a1;
+}
+
+
+.panding-leave-box img{
+    width: 35px;
+    border: 1px solid #6666f3;
+    border-radius: 50%;
+    padding: 1px;
+}
+
+.rejected-history p{
+    font-size: 12px;
+    font-weight: 500;
+    color: red;
+}
+.approved-history p{
+    font-size: 12px;
+    font-weight: 500;
+    color: green;
+}
+
+.view-loges-btn{
+    font-size: 13px;
+}
+
+.approve-btn{
+    background-color: #e0ffe0 !important;
+    color: #3e993e !important;
+    border: 1px solid #3e993e;
+}
+
+.reject-btn{
+    background-color: rgb(248, 215, 215);
+    color: #eb5050 !important;
+    border: 1px solid #eb5050;
+}
+
+.leave-appervo-modal h4{
+    font-size: 18px !important;
+    color: #000;
+    font-weight: 500;
+    padding-bottom: 5px;
+}
+
+.leave-appervo-modal h5{
+    font-size: 14px !important;
+    color: #444;
+    font-weight: 400;
+    padding-bottom: 15px;
+}
+
+.leave-appervo-modal p{
+    color: #8d93a1 !important;
+    font-weight: 400;
+    font-size: 13px;
+    padding-bottom: 0px;
+    line-height: 23px;
+    text-align: justify;
+}
+
+.leave-request-modat-close-btn{
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    background-color: #fff;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0px;
+    font-size: 25px;
+}
+
+.load-more-btn p {
+    width: 170px;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    padding: 7px;
+    margin: 0 auto;
+}
+.profile-details h4 {
+    margin-bottom: 0px !important;
+}
+.profile-details p {
+    margin-bottom: 0px !important;
+    padding-bottom: 0px;
+}
+
+.profile-user-img img{
+    width: 50px;
+    border: 1px solid #6666f3;
+    border-radius: 50%;
+    padding: 1px;
+}
+
+.total-holidey-live h5{
+    font-size: 13px !important;
+    margin-bottom: 5px;
+    padding-bottom: 0px;
+    font-weight: 500;
+}
+
+.total-holidey-live p{
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: right;
+}
+
+.Approved {
+    border-right: 1px solid #f1f1f1;
+    width: 160px;
+}
+.Approved:last-child{
+    border-right: none;
+}
+
+.rejected-css p {
+    color: black !important;
+}
+
+.rejected-css span {
+    color: black !important ;
+}
+.Approved  p{
+    color: #3e993e !important;
+}
+.Approved span {
+    color: #3e993e !important;
+}
+
+.pending-css p {
+    color: orange !important;
+}
+
+.pending-css span {
+    color: orange !important;
+}
+
+.remaining-css p {
+    color: #6666f3 !important;
+}
+
+.remaining-css span {
+    color: #6666f3 !important;
+}
+
+.total-holiday {
+    font-size: 11px;
+    text-align: center;
+}
+
+.Approved p{
+    text-align: center;
 }
