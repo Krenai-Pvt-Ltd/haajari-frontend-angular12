@@ -26,6 +26,7 @@ export class AddShiftTimeComponent implements OnInit {
     private helperService: HelperService) { }
 
   ngOnInit(): void {
+    this.getOnboardingVia();
     this.getShiftTypeMethodCall();
     this.getUserByFiltersMethodCall();
     this.getAllShiftTimingsMethodCall();
@@ -344,4 +345,12 @@ export class AddShiftTimeComponent implements OnInit {
     this.getUserByFiltersMethodCall();
   }
 
+  onboardingViaString : string = '';
+  getOnboardingVia() {
+    this.dataService.getOnboardingVia().subscribe((response) => {
+     this.onboardingViaString = response.message;
+    }, (error) => {
+      console.log("error");
+    })
+  }
 }
