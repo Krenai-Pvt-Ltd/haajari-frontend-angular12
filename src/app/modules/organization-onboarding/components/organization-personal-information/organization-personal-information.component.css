@@ -198,8 +198,8 @@ span.members-namess {
   background-color: #fff;
   padding: 30px;
   border-radius: 10px;
-  border: 1px solid #f1f1f1;
-  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
+  /* border: 1px solid #f1f1f1;
+  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
 }
 
 .persnol-details p {
@@ -706,4 +706,31 @@ span.rectanglebox {
   100% {
       transform: rotate(360deg);
   }
+}
+
+
+.next-btn-box {
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+    z-index: 99;
+    display: flex;
+    justify-content: end;
+    animation-duration: 1s;
+    animation-delay: 1s;
+    animation-fill-mode: both;
+   background-color: #fff;
+   /* box-shadow: 0px 0px 15px 0px rgba(82, 63, 105, 0.05); */
+   border-top: 1px solid #eceff5;
+   padding: 15px;
+}
+
+.page-content-tab-onbording{
+  width: calc(100% - 300px);
+    margin-left: auto;
+    position: relative;
+    min-height: calc(100vh - 60px);
+    padding: 0 8px 52px 8px;
+    margin-top: 0px;
 }

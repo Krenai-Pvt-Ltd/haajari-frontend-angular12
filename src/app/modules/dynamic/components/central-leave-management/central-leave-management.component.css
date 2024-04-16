@@ -198,6 +198,12 @@ span.leave-rejected {
 
 .view-loges-btn{
     font-size: 13px;
+    padding: 6px;
+    transition: 0.5s;
+}
+.view-loges-btn:hover{
+    border-bottom: 1px solid #6666f3;
+    transition: 0.5s;
 }
 
 .approve-btn{
@@ -293,6 +299,10 @@ span.leave-rejected {
 }
 .Approved:last-child{
     border-right: none;
+}
+.Approved:first-child{
+    border-right: none;
+    text-align: left;
 }
 
 .rejected-css p {
