@@ -715,6 +715,7 @@ span.rectanglebox {
     bottom: 0px;
     left: 0px;
     z-index: 999;
+
     display: flex;
     justify-content: end;
     animation-duration: 1s;
@@ -921,5 +922,4 @@ a.Verify-otps {
   width: 100%;
   height: 2px;
   background-color: #fff;
-
 }
