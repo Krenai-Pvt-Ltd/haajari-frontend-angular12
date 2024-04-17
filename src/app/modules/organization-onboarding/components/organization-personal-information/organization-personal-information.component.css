@@ -190,16 +190,15 @@ span.members-namess {
 }
 
 .persnol-details {
-  background-color: #fff;
-  /* padding: 30px; */
-  margin: 40px 20px;
-  /* border-radius: 14px; */
-  /* box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
-  background-color: #fff;
+  /* background-color: #fff; */
+  /* margin: 40px 20px; */
+  /* background-color: #fff; */
   padding: 30px;
   border-radius: 10px;
   /* border: 1px solid #f1f1f1;
   box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
+  z-index: 999;
+  position: relative;
 }
 
 .persnol-details p {
@@ -212,7 +211,7 @@ span.members-namess {
   font-size: 22px;
   margin-bottom: 5px;
   margin-top: 0px;
-  color: #4f5eee;
+  color: #000;
 }
 
 .new-deopdown {
@@ -714,7 +713,7 @@ span.rectanglebox {
     width: 100%;
     bottom: 0px;
     left: 0px;
-    z-index: 99;
+    z-index: 999;
     display: flex;
     justify-content: end;
     animation-duration: 1s;
@@ -733,4 +732,192 @@ span.rectanglebox {
     min-height: calc(100vh - 60px);
     padding: 0 8px 52px 8px;
     margin-top: 0px;
+}
+
+.sgsetprofilemain {
+  width: 120px;
+  margin: 0 auto;
+  margin-top: 32px;
+}
+
+.sgsetprofile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #f1f1f1;
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 50%;
+  margin: 0 auto;
+  box-shadow: #6363630d 0 8px 8px;
+  background-color: #fff;
+}
+
+button.close.profile-close-modal {
+  border: none;
+  background-color: transparent;
+}
+
+
+.sgsetprofile img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: top;
+    object-position: top;
+}
+
+.sgsetprofile .picoverlay {
+  position: absolute;
+  bottom: -30%;
+  left: 0;
+  right: 0;
+  font-size: 12px;
+  height: 33px;
+  background-color: #333333d9;
+  line-height: 30px;
+  color: #fff;
+  font-weight: 500;
+  transition: .2s ease-in;
+}
+
+.sgsetprofile:hover .picoverlay {
+  bottom: 0%;
+}
+
+.imgupldbg {
+  justify-content: center;
+  background-color: #f9f9f9;
+  margin: -15px;
+  padding: 20px 0;
+}
+
+.currentimageuplded {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 6px;
+  margin: 0 auto;
+}
+
+.upldactionfootbtn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: none;
+  outline: none;
+  grid-row-gap: 4px;
+  row-gap: 4px;
+  color: #444;
+  text-align: center;
+}
+
+.cnceltopics {
+  background-color: #f5f5f5;
+  border: 1px solid #aeaeae;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 25px;
+  text-align: center;
+  color: #444;
+  min-width: 100px;
+  box-shadow: none!important;
+  cursor: pointer;
+}
+
+.adtpoics {
+  background-color: #4660f6;
+  border: 1px solid #4660f6;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 25px;
+  text-align: center;
+  color: #fff;
+  min-width: 100px;
+  box-shadow: none!important;
+  cursor: pointer;
+}
+.custbtn-success {
+  background-color: #f1f1f1;
+  padding: 0 !important;
+  width: 40px;
+  height: 40px !important;
+  text-align: center;
+  border: 1px solid #e1e1e1;
+}
+
+.imageaction i{
+  display: inline-block;
+  position: relative;
+  top: 0px !important;
+  color: #262626;
+}
+
+.profile-input {
+  background-color: #ececec36 !important;
+  border: 1px solid #cacaca !important;
+  border-radius: 6px;
+  height: 42px !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  color: #445059 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.curent-location {
+  font-size: 14px;
+    padding: 10px;
+    margin-top: 30px;
+    width: 100%;
+}
+
+a.Verify-otps {
+  position: absolute;
+  right: 0px;
+  top: 30px;
+  border-radius: 0 6px 6px 0;
+  opacity: .8;
+  background: #e9e9ff;
+  padding: 10px 20px;
+  color: #6666f4 !important;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sgsetprofileedit {
+  position: absolute;
+  z-index: 1;
+  right: 10px;
+  outline: none;
+  border: none;
+  color: #fff;
+  font-size: 12px;
+  background-color: #eb5050;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 7px;
+  padding: 0 5px;
+  top: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sg-remove {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
 }

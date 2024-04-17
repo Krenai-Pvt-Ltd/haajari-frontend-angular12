@@ -39,6 +39,7 @@ export class UploadTeamComponent implements OnInit {
     
     this.sampleFileUrl = 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2FUser Data (1).xlsx?alt=media';
     this.getUser();
+    this.selectMethod('mannual');
   }
 
   back(){
@@ -48,7 +49,7 @@ export class UploadTeamComponent implements OnInit {
   backPage(){
       this._location.back();
   }
-  selectedMethod: string = '';
+  selectedMethod: string = 'mannual';
   selectMethod(method:string){
     if(method == "excel"){
       this.selectedMethod = '';
