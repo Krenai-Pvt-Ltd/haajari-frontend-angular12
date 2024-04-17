@@ -45,6 +45,7 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
+  
   async isValidTokenFormat(token: string | null): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       try {
