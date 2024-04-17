@@ -56,6 +56,7 @@ export class TimetableComponent implements OnInit {
 
     onDateChange(date: Date): void {
       this.selectedDate = date;
+      this.getAttendanceDetailsCountMethodCall();
       this.getAttendanceDetailsReportByDateMethodCall();
 
     }

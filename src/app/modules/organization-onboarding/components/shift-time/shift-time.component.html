@@ -503,10 +503,31 @@
                                             </th>
                                             <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
                                             <th style="width:25%; padding: 12px 15px;">Name</th>
-                                            <th style="width:25%; padding: 12px 15px;">Email</th>
+                                            
+                                            <th style="width:25%; padding: 12px 15px;" *ngIf="onboardingViaString==='SLACK'">Email</th>
+                                            <th style="width:25%; padding: 12px 15px;" *ngIf="onboardingViaString==='WHATSAPP'">Phone Number</th>
 
                                         </tr>
                                     </thead>
+                                    <tbody *ngIf="staffs.length==0">
+                                        <tr>
+                                            <td colspan="4">
+                                                <div class="errorboxmain align-items center" >
+                                                    <div class="errorboxinner">
+                                                        <div class="errorboxplaceholder mb-2">
+                                                            <img src="assets/images/addnewproduct.svg"
+                                                                style="width: 100px" />
+                                                        </div>
+            
+                                                        <h4>No Data Found</h4>
+                                                       
+                                                     
+                                                    </div>
+                                                </div> 
+                                            </td>
+                                        </tr>
+                                       
+                                    </tbody>
                                     <tbody>
                                         <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
                                             style="border-bottom: 1px solid #dddddd;">
@@ -519,14 +540,15 @@
                                             </td>
                                             <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
                                             <td style="padding: 12px 15px;">{{ staff.name }}</td>
-                                            <td style="padding: 12px 15px;">{{ staff.email }}</td>
+                                            <td style="padding: 12px 15px;" *ngIf="onboardingViaString==='SLACK'">{{ staff.email }}</td>
+                                            <td style="padding: 12px 15px;" *ngIf="onboardingViaString==='WHATSAPP'">{{ staff.phoneNumber? staff.phoneNumber:"N/A" }}</td>
 
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <!-- *ngIf="staffs.length > 8" -->
-                            <div class="pagination pl-3 align-items-center justify-content-between">
+                            <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="itemPerPage>8">
                                 <p style="padding-left: 15px">
                                     Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                                     {{ total }} teams

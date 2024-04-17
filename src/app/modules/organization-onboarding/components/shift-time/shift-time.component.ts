@@ -23,6 +23,7 @@ export class ShiftTimeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllShiftTimingsMethodCall();
+    this.getOnboardingVia();
   }
 
   selectedStaffsUuids: string[] = [];
@@ -394,4 +395,12 @@ export class ShiftTimeComponent implements OnInit {
     this._location.back();
   }
 
+  onboardingViaString : string = '';
+  getOnboardingVia() {
+    this.dataService.getOnboardingVia().subscribe((response) => {
+     this.onboardingViaString = response.message;
+    }, (error) => {
+      console.log("error");
+    })
+  }
 }

@@ -1552,4 +1552,8 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/whatsapp-user-onboarding/send-whatsapp-onboarding-notification`, {});
   }
 
+  getOnboardingVia(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/whatsapp-user-onboarding/get-onboarding-via`);
+  }
+
 }
