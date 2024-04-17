@@ -729,7 +729,6 @@ delUserFromTeamUuid: string='';
     };
     this.router.navigate(['/employee-profile'], navExtra);
   }
-
   
 }
 
