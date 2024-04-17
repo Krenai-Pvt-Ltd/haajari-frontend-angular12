@@ -309,9 +309,9 @@ i.bi.bi-plus {
 .stap-progres-bar {
     position: fixed;
     top: 0px;
-    /* right: 0px; */
+    right: 0px;
     left: 0px;
-    /* bottom: 0px; */
+    bottom: 0px;
     width: 100%;
 }
 .stap-progres-bar .progress{
@@ -352,4 +352,5 @@ i.bi.bi-plus {
     font-size: 28px;
     line-height: 0;
     cursor: pointer;
+
 }

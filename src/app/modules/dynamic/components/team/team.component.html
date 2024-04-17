@@ -127,8 +127,8 @@
                   ><i class="bi bi-plus-circle"></i> Create Team
                 </a>
   
-                <p style="color: #a1a0a0; margin-bottom: 0px" *ngIf="ROLE=='ADMIN'">|</p>
-                <a (click)="getFlagOfSlackPlaceholder2()" [ngClass]="{'disabled-lnk':rotateToggle}" *ngIf="ROLE=='ADMIN'"
+                <p style="color: #a1a0a0; margin-bottom: 0px" *ngIf="ROLE=='ADMIN' && onboardingVia=='SLACK'">|</p>
+                <a (click)="getFlagOfSlackPlaceholder2()" [ngClass]="{'disabled-lnk':rotateToggle}" *ngIf="ROLE=='ADMIN' && onboardingVia=='SLACK'"
                   ><i
                     style="
                       font-size: 16px;
