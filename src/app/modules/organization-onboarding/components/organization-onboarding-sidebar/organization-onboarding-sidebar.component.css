@@ -318,3 +318,14 @@ i.bi.bi-plus {
     height: 3px;
     width: 95%;
 }
+
+.log-out-btn-box {
+    position: absolute;
+    bottom: 0px;
+    /* background-color: #f1f1fd; */
+    width: 100%;
+    left: -1px;
+    right: 0px;
+    /* padding: 10px; */
+    z-index: 999;
+}
