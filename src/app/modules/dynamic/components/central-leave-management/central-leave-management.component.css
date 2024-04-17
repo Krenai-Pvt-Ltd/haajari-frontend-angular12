@@ -49,10 +49,6 @@
 }
 
 .leave-progress .progress{
-<<<<<<< HEAD
-    height: 10px;
-    margin-bottom: 10px;
-=======
     height: 7px;
 }
 
@@ -346,5 +342,4 @@ span.leave-rejected {
 
 .Approved p{
     text-align: center;
->>>>>>> cfa69a3fc (ui fix)
 }
