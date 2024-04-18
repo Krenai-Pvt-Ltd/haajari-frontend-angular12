@@ -346,7 +346,7 @@ export class AddShiftTimeComponent implements OnInit {
   }
 
 
-  onboardingViaString : string = '';
+  onboardingViaString : string = 'SLACK';
   getOnboardingVia() {
     this.dataService.getOnboardingVia().subscribe((response) => {
      this.onboardingViaString = response.message;

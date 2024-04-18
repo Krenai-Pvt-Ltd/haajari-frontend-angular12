@@ -101,11 +101,28 @@
             <div class="col-md-6">
                 <div class="my-leave-log">
                     <div class="my-leave-log-hedding d-flex align-items-center justify-content-between">
-                       <h4>My Leaves</h4>
-
-                       <a href="" class="view-loges-btn">Apply for leaves <i class="bi bi-chevron-right"></i></a>
+                       <h4 style="width: 50%;">My Leaves</h4>
+                       <!-- <a href="" class="view-loges-btn">Apply for leaves <i class="bi bi-chevron-right"></i></a> -->
+                       <!-- <div class="dropdown" style="width: 0%;">
+                        <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> ALL <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button>
+                        <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                            <li class="ng-star-inserted"><a class="dropdown-item"> ALL </a></li>
+                            <li class="ng-star-inserted"><a class="dropdown-item"> PRESENT </a></li>
+                            <li class="ng-star-inserted"><a class="dropdown-item"> ABSENT </a></li>
+                            <li class="ng-star-inserted"><a class="dropdown-item"> HALFDAY </a></li>
+                        </ul>
+                       </div> -->
+                       
+                     
                     </div>
-                    <hr>
+                    <hr style="margin-bottom: 5px;">
+
+                    <div class="mb-3">
+                        <div class="form-group pb-1" style="width: 100%; position: relative; border-bottom: 1px solid #e8ebf3">
+                            <input  type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important;">
+                            <i  class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
+                           </div>
+                    </div>
 
 
                     <div class="leave-logs">
@@ -131,6 +148,36 @@
                                 </div>
                                 <div class="approved-logs">
                                     <p>Approved</p>
+                                </div>
+                               </li>
+                               <li class="position-relative d-flex align-items-center justify-content-between" style="gap:15px;">
+                                <div class="position-relative">
+                                    <span class="leave-pending"></span>
+                                    <h4>29 September 2023 - 30 September</h4>
+                                    <p>Leaving for Dussehra * 3 days</p>
+                                </div>
+                                <div class="pending-logs">
+                                    <p>pending</p>
+                                </div>
+                               </li>
+                               <li class="position-relative d-flex align-items-center justify-content-between" style="gap:15px;">
+                                <div class="position-relative">
+                                    <span class="leave-pending"></span>
+                                    <h4>29 September 2023 - 30 September</h4>
+                                    <p>Leaving for Dussehra * 3 days</p>
+                                </div>
+                                <div class="pending-logs">
+                                    <p>pending</p>
+                                </div>
+                               </li>
+                               <li class="position-relative d-flex align-items-center justify-content-between" style="gap:15px;">
+                                <div class="position-relative">
+                                    <span class="leave-pending"></span>
+                                    <h4>29 September 2023 - 30 September</h4>
+                                    <p>Leaving for Dussehra * 3 days</p>
+                                </div>
+                                <div class="pending-logs">
+                                    <p>pending</p>
                                 </div>
                                </li>
                                <li class="position-relative d-flex align-items-center justify-content-between" style="gap:15px;">
@@ -166,13 +213,16 @@
                                
                             </ul>
 
-                            <div class="text-center load-more-btn">
-                                <p><i class="bi bi-arrow-down"></i> Load More Deta</p>
+                            
                             </div>
-                            </div>
+                           
                             
                         </div>
+                     
 
+                    </div>
+                    <div class="text-center load-more-btn">
+                        <p><i class="bi bi-arrow-down"></i> Load More Deta</p>
                     </div>
 
                 </div>
@@ -182,12 +232,15 @@
                 <div class="my-leave-log">
                     <div class="my-leave-log-hedding d-flex align-items-center justify-content-between">
                         <h4>Leave Requests</h4>
-                        <a href="" class="view-loges-btn">View All <i class="bi bi-chevron-right"></i> </a>
+                        <!-- <a href="" class="view-loges-btn">View All <i class="bi bi-chevron-right"></i> </a> -->
+                        <a href="" class="view-loges-btn">Apply for leaves <i class="bi bi-chevron-right"></i></a>
                      </div>
                      <hr>
 
                      <div class="panding-leave-box">
                         <p>Pending Leave</p>
+
+                        <div class="leave-history-box">
                         <div class="d-flex align-items-center mt-3" style="gap:15px;">
                             <div class="" style="width: 50px;">
                                 <img src="assets/images/user.png">
@@ -245,9 +298,53 @@
                                 <a class="view-loges-btn" data-bs-toggle="modal" data-bs-target="#leave-appervo"> View </a>
                             </div>
                         </div>
+                        <div class="d-flex align-items-center mt-3" style="gap:15px;">
+                            <div class="" style="width: 50px;">
+                                <img src="assets/images/user.png">
+                            </div>
+                            <div class="" style="width: 150px;">
+                                <h4>Yogesh Kumar</h4>
+                                <p>UX Designer</p>
+                            </div>
+                            <div class="" style="width: 145px;">
+                            <h4>10 August 2023</h4>
+                            <p>Birthday</p>
+                            </div>
+                            <div class="total-leave" style="width: 100px; text-align: right;">
+                                <p>1 day</p>
+                            </div>
+                            <div class="" style="width: 100px; text-align: right;">
+                                <a class="view-loges-btn" data-bs-toggle="modal" data-bs-target="#leave-appervo"> View </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center load-more-btn mt-3">
+                        <p><i class="bi bi-arrow-down"></i> Load More Deta</p>
+                    </div>
                      </div>
                      <div class="panding-leave-box mt-3">
                         <p>Leaves History</p>
+                        <div class="leave-history-box">
+                        <div class="d-flex align-items-center mt-3" style="gap:15px;">
+                            <div class="" style="width: 50px;">
+                                <img src="assets/images/user.png">
+                            </div>
+                            <div class="" style="width: 150px;">
+                                <h4>Yogesh Kumar</h4>
+                                <p>UX Designer</p>
+                            </div>
+                            <div class="" style="width: 145px;">
+                            <h4>10 August 2023</h4>
+                            <p>Birthday</p>
+                            </div>
+                            <div class="total-leave" style="width: 100px; text-align: right;">
+                                <p>1 day</p>
+                            </div>
+                            <div class="approved-history" style="width: 100px; text-align: right;">
+                                <p>Approved</p>
+                            </div>
+                        </div>
                         <div class="d-flex align-items-center mt-3" style="gap:15px;">
                             <div class="" style="width: 50px;">
                                 <img src="assets/images/user.png">
@@ -304,6 +401,11 @@
                             <div class="rejected-history" style="width: 100px; text-align: right;">
                                 <p>Rejected</p>
                             </div>
+                        </div>
+                        </div>
+
+                        <div class="text-center load-more-btn mt-3">
+                            <p><i class="bi bi-arrow-down"></i> Load More Deta</p>
                         </div>
                      </div>
                 </div>
