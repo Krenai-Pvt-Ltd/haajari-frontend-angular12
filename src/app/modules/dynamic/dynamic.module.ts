@@ -25,7 +25,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { LiveManagerComponent } from './components/live-manager/live-manager.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
-import { PaymentComponent } from './components/payment/payment.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { ProjectComponent } from './components/project/project.component';
 import { ReportsComponent } from './components/reports/reports.component';
@@ -82,7 +81,6 @@ import { CentralLeaveManagementComponent } from './components/central-leave-mana
     TaskManagerComponent,
     LiveManagerComponent,
     OnboardingComponent,
-    PaymentComponent,
     UserlistComponent,
     DateFormatPipe,
     TimeFormatPipe,

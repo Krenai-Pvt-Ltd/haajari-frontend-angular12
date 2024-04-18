@@ -100,6 +100,26 @@ export class TopbarComponent implements OnInit {
       routeValue = "Subscription & Plan";
     }
 
+    if(routeValue.includes("payroll-dashboard")){
+      routeValue = "Payroll Dashboard";
+    }
+
+    if(routeValue.includes("payment-history")){
+      routeValue = "Payment History";
+    }
+
+    if(routeValue.includes("bonus-and-deduction")){
+      routeValue = "Bonus And Deduction";
+    }
+
+    if(routeValue.includes("tds")){
+      routeValue = "TDS";
+    }
+
+    if(routeValue.includes("employee-onboarding-data")){
+      routeValue = "Employee Onboarding";
+    }
+
     this.topbarValue = this.capitalizeFirstLetter(routeValue);
   }
 

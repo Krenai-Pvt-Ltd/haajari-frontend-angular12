@@ -54,10 +54,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         NzInputNumberModule,
         NzDatePickerModule,
         NzTimePickerModule,
-        NzCalendarModule,
-        
-       
-        
+        NzCalendarModule
     ]
 })
-export class SettingModule { }
+export class SettingModule { 
+
+}
