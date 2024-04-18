@@ -301,8 +301,19 @@
                               </div>
 
                             </div>
+
+                           
                           </div>
 
+                        </div>
+
+                        <div class="text-center p-3 image-instructions">
+                          <h4>Image Instructions</h4>
+                         <ul>
+                          <li>1. Please use only .png, .Jpg, .jpeg</li>
+                          <li>2. Size range is below 200x200</li>
+                          <li>3. Logo 100 X 200 ratio is best</li>
+                         </ul>
                         </div>
                         
                       </div>
@@ -340,12 +351,12 @@
             </form>
           </div>
 
-          <div class="next-btn-box">
+           <div class="next-btn-box">
             <div class="d-flex align-items-center justify-content-end">
              
-              <!-- <button class="btn btn-primary" type="button">Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i></button> -->
+               <!-- <button class="btn btn-primary" type="button">Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i></button> -->
 
-              <button type="submit" class="btn btn-primary" (click)="submit()">
+              <button type="submit" class="btn btn-primary new-submit" (click)="submit()">
                 <span *ngIf="!loading">Next <i class="bi bi-arrow-right"
                   style="padding-left: 8px;"></i></span>
                 <div class="dot-opacity-loader" *ngIf="loading">
@@ -357,7 +368,7 @@
               
 
             </div>
-          </div>
+          </div> 
         </div>
 
       </div>

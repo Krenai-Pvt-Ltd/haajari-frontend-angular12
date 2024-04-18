@@ -1672,9 +1672,13 @@ span.unpaid {
   }
 
   .munal-deta-upload-modal{
-    height: 400px;
+    max-height: 400px;
     overflow-x: scroll;
   }
+  .munal-deta-upload-modal::-webkit-scrollbar{
+   display: none;
+}
+
 
   a.munal-add-more-btn {
     color: #6666f4 !important;
@@ -1721,4 +1725,27 @@ span.unpaid {
   .tableinfo i{
     font-size: 16px;
     color: #6666f4;
+  }
+
+
+  .add-excel{
+    margin-bottom: 0;
+    color: #6666f3 !important;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .new-submit{
+    background-color: #6666f3;
+    border-color: #6666f3;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 25px;
+    text-align: center;
+    color: #fff;
+    min-width: 100px;
+    box-shadow: none !important;
+    cursor: pointer;
   }

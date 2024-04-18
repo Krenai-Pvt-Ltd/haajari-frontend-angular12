@@ -309,15 +309,17 @@ i.bi.bi-plus {
 .stap-progres-bar {
     position: fixed;
     top: 0px;
-    right: 0px;
     left: 0px;
-    bottom: 0px;
+    /* right: 0px;
+   
+    bottom: 0px; */
     width: 100%;
 }
 .stap-progres-bar .progress{
     height: 3px;
     width: 95%;
 }
+
 
 .onbording-stap-one-text {
     align-items: center;
@@ -352,5 +354,15 @@ i.bi.bi-plus {
     font-size: 28px;
     line-height: 0;
     cursor: pointer;
+}
 
+.log-out-btn-box {
+    position: absolute;
+    bottom: 0px;
+    /* background-color: #f1f1fd; */
+    width: 100%;
+    left: -1px;
+    right: 0px;
+    /* padding: 10px; */
+    z-index: 999;
 }

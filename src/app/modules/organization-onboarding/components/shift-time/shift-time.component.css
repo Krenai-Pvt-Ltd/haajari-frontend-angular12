@@ -187,20 +187,20 @@ span.members-namess {
     min-height: calc(100vh - 60px);
     padding: 0 8px 52px 8px;
     margin-top: 0px;
-}
+  }
 
-.persnol-details {
-    background-color: #fff;
-    /* padding: 30px; */
-    margin: 40px 20px;
-    /* border-radius: 14px; */
-    /* box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
-    background-color: #fff;
-    padding: 20px;
+  .persnol-details {
+    /* background-color: #fff; */
+    /* margin: 40px 20px; */
+    /* background-color: #fff; */
+    padding: 30px;
     border-radius: 10px;
-    border: 1px solid #f1f1f1;
-    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
-}
+    /* border: 1px solid #f1f1f1;
+    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
+    z-index: 999;
+    position: relative;
+    padding-top: 50px;
+  }
 
 .persnol-details p {
     font-size: 13px;
@@ -212,7 +212,7 @@ span.members-namess {
     font-size: 22px;
     margin-bottom: 5px;
     margin-top: 0px;
-    color: #4f5eee;
+    color: #000;
 }
 
 .new-deopdown {
@@ -950,15 +950,21 @@ span.rectanglebox {
 }
 
 .late-btn a {
-    color: #6666f3;
-    font-size: 16px;
+    color: #6666f3 !important;
+    font-size: 13px;
     font-weight: 500;
 }
 
-.delete-rule {
+.late-btn .delete-rule {
     color: red !important;
-    font-size: 16px !important;
+    font-size: 13px !important;
     font-weight: 500 !important;
+}
+
+.late-btn a i {
+    padding-right: 5px;
+    position: relative;
+    top: -1px;
 }
 
 .shift-deta {
@@ -1282,3 +1288,43 @@ button.btn.close-btn {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.page-content-tab-onbording{
+    width: calc(100% - 300px);
+      margin-left: auto;
+      position: relative;
+      min-height: calc(100vh - 60px);
+      padding: 0 8px 52px 8px;
+      margin-top: 0px;
+  }
+  
+
+  .next-btn-box {
+    position: fixed;
+    width: 77%;
+    bottom: 0px;
+    left: 300px;
+    z-index: 999;
+    display: flex;
+    justify-content: end;
+    animation-duration: 1s;
+    animation-delay: 1s;
+    animation-fill-mode: both;
+    background-color: #fff;
+    border-top: 1px solid #eceff5;
+    padding: 15px;
+}
+
+.new-submit{
+    background-color: #6666f3;
+    border-color: #6666f3;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 25px;
+    text-align: center;
+    color: #fff;
+    min-width: 100px;
+    box-shadow: none !important;
+    cursor: pointer;
+  }

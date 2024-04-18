@@ -56,6 +56,7 @@ export class TimetableComponent implements OnInit {
 
     onDateChange(date: Date): void {
       this.selectedDate = date;
+      this.getAttendanceDetailsCountMethodCall();
       this.getAttendanceDetailsReportByDateMethodCall();
 
     }
@@ -384,7 +385,7 @@ export class TimetableComponent implements OnInit {
   }
 
 
-  filterCriteriaList : string[] = ['ALL', 'PRESENT', 'ABSENT', 'HALFDAY'];
+  readonly filterCriteriaList : string[] = ['ALL', 'PRESENT', 'ABSENT', 'HALFDAY', 'LEAVE'];
 
   selectFilterCriteria(filterCriteria : string){
     this.filterCriteria = filterCriteria;

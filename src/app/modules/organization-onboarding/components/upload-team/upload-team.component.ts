@@ -47,7 +47,8 @@ export class UploadTeamComponent implements OnInit {
   }
 
   backPage(){
-      this._location.back();
+    console.log("BACK")
+    this._location.back();
   }
   selectedMethod: string = 'mannual';
   selectMethod(method:string){

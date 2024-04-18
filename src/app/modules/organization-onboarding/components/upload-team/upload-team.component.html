@@ -177,6 +177,14 @@
                         </ng-container>
                         <!-- *ngIf="selectedMethod=='' && !loading && onboardUserList.length>0" -->
                         <div class="row mt-4"  >
+
+
+                            <div class="d-flex align-items-center justify-content-end mb-3">
+                               <a type="button" class="btn add-excel"><i class="bi bi-file-earmark-excel" style="position: relative; top: -1px; padding-right: 6px;"></i> Excel Upload </a>
+                               <p style="color: #d7d7d7; margin-bottom: 0px;" class="ng-star-inserted">|</p>
+                               <a type="button" class="btn add-excel" data-bs-toggle="modal" data-bs-target="#munal-upload"><i class="bi bi-journal-check"></i> Manual Upload </a>
+                            </div>
+
                             <table class="table">
                                 <thead class="thead-light table-design">
                                     <tr>
@@ -337,7 +345,7 @@
                          
                           <button class="btn cnceltopics" type="button" (click)="backPage()"><i class="bi bi-arrow-left" style="padding-right: 3px; padding-right: 1px; position: relative; top: -1px;"></i>  Previous </button>
             
-                          <button type="submit" class="btn btn-primary" (click)="submit()">
+                          <button type="submit" class="btn btn-primary new-submit" (click)="next()">
                             <span *ngIf="!loading">Next <i class="bi bi-arrow-right"
                               style="padding-left: 8px;"></i></span>
                             <div class="dot-opacity-loader" *ngIf="loading">
