@@ -198,13 +198,13 @@ span.leave-rejected {
 
 .view-loges-btn{
     font-size: 13px;
-    padding: 6px;
+    /* padding: 6px; */
     transition: 0.5s;
 }
-.view-loges-btn:hover{
+/* .view-loges-btn:hover{
     border-bottom: 1px solid #6666f3;
     transition: 0.5s;
-}
+} */
 
 .approve-btn{
     background-color: #e0ffe0 !important;
@@ -262,6 +262,9 @@ span.leave-rejected {
     border-radius: 5px;
     padding: 7px;
     margin: 0 auto;
+    cursor: pointer;
+    font-size: 10px;
+    color: #8d93a1;
 }
 .profile-details h4 {
     margin-bottom: 0px !important;
@@ -342,4 +345,43 @@ span.leave-rejected {
 
 .Approved p{
     text-align: center;
+}
+
+.leave-logs {
+    height: 384px;
+    overflow: scroll;
+}
+
+.leave-logs::-webkit-scrollbar{
+   display: none;
+}
+.leave-history-box {
+    height: 162px;
+    overflow: scroll;
+}
+.leave-history-box::-webkit-scrollbar {
+    display: none;
+}
+
+.search-icon {
+    font-size: 12px !important;
+    position: absolute !important;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--tb-secondary-color) !important;
+}
+
+.new-deopdown{
+    display: block;
+    width: 100%;
+    padding: .4rem 1rem;
+    font-size: 13px;
+    font-weight: 500;
+    height: 40px !important;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #e8ebf3;
+    color: #2d2e3e;
 }
