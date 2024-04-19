@@ -1368,3 +1368,7 @@ button.btn.close-btn {
 .table-design tr td {
     border: 1px solid #e0e0e0;
 }
+
+.searchform-padding{
+    padding: 10px 50px 10px 30px;
+}
