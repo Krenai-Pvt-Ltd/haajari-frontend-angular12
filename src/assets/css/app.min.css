@@ -9019,3 +9019,72 @@ input[type=time]::-webkit-datetime-edit-ampm-field {
     justify-content: center;
     align-items: center;
 }
+
+.profile-input {
+    background-color: #ececec36 !important;
+    border: 1px solid #cacaca !important;
+    border-radius: 6px;
+    height: 42px !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 18px !important;
+    color: #445059 !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  .next-btn-box {
+    position: fixed;
+    width: 77%;
+    bottom: 0px;
+    left: 300px;
+    z-index: 999;
+    display: flex;
+    justify-content: end;
+    animation-duration: 1s;
+    animation-delay: 1s;
+    animation-fill-mode: both;
+    background-color: #fff;
+    border-top: 1px solid #eceff5;
+    padding: 15px;
+}
+
+.new-submit{
+    background-color: #6666f3;
+    border-color: #6666f3;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 25px;
+    text-align: center;
+    color: #fff;
+    min-width: 100px;
+    box-shadow: none !important;
+    cursor: pointer;
+  }
+
+  .acitivity-timeline-2 li{
+    padding-bottom: 1.5rem !important;
+    border-left: 1px solid #abaaed;
+    position: relative;
+    padding-left: 20px;
+    margin-left: 10px;
+}
+
+
+.acitivity-timeline-2 li:before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border: 1px solid #3762ea;
+    box-shadow: 3px 3px #c1cff9;
+    border-radius: 50%;
+    position: absolute;
+    left: -8px;
+    top: 0;
+}
+
+.acitivity-timeline-2:last-child li {
+    border-left: none;
+}

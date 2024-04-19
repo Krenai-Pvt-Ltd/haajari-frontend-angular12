@@ -1298,6 +1298,7 @@ button.btn.close-btn {
       margin-top: 0px;
   }
 
+<<<<<<< HEAD
   .profile-input {
     background-color: #ececec36 !important;
     border: 1px solid #cacaca !important;
@@ -1310,22 +1311,9 @@ button.btn.close-btn {
     box-shadow: none !important;
     outline: none !important;
   }
+=======
+>>>>>>> 8cf281b53040cdd8046330ff7823708185451da5
 
-  .next-btn-box {
-    position: fixed;
-    width: 77%;
-    bottom: 0px;
-    left: 300px;
-    z-index: 999;
-    display: flex;
-    justify-content: end;
-    animation-duration: 1s;
-    animation-delay: 1s;
-    animation-fill-mode: both;
-    background-color: #fff;
-    border-top: 1px solid #eceff5;
-    padding: 15px;
-}
 
 .user-list{
     font-size: 18px !important ;
