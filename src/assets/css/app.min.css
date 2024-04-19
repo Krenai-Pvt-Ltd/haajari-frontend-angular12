@@ -9006,3 +9006,16 @@ ul.pagination.justify-content-end {
 input[type=time]::-webkit-datetime-edit-ampm-field {
     display: none;
     }   
+
+
+
+.modal {
+    position: fixed;
+    z-index: 1050;
+    width: 100%;
+    outline: 0;
+    background-color: #000000c4 !important;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}

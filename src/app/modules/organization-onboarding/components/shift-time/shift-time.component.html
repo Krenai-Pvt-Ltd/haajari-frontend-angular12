@@ -3,18 +3,21 @@
 
 
 <div class="page-wrapper">
-    <div class="page-content-tab">
+    <div class="page-content-tab-onbording">
         <div class="container-fluid">
 
             <div class="row">
                 <div class="col-md-12">
                     <div class="persnol-details">
 
-                        <div class="d-flex align-items-center" style="gap:15px">
-                            <div class="add-filtter" (click)="backPage()">
+                        <div class="d-flex align-items-center justify-content-between" style="gap:15px">
+                            <!-- <div class="add-filtter" (click)="backPage()">
                                 <a><i class="bi bi-chevron-left"></i></a>
-                            </div>
+                            </div> -->
                             <h5 class="mb-0">Shift Time</h5>
+
+                            <a class="" style="font-size: 14px !important; color: #6666f3 !important; font-weight: 500;" routerLink="/organization-onboarding/add-shift-time">
+                                <i class="bi bi-plus"></i> Add More Shift Time </a>
                         </div>
 
                         <ng-container *ngIf="allShiftTimingsLoader">
@@ -99,13 +102,13 @@
                         
                                 </div> -->
 
-                                <div class="" style="display: flex; justify-content: flex-end;">
-                                    <a class="" style="font-size: 16px; color: #6666f3; font-weight: 500;" routerLink="/organization-onboarding/add-shift-time">
+                                <!-- <div class="" style="display: flex; justify-content: flex-end;">
+                                    <a class="" style="font-size: 14px !important; color: #6666f3 !important; font-weight: 500;" routerLink="/organization-onboarding/add-shift-time">
                                         <i class="bi bi-plus"></i> Add More Shift Time </a>
                                 </div>
+                         -->
                         
-                        
-                                <div class="rule-main-box mt-3"
+                                <div class="rule-main-box mt-4"
                                     *ngFor="let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList">
 
 
@@ -120,24 +123,26 @@
                         
                                     <div class="row mt-2 p-2"
                                         *ngFor="let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList">
-                                        <div class="col-md-12 d-flex justify-content-between align-items-center">
+                                        <div class="col-md-12 d-flex justify-content-between align-items-center pb-2">
                                             <p class="mb-0 mb-2" style="font-size: 12px; font-weight: 500;">{{organizationShiftTimingResponse.name}}</p>
                                             <div class="late-btn d-flex align-items-center justify-content-end mb-2"
-                                                style="gap: 20px;    margin-right: 15px;">
+                                                style="gap: 15px;    margin-right: 15px;">
                         
                                                 <a style="cursor: pointer" data-bs-toggle="modal"
                                                     data-bs-target="#shiftTime"
                                                     (click)="updateOrganizationShiftTiming(organizationShiftTimingResponse, 'STAFF_SELECTION')"><i
-                                                        class="bi bi-person-circle"></i></a>
+                                                        class="bi bi-person-circle"></i> User</a>
+                                                        <p style="color: #d7d7d7; margin-bottom: 0px;" class="ng-star-inserted">|</p>
                                                 <a style="cursor: pointer" data-bs-toggle="modal"
                                                     data-bs-target="#shiftTime"
                                                     (click)="updateOrganizationShiftTiming(organizationShiftTimingResponse, 'SHIFT_TIME')"><i
-                                                        class="bi bi-pencil-square"></i></a>
+                                                        class="bi bi-pencil-square"></i> Edit</a>
+                                                        <p style="color: #d7d7d7; margin-bottom: 0px;" class="ng-star-inserted">|</p>
                         
                                                 <a style="cursor: pointer" class="delete-rule"
                                                     (click)="deleteOrganizationShiftTimingMethodCall(organizationShiftTimingResponse.id)"
                                                     *ngIf="!deleteOrganizationShiftTimingTemplateLoader(organizationShiftTimingResponse.id)">
-                                                    <i class="bi bi-trash"></i></a>
+                                                    <i class="bi bi-trash"></i> Delete</a>
                                                     <div class="dot-opacity-loader" *ngIf="deleteOrganizationShiftTimingTemplateLoader(organizationShiftTimingResponse.id)">
                                                         <span style="background-color: #6666f3;"></span>
                                                         <span style="background-color: #6666f3;"></span>
@@ -192,7 +197,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-md-12 d-flex justify-content-end">
                                         <button class="btn btn-primary save-button"
                                             (click)="nextPage()" type="button"
@@ -201,7 +206,7 @@
                                                 style="padding-left: 8px;"></i>
                                         </button>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- <button class="btn btn-primary save-button"
                                 (click)="skipShiftSetting()" type="button" 
                                     aria-label="Next Step">
@@ -238,6 +243,20 @@
                                         </div>
 
                     </div>
+
+                    <div class="">
+                        <div class="next-btn-box d-flex align-items-center justify-content-between">
+                         
+                          <button class="btn cnceltopics" type="button" (click)="backPage()"><i class="bi bi-arrow-left" style="padding-right: 3px; padding-right: 1px; position: relative; top: -1px;"></i>  Previous </button>
+            
+                          <button type="submit" class="btn btn-primary new-submit" (click)="nextPage()">
+                            <span>Next <i class="bi bi-arrow-right"
+                              style="padding-left: 8px;"></i></span>
+                          </button>
+                          
+            
+                        </div>
+                      </div>
                 </div>
             </div>
 

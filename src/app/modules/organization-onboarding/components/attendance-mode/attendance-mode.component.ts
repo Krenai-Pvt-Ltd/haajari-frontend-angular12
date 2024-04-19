@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
@@ -15,7 +16,7 @@ import { OrganizationOnboardingService } from 'src/app/services/organization-onb
 })
 export class AttendanceModeComponent implements OnInit {
 
-  constructor(private dataService: DataService, private helperService: HelperService, private router: Router, private onboardingService: OrganizationOnboardingService) { }
+  constructor(private dataService: DataService, private helperService: HelperService, private router: Router, private onboardingService: OrganizationOnboardingService, private _location:Location) { }
 
   ngOnInit(): void {
     this.getAttendanceModeAllMethodCall();
@@ -115,6 +116,10 @@ export class AttendanceModeComponent implements OnInit {
         })
 
       ;
+  }
+
+  backPage() {
+    this._location.back();
   }
 
   @ViewChild("placesRef") placesRef!: GooglePlaceDirective;

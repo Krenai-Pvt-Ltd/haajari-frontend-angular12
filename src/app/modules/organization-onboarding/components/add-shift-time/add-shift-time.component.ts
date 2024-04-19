@@ -345,7 +345,8 @@ export class AddShiftTimeComponent implements OnInit {
     this.getUserByFiltersMethodCall();
   }
 
-  onboardingViaString : string = '';
+
+  onboardingViaString : string = 'SLACK';
   getOnboardingVia() {
     this.dataService.getOnboardingVia().subscribe((response) => {
      this.onboardingViaString = response.message;
@@ -354,3 +355,25 @@ export class AddShiftTimeComponent implements OnInit {
     })
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+  
+
+
