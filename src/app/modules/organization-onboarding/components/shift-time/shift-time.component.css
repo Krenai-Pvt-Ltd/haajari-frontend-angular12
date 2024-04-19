@@ -1299,32 +1299,4 @@ button.btn.close-btn {
   }
   
 
-  .next-btn-box {
-    position: fixed;
-    width: 77%;
-    bottom: 0px;
-    left: 300px;
-    z-index: 999;
-    display: flex;
-    justify-content: end;
-    animation-duration: 1s;
-    animation-delay: 1s;
-    animation-fill-mode: both;
-    background-color: #fff;
-    border-top: 1px solid #eceff5;
-    padding: 15px;
-}
 
-.new-submit{
-    background-color: #6666f3;
-    border-color: #6666f3;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 25px;
-    text-align: center;
-    color: #fff;
-    min-width: 100px;
-    box-shadow: none !important;
-    cursor: pointer;
-  }

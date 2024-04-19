@@ -209,12 +209,10 @@
                                                                         <form novalidate="" role="search" (submit)="searchUsers()"
                                                                             class="searching ng-untouched ng-pristine ng-valid">
                                                                             <div class="form-group" style="position: relative">
-                                                                                <input type="search" id="searchText"
-                                                                                    placeholder="Search by name and role"
-                                                                                    class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                                                                                <input type="search" id="searchText" placeholder="Search by name and role"
+                                                                                    class="form-control ng-untouched ng-pristine ng-valid searchform-padding"
                                                                                     (keyup)="searchUsers()" [(ngModel)]="searchText"
-                                                                                    [ngModelOptions]="{ standalone: true }"
-                                                                                    style="padding: 10px 50px 10px 30px;">
+                                                                                    [ngModelOptions]="{ standalone: true }">
                                                                                 <button type="button"(click)="clearSearch()" class="btn close-btn">
                                                                                     <i *ngIf="searchText!=''" class="bi bi-x"></i>
                                                                                 </button>

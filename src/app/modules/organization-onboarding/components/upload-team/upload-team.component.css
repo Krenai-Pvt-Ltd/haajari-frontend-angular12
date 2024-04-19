@@ -403,7 +403,7 @@ a.select-file {
     cursor: pointer;
   }
   
-  .cnceltopics {
+  /* .cnceltopics {
     background-color: #f5f5f5;
     border: 1px solid #aeaeae;
     border-radius: 6px;
@@ -415,7 +415,7 @@ a.select-file {
     min-width: 100px;
     box-shadow: none !important;
     cursor: pointer;
-  }
+  } */
   
   .deltopics {
     background-color: #fcf1f1;
@@ -965,7 +965,6 @@ a.select-file {
     line-height: 1.5;
     color: #000444;
     background-color: #fff;
-    background-clip: padding-box;
     border: none!important;
     appearance: none;
     border-radius: 0.25rem;
@@ -1555,21 +1554,7 @@ span.unpaid {
       padding: 0 8px 52px 8px;
       margin-top: 0px;
   }
-  .next-btn-box {
-    position: fixed;
-    width: 77%;
-    bottom: 0px;
-    left: 300px;
-    z-index: 999;
-    display: flex;
-    justify-content: end;
-    animation-duration: 1s;
-    animation-delay: 1s;
-    animation-fill-mode: both;
-    background-color: #fff;
-    border-top: 1px solid #eceff5;
-    padding: 15px;
-}
+
 
 .cnceltopics {
     background-color: #f5f5f5;
@@ -1599,7 +1584,7 @@ span.unpaid {
     cursor: pointer;
   }
 
-  .excel-uplode-file-box {
+  .excel-upload-file-box {
     width: 100%;
     background-color: #f8fafb;
     border-radius: 6px;
@@ -1608,12 +1593,12 @@ span.unpaid {
     padding: 20px;
 }
 
-.excel-uplode-file-box p{
+.excel-upload-file-box p{
     font-size: 14px;
     font-weight: 400;
 }
 
-.excel-uplode-file-box p a{ 
+.excel-upload-file-box p a{ 
     font-size: 14px;
     font-weight: 400;
     color: #6666f3 !important;
@@ -1658,18 +1643,7 @@ span.unpaid {
    font-weight: 500 !important;
 }
 
-.profile-input {
-    background-color: #ececec36 !important;
-    border: 1px solid #cacaca !important;
-    border-radius: 6px;
-    height: 42px !important;
-    font-weight: 400 !important;
-    font-size: 14px !important;
-    line-height: 18px !important;
-    color: #445059 !important;
-    box-shadow: none !important;
-    outline: none !important;
-  }
+
 
   .munal-deta-upload-modal{
     max-height: 400px;
@@ -1748,4 +1722,8 @@ span.unpaid {
     min-width: 100px;
     box-shadow: none !important;
     cursor: pointer;
+  }
+
+  .box-border-right{
+    border-right: 1px solid #f1f1f1;
   }

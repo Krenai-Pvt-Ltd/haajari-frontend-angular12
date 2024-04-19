@@ -1298,34 +1298,7 @@ button.btn.close-btn {
       margin-top: 0px;
   }
 
-  .profile-input {
-    background-color: #ececec36 !important;
-    border: 1px solid #cacaca !important;
-    border-radius: 6px;
-    height: 42px !important;
-    font-weight: 400 !important;
-    font-size: 14px !important;
-    line-height: 18px !important;
-    color: #445059 !important;
-    box-shadow: none !important;
-    outline: none !important;
-  }
 
-  .next-btn-box {
-    position: fixed;
-    width: 77%;
-    bottom: 0px;
-    left: 300px;
-    z-index: 999;
-    display: flex;
-    justify-content: end;
-    animation-duration: 1s;
-    animation-delay: 1s;
-    animation-fill-mode: both;
-    background-color: #fff;
-    border-top: 1px solid #eceff5;
-    padding: 15px;
-}
 
 .user-list{
     font-size: 18px !important ;
@@ -1367,4 +1340,8 @@ button.btn.close-btn {
 }
 .table-design tr td {
     border: 1px solid #e0e0e0;
+}
+
+.searchform-padding{
+    padding: 10px 50px 10px 30px;
 }
