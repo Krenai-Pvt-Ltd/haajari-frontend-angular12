@@ -42,3 +42,9 @@
         font-weight: 500;
         color: #6666f4 !important;
     }
+    .mt-130{
+        margin-top: 130px;
+    }
+    .img-fluid{
+        width: 91.3% !important;
+    }
