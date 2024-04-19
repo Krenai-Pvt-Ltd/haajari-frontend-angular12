@@ -153,4 +153,10 @@ export class HeaderComponent implements OnInit {
       }
     })
   }
+
+  isCollapsed = true; // Initially collapsed
+  toggleCollapse(): void {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
 }
