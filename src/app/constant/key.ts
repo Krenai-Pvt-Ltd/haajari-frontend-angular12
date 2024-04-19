@@ -59,7 +59,11 @@ export class Key{
         "/setting/billing-payment",
         "/leave-management",
         "/upload-team",
-        "/central-leave-management"
+        "/central-leave-management",
+        "/payment/payroll-dashboard",
+        "/payment/tds",
+        "/payment/bonus-and-deduction",
+        "/payment/payment-history"
     ];
 
     public static TOPBAR_ROUTES = [
@@ -92,7 +96,11 @@ export class Key{
         "/setting/billing-payment",
         "/leave-management",
         "/upload-team",
-        "/central-leave-management"
+        "/central-leave-management",
+        "/payment/payroll-dashboard",
+        "/payment/tds",
+        "/payment/bonus-and-deduction",
+        "/payment/payment-history"
     ];
 
 
