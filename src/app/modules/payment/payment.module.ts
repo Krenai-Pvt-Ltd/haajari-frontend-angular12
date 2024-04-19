@@ -11,6 +11,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { DynamicModule } from '../dynamic/dynamic.module';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { DynamicModule } from '../dynamic/dynamic.module';
     FormsModule,
     DynamicModule,
     ReactiveFormsModule,
-    PaymentRoutingModule
+    PaymentRoutingModule,
+    NzDatePickerModule
   ]
 })
 export class PaymentModule { }

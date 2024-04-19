@@ -232,14 +232,79 @@
                             </a>
                         </li>
 
-                        <li class="sc-3ee1404a-7 dagRMy" routerLinkActive="iUctsy"
-                            routerLink="/payment/payroll-dashboard" style="cursor: pointer;">
+                        <li class="sc-3ee1404a-7 dagRMy" routerLinkActive="iUctsy" routerLink="/payment/payroll-dashboard">
                             <a class="sc-3ee1404a-9 iUctsy-new">
                                 <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
                                 </div>
-                                <span class="sc-3ee1404a-10 evIlxu"><i class="ti ti-currency-dollar"></i> Payroll</span>
+                                <span class="sc-3ee1404a-10 evIlxu">
+                                    <i class="ti ti-currency-dollar"></i> Payroll 
+                                </span>
+                                <span>
+                                    <i class="bi bi-caret-right-fill menu-icon projectIcon collapsed" data-bs-toggle="collapse" href="#payroll" role="button" aria-expanded="true" aria-controls="payroll"></i>
+                                </span>
                             </a>
                         </li>
+
+                        <div class="collapse project-name" id="payroll">
+                            <ul>
+                                <li routerLinkActive="iUctsy" routerLink="/payment/payroll-dashboard">
+                                    <a class="project-link">
+                                        <span class="project-list">#</span>
+                                        <p class="mb-0">Payroll Dashboard</p>
+                                    </a>
+                                </li>
+                                <li routerLinkActive="iUctsy" routerLink="/payment/bonus-and-deduction">
+                                    <a class="project-link">
+                                        <span class="project-list">#</span>
+                                        <p class="mb-0">Bonus And Deduction</p>
+                                    </a>
+                                </li>
+                                <li routerLinkActive="iUctsy" routerLink="/payment/tds"> 
+                                    <a class="project-link">
+                                        <span class="project-list">#</span>
+                                        <p class="mb-0">EPF, ESI & TDS</p>
+                                    </a>
+                                </li>
+                                <li routerLinkActive="iUctsy" routerLink="/payment/payment-history">
+                                    <a class="project-link">
+                                        <span class="project-list">#</span>
+                                        <p class="mb-0">Payment History</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <!-- <li class="sc-3ee1404a-7 dagRMy" *ngIf="shouldDisplay('project')" style="cursor: pointer;">
+                            <a class="sc-3ee1404a-9 iUctsy-new">
+                                <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp"></div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="sc-3ee1404a-10 evIlxu">
+                                        <i class="bi bi-caret-right-fill menu-icon projectIcon"
+                                           data-bs-toggle="collapse" href="#collapseExample" role="button"
+                                           aria-expanded="true" aria-controls="collapseExample"></i> Project
+                                    </span>
+                                    <span class="add-project"><i class="bi bi-plus"></i> Add</span>
+                                </div>
+                            </a>
+                        
+                            <div class="collapse show project-name" id="collapseExample">
+                                <ul>
+                                    <li>
+                                        <a class="project-link">
+                                            <span class="project-list">#</span>
+                                            <p class="mb-0">Cross-functional project plan</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="project-link">
+                                            <span class="project-list">#</span>
+                                            <p class="mb-0">Krenai</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li> -->
                     </ul>
                 </div>
 
