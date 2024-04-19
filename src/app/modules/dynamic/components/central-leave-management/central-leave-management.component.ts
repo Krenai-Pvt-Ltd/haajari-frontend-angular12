@@ -1,9 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { FullLeaveLogsResponse, PendingLeaveResponse, PendingLeavesResponse } from 'src/app/models/leave-responses.model';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-central-leave-management',
@@ -17,18 +18,30 @@ export class CentralLeaveManagementComponent implements OnInit {
   approvedRejectedLeaves!: PendingLeavesResponse[];
   specificLeaveRequest!: PendingLeaveResponse;
   searchString: string = '';
+  selectedTeamName: string = '';
 
 
   constructor(
     private dataService: DataService,
     private helperService: HelperService,
     private datePipe: DatePipe,
+    private rbacService: RoleBasedAccessControlService,
   ) { }
 
-  ngOnInit(): void {
+  logInUserUuid: string = '';
+  ROLE: string | null = '';
+
+  async ngOnInit(): Promise<void> {
+    this.logInUserUuid = await this.rbacService.getUUID();
+    this.ROLE = await this.rbacService.getRole();
+
     this.getFullLeaveLogs();
     this.getPendingLeaves();
     this.getApprovedRejectedLeaveLogs();
+
+    if(this.ROLE !== 'USER'){
+       this.getTeamNames();
+    }
   }
 
   debounceTimer: any;
@@ -40,7 +53,7 @@ export class CentralLeaveManagementComponent implements OnInit {
         clearTimeout(this.debounceTimer);
       }
       this.debounceTimer = setTimeout(() => {
-        this.dataService.getFullLeaveLogsRoleWise(this.searchString, '').subscribe({
+        this.dataService.getFullLeaveLogsRoleWise(this.searchString, this.selectedTeamName).subscribe({
           next: (response) => this.fullLeaveLogs = response.object,
           error: (error) => {
             console.error('Failed to fetch full leave logs:', error);
@@ -54,6 +67,12 @@ export class CentralLeaveManagementComponent implements OnInit {
   searchLeaves() {
     this.getFullLeaveLogs();
   }
+
+  selectTeam(teamName: string) {
+    this.selectedTeamName = teamName;
+    this.getFullLeaveLogs();
+}
+
 
   clearSearchUsers(){
     this.searchString='';
@@ -82,6 +101,7 @@ export class CentralLeaveManagementComponent implements OnInit {
     });
   }
 
+  @ViewChild("closeModal") closeModal!: ElementRef;
   approveOrDeny(requestId: number, requestedString: string) {
     debugger;
     this.dataService.approveOrRejectLeaveOfUser(requestId, requestedString).subscribe({
@@ -90,6 +110,7 @@ export class CentralLeaveManagementComponent implements OnInit {
         this.getFullLeaveLogs();
         this.getPendingLeaves();
         this.getApprovedRejectedLeaveLogs();
+        this.closeModal.nativeElement.click();
         let message = requestedString === 'approved' ? "Leave approved successfully!" : "Leave rejected successfully!";
         this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
       },
@@ -102,7 +123,7 @@ export class CentralLeaveManagementComponent implements OnInit {
 
   getPendingLeave(leaveId: number, leaveType: string) {
     this.dataService.getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType).subscribe({
-      next: (response) => this.specificLeaveRequest = response.object,
+      next: (response) => this.specificLeaveRequest = response.object[0],
       error: (error) => {
         console.error('Failed to fetch pending leave:', error);
         this.helperService.showToast("Failed to load this pending leave.", Key.TOAST_STATUS_ERROR);
@@ -131,4 +152,19 @@ export class CentralLeaveManagementComponent implements OnInit {
     if (!value) return value; 
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
+
+  teamNameList: string[] = [];
+  getTeamNames() {
+    this.dataService.getAllTeamNames().subscribe({
+      next: (response: any) => {
+        this.teamNameList = response.object; 
+      },
+      error: (error) => {
+        console.error('Failed to fetch team names:', error);
+        
+      }
+    });
+  }
+  
+  
 }

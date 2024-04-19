@@ -38,6 +38,7 @@ export interface FullLeaveLogsResponse {
     leaveType: string;
     halfDay: string;
     managerName: string;
+    managerUuid: string;
     totalDays: any;
     approvedLeaves: number;
     pendingLeaves: number;

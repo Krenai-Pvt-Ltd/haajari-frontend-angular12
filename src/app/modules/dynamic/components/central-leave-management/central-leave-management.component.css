@@ -403,3 +403,9 @@ span.leave-rejected {
 .leave-request-padding{
     padding: 6px;
 }
+
+.acitivity-timeline-2 h6{
+        background-color: #f9f9f9;
+        padding: 8px;
+        border-radius: 3px;
+}

@@ -1591,4 +1591,8 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-pending-leave-by-leave-id-leave-type`, { params });
   }
 
+  getAllTeamNames(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-all-team-names`);
+  }
+
 }
