@@ -216,7 +216,7 @@ export class Key{
     // base_url = "https://staging.hajiri.work/api/v2";
 
     /* ------------------  Production urls ----------------*/
-    // base_url = "https://production.hajiri.work/api/v2";
+    base_url = "https://production.hajiri.work/api/v2";
 
     
     //subscription plan
