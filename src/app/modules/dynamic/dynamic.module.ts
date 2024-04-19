@@ -69,7 +69,7 @@ import { LeaveManagementComponent } from './components/leave-management/leave-ma
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CentralLeaveManagementComponent } from './components/central-leave-management/central-leave-management.component';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -115,7 +115,7 @@ import { CentralLeaveManagementComponent } from './components/central-leave-mana
     LinkExpiredPageComponent,
     
     LeaveManagementComponent,
-         CentralLeaveManagementComponent
+    CentralLeaveManagementComponent
 
 
   ],
@@ -147,12 +147,8 @@ import { CentralLeaveManagementComponent } from './components/central-leave-mana
       libraries: ["places"]
     }),
     GooglePlaceModule,
-    DragDropModule
-    
-
-    
-
-    
+    DragDropModule,
+    NgxChartsModule    
   ],
   exports:[HeaderComponent],
   providers: [{ provide: NZ_I18N, useValue: en_US },DataService,{ provide: LOCALE_ID, useValue: 'en-US' }],

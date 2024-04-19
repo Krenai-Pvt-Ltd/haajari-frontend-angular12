@@ -100,6 +100,10 @@ span.total-leave-deta {
     color: #8d93a1 !important;
     margin-bottom: 0px;
     font-weight: 400;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 
@@ -353,7 +357,7 @@ span.leave-rejected {
 }
 
 .leave-logs {
-    height: 384px;
+    height: 388px;
     overflow: scroll;
 }
 
@@ -381,12 +385,27 @@ span.leave-rejected {
 .new-deopdown{
     display: block;
     width: 100%;
-    padding: .4rem 1rem;
     font-size: 13px;
     font-weight: 500;
-    height: 40px !important;
+    height: 35px !important;
     text-align: left;
     background-color: #fff;
     border: 1px solid #e8ebf3;
     color: #2d2e3e;
+}
+
+.new-deopdown i {
+    position: absolute;
+    right: 15px;
+    top: 6px;
+}
+
+.leave-request-padding{
+    padding: 6px;
+}
+
+.acitivity-timeline-2 h6{
+        background-color: #f9f9f9;
+        padding: 8px;
+        border-radius: 3px;
 }

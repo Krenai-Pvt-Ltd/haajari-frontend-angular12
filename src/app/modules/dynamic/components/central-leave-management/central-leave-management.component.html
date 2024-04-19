@@ -1,484 +1,391 @@
 <div class="page-wrapper">
     <div class="page-content-tab">
-        <div class="container-fluid">
-            <div class="row">
-            </div>
-
-            <!-- <div class="d-flex align-items-center justify-content-between p-2" >
-                <div class="centrel-leave-management-heding">
-                    <h3>Goog afternoon, Yogesh!</h3>
-                    <p>You have 2 leave request pending.</p>
-                   
+       <div class="container-fluid">
+          <div class="row">
+          </div>
+          <!-- <div class="d-flex align-items-center justify-content-between p-2" >
+             <div class="centrel-leave-management-heding">
+                 <h3>Goog afternoon, Yogesh!</h3>
+                 <p>You have 2 leave request pending.</p>
+                
+             </div>
+             <div class="month-celender d-flex align-items-center justify-content-between" >
+                 <div class="">
+                     <p>Current time</p>
+                     <h4>26 Sept 2023,12.10 PM</h4>
+                 </div>
+                 <div class="">
+                     <i class="bi bi-clock-history" style="font-size: 18px;"></i>
+                 </div>
+             
+             </div>
+             </div> -->
+          <div class="row p-2 mt-3">
+             <div class="col-md-4">
+                <div class="chart-box">
+                   <h4>Weekly leave pattern</h4>
+                   <img src="assets/images/wekly.png" style="width:100%">
                 </div>
-                <div class="month-celender d-flex align-items-center justify-content-between" >
-                    <div class="">
-                        <p>Current time</p>
-                        <h4>26 Sept 2023,12.10 PM</h4>
-                    </div>
-                    <div class="">
-                        <i class="bi bi-clock-history" style="font-size: 18px;"></i>
-                    </div>
-
+             </div>
+             <div class="col-md-4">
+                <div class="chart-box">
+                   <h4>Monthly stats</h4>
+                   <img src="assets/images/monthly.png" style="width:100%">
                 </div>
-            </div> -->
-            <div class="row p-2 mt-3">
-                <div class="col-md-4">
-                    <div class="chart-box">
-                        <h4>Weekly leave pattern</h4>
-                        <img src="assets/images/wekly.png" style="width:100%">
-                    </div>
+             </div>
+             <div class="col-md-4">
+                <div class="chart-box">
+                   <h4>Consumed leave types</h4>
+                   <div class="d-flex align-items-center " style="gap:20px;">
+                      <div class="d-flex align-items-center pt-2" style="width: 70%; gap:10px;">
+                         <div class="leave-type">
+                            <p><b>PL</b> Privilege Leave </p>
+                            <p><b>SL</b> Sick Leave</p>
+                         </div>
+                         <div class="leave-type">
+                            <p><b>CL</b> Casual Leave</p>
+                            <p><b>ML</b> Maternity Leave</p>
+                         </div>
+                      </div>
+                      <div class="" style="width: 30%;">
+                      </div>
+                   </div>
+                   <div class="leave-progress">
+                      <div class="d-flex align-items-center" style="gap:20px; margin-bottom: 3px;">
+                         <span class="progress-heading">PL</span>
+                         <div class="progress">
+                            <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                         </div>
+                         <span class="progress-heading">8<span class="total-leave-deta">/12</span></span>
+                      </div>
+                      <div class="d-flex align-items-center" style="gap:20px; margin-bottom: 3px;">
+                         <span class="progress-heading">CL</span>
+                         <div class="progress">
+                            <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 80%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                         </div>
+                         <span class="progress-heading">8<span class="total-leave-deta">/12</span></span>
+                      </div>
+                      <div class="d-flex align-items-center" style="gap:20px; margin-bottom: 3px;">
+                         <span class="progress-heading">SL</span>
+                         <div class="progress">
+                            <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 60%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                         </div>
+                         <span class="progress-heading">8<span class="total-leave-deta">/12</span></span>
+                      </div>
+                      <div class="d-flex align-items-center" style="gap:20px; margin-bottom: 3px;">
+                         <span class="progress-heading">ML</span>
+                         <div class="progress">
+                            <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 40%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                         </div>
+                         <span class="progress-heading">8<span class="total-leave-deta">/12</span></span>
+                      </div>
+                   </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="chart-box">
-                        <h4>Monthly stats</h4>
-                        <img src="assets/images/monthly.png" style="width:100%">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="chart-box">
-                        <h4>Consumed leave types</h4>
-
-                        
-                            <div class="d-flex align-items-center " style="gap:20px;">
-                                <div class="d-flex align-items-center pt-2" style="width: 70%; gap:10px;">
-                                    <div class="leave-type">
-                                       <p><b>PL</b> Privilege Leave </p>
-                                       <p><b>SL</b> Sick Leave</p>
-                                    </div>
-                                    <div class="leave-type">
-                                        <p><b>CL</b> Casual Leave</p>
-                                        <p><b>ML</b> Maternity Leave</p>
-                                    </div>
-                                </div>
-                                <div class="" style="width: 30%;">
-
-                                </div>
-                             
-                     
-                    </div>
-
-                    <div class="leave-progress">
-                        <div class="d-flex align-items-center" style="gap:20px; margin-bottom: 3px;">
-                            <span class="progress-heading">PL</span>
-                            <div class="progress">
-                               <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                              <span class="progress-heading">8<span class="total-leave-deta">/12</span></span>
-                        </div>
-
-                        <div class="d-flex align-items-center" style="gap:20px; margin-bottom: 3px;">
-                            <span class="progress-heading">CL</span>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 80%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                              <span class="progress-heading">8<span class="total-leave-deta">/12</span></span>
-                        </div>
-                        <div class="d-flex align-items-center" style="gap:20px; margin-bottom: 3px;">
-                            <span class="progress-heading">SL</span>
-                              <div class="progress">
-                                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 60%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                              <span class="progress-heading">8<span class="total-leave-deta">/12</span></span>
-                        </div>
-                        <div class="d-flex align-items-center" style="gap:20px; margin-bottom: 3px;">
-                            <span class="progress-heading">ML</span>
-                              <div class="progress">
-                                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 40%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            <span class="progress-heading">8<span class="total-leave-deta">/12</span></span>
-                        </div>
-                       
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-
-
-
-        <div class="row p-2 mt-3">
-            <div class="col-md-6">
+             </div>
+          </div>
+          <div class="row p-2 mt-3">
+             <div class="col-md-6">
                 <div class="my-leave-log">
-                    <div class="my-leave-log-hedding d-flex align-items-center justify-content-between">
-                       <h4 style="width: 50%;">My Leaves</h4>
-                       <!-- <a href="" class="view-loges-btn">Apply for leaves <i class="bi bi-chevron-right"></i></a> -->
-                       <!-- <div class="dropdown" style="width: 0%;">
-                        <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> ALL <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button>
+                   <div class="my-leave-log-hedding d-flex align-items-center justify-content-between">
+                      <h4 style="width: 70%;">My Leaves</h4>
+                      <div class="dropdown" style="width: 30%;" *ngIf="(ROLE!='USER')">
+                        <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                            {{ selectedTeamName ? selectedTeamName : 'All' }} <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                        </button>
                         <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
-                            <li class="ng-star-inserted"><a class="dropdown-item"> ALL </a></li>
-                            <li class="ng-star-inserted"><a class="dropdown-item"> PRESENT </a></li>
-                            <li class="ng-star-inserted"><a class="dropdown-item"> ABSENT </a></li>
-                            <li class="ng-star-inserted"><a class="dropdown-item"> HALFDAY </a></li>
+                            <li class="ng-star-inserted" *ngIf="selectedTeamName" (click)="selectTeam('')">
+                                <a class="dropdown-item">All</a>
+                            </li>
+                            <li class="ng-star-inserted" *ngFor="let tn of teamNameList" (click)="selectTeam(tn)">
+                                <a class="dropdown-item"> {{ tn }} </a>
+                            </li>
                         </ul>
-                       </div> -->
-                       
-                     
-                    </div>
-                    <hr style="margin-bottom: 5px;">
-
-                    <div class="mb-3">
-                        <div class="form-group pb-1" style="width: 100%; position: relative; border-bottom: 1px solid #e8ebf3">
-                            <input  type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important;">
-                            <i  class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
-                           </div>
-                    </div>
-
-
-                    <div class="leave-logs">
-
-                        <div class="" >
-                            <div class="">
-                            <ul>
-                               <li class="position-relative d-flex align-items-center justify-content-between" style="gap:15px;">
-                                <div class="position-relative">
-                                    <span class="leave-pending"></span>
-                                    <h4>29 September 2023 - 30 September</h4>
-                                    <p>Leaving for Dussehra * 3 days</p>
-                                </div>
-                                <div class="pending-logs">
-                                    <p>pending</p>
-                                </div>
-                               </li>
-                               <li class="position-relative d-flex align-items-center justify-content-between" style="gap:15px;">
-                                <div class="position-relative">
-                                    <span class="leave-approved"><img src="assets/images/check-circle.svg" style="width: 12px;"></span>
-                                    <h4>29 September 2023 - 30 September</h4>
-                                    <p>Leaving for Dussehra * 3 days</p>
-                                </div>
-                                <div class="approved-logs">
-                                    <p>Approved</p>
-                                </div>
-                               </li>
-                               <li class="position-relative d-flex align-items-center justify-content-between" style="gap:15px;">
-                                <div class="position-relative">
-                                    <span class="leave-pending"></span>
-                                    <h4>29 September 2023 - 30 September</h4>
-                                    <p>Leaving for Dussehra * 3 days</p>
-                                </div>
-                                <div class="pending-logs">
-                                    <p>pending</p>
-                                </div>
-                               </li>
-                               <li class="position-relative d-flex align-items-center justify-content-between" style="gap:15px;">
-                                <div class="position-relative">
-                                    <span class="leave-pending"></span>
-                                    <h4>29 September 2023 - 30 September</h4>
-                                    <p>Leaving for Dussehra * 3 days</p>
-                                </div>
-                                <div class="pending-logs">
-                                    <p>pending</p>
-                                </div>
-                               </li>
-                               <li class="position-relative d-flex align-items-center justify-content-between" style="gap:15px;">
-                                <div class="position-relative">
-                                    <span class="leave-pending"></span>
-                                    <h4>29 September 2023 - 30 September</h4>
-                                    <p>Leaving for Dussehra * 3 days</p>
-                                </div>
-                                <div class="pending-logs">
-                                    <p>pending</p>
-                                </div>
-                               </li>
-                               <li class="position-relative d-flex align-items-center justify-content-between" style="gap:15px;">
-                                <div class="position-relative" >
-                                    <span class="leave-rejected"><img src="assets/images/circle-xmark.svg" style="width: 12px;"></span>
-                                    <h4>29 September 2023 - 30 September</h4>
-                                    <p>Leaving for Dussehra * 3 days</p>
-                                </div>
-                                <div class="rejected-logs">
-                                    <p>Rejected</p>
-                                </div>
-                               </li>
-                               <li class="position-relative d-flex align-items-center justify-content-between" style="gap:15px;">
-                                <div class="position-relative">
-                                    <span class="leave-approved"><img src="assets/images/check-circle.svg" style="width: 12px;"></span>
-                                    <h4>29 September 2023 - 30 September</h4>
-                                    <p>Leaving for Dussehra * 3 days</p>
-                                </div>
-                                <div class="approved-logs">
-                                    <p>Approved</p>
-                                </div>
-                               </li>
-                               <li class="position-relative d-flex align-items-center justify-content-between" style="gap:15px;">
-                                <div class="position-relative">
-                                    <span class="leave-approved"><img src="assets/images/check-circle.svg" style="width: 12px;"></span>
-                                    <h4>29 September 2023 - 30 September</h4>
-                                    <p>Leaving for Dussehra * 3 days</p>
-                                </div>
-                                <div class="approved-logs">
-                                    <p>Approved</p>
-                                </div>
-                               </li>
-                               
-                            </ul>
-
-                            
-                            </div>
-                           
-                            
-                        </div>
-                     
-
-                    </div>
-                    <div class="text-center load-more-btn">
-                        <p> Load more <i class="bi bi-chevron-down"></i> </p>
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="col-md-6">
-                <div class="my-leave-log">
-                    <div class="my-leave-log-hedding d-flex align-items-center justify-content-between">
-                        <h4>Leave Requests</h4>
-                        <!-- <a href="" class="view-loges-btn">View All <i class="bi bi-chevron-right"></i> </a> -->
-                        <a href="" class="view-loges-btn">Apply for leaves <i class="bi bi-chevron-right"></i></a>
-                     </div>
-                     <hr>
-
-                     <div class="panding-leave-box">
-                        <p>Pending Leave</p>
-
-                        <div class="leave-history-box">
-                        <div class="d-flex align-items-center mt-3" style="gap:15px;">
-                            <div class="" style="width: 50px;">
-                                <img src="assets/images/user.png">
-                            </div>
-                            <div class="" style="width: 150px;">
-                                <h4>Yogesh Kumar</h4>
-                                <p>UX Designer</p>
-                            </div>
-                            <div class="" style="width: 145px;">
-                            <h4>10 August 2023</h4>
-                            <p>Birthday</p>
-                            </div>
-                            <div class="total-leave" style="width: 100px; text-align: right;">
-                                <p>1 day</p>
-                            </div>
-                            <div class="" style="width: 100px; text-align: right;">
-                                <a class="view-loges-btn" data-bs-toggle="modal" data-bs-target="#leave-appervo"> View </a>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center mt-3" style="gap:15px;">
-                            <div class="" style="width: 50px;">
-                                <img src="assets/images/user.png">
-                            </div>
-                            <div class="" style="width: 150px;">
-                                <h4>Yogesh Kumar</h4>
-                                <p>UX Designer</p>
-                            </div>
-                            <div class="" style="width: 145px;">
-                            <h4>10 August 2023</h4>
-                            <p>Birthday</p>
-                            </div>
-                            <div class="total-leave" style="width: 100px; text-align: right;">
-                                <p>1 day</p>
-                            </div>
-                            <div class="" style="width: 100px; text-align: right;">
-                                <a class="view-loges-btn" data-bs-toggle="modal" data-bs-target="#leave-appervo"> View </a>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center mt-3" style="gap:15px;">
-                            <div class="" style="width: 50px;">
-                                <img src="assets/images/user.png">
-                            </div>
-                            <div class="" style="width: 150px;">
-                                <h4>Yogesh Kumar</h4>
-                                <p>UX Designer</p>
-                            </div>
-                            <div class="" style="width: 145px;">
-                            <h4>10 August 2023</h4>
-                            <p>Birthday</p>
-                            </div>
-                            <div class="total-leave" style="width: 100px; text-align: right;">
-                                <p>1 day</p>
-                            </div>
-                            <div class="" style="width: 100px; text-align: right;">
-                                <a class="view-loges-btn" data-bs-toggle="modal" data-bs-target="#leave-appervo"> View </a>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center mt-3" style="gap:15px;">
-                            <div class="" style="width: 50px;">
-                                <img src="assets/images/user.png">
-                            </div>
-                            <div class="" style="width: 150px;">
-                                <h4>Yogesh Kumar</h4>
-                                <p>UX Designer</p>
-                            </div>
-                            <div class="" style="width: 145px;">
-                            <h4>10 August 2023</h4>
-                            <p>Birthday</p>
-                            </div>
-                            <div class="total-leave" style="width: 100px; text-align: right;">
-                                <p>1 day</p>
-                            </div>
-                            <div class="" style="width: 100px; text-align: right;">
-                                <a class="view-loges-btn" data-bs-toggle="modal" data-bs-target="#leave-appervo"> View </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="text-center load-more-btn mt-3">
-                        <p>Load more <i class="bi bi-chevron-down"></i> </p>
-                    </div>
-                     </div>
-                     <div class="panding-leave-box mt-3">
-                        <p>Leaves History</p>
-                        <div class="leave-history-box">
-                        <div class="d-flex align-items-center mt-3" style="gap:15px;">
-                            <div class="" style="width: 50px;">
-                                <img src="assets/images/user.png">
-                            </div>
-                            <div class="" style="width: 150px;">
-                                <h4>Yogesh Kumar</h4>
-                                <p>UX Designer</p>
-                            </div>
-                            <div class="" style="width: 145px;">
-                            <h4>10 August 2023</h4>
-                            <p>Birthday</p>
-                            </div>
-                            <div class="total-leave" style="width: 100px; text-align: right;">
-                                <p>1 day</p>
-                            </div>
-                            <div class="approved-history" style="width: 100px; text-align: right;">
-                                <p>Approved</p>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center mt-3" style="gap:15px;">
-                            <div class="" style="width: 50px;">
-                                <img src="assets/images/user.png">
-                            </div>
-                            <div class="" style="width: 150px;">
-                                <h4>Yogesh Kumar</h4>
-                                <p>UX Designer</p>
-                            </div>
-                            <div class="" style="width: 145px;">
-                            <h4>10 August 2023</h4>
-                            <p>Birthday</p>
-                            </div>
-                            <div class="total-leave" style="width: 100px; text-align: right;">
-                                <p>1 day</p>
-                            </div>
-                            <div class="approved-history" style="width: 100px; text-align: right;">
-                                <p>Approved</p>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center mt-3" style="gap:15px;">
-                            <div class="" style="width: 50px;">
-                                <img src="assets/images/user.png">
-                            </div>
-                            <div class="" style="width: 150px;">
-                                <h4>Yogesh Kumar</h4>
-                                <p>UX Designer</p>
-                            </div>
-                            <div class="" style="width: 145px;">
-                            <h4>10 August 2023</h4>
-                            <p>Birthday</p>
-                            </div>
-                            <div class="total-leave" style="width: 100px; text-align: right;">
-                                <p>1 day</p>
-                            </div>
-                            <div class="rejected-history" style="width: 100px; text-align: right;">
-                                <p>Rejected</p>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center mt-3" style="gap:15px;">
-                            <div class="" style="width: 50px;">
-                                <img src="assets/images/user.png">
-                            </div>
-                            <div class="" style="width: 150px;">
-                                <h4>Yogesh Kumar</h4>
-                                <p>UX Designer</p>
-                            </div>
-                            <div class="" style="width: 145px;">
-                            <h4>10 August 2023</h4>
-                            <p>Birthday</p>
-                            </div>
-                            <div class="total-leave" style="width: 100px; text-align: right;">
-                                <p>1 day</p>
-                            </div>
-                            <div class="rejected-history" style="width: 100px; text-align: right;">
-                                <p>Rejected</p>
-                            </div>
-                        </div>
-                        </div>
-
-                        <div class="text-center load-more-btn mt-3">
-                            <p>Load more <i class="bi bi-chevron-down"></i> </p>
-                        </div>
-                     </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-        
-
-
-    <div class="modal fade" id="leave-appervo" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 570px;" role="document">
-            <div class="modal-content">
-                <!-- <div class="modal-header">
-                    <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Leave Requests </h6>
-                  
-                </div>end modal-header -->
-                <div class="modal-body p-5">
-                    <button type="button" class="leave-request-modat-close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x" style="line-height: 20px;"></i></button>
-                    <div class="text-center leave-appervo-modal">
-                        <div class="d-flex align-items-start justify-content-between">
-                            <div class="d-flex align-items-center profile-details" style="gap:15px;">
-                                <div class="profile-user-img">
-                                        <img src="assets/images/user.png" style="width:50px">
-                                </div>
-                                <div class="">
-                                    <h4>Yogesh Kumar</h4>
-                                    <p>yogesh@krenai.com</p>
-                                </div>
-                            </div>
-                            <div class="total-holidey-live">
-                                <h5>10 - 11 August 2023</h5>
-                                <p>Sick Leave ( 3 Days )</p>
-
-                            </div>
-                        </div>
-
-                        <div class="mt-4">
-                            <div class="d-flex align-items-center">
-                                <div class="Approved rejected-css">
-                                    <p class="mb-0" style="color: black"></p>
-                                    <span style="color: #9196a4 !important; text-align: left; font-size: 14px; font-weight: 400;" class="total-holiday">Sick Leave</span>
-                                </div>
-                                <div class="Approved">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Approved</span>
-                                </div>
-                                <div class="Approved pending-css">
-                                    <p class="mb-0">0</p>
-                                    <span class="total-holiday">Pending</span>
-                                </div>
-                                <div class="Approved remaining-css">
-                                    <p class="mb-0">10</p>
-                                    <span class="total-holiday">Remaining</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <h4>Yogesh Kumar </h4>
-                        <H5>(10-11 August 2023)</H5> -->
-                        <p class="mt-4 mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-
-                        <div class="d-flex align-items-center justify-content-end" style="gap:10px">
-                            <button class="btn approve-btn" type="button">Apporve</button>
-                            <button class="btn reject-btn" type="button">Rejected</button>
-                        </div>
                     </div>
                     
-                </div><!--end modal-body-->
-               
-            </div><!--end modal-content-->
-        </div><!--end modal-dialog-->
-    </div><!--end modal-->
+                      <!-- <a href="" class="view-loges-btn">Apply for leaves <i class="bi bi-chevron-right"></i></a> -->
+                      <!-- <div class="dropdown" style="width: 30%;" *ngIf="(ROLE!='USER')">
+                         <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select Team <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button>
+                         <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
+                            <li class="ng-star-inserted" *ngFor="let tn of teamNameList"><a class="dropdown-item"> {{tn}} </a></li>
+                           
+                         </ul>
+                      </div> -->
+                   </div>
+                   <hr style="margin-bottom: 5px;">
+                   <!-- <div class="mb-3">
+                      <div class="form-group pb-1" style="width: 100%; position: relative; border-bottom: 1px solid #e8ebf3">
+                         <input  type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important;">
+                         <i  class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
+                      </div>
+                   </div> -->
+                   <div class="mb-3" *ngIf="(ROLE!='USER')">
+                        <div class="form-group pb-1" style="width: 100%; position: relative; border-bottom: 1px solid #e8ebf3">
+                            <input type="text" id="searchText" placeholder="Search" [(ngModel)]="searchString"
+                                class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important;"
+                                (keyup)="searchLeaves()">
+                            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;" *ngIf="searchString==''"></i>
+                            <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px;" *ngIf="searchString!=''" (click)="clearSearchUsers()"></i>
+                        </div>
+                   </div>
 
+                   <div class="leave-logs">
+                      <ul class="acitivity-timeline-2 list-unstyled mb-0 ng-star-inserted" *ngFor="let fullLogList of fullLeaveLogs">
+                         <li>
+                            <h6 class="fs-md mt-0 d-flex align-items-center justify-content-between">
+                               <div class="">
+                                  {{fullLogList.username}} | 
+                                  <span style="color: orange;" class="ng-star-inserted" *ngIf="fullLogList.status == 'pending'">Applied
+                                  <span> To </span></span>
+                                  <span style="color: green;" class="ng-star-inserted" *ngIf="fullLogList.status == 'approved'">Approved
+                                  <span> By </span></span>
+                                  <span style="color: rgb(255, 55, 0);" class="ng-star-inserted" *ngIf="fullLogList.status == 'rejected'">Rejected 
+                                  <span> By </span></span>
+                                  <span> - </span>
+                                  <span style="color: #6cbee8;">{{fullLogList.managerName}}</span>
+                               </div>
+                               <div class="">
+                                  <p>{{fullLogList.leaveType}}</p>
+                               </div>
+                            </h6>
+                            <div style="display: block; margin-top: 5px; color: #6c757d;">
+                               <span style="font-size: 13px; font-weight: 600; vertical-align: middle;">
+                               <i class="bi bi-calendar3" style="margin-right: 5px;"></i> {{
+                                formatDateIn(
+                                formatDate(fullLogList.leaveDate)
+                                ) || "N/A"
+                                }}&nbsp;<span>{{
+                                  formatTime(fullLogList.leaveDate) || "N/A"
+                                  }}</span>
+                               </span>
+                            </div>
+                            <div class="d-flex align-items-center mb-1 mt-2 gap-3">
+                               <p class="mb-0" style="font-size: 12px;">
+                                  <span><b>Duration</b></span>
+                                  <span> : </span> {{formatDateIn(
+                                    formatDate(fullLogList.startDate)
+                                    )}} - {{formatDateIn(
+                                formatDate(fullLogList.endDate)
+                                )}} 
+                                  <span class="space-box"> | </span>
+                                  <span class="ng-star-inserted">
+                                  <span><b>Total Days Count</b>
+                                  </span> : {{fullLogList.totalDays}}</span>
+                               </p>
+                            </div>
+                            <p class="text-muted mb-0">
+                               <b>Reason : </b>{{fullLogList.notes}}  
+                            </p>
+                         </li>
+                      </ul>
+                   </div>
+                   <div class="text-center load-more-btn">
+                      <p> Load more <i class="bi bi-chevron-down"></i> </p>
+                   </div>
+                </div>
+             </div>
+             <div class="col-md-6">
+                <div class="my-leave-log">
+                   <div class="my-leave-log-hedding d-flex align-items-center justify-content-between leave-request-padding">
+                      <h4>Leave Requests</h4>
+                      <!-- <a href="" class="view-loges-btn">View All <i class="bi bi-chevron-right"></i> </a> -->
+                      <a href="" class="view-loges-btn" *ngIf="(ROLE!='ADMIN')">Apply for leaves <i class="bi bi-chevron-right"></i></a>
+                   </div>
+                   <hr>
+                   <div class="panding-leave-box">
+                      <p>Pending Leave</p>
+                      <div class="leave-history-box">
+                        <div class="d-flex align-items-center mt-3" style="gap:15px;" *ngFor="let pl of pendingLeaves">
+                            <div class="" style="width: 50px;" *ngIf="pl.image">
+                                <img src="{{pl.image}}">
+                            </div>
+                            <div class="" style="width: 50px;" *ngIf="!pl.image">
+                                <img src="assets/images/user.png">
+                            </div>
+                            <div class="" style="width: 150px;">
+                                <h4>{{pl.username}}</h4>
+                                <p> {{
+                                    formatDateIn(
+                                    formatDate(pl.leaveDate)
+                                    ) || "N/A"
+                                    }}&nbsp;<span>{{
+                                      formatTime(pl.leaveDate) || "N/A"
+                                      }}</span></p>
+                                <!-- <p>{{pl.leaveType}}</p> -->
+                            </div>
+                            <div class="" style="width: 145px;">
+                            <h4>{{pl.leaveType}}</h4>
+                            <p>{{formatDateIn(formatDate(pl.startDate))}} - {{formatDateIn(formatDate(pl.endDate))}}</p>
+                            </div>
+                            <div class="total-leave" style="width: 100px; text-align: right;">
+                                <p>{{pl.totalDays}} days</p>
+                            </div>
+                            <div class="" style="width: 100px; text-align: right;">
+                                <span (click)="getPendingLeave(pl.id, pl.leaveType)"> 
+                                <a class="view-loges-btn" data-bs-toggle="modal" data-bs-target="#leave-appervo"> View </a>
+                                </span>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="text-center load-more-btn mt-3">
+                         <p>Load more <i class="bi bi-chevron-down"></i> </p>
+                      </div>
+                   </div>
+                   <div class="panding-leave-box mt-3">
+                      <p>Leaves History</p>
+                      <div class="leave-history-box">
+                        <div class="d-flex align-items-center mt-3" style="gap:15px;" *ngFor="let arl of approvedRejectedLeaves">
+                            <div class="" style="width: 50px;" *ngIf="arl.image">
+                                <img src="{{arl.image}}">
+                            </div>
+                            <div class="" style="width: 50px;" *ngIf="!arl.image">
+                                <img src="assets/images/user.png">
+                            </div>
+                            <div class="" style="width: 150px;">
+                                <h4>{{arl.username}}</h4>
+                                <p> {{
+                                    formatDateIn(
+                                    formatDate(arl.leaveDate)
+                                    ) || "N/A"
+                                    }}&nbsp;<span>{{
+                                      formatTime(arl.leaveDate) || "N/A"
+                                      }}</span></p>
+                                <!-- <p>{{pl.leaveType}}</p> -->
+                            </div>
+                            <div class="" style="width: 145px;">
+                            <h4>{{arl.leaveType}}</h4>
+                            <p>{{formatDateIn(formatDate(arl.startDate))}} - {{formatDateIn(formatDate(arl.endDate))}}</p>
+                            </div>
+                            <div class="total-leave" style="width: 100px; text-align: right;">
+                                <p>{{arl.totalDays}} days</p>
+                            </div>
+                            <div class="approved-history" *ngIf="arl.status == 'approved'" style="width: 100px; text-align: right;">
+                                <p>{{transform(arl.status)}}</p>
+                            </div>
+                            <div class="rejected-history" *ngIf="arl.status == 'rejected'" style="width: 100px; text-align: right;">
+                                <p>{{transform(arl.status)}}</p>
+                            </div>
+                        </div>
+                         
+                      </div>
+                      <div class="text-center load-more-btn mt-3">
+                         <p>Load more <i class="bi bi-chevron-down"></i> </p>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
 
-   
+    <!-- Modal for Viewing Leave Details -->
+<div class="modal fade" id="leave-appervo" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 570px;" role="document">
+       <div class="modal-content">
+          <div class="modal-body p-5">
+             <button type="button" class="leave-request-modat-close-btn" data-bs-dismiss="modal" aria-label="Close" #closeModal><i class="bi bi-x" style="line-height: 20px;"></i></button>
+             <div class="text-center leave-appervo-modal" *ngIf="specificLeaveRequest">
+                <div class="d-flex align-items-start justify-content-between">
+                   <div class="d-flex align-items-center profile-details" style="gap:15px;">
+                      <div class="profile-user-img">
+                         <img [src]="specificLeaveRequest.image || 'assets/images/user.png'" style="width:50px">
+                      </div>
+                      <div>
+                         <h4>{{ specificLeaveRequest.name }}</h4>
+                         <p>{{ specificLeaveRequest.email }}</p>
+                      </div>
+                   </div>
+                   <div class="total-holidey-live">
+                      <h5>{{specificLeaveRequest.startDate | date : 'dd MMM yyyy' || 'N/A'}} - {{specificLeaveRequest.endDate | date : 'dd MMM yyyy' || 'N/A'}} </h5>
+                      <!-- <h5>{{ formatDateIn(formatDate(specificLeaveRequest.startDate)) }} - {{ formatDateIn(formatDate(specificLeaveRequest.endDate)) }}</h5> -->
+                      <p>{{ specificLeaveRequest.leaveType }} ( {{ specificLeaveRequest.totalDays }} Days ) </p>
+                      <p>{{ specificLeaveRequest.leaveDate | date : 'dd MMM yyyy hh:mm:ss a'  }}</p>
+                   </div>
+                </div>
+                <div class="mt-4">
+                    <div class="d-flex align-items-center">
+                       <div class="Approved rejected-css">
+                          <p class="mb-0" style="color: black"></p>
+                          <span style="color: #9196a4 !important; text-align: left; font-size: 14px; font-weight: 400;" class="total-holiday">{{specificLeaveRequest.leaveType}}</span>
+                       </div>
+                       <div class="Approved">
+                          <p class="mb-0">{{specificLeaveRequest.approvedLeaves}}</p>
+                          <span class="total-holiday">Approved</span>
+                       </div>
+                       <div class="Approved pending-css">
+                          <p class="mb-0">{{specificLeaveRequest.pendingLeaves}}</p>
+                          <span class="total-holiday">Pending</span>
+                       </div>
+                       <div class="Approved remaining-css">
+                          <p class="mb-0">{{specificLeaveRequest.remainingLeaves}}</p>
+                          <span class="total-holiday">Remaining</span>
+                       </div>
+                    </div>
+                <p class="mt-4 mb-4">{{ specificLeaveRequest.notes }}</p>
+                <!-- <div class="d-flex align-items-center justify-content-end" style="gap:10px">
+                   <button class="btn approve-btn" type="button">Approve</button>
+                   <button class="btn reject-btn" type="button">Reject</button>
+                </div> -->
+                <div class="d-flex align-items-center justify-content-end" style="gap:10px"
+                   *ngIf="(specificLeaveRequest.managerUuid===logInUserUuid) || (ROLE=='ADMIN')">
+                   <button class="btn approve-btn" type="button"
+                       (click)="approveOrDeny(specificLeaveRequest.id, 'approved')">Approve</button>
+                   <button class="btn reject-btn" type="button"
+                       (click)="approveOrDeny(specificLeaveRequest.id, 'rejected')">Reject</button>
+                   </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+ 
+    <!-- <div class="modal fade" id="leave-appervo" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+       <div class="modal-dialog modal-dialog-centered" style="max-width: 570px;" role="document">
+          <div class="modal-content">
+             <div class="modal-body p-5">
+                <button type="button" class="leave-request-modat-close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x" style="line-height: 20px;"></i></button>
+                <div class="text-center leave-appervo-modal">
+                   <div class="d-flex align-items-start justify-content-between">
+                      <div class="d-flex align-items-center profile-details" style="gap:15px;">
+                         <div class="profile-user-img">
+                            <img src="assets/images/user.png" style="width:50px">
+                         </div>
+                         <div class="">
+                            <h4>Yogesh Kumar</h4>
+                            <p>yogesh@krenai.com</p>
+                         </div>
+                      </div>
+                      <div class="total-holidey-live">
+                         <h5>10 - 11 August 2023</h5>
+                         <p>Sick Leave ( 3 Days )</p>
+                      </div>
+                   </div>
+                   <div class="mt-4">
+                      <div class="d-flex align-items-center">
+                         <div class="Approved rejected-css">
+                            <p class="mb-0" style="color: black"></p>
+                            <span style="color: #9196a4 !important; text-align: left; font-size: 14px; font-weight: 400;" class="total-holiday">Sick Leave</span>
+                         </div>
+                         <div class="Approved">
+                            <p class="mb-0">0</p>
+                            <span class="total-holiday">Approved</span>
+                         </div>
+                         <div class="Approved pending-css">
+                            <p class="mb-0">0</p>
+                            <span class="total-holiday">Pending</span>
+                         </div>
+                         <div class="Approved remaining-css">
+                            <p class="mb-0">10</p>
+                            <span class="total-holiday">Remaining</span>
+                         </div>
+                      </div>
+                   </div>
+                   <p class="mt-4 mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                   <div class="d-flex align-items-center justify-content-end" style="gap:10px">
+                      <button class="btn approve-btn" type="button">Apporve</button>
+                      <button class="btn reject-btn" type="button">Rejected</button>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div> -->

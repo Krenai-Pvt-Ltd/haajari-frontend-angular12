@@ -42,6 +42,7 @@ import { SalaryTemplateComponentRequest } from "../models/salary-template-compon
 import { WeeklyHoliday } from "../models/WeeklyHoliday";
 import { WeekDay } from "../models/WeekDay";
 import { Key } from '../constant/key';
+import { ResponseEntityObject } from "../models/response-entity-object.model";
 
 
 @Injectable({
@@ -1554,6 +1555,44 @@ export class DataService {
 
   getOnboardingVia(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/whatsapp-user-onboarding/get-onboarding-via`);
+  }
+
+  //  central - leave - management 
+
+
+  approveOrRejectLeaveOfUser(requestedLeaveId: number, appRejString: string): Observable<any> {
+    const params = new HttpParams()
+      .set('requestedLeaveId', requestedLeaveId)
+      .set('appRejString', appRejString);
+    return this.httpClient.post<any>(`${this.baseUrl}/central-leave-management/approve-reject-leaves`, {}, { params });
+  }
+
+  getFullLeaveLogsRoleWise(searchString: string, teamString: string): Observable<any> {
+    const params = new HttpParams()
+      .set('searchString', searchString)
+      .set('teamString', teamString);
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-full-leave-logs-role-wise`, { params });
+  }
+
+  getPendingLeaves(): Observable<any> {
+    // const params = new HttpParams()
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-pending-leaves-role-wise`);
+  }
+
+  getApprovedRejectedLeaveLogs(): Observable<any> {
+    // const params = new HttpParams()
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-approved-rejected-leave-logs-role-wise`);
+  }
+
+  getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId: number, leaveType: string): Observable<any> {
+    const params = new HttpParams()
+      .set('leaveId', leaveId)
+      .set('leaveType', leaveType);
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-pending-leave-by-leave-id-leave-type`, { params });
+  }
+
+  getAllTeamNames(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-all-team-names`);
   }
 
 }
