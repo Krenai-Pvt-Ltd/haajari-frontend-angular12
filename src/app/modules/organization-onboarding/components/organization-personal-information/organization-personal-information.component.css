@@ -1,6 +1,3 @@
-body.dark-sidebar .left-sidebar {
-  background-color: #fff;
-}
 
 .left-sidebar {
   min-width: 250px;
@@ -737,7 +734,7 @@ span.rectanglebox {
 }
 
 .sgsetprofilemain {
-  width: 120px;
+  width: 150px;
   margin: 0 auto;
   margin-top: 32px;
 }
@@ -748,8 +745,8 @@ span.rectanglebox {
   justify-content: center;
   align-items: center;
   border: 1px solid #f1f1f1;
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   overflow: hidden;
   position: relative;
   border-radius: 50%;
@@ -767,6 +764,7 @@ button.close.profile-close-modal {
 .sgsetprofile img {
     width: 100%;
     height: 100%;
+    padding: 16px;
     -o-object-fit: cover;
     object-fit: cover;
     -o-object-position: top;
@@ -865,7 +863,7 @@ button.close.profile-close-modal {
 .profile-input {
   background-color: #ececec36 !important;
   border: 1px solid #cacaca !important;
-  border-radius: 6px;
+  border-radius: 2px;
   height: 42px !important;
   font-weight: 400 !important;
   font-size: 14px !important;
@@ -886,7 +884,7 @@ a.Verify-otps {
   position: absolute;
   right: 0px;
   top: 30px;
-  border-radius: 0 6px 6px 0;
+  border-radius: 0 2px 2px 0;
   opacity: .8;
   background: #e9e9ff;
   padding: 10px 20px;
@@ -950,4 +948,13 @@ a.Verify-otps {
   font-size: 12px;
   line-height: 26px;
 
+}
+/* Pushpendra's Code  */
+.card-header{
+  background-color: #fff;
+  border: 0;
+  border-bottom: 1px dashed #e8ebf3;
+}
+.bg-soft-warning:hover{
+  background-color: rgba(255, 159, 67, .08) !important;
 }

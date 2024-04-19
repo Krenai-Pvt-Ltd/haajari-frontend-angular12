@@ -10,14 +10,10 @@
                 <div class="col-md-12">
                     <div class="persnol-details">
 
-                        <div class="d-flex align-items-center" style="gap:15px">
-                            <!-- <div class="add-filtter" (click)="backPage()">
-                                <a><i class="bi bi-chevron-left"></i></a>
-                            </div> -->
-                            <h5 class="mb-0">Shift Time</h5>
+                        <div class="card-header">
+                            <h4 class="card-title">Shift Time</h4>
+                            <p class="text-muted mb-0">To enhance your experience and ensure accurate communication on our platform, we kindly ask you to review and update your personal information.</p>  
                         </div>
-
-
 
                         <form>
                             <div class="form-group">
@@ -87,6 +83,7 @@
                                                             </div>
                         
                                                             <!-- In Time Input -->
+                                                            
                                                             <div class="col-md-4">
                                                                 <div class="mb-3">
                                                                     <label for="inTime" class="pb-2">In Time</label>
@@ -480,9 +477,9 @@
                     <div class="">
                         <div class="next-btn-box d-flex align-items-center justify-content-between">
                          
-                          <button class="btn cnceltopics" type="button" (click)="backPage()"> <i class="bi bi-arrow-left" style="padding-right: 3px; padding-right: 1px; position: relative; top: -1px;"></i>  Previous </button>
+                          <button class="btn btn-outline-secondary btn-round" type="button" (click)="backPage()"> <i class="bi bi-arrow-left" style="padding-right: 3px; padding-right: 1px; position: relative; top: -1px;"></i>  Previous </button>
             
-                          <button type="submit" class="btn btn-primary new-submit" [disabled]="shiftForm.invalid"
+                          <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="shiftForm.invalid"
                           (click)="staffActiveTabInShiftTimingMethod()">
                             <span> Next  <i class="bi bi-arrow-right"
                               style="padding-left: 8px;"></i></span>

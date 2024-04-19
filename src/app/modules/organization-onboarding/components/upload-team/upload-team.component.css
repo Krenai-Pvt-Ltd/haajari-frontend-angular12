@@ -1602,8 +1602,8 @@ span.unpaid {
   .excel-uplode-file-box {
     width: 100%;
     background-color: #f8fafb;
-    border-radius: 6px;
-    border: 2px dashed #e6e9f1;
+    border-radius: 2px;
+    border: 1px dashed #e8ebf3;
     text-align: center;
     padding: 20px;
 }
@@ -1748,4 +1748,13 @@ span.unpaid {
     min-width: 100px;
     box-shadow: none !important;
     cursor: pointer;
+  }
+/* Pushpendra's Code  */
+  .card-header{
+    background-color: #fff; 
+    border: 0;
+    border-bottom: 1px dashed #e8ebf3;
+  }
+  .bg-soft-warning:hover{
+    background-color: rgba(255, 159, 67, .08) !important;
   }

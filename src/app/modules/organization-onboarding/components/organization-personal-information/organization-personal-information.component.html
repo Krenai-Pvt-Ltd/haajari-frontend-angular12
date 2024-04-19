@@ -3,10 +3,13 @@
     <div class="container-fluid">
 
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 mt-2">
           <div class="persnol-details">
-            <h5>Personal Information</h5>
-            <p class="mb-0">Fields with * are mandatory </p>
+
+            <div class="card-header">
+              <h4 class="card-title">Personal Information</h4>
+              <p class="text-muted mb-0">To enhance your experience and ensure accurate communication on our platform, we kindly ask you to review and update your personal information.</p>  
+            </div>
             <form #personalInformationForm="ngForm" autocomplete="off">
               <div class="form-group">
                 <div class="persnol-info mt-4">
@@ -58,10 +61,12 @@
                               oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
                               (keyup)="checkExistance(organizationPersonalInformation.phoneNumber)" #phone="ngModel"
                               required disabled>
-                            <button class="btn btn-default toggle-password" style="top: 33%;" type="button">
+                            <div class="btn btn-default toggle-password" style="top: 33%;">
 
-                              <span style="font-size: 20px;color: green;"><i class="bi bi-check2-circle"></i></span>
+                               <button type="button" class="btn btn-soft-info btn-icon-circle btn-icon-circle-sm mb-2">
+                                <i class="fas fa-check text-success"></i>
                             </button>
+                            </div>
                             <p *ngIf="isNumberExist" class="error text-danger">this number already exist</p>
                           </div>
                           <div *ngIf="phone?.touched && phone.invalid">
@@ -110,8 +115,12 @@
                           </div>
                         </div>
 
-
-                        <div class="col-md-12">
+                        <div class="card-header mt-4">
+                          <h4 class="card-title">Address Information</h4>
+                          <p class="text-muted mb-0">To ensure seamless delivery and accurate communication, we kindly request you to review and update your address information</p>
+                        </div>
+                        
+                        <div class="col-md-12 mt-4">
                           <div class="mb-3" style="position: relative;">
                            
                               <label class="pb-2">Address <span
@@ -126,7 +135,7 @@
 
 
 
-                              <a class="Verify-otps disabled-link"><i class="fa fa-crosshairs" style="padding-right: 8px;"></i> Fetch current location </a>
+                              <a class="Verify-otps disabled-link"><i class="ti ti-current-location" style="padding-right: 8px;"></i>Fetch Current Location </a>
                            
 
 
@@ -295,7 +304,7 @@
                               <i class="sg-remove"></i>
                             </div>
                             <div class="sgsetprofile pointer">
-                              <img src="assets/images/3-bpthumb.jpeg">
+                              <img src="assets/images/update-min.svg">
                               <div class="picoverlay" data-bs-toggle="modal" data-bs-target="#image-picker">
                                 <span>Upload</span>
                               </div>
@@ -307,14 +316,22 @@
 
                         </div>
 
-                        <div class="text-center p-3 image-instructions">
-                          <h4>Image Instructions</h4>
-                         <ul>
-                          <li>1. Please use only .png, .Jpg, .jpeg</li>
-                          <li>2. Size range is below 200x200</li>
-                          <li>3. Logo 100 X 200 ratio is best</li>
-                         </ul>
-                        </div>
+                        <div class="alert alert-light mb-0 mt-4 bg-soft-warning" role="alert">
+                          <h4 class="alert-heading font-18">Attention!</h4>
+                          <p>We're excited to enhance your experience on our platform by allowing you to personalize your profiles with images. <br>Please note the following guidelines for profile images:</p>
+                          <p class="mb-0"><i class="la la-arrow-right text-secondary me-2"></i>Size: 400x400 pixels</p>
+                          <p class="mb-0"><i class="la la-arrow-right text-secondary me-2"></i>Accepted formats: JPG and PNG</p>
+                      </div>
+
+                        <!-- <div class="text-center p-3 image-instructions">
+
+                          <div class="alert alert-light alert-dismissible fade show border-0" role="alert">
+                            <strong>TYPE!</strong> Please use only .png, .jpeg<br>
+                            <strong>SIZE!</strong>  Range is below 400x400
+                          </div>
+                          
+
+                        </div> -->
                         
                       </div>
                     </div>
@@ -325,11 +342,7 @@
 
                    
                     <div class="row mt-2">
-                     
-
-
-                   
-
+                    
                     
 <!--               
                     <div class="col-md-12 d-flex justify-content-end">
@@ -356,7 +369,7 @@
              
                <!-- <button class="btn btn-primary" type="button">Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i></button> -->
 
-              <button type="submit" class="btn btn-primary new-submit" (click)="submit()">
+              <button type="submit" class="btn btn-outline-primary btn-round" (click)="submit()">
                 <span *ngIf="!loading">Next <i class="bi bi-arrow-right"
                   style="padding-left: 8px;"></i></span>
                 <div class="dot-opacity-loader" *ngIf="loading">
@@ -390,7 +403,7 @@
               <div class="row imgupldbg">
                 <div class="col-lg-12 bg-wallet position-relative">
                   <div class="currentimageuplded position-relative">
-                    <img src="assets/images/3-bpthumb.jpeg">
+                    <img src="assets/images/update-min.svg">
                   </div>
                 </div>
               </div>
