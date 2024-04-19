@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-    debugger
+    
     const token = localStorage.getItem('token');
     if (! await (this.isValidTokenFormat(token))) {
       this.router.navigate(['/auth/login']);
@@ -45,6 +45,7 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
+  
   async isValidTokenFormat(token: string | null): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       try {

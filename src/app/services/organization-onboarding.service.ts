@@ -21,15 +21,15 @@ export class OrganizationOnboardingService {
     return this._httpClient.post(this._key.base_url + this._key.user_import, formdata);
   }
 
-  createAdmin(user:UserReq) {
-    debugger
-    return this._httpClient.post(this._key.base_url + this._key.create_admin, user);
-  }
+  // createAdmin(user:UserReq) {
+  //   debugger
+  //   return this._httpClient.post(this._key.base_url + this._key.create_admin, user);
+  // }
 
-  createAdminNew(user:UserReq) {
-    debugger
-    return this._httpClient.post(this._key.base_url + this._key.create_admin_new, user);
-  }
+  // createAdminNew(user:UserReq) {
+  //   debugger
+  //   return this._httpClient.post(this._key.base_url + this._key.create_admin_new, user);
+  // }
 
   createOnboardUser(userList:UserListReq) {
     debugger
@@ -61,25 +61,34 @@ export class OrganizationOnboardingService {
     return this._httpClient.get(this._key.base_url + this._key.get_report, { params });
   }
 
-  checkNumberExist(number: string) {
+  checkEmployeeNumberExist(number: string, uuid:string) {
     debugger
     const params = new HttpParams()
-      .set('phone', number);
+      .set('phone', number)
+      .set('uuid', uuid);
     return this._httpClient.get(this._key.base_url + this._key.check_number_existence, {params});
   }
 
-  checkNumberExist1(number: string) {
+  checkAdminNumberExist(number: string) {
     debugger
     const params = new HttpParams()
-      .set('phone', number);
+      .set('phone', number)
     return this._httpClient.get(this._key.base_url + this._key.check_number_existence, {params});
   }
 
-  checkEmailExist(email: string) {
+  checkEmployeeEmailExist(email: string, uuid:string) {
+    debugger
+    const params = new HttpParams()
+      .set('email', email)
+      .set('uuid', uuid);
+    return this._httpClient.get(this._key.base_url + this._key.check_email_existence, {params});
+  }
+
+  checkAdminEmailExist(email: string) {
     debugger
     const params = new HttpParams()
       .set('email', email);
-    return this._httpClient.get(this._key.base_url + this._key.check_email_existence, {params});
+    return this._httpClient.get(this._key.base_url + this._key.check_user_email_existence, {params});
   }
 
   

@@ -19,6 +19,6 @@ export class AttendanceDetailsResponse {
     duration : string = '';
     breakCount : number = 0;
     breakDuration : string = '';
-    breakTimings : BreakTimings[] = [];
+    breakTimingsList : BreakTimings[] = [];
 
 }

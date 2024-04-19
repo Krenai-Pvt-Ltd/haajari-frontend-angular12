@@ -127,8 +127,8 @@
                   ><i class="bi bi-plus-circle"></i> Create Team
                 </a>
   
-                <p style="color: #a1a0a0; margin-bottom: 0px" *ngIf="ROLE=='ADMIN'">|</p>
-                <a (click)="getFlagOfSlackPlaceholder2()" [ngClass]="{'disabled-lnk':rotateToggle}" *ngIf="ROLE=='ADMIN'"
+                <p style="color: #a1a0a0; margin-bottom: 0px" *ngIf="ROLE=='ADMIN' && onboardingVia=='SLACK'">|</p>
+                <a (click)="getFlagOfSlackPlaceholder2()" [ngClass]="{'disabled-lnk':rotateToggle}" *ngIf="ROLE=='ADMIN' && onboardingVia=='SLACK'"
                   ><i
                     style="
                       font-size: 16px;
@@ -319,10 +319,10 @@
               style="flex-direction: column"
             >
               <div class="">
-                <h4>Add a new hire to Hajiri</h4>
+                <h4>Click 'Create Team' to get started</h4>
                 <p>
-                  New team members appear here when they<br />
-                  finish their onboarding.
+                  Create a new team for your organization from here<br />
+                  once they finish their onboarding.
                 </p>
   
                 <div class="mb-3">
@@ -355,7 +355,7 @@
                   <button
                     type="button"
                     class="btn create-team-on-slack"
-                    (click)="getFlagOfSlackPlaceholder()"
+                    (click)="getFlagOfSlackPlaceholder()" *ngIf="onboardingVia=='Slack'"
                   >
                     Slack Data Sync..
                   </button>
@@ -864,6 +864,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            #closeCreateTeam
           ></button>
         </div>
         <!--end modal-header-->
@@ -1176,6 +1177,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            #assignManagerModalCloseButton
           ></button>
         </div>
         <!--end modal-header-->
@@ -1310,7 +1312,7 @@
                               >
                             </div>
                             <div class="manager-list">
-                              <a class="dropdown-item">View Profile</a>
+                              <a class="dropdown-item" (click)="routeToUserDetails(ul.uuid)">View Profile</a>
                             </div>
                             <div class="manager-list remove-team">
                               <a

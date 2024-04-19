@@ -1,329 +1,361 @@
 <div class="page-wrapper">
-  <div class="page-content-tab">
+  <div class="page-content-tab-onbording">
     <div class="container-fluid">
 
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 mt-2">
           <div class="persnol-details">
-            <h5>Personal Information</h5>
-            <p class="mb-0">Fields with * are mandatory </p>
-            <form #personalInformationForm="ngForm">
+
+            <div class="card-header">
+              <h4 class="card-title">Personal Information</h4>
+              <p class="text-muted mb-0">To enhance your experience and ensure accurate communication on our platform, we kindly ask you to review and update your personal information.</p>  
+            </div>
+            <form #personalInformationForm="ngForm" autocomplete="off">
               <div class="form-group">
                 <div class="persnol-info mt-4">
                   <div class="row">
                     <div class="col-md-9">
                       <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                           <div class="mb-3">
                             <label for="name" class="pb-2">Name <span class="text-optional">*</span></label>
-                            <input type="text" required class="form-control" id="adminname"
+                            <input type="text" required class="form-control profile-input" id="adminname"
                               [(ngModel)]="organizationPersonalInformation.adminName"
                               (keydown)="preventLeadingWhitespace($event)" placeholder="Enter admin name"
-                              name="adminName" #adminName="ngModel" minlength="3">
+                              name="adminName" #adminName="ngModel" minlength="5">
                           </div>
-                          <div *ngIf="adminName?.dirty">
-                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="adminName.errors?.required"><i
-                                class="bi bi-exclamation-circle"></i>
-                              Admin Name is required.</p>
-                            <p class="errortxt mt-2 mb-0 " style="color:red"
-                              *ngIf="adminName?.touched && adminName.errors?.minlength"><i
-                                class="bi bi-exclamation-circle"></i>
-                              Please enter minimum five characters name.</p>
+                          <div *ngIf="adminName?.dirty || isFormInvalid">
+                            <p class="errortxt mb-2" style="color:red" *ngIf="adminName.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> Name is required.
+                            </p>
+                            <p class="errortxt mb-2" style="color:red" *ngIf="adminName.errors?.minlength">
+                              <i class="bi bi-exclamation-circle"></i> Please enter minimum five characters name.
+                            </p>
                           </div>
                         </div>
-                        <div class="col-md-12"
+
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label for="name" class="pb-2">Organization Name <span class="text-optional">*</span></label>
+                            <input type="text" required class="form-control profile-input" id="name"
+                              [(ngModel)]="organizationPersonalInformation.name"
+                              (keydown)="preventLeadingWhitespace($event)" placeholder="Enter organization name" name="name"
+                              #name="ngModel" minlength="5">
+                          </div>
+                          <div *ngIf="name?.dirty || isFormInvalid">
+                            <p class="errortxt mb-2" style="color:red" *ngIf="name.errors?.required"><i
+                                class="bi bi-exclamation-circle"></i>
+                              Organization Name is required.</p>
+                            <p class="errortxt mb-2" style="color:red" *ngIf="name.errors?.minlength"><i
+                                class="bi bi-exclamation-circle"></i>
+                              Please enter minimum five characters.</p>
+                          </div>
+                        </div>
+                        <div class="col-md-6"
                           *ngIf="organizationPersonalInformation.organization.onboardingVia == 'WHATSAPP'">
                           <div class="mb-3">
-                            <label for="phone" class="pb-2">Phone <span class="text-optional">*</span></label>
+                            <label for="phone" class="pb-2">Phone <span class="text-optional ">*</span></label>
                             <input type="tel" id="phone" name="phone"
                               [(ngModel)]="organizationPersonalInformation.phoneNumber" placeholder="Enter Phone Number"
-                              minlength="10" maxlength="10" class="form-control"
+                              minlength="10" maxlength="10" class="form-control profile-input"
                               oninput="this.value = this.value.replace(/^[^1-9]/g, '').replace(/(\..*)\./g, '$1');"
                               (keyup)="checkExistance(organizationPersonalInformation.phoneNumber)" #phone="ngModel"
                               required disabled>
-                            <button class="btn btn-default toggle-password" style="top: 33%;" type="button">
+                            <div class="btn btn-default toggle-password" style="top: 33%;">
 
-                              <span style="font-size: 20px;color: green;"><i class="bi bi-check2-circle"></i></span>
+                               <button type="button" class="btn btn-soft-info btn-icon-circle btn-icon-circle-sm mb-2">
+                                <i class="fas fa-check text-success"></i>
                             </button>
+                            </div>
                             <p *ngIf="isNumberExist" class="error text-danger">this number already exist</p>
                           </div>
                           <div *ngIf="phone?.touched && phone.invalid">
-                            <p class="errortxt mt-2 mb-0" style="color:red">
+                            <p class="errortxt mb-2" style="color:red">
                               <i class="bi bi-exclamation-circle"></i> Phone number is invalid.
                             </p>
-
                           </div>
                           <div *ngIf="phone?.touched || isFormInvalid">
-                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone.errors?.required">
+                            <p class="errortxt mb-2" style="color:red" *ngIf="phone.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Phone number is required.
                             </p>
-
                           </div>
                         </div>
-                        <div class="col-md-12"
+                        <div class="col-md-6"
                           *ngIf="organizationPersonalInformation.organization.onboardingVia == 'Slack'">
                           <div class="mb-3">
                             <label for="phone" class="pb-2">Phone <span class="text-optional">*</span></label>
-                            <input type="text" required mask="0000000000" class="form-control" id="phone" name="phone"
+                            <input type="text" required mask="0000000000" class="form-control profile-input" id="phone" name="phone"
                               [(ngModel)]="organizationPersonalInformation.phoneNumber" aria-describedby="phoneHelp"
                               #phone="ngModel" placeholder="Enter phone">
-
                           </div>
                           <div *ngIf="phone?.touched">
-                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone.errors?.required">
+                            <p class="errortxt mb-2" style="color:red" *ngIf="phone.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Phone number is required.
                             </p>
-
                           </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                           <div class="mb-3">
                             <label for="email" class="pb-2">Email Id <span
-                                class="text-optional">(Optional)</span></label>
-                            <input type="email" class="form-control" id="email"
+                                class="text-optional">*</span></label>
+                            <input type="email" class="form-control profile-input" id="email"
                               [(ngModel)]="organizationPersonalInformation.email"
                               (keydown)="preventLeadingWhitespace($event)" name="email" aria-describedby="emailHelp"
-                              #email="ngModel" placeholder="Enter email id">
+                              #email="ngModel" (keyup)="checkEmailExistance(organizationPersonalInformation.email)" placeholder="Enter email id" required>
                           </div>
-                          <div *ngIf="email?.touched || isFormInvalid">
-                            <!-- <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email.errors?.required">
+                          <p *ngIf="isEmailExist" class="error text-danger">this email
+                            already exist</p>
+                          <div *ngIf="email?.dirty || isFormInvalid">
+                            <p class="errortxt mb-2" style="color:red" *ngIf="email.errors?.required">
                               <i class="bi bi-exclamation-circle"></i> Email Id is required.
-                            </p> -->
-                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email.errors?.email">
+                            </p>
+                            <p class="errortxt mb-2" style="color:red" *ngIf="email.errors?.email">
                               <i class="bi bi-exclamation-circle"></i> Please enter a valid email address.
                             </p>
                           </div>
                         </div>
+
+                        <div class="card-header mt-4">
+                          <h4 class="card-title">Address Information</h4>
+                          <p class="text-muted mb-0">To ensure seamless delivery and accurate communication, we kindly request you to review and update your address information</p>
+                        </div>
+                        
+                        <div class="col-md-12 mt-4">
+                          <div class="mb-3" style="position: relative;">
+                           
+                              <label class="pb-2">Address <span
+                                class="text-optional">*</span></label>
+                                <!-- <a (click)="currentLocation()" *ngIf="!locationLoader">
+                                  <i class="fa fa-crosshairs" style="color: green; position: absolute; right: 8px; top: 36px; cursor: pointer;" ngbTooltip="Fetch your current location"></i>
+                                  
+                              </a> -->
+                              <!-- <div class="circle-loader" *ngIf="locationLoader"></div> -->
+
+                              <input type="text" class="form-control profile-input" placeholder="Floor No., Building Name, Street or Locality" required>
+
+
+
+                              <a class="Verify-otps disabled-link"><i class="ti ti-current-location" style="padding-right: 8px;"></i>Fetch Current Location </a>
+                           
+
+
+
+                            
+                            <!-- <textarea class="form-control" required id="addressLine1"
+                              (keydown)="preventLeadingWhitespace($event)"
+                              [(ngModel)]="organizationPersonalInformation.addressLine1" name="addressLine1" rows="10"
+                              ngx-google-places-autocomplete #placesRef="ngx-places"
+                              (onAddressChange)="handleAddressChange($event)" #addressLine1="ngModel" maxlength="150"
+                              placeholder="Floor No., Building Name, Street or Locality"
+                              style="resize: none; height: 80px !important;"></textarea> -->
+  
+                          </div>
+                          <!-- <div *ngIf="addressLine1.touched || isFormInvalid">
+                            <p class="errortxt mb-2" style="color:red" *ngIf="addressLine1.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i>
+                              Address Line 1 is required.
+                            </p>
+                            <p class="errortxt mb-2" style="color:red" *ngIf="addressLine1.errors?.minlength">
+                              <i class="bi bi-exclamation-circle"></i>
+                              Please enter a minimum of five characters.
+                            </p>
+                            <p class="errortxt mb-2" style="color:red" *ngIf="addressLine1.errors?.maxlength">
+                              <i class="bi bi-exclamation-circle"></i> Maximum 150 characters allowed.
+                            </p>
+  
+                          </div> -->
+                        </div>
+
+                        <!-- <div class="col-md-4">
+                          <div class="">
+                            <button type="button" class="btn btn-primary curent-location"><i class="fa fa-crosshairs" style="padding-right: 8px;"></i> Fetch current location </button>
+                          </div>
+
+                        </div> -->
+
+
+                        <div class="col-md-3">
+                          <div class="mb-3">
+                            <label for="city" class="pb-2">City <span class="text-optional">*</span></label>
+                            <input type="text" maxlength="30" #city="ngModel" required class="form-control profile-input" id="city"
+                              (keydown)="preventLeadingWhitespaceAndNumber($event)" name="city"
+                              [(ngModel)]="organizationPersonalInformation.city" aria-describedby="phoneHelp"
+                              placeholder="Enter City">
+                          </div>
+                          <div *ngIf="city.touched || isFormInvalid">
+                            <p class="errortxt mb-2" style="color:red" *ngIf="city.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i>
+                              City is required.
+                            </p>
+                            <p class="errortxt mb-2" style="color:red" *ngIf="city.errors?.maxlength">
+                              <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="mb-3">
+                            <label for="state" class="pb-2">State <span class="text-optional">*</span></label>
+                            <input type="text" required maxlength="30" #state="ngModel" class="form-control profile-input" id="state"
+                              name="state" (keydown)="preventLeadingWhitespaceAndNumber($event)"
+                              [(ngModel)]="organizationPersonalInformation.state" aria-describedby="phoneHelp"
+                              placeholder="Enter State">
+                          </div>
+                          <div *ngIf="state.touched || isFormInvalid">
+                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="state.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i>
+                              State is required.
+                            </p>
+                            <p class="errortxt mb-2" style="color:red" *ngIf="state.errors?.maxlength">
+                              <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
+                            </p>
+                          </div>
+                        </div>
+    
+                        <div class="col-md-3">
+                          <div class="mb-3">
+                            <label for="country" class="pb-2">Country <span class="text-optional">*</span></label>
+                            <input type="text" required maxlength="30" #country="ngModel" class="form-control profile-input" id="country"
+                              name="country" (keydown)="preventLeadingWhitespaceAndNumber($event)"
+                              [(ngModel)]="organizationPersonalInformation.country" aria-describedby="phoneHelp"
+                              placeholder="Enter Country">
+                          </div>
+                          <div *ngIf="country.touched || isFormInvalid">
+                            <p class="errortxt mb-2" style="color:red" *ngIf="country.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i>
+                              Country is required.
+                            </p>
+                            <p class="errortxt mb-2" style="color:red" *ngIf="country.errors?.maxlength">
+                              <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
+                            </p>
+                          </div>
+                        </div>
+    
+    
+                        <div class="col-md-3">
+                          <div class="mb-3">
+                            <label for="pincode" class="pb-2">Pincode <span class="text-optional">*</span></label>
+                            <input type="text" required #pincode="ngModel" mask="000000" class="form-control profile-input" id="pincode"
+                              name="pincode" [(ngModel)]="organizationPersonalInformation.pincode"
+                              aria-describedby="phoneHelp" placeholder="Enter Pincode">
+                          </div>
+                          <div *ngIf="pincode.touched || isFormInvalid">
+                            <p class="errortxt mb-2" style="color:red" *ngIf="pincode.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i>
+                              Pincode is required.
+                            </p>
+    
+                          </div>
+                        </div>
+  
+                        <!-- <div class="col-md-6">
+                          <div class="mb-2">
+                            <label for="addressLine2" class="pb-2">Address line 2</label>
+                            <textarea class="form-control" id="addressLine2" #addressLine2="ngModel"
+                              (keydown)="preventLeadingWhitespace($event)" rows="5"
+                              [(ngModel)]="organizationPersonalInformation.addressLine2" name="addressLine2"
+                              placeholder="Apartment, suite, unit, building, floor, etc." maxlength="150"
+                              style="resize: none;height: 80px !important;"></textarea>
+                          </div>
+                         
+                        </div> -->
+                      </div>
+                      </div>
+                      <div class="col-lg-3 mb-3 importfilebox">
+                        <!-- <input type="file" hidden name="img" accept="image/png, image/jpeg, image/webp" #fileInput single
+                          (change)="onFileSelected($event)" style="cursor: pointer;" id="Imageupload" />
+                         
+                        <label for="Imageupload"
+                          *ngIf="organizationPersonalInformation.logo == null || organizationPersonalInformation.logo == ''">
+                          <div #fileInput single class="d-flex justify-content-center align-items-center pointer"
+                            style="height: 120px;width: 180px;border-radius: 0.6rem;">
+                            <div *ngIf="!uploadImageLoader"
+                              class="text-center">
+                              <span><b>Drop your file here or <a class="select-file"> Select a file
+                                  </a></b><br>SVG, JPEG, JPG or PNG (max. 100px*100px)</span>
+                            </div>
+                            
+                            
+                            <div *ngIf="uploadImageLoader">
+                              <div class="spinner-border spinner-border-sm" role="status">
+                                <span class="sr-only">Loading...</span>
+                              </div>
+                              <div class="spinner-grow spinner-grow-sm mx-1" role="status">
+                                <span class="sr-only">Loading...</span>
+                              </div>
+                            </div>
+                          </div>
+                        </label> -->
+  
+                        <!--                         
+                        <label *ngIf="organizationPersonalInformation.logo != null && organizationPersonalInformation.logo != ''">
+                          <div class="d-flex justify-content-center align-items-center pointer"
+                            style="height: 120px;width: 180px;border-radius: 0.6rem;">
+                            <img src="{{organizationPersonalInformation.logo}}" alt="..." style="width: 190px">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                              <i class="fa fa-times mx-2 pointer" aria-hidden="true" (click)="organizationPersonalInformation.logo = ''"></i>
+                            </span>
+                          </div>
+                        </label> -->
+
+                        <div class="text-center">
+                          <div class="sgsetprofilemain position-relative pointer">
+                            <div class="sgsetprofileedit pointer">
+                              <i class="sg-remove"></i>
+                            </div>
+                            <div class="sgsetprofile pointer">
+                              <img src="assets/images/update-min.svg">
+                              <div class="picoverlay" data-bs-toggle="modal" data-bs-target="#image-picker">
+                                <span>Upload</span>
+                              </div>
+
+                            </div>
+
+                           
+                          </div>
+
+                        </div>
+
+                        <div class="alert alert-light mb-0 mt-4 bg-soft-warning" role="alert">
+                          <h4 class="alert-heading font-18">Attention!</h4>
+                          <p>We're excited to enhance your experience on our platform by allowing you to personalize your profiles with images. <br>Please note the following guidelines for profile images:</p>
+                          <p class="mb-0"><i class="la la-arrow-right text-secondary me-2"></i>Size: 400x400 pixels</p>
+                          <p class="mb-0"><i class="la la-arrow-right text-secondary me-2"></i>Accepted formats: JPG and PNG</p>
                       </div>
 
-                    </div>
-                    <div class="col-lg-3 mb-3 importfilebox">
-                      <input type="file" hidden name="img" accept="image/png, image/jpeg, image/webp" #fileInput single
-                        (change)="onFileSelected($event)" style="cursor: pointer;" id="Imageupload" />
-                        <!-- when logo is empty -->
-                      <label for="Imageupload"
-                        *ngIf="organizationPersonalInformation.logo == null || organizationPersonalInformation.logo == ''">
-                        <div #fileInput single class="d-flex justify-content-center align-items-center pointer"
-                          style="height: 120px;width: 180px;border-radius: 0.6rem;">
-                          <div *ngIf="!uploadImageLoader"
-                            class="text-center">
-                            <span><b>Drop your file here or <a class="select-file"> Select a file
-                                </a></b><br>SVG, JPEG, JPG or PNG (max. 100px*100px)</span>
-                          </div>
-                          <!-- loader -->
-                          <div *ngIf="uploadImageLoader">
-                            <div class="spinner-border spinner-border-sm" role="status">
-                              <span class="sr-only">Loading...</span>
-                            </div>
-                            <div class="spinner-grow spinner-grow-sm mx-1" role="status">
-                              <span class="sr-only">Loading...</span>
-                            </div>
-                          </div>
-                        </div>
-                      </label>
+                        <!-- <div class="text-center p-3 image-instructions">
 
-                      <!-- when logo is uploaded -->
-                      <label *ngIf="organizationPersonalInformation.logo != null && organizationPersonalInformation.logo != ''">
-                        <div class="d-flex justify-content-center align-items-center pointer"
-                          style="height: 120px;width: 180px;border-radius: 0.6rem;">
-                          <img src="{{organizationPersonalInformation.logo}}" alt="..." style="width: 190px">
-                          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
-                            <i class="fa fa-times mx-2 pointer" aria-hidden="true" (click)="removeImage()"></i>
-                          </span>
-                        </div>
-                      </label>
-                      
+                          <div class="alert alert-light alert-dismissible fade show border-0" role="alert">
+                            <strong>TYPE!</strong> Please use only .png, .jpeg<br>
+                            <strong>SIZE!</strong>  Range is below 400x400
+                          </div>
+                          
+
+                        </div> -->
+                        
+                      </div>
                     </div>
+                    
                   </div>
                   <div class="row">
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="name" class="pb-2">Organization Name <span class="text-optional">*</span></label>
-                        <input type="text" required class="form-control" id="name"
-                          [(ngModel)]="organizationPersonalInformation.name"
-                          (keydown)="preventLeadingWhitespace($event)" placeholder="Enter organization name" name="name"
-                          #name="ngModel" minlength="5">
-                      </div>
-                      <div *ngIf="name?.dirty  || isFormInvalid">
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name.errors?.required"><i
-                            class="bi bi-exclamation-circle"></i>
-                          Name is required.</p>
-                        <p class="errortxt mt-2 mb-0 " style="color:red" *ngIf="name.errors?.minlength"><i
-                            class="bi bi-exclamation-circle"></i>
-                          Please enter minimum five characters name.</p>
-                      </div>
-                    </div>
+                   
 
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="password" class="pb-2">Password <span class="text-optional">*</span></label>
-                        <input [type]="showNewPassword ? 'text' : 'password'" class="form-control"
-                          (keydown)="preventLeadingWhitespace($event)"
-                          [(ngModel)]="organizationPersonalInformation.password" name="password" #password="ngModel"
-                          required minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" id="password"
-                          aria-describedby="passwordHelp" placeholder="Enter password">
-                        <button class="btn btn-default toggle-password" type="button"
-                          (click)="toggleNewPasswordVisibility()">
-                          <i class="bi" [class]="showNewPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
-                        </button>
-                        <div *ngIf="password?.touched">
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="password.errors?.required">
-                            <i class="bi bi-exclamation-circle"></i> Password is required.
-                          </p>
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="password.errors?.minlength">
-                            <i class="bi bi-exclamation-circle"></i> Password must be at least 8 characters long.
-                          </p>
-                          <p class="errortxt mt-2 mb-0" style="color:red"
-                            *ngIf="password.errors?.pattern && !password.errors?.minlength">
-                            <i class="bi bi-exclamation-circle"></i> Password must contain at least one uppercase
-                            letter, one lowercase letter, and one number.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="mb-3">
-                          <label for="addressLine1" class="pb-2">Address line 1<span
-                              class="text-optional">*</span></label>
-                          <textarea class="form-control" required id="addressLine1"
-                            (keydown)="preventLeadingWhitespace($event)"
-                            [(ngModel)]="organizationPersonalInformation.addressLine1" name="addressLine1" rows="10"
-                            ngx-google-places-autocomplete #placesRef="ngx-places"
-                            (onAddressChange)="handleAddressChange($event)" #addressLine1="ngModel" maxlength="150"
-                            placeholder="Floor No., Building Name, Street or Locality"
-                            style="resize: none; height: 80px !important;"></textarea>
-
-                        </div>
-                        <div *ngIf="addressLine1.touched || isFormInvalid">
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine1.errors?.required">
-                            <i class="bi bi-exclamation-circle"></i>
-                            Address Line 1 is required.
-                          </p>
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine1.errors?.minlength">
-                            <i class="bi bi-exclamation-circle"></i>
-                            Please enter a minimum of five characters.
-                          </p>
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine1.errors?.maxlength">
-                            <i class="bi bi-exclamation-circle"></i> Maximum 150 characters allowed.
-                          </p>
-
-                        </div>
-                      </div>
-
-                      <div class="col-md-6">
-                        <div class="mb-3">
-                          <label for="addressLine2" class="pb-2">Address line 2<span
-                              class="text-optional">*</span></label>
-                          <textarea class="form-control" id="addressLine2" required #addressLine2="ngModel"
-                            (keydown)="preventLeadingWhitespace($event)" rows="5"
-                            [(ngModel)]="organizationPersonalInformation.addressLine2" name="addressLine2"
-                            placeholder="Apartment, suite, unit, building, floor, etc." maxlength="150"
-                            style="resize: none;height: 80px !important;"></textarea>
-                        </div>
-                        <div *ngIf="addressLine2.touched || isFormInvalid">
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine2.errors?.required">
-                            <i class="bi bi-exclamation-circle"></i>
-                            Address Line 2 is required.
-                          </p>
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine2.errors?.minlength">
-                            <i class="bi bi-exclamation-circle"></i>
-                            Please enter a minimum of five characters.
-                          </p>
-                          <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="addressLine2.errors?.maxlength">
-                            <i class="bi bi-exclamation-circle"></i> Maximum 100 characters allowed.
-                          </p>
-                          <!-- You can add more error conditions here if needed -->
-                        </div>
-                      </div>
-                    </div>
-
-
-                    <div class="col-md-3">
-                      <div class="mb-3">
-                        <label for="city" class="pb-2">City <span class="text-optional">*</span></label>
-                        <input type="text" maxlength="30" #city="ngModel" required class="form-control" id="city"
-                          (keydown)="preventLeadingWhitespaceAndNumber($event)" name="city"
-                          [(ngModel)]="organizationPersonalInformation.city" aria-describedby="phoneHelp"
-                          placeholder="Enter City">
-                      </div>
-                      <div *ngIf="city.touched || isFormInvalid">
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="city.errors?.required">
-                          <i class="bi bi-exclamation-circle"></i>
-                          City is required.
-                        </p>
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="city.errors?.maxlength">
-                          <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div class="col-md-3">
-                      <div class="mb-3">
-                        <label for="state" class="pb-2">State <span class="text-optional">*</span></label>
-                        <input type="text" required maxlength="30" #state="ngModel" class="form-control" id="state"
-                          name="state" (keydown)="preventLeadingWhitespaceAndNumber($event)"
-                          [(ngModel)]="organizationPersonalInformation.state" aria-describedby="phoneHelp"
-                          placeholder="Enter State">
-                      </div>
-                      <div *ngIf="state.touched || isFormInvalid">
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="state.errors?.required">
-                          <i class="bi bi-exclamation-circle"></i>
-                          State is required.
-                        </p>
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="state.errors?.maxlength">
-                          <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div class="col-md-3">
-                      <div class="mb-3">
-                        <label for="country" class="pb-2">Country <span class="text-optional">*</span></label>
-                        <input type="text" required maxlength="30" #country="ngModel" class="form-control" id="country"
-                          name="country" (keydown)="preventLeadingWhitespaceAndNumber($event)"
-                          [(ngModel)]="organizationPersonalInformation.country" aria-describedby="phoneHelp"
-                          placeholder="Enter Country">
-                      </div>
-                      <div *ngIf="country.touched || isFormInvalid">
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="country.errors?.required">
-                          <i class="bi bi-exclamation-circle"></i>
-                          Country is required.
-                        </p>
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="country.errors?.maxlength">
-                          <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
-                        </p>
-                      </div>
-                    </div>
-
-
-                    <div class="col-md-3">
-                      <div class="mb-3">
-                        <label for="pincode" class="pb-2">Pincode <span class="text-optional">*</span></label>
-                        <input type="text" required #pincode="ngModel" mask="000000" class="form-control" id="pincode"
-                          name="pincode" [(ngModel)]="organizationPersonalInformation.pincode"
-                          aria-describedby="phoneHelp" placeholder="Enter Pincode">
-                      </div>
-                      <div *ngIf="pincode.touched || isFormInvalid">
-                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="pincode.errors?.required">
-                          <i class="bi bi-exclamation-circle"></i>
-                          Pincode is required.
-                        </p>
-
-                      </div>
-                    </div>
-
+                   
+                    <div class="row mt-2">
+                    
+                    
+<!--               
                     <div class="col-md-12 d-flex justify-content-end">
-                      <button type="submit" class="btn btn-primary" (click)="submit()"
-                        [disabled]="personalInformationForm.invalid">
-                        <span *ngIf="!loading">Save</span>
+                      <button type="submit" class="btn btn-primary" (click)="submit()">
+                        <span *ngIf="!loading">Next <i class="bi bi-arrow-right"
+                          style="padding-left: 8px;"></i></span>
                         <div class="dot-opacity-loader" *ngIf="loading">
                           <span></span>
                           <span></span>
                           <span></span>
                         </div>
                       </button>
-                    </div>
+                    </div> -->
 
                   </div>
                 </div>
@@ -331,8 +363,111 @@
               </div>
             </form>
           </div>
+
+           <div class="next-btn-box">
+            <div class="d-flex align-items-center justify-content-end">
+             
+               <!-- <button class="btn btn-primary" type="button">Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i></button> -->
+
+              <button type="submit" class="btn btn-outline-primary btn-round" (click)="submit()">
+                <span *ngIf="!loading">Next <i class="bi bi-arrow-right"
+                  style="padding-left: 8px;"></i></span>
+                <div class="dot-opacity-loader" *ngIf="loading">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
+              
+
+            </div>
+          </div> 
         </div>
 
       </div>
     </div>
   </div>
+
+
+
+  <div class="modal fade" id="image-picker" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 570px;"   role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Upload Image </h6>
+                <button type="button" class="close profile-close-modal" data-bs-dismiss="modal" aria-label="Close">
+                  <i class="bi bi-x" style="line-height: 20px; font-size: 26px;"></i>
+                </button>
+            </div>
+            <div class="modal-body p-3">
+              <div class="row imgupldbg">
+                <div class="col-lg-12 bg-wallet position-relative">
+                  <div class="currentimageuplded position-relative">
+                    <img src="assets/images/update-min.svg">
+                  </div>
+                </div>
+              </div>
+                
+              
+                
+            </div><!--end modal-body-->
+            <div class="modal-footer justify-content-between">
+              <div class="d-flex">
+                <button type="button" class="btn upldactionfootbtn mr-2">
+                  <i class="bi bi-pencil"></i>
+                  <span>Edit</span>
+                </button>
+                <button type="button" class="btn upldactionfootbtn mr-2">
+                  <i class="bi bi-camera"></i>
+                  <span>Add Photo</span>
+                </button>
+              </div>
+
+              <div class="d-flex">
+                <button type="button" class="btn upldactionfootbtn mr-2">
+                  <i class="bi bi-trash"></i>
+                  <span>Delete</span>
+                </button>
+              </div>
+
+
+              <!-- Edit option -->
+
+              <!-- <div class="imageaction d-flex justify-content-start align-items-center">
+                <div class="col-leftdiv">
+                  <button title="Zoom Out" type="button" class="btn m-1 btn-sm custbtn-success">
+                    <i class="bi bi-zoom-out"></i>
+                  </button>
+                  <button title="Zoom In" type="button" class="btn m-1 btn-sm custbtn-success">
+                    <i class="bi bi-zoom-in"></i>
+                  </button>
+                </div>
+                <div class="col-cendiv">
+                  <button title="Crop Square" type="button" class="btn m-1 btn-sm custbtn-success">
+                    <i class="bi bi-square"></i>
+                  </button>
+                  <button title="Crop Rectangle" type="button" class="btn m-1 btn-sm custbtn-success">
+                    <i class="bi bi-square"></i>
+                  </button>
+                </div>
+                <div class="col-rightdiv">
+                  <button title="Rotate image anti clockwise by 90deg" type="button" class="btn m-1 btn-sm custbtn-success">
+                  
+                    <i class="bi bi-arrow-return-left" style="transform: scalex(-1) rotate(180deg);"></i>
+                  </button>
+                  <button title="Rotate image clockwise by 90deg" type="button" class="btn m-1 btn-sm custbtn-success">
+                    <i class="bi bi-arrow-return-right" style="transform: scalex(-1) rotate(180deg);"></i>
+                  </button>
+                </div>
+
+              </div>
+              <div class="d-flex" style="gap:10px;">
+                <button type="button" class="btn cnceltopics mr-2"> Reset </button>
+                <button type="button" class="btn adtpoics"> Update </button>
+              </div> -->
+              <!-- Edit option end -->
+            </div>
+           
+        </div><!--end modal-content-->
+    </div><!--end modal-dialog-->
+</div><!--end modal-->

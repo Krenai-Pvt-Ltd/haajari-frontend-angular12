@@ -42,6 +42,7 @@ import { SalaryTemplateComponentRequest } from "../models/salary-template-compon
 import { WeeklyHoliday } from "../models/WeeklyHoliday";
 import { WeekDay } from "../models/WeekDay";
 import { Key } from '../constant/key';
+import { ResponseEntityObject } from "../models/response-entity-object.model";
 
 
 @Injectable({
@@ -222,6 +223,10 @@ export class DataService {
       .set('search', search)
       .set('searchBy', searchBy);
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/all/by-filters`, { params });
+  }
+
+  getAllUserUuids():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/users/get/all/uuids`);
   }
 
   changeStatusById(presenceStatus: Boolean, userUuid: string): Observable<any> {
@@ -425,6 +430,11 @@ export class DataService {
   saveLeaveRequest(userUuid: string, request: any): Observable<any> {
     const params = new HttpParams().set("uuid", userUuid);
     return this.httpClient.post(this.baseUrl + '/user-leave/save-users-leave', request, { params });
+  }
+
+  saveLeaveRequestFromWhatsapp(userUuid: string, request: any): Observable<any> {
+    const params = new HttpParams().set("userUuid", userUuid);
+    return this.httpClient.post(this.baseUrl + '/user-leave/whatsapp/save-users-leave', request, { params });
   }
 
   // TODO
@@ -889,6 +899,13 @@ export class DataService {
     return this.httpClient.get<UserDto[]>(`${this.baseUrl}/employee-onboarding-status/get-manager`, { params });
   }
 
+  getEmployeeManagerDetailsViaWhatsapp(userUuid: string): Observable<any> {
+    const params = new HttpParams()
+      .set("uuid", userUuid)
+
+    return this.httpClient.get<UserDto[]>(`${this.baseUrl}/employee-onboarding-status/get-manager-whatsapp`, { params });
+  }
+
   getEmployeeDocumentsDetails(userUuid: string): Observable<any> {
     const params = new HttpParams()
       .set("userUuid", userUuid)
@@ -1193,6 +1210,11 @@ export class DataService {
     return this.httpClient.post(`${this.baseUrl}/user/auth/sent/otp`, {}, { params });
   }
 
+  sendUserOtpToMailNew(email: string): Observable<any> {
+    const params = new HttpParams().set("email", email);
+    return this.httpClient.post(`${this.baseUrl}/user/auth/sent/otp-new`, {}, { params });
+  }
+
   registerPassword(email: string, password: string): Observable<any> {
     const params = new HttpParams().set("email", email).set("password", password);
     return this.httpClient.post(`${this.baseUrl}/user/auth/save/password`, {}, { params });
@@ -1486,6 +1508,91 @@ export class DataService {
       .set('salary_template_id', salaryTemplateId);
 
     return this.httpClient.delete<any>(`${this.baseUrl}/salary/template/delete-by-id`, { params });
+  }
+
+
+  //  Attendance Report 
+  
+  generateAttendanceSummary(startDate: string, endDate: string): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('startDate', startDate); 
+    params = params.append('endDate', endDate);
+
+    return this.httpClient.post(`${this.baseUrl}/generate-reports/save-attendance-summary-logs`, null, { params });
+  }
+
+  generateAttendanceReport(startDate: string, endDate: string): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('startDate', startDate); 
+    params = params.append('endDate', endDate);
+
+    return this.httpClient.post(`${this.baseUrl}/generate-reports/save-attendance-report-logs`, null, { params });
+  }
+
+  getAllReportLogs(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/generate-reports/get-attendance-report-logs`);
+  }
+
+
+  generateSalaryReport(startDate: string, endDate: string): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('startDate', startDate); 
+    params = params.append('endDate', endDate);
+
+    return this.httpClient.post(`${this.baseUrl}/generate-reports/save-salary-report-logs`, null, { params });
+  }
+
+  updateAttendanceNotificationSettingForManager(employeeAttendanceFlag: boolean): Observable<any> {
+    const params = new HttpParams()
+    .set('flag', employeeAttendanceFlag) 
+
+    return this.httpClient.post(`${this.baseUrl}/account-setting/update/Attendance-notification-setting`,null, { params });
+  }
+
+  sendOnboardingNotificationInWhatsapp(): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/whatsapp-user-onboarding/send-whatsapp-onboarding-notification`, {});
+  }
+
+  getOnboardingVia(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/whatsapp-user-onboarding/get-onboarding-via`);
+  }
+
+  //  central - leave - management 
+
+
+  approveOrRejectLeaveOfUser(requestedLeaveId: number, appRejString: string): Observable<any> {
+    const params = new HttpParams()
+      .set('requestedLeaveId', requestedLeaveId)
+      .set('appRejString', appRejString);
+    return this.httpClient.post<any>(`${this.baseUrl}/central-leave-management/approve-reject-leaves`, {}, { params });
+  }
+
+  getFullLeaveLogsRoleWise(searchString: string, teamString: string): Observable<any> {
+    const params = new HttpParams()
+      .set('searchString', searchString)
+      .set('teamString', teamString);
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-full-leave-logs-role-wise`, { params });
+  }
+
+  getPendingLeaves(): Observable<any> {
+    // const params = new HttpParams()
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-pending-leaves-role-wise`);
+  }
+
+  getApprovedRejectedLeaveLogs(): Observable<any> {
+    // const params = new HttpParams()
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-approved-rejected-leave-logs-role-wise`);
+  }
+
+  getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId: number, leaveType: string): Observable<any> {
+    const params = new HttpParams()
+      .set('leaveId', leaveId)
+      .set('leaveType', leaveType);
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-pending-leave-by-leave-id-leave-type`, { params });
+  }
+
+  getAllTeamNames(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-all-team-names`);
   }
 
 }

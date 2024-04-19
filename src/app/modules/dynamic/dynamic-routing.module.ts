@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LiveManagerComponent } from './components/live-manager/live-manager.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
-import { PaymentComponent } from './components/payment/payment.component';
 import { ProjectComponent } from './components/project/project.component';
 import { TaskManagerComponent } from './components/task-manager/task-manager.component';
 import { TimetableComponent } from './components/timetable/timetable.component';
@@ -35,7 +34,10 @@ import { EmployeeLocationValidatorComponent } from './employee-location-validato
 import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.component';
 import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 
+
+
 import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/employee-attendance-photo.component';
+import { CentralLeaveManagementComponent } from './components/central-leave-management/central-leave-management.component';
 
 
   const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
@@ -43,11 +45,10 @@ import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/em
   children:[
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/dashboard' } }, //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
     { path: 'timetable', component: TimetableComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/timetable' }},
-    { path: 'project', component: ProjectComponent },
+    { path: 'project', component: ProjectComponent, canActivate: [AuthGuard], data: {requiredSubmodule: '/project'}},
     { path: 'team', component: TeamComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/team' }},
     { path: 'task-manager', component: TaskManagerComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/task-manager' }},
     { path: 'onboarding', component: OnboardingComponent, canActivate: [AuthGuard]},
-    { path: 'payment', component: PaymentComponent , canActivate: [AuthGuard], data: { requiredSubmodule: '/payment' }},
     { path: 'userlist', component: UserlistComponent , canActivate: [AuthGuard]},
     {path: 'waiting', component: WaitingPageComponent},
     {path: 'team-detail', component: TeamDetailComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/team-detail' }},
@@ -67,7 +68,7 @@ import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/em
     {path : 'location-validator', component: EmployeeLocationValidatorComponent},
     {path : 'unauthorized', component: UnauthorizedComponent},
     {path : 'leave-management', component: LeaveManagementComponent},
-    
+    {path : 'central-leave-management', component: CentralLeaveManagementComponent},
     {path : 'attendance-photo', component: EmployeeAttendancePhotoComponent},
     {path : 'unauthorized', component: UnauthorizedComponent}
   ] }

@@ -11,7 +11,7 @@ import { BreakTimings } from 'src/app/models/break-timings';
 import { NavigationExtras, Router } from '@angular/router';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
-import { clearTimeout } from 'timers';
+
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 
@@ -56,21 +56,23 @@ export class TimetableComponent implements OnInit {
 
     onDateChange(date: Date): void {
       this.selectedDate = date;
-      console.log("CURRENT MONTH:- "+this.selectedDate);
-      console.log(this.getCurrentDate());
-      console.log(new Date());
+      this.getAttendanceDetailsCountMethodCall();
       this.getAttendanceDetailsReportByDateMethodCall();
 
     }
 
+    
     disableDates = (current: Date): boolean => {
       const today = new Date();
+      console.log(today);
+      console.log(current);
       today.setHours(0, 0, 0, 0);
     
       const registrationDate = new Date(this.organizationRegistrationDate);
+
       registrationDate.setHours(0, 0, 0, 0);
     
-      return current.getTime() > today.getTime() || current.getTime() < registrationDate.getTime();
+      return current.getTime() >= today.getTime() + (24 * 60 * 60 * 1000) || current.getTime() < registrationDate.getTime();
     };
 
     organizationRegistrationDate : string = '';
@@ -324,13 +326,11 @@ export class TimetableComponent implements OnInit {
 
   attendanceDetailsResponseList : AttendanceDetailsResponse[] = [];
   debounceTimer : any;
-  getAttendanceDetailsReportByDateMethodCall(debounceTime : number = 3000){
-     
-    // clearTimeout(this.debounceTimer);
-      // this.debounceTimer = setTimeout(() => {
-        
-      // }, debounceTime);
-
+  getAttendanceDetailsReportByDateMethodCall(debounceTime : number = 300){
+     if (this.debounceTimer) {
+              clearTimeout(this.debounceTimer);
+      }
+      this.debounceTimer = setTimeout(() => {
       this.preRuleForShimmersAndOtherConditionsMethodCall();
         this.dataService.getAttendanceDetailsReportByDate(this.helperService.formatDateToYYYYMMDD(this.selectedDate), this.pageNumber, this.itemPerPage, this.searchText, 'name', '','', this.filterCriteria).subscribe((response) => {
           debugger
@@ -347,7 +347,8 @@ export class TimetableComponent implements OnInit {
       }, (error) => {
         console.log(error);
         this.networkConnectionErrorForAttendanceDetailsResposne = true;
-      })
+      });
+    }, debounceTime);
   }
 
 
@@ -356,16 +357,22 @@ export class TimetableComponent implements OnInit {
     this.showUp = show;
   }
 
-  breakTimingsList : BreakTimings[] = [];
-  getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(uuid : string){
+  // breakTimingsList : BreakTimings[] = [];
+  getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(attendanceDetailsResponse : AttendanceDetailsResponse){
     // this.toggleChevron(show);
-    this.dataService.getAttendanceDetailsBreakTimingsReportByDateByUser(uuid, this.helperService.formatDateToYYYYMMDD(this.selectedDate)).subscribe((response) => {
-      this.breakTimingsList = response.object;
-      console.log(this.breakTimingsList);
-      this.toggleChevron(false);
-    }, (error) => {
-      console.log(error);
-    })
+    if(attendanceDetailsResponse.breakTimingsList == undefined || attendanceDetailsResponse.breakTimingsList == null || attendanceDetailsResponse.breakTimingsList.length == 0){
+      debugger
+      this.dataService.getAttendanceDetailsBreakTimingsReportByDateByUser(attendanceDetailsResponse.uuid, this.helperService.formatDateToYYYYMMDD(this.selectedDate)).subscribe((response) => {
+        // this.breakTimingsList = response.listOfObject;
+        attendanceDetailsResponse.breakTimingsList = response.listOfObject;
+        // console.log(this.breakTimingsList);
+        this.toggleChevron(false);
+      }, (error) => {
+        console.log(error);
+      })
+    } else{
+      // this.breakTimingsList = attendanceDetailsResponse.breakTimingsList;
+    }
   }
 
   attendanceDetailsCountResponse : AttendanceDetailsCountResponse = new AttendanceDetailsCountResponse();
@@ -378,7 +385,7 @@ export class TimetableComponent implements OnInit {
   }
 
 
-  filterCriteriaList : string[] = ['ALL', 'PRESENT', 'ABSENT', 'HALFDAY'];
+  readonly filterCriteriaList : string[] = ['ALL', 'PRESENT', 'ABSENT', 'HALFDAY', 'LEAVE'];
 
   selectFilterCriteria(filterCriteria : string){
     this.filterCriteria = filterCriteria;
@@ -579,7 +586,8 @@ export class TimetableComponent implements OnInit {
   networkConnectionErrorFlagForAttendanceLog:boolean=false;
   attendanceLogResponseList : AttendanceLogResponse[] = [];
   getAttendanceLogsMethodCall(){
-    this.dataService.getAttendanceLogs(this.userUuidToViewLogs, this.inputDate).subscribe((response) => {
+    this.dataService.getAttendanceLogs(this.userUuidToViewLogs, this.helperService.formatDateToYYYYMMDD(this.selectedDate)).subscribe((response) => {
+      debugger
       this.attendanceLogResponseList = response;
       // console.log(response);
       if(response === undefined || response === null || response.length === 0){

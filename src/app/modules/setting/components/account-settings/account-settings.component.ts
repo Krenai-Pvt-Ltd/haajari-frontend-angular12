@@ -7,6 +7,7 @@ import { NotificationVia } from 'src/app/models/notification-via';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-account-settings',
@@ -24,7 +25,9 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
 
   constructor(private _routeParam: ActivatedRoute,
     public _data: DataService,
-    private cdr: ChangeDetectorRef, private afStorage: AngularFireStorage, private helper : HelperService) {
+    private cdr: ChangeDetectorRef,
+    private rbacService: RoleBasedAccessControlService,
+     private afStorage: AngularFireStorage, private helper : HelperService) {
     debugger
     if (this._routeParam.snapshot.queryParamMap.has('setting')) {
       this.accountDetailsTab = this._routeParam.snapshot.queryParamMap.get('setting');
@@ -39,7 +42,9 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
  }
 
 
-  ngOnInit(): void {
+  ROLE : any;
+  async ngOnInit(): Promise<void> {
+    this.ROLE = await this.rbacService.getRole();
     this.getUserAccountDetailsMethodCall();
    
   }
@@ -145,6 +150,11 @@ isDisabled: boolean = false;
         this.isSubscriptionPlanActive = response.subscriptionPlan; // Handle the response, e.g., store it for display
 
         this.subscriptionPlanId =  response.subscriptionPlanId;
+        if(response.employeeAttendanceFlag){
+          this.employeeAttendanceFlag = true;
+        } else {
+          this.employeeAttendanceFlag = false;
+        }
         if(response.phoneNumber){
           this.phoneNumber = response.phoneNumber;
         }
@@ -161,7 +171,7 @@ isDisabled: boolean = false;
           this.notifications.slack=true
           this.notifications.whatsapp=false
         }
-        if(response.notificationVia == null){
+        if(response.notificationVia == null || response.slackUserId == null){
           this.isDisabled = true;
         }
        if (this.isSubscriptionPlanActive== true && this.subscriptionPlanId==2){
@@ -421,6 +431,24 @@ isDisabled: boolean = false;
         }
     });
 }
+
+employeeAttendanceFlag: boolean = false;
+
+updateAttendanceNotificationSettingForManagerMethodCall(): void {
+ debugger
+  this._data.updateAttendanceNotificationSettingForManager(this.employeeAttendanceFlag)
+    .subscribe({
+      next: (response: any) => {
+        this.helper.showToast("Employee Attendance Notification Setting Updated Successfully.",Key.TOAST_STATUS_SUCCESS);
+      },
+      error: (error: any) => {
+        // Handle any errors that occur during the API call
+        this.employeeAttendanceFlag = false;
+        this.helper.showToast("An error occurred while updating the notification setting.",Key.TOAST_STATUS_ERROR);
+      }
+    });
+}
+
 
 
 

@@ -272,9 +272,15 @@ export class LeaveSettingComponent implements OnInit {
   isStaffEmpty:boolean=false;
 
   staffSelectionUserList: StaffSelectionUserList = new StaffSelectionUserList();
+  debounceTimer: any;
+  getUserByFiltersMethodCall(leaveSettingId: number, debounceTime: number = 300) {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+  }
 
-  getUserByFiltersMethodCall(leaveSettingId: number) {
+  this.debounceTimer = setTimeout(() => {
     this.selectedStaffsUuids=[];
+
     this.dataService.getUsersByFilterForLeaveSetting(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '', leaveSettingId).subscribe((response) => {
       // this.staffSelectionUserList.user = response.users;
       this.staffs = response.users.map((staff: StaffSelectionUserList) => ({
@@ -300,6 +306,7 @@ export class LeaveSettingComponent implements OnInit {
     }, (error) => {
       console.error(error);
     });
+  }, debounceTime);
   }
 
   isUserInLeaveRule(userUuid: string): boolean {
@@ -727,7 +734,13 @@ export class LeaveSettingComponent implements OnInit {
     this.crossFlagUser = false;
   }
   isMappedStaffEmpty: boolean = false;
-  findUsersOfLeaveSetting(leaveSettingId:number): void {
+  // debounceTimer: any;
+  findUsersOfLeaveSetting(leaveSettingId:number, debounceTime: number = 300): void {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+  }
+
+  this.debounceTimer = setTimeout(() => {
     this.selectedStaffsUuidsUser = []
     this.dataService.findUsersOfLeaveSetting(leaveSettingId, this.searchTextUser, this.pageNumberUser, this.itemPerPageUser)
       .subscribe((response) => {
@@ -750,6 +763,7 @@ export class LeaveSettingComponent implements OnInit {
         this.isAllSelectedUser = this.staffsUser.every(staff => staff.selected);
         
       });
+    }, debounceTime);
   }
 
   // ############# pagination mapped user tab

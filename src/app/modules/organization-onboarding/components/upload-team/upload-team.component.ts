@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { error } from 'console';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { UserListReq } from 'src/app/models/UserListReq';
@@ -21,6 +22,7 @@ export class UploadTeamComponent implements OnInit {
   form!: FormGroup;
   userList:UserReq[]= new Array();
   databaseHelper: DatabaseHelper = new DatabaseHelper();
+  sampleFileUrl: string = ''; //put sample file url
 
 
   @ViewChild('importModalOpen')importModalOpen!:ElementRef
@@ -34,7 +36,10 @@ export class UploadTeamComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    
+    this.sampleFileUrl = 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2FUser Data (1).xlsx?alt=media';
     this.getUser();
+    this.selectMethod('mannual');
   }
 
   back(){
@@ -42,9 +47,10 @@ export class UploadTeamComponent implements OnInit {
   }
 
   backPage(){
-      this._location.back();
+    console.log("BACK")
+    this._location.back();
   }
-  selectedMethod: string = '';
+  selectedMethod: string = 'mannual';
   selectMethod(method:string){
     if(method == "excel"){
       this.selectedMethod = '';
@@ -100,15 +106,32 @@ export class UploadTeamComponent implements OnInit {
   }
 
   importToggle: boolean = false;
+  isProgressToggle: boolean = true;
+  isErrorToggle: boolean = false;
+  errorMessage: string = '';
   uploadUserFile(file: any,fileName:string) {
     debugger
     this.importToggle = true;
+    this.isProgressToggle = true;
+    this.isErrorToggle = false;
+    this.errorMessage = '';
     this._onboardingService.userImport(file, fileName).subscribe((response: any) => {
       if (response.status) {
         this.importToggle = false;
+        this.isProgressToggle = false;
         this.getReport();
+      }else {
+        this.importToggle = true;
+        this.isErrorToggle = true;
+        this.isProgressToggle = false;
+        this.errorMessage = response.message; 
       }
-        this.importToggle = false;
+        // this.importToggle = false;
+    }, (error) => {
+      this.importToggle = true;
+      this.isErrorToggle = true;
+      this.isProgressToggle = false;
+      this.errorMessage = error.error.message; 
     })
   }
 
@@ -142,20 +165,30 @@ export class UploadTeamComponent implements OnInit {
     })
   }
 
-  // deleteReport(id: number){
-  //   this._userService.deleteReport(id).subscribe((response: any) => {
-  //     if (response.status) {
-  //       this.getReport(this.importType);
-  //     }
-  //   }, (error) => {
-  //     this.toastr.showToasterError("Network Error", "error");
-  //   })
-  // }
-
   pageChangedImport(page: any) {
     if (page != this.databaseHelper.currentPage) {
       this.databaseHelper.currentPage = page;
       this.getReport();
+    }
+  }
+
+  isFormInvalid: boolean = false;
+  @ViewChild('userForm') userForm !: NgForm
+  checkFormValidation() {
+    if (this.userForm.invalid) {
+      this.isFormInvalid = true;
+      return
+    } else {
+      this.isFormInvalid = false;
+    }
+  }
+
+  submit() {
+    this.checkFormValidation();
+    if (this.isFormInvalid == true) {
+      return
+    } else {
+      this.create();
     }
   }
 
@@ -196,6 +229,8 @@ export class UploadTeamComponent implements OnInit {
 
   @ViewChild('userEditModal')userEditModal!:ElementRef;
   openUserEditModal(user:any){
+    this.isEmailExist = false;
+    this.isNumberExist = false;
     this.user = JSON.parse(JSON.stringify(user));
     this.userEditModal.nativeElement.click();
     
@@ -228,8 +263,8 @@ export class UploadTeamComponent implements OnInit {
   }
 
   isNumberExist: boolean = false;
-  checkNumberExistance(index:number, number:string){
-    this._onboardingService.checkNumberExist(number).subscribe((response: any) => {
+  checkNumberExistance(index:number, number:string, uuid:string){
+    this._onboardingService.checkEmployeeNumberExist(number, uuid).subscribe((response: any) => {
       if(index>=0){
         this.userList[index].isPhoneExist = response;
       }
@@ -239,20 +274,31 @@ export class UploadTeamComponent implements OnInit {
   }
 
   isEmailExist: boolean = false;
-  checkEmailExistance(index:number, email:string){
-    this._onboardingService.checkEmailExist(email).subscribe((response: any) => {
-      if(index>=0){
-        this.userList[index].isEmailExist = response;
-      }
-        this.isEmailExist = response;
-    })
-
+  checkEmailExistance(index:number, email:string, uuid:string){
+    debugger
+    // this.userList[index].isEmailExist = false;
+    if(email != null && email.length>5){
+      this._onboardingService.checkEmployeeEmailExist(email, uuid).subscribe((response: any) => {
+        if(index>=0){
+          this.userList[index].isEmailExist = response;
+        }
+          this.isEmailExist = response;
+      })
+    }
   }
 
   next(){
-    // this.helperService.showToast("your organization onboarding has been sucessfully completed", Key.TOAST_STATUS_SUCCESS);
-    this.dataService.markStepAsCompleted(4);
-    this._onboardingService.saveOrgOnboardingStep(4).subscribe();
-    this._router.navigate(['/organization-onboarding/attendance-rule-setup'])
+    this.dataService.markStepAsCompleted(3);
+    this._onboardingService.saveOrgOnboardingStep(3).subscribe();
+    this._router.navigate(['/organization-onboarding/shift-time'])
+  }
+
+  @ViewChild("closeUserUpload") closeUserUpload!: ElementRef;
+  closeUserUploadModal(){
+    this.importToggle = false;
+    this.closeImportModal();
+    this.closeUserUpload.nativeElement.click();
   }
 }
+
+

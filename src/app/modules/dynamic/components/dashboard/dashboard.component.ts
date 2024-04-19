@@ -90,6 +90,7 @@ export class DashboardComponent implements OnInit{
   endDate : string = '';
 
   onMonthChange(month: Date): void {
+    console.log("Month is getting selected!");
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
     this.getAttendanceReportByDateDurationMethodCall();
@@ -99,14 +100,18 @@ export class DashboardComponent implements OnInit{
     this.startDate = this.formatDateToYYYYMMDD(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1));
     this.endDate = this.formatDateToYYYYMMDD(new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0));
   }
-
+  
   disableMonths = (date: Date): boolean => {
+    
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
     const dateYear = date.getFullYear();
     const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
+    const organizationRegistrationMonth = new Date(this.organizationRegistrationDate).getMonth();
 
-    if(date < new Date(this.organizationRegistrationDate)){
+    // Disable if the month is before the organization registration month
+    if (dateYear < organizationRegistrationYear || (dateYear === organizationRegistrationYear && dateMonth < organizationRegistrationMonth)) {
       return true;
     }
   
@@ -646,11 +651,9 @@ getDataFromDate(): Promise<any> {
                       this.total = response.totalItems;
 
                       this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-                      console.log(response);
                       resolve(response);
                   })
                   .catch((error) => {
-                      console.log(error);
                       this.networkConnectionErrorPlaceHolderForAttendanceData = true;
                       reject(error);
                   });
@@ -662,47 +665,6 @@ getDataFromDate(): Promise<any> {
   toggleCollapse(index: number): void {
     this.expandedStates[index] = !this.expandedStates[index];
   }
-
-  // getAttendanceReportByDateDurationMethodCall(){
-  //   this.attendanceReportResponseList = [];
-  //   this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
-  //   this.dataService.getAttendanceReportByDateDuration('2024-01-01','2024-01-31').subscribe((response) => {
-
-  //     if(response === null || response === undefined || response.object === undefined || response.object === null || response.object.length === 0){
-  //       this.dataNotFoundPlaceholderForAttendanceData = true;
-  //       return;
-  //     }
-
-  //     this.attendanceReportResponseList = response.object;
-  //     this.total = response.totalItems;
-
-  //     this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-  //     console.log(response);
-      
-  //   }, (error) => {
-  //     console.log(error);
-  //     this.networkConnectionErrorPlaceHolderForAttendanceData = true;
-  //   })
-  // }
-
-
-  // dayWiseStatusList : DayWiseStatus[] = [];
-  // getDayWiseStatusMethodCall(userUuid : string){
-  //   this.dataService.getDayWiseStatus(userUuid,'2024-01-01','2024-01-31').subscribe((response) => {
-  //     this.dayWiseStatusList = response.object;
-  //   }, (error) => {
-  //     console.log(error);
-  //   })
-  // }
-
-  // attendanceReportResponseListByUser : Date[] = [];
-  // getAttendanceReportByDateDurationByUserMethodCall(){
-  //   this.dataService.getAttendanceReportByDateDurationByUser('2023-12-01','2023-12-31').subscribe((response) => {
-  //     console.log(response);
-  //   }, (error) => {
-  //     console.log(error);
-  //   })
-  // }
 
   downloadingFlag : boolean = false;
   downloadAttendanceDataInExcelFormatMethodCall(){

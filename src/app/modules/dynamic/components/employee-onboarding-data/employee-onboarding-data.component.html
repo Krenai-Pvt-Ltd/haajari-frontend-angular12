@@ -541,7 +541,7 @@
                                                     </td>
                                                     <!-- <td>Meeting</td> -->
                                                     <td>
-                                                        <p class="mb-0 weekly-pro-email">{{user.email}}</p>
+                                                        <p class="mb-0 weekly-pro-email">{{user.email?user.email:"N/A"}}</p>
                                                     </td>
 
                                                     <td class="text-center">
@@ -570,17 +570,15 @@
                                                         <div class="rej-per">
                                                             <span class="">{{user.employeeOnboardingStatus.response}}</span>
                                                         </div>
-                                                       
                                                     </td>
                                                     <td  *ngIf="(user.employeeOnboardingStatus.response)== requestedResponse">
                                                         <div class="req-per">
                                                             <span class="">{{user.employeeOnboardingStatus.response}}</span>
-                                                        </div>
-                                                        
+                                                        </div>  
                                                     </td>
                                                     <td *ngIf="(user.employeeOnboardingStatus.response)== newUserResponse">
                                                         <div class="new-user-per">
-                                                            <span class="">AWAITED</span>
+                                                            <span class="">NEW!</span>
                                                         </div>
                                                         
                                                     </td>

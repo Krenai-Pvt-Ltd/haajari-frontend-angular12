@@ -11,6 +11,7 @@ import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { OrganizationPersonalInformation } from 'src/app/models/organization-personal-information';
 import { DataService } from 'src/app/services/data.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
+import { PlacesService } from 'src/app/services/places.service';
 
 
 @Component({
@@ -24,24 +25,11 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     private router: Router,
     private activateRoute: ActivatedRoute,
     private afStorage: AngularFireStorage,
-    private _onboardingService: OrganizationOnboardingService) { }
+    private _onboardingService: OrganizationOnboardingService,
+    private placesService : PlacesService) { }
 
   ngOnInit(): void {
     this.getOrganizationDetails();
-  }
-
-  isNumberExist: boolean = false;
-  checkExistance(number:string){
-    if(number != '' && number.length>=10){
-      this._onboardingService.checkNumberExist(number).subscribe((response: any) => {
-          this.isNumberExist = response;
-      }, (error) => {
-        console.log(error);
-        
-      })
-    }
-    
-
   }
 
   organizationPersonalInformation: OrganizationPersonalInformation = {
@@ -80,8 +68,8 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     this.dataService.registerOrganizationPersonalInformation(this.organizationPersonalInformation)
       .subscribe(response => {
         this.loading = false;
-        console.log("organization personal Info Registered Successfully");
-        this.router.navigate(['/organization-onboarding/holiday-setting']);
+        console.log("Organization personal info registered successfully.");
+        this.router.navigate(['/organization-onboarding/upload-team']);
         this.dataService.markStepAsCompleted(2);
         this._onboardingService.saveOrgOnboardingStep(2).subscribe();
       }, (error) => {
@@ -245,7 +233,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   @ViewChild("placesRef") placesRef!: GooglePlaceDirective;
 
   public handleAddressChange(e: any) {
-    debugger
+    
     this.organizationPersonalInformation.addressLine1 = e.formatted_address.toString();
     e?.address_components?.forEach((entry: any) => {
       console.log(entry);
@@ -265,8 +253,75 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     });
   }
 
-  removeImage() {
-    this.organizationPersonalInformation.logo = '';
+
+/************ GET CURRENT LOCATION ***********/
+locationLoader: boolean = false;
+currentLocation(){
+  this.locationLoader = true;
+  this.getCurrentLocation().then(coords => {
+    this.placesService.getLocationDetails(coords.latitude, coords.longitude)
+      .then(details => {
+        this.locationLoader = false;
+        console.log('formatted_address:', details);
+        this.organizationPersonalInformation.addressLine1 = details.formatted_address;
+        this.organizationPersonalInformation.addressLine2 = '';
+        if (details.address_components[1].types[0] === "locality") {
+          this.organizationPersonalInformation.city = details.address_components[2].long_name
+        }
+        if (details.address_components[4].types[0] === "administrative_area_level_1") {
+          this.organizationPersonalInformation.state = details.address_components[4].long_name
+        }
+        if (details.address_components[5].types[0] === "country") {
+          this.organizationPersonalInformation.country = details.address_components[5].long_name
+        }
+        if (details.address_components[6].types[0] === "postal_code") {
+          this.organizationPersonalInformation.pincode = details.address_components[6].long_name
+        }
+      })
+      .catch(error => console.error(error));
+  }).catch(error => console.error(error));
+}
+
+  getCurrentLocation(): Promise<{latitude: number, longitude: number}> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          resolve({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+        }, err => {
+          reject(err);
+        });
+      } else {
+        reject('Geolocation is not supported by this browser.');
+      }
+    });
   }
+  /************ GET CURRENT LOCATION ***********/
+
+
+  /************ CHECK EXISTANCE ***********/
+
+  isNumberExist: boolean = false;
+  checkExistance(number:string){
+    if(number != '' && number.length>=10){
+      this._onboardingService.checkAdminNumberExist(number).subscribe((response: any) => {
+          this.isNumberExist = response;
+      }, (error) => {
+        console.log(error);
+        
+      })
+    }
+  }
+
+  isEmailExist: boolean = false;
+  checkEmailExistance(email:string){
+    if(email != null && email.length>5){
+      this._onboardingService.checkAdminEmailExist(email).subscribe((response: any) => {
+          this.isEmailExist = response;
+      })
+    }
+  }
+
+  /************ CHECK EXISTANCE **********/
+
 
 }

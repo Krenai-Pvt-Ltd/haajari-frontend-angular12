@@ -10,6 +10,8 @@ const routes: Routes = [
   { path: 'employee-onboarding', loadChildren: () => import('./modules/employee-onboarding/employee-onboarding.module').then(m => m.EmployeeOnboardingModule) },
   { path: 'login', redirectTo: '/auth/login', pathMatch:'full'},
   { path: 'setting', loadChildren: () => import('./modules/setting/setting.module').then(m => m.SettingModule)},
+  { path: 'additional', loadChildren: () => import('./modules/additional/additional.module').then(m => m.AdditionalModule)},
+  { path: 'payment', loadChildren: () => import('./modules/payment/payment.module').then(m => m.PaymentModule)},
   { path : 'auth', loadChildren: () => import('./modules/authentication/authentication.module').then(m => m.AuthenticationModule)},
   { path: '**', component : ErrorPageComponent},
   

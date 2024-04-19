@@ -25,7 +25,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { LiveManagerComponent } from './components/live-manager/live-manager.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
-import { PaymentComponent } from './components/payment/payment.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { ProjectComponent } from './components/project/project.component';
 import { ReportsComponent } from './components/reports/reports.component';
@@ -69,7 +68,8 @@ import { LinkExpiredPageComponent } from './components/link-expired-page/link-ex
 import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
+import { CentralLeaveManagementComponent } from './components/central-leave-management/central-leave-management.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -81,7 +81,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TaskManagerComponent,
     LiveManagerComponent,
     OnboardingComponent,
-    PaymentComponent,
     UserlistComponent,
     DateFormatPipe,
     TimeFormatPipe,
@@ -115,7 +114,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     EmployeeAttendancePhotoComponent,
     LinkExpiredPageComponent,
     
-    LeaveManagementComponent
+    LeaveManagementComponent,
+    CentralLeaveManagementComponent
 
 
   ],
@@ -139,6 +139,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AngularFireMessagingModule,
     SharedModule,
     NzDatePickerModule,
+    NzCalendarModule,
     MatProgressSpinnerModule,
     NzSwitchModule,
     AgmCoreModule.forRoot({
@@ -146,12 +147,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
       libraries: ["places"]
     }),
     GooglePlaceModule,
-    DragDropModule
-    
-
-    
-
-    
+    DragDropModule,
+    NgxChartsModule    
   ],
   exports:[HeaderComponent],
   providers: [{ provide: NZ_I18N, useValue: en_US },DataService,{ provide: LOCALE_ID, useValue: 'en-US' }],

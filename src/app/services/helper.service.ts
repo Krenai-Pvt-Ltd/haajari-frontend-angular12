@@ -6,6 +6,7 @@ import { DataService } from './data.service';
 import { ModulesWithSubmodules } from '../models/modules-with-submodules';
 import { ModuleResponse } from '../models/module-response';
 import { RoleBasedAccessControlService } from './role-based-access-control.service';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ import { RoleBasedAccessControlService } from './role-based-access-control.servi
 export class HelperService {
 
   constructor( private httpClient : HttpClient, private dataService: DataService) {
-    debugger
+    
    }
 
   clearHelperService(){
@@ -24,7 +25,7 @@ export class HelperService {
   
 
   async getDecodedValueFromToken(): Promise<any> {
-    debugger
+    
     return new Promise<any>((resolve, reject) => {
       try {
         const token = localStorage.getItem('token');
@@ -43,7 +44,7 @@ export class HelperService {
 
 
   async getAccessibleSubModuleResponseMethodCall(): Promise<any> {
-    debugger
+    
     return new Promise((resolve, reject) => {
       this.dataService.getAccessibleSubModuleResponse().subscribe({
         next: (data: any) => {
@@ -76,17 +77,26 @@ export class HelperService {
   }
 
   formatDateToHHmmss(date: Date): string {
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    let seconds = date.getSeconds();
-  
-    // Pad with leading zeros if necessary
-    let strhours = hours < 10 ? '0' + hours : hours;
-    let strminutes = minutes < 10 ? '0' + minutes : minutes;
-    let strseconds = seconds < 10 ? '0' + seconds : seconds;
-  
-    // Construct formatted time string
-    return `${strhours}:${strminutes}:${strseconds}`;
+    if(date != null){
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+      let seconds = date.getSeconds();
+    
+      // Pad with leading zeros if necessary
+      let strhours = hours < 10 ? '0' + hours : hours;
+      let strminutes = minutes < 10 ? '0' + minutes : minutes;
+      // let strseconds = seconds < 10 ? '0' + seconds : seconds;
+      let strseconds = '00';
+    
+      // Construct formatted time string
+      return `${strhours}:${strminutes}:${strseconds}`;
+    }
+    return '';
+    
+  }
+
+  formatDateToHHmm(date : Date){
+    return formatDate(date, 'HH:mm', 'en-US');
   }
   
 

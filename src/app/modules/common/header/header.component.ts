@@ -60,14 +60,18 @@ export class HeaderComponent implements OnInit {
   ADMIN = Key.ADMIN;
   USER = Key.USER;
   MANAGER = Key.MANAGER;
+  KRENAI_UUID = Key.KRENAI_UUID;
 
   // ROLE = this.rbacService.getRole();
   ROLE: any;
   UUID : any;
+  ORGANIZATION_UUID: any;
+
 
   async getUserUUID(){
     this.UUID = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
+    this.ORGANIZATION_UUID = await this.rbacService.getOrgRefUUID();
   }
 
   async getLoggedInUserDetails(){
@@ -81,7 +85,7 @@ export class HeaderComponent implements OnInit {
   getOrganizationName(){
     debugger
     this.dataService.getOrganizationDetails().subscribe((data)=> {
-      this.loggedInUser.name = data.name;
+      this.loggedInUser.name = data.adminName;
       }, (error) => {
         console.log(error);
       });
@@ -149,4 +153,10 @@ export class HeaderComponent implements OnInit {
       }
     })
   }
+
+  isCollapsed = true; // Initially collapsed
+  toggleCollapse(): void {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
 }

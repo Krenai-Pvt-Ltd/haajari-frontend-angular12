@@ -17,9 +17,9 @@
                             <button id="profile-preferences-tab" data-bs-toggle="tab" [ngClass]="{'active': accountDetailsTab == 'profilePreferences'}" data-bs-target="#profile-preferences" type="button" role="tab" aria-controls="profile-preferences" aria-selected="false" class="nav-link" #profilePreferencesSetting> Profile preferences </button>
                         </li>
                         
-                        <li role="presentation" class="nav-item">
+                        <!-- <li role="presentation" class="nav-item">
                             <button id="referral-program-tab" data-bs-toggle="tab" [ngClass]="{'active': accountDetailsTab == 'referralProgram'}" data-bs-target="#referral-program" type="button" role="tab" aria-controls="referral-program" aria-selected="false" class="nav-link" #refer > Referral Program </button>
-                        </li>
+                        </li> -->
                     </ul>
 
                     <div class="tab-content" id="myTabContent">
@@ -76,7 +76,7 @@
                                <!-- profile image -->
                                <div class="col-md-4"style="padding-left: 0px; margin-left: 0px;">
                                 <div class="profile-image-edit text-center position-relative">
-                                    <div style="width: 110px; margin: 0 auto; position: relative;">
+                                    <div style="width: 110px; margin: 0 auto; position: relative; padding: 40px">
                                       <img style="width: 100px; height: 100px; border-radius: 50%;" [src]="userPersonalInformationRequest.image" alt="Profile Image">
                                       <input type="file" accept="image/jpeg, image/jpg, image/png" #fileInput style="display: none" (change)="onFileSelected($event)">
                                       <span class="edit-profile" tabindex="0" (click)="fileInput.click()"><i class="bi bi-pencil"></i></span>
@@ -108,7 +108,7 @@
                         <div class="tab-pane fade show mt-3" [ngClass]="{'active': accountDetailsTab == 'profilePreferences'}" style="border: 1px solid #f1f1f1; box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);" id="profile-preferences" role="tabpanel">
                             <div class="">
                                 <div class="row">
-                                    <div class="col-md-8 pr-0 mr-0" style="padding-right: 0px; margin-right: 0px;">
+                                    <div class="col-md-12 pr-0 mr-0" style="padding-right: 0px; margin-right: 0px;">
      
                                      <div class="account-setting-box">
                                          <div class="d-flex align-items-center" style="gap:20px">
@@ -121,18 +121,18 @@
                                          </div>
          
                                          <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm">
-                                            <dt class="sc-f474212e-4 lkliht">Turn on notifications</dt>
+                                            <dt class="sc-f474212e-4 lkliht">Attendance</dt>
                                             
                                             <dd class="sc-f474212e-7 dUVSfj">
                                                 <!-- Email notifications -->
                                                 <div class="notification-settings">
-                                                    <div class="notification-option" >
+                                                    <!-- <div class="notification-option" >
                                                         <label for="emailSwitch">Receive updates by email</label>
                                                         <div class="material-switch">
                                                             <input type="checkbox" id="emailSwitch" class="ng-untouched ng-pristine ng-valid">
                                                             <label class="label-success" for="emailSwitch"></label>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="notification-option">
                                                         <label for="whatsappSwitch">Receive attendance notifications by WhatsApp</label>
                                                         <div class="material-switch" [class.disabled]="isDisabled">
@@ -184,17 +184,34 @@
                                       </div>
                                         
 
+                                      <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm" *ngIf="ROLE!= 'USER'">
+                                        <dt class="sc-f474212e-4 lkliht">Employee's Attendance</dt>
+                                        <dd class="sc-f474212e-7 dUVSfj">
+                                          <!-- Whatsapp Notification Setting for Manager -->
+                                          <div class="notification-settings">
+                                            <div class="notification-option">
+                                              <label for="employeeNotificationSwitch">Would you like to receive notifications for your employee's attendance?</label>
+                                              <div class="material-switch">
+                                                <input type="checkbox" id="employeeNotificationSwitch" [(ngModel)]="employeeAttendanceFlag" (change)="updateAttendanceNotificationSettingForManagerMethodCall()">
+                                                <label class="label-success" for="employeeNotificationSwitch"></label>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </dd>
+                                      </div>
+                                      
 
 
-                                         <div class="d-flex align-items-center mt-3" style="gap:20px">
+
+                                         <!-- <div class="d-flex align-items-center mt-3" style="gap:20px">
                                             <div class="jXmMvc" style="width: 3%;">
                                                 <img src="assets/images/google-docs.svg" style="width: 100%;">
                                             </div>
                                             <div class="">
                                                 <h5>API management</h5>
                                             </div>
-                                        </div>
-                                         <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm">
+                                        </div> -->
+                                         <!-- <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm">
                                              <dt class="sc-f474212e-4 lkliht">Hajiri API </dt>
                                              <dd class="sc-f474212e-7 dUVSfj">
                                                  <div class="sc-485d66d8-0 laMuYy"><div class="sc-485d66d8-0 sc-3a263705-1 dLkVjV csGfKv"> 
@@ -209,17 +226,17 @@
                                                  </button>
                                                  </div>
                                              </div>
-                                         </div>
+                                         </div> -->
                                      </div>
      
                                     </div>
-                                    <div class="col-md-4"style="padding-left: 0px; margin-left: 0px;">
+                                    <!-- <div class="col-md-4"style="padding-left: 0px; margin-left: 0px;">
                                      <div class="profile-immage-edit position-relative">
                                          <h4>Company Manager</h4>
                                          <p>yogesh kumar</p>
                                      </div>
      
-                                    </div>
+                                    </div> -->
                                  </div>
                             </div>
                         </div>

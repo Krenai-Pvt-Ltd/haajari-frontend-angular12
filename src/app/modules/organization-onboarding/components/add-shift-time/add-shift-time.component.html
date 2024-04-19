@@ -3,21 +3,17 @@
 
 
 <div class="page-wrapper">
-    <div class="page-content-tab">
+    <div class="page-content-tab-onbording">
         <div class="container-fluid">
 
             <div class="row">
                 <div class="col-md-12">
                     <div class="persnol-details">
 
-                        <div class="d-flex align-items-center" style="gap:15px">
-                            <div class="add-filtter" (click)="backPage()">
-                                <a><i class="bi bi-chevron-left"></i></a>
-                            </div>
-                            <h5 class="mb-0">Shift Time</h5>
+                        <div class="card-header">
+                            <h4 class="card-title">Shift Time</h4>
+                            <p class="text-muted mb-0">To enhance your experience and ensure accurate communication on our platform, we kindly ask you to review and update your personal information.</p>  
                         </div>
-
-
 
                         <form>
                             <div class="form-group">
@@ -27,7 +23,7 @@
 
                                         <div class="">
 
-                                            <ul id="myTab" role="tablist" class="nav nav-tabs">
+                                            <!-- <ul id="myTab" role="tablist" class="nav nav-tabs">
                                                 <li role="presentation" class="nav-item">
                                                     <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button"
                                                         role="tab" aria-controls="shiftime" aria-selected="true" class="nav-link active"
@@ -42,22 +38,22 @@
                                                         aria-selected="false" class="nav-link" #staffActiveTabInShiftTiming>Staff
                                                         selection</button>
                                                 </li>
-                                            </ul>
+                                            </ul> -->
                                             <div class="tab-content" id="myTabContent">
                                                 <div class="tab-pane fade show active" id="shiftime" role="tabpanel">
                         
                         
                                                     <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitShiftTimingForm()">
                         
-                                                        <div class="row p-3">
+                                                        <div class="row mt-3" >
                                                             <!-- Dropdown for Shift Type -->
                                                             <div class="col-md-6">
-                                                                <!-- Existing dropdown code for shift types -->
+                                                               
                                                                 <div class="form-fild">
                                                                     <label for="exampleInputEmail1" class="pb-2">Shift Type</label>
                         
                                                                     <div class="dropdown">
-                                                                        <button class="btn btn-secondary dropdown-toggle new-dropdown"
+                                                                        <button class="btn btn-secondary dropdown-toggle new-dropdown profile-input"
                                                                             type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
                                                                             aria-expanded="false"
                                                                             style=" text-align: left; background-color: white; color: black; border-color: #ced4da; width: 100%;">
@@ -80,17 +76,18 @@
                                                             <div class="col-md-6">
                                                                 <div class="mb-3">
                                                                     <label for="shiftName" class="pb-2">Shift Name</label>
-                                                                    <input type="text" class="form-control" id="shiftName"
+                                                                    <input type="text" class="form-control profile-input" id="shiftName"
                                                                         placeholder="Shift name" required
                                                                         [(ngModel)]="organizationShiftTimingRequest.name" name="shiftName">
                                                                 </div>
                                                             </div>
                         
                                                             <!-- In Time Input -->
+                                                            
                                                             <div class="col-md-4">
                                                                 <div class="mb-3">
                                                                     <label for="inTime" class="pb-2">In Time</label>
-                                                                    <input id="inTime" type="time" class="form-control" required
+                                                                    <input id="inTime" type="time" class="form-control profile-input" required
                                                                         [(ngModel)]="organizationShiftTimingRequest.inTime" name="inTime"
                                                                         (change)="calculateTimes()">
                                                                     <div *ngIf="organizationShiftTimingValidationErrors['inTime']"
@@ -118,7 +115,7 @@
                                                                     <label for="outTime" class="pb-2">Out Time</label>
                                                                     <input id="outTime" type="time"
                                                                         [class.is-invalid]="organizationShiftTimingValidationErrors['outTime']"
-                                                                        class="form-control" required
+                                                                        class="form-control profile-input" required
                                                                         [(ngModel)]="organizationShiftTimingRequest.outTime" name="outTime"
                                                                         (change)="calculateTimes()">
                                                                     <!-- Error Message for Out Time -->
@@ -133,7 +130,7 @@
                                                             <div class="col-md-4">
                                                                 <div class="mb-3">
                                                                     <label for="workingHours" class="pb-2">Working Hours</label>
-                                                                    <input id="workingHours" type="text" class="form-control" readonly
+                                                                    <input id="workingHours" type="text" class="form-control profile-input" readonly
                                                                         [(ngModel)]="organizationShiftTimingRequest.workingHour"
                                                                         name="workingHours" placeholder="Working hours">
                                                                 </div>
@@ -145,7 +142,7 @@
                                                                     <label for="lunchBreakStartTime" class="pb-2">Lunch Break Start Time</label>
                                                                     <input id="lunchBreakStartTime" type="time"
                                                                         [class.is-invalid]="organizationShiftTimingValidationErrors['startLunch']"
-                                                                        class="form-control" required
+                                                                        class="form-control profile-input" required
                                                                         [(ngModel)]="organizationShiftTimingRequest.startLunch"
                                                                         name="lunchBreakStartTime" (change)="calculateTimes()">
                                                                     <div *ngIf="organizationShiftTimingValidationErrors['startLunch']"
@@ -161,7 +158,7 @@
                                                                     <label for="lunchBreakEndTime" class="pb-2">Lunch Break End Time</label>
                                                                     <input id="lunchBreakEndTime" type="time"
                                                                         [class.is-invalid]="organizationShiftTimingValidationErrors['endLunch']"
-                                                                        class="form-control" required
+                                                                        class="form-control profile-input" required
                                                                         [(ngModel)]="organizationShiftTimingRequest.endLunch"
                                                                         name="lunchBreakEndTime" (change)="calculateTimes()">
                                                                     <div *ngIf="organizationShiftTimingValidationErrors['endLunch']"
@@ -176,18 +173,135 @@
                                                                 <div class="mb-3">
                                                                     <label for="totalLunchBreakDuration" class="pb-2">Total Lunch Break
                                                                         Duration</label>
-                                                                    <input id="totalLunchBreakDuration" type="text" class="form-control"
+                                                                    <input id="totalLunchBreakDuration" type="text" class="form-control profile-input"
                                                                         readonly [(ngModel)]="organizationShiftTimingRequest.lunchHour"
                                                                         name="totalLunchBreakDuration" placeholder="Lunch break hours">
                                                                 </div>
                                                             </div>
                                                         </div>
+
+
+
+                                                        
+                                                                <div class="row mt-3 mb-3 align-items-center">
+
+                                                                    <!-- <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td></td>
+                                                                                <td>
+                                                                                    <input type="search">
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table> -->
+                        
+                                                                    <div class="col-md-4">
+                                                                        <div class="d-flex align-items-center" style="gap:15px;">
+                                                                            <h5 class="user-list">User list  </h5>
+                                                                            <!-- <span class="user-count"><b> 4 </b></span> -->
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <form novalidate="" role="search" (submit)="searchUsers()"
+                                                                            class="searching ng-untouched ng-pristine ng-valid">
+                                                                            <div class="form-group" style="position: relative">
+                                                                                <input type="search" id="searchText" placeholder="Search by name and role"
+                                                                                    class="form-control ng-untouched ng-pristine ng-valid searchform-padding"
+                                                                                    (keyup)="searchUsers()" [(ngModel)]="searchText"
+                                                                                    [ngModelOptions]="{ standalone: true }">
+                                                                                <button type="button"(click)="clearSearch()" class="btn close-btn">
+                                                                                    <i *ngIf="searchText!=''" class="bi bi-x"></i>
+                                                                                </button>
+                                                                                <i class="bi bi-search search-icon"
+                                                                                    style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+
+                                                                    <div class="row mt-3 p-0 align-items-center pt-3" style="border-top:1px solid #f5f5f5;">
+                                                                        <div class="col-md-6">
+                                                                            <div class="">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="bulkselect-box ml-3">
+                                                                                        <span><b>1</b> selected of <b>477</b></span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="text-end">
+                                                                                <p id="selectAllProduct" class="position-relative mb-0 d-flex align-items-end justify-content-end" style="gap:10px;">
+                                                                                    <span class="primary-span" style="color: #4761f6;"> Select All <b>477</b> User </span>
+                                                                                    <a class="ml-2">
+                                                                                        <i class="bi bi-x" style="font-size: 22px; color: #333;"></i>
+                                                                                    </a>
+                                                                                </p>
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-12 mt-3">
+                                                                        <table class="table">
+                                                                            <thead class="thead-light table-design">
+                                                                                <tr>
+                                                                                    <th style="width:0%;">
+                                                                                        <input type="checkbox" style="cursor: pointer;" class="form-check-input"
+                                                                                            [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" [ngModelOptions]="{standalone: true}">
+                                                                                    </th>
+                                                                                    <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                                                                                    <th style="width:25%; padding: 12px 15px;">Name</th>
+                                                                                    <th style="width:25%; padding: 12px 15px;">Email</th>
+                                                                                    <th style="width:25%; padding: 12px 15px;">Phone Number</th>
+                                        
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody *ngIf="staffs.length==0">
+                                                                                <tr>
+                                                                                    <td colspan="4">
+                                                                                        <div class="errorboxmain align-items center" >
+                                                                                            <div class="errorboxinner">
+                                                                                                <div class="errorboxplaceholder mb-2">
+                                                                                                    <img src="assets/images/addnewproduct.svg"
+                                                                                                        style="width: 100px" />
+                                                                                                </div>
+                                                    
+                                                                                                <h4>No Data Found</h4>
+                                                                                               
+                                                                                             
+                                                                                            </div>
+                                                                                        </div> 
+                                                                                    </td>
+                                                                                </tr>
+                                                                               
+                                                                            </tbody>
+                                                                            <tbody *ngIf="staffs.length>0" class="table-design">
+                                                                                <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
+                                                                                    style="border-bottom: 1px solid #dddddd;">
+                                                                                    <td>
+                                                                                        <div class="form-check">
+                                                                                            <input type="checkbox" style="cursor: pointer;"
+                                                                                                class="form-check-input" [(ngModel)]="staff.selected"
+                                                                                                (change)="checkIndividualSelection()" [ngModelOptions]="{standalone: true}">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                                                                                    <td style="padding: 12px 15px;">{{ staff.name }}</td>
+                                                                                    <td style="padding: 12px 15px;">{{ staff.email? staff.email:"N/A"}}</td>
+                                                                                    <td style="padding: 12px 15px;">{{ staff.phoneNumber? staff.phoneNumber:"N/A"}}</td>
+                                        
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
                         
                                                         <!-- Submit Button -->
-                                                        <div class="modal-footer">
+                                                        <!-- <div class="modal-footer">
                                                             <button type="submit" class="btn btn-primary" [disabled]="shiftForm.invalid"
                                                                 (click)="staffActiveTabInShiftTimingMethod()">Next</button>
-                                                        </div>
+                                                        </div> -->
                         
                                                     </form>
                         
@@ -200,37 +314,13 @@
                                                     <div class="staf-list-box mt-3">
                         
                         
-                                                        <div class="row mb-3">
-                        
-                                                            <div class="col-md-6">
-                                                                <div>
-                                                                    <h5>Userlist <span
-                                                                            style="color: #4761f6; background-color: #d1d6f2; padding: 5px; border-radius: 5px"><b>{{total}}</b></span>
-                                                                    </h5>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <form novalidate="" role="search" (submit)="searchUsers()"
-                                                                    class="searching ng-untouched ng-pristine ng-valid">
-                                                                    <div class="form-group" style="position: relative">
-                                                                        <input type="search" id="searchText"
-                                                                            placeholder="Search by name and role"
-                                                                            class="form-control me-2 ng-untouched ng-pristine ng-valid"
-                                                                            (keyup)="searchUsers()" [(ngModel)]="searchText"
-                                                                            [ngModelOptions]="{ standalone: true }"
-                                                                            style="padding: 10px 50px 10px 30px;">
-                                                                        <button type="button" class="btn close-btn">
-                                                                            <i class="bi bi-x"></i>
-                                                                        </button>
-                                                                        <i class="bi bi-search search-icon"
-                                                                            style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
+                                                        
+
+                                                       
                         
                                                         <div style="display: flex; justify-content: space-between; align-items : center;">
                         
+                                                            
                                                             <!-- <th style="width:0%; ">
                                                             <input type="checkbox" style="cursor: pointer;" class="form-check-input"
                                                                    [(ngModel)]="isAllUsersSelected"
@@ -265,7 +355,7 @@
                                                         </div>
                         
                                                         <table class="table">
-                                                            <thead class="thead-light">
+                                                            <thead class="thead-light table-design">
                                                                 <tr>
                                                                     <th style="width:0%;">
                                                                         <input type="checkbox" style="cursor: pointer;" class="form-check-input"
@@ -273,11 +363,31 @@
                                                                     </th>
                                                                     <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
                                                                     <th style="width:25%; padding: 12px 15px;">Name</th>
-                                                                    <th style="width:25%; padding: 12px 15px;">Email</th>
+                                                                    <th style="width:25%; padding: 12px 15px;" *ngIf="onboardingViaString=='SLACK'">Email</th>
+                                                                    <th style="width:25%; padding: 12px 15px;" *ngIf="onboardingViaString=='WHATSAPP'">Phone Number</th>
                         
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
+                                                            <tbody *ngIf="staffs.length==0">
+                                                                <tr>
+                                                                    <td colspan="4">
+                                                                        <div class="errorboxmain align-items center" >
+                                                                            <div class="errorboxinner">
+                                                                                <div class="errorboxplaceholder mb-2">
+                                                                                    <img src="assets/images/addnewproduct.svg"
+                                                                                        style="width: 100px" />
+                                                                                </div>
+                                    
+                                                                                <h4>No Data Found</h4>
+                                                                               
+                                                                             
+                                                                            </div>
+                                                                        </div> 
+                                                                    </td>
+                                                                </tr>
+                                                               
+                                                            </tbody>
+                                                            <tbody *ngIf="staffs.length>0">
                                                                 <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} "
                                                                     style="border-bottom: 1px solid #dddddd;">
                                                                     <td>
@@ -289,14 +399,15 @@
                                                                     </td>
                                                                     <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
                                                                     <td style="padding: 12px 15px;">{{ staff.name }}</td>
-                                                                    <td style="padding: 12px 15px;">{{ staff.email }}</td>
+                                                                    <td style="padding: 12px 15px;" *ngIf="onboardingViaString=='SLACK'">{{ staff.email? staff.email:"N/A"}}</td>
+                                                                    <td style="padding: 12px 15px;" *ngIf="onboardingViaString=='WHATSAPP'">{{ staff.phoneNumber? staff.phoneNumber:"N/A"}}</td>
                         
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                     <!-- *ngIf="staffs.length > 8" -->
-                                                    <div class="pagination pl-3 align-items-center justify-content-between">
+                                                    <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="itemPerPage>8">
                                                         <p style="padding-left: 15px">
                                                             Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                                                             {{ total }} teams
@@ -361,6 +472,21 @@
                         </form>
 
                     </div>
+                    <div class="">
+                        <div class="next-btn-box d-flex align-items-center justify-content-between">
+                         
+                          <button class="btn btn-outline-secondary btn-round" type="button" (click)="backPage()"> <i class="bi bi-arrow-left" style="padding-right: 3px; padding-right: 1px; position: relative; top: -1px;"></i>  Previous </button>
+            
+                          <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="shiftForm.invalid"
+                          (click)="staffActiveTabInShiftTimingMethod()">
+                            <span> Next  <i class="bi bi-arrow-right"
+                              style="padding-left: 8px;"></i></span>
+                           
+                          </button>
+                          
+            
+                        </div>
+                      </div>
                 </div>
             </div>
 

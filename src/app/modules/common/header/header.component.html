@@ -72,10 +72,6 @@
 
                     <div class="sc-485d66d8-0 sc-39e987ab-0 iZfNPZ irmdrk sc-3ee1404a-4 izZYaK">PEOPLE</div>
                     <ul class="cfyCez">
-
-
-
-
                         <li class="sc-3ee1404a-7 dagRMy" routerLinkActive="iUctsy" routerLink="/team" (click)="setActiveTabEmpty()"
                             style="cursor: pointer;">
                             <a class="sc-3ee1404a-9 iUctsy-new">
@@ -144,7 +140,7 @@
                 </a>
                 </li> -->
 
-                        <ng-container *ngIf="ROLE === ADMIN; else projectCondition">
+                        <ng-container *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID; else projectCondition">
                             <li class="sc-3ee1404a-7 dagRMy" *ngIf="shouldDisplay('project')" style="cursor: pointer;">
                                 <a class="sc-3ee1404a-9 iUctsy-new">
                                     <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
@@ -173,23 +169,9 @@
                                                 <p class="mb-0">Wekreta</p>
                                             </a></li>
                                         <li>
-                                            <a class="project-link"> 
+                                            <a class="project-link" routerLink="/project"> 
                                                 <span class="project-list color-orange">#</span>
-                                                <p class="mb-0">Crddly</p>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a class="project-link"> 
-                                                <span class="project-list color-pink">#</span>
-                                                <p class="mb-0">1pyq</p>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a class="project-link"> 
-                                                <span class="project-list color-rede">#</span>
-                                                <p class="mb-0">Shai</p>
+                                                <p class="mb-0">Credily</p>
                                             </a>
                                         </li>
                                     </ul>
@@ -236,6 +218,96 @@
 
 
 
+
+                <div class="bjRpmy">
+
+                    <div class="sc-485d66d8-0 sc-39e987ab-0 iZfNPZ irmdrk sc-3ee1404a-4 izZYaK">PAYMENTS</div>
+                    <ul class="cfyCez">
+                        <li class="sc-3ee1404a-7 dagRMy" routerLinkActive="iUctsy" routerLink="/setting/billing" (click)="setActiveTabEmpty()"
+                            style="cursor: pointer;">
+                            <a class="sc-3ee1404a-9 iUctsy-new">
+                                <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+                                </div>
+                                <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-receipt"></i> Billing</span>
+                            </a>
+                        </li>
+
+                        <li class="sc-3ee1404a-7 dagRMy" routerLinkActive="iUctsy" routerLink="/payment/payroll-dashboard">
+                            <a class="sc-3ee1404a-9 iUctsy-new">
+                                <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
+                                </div>
+                                <span class="sc-3ee1404a-10 evIlxu">
+                                    <i class="ti ti-currency-dollar"></i> Payroll 
+                                </span>
+                                <span>
+                                    <i class="bi bi-caret-right-fill menu-icon projectIcon collapsed" data-bs-toggle="collapse" href="#payroll" role="button" aria-expanded="true" aria-controls="payroll"></i>
+                                </span>
+                            </a>
+                        </li>
+
+                        <div class="collapse project-name" id="payroll">
+                            <ul>
+                                <li routerLinkActive="iUctsy" routerLink="/payment/payroll-dashboard">
+                                    <a class="project-link">
+                                        <span class="project-list">#</span>
+                                        <p class="mb-0">Payroll Dashboard</p>
+                                    </a>
+                                </li>
+                                <li routerLinkActive="iUctsy" routerLink="/payment/bonus-and-deduction">
+                                    <a class="project-link">
+                                        <span class="project-list">#</span>
+                                        <p class="mb-0">Bonus And Deduction</p>
+                                    </a>
+                                </li>
+                                <li routerLinkActive="iUctsy" routerLink="/payment/tds"> 
+                                    <a class="project-link">
+                                        <span class="project-list">#</span>
+                                        <p class="mb-0">EPF, ESI & TDS</p>
+                                    </a>
+                                </li>
+                                <li routerLinkActive="iUctsy" routerLink="/payment/payment-history">
+                                    <a class="project-link">
+                                        <span class="project-list">#</span>
+                                        <p class="mb-0">Payment History</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <!-- <li class="sc-3ee1404a-7 dagRMy" *ngIf="shouldDisplay('project')" style="cursor: pointer;">
+                            <a class="sc-3ee1404a-9 iUctsy-new">
+                                <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp"></div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="sc-3ee1404a-10 evIlxu">
+                                        <i class="bi bi-caret-right-fill menu-icon projectIcon"
+                                           data-bs-toggle="collapse" href="#collapseExample" role="button"
+                                           aria-expanded="true" aria-controls="collapseExample"></i> Project
+                                    </span>
+                                    <span class="add-project"><i class="bi bi-plus"></i> Add</span>
+                                </div>
+                            </a>
+                        
+                            <div class="collapse show project-name" id="collapseExample">
+                                <ul>
+                                    <li>
+                                        <a class="project-link">
+                                            <span class="project-list">#</span>
+                                            <p class="mb-0">Cross-functional project plan</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="project-link">
+                                            <span class="project-list">#</span>
+                                            <p class="mb-0">Krenai</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li> -->
+                    </ul>
+                </div>
+
                 <div class="bjRpmy" *ngIf="ROLE !== ADMIN" style="margin-bottom: 130px;">
 
                     <div class="sc-485d66d8-0 sc-39e987ab-0 iZfNPZ irmdrk sc-3ee1404a-4 izZYaK">ACCOUNT SETTINGS</div>
@@ -251,7 +323,6 @@
                     </ul>
                     <ul class="cfyCez">
                         <li class="sc-3ee1404a-7 dagRMy" [ngClass]="{'iUctsy': activeTab === 'security'}" routerLinkActive="iUctsy" routerLink="/setting/account-settings?setting=security" (click)="routeToSeetings('security')" style="cursor: pointer;">
-                            <!-- routerLink="/setting/account-settings" [queryParams]="{ securityTab: true }" -->
                             <a class="sc-3ee1404a-9 iUctsy-new">
                                 <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
                                 </div>
@@ -269,16 +340,16 @@
                             </a>
                         </li>
                     </ul>
-                    <ul class="cfyCez">
+                    <!-- <ul class="cfyCez">
                         <li class="sc-3ee1404a-7 dagRMy" [ngClass]="{'iUctsy': activeTab === 'referralProgram'}" routerLinkActive="iUctsy" routerLink="/setting/account-settings?setting=referralProgram" (click)="routeToSeetings('referralProgram')" style="cursor: pointer;">
-                            <!-- routerLink="/setting/account-settings" [queryParams]="{ referralProgramTab: true }" -->
+                           
                             <a class="sc-3ee1404a-9 iUctsy-new">
                                 <div class="sc-485d66d8-0 sc-3ee1404a-8 dLkVjV kNLmp">
                                 </div>
                                 <span class="sc-3ee1404a-10 evIlxu"><i class="bi bi-gear menu-icon"></i>Referral Program</span>
                             </a>
                         </li>
-                    </ul>
+                    </ul> -->
                 </div>
 
 
@@ -378,7 +449,7 @@
                         </div>
                         <div class="">
                             <div class="sc-485d66d8-0 sc-e0edf03b-5 dLkVjV ddCElb">{{loggedInUser.name}}</div>
-                            <div class="sc-485d66d8-0 sc-e0edf03b-2 buCZLT eYcpQL">{{loggedInUser.email}}</div>
+                            <div class="sc-485d66d8-0 sc-e0edf03b-2 buCZLT eYcpQL">{{loggedInUser.email?loggedInUser.email:loggedInUser.phone_number}}</div>
                         </div>
                         <div class="">
 
