@@ -1,221 +1,170 @@
-<!-- <app-employee-onboarding-sidebar></app-employee-onboarding-sidebar> -->
-
-
-
 <div class="page-wrapper">
     <div class="page-content-tab-onbording">
-        <div class="container-fluid">
+       <div class="container-fluid">
+          <div class="row">
+             <div class="col-md-12">
+                <div class="persnol-details">
+                   
+                  <div class="card-header p-0 pb-3 bg-white">
+                     <h4 class="card-title">Attendance Mode</h4>
+                     <p class="text-muted mb-0">To enhance your experience and ensure accurate communication on our platform, we kindly ask you to review and update your personal information.</p>
+                  </div> 
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="persnol-details">
-                        <h5>Attendance Mode</h5>
-                        <p class="mb-0">Fields with * are mandatory </p>
-                        <form>
-                            <div class="form-group">
-                                <div class="persnol-info mt-4">
-                                    <div class="row">
-                                        <div class="attendance-mode-setting mt-4">
-                                            <div class="row mb-3">
-                                                <!-- <div class="attendance-settin-list"
-                                                    *ngFor="let attendanceMode of attendanceModeList">
-                                                    <div class="categryCustomizecard d-flex pointer"
-                                                        [ngClass]="{'attendance-active': attendanceMode.id === selectedAttendanceModeId}"
-                                                        (click)="updateAttendanceModeMethodCall(attendanceMode.id)">
-                                                        <div class="categryCustomizeinfo">
-                                                            <label for="customizecategory1" class="mb-0">
-                                                                <h3> {{attendanceMode.name}}</h3>
-                                                                <p> {{attendanceMode.description}}</p>
-                                                            </label>
-                                                        </div>
-                                                        <div class="active-check"
-                                                            *ngIf="attendanceMode.id === selectedAttendanceModeId">
-                                                            <i class="bi bi-check2"></i>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
+                  <div class="row mt-90">
+                     <div class="col-lg-4">
+                         <div class="card">                               
+                             <div class="card-body text-center">                                    
+                                 <img src="assets/images/check-mark.svg" class="rounded-circle thumb-xl">
+                                 <h5 class="font-16 fw-bold mt-5">Manual Attendance</h5> 
+                                 <p class="text-muted mt-1">Attendance is neutral by default, should be marked manually</p>
+                             </div><!--end card-body-->                                                                     
+                         </div><!--end card-->
+                     </div><!--end col-->
+                     <div class="col-lg-4">
+                         <div class="card"> 
+                             <div class="card-body text-center active">                                    
+                                 <img src="assets/images/map-pin.svg" class="rounded-circle thumb-xl">
+                                 <h5 class="font-16 fw-bold mt-5">Staff Attendance With Location</h5> 
+                                 <p class="text-muted mt-1">Staff can mark their own attendance. Location will be captured automatically</p>
+                             </div><!--end card-body-->                                                                
+                         </div><!--end card-->
+                     </div><!--end col-->
+                     <div class="col-lg-4">
+                         <div class="card">                                
+                             <div class="card-body text-center">                                    
+                                 <img src="assets/images/camera.svg" class="rounded-circle thumb-xl">
+                                 <h5 class="font-16 fw-bold mt-5">Staff Attendance With Selfie & Location</h5> 
+                                 <p class="text-muted mt-1">Staff can mark their own attendance with Selfie. Location will be captured automatically</p>
+                             </div><!--end card-body-->                                               
+                         </div><!--end card-->
+                     </div><!--end col-->                                                  
+                  </div>
+                 
+                  <div class="card-body mt-1 p-0">
+                     <div class="alert alert-light mb-0" role="alert">
+                        <h4 class="alert-heading font-18">Download the Sample Excel File!</h4>
+                        <p>Look for the sample file titled "Sample_Data.xlsx" and click on the download button to save it to your computer.</p>
+                        <p>Take a moment to review the existing data in the Excel file. This will help you understand the structure and content of the data before making any updates.</p>
+                     </div>
+                  </div>
 
-                                                <div class="col-md-4">
-                                                   <div class="categryCustomizeinfo-new attendance-active pointer">
-                                                      <div class="form-check mb-3">
-                                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                                      </div>
-                                                    <h3>Manual Attendance</h3>
-                                                    <p>Attendance is neutral by default, should be marked manually</p>
+               </div>
 
-                                                   </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="categryCustomizeinfo-new pointer">
-                                                        <div class="form-check mb-3">
-                                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option3" checked>
-                                                          </div>
-                                                        <h3>Staff Attendance With Location</h3>
-                                                        <p>Staff can mark their own attendance. Location will be captured automatically</p>
-          
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="categryCustomizeinfo-new pointer">
-                                                        <div class="form-check mb-3">
-                                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" checked>
-                                                          </div>
-                                                        <h3>Staff Attendance With Selfie & Location</h3>
-                                                        <p>Staff can mark their own attendance with Selfie. Location will be captured automatically</p>
 
-                                                    </div>
-                                                </div>
 
-                                            </div>
-                                        </div>
-                                        <!-- <div class="d-flex align-items-center justify-content-end mt-3">
-                                            <button type="button"
-                                                (click)="goToDashboardSection()"
-                                                class="btn btn-primary skip-btn">Finish Setup <i class="bi bi-arrow-right"></i></button>
-                                        </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
-
-                    <div class="">
-                        <div class="next-btn-box d-flex align-items-center justify-content-between">
-                         
-                          <button class="btn btn-outline-secondary btn-round" type="button" (click)="backPage()"> <i class="bi bi-arrow-left" style="padding-right: 3px; padding-right: 1px; position: relative; top: -1px;"></i>  Previous </button>
-            
-                          <button type="submit" class="btn btn-outline-primary btn-round" (click)="goToDashboardSection()">
-                            <span>Finish Setup  <i class="bi bi-arrow-right"
-                              style="padding-left: 8px;"></i></span>
-                           
-                          </button>
-                          
-            
-                        </div>
-                      </div>
+                <div class="">
+                   <div class="next-btn-box d-flex align-items-center justify-content-between">
+                      <button class="btn btn-outline-secondary btn-round " type="button" (click)="backPage()"> <i class="bi bi-arrow-left" style="padding-right: 3px; padding-right: 1px; position: relative; top: -1px;"></i>  Previous </button>
+                      <button type="submit" class="btn btn-outline-primary btn-round" (click)="goToDashboardSection()">
+                      <span>Finish Setup  <i class="bi bi-arrow-right"
+                         style="padding-left: 8px;"></i></span>
+                      </button>
+                   </div>
                 </div>
-            </div>
-
-        </div>
+             </div>
+          </div>
+       </div>
     </div>
-</div>
-
-<button type="button" style="display: none;" data-bs-toggle="modal" data-bs-target="#attendancewithlocationss"
+ </div>
+ <button type="button" style="display: none;" data-bs-toggle="modal" data-bs-target="#attendancewithlocationss"
     #attendancewithlocationssButton id="attendancewithlocationssButton"></button>
-
-<div class="modal fade" id="attendancewithlocationss" tabindex="-1" role="dialog"
+ <div class="modal fade" id="attendancewithlocationss" tabindex="-1" role="dialog"
     aria-labelledby="attendancewithlocation" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <form #organizationAddressForm="ngForm" ngNativeValidate (ngSubmit)="setOrganizationAddressDetailMethodCall()">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Staff Attendance With Location </h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" #closeAddressModal
-                        aria-label="Close"></button>
-                </div><!--end modal-header-->
-                <div class="modal-body">
-
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-12">
-
-                                <div class="mb-3">
-                                    <label for="addressLine1" class="pb-2">Address </label>
-                                    <input type="text" id="addressLine1" placeholder="Address line 1"
-                                        ngx-google-places-autocomplete #placesRef="ngx-places"
-                                        (onAddressChange)="handleAddressChange($event)" required="" name="addressLine1"
-                                        class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                                        [(ngModel)]="organizationAddressDetail.addressLine1">
-                                </div>
-
-                            </div>
-                            <div class="col-md-12">
-
-                                <div class="mb-3">
-                                    <label for="addressLine2" class="pb-2">Street Address</label>
-                                    <input type="text" id="addressLine2" placeholder="Address line 2" required=""
-                                        name="addressLine2" class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                                        [(ngModel)]="organizationAddressDetail.addressLine2">
-                                </div>
-
-                            </div>
-                            <div class="col-md-4">
-
-                                <div class="mb-3">
-                                    <label for="landmark" class="pb-2">Landmark <span
-                                            class="text-optional">(optional)</span></label>
-                                    <input type="text" id="landmark" placeholder="Landmark" name="landmark"
-                                        class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                                        [(ngModel)]="organizationAddressDetail.landmark">
-                                </div>
-
-                            </div>
-                            <div class="col-md-4">
-
-                                <div class="mb-3">
-                                    <label for="city" class="pb-2"> City </label>
-                                    <input type="text" id="city" placeholder="City" required="" name="city"
-                                        class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                                        [(ngModel)]="organizationAddressDetail.city">
-                                </div>
-
-                            </div>
-                            <div class="col-md-4">
-
-                                <div class="mb-3">
-                                    <label for="state" class="pb-2"> State </label>
-                                    <input type="text" id="state" placeholder="State" required="" name="state"
-                                        class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                                        [(ngModel)]="organizationAddressDetail.state">
-                                </div>
-
-                            </div>
-                            <div class="col-md-6">
-
-                                <div class="mb-3">
-                                    <label for="country" class="pb-2">Country</label>
-                                    <input type="text" id="country" placeholder="Country" required="" name="country"
-                                        class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                                        [(ngModel)]="organizationAddressDetail.country">
-                                </div>
-
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="pincode" class="pb-2">Pincode</label>
-                                    <input type="text" id="pincode" placeholder="Pincode" required="" name="pincode"
-                                        class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                                        [(ngModel)]="organizationAddressDetail.pincode">
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-
-                                <div class="mb-3">
-                                    <label for="radius" class="pb-2"> Employee Location Must be in </label>
-                                    <input type="text" id="radius" placeholder="in meters" required="" name="radius"
-                                        class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                                        [(ngModel)]="organizationAddressDetail.radius">
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
+       <form #organizationAddressForm="ngForm" ngNativeValidate (ngSubmit)="setOrganizationAddressDetailMethodCall()">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Staff Attendance With Location </h6>
+             <button type="button" class="btn-close" data-bs-dismiss="modal" #closeAddressModal
+                aria-label="Close"></button>
+          </div>
+          <!--end modal-header-->
+          <div class="modal-body">
+             <div class="form-group">
+                <div class="row">
+                   <div class="col-md-12">
+                      <div class="mb-3">
+                         <label for="addressLine1" class="pb-2">Address </label>
+                         <input type="text" id="addressLine1" placeholder="Address line 1"
+                         ngx-google-places-autocomplete #placesRef="ngx-places"
+                         (onAddressChange)="handleAddressChange($event)" required="" name="addressLine1"
+                         class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                         [(ngModel)]="organizationAddressDetail.addressLine1">
+                      </div>
+                   </div>
+                   <div class="col-md-12">
+                      <div class="mb-3">
+                         <label for="addressLine2" class="pb-2">Street Address</label>
+                         <input type="text" id="addressLine2" placeholder="Address line 2" required=""
+                         name="addressLine2" class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                         [(ngModel)]="organizationAddressDetail.addressLine2">
+                      </div>
+                   </div>
+                   <div class="col-md-4">
+                      <div class="mb-3">
+                         <label for="landmark" class="pb-2">Landmark <span
+                            class="text-optional">(optional)</span></label>
+                         <input type="text" id="landmark" placeholder="Landmark" name="landmark"
+                         class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                         [(ngModel)]="organizationAddressDetail.landmark">
+                      </div>
+                   </div>
+                   <div class="col-md-4">
+                      <div class="mb-3">
+                         <label for="city" class="pb-2"> City </label>
+                         <input type="text" id="city" placeholder="City" required="" name="city"
+                         class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                         [(ngModel)]="organizationAddressDetail.city">
+                      </div>
+                   </div>
+                   <div class="col-md-4">
+                      <div class="mb-3">
+                         <label for="state" class="pb-2"> State </label>
+                         <input type="text" id="state" placeholder="State" required="" name="state"
+                         class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                         [(ngModel)]="organizationAddressDetail.state">
+                      </div>
+                   </div>
+                   <div class="col-md-6">
+                      <div class="mb-3">
+                         <label for="country" class="pb-2">Country</label>
+                         <input type="text" id="country" placeholder="Country" required="" name="country"
+                         class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                         [(ngModel)]="organizationAddressDetail.country">
+                      </div>
+                   </div>
+                   <div class="col-md-6">
+                      <div class="mb-3">
+                         <label for="pincode" class="pb-2">Pincode</label>
+                         <input type="text" id="pincode" placeholder="Pincode" required="" name="pincode"
+                         class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                         [(ngModel)]="organizationAddressDetail.pincode">
+                      </div>
+                   </div>
+                   <div class="col-md-12">
+                      <div class="mb-3">
+                         <label for="radius" class="pb-2"> Employee Location Must be in </label>
+                         <input type="text" id="radius" placeholder="in meters" required="" name="radius"
+                         class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                         [(ngModel)]="organizationAddressDetail.radius">
+                      </div>
+                   </div>
                 </div>
-                <div class="modal-footer d-flex align-items-center justify-content-end">
-                    <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
-                        <div *ngIf="toggle" class="dot-opacity-loader">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                        <span *ngIf="!toggle">
-                            Save <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
-                        </span>
-                    </button>
+             </div>
+          </div>
+          <div class="modal-footer d-flex align-items-center justify-content-end">
+             <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
+                <div *ngIf="toggle" class="dot-opacity-loader">
+                   <span></span>
+                   <span></span>
+                   <span></span>
                 </div>
-            </div>
-        </form>
+                <span *ngIf="!toggle">
+                Save <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                </span>
+             </button>
+          </div>
+       </div>
+       </form>
     </div>
-</div>
+ </div>

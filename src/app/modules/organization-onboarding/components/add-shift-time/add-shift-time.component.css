@@ -1353,9 +1353,16 @@ button.btn.close-btn {
 .table-design tr td {
     border: 1px solid #e0e0e0;
 }
-
+/* Pushpendra's Code  */
 .card-header{
     background-color: #fff;
     border: 0;
     border-bottom: 1px dashed #e8ebf3;
   }
+  .mt-110{
+    margin-top: 110px;
+  }
+  .bg-soft-warning:hover{
+    color: #000 !important;
+    background-color: rgba(255, 159, 67, .08) !important;
+}
