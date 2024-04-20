@@ -46,8 +46,6 @@ export class CentralLeaveManagementComponent implements OnInit {
 
   debounceTimer: any;
   getFullLeaveLogs(debounceTime: number = 300) {
-    debugger
-
     return new Promise((resolve, reject) => {
       if (this.debounceTimer) {
         clearTimeout(this.debounceTimer);

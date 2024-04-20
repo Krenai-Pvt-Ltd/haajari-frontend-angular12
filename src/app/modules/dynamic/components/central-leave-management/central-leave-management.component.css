@@ -167,19 +167,6 @@ span.leave-rejected {
     position: absolute;
     left: -30px;
 }
-.panding-leave-box h4{
-    font-size: 12px;
-    margin-bottom: 0px;
-    FONT-WEIGHT: 600;
-}
-
-
-.panding-leave-box p{
-    font-size: 10px;
-    font-weight: 400;
-    margin-bottom: 0px;
-    color: #8d93a1;
-}
 
 
 .panding-leave-box img{
@@ -408,4 +395,16 @@ span.leave-rejected {
         background-color: #f9f9f9;
         padding: 8px;
         border-radius: 3px;
+}
+.activity .activity-info .icon-info-activity i{
+    width: 28px;
+    height: 28px;
+}
+.bg-soft-success:hover{
+    background-color: rgba(34, 183, 131, .08) !important;
+    color: #22b783 !important;
+}
+.bg-soft-danger:hover{
+    background-color: rgba(239, 77, 86, .08) !important;
+    color: #ef4d56 !important;
 }
