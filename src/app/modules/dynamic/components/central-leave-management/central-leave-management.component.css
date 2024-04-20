@@ -409,3 +409,7 @@ span.leave-rejected {
         padding: 8px;
         border-radius: 3px;
 }
+.activity .activity-info .icon-info-activity i{
+    width: 28px;
+    height: 28px;
+}
