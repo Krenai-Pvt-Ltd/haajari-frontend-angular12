@@ -9030,7 +9030,7 @@ input[type=time]::-webkit-datetime-edit-ampm-field {
     background-color: #ececec36 !important;
     border: 1px solid #cacaca !important;
     border-radius: 2px;
-    height: 42px !important;
+    height: 45px !important;
     font-weight: 400 !important;
     font-size: 14px !important;
     line-height: 18px !important;
@@ -9162,6 +9162,7 @@ input[type=time]::-webkit-datetime-edit-ampm-field {
 
   .errortxt{
     color: red;
+    font-size: 13px;
   }
 
   .persnol-details {
