@@ -10,23 +10,27 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-header">
-                                <div class="row align-items-center">
-                                    <div class="col">                      
-                                        <h4 class="card-title">Payroll</h4>                      
-                                    </div><!--end col-->
-                                    <div class="col-auto"> 
-                                        <div class="dropdown">
-                                            <a href="#" class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                               All<i class="las la-angle-down ms-1"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" href="#">Purchases</a>
-                                                <a class="dropdown-item" href="#">Emails</a>
-                                            </div>
-                                        </div>         
-                                    </div><!--end col-->
-                                </div>  <!--end row-->                                  
-                            </div>
+                        <div class="row align-items-center">
+                            <div class="col">                      
+                                <h4 class="card-title">Payroll</h4>                      
+                            </div><!--end col-->
+                            <div class="col-auto"> 
+                                <div class="dropdown">
+                                    <nz-date-picker nzMode="year" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onYearChange($event)" [nzDisabledDate]="disableYears"></nz-date-picker>
+                                </div>         
+                            </div><!--end col-->
+                        </div>  <!--end row-->                                  
+                    </div>
+
+                    <div class="row">
+                        <div class="d-flex m-3" *ngFor="let month of monthResponseList">
+                            <span class="text-center p-3" style="border: 1px solid black">
+                                <h4>{{month.name}}</h4>
+                                <p class="text-muted">{{month.year}}</p>
+                                <p>{{month.status}}</p>
+                            </span>
+                        </div>
+                    </div>
 
                           <ul class="nav nav-pills nav-justified" role="tablist">
                                 <li class="nav-item waves-effect waves-light">

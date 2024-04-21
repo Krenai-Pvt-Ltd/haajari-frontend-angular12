@@ -1567,21 +1567,27 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/central-leave-management/approve-reject-leaves`, {}, { params });
   }
 
-  getFullLeaveLogsRoleWise(searchString: string, teamString: string): Observable<any> {
+  getFullLeaveLogsRoleWise(searchString: string, teamString: string, page: number, size: number): Observable<any> {
     const params = new HttpParams()
       .set('searchString', searchString)
-      .set('teamString', teamString);
+      .set('teamString', teamString)
+      .set('page', page)
+      .set('size', size);
     return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-full-leave-logs-role-wise`, { params });
   }
 
-  getPendingLeaves(): Observable<any> {
-    // const params = new HttpParams()
-    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-pending-leaves-role-wise`);
+  getPendingLeaves(page: number, size: number): Observable<any> {
+    const params = new HttpParams()
+    .set('page', page)
+    .set('size', size);
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-pending-leaves-role-wise`, { params });
   }
 
-  getApprovedRejectedLeaveLogs(): Observable<any> {
-    // const params = new HttpParams()
-    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-approved-rejected-leave-logs-role-wise`);
+  getApprovedRejectedLeaveLogs(page: number, size: number): Observable<any> {
+    const params = new HttpParams()
+    .set('page', page)
+    .set('size', size);
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-approved-rejected-leave-logs-role-wise`, { params });
   }
 
   getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId: number, leaveType: string): Observable<any> {
@@ -1602,4 +1608,9 @@ export class DataService {
   getMonthlyLeaveSummary(): Observable<any[]> {
     return this.httpClient.get<any[]>(`${this.baseUrl}/central-leave-management/get-monthly-chart-data`);
   }
+
+  getConsumedLeaves(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/central-leave-management/get-total-consumed-leaves`);
+  }
+ 
 }
