@@ -1595,4 +1595,11 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-all-team-names`);
   }
 
+  getWeeklyLeaveSummary(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/central-leave-management/get-weekly-chart-data`);
+  }
+
+  getMonthlyLeaveSummary(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/central-leave-management/get-monthly-chart-data`);
+  }
 }

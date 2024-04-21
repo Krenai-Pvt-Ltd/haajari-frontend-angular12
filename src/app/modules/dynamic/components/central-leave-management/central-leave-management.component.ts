@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { Key } from 'src/app/constant/key';
 import { FullLeaveLogsResponse, PendingLeaveResponse, PendingLeavesResponse } from 'src/app/models/leave-responses.model';
 import { DataService } from 'src/app/services/data.service';
@@ -38,7 +39,8 @@ export class CentralLeaveManagementComponent implements OnInit {
     this.getFullLeaveLogs();
     this.getPendingLeaves();
     this.getApprovedRejectedLeaveLogs();
-
+    this.getWeeklyChartData();
+    this.getMonthlyChartData();
     if(this.ROLE !== 'USER'){
        this.getTeamNames();
     }
@@ -166,5 +168,40 @@ export class CentralLeaveManagementComponent implements OnInit {
     });
   }
   
-  
+  weeklyChartData: any[] = [];
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal, // Correct type for the group property
+    domain: ['#FFD700', '#228B22', '#FF4500'] // Gold, Green, Red
+  };
+  gradient: boolean = true;
+
+  getWeeklyChartData(){
+    this.dataService.getWeeklyLeaveSummary().subscribe(data => {
+      this.weeklyChartData = data.map(item => ({
+        "name": item.weekDay,
+        "series": [
+          { "name": "Pending", "value": item.pending },
+          { "name": "Approved", "value": item.approved },
+          { "name": "Rejected", "value": item.rejected }
+        ]
+      }));
+    });
+  }
+
+  monthlyChartData: any[] = [];
+
+  getMonthlyChartData(){
+    this.dataService.getMonthlyLeaveSummary().subscribe(data => {
+      this.monthlyChartData = data.map(item => ({
+        "name": item.monthName,
+        "series": [
+          { "name": "Pending", "value": item.pending },
+          { "name": "Approved", "value": item.approved },
+          { "name": "Rejected", "value": item.rejected }
+        ]
+      }));
+    });
+  }
 }

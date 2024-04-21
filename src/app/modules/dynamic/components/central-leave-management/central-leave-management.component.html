@@ -23,16 +23,45 @@
           <div class="row p-2 mt-3">
              <div class="col-md-4">
                 <div class="chart-box">
-                   <h4>Weekly leave pattern</h4>
-                   <img src="assets/images/wekly.png" style="width:100%">
-                </div>
+                    <h4>Weekly Leave Pattern</h4>
+                    <ngx-charts-bar-vertical-stacked
+                      [results]="weeklyChartData"
+                      [scheme]="colorScheme"
+                      [gradient]="gradient"
+                      [xAxis]="true"
+                      [yAxis]="true"
+                      [legend]="false"
+                      [showXAxisLabel]="true"
+                      [showYAxisLabel]="true"
+                      [xAxisLabel]="'Weekdays'"
+                      [yAxisLabel]="'Counts'"
+                      [animations]="true">
+                    </ngx-charts-bar-vertical-stacked>
+                  </div>
+                  
              </div>
              <div class="col-md-4">
-                <div class="chart-box">
+                <!-- <div class="chart-box">
                    <h4>Monthly stats</h4>
                    <img src="assets/images/monthly.png" style="width:100%">
+                </div> -->
+                <div class="chart-box">
+                    <h4>Monthly Stats</h4>
+                    <ngx-charts-bar-vertical-stacked
+                      [results]="monthlyChartData"
+                      [scheme]="colorScheme"
+                      [gradient]="gradient"
+                      [xAxis]="true"
+                      [yAxis]="true"
+                      [legend]="false"
+                      [showXAxisLabel]="true"
+                      [showYAxisLabel]="true"
+                      [xAxisLabel]="'Months'"
+                      [yAxisLabel]="'Counts'"
+                      [animations]="true">
+                    </ngx-charts-bar-vertical-stacked>
                 </div>
-             </div>
+            </div>
              <div class="col-md-4">
                 <div class="chart-box">
                    <h4>Consumed leave types</h4>
