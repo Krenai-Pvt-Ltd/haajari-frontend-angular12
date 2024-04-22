@@ -72,14 +72,17 @@ export class CentralLeaveManagementComponent implements OnInit {
   }
 
   searchLeaves() {
+    this.size = 10;
     this.getFullLeaveLogs();
   }
 
   selectTeam(teamName: string) {
+    this.size = 10;
     this.selectedTeamName = teamName;
     this.getFullLeaveLogs();
 }
   clearSearchUsers(){
+    this.size = 10;
     this.searchString='';
     this.getFullLeaveLogs();
   
