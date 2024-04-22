@@ -361,6 +361,10 @@ export class LeaveManagementComponent implements OnInit {
     });
   }
   
+  sliceWord(word: string): string {
+    return word.slice(0, 3);
+  }
+
   weeklyChartData: any[] = [];
   colorScheme: Color = {
     name: 'custom',
@@ -374,7 +378,7 @@ export class LeaveManagementComponent implements OnInit {
   getWeeklyChartData(){
     this.dataService.getWeeklyLeaveSummary().subscribe(data => {
       this.weeklyChartData = data.map(item => ({
-        "name": item.weekDay,
+        "name": this.sliceWord(item.weekDay),
         "series": [
           { "name": "Pending", "value": item.pending || 0},
           { "name": "Approved", "value": item.approved || 0},
@@ -389,7 +393,7 @@ export class LeaveManagementComponent implements OnInit {
   getMonthlyChartData(){
     this.dataService.getMonthlyLeaveSummary().subscribe(data => {
       this.monthlyChartData = data.map(item => ({
-        "name": item.monthName,
+        "name": this.sliceWord(item.monthName),
         "series": [
           { "name": "Pending", "value": item.pending || 0},
           { "name": "Approved", "value": item.approved || 0},
