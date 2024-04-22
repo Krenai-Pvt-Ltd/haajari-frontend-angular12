@@ -1303,4 +1303,10 @@ button.btn.close-btn {
   .card-header{
     border: 0;
     border-bottom: 1px dashed #e8ebf3;
-    }
+}
+
+.btn.add-shift-time {
+    font-size: 14px !important;
+    font-weight: 500;
+    color: #6666f4 !important;
+}

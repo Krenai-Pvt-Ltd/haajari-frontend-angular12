@@ -24,33 +24,30 @@ export class AttendanceModeComponent implements OnInit {
   }
 
   isUpdate: boolean = false;
-  attenModeId : number = 0;
+  currentAttendanceModeId : number = 0;
   isAttendanceModeSelected: boolean = false;
 
-  @ViewChild("attendancewithlocationssButton") attendancewithlocationssButton !: ElementRef;
-  updateAttendanceModeMethodCall(attendanceModeId: number) {
-    this.attenModeId = attendanceModeId;
-    if (attendanceModeId == 2 || attendanceModeId == 3) {
-      this.attendancewithlocationssButton.nativeElement.click();
+  updateAttendanceMode(attendanceModeId : number){
+    if(attendanceModeId == Key.MANUAL_ATTENDANCE){
+      this.updateAttendanceModeMethodCall(attendanceModeId);
+    } else{
+      this.attendanceWithLocationButton.nativeElement.click();
+      this.currentAttendanceModeId = attendanceModeId;
     }
-    if((this.isUpdate && (attendanceModeId == 2 || attendanceModeId == 3)) || (attendanceModeId == 1)) {
-    this.isUpdate = false;
+  }
+
+  @ViewChild("attendanceWithLocationButton") attendanceWithLocationButton !: ElementRef;
+  updateAttendanceModeMethodCall(attendanceModeId: number) {
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe((response) => {
       this.getAttendanceModeMethodCall();
-      // if (attendanceModeId == 2 || attendanceModeId == 3) {
-      //   this.attendancewithlocationssButton.nativeElement.click();
-      // }
       setTimeout(() => {
-        if (attendanceModeId == 1) {
-          this.isAttendanceModeSelected = true;
-          this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
-        }
+        this.helperService.showToast("Attedance Mode updated successfully.", Key.TOAST_STATUS_SUCCESS);
       }, 1000);
 
     }, (error) => {
       this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
-    }
+    
   }
 
 
@@ -63,6 +60,7 @@ export class AttendanceModeComponent implements OnInit {
       if (response.status) {
         this.selectedAttendanceModeId = response.object.id;
       }
+      console.log(this.selectedAttendanceModeId);
     }, (error) => {
       console.log(error);
     })
@@ -101,8 +99,9 @@ export class AttendanceModeComponent implements OnInit {
           // console.log(response);  
           this.toggle = false;
           this.isUpdate= true;
-          this.updateAttendanceModeMethodCall(this.attenModeId);
+          this.updateAttendanceModeMethodCall(this.currentAttendanceModeId);
           this.closeAddressModal.nativeElement.click();
+          this.resetAddressDetailsModal();
           setTimeout(() => {
               this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
           }, 1000);
@@ -118,8 +117,12 @@ export class AttendanceModeComponent implements OnInit {
       ;
   }
 
+  resetAddressDetailsModal(){
+    this.organizationAddressDetail = new OrganizationAddressDetail();
+  }
+
   backPage() {
-    this._location.back();
+    this.router.navigate(['/organization-onboarding/shift-time-list']);
   }
 
   @ViewChild("placesRef") placesRef!: GooglePlaceDirective;

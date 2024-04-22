@@ -11,33 +11,33 @@
                   </div> 
 
                   <div class="row mt-90">
-                     <div class="col-lg-4">
-                         <div class="card">                               
-                             <div class="card-body text-center">                                    
+                     <div class="col-lg-4" *ngFor="let attendanceMode of attendanceModeList">
+                         <div class="card" (click)="updateAttendanceMode(attendanceMode.id)">                               
+                             <div class="card-body text-center" [ngClass]="{active : attendanceMode.id == selectedAttendanceModeId}">                                    
                                  <img src="assets/images/check-mark.svg" class="rounded-circle thumb-xl">
-                                 <h5 class="font-16 fw-bold mt-5">Manual Attendance</h5> 
-                                 <p class="text-muted mt-1">Attendance is neutral by default, should be marked manually</p>
+                                 <h5 class="font-16 fw-bold mt-5">{{attendanceMode.name}}</h5> 
+                                 <p class="text-muted mt-1">{{attendanceMode.description}}</p>
                              </div><!--end card-body-->                                                                     
                          </div><!--end card-->
                      </div><!--end col-->
-                     <div class="col-lg-4">
+                     <!-- <div class="col-lg-4">
                          <div class="card"> 
                              <div class="card-body text-center active">                                    
                                  <img src="assets/images/map-pin.svg" class="rounded-circle thumb-xl">
                                  <h5 class="font-16 fw-bold mt-5">Staff Attendance With Location</h5> 
                                  <p class="text-muted mt-1">Staff can mark their own attendance. Location will be captured automatically</p>
-                             </div><!--end card-body-->                                                                
-                         </div><!--end card-->
-                     </div><!--end col-->
+                             </div>                                                              
+                         </div>
+                     </div>
                      <div class="col-lg-4">
                          <div class="card">                                
                              <div class="card-body text-center">                                    
                                  <img src="assets/images/camera.svg" class="rounded-circle thumb-xl">
                                  <h5 class="font-16 fw-bold mt-5">Staff Attendance With Selfie & Location</h5> 
                                  <p class="text-muted mt-1">Staff can mark their own attendance with Selfie. Location will be captured automatically</p>
-                             </div><!--end card-body-->                                               
-                         </div><!--end card-->
-                     </div><!--end col-->                                                  
+                             </div>                                    
+                         </div>
+                     </div>  -->
                   </div>
                  
                   <div class="card-body mt-1 p-0">
@@ -66,17 +66,15 @@
        </div>
     </div>
  </div>
- <button type="button" style="display: none;" data-bs-toggle="modal" data-bs-target="#attendancewithlocationss"
-    #attendancewithlocationssButton id="attendancewithlocationssButton"></button>
- <div class="modal fade" id="attendancewithlocationss" tabindex="-1" role="dialog"
-    aria-labelledby="attendancewithlocation" aria-hidden="true">
+ <button type="button" style="display: none;" data-bs-toggle="modal" data-bs-target="#attendanceWithLocation" #attendanceWithLocationButton></button>
+ 
+ <div class="modal fade" data-bs-backdrop="static" id="attendanceWithLocation" tabindex="-1" role="dialog" aria-labelledby="attendanceWithLocation" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
        <form #organizationAddressForm="ngForm" ngNativeValidate (ngSubmit)="setOrganizationAddressDetailMethodCall()">
        <div class="modal-content">
           <div class="modal-header">
              <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Staff Attendance With Location </h6>
-             <button type="button" class="btn-close" data-bs-dismiss="modal" #closeAddressModal
-                aria-label="Close"></button>
+             <button type="button" class="btn-close" data-bs-dismiss="modal" #closeAddressModal aria-label="Close" (click)="resetAddressDetailsModal()"></button>
           </div>
           <!--end modal-header-->
           <div class="modal-body">

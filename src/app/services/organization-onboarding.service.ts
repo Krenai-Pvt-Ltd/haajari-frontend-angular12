@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Key } from '../constant/key';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { DatabaseHelper } from '../models/DatabaseHelper';
 import { UserListReq } from '../models/UserListReq';
 import { UserReq } from '../models/userReq';
+import { HttpClient, HttpEventType, HttpEvent, HttpResponse, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +22,31 @@ export class OrganizationOnboardingService {
     formdata.append('fileName', fileName);
     return this._httpClient.post(this._key.base_url + this._key.user_import, formdata);
   }
+
+
+
+  // userImport(file: any, fileName: string, progressCallback: (progress: number) => void): Observable<any> {
+  //   const formData: FormData = new FormData();
+  //   formData.append('file', file);
+  //   formData.append('fileName', fileName);
+  
+  //   return this._httpClient.post(this._key.base_url + this._key.user_import, formData, {
+  //     reportProgress: true,
+  //     observe: 'events'
+  //   }).pipe(
+  //     tap(event => {
+  //       // Check if the event is a progress event and call the progress callback
+  //       if (event.type === HttpEventType.UploadProgress) {
+  //         const total = event.total ? event.total : 1;
+  //         const progress = Math.round(100 * event.loaded / total);
+  //         progressCallback(progress);  // Correctly send only the progress percentage
+  //       }
+  //     }),
+  //     filter(event => event instanceof HttpResponse),  // Filter out only HttpResponse events
+  //     map((response: HttpResponse<any>) => response.body)  // Now safely map to the body
+  //   );
+  // }
+  
 
   // createAdmin(user:UserReq) {
   //   debugger
