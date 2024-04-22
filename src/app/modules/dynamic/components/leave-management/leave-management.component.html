@@ -156,7 +156,7 @@
                   <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px;" *ngIf="searchString!=''" (click)="clearSearchUsers()"></i>
                 </div>
               </div>
-              <div class="leave-logs">
+              <div class="leave-logs" #logContainer (scroll)="scrollDownRecentActivity($event)">
                 <div class="activity" *ngFor="let fullLogList of fullLeaveLogs">
                   <div class="activity-info">
                     <div class="icon-info-activity">
@@ -212,9 +212,13 @@
                 <!--end activity-->
               </div>
               <div class="text-center load-more-btn">
+                <p  *ngIf='fullLeaveLogSize>9' (click)="loadMoreLogs()" [ngStyle]="{'background-color': initialLoadDone ? '#9999f7' : ''}"
+                 >Load more <i class="bi bi-chevron-down"></i></p>
+              </div>
+              <!-- <div class="text-center load-more-btn">
                 <p *ngIf='fullLeaveLogSize>9' (click)="loadMoreLogs()"> Load more <i class="bi bi-chevron-down"></i>
                 </p>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="col-md-6">
@@ -229,7 +233,7 @@
               <div class="panding-leave-box">
                 <p>Pending Leave <span class="badge rounded-pill badge-outline-success">{{pendingLeavesSize}}</span>
                 </p>
-                <div class="leave-history-box">
+                <div class="leave-history-box" #logContainerOfPendingLeaves (scroll)="scrollDownRecentActivityOfPendingLeaves($event)">
                   <div class="row mt-2" *ngFor="let pl of pendingLeaves">
                     <div class="col-auto">
                       <img *ngIf="pl.image" src="{{pl.image}}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px;">
@@ -271,14 +275,14 @@
                   </div>
                 </div>
                 <div class="text-center load-more-btn mt-3">
-                  <p *ngIf='pendingLeavesSize>4' (click)="loadMorePendingLeaves()">Load more <i class="bi bi-chevron-down"></i>
+                  <p *ngIf='pendingLeavesSize>4' (click)="loadMorePendingLeaves()" [ngStyle]="{'background-color': initialLoadDoneOfPendingLeaves ? '#9999f7' : ''}">Load more <i class="bi bi-chevron-down"></i>
                   <!-- <p>Load more <i class="bi bi-chevron-down"></i> -->
                   </p>
                 </div>
               </div>
               <div class="panding-leave-box mt-3">
                 <p>Leaves History</p>
-                <div class="leave-history-box">
+                <div class="leave-history-box" #logContainerOfApprovedRejected  (scroll)="scrollDownRecentActivityOfApprovedRejected($event)">
   
   
                   <div class="row mt-2" *ngFor="let arl of approvedRejectedLeaves">
@@ -324,7 +328,7 @@
                  
                 </div>
                 <div class="text-center load-more-btn mt-3">
-                  <p *ngIf='approvedRejectedLeavesSize>4' (click)="loadMoreApprovedRejectedLogs()">Load more <i class="bi bi-chevron-down"></i>
+                  <p *ngIf='approvedRejectedLeavesSize>4' (click)="loadMoreApprovedRejectedLogs()" [ngStyle]="{'background-color': initialLoadDoneOfApprovedRejected ? '#9999f7' : ''}">Load more <i class="bi bi-chevron-down"></i>
                   </p>
                 </div>
               </div>
