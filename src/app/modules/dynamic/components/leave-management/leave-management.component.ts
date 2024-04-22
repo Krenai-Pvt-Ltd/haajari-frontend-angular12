@@ -1,20 +1,16 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectorRef, Component,ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { Color, ScaleType } from '@swimlane/ngx-charts';
+import * as moment from 'moment';
 import { Key } from 'src/app/constant/key';
-import { UserLeaveDetailsWrapper } from 'src/app/models/UserLeaveDetailsWrapper';
-import { TotalRequestedLeavesReflection } from 'src/app/models/totalRequestedLeaveReflection';
+import { FullLeaveLogsResponse, PendingLeaveResponse, PendingLeavesResponse } from 'src/app/models/leave-responses.model';
+import { UserDto } from 'src/app/models/user-dto.model';
+import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
-
-interface UserLeaveLogs {
-  [uuid: string]: TotalRequestedLeavesReflection[];
-}
-
-interface ApprovedUserLeaveLogs {
-  [uuid: string]: TotalRequestedLeavesReflection[];
-}
 
 @Component({
   selector: 'app-leave-management',
@@ -23,347 +19,426 @@ interface ApprovedUserLeaveLogs {
 })
 export class LeaveManagementComponent implements OnInit {
 
-  userLeaveLogs: UserLeaveLogs = {};
-  approvedUserLeaveLogs: ApprovedUserLeaveLogs = {};
-  currentlyOpenUserUuid: string | null = null;
-  approvedCurrentlyOpenUserUuid: string = '';
+  fullLeaveLogs!: FullLeaveLogsResponse[];
+  pendingLeaves!: PendingLeavesResponse[];
+  approvedRejectedLeaves!: PendingLeavesResponse[];
+  specificLeaveRequest!: PendingLeaveResponse;
+  searchString: string = '';
+  selectedTeamName: string = '';
+  page = 0;
+  size = 10;
+  userLeaveForm!: FormGroup;
 
-  constructor(private dataService: DataService, private datePipe: DatePipe,
-    private rbacService: RoleBasedAccessControlService,private cdr: ChangeDetectorRef, private helperService: HelperService, private renderer: Renderer2) { }
+  constructor(
+    private dataService: DataService,
+    private helperService: HelperService,
+    private datePipe: DatePipe,
+    private fb: FormBuilder,
+    private rbacService: RoleBasedAccessControlService,
+  ) { 
+
+    {
+      this.userLeaveForm = this.fb.group({
+        startDate: ["", Validators.required],
+        endDate: [""],
+        leaveType: ["", Validators.required],
+        managerId: ["", Validators.required],
+        optNotes: ["", Validators.required],
+        halfDayLeave: [false],
+        dayShift: [false],
+        eveningShift: [false],
+      });
+    }
+
+  }
+
+  get StartDate() {
+    return this.userLeaveForm.get("startDate")
+  }
+  get EndDate() {
+    return this.userLeaveForm.get("endDate")
+  }
+  get LeaveType() {
+    return this.userLeaveForm.get("leaveType")
+  }
+  get ManagerId() {
+    return this.userLeaveForm.get("managerId")
+  }
+  get OptNotes() {
+    return this.userLeaveForm.get("optNotes")
+  }
+
 
   logInUserUuid: string = '';
   ROLE: string | null = '';
+  currentNewDate: any;
+  currentDate: Date = new Date();
 
   async ngOnInit(): Promise<void> {
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-    this.getEmployeesLeaveDetails();
-    // this.userLeaveDetailResponse.forEach((_, index) => {
-    //   this.shouldShowRightScroll[index] = true;
-    //   this.shouldShowLeftScroll[index] = false;
-    // });
-    this.checkArrowsVisibility();
 
-  }
-
-  ngAfterViewInit(): void {
-    this.checkArrowsVisibility();
-  }
-
-  checkArrowsVisibility(): void {
-    debugger
-    this.cdr.detectChanges();
-    
-    if((this.userLeaveDetailResponse!=undefined)){
-    setTimeout(() => {
-      this.userLeaveDetailResponse.forEach((_, index) => {
-        this.checkInitialArrowVisibility(index);
-      });
-    });
+    this.getFullLeaveLogs();
+    this.getPendingLeaves();
+    this.getApprovedRejectedLeaveLogs();
+    this.getWeeklyChartData();
+    this.getMonthlyChartData();
+    this.getTotalConsumedLeaves();
+    if(this.ROLE !== 'USER'){
+       this.getTeamNames();
     }
+
+    this.fetchManagerNames();
+    this.getUserLeaveReq();
+    this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
   }
-  checkInitialArrowVisibility(index: number): void {
-    debugger
-    const element = this.scrollContainers.toArray()[index]?.nativeElement;
-    if (element) {
-      this.shouldShowRightScroll[index] = element.scrollWidth > element.clientWidth;
-      this.shouldShowLeftScroll[index] = false;
-    }
-  }
-  
 
-
-  searchString: string = '';
-  searchStatus: string = '';
-  pageNumber: number = 1;
-  itemPerPage: number = 5;
-  total: number = 0;
-  totalPages: number = 0;
-  isShimmer: boolean = false;
-
-
-  isLeaveManagementShimmerFlag:boolean = false;
-  isPlaceholderFlag:boolean=false;
-  isErrorFlag:boolean=false;
-  userLeaveDetailResponse!: UserLeaveDetailsWrapper[];
   debounceTimer: any;
-  getEmployeesLeaveDetails(debounceTime: number = 300) {
-    this.isLeaveManagementShimmerFlag=true;
-    if (this.debounceTimer) {
-      clearTimeout(this.debounceTimer);
-  }
-  this.debounceTimer = setTimeout(() => {
-    this.dataService.getLeavesDetailsOfEmployees(this.searchString, this.searchStatus, this.pageNumber, this.itemPerPage).subscribe((data) => {
-      this.userLeaveDetailResponse = data.userLeaveDetails;
-      this.total = data.totalCount;
-      if(this.total==0){
-        this.isPlaceholderFlag=true;
-      }else{
-        this.isPlaceholderFlag=false;
+  fullLeaveLogSize!: number;
+  getFullLeaveLogs(debounceTime: number = 300) {
+    return new Promise((resolve, reject) => {
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer);
       }
-      this.isLeaveManagementShimmerFlag=false;
-      this.totalPages = Math.ceil(this.total / this.itemPerPage);
-      this.isShimmer = false;
-      console.log(this.userLeaveDetailResponse);
-    },
-      (error) => {
-        this.isLeaveManagementShimmerFlag=false;
-        this.isErrorFlag=true;
-        console.error('There was an error!', error);
-      }
-    );
-  }, debounceTime);
+      this.debounceTimer = setTimeout(() => {
+        this.dataService.getFullLeaveLogsRoleWise(this.searchString, this.selectedTeamName, this.page, this.size).subscribe({
+          next: (response) => { this.fullLeaveLogs = response.object
+            this.fullLeaveLogSize = this.fullLeaveLogs.length;
+            // this.hasMoreData = response.object.length === this.size;
+          },
+          error: (error) => {
+            console.error('Failed to fetch full leave logs:', error);
+            this.helperService.showToast("Failed to load full leave logs.", Key.TOAST_STATUS_ERROR);
+          }
+        });
+      }, debounceTime);
+    });
   }
 
-  resetfilterLeaves() {
-    this.itemPerPage = 5;
-    this.pageNumber = 1;
-  }
-  filterLeaves(searchString: string) {
-    if (this.searchString) {
-      this.resetfilterLeaves();
-      this.getEmployeesLeaveDetails();
-    } else {
-      this.searchString = '';
-      this.isLeaveManagementShimmerFlag=true;
-      this.resetfilterLeaves();
-      this.getEmployeesLeaveDetails();
-
-    }
+  searchLeaves() {
+    this.size = 10;
+    this.getFullLeaveLogs();
   }
 
-  emptySearch(){
-    this.searchString = '';
-    this.isPlaceholderFlag=false;
-    this.isErrorFlag=false;
-    this.isLeaveManagementShimmerFlag=true;
-    this.getEmployeesLeaveDetails();
-    this.resetfilterLeaves()
+  selectTeam(teamName: string) {
+    this.size = 10;
+    this.selectedTeamName = teamName;
+    this.getFullLeaveLogs();
+}
+  clearSearchUsers(){
+    this.size = 10;
+    this.searchString='';
+    this.getFullLeaveLogs();
+  
+   }
+  
+   loadMoreLogs() {
+    // this.page++;
+    this.size= this.size+10;
+    this.getFullLeaveLogs();
   }
-
-
-  getPages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
-
-  changePage(page: any): void {
-    if (page === 'prev') {
-      this.pageNumber = Math.max(1, this.pageNumber - 1);
-    } else if (page === 'next') {
-      this.pageNumber = Math.min(this.totalPages, this.pageNumber + 1);
-    } else {
-      this.pageNumber = page;
-    }
-    this.getEmployeesLeaveDetails();
-  }
-
-  getStartIndex(): number {
-    return (this.pageNumber - 1) * this.itemPerPage + 1;
-  }
-
-  getEndIndex(): number {
-    return Math.min(this.getStartIndex() + this.itemPerPage - 1, this.total);
-  }
-
-
-  leavesLogs: TotalRequestedLeavesReflection[] = [];
-  currentUserId: string | null = null;
-
-  // getRequestedLeaveLogs(userUuid:string) {
-  //   debugger
-  //   this.currentUserId = userUuid;
-  //   this.dataService.getRequestedLeaveDetailsForUser(userUuid).subscribe((data) => {
-  //       this.leavesLogs = data;
-  //       console.log(this.leavesLogs);
-  //     },
-  //     (error) => {
-  //       console.error('There was an error!', error);
-  //     }
-  //   );
-  // }
-
-  // getRequestedLeaveLogs(userUuid: string): void {
-  //   if (!this.userLeaveLogs[userUuid]) {
-  //     this.dataService.getRequestedLeaveDetailsForUser(userUuid).subscribe(logs => {
-  //       this.userLeaveLogs[userUuid] = logs;
-  //       this.currentlyOpenUserUuid = userUuid;
-  //     });
-  //   } else {
-  //     this.currentlyOpenUserUuid = this.currentlyOpenUserUuid === userUuid ? null : userUuid;
-  //   }
-  // }
-
-  // isRequestedLeaveManagerFlag: boolean=false;
-
-  // getManager(userUuid:string){
-  //   if(this.logInUserUuid==userUuid){
-  //     this.isRequestedLeaveManagerFlag=true;
-  //   }else{
-  //     this.isRequestedLeaveManagerFlag=false;
-  //   }
-  // }
-
-  getRequestedLeaveLogs(userUuid: string): void {
-    debugger
-    this.dataService.getRequestedLeaveDetailsForUser(userUuid).subscribe({
-      next: (logs) => {
-        this.userLeaveLogs[userUuid] = logs;
-        this.currentlyOpenUserUuid = userUuid;
-        this.cdr.markForCheck();
-      },
+  pagePendingLeaves = 0;
+  sizePendingLeaves = 5;
+  pendingLeavesSize!: number;
+  getPendingLeaves() {
+    this.dataService.getPendingLeaves(this.pagePendingLeaves, this.sizePendingLeaves).subscribe({
+      next: (response) => {this.pendingLeaves = response.object
+      this.pendingLeavesSize = this.pendingLeaves.length},
       error: (error) => {
-        console.error('Error fetching leave logs', error);
+        console.error('Failed to fetch pending leaves:', error);
+        this.helperService.showToast("Failed to load pending leaves.", Key.TOAST_STATUS_ERROR);
       }
     });
   }
 
- selectedLeaveTypes: { [userId: string]: string } = {};
-  getApprovedLeaveLogs(userUuid: string, leaveType: string): void {
-    const key = `${userUuid}_${leaveType}`;
-
-    if (this.approvedCurrentlyOpenUserUuid === key) {
-      this.approvedCurrentlyOpenUserUuid = ''; 
-    } else {
-      this.selectedLeaveTypes[userUuid] = leaveType;
-      this.dataService.getApprovedLeaveDetailsForUser(userUuid, leaveType).subscribe({
-        next: (logs) => {
-          this.approvedUserLeaveLogs[key] = logs;
-          this.approvedCurrentlyOpenUserUuid = key;
-          this.cdr.markForCheck();
-        },
-        error: (error) => console.error('Error fetching approved leave logs', error)
-      });
-    }
+  loadMorePendingLeaves(){
+    this.sizePendingLeaves= this.sizePendingLeaves+5;
+    this.getPendingLeaves();
   }
-  
 
-//   selectedLeaveTypes: { [userId: string]: string } = {};
-// getApprovedLeaveLogs(userUuid: string, leaveType: string): void {
+  pageApprovedRejected = 0;
+  sizeApprovedRejected = 5;
+  approvedRejectedLeavesSize!:number;
+  getApprovedRejectedLeaveLogs() {
+    this.dataService.getApprovedRejectedLeaveLogs(this.pageApprovedRejected, this.sizeApprovedRejected).subscribe({
+      next: (response) => {this.approvedRejectedLeaves = response.object
+      this.approvedRejectedLeavesSize = this.approvedRejectedLeaves.length},
+      error: (error) => {
+        console.error('Failed to fetch approved-rejected leave logs:', error);
+        this.helperService.showToast("Failed to load approved/rejected leaves.", Key.TOAST_STATUS_ERROR);
+      }
+    });
+  }
 
-//   this.selectedLeaveTypes[userUuid] = leaveType;
-//   const key = `${userUuid}_${leaveType}`;
-
-//   this.dataService.getApprovedLeaveDetailsForUser(userUuid, leaveType).subscribe({
-//     next: (logs) => {
-//       this.approvedUserLeaveLogs[key] = logs;
-//       this.approvedCurrentlyOpenUserUuid = key;
-//       this.cdr.markForCheck();
-//     },
-//     error: (error) => console.error('Error fetching approved leave logs', error)
-//   });
-// }
-
-formatDate(date: Date) {
-  const dateObject = new Date(date);
-  const formattedDate = this.datePipe.transform(dateObject, 'yyyy-MM-dd');
-  return formattedDate;
-}
-
-formatTime(date: Date) {
-  const dateObject = new Date(date);
-  const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
-  return formattedTime;
-}
-
-formatDateIn(newdate:any) {
-  const date = new Date(newdate);
-  const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
-  return formattedDate;
-}
-
-  
-  // getApprovedLeaveLogs(userUuid: string, leaveType:string): void {
-  //   debugger
-  //   this.dataService.getApprovedLeaveDetailsForUser(userUuid, leaveType).subscribe({
-  //     next: (logs) => {
-  //       this.approvedUserLeaveLogs[userUuid] = logs;
-  //       this.approvedCurrentlyOpenUserUuid = userUuid;
-  //       this.cdr.markForCheck();
-  //     },
-  //     error: (error) => {
-  //       console.error('Error fetching leave approved logs', error);
-  //     }
-  //   });
-  // }
-
-  // toggleApprovedLeaveLogs(userUuid: string, leaveType:string): void {
-  //   this.approvedCurrentlyOpenUserUuid = this.approvedCurrentlyOpenUserUuid === userUuid ? null : userUuid;
-  //   if (!this.approvedUserLeaveLogs[userUuid]) {
-  //       this.getApprovedLeaveLogs(userUuid, leaveType);
-  //   }
-  //   }
-
-  
-
-  approveOrDeny(requestId: number, requestedString: string, userUuid: string) {
+  loadMoreApprovedRejectedLogs(){
+    this.sizeApprovedRejected= this.sizeApprovedRejected+5;
+    this.getApprovedRejectedLeaveLogs();
+  }
+  @ViewChild("closeModal") closeModal!: ElementRef;
+  approvedLoader: boolean = false;
+  rejecetdLoader: boolean = false;
+  approveOrDeny(requestId: number, requestedString: string) {
     debugger;
-    this.dataService.approveOrRejectLeave(requestId, requestedString, this.logInUserUuid).subscribe({
+
+    if(requestedString === 'approved'){
+      this.approvedLoader = true;
+    }else if(requestedString === 'rejected'){
+      this.rejecetdLoader = true;
+    }
+    this.dataService.approveOrRejectLeaveOfUser(requestId, requestedString).subscribe({
       next: (logs) => {
         console.log('success!');
-        // Directly refresh the list of leave requests for the specific user
-        this.getRequestedLeaveLogs(userUuid);
-        if (requestedString === 'approved') {
-          this.helperService.showToast("Leave approved successfully!", Key.TOAST_STATUS_SUCCESS);
-        } else if (requestedString === 'rejected') {
-          this.helperService.showToast("Leave rejected successfully!", Key.TOAST_STATUS_SUCCESS);
-        }
-        this.getEmployeesLeaveDetails();
-
+        this.approvedLoader = false;
+        this.rejecetdLoader = false;
+        this.getApprovedRejectedLeaveLogs();
+        this.getFullLeaveLogs();
+        this.getPendingLeaves();
+        this.getTotalConsumedLeaves();
+        this.getMonthlyChartData();
+        this.getWeeklyChartData();
+        this.closeModal.nativeElement.click();
+        let message = requestedString === 'approved' ? "Leave approved successfully!" : "Leave rejected successfully!";
+        this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
       },
       error: (error) => {
+        this.approvedLoader = false;
+        this.rejecetdLoader = false;
         console.error('There was an error!', error);
-        this.helperService.showToast("Error!", Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast("Error processing leave request!", Key.TOAST_STATUS_ERROR);
+      }
+    });
+  }
+
+  getPendingLeave(leaveId: number, leaveType: string) {
+    this.dataService.getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType).subscribe({
+      next: (response) => this.specificLeaveRequest = response.object[0],
+      error: (error) => {
+        console.error('Failed to fetch pending leave:', error);
+        this.helperService.showToast("Failed to load this pending leave.", Key.TOAST_STATUS_ERROR);
+      }
+    });
+  }
+
+  formatDateIn(newdate:any) {
+    const date = new Date(newdate);
+    const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
+    return formattedDate;
+  }
+  formatDate(date: Date) {
+    const dateObject = new Date(date);
+    const formattedDate = this.datePipe.transform(dateObject, 'yyyy-MM-dd');
+    return formattedDate;
+  }
+
+  formatTime(date: Date) {
+    const dateObject = new Date(date);
+    const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
+    return formattedTime;
+  }
+
+  transform(value: string): string {
+    if (!value) return value; 
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+
+  teamNameList: string[] = [];
+  getTeamNames() {
+    this.dataService.getAllTeamNames().subscribe({
+      next: (response: any) => {
+        this.teamNameList = response.object; 
+      },
+      error: (error) => {
+        console.error('Failed to fetch team names:', error);
+        
       }
     });
   }
   
-
-  // approveOrDeny(requestId: number, requestedString: string, userUuid:string) {
-  //   debugger
-  //   this.dataService.approveOrRejectLeave(requestId, requestedString, this.logInUserUuid).subscribe(logs => {
-  //     console.log('success!');
-  //     this.getEmployeesLeaveDetails();
-  //     if (requestedString == 'approved') {
-  //       this.helperService.showToast("Leave approved successfully!", Key.TOAST_STATUS_SUCCESS);
-  //     } else if (requestedString == 'rejected') {
-  //       this.helperService.showToast("Leave rejected successfully!", Key.TOAST_STATUS_SUCCESS);
-  //     }
-  //     this.getRequestedLeaveLogs(userUuid);
-  //   }, (error) => {
-  //     console.error('There was an error!', error);
-  //     this.helperService.showToast("Error!", Key.TOAST_STATUS_ERROR);
-  //   });
-  // }
-
-  @ViewChildren('scrollContainer') private scrollContainers!: QueryList<ElementRef>;
-  shouldShowRightScroll: boolean[] = [];
-  shouldShowLeftScroll: boolean[] = [];
-
-
-  scrollRight(index: number): void {
-    const element = this.scrollContainers.toArray()[index].nativeElement;
-    element.scrollBy({ left: 200, behavior: 'smooth' }); // Adjust scroll amount as necessary
+  weeklyChartData: any[] = [];
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal, // Correct type for the group property
+    domain: ['#FFD700', '#228B22', '#FF4500'] // Gold, Green, Red
+  };
+  gradient: boolean = true;
+  // view: [number, number] = [300, 150];
+  view: [number, number] = [300, 250];
+  getWeeklyChartData(){
+    this.dataService.getWeeklyLeaveSummary().subscribe(data => {
+      this.weeklyChartData = data.map(item => ({
+        "name": item.weekDay,
+        "series": [
+          { "name": "Pending", "value": item.pending || 0},
+          { "name": "Approved", "value": item.approved || 0},
+          { "name": "Rejected", "value": item.rejected || 0}
+        ]
+      }));
+    });
   }
 
-  scrollLeft(index: number): void {
-    const element = this.scrollContainers.toArray()[index].nativeElement;
-    element.scrollBy({ left: -200, behavior: 'smooth' }); // Adjust scroll amount as necessary
+  monthlyChartData: any[] = [];
+
+  getMonthlyChartData(){
+    this.dataService.getMonthlyLeaveSummary().subscribe(data => {
+      this.monthlyChartData = data.map(item => ({
+        "name": item.monthName,
+        "series": [
+          { "name": "Pending", "value": item.pending || 0},
+          { "name": "Approved", "value": item.approved || 0},
+          { "name": "Rejected", "value": item.rejected || 0}
+        ]
+      }));
+    });
   }
 
-  checkScroll(event: any, index: number): void {
-    const element = event.target;
-    const maxScrollLeft = element.scrollWidth - element.clientWidth;
-    if (element.scrollLeft >= maxScrollLeft) {
-      this.shouldShowRightScroll[index] = false;
-    } else {
-      this.shouldShowRightScroll[index] = true;
+  consumedLeaveData: any[] = [];
+  views: [number, number] = [300, 200];
+
+  showXAxis = true;
+  showYAxis = true;
+  showLegend = false;
+  showXAxisLabel = true;
+  xAxisLabel = 'Count';
+  showYAxisLabel = true;
+  yAxisLabel = 'Type';
+
+  colorSchemeConsumed: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#228B22', '#CFC0BB']
+  };
+
+  consumedLeaveArray : any[] = [];
+  dataReady: boolean = false;
+  getTotalConsumedLeaves() {
+    this.dataService.getConsumedLeaves().subscribe(data => {
+      this.consumedLeaveArray = data;
+      this.consumedLeaveData = data.map(item => ({
+        name: this.getLeaveInitials(item.leaveType),
+        series: [
+          { name: "Used", value: item.consumedCount || 0 },
+          { name: "Remaining", value: item.remainingCount || 0 }
+        ]
+      }));
+      this.dataReady = true; 
+      console.log(this.consumedLeaveData);
+    });
+  }
+
+  getLeaveInitials(leaveType: string): string {
+    const words = leaveType.split(' ');
+    if (words.length >= 2) {
+      return words[0].charAt(0) + words[1].charAt(0);
     }
-
-    if (element.scrollLeft > 0) {
-      this.shouldShowLeftScroll[index] = true;
-    } else {
-      this.shouldShowLeftScroll[index] = false;
-    }
+    return leaveType;
   }
 
+  // ####   new modal code 
+
+  managers: UserDto[] = [];
+  selectedManagerId!: number;
+
+  fetchManagerNames() {
+    this.dataService.getEmployeeManagerDetailsLeaveManagemnt().subscribe(
+      (data: UserDto[]) => {
+        this.managers = data;
+      },
+      (error) => {
+      }
+    );
+  }
+
+  userLeave: any = [];
+  leaveCountPlaceholderFlag: boolean = false;
+
+  getUserLeaveReq() {
+    this.leaveCountPlaceholderFlag = false;
+    this.dataService.getUserLeaveRequestsForLeaveManagement().subscribe(
+      (data) => {
+        if (data.body != undefined || data.body != null || data.body.length != 0) {
+          this.userLeave = data.body;
+        } else {
+          this.leaveCountPlaceholderFlag = true;
+          return;
+        }
+      },
+      (error) => {
+      }
+    );
+  }
+
+
+  userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
+
+
+  @ViewChild("requestLeaveCloseModel")
+  requestLeaveCloseModel!: ElementRef;
+
+  // @ViewChild('userLeaveForm') userLeaveForm: NgForm;
+
+
+  resetUserLeave() {
+    this.userLeaveRequest.startDate = new Date();
+    this.userLeaveRequest.endDate = new Date();
+    this.userLeaveRequest.halfDayLeave = false;
+    this.userLeaveRequest.dayShift = false;
+    this.userLeaveRequest.eveningShift = false;
+    this.userLeaveRequest.leaveType = "";
+    this.userLeaveRequest.managerId = 0;
+    this.userLeaveRequest.optNotes = "";
+    this.selectedManagerId = 0;
+
+  }
+  @ViewChild(FormGroupDirective)
+  formGroupDirective!: FormGroupDirective;
+  submitLeaveLoader:boolean=false;
+
+  saveLeaveRequestUser() {
+    debugger
+    this.userLeaveRequest.managerId = this.selectedManagerId;
+    this.userLeaveRequest.dayShift = this.dayShiftToggle;
+    this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
+    this.submitLeaveLoader=true;
+    this.dataService.saveLeaveRequestForLeaveManagement(this.userLeaveRequest)
+      .subscribe(data => {
+        this.submitLeaveLoader=false;
+        this.resetUserLeave();
+        this.getApprovedRejectedLeaveLogs();
+        this.getFullLeaveLogs();
+        this.getPendingLeaves();
+        this.getTotalConsumedLeaves();
+        this.getMonthlyChartData();
+        this.getWeeklyChartData();
+        this.formGroupDirective.resetForm();
+        this.requestLeaveCloseModel.nativeElement.click();
+      }, (error) => {
+        this.submitLeaveLoader=false;
+      })
+  }
+
+  dayShiftToggle: boolean = false;
+  eveningShiftToggle: boolean = false;
+
+  dayShiftToggleFun(shift: string) {
+
+    if (shift == 'day') {
+      this.dayShiftToggle = true;
+      this.eveningShiftToggle = false;
+
+    } else if (shift == 'evening') {
+      this.eveningShiftToggle = true;
+      this.dayShiftToggle == false
+    }
+    // console.log("day" + this.dayShiftToggle + "evening" + this.eveningShiftToggle);
+  }
+
+
+  halfDayLeaveShiftToggle: boolean = false;
+
+  halfLeaveShiftToggle() {
+    this.halfDayLeaveShiftToggle = this.halfDayLeaveShiftToggle == true ? false : true;
+  }
+  
 }
