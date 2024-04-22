@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Key } from 'src/app/constant/key';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
 import { DataService } from 'src/app/services/data.service';
@@ -21,16 +22,32 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
     private rbacService: RoleBasedAccessControlService) { }
 
   onboardingViaString: string = '';
+  private subscription!: Subscription;
+
 
   ngOnInit(): void {
+    this.subscription = this._onboardingService.refreshSidebar$.subscribe(refresh => {
+      if (refresh) {
+        this.reloadSidebar();
+      }
+    });
     this.getOnboardingStep();
     this.getUserUUID();
     this.getLoggedInUserDetails();
 
   }
 
+  reloadSidebar() {
+    // Logic to reload or refresh the sidebar
+    console.log('Sidebar is reloading...');
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
   navigateTo(route: string, stepIndex: number): void {
-    debugger
+    
     if (this.dataService.stepIndex < (stepIndex - 1)) {
       
     } else {
@@ -39,12 +56,15 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
 
   }
 
+  STEP_ID : number = 1;
+  STEP_TEXT : string = 'Personal Information';
   getOnboardingStep() {
     debugger
     this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
       if (response.status) {
         this.dataService.markStepAsCompleted(response.object.step);
         this.onboardingViaString = response.object.onboardingString;
+        this.STEP_ID = response.object.step
         this.goToStep(response.object.step);
       }
     })
@@ -54,21 +74,29 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
     // console.log("Index to Go :", index);
     switch (index) {
       case "1": {
+        this.STEP_ID = 1;
+        this.STEP_TEXT = "Personal Information";
         this.router.navigate(['/organization-onboarding/personal-information']);
         // console.log("Step 1 is calling");
         break;
       }
       case "2": {
+        this.STEP_ID = 2;
+        this.STEP_TEXT = "Employee Creation";
         this.router.navigate(['/organization-onboarding/upload-team']);
         // console.log("Step 2 is calling");
         break;
       }
       case "3": {
-        this.router.navigate(['/organization-onboarding/shift-time']);
+        this.STEP_ID = 3;
+        this.STEP_TEXT = "Shift Time";
+        this.router.navigate(['/organization-onboarding/shift-time-list']);
         // console.log("Step 3 is calling");
         break;
       }
       case "4": {
+        this.STEP_ID = 4;
+        this.STEP_TEXT = "Attendance Mode"
         this.router.navigate(['/organization-onboarding/attendance-mode']);
         // console.log("Step 4 is calling");
         break;

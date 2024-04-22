@@ -48,3 +48,8 @@
     .img-fluid{
         width: 91.3% !important;
     }
+    .munal-add-more-btn.disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+        pointer-events: none;
+    }

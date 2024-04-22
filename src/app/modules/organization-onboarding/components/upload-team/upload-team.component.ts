@@ -37,9 +37,20 @@ export class UploadTeamComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.sampleFileUrl = 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2FUser Data (1).xlsx?alt=media';
+    this.sampleFileUrl = 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2Femployee_details_sample.xlsx?alt=media';
     this.getUser();
     this.selectMethod('mannual');
+    this.checkShiftTimingExistsMethodCall();
+  }
+
+  isShimmer = false;
+  dataNotFoundPlaceholder = false;
+  networkConnectionErrorPlaceholder = false;
+
+  preRuleForShimmersAndErrorPlaceholdersMethodCall(){
+    this.isShimmer = true;
+    this.dataNotFoundPlaceholder = false;
+    this.networkConnectionErrorPlaceholder = false;
   }
 
   back(){
@@ -47,8 +58,7 @@ export class UploadTeamComponent implements OnInit {
   }
 
   backPage(){
-    console.log("BACK")
-    this._location.back();
+    this._router.navigate(['/organization-onboarding/personal-information']);
   }
   selectedMethod: string = 'mannual';
   selectMethod(method:string){
@@ -81,32 +91,43 @@ export class UploadTeamComponent implements OnInit {
     this.userList.splice(index, 1);
   }
 
+
   fileName: any;
   currentFileUpload: any;
+  // selectFile(event: any) {
+    
+  //   let fileList!: FileList;
+  //   if (event != null) {
+  //     fileList = event.target.files;
+  //   }
+
+  //   for (var i = 0; i < fileList.length; i++) {
+  //     this.currentFileUpload = fileList.item(i);
+  //   }
+
+  //   if (this.currentFileUpload != null) {
+
+  //     const formdata: FormData = new FormData();
+  //     this.fileName = this.currentFileUpload.name;
+      
+  //     this.uploadUserFile(this.currentFileUpload,this.fileName);
+      
+  //   }
+
+  // }
+
   selectFile(event: any) {
-    debugger
-    let fileList!: FileList;
-    if (event != null) {
-      fileList = event.target.files;
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.currentFileUpload = file;
+      this.fileName = file.name;
+      this.uploadUserFile(file, this.fileName);
     }
-
-    for (var i = 0; i < fileList.length; i++) {
-      this.currentFileUpload = fileList.item(i);
-    }
-
-    if (this.currentFileUpload != null) {
-
-      const formdata: FormData = new FormData();
-      this.fileName = this.currentFileUpload.name;
-      
-        this.uploadUserFile(this.currentFileUpload,this.fileName);
-      
-    }
-
   }
 
+  
   importToggle: boolean = false;
-  isProgressToggle: boolean = true;
+  isProgressToggle: boolean = false;
   isErrorToggle: boolean = false;
   errorMessage: string = '';
   uploadUserFile(file: any,fileName:string) {
@@ -120,6 +141,9 @@ export class UploadTeamComponent implements OnInit {
         this.importToggle = false;
         this.isProgressToggle = false;
         this.getReport();
+        this.getUser();
+        console.log(this.onboardUserList.length);
+        console.log("SHIVENDRA")
       }else {
         this.importToggle = true;
         this.isErrorToggle = true;
@@ -183,14 +207,37 @@ export class UploadTeamComponent implements OnInit {
     }
   }
 
-  submit() {
-    this.checkFormValidation();
-    if (this.isFormInvalid == true) {
-      return
-    } else {
+  submit(){
+    if(this.allUsersValid()){
       this.create();
+    } else{
+      return;
     }
   }
+
+  isValidUser(u: any): boolean {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return !!u.name && 
+           u.phone && 
+           u.phone.length === 10 && 
+           (!u.email || emailRegex.test(u.email));
+  }
+  
+  // Use this method to determine if all users are valid
+  allUsersValid(): boolean {
+    return !this.isNumberExist && !this.isEmailExist && this.userList.every(u => this.isValidUser(u));
+  }
+
+  resetManualUploadModal(){
+    this.userList.forEach(user => {
+      user.name = '';
+      user.phone = '';
+      user.email = '';
+    });
+    this.manualUpload.nativeElement.click();
+  }
+
+  @ViewChild('munal-upload') manualUpload !: ElementRef;
 
   userListReq: UserListReq = new UserListReq();
   createLoading: boolean = false;
@@ -201,8 +248,10 @@ export class UploadTeamComponent implements OnInit {
       if (response.status) {
         this.selectedMethod = '';
         this.createLoading = false;
+        this.closeUserEditModal.nativeElement.click();
+        this.resetManualUploadModal();
         this.getUser();
-      }
+      } 
     }, (error) => {
       this.createLoading = false;
     })
@@ -212,6 +261,7 @@ export class UploadTeamComponent implements OnInit {
   onboardUserList:any[]= new Array();
   loading: boolean = false;
   getUser(){
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.loading = true;
     this._onboardingService.getOnboardUser().subscribe((response: any) => {
       if (response.status) {
@@ -219,10 +269,14 @@ export class UploadTeamComponent implements OnInit {
       }
       else{
         this.onboardUserList = [];
+        this.dataNotFoundPlaceholder = true;
       }
       this.loading = false;
+      this.isShimmer = false;
     }, (error) => {
       this.loading = false;
+      this.networkConnectionErrorPlaceholder = true;
+      this.isShimmer = false;
     })
   }
 
@@ -264,13 +318,21 @@ export class UploadTeamComponent implements OnInit {
 
   isNumberExist: boolean = false;
   checkNumberExistance(index:number, number:string, uuid:string){
-    this._onboardingService.checkEmployeeNumberExist(number, uuid).subscribe((response: any) => {
-      if(index>=0){
-        this.userList[index].isPhoneExist = response;
+    if (number.trim() === '') {
+      if (index >= 0) {
+          this.userList[index].isPhoneExist = false;
       }
-        this.isNumberExist = response;
-    })
-
+      this.isNumberExist = false;
+      console.log('Phone number is empty, skipping API call.');
+  } else {
+      this._onboardingService.checkEmployeeNumberExist(number, uuid).subscribe((response: any) => {
+          if (index >= 0) {
+              this.userList[index].isPhoneExist = response;
+          }
+          this.isNumberExist = response;
+          console.log(response);
+      });
+  }
   }
 
   isEmailExist: boolean = false;
@@ -290,7 +352,21 @@ export class UploadTeamComponent implements OnInit {
   next(){
     this.dataService.markStepAsCompleted(3);
     this._onboardingService.saveOrgOnboardingStep(3).subscribe();
-    this._router.navigate(['/organization-onboarding/shift-time'])
+
+    if(this.shiftTimingExists){
+      this._router.navigate(['/organization-onboarding/shift-time-list'])
+    } else{
+      this._router.navigate(['/organization-onboarding/add-shift-time'])
+    }
+  }
+
+  shiftTimingExists = false;
+  checkShiftTimingExistsMethodCall(){
+    this.dataService.shiftTimingExists().subscribe((response : any) => {
+      this.shiftTimingExists = response.object;
+    }, (error) => {
+
+    })
   }
 
   @ViewChild("closeUserUpload") closeUserUpload!: ElementRef;

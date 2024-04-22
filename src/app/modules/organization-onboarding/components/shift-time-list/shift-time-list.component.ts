@@ -13,15 +13,16 @@ import { OrganizationOnboardingService } from 'src/app/services/organization-onb
 
 
 @Component({
-  selector: 'app-shift-time',
-  templateUrl: './shift-time.component.html',
-  styleUrls: ['./shift-time.component.css']
+  selector: 'app-shift-time-list',
+  templateUrl: './shift-time-list.component.html',
+  styleUrls: ['./shift-time-list.component.css']
 })
-export class ShiftTimeComponent implements OnInit {
+export class ShiftTimeListComponent implements OnInit {
 
   constructor(private dataService : DataService, private helperService : HelperService, private _location : Location, private router : Router, private onboardingService: OrganizationOnboardingService) { }
 
   ngOnInit(): void {
+    this.checkShiftTimingExistsMethodCall();
     this.getAllShiftTimingsMethodCall();
     this.getOnboardingVia();
   }
@@ -36,6 +37,16 @@ export class ShiftTimeComponent implements OnInit {
   isAllSelected : boolean = false;
   selectedShiftType: ShiftType = new ShiftType();
   organizationShiftTimingRequest: OrganizationShiftTimingRequest = new OrganizationShiftTimingRequest();
+
+  checkShiftTimingExistsMethodCall(){
+    this.dataService.shiftTimingExists().subscribe((response : any) => {
+      if(!response.object){
+        this.router.navigate(['/organization-onboarding/add-shift-time'])
+      }
+    }, (error) => {
+
+    })
+  }
 
 
   @ViewChild("shiftTimingActiveTab") shiftTimingActiveTab !: ElementRef;
@@ -392,7 +403,7 @@ export class ShiftTimeComponent implements OnInit {
     this.router.navigate(['/organization-onboarding/attendance-mode']);
   }
   backPage(){
-    this._location.back();
+    this.router.navigate(['/organization-onboarding/upload-team']);
   }
 
   onboardingViaString : string = '';

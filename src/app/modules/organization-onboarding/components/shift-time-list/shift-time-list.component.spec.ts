@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShiftTimeComponent } from './shift-time.component';
+import { ShiftTimeListComponent } from './shift-time-list.component';
 
 describe('ShiftTimeComponent', () => {
-  let component: ShiftTimeComponent;
-  let fixture: ComponentFixture<ShiftTimeComponent>;
+  let component: ShiftTimeListComponent;
+  let fixture: ComponentFixture<ShiftTimeListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ShiftTimeComponent ]
+      declarations: [ ShiftTimeListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShiftTimeComponent);
+    fixture = TestBed.createComponent(ShiftTimeListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

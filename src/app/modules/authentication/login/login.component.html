@@ -51,55 +51,78 @@
                 </div>
              </div>
              <!-- enterphone-number box -->
-             <!-- <div class="whatapp-login-form mt-5">
+             <div class="whatapp-login-form mt-5">
                 <div *ngIf="isWhatsappLogin && !showOtpInput">
                     <input type="text" required mask="0000000000" class="form-control profile-input"
                         id="examplePhoneNumber1" name="examplePhoneNumber1" aria-describedby="phoneHelp"
                         placeholder="Phone Number" #phoneNumberOtp="ngModel" [(ngModel)]="phoneNumber"
                         style="height: 45px !important;">
                     <div *ngIf="(phoneNumberOtp.touched && phoneNumberOtp.invalid) || isFormInvalid">
-                        <p class="errortxt mt-2 mb-0 text-danger" 
+                        <p class="errortxt mt-2 mb-0 text-danger text-left" 
                             *ngIf="phoneNumberOtp.errors?.required">
                             <i class="bi bi-exclamation-circle"></i>
                             Phone Number is required.
                         </p>
                     </div>
                 
-                    <button class="btn btn-soft-primary w-100 mt-3 btn-fix-height" type="button">Send OTP</button>
+                  <button class="btn btn-soft-primary w-100 mt-3 btn-fix-height" type="submit" [disabled]="phoneNumber == null || phoneNumber == ''" *ngIf="isWhatsappLogin && !showOtpInput" (click)="signInByWhatsapp()">
+                     <span *ngIf="!sendOtpLoader">Send OTP</span>
+                     <div class="dot-opacity-loader" *ngIf="sendOtpLoader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                     </div>
+                  </button>
                 
-                    <div class="register-whatsApp-number-text mt-4 ">
-                        <p> Please Make sure that the number you are entering is register WhatsApp number then only it able to connect to it </p>
+                    <div class="register-whatsApp-number-text mt-4">
+                        <p>Note: Please Make sure that the number you are entering is register WhatsApp number then only it able to connect to it </p>
                     </div>
                 </div>
-                </div> -->
+                </div>
              <!-- enterphone-number box -->
              <!-- otp section -->
-             <!-- <div class="mt-5 otp-box">
-                <div class="">
-                <input type="text" class="otp-input active-otp-box">
-                <input type="text" class="otp-input">
-                <input type="text" class="otp-input">
-                <input type="text" class="otp-input">
-                <input type="text" class="otp-input">
-                <input type="text" class="otp-input">
+            <div class="mt-5 otp-box"  *ngIf="showOtpInput && verifyOtpButtonFlag">
+                <!-- <div class="d-flex align-items-center justify-content-start gap-3" >
+                  <div>
+                     <input type="text" class="otp-input active-otp-box">
+                     <input type="text" class="otp-input">
+                     <input type="text" class="otp-input">
+                  </div>
+                 <div>
+                     <input type="text" class="otp-input">
+                     <input type="text" class="otp-input">
+                     <input type="text" class="otp-input">
+                 </div>
+                </div> -->
+                <div class="otp-input-container">
+                  <ng-otp-input (onInputChange)="onOtpChange($event)"
+                      [config]="{length:6}"></ng-otp-input>
                 </div>
                 <div>
                     <p class="errortxt mt-3 mb-0 text-danger text-start">
                         You have enter wrong OTP
                     </p>
                 </div>
-                <button class="btn btn-soft-primary w-100 mt-3 btn-fix-height" type="button">Verify</button>
+               <button class="btn btn-soft-primary w-100 mt-3 btn-fix-height" type="submit" [disabled]="otp==null || otp==''" *ngIf="showOtpInput && verifyOtpButtonFlag" (click)="verifyOtp()">
+                  <span *ngIf="!loading">Verify</span>
+                     <div class="dot-opacity-loader" *ngIf="loading">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                     </div>
+               </button>
                 
                 <div class="d-flex align-items-center justify-content-between mt-3">
-                    <a hre="" class="change-phone-number"><i class="bi bi-pencil position-relative "></i> Change Phone Number</a>
-                    <a href="" class="resent-otp">Resent OTP</a>
+                    <a hre="#" class="change-phone-number"><i class="bi bi-pencil position-relative "></i> Change Phone Number</a>
+                    <a href="#" class="resent-otp">Resent OTP</a>
                 </div>
-                </div> -->
+            </div>
              <!-- otp section end -->
 
              <!-- gmail login box -->
-             <div class="gmail-login-box mt-5">
-                <a href="" class="gmail-login-btn w-100 "> <img src="assets/images/google.png" class="google-logo"> Use Google Account</a>
+             <!-- <div class="gmail-login-box mt-5">
+                <a href="" class="gmail-login-btn w-100 "> 
+                  <img src="assets/images/google.png" class="google-logo"> Use Google Account</a>
                 <div class="mt-5">
                    <hr class="hr-dashed mt-4">
                    <div class="text-center mt-n5">
@@ -118,10 +141,10 @@
                    </div>
                    <button class="btn btn-primary w-100 mt-3 btn-fix-height" type="button">LOG IN</button>
                 </div>
-             </div>
+             </div> -->
              <!-- gmail login box -->
              <div class="sidebar-footer-text position-absolute">
-                <a href="#!" class="back-to-login-btn text-primary position-relative"><i class="bi bi-arrow-left"></i> Back to login</a>
+                <a class="back-to-login-btn text-primary position-relative" (click)="enableBack=false"><i class="bi bi-arrow-left"></i> Back to login</a>
                 <p>By signing, you are creating a COMMIT account, and you agree to COMMIT <a href="#!" class="text-primary">Terms of Use </a> and <a href="#!" class="text-primary"> Privacy Policy. </a></p>
              </div>
           </div>

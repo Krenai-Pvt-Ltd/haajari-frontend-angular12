@@ -33,10 +33,23 @@ export class AddShiftTimeComponent implements OnInit {
   }
 
   backPage() {
-    this._location.back();
+    this.checkShiftTimingExistsMethodCall();
   }
 
-  
+
+  checkShiftTimingExistsMethodCall(){
+    this.dataService.shiftTimingExists().subscribe((response : any) => {
+      console.log(response);
+      if(response.object){
+        this.router.navigate(['/organization-onboarding/shift-time-list']);
+      } else{
+        this.router.navigate(['/organization-onboarding/upload-team']);
+      }
+    }, (error) => {
+
+    })
+  }
+
   shiftTypeList: ShiftType[] = [];
   getShiftTypeMethodCall() {
     this.dataService.getAllShiftType().subscribe((response) => {
@@ -80,8 +93,9 @@ export class AddShiftTimeComponent implements OnInit {
       this.getAllShiftTimingsMethodCall();
       this.loading = false;
       this.helperService.showToast("Shift Timing registered successfully", Key.TOAST_STATUS_SUCCESS);
-      this.router.navigate(['/organization-onboarding/shift-time'])
+      this.router.navigate(['/organization-onboarding/shift-time-list'])
     }, (error) => {
+      this.helperService.showToast("Shift creation failed!", Key.TOAST_STATUS_ERROR);
       this.loading = false;
     })
   }
@@ -222,7 +236,7 @@ export class AddShiftTimeComponent implements OnInit {
     if (isChecked) {
       // If selecting all, add all user UUIDs to the selectedStaffsUuids list
       this.activeModel2 = true;
-      this.getAllUsersUuids().then(allUuids => {
+      this.getAllUserUuidsMethodCall().then(allUuids => {
         this.selectedStaffsUuids = allUuids;
       });
     } else {
@@ -232,10 +246,20 @@ export class AddShiftTimeComponent implements OnInit {
 
   }
 
-  async getAllUsersUuids(): Promise<string[]> {
-    // Replace with your actual API call to get all users
-    const response = await this.dataService.getAllUsers('asc', 'id', this.searchText, '').toPromise();
-    return response.users.map((user: { uuid: any; }) => user.uuid);
+  // Fetching all the uuids of the users by organization
+  allUserUuids : string[] = [];
+  async getAllUserUuidsMethodCall(){
+    return new Promise<string[]>((resolve, reject) =>{
+      this.dataService.getAllUserUuids().subscribe({
+        next: (response) => {
+          this.allUserUuids = response.listOfObject;
+          resolve(this.allUserUuids);
+        },
+        error: (error) => {
+          reject(error); 
+        }
+      });
+    })
   }
 
   searchUsers() {
@@ -244,10 +268,15 @@ export class AddShiftTimeComponent implements OnInit {
 
   @ViewChild("staffActiveTabInShiftTiming") staffActiveTabInShiftTiming !: ElementRef;
 
+
+  SHIFT_TIME_ID = Key.SHIFT_TIME;
+  STAFF_SELECTION_ID = Key.STAFF_SELECTION;
+
+  SHIFT_TIME_STEP_ID = Key.SHIFT_TIME;
   staffActiveTabInShiftTimingMethod() {
 
     if (this.isValidForm()) {
-      this.staffActiveTabInShiftTiming.nativeElement.click();
+      this.SHIFT_TIME_STEP_ID = Key.STAFF_SELECTION;
     }
 
   }
