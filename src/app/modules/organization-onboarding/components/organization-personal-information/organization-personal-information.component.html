@@ -122,7 +122,7 @@
                                       <div class="mb-3" style="position: relative;">
                                          <label class="pb-2">Address <span
                                             class="text-optional">*</span></label>
-                                         <input type="text" class="form-control profile-input" placeholder="Floor No., Building Name, Street or Locality" [(ngModel)]="organizationPersonalInformation.addressLine1" #addressLine1="ngModel" id="addressline1" ngx-google-places-autocomplete (keydown)="preventLeadingWhitespaceAndNumber($event)" (onAddressChange)="handleAddressChange($event)" name="addressLine1" required>
+                                         <input type="text" class="form-control profile-input" placeholder="Floor No., Building Name, Street or Locality" [(ngModel)]="organizationPersonalInformation.addressLine1" #addressLine1="ngModel" id="addressline1" ngx-google-places-autocomplete (keydown)="preventLeadingWhitespaceAndNumber($event)" (onAddressChange)="handleAddressChange($event)" name="addressLine1" style="padding-right: 220px;" required>
                                          <a class="fetch-location" (click)="currentLocation()"><i class="ti ti-current-location" style="padding-right: 8px;"></i>Fetch Current Location </a>
                                       </div>
                                       <div *ngIf="addressLine1.touched || isFormInvalid">
@@ -202,7 +202,7 @@
                                 </div>
                              </div>
                              <div class="col-lg-3 mb-3 position-relative pointer">
-                                <div class="text-center mt-120">
+                                <div class="text-center mt-80">
                                    <div class="sgsetprofilemain position-relative pointer">
                                       <div class="profile-img-remove text-center position-absolute pointer d-flex align-items-center justify-content-center">
                                          <i class="remove-icon bg-white"></i>
@@ -231,18 +231,24 @@
                     </div>
                  </form>
               </div>
-              <div class="next-btn-box">
-                 <div class="d-flex align-items-center justify-content-end">
-                    <button type="submit" class="btn btn-outline-primary btn-round" (click)="submit()">
-                       <span>Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i></span>
-                       <!-- <div class="dot-opacity-loader" *ngIf="loading">
-                          <span></span>
-                          <span></span>
-                          <span></span>
-                       </div> -->
-                    </button>
-                 </div>
+              <div class="row">
+               <div class="col-md-4"></div>
+               <div class="col-md-8">
+                  <div class="next-btn-box">
+                     <div class="d-flex align-items-center justify-content-end">
+                        <button type="submit" class="btn btn-outline-primary btn-round" (click)="submit()">
+                           <span>Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i></span>
+                           <!-- <div class="dot-opacity-loader" *ngIf="loading">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                           </div> -->
+                        </button>
+                     </div>
+                  </div>
+               </div>
               </div>
+              
            </div>
         </div>
      </div>

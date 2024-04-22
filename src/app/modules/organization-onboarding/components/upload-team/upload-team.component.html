@@ -12,7 +12,7 @@
                       </div>
                    </div>
                    <div class="row">
-                      <div class="col-md-8">
+                      <div class="col-md-12">
                          <div class="card-header p-0 pb-3 bg-white">
                             <h4 class="card-title ">Employee Creation</h4>
                             <p class="text-muted mb-0">Please ensure that all required fields are accurately filled out when creating employee profiles in our HR system. This will help us maintain up-to-date records and provide better support to our employees.</p>
@@ -132,7 +132,8 @@
                                              onboardUser.email:"N/A" }}</b>
                                           </p>
                                        </td>
-                                       <td class="d-flex justify-content-center gap-3">
+                                       <td>
+                                          <div class="d-flex justify-content-center gap-3">
                                           <p class="tableinfo mb-0 pointer text-center" style="color: darkblue;"
                                              (click)="openUserEditModal(onboardUser)">
                                              <i class="bi bi-pencil-square"></i>
@@ -141,6 +142,7 @@
                                              (click)="deleteUser(onboardUser.id)">
                                              <i class="bi bi-trash text-danger" ></i>
                                           </p>
+                                       </div>
                                        </td>
                                     </tr>
                                  </tbody>
@@ -178,9 +180,11 @@
                       </ng-template>                      
                      
                 </div>
-                <div class="">
+                <div class="row">
+                  <div class="col-md-4"></div>
+                  <div class="col-md-8"> 
                    <div class="next-btn-box d-flex align-items-center justify-content-between">
-                      <button class="btn btn-outline-secondary btn-round" type="button" (click)="backPage()"><i class="bi bi-arrow-left"></i>  Previous </button>
+                      <button class="btn btn-outline-secondary btn-round previous-btn" type="button" (click)="backPage()"><i class="bi bi-arrow-left"></i>  Previous </button>
                       <button type="submit" class="btn btn-outline-primary btn-round" (click)="next()">
                          <span *ngIf="!loading">Next <i class="bi bi-arrow-right"
                             style="padding-left: 8px;"></i></span>
@@ -190,6 +194,7 @@
                             <span></span>
                          </div>
                       </button>
+                   </div>
                    </div>
                 </div>
              </div>
