@@ -127,7 +127,7 @@ export class UploadTeamComponent implements OnInit {
 
   
   importToggle: boolean = false;
-  isProgressToggle: boolean = true;
+  isProgressToggle: boolean = false;
   isErrorToggle: boolean = false;
   errorMessage: string = '';
   uploadUserFile(file: any,fileName:string) {

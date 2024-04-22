@@ -202,6 +202,12 @@ export class Key{
     public static SPECIAL_ALLOWANCE = 5;
     public static ADDITIONAL_ALLOWANCE = 6;
 
+    // Organization onboarding steps
+    public static PERSONAL_INFORMATION_STEP = 1;
+    public static EMPLOYEE_CREATION_STEP = 2;
+    public static SHIFT_TIME_STEP = 3;
+    public static ATTENDANCE_MODE_STEP = 4;
+
     // Data format
     public static BOARD = 1;
     public static LIST = 2;
@@ -217,10 +223,10 @@ export class Key{
     public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
     
 
-    base_url = "http://localhost:8080/api/v2";
+    // base_url = "http://localhost:8080/api/v2";
 
     /* ------------------  Staging urls ----------------*/
-    // base_url = "https://staging.hajiri.work/api/v2";
+    base_url = "https://staging.hajiri.work/api/v2";
 
     /* ------------------  Production urls ----------------*/
     // base_url = "https://production.hajiri.work/api/v2";

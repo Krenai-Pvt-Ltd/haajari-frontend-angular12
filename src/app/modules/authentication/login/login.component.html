@@ -51,54 +51,72 @@
                 </div>
              </div>
              <!-- enterphone-number box -->
-             <!-- <div class="whatapp-login-form mt-5">
+             <div class="whatapp-login-form mt-5">
                 <div *ngIf="isWhatsappLogin && !showOtpInput">
                     <input type="text" required mask="0000000000" class="form-control profile-input"
                         id="examplePhoneNumber1" name="examplePhoneNumber1" aria-describedby="phoneHelp"
                         placeholder="Phone Number" #phoneNumberOtp="ngModel" [(ngModel)]="phoneNumber"
                         style="height: 45px !important;">
                     <div *ngIf="(phoneNumberOtp.touched && phoneNumberOtp.invalid) || isFormInvalid">
-                        <p class="errortxt mt-2 mb-0 text-danger" 
+                        <p class="errortxt mt-2 mb-0 text-danger text-left" 
                             *ngIf="phoneNumberOtp.errors?.required">
                             <i class="bi bi-exclamation-circle"></i>
                             Phone Number is required.
                         </p>
                     </div>
                 
-                    <button class="btn btn-soft-primary w-100 mt-3 btn-fix-height" type="button">Send OTP</button>
+                  <button class="btn btn-soft-primary w-100 mt-3 btn-fix-height" type="submit" [disabled]="phoneNumber == null || phoneNumber == ''" *ngIf="isWhatsappLogin && !showOtpInput" (click)="signInByWhatsapp()">
+                     <span *ngIf="!sendOtpLoader">Send OTP</span>
+                     <div class="dot-opacity-loader" *ngIf="sendOtpLoader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                     </div>
+                  </button>
                 
-                    <div class="register-whatsApp-number-text mt-4 ">
-                        <p> Please Make sure that the number you are entering is register WhatsApp number then only it able to connect to it </p>
+                    <div class="register-whatsApp-number-text mt-4">
+                        <p>Note: Please Make sure that the number you are entering is register WhatsApp number then only it able to connect to it </p>
                     </div>
                 </div>
-                </div> -->
+                </div>
              <!-- enterphone-number box -->
              <!-- otp section -->
-             <!-- <div class="mt-5 otp-box">
-                <div class="d-flex align-items-center justify-content-start gap-3" >
-                  <div class="">
-                <input type="text" class="otp-input active-otp-box">
-                <input type="text" class="otp-input">
-                <input type="text" class="otp-input">
-               </div>
-               <div>
-                <input type="text" class="otp-input">
-                <input type="text" class="otp-input">
-                <input type="text" class="otp-input">
-               </div>
+            <div class="mt-5 otp-box"  *ngIf="showOtpInput && verifyOtpButtonFlag">
+                <!-- <div class="d-flex align-items-center justify-content-start gap-3" >
+                  <div>
+                     <input type="text" class="otp-input active-otp-box">
+                     <input type="text" class="otp-input">
+                     <input type="text" class="otp-input">
+                  </div>
+                 <div>
+                     <input type="text" class="otp-input">
+                     <input type="text" class="otp-input">
+                     <input type="text" class="otp-input">
+                 </div>
+                </div> -->
+                <div class="otp-input-container">
+                  <ng-otp-input (onInputChange)="onOtpChange($event)"
+                      [config]="{length:6}"></ng-otp-input>
                 </div>
                 <div>
                     <p class="errortxt mt-3 mb-0 text-danger text-start">
                         You have enter wrong OTP
                     </p>
                 </div>
-                <button class="btn btn-soft-primary w-100 mt-3 btn-fix-height" type="button">Verify</button>
+               <button class="btn btn-soft-primary w-100 mt-3 btn-fix-height" type="submit" [disabled]="otp==null || otp==''" *ngIf="showOtpInput && verifyOtpButtonFlag" (click)="verifyOtp()">
+                  <span *ngIf="!loading">Verify</span>
+                     <div class="dot-opacity-loader" *ngIf="loading">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                     </div>
+               </button>
                 
                 <div class="d-flex align-items-center justify-content-between mt-3">
                     <a hre="#" class="change-phone-number"><i class="bi bi-pencil position-relative "></i> Change Phone Number</a>
                     <a href="#" class="resent-otp">Resent OTP</a>
                 </div>
-                </div> -->
+            </div>
              <!-- otp section end -->
 
              <!-- gmail login box -->
