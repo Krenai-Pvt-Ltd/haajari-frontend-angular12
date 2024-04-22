@@ -50,15 +50,19 @@
         color: red !important;
     }
     .otp-input {
-        width: 56px;
-        height: 56px;
+        width: 53px;
+        height: 53px;
         border: solid 1px #c5c5c5;
         text-align: center;
-        font-size: 32px;
+        font-size: 28px;
         border-bottom: 3px solid #c5c5c5;
     }
-    .otp-input:not(:last-child) {
+    /* .otp-input:not(:last-child) {
         margin-right: 5px;
+    } */
+
+    .otp-input:not(:last-child){
+        border-right: none;
     }
     .active-otp-box{
         border: 1px solid #6666f3;
