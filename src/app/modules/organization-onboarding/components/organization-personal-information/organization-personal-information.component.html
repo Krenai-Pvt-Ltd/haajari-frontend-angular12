@@ -23,10 +23,10 @@
                                          name="adminName" #adminName="ngModel" minlength="3">
                                       </div>
                                       <div *ngIf="adminName?.dirty || isFormInvalid">
-                                         <p class="errortxt mb-2" *ngIf="adminName.errors?.required">
+                                         <p class="errortxt mb-2 text-danger" *ngIf="adminName.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i> Name is required.
                                          </p>
-                                         <p class="errortxt mb-2" *ngIf="adminName.errors?.minlength">
+                                         <p class="errortxt mb-2 text-danger" *ngIf="adminName.errors?.minlength">
                                             <i class="bi bi-exclamation-circle"></i> Please enter minimum three characters name.
                                          </p>
                                       </div>
@@ -40,11 +40,11 @@
                                          #name="ngModel" minlength="3">
                                       </div>
                                       <div *ngIf="name?.dirty || isFormInvalid">
-                                         <p class="errortxt mb-2"  *ngIf="name.errors?.required"><i
+                                         <p class="errortxt text-danger mb-2"  *ngIf="name.errors?.required"><i
                                             class="bi bi-exclamation-circle"></i>
                                             Organization Name is required.
                                          </p>
-                                         <p class="errortxt mb-2" *ngIf="name.errors?.minlength"><i
+                                         <p class="errortxt text-danger mb-2" *ngIf="name.errors?.minlength"><i
                                             class="bi bi-exclamation-circle"></i>
                                             Please enter minimum three characters.
                                          </p>
@@ -72,7 +72,7 @@
                                          </p>
                                       </div>
                                       <div *ngIf="phone?.touched || isFormInvalid">
-                                         <p class="errortxt mb-2" *ngIf="phone.errors?.required">
+                                         <p class="errortxt text-danger mb-2" *ngIf="phone.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i> Phone number is required.
                                          </p>
                                       </div>
@@ -85,7 +85,7 @@
                                          #phone="ngModel" placeholder="Enter phone">
                                       </div>
                                       <div *ngIf="phone?.touched">
-                                         <p class="errortxt mb-2" *ngIf="phone.errors?.required">
+                                         <p class="errortxt mb-2 text-danger" *ngIf="phone.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i> Phone number is required.
                                          </p>
                                       </div>
@@ -101,13 +101,13 @@
                                       </div>
                                       <p *ngIf="isEmailExist" class="error text-danger">This email is already exist.</p>
                                        <div *ngIf="email.touched || email.dirty">
-                                          <p class="errortxt mb-2" *ngIf="email.errors?.required">
+                                          <p class="errortxt mb-2 text-danger" *ngIf="email.errors?.required">
                                                 <i class="bi bi-exclamation-circle"></i> Email Id is required.
                                           </p>
-                                          <p class="errortxt mb-2" *ngIf="email.errors?.email">
+                                          <p class="errortxt mb-2 text-danger" *ngIf="email.errors?.email">
                                                 <i class="bi bi-exclamation-circle"></i> Please enter a valid email address.
                                           </p>
-                                          <p class="errortxt mb-2" *ngIf="email.errors?.pattern">
+                                          <p class="errortxt text-danger mb-2" *ngIf="email.errors?.pattern">
                                                 <i class="bi bi-exclamation-circle"></i> Your email format is not correct.
                                           </p>
                                        </div>
@@ -126,7 +126,7 @@
                                          <a class="fetch-location" (click)="currentLocation()"><i class="ti ti-current-location" style="padding-right: 8px;"></i>Fetch Current Location </a>
                                       </div>
                                       <div *ngIf="addressLine1.touched || isFormInvalid">
-                                       <p class="errortxt mb-2" *ngIf="addressLine1.errors?.required">
+                                       <p class="errortxt text-danger mb-2" *ngIf="addressLine1.errors?.required">
                                           <i class="bi bi-exclamation-circle"></i>
                                           Address is required.
                                        </p>
@@ -140,11 +140,11 @@
                                          [(ngModel)]="organizationPersonalInformation.city" aria-describedby="phoneHelp" placeholder="Enter City">
                                       </div>
                                       <div *ngIf="city.touched || isFormInvalid">
-                                         <p class="errortxt mb-2" *ngIf="city.errors?.required">
+                                         <p class="errortxt text-danger mb-2" *ngIf="city.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             City is required.
                                          </p>
-                                         <p class="errortxt mb-2" *ngIf="city.errors?.maxlength">
+                                         <p class="errortxt text-danger mb-2" *ngIf="city.errors?.maxlength">
                                             <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
                                          </p>
                                       </div>
@@ -158,11 +158,11 @@
                                          placeholder="Enter State">
                                       </div>
                                       <div *ngIf="state.touched || isFormInvalid">
-                                         <p class="errortxt mt-2 mb-0"  *ngIf="state.errors?.required">
+                                         <p class="errortxt text-danger mt-2 mb-0"  *ngIf="state.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             State is required.
                                          </p>
-                                         <p class="errortxt mb-2" *ngIf="state.errors?.maxlength">
+                                         <p class="errortxt text-danger mb-2" *ngIf="state.errors?.maxlength">
                                             <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
                                          </p>
                                       </div>
@@ -176,11 +176,11 @@
                                          placeholder="Enter Country">
                                       </div>
                                       <div *ngIf="country.touched || isFormInvalid">
-                                         <p class="errortxt mb-2" *ngIf="country.errors?.required">
+                                         <p class="errortxt text-danger mb-2" *ngIf="country.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             Country is required.
                                          </p>
-                                         <p class="errortxt mb-2" *ngIf="country.errors?.maxlength">
+                                         <p class="errortxt text-danger mb-2" *ngIf="country.errors?.maxlength">
                                             <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
                                          </p>
                                       </div>
@@ -193,7 +193,7 @@
                                          aria-describedby="phoneHelp" placeholder="Enter Pincode">
                                       </div>
                                       <div *ngIf="pincode.touched || isFormInvalid">
-                                         <p class="errortxt mb-2" *ngIf="pincode.errors?.required">
+                                         <p class="errortxt text-danger mb-2" *ngIf="pincode.errors?.required">
                                             <i class="bi bi-exclamation-circle"></i>
                                             Pincode is required.
                                          </p>
