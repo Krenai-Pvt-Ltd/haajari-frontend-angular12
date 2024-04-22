@@ -13,7 +13,7 @@ import { OrganizationPersonalInformationComponent } from './components/organizat
 import { UploadTeamComponent } from './components/upload-team/upload-team.component';
 import { OrganizationOnboardingComponent } from './organization-onboarding.component';
 import { AttendanceModeComponent } from './components/attendance-mode/attendance-mode.component';
-import { ShiftTimeComponent } from './components/shift-time/shift-time.component';
+import { ShiftTimeListComponent } from './components/shift-time-list/shift-time-list.component';
 
 const routes: Routes = [{ path: '', component: OrganizationOnboardingComponent,
 children:[
@@ -28,7 +28,7 @@ children:[
   {path: 'holiday-setting', component: HolidaySettingComponent},
   {path: 'upload-team', component: UploadTeamComponent},
   {path: 'attendance-mode', component: AttendanceModeComponent},
-  {path: 'shift-time', component: ShiftTimeComponent}
+  {path: 'shift-time-list', component: ShiftTimeListComponent}
   ]
 
 }];

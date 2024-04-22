@@ -64,7 +64,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
         break;
       }
       case "3": {
-        this.router.navigate(['/organization-onboarding/shift-time']);
+        this.router.navigate(['/organization-onboarding/shift-time-list']);
         // console.log("Step 3 is calling");
         break;
       }

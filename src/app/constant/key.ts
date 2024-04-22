@@ -115,7 +115,7 @@ export class Key{
         "/organization-onboarding/add-shift-time",
         "/organization-onboarding/holiday-setting",
         "/organization-onboarding/upload-team",
-        "/organization-onboarding/shift-time",
+        "/organization-onboarding/shift-time-list",
         "/organization-onboarding/attendance-mode"
     ];
 
@@ -206,17 +206,24 @@ export class Key{
     public static BOARD = 1;
     public static LIST = 2;
 
+    // Shift Time steps
+    public static SHIFT_TIME = 1;
+    public static STAFF_SELECTION = 2;
+
+    // Attendance mode id
+    public static MANUAL_ATTENDANCE = 1;
+
     // Krenai UUID
     public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
     
 
-    // base_url = "http://localhost:8080/api/v2";
+    base_url = "http://localhost:8080/api/v2";
 
     /* ------------------  Staging urls ----------------*/
     // base_url = "https://staging.hajiri.work/api/v2";
 
     /* ------------------  Production urls ----------------*/
-    base_url = "https://production.hajiri.work/api/v2";
+    // base_url = "https://production.hajiri.work/api/v2";
 
     
     //subscription plan
