@@ -17,6 +17,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .md-drppicker {
     width: auto;
 }
+.text-primary{
+    color: #6060f6 !important;
+}
 
 .md-drppicker {
     position: absolute !important;
