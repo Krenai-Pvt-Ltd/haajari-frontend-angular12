@@ -202,6 +202,12 @@ export class Key{
     public static SPECIAL_ALLOWANCE = 5;
     public static ADDITIONAL_ALLOWANCE = 6;
 
+    // Organization onboarding steps
+    public static PERSONAL_INFORMATION_STEP = 1;
+    public static EMPLOYEE_CREATION_STEP = 2;
+    public static SHIFT_TIME_STEP = 3;
+    public static ATTENDANCE_MODE_STEP = 4;
+
     // Data format
     public static BOARD = 1;
     public static LIST = 2;
