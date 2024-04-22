@@ -143,7 +143,6 @@ export class UploadTeamComponent implements OnInit {
         this.getReport();
         this.getUser();
         console.log(this.onboardUserList.length);
-        console.log("SHIVENDRA")
       }else {
         this.importToggle = true;
         this.isErrorToggle = true;
@@ -229,15 +228,20 @@ export class UploadTeamComponent implements OnInit {
   }
 
   resetManualUploadModal(){
+    this.closeManualUploadModal();
+
     this.userList.forEach(user => {
       user.name = '';
       user.phone = '';
       user.email = '';
     });
-    this.manualUpload.nativeElement.click();
   }
 
-  @ViewChild('munal-upload') manualUpload !: ElementRef;
+  @ViewChild('munal-upload') closeManualUploadButton !: ElementRef;
+
+  closeManualUploadModal(){
+    this.closeManualUploadButton.nativeElement.click();
+  }
 
   userListReq: UserListReq = new UserListReq();
   createLoading: boolean = false;
@@ -249,11 +253,13 @@ export class UploadTeamComponent implements OnInit {
         this.selectedMethod = '';
         this.createLoading = false;
         this.closeUserEditModal.nativeElement.click();
-        this.resetManualUploadModal();
         this.getUser();
+        this.resetManualUploadModal();
       } 
     }, (error) => {
       this.createLoading = false;
+      this.resetManualUploadModal();
+
     })
 
   }

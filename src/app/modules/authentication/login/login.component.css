@@ -70,13 +70,17 @@
     }
     .resent-otp{
         color: #878A9A !important;
+        background-color: none;
+        border: none;
         font-size: 13px;
         font-weight: 300;
     }
     .resent-otp:hover{
         color: #6666f3 !important;
+        cursor: pointer;
     }
     .change-phone-number{
+
         color: #444;
         font-size: 14px;
         font-weight: 400;
