@@ -29,6 +29,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     private placesService : PlacesService) { }
 
   ngOnInit(): void {
+    // this._onboardingService.refreshSidebar();
     this.getOrganizationDetails();
   }
 
