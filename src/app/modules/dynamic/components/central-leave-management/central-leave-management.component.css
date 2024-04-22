@@ -37,6 +37,7 @@
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     border-radius: 6px;
     min-height: 205px;
+    height: 300px;
 }
 
 .chart-box h4{
@@ -166,19 +167,6 @@ span.leave-approved {
 span.leave-rejected {
     position: absolute;
     left: -30px;
-}
-.panding-leave-box h4{
-    font-size: 12px;
-    margin-bottom: 0px;
-    FONT-WEIGHT: 600;
-}
-
-
-.panding-leave-box p{
-    font-size: 10px;
-    font-weight: 400;
-    margin-bottom: 0px;
-    color: #8d93a1;
 }
 
 
@@ -409,3 +397,44 @@ span.leave-rejected {
         padding: 8px;
         border-radius: 3px;
 }
+/* 
+.chart-box {
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+   */
+.activity .activity-info .icon-info-activity i{
+    width: 28px;
+    height: 28px;
+}
+.bg-soft-success:hover{
+    background-color: rgba(34, 183, 131, .08) !important;
+    color: #22b783 !important;
+}
+.bg-soft-danger:hover{
+    background-color: rgba(239, 77, 86, .08) !important;
+    color: #ef4d56 !important;
+}
+
+.team-dropdown{
+    max-height: 200px;
+    overflow: scroll;
+}
+
+.leave-detail {
+
+    text-align: left;
+    font-size: 10px;
+}
+
+.leave-count {
+
+    text-align: right;
+    font-size: 10px;
+}
+
+.d-flex.justify-content-between.align-items-center {
+    width: 100%;
+}
+
