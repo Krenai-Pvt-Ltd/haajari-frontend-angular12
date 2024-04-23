@@ -406,7 +406,6 @@ export class LeaveManagementComponent implements OnInit {
   getMonthlyChartData(){
     this.dataService.getMonthlyLeaveSummary().subscribe(data => {
       console.log("length" + data.length);
-      // if(data.length<6){
       this.monthlyChartData = data.map(item => ({
         "name": this.sliceWord(item.monthName),
         "series": [
@@ -417,7 +416,6 @@ export class LeaveManagementComponent implements OnInit {
         // this.count++;
        
       }));
-    // }
     });
   }
 
