@@ -3,18 +3,19 @@
         margin-bottom: 10px;
     }
     .login-sidebar-heading h4{
-        font-size: 28px;
+        font-size: 26px;
         font-weight: 500;
         line-height: 40px;
         margin-bottom: 0px;
         color: #000;
     }
     .login-sidebar-heading p{
-        font-size: 12px;
-        font-weight: 400;
-        color: #878A9A;
+        font-size: 14px;
+        font-weight: 300;
+        color: #b7b7b7;
         margin-bottom: 0px;
         line-height: 22px;
+        padding-top: 5px;
     }
     .login-with-slack{
         border: 1px solid #f1f1f1;
@@ -27,15 +28,19 @@
     }
 
     .login-with-slack:hover{
-        background-color: #6666f30f;
+        /* background-color: #6666f30f; */
         border: 1px solid #6666f39c;
+    }
+    .login-with-slack:hover .right-arrow{
+        color: #6666f39c;
     }
 
     .btn-fix-height{
         height: 48px;
+        font-size: 16px;
     }
     .register-whatsApp-number-text {
-        background-color:#F7F7F7;
+        background-color:#F9f9f9;
         padding: 10px;
         border-radius: 2px;
     }
@@ -74,7 +79,7 @@
     }
     .resent-otp{
         color: #878A9A !important;
-        background-color: none;
+        background-color: transparent;
         border: none;
         font-size: 13px;
         font-weight: 300;
@@ -101,13 +106,18 @@
         font-size: 16px;
         font-weight: 400;
         bottom: 14px;
+        top: -30px;
     }
     .gmail-login-btn{
-        border: 1px solid #E7E7E7;
-        border-radius: 2px;
+        border: 1px solid #f1f1f1;
         padding: 10px;
+        height: 50px;
+        border-radius: 4px;
         display: inline-block;
         color: #6666f3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     .google-logo{
         width: 35px;
@@ -136,13 +146,12 @@
         bottom: 0px;
         left: 0;
         right: 0;
-        padding: 50px;
-        padding-bottom: 10px;
+        padding-bottom: 20px;
     }
     .sidebar-footer-text p{
         font-size: 12px;
-        font-weight: 400;
-        color: #878A9A;
+        font-weight: 300;
+        color: #b7b7b7;
         line-height: 22px;
     }
     .login-video {
@@ -175,4 +184,11 @@
         font-size: 14px;
         color: #d0d0d0 !important;
         padding-right: 15px;
+    }
+    .login-sidebar-heading {
+        margin-top: 60px;
+    }
+
+    .login-steps{
+        margin-top: 50px !important;
     }
