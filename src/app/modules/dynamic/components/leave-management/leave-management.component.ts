@@ -314,12 +314,13 @@ export class LeaveManagementComponent implements OnInit {
     this.fullLeaveLogs = [];
     this.approvedRejectedLeaves = [];
     this.pendingLeaves = [];
+    // this.consumedLeaveArray = [];
+    // this.monthlyChartData = [];
+    // this.weeklyChartData = [];
 
 
     this.dataService.approveOrRejectLeaveOfUser(requestId, requestedString).subscribe({
       next: (logs) => {
-        // Log success message
-        console.log('success!');
         
         // Turn off loaders
         this.approvedLoader = false;
@@ -336,7 +337,6 @@ export class LeaveManagementComponent implements OnInit {
         this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
       },
       error: (error) => {
-        // Log error and show error toast
         console.error('There was an error!', error);
         this.approvedLoader = false;
         this.rejecetdLoader = false;
@@ -594,16 +594,21 @@ export class LeaveManagementComponent implements OnInit {
     this.userLeaveRequest.dayShift = this.dayShiftToggle;
     this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
     this.submitLeaveLoader=true;
+
+    this.page = 0;
+    this.pagePendingLeaves = 0;
+    this.pageApprovedRejected = 0;
+    this.searchString = '';
+    this.selectedTeamName = '';
+    this.fullLeaveLogs = [];
+    this.approvedRejectedLeaves = [];
+    this.pendingLeaves = [];
+
     this.dataService.saveLeaveRequestForLeaveManagement(this.userLeaveRequest)
       .subscribe(data => {
         this.submitLeaveLoader=false;
         this.resetUserLeave();
-        this.getApprovedRejectedLeaveLogs();
-        this.getFullLeaveLogs();
-        this.getPendingLeaves();
-        this.getTotalConsumedLeaves();
-        this.getMonthlyChartData();
-        this.getWeeklyChartData();
+        this.fetchAllData();
         this.formGroupDirective.resetForm();
         this.requestLeaveCloseModel.nativeElement.click();
       }, (error) => {
