@@ -52,14 +52,12 @@
                 <ul class="sidebar-menu">
                    <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/team" (click)="setActiveTabEmpty()" >
                       <a class=" sidebar-menu-link">
-                        
                          <span class=" "><i class="bi bi-people menu-icon"></i> Team</span>
                       </a>
                    </li>
                    <li class="pointer" *ngIf="shouldDisplay('onboarding')" routerLinkActive="sidebar-menu-active"
                       routerLink="/employee-onboarding-data" >
                       <a class=" sidebar-menu-link">
-                        
                          <span class=" "><i class="bi bi-person-lines-fill menu-icon"></i>
                          Onboarding</span>
                       </a>
@@ -71,21 +69,18 @@
                 <ul class="sidebar-menu">
                    <li class="pointer" *ngIf="shouldDisplay('attendance')" routerLinkActive="sidebar-menu-active" routerLink="/timetable">
                       <a class=" sidebar-menu-link">
-                        
                          <span class=" "> <i class="bi bi-table menu-icon"></i>
                          Attendance</span>
                       </a>
                    </li>
                    <li class="pointer" *ngIf="shouldDisplay('leave-management')" routerLinkActive="sidebar-menu-active" routerLink="/leave-management">
                       <a class=" sidebar-menu-link">
-                        
                          <span class=" "><i class="bi bi-kanban menu-icon"></i>
                          Leaves</span>
                       </a>
                    </li>
                    <li class="pointer" *ngIf="shouldDisplay('reports')" routerLinkActive="sidebar-menu-active" routerLink="/reports">
                       <a class=" sidebar-menu-link">
-                        
                          <span class=" "><i class="bi bi-bar-chart-line menu-icon"></i>
                          Reports</span>
                       </a>
@@ -167,8 +162,6 @@
                    <li class="pointer" [ngClass]="{'sidebar-menu-active': activeTab === 'accountDetails'}" routerLinkActive="sidebar-menu-active" routerLink="/setting/account-settings?setting=accountDetails" (click)="routeToSeetings('accountDetails')">
                    <!-- routerLink="/setting/account-settings" [queryParams]="{ accountDetailsTab: true }" -->
                    <a class=" sidebar-menu-link">
-                      <div class="">
-                      </div>
                       <span class=" "><i class="bi bi-gear menu-icon"></i> Account Details</span>
                    </a>
                    </li>
@@ -176,8 +169,6 @@
                 <ul class="sidebar-menu">
                    <li class="pointer" [ngClass]="{'sidebar-menu-active': activeTab === 'security'}" routerLinkActive="sidebar-menu-active" routerLink="/setting/account-settings?setting=security" (click)="routeToSeetings('security')">
                    <a class=" sidebar-menu-link">
-                      <div class="">
-                      </div>
                       <span class=" "><i class="bi bi-gear menu-icon"></i>Security</span>
                    </a>
                    </li>
@@ -186,8 +177,6 @@
                    <li class="pointer" [ngClass]="{'sidebar-menu-active': activeTab === 'profilePreferences'}" routerLinkActive="sidebar-menu-active" routerLink="/setting/account-settings?setting=profilePreferences" (click)="routeToSeetings('profilePreferences')" >
                    <!-- routerLink="/setting/account-settings" [queryParams]="{ profilePreferencesTab: true }" -->
                    <a class=" sidebar-menu-link">
-                      <div class="">
-                      </div>
                       <span class=" "><i class="bi bi-gear menu-icon"></i>Profile Preferences</span>
                    </a>
                    </li>
@@ -208,7 +197,6 @@
                 <ul class="sidebar-menu">
                    <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/setting/company-setting">
                       <a class=" sidebar-menu-link">
-                        
                          <span class=" "> <i class="bi bi-gear menu-icon"></i> Company
                          Setting</span>
                       </a>
@@ -216,21 +204,18 @@
                    <li class="pointer" routerLinkActive="sidebar-menu-active"
                       routerLink="/setting/attendance-setting" >
                       <a class=" sidebar-menu-link">
-                        
                          <span class=" "><i class="bi bi-gear menu-icon"></i> Attendance
                          Setting</span>
                       </a>
                    </li>
                    <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/setting/leave-setting">
                       <a class=" sidebar-menu-link">
-                        
                          <span class=" "> <i class="bi bi-envelope menu-icon"></i> Leave
                          settings </span>
                       </a>
                    </li>
                    <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/setting/salary-setting">
                       <a class=" sidebar-menu-link">
-                        
                          <span class=" "><i class="bi bi-person-check menu-icon"></i> Salary
                          Setting</span>
                       </a>
@@ -244,7 +229,6 @@
                       </li> -->
                    <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/role">
                       <a class=" sidebar-menu-link">
-                        
                          <span class=" "><i class="bi bi-person-check menu-icon"></i> Admin
                          Permission</span>
                       </a>
