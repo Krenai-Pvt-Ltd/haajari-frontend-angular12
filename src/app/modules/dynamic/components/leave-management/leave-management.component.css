@@ -353,7 +353,7 @@ span.leave-rejected {
    display: none;
 }
 .leave-history-box {
-    height: 162px;
+    max-height: 214px;
     overflow: scroll;
 }
 .leave-history-box::-webkit-scrollbar {
