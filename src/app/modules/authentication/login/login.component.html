@@ -91,16 +91,6 @@
                 </div>
              <!-- enterphone-number box -->
              <!-- otp section -->
-<<<<<<< HEAD
-             <div class="mt-5 otp-box">
-                <div class="">
-                <input type="text" class="otp-input active-otp-box">
-                <input type="text" class="otp-input">
-                <input type="text" class="otp-input">
-                <input type="text" class="otp-input">
-                <input type="text" class="otp-input">
-                <input type="text" class="otp-input">
-=======
              
             <div class="mt-5 otp-box" *ngIf="showOtpInput && verifyOtpButtonFlag">
                <!-- <div class="d-flex align-items-center justify-content-start gap-3" >
@@ -119,7 +109,6 @@
                 <div class="otp-input-container">
                   <ng-otp-input (onInputChange)="onOtpChange($event)"
                       [config]="{length:6}"></ng-otp-input>
->>>>>>> 523feb39abad27edab4fdbeae94ffdde968ca8dc
                 </div>
                 <div *ngIf="otpErrorMessage">
                     <p class="errortxt mt-3 mb-0 text-danger text-center"><i class="bi bi-exclamation-circle"></i> {{ otpErrorMessage }}.</p>
@@ -138,11 +127,7 @@
                     <a hre="#" class="change-phone-number" (click)="changeNumber()"><i class="bi bi-pencil position-relative"></i> {{ whatsappOtp ? 'Change Phone Number' : 'Change Email Id' }}</a>
                     <button href="#" class="resent-otp" (click)="resendOtp()" [disabled]="time>0">Resent OTP <span *ngIf="time>0">({{time}})</span></button>
                 </div>
-<<<<<<< HEAD
-                </div>
-=======
             </div>
->>>>>>> 523feb39abad27edab4fdbeae94ffdde968ca8dc
              <!-- otp section end -->
 
              <!-- gmail login box -->
