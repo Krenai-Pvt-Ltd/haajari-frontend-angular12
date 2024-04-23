@@ -22,22 +22,22 @@
           'd-flex align-items-center': userRoleFlag
         }" style="gap: 20px">
           <!-- <div *ngIf="InOutLoader"><div class="dot-opacity-loader"><span></span><span></span><span></span></div></div> -->
-          <span *ngIf="status == 'out'">
-            <button class="btn sand-request approved" type="button" (click)="checkinCheckout('/in')"> Check-In </button>
+          <div *ngIf="status == 'out'">
+            <button class="btn btn-outline-success btn-round" type="button" (click)="checkinCheckout('/in')"> Check-In </button>
+          </div>
+          <div *ngIf="status == 'in' || status == 'back'">
+            <span class="thumb-sm justify-content-center d-flex align-items-center bg-warning rounded-circle" ngbTooltip="Start your break" placement="top" (click)="checkinCheckout('/break')">
+              <i class="fas fa-coffee text-white"></i>
           </span>
-          <span *ngIf="status == 'in' || status == 'back'">
-            <button class="btn sand-request approved break-btn" ngbTooltip="Start your break" placement="top" type="button" (click)="checkinCheckout('/break')">
-              <img src="assets/images/mug-hot-1.svg" style="width: 100%" />
-            </button>
-          </span>
-          <span *ngIf="status == 'break'">
-            <button class="btn sand-request approved break-btn" ngbTooltip="End your break" placement="top" type="button" (click)="checkinCheckout('/back')">
-              <img src="assets/images/no-coffee.svg" style="width: 100%" />
-            </button>
-          </span>
-          <span *ngIf="status == 'in' || status == 'back' || status == 'break'">
-            <button class="btn sand-request rejected" (click)="checkinCheckout('/out')"> Check-Out </button>
-          </span>
+        </div>
+          <div *ngIf="status == 'break'">
+            <span class="thumb-sm justify-content-center d-flex align-items-center bg-purple rounded-circle" ngbTooltip="End your break" placement="top" (click)="checkinCheckout('/back')">
+              <i class="fas fa-hourglass-half text-white"></i>
+            </span>
+          </div>
+          <div *ngIf="status == 'in' || status == 'back' || status == 'break'">
+            <button class="btn btn-outline-danger btn-round" (click)="checkinCheckout('/out')"> Check-Out </button>
+          </div>
         </div>
       </div>
       <!-- Navigation Header with Check-In/ Check-Out Configuration   -->
