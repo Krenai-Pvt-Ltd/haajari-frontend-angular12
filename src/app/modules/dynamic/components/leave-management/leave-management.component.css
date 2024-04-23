@@ -356,17 +356,17 @@ span.leave-rejected {
 
 .leave-history-box {
     /* max-height: 214px; */
-    max-height: 157px;
+    max-height: 164px;
     overflow: scroll;
 }
 
 .leave-history-box-if-pending-null{
-    max-height: 368px;
+    max-height: 380px;
     overflow: scroll;
 }
 
 .leave-history-box-if-pending-one{
-    max-height: 195px;
+    max-height: 208px;
     overflow: scroll;
 }
 

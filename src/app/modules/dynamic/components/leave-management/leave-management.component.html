@@ -201,14 +201,14 @@
               </div>
 
               <!-- [ngStyle]="{'background-color': initialLoadDone ? '#9999f7' : ''}" -->
-              <div class="text-center load-more-btn" *ngIf="!isFullLeaveLoader && !initialLoadDone">
-                <p  *ngIf='fullLeaveLogSize>9' (click)="loadMoreLogs()" style="background-color: #9999f7;"
-                 >Load more <i class="bi bi-chevron-down"></i></p>
-              </div>
+              <div class="align-self-center text-center mt-2"  *ngIf="!isFullLeaveLoader && !initialLoadDone">
+                <button type="button" class="btn btn-xs btn-light btn-round"  *ngIf='fullLeaveLogSize>9' (click)="loadMoreLogs()">Load More <i class="bi bi-chevron-down"></i></button>
+            </div>
               <div class="text-center load-more-btn" *ngIf="isFullLeaveLoader && fullLeaveLogSize>9">
-                <div class="spinner-border text-primary" role="status">
+                
+                <div class="spinner-border spinner-border-custom-1 text-primary" role="status">
                 </div>
-                <div>Loading...</div>
+                <div><small>Loading...</small></div>
               </div>
               <!-- <div class="text-center load-more-btn">
                 <p *ngIf='fullLeaveLogSize>9' (click)="loadMoreLogs()"> Load more <i class="bi bi-chevron-down"></i>
@@ -269,15 +269,13 @@
                     <!--end col-->
                   </div>
                 </div>
-                <div class="text-center load-more-btn mt-3" *ngIf="!initialLoadDoneOfPendingLeaves">
-                  <p *ngIf='pendingLeavesSize>4' (click)="loadMorePendingLeaves()" style="background-color: #9999f7;">Load more <i class="bi bi-chevron-down"></i>
-                  <!-- <p>Load more <i class="bi bi-chevron-down"></i> -->
-                  </p>
-                </div>
+                <div class="align-self-center text-center mt-2"  *ngIf="!initialLoadDoneOfPendingLeaves">
+                  <button type="button" class="btn btn-xs btn-light btn-round"  *ngIf='pendingLeavesSize>4' (click)="loadMorePendingLeaves()">Load More <i class="bi bi-chevron-down"></i></button>
+                </div>                
                 <div class="text-center load-more-btn" *ngIf="isPendingLoader && pendingLeavesSize>4">
-                    <div class="spinner-border text-primary" role="status">
-                    </div>
-                    <div>Loading...</div>
+                  <div class="spinner-border spinner-border-custom-1 text-primary" role="status">
+                </div>
+                    <div><small>Loading...</small></div>
                   </div>
               </div>
               <div class="panding-leave-box mt-3">
@@ -332,14 +330,14 @@
                   </div>
                  
                 </div>
-                <div class="text-center load-more-btn mt-3" *ngIf="!initialLoadDoneOfApprovedRejected">
-                  <p *ngIf='approvedRejectedLeavesSize>4' (click)="loadMoreApprovedRejectedLogs()" style="background-color: #9999f7;">Load more <i class="bi bi-chevron-down"></i>
-                  </p>
-                </div>
+
+                <div class="align-self-center text-center mt-2"  *ngIf="!initialLoadDoneOfApprovedRejected">
+                  <button type="button" class="btn btn-xs btn-light btn-round"  *ngIf='approvedRejectedLeavesSize>4' (click)="loadMoreApprovedRejectedLogs()">Load More <i class="bi bi-chevron-down"></i></button>
+                </div>    
                 <div class="text-center load-more-btn" *ngIf="isApprovedRejectedLoader && approvedRejectedLeavesSize>4">
-                    <div class="spinner-border text-primary" role="status">
+                    <div class="spinner-border spinner-border-custom-1 text-primary" role="status">
                     </div>
-                    <div>Loading...</div>
+                    <div><small>Loading...</small></div>
                   </div>
              
               </div>
