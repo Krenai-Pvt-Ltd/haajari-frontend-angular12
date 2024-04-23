@@ -8,6 +8,7 @@ import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 
 @Component({
   selector: 'app-add-shift-time',
@@ -23,7 +24,8 @@ export class AddShiftTimeComponent implements OnInit {
   constructor(private dataService: DataService,
     private router: Router,
     private _location:Location,
-    private helperService: HelperService) { }
+    private helperService: HelperService,
+    private onboardingService : OrganizationOnboardingService) { }
 
   ngOnInit(): void {
     this.getOnboardingVia();
@@ -41,8 +43,12 @@ export class AddShiftTimeComponent implements OnInit {
     this.dataService.shiftTimingExists().subscribe((response : any) => {
       console.log(response);
       if(response.object){
+        this.dataService.markStepAsCompleted(3);
+        this.onboardingService.saveOrgOnboardingStep(3).subscribe();
         this.router.navigate(['/organization-onboarding/shift-time-list']);
       } else{
+        this.dataService.markStepAsCompleted(2);
+        this.onboardingService.saveOrgOnboardingStep(2).subscribe();
         this.router.navigate(['/organization-onboarding/upload-team']);
       }
     }, (error) => {
