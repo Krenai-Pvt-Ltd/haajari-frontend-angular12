@@ -1,14 +1,17 @@
-<!-- <app-employee-onboarding-sidebar></app-employee-onboarding-sidebar> -->
 <div class="page-wrapper">
     <div class="page-content-tab-onbording">
       <div class="container-fluid">
         <div class="persnol-details">
           <div class="row">
-            <div class="col-md-9">
+
+            <div clss="col-md-12">
               <div class="card-header p-0 pb-3 bg-white">
                 <h4 class="card-title">Shift Management</h4>
                 <p class="text-muted mb-0">To enhance your experience and ensure accurate communication on our platform, we kindly ask you to review and update your personal information.</p>
               </div>
+            </div>
+            <div class="col-md-9">
+              
               <form>
                 <div class="form-group">
                   <div class="persnol-info mt-2">
@@ -133,84 +136,46 @@
                               
                               <div class="row mt-3 mb-3 align-items-center" *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID">
                                 <!-- <table><tbody><tr><td></td><td><input type="search"></td></tr></tbody></table> -->
-                                <div class="col-md-4">
-                                   <div class="d-flex align-items-center" style="gap:15px;">
-                                      <h5 class="user-list">Staff list </h5>
-                                      <!-- <span class="user-count"><b> 4 </b></span> -->
-                                   </div>
+                                <div class="col-md-6">
+                                  <form novalidate="" role="search" (submit)="searchUsers()" class="searching ng-untouched ng-pristine ng-valid">
+                                    <div class="form-group" style="position: relative">
+                                       <input type="search" id="searchText" placeholder="Search by name and role" class="form-control profile-input ng-untouched ng-pristine ng-valid searchform-padding" style="padding: 10px 50px 10px 40px;" (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }">
+                                       <button type="button" (click)="clearSearch()" class="btn close-btn">
+                                       <i *ngIf="searchText!=''" class="bi bi-x"></i>
+                                       </button>
+                                       <i class="bi bi-search search-icon" style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
+                                    </div>
+                                 </form>
                                 </div>
 
-                                <div class="col-md-8">
-                                   <form novalidate="" role="search" (submit)="searchUsers()" class="searching ng-untouched ng-pristine ng-valid">
-                                      <div class="form-group" style="position: relative">
-                                         <input type="search" id="searchText" placeholder="Search by name and role" class="form-control ng-untouched ng-pristine ng-valid searchform-padding" style="padding: 10px 50px 10px 30px;" (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }">
-                                         <button type="button" (click)="clearSearch()" class="btn close-btn">
-                                         <i *ngIf="searchText!=''" class="bi bi-x"></i>
-                                         </button>
-                                         <i class="bi bi-search search-icon" style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;"></i>
-                                      </div>
-                                   </form>
+                                <div class="col-md-6">
+                                  <div *ngIf="selectedStaffsUuids.length !== 0" class="d-flex align-items-center justify-content-end gap-3">
+                                    <span class="select-user-count">
+                                      <b>{{selectedStaffsUuids.length}}</b> selected of
+                                      <b>{{total}}</b></span>
+                                    <div *ngIf="selectedStaffsUuids.length != total">
+                                      <span (click)="selectAllUsers(true)" class="all-select-user">Select all {{total}} users</span>
+                                    </div>
+                                    <div *ngIf="selectedStaffsUuids.length == total">
+                                      <span (click)="unselectAllUsers()" class="clear-all-user">Clear all users <i class="bi bi-x"></i></span>
+                                    </div>
+                                    <div *ngIf="selectedStaffsUuids.length != total">
+                                      <span class="pointer user-close-btn" (click)="unselectAllUsers()"><i class="bi bi-x"></i></span>
+                                    </div>
+                                  </div>
+                                  
                                 </div>
 
-                                <!-- <div class="row mt-3 p-0 align-items-center pt-3" style="border-top:1px solid #f5f5f5;">
-                                   <div class="col-md-6">
-                                      <div class="">
-                                         <div class="col-md-6">
-                                            <div class="bulkselect-box ml-3">
-                                               <span>
-                                               <b>1</b> selected of <b>477</b>
-                                               </span>
-                                            </div>
-                                         </div>
-                                      </div>
-                                   </div>
-                                   <div class="col-md-6">
-                                      <div class="text-end">
-                                         <p id="selectAllProduct" class="position-relative mb-0 d-flex align-items-end justify-content-end" style="gap:10px;">
-                                            <span class="primary-span" style="color: #4761f6;"> Select All <b>477</b> User </span>
-                                            <a class="ml-2">
-                                            <i class="bi bi-x" style="font-size: 22px; color: #333;"></i>
-                                            </a>
-                                         </p>
-                                      </div>
-                                   </div>
-                                </div> -->
-
-                                <div style="display: flex; justify-content: space-between; align-items : center;">
-
-                                  <div *ngIf="selectedStaffsUuids.length > 0">
-                                      <ng-container *ngIf="selectedStaffsUuids.length === total; else elseCondition2">
-                                          <span (click)="unselectAllUsers()" style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 8px; border-radius: 5px;">Clear all users<i class="bi bi-x"></i></span>
-                                      </ng-container>
-                                      <ng-template #elseCondition2>
-                                          <span (click)="selectAllUsers(true)" style="cursor: pointer; color: #4761F6; background-color: #EEF1FF; padding: 8px; border-radius: 5px;">Select all {{total}} users</span>
-                                      </ng-template>
-                                  </div>
-
-                                  <div *ngIf="selectedStaffsUuids.length !== 0">
-                                      <ng-container *ngIf="selectedStaffsUuids.length === total; else elseCondition1">
-                                          <span>All <b>{{total}}</b> users selected</span>
-                                      </ng-container>
-                                      <ng-template #elseCondition1>
-                                          <span><b>{{selectedStaffsUuids.length}}</b> selected of
-                                              <b>{{total}}</b></span>
-                                          <span style="cursor:pointer;" (click)="unselectAllUsers()"><i
-                                                  class="bi bi-x"></i></span>
-                                      </ng-template>
-                                  </div>
-
-
-                              </div>
+                               
 
                                 <ng-container *ngIf="staffs.length != 0; else noDataFoundCondition">
                                   <div class="col-md-12 mt-3">
                                     <table class="table">
                                        <thead class="thead-light table-design">
-                                          <tr>
+                                          <tr> 
                                              <th style="width:0%;">
                                                 <input type="checkbox" style="cursor: pointer;" class="form-check-input" [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" [ngModelOptions]="{standalone: true}">
                                              </th>
-                                             <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
                                              <th style="width:25%; padding: 12px 15px;">Name</th>
                                              <th style="width:25%; padding: 12px 15px;">Email</th>
                                              <th style="width:25%; padding: 12px 15px;">Phone Number</th>
@@ -219,12 +184,11 @@
  
                                        <tbody *ngIf="staffs.length>0" class="table-design">
                                           <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} " style="border-bottom: 1px solid #dddddd;">
-                                             <td>
-                                                <div class="form-check">
+                                             <td style="width:0%;"> 
+                                                <div class="d-flex form-check justify-content-around">
                                                    <input type="checkbox" style="cursor: pointer;" class="form-check-input" [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" [ngModelOptions]="{standalone: true}">
                                                 </div>
                                              </td>
-                                             <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
                                              <td style="padding: 12px 15px;">{{ staff.name }}</td>
                                              <td style="padding: 12px 15px;">{{ staff.email? staff.email:"N/A"}}</td>
                                              <td style="padding: 12px 15px;">{{ staff.phoneNumber? staff.phoneNumber:"N/A"}}</td>
@@ -282,117 +246,14 @@
                              </div>
 
 
-                             
-                              <!-- Submit Button -->
-                              <!-- <div class="modal-footer"><button type="submit" class="btn btn-primary" [disabled]="shiftForm.invalid"
-                                                                  (click)="staffActiveTabInShiftTimingMethod()">Next</button></div> -->
+                            
                             </form>
                           </div>
 
 
 
 
-                          <!-- <div class="tab-pane fade" id="staffselection" role="tabpanel">
-                            <div class="staf-list-box mt-3">
-                              <div style="display: flex; justify-content: space-between; align-items : center;">
-                                <div *ngIf="selectedStaffsUuids.length > 0">
-                                  <ng-container *ngIf="selectedStaffsUuids.length === total; else elseCondition2">
-                                    <span (click)="unselectAllUsers()" style="cursor: pointer; color: #EB5050; background-color: #FCF1F1; padding: 8px; border-radius: 5px;">Clear all users <i class="bi bi-x"></i>
-                                    </span>
-                                  </ng-container>
-                                  <ng-template #elseCondition2>
-                                    <span (click)="selectAllUsers(true)" style="cursor: pointer; color: #4761F6; background-color: #EEF1FF; padding: 8px; border-radius: 5px;">Select all {{total}} users</span>
-                                  </ng-template>
-                                </div>
-                                <div *ngIf="selectedStaffsUuids.length !== 0">
-                                  <ng-container *ngIf="selectedStaffsUuids.length === total; else elseCondition1">
-                                    <span>All <b>{{total}}</b> users selected </span>
-                                  </ng-container>
-                                  <ng-template #elseCondition1>
-                                    <span>
-                                      <b>{{selectedStaffsUuids.length}}</b> selected of <b>{{total}}</b>
-                                    </span>
-                                    <span style="cursor:pointer;" (click)="unselectAllUsers()">
-                                      <i class="bi bi-x"></i>
-                                    </span>
-                                  </ng-template>
-                                </div>
-                              </div>
-                              <table class="table">
-                                <thead class="thead-light table-design">
-                                  <tr>
-                                    <th style="width:0%;">
-                                      <input type="checkbox" style="cursor: pointer;" class="form-check-input" [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" [ngModelOptions]="{standalone: true}">
-                                    </th>
-                                    <th style="width:25%; padding: 12px 15px;">Name</th>
-                                    <th style="width:25%; padding: 12px 15px;" *ngIf="onboardingViaString=='SLACK'">Email</th>
-                                    <th style="width:25%; padding: 12px 15px;" *ngIf="onboardingViaString=='WHATSAPP'">Phone Number</th>
-                                  </tr>
-                                </thead>
-                                <tbody *ngIf="staffs.length==0">
-                                  <tr>
-                                    <td colspan="4">
-                                      <div class="errorboxmain align-items center">
-                                        <div class="errorboxinner">
-                                          <div class="errorboxplaceholder mb-2">
-                                            <img src="assets/images/addnewproduct.svg" style="width: 100px" />
-                                          </div>
-                                          <h4>No Data Found</h4>
-                                        </div>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                                <tbody *ngIf="staffs.length>0">
-                                  <tr *ngFor="let staff of staffs | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total} " style="border-bottom: 1px solid #dddddd;">
-                                    <td>
-                                      <div class="form-check">
-                                        <input type="checkbox" style="cursor: pointer;" class="form-check-input" [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" [ngModelOptions]="{standalone: true}">
-                                      </div>
-                                    </td>
-                                    <td style="padding: 12px 15px;">{{ staff.name }}</td>
-                                    <td style="padding: 12px 15px;" *ngIf="onboardingViaString=='SLACK'">{{ staff.email? staff.email:"N/A"}}</td>
-                                    <td style="padding: 12px 15px;" *ngIf="onboardingViaString=='WHATSAPP'">{{ staff.phoneNumber? staff.phoneNumber:"N/A"}}</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="itemPerPage>8">
-                              <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams </p>
-                              <div>
-                                <nav aria-label="Page navigation example">
-                                  <ul class="pagination justify-content-end">
-                                    <li class="page-item" [class.disabled]="pageNumber == 1">
-                                      <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
-                                        <span aria-hidden="true">&laquo;</span>
-                                      </a>
-                                    </li>
-                                    <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-                                      <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
-                                    </li>
-                                    <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                                      <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
-                                        <span aria-hidden="true">&raquo;</span>
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </nav>
-                              </div>
-                            </div>
-                            <div id="back-and-submit">
-                              <div class="modal-footer d-flex align-items-center justify-content-between">
-                                <button type="button" class="btn btn-outline-primary" (click)="shiftTimingActiveTabMethod()">Back</button>
-                                <button type="button" class="btn btn-primary" (click)="registerOrganizationShiftTimingMethodCall()">
-                                  <span *ngIf="!loading">Submit</span>
-                                  <div class="dot-opacity-loader" *ngIf="loading">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                  </div>
-                                </button>
-                              </div>
-                            </div>
-                          </div> -->
+                        
 
                         </div>
                       </div>
@@ -400,30 +261,40 @@
                   </div>
                 </div>
               </form>
-              <div class="next-btn-box d-flex align-items-center justify-content-between">
-                <button class="btn btn-outline-secondary btn-round" type="button" (click)="backPage()">
-                  <i class="bi bi-arrow-left" style="padding-right: 3px; padding-right: 1px; position: relative; top: -1px;"></i> Previous </button>
-                <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="shiftForm.invalid" (click)="staffActiveTabInShiftTimingMethod()">
-                  <span> Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
-                  </span>
-                </button>
-              </div>
-            </div>
-            <div class="col-md-3 mb-3 mt-110">
-              <div class="alert alert-light mb-0 mt-4 bg-soft-warning" role="alert">
-                <h4 class="alert-heading font-18">Attention!</h4>
-                <p>We're excited to enhance your experience on our platform by allowing you to personalize your profiles with images. <br>Please note the following guidelines for profile images: </p>
-                <p class="mb-0">
-                  <i class="la la-arrow-right text-secondary me-2"></i>Size: 400x400 pixels
-                </p>
-                <p class="mb-0">
-                  <i class="la la-arrow-right text-secondary me-2"></i>Accepted formats: JPG and PNG
-                </p>
-                <p class="mt-2">We're excited to enhance your experience on our platform by allowing you to personalize your profiles with images. <br>Please note the following guidelines for profile images: </p>
-               
-              </div>
+
+             
+            
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <div class="alert alert-light mb-0 mt-4 bg-soft-warning" role="alert">
+              <h4 class="alert-heading font-18">Attention!</h4>
+              <p>We're excited to enhance your experience on our platform by allowing you to personalize your profiles with images. <br>Please note the following guidelines for profile images: </p>
+              <p class="mb-0">
+                <i class="la la-arrow-right text-secondary me-2"></i>Size: 400x400 pixels
+              </p>
+              <p class="mb-0">
+                <i class="la la-arrow-right text-secondary me-2"></i>Accepted formats: JPG and PNG
+              </p>
+              <p class="mt-2">We're excited to enhance your experience on our platform by allowing you to personalize your profiles with images. <br>Please note the following guidelines for profile images: </p>
+             
             </div>
           </div>
+
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-8"> 
+       
+          <div class="next-btn-box d-flex align-items-center justify-content-between">
+            <button class="btn btn-outline-secondary btn-round previous-btn" type="button" (click)="backPage()">
+              <i class="bi bi-arrow-left" style="padding-right: 3px; padding-right: 1px; position: relative; top: -1px;"></i> Previous </button>
+            <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="shiftForm.invalid" (click)="staffActiveTabInShiftTimingMethod()">
+              <span> Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+              </span>
+            </button>
+          </div>
+        </div>
+        </div>
         </div>
       </div>
     </div>

@@ -64,7 +64,15 @@
   .mt-90{
     margin-top: 90px;
   }
+  .mt-60{
+    margin-top: 60px;
+  }
   .active{
     border: 1px dashed #0cb562;
     background-color: #0cb56208;
+  }
+
+
+  .attendance-mode-card{
+       height: 255px;
   }

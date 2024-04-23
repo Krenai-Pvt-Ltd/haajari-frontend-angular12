@@ -2590,10 +2590,10 @@ mark {
     color: #f9fafb
 }
 
-.table tbody tr:last-child td,
+/* .table tbody tr:last-child td,
 .table tbody tr:last-child th {
     border-bottom: none
-}
+} */
 
 .table tbody tr:hover {
     -webkit-box-shadow: 0 0 .875rem 0 rgba(52, 58, 64, .05);
@@ -3155,6 +3155,10 @@ a.badge:hover {
     border-color: #6666f3
 }
 
+.form-check-input {
+    width: 17px;
+    height: 17px;
+}
 .form-switch-secondary .form-check-input:checked {
     background-color: #8d93a1;
     border-color: #8d93a1
@@ -9039,11 +9043,24 @@ input[type=time]::-webkit-datetime-edit-ampm-field {
     outline: none !important;
   }
 
+  .whatapp-login-input{
+    background-color: #fff !important;
+    border: 1px solid #f1f1f1 !important;
+    border-radius: 4px !important;
+    height: 50px !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 18px !important;
+    color: #445059 !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
   .next-btn-box {
     position: fixed;
-    width: 77%;
     bottom: 0px;
-    left: 300px;
+    left: 0px;
+    width: 100%;
     z-index: 999;
     display: flex;
     justify-content: end;
@@ -9054,6 +9071,34 @@ input[type=time]::-webkit-datetime-edit-ampm-field {
     border-top: 1px solid #eceff5;
     padding: 15px;
 }
+.previous-btn{
+    margin-left: 300px;
+}
+
+/* @media screen and (max-width: 2600px) {
+    .next-btn-box {
+        width: 84%;
+    }
+} */
+
+/* @media screen and (max-width: 2400px) {
+    .next-btn-box {
+        width: 81%;
+    }
+} */
+
+/* @media screen and (max-width: 2200px) {
+    .next-btn-box {
+        width: 81%;
+    }
+}
+@media screen and (max-width: 2000px) {
+    .next-btn-box {
+        width: 82%;
+    }
+} */
+
+
 
 .new-submit{
     background-color: #6666f3;
@@ -9171,6 +9216,7 @@ input[type=time]::-webkit-datetime-edit-ampm-field {
     border-radius: 10px;
     z-index: 999;
     position: relative;
+    padding-top: 50px;
   
   }
   .persnol-details h5 {
@@ -9230,4 +9276,24 @@ input[type=time]::-webkit-datetime-edit-ampm-field {
 
 .table-design tr td {
     border: 1px solid #e0e0e0;
+    padding: 10px 15px !important;
+}
+
+
+.new-dropdown {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size: .875rem;
+    font-weight: 400;
+    height: 40px !important;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #e8ebf3;
+    color: #2d2e3e;
+    position: relative;
+}
+.new-dropdown i {
+    position: absolute;
+    right: 15px;
 }

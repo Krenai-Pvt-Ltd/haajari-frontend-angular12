@@ -83,7 +83,7 @@
                         <div class="" *ngIf="!allShiftTimingsLoader && organizationShiftTimingWithShiftTypeResponseList.length>0">
                             <div>
                               
-                                <div class="d-flex align-items-center justify-content-end mb-3 p-0">
+                                <div class="d-flex align-items-center justify-content-end mt-3 p-0">
                                     <a type="button" class="btn add-shift-time" routerLink="/organization-onboarding/add-shift-time"> + Add more shift </a>
                                  </div>
                                 <div class="rule-main-box mt-4" *ngFor="let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList">
@@ -202,10 +202,12 @@
 
                     </div>
 
-                    <div class="">
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-8"> 
                         <div class="next-btn-box d-flex align-items-center justify-content-between">
                          
-                          <button class="btn btn-outline-secondary btn-round" type="button" (click)="backPage()"><i class="bi bi-arrow-left" style="padding-right: 3px; padding-right: 1px; position: relative; top: -1px;"></i>  Previous </button>
+                          <button class="btn btn-outline-secondary btn-round previous-btn" type="button" (click)="backPage()"><i class="bi bi-arrow-left" style="padding-right: 3px; padding-right: 1px; position: relative; top: -1px;"></i>  Previous </button>
             
                           <button type="submit" class="btn btn-outline-primary btn-round" (click)="nextPage()">
                             <span>Next <i class="bi bi-arrow-right"
@@ -213,6 +215,7 @@
                           </button>
                           
             
+                        </div>
                         </div>
                       </div>
                 </div>
@@ -469,7 +472,7 @@
                                     <tbody *ngIf="staffs.length==0">
                                         <tr>
                                             <td colspan="4">
-                                                <div class="errorboxmain align-items center" >
+                                                <div class="errorboxmain bg-white d-flex align-items-center justify-content-center" >
                                                     <div class="errorboxinner">
                                                         <div class="errorboxplaceholder mb-2">
                                                             <img src="assets/images/addnewproduct.svg"
