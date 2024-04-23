@@ -296,37 +296,103 @@ export class LeaveManagementComponent implements OnInit {
   @ViewChild("closeModal") closeModal!: ElementRef;
   approvedLoader: boolean = false;
   rejecetdLoader: boolean = false;
-  approveOrDeny(requestId: number, requestedString: string) {
-    debugger;
 
-    if(requestedString === 'approved'){
+
+  approveOrDeny(requestId: number, requestedString: string) {
+    if (requestedString === 'approved') {
       this.approvedLoader = true;
-    }else if(requestedString === 'rejected'){
+    } else if (requestedString === 'rejected') {
       this.rejecetdLoader = true;
     }
+
+    // Reset page counters and filters before sending the request
+    this.page = 0;
+    this.pagePendingLeaves = 0;
+    this.pageApprovedRejected = 0;
+    this.searchString = '';
+    this.selectedTeamName = '';
+    this.fullLeaveLogs = [];
+    this.approvedRejectedLeaves = [];
+    this.pendingLeaves = [];
+    // this.consumedLeaveArray = [];
+    // this.monthlyChartData = [];
+    // this.weeklyChartData = [];
+
+
     this.dataService.approveOrRejectLeaveOfUser(requestId, requestedString).subscribe({
       next: (logs) => {
-        console.log('success!');
+        
+        // Turn off loaders
         this.approvedLoader = false;
         this.rejecetdLoader = false;
-        this.getApprovedRejectedLeaveLogs();
-        this.getFullLeaveLogs();
-        this.getPendingLeaves();
-        this.getTotalConsumedLeaves();
-        this.getMonthlyChartData();
-        this.getWeeklyChartData();
+
+        // Fetch all necessary updated data
+        this.fetchAllData();
+
+        // Close modal
         this.closeModal.nativeElement.click();
+        
+        // Show toast message
         let message = requestedString === 'approved' ? "Leave approved successfully!" : "Leave rejected successfully!";
         this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
       },
       error: (error) => {
+        console.error('There was an error!', error);
         this.approvedLoader = false;
         this.rejecetdLoader = false;
-        console.error('There was an error!', error);
         this.helperService.showToast("Error processing leave request!", Key.TOAST_STATUS_ERROR);
       }
     });
   }
+
+  fetchAllData() {
+    this.getApprovedRejectedLeaveLogs();
+    this.getFullLeaveLogs();
+    this.getPendingLeaves();
+    this.getTotalConsumedLeaves();
+    this.getMonthlyChartData();
+    this.getWeeklyChartData();
+  }
+
+
+  // approveOrDeny(requestId: number, requestedString: string) {
+  //   debugger;
+
+  //   if(requestedString === 'approved'){
+  //     this.approvedLoader = true;
+  //   }else if(requestedString === 'rejected'){
+  //     this.rejecetdLoader = true;
+  //   }
+
+  //   this.page = 0;
+  //   this.pagePendingLeaves = 0;
+  //   this.pageApprovedRejected = 0;
+  //   this.searchString = '';
+  //   this.selectedTeamName = '';
+
+  //   this.dataService.approveOrRejectLeaveOfUser(requestId, requestedString).subscribe({
+  //     next: (logs) => {
+  //       console.log('success!');
+  //       this.approvedLoader = false;
+  //       this.rejecetdLoader = false;
+  //       this.getApprovedRejectedLeaveLogs();
+  //       this.getFullLeaveLogs();
+  //       this.getPendingLeaves();
+  //       this.getTotalConsumedLeaves();
+  //       this.getMonthlyChartData();
+  //       this.getWeeklyChartData();
+  //       this.closeModal.nativeElement.click();
+  //       let message = requestedString === 'approved' ? "Leave approved successfully!" : "Leave rejected successfully!";
+  //       this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
+  //     },
+  //     error: (error) => {
+  //       this.approvedLoader = false;
+  //       this.rejecetdLoader = false;
+  //       console.error('There was an error!', error);
+  //       this.helperService.showToast("Error processing leave request!", Key.TOAST_STATUS_ERROR);
+  //     }
+  //   });
+  // }
 
   getPendingLeave(leaveId: number, leaveType: string) {
     this.dataService.getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType).subscribe({
@@ -528,16 +594,21 @@ export class LeaveManagementComponent implements OnInit {
     this.userLeaveRequest.dayShift = this.dayShiftToggle;
     this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
     this.submitLeaveLoader=true;
+
+    this.page = 0;
+    this.pagePendingLeaves = 0;
+    this.pageApprovedRejected = 0;
+    this.searchString = '';
+    this.selectedTeamName = '';
+    this.fullLeaveLogs = [];
+    this.approvedRejectedLeaves = [];
+    this.pendingLeaves = [];
+
     this.dataService.saveLeaveRequestForLeaveManagement(this.userLeaveRequest)
       .subscribe(data => {
         this.submitLeaveLoader=false;
         this.resetUserLeave();
-        this.getApprovedRejectedLeaveLogs();
-        this.getFullLeaveLogs();
-        this.getPendingLeaves();
-        this.getTotalConsumedLeaves();
-        this.getMonthlyChartData();
-        this.getWeeklyChartData();
+        this.fetchAllData();
         this.formGroupDirective.resetForm();
         this.requestLeaveCloseModel.nativeElement.click();
       }, (error) => {
