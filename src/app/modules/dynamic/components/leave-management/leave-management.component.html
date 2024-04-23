@@ -237,7 +237,7 @@
                 </a>
               </div>
               <hr>
-              <div class="panding-leave-box">
+              <div class="panding-leave-box" *ngIf="pendingLeavesSize >0">
                 <p>Pending Leave <span class="badge rounded-pill badge-outline-success">{{pendingLeavesSize}}</span>
                 </p>
                 <div class="leave-history-box" #logContainerOfPendingLeaves (scroll)="scrollDownRecentActivityOfPendingLeaves($event)">
