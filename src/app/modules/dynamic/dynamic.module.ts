@@ -68,7 +68,6 @@ import { LinkExpiredPageComponent } from './components/link-expired-page/link-ex
 import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { CentralLeaveManagementComponent } from './components/central-leave-management/central-leave-management.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
@@ -114,9 +113,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     EmployeeAttendancePhotoComponent,
     LinkExpiredPageComponent,
     
-    LeaveManagementComponent,
-    CentralLeaveManagementComponent
-
+    LeaveManagementComponent
 
   ],
   imports: [

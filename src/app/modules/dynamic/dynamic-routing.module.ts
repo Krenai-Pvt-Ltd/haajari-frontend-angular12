@@ -37,7 +37,6 @@ import { LeaveManagementComponent } from './components/leave-management/leave-ma
 
 
 import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/employee-attendance-photo.component';
-import { CentralLeaveManagementComponent } from './components/central-leave-management/central-leave-management.component';
 
 
   const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
@@ -68,7 +67,6 @@ import { CentralLeaveManagementComponent } from './components/central-leave-mana
     {path : 'location-validator', component: EmployeeLocationValidatorComponent},
     {path : 'unauthorized', component: UnauthorizedComponent},
     {path : 'leave-management', component: LeaveManagementComponent},
-    {path : 'central-leave-management', component: CentralLeaveManagementComponent},
     {path : 'attendance-photo', component: EmployeeAttendancePhotoComponent},
     {path : 'unauthorized', component: UnauthorizedComponent}
   ] }
