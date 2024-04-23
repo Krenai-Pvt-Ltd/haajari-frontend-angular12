@@ -382,9 +382,9 @@ export class LeaveManagementComponent implements OnInit {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal, // Correct type for the group property
-    domain: ['#FFD700', '#228B22', '#FF4500'] // Gold, Green, Red
+    domain: ['#FFAB00', '#00E676', '#DD2C00'] // Gold, Green, Red
   };
-  gradient: boolean = true;
+  gradient: boolean = false;
   // view: [number, number] = [300, 150];
   view: [number, number] = [300, 250];
   getWeeklyChartData(){
@@ -401,9 +401,11 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   monthlyChartData: any[] = [];
+  count:number =0;
 
   getMonthlyChartData(){
     this.dataService.getMonthlyLeaveSummary().subscribe(data => {
+      console.log("length" + data.length);
       this.monthlyChartData = data.map(item => ({
         "name": this.sliceWord(item.monthName),
         "series": [
@@ -411,6 +413,8 @@ export class LeaveManagementComponent implements OnInit {
           { "name": "Approved", "value": item.approved || 0},
           { "name": "Rejected", "value": item.rejected || 0}
         ]
+        // this.count++;
+       
       }));
     });
   }
@@ -430,7 +434,7 @@ export class LeaveManagementComponent implements OnInit {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#228B22', '#CFC0BB']
+    domain: ['#82B1FF', '#F5F5F5']
   };
 
   consumedLeaveArray : any[] = [];
