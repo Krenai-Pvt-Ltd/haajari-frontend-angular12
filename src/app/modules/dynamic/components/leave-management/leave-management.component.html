@@ -225,7 +225,7 @@
                 </a>
               </div>
               <hr>
-              <div class="panding-leave-box">
+              <div class="panding-leave-box" *ngIf="pendingLeavesSize >0">
                 <p>Pending Leave <span class="badge rounded-pill badge-outline-success">{{pendingLeavesSize}}</span>
                 </p>
                 <div class="leave-history-box" #logContainerOfPendingLeaves (scroll)="scrollDownRecentActivityOfPendingLeaves($event)">
@@ -280,8 +280,14 @@
               </div>
               <div class="panding-leave-box mt-3">
                 <p>Leaves History</p>
-                <div class="leave-history-box" #logContainerOfApprovedRejected  (scroll)="scrollDownRecentActivityOfApprovedRejected($event)">
-
+                <div [ngClass]="{
+                    'leave-history-box': pendingLeavesSize > 1,
+                    'leave-history-box-if-pending-null': pendingLeavesSize == 0,
+                    'leave-history-box-if-pending-one': pendingLeavesSize == 1
+                  }" 
+                   #logContainerOfApprovedRejected  (scroll)="scrollDownRecentActivityOfApprovedRejected($event)">
+  
+  
                   <div class="row mt-2" *ngFor="let arl of approvedRejectedLeaves">
                     <div class="col-auto">
                       <img *ngIf="arl.image" src="{{arl.image}}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px;">

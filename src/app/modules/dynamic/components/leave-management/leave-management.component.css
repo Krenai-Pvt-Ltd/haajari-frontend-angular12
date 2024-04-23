@@ -67,6 +67,7 @@ span.total-leave-deta {
     border: 1px solid #f1f1f1;
     box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);
     border-radius: 6px;
+    height: 550px;
 }
 
 .my-leave-log-hedding h4{
@@ -345,17 +346,30 @@ span.leave-rejected {
 }
 
 .leave-logs {
-    height: 388px;
+    height: 365px;
     overflow: scroll;
 }
 
 .leave-logs::-webkit-scrollbar{
    display: none;
 }
+
 .leave-history-box {
-    max-height: 214px;
+    /* max-height: 214px; */
+    max-height: 164px;
     overflow: scroll;
 }
+
+.leave-history-box-if-pending-null{
+    max-height: 380px;
+    overflow: scroll;
+}
+
+.leave-history-box-if-pending-one{
+    max-height: 208px;
+    overflow: scroll;
+}
+
 .leave-history-box::-webkit-scrollbar {
     display: none;
 }
