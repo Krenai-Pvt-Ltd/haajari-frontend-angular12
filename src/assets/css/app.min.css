@@ -9195,6 +9195,7 @@ input[type=time]::-webkit-datetime-edit-ampm-field {
   .errortxt{
     color: red;
     font-size: 13px;
+    text-align: left;
   }
 
   .persnol-details {
@@ -9263,4 +9264,23 @@ input[type=time]::-webkit-datetime-edit-ampm-field {
 .table-design tr td {
     border: 1px solid #e0e0e0;
     padding: 10px 15px !important;
+}
+
+
+.new-dropdown {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    font-size: .875rem;
+    font-weight: 400;
+    height: 40px !important;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #e8ebf3;
+    color: #2d2e3e;
+    position: relative;
+}
+.new-dropdown i {
+    position: absolute;
+    right: 15px;
 }
