@@ -58,6 +58,8 @@ export class UploadTeamComponent implements OnInit {
   }
 
   backPage(){
+    this.dataService.markStepAsCompleted(1);
+    this._onboardingService.saveOrgOnboardingStep(1).subscribe();
     this._router.navigate(['/organization-onboarding/personal-information']);
   }
   selectedMethod: string = 'mannual';

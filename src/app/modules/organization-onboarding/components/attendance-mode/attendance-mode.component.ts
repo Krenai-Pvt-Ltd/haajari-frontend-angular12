@@ -122,6 +122,8 @@ export class AttendanceModeComponent implements OnInit {
   }
 
   backPage() {
+    this.dataService.markStepAsCompleted(3);
+    this.onboardingService.saveOrgOnboardingStep(3).subscribe();
     this.router.navigate(['/organization-onboarding/shift-time-list']);
   }
 
