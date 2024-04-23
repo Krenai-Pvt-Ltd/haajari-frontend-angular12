@@ -101,8 +101,10 @@ export class LeaveManagementComponent implements OnInit {
 
   debounceTimer: any;
   fullLeaveLogSize!: number;
+  isFullLeaveLoader: boolean = false;
   getFullLeaveLogs(debounceTime: number = 300) {
     return new Promise((resolve, reject) => {
+      this.isFullLeaveLoader=true;
       if (this.debounceTimer) {
         clearTimeout(this.debounceTimer);
       }
@@ -113,11 +115,13 @@ export class LeaveManagementComponent implements OnInit {
               this.fullLeaveLogs = [...this.fullLeaveLogs, ...response.object];
               // this.hasMoreData = response.object.length === this.size;
               this.fullLeaveLogSize = this.fullLeaveLogs.length;
+              this.isFullLeaveLoader = false;
             } else {
               console.error('Expected an array but got:', response.object);
             }
           },
           error: (error) => {
+            this.isFullLeaveLoader = false;
             console.error('Failed to fetch full leave logs:', error);
             this.helperService.showToast("Failed to load full leave logs.", Key.TOAST_STATUS_ERROR);
           }
@@ -192,15 +196,18 @@ export class LeaveManagementComponent implements OnInit {
   pendingLeavesSize!: number;
   initialLoadDoneOfPendingLeaves:boolean = false;
   @ViewChild('logContainerOfPendingLeaves') logContainerOfPendingLeaves!: ElementRef<HTMLDivElement>;
-
+  isPendingLoader:boolean = false;
 
   getPendingLeaves() {
+    this.isPendingLoader = true;
     this.dataService.getPendingLeaves(this.pagePendingLeaves, this.sizePendingLeaves).subscribe({
       next: (response) => {
         this.pendingLeaves = [...this.pendingLeaves, ...response.object];
+        this.isPendingLoader = false;
         // this.pendingLeaves = response.object
       this.pendingLeavesSize = this.pendingLeaves.length},
       error: (error) => {
+        this.isPendingLoader = false;
         console.error('Failed to fetch pending leaves:', error);
         this.helperService.showToast("Failed to load pending leaves.", Key.TOAST_STATUS_ERROR);
       }
@@ -239,14 +246,19 @@ export class LeaveManagementComponent implements OnInit {
   approvedRejectedLeavesSize!:number;
   initialLoadDoneOfApprovedRejected:boolean = false;
   @ViewChild('logContainerOfApprovedRejected') logContainerOfApprovedRejected!: ElementRef<HTMLDivElement>;
+  isApprovedRejectedLoader: boolean = false;
+
 
   getApprovedRejectedLeaveLogs() {
+    this.isApprovedRejectedLoader = true;
     this.dataService.getApprovedRejectedLeaveLogs(this.pageApprovedRejected, this.sizeApprovedRejected).subscribe({
       next: (response) => {
+        this.isApprovedRejectedLoader = false;
         this.approvedRejectedLeaves = [...this.approvedRejectedLeaves, ...response.object];
         // this.approvedRejectedLeaves = response.object
         this.approvedRejectedLeavesSize = this.approvedRejectedLeaves.length},
       error: (error) => {
+        this.isApprovedRejectedLoader = false;
         console.error('Failed to fetch approved-rejected leave logs:', error);
         this.helperService.showToast("Failed to load approved/rejected leaves.", Key.TOAST_STATUS_ERROR);
       }
