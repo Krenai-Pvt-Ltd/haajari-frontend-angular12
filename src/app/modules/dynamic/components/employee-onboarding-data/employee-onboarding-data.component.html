@@ -556,72 +556,49 @@
 
                                                     <!-- <td class="text-center">13</td>  -->
                                                     <td *ngIf="(user.employeeOnboardingStatus.response)== pendingResponse">
-                                                        <div class="half-per">
+                                                        <div class="badge rounded-pill badge-soft-warning">
                                                             <span class="">{{user.employeeOnboardingStatus.response}}</span>
                                                         </div>
                                                     </td>
                                                     <td *ngIf="(user.employeeOnboardingStatus.response)== approvedResponse">
-                                                        <div class="full-per">
+                                                        <div class="badge rounded-pill badge-soft-success">
                                                             <span class="">{{user.employeeOnboardingStatus.response}}</span>
                                                         </div>
                                                     </td>
                                                     
                                                     <td *ngIf="(user.employeeOnboardingStatus.response)== rejectedResponse">
-                                                        <div class="rej-per">
+                                                        <div class="badge rounded-pill badge-soft-danger">
                                                             <span class="">{{user.employeeOnboardingStatus.response}}</span>
                                                         </div>
                                                     </td>
                                                     <td  *ngIf="(user.employeeOnboardingStatus.response)== requestedResponse">
-                                                        <div class="req-per">
+                                                        <div class="badge rounded-pill badge-soft-secondary">
                                                             <span class="">{{user.employeeOnboardingStatus.response}}</span>
                                                         </div>  
                                                     </td>
                                                     <td *ngIf="(user.employeeOnboardingStatus.response)== newUserResponse">
-                                                        <div class="new-user-per">
+                                                        <div class="badge rounded-pill badge-soft-info">
                                                             <span class="">NEW!</span>
                                                         </div>
                                                         
                                                     </td>
                                                     <td>
-                                                        <div class="hstack gap-3 justify-content-start">
 
-                                                            <a href="javascript:void(0);"
-                                                                class="link-success text-decoration-underline success-btn"
-                                                                (click)="sendMailToEmployees(user)"
-                                                                *ngIf="!sendingMailLoaderForUser(user) && ((user.employeeOnboardingStatus.response)!= approvedResponse) && ((user.employeeOnboardingStatus.response)!= pendingResponse)">Request</a>
-
-                                                            <div class="dot-opacity-loader"
-                                                                *ngIf="sendingMailLoaderForUser(user)">
-                                                                <span></span>
-                                                                <span></span>
-                                                                <span></span>
-                                                            </div>
-
-                                                            <!-- <mat-progress-spinner *ngIf="sendingMailLoader" [diameter]="30" mode="indeterminate"></mat-progress-spinner> -->
-
-
-
-
-                                                            <a href="javascript:void(0);" routerLink="/employee-profile"
-                                                                class="link-primary text-decoration-underline view-btn"
-                                                                (click)="routeToUserDetails(user.uuid)">View</a>
-
-                                                            <a style="cursor: pointer; color:red !important" class="delete-rule"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#deleteConfirmationModal"
-                                                                (click)="openDeleteConfirmationModal(user.id)"><i
-                                                                    class="bi bi-trash"></i></a>
-
-                                                            <!-- <a style="cursor: pointer; color:red" class="delete-rule" 
-                                                                (click)="disableUser(user.id)" *ngIf="!disableUserLoader(user)"><i
-                                                                    class="bi bi-trash"></i></a>
-                                                            
-                                                            <div class="dot-opacity-loader" *ngIf="disableUserLoader(user)">
-                                                                        <span></span>
-                                                                        <span></span>
-                                                                        <span></span>
-                                                            </div> -->
-
+                                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                                            <button type="button" class="btn btn-light" (click)="sendMailToEmployees(user)"  *ngIf="!sendingMailLoaderForUser(user) && ((user.employeeOnboardingStatus.response)!= approvedResponse) && ((user.employeeOnboardingStatus.response)!= pendingResponse)" ngbTooltip="Request Again" placement="top">
+                                                                <div class="dot-opacity-loader" *ngIf="sendingMailLoaderForUser(user)">
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                </div>
+                                                                <i
+                                                            class="fas fa-bullhorn"></i></button>
+                                                            <button type="button" class="btn btn-light" routerLink="/employee-profile" (click)="routeToUserDetails(user.uuid)" ngbTooltip="View Profile" placement="top"><i
+                                                                class="far fa-eye"></i></button>
+                                                            <button type="button" class="btn btn-light"  data-bs-toggle="modal"
+                                                            data-bs-target="#deleteConfirmationModal"
+                                                            (click)="openDeleteConfirmationModal(user.id)" ngbTooltip="Delete Account" placement="top"><i
+                                                            class="bi bi-trash"></i></button>
                                                         </div>
                                                     </td>
                                                 </tr>

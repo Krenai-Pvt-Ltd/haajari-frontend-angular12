@@ -1,729 +1,632 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
-    <app-hajiri-page-loader *ngIf="count < 6"></app-hajiri-page-loader>
+    <app-hajiri-page-loader *ngIf="count < 6">
+    </app-hajiri-page-loader>
     <div class="container-fluid" *ngIf="count >= 6">
-
-    <!-- Navigation Header with Check-In/ Check-Out Configuration   -->
-    <div class="mt-3 pb-3 d-flex align-items-center justify-content-between"
-      style="gap: 20px">
-      <div class="d-flex align-items-center justify-content-between" style="gap: 20px">
-        <!-- routerLink="/employee-onboarding" -->
-        <!-- {{tokenUserRoleFlag}} -->
-        <!-- {{userId}} - {{UUID}} -->
-        <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE != 'USER'">
-
-          <i class="bi bi-chevron-left"></i>
+      <!-- Navigation Header with Check-In/ Check-Out Configuration   -->
+      <div class="mt-3 pb-3 d-flex align-items-center justify-content-between" style="gap: 20px">
+        <div class="d-flex align-items-center justify-content-between" style="gap: 20px">
+          <!-- routerLink="/employee-onboarding" -->
+          <!-- {{tokenUserRoleFlag}} -->
+          <!-- {{userId}} - {{UUID}} -->
+          <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE != 'USER'">
+            <i class="bi bi-chevron-left"></i>
+          </div>
+          <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE == 'USER' && (userId !== UUID)">
+            <i class="bi bi-chevron-left"></i>
+          </div>
+          <h6 class="mt-2">Go Back</h6>
         </div>
-        <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE == 'USER' && (userId !== UUID)"> <i
-            class="bi bi-chevron-left"></i>
-        </div>
-        <h6  class="mt-2">Go Back</h6>
-      </div>
-      <div [ngClass]="{
+        <div [ngClass]="{
           'd-none': !userRoleFlag,
           'd-flex align-items-center': userRoleFlag
         }" style="gap: 20px">
-        <!-- <div *ngIf="InOutLoader">
-                      <div class="dot-opacity-loader">
-                          <span></span>
-                          <span></span>
-                          <span></span>
-                      </div>
-                  </div> -->
-        <span *ngIf="status == 'out'">
-          <button class="btn sand-request approved" type="button" (click)="checkinCheckout('/in')">
-            Check-In
-          </button>
-        </span>
-        <span *ngIf="status == 'in' || status == 'back'">
-          <button class="btn sand-request approved break-btn" ngbTooltip="Start your break" placement="top"
-            type="button" (click)="checkinCheckout('/break')">
-            <img src="assets/images/mug-hot-1.svg" style="width: 100%" />
-          </button>
-        </span>
-        <span *ngIf="status == 'break'">
-          <button class="btn sand-request approved break-btn" ngbTooltip="End your break" placement="top"
-            type="button" (click)="checkinCheckout('/back')">
-            <img src="assets/images/no-coffee.svg" style="width: 100%" />
-          </button>
-        </span>
-        <span *ngIf="status == 'in' || status == 'back' || status == 'break'">
-          <button class="btn sand-request rejected" (click)="checkinCheckout('/out')">
-            Check-Out
-          </button>
-        </span>
-      </div>
-    </div>
-    <!-- Navigation Header with Check-In/ Check-Out Configuration   -->
-    
-    
-    <!-- Updated Design V2 - Inputs From Pushpendra -->
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="met-profile">
-              <div class="row">
-                <div class="col-lg-5 align-self-center mb-3 mb-lg-0">
-                  <div class="met-profile-main">
-                    <div class="met-profile-main-pic">
-                      <img *ngIf="isImage" src="{{ user?.image }}" alt="" height="110" class="rounded-circle">
-                      <span *ngIf="!isImage" class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2">
-                        {{user?.name[0]}}
-                      </span>
-                      <span class="met-profile_main-pic-change">
-                        <i class="fas fa-camera"></i>
-                      </span>
-                    </div>
-                    <div class="met-profile_user-detail">
-                      <h5 class="met-user-name">{{ user?.name || "N/A" }} 
-                        <button type="button" *ngIf="user!.employeeOnboardingStatus?.response == 'APPROVED'" class="btn btn-soft-success btn-icon-circle btn-icon-circle-sm me-2 position-relative">
-                          <i class="ti ti-checks font-16"></i>
-                        </button>
-                        <button type="button" *ngIf="user!.employeeOnboardingStatus?.response == 'REJECTED'" class="btn btn-soft-danger btn-icon-circle btn-icon-circle-sm me-2 position-relative">
-                          <i class="ti ti-alert-octagon font-16"></i>
-                        </button>
-                      </h5>
-                      <p class="mb-0 met-user-name-post">{{ user.department || "N/A" }}</p>
-                    </div>
-                  </div>
-                </div>
-                <!--end col-->
-                <div class="col-lg-4 ms-auto align-self-center">
-                  <ul class="list-unstyled personal-detail mb-0">
-                    <li class="">
-                      <i class="las la-phone mr-2 text-secondary font-22 align-middle"></i>
-                      <b> phone </b> : {{ user?.phoneNumber || "N/A" }}
-                    </li>
-                    <li class="mt-2">
-                      <i class="las la-envelope text-secondary font-22 align-middle mr-2"></i>
-                      <b> Email </b> : {{ user?.email || "N/A" }}
-                    </li>
-                    <li class="mt-2">
-                      <i class="las la-globe text-secondary font-22 align-middle mr-2"></i>
-                      <b> DOB </b> : {{ user?.dob | date : 'dd MMM yyyy' || "N/A" }}
-                    </li>
-                  </ul>
-                </div>
-                <!--end col-->
-                <div class="col-lg-3 align-self-center">
-                  <div class="row">
-                    <div class="col-auto text-end border-end">
-                      <button type="button" class="btn btn-soft-primary btn-icon-circle btn-icon-circle-sm mb-2">
-                        <i class="ti ti-users"></i>
-                      </button>
-                      <p class="mb-0 fw-semibold">With Us</p>
-                      <h4 class="m-0 fw-bold">2 Year <span class="text-muted font-12 fw-normal">3 Months</span>
-                      </h4>
-                    </div>
-                    <!--end col-->
-                    <div class="col-auto">
-                      <button type="button" class="btn btn-soft-info btn-icon-circle btn-icon-circle-sm mb-2">
-                        <i class="ti ti-award"></i>
-                      </button>
-                      <p class="mb-0 fw-semibold">Experience</p>
-                      <h4 class="m-0 fw-bold">4 Years <span class="text-muted font-12 fw-normal">6 Months</span>
-                      </h4>
-                    </div>
-                    <!--end col-->
-                  </div>
-                  <!--end row-->
-                </div>
-                <!--end col-->
-              </div>
-              <!--end row-->
-            </div>
-            <!--end f_profile-->
+          <!-- <div *ngIf="InOutLoader"><div class="dot-opacity-loader"><span></span><span></span><span></span></div></div> -->
+          <div *ngIf="status == 'out'">
+            <button class="btn btn-outline-success btn-round" type="button" (click)="checkinCheckout('/in')"> Check-In </button>
           </div>
-          <!--end card-body-->
-          <div class="card-body p-0">
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#attendance" role="tab" aria-selected="true">Attendance</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#payslip" role="tab" aria-selected="false">Payroll</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#profile" role="tab" aria-selected="false">Profile</a>
-              </li>
-            </ul>
-            <!-- Tab panes -->
-            <div class="tab-content">
-              <div class="tab-pane p-3 active" id="attendance" role="tabpanel">
+          <div *ngIf="status == 'in' || status == 'back'">
+            <span class="thumb-sm justify-content-center d-flex align-items-center bg-warning rounded-circle" ngbTooltip="Start your break" placement="top" (click)="checkinCheckout('/break')">
+              <i class="fas fa-coffee text-white"></i>
+          </span>
+        </div>
+          <div *ngIf="status == 'break'">
+            <span class="thumb-sm justify-content-center d-flex align-items-center bg-purple rounded-circle" ngbTooltip="End your break" placement="top" (click)="checkinCheckout('/back')">
+              <i class="fas fa-hourglass-half text-white"></i>
+            </span>
+          </div>
+          <div *ngIf="status == 'in' || status == 'back' || status == 'break'">
+            <button class="btn btn-outline-danger btn-round" (click)="checkinCheckout('/out')"> Check-Out </button>
+          </div>
+        </div>
+      </div>
+      <!-- Navigation Header with Check-In/ Check-Out Configuration   -->
+      <!-- Updated Design V2 - Inputs From Pushpendra -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="met-profile">
                 <div class="row">
-                  <div class="col-lg-8">
-                    
-                    <div class="align-items-center d-flex justify-content-end add-filtter mb-2"
-                    *ngIf="userRoleFlag">
-                    <a class="btn" data-bs-toggle="modal" data-bs-target=".apply-leave"><i class="bi bi-plus"
-                        style="font-size: 20px"></i>
-                      Apply for a Leave</a>
-                  </div>
-                  <ng-container *ngIf="
-                  userLeave.length !== 0 && !leaveCountPlaceholderFlag
-                ">
-                <div class="d-flex align-items-center justify-content-between leves-type-s mb-2"
-                  *ngFor="let ul of userLeave">
-                  <div class="">
-                    <h5>{{ ul?.leaveType }}</h5>
-                  </div>
-                  <div class="d-flex text-center">
-                    <div class="Approved rejected-css p-1">
-                      <p class="mb-0">{{ ul?.totalQuota }}</p>
-                      <span class="total-holiday">Total</span>
+                  <div class="col-lg-5 align-self-center mb-3 mb-lg-0">
+                    <div class="met-profile-main">
+                      <div class="met-profile-main-pic">
+                        <img *ngIf="isImage" src="{{ user?.image }}" alt="" height="110" class="rounded-circle">
+                        <span *ngIf="!isImage" class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2">
+                          {{user?.name[0]}}
+                        </span>
+                        <span class="met-profile_main-pic-change">
+                          <i class="fas fa-camera"></i>
+                        </span>
+                      </div>
+                      <div class="met-profile_user-detail">
+                        <h5 class="met-user-name">{{ user?.name || "N/A" }}
+                          <button type="button" *ngIf="user!.employeeOnboardingStatus?.response == 'APPROVED'" class="btn btn-soft-success btn-icon-circle btn-icon-circle-sm me-2 position-relative">
+                            <i class="ti ti-checks font-16"></i>
+                          </button>
+                          <button type="button" *ngIf="user!.employeeOnboardingStatus?.response == 'REJECTED'" class="btn btn-soft-danger btn-icon-circle btn-icon-circle-sm me-2 position-relative">
+                            <i class="ti ti-alert-octagon font-16"></i>
+                          </button>
+                        </h5>
+                        <p class="mb-0 met-user-name-post">{{ user.department || "N/A" }}</p>
+                      </div>
                     </div>
-                    <div class="Approved p-1">
-                      <p class="mb-0">{{ ul?.approved }}</p>
-                      <span class="total-holiday">Approved</span>
-                    </div>
-
-                    <div class="Approved pending-css p-1">
-                      <p class="mb-0">{{ ul?.applied }}</p>
-                      <span class="total-holiday">Pending</span>
-                    </div>
-                    <div class="Approved remaining-css p-1">
-                      <p class="mb-0">{{ ul?.remainingQuota }}</p>
-                      <span class="total-holiday">Remaining</span>
-                    </div>
-                  </div>
-                </div>
-              </ng-container>
-                    <!--end row-->
-                   
-                          <div class="d-flex justify-content-between align-items-center">
-                            <div class="">
-                              <div class="date-all-approved d-flex align-items-center">
-                                <span class="approved-left active-color" (click)="goBackward()" *ngIf="backwardFlag"><i
-                                    class="bi bi-chevron-left"></i></span>
-                                <span class="approved-right active-color" (click)="goforward()" *ngIf="forwordFlag"><i
-                                    class="bi bi-chevron-right"></i></span>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div class="card-header">
-                            <div class="row align-items-center">
-                                <div class="col">                      
-                                    <h4 class="card-title">Audience Overview</h4>                      
-                                </div><!--end col-->
-                                <div class="col-auto"> 
-                                 
-                                  <div class="btn-group mb-2 mb-lg-0" role="group" aria-label="Basic checkbox toggle button group">
-                                    <input type="checkbox" class="btn-check active" id="btncheck1" autocomplete="off" (click)="goToday()">
-                                    <label class="btn btn-outline-primary active" for="btncheck1">Today</label>
-                                  
-                                    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-                                    <label class="btn btn-outline-success" for="btncheck2">Present - {{ totalPresent }}</label>
-                                  
-                                    <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-                                    <label class="btn btn-outline-danger" for="btncheck3">Absent - {{ totalAbsent }}</label>
-                                  </div>
-                                </div><!--end col-->
-                            </div>  <!--end row-->                                  
-                        </div>
-
-                          <full-calendar [options]="calendarOptions" id="calendar" #calendar></full-calendar>
-        
-                          <div class="legends-section" style="margin-top: 20px; font-size: 13px;">
-                            <div class="legend" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                              <span class="status-letter"
-                                style="background-color: #e0ffe0; padding: 2px 8px; border-radius: 4px; color: green; font-weight: bold;">P</span>
-                              <span style="margin-left: 4px;">- Present</span>
-                            </div>
-                            <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                              <span class="status-letter"
-                                style="background-color: #f8d7d7; padding: 2px 8px; border-radius: 4px; color: red; font-weight: bold;">A</span>
-                              <span style="margin-left: 4px;">- Absent</span>
-                            </div>
-                            <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                              <span class="status-letter"
-                                style="background-color: rgb(255, 255, 143); padding: 2px 8px; border-radius: 4px; color: #d4d40a; font-weight: bold;">L</span>
-                              <span style="margin-left: 4px;">- Leave</span>
-                            </div>
-                            <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                              <span class="status-letter"
-                                style="background-color: #c6c6ff; padding: 2px 8px; border-radius: 4px; color: #4949ac; font-weight: bold;">W</span>
-                              <span style="margin-left: 4px;">- Weekly Holiday</span>
-                            </div>
-                            <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                              <span class="status-letter"
-                                style="background-color: #f06d0640; padding: 2px 8px; border-radius: 4px; color: #b35636; font-weight: bold;">h</span>
-                              <span style="margin-left: 4px;">- Holiday</span>
-                            </div>
-                            <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                              <span class="status-letter"
-                                style="background-color: rgb(255, 213, 128); padding: 2px 8px; border-radius: 4px; color: #d4972a; font-weight: bold;">H</span>
-                              <span style="margin-left: 4px;">- Half Day</span>
-                            </div>
-                            <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                              <span class="status-letter"
-                                style="background-color: #D3D3D3; padding: 2px 8px; border-radius: 4px; color: #a9a9a9; font-weight: bold;">l</span>
-                              <span style="margin-left: 4px;">- Late</span>
-                            </div>
-                          </div>
-                     
-                    <!--end card-->
                   </div>
                   <!--end col-->
-                  <div class="col-lg-4">
-                    <!--end card-->
-              
-                        <div class="leave-logs" style="max-height: 840px; overflow: scroll;">
-                          <div class="activity" *ngFor="let leaves of userLeaveLog">
-                            <div class="activity-info">
-                              <div class="icon-info-activity">
-                                <i class="ti ti-clock bg-soft-warning" *ngIf="leaves.status == 'pending'"></i>
-                                <i class="ti ti-checks bg-soft-success" *ngIf="leaves.status == 'approved'"></i>
-                                <i class="ti ti-x bg-soft-danger" *ngIf="leaves.status == 'rejected'"></i>
-                              </div>
-                              <div class="activity-info-text">
-                                <div>
-                                  <div class="float-end">
-                                    <div class="dropdown d-inline-block">
-                                      <div class="align-self-center">
-                                        <div class="btn btn-xs btn-light btn-round">
-                                          {{ formatDateIn(
-                                                             formatDate(leaves.leaveDate)
-                                                             ) || "N/A"
-                                                             }}&nbsp; <span>{{ formatTime(leaves.leaveDate) || "N/A"
-                                                               }}</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="media align-items-center">
-                                    <div class="media-body ms-2 align-self-center">
-                                      <h5 class="m-0">{{leaves.username}} </h5>
-                                      <p class="text-muted font-12 mb-0">
-                                        <span style="color: orange;" class="ng-star-inserted" *ngIf="leaves.status == 'pending'">Applied <span> To </span>
-                                        </span>
-                                        <span style="color: green;" class="ng-star-inserted" *ngIf="leaves.status == 'approved'">Approved <span> By </span>
-                                        </span>
-                                        <span style="color: rgb(255, 55, 0);" class="ng-star-inserted" *ngIf="leaves.status == 'rejected'">Rejected <span> By </span>
-                                        </span>
-                                        {{leaves.manager?.name}}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <hr class="hr-dashed">
-                                  <div class="d-flex justify-content-between">
-                                    <p>Duration: <u>{{formatDateIn( formatDate(leaves.startDate)
-                                      )}} - {{formatDateIn( formatDate(leaves.endDate)
-                                  )}}</u>
-                                    </p>
-                                    <h6 class="fw-semibold">
-                                      <span class="badge badge-outline-primary">{{
-                                        calculateDateDifference(
-                                        leaves.endDate,
-                                        leaves.startDate
-                                        ) || "N/A"
-                                        }} Days | {{leaves.leaveType}}</span>
-                                    </h6>
-                                  </div>
-                                  <p class="text-muted mb-0">{{leaves.optNotes}}</p>
-                                </div>
-                                <hr class="hr-dashed">
-                              </div>
-                            </div>
-                          </div>
-                          <!--end activity-->
-                        </div>
-                      
+                  <div class="col-lg-4 ms-auto align-self-center">
+                    <ul class="list-unstyled personal-detail mb-0">
+                      <li class="">
+                        <i class="las la-phone mr-2 text-secondary font-22 align-middle"></i>
+                        <b> phone </b> : {{ user?.phoneNumber || "N/A" }}
+                      </li>
+                      <li class="mt-2">
+                        <i class="las la-envelope text-secondary font-22 align-middle mr-2"></i>
+                        <b> Email </b> : {{ user?.email || "N/A" }}
+                      </li>
+                      <li class="mt-2">
+                        <i class="las la-globe text-secondary font-22 align-middle mr-2"></i>
+                        <b> DOB </b> : {{ user?.dob | date : 'dd MMM yyyy' || "N/A" }}
+                      </li>
+                    </ul>
+                  </div>
+                  <!--end col-->
+                  <div class="col-lg-3 align-self-center">
+                    <div class="row">
+                      <div class="col-auto text-end border-end">
+                        <button type="button" class="btn btn-soft-primary btn-icon-circle btn-icon-circle-sm mb-2">
+                          <i class="ti ti-users"></i>
+                        </button>
+                        <p class="mb-0 fw-semibold">With Us</p>
+                        <h4 class="m-0 fw-bold">2 Year <span class="text-muted font-12 fw-normal">3 Months</span>
+                        </h4>
+                      </div>
+                      <!--end col-->
+                      <div class="col-auto">
+                        <button type="button" class="btn btn-soft-info btn-icon-circle btn-icon-circle-sm mb-2">
+                          <i class="ti ti-award"></i>
+                        </button>
+                        <p class="mb-0 fw-semibold">Experience</p>
+                        <h4 class="m-0 fw-bold">4 Years <span class="text-muted font-12 fw-normal">6 Months</span>
+                        </h4>
+                      </div>
+                      <!--end col-->
+                    </div>
+                    <!--end row-->
                   </div>
                   <!--end col-->
                 </div>
                 <!--end row-->
               </div>
-              <div class="tab-pane p-3" id="payslip" role="tabpanel">
-                <div id="configure-salary-setting" class="errorboxmain" style="min-height: 45vh"
-                *ngIf="salaryConfigurationStepId == CONFIGURE_SALARY_SETTING" (click)="goToManageStatutory()">
-                <div class="errorboxinner text-center">
-                  <div class="errorboxplaceholder mb-2">
-                    <img src="assets/images/empty-box.svg" style="width: 80px" />
+              <!--end f_profile-->
+            </div>
+            <!--end card-body-->
+            <div class="card-body p-0">
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs bg-light border-top" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" data-bs-toggle="tab" href="#attendance" role="tab" aria-selected="true">Attendance</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-bs-toggle="tab" href="#payslip" role="tab" aria-selected="false">Payroll</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-bs-toggle="tab" href="#profile" role="tab" aria-selected="false">Profile</a>
+                </li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div class="tab-pane p-3 active" id="attendance" role="tabpanel">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="">
+                          <div class="date-all-approved d-flex align-items-center">
+                            <span class="approved-left active-color" (click)="goBackward()" *ngIf="backwardFlag">
+                              <i class="bi bi-chevron-left"></i>
+                            </span>
+                            <span class="approved-right active-color" (click)="goforward()" *ngIf="forwordFlag">
+                              <i class="bi bi-chevron-right"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-header">
+                        <div class="row align-items-center">
+                          <div class="col">
+                            <!-- <h4 class="card-title">Audience Overview</h4>                       -->
+                          </div>
+                          <!--end col-->
+                          <div class="col-auto">
+                            <div class="btn-group mb-2 mb-lg-0" role="group" aria-label="Basic checkbox toggle button group">
+                              <input type="checkbox" class="btn-check active" id="btncheck1" autocomplete="off" (click)="goToday()">
+                              <label class="btn btn-outline-primary active" for="btncheck1">Today</label>
+                              <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+                              <label class="btn btn-outline-light" for="btncheck2">Present - {{ totalPresent }}</label>
+                              <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
+                              <label class="btn btn-outline-light" for="btncheck3">Absent - {{ totalAbsent }}</label>
+                            </div>
+                          </div>
+                          <!--end col-->
+                        </div>
+                        <!--end row-->
+                      </div>
+                      <full-calendar [options]="calendarOptions" id="calendar" #calendar></full-calendar>
+                      <div class="legends-section" style="margin-top: 20px; font-size: 13px;">
+                        <div class="legend" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                          <span class="status-letter" style="background-color: #e0ffe0; padding: 2px 8px; border-radius: 4px; color: green; font-weight: bold;">P</span>
+                          <span style="margin-left: 4px;">- Present</span>
+                        </div>
+                        <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                          <span class="status-letter" style="background-color: #f8d7d7; padding: 2px 8px; border-radius: 4px; color: red; font-weight: bold;">A</span>
+                          <span style="margin-left: 4px;">- Absent</span>
+                        </div>
+                        <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                          <span class="status-letter" style="background-color: rgb(255, 255, 143); padding: 2px 8px; border-radius: 4px; color: #d4d40a; font-weight: bold;">L</span>
+                          <span style="margin-left: 4px;">- Leave</span>
+                        </div>
+                        <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                          <span class="status-letter" style="background-color: #c6c6ff; padding: 2px 8px; border-radius: 4px; color: #4949ac; font-weight: bold;">W</span>
+                          <span style="margin-left: 4px;">- Weekly Holiday</span>
+                        </div>
+                        <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                          <span class="status-letter" style="background-color: #f06d0640; padding: 2px 8px; border-radius: 4px; color: #b35636; font-weight: bold;">h</span>
+                          <span style="margin-left: 4px;">- Holiday</span>
+                        </div>
+                        <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                          <span class="status-letter" style="background-color: rgb(255, 213, 128); padding: 2px 8px; border-radius: 4px; color: #d4972a; font-weight: bold;">H</span>
+                          <span style="margin-left: 4px;">- Half Day</span>
+                        </div>
+                        <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
+                          <span class="status-letter" style="background-color: #D3D3D3; padding: 2px 8px; border-radius: 4px; color: #a9a9a9; font-weight: bold;">l</span>
+                          <span style="margin-left: 4px;">- Late</span>
+                        </div>
+                      </div>
+                      <!--end card-->
+                    </div>
+                    <!--end col-->
+                    <div class="col-lg-6">
+                      <!--end card-->
+                      <div class="align-items-center d-flex justify-content-end add-filtter mb-2" *ngIf="userRoleFlag">
+                        <a class="btn" data-bs-toggle="modal" data-bs-target=".apply-leave">
+                          <i class="bi bi-plus" style="font-size: 20px"></i> Apply for a Leave </a>
+                      </div>
+                      <ng-container *ngIf="
+                  userLeave.length !== 0 && !leaveCountPlaceholderFlag
+                ">
+                        <div class="d-flex align-items-center justify-content-between leves-type-s mb-2 bg-light" *ngFor="let ul of userLeave">
+                          <div class="">
+                            <h5>{{ ul?.leaveType }}</h5>
+                          </div>
+                          <div class="d-flex text-center">
+                            <div class="Approved rejected-css p-1">
+                              <p class="mb-0">{{ ul?.totalQuota }}</p>
+                              <span class="total-holiday">Total</span>
+                            </div>
+                            <div class="Approved p-1">
+                              <p class="mb-0">{{ ul?.approved }}</p>
+                              <span class="total-holiday">Approved</span>
+                            </div>
+                            <div class="Approved pending-css p-1">
+                              <p class="mb-0">{{ ul?.applied }}</p>
+                              <span class="total-holiday">Pending</span>
+                            </div>
+                            <div class="Approved remaining-css p-1">
+                              <p class="mb-0">{{ ul?.remainingQuota }}</p>
+                              <span class="total-holiday">Remaining</span>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                      <div class="leave-logs" style="max-height: 450px; overflow: scroll;">
+                        <div class="activity" *ngFor="let leaves of userLeaveLog">
+                          <div class="activity-info">
+                            <div class="icon-info-activity">
+                              <i class="ti ti-clock bg-soft-warning" *ngIf="leaves.status == 'pending'"></i>
+                              <i class="ti ti-checks bg-soft-success" *ngIf="leaves.status == 'approved'"></i>
+                              <i class="ti ti-x bg-soft-danger" *ngIf="leaves.status == 'rejected'"></i>
+                            </div>
+                            <div class="activity-info-text">
+                              <div>
+                                <div class="float-end">
+                                  <div class="dropdown d-inline-block">
+                                    <div class="align-self-center">
+                                      <div class="btn btn-xs btn-light btn-round">
+                                        {{ formatDateIn(
+                                                             formatDate(leaves.leaveDate)
+                                                             ) || "N/A"
+                                                             }}&nbsp; <span>{{ formatTime(leaves.leaveDate) || "N/A"
+                                                               }}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="media align-items-center">
+                                  <div class="media-body ms-2 align-self-center">
+                                    <h5 class="m-0">{{leaves.username}} </h5>
+                                    <p class="text-muted font-12 mb-0">
+                                      <span style="color: orange;" class="ng-star-inserted" *ngIf="leaves.status == 'pending'">Applied <span> To </span>
+                                      </span>
+                                      <span style="color: green;" class="ng-star-inserted" *ngIf="leaves.status == 'approved'">Approved <span> By </span>
+                                      </span>
+                                      <span style="color: rgb(255, 55, 0);" class="ng-star-inserted" *ngIf="leaves.status == 'rejected'">Rejected <span> By </span>
+                                      </span>
+                                      {{leaves.manager?.name}}
+                                    </p>
+                                  </div>
+                                </div>
+                                <hr class="hr-dashed">
+                                <div class="d-flex justify-content-between">
+                                  <p>Duration: <u>{{formatDateIn( formatDate(leaves.startDate)
+                                      )}} - {{formatDateIn( formatDate(leaves.endDate)
+                                  )}}</u>
+                                  </p>
+                                  <h6 class="fw-semibold">
+                                    <span class="badge badge-outline-primary">{{ calculateDateDifference(
+                                        leaves.endDate,
+                                        leaves.startDate
+                                        ) || "N/A"
+                                        }} Days | {{leaves.leaveType}}</span>
+                                  </h6>
+                                </div>
+                                <p class="text-muted mb-0">{{leaves.optNotes}}</p>
+                              </div>
+                              <hr class="hr-dashed">
+                            </div>
+                          </div>
+                        </div>
+                        <!--end activity-->
+                      </div>
+                    </div>
+                    <!--end col-->
                   </div>
-                  <div class="">
-                    <h4>No Data Found</h4>
-                    <p class="mb-3">
-                      We're unable to locate a record associated with
-                      the information you entered.
-                    </p>
-                    <a data-bs-toggle="modal" style="
+                  <!--end row-->
+                </div>
+                <div class="tab-pane p-3" id="payslip" role="tabpanel">
+                  <div id="configure-salary-setting" class="errorboxmain" style="min-height: 45vh" *ngIf="salaryConfigurationStepId == CONFIGURE_SALARY_SETTING" (click)="goToManageStatutory()">
+                    <div class="errorboxinner text-center">
+                      <div class="errorboxplaceholder mb-2">
+                        <img src="assets/images/empty-box.svg" style="width: 80px" />
+                      </div>
+                      <div class="">
+                        <h4>No Data Found</h4>
+                        <p class="mb-3"> We're unable to locate a record associated with the information you entered. </p>
+                        <a data-bs-toggle="modal" style="
                         font-size: 16px;
                         color: #6666f3 !important;
                         margin-top: 15px;
-                      "><i class="bi bi-plus" style="font-size: 20px"></i>
-                      Configure Salary Settings
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-
-              <div id="manage-statutory" *ngIf="salaryConfigurationStepId == MANAGE_STATUTORY">
-                <div class="form-roe-data" style="text-align: left;">
-                  <h3>Configure Salary Settings:</h3>
-                  <p>These are the default setting which is done by organization, you can modify according to
-                    your preference.</p>
-                </div>
-
-                <div class="col-md-12">
-                  <div class="border-box"></div>
-                </div>
-
-                <div class="row mt-4" style="display: flex; justify-content: space-between;">
-                  <!-- <div class="col-md-1"></div> -->
-                  <div class="col-md-4">
-                    <div class="form-roe-data" style="text-align: left;">
-                      <h5>Choose your tax regime</h5>
-                      <p>A quick snapshot of your company.</p>
+                      ">
+                          <i class="bi bi-plus" style="font-size: 20px"></i> Configure Salary Settings </a>
+                      </div>
                     </div>
-
                   </div>
-
-                  <div class="col-md-7">
-                    <div class="">
-                      <div class="attendance-settin-list" *ngFor="let taxRegime of taxRegimeList">
-                        <div class="categryCustomizecard d-flex pointer border-active"
-                          [ngClass]="{'border-active' : taxRegime.selected == true}"
-                          (click)="updateTaxRegimeByUserIdMethodCall(taxRegime.id)">
-                          <div class="categryCustomizeinfo" style="text-align: left;">
-                            <label for="customizecategory1" class="mb-0">
-                              <h3> {{taxRegime.name}}</h3>
-                              <p> Large images are best for products where every detail is a part of the
-                                product’s value.</p>
-                            </label>
-                          </div>
-                          <div class="active-check ng-star-inserted">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="exampleRadio{{taxRegime.id}}"
-                                id="exampleRadio{{taxRegime.id}}" value="option{{taxRegime.id}}"
-                                [checked]="taxRegime.selected == true">
-                            </div>
-                          </div>
+                  <div id="manage-statutory" *ngIf="salaryConfigurationStepId == MANAGE_STATUTORY">
+                    <div class="form-roe-data" style="text-align: left;">
+                      <h3>Configure Salary Settings:</h3>
+                      <p>These are the default setting which is done by organization, you can modify according to your preference.</p>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="border-box"></div>
+                    </div>
+                    <div class="row mt-4" style="display: flex; justify-content: space-between;">
+                      <!-- <div class="col-md-1"></div> -->
+                      <div class="col-md-4">
+                        <div class="form-roe-data" style="text-align: left;">
+                          <h5>Choose your tax regime</h5>
+                          <p>A quick snapshot of your company.</p>
                         </div>
-                        <!-- <div class="accordion" id="accordionExample">
-                        
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" id="headingOne">
-                            
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                              <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exampleRadio{{taxRegime.id}}" id="exampleRadio{{taxRegime.id}}" value="option{{taxRegime.id}}" [checked]="taxRegime.selected == true">
+                      </div>
+                      <div class="col-md-7">
+                        <div class="">
+                          <div class="attendance-settin-list" *ngFor="let taxRegime of taxRegimeList">
+                            <div class="categryCustomizecard d-flex pointer border-active" [ngClass]="{'border-active' : taxRegime.selected == true}" (click)="updateTaxRegimeByUserIdMethodCall(taxRegime.id)">
+                              <div class="categryCustomizeinfo" style="text-align: left;">
+                                <label for="customizecategory1" class="mb-0">
+                                  <h3> {{taxRegime.name}}</h3>
+                                  <p> Large images are best for products where every detail is a part of the product’s value.</p>
+                                </label>
                               </div>
+                              <div class="active-check ng-star-inserted">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="exampleRadio{{taxRegime.id}}" id="exampleRadio{{taxRegime.id}}" value="option{{taxRegime.id}}" [checked]="taxRegime.selected == true">
+                                </div>
+                              </div>
+                            </div>
+                            <!-- <div class="accordion" id="accordionExample"><div class="accordion-item"><h2 class="accordion-header" id="headingOne"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><div class="form-check"><input class="form-check-input" type="radio" name="exampleRadio{{taxRegime.id}}" id="exampleRadio{{taxRegime.id}}" value="option{{taxRegime.id}}" [checked]="taxRegime.selected == true"></div>
                               Accordion Item #1
-                            </button>
-                          </h2>
-                          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                              <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                            </button></h2><div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample"><div class="accordion-body"><strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div></div></div></div> -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-1"></div>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                      <div class="border-box"></div>
+                    </div>
+                    <div class="row mt-4" style="display: flex; justify-content: space-between;">
+                      <!-- <div class="col-md-1"></div> -->
+                      <div class="col-md-4">
+                        <div class="form-roe-data" style="text-align: left;">
+                          <h5>Manage your Statutories</h5>
+                          <p>A quick snapshot of your company.</p>
+                        </div>
+                      </div>
+                      <div class="col-md-7">
+                        <div class="">
+                          <div class="attendance-settin-list" *ngFor="let statutoryResponse of statutoryResponseList; let i = index;">
+                            <div class="categryCustomizecard d-flex pointer">
+                              <div class="categryCustomizeinfo" style="text-align: left;">
+                                <label for="customizecategory{{i}}" class="mb-0">
+                                  <h3> {{statutoryResponse.name}}</h3>
+                                  <p> {{statutoryResponse.description}}</p>
+                                </label>
+                              </div>
+                              <div class="active-check">
+                                <nz-switch [(ngModel)]="statutoryResponse.switchValue" [nzControl]="true" (click)="clickSwitch(statutoryResponse)" [nzLoading]="statutoryResponse.loading"></nz-switch>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div> -->
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-1"></div>
-                </div>
-
-
-                <div class="col-md-12 mt-3">
-                  <div class="border-box"></div>
-                </div>
-
-
-                <div class="row mt-4" style="display: flex; justify-content: space-between;">
-                  <!-- <div class="col-md-1"></div> -->
-                  <div class="col-md-4">
-                    <div class="form-roe-data" style="text-align: left;">
-                      <h5>Manage your Statutories</h5>
-                      <p>A quick snapshot of your company.</p>
-                    </div>
-
-                  </div>
-
-                  <div class="col-md-7">
-                    <div class="">
-                      <div class="attendance-settin-list"
-                        *ngFor="let statutoryResponse of statutoryResponseList; let i = index;">
-                        <div class="categryCustomizecard d-flex pointer">
-                          <div class="categryCustomizeinfo" style="text-align: left;">
-                            <label for="customizecategory{{i}}" class="mb-0">
-                              <h3> {{statutoryResponse.name}}</h3>
-                              <p> {{statutoryResponse.description}}</p>
-                            </label>
-                          </div>
-                          <div class="active-check">
-                            <nz-switch [(ngModel)]="statutoryResponse.switchValue" [nzControl]="true"
-                              (click)="clickSwitch(statutoryResponse)"
-                              [nzLoading]="statutoryResponse.loading"></nz-switch>
-                          </div>
+                        <div class="modal-footer d-flex align-items-center justify-content-end">
+                          <button class="btn btn-primary" style="padding: 15px;" type="submit" aria-label="Next Step" (click)="updateSalaryConfigurationStepMethodCall(PAY_SLIP)">
+                            <div *ngIf="BUTTON_LOADER" class="dot-opacity-loader-finish-setup">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                            </div>
+                            <span *ngIf="!BUTTON_LOADER"> Finish Setup <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                            </span>
+                          </button>
                         </div>
                       </div>
+                      <div class="col-md-1"></div>
                     </div>
-                    <div class="modal-footer d-flex align-items-center justify-content-end">
-                      <button class="btn btn-primary" style="padding: 15px;" type="submit"
-                        aria-label="Next Step" (click)="updateSalaryConfigurationStepMethodCall(PAY_SLIP)">
-                        <div *ngIf="BUTTON_LOADER" class="dot-opacity-loader-finish-setup">
-                          <span></span>
-                          <span></span>
-                          <span></span>
+                  </div>
+                  <div id="pay_slip" *ngIf="salaryConfigurationStepId == PAY_SLIP">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <div class="d-flex" style="gap: 10px">
+                        <div class="slipabsent">
+                          <p>Absent</p>
                         </div>
-                        <span *ngIf="!BUTTON_LOADER">
-                          Finish Setup <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                        <div class="slippresent">
+                          <p>Present</p>
+                        </div>
+                        <div class="slipleve">
+                          <p>Leave</p>
+                        </div>
+                        <div class="slip-half">
+                          <p>Half Day</p>
+                        </div>
+                      </div>
+                      <div style="text-align: end;">
+                        <span style="color: #6666f3; font-size: 16px; font-weight: bold; cursor: pointer;" (click)="goToManageStatutory()">Edit salary configuration <i class="bi bi-pencil"></i>
                         </span>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col-md-1"></div>
-                </div>
-              </div>
-
-
-              <div id="pay_slip" *ngIf="salaryConfigurationStepId == PAY_SLIP">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <div class="d-flex" style="gap: 10px">
-                    <div class="slipabsent">
-                      <p>Absent</p>
-                    </div>
-                    <div class="slippresent">
-                      <p>Present</p>
-                    </div>
-                    <div class="slipleve">
-                      <p>Leave</p>
-                    </div>
-                    <div class="slip-half">
-                      <p>Half Day</p>
-                    </div>
-                  </div>
-                  <div style="text-align: end;">
-                    <span style="color: #6666f3; font-size: 16px; font-weight: bold; cursor: pointer;"
-                      (click)="goToManageStatutory()">Edit salary configuration <i
-                        class="bi bi-pencil"></i></span>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
-                  <div class="">
-                    <h5>Pay Slip</h5>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <div class="Approved-pay rejected-css">
-                      <p class="mb-0 pay-absent">2</p>
-                    </div>
-                    <div class="Approved-pay">
-                      <p class="mb-0 pay-present">28</p>
-                    </div>
-
-                    <div class="Approved-pay pending-css">
-                      <p class="mb-0 pay-leave">4</p>
-                    </div>
-                    <div class="Approved-pay remaining-css">
-                      <p class="mb-0 pay-half">2</p>
-                    </div>
-                  </div>
-                  <div class="">
-                    <p class="mb-0" style="
-                      font-size: 12px;
-                      color: #555;
-                      font-weight: 500;
-                    ">
-                      Krenai
-                    </p>
-                  </div>
-
-                  <div class="">
-                    <p class="mb-0" style="
-                      font-size: 12px;
-                      color: #555;
-                      font-weight: 500;
-                    ">
-                      Jan 1, 2023
-                    </p>
-                  </div>
-                  <div class="">
-                    <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top"><img
-                        src="assets/images/pdf.svg" style="width: 20px" /></a>
-                  </div>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
-                  <div class="">
-                    <h5>Pay Slip</h5>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <div class="Approved-pay rejected-css">
-                      <p class="mb-0 pay-absent">2</p>
-                    </div>
-                    <div class="Approved-pay">
-                      <p class="mb-0 pay-present">28</p>
-                    </div>
-
-                    <div class="Approved-pay pending-css">
-                      <p class="mb-0 pay-leave">4</p>
-                    </div>
-                    <div class="Approved-pay remaining-css">
-                      <p class="mb-0 pay-half">2</p>
-                    </div>
-                  </div>
-                  <div class="">
-                    <p class="mb-0" style="
-                      font-size: 12px;
-                      color: #555;
-                      font-weight: 500;
-                    ">
-                      Krenai
-                    </p>
-                  </div>
-
-                  <div class="">
-                    <p class="mb-0" style="
-                      font-size: 12px;
-                      color: #555;
-                      font-weight: 500;
-                    ">
-                      Jan 1, 2023
-                    </p>
-                  </div>
-                  <div class="">
-                    <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top"><img
-                        src="assets/images/pdf.svg" style="width: 20px" /></a>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
-                  <div class="">
-                    <h5>Pay Slip</h5>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <div class="Approved-pay rejected-css">
-                      <p class="mb-0 pay-absent">2</p>
-                    </div>
-                    <div class="Approved-pay">
-                      <p class="mb-0 pay-present">28</p>
-                    </div>
-
-                    <div class="Approved-pay pending-css">
-                      <p class="mb-0 pay-leave">4</p>
-                    </div>
-                    <div class="Approved-pay remaining-css">
-                      <p class="mb-0 pay-half">2</p>
-                    </div>
-                  </div>
-
-                  <div class="">
-                    <p class="mb-0" style="
-                      font-size: 12px;
-                      color: #555;
-                      font-weight: 500;
-                    ">
-                      Krenai
-                    </p>
-                  </div>
-
-                  <div class="">
-                    <p class="mb-0" style="
-                      font-size: 12px;
-                      color: #555;
-                      font-weight: 500;
-                    ">
-                      Jan 1, 2023
-                    </p>
-                  </div>
-                  <div class="">
-                    <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top"><img
-                        src="assets/images/pdf.svg" style="width: 20px" /></a>
-                  </div>
-                </div>
-              </div>
-
-              </div>
-              <div class="tab-pane p-3" id="profile" role="tabpanel">
-                
-                <div class="row">
-                  <div class="col-md-12">
-                      <div class="employee-previeww">
-                          <div class="row mb-3">
-                              <div class="col-md-12">
-                                  <div class="onboarding-deta mb-3">
-                                      <table class="table mb-0">
-                                          <tr style="background-color: #f1f1f1;">
-                                              <td><p class="mb-0 persnaol">Personal Information</p></td>
-                                          </tr>
-                                      </table>
-                                      <table class="table table-bordered">
-                                          <tbody class="table-design">
-                                              <tr>
-                                                  <td>Name : Random Name</td>
-                                                  <td>Email : random@example.com</td>
-                                                  <td>Phone : 1234567890</td>
-                                              </tr>
-                                          </tbody>
-                                      </table>
-                                  </div>
-                                  
-                                  <div class="onboarding-deta">
-                                      <table class="table mb-0">
-                                          <tr style="background-color: #f1f1f1;">
-                                              <td><p class="mb-0 persnaol">Address Details</p></td>
-                                          </tr>
-                                      </table>
-                                      <table class="table table-bordered">
-                                          <tbody class="table-design">
-                                              <tr>
-                                                  <td>Address Line 1 : Random Address 1</td>
-                                                  <td>City : Random City</td>
-                                                  <td>Country : Random Country</td>
-                                              </tr>
-                                          </tbody>
-                                      </table>
-                                  </div>
-      
-                                  <div class="onboarding-deta">
-                                      <table class="table mb-0">
-                                          <tr style="background-color: #f1f1f1;">
-                                              <td><p class="mb-0 persnaol">Employee Documents</p></td>
-                                          </tr>
-                                      </table>
-                                      <table class="table table-bordered">
-                                          <tbody class="table-design">
-                                              <tr>
-                                                  <td>Aadhaar Card : Random File</td>
-                                              </tr>
-                                          </tbody>
-                                      </table>
-                                  </div>
-      
-                                  <div class="onboarding-deta">
-                                      <table class="table mb-0">
-                                          <tr style="background-color: #f1f1f1;">
-                                              <td><p class="mb-0 persnaol">Emergency Contact</p></td>
-                                          </tr>
-                                      </table>
-                                      <table class="table table-bordered">
-                                          <tbody class="table-design">
-                                              <tr>
-                                                  <td>Relation with Employee : Random Relation</td>
-                                                  <td>Name : Random Name</td>
-                                                  <td>Phone Number : 9876543210</td>
-                                              </tr>
-                                          </tbody>
-                                      </table>
-                                  </div>
-                              </div>
-                          </div>
                       </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
+                      <div class="">
+                        <h5>Pay Slip</h5>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <div class="Approved-pay rejected-css">
+                          <p class="mb-0 pay-absent">2</p>
+                        </div>
+                        <div class="Approved-pay">
+                          <p class="mb-0 pay-present">28</p>
+                        </div>
+                        <div class="Approved-pay pending-css">
+                          <p class="mb-0 pay-leave">4</p>
+                        </div>
+                        <div class="Approved-pay remaining-css">
+                          <p class="mb-0 pay-half">2</p>
+                        </div>
+                      </div>
+                      <div class="">
+                        <p class="mb-0" style="
+                      font-size: 12px;
+                      color: #555;
+                      font-weight: 500;
+                    "> Krenai </p>
+                      </div>
+                      <div class="">
+                        <p class="mb-0" style="
+                      font-size: 12px;
+                      color: #555;
+                      font-weight: 500;
+                    "> Jan 1, 2023 </p>
+                      </div>
+                      <div class="">
+                        <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top">
+                          <img src="assets/images/pdf.svg" style="width: 20px" />
+                        </a>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
+                      <div class="">
+                        <h5>Pay Slip</h5>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <div class="Approved-pay rejected-css">
+                          <p class="mb-0 pay-absent">2</p>
+                        </div>
+                        <div class="Approved-pay">
+                          <p class="mb-0 pay-present">28</p>
+                        </div>
+                        <div class="Approved-pay pending-css">
+                          <p class="mb-0 pay-leave">4</p>
+                        </div>
+                        <div class="Approved-pay remaining-css">
+                          <p class="mb-0 pay-half">2</p>
+                        </div>
+                      </div>
+                      <div class="">
+                        <p class="mb-0" style="
+                      font-size: 12px;
+                      color: #555;
+                      font-weight: 500;
+                    "> Krenai </p>
+                      </div>
+                      <div class="">
+                        <p class="mb-0" style="
+                      font-size: 12px;
+                      color: #555;
+                      font-weight: 500;
+                    "> Jan 1, 2023 </p>
+                      </div>
+                      <div class="">
+                        <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top">
+                          <img src="assets/images/pdf.svg" style="width: 20px" />
+                        </a>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
+                      <div class="">
+                        <h5>Pay Slip</h5>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <div class="Approved-pay rejected-css">
+                          <p class="mb-0 pay-absent">2</p>
+                        </div>
+                        <div class="Approved-pay">
+                          <p class="mb-0 pay-present">28</p>
+                        </div>
+                        <div class="Approved-pay pending-css">
+                          <p class="mb-0 pay-leave">4</p>
+                        </div>
+                        <div class="Approved-pay remaining-css">
+                          <p class="mb-0 pay-half">2</p>
+                        </div>
+                      </div>
+                      <div class="">
+                        <p class="mb-0" style="
+                      font-size: 12px;
+                      color: #555;
+                      font-weight: 500;
+                    "> Krenai </p>
+                      </div>
+                      <div class="">
+                        <p class="mb-0" style="
+                      font-size: 12px;
+                      color: #555;
+                      font-weight: 500;
+                    "> Jan 1, 2023 </p>
+                      </div>
+                      <div class="">
+                        <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top">
+                          <img src="assets/images/pdf.svg" style="width: 20px" />
+                        </a>
+                      </div>
+                    </div>
                   </div>
-              </div>
-              
+                </div>
+                <div class="tab-pane p-3" id="profile" role="tabpanel">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="employee-previeww">
+                        <div class="row mb-3">
+                          <div class="col-md-12">
+                            <div class="onboarding-deta mb-3">
+                              <table class="table mb-0">
+                                <tr style="background-color: #f1f1f1;">
+                                  <td>
+                                    <p class="mb-0 persnaol">Personal Information</p>
+                                  </td>
+                                </tr>
+                              </table>
+                              <table class="table table-bordered">
+                                <tbody class="table-design">
+                                  <tr>
+                                    <td>Name : Random Name</td>
+                                    <td>Email : random@example.com</td>
+                                    <td>Phone : 1234567890</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="onboarding-deta">
+                              <table class="table mb-0">
+                                <tr style="background-color: #f1f1f1;">
+                                  <td>
+                                    <p class="mb-0 persnaol">Address Details</p>
+                                  </td>
+                                </tr>
+                              </table>
+                              <table class="table table-bordered">
+                                <tbody class="table-design">
+                                  <tr>
+                                    <td>Address Line 1 : Random Address 1</td>
+                                    <td>City : Random City</td>
+                                    <td>Country : Random Country</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="onboarding-deta">
+                              <table class="table mb-0">
+                                <tr style="background-color: #f1f1f1;">
+                                  <td>
+                                    <p class="mb-0 persnaol">Employee Documents</p>
+                                  </td>
+                                </tr>
+                              </table>
+                              <table class="table table-bordered">
+                                <tbody class="table-design">
+                                  <tr>
+                                    <td>Aadhaar Card : Random File</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="onboarding-deta">
+                              <table class="table mb-0">
+                                <tr style="background-color: #f1f1f1;">
+                                  <td>
+                                    <p class="mb-0 persnaol">Emergency Contact</p>
+                                  </td>
+                                </tr>
+                              </table>
+                              <table class="table table-bordered">
+                                <tbody class="table-design">
+                                  <tr>
+                                    <td>Relation with Employee : Random Relation</td>
+                                    <td>Name : Random Name</td>
+                                    <td>Phone Number : 9876543210</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+            <!--end card-body-->
           </div>
-          <!--end card-body-->
+          <!--end card-->
         </div>
-        <!--end card-->
+        <!--end col-->
       </div>
-      <!--end col-->
-    </div>
-<!-- Updated Design V2 - Author Pushpendra -->
-
+      <!-- Updated Design V2 - Author Pushpendra -->
