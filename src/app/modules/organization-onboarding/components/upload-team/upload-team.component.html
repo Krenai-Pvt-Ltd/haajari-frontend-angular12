@@ -254,12 +254,12 @@
     </div>
     <!-- user edit modal -->
     <button class="d-none" data-bs-toggle="modal" data-bs-target="#munal-upload"></button>
-    <div class="modal fade" id="munal-upload" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="munal-upload" tabindex="-1" role="dialog" aria-hidden="true">
        <div class="modal-dialog modal-dialog-centered" style="max-width: 700px;"  role="document">
          <div class="modal-content">
              <div class="modal-header">
                 <h5 class="modal-title">Manual Upload</h5>
-                <button type="button" #manualUpload class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetManualUploadModal()"></button>
+                <button type="button" #closeManualUploadButton class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetManualUploadModal()"></button>
              </div>
              <div class="modal-body munal-deta-upload-modal">
                 <div class="row" *ngFor="let user of userList; let i = index">
@@ -341,4 +341,4 @@
           </div>
          </div>
     </div>
- </div>
+    </div>

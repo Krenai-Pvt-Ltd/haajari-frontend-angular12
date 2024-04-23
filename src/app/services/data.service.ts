@@ -432,6 +432,11 @@ export class DataService {
     return this.httpClient.post(this.baseUrl + '/user-leave/save-users-leave', request, { params });
   }
 
+  saveLeaveRequestForLeaveManagement(request: any): Observable<any> {
+    // const params = new HttpParams().set("uuid", userUuid);
+    return this.httpClient.post(this.baseUrl + '/user-leave/save-users-leave-leave-management', request);
+  }
+
   saveLeaveRequestFromWhatsapp(userUuid: string, request: any): Observable<any> {
     const params = new HttpParams().set("userUuid", userUuid);
     return this.httpClient.post(this.baseUrl + '/user-leave/whatsapp/save-users-leave', request, { params });
@@ -452,6 +457,11 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/user-leave/get-user-leave`, {
       params,
     });
+  }
+
+  getUserLeaveRequestsForLeaveManagement(): Observable<any> {
+    // const params = new HttpParams().set("userUuid", uuid);
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave/get-user-leave-leave-management`);
   }
 
   //Just for testing
@@ -897,6 +907,13 @@ export class DataService {
       .set("uuid", userUuid)
 
     return this.httpClient.get<UserDto[]>(`${this.baseUrl}/employee-onboarding-status/get-manager`, { params });
+  }
+
+  getEmployeeManagerDetailsLeaveManagemnt(): Observable<any> {
+    // const params = new HttpParams()
+    //   .set("uuid", userUuid)
+
+    return this.httpClient.get<UserDto[]>(`${this.baseUrl}/employee-onboarding-status/get-manager-leave-management`);
   }
 
   getEmployeeManagerDetailsViaWhatsapp(userUuid: string): Observable<any> {

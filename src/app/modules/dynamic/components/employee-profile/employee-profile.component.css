@@ -1035,7 +1035,7 @@ div#eventsModal.fade.show .modal-dialog{
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #ffffff; /* Change to your preferred color */
+    background-color: #ffffff; 
     margin: 0 4px;
     animation: dotOpacity 1.4s infinite ease-in-out both;
 }

@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
     debugger
     this.loginButtonLoader = true;
     this.dataService.loginUser(this.email, this.password).subscribe(async response => {
-      debugger
+      
       console.log(response);
       this.helperService.subModuleResponseList = response.subModuleResponseList;
 
@@ -99,6 +99,7 @@ export class LoginComponent implements OnInit {
   signInWithEmail() {
     this.enableBack = true;
     this.isWhatsappLogin = false;
+    this.isEmailLogin = true;
     this.showOtpInput = false;
     this.enterPasswordFlag = false;
     this.isOtpVerify = false;
@@ -108,9 +109,10 @@ export class LoginComponent implements OnInit {
   }
 
   signInWithWhatsapp() {
-    debugger
+    
     this.showOtpInput = false;
     this.enableBack = true;
+    this.isEmailLogin = false;
     this.isWhatsappLogin = true;
     this.phoneNumber = '';
     this.isOtpVerify = false;
@@ -150,7 +152,7 @@ export class LoginComponent implements OnInit {
   createPasswordFlag: boolean = false;
   otpErrorMessage: string = '';
   verifyOtp() {
-    debugger
+    
     if (this.isWhatsappLogin) {
       this.verifyOtpByWhatsappMethodCall();
     } else {
@@ -162,6 +164,8 @@ export class LoginComponent implements OnInit {
           this.createPasswordFlag = true;
           this.showMessageFlag = false;
           this.isOtpVerify = false;
+
+
         }
         else {
           this.isOtpVerify = true;
@@ -201,7 +205,7 @@ export class LoginComponent implements OnInit {
 
   showMessageFlag: boolean = false;
   checkUserPresence() {
-    debugger
+    
     this.checkFormValidation();
 
     if (this.isFormInvalid == true) {
@@ -240,7 +244,7 @@ export class LoginComponent implements OnInit {
 
   whatsappOtp: boolean = true;
   sendUserOtpToMail() {
-    debugger
+    
     this.whatsappOtp = false;
     this.sendOtpLoader = true;
     this.dataService.sendUserOtpToMailNew(this.email).subscribe((response:any) => {
@@ -259,7 +263,7 @@ export class LoginComponent implements OnInit {
   }
 
   resetUserPassword() {
-    debugger
+    
     this.registerPassLoader = true;
     this.dataService.resetPassword(this.email, this.password)
       .subscribe(
@@ -301,8 +305,20 @@ export class LoginComponent implements OnInit {
     this.verifyOtpButtonFlag = true;
   }
 
+  @ViewChild('whatsappOtpSend') whatsappOtpSend !: ElementRef;
+  onPhoneNumberChange() {
+    if (this.isValidPhoneNumber(this.phoneNumber)) {
+        this.whatsappOtpSend.nativeElement.click();
+    }
+  }
+
+  isValidPhoneNumber(phoneNumber: string): boolean {
+      // Implement your validation logic, example:
+      return phoneNumber.length === 10 && /^\d+$/.test(phoneNumber);
+  }
 
   @ViewChild('otpVerificationModalButton') otpVerificationModalButton !: ElementRef
+  isEmailLogin : boolean = false;
   isWhatsappLogin: boolean = false;
   phoneNumber: string = '';
   showOtpInput: boolean = false
@@ -357,6 +373,7 @@ export class LoginComponent implements OnInit {
         this.isOtpVerify = true;
         this.loading = false;
       }
+      this.otpErrorMessage = response.message;
     },
       (error) => {
         this.otpErrorMessage = error.error.message;
@@ -421,6 +438,14 @@ export class LoginComponent implements OnInit {
     this.phoneNumber = "";
     this.email = "";
 
+  }
+
+
+  backToLogin(){
+    this.enableBack = false;
+    this.isWhatsappLogin = false;
+    this.isEmailLogin = false;
+    this.showOtpInput = false;
   }
 
 }
