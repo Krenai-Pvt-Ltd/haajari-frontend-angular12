@@ -3,9 +3,6 @@
     <!-- LOGO -->
     <div class="brand">
        <a class="logo">
-          <!-- <span>
-             <img src="assets/images/logo-sm.png" alt="logo-small" class="logo-sm">
-             </span> -->
           <span>
           <img src="assets/images/HAjiRi.svg" alt="logo-large" class="logo-lg logo-light" style="height: 40px;">
           <img src="assets/images/HAjiRi.svg" alt="logo-large" class="logo-lg logo-dark" style="height: 40px;">
@@ -159,8 +156,7 @@
              <div class="" *ngIf="ROLE !== ADMIN" style="margin-bottom: 130px;">
                 <div class="sidebar-menu-heding">ACCOUNT SETTINGS</div>
                 <ul class="sidebar-menu">
-                   <li class="pointer" [ngClass]="{'sidebar-menu-active': activeTab === 'accountDetails'}" routerLinkActive="sidebar-menu-active" routerLink="/setting/account-settings?setting=accountDetails" (click)="routeToSeetings('accountDetails')">
-                   <!-- routerLink="/setting/account-settings" [queryParams]="{ accountDetailsTab: true }" -->
+                   <li class="pointer" [ngClass]="{'sidebar-menu-active': activeTab === 'accountDetails'}" routerLinkActive="sidebar-menu-active" routerLink="/setting/account-settings?setting=accountDetails" (click)="routeToSeetings('accountDetails')"> 
                    <a class=" sidebar-menu-link">
                       <span class=" "><i class="bi bi-gear menu-icon"></i> Account Details</span>
                    </a>
@@ -175,7 +171,6 @@
                 </ul>
                 <ul class="sidebar-menu">
                    <li class="pointer" [ngClass]="{'sidebar-menu-active': activeTab === 'profilePreferences'}" routerLinkActive="sidebar-menu-active" routerLink="/setting/account-settings?setting=profilePreferences" (click)="routeToSeetings('profilePreferences')" >
-                   <!-- routerLink="/setting/account-settings" [queryParams]="{ profilePreferencesTab: true }" -->
                    <a class=" sidebar-menu-link">
                       <span class=" "><i class="bi bi-gear menu-icon"></i>Profile Preferences</span>
                    </a>
