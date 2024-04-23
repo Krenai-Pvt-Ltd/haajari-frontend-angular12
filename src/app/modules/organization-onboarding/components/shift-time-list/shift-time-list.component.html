@@ -80,13 +80,13 @@
                                 </div>
                             </div>
                         </ng-container>
-                        <div class=""
-                            *ngIf="!allShiftTimingsLoader && organizationShiftTimingWithShiftTypeResponseList.length>0">
+                        <div class="" *ngIf="!allShiftTimingsLoader && organizationShiftTimingWithShiftTypeResponseList.length>0">
                             <div>
                               
-                        
-                                <div class="rule-main-box mt-4"
-                                    *ngFor="let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList">
+                                <div class="d-flex align-items-center justify-content-end mb-3 p-0">
+                                    <a type="button" class="btn add-shift-time" routerLink="/organization-onboarding/add-shift-time"> + Add more shift </a>
+                                 </div>
+                                <div class="rule-main-box mt-4" *ngFor="let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList">
 
 
                         

@@ -432,6 +432,11 @@ export class DataService {
     return this.httpClient.post(this.baseUrl + '/user-leave/save-users-leave', request, { params });
   }
 
+  saveLeaveRequestForLeaveManagement(request: any): Observable<any> {
+    // const params = new HttpParams().set("uuid", userUuid);
+    return this.httpClient.post(this.baseUrl + '/user-leave/save-users-leave-leave-management', request);
+  }
+
   saveLeaveRequestFromWhatsapp(userUuid: string, request: any): Observable<any> {
     const params = new HttpParams().set("userUuid", userUuid);
     return this.httpClient.post(this.baseUrl + '/user-leave/whatsapp/save-users-leave', request, { params });
@@ -452,6 +457,11 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/user-leave/get-user-leave`, {
       params,
     });
+  }
+
+  getUserLeaveRequestsForLeaveManagement(): Observable<any> {
+    // const params = new HttpParams().set("userUuid", uuid);
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave/get-user-leave-leave-management`);
   }
 
   //Just for testing
@@ -897,6 +907,13 @@ export class DataService {
       .set("uuid", userUuid)
 
     return this.httpClient.get<UserDto[]>(`${this.baseUrl}/employee-onboarding-status/get-manager`, { params });
+  }
+
+  getEmployeeManagerDetailsLeaveManagemnt(): Observable<any> {
+    // const params = new HttpParams()
+    //   .set("uuid", userUuid)
+
+    return this.httpClient.get<UserDto[]>(`${this.baseUrl}/employee-onboarding-status/get-manager-leave-management`);
   }
 
   getEmployeeManagerDetailsViaWhatsapp(userUuid: string): Observable<any> {
@@ -1567,21 +1584,27 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/central-leave-management/approve-reject-leaves`, {}, { params });
   }
 
-  getFullLeaveLogsRoleWise(searchString: string, teamString: string): Observable<any> {
+  getFullLeaveLogsRoleWise(searchString: string, teamString: string, page: number, size: number): Observable<any> {
     const params = new HttpParams()
       .set('searchString', searchString)
-      .set('teamString', teamString);
+      .set('teamString', teamString)
+      .set('page', page)
+      .set('size', size);
     return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-full-leave-logs-role-wise`, { params });
   }
 
-  getPendingLeaves(): Observable<any> {
-    // const params = new HttpParams()
-    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-pending-leaves-role-wise`);
+  getPendingLeaves(page: number, size: number): Observable<any> {
+    const params = new HttpParams()
+    .set('page', page)
+    .set('size', size);
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-pending-leaves-role-wise`, { params });
   }
 
-  getApprovedRejectedLeaveLogs(): Observable<any> {
-    // const params = new HttpParams()
-    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-approved-rejected-leave-logs-role-wise`);
+  getApprovedRejectedLeaveLogs(page: number, size: number): Observable<any> {
+    const params = new HttpParams()
+    .set('page', page)
+    .set('size', size);
+    return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-approved-rejected-leave-logs-role-wise`, { params });
   }
 
   getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId: number, leaveType: string): Observable<any> {
@@ -1595,4 +1618,20 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/central-leave-management/get-all-team-names`);
   }
 
+  shiftTimingExists(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/exists`);
+  }
+
+  getWeeklyLeaveSummary(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/central-leave-management/get-weekly-chart-data`);
+  }
+
+  getMonthlyLeaveSummary(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/central-leave-management/get-monthly-chart-data`);
+  }
+
+  getConsumedLeaves(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/central-leave-management/get-total-consumed-leaves`);
+  }
+ 
 }
