@@ -17,9 +17,13 @@
         line-height: 22px;
     }
     .login-with-slack{
-        border: 1px solid #E7E7E7;
-        border-radius: 2px;
+        border: 1px solid #f1f1f1;
+        border-radius: 4px;
         padding: 10px;
+    }
+
+    .right-arrow::before{
+        font-weight: bold !important;
     }
 
     .login-with-slack:hover{
@@ -122,7 +126,7 @@
         margin-right:6px;
     }
     .login-with-slack h4{
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 500;
         line-height: 22px;
         color: #878A9A;
@@ -149,7 +153,7 @@
     }
     .right-arrow {
         font-size: 18px;
-        color: #9d9d9d;
+        color: #878A9A;
     }
     .video-footer-link {
         left: 0;
@@ -161,15 +165,14 @@
     .video-footer-link ul{
         list-style: none;
         width: 100%;
-        text-align: center;
+        text-align: right;
     }
     .video-footer-link ul li{
         display: inline-block;
         line-height: 30px;
     }
     .video-footer-link ul li a{
-        font-size: 12px;
+        font-size: 14px;
         color: #d0d0d0 !important;
         padding-right: 15px;
-        text-align: center;
     }
