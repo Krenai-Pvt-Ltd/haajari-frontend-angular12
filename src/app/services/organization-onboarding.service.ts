@@ -4,7 +4,7 @@ import { DatabaseHelper } from '../models/DatabaseHelper';
 import { UserListReq } from '../models/UserListReq';
 import { UserReq } from '../models/userReq';
 import { HttpClient, HttpEventType, HttpEvent, HttpResponse, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -15,8 +15,12 @@ export class OrganizationOnboardingService {
   private _key: Key = new Key();
   constructor(private _httpClient: HttpClient) { }
 
-  private refreshSidebarSubject = new BehaviorSubject<boolean>(false);
+  private refreshSidebarSubject = new Subject<void>();
   public refreshSidebar$ = this.refreshSidebarSubject.asObservable();
+
+  refreshSidebar() {
+    this.refreshSidebarSubject.next();
+  }
 
   userImport(file: any, fileName: string) {
     debugger
@@ -26,9 +30,7 @@ export class OrganizationOnboardingService {
     return this._httpClient.post(this._key.base_url + this._key.user_import, formdata);
   }
 
-  refreshSidebar() {
-    this.refreshSidebarSubject.next(true);
-  }
+
 
 
   // userImport(file: any, fileName: string, progressCallback: (progress: number) => void): Observable<any> {

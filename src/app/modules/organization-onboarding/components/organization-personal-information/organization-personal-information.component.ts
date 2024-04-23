@@ -141,6 +141,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       return
     } else {
       this.registerOrganizationPersonalInformation();
+      this._onboardingService.refreshSidebar();
     }
   }
 

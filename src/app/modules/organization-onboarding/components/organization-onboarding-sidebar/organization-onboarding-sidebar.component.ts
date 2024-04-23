@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Key } from 'src/app/constant/key';
@@ -13,7 +13,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
   templateUrl: './organization-onboarding-sidebar.component.html',
   styleUrls: ['./organization-onboarding-sidebar.component.css']
 })
-export class OrganizationOnboardingSidebarComponent implements OnInit {
+export class OrganizationOnboardingSidebarComponent implements OnInit, OnDestroy {
 
   constructor(private dataService: DataService,
     private _onboardingService: OrganizationOnboardingService,
@@ -27,15 +27,14 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscription = this._onboardingService.refreshSidebar$.subscribe(refresh => {
-      if (refresh) {
-        this.reloadSidebar();
-      }
+      this.reloadSidebar();
     });
     this.getOnboardingStep();
     this.getUserUUID();
     this.getLoggedInUserDetails();
 
   }
+  
 
   reloadSidebar() {
     // Logic to reload or refresh the sidebar

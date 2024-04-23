@@ -10,6 +10,8 @@ import { HelperService } from 'src/app/services/helper.service';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
+import { resolve } from 'dns';
+import { reject } from 'lodash';
 
 
 @Component({
@@ -78,42 +80,57 @@ export class ShiftTimeListComponent implements OnInit {
   deleteOrganizationShiftTimingLoaderStatus: { [key: string]: boolean } = {};
   deleteOrganizationShiftTimingLoader: boolean = false;
 
-  deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
-    debugger
-    this.deleteOrganizationShiftTimingLoaderStatus[organizationShiftTimingId] = true;
-    this.dataService.deleteOrganizationShiftTiming(organizationShiftTimingId).subscribe((response) => {
-      this.deleteOrganizationShiftTimingLoaderStatus[organizationShiftTimingId] = false;
-      this.getAllShiftTimingsMethodCall();
-      this.helperService.showToast("Shift timing deleted successfully", Key.TOAST_STATUS_SUCCESS);
-    }, (error) => {
-      console.log(error);
-      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-    })
+  async deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.deleteOrganizationShiftTimingLoaderStatus[organizationShiftTimingId] = true;
+      this.dataService.deleteOrganizationShiftTiming(organizationShiftTimingId).subscribe(async (response) => {
+        this.deleteOrganizationShiftTimingLoaderStatus[organizationShiftTimingId] = false;
+  
+        await this.getAllShiftTimingsMethodCall();
+
+        if (this.organizationShiftTimingWithShiftTypeResponseList.length == 0) {
+          location.reload();
+        }
+        
+        this.helperService.showToast("Shift timing deleted successfully.", Key.TOAST_STATUS_SUCCESS);
+        resolve(true);
+      }, (error) => {
+        console.log(error);
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        this.deleteOrganizationShiftTimingLoaderStatus[organizationShiftTimingId] = false;
+        reject(error);
+      });
+    });
   }
+  
+
+
 
   skipShift: boolean = false;
   organizationShiftTimingWithShiftTypeResponseList: OrganizationShiftTimingWithShiftTypeResponse[] = [];
   allShiftTimingsLoader: boolean = false;
-  getAllShiftTimingsMethodCall() {
-    debugger
-    this.allShiftTimingsLoader = true;
-    this.dataService.getAllShiftTimings().subscribe((response) => {
-      this.organizationShiftTimingWithShiftTypeResponseList = response;
-      this.allShiftTimingsLoader = false;
-      if (response[0] != null) {
-        this.skipShift = true
-      }
+  async getAllShiftTimingsMethodCall(): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.allShiftTimingsLoader = true;
+      this.dataService.getAllShiftTimings().subscribe((response) => {
+        this.organizationShiftTimingWithShiftTypeResponseList = response;
+        this.allShiftTimingsLoader = false;
+        if (response[0] != null) {
+          this.skipShift = true
+        }
 
-      // console.log(this.organizationShiftTimingWithShiftTypeResponseList);
+        // console.log(this.organizationShiftTimingWithShiftTypeResponseList);
 
-      if (response === undefined || response === null || response.length === 0) {
-        // this.dataNotFoundPlaceholder = true;
-      }
-    }, (error) => {
-      console.log(error);
-      // this.networkConnectionErrorPlaceHolder = true;
+        if (response === undefined || response === null || response.length === 0) {
+          // this.dataNotFoundPlaceholder = true;
+        }
+        resolve(true);
+      }, (error) => {
+        console.log(error);
+        // this.networkConnectionErrorPlaceHolder = true;
+        reject(error);
+      })
     })
-
   }
 
   updateOrganizationShiftTiming(organizationShiftTimingResponse: OrganizationShiftTimingResponse, tab : string) {
@@ -403,6 +420,8 @@ export class ShiftTimeListComponent implements OnInit {
     this.router.navigate(['/organization-onboarding/attendance-mode']);
   }
   backPage(){
+    this.dataService.markStepAsCompleted(2);
+    this.onboardingService.saveOrgOnboardingStep(2).subscribe();
     this.router.navigate(['/organization-onboarding/upload-team']);
   }
 
