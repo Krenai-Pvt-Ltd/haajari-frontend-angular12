@@ -5,19 +5,30 @@
              <div class="company-logo">
                 <img src="assets/images/HAjiRi.svg">
              </div>
-             <ng-container>
-               <div class="login-sidebar-heading mt-5" *ngIf="showOtpInput && verifyOtpButtonFlag; else welcomPlaceholder">
+             <ng-container *ngIf="showOtpInput && verifyOtpButtonFlag; else welcomPlaceholder">
+               <div class="login-sidebar-heading mt-5">
                   <h4>Enter verification code</h4>
                   <p>We've sent a 6-digit code to {{ whatsappOtp ? phoneNumber : email }}. Please enter the verification code to proceed further.</p>
                </div>
              </ng-container>
 
              <ng-template #welcomPlaceholder>
+               <ng-container *ngIf="isWhatsappLogin && !showOtpInput"; else welcomPlaceholderText>
+                  <div class="login-sidebar-heading mt-5">
+                     <h4>Enter Your WhatsApp Number</h4>
+                     <p>Please provide a registered WhatsApp number.</p>
+                  </div>
+                </ng-container>
+
+             </ng-template>
+             <ng-template #welcomPlaceholderText>
                <div class="login-sidebar-heading mt-5">
                   <h4>Hey, Welcome Back!</h4>
                   <p>It's great to see you again.</p>
                </div>
              </ng-template>
+
+             
              
              <div class="login-steps mt-5" *ngIf="!enableBack">
                 <div class="login-with-slack mb-3 pointer">
@@ -85,7 +96,7 @@
                   </button>
                 
                     <div class="register-whatsApp-number-text mt-4">
-                        <p>Note: Please enter a valid WhatsApp number.</p>
+                        <p>Note: Please ensure that the mobile number provided is registered with WhatsApp to receive OTP and other process-related notifications. This number will be used exclusively for authentication and communication purposes within this system.</p>
                     </div>
                 </div>
                 </div>
@@ -276,7 +287,7 @@
 
              <div class="sidebar-footer-text position-absolute">
                 <a class="back-to-login-btn text-primary position-relative" *ngIf="enableBack" (click)="backToLogin()"><i class="bi bi-arrow-left"></i> Back to login</a>
-                <p>By signing, you are creating a COMMIT account, and you agree to COMMIT <a href="#!" class="text-primary">Terms of Use </a> and <a href="#!" class="text-primary"> Privacy Policy. </a></p>
+                <p>By signing, you are creating a COMMIT account, and you agree to <br> COMMIT <a href="#!" class="text-primary">Terms of Use </a> and <a href="#!" class="text-primary"> Privacy Policy. </a></p>
              </div>
           </div>
        </div>
