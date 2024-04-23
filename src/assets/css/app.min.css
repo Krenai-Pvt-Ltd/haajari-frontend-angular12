@@ -9163,6 +9163,7 @@ input[type=time]::-webkit-datetime-edit-ampm-field {
   .errortxt{
     color: red;
     font-size: 13px;
+    text-align: left;
   }
 
   .persnol-details {
