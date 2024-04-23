@@ -309,6 +309,11 @@ export class LeaveManagementComponent implements OnInit {
         console.log('success!');
         this.approvedLoader = false;
         this.rejecetdLoader = false;
+        this.page = 0;
+        this.pagePendingLeaves = 0;
+        this.pageApprovedRejected = 0;
+        this.searchString = '';
+        this.selectedTeamName = '';
         this.getApprovedRejectedLeaveLogs();
         this.getFullLeaveLogs();
         this.getPendingLeaves();
@@ -382,7 +387,7 @@ export class LeaveManagementComponent implements OnInit {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal, // Correct type for the group property
-    domain: ['#FFAB00', '#00E676', '#DD2C00'] // Gold, Green, Red
+    domain: ['#FFE082', '#80CBC4', '#FFCCBC'] // Gold, Green, Red
   };
   gradient: boolean = false;
   // view: [number, number] = [300, 150];
@@ -434,7 +439,7 @@ export class LeaveManagementComponent implements OnInit {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#82B1FF', '#F5F5F5']
+    domain: ['#B3E5FC', '#E8F5E9']
   };
 
   consumedLeaveArray : any[] = [];

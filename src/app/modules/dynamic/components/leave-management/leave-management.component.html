@@ -6,7 +6,7 @@
         <div class="row p-2 mt-3">
           <div class="col-md-4">
             <div class="chart-box">
-              <h4>Weekly leave pattern</h4>
+              <h4 class="mb-2">Weekly leave pattern</h4>
               <!-- <img src="assets/images/wekly.png" style="width:100%"> -->
               <ngx-charts-bar-vertical-stacked
                         [view]="view"  
@@ -16,17 +16,13 @@
                         [xAxis]="true"
                         [yAxis]="true"
                         [legend]="false"
-                        [showXAxisLabel]="true"
-                        [showYAxisLabel]="true"
-                        [xAxisLabel]="'Weekdays'"
-                        [yAxisLabel]="'Counts'"
                         [animations]="true">
               </ngx-charts-bar-vertical-stacked>
             </div>
           </div>
           <div class="col-md-4">
             <div class="chart-box">
-              <h4>Monthly stats</h4>
+              <h4 class="mb-2">Monthly stats</h4>
               <!-- <img src="assets/images/monthly.png" style="width:100%"> -->
               <ngx-charts-bar-vertical-stacked
                         [view]="view"
@@ -36,17 +32,13 @@
                         [xAxis]="true"
                         [yAxis]="true"
                         [legend]="false"
-                        [showXAxisLabel]="true"
-                        [showYAxisLabel]="true"
-                        [xAxisLabel]="'Months'"
-                        [yAxisLabel]="'Counts'"
                         [animations]="true">
               </ngx-charts-bar-vertical-stacked>
             </div>
           </div>
           <div class="col-md-4">
             <div class="chart-box">
-              <h4>Consumed leave types</h4>
+              <h4 class="mb-2">Consumed leave types</h4>
               <div class="d-flex flex-column" style="gap:3px;">
                   <ng-container *ngFor="let leave of consumedLeaveArray">
                       <div class="d-flex justify-content-between align-items-center pt-2">
@@ -80,11 +72,7 @@
                   [gradient]="false"
                   [xAxis]="showXAxis"
                   [yAxis]="showYAxis"
-                  [legend]="showLegend"
-                  [showXAxisLabel]="showXAxisLabel"
-                  [xAxisLabel]="xAxisLabel"
-                  [showYAxisLabel]="showYAxisLabel"
-                  [yAxisLabel]="yAxisLabel">
+                  [legend]="showLegend">
               </ngx-charts-bar-horizontal-normalized>
               <!-- <div class="d-flex align-items-center" style="gap: 20px; margin-bottom: 3px;" *ngFor="let leaves of consumedLeaveArray">
                   <span class="progress-heading">{{ getLeaveInitials(leaves?.leaveType) }}</span>
@@ -294,7 +282,12 @@
               </div>
               <div class="panding-leave-box mt-3">
                 <p>Leaves History</p>
-                <div class="leave-history-box" #logContainerOfApprovedRejected  (scroll)="scrollDownRecentActivityOfApprovedRejected($event)">
+                <div [ngClass]="{
+                    'leave-history-box': pendingLeavesSize > 1,
+                    'leave-history-box-if-pending-null': pendingLeavesSize == 0,
+                    'leave-history-box-if-pending-one': pendingLeavesSize == 1
+                  }" 
+                   #logContainerOfApprovedRejected  (scroll)="scrollDownRecentActivityOfApprovedRejected($event)">
   
   
                   <div class="row mt-2" *ngFor="let arl of approvedRejectedLeaves">

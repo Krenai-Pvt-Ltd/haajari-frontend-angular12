@@ -200,7 +200,7 @@ export class CentralLeaveManagementComponent implements OnInit {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal, // Correct type for the group property
-    domain: ['#FFD700', '#228B22', '#FF4500'] // Gold, Green, Red
+    domain: ['#FFD700', '#00897B', '#7E57C2'] // Gold, Green, Red
   };
   gradient: boolean = true;
   // view: [number, number] = [300, 150];
