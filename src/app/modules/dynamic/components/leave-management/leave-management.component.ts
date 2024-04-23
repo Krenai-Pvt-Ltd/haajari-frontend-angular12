@@ -19,15 +19,21 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 })
 export class LeaveManagementComponent implements OnInit {
 
-  fullLeaveLogs!: FullLeaveLogsResponse[];
-  pendingLeaves!: PendingLeavesResponse[];
-  approvedRejectedLeaves!: PendingLeavesResponse[];
+  // fullLeaveLogs!: FullLeaveLogsResponse[];
+  fullLeaveLogs: any[] = [];
+  pendingLeaves: any[] = [];
+  approvedRejectedLeaves: any[] = [];
+  // pendingLeaves!: PendingLeavesResponse[];
+  // approvedRejectedLeaves!: PendingLeavesResponse[];
   specificLeaveRequest!: PendingLeaveResponse;
   searchString: string = '';
   selectedTeamName: string = '';
   page = 0;
   size = 10;
   userLeaveForm!: FormGroup;
+  // hasMoreData = true;
+  initialLoadDone = false; 
+  @ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
 
   constructor(
     private dataService: DataService,
@@ -95,85 +101,198 @@ export class LeaveManagementComponent implements OnInit {
 
   debounceTimer: any;
   fullLeaveLogSize!: number;
+  isFullLeaveLoader: boolean = false;
   getFullLeaveLogs(debounceTime: number = 300) {
     return new Promise((resolve, reject) => {
+      this.isFullLeaveLoader=true;
       if (this.debounceTimer) {
         clearTimeout(this.debounceTimer);
       }
       this.debounceTimer = setTimeout(() => {
         this.dataService.getFullLeaveLogsRoleWise(this.searchString, this.selectedTeamName, this.page, this.size).subscribe({
-          next: (response) => { this.fullLeaveLogs = response.object
-            this.fullLeaveLogSize = this.fullLeaveLogs.length;
-            // this.hasMoreData = response.object.length === this.size;
+          next: (response) => {
+            if (Array.isArray(response.object)) { // Check if response.object is an array
+              this.fullLeaveLogs = [...this.fullLeaveLogs, ...response.object];
+              // this.hasMoreData = response.object.length === this.size;
+              this.fullLeaveLogSize = this.fullLeaveLogs.length;
+              this.isFullLeaveLoader = false;
+            } else {
+              console.error('Expected an array but got:', response.object);
+            }
           },
           error: (error) => {
+            this.isFullLeaveLoader = false;
             console.error('Failed to fetch full leave logs:', error);
             this.helperService.showToast("Failed to load full leave logs.", Key.TOAST_STATUS_ERROR);
           }
+          // next: (response) => { this.fullLeaveLogs = response.object
+          //   this.fullLeaveLogSize = this.fullLeaveLogs.length;
+          // },
+          // error: (error) => {
+          //   console.error('Failed to fetch full leave logs:', error);
+          //   this.helperService.showToast("Failed to load full leave logs.", Key.TOAST_STATUS_ERROR);
+          // }
         });
       }, debounceTime);
     });
   }
 
+  scrollDownRecentActivity(event: any) {
+    if (!this.initialLoadDone) return;  
+    const target = event.target as HTMLElement;
+    const atBottom = target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+    if (atBottom) {
+      this.page++;
+      this.getFullLeaveLogs();
+    }
+  }
+
+  loadMoreLogs() {
+    this.initialLoadDone = true; 
+    this.page++;
+    // this.size += 10;
+    this.getFullLeaveLogs();
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 500); 
+  }
+
+  scrollToBottom() {
+    if (this.logContainer) {
+      this.logContainer.nativeElement.scrollTop = this.logContainer.nativeElement.scrollHeight;
+    }
+  }
+
   searchLeaves() {
+    this.page = 0;
     this.size = 10;
+    this.fullLeaveLogs = [];
     this.getFullLeaveLogs();
   }
 
   selectTeam(teamName: string) {
+    this.page = 0;
     this.size = 10;
+    this.fullLeaveLogs = [];
     this.selectedTeamName = teamName;
     this.getFullLeaveLogs();
 }
   clearSearchUsers(){
+    this.page = 0;
     this.size = 10;
+    this.fullLeaveLogs = [];
     this.searchString='';
     this.getFullLeaveLogs();
   
    }
   
-   loadMoreLogs() {
-    // this.page++;
-    this.size= this.size+10;
-    this.getFullLeaveLogs();
-  }
+  //  loadMoreLogs() {
+  //   this.size= this.size+10;
+  //   this.getFullLeaveLogs();
+  // }
   pagePendingLeaves = 0;
   sizePendingLeaves = 5;
   pendingLeavesSize!: number;
+  initialLoadDoneOfPendingLeaves:boolean = false;
+  @ViewChild('logContainerOfPendingLeaves') logContainerOfPendingLeaves!: ElementRef<HTMLDivElement>;
+  isPendingLoader:boolean = false;
+
   getPendingLeaves() {
+    this.isPendingLoader = true;
     this.dataService.getPendingLeaves(this.pagePendingLeaves, this.sizePendingLeaves).subscribe({
-      next: (response) => {this.pendingLeaves = response.object
+      next: (response) => {
+        this.pendingLeaves = [...this.pendingLeaves, ...response.object];
+        this.isPendingLoader = false;
+        // this.pendingLeaves = response.object
       this.pendingLeavesSize = this.pendingLeaves.length},
       error: (error) => {
+        this.isPendingLoader = false;
         console.error('Failed to fetch pending leaves:', error);
         this.helperService.showToast("Failed to load pending leaves.", Key.TOAST_STATUS_ERROR);
       }
     });
   }
 
+  scrollDownRecentActivityOfPendingLeaves(event: any) {
+    if (!this.initialLoadDoneOfPendingLeaves) return;  
+    const target = event.target as HTMLElement;
+    const atBottom = target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+    if (atBottom) {
+      this.pagePendingLeaves++;
+      this.getPendingLeaves();
+    }
+  }
+
   loadMorePendingLeaves(){
-    this.sizePendingLeaves= this.sizePendingLeaves+5;
+    this.initialLoadDoneOfPendingLeaves = true;
+    this.pagePendingLeaves++;
+    // this.sizePendingLeaves= this.sizePendingLeaves+5;
     this.getPendingLeaves();
+    setTimeout(() => {
+      this.scrollToBottomOfPendingLeaves();
+    }, 500); 
+  }
+
+  scrollToBottomOfPendingLeaves() {
+    if (this.logContainerOfPendingLeaves) {
+      this.logContainerOfPendingLeaves.nativeElement.scrollTop = this.logContainerOfPendingLeaves.nativeElement.scrollHeight;
+    }
   }
 
   pageApprovedRejected = 0;
   sizeApprovedRejected = 5;
   approvedRejectedLeavesSize!:number;
+  initialLoadDoneOfApprovedRejected:boolean = false;
+  @ViewChild('logContainerOfApprovedRejected') logContainerOfApprovedRejected!: ElementRef<HTMLDivElement>;
+  isApprovedRejectedLoader: boolean = false;
+
+
   getApprovedRejectedLeaveLogs() {
+    this.isApprovedRejectedLoader = true;
     this.dataService.getApprovedRejectedLeaveLogs(this.pageApprovedRejected, this.sizeApprovedRejected).subscribe({
-      next: (response) => {this.approvedRejectedLeaves = response.object
-      this.approvedRejectedLeavesSize = this.approvedRejectedLeaves.length},
+      next: (response) => {
+        this.isApprovedRejectedLoader = false;
+        this.approvedRejectedLeaves = [...this.approvedRejectedLeaves, ...response.object];
+        // this.approvedRejectedLeaves = response.object
+        this.approvedRejectedLeavesSize = this.approvedRejectedLeaves.length},
       error: (error) => {
+        this.isApprovedRejectedLoader = false;
         console.error('Failed to fetch approved-rejected leave logs:', error);
         this.helperService.showToast("Failed to load approved/rejected leaves.", Key.TOAST_STATUS_ERROR);
       }
     });
   }
 
-  loadMoreApprovedRejectedLogs(){
-    this.sizeApprovedRejected= this.sizeApprovedRejected+5;
-    this.getApprovedRejectedLeaveLogs();
+  scrollDownRecentActivityOfApprovedRejected(event: any) {
+    if (!this.initialLoadDoneOfApprovedRejected) return;  
+    const target = event.target as HTMLElement;
+    const atBottom = target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+    if (atBottom) {
+      this.pageApprovedRejected++;
+      this.getApprovedRejectedLeaveLogs();
+    }
   }
+
+  loadMoreApprovedRejectedLogs(){
+    this.initialLoadDoneOfApprovedRejected = true;
+    // this.sizeApprovedRejected= this.sizeApprovedRejected+5;
+    this.pageApprovedRejected++;
+    this.getApprovedRejectedLeaveLogs(); 
+    setTimeout(() => {
+      this.scrollToBottomOfApprovedRejected();
+    }, 500); 
+  }
+
+  scrollToBottomOfApprovedRejected() {
+    if (this.logContainerOfApprovedRejected) {
+      this.logContainerOfApprovedRejected.nativeElement.scrollTop = this.logContainerOfApprovedRejected.nativeElement.scrollHeight;
+    }
+  }
+
+
   @ViewChild("closeModal") closeModal!: ElementRef;
   approvedLoader: boolean = false;
   rejecetdLoader: boolean = false;
@@ -254,6 +373,10 @@ export class LeaveManagementComponent implements OnInit {
     });
   }
   
+  sliceWord(word: string): string {
+    return word.slice(0, 3);
+  }
+
   weeklyChartData: any[] = [];
   colorScheme: Color = {
     name: 'custom',
@@ -267,7 +390,7 @@ export class LeaveManagementComponent implements OnInit {
   getWeeklyChartData(){
     this.dataService.getWeeklyLeaveSummary().subscribe(data => {
       this.weeklyChartData = data.map(item => ({
-        "name": item.weekDay,
+        "name": this.sliceWord(item.weekDay),
         "series": [
           { "name": "Pending", "value": item.pending || 0},
           { "name": "Approved", "value": item.approved || 0},
@@ -282,7 +405,7 @@ export class LeaveManagementComponent implements OnInit {
   getMonthlyChartData(){
     this.dataService.getMonthlyLeaveSummary().subscribe(data => {
       this.monthlyChartData = data.map(item => ({
-        "name": item.monthName,
+        "name": this.sliceWord(item.monthName),
         "series": [
           { "name": "Pending", "value": item.pending || 0},
           { "name": "Approved", "value": item.approved || 0},
