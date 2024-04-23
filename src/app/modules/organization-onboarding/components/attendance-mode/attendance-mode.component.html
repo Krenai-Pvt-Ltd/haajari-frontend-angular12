@@ -10,12 +10,12 @@
                      <p class="text-muted mb-0">To enhance your experience and ensure accurate communication on our platform, we kindly ask you to review and update your personal information.</p>
                   </div> 
 
-                  <div class="row mt-90">
+                  <div class="row mt-60">
                      <div class="col-lg-4" *ngFor="let attendanceMode of attendanceModeList">
-                         <div class="card" (click)="updateAttendanceMode(attendanceMode.id)">                               
+                         <div class="card attendance-mode-card" (click)="updateAttendanceMode(attendanceMode.id)">                               
                              <div class="card-body text-center" [ngClass]="{active : attendanceMode.id == selectedAttendanceModeId}">                                    
                                  <img src="assets/images/check-mark.svg" class="rounded-circle thumb-xl">
-                                 <h5 class="font-16 fw-bold mt-5">{{attendanceMode.name}}</h5> 
+                                 <h5 class="font-16 fw-bold mt-4">{{attendanceMode.name}}</h5> 
                                  <p class="text-muted mt-1">{{attendanceMode.description}}</p>
                              </div><!--end card-body-->                                                                     
                          </div><!--end card-->
@@ -52,14 +52,18 @@
 
 
 
-                <div class="">
+                <div class="row">
+                  <div class="col-md-4"></div>
+                  <div class="col-md-8">
+                  
                    <div class="next-btn-box d-flex align-items-center justify-content-between">
-                      <button class="btn btn-outline-secondary btn-round " type="button" (click)="backPage()"> <i class="bi bi-arrow-left" style="padding-right: 3px; padding-right: 1px; position: relative; top: -1px;"></i>  Previous </button>
+                      <button class="btn btn-outline-secondary btn-round previous-btn" type="button" (click)="backPage()"> <i class="bi bi-arrow-left" style="padding-right: 3px; padding-right: 1px; position: relative; top: -1px;"></i>  Previous </button>
                       <button type="submit" class="btn btn-outline-primary btn-round" (click)="goToDashboardSection()">
                       <span>Finish Setup  <i class="bi bi-arrow-right"
                          style="padding-left: 8px;"></i></span>
                       </button>
                    </div>
+                  </div>
                 </div>
              </div>
           </div>
