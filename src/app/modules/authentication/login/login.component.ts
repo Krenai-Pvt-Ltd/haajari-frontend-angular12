@@ -18,7 +18,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 export class LoginComponent implements OnInit {
   email: string = '';
   password: string = '';
-  confiirmPassword: string = '';
+  confirmPassword: string = '';
 
   countDown: Subscription;
   counter: number = 10;
@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
   confirmPassError: boolean = false;
   checkConfirmPassword() {
     this.confirmPassError = false;
-    if (this.confiirmPassword != this.password) {
+    if (this.confirmPassword != this.password) {
       this.confirmPassError = true;
     }
   }
@@ -147,6 +147,23 @@ export class LoginComponent implements OnInit {
     console.log(`Input ${index} changed`);
   }
 
+  private debounceTimer: any;
+  onOtpChange(event: any) {
+      this.otp = event;
+      console.log(this.otp);
+
+      if (this.debounceTimer) {
+          clearTimeout(this.debounceTimer);
+      }
+
+      this.debounceTimer = setTimeout(() => {
+          if (this.otp.length == 6) {
+              this.verifyOtp();
+          }
+      }, 300);
+  }
+
+
   @ViewChild('otpInput') otpInput: any;
 
   createPasswordFlag: boolean = false;
@@ -155,16 +172,18 @@ export class LoginComponent implements OnInit {
     
     if (this.isWhatsappLogin) {
       this.verifyOtpByWhatsappMethodCall();
+
     } else {
+      this.loading = true;
       this.dataService.verifyUserOtp(this.email, this.otp).subscribe((response: any) => {
         if (response.object) {
+
           this.errorMessage = '';
           this.verifyOtpButtonFlag = false;
           this.otp = '';
           this.createPasswordFlag = true;
           this.showMessageFlag = false;
           this.isOtpVerify = false;
-
 
         }
         else {
@@ -192,7 +211,7 @@ export class LoginComponent implements OnInit {
           this.showOtpInput = false;
           console.log('Password Created successfully:', response);
           this.password = '';
-          this.confiirmPassword = '';
+          this.confirmPassword = '';
           this.createPasswordFlag = false;
           this.enterPasswordFlag = true;
         },
@@ -272,7 +291,7 @@ export class LoginComponent implements OnInit {
           this.showOtpInput = false;
           console.log('Password Created successfully:', response);
           this.password = '';
-          this.confiirmPassword = '';
+          this.confirmPassword = '';
           this.createPasswordFlag = false;
           this.enterPasswordFlag = true;
         },
@@ -285,9 +304,7 @@ export class LoginComponent implements OnInit {
 
   }
 
-  onOtpChange(event: any) {
-    this.otp = event;
-  }
+
 
   @ViewChild('otpVerification') otpVerification: any;
 
@@ -305,10 +322,12 @@ export class LoginComponent implements OnInit {
     this.verifyOtpButtonFlag = true;
   }
 
+  
+
   @ViewChild('whatsappOtpSend') whatsappOtpSend !: ElementRef;
   onPhoneNumberChange() {
     if (this.isValidPhoneNumber(this.phoneNumber)) {
-        this.whatsappOtpSend.nativeElement.click();
+      this.signInByWhatsapp();
     }
   }
 
@@ -347,7 +366,7 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
   isOtpVerify: boolean = false;
   verifyOtpByWhatsappMethodCall() {
-    debugger
+    
     this.loading = true;
     this.dataService.verifyOtpByWhatsappNew(this.phoneNumber, this.otp).subscribe((response: any) => {
       if (response.status) {
@@ -359,7 +378,7 @@ export class LoginComponent implements OnInit {
         const onboardingStep = helper.decodeToken(response.object.tokenResponse.access_token).statusResponse;
         const role = helper.decodeToken(response.object.tokenResponse.access_token).role;
         if (role == "ADMIN") {
-          if (onboardingStep == "7") {
+          if (onboardingStep == "5") {
             this.router.navigate(['/dashboard']);
           } else {
             this.router.navigate(['/organization-onboarding/personal-information']);
@@ -372,8 +391,9 @@ export class LoginComponent implements OnInit {
       } else {
         this.isOtpVerify = true;
         this.loading = false;
+        this.otpErrorMessage = response.message;
       }
-      this.otpErrorMessage = response.message;
+      
     },
       (error) => {
         this.otpErrorMessage = error.error.message;
