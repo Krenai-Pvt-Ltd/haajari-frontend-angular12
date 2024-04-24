@@ -1811,8 +1811,8 @@ mark {
     background-color: #fff;
     border: none;
     border: 1px solid #f1f1f1;
-    -webkit-box-shadow: 0 0 .875rem 0 rgba(52, 58, 64, .05);
-    box-shadow: 0 0 .875rem 0 rgba(52, 58, 64, .05)
+    /* -webkit-box-shadow: 0 0 .875rem 0 rgba(52, 58, 64, .05);
+    box-shadow: 0 0 .875rem 0 rgba(52, 58, 64, .05) */
 }
 
 .card .card-header {
