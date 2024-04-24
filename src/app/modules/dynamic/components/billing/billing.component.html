@@ -262,7 +262,11 @@
                                                             <td><p class="tableinfo mb-0">{{invoice.toDate | date: 'dd MMM yyyy'}}</p></td>
                                                             <td><p class="tableinfo mb-0">{{invoice.paymentMode}}</p></td>
                                                             <td><p class="tableinfo mb-0">{{invoice.paymentDate | date: 'dd MMM yyyy'}}</p></td>
-                                                            <td *ngIf="invoice.invoiceUrl !='' && invoice.invoiceUrl != null"><button class="btn btn-primary" type="button" (click)="downloadInvocie(invoice.invoiceUrl)"><i class="bi bi-download" style="color: white;"></i></button></td>
+                                                            <td *ngIf="invoice.invoiceUrl !='' && invoice.invoiceUrl != null" class="text-center">
+                                                                <button type="button" class="btn btn-outline-dark btn-icon-circle btn-icon-circle-sm" (click)="downloadInvocie(invoice.invoiceUrl)">
+                                                                    <i class="fas fa-arrow-down"></i>
+                                                                </button>
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
