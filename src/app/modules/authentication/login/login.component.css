@@ -192,3 +192,15 @@
     .login-steps{
         margin-top: 50px !important;
     }
+
+    .bg-soft-warning:hover{
+        background-color: rgba(255, 159, 67, .08) !important;
+     }
+     .alert-light:hover .alert-heading{
+        color: orange !important;
+     }
+     .create-password-warning > p{
+        color: #6B6B6B;
+        font-size: 13px;
+        font-weight: 300;
+     }
