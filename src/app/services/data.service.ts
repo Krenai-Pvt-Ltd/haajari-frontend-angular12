@@ -1179,8 +1179,15 @@ export class DataService {
   }
 
   stepIndex: number = -1;
-  markStepAsCompleted(stepIndex: number): void {
-    this.stepIndex = stepIndex;
+  async markStepAsCompleted(stepIndex: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      try {
+        this.stepIndex = stepIndex;
+        resolve(true);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   getAttendanceRuleByOrganization() {
