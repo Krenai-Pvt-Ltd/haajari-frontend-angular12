@@ -22,3 +22,7 @@
 .ps-3 {
   padding-left: 4rem !important;
 }
+.bg-soft-success:hover{
+  background-color: #f1f1f1 !important;
+    color: #000 !important;
+}
