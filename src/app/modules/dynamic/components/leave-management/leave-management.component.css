@@ -480,3 +480,7 @@ span.leave-rejected {
     opacity: 1;
   }
 }
+
+.activity .activity-info:last-child ::before {
+  border: none;
+}

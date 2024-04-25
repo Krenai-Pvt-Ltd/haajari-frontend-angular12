@@ -1,11 +1,21 @@
-import { Component, ElementRef, Injectable, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Injectable,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject, iif } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { DatePipe } from '@angular/common';
-import { AttendanceWithLatePerformerResponseDto, AttendanceWithTopPerformerResponseDto } from 'src/app/models/Attendance.model';
+import {
+  AttendanceWithLatePerformerResponseDto,
+  AttendanceWithTopPerformerResponseDto,
+} from 'src/app/models/Attendance.model';
 import { HelperService } from 'src/app/services/helper.service';
 import * as moment from 'moment';
 import { LateEmployeeAttendanceDetailsResponse } from 'src/app/models/late-employee-attendance-details-response';
@@ -20,12 +30,16 @@ import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-detail
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit{
-
-  constructor(private dataService : DataService, private router : Router, private datePipe : DatePipe, private helperService : HelperService, private rbacService : RoleBasedAccessControlService) {
-
+export class DashboardComponent implements OnInit {
+  constructor(
+    private dataService: DataService,
+    private router: Router,
+    private datePipe: DatePipe,
+    private helperService: HelperService,
+    private rbacService: RoleBasedAccessControlService,
+  ) {
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
     this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
@@ -34,25 +48,24 @@ export class DashboardComponent implements OnInit{
     this.month = currentDate.format('MMMM');
 
     this.getFirstAndLastDateOfMonth(this.selectedDate);
-    
-   }
+  }
 
-  itemPerPage : number = 12;
-  pageNumber : number = 1;
-  firstPageNumber : number = 1;
-  lastPageNumber : number = 0;
-  total !: number;
-  totalLateEmployees : number = 0;
-  rowNumber : number = 1;
-  searchText : string = '';
-  searchBy : string = '';
-  dataFetchingType : string = '';
+  itemPerPage: number = 12;
+  pageNumber: number = 1;
+  firstPageNumber: number = 1;
+  lastPageNumber: number = 0;
+  total!: number;
+  totalLateEmployees: number = 0;
+  rowNumber: number = 1;
+  searchText: string = '';
+  searchBy: string = '';
+  dataFetchingType: string = '';
 
   // selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
   myAttendanceDataLength = 0;
   attendanceArrayDate: any = [];
-  project : boolean = false;
+  project: boolean = false;
 
   loginDetails = this.helperService.getDecodedValueFromToken();
   //  role:string = this.rbacService.getRole();
@@ -62,7 +75,7 @@ export class DashboardComponent implements OnInit{
   startDateStr: string = '';
   endDateStr: string = '';
   month: string = '';
-  inputDate : string = '';
+  inputDate: string = '';
 
   PRESENT = Key.PRESENT;
   ABSENT = Key.ABSENT;
@@ -72,76 +85,86 @@ export class DashboardComponent implements OnInit{
   LEAVE = Key.LEAVE;
   HALFDAY = Key.HALFDAY;
 
-  
-
-  async getRoleDetails(){
+  async getRoleDetails() {
     this.ROLE = await this.rbacService.getRole();
   }
-  
-  ROLE : any;
+
+  ROLE: any;
   ADMIN = Key.ADMIN;
   MANAGER = Key.MANAGER;
   USER = Key.USER;
 
-  
   size: 'large' | 'small' | 'default' = 'small';
   selectedDate: Date = new Date();
-  startDate : string = '';
-  endDate : string = '';
+  startDate: string = '';
+  endDate: string = '';
 
   onMonthChange(month: Date): void {
-    console.log("Month is getting selected!");
+    console.log('Month is getting selected!');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
     this.getAttendanceReportByDateDurationMethodCall();
   }
 
-  getFirstAndLastDateOfMonth(selectedDate : Date){
-    this.startDate = this.formatDateToYYYYMMDD(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1));
-    this.endDate = this.formatDateToYYYYMMDD(new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0));
+  getFirstAndLastDateOfMonth(selectedDate: Date) {
+    this.startDate = this.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
+    );
+    this.endDate = this.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
+    );
   }
-  
+
   disableMonths = (date: Date): boolean => {
-    
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
     const dateYear = date.getFullYear();
     const dateMonth = date.getMonth();
-    const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
-    const organizationRegistrationMonth = new Date(this.organizationRegistrationDate).getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate,
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate,
+    ).getMonth();
 
     // Disable if the month is before the organization registration month
-    if (dateYear < organizationRegistrationYear || (dateYear === organizationRegistrationYear && dateMonth < organizationRegistrationMonth)) {
+    if (
+      dateYear < organizationRegistrationYear ||
+      (dateYear === organizationRegistrationYear &&
+        dateMonth < organizationRegistrationMonth)
+    ) {
       return true;
     }
-  
+
     // Disable if the month is after the current month
-    if (dateYear > currentYear || (dateYear === currentYear && dateMonth > currentMonth)) {
+    if (
+      dateYear > currentYear ||
+      (dateYear === currentYear && dateMonth > currentMonth)
+    ) {
       return true;
     }
-  
+
     // Enable the month if it's from January 2023 to the current month
     return false;
   };
-  
-  organizationRegistrationDate : string = '';
-  getOrganizationRegistrationDateMethodCall(){
-    debugger
-    this.dataService.getOrganizationRegistrationDate().subscribe((response) => {
-      this.organizationRegistrationDate = response;
-    }, ((error) =>{
-      console.log(error);
-    }))
-  }
-  
-  
 
-  
+  organizationRegistrationDate: string = '';
+  getOrganizationRegistrationDateMethodCall() {
+    debugger;
+    this.dataService.getOrganizationRegistrationDate().subscribe(
+      (response) => {
+        this.organizationRegistrationDate = response;
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
+  }
 
   ngOnInit(): void {
     this.getOrganizationRegistrationDateMethodCall();
     // this.checkAccessToken();
-   
+
     // const today = dayjs();
     // const firstDayOfMonth = today.startOf('month');
     // const lastDayOfMonth = today.endOf('month');
@@ -156,13 +179,13 @@ export class DashboardComponent implements OnInit{
     // this.getModulesWithTheirSubModulesMethodCall();
 
     // this.decodedAccessToken = this.rbacService.getModules();
-    debugger
+    debugger;
     this.getRoleDetails();
     this.getAttendanceDetailsCountMethodCall();
     this.getAttendanceReportByDateDurationMethodCall();
 
     this.getLateEmployeeAttendanceDetailsMethodCall();
-    
+
     this.getCurrentDayEmployeesData();
     // this.getAttendanceTopPerformerDetails();
     // this.getAttendanceLatePerformerDetails();
@@ -171,21 +194,16 @@ export class DashboardComponent implements OnInit{
     // this.getDataFromDate();
     // this.getTodaysLiveLeaveCount();
 
-
     this.inputDate = this.getCurrentDate();
   }
-
-
-  
-
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
   networkConnectionErrorPlaceHolder = false;
 
-  decodedAccessToken : any;
+  decodedAccessToken: any;
 
-  preRuleForShimmersAndErrorPlaceholdersMethodCall(){
+  preRuleForShimmersAndErrorPlaceholdersMethodCall() {
     this.isShimmer = true;
     this.dataNotFoundPlaceholder = false;
     this.networkConnectionErrorPlaceHolder = false;
@@ -195,7 +213,7 @@ export class DashboardComponent implements OnInit{
   dataNotFoundPlaceholderForAttendanceData = false;
   networkConnectionErrorPlaceHolderForAttendanceData = false;
 
-  preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall(){
+  preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall() {
     this.isShimmerForAttendanceData = true;
     this.dataNotFoundPlaceholderForAttendanceData = false;
     this.networkConnectionErrorPlaceHolderForAttendanceData = false;
@@ -205,7 +223,7 @@ export class DashboardComponent implements OnInit{
   dataNotFoundPlaceholderForBestPerfomer = false;
   networkConnectionErrorPlaceHolderForBestPerformer = false;
 
-  preRuleForShimmersAndErrorPlaceholdersForBestPerformerMethodCall(){
+  preRuleForShimmersAndErrorPlaceholdersForBestPerformerMethodCall() {
     this.isShimmerForBestPerfomer = true;
     this.dataNotFoundPlaceholderForBestPerfomer = false;
     this.networkConnectionErrorPlaceHolderForBestPerformer = false;
@@ -216,14 +234,13 @@ export class DashboardComponent implements OnInit{
   //   const selectedDate = moment().month(selectedMonth).startOf('month');
   //   this.startDateStr = selectedDate.format('YYYY-MM-DD');
   //   this.endDateStr = selectedDate.endOf('month').format('YYYY-MM-DD');
-    
+
   //   // Fetch data using the selected start and end dates
   //   this.getAttendanceTopPerformerDetails();
   //   // this.getAttendanceLatePerformerDetails();
   //   // this.getDataFromDate();
   //   this.getAttendanceReportByDateDurationMethodCall();
   // }
-  
 
   // checkAccessToken(){
   //   const loginDetails = localStorage.getItem('loginData');
@@ -232,91 +249,113 @@ export class DashboardComponent implements OnInit{
   //   }
   // }
 
+  currentDayEmployeesData: any = [];
 
-  currentDayEmployeesData : any = [];
-
-  getCurrentDayEmployeesData(){
-    this.dataService.getTodayEmployeesData().subscribe((data) => {
-      this.currentDayEmployeesData=data;
-      debugger
-    }, (error) => {
-      console.log(error);
-    })
+  getCurrentDayEmployeesData() {
+    this.dataService.getTodayEmployeesData().subscribe(
+      (data) => {
+        this.currentDayEmployeesData = data;
+        debugger;
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
   }
 
+  isAttendanceShimer: boolean = false;
+  errorToggleMain: boolean = false;
 
-isAttendanceShimer: boolean=false;
-errorToggleMain: boolean=false;
+  @ViewChild('attendanceMasterRollReport')
+  attendanceMasterRollReport!: ElementRef;
 
-@ViewChild('attendanceMasterRollReport') attendanceMasterRollReport !: ElementRef;
-
-getDataFromDate(): Promise<any> {
-  return new Promise((resolve, reject) => {
-      debugger
+  getDataFromDate(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      debugger;
       this.myAttendanceData = {};
       this.myAttendanceDataLength = 0;
 
       this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
 
-      this.dataService.getAttendanceDetailsByDateDuration(
-          this.startDateStr, 
-          this.endDateStr, 
-          this.pageNumber, 
-          this.itemPerPage, 
-          this.searchText, 
-          this.searchBy
-      ).subscribe(
+      this.dataService
+        .getAttendanceDetailsByDateDuration(
+          this.startDateStr,
+          this.endDateStr,
+          this.pageNumber,
+          this.itemPerPage,
+          this.searchText,
+          this.searchBy,
+        )
+        .subscribe(
           (response: any) => {
-              debugger
-              if (response.mapOfObject === undefined || response.mapOfObject === null) {
-                  this.dataNotFoundPlaceholderForAttendanceData = true;
-                  resolve(true);
-              } else {
-                  // Processing the response
-                  this.myAttendanceData = response.mapOfObject;
-                  this.myAttendanceDataLength = Object.keys(this.myAttendanceData).length;
+            debugger;
+            if (
+              response.mapOfObject === undefined ||
+              response.mapOfObject === null
+            ) {
+              this.dataNotFoundPlaceholderForAttendanceData = true;
+              resolve(true);
+            } else {
+              // Processing the response
+              this.myAttendanceData = response.mapOfObject;
+              this.myAttendanceDataLength = Object.keys(
+                this.myAttendanceData,
+              ).length;
 
-                  if (this.myAttendanceDataLength === 0) {
-                      this.dataNotFoundPlaceholderForAttendanceData = true;
-                  }
-
-                  this.total = response.totalItems;
-                  this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-
-                  debugger
-                  console.log(this.myAttendanceData);
-                  this.isAttendanceShimer = false;
-
-                  // Additional processing if needed
-
-                  // Resolve the promise when data is successfully processed
-                  resolve(true);
+              if (this.myAttendanceDataLength === 0) {
+                this.dataNotFoundPlaceholderForAttendanceData = true;
               }
+
+              this.total = response.totalItems;
+              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+
+              debugger;
+              console.log(this.myAttendanceData);
+              this.isAttendanceShimer = false;
+
+              // Additional processing if needed
+
+              // Resolve the promise when data is successfully processed
+              resolve(true);
+            }
           },
           (error: any) => {
-              this.networkConnectionErrorPlaceHolderForAttendanceData = true;
-              console.error('Error fetching data:', error);
-              resolve(true);
-          }
-      );
-  });
-}
-
+            this.networkConnectionErrorPlaceHolderForAttendanceData = true;
+            console.error('Error fetching data:', error);
+            resolve(true);
+          },
+        );
+    });
+  }
 
   // #########Searching#################
-  resetCriteriaFilter(){
+  resetCriteriaFilter() {
     this.itemPerPage = 12;
     this.pageNumber = 1;
   }
   searchUsers(event: Event) {
-    this.attendanceMasterRollReport.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    this.attendanceMasterRollReport.nativeElement.scrollIntoView({
+      behavior: 'smooth',
+    });
     if (event instanceof KeyboardEvent) {
-        const ignoreKeys = ['Shift', 'Control', 'Alt', 'Meta', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Escape'];
+      const ignoreKeys = [
+        'Shift',
+        'Control',
+        'Alt',
+        'Meta',
+        'ArrowLeft',
+        'ArrowRight',
+        'ArrowUp',
+        'ArrowDown',
+        'Escape',
+      ];
 
-        const isCmdA = (event.key === 'a' || event.key === 'A') && (event.metaKey || event.ctrlKey);
-        if (ignoreKeys.includes(event.key) || isCmdA) {
-            return;
-        }
+      const isCmdA =
+        (event.key === 'a' || event.key === 'A') &&
+        (event.metaKey || event.ctrlKey);
+      if (ignoreKeys.includes(event.key) || isCmdA) {
+        return;
+      }
     }
 
     this.myAttendanceData = {};
@@ -326,10 +365,9 @@ getDataFromDate(): Promise<any> {
     this.resetCriteriaFilter();
     // this.getDataFromDate();
     this.getAttendanceReportByDateDurationMethodCall();
-}
+  }
 
-
-  clearSearchText(){
+  clearSearchText() {
     this.searchText = '';
     // this.getDataFromDate();
     this.getAttendanceReportByDateDurationMethodCall();
@@ -337,7 +375,7 @@ getDataFromDate(): Promise<any> {
 
   // ##### Pagination ############
   async changePage(page: number | string) {
-    debugger
+    debugger;
     if (typeof page === 'number') {
       this.pageNumber = page;
     } else if (page === 'prev' && this.pageNumber > 1) {
@@ -348,7 +386,7 @@ getDataFromDate(): Promise<any> {
     await this.getAttendanceReportByDateDurationMethodCall();
 
     // this.isAllCollapsed = !this.isAllCollapsed;
-    if(!this.isAllCollapsed){
+    if (!this.isAllCollapsed) {
       setTimeout(() => {
         this.toggleAllCollapse(true);
       }, 10);
@@ -371,25 +409,26 @@ getDataFromDate(): Promise<any> {
     return endIndex > this.total ? this.total : endIndex;
   }
 
-
   extractFirstNameFromEmail(email: string): string {
     const pattern = /^(.+)@.+/;
     const matches = email.match(pattern);
 
     if (matches) {
-        const namePart = matches[1];
-        const firstName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
-        return firstName;
-    } 
+      const namePart = matches[1];
+      const firstName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+      return firstName;
+    }
 
     return email;
-}
+  }
   dateInMonthList(attendances: AttendenceDto[]): string[] {
-    const uniqueDays = Array.from(new Set(attendances.map(a => a.createdDate)));
+    const uniqueDays = Array.from(
+      new Set(attendances.map((a) => a.createdDate)),
+    );
     return uniqueDays;
   }
-  
-  getDayFromDate(inputDate : string){
+
+  getDayFromDate(inputDate: string) {
     const date = new Date(inputDate);
     const day = date.getDate().toString().padStart(2, '0');
     return day;
@@ -400,16 +439,14 @@ getDataFromDate(): Promise<any> {
     return this.datePipe.transform(date, 'EEEE');
   }
 
-
-  attendanceString:string='';
-  today:Date=new Date();
-  convertStringToDate(attendance: AttendenceDto){
-    if(attendance.converterDate==undefined){
-      attendance.converterDate = new Date(attendance.createdDate)
+  attendanceString: string = '';
+  today: Date = new Date();
+  convertStringToDate(attendance: AttendenceDto) {
+    if (attendance.converterDate == undefined) {
+      attendance.converterDate = new Date(attendance.createdDate);
     }
     return attendance.converterDate;
   }
-  
 
   getFirstName(fullName: string): string {
     const names = fullName.split(' ');
@@ -420,34 +457,30 @@ getDataFromDate(): Promise<any> {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
-  
+
     return `${year}-${month}-${day}`;
   }
-
 
   // ####################Expand - Collapse All Functionalities################################
 
   isAllCollapsed = true;
 
-  toggleAllCollapse(toggle:boolean) {
-    debugger
+  toggleAllCollapse(toggle: boolean) {
+    debugger;
     this.isAllCollapsed = !toggle;
 
     let elements = document.querySelectorAll('.bi-chevron-right');
     elements.forEach((element) => {
       if (this.isAllCollapsed && !element.classList.contains('collapsed')) {
         (element as HTMLElement).click();
-      } else if (!this.isAllCollapsed && element.classList.contains('collapsed')) {
+      } else if (
+        !this.isAllCollapsed &&
+        element.classList.contains('collapsed')
+      ) {
         (element as HTMLElement).click();
       }
     });
   }
-
-
-
-
-
-
 
   // getLoginDetailsRole(){
   //   const loginDetails = localStorage.getItem('loginData');
@@ -456,7 +489,7 @@ getDataFromDate(): Promise<any> {
   //     if(this.checkingUserRoleMethod() === true){
   //       return 'MANAGER';
   //     }
-      
+
   //     return loginData.role;
   //   }
   // }
@@ -469,30 +502,32 @@ getDataFromDate(): Promise<any> {
   //   }
   // }
 
-  flag !: boolean;
+  flag!: boolean;
 
-  checkingUserRoleMethod(): boolean{ 
-    this.dataService.checkingUserRole().subscribe((data) => {
-      this.flag = data;
-      console.log(data);
-    }, (error) => {
-      console.log(error);
-    })
+  checkingUserRoleMethod(): boolean {
+    this.dataService.checkingUserRole().subscribe(
+      (data) => {
+        this.flag = data;
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
     console.log(this.flag);
-    
+
     return this.flag;
   }
-
 
   calculateTotalDuration(attendances: AttendenceDto[]): number {
     return attendances.reduce((totalDuration, attendance) => {
       if (attendance.duration) {
         const durationParts = attendance.duration
-          .split(" ")
+          .split(' ')
           .filter((part) => !isNaN(Number(part)));
         const durationInSeconds = durationParts.reduce(
           (acc, part) => acc + Number(part),
-          0
+          0,
         );
         return totalDuration + durationInSeconds;
       }
@@ -507,158 +542,195 @@ getDataFromDate(): Promise<any> {
 
   responseData: AttendanceWithLatePerformerResponseDto = {
     // attendanceTopPerformers: [],
-    attendanceLatePerformers: []
+    attendanceLatePerformers: [],
   };
-  
+
   // responseDto!: AttendanceWithTopPerformerResponseDto;
 
-  isShimer: boolean=false;
-  isLateShimmer: boolean=false;
-  errorToggleTop:boolean=false;
-  errorToggleLate:boolean=false;
-  getAttendanceTopPerformerDetails(){
+  isShimer: boolean = false;
+  isLateShimmer: boolean = false;
+  errorToggleTop: boolean = false;
+  errorToggleLate: boolean = false;
+  getAttendanceTopPerformerDetails() {
     this.preRuleForShimmersAndErrorPlaceholdersForBestPerformerMethodCall();
-    debugger
-    this.dataService.getAttendanceTopPerformers(this.startDateStr, this.endDateStr).subscribe(
-      (data) => {
-        // console.log(data);
-        this.responseDto = data;
+    debugger;
+    this.dataService
+      .getAttendanceTopPerformers(this.startDateStr, this.endDateStr)
+      .subscribe(
+        (data) => {
+          // console.log(data);
+          this.responseDto = data;
 
-
-        if(data.attendanceTopPerformers.length === 0 || data === undefined || data === null){
-          this.dataNotFoundPlaceholderForBestPerfomer = true;
-        }
-        // if(data.attendanceLatePerformers){
-        //   this.isLateShimmer=false;
-        // }
-        console.log(this.responseDto); 
-      },
-      (error) => {
-        // console.error(error);
-        this.isShimer=false;
-        this.networkConnectionErrorPlaceHolderForBestPerformer = true;
-      }
-    );
+          if (
+            data.attendanceTopPerformers.length === 0 ||
+            data === undefined ||
+            data === null
+          ) {
+            this.dataNotFoundPlaceholderForBestPerfomer = true;
+          }
+          // if(data.attendanceLatePerformers){
+          //   this.isLateShimmer=false;
+          // }
+          console.log(this.responseDto);
+        },
+        (error) => {
+          // console.error(error);
+          this.isShimer = false;
+          this.networkConnectionErrorPlaceHolderForBestPerformer = true;
+        },
+      );
   }
 
+  getAttendanceLatePerformerDetails() {
+    this.isLateShimmer = true;
+    debugger;
+    this.dataService
+      .getAttendanceLatePerformers('2023-12-04', '2023-12-04')
+      .subscribe(
+        (data) => {
+          console.log(data);
+          this.responseData = data;
 
-  getAttendanceLatePerformerDetails(){
-    this.isLateShimmer=true;
-    debugger
-    this.dataService.getAttendanceLatePerformers('2023-12-04', '2023-12-04').subscribe(
-      (data) => {
-        console.log(data);
-        this.responseData = data;
-
-        if(data.attendanceLatePerformers){
-        this.isLateShimmer=false;
-        }
-        console.log(this.responseDto);
-      },
-      (error) => {
-        this.isLateShimmer = false;
-        this.errorToggleLate = true;
-        console.error(error);
-      }
-    );
+          if (data.attendanceLatePerformers) {
+            this.isLateShimmer = false;
+          }
+          console.log(this.responseDto);
+        },
+        (error) => {
+          this.isLateShimmer = false;
+          this.errorToggleLate = true;
+          console.error(error);
+        },
+      );
   }
-
 
   // #########################################################
 
-  bestPerformerAttendanceDetailsResponseList : BestPerformerAttendanceDetailsResponse[] = [];
+  bestPerformerAttendanceDetailsResponseList: BestPerformerAttendanceDetailsResponse[] =
+    [];
 
-  getBestPerformerAttendanceDetailsMethodCall(){
-    debugger
+  getBestPerformerAttendanceDetailsMethodCall() {
+    debugger;
     this.preRuleForShimmersAndErrorPlaceholdersForBestPerformerMethodCall();
-    this.dataService.getBestPerformerAttendanceDetails(this.startDateStr, this.endDateStr).subscribe((response) => {
-      this.bestPerformerAttendanceDetailsResponseList = response;
+    this.dataService
+      .getBestPerformerAttendanceDetails(this.startDateStr, this.endDateStr)
+      .subscribe(
+        (response) => {
+          this.bestPerformerAttendanceDetailsResponseList = response;
 
-      if(response === undefined || response === null || response.length === 0){
-        this.dataNotFoundPlaceholderForBestPerfomer = true;
-      }
-    }, (error) => {
-      console.log(error);
-      this.networkConnectionErrorPlaceHolderForBestPerformer = true;
-    })
+          if (
+            response === undefined ||
+            response === null ||
+            response.length === 0
+          ) {
+            this.dataNotFoundPlaceholderForBestPerfomer = true;
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.networkConnectionErrorPlaceHolderForBestPerformer = true;
+        },
+      );
   }
-   
- 
-  
-  lateEmployeeAttendanceDetailsResponseList : LateEmployeeAttendanceDetailsResponse[] = [];
-  viewAll : string = Key.VIEW_ALL;
-  viewLess : string = Key.VIEW_LESS;
-  lateEmployeeDataLoaderButton : boolean = false;
 
-  viewAllLateEmployeeAttendanceDetails(view : any){
+  lateEmployeeAttendanceDetailsResponseList: LateEmployeeAttendanceDetailsResponse[] =
+    [];
+  viewAll: string = Key.VIEW_ALL;
+  viewLess: string = Key.VIEW_LESS;
+  lateEmployeeDataLoaderButton: boolean = false;
+
+  viewAllLateEmployeeAttendanceDetails(view: any) {
     this.lateEmployeeDataLoaderButton = true;
     this.dataFetchingType = view;
     this.getLateEmployeeAttendanceDetailsMethodCall();
   }
 
-  getLateEmployeeAttendanceDetailsMethodCall(){
+  getLateEmployeeAttendanceDetailsMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
-    this.dataService.getLateEmployeeAttendanceDetails(this.dataFetchingType).subscribe((response) => {
-      this.lateEmployeeAttendanceDetailsResponseList = response.listOfObject;
-      this.totalLateEmployees = response.totalItems;
+    this.dataService
+      .getLateEmployeeAttendanceDetails(this.dataFetchingType)
+      .subscribe(
+        (response) => {
+          this.lateEmployeeAttendanceDetailsResponseList =
+            response.listOfObject;
+          this.totalLateEmployees = response.totalItems;
 
-      if(response === undefined || response === null || response.listOfObject.length === 0){
-        this.dataNotFoundPlaceholder = true;
-      }
-      this.lateEmployeeDataLoaderButton = false;
-    }, (error) => {
-      console.log(error);
-      this.networkConnectionErrorPlaceHolder = true;
-      this.lateEmployeeDataLoaderButton = false;
-    })
+          if (
+            response === undefined ||
+            response === null ||
+            response.listOfObject.length === 0
+          ) {
+            this.dataNotFoundPlaceholder = true;
+          }
+          this.lateEmployeeDataLoaderButton = false;
+        },
+        (error) => {
+          console.log(error);
+          this.networkConnectionErrorPlaceHolder = true;
+          this.lateEmployeeDataLoaderButton = false;
+        },
+      );
   }
-  
 
-    visibleManagersCount: number = 1;
+  visibleManagersCount: number = 1;
 
-    showAllManagers(length : number) {
-        this.visibleManagersCount = length;
-    }
+  showAllManagers(length: number) {
+    this.visibleManagersCount = length;
+  }
 
-    hideSomeManagers() {
-        this.visibleManagersCount = 1;
-    }
+  hideSomeManagers() {
+    this.visibleManagersCount = 1;
+  }
 
   // ######################################################################
 
-  attendanceReportResponseList : AttendanceReportResponse[] = [];
+  attendanceReportResponseList: AttendanceReportResponse[] = [];
   debounceTimer: any;
   getAttendanceReportByDateDurationMethodCall(debounceTime: number = 300) {
-      return new Promise((resolve, reject) => {
-          if (this.debounceTimer) {
-              clearTimeout(this.debounceTimer);
-          }
+    return new Promise((resolve, reject) => {
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer);
+      }
 
-          this.debounceTimer = setTimeout(() => {
-              this.attendanceReportResponseList = [];
-              this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
+      this.debounceTimer = setTimeout(() => {
+        this.attendanceReportResponseList = [];
+        this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
 
-              this.dataService.getAttendanceReportByDateDuration(this.startDate, this.endDate, this.pageNumber, this.itemPerPage, this.searchText, this.searchBy).toPromise()
-                  .then((response) => {
+        this.dataService
+          .getAttendanceReportByDateDuration(
+            this.startDate,
+            this.endDate,
+            this.pageNumber,
+            this.itemPerPage,
+            this.searchText,
+            this.searchBy,
+          )
+          .toPromise()
+          .then((response) => {
+            if (
+              response === null ||
+              response === undefined ||
+              response.object === undefined ||
+              response.object === null ||
+              response.object.length === 0
+            ) {
+              this.dataNotFoundPlaceholderForAttendanceData = true;
+              reject('Data not found');
+              return;
+            }
 
-                      if (response === null || response === undefined || response.object === undefined || response.object === null || response.object.length === 0) {
-                          this.dataNotFoundPlaceholderForAttendanceData = true;
-                          reject('Data not found');
-                          return;
-                      }
+            this.attendanceReportResponseList = response.object;
+            this.total = response.totalItems;
 
-                      this.attendanceReportResponseList = response.object;
-                      this.total = response.totalItems;
-
-                      this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-                      resolve(response);
-                  })
-                  .catch((error) => {
-                      this.networkConnectionErrorPlaceHolderForAttendanceData = true;
-                      reject(error);
-                  });
-          }, debounceTime);
-      });
+            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+            resolve(response);
+          })
+          .catch((error) => {
+            this.networkConnectionErrorPlaceHolderForAttendanceData = true;
+            reject(error);
+          });
+      }, debounceTime);
+    });
   }
 
   expandedStates: boolean[] = [];
@@ -666,25 +738,29 @@ getDataFromDate(): Promise<any> {
     this.expandedStates[index] = !this.expandedStates[index];
   }
 
-  downloadingFlag : boolean = false;
-  downloadAttendanceDataInExcelFormatMethodCall(){
-    
+  downloadingFlag: boolean = false;
+  downloadAttendanceDataInExcelFormatMethodCall() {
     this.downloadingFlag = true;
-    this.dataService.downloadAttendanceDataInExcelFormat(this.startDate, this.endDate).subscribe((response) => {
-      console.log(response);
+    this.dataService
+      .downloadAttendanceDataInExcelFormat(this.startDate, this.endDate)
+      .subscribe(
+        (response) => {
+          console.log(response);
 
-      const downloadLink = document.createElement("a");
-      downloadLink.href = response.message;
-      downloadLink.download = "attendance.xlsx";
-      downloadLink.click();
-      this.downloadingFlag = false;
-    }, (error) => {
-      console.log(error);
-      this.downloadingFlag = false;
-    })
+          const downloadLink = document.createElement('a');
+          downloadLink.href = response.message;
+          downloadLink.download = 'attendance.xlsx';
+          downloadLink.click();
+          this.downloadingFlag = false;
+        },
+        (error) => {
+          console.log(error);
+          this.downloadingFlag = false;
+        },
+      );
   }
 
-  getCurrentDate(){
+  getCurrentDate() {
     const todayDate = new Date();
     const year = todayDate.getFullYear();
     const month = (todayDate.getMonth() + 1).toString().padStart(2, '0');
@@ -692,14 +768,17 @@ getDataFromDate(): Promise<any> {
     return `${year}-${month}-${day}`;
   }
 
-  attendanceDetailsCountResponse : AttendanceDetailsCountResponse = new AttendanceDetailsCountResponse();
-  getAttendanceDetailsCountMethodCall(){
-    this.dataService.getAttendanceDetailsCount(this.getCurrentDate()).subscribe((response) => {
-      debugger
-      this.attendanceDetailsCountResponse = response.object;
-    }, (error) => {
-      console.log(error);
-    })
+  attendanceDetailsCountResponse: AttendanceDetailsCountResponse =
+    new AttendanceDetailsCountResponse();
+  getAttendanceDetailsCountMethodCall() {
+    this.dataService.getAttendanceDetailsCount(this.getCurrentDate()).subscribe(
+      (response) => {
+        debugger;
+        this.attendanceDetailsCountResponse = response.object;
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
   }
-  
 }

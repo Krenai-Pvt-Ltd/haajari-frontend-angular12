@@ -11,23 +11,21 @@ import { HelperService } from 'src/app/services/helper.service';
 @Component({
   selector: 'app-role-add',
   templateUrl: './role-add.component.html',
-  styleUrls: ['./role-add.component.css']
+  styleUrls: ['./role-add.component.css'],
 })
 export class RoleAddComponent implements OnInit {
-
-  constructor(private dataService : DataService, private helperService : HelperService, private router : Router, private activateRoute : ActivatedRoute) { 
-
-
-
-    
-  }
+  constructor(
+    private dataService: DataService,
+    private helperService: HelperService,
+    private router: Router,
+    private activateRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
-
     const roleIdParam = this.activateRoute.snapshot.queryParamMap.get('roleId');
 
-    if(roleIdParam !== null){
-      debugger
+    if (roleIdParam !== null) {
+      debugger;
       this.roleRequest.id = +roleIdParam;
     }
 
@@ -35,20 +33,18 @@ export class RoleAddComponent implements OnInit {
     this.getRoleByIdMethodCall();
     this.getSubModuleByRoleMethodCall();
     this.getAllRoleAccessibilityTypeMethodCall();
-
   }
 
-
-  roleRequest : RoleRequest = new RoleRequest();
-  moduleResponseList : ModuleResponse[] = [];
-  moduleRequestList : ModuleRequest[] = [];
-  buttonLoader : boolean = false;
-  @ViewChild("homeTab") homeTab !: ElementRef;
+  roleRequest: RoleRequest = new RoleRequest();
+  moduleResponseList: ModuleResponse[] = [];
+  moduleRequestList: ModuleRequest[] = [];
+  buttonLoader: boolean = false;
+  @ViewChild('homeTab') homeTab!: ElementRef;
 
   isShimmerForRolePermissionModules = false;
   dataNotFoundPlaceholderForRolePermissionModules = false;
   networkConnectionErrorPlaceHolderForRolePermissionModules = false;
-  preRuleForShimmersAndErrorPlaceholdersMethodCallForRolePermissionModules(){
+  preRuleForShimmersAndErrorPlaceholdersMethodCallForRolePermissionModules() {
     this.isShimmerForRolePermissionModules = true;
     this.dataNotFoundPlaceholderForRolePermissionModules = false;
     this.networkConnectionErrorPlaceHolderForRolePermissionModules = false;
@@ -57,172 +53,184 @@ export class RoleAddComponent implements OnInit {
   isShimmerForRoleAccessibilityType = false;
   dataNotFoundPlaceholderForRoleAccessibilityType = false;
   networkConnectionErrorPlaceHolderForRoleAccessibilityType = false;
-  preRuleForShimmersAndErrorPlaceholdersMethodCallForRoleAccessibilityType(){
+  preRuleForShimmersAndErrorPlaceholdersMethodCallForRoleAccessibilityType() {
     this.isShimmerForRoleAccessibilityType = true;
     this.dataNotFoundPlaceholderForRoleAccessibilityType = false;
     this.networkConnectionErrorPlaceHolderForRoleAccessibilityType = false;
   }
 
-  modelRefreshMethodCall(){
-    if(this.roleRequest.roleAccessibilityTypeId === 0){
-      
+  modelRefreshMethodCall() {
+    if (this.roleRequest.roleAccessibilityTypeId === 0) {
     }
   }
 
-
-  getSubModuleByRoleMethodCall(){
+  getSubModuleByRoleMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCallForRolePermissionModules();
     console.log(this.roleRequest.id);
-    debugger
-    this.dataService.getSubModuleByRole(this.roleRequest.id).subscribe((data) => {
+    debugger;
+    this.dataService.getSubModuleByRole(this.roleRequest.id).subscribe(
+      (data) => {
+        this.moduleResponseList = data;
 
-      this.moduleResponseList = data;
+        for (let i of this.moduleResponseList) {
+          const submodules = i.subModules;
 
-      for(let i of this.moduleResponseList){
-        
-        const submodules = i.subModules;
-
-        for(let j of submodules){
-          const moduleRequest : ModuleRequest = new ModuleRequest();
-          moduleRequest.subModuleId = j.id;
-          moduleRequest.privilegeId = j.privilegeId;
-          this.moduleRequestList.push(moduleRequest);
+          for (let j of submodules) {
+            const moduleRequest: ModuleRequest = new ModuleRequest();
+            moduleRequest.subModuleId = j.id;
+            moduleRequest.privilegeId = j.privilegeId;
+            this.moduleRequestList.push(moduleRequest);
+          }
         }
-      }
-      console.log(this.moduleResponseList);
-    }, (error) => {
-
-      console.log(error);
-    })
+        console.log(this.moduleResponseList);
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
   }
 
   selectedRoleAccessibilityTypeId = null;
-  
-  submitAddRoleForm(){
 
+  submitAddRoleForm() {
     this.addRoleFormSubmitted = true;
-    if(this.selectedRoleAccessibilityTypeId){
-
-    } else{
-      
+    if (this.selectedRoleAccessibilityTypeId) {
+    } else {
     }
-    
   }
 
   addRoleFormSubmitted = false;
   addRoleValidationErrors: { [key: string]: string } = {};
 
-  updateRoleWithPermissionsMethodCall(){
+  updateRoleWithPermissionsMethodCall() {
     this.addRoleFormSubmitted = true;
     this.buttonLoader = true;
 
-    if(this.roleRequest.roleAccessibilityTypeId){
-    // console.log(this.moduleRequestList);
+    if (this.roleRequest.roleAccessibilityTypeId) {
+      // console.log(this.moduleRequestList);
 
-    const uniqueModuleRequestList = [];
+      const uniqueModuleRequestList = [];
 
-    for (let i of this.moduleRequestList) {
-      if (i.privilegeId !== null && i.privilegeId !== 0) {
-        const existingIndex = uniqueModuleRequestList.findIndex(
-          (item) => item.subModuleId === i.subModuleId && item.privilegeId === i.privilegeId
-        );
-    
-        if (existingIndex === -1) {
-          uniqueModuleRequestList.push(i);
+      for (let i of this.moduleRequestList) {
+        if (i.privilegeId !== null && i.privilegeId !== 0) {
+          const existingIndex = uniqueModuleRequestList.findIndex(
+            (item) =>
+              item.subModuleId === i.subModuleId &&
+              item.privilegeId === i.privilegeId,
+          );
+
+          if (existingIndex === -1) {
+            uniqueModuleRequestList.push(i);
+          }
         }
       }
-    }
-    
-    // console.log(uniqueModuleRequestList);
-    this.roleRequest.moduleRequestList = uniqueModuleRequestList;
 
-    if(this.roleRequest.name == Key.ADMIN || this.roleRequest.name == Key.USER || this.roleRequest.name == Key.MANAGER){
-      this.roleRequest.default = true;
-    }
- 
-    this.dataService.updateRoleWithPermissions(this.roleRequest).subscribe((data) => {
+      // console.log(uniqueModuleRequestList);
+      this.roleRequest.moduleRequestList = uniqueModuleRequestList;
 
-      this.buttonLoader = false;
-      this.router.navigate(['/role']);
-      this.helperService.setRoleSectionTab(true);
-      this.helperService.showToast("Role details saved successfully.", Key.TOAST_STATUS_SUCCESS);
-    }, (error) => {
-      console.log(error);
-      debugger
-      this.buttonLoader = false;
-      this.helperService.showToast("Error caused while saving the role!", Key.TOAST_STATUS_ERROR);
+      if (
+        this.roleRequest.name == Key.ADMIN ||
+        this.roleRequest.name == Key.USER ||
+        this.roleRequest.name == Key.MANAGER
+      ) {
+        this.roleRequest.default = true;
+      }
 
-    })
-    } else{
+      this.dataService.updateRoleWithPermissions(this.roleRequest).subscribe(
+        (data) => {
+          this.buttonLoader = false;
+          this.router.navigate(['/role']);
+          this.helperService.setRoleSectionTab(true);
+          this.helperService.showToast(
+            'Role details saved successfully.',
+            Key.TOAST_STATUS_SUCCESS,
+          );
+        },
+        (error) => {
+          console.log(error);
+          debugger;
+          this.buttonLoader = false;
+          this.helperService.showToast(
+            'Error caused while saving the role!',
+            Key.TOAST_STATUS_ERROR,
+          );
+        },
+      );
+    } else {
       this.buttonLoader = false;
       return;
     }
-    
   }
-
 
   handleRadioClickForSubModule(privilegeId: number, subModule: any) {
     if (subModule.privilegeId === privilegeId) {
-        subModule.privilegeId = null;
+      subModule.privilegeId = null;
     } else {
-        subModule.privilegeId = privilegeId;
+      subModule.privilegeId = privilegeId;
     }
 
     this.settingSubModuleRequestValue(privilegeId, subModule);
   }
 
-
-  settingSubModuleRequestValue(privilegeId : number, subModule : any){
-
-    const moduleRequest : ModuleRequest = new ModuleRequest();
+  settingSubModuleRequestValue(privilegeId: number, subModule: any) {
+    const moduleRequest: ModuleRequest = new ModuleRequest();
     moduleRequest.subModuleId = subModule.id;
     moduleRequest.privilegeId = privilegeId;
 
-    const existingIndex = this.moduleRequestList.findIndex((item) => item.subModuleId === moduleRequest.subModuleId && item.privilegeId === moduleRequest.privilegeId);
-    
+    const existingIndex = this.moduleRequestList.findIndex(
+      (item) =>
+        item.subModuleId === moduleRequest.subModuleId &&
+        item.privilegeId === moduleRequest.privilegeId,
+    );
+
     if (existingIndex !== -1) {
       this.moduleRequestList.splice(existingIndex, 1);
-  } else {
-      const subModuleIndex = this.moduleRequestList.findIndex((item) => item.subModuleId === moduleRequest.subModuleId);
+    } else {
+      const subModuleIndex = this.moduleRequestList.findIndex(
+        (item) => item.subModuleId === moduleRequest.subModuleId,
+      );
 
       if (subModuleIndex !== -1) {
-          this.moduleRequestList[subModuleIndex].privilegeId = privilegeId;
+        this.moduleRequestList[subModuleIndex].privilegeId = privilegeId;
       } else {
-          this.moduleRequestList.push(moduleRequest);
+        this.moduleRequestList.push(moduleRequest);
       }
-  }
+    }
 
     console.log(this.moduleRequestList);
     this.roleRequest.moduleRequestList = this.moduleRequestList;
-
   }
 
-
-
-  roleAccessibilityTypeList : RoleAccessibilityType[] = [];
-  getAllRoleAccessibilityTypeMethodCall(){
+  roleAccessibilityTypeList: RoleAccessibilityType[] = [];
+  getAllRoleAccessibilityTypeMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCallForRoleAccessibilityType();
-    this.dataService.getAllRoleAccessibilityType().subscribe((response) => {
-      this.roleAccessibilityTypeList = response;
-    }, (error) => {
-      console.log(error);
-    })
+    this.dataService.getAllRoleAccessibilityType().subscribe(
+      (response) => {
+        this.roleAccessibilityTypeList = response;
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
   }
 
-  settingRoleAccessibilityType(id : number){
+  settingRoleAccessibilityType(id: number) {
     this.roleRequest.roleAccessibilityTypeId = id;
   }
 
-  getDataToBeUpdated(){
+  getDataToBeUpdated() {
     this.helperService.getData();
   }
 
-  getRoleByIdMethodCall(){
-    this.dataService.getRoleById(this.roleRequest.id).subscribe((response) => {
-      this.roleRequest = response.object;
-    }, (error) => {
-      console.log(error);
-    })
+  getRoleByIdMethodCall() {
+    this.dataService.getRoleById(this.roleRequest.id).subscribe(
+      (response) => {
+        this.roleRequest = response.object;
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
   }
   // setDataToBeUpdated(){
 
@@ -235,9 +243,7 @@ export class RoleAddComponent implements OnInit {
   //     this.roleRequest.name = role.name;
   //     this.roleRequest.description = role.description;
   //     this.roleRequest.roleAccessibilityTypeId = role.roleAccessibilityType.id;
-      
+
   //   }
   // }
-
-
 }
