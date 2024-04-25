@@ -549,27 +549,21 @@
             </button>
           </div>
 
-          <button
-            type="button"
-            class="btn btn-primary d-flex align-items-center justify-content-center mb-5"
-            style="
-              padding: 10px 25px;
-              margin: 0 auto;
-              width: 100%;
-              height: 45px;
-            "
-            *ngIf="!verifyOtpButtonFlag && resetPasswordFlag"
-            (click)="resetUserPassword()"
-          >
-            <ng-container *ngIf="registerPassLoader; else loginButton">
-              <div class="dot-opacity-loader">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </ng-container>
-            <ng-template #loginButton> Reset Password </ng-template>
-          </button>
+          <!-- <button type="button"
+                            class="btn btn-primary d-flex align-items-center justify-content-center mb-5"
+                            style="padding: 10px 25px; margin: 0 auto; width:100%; height:45px"
+                            *ngIf="!verifyOtpButtonFlag && resetPasswordFlag" (click)="resetUserPassword()">
+                            <ng-container *ngIf="registerPassLoader; else loginButton">
+                                <div class="dot-opacity-loader">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </ng-container>
+                            <ng-template #loginButton>
+                                Reset Password
+                            </ng-template>
+                        </button> -->
         </form>
         <!-- gmail login box -->
 

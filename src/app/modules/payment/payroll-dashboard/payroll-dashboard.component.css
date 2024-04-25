@@ -1,0 +1,28 @@
+.file-box {
+  cursor: pointer;
+  width: 163px;
+  border-radius: 2px;
+}
+.hr {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+.text-truncate {
+  padding: 0px !important;
+}
+.file-box-content .file-box {
+  padding: 6px;
+}
+.invoice-head {
+  border-bottom: none;
+}
+.invoice-head .contact-detail li {
+  border-left: 1px dashed #f1f1f1;
+}
+.ps-3 {
+  padding-left: 4rem !important;
+}
+.bg-soft-success:hover{
+  background-color: #f1f1f1 !important;
+    color: #000 !important;
+}

@@ -1,327 +1,124 @@
-.jIcvEm {
-    --indentationOffset: 0px;
-    box-sizing: border-box;
-    padding: 20px;
-    border-bottom: 1px solid rgb(227, 233, 239);
-    display: flex;
-}
-
-
-.lkliht {
-    flex-shrink: 0;
-    -webkit-box-align: baseline;
-    align-items: baseline;
-    display: flex;
-    padding-right: 16px;
-    width: 40%;
-    font-weight: 500;
-    font-size: 0.875rem;
-    line-height: 1.57143;
-    letter-spacing: 0px;
-    margin: 0px;
-}
-
-.dUVSfj {
-    color: var(--colors-bayoux);
-    -webkit-box-flex: 1;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    flex: 1 2 auto;
-    width: 33%;
-    font-weight: 400;
-    font-size: 0.875rem;
-    line-height: 1.57143;
-    letter-spacing: 0px;
-    margin: 0px;
-}
-
-.laMuYy {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    width: 100%;
-}
-
-.csGfKv {
-    max-width: calc(100% - 14px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.dbRigD {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    gap: 12px;
-}
-.ejXTLi {
-    flex-shrink: 0;
-    width: 16px;
-    margin-left: -4px;
-    margin-right: 4px;
-}
-
-.hrfvFa {
-    margin: 24px 0px 0px 48px;
-    --item-vertical-padding: 12px;
-}
-
-.edit-btns{
-    border: none;
-    background-color: transparent;
-    padding: 0px;
-    margin-bottom: 0;
-    color: #6666f3;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-}
-
 .account-setting-box {
-    padding: 30px;
-    /* border: 1px solid #f1f1f1;
-    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
-}
-
-[class^="bi-"]::before, [class*=" bi-"]::before {
-    display: inline-block;
-    font-family: bootstrap-icons !important;
-    font-style: normal;
-    font-weight: 600 !important;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    vertical-align: text-bottom;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-.jmQWDN {
-    fill: var(--colors-primary);
-    width: 20px;
-    margin-left: 8px;
-    flex-shrink: 0;
-    padding: 6px;
+  padding: 30px;
 }
 span.edit-profile {
-    position: absolute;
-    top: 44px;
-    right: -27px;
-    background-color: #fff;
-    width: 25px;
-    height: 25px;
-    border: 1px solid #6666f3;
-    border-radius: 50px;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    cursor: pointer;
-    font-size: 10px;
+  top: 44px;
+  right: -27px;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #6666f3;
+  border-radius: 50px;
+  font-size: 10px;
 }
-.profile-mage-edit{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 64px;
-    /* border: 1px solid #f1f1f1;
-    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
-    background: linear-gradient(rgb(248, 251, 255) 0%, rgb(247, 250, 255) 105.11%);
-}
-.jIcvEm:last-child{
-    border-bottom: none;
-}
-.security{
-    border: 1px solid #f1f1f1;
-    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); 
-    padding: 30px;
-}
-
-.security h4{
-    font-size: 20px;
-    margin-bottom: 12px;
-}
-
-.security p{
-    font-size: 14px;
-    margin-bottom: 12px;
-    color: #8997bd;
-}
-hr.border-prfile {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.how-it-work h5{
-  font-size: 14px;
-}
-.referfrend h5{
-    margin-top: 0px;
-    margin-bottom: 5px;
-}
-
-
-.referfrend p{
-    margin-top: 0px;
-    margin-bottom: 5px;
-    font-size: 12px;
-}
-
-
-a.referral {
-    color: #6666f3;
-}
-
-a.referral:hover {
-    color: #6666f3;
-    text-decoration: underline;
-}
-
 .material-switch > label {
-    cursor: pointer;
-    height: 0px;
-    position: relative;
-    width: 40px;
-    margin-top: 0;
-    top: -13px;
+  cursor: pointer;
+  height: 0px;
+  position: relative;
+  width: 40px;
+  margin-top: 0;
+  top: -13px;
 }
-
-.material-switch > input[type=checkbox] {
-    display: none;
+.material-switch > input[type="checkbox"] {
+  display: none;
 }
-
-input, textarea {
-    background: #fff!important;
-    border: 1px solid #e8ebf3!important;
-    border-radius: 6px;
-    height: 45px;
-    font-weight: 400!important;
-    font-size: 14px!important;
-    line-height: 18px;
-    color: #445059;
-    box-shadow: none;
-
-    
+.material-switch > input[type="checkbox"]:checked + label:after {
+  left: 22px !important;
 }
-
-.material-switch > input[type=checkbox]:checked + label:after {
-    left: 22px!important;
-}
-
 .material-switch > label:after {
-    background: rgb(255,255,255);
-    border-radius: 50%;
-    content: "";
-    height: 15px;
-    left: 7px;
-    position: absolute;
-    transition: all .3s ease-in-out;
-    width: 15px;
-    margin-top: 2px;
+  background: rgb(255, 255, 255);
+  border-radius: 50%;
+  content: "";
+  height: 15px;
+  left: 7px;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+  width: 15px;
+  margin-top: 2px;
 }
-
-.material-switch > input[type=checkbox]:checked + label:before {
-    background: #79af79;
+.material-switch > input[type="checkbox"]:checked + label:before {
+  background: #79af79;
 }
-
 .material-switch > label:before {
-    background: #f56061;
-    border-radius: 20px;
-    content: "";
-    height: 19px;
-    position: absolute;
-    opacity: 1;
-    transition: all .4s ease-in-out;
-    width: 35px;
-    right: 0;
+  background: #f56061;
+  border-radius: 20px;
+  content: "";
+  height: 19px;
+  position: absolute;
+  opacity: 1;
+  transition: all 0.4s ease-in-out;
+  width: 35px;
+  right: 0;
 }
-
-.profile-immage-edit{
-    padding: 64px;
-    /* border: 1px solid #f1f1f1;
-    box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05); */
-    background: linear-gradient(rgb(248, 251, 255) 0%, rgb(247, 250, 255) 105.11%);
-    height: 307px;
+.input-group {
+  position: relative;
+  display: flex;
+  width: 100%;
 }
-
-
-  .input-group {
-    position: relative;
-    display: flex;
-    width: 100%;
-  }
-  
-  .password-input {
-    flex: 1;
-  }
-  
-  .toggle-password {
-    position: absolute;
-    right: 0;
-    border: 0;
-    background: transparent;
-    z-index: 10; /* Ensure the button is above the input */
-    cursor: pointer;
-  }
-
-  .notification-option {
-    margin-bottom: 10px; /* Add space between options */
+.toggle-password {
+  position: absolute;
+  right: 0;
+  top: 15px;
+  border: 0;
+  background: transparent;
+  z-index: 10; /* Ensure the button is above the input */
+  cursor: pointer;
 }
-
-.notification-option {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px; /* Space between options */
-}
-
-.notification-option label {
-    flex-grow: 1; /* Allow the label to fill the space */
-}
-
 .material-switch {
-    /* Your existing styles for the switch */
-    /* You might need to reset flex-grow if it's inherited from .notification-option */
-    flex-grow: 0;
+  flex-grow: 0;
 }
-
-
 .dot-opacity-loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 6px;
 }
-
 .dot-opacity-loader span {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: white; /* Change to your preferred color */
-    margin: 0 4px;
-    animation: dotOpacity 1.4s infinite ease-in-out both;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: white; /* Change to your preferred color */
+  margin: 0 4px;
+  animation: dotOpacity 1.4s infinite ease-in-out both;
 }
-
 .dot-opacity-loader span:nth-child(1) {
-    animation-delay: -0.32s;
+  animation-delay: -0.32s;
 }
-
 .dot-opacity-loader span:nth-child(2) {
-    animation-delay: -0.16s;
+  animation-delay: -0.16s;
 }
-
 @keyframes dotOpacity {
-    0%, 80%, 100% { opacity: 0; }
-    40% { opacity: 1; }
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
 }
-
 .material-switch.disabled {
-    opacity: 0.5; /* Makes the whole switch appear faded */
-  }
-  
-  .material-switch.disabled .label-success {
-    background-color: #ccc; /* Change the label's background to grey (or any color indicating 'disabled') */
-  }
-  
-  
-  
+  opacity: 0.5; /* Makes the whole switch appear faded */
+}
+.material-switch.disabled .label-success {
+  background-color: #ccc; /* Change the label's background to grey (or any color indicating 'disabled') */
+}
+.alert.alert-outline-secondary {
+  border: 1px solid #8d93a1;
+  background-color: transparent;
+  color: #363636 !important;
+  width: 50%;
+  font-size: 13px;
+  border-radius: 2px;
+}
+.profile-image-box {
+  width: 110px;
+  margin: 0 auto;
+  position: relative;
+  padding: 40px;
+}
+.profile-image-box img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
