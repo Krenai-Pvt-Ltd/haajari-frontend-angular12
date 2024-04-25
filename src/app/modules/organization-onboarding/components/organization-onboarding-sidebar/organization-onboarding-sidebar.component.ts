@@ -11,96 +11,104 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 @Component({
   selector: 'app-organization-onboarding-sidebar',
   templateUrl: './organization-onboarding-sidebar.component.html',
-  styleUrls: ['./organization-onboarding-sidebar.component.css']
+  styleUrls: ['./organization-onboarding-sidebar.component.css'],
 })
-export class OrganizationOnboardingSidebarComponent implements OnInit, OnDestroy {
-
-  constructor(private dataService: DataService,
+export class OrganizationOnboardingSidebarComponent implements OnInit {
+  constructor(
+    private dataService: DataService,
     private _onboardingService: OrganizationOnboardingService,
     private router: Router,
     private helperService: HelperService,
-    private rbacService: RoleBasedAccessControlService) { }
+    private rbacService: RoleBasedAccessControlService,
+  ) {}
 
   onboardingViaString: string = '';
   private subscription!: Subscription;
 
-
   ngOnInit(): void {
-    this.subscription = this._onboardingService.refreshSidebar$.subscribe(refresh => {
-      this.reloadSidebar();
+    // this.subscription = this._onboardingService.refreshSidebar$.subscribe(refresh => {
+    //   this.reloadSidebar();
+    // });
+
+    this._onboardingService.onboardingRefresh$.subscribe(() => {
+      this.getOnboardingStep();
     });
     this.getOnboardingStep();
     this.getUserUUID();
     this.getLoggedInUserDetails();
-
-  }
-  
-
-  reloadSidebar() {
-    // Logic to reload or refresh the sidebar
-    console.log('Sidebar is reloading...');
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  // reloadSidebar() {
+  //   // Logic to reload or refresh the sidebar
+  //   console.log('Sidebar is reloading...');
+  // }
+
+  // ngOnDestroy() {
+  //   this.subscription.unsubscribe();
+  // }
 
   navigateTo(route: string, stepIndex: number): void {
-    
-    if (this.dataService.stepIndex < (stepIndex - 1)) {
-      
+    if (this.dataService.stepIndex < stepIndex - 1) {
     } else {
       this.router.navigate([route]);
     }
-
   }
 
-  STEP_ID : number = 1;
-  STEP_TEXT : string = 'Personal Information';
+  STEP_ID: number = 1;
+  STEP_TEXT: string = 'Personal Information';
+  STEP_CONTENT: string = 'Please confirm the validity of your email address';
   getOnboardingStep() {
-    debugger
-    this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
-      if (response.status) {
-        this.dataService.markStepAsCompleted(response.object.step);
-        this.onboardingViaString = response.object.onboardingString;
-        this.STEP_ID = response.object.step
-        this.goToStep(response.object.step);
-      }
-    })
+    debugger;
+    this._onboardingService
+      .getOrgOnboardingStep()
+      .subscribe((response: any) => {
+        if (response.status) {
+          this.dataService.markStepAsCompleted(response.object.step);
+          this.onboardingViaString = response.object.onboardingString;
+          this.STEP_ID = response.object.step;
+          console.log(response.object.step);
+          this.goToStep(response.object.step);
+        }
+      });
   }
 
   goToStep(index: string) {
     // console.log("Index to Go :", index);
     switch (index) {
-      case "1": {
+      case '1': {
         this.STEP_ID = 1;
-        this.STEP_TEXT = "Personal Information";
+        this.STEP_TEXT = 'Personal Information';
+        this.STEP_CONTENT = 'Please confirm the validity of your email address';
         this.router.navigate(['/organization-onboarding/personal-information']);
         // console.log("Step 1 is calling");
         break;
       }
-      case "2": {
+      case '2': {
         this.STEP_ID = 2;
-        this.STEP_TEXT = "Employee Creation";
+        this.STEP_TEXT = 'Employee Creation';
+        this.STEP_CONTENT = 'Please upload valid credentials';
         this.router.navigate(['/organization-onboarding/upload-team']);
         // console.log("Step 2 is calling");
         break;
       }
-      case "3": {
+      case '3': {
         this.STEP_ID = 3;
-        this.STEP_TEXT = "Shift Time";
+        this.STEP_TEXT = 'Shift Time';
+        this.STEP_CONTENT = 'Register shift time for your organization';
         this.router.navigate(['/organization-onboarding/shift-time-list']);
         // console.log("Step 3 is calling");
         break;
       }
-      case "4": {
+      case '4': {
         this.STEP_ID = 4;
-        this.STEP_TEXT = "Attendance Mode"
+        this.STEP_TEXT = 'Attendance Mode';
+        this.STEP_CONTENT =
+          'Please select attendance mode for your organization';
         this.router.navigate(['/organization-onboarding/attendance-mode']);
         // console.log("Step 4 is calling");
         break;
       }
-      case "5": {
+      case '5': {
         this.router.navigate(['/dashboard']);
         // console.log("Step 5 is calling");
         break;
@@ -111,7 +119,6 @@ export class OrganizationOnboardingSidebarComponent implements OnInit, OnDestroy
         break;
       }
     }
-
   }
 
   isStepCompleted(stepIndex: number): boolean {
@@ -120,20 +127,14 @@ export class OrganizationOnboardingSidebarComponent implements OnInit, OnDestroy
     } else {
       return false;
     }
-
   }
 
-  onLogout(){
+  onLogout() {
     localStorage.clear();
     this.rbacService.clearRbacService();
     this.helperService.clearHelperService();
     this.router.navigate(['/login']);
   }
-
-
-
-
-
 
   ADMIN = Key.ADMIN;
   USER = Key.USER;
@@ -142,33 +143,33 @@ export class OrganizationOnboardingSidebarComponent implements OnInit, OnDestroy
 
   // ROLE = this.rbacService.getRole();
   ROLE: any;
-  UUID : any;
+  UUID: any;
   ORGANIZATION_UUID: any;
   loggedInUser: LoggedInUser = new LoggedInUser();
 
-
-
-  async getUserUUID(){
+  async getUserUUID() {
     this.UUID = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
     this.ORGANIZATION_UUID = await this.rbacService.getOrgRefUUID();
   }
 
-  async getLoggedInUserDetails(){
+  async getLoggedInUserDetails() {
     this.loggedInUser = await this.helperService.getDecodedValueFromToken();
-    if(this.loggedInUser.name==''){
-    this.getOrganizationName();
+    if (this.loggedInUser.name == '') {
+      this.getOrganizationName();
     }
-    
   }
 
-  getOrganizationName(){
-    debugger
-    this.dataService.getOrganizationDetails().subscribe((data)=> {
-      this.loggedInUser.name = data.adminName;
-      }, (error) => {
+  getOrganizationName() {
+    debugger;
+    this.dataService.getOrganizationDetails().subscribe(
+      (data) => {
+        this.loggedInUser.name = data.adminName;
+      },
+      (error) => {
         console.log(error);
-      });
+      },
+    );
   }
 
   getFirstAndLastLetterFromName(name: string): string {
@@ -182,19 +183,18 @@ export class OrganizationOnboardingSidebarComponent implements OnInit, OnDestroy
     }
   }
 
-  routeToAccountPage(tabName: string){
+  routeToAccountPage(tabName: string) {
     // this.dataService.activeTab = tabName !== 'account';
-    this.router.navigate(["/setting/account-settings"], { queryParams: {setting: tabName }});
+    this.router.navigate(['/setting/account-settings'], {
+      queryParams: { setting: tabName },
+    });
   }
-   
-  routeToEmployeeProfilePage(){
+
+  routeToEmployeeProfilePage() {
     // this.router.navigate(["/employee-profile"], { queryParams: {"userId":  this.UUID} });
     // this.activeTab = 'dashboard';
-    this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
+    this.router.navigate(['/employee-profile'], {
+      queryParams: { userId: this.UUID, dashboardActive: 'true' },
+    });
   }
 }
-
-
-
-
-
