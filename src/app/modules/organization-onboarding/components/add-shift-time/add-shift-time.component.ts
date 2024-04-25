@@ -329,7 +329,7 @@ export class AddShiftTimeComponent implements OnInit {
     // this.onboardingService.saveOrgOnboardingStep(4).subscribe((resp) => {
     //   this.onboardingService.refreshOnboarding();
     // });
-    this.onboardingService.refreshOnboarding();
+    // this.onboardingService.refreshOnboarding();
   }
 
   organizationShiftTimingValidationErrors: { [key: string]: string } = {};
