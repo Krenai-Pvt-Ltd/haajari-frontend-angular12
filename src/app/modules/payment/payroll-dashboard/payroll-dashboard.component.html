@@ -5,60 +5,12 @@
       <div class="row">
         <div class="col-md-12 mt-3">
           <div class="file-box-content">
-            <div class="file-box">
-              <div class="text-center">
-                <h6 class="text-truncate">Jan - 22</h6>
-                <small class="text-muted">06 Jan - 06 Fab</small>
+            <div class="file-box" *ngFor="let monthResponse of monthResponseList">
+              <div class="text-center" (click)="getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse)">
+                <h6 class="text-truncate">{{monthResponse.month}} - {{monthResponse.year}}</h6>
+                <small class="text-muted">{{monthResponse.firstDate | dateFormatter}} {{monthResponse.month}} - {{monthResponse.lastDate | dateFormatter}} {{monthResponse.month}}</small>
                 <hr class="hr" />
-                <small>NO DATA</small>
-              </div>
-            </div>
-            <div class="file-box">
-              <div class="text-center">
-                <h6 class="text-truncate">Feb - 22</h6>
-                <small class="text-muted">06 Feb - 06 Mar</small>
-                <hr class="hr" />
-                <small>NO DATA</small>
-              </div>
-            </div>
-            <div class="file-box bg-soft-success">
-              <div class="text-center">
-                <h6 class="text-truncate">Mar - 22</h6>
-                <small class="text-muted">06 Mar - 06 Apr</small>
-                <hr class="hr" />
-                <small>NO DATA</small>
-              </div>
-            </div>
-            <div class="file-box">
-              <div class="text-center">
-                <h6 class="text-truncate">Apr - 22</h6>
-                <small class="text-muted">06 Apr - 06 May</small>
-                <hr class="hr" />
-                <small>NO DATA</small>
-              </div>
-            </div>
-            <div class="file-box">
-              <div class="text-center">
-                <h6 class="text-truncate">May - 22</h6>
-                <small class="text-muted">06 May - 06 Jun</small>
-                <hr class="hr" />
-                <small>NO DATA</small>
-              </div>
-            </div>
-            <div class="file-box">
-              <div class="text-center">
-                <h6 class="text-truncate">Jun - 22</h6>
-                <small class="text-muted">06 Jun - 06 Jul</small>
-                <hr class="hr" />
-                <small>NO DATA</small>
-              </div>
-            </div>
-            <div class="file-box">
-              <div class="text-center">
-                <h6 class="text-truncate">Jul - 22</h6>
-                <small class="text-muted">06 Jul - 06 Aug</small>
-                <hr class="hr" />
-                <small>NO DATA</small>
+                <small>{{monthResponse.status}}</small>
               </div>
             </div>
           </div>
@@ -96,28 +48,35 @@
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">TOTAL PATROLL COST</p>
-                    <h5 class="mb-0">₹ 23,58,547</h5>
+                    <h5 class="mb-0">₹ {{organizationMonthWiseSalaryData.totalAmount}}</h5>
                     <small class="text-success">DEC ₹ 34,34,343</small>
                   </div>
                 </li>
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">TDS</p>
-                    <h5 class="mb-0">₹ 8,547</h5>
+                    <h5 class="mb-0">₹ {{organizationMonthWiseSalaryData.tdsAmount}}</h5>
                     <small class="text-success">DEC ₹ 34,343</small>
                   </div>
                 </li>
                 <li class="list-inline-item">
                   <div class="ps-3">
-                    <p class="text-muted font-12 mb-0">PT</p>
-                    <h5 class="mb-0">₹ 58,547</h5>
+                    <p class="text-muted font-12 mb-0">EPF</p>
+                    <h5 class="mb-0">₹ {{organizationMonthWiseSalaryData.epfAmount}}</h5>
                     <small class="text-success">DEC ₹ 3343</small>
                   </div>
                 </li>
                 <li class="list-inline-item">
                   <div class="ps-3">
-                    <p class="text-muted font-12 mb-0">EPF</p>
-                    <h5 class="mb-0">₹ 2547</h5>
+                    <p class="text-muted font-12 mb-0">ESI</p>
+                    <h5 class="mb-0">₹ {{organizationMonthWiseSalaryData.esiAmount}}</h5>
+                    <small class="text-success">DEC ₹ 4,343</small>
+                  </div>
+                </li>
+                <li class="list-inline-item">
+                  <div class="ps-3">
+                    <p class="text-muted font-12 mb-0">Net Pay</p>
+                    <h5 class="mb-0">₹ {{organizationMonthWiseSalaryData.netPay}}</h5>
                     <small class="text-success">DEC ₹ 4,343</small>
                   </div>
                 </li>
@@ -150,7 +109,7 @@
                           <div class="media">
                             <img src="assets/images/rupee.svg" class="me-2 thumb-md align-self-center rounded-circle" />
                             <div class="media-body align-self-center">
-                              <h3 class="m-0 font-24 fw-bold"> ₹ 23,58,547 </h3>
+                              <h3 class="m-0 font-24 fw-bold"> ₹ {{organizationMonthWiseSalaryData.totalAmount}} </h3>
                               <p class="text-muted font-12 mb-0"> DEC ₹ 34,34,343</p>
                             </div>
                             <!--end media body-->
