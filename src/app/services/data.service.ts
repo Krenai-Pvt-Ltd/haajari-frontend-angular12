@@ -2330,6 +2330,56 @@ export class DataService {
     );
   }
 
+
+  getOrganizationIndividualMonthSalaryData(
+    startDate: string,
+    endDate: string,
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('start_date', startDate)
+      .set('end_date', endDate);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/organization-individual-month-data`,
+      { params },
+    );
+  }
+
+  getOrganizationMonthWiseSalaryData(
+    itemPerPage: number,
+    pageNumber: number,
+    sort: string,
+    sortBy: string,
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('item_per_page', itemPerPage)
+      .set('page_numner', pageNumber)
+      .set('sort', sort)
+      .set('sort_by', sortBy);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/organization-month-wise-data`,
+      { params },
+    );
+  }
+
+  getEmployeeMonthWiseSalaryData(
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string,
+    sort: string,
+    sortBy: string,
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('item_per_page', itemPerPage)
+      .set('page_numner', pageNumber)
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('sort', sort)
+      .set('sort_by', sortBy);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/organization-month-wise-data`,
+    );
+  } 
   getTotalExperiences(userUuid: string): Observable<any> {
     const params = new HttpParams().set('uuid', userUuid);
     return this.httpClient.get<any>(

@@ -12,8 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { DynamicModule } from '../dynamic/dynamic.module';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-
-
+import { DateFormatterPipe } from 'src/app/pipe/date-formatter.pipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     PayrollDashboardComponent,
     PaymentHistoryComponent,
     TdsComponent,
-    BonusAndDeductionComponent
+    BonusAndDeductionComponent,
+    DateFormatterPipe,
   ],
   imports: [
     CommonModule,
@@ -30,7 +30,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     DynamicModule,
     ReactiveFormsModule,
     PaymentRoutingModule,
-    NzDatePickerModule
-  ]
+    NzDatePickerModule,
+  ],
 })
-export class PaymentModule { }
+export class PaymentModule {}
