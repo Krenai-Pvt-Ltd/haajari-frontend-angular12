@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 
-
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { CommonModule } from '@angular/common';
@@ -26,36 +25,31 @@ import { SharedModule } from './shared/shared.module';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { UnauthorizedComponent } from './modules/sharable/unauthorized/unauthorized.component';
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ConfirmationDialogComponent } from './modules/sharable/confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
-
-
-
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
-
-
 
 @NgModule({
   declarations: [
     AppComponent,
-  
+
     ErrorPageComponent,
     SlackDataLoaderComponent,
     DurationPickerComponent,
     SharedComponent,
     UnauthorizedComponent,
     ConfirmationDialogComponent,
- 
+
     // AuthenticationComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
-    BrowserModule, 
+    BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
@@ -73,11 +67,9 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     NgxMaskModule.forRoot(),
     DragDropModule,
     MatDialogModule,
-    MatButtonModule, 
-    NzSwitchModule    
+    MatButtonModule,
+    NzSwitchModule,
     // OnboardingSidebarResponse
-
-    
 
     // CalendarModule.forRoot({
     //   provide: DateAdapter,
@@ -86,15 +78,14 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     // AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
-    
-      {provide: HTTP_INTERCEPTORS,
+    {
+      provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptorService,
-      multi: true},
-      AngularFireStorage,
-      // Compiler
+      multi: true,
+    },
+    AngularFireStorage,
+    // Compiler
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { 
-  
-}
+export class AppModule {}
