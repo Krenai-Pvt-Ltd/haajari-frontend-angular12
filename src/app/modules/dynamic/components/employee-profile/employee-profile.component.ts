@@ -1,6 +1,6 @@
 import { DatePipe, Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import * as moment from 'moment';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { CalendarOptions } from '@fullcalendar/core';
@@ -8,7 +8,13 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { DataService } from 'src/app/services/data.service';
 import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
-import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { UserDto } from 'src/app/models/user-dto.model';
 import { saveAs } from 'file-saver';
@@ -33,6 +39,11 @@ import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
 import { StatutoryAttributeResponse } from 'src/app/models/statutory-attribute-response';
 import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
 import { EmployeeExperienceComponent } from 'src/app/modules/employee-onboarding/employee-experience/employee-experience.component';
+import { EmployeeAdditionalDocument } from 'src/app/models/employee-additional-document';
+import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
+import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
+import { UserExperience } from 'src/app/models/user-experience';
+import { TotalExperiences } from 'src/app/models/total-experiences';
 
 @Component({
   selector: 'app-employee-profile',
@@ -40,18 +51,20 @@ import { EmployeeExperienceComponent } from 'src/app/modules/employee-onboarding
   styleUrls: ['./employee-profile.component.css'],
 })
 export class EmployeeProfileComponent implements OnInit {
-
-  reasonOfRejectionProfile: ReasonOfRejectionProfile = new ReasonOfRejectionProfile();
-  userAddressDetailsRequest: UserAddressDetailsRequest = new UserAddressDetailsRequest();
-  userExperienceDetailRequest: UserExperienceDetailRequest = new UserExperienceDetailRequest();
+  reasonOfRejectionProfile: ReasonOfRejectionProfile =
+    new ReasonOfRejectionProfile();
+  userAddressDetailsRequest: UserAddressDetailsRequest =
+    new UserAddressDetailsRequest();
+  userExperienceDetailRequest: UserExperienceDetailRequest =
+    new UserExperienceDetailRequest();
   userLeaveForm!: FormGroup;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
-  ROLE:any
-  UUID:any;
-  hideDetailsFlag:boolean=false;
-  adminRoleFlag:boolean=false;
-  userRoleFlag:boolean=false;
+  ROLE: any;
+  UUID: any;
+  hideDetailsFlag: boolean = false;
+  adminRoleFlag: boolean = false;
+  userRoleFlag: boolean = false;
   constructor(
     private dataService: DataService,
     private datePipe: DatePipe,
@@ -62,8 +75,7 @@ export class EmployeeProfileComponent implements OnInit {
     private firebaseStorage: AngularFireStorage,
     private router: Router,
     private roleService: RoleBasedAccessControlService,
-    public location: Location
-
+    public location: Location,
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -71,17 +83,16 @@ export class EmployeeProfileComponent implements OnInit {
 
     {
       this.userLeaveForm = this.fb.group({
-        startDate: ["", Validators.required],
-        endDate: [""],
-        leaveType: ["", Validators.required],
-        managerId: ["", Validators.required],
-        optNotes: ["", Validators.required],
+        startDate: ['', Validators.required],
+        endDate: [''],
+        leaveType: ['', Validators.required],
+        managerId: ['', Validators.required],
+        optNotes: ['', Validators.required],
         halfDayLeave: [false],
         dayShift: [false],
         eveningShift: [false],
       });
     }
-
   }
 
   goBack() {
@@ -89,19 +100,19 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   get StartDate() {
-    return this.userLeaveForm.get("startDate")
+    return this.userLeaveForm.get('startDate');
   }
   get EndDate() {
-    return this.userLeaveForm.get("endDate")
+    return this.userLeaveForm.get('endDate');
   }
   get LeaveType() {
-    return this.userLeaveForm.get("leaveType")
+    return this.userLeaveForm.get('leaveType');
   }
   get ManagerId() {
-    return this.userLeaveForm.get("managerId")
+    return this.userLeaveForm.get('managerId');
   }
   get OptNotes() {
-    return this.userLeaveForm.get("optNotes")
+    return this.userLeaveForm.get('optNotes');
   }
 
   events: any[] = [];
@@ -113,34 +124,34 @@ export class EmployeeProfileComponent implements OnInit {
   };
 
   userId: any;
-  newDate: string = ''
+  newDate: string = '';
   count: number = 0;
 
   ADMIN = Key.ADMIN;
   MANAGER = Key.MANAGER;
   USER = Key.USER;
 
-  isSalaryPlaceholderFlag:boolean=false;
+  isSalaryPlaceholderFlag: boolean = false;
   // tokenUserRoleFlag:boolean=false;
   currentDate: Date = new Date();
   currentNewDate: any;
   async ngOnInit(): Promise<void> {
+    this.getOnboardingFormPreviewMethodCall();
     this.getAllTaxRegimeMethodCall();
     this.getStatutoryByOrganizationIdMethodCall();
     this.getSalaryConfigurationStepMethodCall();
 
-    
-    this.ROLE= await this.roleService.getRole();
-    this.UUID= await this.roleService.getUuid();
+    this.ROLE = await this.roleService.getRole();
+    this.UUID = await this.roleService.getUuid();
 
-    if(this.ROLE==this.ADMIN){
-    this.adminRoleFlag=true;
+    if (this.ROLE == this.ADMIN) {
+      this.adminRoleFlag = true;
     }
     // if(this.ROLE==this.USER){
     //   this.tokenUserRoleFlag==true;
     // }
-    if(this.userId==this.UUID){
-      this.userRoleFlag=true;
+    if (this.userId == this.UUID) {
+      this.userRoleFlag = true;
     }
     this.getRoleData();
     this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
@@ -157,10 +168,11 @@ export class EmployeeProfileComponent implements OnInit {
     this.startDateStr = firstDayOfMonth.format('YYYY-MM-DD');
     // this.startDateStr = firstDayString;
     // console.log("startDateStr :" + this.startDateStr);
-    this.endDateStr = moment(new Date()).format('YYYY-MM-DD')
+    this.endDateStr = moment(new Date()).format('YYYY-MM-DD');
     this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
     this.fetchManagerNames();
     this.getUserByUuid();
+    this.getManagerBoolean();
     this.getEmployeeAdressDetailsByUuid();
     this.getEmployeeExperiencesDetailsByUuid();
     this.getEmployeeAcademicDetailsByUuid();
@@ -169,28 +181,28 @@ export class EmployeeProfileComponent implements OnInit {
     this.getEmployeeDocumentsDetailsByUuid();
     this.getUserLeaveReq();
     this.getUserLeaveLogByUuid();
+    this.getTotalExperiences();
   }
 
-
-  getRoleData(){
+  getRoleData() {
     //  const managerDetails =localStorage.getItem('managerFunc');
     // if(managerDetails !== null){
     //   const managerFunc = JSON.parse(managerDetails);
 
-    if((this.userId!=this.UUID) && (this.ROLE==this.MANAGER)){
-      this.hideDetailsFlag=true;
-    }else{
-      this.hideDetailsFlag=false;
+    if (this.userId != this.UUID && this.ROLE == this.MANAGER) {
+      this.hideDetailsFlag = true;
+    } else {
+      this.hideDetailsFlag = false;
     }
-      // if((this.userId==this.UUID) && (this.ROLE==this.MANAGER)){
-      //   this.hideDetailsFlag=false;
-      // }else if(this.ROLE==this.ADMIN){
-      //   this.hideDetailsFlag=false;
-      // }else if(this.ROLE==this.USER){
-      //   this.hideDetailsFlag=false;
-      // }else{
-      //   this.hideDetailsFlag=true;
-      // }
+    // if((this.userId==this.UUID) && (this.ROLE==this.MANAGER)){
+    //   this.hideDetailsFlag=false;
+    // }else if(this.ROLE==this.ADMIN){
+    //   this.hideDetailsFlag=false;
+    // }else if(this.ROLE==this.USER){
+    //   this.hideDetailsFlag=false;
+    // }else{
+    //   this.hideDetailsFlag=true;
+    // }
 
     // }
   }
@@ -198,7 +210,6 @@ export class EmployeeProfileComponent implements OnInit {
   prevDate!: Date;
 
   getOrganizationOnboardingDateByUuid() {
-    
     this.dataService.getOrganizationOnboardingDate(this.userId).subscribe(
       (data) => {
         this.prevDate = data;
@@ -209,71 +220,63 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         this.count++;
-      }
+      },
     );
   }
 
-
   user: any = {};
-  isImage:boolean=false;
+  isImage: boolean = false;
 
   getUserByUuid() {
     this.dataService.getUserByUuid(this.userId).subscribe(
       (data) => {
         this.user = data;
 
-        if(constant.EMPTY_STRINGS.includes(this.user.image)){
-          this.isImage=false;
-        }else{
-          this.isImage=true;
+        if (constant.EMPTY_STRINGS.includes(this.user.image)) {
+          this.isImage = false;
+        } else {
+          this.isImage = true;
         }
-       
-        this.count++;
 
+        this.count++;
       },
       (error) => {
-        this.isImage=false;
+        this.isImage = false;
         this.count++;
-      }
+      },
     );
   }
 
-
   toggle = false;
-  approvedToggle=false;
-  @ViewChild("closeRejectModalButton") closeRejectModalButton!:ElementRef;
+  approvedToggle = false;
+  @ViewChild('closeRejectModalButton') closeRejectModalButton!: ElementRef;
   updateStatusUserByUuid(type: string) {
-    if(type=="REJECTED"){
-    this.toggle = true;
-    this.setReasonOfRejectionMethodCall();
-    if(this.requestForMoreDocs== true){
-      type = 'REQUESTED';
-      this.approvedToggle=false;
+    if (type == 'REJECTED') {
+      this.toggle = true;
+      this.setReasonOfRejectionMethodCall();
+      if (this.requestForMoreDocs == true) {
+        type = 'REQUESTED';
+        this.approvedToggle = false;
 
-      // this.toggle = false;
-      
+        // this.toggle = false;
+      }
+    } else if (type == 'APPROVED') {
+      this.approvedToggle = true;
+    }
 
-    }
-  }else if(type=="APPROVED"){
-    this.approvedToggle=true;
-    }
-    
-   
     this.dataService.updateStatusUser(this.userId, type).subscribe(
       (data) => {
         this.closeRejectModalButton.nativeElement.click();
         // console.log('status updated:' + type);
         this.sendStatusResponseMailToUser(this.userId, type);
-        this.reasonOfRejectionProfile= new ReasonOfRejectionProfile();
-        this.toggle = false
+        this.reasonOfRejectionProfile = new ReasonOfRejectionProfile();
+        this.toggle = false;
 
         // location.reload();
         // location.reload();
       },
-      (error) => {
-      }
+      (error) => {},
     );
-
   }
 
   myAttendanceData: Record<string, AttendenceDto[]> = {};
@@ -298,10 +301,9 @@ export class EmployeeProfileComponent implements OnInit {
 
   // totalPresentAbsentOnBack(){
 
-  //   this.firstDay = 
+  //   this.firstDay =
 
   // }
-
 
   // getTotalPresentAbsentMonthwise(): void {
   //   debugger;
@@ -332,74 +334,92 @@ export class EmployeeProfileComponent implements OnInit {
   //     );
   // }
 
-
   // #######################
 
   attendanceDetailsResponse: AttendanceDetailsResponse[] = [];
   // var calendar = new Calendar(calendarEl, {
 
   @ViewChild('openEventsModal') openEventsModal!: ElementRef;
-  userAttendanceDetailDateWise:{checkInTime:string,checkOutTime:string, totalWorkingHours:string, breakCount:string, breakDuration:string, createdDate:string, status:string}={checkInTime:"",checkOutTime:"", totalWorkingHours:"", breakCount:"", breakDuration:"", createdDate:"", status:""};
-  attendanceDetailModalToggle:boolean=false;
-  clientX:string="0px";
-  clientY:string="0px";
+  userAttendanceDetailDateWise: {
+    checkInTime: string;
+    checkOutTime: string;
+    totalWorkingHours: string;
+    breakCount: string;
+    breakDuration: string;
+    createdDate: string;
+    status: string;
+  } = {
+    checkInTime: '',
+    checkOutTime: '',
+    totalWorkingHours: '',
+    breakCount: '',
+    breakDuration: '',
+    createdDate: '',
+    status: '',
+  };
+  attendanceDetailModalToggle: boolean = false;
+  clientX: string = '0px';
+  clientY: string = '0px';
   openModal(mouseEnterInfo: any): void {
-    debugger
-    if(!this.attendanceDetailModalToggle){
-    // console.log("events : ", mouseEnterInfo.event);
-    this.userAttendanceDetailDateWise.checkInTime="";
-    this.userAttendanceDetailDateWise.checkOutTime="";
-    this.userAttendanceDetailDateWise.breakCount="";
-    this.userAttendanceDetailDateWise.breakDuration="";
-    this.userAttendanceDetailDateWise.totalWorkingHours="";
-    this.userAttendanceDetailDateWise.createdDate="";
-    this.userAttendanceDetailDateWise.status="";
-    this.userAttendanceDetailDateWise.checkInTime=mouseEnterInfo.event._def.extendedProps.checkInTime;
-    this.userAttendanceDetailDateWise.checkOutTime=mouseEnterInfo.event._def.extendedProps.checkOutTime;
-    this.userAttendanceDetailDateWise.breakCount=mouseEnterInfo.event._def.extendedProps.breakCount;
-    this.userAttendanceDetailDateWise.breakDuration=mouseEnterInfo.event._def.extendedProps.breakDuration;
-    this.userAttendanceDetailDateWise.totalWorkingHours=mouseEnterInfo.event._def.extendedProps.totalWorkingHours;
-    this.userAttendanceDetailDateWise.createdDate=mouseEnterInfo.event._def.extendedProps.createdDate;
-    this.userAttendanceDetailDateWise.status=mouseEnterInfo.event._def.extendedProps.status;
-    // console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
-    var rect = mouseEnterInfo.el.getBoundingClientRect();
-    this.clientX=(rect.left)+"px";
-    this.clientY=(rect.top)+"px";
-    // console.log("mouse location:", mouseEnterInfo.jsEvent.clientX, mouseEnterInfo.jsEvent.clientY);
-    this.openEventsModal.nativeElement.click();
+    debugger;
+    if (!this.attendanceDetailModalToggle) {
+      // console.log("events : ", mouseEnterInfo.event);
+      this.userAttendanceDetailDateWise.checkInTime = '';
+      this.userAttendanceDetailDateWise.checkOutTime = '';
+      this.userAttendanceDetailDateWise.breakCount = '';
+      this.userAttendanceDetailDateWise.breakDuration = '';
+      this.userAttendanceDetailDateWise.totalWorkingHours = '';
+      this.userAttendanceDetailDateWise.createdDate = '';
+      this.userAttendanceDetailDateWise.status = '';
+      this.userAttendanceDetailDateWise.checkInTime =
+        mouseEnterInfo.event._def.extendedProps.checkInTime;
+      this.userAttendanceDetailDateWise.checkOutTime =
+        mouseEnterInfo.event._def.extendedProps.checkOutTime;
+      this.userAttendanceDetailDateWise.breakCount =
+        mouseEnterInfo.event._def.extendedProps.breakCount;
+      this.userAttendanceDetailDateWise.breakDuration =
+        mouseEnterInfo.event._def.extendedProps.breakDuration;
+      this.userAttendanceDetailDateWise.totalWorkingHours =
+        mouseEnterInfo.event._def.extendedProps.totalWorkingHours;
+      this.userAttendanceDetailDateWise.createdDate =
+        mouseEnterInfo.event._def.extendedProps.createdDate;
+      this.userAttendanceDetailDateWise.status =
+        mouseEnterInfo.event._def.extendedProps.status;
+      // console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
+      var rect = mouseEnterInfo.el.getBoundingClientRect();
+      this.clientX = rect.left - 210 + 'px';
+      this.clientY = rect.top - 100 + 'px';
+      console.log(
+        'mouse location:',
+        mouseEnterInfo.jsEvent.clientX,
+        mouseEnterInfo.jsEvent.clientY,
+      );
+      this.openEventsModal.nativeElement.click();
+    }
   }
-  }
-  
-  closeAttendanceModal() { 
-    this.attendanceDetailModalToggle=false;
+
+  closeAttendanceModal() {
+    this.attendanceDetailModalToggle = false;
     this.closeAttendanceDetailModalButton.nativeElement.click();
   }
 
-
- 
   // eventMouseEnter(mouseEnterInfo: any): void {
   //   const event = mouseEnterInfo.event;
   //   const date = mouseEnterInfo.date;
   //   this.openModal(mouseEnterInfo);
   // }
-@ViewChild("closeAttendanceDetailModalButton") closeAttendanceDetailModalButton!:ElementRef;
+  @ViewChild('closeAttendanceDetailModalButton')
+  closeAttendanceDetailModalButton!: ElementRef;
   mouseLeaveInfo(mouseEnterInfo: any): void {
-    debugger
+    debugger;
     this.closeAttendanceModal();
   }
-   
-    
+
   // });
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
-
-    debugger
+    debugger;
     this.dataService
-      .getUserAttendanceDetailsByDateDuration(
-        this.userId,
-        'USER',
-        sDate,
-        eDate
-      )
+      .getUserAttendanceDetailsByDateDuration(this.userId, 'USER', sDate, eDate)
       .subscribe(
         (response: any) => {
           response = response.listOfObject;
@@ -416,7 +436,11 @@ export class EmployeeProfileComponent implements OnInit {
               const date = currentDate.format('YYYY-MM-DD');
               var color = '#f8d7d7';
               this.totalAbsent++;
-              var tempEvent: { title: string, date: string, color: string } = { title: title, date: date, color: color };
+              var tempEvent: { title: string; date: string; color: string } = {
+                title: title,
+                date: date,
+                color: color,
+              };
               this.events.push(tempEvent);
 
               currentDate.add(1, 'days');
@@ -428,7 +452,7 @@ export class EmployeeProfileComponent implements OnInit {
                 events: this.events,
                 eventClick: this.openModal.bind(this),
                 eventMouseEnter: this.openModal.bind(this),
-                eventMouseLeave:this.mouseLeaveInfo.bind(this)
+                eventMouseLeave: this.mouseLeaveInfo.bind(this),
                 // eventClick: function(mouseEnterInfo) {
                 //   alert('Event: ' + mouseEnterInfo.event.title);
                 //   mouseEnterInfo.el.style.borderColor = 'red';
@@ -443,7 +467,6 @@ export class EmployeeProfileComponent implements OnInit {
             this.attendances = response;
             this.attendanceDetailsResponse = response;
 
-
             // console.log('Attendance Details:', this.attendances);
             // console.log(
             //   'Attendance Details length:',
@@ -453,16 +476,22 @@ export class EmployeeProfileComponent implements OnInit {
               const attendance = this.attendances[i];
               let title = this.getStatusTitle(attendance);
               let color = this.getStatusColor(attendance.status);
-               if ((attendance.status == 'Present') || (attendance.status == 'Half Day') || (attendance.status == 'Late')) {
+              if (
+                attendance.status == 'Present' ||
+                attendance.status == 'Half Day' ||
+                attendance.status == 'Late'
+              ) {
                 this.totalPresent++;
               } else if (attendance.status == 'Absent') {
                 this.totalAbsent++;
-              } 
-              const date = moment(this.attendances[i].createdDate).format('YYYY-MM-DD');
+              }
+              const date = moment(this.attendances[i].createdDate).format(
+                'YYYY-MM-DD',
+              );
 
-              var tempEvent2 = { 
-                title: title, 
-                date: date, 
+              var tempEvent2 = {
+                title: title,
+                date: date,
                 color: color,
                 checkInTime: attendance.checkInTime,
                 checkOutTime: attendance.checkOutTime,
@@ -470,50 +499,49 @@ export class EmployeeProfileComponent implements OnInit {
                 breakDuration: attendance.totalBreakHours,
                 totalWorkingHours: attendance.totalWorkingHours,
                 createdDate: attendance.createdDate,
-                status: attendance.status
+                status: attendance.status,
               };
               this.events.push(tempEvent2);
             }
           }
-  
+
           this.updateCalendarOptions();
-            //   let title = '';
-             
-            //   if((date == moment(new Date()).format('YYYY-MM-DD')) && (this.attendances[i].checkInTime==null)){
-            //     title == '-';
-            //   } else {
-            //   title = this.attendances[i].checkInTime != null ? 'P' : 'A';
-            //   if (title == 'Present') {
-            //     this.totalPresent++;
-            //   } else if (title == 'Absent') {
-            //     this.totalAbsent++;
-            //   } 
-            // }
-             
-            //   var checkInTime = this.attendances[i].checkInTime;
-            //   var checkOutTime = this.attendances[i].checkOutTime;
-            //   var breakCount = this.attendances[i].breakCount;
-            //   var breakDuration = this.attendances[i].totalBreakHours;
-            //   var totalWorkingHours = this.attendances[i].totalWorkingHours;
-            //   var createdDate = this.attendances[i].createdDate
-            //   var color = title == 'Present' ? '#e0ffe0' : title == 'Absent' ? '#f8d7d7' : '';
-            //   var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, totalWorkingHours:any, createdDate:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, totalWorkingHours:totalWorkingHours, createdDate:createdDate };
-            //   this.events.push(tempEvent2);
+          //   let title = '';
 
-              
-              // if (i == this.attendances.length - 1) {
-              //   this.calendarOptions = {
-              //     plugins: [dayGridPlugin],
-              //     initialView: 'dayGridMonth',
-              //     weekends: true,
-              //     events: this.events,
-              //     eventClick: this.openModal.bind(this),
-              //     eventMouseEnter: this.openModal.bind(this),
-              //     eventMouseLeave:this.mouseLeaveInfo.bind(this)
+          //   if((date == moment(new Date()).format('YYYY-MM-DD')) && (this.attendances[i].checkInTime==null)){
+          //     title == '-';
+          //   } else {
+          //   title = this.attendances[i].checkInTime != null ? 'P' : 'A';
+          //   if (title == 'Present') {
+          //     this.totalPresent++;
+          //   } else if (title == 'Absent') {
+          //     this.totalAbsent++;
+          //   }
+          // }
 
-              //   };
-              // }
-              
+          //   var checkInTime = this.attendances[i].checkInTime;
+          //   var checkOutTime = this.attendances[i].checkOutTime;
+          //   var breakCount = this.attendances[i].breakCount;
+          //   var breakDuration = this.attendances[i].totalBreakHours;
+          //   var totalWorkingHours = this.attendances[i].totalWorkingHours;
+          //   var createdDate = this.attendances[i].createdDate
+          //   var color = title == 'Present' ? '#e0ffe0' : title == 'Absent' ? '#f8d7d7' : '';
+          //   var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, totalWorkingHours:any, createdDate:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, totalWorkingHours:totalWorkingHours, createdDate:createdDate };
+          //   this.events.push(tempEvent2);
+
+          // if (i == this.attendances.length - 1) {
+          //   this.calendarOptions = {
+          //     plugins: [dayGridPlugin],
+          //     initialView: 'dayGridMonth',
+          //     weekends: true,
+          //     events: this.events,
+          //     eventClick: this.openModal.bind(this),
+          //     eventMouseEnter: this.openModal.bind(this),
+          //     eventMouseLeave:this.mouseLeaveInfo.bind(this)
+
+          //   };
+          // }
+
           //   }
           // }
 
@@ -525,12 +553,11 @@ export class EmployeeProfileComponent implements OnInit {
             flag = true;
           }
           this.count++;
-
         },
         (error: any) => {
           this.count++;
           // console.error('Error fetching data:', error);
-        }
+        },
       );
   }
 
@@ -542,12 +569,11 @@ export class EmployeeProfileComponent implements OnInit {
       events: this.events,
       eventClick: this.openModal.bind(this),
       eventMouseEnter: this.openModal.bind(this),
-      eventMouseLeave: this.mouseLeaveInfo.bind(this)
+      eventMouseLeave: this.mouseLeaveInfo.bind(this),
     };
   }
-  
 
-  getStatusTitle(attendance: { status: string; }): string {
+  getStatusTitle(attendance: { status: string }): string {
     if (attendance.status === 'Present') {
       return 'P';
     } else if (attendance.status === 'Absent') {
@@ -556,13 +582,13 @@ export class EmployeeProfileComponent implements OnInit {
       return 'W';
     } else if (attendance.status === 'Universal Holiday') {
       return 'h';
-    }else if (attendance.status === 'Custom Holiday') {
+    } else if (attendance.status === 'Custom Holiday') {
       return 'h';
-    }else if (attendance.status === 'On Leave') {
+    } else if (attendance.status === 'On Leave') {
       return 'L';
-    }else if (attendance.status === 'Half Day') {
+    } else if (attendance.status === 'Half Day') {
       return 'H';
-    }else if (attendance.status === 'Late') {
+    } else if (attendance.status === 'Late') {
       return 'l';
     } else if (attendance.status === 'Not Marked') {
       return '-';
@@ -573,15 +599,15 @@ export class EmployeeProfileComponent implements OnInit {
   getStatusColor(status: any): string {
     switch (status) {
       case 'Present':
-        return '#e0ffe0'; 
+        return '#e0ffe0';
       case 'Absent':
-        return '#f8d7d7'; 
+        return '#f8d7d7';
       case 'Weekly Holiday':
-        return '#c6c6ff'; 
+        return '#c6c6ff';
       case 'Universal Holiday':
-        return '#f06d0640'; 
+        return '#f06d0640';
       case 'Custom Holiday':
-        return '#f06d0640'; 
+        return '#f06d0640';
       case 'Half Day':
         return 'rgb(255, 213, 128)';
       case 'On Leave':
@@ -589,32 +615,32 @@ export class EmployeeProfileComponent implements OnInit {
       case 'Late':
         return '#D3D3D3';
       case 'Not Marked':
-        return '#cccccc'; 
+        return '#cccccc';
       default:
-        return '#ffffff'; 
+        return '#ffffff';
     }
   }
 
   // getStatusColor(status: any): string {
   //   switch (status) {
   //     case 'Present':
-  //       return '#e0ffe0'; 
+  //       return '#e0ffe0';
   //     case 'Absent':
-  //       return '#f8d7d7'; 
+  //       return '#f8d7d7';
   //     case 'Weekly Holiday':
-  //       return '#c6c6ff'; 
+  //       return '#c6c6ff';
   //     case 'Universal Holiday':
-  //       return '#f06d0640'; 
+  //       return '#f06d0640';
   //     case 'Custom Holiday':
-  //       return '#f06d0640'; 
+  //       return '#f06d0640';
   //     case 'Half Day':
   //       return 'blue';
   //     case 'On Leave':
   //       return 'skyblue';
   //     case 'Not Marked':
-  //       return '#cccccc'; 
+  //       return '#cccccc';
   //     default:
-  //       return '#ffffff'; 
+  //       return '#ffffff';
   //   }
   // }
 
@@ -625,39 +651,42 @@ export class EmployeeProfileComponent implements OnInit {
     events: [this.events],
     eventClick: this.openModal.bind(this),
     eventMouseEnter: this.openModal.bind(this),
-    eventMouseLeave:this.mouseLeaveInfo.bind(this)
-
+    eventMouseLeave: this.mouseLeaveInfo.bind(this),
   };
 
   forwordFlag: boolean = false;
 
   goforward() {
-    debugger
+    debugger;
     const calendarApi = this.calendarComponent.getApi();
 
     calendarApi.next();
     this.changeForwardButtonVisibilty(calendarApi);
 
     let startDate = calendarApi.view.currentStart;
-    let endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
+    let endDate = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth() + 1,
+      0,
+    );
 
     this.startDateStr = moment(startDate).format('YYYY-MM-DD');
     if (endDate.getMonth() == new Date().getMonth()) {
-      this.endDateStr = moment(new Date()).format('YYYY-MM-DD')
+      this.endDateStr = moment(new Date()).format('YYYY-MM-DD');
     } else {
       this.endDateStr = moment(endDate).format('YYYY-MM-DD');
     }
     this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
-
-   
   }
 
   changeForwardButtonVisibilty(calendarApi: any) {
-    debugger
+    debugger;
     var enrolmentDate = new Date(this.prevDate);
     if (calendarApi?.getDate().getFullYear() != new Date().getFullYear()) {
       this.forwordFlag = true;
-    } else if (calendarApi.getDate().getFullYear() == new Date().getFullYear()) {
+    } else if (
+      calendarApi.getDate().getFullYear() == new Date().getFullYear()
+    ) {
       if (calendarApi.getDate().getMonth() == new Date().getMonth()) {
         this.forwordFlag = false;
       } else {
@@ -674,12 +703,11 @@ export class EmployeeProfileComponent implements OnInit {
     } else {
       this.backwardFlag = true;
     }
-
   }
 
   backwardFlag: boolean = true;
   goBackward() {
-    debugger
+    debugger;
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
     var month = date.getMonth();
@@ -689,7 +717,11 @@ export class EmployeeProfileComponent implements OnInit {
     this.changeForwardButtonVisibilty(calendarApi);
 
     let startDate = calendarApi.view.currentStart;
-    let endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
+    let endDate = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth() + 1,
+      0,
+    );
 
     if (startDate.getMonth() == new Date(this.newDate).getMonth()) {
       this.startDateStr = this.newDate;
@@ -698,7 +730,6 @@ export class EmployeeProfileComponent implements OnInit {
     }
     this.endDateStr = moment(endDate).format('YYYY-MM-DD');
     this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
-
   }
 
   goToday() {
@@ -708,19 +739,14 @@ export class EmployeeProfileComponent implements OnInit {
     this.backwardFlag = true;
 
     let startDate = calendarApi.view.currentStart;
-    let endDate = moment(new Date()).format('YYYY-MM-DD')
-
+    let endDate = moment(new Date()).format('YYYY-MM-DD');
 
     this.startDateStr = moment(startDate).format('YYYY-MM-DD');
     this.endDateStr = endDate;
     this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
-
-
-
   }
 
   // ############################################################################333333
-
 
   today: Date = new Date();
   convertStringToDate(attendance: AttendenceDto) {
@@ -732,7 +758,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   dateInMonthList(attendances: AttendenceDto[]): string[] {
     const uniqueDays = Array.from(
-      new Set(attendances.map((a) => a.createdDate))
+      new Set(attendances.map((a) => a.createdDate)),
     );
     return uniqueDays;
   }
@@ -752,17 +778,13 @@ export class EmployeeProfileComponent implements OnInit {
   //   console.log('Day clicked', day);
   // }
 
-
-
   // ******************************************************************
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 
-
-  @ViewChild("requestLeaveCloseModel")
+  @ViewChild('requestLeaveCloseModel')
   requestLeaveCloseModel!: ElementRef;
 
   // @ViewChild('userLeaveForm') userLeaveForm: NgForm;
-
 
   resetUserLeave() {
     this.userLeaveRequest.startDate = new Date();
@@ -770,63 +792,63 @@ export class EmployeeProfileComponent implements OnInit {
     this.userLeaveRequest.halfDayLeave = false;
     this.userLeaveRequest.dayShift = false;
     this.userLeaveRequest.eveningShift = false;
-    this.userLeaveRequest.leaveType = "";
+    this.userLeaveRequest.leaveType = '';
     this.userLeaveRequest.managerId = 0;
-    this.userLeaveRequest.optNotes = "";
+    this.userLeaveRequest.optNotes = '';
     this.selectedManagerId = 0;
-
   }
   @ViewChild(FormGroupDirective)
   formGroupDirective!: FormGroupDirective;
-  submitLeaveLoader:boolean=false;
+  submitLeaveLoader: boolean = false;
 
   saveLeaveRequestUser() {
-    debugger
+    debugger;
     this.userLeaveRequest.managerId = this.selectedManagerId;
     this.userLeaveRequest.dayShift = this.dayShiftToggle;
     this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
-    this.submitLeaveLoader=true;
+    this.submitLeaveLoader = true;
     // this.userLeaveRequest.halfDayLeave = false;
-    this.dataService.saveLeaveRequest(this.userId, this.userLeaveRequest)
-      .subscribe(data => {
-
-        // console.log(data);
-        // console.log(data.body);
-        this.submitLeaveLoader=false;
-        this.isLeavePlaceholder=false;
-        this.getUserLeaveReq();
-        this.resetUserLeave();
-        this.formGroupDirective.resetForm();
-        this.getUserLeaveLogByUuid();
-        this.requestLeaveCloseModel.nativeElement.click();
-        // location.reload();
-      }, (error) => {
-        this.submitLeaveLoader=false;
-        // console.log(error.body);
-      })
+    this.dataService
+      .saveLeaveRequest(this.userId, this.userLeaveRequest)
+      .subscribe(
+        (data) => {
+          // console.log(data);
+          // console.log(data.body);
+          this.submitLeaveLoader = false;
+          this.isLeavePlaceholder = false;
+          this.getUserLeaveReq();
+          this.resetUserLeave();
+          this.formGroupDirective.resetForm();
+          this.getUserLeaveLogByUuid();
+          this.requestLeaveCloseModel.nativeElement.click();
+          // location.reload();
+        },
+        (error) => {
+          this.submitLeaveLoader = false;
+          // console.log(error.body);
+        },
+      );
   }
 
   dayShiftToggle: boolean = false;
   eveningShiftToggle: boolean = false;
 
   dayShiftToggleFun(shift: string) {
-
     if (shift == 'day') {
       this.dayShiftToggle = true;
       this.eveningShiftToggle = false;
-
     } else if (shift == 'evening') {
       this.eveningShiftToggle = true;
-      this.dayShiftToggle == false
+      this.dayShiftToggle == false;
     }
     // console.log("day" + this.dayShiftToggle + "evening" + this.eveningShiftToggle);
   }
 
-
   halfDayLeaveShiftToggle: boolean = false;
 
   halfLeaveShiftToggle() {
-    this.halfDayLeaveShiftToggle = this.halfDayLeaveShiftToggle == true ? false : true;
+    this.halfDayLeaveShiftToggle =
+      this.halfDayLeaveShiftToggle == true ? false : true;
   }
 
   // pendingFlag: boolean = true;
@@ -839,10 +861,10 @@ export class EmployeeProfileComponent implements OnInit {
   //     console.log(error);
   //   })
   // }
-//   (ngModelChange)="getIsPendingLeave(userLeaveRequest.leaveType)"
-//   <div class="text-danger" *ngIf="!pendingFlag">
-//   You can not apply to this leave, for selected dates your leave qouta is exhausted.
-// </div>
+  //   (ngModelChange)="getIsPendingLeave(userLeaveRequest.leaveType)"
+  //   <div class="text-danger" *ngIf="!pendingFlag">
+  //   You can not apply to this leave, for selected dates your leave qouta is exhausted.
+  // </div>
   userLeave: any = [];
   leaveCountPlaceholderFlag: boolean = false;
 
@@ -850,7 +872,11 @@ export class EmployeeProfileComponent implements OnInit {
     this.leaveCountPlaceholderFlag = false;
     this.dataService.getUserLeaveRequests(this.userId).subscribe(
       (data) => {
-        if (data.body != undefined || data.body != null || data.body.length != 0) {
+        if (
+          data.body != undefined ||
+          data.body != null ||
+          data.body.length != 0
+        ) {
           this.userLeave = data.body;
         } else {
           this.leaveCountPlaceholderFlag = true;
@@ -860,36 +886,36 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         this.count++;
-      }
+      },
     );
   }
-
-
 
   selectedStatus!: string;
   selectStatusFlag: boolean = false;
   isLeaveErrorPlaceholder: boolean = false;
   getUserLeaveLogByUuid() {
-    debugger
+    debugger;
     this.isLeaveShimmer = true;
     // this.selectStatusFlag=true;
 
-    if (this.selectedStatus && this.selectedStatus!= 'ALL') {
-      console.log("selectedStatus :" + this.selectedStatus)
-      this.dataService.getUserLeaveLogByStatus(this.userId, this.selectedStatus).subscribe(
-        (data) => {
-          this.userLeaveLog = data;
-          this.isLeaveShimmer = false;
-          this.isLeavePlaceholder = !data || data.length === 0;
-          this.count++;
-        },
-        (error) => {
-          this.isLeaveShimmer = false;
-          this.count++;
-        }
-      );
+    if (this.selectedStatus && this.selectedStatus != 'ALL') {
+      console.log('selectedStatus :' + this.selectedStatus);
+      this.dataService
+        .getUserLeaveLogByStatus(this.userId, this.selectedStatus)
+        .subscribe(
+          (data) => {
+            this.userLeaveLog = data;
+            this.isLeaveShimmer = false;
+            this.isLeavePlaceholder = !data || data.length === 0;
+            this.count++;
+          },
+          (error) => {
+            this.isLeaveShimmer = false;
+            this.count++;
+          },
+        );
     } else {
-      console.log("selectedStatus :" + this.selectedStatus)
+      console.log('selectedStatus :' + this.selectedStatus);
       this.dataService.getUserLeaveLog(this.userId).subscribe(
         (data) => {
           this.userLeaveLog = data;
@@ -905,11 +931,10 @@ export class EmployeeProfileComponent implements OnInit {
         (error) => {
           this.isLeaveErrorPlaceholder = true;
           this.isLeaveShimmer = false;
-        }
+        },
       );
     }
   }
-
 
   userLeaveLog: any;
 
@@ -942,10 +967,11 @@ export class EmployeeProfileComponent implements OnInit {
       (data: UserDto[]) => {
         this.managers = data;
         this.count++;
+        // console.log('manager :' + this.managers[2].id);
       },
       (error) => {
         this.count++;
-      }
+      },
     );
   }
 
@@ -961,18 +987,15 @@ export class EmployeeProfileComponent implements OnInit {
     return formattedTime;
   }
 
-
   calculateDateDifference(endDate: string, startDate: string): number {
     const end = new Date(endDate);
     const start = new Date(startDate);
     const timeDifference = end.getTime() - start.getTime();
     const daysDifference = timeDifference / (1000 * 3600 * 24);
-    return daysDifference+1;
+    return daysDifference + 1;
   }
 
-
   // #################################################################33
-
 
   addressEmployee: any[] = [];
   // isAddressShimmer:boolean=false;
@@ -981,15 +1004,12 @@ export class EmployeeProfileComponent implements OnInit {
     // this.isAddressShimmer=true;
     this.dataService.getNewUserAddressDetails(this.userId).subscribe(
       (data: UserAddressDetailsRequest) => {
-
         if (data.userAddressRequest.length == 0) {
           this.isAddressPlaceholder = true;
           return;
         } else {
           this.addressEmployee = data.userAddressRequest;
-
         }
-
 
         this.count++;
         // this.isAddressShimmer=false;
@@ -999,11 +1019,9 @@ export class EmployeeProfileComponent implements OnInit {
         this.count++;
         this.isAddressPlaceholder = true;
         // this.isAddressShimmer=false;
-      }
+      },
     );
   }
-
-
 
   isFresher: boolean = false;
   experienceEmployee: any;
@@ -1012,12 +1030,11 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.getEmployeeExperiencesDetails(this.userId).subscribe(
       (data: UserExperienceDetailRequest) => {
         this.experienceEmployee = data;
-       
-      if(this.experienceEmployee[0].fresher== true){
-        this.isFresher = this.experienceEmployee[0].fresher;
 
-      }
-        console.log("experience length" + this.experienceEmployee.length);
+        if (this.experienceEmployee[0].fresher == true) {
+          this.isFresher = this.experienceEmployee[0].fresher;
+        }
+        console.log('experience length' + this.experienceEmployee.length);
         if (data == undefined || data == null || data.experiences.length == 0) {
           this.isCompanyPlaceholder = true;
         }
@@ -1026,10 +1043,9 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         this.count++;
         this.isCompanyPlaceholder = true;
-      }
+      },
     );
   }
-
 
   academicEmployee: any;
   isAcademicPlaceholder: boolean = false;
@@ -1039,9 +1055,7 @@ export class EmployeeProfileComponent implements OnInit {
       (data) => {
         if (data != null || data != undefined) {
           this.academicEmployee = data;
-
-        }
-        else {
+        } else {
           this.isAcademicPlaceholder = true;
         }
         this.count++;
@@ -1049,16 +1063,13 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         this.count++;
         this.isAcademicPlaceholder = true;
-      }
+      },
     );
   }
-
-
 
   contactsEmployee: any;
   isContactPlaceholder: boolean = false;
   getEmployeeContactsDetailsByUuid() {
-    
     this.dataService.getEmployeeContactsDetails(this.userId).subscribe(
       (data) => {
         this.contactsEmployee = data;
@@ -1066,17 +1077,13 @@ export class EmployeeProfileComponent implements OnInit {
           this.isContactPlaceholder = true;
         }
         this.count++;
-        
       },
       (error) => {
         this.count++;
         this.isContactPlaceholder = true;
-      }
+      },
     );
   }
-
-
-
 
   bankDetailsEmployee: any;
   isBankShimmer: boolean = false;
@@ -1093,12 +1100,12 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         this.count++;
         this.isBankShimmer = false;
-      }
+      },
     );
   }
 
   isDocsPlaceholder: boolean = false;
-  documentsEmployee: UserDocumentsAsList[]=[];
+  documentsEmployee: UserDocumentsAsList[] = [];
   highSchoolCertificate: string = '';
   degreeCert: string = '';
   intermediateCertificate: string = '';
@@ -1107,7 +1114,7 @@ export class EmployeeProfileComponent implements OnInit {
   pancardString: string = '';
   // isDocumentsShimmer:boolean=false;
   getEmployeeDocumentsDetailsByUuid() {
-    debugger
+    debugger;
     // this.isDocumentsShimmer=true;
     this.dataService.getEmployeeDocumentAsList(this.userId).subscribe(
       (data) => {
@@ -1121,7 +1128,7 @@ export class EmployeeProfileComponent implements OnInit {
         //   this.pancardString = data.userDocuments.pancard;
         // }
         // this.isDocumentsShimmer=false;
-        if((this.documentsEmployee.length==0)) {
+        if (this.documentsEmployee.length == 0) {
           this.isDocsPlaceholder = true;
         }
 
@@ -1131,7 +1138,7 @@ export class EmployeeProfileComponent implements OnInit {
         this.count++;
         this.isDocsPlaceholder = true;
         // this.isDocumentsShimmer=false;
-      }
+      },
     );
   }
 
@@ -1144,20 +1151,20 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   selectStatus(status: string): void {
-    if(status== ''){
+    if (status == '') {
       this.selectedStatus = 'ALL';
-      this.isLeavePlaceholder=false;
+      this.isLeavePlaceholder = false;
       this.getUserLeaveLogByUuid();
-    }else{
-    this.selectedStatus = status;
-    this.getUserLeaveLogByUuid();
+    } else {
+      this.selectedStatus = status;
+      this.getUserLeaveLogByUuid();
     }
   }
 
-  previewString: string = ''
+  previewString: string = '';
   @ViewChild('openViewModal') openViewModal!: ElementRef;
   openPdfModel(viewString: string) {
-    debugger
+    debugger;
     this.previewString = viewString;
     // if (viewString == "highSchool") {
     //   this.previewString = this.highSchoolCertificate;
@@ -1175,7 +1182,6 @@ export class EmployeeProfileComponent implements OnInit {
 
     this.openViewModal.nativeElement.click();
   }
-
 
   // downloadSingleImage(imageUrl: any){
   //   debugger
@@ -1208,28 +1214,33 @@ export class EmployeeProfileComponent implements OnInit {
     }
 
     var blob = null;
-    var splittedUrl = imageUrl.split("/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/");
+    var splittedUrl = imageUrl.split(
+      '/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/',
+    );
 
     if (splittedUrl.length < 2) {
       // console.error('Invalid image URL format');
       return;
     }
 
-    splittedUrl = splittedUrl[1].split("?alt");
-    splittedUrl = splittedUrl[0].replace("https://", "");
+    splittedUrl = splittedUrl[1].split('?alt');
+    splittedUrl = splittedUrl[0].replace('https://', '');
     splittedUrl = decodeURIComponent(splittedUrl);
 
-    this.firebaseStorage.storage.ref(splittedUrl).getDownloadURL().then((url: any) => {
-      // This can be downloaded directly:
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = 'blob';
-      xhr.onload = (event) => {
-        blob = xhr.response;
-        saveAs(blob, "Docs");
-      };
-      xhr.open('GET', url);
-      xhr.send();
-    })
+    this.firebaseStorage.storage
+      .ref(splittedUrl)
+      .getDownloadURL()
+      .then((url: any) => {
+        // This can be downloaded directly:
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = (event) => {
+          blob = xhr.response;
+          saveAs(blob, 'Docs');
+        };
+        xhr.open('GET', url);
+        xhr.send();
+      })
       .catch((error: any) => {
         // Handle any errors
       });
@@ -1237,26 +1248,26 @@ export class EmployeeProfileComponent implements OnInit {
 
   // ########################
 
-  InOutLoader:boolean=false;
+  InOutLoader: boolean = false;
 
   checkinCheckout(command: string) {
-    this.InOutLoader=true;
+    this.InOutLoader = true;
     this.dataService.checkinCheckoutInSlack(this.userId, command).subscribe(
       (data) => {
-        this.InOutLoader=false;
+        this.InOutLoader = false;
         this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
         this.getUserAttendanceStatus();
         this.helperService.showToast(data.message, Key.TOAST_STATUS_SUCCESS);
       },
       (error) => {
-        this.InOutLoader=false;
+        this.InOutLoader = false;
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
 
         // this.getUserAttendanceStatus();
         // if(command==="/inn"){
         // this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
         // }
-      }
+      },
     );
   }
 
@@ -1270,115 +1281,112 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         this.count++;
-      }
-    );
-  }
-
-  @ViewChild('openRejectModal') openRejectModal !: ElementRef;
-  setReasonOfRejectionMethodCall(){
-    debugger
-    this.dataService.setReasonOfRejection(this.userId, this.reasonOfRejectionProfile)
-    .subscribe(
-      (response: ReasonOfRejectionProfile) => { 
-        // console.log('Response:', response);
-      
       },
-      (error) => {
-        // console.error('Error occurred:', error);
-        
-      }
     );
-}
-
-formatDateIn(newdate:any) {
-  const date = new Date(newdate);
-  const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
-  return formattedDate;
-}
-
-// calculateDateDifferenceDuration(endDate:any, startDate:any){
-//   const start = new Date(startDate);
-//   const end = new Date(endDate);
-
-//   if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
-//     const millisecondsDifference = end.getTime() - start.getTime();
-//     const yearsDifference = millisecondsDifference / (1000 * 60 * 60 * 24 * 365.25);
-//     return Math.floor(yearsDifference);
-//   }else{
-//     return null;
-//   }
-// }
-
-
-calculateDateDifferenceDuration(endDate:any, startDate:any) {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-
-  if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
-    const yearDiff = end.getFullYear() - start.getFullYear();
-    const monthDiff = end.getMonth() - start.getMonth();
-
-    let result = '';
-
-    if (yearDiff > 0) {
-      result += `${yearDiff} year${yearDiff === 1 ? '' : 's'}`;
-    }
-
-    if (monthDiff > 0) {
-      if (yearDiff > 0) {
-        result += ' ';
-      }
-      result += `${monthDiff === 1 ? monthDiff + ' month' : monthDiff + ' months'}`;
-    }
-    return result.trim() || 'N/A';
-  } else {
-    return null;
   }
-}
 
+  @ViewChild('openRejectModal') openRejectModal!: ElementRef;
+  setReasonOfRejectionMethodCall() {
+    debugger;
+    this.dataService
+      .setReasonOfRejection(this.userId, this.reasonOfRejectionProfile)
+      .subscribe(
+        (response: ReasonOfRejectionProfile) => {
+          // console.log('Response:', response);
+        },
+        (error) => {
+          // console.error('Error occurred:', error);
+        },
+      );
+  }
 
+  formatDateIn(newdate: any) {
+    const date = new Date(newdate);
+    const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
+    return formattedDate;
+  }
 
+  // calculateDateDifferenceDuration(endDate:any, startDate:any){
+  //   const start = new Date(startDate);
+  //   const end = new Date(endDate);
 
-sendStatusResponseMailToUser(userUuid:string, requestString:string) {
-  this.dataService.statusResponseMailToUser(userUuid, requestString).subscribe(
-    (data) => {
-      
-    //  console.log("mail send successfully");
-    
-     this.helperService.showToast("Mail Sent Successfully", Key.TOAST_STATUS_SUCCESS);
-     this.getUserByUuid();
-    //  this.closeRejectModalButton.nativeElement.click();
+  //   if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+  //     const millisecondsDifference = end.getTime() - start.getTime();
+  //     const yearsDifference = millisecondsDifference / (1000 * 60 * 60 * 24 * 365.25);
+  //     return Math.floor(yearsDifference);
+  //   }else{
+  //     return null;
+  //   }
+  // }
 
-     if(requestString=="APPROVED"){
-     this.toggle = false;
-     }
-     if(requestString=="REJECTED"){
-     this.approvedToggle=false;
-     }
-     
-    },
-    (error) => {
-      this.helperService.showToast(error.message, Key.TOAST_STATUS_SUCCESS);
+  calculateDateDifferenceDuration(endDate: any, startDate: any) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+      const yearDiff = end.getFullYear() - start.getFullYear();
+      const monthDiff = end.getMonth() - start.getMonth();
+
+      let result = '';
+
+      if (yearDiff > 0) {
+        result += `${yearDiff} year${yearDiff === 1 ? '' : 's'}`;
+      }
+
+      if (monthDiff > 0) {
+        if (yearDiff > 0) {
+          result += ' ';
+        }
+        result += `${monthDiff === 1 ? monthDiff + ' month' : monthDiff + ' months'}`;
+      }
+      return result.trim() || 'N/A';
+    } else {
+      return null;
     }
-  );
-}
+  }
+
+  sendStatusResponseMailToUser(userUuid: string, requestString: string) {
+    this.dataService
+      .statusResponseMailToUser(userUuid, requestString)
+      .subscribe(
+        (data) => {
+          //  console.log("mail send successfully");
+
+          this.helperService.showToast(
+            'Mail Sent Successfully',
+            Key.TOAST_STATUS_SUCCESS,
+          );
+          this.getUserByUuid();
+          //  this.closeRejectModalButton.nativeElement.click();
+
+          if (requestString == 'APPROVED') {
+            this.toggle = false;
+          }
+          if (requestString == 'REJECTED') {
+            this.approvedToggle = false;
+          }
+        },
+        (error) => {
+          this.helperService.showToast(error.message, Key.TOAST_STATUS_SUCCESS);
+        },
+      );
+  }
 
   requestForMoreDocs: boolean = false;
-  requestUserForMoreDocs(){
+  requestUserForMoreDocs() {
     this.openRejectModal.nativeElement.click();
     this.requestForMoreDocs = true;
   }
 
-
   // #####################################################################
   //Code written by Shivendra
 
-  clearInputValues(){
+  clearInputValues() {
     this.statutoryAccountNumber = '';
   }
 
   isFormValid: boolean = false;
-  @ViewChild ('ePFForm') ePFForm !: NgForm;
+  @ViewChild('ePFForm') ePFForm!: NgForm;
 
   EPF_ID = Key.EPF_ID;
   ESI_ID = Key.ESI_ID;
@@ -1391,159 +1399,359 @@ sendStatusResponseMailToUser(userUuid:string, requestString:string) {
   switchValueForPF = false;
   switchValueForESI = false;
   switchValueForProfessionalTax = false;
-  setStatutoryVariablesToFalse(){
+  setStatutoryVariablesToFalse() {
     this.switchValueForPF = false;
     this.switchValueForESI = false;
     this.switchValueForProfessionalTax = false;
   }
 
-  salaryConfigurationStepId : number = 0;
-  getSalaryConfigurationStepMethodCall(){
-    this.dataService.getSalaryConfigurationStep().subscribe((response) => {
-      this.salaryConfigurationStepId = response.count;
-    }, (error) => {
-
-    })
+  salaryConfigurationStepId: number = 0;
+  getSalaryConfigurationStepMethodCall() {
+    this.dataService.getSalaryConfigurationStep().subscribe(
+      (response) => {
+        this.salaryConfigurationStepId = response.count;
+      },
+      (error) => {},
+    );
   }
 
-
-    //Fetching the PF contribution rates from the database
-    pFContributionRateList : PFContributionRate[] = [];
-    getPFContributionRateMethodCall(){
-      this.dataService.getPFContributionRate().subscribe((response) => {
+  //Fetching the PF contribution rates from the database
+  pFContributionRateList: PFContributionRate[] = [];
+  getPFContributionRateMethodCall() {
+    this.dataService.getPFContributionRate().subscribe(
+      (response) => {
         this.pFContributionRateList = response.listOfObject;
         console.log(response.listOfObject);
-      }, (error) =>{
-  
-      })
-    }
-  
-  
-    eSIContributionRateList : ESIContributionRate[] = [];
-    getESIContributionRateMethodCall(){
-      this.dataService.getESIContributionRate().subscribe((response) => {
+      },
+      (error) => {},
+    );
+  }
+
+  eSIContributionRateList: ESIContributionRate[] = [];
+  getESIContributionRateMethodCall() {
+    this.dataService.getESIContributionRate().subscribe(
+      (response) => {
         this.eSIContributionRateList = response.listOfObject;
-      }, (error) => {
-  
-      })
-    }
-
-  updateTaxRegimeByUserIdMethodCall(taxRegimeId : number){
-    this.dataService.updateTaxRegimeByUserId(taxRegimeId).subscribe((response) => {
-      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
-      this.getAllTaxRegimeMethodCall();
-    }, (error) => {
-      this.helperService.showToast("Error in updating tax regime!", Key.TOAST_STATUS_ERROR);
-    })
+      },
+      (error) => {},
+    );
   }
 
-  taxRegimeList : TaxRegime[] = [];
-  getAllTaxRegimeMethodCall(){
-    this.dataService.getAllTaxRegime().subscribe((response) => {
-      this.taxRegimeList = response.listOfObject;
-    }, (error) => {
-
-    })
+  updateTaxRegimeByUserIdMethodCall(taxRegimeId: number) {
+    this.dataService.updateTaxRegimeByUserId(taxRegimeId).subscribe(
+      (response) => {
+        this.helperService.showToast(
+          response.message,
+          Key.TOAST_STATUS_SUCCESS,
+        );
+        this.getAllTaxRegimeMethodCall();
+      },
+      (error) => {
+        this.helperService.showToast(
+          'Error in updating tax regime!',
+          Key.TOAST_STATUS_ERROR,
+        );
+      },
+    );
   }
 
-
-  statutoryResponseList : StatutoryResponse[] = [];
-  getStatutoryByOrganizationIdMethodCall(){
-    debugger
-    this.dataService.getStatutoryByOrganizationId().subscribe((response) => {
-      this.statutoryResponseList = response.listOfObject;
-      this.setStatutoryVariablesToFalse();
-      console.log(this.statutoryResponseList);
-      this.clearInputValues();
-    }, (error) => {
-
-    })
+  taxRegimeList: TaxRegime[] = [];
+  getAllTaxRegimeMethodCall() {
+    this.dataService.getAllTaxRegime().subscribe(
+      (response) => {
+        this.taxRegimeList = response.listOfObject;
+      },
+      (error) => {},
+    );
   }
 
+  statutoryResponseList: StatutoryResponse[] = [];
+  getStatutoryByOrganizationIdMethodCall() {
+    debugger;
+    this.dataService.getStatutoryByOrganizationId().subscribe(
+      (response) => {
+        this.statutoryResponseList = response.listOfObject;
+        this.setStatutoryVariablesToFalse();
+        console.log(this.statutoryResponseList);
+        this.clearInputValues();
+      },
+      (error) => {},
+    );
+  }
 
-    //Fetching statutory's attributes
-    statutoryAttributeResponseList : StatutoryAttributeResponse[] = [];
-    getStatutoryAttributeByStatutoryIdMethodCall(statutoryId : number){
-      return new Promise((resolve, reject) => {
-        this.dataService.getStatutoryAttributeByStatutoryId(statutoryId).subscribe((response) => {
-          this.statutoryAttributeResponseList = response.listOfObject;
-          console.log(response);
-          resolve(response);
-        }, (error) => {
-          reject(error);
-        })
-      })
-    }
+  //Fetching statutory's attributes
+  statutoryAttributeResponseList: StatutoryAttributeResponse[] = [];
+  getStatutoryAttributeByStatutoryIdMethodCall(statutoryId: number) {
+    return new Promise((resolve, reject) => {
+      this.dataService
+        .getStatutoryAttributeByStatutoryId(statutoryId)
+        .subscribe(
+          (response) => {
+            this.statutoryAttributeResponseList = response.listOfObject;
+            console.log(response);
+            resolve(response);
+          },
+          (error) => {
+            reject(error);
+          },
+        );
+    });
+  }
 
-  async clickSwitch(statutoryResponse : StatutoryResponse){
-    if(!statutoryResponse.loading){
+  async clickSwitch(statutoryResponse: StatutoryResponse) {
+    if (!statutoryResponse.loading) {
       statutoryResponse.loading = true;
     }
-    
-    await this.getStatutoryAttributeByStatutoryIdMethodCall(statutoryResponse.id);
+
+    await this.getStatutoryAttributeByStatutoryIdMethodCall(
+      statutoryResponse.id,
+    );
 
     this.statutoryRequest.id = statutoryResponse.id;
     this.statutoryRequest.name = statutoryResponse.name;
     this.statutoryRequest.switchValue = !statutoryResponse.switchValue;
-    this.statutoryRequest.statutoryAttributeRequestList = this.statutoryAttributeResponseList;
+    this.statutoryRequest.statutoryAttributeRequestList =
+      this.statutoryAttributeResponseList;
 
     console.log(this.statutoryAttributeResponseList);
 
-    if(statutoryResponse.switchValue === false){
-      if(statutoryResponse.id == this.EPF_ID){
+    if (statutoryResponse.switchValue === false) {
+      if (statutoryResponse.id == this.EPF_ID) {
         this.switchValueForPF = true;
-      } else if(statutoryResponse.id == this.ESI_ID){
+      } else if (statutoryResponse.id == this.ESI_ID) {
         this.switchValueForESI = true;
-      } else if(statutoryResponse.id == this.PROFESSIONAL_TAX_ID){
+      } else if (statutoryResponse.id == this.PROFESSIONAL_TAX_ID) {
         this.switchValueForProfessionalTax = true;
       }
-
-    } else{
+    } else {
       this.enableOrDisableStatutoryMethodCall();
     }
   }
 
-  statutoryAccountNumber : string = '';
-  statutoryRequest : StatutoryRequest = new StatutoryRequest();
-  enableOrDisableStatutoryMethodCall(){
+  statutoryAccountNumber: string = '';
+  statutoryRequest: StatutoryRequest = new StatutoryRequest();
+  enableOrDisableStatutoryMethodCall() {
     this.statutoryRequest.statutoryAccountNumber = this.statutoryAccountNumber;
-    this.dataService.enableOrDisableStatutory(this.statutoryRequest).subscribe((response) => {
-      this.setStatutoryVariablesToFalse();
-      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
-      this.getStatutoryByOrganizationIdMethodCall();
-    }, (error) => {
-      this.helperService.showToast(error.error.message, Key.TOAST_STATUS_ERROR);
-      this.getStatutoryByOrganizationIdMethodCall();
-    })
+    this.dataService.enableOrDisableStatutory(this.statutoryRequest).subscribe(
+      (response) => {
+        this.setStatutoryVariablesToFalse();
+        this.helperService.showToast(
+          response.message,
+          Key.TOAST_STATUS_SUCCESS,
+        );
+        this.getStatutoryByOrganizationIdMethodCall();
+      },
+      (error) => {
+        this.helperService.showToast(
+          error.error.message,
+          Key.TOAST_STATUS_ERROR,
+        );
+        this.getStatutoryByOrganizationIdMethodCall();
+      },
+    );
   }
 
   BUTTON_LOADER = false;
-  updateSalaryConfigurationStepMethodCall(salaryConfigurationStepId : number){
+  updateSalaryConfigurationStepMethodCall(salaryConfigurationStepId: number) {
     this.BUTTON_LOADER = true;
-    this.dataService.updateSalaryConfigurationStep(salaryConfigurationStepId).subscribe((response) => {
-      this.getSalaryConfigurationStepMethodCall();
-      this.BUTTON_LOADER = false;
-    }, (error) => {
-      this.BUTTON_LOADER = false;
-    })
+    this.dataService
+      .updateSalaryConfigurationStep(salaryConfigurationStepId)
+      .subscribe(
+        (response) => {
+          this.getSalaryConfigurationStepMethodCall();
+          this.BUTTON_LOADER = false;
+        },
+        (error) => {
+          this.BUTTON_LOADER = false;
+        },
+      );
   }
 
-  goToManageStatutory(){
+  goToManageStatutory() {
     this.salaryConfigurationStepId = this.MANAGE_STATUTORY;
-    const configureSalarySettingDiv = document.getElementById("configure-salary-setting") as HTMLInputElement | null;
-    const manageStatutoryDiv = document.getElementById("manage-statutory") as HTMLInputElement | null;
+    const configureSalarySettingDiv = document.getElementById(
+      'configure-salary-setting',
+    ) as HTMLInputElement | null;
+    const manageStatutoryDiv = document.getElementById(
+      'manage-statutory',
+    ) as HTMLInputElement | null;
 
-    if(configureSalarySettingDiv){
-      configureSalarySettingDiv.style.display = "none";
+    if (configureSalarySettingDiv) {
+      configureSalarySettingDiv.style.display = 'none';
 
-      if(manageStatutoryDiv){
-        manageStatutoryDiv.style.display = "block";
+      if (manageStatutoryDiv) {
+        manageStatutoryDiv.style.display = 'block';
       }
     }
   }
 
+  secondarySchoolCertificateFileName: string = '';
+  highSchoolCertificateFileName1: string = '';
+  highestQualificationDegreeFileName1: string = '';
+  testimonialReccomendationFileName1: string = '';
+  aadhaarCardFileName: string = '';
+  pancardFileName: string = '';
+  companyLogoUrl: string = '';
 
+  isLoading: boolean = true;
+  // isFresher: boolean = false;
+  isSchoolDocument: boolean = true;
+  isHighSchoolDocument: boolean = true;
+  onboardingPreviewData: OnboardingFormPreviewResponse =
+    new OnboardingFormPreviewResponse();
+  userEmergencyContactArray: UserEmergencyContactDetailsRequest[] = [];
+  userExperienceArray: UserExperience[] = [];
+  employeeAdditionalDocument: EmployeeAdditionalDocument[] = [];
+
+  routeToUserDetails(routePath: string) {
+    let navExtra: NavigationExtras = {
+      queryParams: {
+        userUuid: new URLSearchParams(window.location.search).get('userId'),
+      },
+    };
+    this.router.navigate([routePath], navExtra);
+  }
+
+  getOnboardingFormPreviewMethodCall() {
+    debugger;
+    const userUuid =
+      new URLSearchParams(window.location.search).get('userId') || '';
+    if (userUuid) {
+      this.dataService.getOnboardingFormPreview(userUuid).subscribe(
+        (preview) => {
+          console.log(preview);
+          this.onboardingPreviewData = preview;
+          if (preview.companyLogo) {
+            this.companyLogoUrl = preview.companyLogo;
+          }
+          this.isLoading = false;
+          this.handleOnboardingStatus(
+            preview.user.employeeOnboardingStatus.response,
+          );
+
+          // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
+          this.employeeAdditionalDocument = preview.employeeAdditionalDocuments;
+          console.log(this.employeeAdditionalDocument);
+          // } else {
+          //   console.log("eroor ")
+          //     // Handle the case where employeeAdditionalDocument is undefined, null, or empty
+          //     this.employeeAdditionalDocument = [];
+          // }
+
+          if (preview.userDocuments.secondarySchoolCertificate) {
+            this.isSchoolDocument = false;
+          }
+          if (preview.userDocuments.highSchoolCertificate) {
+            this.isHighSchoolDocument = false;
+          }
+          if (preview.userExperience) {
+            this.userExperienceArray = preview.userExperience;
+          }
+          if (preview.fresher == true) {
+            this.isFresher = true;
+          }
+          if (preview.userEmergencyContacts) {
+            this.userEmergencyContactArray = preview.userEmergencyContacts;
+          } else {
+            console.log('No guarantor information available.');
+            this.userEmergencyContactArray = [];
+          }
+          if (preview.userDocuments != null) {
+            this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(
+              preview.userDocuments.secondarySchoolCertificate,
+            );
+            this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(
+              preview.userDocuments.highSchoolCertificate,
+            );
+            this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(
+              preview.userDocuments.highestQualificationDegree,
+            );
+            this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(
+              preview.userDocuments.testimonialReccomendation,
+            );
+            this.aadhaarCardFileName = this.getFilenameFromUrl(
+              preview.userDocuments.aadhaarCard,
+            );
+            this.pancardFileName = this.getFilenameFromUrl(
+              preview.userDocuments.pancard,
+            );
+          }
+          this.isLoading = false;
+        },
+        (error: any) => {
+          console.error('Error fetching user details:', error);
+          this.userEmergencyContactArray = [];
+        },
+      );
+    } else {
+      console.error('User UUID not found');
+      this.userEmergencyContactArray = [];
+    }
+  }
+
+  getFilenameFromUrl(url: string): string {
+    if (!url) return '';
+
+    const decodedUrl = decodeURIComponent(url);
+
+    const parts = decodedUrl.split('/');
+
+    const filenameWithQuery = parts.pop() || '';
+
+    const filename = filenameWithQuery.split('?')[0];
+
+    const cleanFilename = filename.replace(/^\d+_/, '');
+    return cleanFilename;
+  }
+
+  allowEdit = false;
+  handleOnboardingStatus(response: string) {
+    // this.displaySuccessModal = true;
+    switch (response) {
+      case 'REJECTED':
+        this.allowEdit = true;
+        break;
+      case 'APPROVED':
+      case 'PENDING':
+        this.allowEdit = false;
+        break;
+      default:
+        // this.displaySuccessModal = false;
+        break;
+    }
+  }
+
+  isManagerBoolean: boolean = false;
+  getManagerBoolean() {
+    this.dataService.getManagerBoolean(this.userId).subscribe(
+      (data) => {
+        this.isManagerBoolean = data;
+      },
+      (error) => {},
+    );
+  }
+
+  totalExperiencesResponse: TotalExperiences | null = null;
+  getTotalExperiences() {
+    this.dataService.getTotalExperiences(this.userId).subscribe(
+      (data: TotalExperiences) => {
+        this.totalExperiencesResponse = data;
+      },
+      (error) => {
+        console.error('Failed to fetch experiences', error);
+      },
+    );
+  }
+
+  getYearsFromExperience(experienceString?: string) {
+    if (!experienceString) return '0';
+    const yearMatch = experienceString.match(/(\d+)\s+years/);
+    return yearMatch ? yearMatch[1] : '0';
+  }
+
+  getMonthsFromExperience(experienceString?: string) {
+    if (!experienceString) return '0';
+    const monthMatch = experienceString.match(/(\d+)\s+months/);
+    return monthMatch ? monthMatch[1] : '0';
+  }
 }
-
-
-

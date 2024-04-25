@@ -1273,6 +1273,15 @@ export class DataService {
     );
   }
 
+  getManagerBoolean(userUuid: string): Observable<any> {
+    const params = new HttpParams().set('uuid', userUuid);
+
+    return this.httpClient.get<UserDto[]>(
+      `${this.baseUrl}/employee-onboarding-status/get-boolean-for-manager-case`,
+      { params },
+    );
+  }
+
   getEmployeeManagerDetailsLeaveManagemnt(): Observable<any> {
     // const params = new HttpParams()
     //   .set("uuid", userUuid)
@@ -2321,6 +2330,7 @@ export class DataService {
     );
   }
 
+
   getOrganizationIndividualMonthSalaryData(
     startDate: string,
     endDate: string,
@@ -2368,6 +2378,12 @@ export class DataService {
       .set('sort_by', sortBy);
     return this.httpClient.get<any>(
       `${this.baseUrl}/salary/organization-month-wise-data`,
+    );
+  } 
+  getTotalExperiences(userUuid: string): Observable<any> {
+    const params = new HttpParams().set('uuid', userUuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/employee-onboarding-status/get-experiences-duration`,
       { params },
     );
   }

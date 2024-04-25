@@ -640,3 +640,4 @@ export class LeaveManagementComponent implements OnInit {
   }
   
 }
+
