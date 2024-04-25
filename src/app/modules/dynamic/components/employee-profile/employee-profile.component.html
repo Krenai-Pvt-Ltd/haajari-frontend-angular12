@@ -1,42 +1,79 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
-    <app-hajiri-page-loader *ngIf="count < 6">
-    </app-hajiri-page-loader>
+    <app-hajiri-page-loader *ngIf="count < 6"> </app-hajiri-page-loader>
     <div class="container-fluid" *ngIf="count >= 6">
       <!-- Navigation Header with Check-In/ Check-Out Configuration   -->
-      <div class="mt-3 pb-3 d-flex align-items-center justify-content-between" style="gap: 20px">
-        <div class="d-flex align-items-center justify-content-between" style="gap: 20px">
+      <div
+        class="mt-3 pb-3 d-flex align-items-center justify-content-between"
+        style="gap: 20px"
+      >
+        <div
+          class="d-flex align-items-center justify-content-between"
+          style="gap: 20px"
+        >
           <!-- routerLink="/employee-onboarding" -->
           <!-- {{tokenUserRoleFlag}} -->
           <!-- {{userId}} - {{UUID}} -->
-          <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE != 'USER'">
+          <div
+            class="back-btns-box"
+            (click)="location.back()"
+            *ngIf="ROLE != 'USER'"
+          >
             <i class="bi bi-chevron-left"></i>
           </div>
-          <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE == 'USER' && (userId !== UUID)">
+          <div
+            class="back-btns-box"
+            (click)="location.back()"
+            *ngIf="ROLE == 'USER' && userId !== UUID"
+          >
             <i class="bi bi-chevron-left"></i>
           </div>
           <h6 class="mt-2">Go Back</h6>
         </div>
-        <div [ngClass]="{
-          'd-none': !userRoleFlag,
-          'd-flex align-items-center': userRoleFlag
-        }" style="gap: 20px">
+        <div
+          [ngClass]="{
+            'd-none': !userRoleFlag,
+            'd-flex align-items-center': userRoleFlag
+          }"
+          style="gap: 20px"
+        >
           <!-- <div *ngIf="InOutLoader"><div class="dot-opacity-loader"><span></span><span></span><span></span></div></div> -->
           <div *ngIf="status == 'out'">
-            <button class="btn btn-outline-success btn-round" type="button" (click)="checkinCheckout('/in')"> Check-In </button>
+            <button
+              class="btn btn-outline-success btn-round"
+              type="button"
+              (click)="checkinCheckout('/in')"
+            >
+              Check-In
+            </button>
           </div>
           <div *ngIf="status == 'in' || status == 'back'">
-            <span class="thumb-sm justify-content-center d-flex align-items-center bg-warning rounded-circle" ngbTooltip="Start your break" placement="top" (click)="checkinCheckout('/break')">
+            <span
+              class="thumb-sm justify-content-center d-flex align-items-center bg-warning rounded-circle"
+              ngbTooltip="Start your break"
+              placement="top"
+              (click)="checkinCheckout('/break')"
+            >
               <i class="fas fa-coffee text-white"></i>
-          </span>
-        </div>
+            </span>
+          </div>
           <div *ngIf="status == 'break'">
-            <span class="thumb-sm justify-content-center d-flex align-items-center bg-purple rounded-circle" ngbTooltip="End your break" placement="top" (click)="checkinCheckout('/back')">
+            <span
+              class="thumb-sm justify-content-center d-flex align-items-center bg-purple rounded-circle"
+              ngbTooltip="End your break"
+              placement="top"
+              (click)="checkinCheckout('/back')"
+            >
               <i class="fas fa-hourglass-half text-white"></i>
             </span>
           </div>
           <div *ngIf="status == 'in' || status == 'back' || status == 'break'">
-            <button class="btn btn-outline-danger btn-round" (click)="checkinCheckout('/out')"> Check-Out </button>
+            <button
+              class="btn btn-outline-danger btn-round"
+              (click)="checkinCheckout('/out')"
+            >
+              Check-Out
+            </button>
           </div>
         </div>
       </div>
@@ -51,24 +88,50 @@
                   <div class="col-lg-5 align-self-center mb-3 mb-lg-0">
                     <div class="met-profile-main">
                       <div class="met-profile-main-pic">
-                        <img *ngIf="isImage" src="{{ user?.image }}" alt="" height="110" class="rounded-circle">
-                        <span *ngIf="!isImage" class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2">
-                          {{user?.name[0]}}
+                        <img
+                          *ngIf="isImage"
+                          src="{{ user?.image }}"
+                          alt=""
+                          height="110"
+                          class="rounded-circle"
+                        />
+                        <span
+                          *ngIf="!isImage"
+                          class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2"
+                        >
+                          {{ user?.name[0] }}
                         </span>
                         <span class="met-profile_main-pic-change">
                           <i class="fas fa-camera"></i>
                         </span>
                       </div>
                       <div class="met-profile_user-detail">
-                        <h5 class="met-user-name">{{ user?.name || "N/A" }}
-                          <button type="button" *ngIf="user!.employeeOnboardingStatus?.response == 'APPROVED'" class="btn btn-soft-success btn-icon-circle btn-icon-circle-sm me-2 position-relative">
+                        <h5 class="met-user-name">
+                          {{ user?.name || "N/A" }}
+                          <button
+                            type="button"
+                            *ngIf="
+                              user!.employeeOnboardingStatus?.response ==
+                              'APPROVED'
+                            "
+                            class="btn btn-soft-success btn-icon-circle btn-icon-circle-sm me-2 position-relative"
+                          >
                             <i class="ti ti-checks font-16"></i>
                           </button>
-                          <button type="button" *ngIf="user!.employeeOnboardingStatus?.response == 'REJECTED'" class="btn btn-soft-danger btn-icon-circle btn-icon-circle-sm me-2 position-relative">
+                          <button
+                            type="button"
+                            *ngIf="
+                              user!.employeeOnboardingStatus?.response ==
+                              'REJECTED'
+                            "
+                            class="btn btn-soft-danger btn-icon-circle btn-icon-circle-sm me-2 position-relative"
+                          >
                             <i class="ti ti-alert-octagon font-16"></i>
                           </button>
                         </h5>
-                        <p class="mb-0 met-user-name-post">{{ user.department || "N/A" }}</p>
+                        <p class="mb-0 met-user-name-post">
+                          {{ user.department || "N/A" }}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -76,16 +139,23 @@
                   <div class="col-lg-4 ms-auto align-self-center">
                     <ul class="list-unstyled personal-detail mb-0">
                       <li class="">
-                        <i class="las la-phone mr-2 text-secondary font-22 align-middle"></i>
+                        <i
+                          class="las la-phone mr-2 text-secondary font-22 align-middle"
+                        ></i>
                         <b> phone </b> : {{ user?.phoneNumber || "N/A" }}
                       </li>
                       <li class="mt-2">
-                        <i class="las la-envelope text-secondary font-22 align-middle mr-2"></i>
+                        <i
+                          class="las la-envelope text-secondary font-22 align-middle mr-2"
+                        ></i>
                         <b> Email </b> : {{ user?.email || "N/A" }}
                       </li>
                       <li class="mt-2">
-                        <i class="las la-globe text-secondary font-22 align-middle mr-2"></i>
-                        <b> DOB </b> : {{ user?.dob | date : 'dd MMM yyyy' || "N/A" }}
+                        <i
+                          class="las la-globe text-secondary font-22 align-middle mr-2"
+                        ></i>
+                        <b> DOB </b> :
+                        {{ user?.dob | date: "dd MMM yyyy" || "N/A" }}
                       </li>
                     </ul>
                   </div>
@@ -93,20 +163,60 @@
                   <div class="col-lg-3 align-self-center">
                     <div class="row">
                       <div class="col-auto text-end border-end">
-                        <button type="button" class="btn btn-soft-primary btn-icon-circle btn-icon-circle-sm mb-2">
+                        <button
+                          type="button"
+                          class="btn btn-soft-primary btn-icon-circle btn-icon-circle-sm mb-2"
+                        >
                           <i class="ti ti-users"></i>
                         </button>
                         <p class="mb-0 fw-semibold">With Us</p>
-                        <h4 class="m-0 fw-bold">2 Year <span class="text-muted font-12 fw-normal">3 Months</span>
+                        <h4 class="m-0 fw-bold">
+                          <!-- {{
+                            totalExperiencesResponse?.currentExperience || "N/A"
+                          }} -->
+                          {{
+                            getYearsFromExperience(
+                              totalExperiencesResponse?.currentExperience
+                            )
+                          }}
+                          Years
+                          <span class="text-muted font-12 fw-normal"
+                            >{{
+                              getMonthsFromExperience(
+                                totalExperiencesResponse?.currentExperience
+                              )
+                            }}
+                            Months</span
+                          >
                         </h4>
                       </div>
                       <!--end col-->
                       <div class="col-auto">
-                        <button type="button" class="btn btn-soft-info btn-icon-circle btn-icon-circle-sm mb-2">
+                        <button
+                          type="button"
+                          class="btn btn-soft-info btn-icon-circle btn-icon-circle-sm mb-2"
+                        >
                           <i class="ti ti-award"></i>
                         </button>
                         <p class="mb-0 fw-semibold">Experience</p>
-                        <h4 class="m-0 fw-bold">4 Years <span class="text-muted font-12 fw-normal">6 Months</span>
+                        <h4 class="m-0 fw-bold">
+                          <!-- {{
+                            totalExperiencesResponse?.totalExperience || "N/A"
+                          }} -->
+                          {{
+                            getYearsFromExperience(
+                              totalExperiencesResponse?.totalExperience
+                            )
+                          }}
+                          Years
+                          <span class="text-muted font-12 fw-normal"
+                            >{{
+                              getMonthsFromExperience(
+                                totalExperiencesResponse?.totalExperience
+                              )
+                            }}
+                            Months</span
+                          >
                         </h4>
                       </div>
                       <!--end col-->
@@ -124,27 +234,64 @@
               <!-- Nav tabs -->
               <ul class="nav nav-tabs bg-light border-top" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" data-bs-toggle="tab" href="#attendance" role="tab" aria-selected="true">Attendance</a>
+                  <a
+                    class="nav-link active"
+                    data-bs-toggle="tab"
+                    href="#attendance"
+                    role="tab"
+                    aria-selected="true"
+                    >Attendance</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-bs-toggle="tab" href="#payslip" role="tab" aria-selected="false">Payroll</a>
+                  <a
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    href="#payslip"
+                    role="tab"
+                    aria-selected="false"
+                    >Payroll</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-bs-toggle="tab" href="#profile" role="tab" aria-selected="false">Profile</a>
+                  <a
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    href="#profile"
+                    role="tab"
+                    aria-selected="false"
+                    >Profile</a
+                  >
                 </li>
               </ul>
               <!-- Tab panes -->
               <div class="tab-content">
-                <div class="tab-pane p-3 active" id="attendance" role="tabpanel">
+                <div
+                  class="tab-pane p-3 active"
+                  id="attendance"
+                  role="tabpanel"
+                >
                   <div class="row">
                     <div class="col-lg-6">
-                      <div class="d-flex justify-content-between align-items-center">
+                      <div
+                        class="d-flex justify-content-between align-items-center"
+                      >
                         <div class="">
-                          <div class="date-all-approved d-flex align-items-center">
-                            <span class="approved-left active-color" (click)="goBackward()" *ngIf="backwardFlag">
+                          <div
+                            class="date-all-approved d-flex align-items-center"
+                          >
+                            <span
+                              class="approved-left active-color"
+                              (click)="goBackward()"
+                              *ngIf="backwardFlag"
+                            >
                               <i class="bi bi-chevron-left"></i>
                             </span>
-                            <span class="approved-right active-color" (click)="goforward()" *ngIf="forwordFlag">
+                            <span
+                              class="approved-right active-color"
+                              (click)="goforward()"
+                              *ngIf="forwordFlag"
+                            >
                               <i class="bi bi-chevron-right"></i>
                             </span>
                           </div>
@@ -157,48 +304,206 @@
                           </div>
                           <!--end col-->
                           <div class="col-auto">
-                            <div class="btn-group mb-2 mb-lg-0" role="group" aria-label="Basic checkbox toggle button group">
-                              <input type="checkbox" class="btn-check active" id="btncheck1" autocomplete="off" (click)="goToday()">
-                              <label class="btn btn-outline-primary active" for="btncheck1">Today</label>
-                              <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-                              <label class="btn btn-outline-light" for="btncheck2">Present - {{ totalPresent }}</label>
-                              <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-                              <label class="btn btn-outline-light" for="btncheck3">Absent - {{ totalAbsent }}</label>
+                            <div
+                              class="btn-group mb-2 mb-lg-0"
+                              role="group"
+                              aria-label="Basic checkbox toggle button group"
+                            >
+                              <input
+                                type="checkbox"
+                                class="btn-check active"
+                                id="btncheck1"
+                                autocomplete="off"
+                                (click)="goToday()"
+                              />
+                              <label
+                                class="btn btn-outline-primary active"
+                                for="btncheck1"
+                                >Today</label
+                              >
+                              <input
+                                type="checkbox"
+                                class="btn-check"
+                                id="btncheck2"
+                                autocomplete="off"
+                              />
+                              <label
+                                class="btn btn-outline-light"
+                                for="btncheck2"
+                                >Present - {{ totalPresent }}</label
+                              >
+                              <input
+                                type="checkbox"
+                                class="btn-check"
+                                id="btncheck3"
+                                autocomplete="off"
+                              />
+                              <label
+                                class="btn btn-outline-light"
+                                for="btncheck3"
+                                >Absent - {{ totalAbsent }}</label
+                              >
                             </div>
                           </div>
                           <!--end col-->
                         </div>
                         <!--end row-->
                       </div>
-                      <full-calendar [options]="calendarOptions" id="calendar" #calendar></full-calendar>
-                      <div class="legends-section" style="margin-top: 20px; font-size: 13px;">
-                        <div class="legend" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                          <span class="status-letter" style="background-color: #e0ffe0; padding: 2px 8px; border-radius: 4px; color: green; font-weight: bold;">P</span>
-                          <span style="margin-left: 4px;">- Present</span>
+                      <full-calendar
+                        [options]="calendarOptions"
+                        id="calendar"
+                        #calendar
+                      ></full-calendar>
+                      <div
+                        class="legends-section"
+                        style="margin-top: 20px; font-size: 13px"
+                      >
+                        <div
+                          class="legend"
+                          style="
+                            display: inline-flex;
+                            align-items: center;
+                            margin-right: 20px;
+                          "
+                        >
+                          <span
+                            class="status-letter"
+                            style="
+                              background-color: #e0ffe0;
+                              padding: 2px 8px;
+                              border-radius: 4px;
+                              color: green;
+                              font-weight: bold;
+                            "
+                            >P</span
+                          >
+                          <span style="margin-left: 4px">- Present</span>
                         </div>
-                        <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                          <span class="status-letter" style="background-color: #f8d7d7; padding: 2px 8px; border-radius: 4px; color: red; font-weight: bold;">A</span>
-                          <span style="margin-left: 4px;">- Absent</span>
+                        <div
+                          class="legend mb-2"
+                          style="
+                            display: inline-flex;
+                            align-items: center;
+                            margin-right: 20px;
+                          "
+                        >
+                          <span
+                            class="status-letter"
+                            style="
+                              background-color: #f8d7d7;
+                              padding: 2px 8px;
+                              border-radius: 4px;
+                              color: red;
+                              font-weight: bold;
+                            "
+                            >A</span
+                          >
+                          <span style="margin-left: 4px">- Absent</span>
                         </div>
-                        <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                          <span class="status-letter" style="background-color: rgb(255, 255, 143); padding: 2px 8px; border-radius: 4px; color: #d4d40a; font-weight: bold;">L</span>
-                          <span style="margin-left: 4px;">- Leave</span>
+                        <div
+                          class="legend mb-2"
+                          style="
+                            display: inline-flex;
+                            align-items: center;
+                            margin-right: 20px;
+                          "
+                        >
+                          <span
+                            class="status-letter"
+                            style="
+                              background-color: rgb(255, 255, 143);
+                              padding: 2px 8px;
+                              border-radius: 4px;
+                              color: #d4d40a;
+                              font-weight: bold;
+                            "
+                            >L</span
+                          >
+                          <span style="margin-left: 4px">- Leave</span>
                         </div>
-                        <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                          <span class="status-letter" style="background-color: #c6c6ff; padding: 2px 8px; border-radius: 4px; color: #4949ac; font-weight: bold;">W</span>
-                          <span style="margin-left: 4px;">- Weekly Holiday</span>
+                        <div
+                          class="legend mb-2"
+                          style="
+                            display: inline-flex;
+                            align-items: center;
+                            margin-right: 20px;
+                          "
+                        >
+                          <span
+                            class="status-letter"
+                            style="
+                              background-color: #c6c6ff;
+                              padding: 2px 8px;
+                              border-radius: 4px;
+                              color: #4949ac;
+                              font-weight: bold;
+                            "
+                            >W</span
+                          >
+                          <span style="margin-left: 4px">- Weekly Holiday</span>
                         </div>
-                        <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                          <span class="status-letter" style="background-color: #f06d0640; padding: 2px 8px; border-radius: 4px; color: #b35636; font-weight: bold;">h</span>
-                          <span style="margin-left: 4px;">- Holiday</span>
+                        <div
+                          class="legend mb-2"
+                          style="
+                            display: inline-flex;
+                            align-items: center;
+                            margin-right: 20px;
+                          "
+                        >
+                          <span
+                            class="status-letter"
+                            style="
+                              background-color: #f06d0640;
+                              padding: 2px 8px;
+                              border-radius: 4px;
+                              color: #b35636;
+                              font-weight: bold;
+                            "
+                            >h</span
+                          >
+                          <span style="margin-left: 4px">- Holiday</span>
                         </div>
-                        <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                          <span class="status-letter" style="background-color: rgb(255, 213, 128); padding: 2px 8px; border-radius: 4px; color: #d4972a; font-weight: bold;">H</span>
-                          <span style="margin-left: 4px;">- Half Day</span>
+                        <div
+                          class="legend mb-2"
+                          style="
+                            display: inline-flex;
+                            align-items: center;
+                            margin-right: 20px;
+                          "
+                        >
+                          <span
+                            class="status-letter"
+                            style="
+                              background-color: rgb(255, 213, 128);
+                              padding: 2px 8px;
+                              border-radius: 4px;
+                              color: #d4972a;
+                              font-weight: bold;
+                            "
+                            >H</span
+                          >
+                          <span style="margin-left: 4px">- Half Day</span>
                         </div>
-                        <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                          <span class="status-letter" style="background-color: #D3D3D3; padding: 2px 8px; border-radius: 4px; color: #a9a9a9; font-weight: bold;">l</span>
-                          <span style="margin-left: 4px;">- Late</span>
+                        <div
+                          class="legend mb-2"
+                          style="
+                            display: inline-flex;
+                            align-items: center;
+                            margin-right: 20px;
+                          "
+                        >
+                          <span
+                            class="status-letter"
+                            style="
+                              background-color: #d3d3d3;
+                              padding: 2px 8px;
+                              border-radius: 4px;
+                              color: #a9a9a9;
+                              font-weight: bold;
+                            "
+                            >l</span
+                          >
+                          <span style="margin-left: 4px">- Late</span>
                         </div>
                       </div>
                       <!--end card-->
@@ -206,58 +511,35 @@
                     <!--end col-->
                     <div class="col-lg-6">
                       <!--end card-->
-                      <div class="align-items-center d-flex justify-content-end add-filtter mb-2" *ngIf="userRoleFlag">
-                        <a class="btn" data-bs-toggle="modal" data-bs-target=".apply-leave">
-                          <i class="bi bi-plus" style="font-size: 20px"></i> Apply for a Leave </a>
+                      <div
+                        class="align-items-center d-flex justify-content-end add-filtter mb-2"
+                        *ngIf="userRoleFlag"
+                      >
+                        <a
+                          class="btn"
+                          data-bs-toggle="modal"
+                          data-bs-target=".apply-leave"
+                        >
+                          <i class="bi bi-plus" style="font-size: 20px"></i>
+                          Apply for a Leave
+                        </a>
                       </div>
-                      <ng-container *ngIf="
-                  userLeave.length !== 0 && !leaveCountPlaceholderFlag
-                ">
-                        <div class="d-flex align-items-center justify-content-between leves-type-s mb-2 bg-light" *ngFor="let ul of userLeave">
+                      <ng-container
+                        *ngIf="
+                          userLeave.length !== 0 && !leaveCountPlaceholderFlag
+                        "
+                      >
+                        <div
+                          class="d-flex align-items-center justify-content-between leves-type-s mb-2 bg-light"
+                          *ngFor="let ul of userLeave"
+                        >
                           <div class="">
                             <h5>{{ ul?.leaveType }}</h5>
                           </div>
-<<<<<<< HEAD
-                          
-                          <div class="card-header">
-                            <div class="row align-items-center">
-                                <div class="col">                      
-                                    <!-- <h4 class="card-title">Audience Overview</h4>                       -->
-                                </div><!--end col-->
-                                <div class="col-auto"> 
-                                 
-                                  <div class="btn-group mb-2 mb-lg-0" role="group" aria-label="Basic checkbox toggle button group">
-                                    <input type="checkbox" class="btn-check active" id="btncheck1" autocomplete="off" (click)="goToday()">
-                                    <label class="btn btn-outline-primary active" for="btncheck1">Today</label>
-                                  
-                                    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-                                    <label class="btn btn-outline-success" for="btncheck2">Present - {{ totalPresent }}</label>
-                                  
-                                    <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-                                    <label class="btn btn-outline-danger" for="btncheck3">Absent - {{ totalAbsent }}</label>
-                                  </div>
-                                </div><!--end col-->
-                            </div>  <!--end row-->                                  
-                        </div>
-
-                          <full-calendar [options]="calendarOptions" id="calendar" #calendar></full-calendar>
-        
-                          <div class="legends-section" style="margin-top: 20px; font-size: 13px;">
-                            <div class="legend" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                              <span class="status-letter"
-                                style="background-color: #e0ffe0; padding: 2px 8px; border-radius: 4px; color: green; font-weight: bold;">P</span>
-                              <span style="margin-left: 4px;">- Present</span>
-                            </div>
-                            <div class="legend mb-2" style="display: inline-flex; align-items: center; margin-right: 20px;">
-                              <span class="status-letter"
-                                style="background-color: #f8d7d7; padding: 2px 8px; border-radius: 4px; color: red; font-weight: bold;">A</span>
-                              <span style="margin-left: 4px;">- Absent</span>
-=======
                           <div class="d-flex text-center">
                             <div class="Approved rejected-css p-1">
                               <p class="mb-0">{{ ul?.totalQuota }}</p>
                               <span class="total-holiday">Total</span>
->>>>>>> e5bae19e088bd904d9a6afcc5eacdb7fbd8a92ea
                             </div>
                             <div class="Approved p-1">
                               <p class="mb-0">{{ ul?.approved }}</p>
@@ -274,60 +556,289 @@
                           </div>
                         </div>
                       </ng-container>
-                      <div class="leave-logs" style="max-height: 450px; overflow: scroll;">
-                        <div class="activity" *ngFor="let leaves of userLeaveLog">
+                      <div class="row">
+                        <div class="col-md-12" *ngIf="isLeaveShimmer">
+                          <div class="leves-type-s mb-2">
+                            <div class="row">
+                              <div class="col-md-4">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                              <div class="col-md-2">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                              <div class="col-md-2">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                              <div class="col-md-2">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                              <div class="col-md-2">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="leves-type-s mb-2">
+                            <div class="row">
+                              <div class="col-md-4">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                              <div class="col-md-2">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                              <div class="col-md-2">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                              <div class="col-md-2">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                              <div class="col-md-2">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="leves-type-s mb-2">
+                            <div class="row">
+                              <div class="col-md-4">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                              <div class="col-md-2">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                              <div class="col-md-2">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                              <div class="col-md-2">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                              <div class="col-md-2">
+                                <h4>
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'15px'"
+                                  ></ngx-shimmer-loading>
+                                </h4>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        class="errorboxmain text-center"
+                        *ngIf="!isLeaveShimmer && isLeaveErrorPlaceholder"
+                      >
+                        <div class="errorboxinner">
+                          <div class="errorboxplaceholder mb-2">
+                            <img
+                              src="assets/images/signal.svg"
+                              style="width: 80px"
+                            />
+                          </div>
+                          <div class="">
+                            <h4>Something went wrong!</h4>
+                            <p class="mb-0">
+                              An error occurred while processing your request.
+                              Please refresh the page and try again.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="errorboxmain text-center"
+                        *ngIf="!isLeaveShimmer && isLeavePlaceholder"
+                      >
+                        <div class="errorboxinner">
+                          <div class="errorboxplaceholder mb-2">
+                            <img
+                              src="assets/images/empty-box.svg"
+                              style="width: 80px"
+                            />
+                          </div>
+                          <div class="">
+                            <h4>No Data Found</h4>
+                            <p class="mb-0">
+                              We're unable to locate a record associated with
+                              the information you entered.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        class="leave-logs"
+                        style="max-height: 450px; overflow: scroll"
+                        *ngIf="!isLeaveShimmer && !isLeavePlaceholder"
+                      >
+                        <div
+                          class="activity"
+                          *ngFor="let leaves of userLeaveLog"
+                        >
                           <div class="activity-info">
                             <div class="icon-info-activity">
-                              <i class="ti ti-clock bg-soft-warning" *ngIf="leaves.status == 'pending'"></i>
-                              <i class="ti ti-checks bg-soft-success" *ngIf="leaves.status == 'approved'"></i>
-                              <i class="ti ti-x bg-soft-danger" *ngIf="leaves.status == 'rejected'"></i>
+                              <i
+                                class="ti ti-clock bg-soft-warning"
+                                *ngIf="leaves.status == 'pending'"
+                              ></i>
+                              <i
+                                class="ti ti-checks bg-soft-success"
+                                *ngIf="leaves.status == 'approved'"
+                              ></i>
+                              <i
+                                class="ti ti-x bg-soft-danger"
+                                *ngIf="leaves.status == 'rejected'"
+                              ></i>
                             </div>
                             <div class="activity-info-text">
                               <div>
                                 <div class="float-end">
                                   <div class="dropdown d-inline-block">
                                     <div class="align-self-center">
-                                      <div class="btn btn-xs btn-light btn-round">
-                                        {{ formatDateIn(
-                                                             formatDate(leaves.leaveDate)
-                                                             ) || "N/A"
-                                                             }}&nbsp; <span>{{ formatTime(leaves.leaveDate) || "N/A"
-                                                               }}</span>
+                                      <div
+                                        class="btn btn-xs btn-light btn-round"
+                                      >
+                                        {{
+                                          formatDateIn(
+                                            formatDate(leaves.leaveDate)
+                                          ) || "N/A"
+                                        }}&nbsp;
+                                        <span>{{
+                                          formatTime(leaves.leaveDate) || "N/A"
+                                        }}</span>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                                 <div class="media align-items-center">
-                                  <div class="media-body ms-2 align-self-center">
-                                    <h5 class="m-0">{{leaves.username}} </h5>
+                                  <div
+                                    class="media-body ms-2 align-self-center"
+                                  >
+                                    <h5 class="m-0">{{ leaves.username }}</h5>
                                     <p class="text-muted font-12 mb-0">
-                                      <span style="color: orange;" class="ng-star-inserted" *ngIf="leaves.status == 'pending'">Applied <span> To </span>
+                                      <span
+                                        style="color: orange"
+                                        class="ng-star-inserted"
+                                        *ngIf="leaves.status == 'pending'"
+                                        >Applied <span> To </span>
                                       </span>
-                                      <span style="color: green;" class="ng-star-inserted" *ngIf="leaves.status == 'approved'">Approved <span> By </span>
+                                      <span
+                                        style="color: green"
+                                        class="ng-star-inserted"
+                                        *ngIf="leaves.status == 'approved'"
+                                        >Approved <span> By </span>
                                       </span>
-                                      <span style="color: rgb(255, 55, 0);" class="ng-star-inserted" *ngIf="leaves.status == 'rejected'">Rejected <span> By </span>
+                                      <span
+                                        style="color: rgb(255, 55, 0)"
+                                        class="ng-star-inserted"
+                                        *ngIf="leaves.status == 'rejected'"
+                                        >Rejected <span> By </span>
                                       </span>
-                                      {{leaves.manager?.name}}
+                                      {{ leaves.manager?.name }}
                                     </p>
                                   </div>
                                 </div>
-                                <hr class="hr-dashed">
+                                <hr class="hr-dashed" />
                                 <div class="d-flex justify-content-between">
-                                  <p>Duration: <u>{{formatDateIn( formatDate(leaves.startDate)
-                                      )}} - {{formatDateIn( formatDate(leaves.endDate)
-                                  )}}</u>
+                                  <p>
+                                    Duration:
+                                    <u
+                                      >{{
+                                        formatDateIn(
+                                          formatDate(leaves.startDate)
+                                        )
+                                      }}
+                                      -
+                                      {{
+                                        formatDateIn(formatDate(leaves.endDate))
+                                      }}</u
+                                    >
                                   </p>
                                   <h6 class="fw-semibold">
-                                    <span class="badge badge-outline-primary">{{ calculateDateDifference(
-                                        leaves.endDate,
-                                        leaves.startDate
+                                    <span class="badge badge-outline-primary"
+                                      >{{
+                                        calculateDateDifference(
+                                          leaves.endDate,
+                                          leaves.startDate
                                         ) || "N/A"
-                                        }} Days | {{leaves.leaveType}}</span>
+                                      }}
+                                      Days | {{ leaves.leaveType }}</span
+                                    >
                                   </h6>
                                 </div>
-                                <p class="text-muted mb-0">{{leaves.optNotes}}</p>
+                                <p class="text-muted mb-0">
+                                  {{ leaves.optNotes }}
+                                </p>
                               </div>
-                              <hr class="hr-dashed">
+                              <hr class="hr-dashed" />
                             </div>
                           </div>
                         </div>
@@ -339,52 +850,106 @@
                   <!--end row-->
                 </div>
                 <div class="tab-pane p-3" id="payslip" role="tabpanel">
-                  <div id="configure-salary-setting" class="errorboxmain" style="min-height: 45vh" *ngIf="salaryConfigurationStepId == CONFIGURE_SALARY_SETTING" (click)="goToManageStatutory()">
+                  <div
+                    id="configure-salary-setting"
+                    class="errorboxmain"
+                    style="min-height: 45vh"
+                    *ngIf="
+                      salaryConfigurationStepId == CONFIGURE_SALARY_SETTING
+                    "
+                    (click)="goToManageStatutory()"
+                  >
                     <div class="errorboxinner text-center">
                       <div class="errorboxplaceholder mb-2">
-                        <img src="assets/images/empty-box.svg" style="width: 80px" />
+                        <img
+                          src="assets/images/empty-box.svg"
+                          style="width: 80px"
+                        />
                       </div>
                       <div class="">
                         <h4>No Data Found</h4>
-                        <p class="mb-3"> We're unable to locate a record associated with the information you entered. </p>
-                        <a data-bs-toggle="modal" style="
-                        font-size: 16px;
-                        color: #6666f3 !important;
-                        margin-top: 15px;
-                      ">
-                          <i class="bi bi-plus" style="font-size: 20px"></i> Configure Salary Settings </a>
+                        <p class="mb-3">
+                          We're unable to locate a record associated with the
+                          information you entered.
+                        </p>
+                        <a
+                          data-bs-toggle="modal"
+                          style="
+                            font-size: 16px;
+                            color: #6666f3 !important;
+                            margin-top: 15px;
+                          "
+                        >
+                          <i class="bi bi-plus" style="font-size: 20px"></i>
+                          Configure Salary Settings
+                        </a>
                       </div>
                     </div>
                   </div>
-                  <div id="manage-statutory" *ngIf="salaryConfigurationStepId == MANAGE_STATUTORY">
-                    <div class="form-roe-data" style="text-align: left;">
+                  <div
+                    id="manage-statutory"
+                    *ngIf="salaryConfigurationStepId == MANAGE_STATUTORY"
+                  >
+                    <div class="form-roe-data" style="text-align: left">
                       <h3>Configure Salary Settings:</h3>
-                      <p>These are the default setting which is done by organization, you can modify according to your preference.</p>
+                      <p>
+                        These are the default setting which is done by
+                        organization, you can modify according to your
+                        preference.
+                      </p>
                     </div>
                     <div class="col-md-12">
                       <div class="border-box"></div>
                     </div>
-                    <div class="row mt-4" style="display: flex; justify-content: space-between;">
+                    <div
+                      class="row mt-4"
+                      style="display: flex; justify-content: space-between"
+                    >
                       <!-- <div class="col-md-1"></div> -->
                       <div class="col-md-4">
-                        <div class="form-roe-data" style="text-align: left;">
+                        <div class="form-roe-data" style="text-align: left">
                           <h5>Choose your tax regime</h5>
                           <p>A quick snapshot of your company.</p>
                         </div>
                       </div>
                       <div class="col-md-7">
                         <div class="">
-                          <div class="attendance-settin-list" *ngFor="let taxRegime of taxRegimeList">
-                            <div class="categryCustomizecard d-flex pointer border-active" [ngClass]="{'border-active' : taxRegime.selected == true}" (click)="updateTaxRegimeByUserIdMethodCall(taxRegime.id)">
-                              <div class="categryCustomizeinfo" style="text-align: left;">
+                          <div
+                            class="attendance-settin-list"
+                            *ngFor="let taxRegime of taxRegimeList"
+                          >
+                            <div
+                              class="categryCustomizecard d-flex pointer border-active"
+                              [ngClass]="{
+                                'border-active': taxRegime.selected == true
+                              }"
+                              (click)="
+                                updateTaxRegimeByUserIdMethodCall(taxRegime.id)
+                              "
+                            >
+                              <div
+                                class="categryCustomizeinfo"
+                                style="text-align: left"
+                              >
                                 <label for="customizecategory1" class="mb-0">
-                                  <h3> {{taxRegime.name}}</h3>
-                                  <p> Large images are best for products where every detail is a part of the product’s value.</p>
+                                  <h3>{{ taxRegime.name }}</h3>
+                                  <p>
+                                    Large images are best for products where
+                                    every detail is a part of the product’s
+                                    value.
+                                  </p>
                                 </label>
                               </div>
                               <div class="active-check ng-star-inserted">
                                 <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="exampleRadio{{taxRegime.id}}" id="exampleRadio{{taxRegime.id}}" value="option{{taxRegime.id}}" [checked]="taxRegime.selected == true">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="exampleRadio{{ taxRegime.id }}"
+                                    id="exampleRadio{{ taxRegime.id }}"
+                                    value="option{{ taxRegime.id }}"
+                                    [checked]="taxRegime.selected == true"
+                                  />
                                 </div>
                               </div>
                             </div>
@@ -400,38 +965,76 @@
                     <div class="col-md-12 mt-3">
                       <div class="border-box"></div>
                     </div>
-                    <div class="row mt-4" style="display: flex; justify-content: space-between;">
+                    <div
+                      class="row mt-4"
+                      style="display: flex; justify-content: space-between"
+                    >
                       <!-- <div class="col-md-1"></div> -->
                       <div class="col-md-4">
-                        <div class="form-roe-data" style="text-align: left;">
+                        <div class="form-roe-data" style="text-align: left">
                           <h5>Manage your Statutories</h5>
                           <p>A quick snapshot of your company.</p>
                         </div>
                       </div>
                       <div class="col-md-7">
                         <div class="">
-                          <div class="attendance-settin-list" *ngFor="let statutoryResponse of statutoryResponseList; let i = index;">
+                          <div
+                            class="attendance-settin-list"
+                            *ngFor="
+                              let statutoryResponse of statutoryResponseList;
+                              let i = index
+                            "
+                          >
                             <div class="categryCustomizecard d-flex pointer">
-                              <div class="categryCustomizeinfo" style="text-align: left;">
-                                <label for="customizecategory{{i}}" class="mb-0">
-                                  <h3> {{statutoryResponse.name}}</h3>
-                                  <p> {{statutoryResponse.description}}</p>
+                              <div
+                                class="categryCustomizeinfo"
+                                style="text-align: left"
+                              >
+                                <label
+                                  for="customizecategory{{ i }}"
+                                  class="mb-0"
+                                >
+                                  <h3>{{ statutoryResponse.name }}</h3>
+                                  <p>{{ statutoryResponse.description }}</p>
                                 </label>
                               </div>
                               <div class="active-check">
-                                <nz-switch [(ngModel)]="statutoryResponse.switchValue" [nzControl]="true" (click)="clickSwitch(statutoryResponse)" [nzLoading]="statutoryResponse.loading"></nz-switch>
+                                <nz-switch
+                                  [(ngModel)]="statutoryResponse.switchValue"
+                                  [nzControl]="true"
+                                  (click)="clickSwitch(statutoryResponse)"
+                                  [nzLoading]="statutoryResponse.loading"
+                                ></nz-switch>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="modal-footer d-flex align-items-center justify-content-end">
-                          <button class="btn btn-primary" style="padding: 15px;" type="submit" aria-label="Next Step" (click)="updateSalaryConfigurationStepMethodCall(PAY_SLIP)">
-                            <div *ngIf="BUTTON_LOADER" class="dot-opacity-loader-finish-setup">
+                        <div
+                          class="modal-footer d-flex align-items-center justify-content-end"
+                        >
+                          <button
+                            class="btn btn-primary"
+                            style="padding: 15px"
+                            type="submit"
+                            aria-label="Next Step"
+                            (click)="
+                              updateSalaryConfigurationStepMethodCall(PAY_SLIP)
+                            "
+                          >
+                            <div
+                              *ngIf="BUTTON_LOADER"
+                              class="dot-opacity-loader-finish-setup"
+                            >
                               <span></span>
                               <span></span>
                               <span></span>
                             </div>
-                            <span *ngIf="!BUTTON_LOADER"> Finish Setup <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                            <span *ngIf="!BUTTON_LOADER">
+                              Finish Setup
+                              <i
+                                class="bi bi-arrow-right"
+                                style="padding-left: 8px"
+                              ></i>
                             </span>
                           </button>
                         </div>
@@ -439,8 +1042,17 @@
                       <div class="col-md-1"></div>
                     </div>
                   </div>
-                  <div id="pay_slip" *ngIf="salaryConfigurationStepId == PAY_SLIP">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div
+                    id="pay_slip"
+                    *ngIf="salaryConfigurationStepId == PAY_SLIP"
+                  >
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                      "
+                    >
                       <div class="d-flex" style="gap: 10px">
                         <div class="slipabsent">
                           <p>Absent</p>
@@ -455,12 +1067,23 @@
                           <p>Half Day</p>
                         </div>
                       </div>
-                      <div style="text-align: end;">
-                        <span style="color: #6666f3; font-size: 16px; font-weight: bold; cursor: pointer;" (click)="goToManageStatutory()">Edit salary configuration <i class="bi bi-pencil"></i>
+                      <div style="text-align: end">
+                        <span
+                          style="
+                            color: #6666f3;
+                            font-size: 16px;
+                            font-weight: bold;
+                            cursor: pointer;
+                          "
+                          (click)="goToManageStatutory()"
+                          >Edit salary configuration
+                          <i class="bi bi-pencil"></i>
                         </span>
                       </div>
                     </div>
-                    <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
+                    <div
+                      class="d-flex align-items-center justify-content-between leves-type-s mb-2"
+                    >
                       <div class="">
                         <h5>Pay Slip</h5>
                       </div>
@@ -479,26 +1102,38 @@
                         </div>
                       </div>
                       <div class="">
-                        <p class="mb-0" style="
-                      font-size: 12px;
-                      color: #555;
-                      font-weight: 500;
-                    "> Krenai </p>
+                        <p
+                          class="mb-0"
+                          style="font-size: 12px; color: #555; font-weight: 500"
+                        >
+                          Krenai
+                        </p>
                       </div>
                       <div class="">
-                        <p class="mb-0" style="
-                      font-size: 12px;
-                      color: #555;
-                      font-weight: 500;
-                    "> Jan 1, 2023 </p>
+                        <p
+                          class="mb-0"
+                          style="font-size: 12px; color: #555; font-weight: 500"
+                        >
+                          Jan 1, 2023
+                        </p>
                       </div>
                       <div class="">
-                        <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top">
-                          <img src="assets/images/pdf.svg" style="width: 20px" />
+                        <a
+                          href=""
+                          class="excel-box"
+                          ngbTooltip="Download Pdf"
+                          placement="top"
+                        >
+                          <img
+                            src="assets/images/pdf.svg"
+                            style="width: 20px"
+                          />
                         </a>
                       </div>
                     </div>
-                    <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
+                    <div
+                      class="d-flex align-items-center justify-content-between leves-type-s mb-2"
+                    >
                       <div class="">
                         <h5>Pay Slip</h5>
                       </div>
@@ -517,26 +1152,38 @@
                         </div>
                       </div>
                       <div class="">
-                        <p class="mb-0" style="
-                      font-size: 12px;
-                      color: #555;
-                      font-weight: 500;
-                    "> Krenai </p>
+                        <p
+                          class="mb-0"
+                          style="font-size: 12px; color: #555; font-weight: 500"
+                        >
+                          Krenai
+                        </p>
                       </div>
                       <div class="">
-                        <p class="mb-0" style="
-                      font-size: 12px;
-                      color: #555;
-                      font-weight: 500;
-                    "> Jan 1, 2023 </p>
+                        <p
+                          class="mb-0"
+                          style="font-size: 12px; color: #555; font-weight: 500"
+                        >
+                          Jan 1, 2023
+                        </p>
                       </div>
                       <div class="">
-                        <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top">
-                          <img src="assets/images/pdf.svg" style="width: 20px" />
+                        <a
+                          href=""
+                          class="excel-box"
+                          ngbTooltip="Download Pdf"
+                          placement="top"
+                        >
+                          <img
+                            src="assets/images/pdf.svg"
+                            style="width: 20px"
+                          />
                         </a>
                       </div>
                     </div>
-                    <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
+                    <div
+                      class="d-flex align-items-center justify-content-between leves-type-s mb-2"
+                    >
                       <div class="">
                         <h5>Pay Slip</h5>
                       </div>
@@ -555,28 +1202,38 @@
                         </div>
                       </div>
                       <div class="">
-                        <p class="mb-0" style="
-                      font-size: 12px;
-                      color: #555;
-                      font-weight: 500;
-                    "> Krenai </p>
+                        <p
+                          class="mb-0"
+                          style="font-size: 12px; color: #555; font-weight: 500"
+                        >
+                          Krenai
+                        </p>
                       </div>
                       <div class="">
-                        <p class="mb-0" style="
-                      font-size: 12px;
-                      color: #555;
-                      font-weight: 500;
-                    "> Jan 1, 2023 </p>
+                        <p
+                          class="mb-0"
+                          style="font-size: 12px; color: #555; font-weight: 500"
+                        >
+                          Jan 1, 2023
+                        </p>
                       </div>
                       <div class="">
-                        <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top">
-                          <img src="assets/images/pdf.svg" style="width: 20px" />
+                        <a
+                          href=""
+                          class="excel-box"
+                          ngbTooltip="Download Pdf"
+                          placement="top"
+                        >
+                          <img
+                            src="assets/images/pdf.svg"
+                            style="width: 20px"
+                          />
                         </a>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="tab-pane p-3" id="profile" role="tabpanel">
+                <!-- <div class="tab-pane p-3" id="profile" role="tabpanel">
                   <div class="row">
                     <div class="col-md-12">
                       <div class="employee-previeww">
@@ -657,6 +1314,942 @@
                       </div>
                     </div>
                   </div>
+                </div> -->
+                <div class="tab-pane p-3" id="profile" role="tabpanel">
+                  <div class="row mb-3">
+                    <div class="col-md-12">
+                      <div class="onboarding-deta mb-3">
+                        <table class="table mb-0">
+                          <tr style="background-color: #f1f1f1">
+                            <td>
+                              <p class="mb-0 persnaol">
+                                Personal Information
+                                <img
+                                  src="assets/images/edit-text.svg"
+                                  class="right-icon"
+                                  style="width: 14px; margin-right: 8px"
+                                  *ngIf="
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/employee-onboarding-form'
+                                    )
+                                  "
+                                />
+                                <!-- <i
+                                  class="bi bi-pencil-square right-icon"
+                                  *ngIf="
+                                    onboardingPreviewData.user
+                                      .employeeOnboardingStatus.response ===
+                                    'REJECTED'
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/employee-onboarding-form'
+                                    )
+                                  "
+                                ></i> -->
+                              </p>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <table class="table table-bordered">
+                          <tbody class="table-design">
+                            <tr>
+                              <td>
+                                Name :
+                                {{ onboardingPreviewData.user.name || "N/A" }}
+                              </td>
+                              <td>
+                                Email :
+                                {{ onboardingPreviewData.user.email || "N/A" }}
+                              </td>
+                              <td>
+                                Phone :
+                                {{
+                                  onboardingPreviewData.user.phoneNumber ||
+                                    "N/A"
+                                }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                DOB :
+                                {{
+                                  (onboardingPreviewData.user.dob
+                                    | date: "dd/MM/yyyy") || "N/A"
+                                }}
+                              </td>
+                              <td>
+                                Gender :
+                                {{ onboardingPreviewData.user.gender || "N/A" }}
+                              </td>
+                              <td>
+                                Father's Name :
+                                {{
+                                  onboardingPreviewData.user.fatherName || "N/A"
+                                }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                Marital Status :
+                                {{
+                                  onboardingPreviewData.user.maritalStatus ||
+                                    "N/A"
+                                }}
+                              </td>
+                              <td>
+                                Joining Date :
+                                {{
+                                  (onboardingPreviewData.user.joiningDate
+                                    | date: "dd/MM/yyyy") || "N/A"
+                                }}
+                              </td>
+                              <td>
+                                Current Salary :
+                                {{
+                                  onboardingPreviewData.user.currentSalary
+                                    ? onboardingPreviewData.user.currentSalary
+                                    : "N/A"
+                                }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                Department :
+                                {{
+                                  onboardingPreviewData.user.department || "N/A"
+                                }}
+                              </td>
+                              <td>
+                                Current Position :
+                                {{
+                                  onboardingPreviewData.user.position || "N/A"
+                                }}
+                              </td>
+                              <td>
+                                Nationality :
+                                {{
+                                  onboardingPreviewData.user.nationality ||
+                                    "N/A"
+                                }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div class="onboarding-deta">
+                        <table class="table mb-0">
+                          <tr style="background-color: #f1f1f1">
+                            <td>
+                              <p class="mb-0 persnaol">
+                                Address Details
+                                <img
+                                  src="assets/images/edit-text.svg"
+                                  class="right-icon"
+                                  style="width: 14px; margin-right: 8px"
+                                  *ngIf="
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/employee-address-detail'
+                                    )
+                                  "
+                                />
+                                <!-- <i
+                                  class="bi bi-pencil-square right-icon"
+                                  *ngIf="
+                                    onboardingPreviewData.user
+                                      .employeeOnboardingStatus.response ===
+                                    'REJECTED'
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/employee-address-detail'
+                                    )
+                                  "
+                                ></i> -->
+                              </p>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <tr>
+                          <td colspan="12">
+                            <p class="mb-0 subheading">Current Address :</p>
+                          </td>
+                        </tr>
+
+                        <ng-container
+                          *ngIf="
+                            onboardingPreviewData.userAddress[0];
+                            else noDataTemplateOfCurrentAddress
+                          "
+                        >
+                          <table class="table table-bordered">
+                            <tbody
+                              class="table-design"
+                              *ngIf="
+                                onboardingPreviewData.userAddress != undefined
+                              "
+                            >
+                              <tr>
+                                <td colspan="12">
+                                  Address Line 1 :
+                                  {{
+                                    onboardingPreviewData.userAddress[0]
+                                      .addressLine1 || "N/A"
+                                  }}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="12">
+                                  Address Line 2 :
+                                  {{
+                                    onboardingPreviewData.userAddress[0]
+                                      .addressLine2 || "N/A"
+                                  }}
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td colspan="3">
+                                  Pincode :
+                                  {{
+                                    onboardingPreviewData.userAddress[0]
+                                      .pincode || "N/A"
+                                  }}
+                                </td>
+                                <td colspan="3">
+                                  City :
+                                  {{
+                                    onboardingPreviewData.userAddress[0].city ||
+                                      "N/A"
+                                  }}
+                                </td>
+                                <td colspan="3">
+                                  State :
+                                  {{
+                                    onboardingPreviewData.userAddress[0]
+                                      .state || "N/A"
+                                  }}
+                                </td>
+                                <td colspan="3">
+                                  Country :
+                                  {{
+                                    onboardingPreviewData.userAddress[0]
+                                      .country || "N/A"
+                                  }}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </ng-container>
+                        <ng-template #noDataTemplateOfCurrentAddress>
+                          <div class="text-left p-3">
+                            <p>No data available :)</p>
+                          </div>
+                        </ng-template>
+
+                        <tr>
+                          <td colspan="12">
+                            <p class="mb-0 subheading">Permanent Address :</p>
+                          </td>
+                        </tr>
+
+                        <ng-container
+                          *ngIf="
+                            onboardingPreviewData.userAddress[1];
+                            else noDataTemplateOfPermanentAddress
+                          "
+                        >
+                          <table class="table table-bordered">
+                            <tbody
+                              class="table-design"
+                              *ngIf="
+                                ROLE === 'ADMIN' ||
+                                (ROLE == 'MANAGER' && isManagerBoolean)
+                              "
+                            >
+                              <!-- <tr *ngFor="let address of onboardingPreviewData.userAddress; let i = index">
+                                <td colspan="4">Complete Address: {{ address.address }}</td>
+                              </tr> -->
+                              <tr>
+                                <td colspan="12">
+                                  Address Line 1 :
+                                  {{
+                                    onboardingPreviewData.userAddress[1]
+                                      .addressLine1 || "N/A"
+                                  }}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="12">
+                                  Address Line 2 :
+                                  {{
+                                    onboardingPreviewData.userAddress[1]
+                                      .addressLine2 || "N/A"
+                                  }}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="3">
+                                  Pincode:
+                                  {{
+                                    onboardingPreviewData.userAddress[1]
+                                      .pincode || "N/A"
+                                  }}
+                                </td>
+                                <td colspan="3">
+                                  City:
+                                  {{
+                                    onboardingPreviewData.userAddress[1].city ||
+                                      "N/A"
+                                  }}
+                                </td>
+                                <td colspan="3">
+                                  State:
+                                  {{
+                                    onboardingPreviewData.userAddress[1]
+                                      .state || "N/A"
+                                  }}
+                                </td>
+                                <td colspan="3">
+                                  Country:
+                                  {{
+                                    onboardingPreviewData.userAddress[1]
+                                      .country || "N/A"
+                                  }}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </ng-container>
+                        <ng-template #noDataTemplateOfPermanentAddress>
+                          <div class="text-left p-3">
+                            <p>No data available :)</p>
+                          </div>
+                        </ng-template>
+                      </div>
+
+                      <div class="onboarding-deta">
+                        <table class="table mb-0">
+                          <tr style="background-color: #f1f1f1">
+                            <td>
+                              <p class="mb-0 persnaol">
+                                Employee Documents
+                                <img
+                                  src="assets/images/edit-text.svg"
+                                  class="right-icon"
+                                  style="width: 14px; margin-right: 8px"
+                                  *ngIf="
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/employee-document'
+                                    )
+                                  "
+                                />
+                                <!-- <i
+                                  class="bi bi-pencil-square right-icon"
+                                  *ngIf="
+                                    onboardingPreviewData.user
+                                      .employeeOnboardingStatus.response ===
+                                    'REJECTED'
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/employee-document'
+                                    )
+                                  "
+                                ></i> -->
+                              </p>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <ng-container
+                          *ngIf="
+                            documentsEmployee.length > 0;
+                            else noDataTemplateOfEmployeeAddress
+                          "
+                        >
+                          <table class="table table-bordered">
+                            <tbody class="table-design">
+                              <tr *ngFor="let docs of documentsEmployee">
+                                <td colspan="3" *ngIf="docs.documentUrl != ''">
+                                  <div
+                                    class="d-flex align-items-center justify-content-between document-deta"
+                                  >
+                                    <div class="d-flex align-items-center">
+                                      <div
+                                        class="d-flex align-items-center"
+                                        style="gap: 10px"
+                                      >
+                                        <i class="bi bi-file-earmark-text"></i>
+                                        <p class="mb-0 text-lineclamp">
+                                          {{ docs.documentName }}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="d-flex align-items-center justify-content-end"
+                                      style="gap: 10px; cursor: pointer"
+                                    >
+                                      <!-- <i class="bi bi-trash delete-coloe"></i> -->
+                                      <i
+                                        class="bi bi-eye pointer download-color"
+                                        (click)="openPdfModel(docs.documentUrl)"
+                                      ></i>
+                                      <i
+                                        class="bi bi-download download-color"
+                                        (click)="
+                                          downloadSingleImage(
+                                            docs.documentUrl.toString()
+                                          )
+                                        "
+                                      ></i>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </ng-container>
+                        <ng-template #noDataTemplateOfEmployeeAddress>
+                          <div class="text-left p-3">
+                            <p>No data available :)</p>
+                          </div>
+                        </ng-template>
+                      </div>
+
+                      <div class="onboarding-deta">
+                        <table class="table mb-0">
+                          <tr style="background-color: #f1f1f1">
+                            <td>
+                              <p class="mb-0 persnaol">
+                                Reference
+                                <span class="text-optional">(Optional)</span>
+                                <img
+                                  src="assets/images/edit-text.svg"
+                                  class="right-icon"
+                                  style="width: 14px; margin-right: 8px"
+                                  *ngIf="
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/employee-document'
+                                    )
+                                  "
+                                />
+                                <!-- <i
+                                  class="bi bi-pencil-square right-icon"
+                                  *ngIf="
+                                    onboardingPreviewData.user
+                                      .employeeOnboardingStatus.response ===
+                                    'REJECTED'
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/employee-document'
+                                    )
+                                  "
+                                ></i> -->
+                              </p>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <ng-container
+                          *ngIf="
+                            onboardingPreviewData.userGuarantorInformation[0];
+                            else noDataTemplateOfReference
+                          "
+                        >
+                          <table class="table table-bordered">
+                            <tbody
+                              class="table-design"
+                              *ngIf="
+                                onboardingPreviewData.userGuarantorInformation !=
+                                  undefined &&
+                                onboardingPreviewData.userGuarantorInformation
+                                  .length > 0
+                              "
+                            >
+                              <tr>
+                                <td>
+                                  Relation :
+                                  {{
+                                    onboardingPreviewData
+                                      .userGuarantorInformation[0].relation ||
+                                      "N/A"
+                                  }}
+                                </td>
+                                <td>
+                                  Name :
+                                  {{
+                                    onboardingPreviewData
+                                      .userGuarantorInformation[0].name || "N/A"
+                                  }}
+                                </td>
+                                <td>
+                                  Phone Number :
+                                  {{
+                                    onboardingPreviewData
+                                      .userGuarantorInformation[0]
+                                      .phoneNumber || "N/A"
+                                  }}
+                                </td>
+                                <td>
+                                  Email :
+                                  {{
+                                    onboardingPreviewData
+                                      .userGuarantorInformation[0].emailId
+                                      ? onboardingPreviewData
+                                          .userGuarantorInformation[0].emailId
+                                      : "N/A"
+                                  }}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </ng-container>
+                        <ng-template #noDataTemplateOfReference>
+                          <div class="text-left p-3">
+                            <p>No data available :)</p>
+                          </div>
+                        </ng-template>
+                        <!-- 
+                          <table class="table table-bordered">
+                         
+                            <tbody class="table-design" *ngIf="onboardingPreviewData.userGuarantorInformation!=undefined && onboardingPreviewData.userGuarantorInformation.length>0">
+                            
+                            
+                              <tr>
+                                <td>Relation : {{ onboardingPreviewData.userGuarantorInformation[1].relation }}</td>
+                                <td>Name : {{ onboardingPreviewData.userGuarantorInformation[1].name }}</td>
+                                <td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[1].phoneNumber }}</td>
+                                <td>Email : {{ onboardingPreviewData.userGuarantorInformation[1].emailId ? onboardingPreviewData.userGuarantorInformation[1].emailId : 'N/A' }}</td>
+                              </tr>
+                              
+                            </tbody>
+                          </table> -->
+                      </div>
+                      <div class="onboarding-deta">
+                        <table class="table mb-0">
+                          <tr style="background-color: #f1f1f1">
+                            <td>
+                              <p class="mb-0 persnaol">
+                                Academic Details
+                                <img
+                                  src="assets/images/edit-text.svg"
+                                  class="right-icon"
+                                  style="width: 14px; margin-right: 8px"
+                                  *ngIf="
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/acadmic'
+                                    )
+                                  "
+                                />
+                                <!-- <i
+                                  class="bi bi-pencil-square right-icon"
+                                  *ngIf="
+                                    onboardingPreviewData.user
+                                      .employeeOnboardingStatus.response ===
+                                    'REJECTED'
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/acadmic'
+                                    )
+                                  "
+                                ></i> -->
+                              </p>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <ng-container
+                          *ngIf="
+                            onboardingPreviewData.userAcademics;
+                            else noDataTemplateOfAcademicDetails
+                          "
+                        >
+                          <table class="table table-bordered">
+                            <tbody class="table-design">
+                              <tr>
+                                <td>
+                                  Highest Qualification :
+                                  {{
+                                    onboardingPreviewData.userAcademics
+                                      .highestEducationalLevel || "N/A"
+                                  }}
+                                </td>
+                                <td>
+                                  Degree/Diploma :
+                                  {{
+                                    onboardingPreviewData.userAcademics
+                                      .degreeObtained || "N/A"
+                                  }}
+                                </td>
+                                <td>
+                                  Field of Study :
+                                  {{
+                                    onboardingPreviewData.userAcademics
+                                      .fieldOfStudy || "N/A"
+                                  }}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  Institution Name :
+                                  {{
+                                    onboardingPreviewData.userAcademics
+                                      .institutionName || "N/A"
+                                  }}
+                                </td>
+                                <td>
+                                  {{
+                                    onboardingPreviewData.userAcademics
+                                      .gradeType || "N/A"
+                                  }}
+                                  :
+                                  {{
+                                    onboardingPreviewData.userAcademics.grade ||
+                                      "N/A"
+                                  }}
+                                </td>
+                                <td>
+                                  Graduating Year :
+                                  {{
+                                    onboardingPreviewData.userAcademics
+                                      .graduationYear || "N/A"
+                                  }}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </ng-container>
+                        <ng-template #noDataTemplateOfAcademicDetails>
+                          <div class="text-left p-3">
+                            <p>No data available :)</p>
+                          </div>
+                        </ng-template>
+                      </div>
+
+                      <div class="onboarding-deta">
+                        <table class="table mb-0">
+                          <tr style="background-color: #f1f1f1">
+                            <td>
+                              <p class="mb-0 persnaol">
+                                Experience
+                                <img
+                                  src="assets/images/edit-text.svg"
+                                  class="right-icon"
+                                  style="width: 14px; margin-right: 8px"
+                                  *ngIf="
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/employee-experience'
+                                    )
+                                  "
+                                />
+                                <!-- <i
+                                  class="bi bi-pencil-square right-icon"
+                                  *ngIf="
+                                    onboardingPreviewData.user
+                                      .employeeOnboardingStatus.response ===
+                                    'REJECTED'
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/employee-experience'
+                                    )
+                                  "
+                                ></i> -->
+                              </p>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <ng-container
+                          *ngIf="
+                            userExperienceArray.length > 0;
+                            else noDataTemplateOfExperience
+                          "
+                        >
+                          <div *ngIf="!isFresher">
+                            <div
+                              *ngFor="
+                                let userExperience of userExperienceArray;
+                                let i = index
+                              "
+                            >
+                              <table class="table table-bordered">
+                                <tbody
+                                  class="table-design"
+                                  *ngIf="
+                                    onboardingPreviewData.userExperience !=
+                                      undefined &&
+                                    onboardingPreviewData.userExperience
+                                      .length > 0
+                                  "
+                                >
+                                  <tr>
+                                    <td colspan="3">
+                                      Company Name :
+                                      {{ userExperience.companyName }}
+                                    </td>
+
+                                    <td colspan="3">
+                                      Duration :
+                                      {{
+                                        userExperience.startDate
+                                          | date: "dd/MM/yyyy"
+                                      }}
+                                      -
+                                      {{
+                                        userExperience.endDate
+                                          | date: "dd/MM/yyyy"
+                                      }}
+                                    </td>
+
+                                    <td colspan="3">
+                                      Department :
+                                      {{ userExperience.lastJobDepartment }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td colspan="3">
+                                      Last Salary :
+                                      {{ userExperience.lastSalary }}
+                                    </td>
+
+                                    <td colspan="3">
+                                      Position :
+                                      {{ userExperience.lastJobPosition }}
+                                    </td>
+
+                                    <td colspan="3">
+                                      Responsibilities :
+                                      {{ userExperience.jobResponisibilities }}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <div *ngIf="isFresher">
+                            <table class="table table-bordered">
+                              <tbody class="table-design">
+                                <tr>
+                                  <td colspan="9">Fresher</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </ng-container>
+                        <ng-template #noDataTemplateOfExperience>
+                          <div class="text-left p-3">
+                            <p>No data available :)</p>
+                          </div>
+                        </ng-template>
+                      </div>
+
+                      <div class="onboarding-deta">
+                        <table class="table mb-0">
+                          <tr style="background-color: #f1f1f1">
+                            <td>
+                              <p class="mb-0 persnaol">
+                                Bank Details
+                                <img
+                                  src="assets/images/edit-text.svg"
+                                  class="right-icon"
+                                  style="width: 14px; margin-right: 8px"
+                                  *ngIf="
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/bank-details'
+                                    )
+                                  "
+                                />
+                                <!-- <i
+                                  class="bi bi-pencil-square right-icon"
+                                  *ngIf="
+                                    onboardingPreviewData.user
+                                      .employeeOnboardingStatus.response ===
+                                    'REJECTED'
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/bank-details'
+                                    )
+                                  "
+                                ></i> -->
+                              </p>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <ng-container
+                          *ngIf="
+                            onboardingPreviewData.userBankDetails;
+                            else noDataTemplateOfBankDetails
+                          "
+                        >
+                          <table class="table table-bordered">
+                            <tbody class="table-design">
+                              <tr>
+                                <td>
+                                  Account Holder Name :
+                                  {{
+                                    onboardingPreviewData.userBankDetails
+                                      .accountHolderName || "N/A"
+                                  }}
+                                </td>
+                                <td>
+                                  Bank Name :
+                                  {{
+                                    onboardingPreviewData.userBankDetails
+                                      .bankName || "N/A"
+                                  }}
+                                </td>
+                                <td>
+                                  Account Number :
+                                  {{
+                                    onboardingPreviewData.userBankDetails
+                                      .accountNumber || "N/A"
+                                  }}
+                                </td>
+                                <td>
+                                  IFSC Number :
+                                  {{
+                                    onboardingPreviewData.userBankDetails
+                                      .ifsc || "N/A"
+                                  }}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </ng-container>
+                        <ng-template #noDataTemplateOfBankDetails>
+                          <div class="text-left p-3">
+                            <p>No data available :)</p>
+                          </div>
+                        </ng-template>
+                      </div>
+
+                      <div class="onboarding-deta">
+                        <table class="table mb-0">
+                          <tr style="background-color: #f1f1f1">
+                            <td>
+                              <p class="mb-0 persnaol">
+                                Emergency Contact
+                                <img
+                                  src="assets/images/edit-text.svg"
+                                  class="right-icon"
+                                  style="width: 14px; margin-right: 8px"
+                                  *ngIf="
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/emergency-contact'
+                                    )
+                                  "
+                                />
+                                <!-- <i
+                                  class="bi bi-pencil-square right-icon"
+                                  *ngIf="
+                                    onboardingPreviewData.user
+                                      .employeeOnboardingStatus.response ===
+                                    'REJECTED'
+                                  "
+                                  (click)="
+                                    routeToUserDetails(
+                                      '/employee-onboarding/emergency-contact'
+                                    )
+                                  "
+                                ></i> -->
+                              </p>
+                            </td>
+                          </tr>
+                        </table>
+                        <ng-container
+                          *ngIf="
+                            userEmergencyContactArray.length > 0;
+                            else noDataTemplateOfEmergencyContact
+                          "
+                        >
+                          <div
+                            *ngFor="
+                              let userEmergencyContact of userEmergencyContactArray;
+                              let i = index
+                            "
+                          >
+                            <table class="table table-bordered">
+                              <tbody
+                                class="table-design"
+                                *ngIf="
+                                  onboardingPreviewData.userEmergencyContacts !=
+                                    undefined &&
+                                  onboardingPreviewData.userEmergencyContacts
+                                    .length > 0
+                                "
+                              >
+                                <tr>
+                                  <td>
+                                    Relation with Employee :
+                                    {{
+                                      userEmergencyContact.relationWithEmployee
+                                    }}
+                                  </td>
+                                  <td>
+                                    Name :
+                                    {{ userEmergencyContact.contactName }}
+                                  </td>
+                                  <td>
+                                    Phone Number :
+                                    {{ userEmergencyContact.contactNumber }}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <ng-template #noData>
+                              <p>No emergency contact information available.</p>
+                            </ng-template>
+                          </div>
+                        </ng-container>
+                        <ng-template #noDataTemplateOfEmergencyContact>
+                          <div class="text-left p-3">
+                            <p>No data available :)</p>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -667,3 +2260,573 @@
         <!--end col-->
       </div>
       <!-- Updated Design V2 - Author Pushpendra -->
+
+      <!-- Modal -->
+
+      <div
+        class="modal fade apply-leave"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="mySmallModalLabel"
+        aria-hidden="true"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+      >
+        <div class="modal-dialog modal-dialog-centered mx-auto">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h6 class="modal-title m-0" id="exampleModalCenterTitle">
+                Apply for a Leave
+              </h6>
+              <button
+                type="button"
+                class="btn-close"
+                id="requestLeaveCloseModel"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                #requestLeaveCloseModel
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="apply-leave-main-box">
+                <div class="mb-2">
+                  <p class="mb-0" style="color: #000444">
+                    Please fill out the following fields:
+                  </p>
+                </div>
+                <form [formGroup]="userLeaveForm" #formDirective="ngForm">
+                  <div class="mb-2">
+                    <label for="username" style="padding-bottom: 6px"
+                      >Pick a starting date</label
+                    >
+                    <input
+                      type="date"
+                      id="username"
+                      placeholder="Enter title ..."
+                      required=""
+                      class="form-control ng-untouched ng-pristine ng-invalid"
+                      formControlName="startDate"
+                      [(ngModel)]="userLeaveRequest.startDate"
+                      [min]="currentNewDate"
+                    />
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="
+                        StartDate?.errors?.['required'] &&
+                        (StartDate?.touched || StartDate?.dirty)
+                      "
+                    >
+                      Start Date is Required.
+                    </div>
+                  </div>
+                  <!-- <span class="optional">(optional)</span> -->
+                  <div class="mb-2">
+                    <label for="username" style="padding-bottom: 6px"
+                      >Pick an ending date
+                    </label>
+                    <input
+                      type="date"
+                      id="username"
+                      placeholder="Enter title ..."
+                      class="form-control ng-untouched ng-pristine ng-invalid"
+                      formControlName="endDate"
+                      [(ngModel)]="userLeaveRequest.endDate"
+                      [min]="userLeaveRequest.startDate"
+                    />
+                  </div>
+                  <div class="mb-2">
+                    <label for="username" style="padding-bottom: 6px"
+                      >Select the type of leave you want to request</label
+                    >
+                    <div class="" style="width: 100%; position: relative">
+                      <div class="dropdown" style="width: 100%">
+                        <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select leave type <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                  </button> -->
+                        <select
+                          class="form-select"
+                          id="exampleFormControlSelect1"
+                          formControlName="leaveType"
+                          [(ngModel)]="userLeaveRequest.leaveType"
+                        >
+                          <option value="">Select Leave Type</option>
+                          <option *ngFor="let ul of userLeave">
+                            {{ ul.leaveType }}
+                          </option>
+                        </select>
+                        <div
+                          class="form-text text-danger"
+                          *ngIf="
+                            LeaveType?.errors?.['required'] &&
+                            (LeaveType?.touched || LeaveType?.dirty)
+                          "
+                        >
+                          Leave Type Required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="mb-2">
+            <label for="username" style="padding-bottom: 6px"
+              >Select if you are requesting Half Leave <span class="optional">(optional)</span></label>
+              <div class="">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" style="padding-left: 10px;" for="exampleCheck1">Half Leave</label>
+            </div>
+          </div> -->
+                  <div class="mb-2">
+                    <label for="username" style="padding-bottom: 6px"
+                      >Select if you are requesting Half Leave
+                      <span class="optional">(optional)</span></label
+                    >
+                    <div class="form-check">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="halfLeaveToggle"
+                        [checked]="halfDayLeaveShiftToggle"
+                        formControlName="halfDayLeave"
+                        [(ngModel)]="userLeaveRequest.halfDayLeave"
+                        (click)="halfLeaveShiftToggle()"
+                      />
+                      <label class="form-check-label" for="halfLeaveToggle"
+                        >Half Day Leave</label
+                      >
+                    </div>
+                  </div>
+                  <div class="mb-2" *ngIf="halfDayLeaveShiftToggle">
+                    <label style="padding-bottom: 6px">Select Shift:</label>
+                    <div class="form-check">
+                      <input
+                        type="radio"
+                        class="form-check-input"
+                        id="dayShiftType"
+                        [checked]="dayShiftToggle"
+                        (change)="dayShiftToggleFun('day')"
+                      />
+                      <label class="form-check-label" for="dayShiftType"
+                        >Day Shift</label
+                      >
+                    </div>
+                    <div class="form-check">
+                      <input
+                        type="radio"
+                        class="form-check-input"
+                        id="eveningShiftType"
+                        [checked]="eveningShiftToggle"
+                        (change)="dayShiftToggleFun('evening')"
+                      />
+                      <label class="form-check-label" for="eveningShiftType"
+                        >Night Shift</label
+                      >
+                    </div>
+                  </div>
+
+                  <div class="mb-2">
+                    <label for="username" style="padding-bottom: 6px"
+                      >Select user to request the leave from</label
+                    >
+                    <div class="" style="width: 100%; position: relative">
+                      <div class="dropdown" style="width: 100%">
+                        <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select a user <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
+                  </button> -->
+                        <!-- <select class="form-select" id="exampleFormControlSelect1" name="managerId" formControlName="managerId" [(ngModel)]="userLeaveRequest.managerId">
+                    <option value="">Select User</option>
+                    <option>27</option>
+                    <option>4</option>
+               
+                </select>
+                <div class="form-text text-danger" *ngIf="ManagerId?.errors?.['required'] && (ManagerId?.touched || ManagerId?.dirty)">
+                    Select User to Request Leave Required.
+                </div> -->
+                        <select
+                          class="form-select"
+                          id="manager"
+                          formControlName="managerId"
+                          [(ngModel)]="selectedManagerId"
+                        >
+                          <option [ngValue]="undefined">Select Manager</option>
+                          <option
+                            *ngFor="let manager of managers"
+                            [ngValue]="manager.id"
+                          >
+                            {{ manager.name }}
+                          </option>
+                        </select>
+
+                        <div
+                          class="form-text text-danger"
+                          *ngIf="
+                            ManagerId?.errors?.['required'] &&
+                            (ManagerId?.touched || ManagerId?.dirty)
+                          "
+                        >
+                          Select User to Request Leave Required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <span class="optional">(optional)</span> -->
+                  <div class="mb-2">
+                    <label for="username" style="padding-bottom: 6px"
+                      >Notes
+                    </label>
+                    <textarea
+                      class="form-control"
+                      #maxWords
+                      id="exampleFormControlTextarea1"
+                      placeholder="Notes"
+                      rows="3"
+                      required
+                      style="height: 100px !important"
+                      formControlName="optNotes"
+                      [maxLength]="255"
+                      [(ngModel)]="userLeaveRequest.optNotes"
+                    >
+                    </textarea>
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="
+                        OptNotes?.errors?.['required'] &&
+                        (OptNotes?.touched || OptNotes?.dirty)
+                      "
+                    >
+                      Notes is Required.
+                    </div>
+                    <small
+                      *ngIf="maxWords.value.length > 254"
+                      style="color: red"
+                      >The maximum number of characters allowed in above field
+                      is 255!</small
+                    >
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-de-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary save-changes"
+                [disabled]="userLeaveForm.invalid"
+                (click)="saveLeaveRequestUser()"
+                *ngIf="!submitLeaveLoader"
+              >
+                Submit
+              </button>
+              <div class="dot-opacity-loader" *ngIf="submitLeaveLoader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- show image modal -->
+      <button
+        type="button"
+        class="btn btn-primary d-none"
+        data-bs-toggle="modal"
+        data-bs-target="#showImageModal"
+        #openViewModal
+        id="openViewModal"
+      ></button>
+      <div
+        class="modal blur-bg-2"
+        id="showImageModal"
+        tabindex="-1"
+        data-bs-keyboard="false"
+        aria-labelledby="shareModalLabel1"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">PDF</h5>
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                Close <i class="bi bi-x"></i>
+              </button>
+            </div>
+            <div
+              class="modal-body text-center"
+              style="overflow: scroll; min-height: 350px"
+            >
+              <iframe
+                [src]="previewString | safe"
+                style="width: 100vh; height: 100vh"
+                frameborder="0"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-primary d-none"
+        data-bs-toggle="modal"
+        data-bs-target="#eventsModal"
+        #openEventsModal
+        id="openEventsModal"
+      ></button>
+      <div
+        class="modal"
+        data-bs-backdrop="static"
+        id="eventsModal"
+        [ngStyle]="{ left: clientX, top: clientY, position: 'absolute' }"
+        #eventsModal
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="deleteConfirmationModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog m-0" role="document">
+          <div class="modal-content">
+            <button
+              type="button"
+              class="d-none"
+              #closeAttendanceDetailModalButton
+              data-bs-dismiss="modal"
+            ></button>
+            <div class="modal-body">
+              <div
+                class="calenInfo"
+                *ngIf="
+                  userAttendanceDetailDateWise.checkInTime != null &&
+                  userAttendanceDetailDateWise.status == 'Present'
+                "
+              >
+                <p>
+                  <b>Check In Time: </b
+                  >{{ userAttendanceDetailDateWise.checkInTime | timeFormat }}
+                </p>
+                <p>
+                  <b>Check Out Time: </b
+                  >{{ userAttendanceDetailDateWise.checkOutTime | timeFormat }}
+                </p>
+                <p>
+                  <b>Total Hours: </b
+                  >{{ userAttendanceDetailDateWise.totalWorkingHours }}
+                </p>
+                <p>
+                  <b>Total Break: </b
+                  >{{ userAttendanceDetailDateWise.breakCount }}
+                </p>
+                <p>
+                  <b>Break Duration: </b
+                  >{{ userAttendanceDetailDateWise.breakDuration }}
+                </p>
+              </div>
+              <div
+                class="calenInfo"
+                *ngIf="
+                  userAttendanceDetailDateWise.checkInTime != null &&
+                  userAttendanceDetailDateWise.status == 'Half Day'
+                "
+              >
+                <p>
+                  <b>Check In Time: </b
+                  >{{ userAttendanceDetailDateWise.checkInTime | timeFormat }}
+                </p>
+                <p>
+                  <b>Check Out Time: </b
+                  >{{ userAttendanceDetailDateWise.checkOutTime | timeFormat }}
+                </p>
+                <p>
+                  <b>Total Hours: </b
+                  >{{ userAttendanceDetailDateWise.totalWorkingHours }}
+                </p>
+                <p>
+                  <b>Total Break: </b
+                  >{{ userAttendanceDetailDateWise.breakCount }}
+                </p>
+                <p>
+                  <b>Break Duration: </b
+                  >{{ userAttendanceDetailDateWise.breakDuration }}
+                </p>
+              </div>
+              <div
+                class="calenInfo"
+                *ngIf="
+                  userAttendanceDetailDateWise.checkInTime != null &&
+                  userAttendanceDetailDateWise.status == 'Late'
+                "
+              >
+                <p>
+                  <b>Check In Time: </b
+                  >{{ userAttendanceDetailDateWise.checkInTime | timeFormat }}
+                </p>
+                <p>
+                  <b>Check Out Time: </b
+                  >{{ userAttendanceDetailDateWise.checkOutTime | timeFormat }}
+                </p>
+                <p>
+                  <b>Total Hours: </b
+                  >{{ userAttendanceDetailDateWise.totalWorkingHours }}
+                </p>
+                <p>
+                  <b>Total Break: </b
+                  >{{ userAttendanceDetailDateWise.breakCount }}
+                </p>
+                <p>
+                  <b>Break Duration: </b
+                  >{{ userAttendanceDetailDateWise.breakDuration }}
+                </p>
+              </div>
+              <div
+                class="calenInfo d-block"
+                *ngIf="
+                  userAttendanceDetailDateWise.status == 'Absent' &&
+                  userAttendanceDetailDateWise.createdDate != endDateStr
+                "
+              >
+                <p><b>Absent!</b></p>
+              </div>
+              <div
+                class="calenInfo d-block"
+                *ngIf="
+                  userAttendanceDetailDateWise.status == 'Weekly Holiday' &&
+                  userAttendanceDetailDateWise.status != endDateStr
+                "
+              >
+                <p><b>Weekends!</b></p>
+              </div>
+              <div
+                class="calenInfo d-block"
+                *ngIf="
+                  (userAttendanceDetailDateWise.status == 'Universal Holiday' ||
+                    userAttendanceDetailDateWise.status == 'Custom Holiday') &&
+                  userAttendanceDetailDateWise.createdDate != endDateStr
+                "
+              >
+                <p><b>Holiday!</b></p>
+              </div>
+              <div
+                class="calenInfo d-block"
+                *ngIf="
+                  userAttendanceDetailDateWise.status == 'On Leave' &&
+                  userAttendanceDetailDateWise.createdDate != endDateStr
+                "
+              >
+                <p><b>On Leave!</b></p>
+              </div>
+              <div
+                class="calenInfo d-block"
+                *ngIf="
+                  (userAttendanceDetailDateWise.checkInTime == null ||
+                    userAttendanceDetailDateWise.checkInTime == undefined) &&
+                  userAttendanceDetailDateWise.createdDate == endDateStr
+                "
+              >
+                <p><b>Not Marked Yet :)</b></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-primary d-none"
+        data-bs-toggle="modal"
+        data-bs-target="#showRejectModal"
+        #openRejectModal
+        id="openRejectModal"
+      ></button>
+      <div
+        class="modal"
+        id="showRejectModal"
+        tabindex="-1"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        aria-labelledby="shareModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5
+                class="modal-title"
+                *ngIf="requestForMoreDocs; else rejectionReason"
+              >
+                Reason for Request
+              </h5>
+              <ng-template #rejectionReason>
+                <h5 class="modal-title">Reason for Rejection</h5>
+              </ng-template>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <div class="modal-body">
+              <ng-container
+                *ngIf="requestForMoreDocs; else provideRejectionReason"
+              >
+                <p>Please specify the list of documents needed:</p>
+                <textarea
+                  class="form-control"
+                  id="rejectionReason"
+                  required
+                  [(ngModel)]="reasonOfRejectionProfile.reason"
+                  rows="3"
+                  style="height: 100px !important"
+                ></textarea>
+              </ng-container>
+
+              <ng-template #provideRejectionReason>
+                <p>Please provide a reason for rejection:</p>
+                <textarea
+                  class="form-control"
+                  id="rejectionReason"
+                  required
+                  [(ngModel)]="reasonOfRejectionProfile.reason"
+                  rows="3"
+                  style="height: 100px !important"
+                ></textarea>
+              </ng-template>
+            </div>
+
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                #closeRejectModalButton
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                (click)="updateStatusUserByUuid('REJECTED')"
+                class="btn btn-primary"
+              >
+                <div *ngIf="toggle" class="dot-loader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span *ngIf="!toggle"> Save Changes </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
