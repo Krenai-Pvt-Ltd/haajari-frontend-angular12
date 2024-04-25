@@ -182,10 +182,7 @@
                 phoneNumber == null ||
                 phoneNumber == '' ||
                 phoneNumber.length != 10
-              "
-              *ngIf="isWhatsappLogin && !showOtpInput"
-              (click)="signInByWhatsapp()"
-            >
+              " *ngIf="isWhatsappLogin && !showOtpInput" (click)="signInByWhatsapp()">
               <span *ngIf="!sendOtpLoader">Send OTP</span>
               <div class="dot-opacity-loader" *ngIf="sendOtpLoader">
                 <span></span>
@@ -196,10 +193,7 @@
 
             <div class="register-whatsApp-number-text mt-4">
               <p>
-                <b>Note:</b> Please ensure that the mobile number provided is
-                registered <br />
-                with WhatsApp to receive OTP and other process-related
-                notifications.
+                <b>Note:</b> Please ensure that the mobile number provided is registered <br /> with WhatsApp to receive OTP and other process-related notifications.
               </p>
             </div>
           </div>
@@ -319,8 +313,7 @@
                       !emailInput.errors.required && emailInput.errors.pattern
                     "
                   >
-                    <i class="bi bi-exclamation-circle"></i> Please enter a
-                    valid email address.
+                    <i class="bi bi-exclamation-circle"></i> Please enter a valid email address.
                   </p>
                 </div>
               </div>
@@ -378,15 +371,7 @@
               </button>
 
               <!-- Second page login button -->
-              <button
-                type="submit"
-                class="btn btn-primary d-flex align-items-center justify-content-center mt-3"
-                style="padding: 10px 25px; width: 100%; height: 45px"
-                *ngIf="
-                  !verifyOtpButtonFlag && enterPasswordFlag && !isWhatsappLogin
-                "
-                (click)="signIn()"
-              >
+              <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center mt-3" style="padding: 10px 25px; width: 100%; height: 45px" *ngIf="!verifyOtpButtonFlag && enterPasswordFlag && !isWhatsappLogin" (click)="signIn()">
                 <ng-container *ngIf="loginButtonLoader; else loginButton">
                   <div class="dot-opacity-loader">
                     <span></span>
@@ -418,14 +403,14 @@
               <div
                 class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
                 role="alert"
-                *ngIf="verifyOtpButtonFlag && showMessageFlag"
-              >
+                *ngIf="verifyOtpButtonFlag && showMessageFlag">
                 <h4 class="alert-heading font-18">Attention!</h4>
                 <p>
                   You haven't created your password yet. Please create your
                   password after successfull verification.
                 </p>
               </div>
+              
             </div>
           </div>
 
