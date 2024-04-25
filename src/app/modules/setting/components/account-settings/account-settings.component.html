@@ -1,433 +1,496 @@
 <div class="page-wrapper">
-    <div class="page-content-tab">
-        <div class="container-fluid">
-
-            <div class="row mt-3" >
-               <div class="col-md-12">
-                 <div class="">
-                    <ul id="myTab" role="tablist" class="nav nav-tabs">
-
-                        <li role="presentation" class="nav-item">
-                            <button id="account-setting-tab" data-bs-toggle="tab" [ngClass]="{'active': accountDetailsTab == 'accountDetails'}" data-bs-target="#account-setting" type="button" role="tab" aria-controls="account-setting" aria-selected="true" class="nav-link" #account >Account Details  </button>
-                        </li>
-                        <li role="presentation" class="nav-item">
-                            <button id="settingSecure" data-bs-toggle="tab" [ngClass]="{'active': accountDetailsTab == 'security'}" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="false" class="nav-link" #settingSecure>Security  </button>
-                        </li>
-                        <li role="presentation" class="nav-item">
-                            <button id="profile-preferences-tab" data-bs-toggle="tab" [ngClass]="{'active': accountDetailsTab == 'profilePreferences'}" data-bs-target="#profile-preferences" type="button" role="tab" aria-controls="profile-preferences" aria-selected="false" class="nav-link" #profilePreferencesSetting> Profile preferences </button>
-                        </li>
-                        
-                        <!-- <li role="presentation" class="nav-item">
-                            <button id="referral-program-tab" data-bs-toggle="tab" [ngClass]="{'active': accountDetailsTab == 'referralProgram'}" data-bs-target="#referral-program" type="button" role="tab" aria-controls="referral-program" aria-selected="false" class="nav-link" #refer > Referral Program </button>
-                        </li> -->
-                    </ul>
-
-                    <div class="tab-content" id="myTabContent">
-
-                        <div class="tab-pane fade show mt-3" [ngClass]="{'active': accountDetailsTab == 'accountDetails'}"  style="border: 1px solid #f1f1f1; box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);"  id="account-setting" role="tabpanel">
-
-                            <div class="row">
-                               <div class="col-md-8 pr-0 mr-0" style="padding-right: 0px; margin-right: 0px;">
-
-                                <div class="account-setting-box">
-                                    <div class="d-flex align-items-center" style="gap:20px">
-                                        <div class="jXmMvc" style="width: 3%;">
-                                            <img src="" style="width: 100%;">
-                                        </div>
-                                        <div class="">
-                                            <h5>Account details</h5>
-                                        </div>
-                                    </div>
-    
-                                    <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm">
-                                        <dt class="sc-f474212e-4 lkliht">Email </dt>
-                                        <dd class="sc-f474212e-7 dUVSfj">
-                                            <div class="sc-485d66d8-0 laMuYy"
-                                            ><div class="sc-485d66d8-0 sc-3a263705-1 dLkVjV csGfKv">{{ userEmail ? userEmail : 'N/A' }}</div>
-                                        </div>
-                                    </dd>
-                                    
-                                    <!-- <div class="sc-485d66d8-0 sc-f474212e-1 dLkVjV dbRigD">
-                                        <div class="sc-485d66d8-0 dLkVjV">
-                                            <button type="button"  aria-label="Edit Email" class="edit-btns">
-                                                <i class="bi bi-pencil"></i> Edit
-                                            </button>
-                                            </div>
-                                        </div> -->
-                                    </div>
-                                    <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm">
-                                        <dt class="sc-f474212e-4 lkliht">Password </dt>
-                                        <dd class="sc-f474212e-7 dUVSfj">
-                                            <div class="sc-485d66d8-0 laMuYy"><div class="sc-485d66d8-0 sc-3a263705-1 dLkVjV csGfKv"> ********</div>
-                                        </div>
-                                    </dd>
-                                    
-                                    <div class="sc-485d66d8-0 sc-f474212e-1 dLkVjV dbRigD">
-                                        <div class="sc-485d66d8-0 dLkVjV">
-                                            <button type="button" aria-label="Edit Email" id="passwordEdit" data-bs-toggle="modal" data-bs-target="#passwordUpdateModal" class="edit-btns">
-                                                <i class="bi bi-pencil"></i>  Edit
-                                            </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                               </div>
-                               <!-- profile image -->
-                               <div class="col-md-4"style="padding-left: 0px; margin-left: 0px;">
-                                <div class="profile-image-edit text-center position-relative">
-                                    <div style="width: 110px; margin: 0 auto; position: relative; padding: 40px">
-                                      <img style="width: 100px; height: 100px; border-radius: 50%;" [src]="userPersonalInformationRequest.image" alt="Profile Image">
-                                      <input type="file" accept="image/jpeg, image/jpg, image/png" #fileInput style="display: none" (change)="onFileSelected($event)">
-                                      <span class="edit-profile" tabindex="0" (click)="fileInput.click()"><i class="bi bi-pencil"></i></span>
-                                    </div>
-                                    <div *ngIf="isInvalidFileType">
-                                        
-                                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a JPG, JPEG, or PNG file.</p>
-                                      </div>
-                                  </div>
-                                  
-                                  
-
-                               </div>
-                            </div>
-                            
+  <div class="page-content-tab">
+    <div class="container-fluid">
+      <div class="row mt-3">
+        <div class="col-md-12">
+          <div class="">
+            <div class="tab-content" id="myTabContent">
+              <div
+                class="tab-pane fade show mt-3"
+                [ngClass]="{ active: accountDetailsTab == 'accountDetails' }"
+                style="border: 1px solid #f1f1f1"
+                id="account-setting"
+                role="tabpanel"
+              >
+                <div class="row">
+                  <div
+                    class="col-md-8 pr-0 mr-0"
+                    style="padding-right: 0px; margin-right: 0px"
+                  >
+                    <div class="account-setting-box">
+                      <div class="d-flex align-items-center" style="gap: 20px">
+                        <div class="">
+                          <h5>Account details</h5>
                         </div>
-                        <div class="tab-pane fade show mt-3" [ngClass]="{'active' : accountDetailsTab == 'security'}" id="security" role="tabpanel">
-                            <div class="">
+                      </div>
 
-                                <div class="security">
-                                    <h4>Two-factor authentication</h4>
-                                    <p>Use an authenticator app to enhance account security. Once it’s set up, you’ll need to generate a verification code to log in to Remote.</p>
+                      <div
+                        class="d-flex align-items-center justify-content-between mt-3"
+                      >
+                        <div
+                          class="w-50"
+                          style="border-right: 1px dashed #f1f1f1"
+                        >
+                          <small class="text-muted">Email</small>
 
-                                    <button class="edit-btns mt-2" type="button">Set up two-factor authentication <i class="bi bi-chevron-right"></i></button>
-                                </div>
-
-                            </div>
+                          <h6 class="text-truncate mt-2">
+                            {{ userEmail ? userEmail : "N/A" }}
+                          </h6>
                         </div>
-                        <div class="tab-pane fade show mt-3" [ngClass]="{'active': accountDetailsTab == 'profilePreferences'}" style="border: 1px solid #f1f1f1; box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, .05);" id="profile-preferences" role="tabpanel">
-                            <div class="">
-                                <div class="row">
-                                    <div class="col-md-12 pr-0 mr-0" style="padding-right: 0px; margin-right: 0px;">
-     
-                                     <div class="account-setting-box">
-                                         <div class="d-flex align-items-center" style="gap:20px">
-                                             <div class="jXmMvc" style="width: 3%;">
-                                                 <img src="assets/images/google-docs.svg" style="width: 100%;">
-                                             </div>
-                                             <div class="">
-                                                 <h5>Notifications</h5>
-                                             </div>
-                                         </div>
-         
-                                         <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm">
-                                            <dt class="sc-f474212e-4 lkliht">Attendance</dt>
-                                            
-                                            <dd class="sc-f474212e-7 dUVSfj">
-                                                <!-- Email notifications -->
-                                                <div class="notification-settings">
-                                                    <!-- <div class="notification-option" >
-                                                        <label for="emailSwitch">Receive updates by email</label>
-                                                        <div class="material-switch">
-                                                            <input type="checkbox" id="emailSwitch" class="ng-untouched ng-pristine ng-valid">
-                                                            <label class="label-success" for="emailSwitch"></label>
-                                                        </div>
-                                                    </div> -->
-                                                    <div class="notification-option">
-                                                        <label for="whatsappSwitch">Receive attendance notifications by WhatsApp</label>
-                                                        <div class="material-switch" [class.disabled]="isDisabled">
-                                                          <input type="checkbox" id="whatsappSwitch" [(ngModel)]="notifications.whatsapp"
-                                                                 (click)="toggleNotification('whatsapp')" [disabled]="isDisabled">
-                                                          <label class="label-success" for="whatsappSwitch"></label>
-                                                        </div>
-                                                        
-                                                        
-                                                      </div>
-                                                      <div class="notification-option" *ngIf="isPlanActive">
-                                                        <label for="slackSwitch">Receive attendance notifications by Slack</label>
-                                                        <div class="material-switch">
-                                                          <input type="checkbox" id="slackSwitch" [(ngModel)]="notifications.slack"
-                                                                 (click)="toggleNotification('slack')" class="ng-untouched ng-pristine ng-valid">
-                                                          <label class="label-success" for="slackSwitch"></label>
-                                                        </div>
-                                                      </div>
-                                                      
-                                                </div>
-                                                
-                                                
-                                            </dd>
-                                        </div>
+                        <div class="w-50 text-end">
+                          <small class="text-muted mb-2">Password</small>
 
-                                        <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm">
-                                          <dt class="sc-f474212e-4 lkliht">Language Preferred</dt>
-                                          
-                                          <dd class="sc-f474212e-7 dUVSfj">
-                                              <div class="notification-settings">
-                                                  <div class="notification-option">
-                                                      <label for="englishSwitch">English</label>
-                                                      <div class="material-switch">
-                                                          <input type="checkbox" id="englishSwitch" [(ngModel)]="languagePreferredEnglish" class="ng-untouched ng-pristine ng-valid"
-                                                          (click)="updateLanguagePreferredForNotificationMethodCall(1)"  >
-                                                          <label class="label-success" for="englishSwitch"></label>
-                                                      </div>
-                                                  </div>
-                                                  <div class="notification-option">
-                                                      <label for="hindiSwitch">Hindi</label>
-                                                      <div class="material-switch">
-                                                          <input type="checkbox" id="hindiSwitch" [(ngModel)]="languagePreferredHindi" class="ng-untouched ng-pristine ng-valid"
-                                                          (click)="updateLanguagePreferredForNotificationMethodCall(2)" >
-                                                          <label class="label-success" for="hindiSwitch"></label>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </dd>
-                                      </div>
-                                        
-
-                                      <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm" *ngIf="ROLE!= 'USER'">
-                                        <dt class="sc-f474212e-4 lkliht">Employee's Attendance</dt>
-                                        <dd class="sc-f474212e-7 dUVSfj">
-                                          <!-- Whatsapp Notification Setting for Manager -->
-                                          <div class="notification-settings">
-                                            <div class="notification-option">
-                                              <label for="employeeNotificationSwitch">Would you like to receive notifications for your employee's attendance?</label>
-                                              <div class="material-switch">
-                                                <input type="checkbox" id="employeeNotificationSwitch" [(ngModel)]="employeeAttendanceFlag" (change)="updateAttendanceNotificationSettingForManagerMethodCall()">
-                                                <label class="label-success" for="employeeNotificationSwitch"></label>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </dd>
-                                      </div>
-                                      
-
-
-
-                                         <!-- <div class="d-flex align-items-center mt-3" style="gap:20px">
-                                            <div class="jXmMvc" style="width: 3%;">
-                                                <img src="assets/images/google-docs.svg" style="width: 100%;">
-                                            </div>
-                                            <div class="">
-                                                <h5>API management</h5>
-                                            </div>
-                                        </div> -->
-                                         <!-- <div class="sc-485d66d8-0 sc-f474212e-2 dLkVjV jIcvEm">
-                                             <dt class="sc-f474212e-4 lkliht">Hajiri API </dt>
-                                             <dd class="sc-f474212e-7 dUVSfj">
-                                                 <div class="sc-485d66d8-0 laMuYy"><div class="sc-485d66d8-0 sc-3a263705-1 dLkVjV csGfKv"> 
-                                                    Generate a token to start using the Remote API.</div>
-                                             </div>
-                                         </dd>
-                                         
-                                         <div class="sc-485d66d8-0 sc-f474212e-1 dLkVjV dbRigD">
-                                             <div class="sc-485d66d8-0 dLkVjV">
-                                                 <button type="button" aria-label="Edit Email" class="edit-btns">
-                                                       Access API <i class="bi bi-arrow-right"></i>
-                                                 </button>
-                                                 </div>
-                                             </div>
-                                         </div> -->
-                                     </div>
-     
-                                    </div>
-                                    <!-- <div class="col-md-4"style="padding-left: 0px; margin-left: 0px;">
-                                     <div class="profile-immage-edit position-relative">
-                                         <h4>Company Manager</h4>
-                                         <p>yogesh kumar</p>
-                                     </div>
-     
-                                    </div> -->
-                                 </div>
-                            </div>
+                          <h6 class="text-truncate mt-3">
+                            ********
+                            <span
+                              type="button"
+                              aria-label="Edit Email"
+                              id="passwordEdit"
+                              data-bs-toggle="modal"
+                              data-bs-target="#passwordUpdateModal"
+                              class="text-primary"
+                            >
+                              (Edit Password)</span
+                            >
+                          </h6>
                         </div>
-                        <div class="tab-pane fade show mt-3" [ngClass]="{'active': accountDetailsTab == 'referralProgram'}" id="referral-program" role="tabpanel">
-                            <div class="">
-
-                                <div class="security">
-                                    <h4>Refer a friend and get paid</h4>
-                                    <p>Refer a friend to Remote and you will both earn up to <b>$300</b> cash.</p>
-
-                                    <div class="mt-3">
-                                        <p><b>Share your unique referral link</b></p>
-                                    </div>
-
-                                    <button class="edit-btns mt-2" style="color:#303e67" type="button">http://aklam.io/54CThM <i class="fa fa-clone" ngbTooltip="Copy to clipboard" placement="top" style="padding-left: 5px; color: #6666f3" aria-hidden="true"></i></button>
-
-                                    <hr class="border-prfile" >
-
-                                    <div class="how-it-work">
-                                        <h5>How it works?</h5>
-
-                                        <div class="d-flex align-items-start mt-3" style="gap:10px;">
-                                            <div class="jXmMvc" style="width: 3%;">
-                                                <img src="assets/images/google-docs.svg" style="width: 100%;">
-                                            </div>
-                                            <div class="referfrend">
-                                                <h5> Refer a friend</h5>
-                                                <p>Invite your friends to join Remote using your referral link</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-start mt-3" style="gap:10px;">
-                                            <div class="jXmMvc" style="width: 3%;">
-                                                <img src="assets/images/google-docs.svg" style="width: 100%;">
-                                            </div>
-                                            <div class="referfrend">
-                                                <h5> Earn your reward</h5>
-                                                <p>Earn up to $300 after your friend signs up and runs two successful payrolls</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-start mt-3" style="gap:10px;">
-                                            <div class="jXmMvc" style="width: 3%;">
-                                                <img src="assets/images/google-docs.svg" style="width: 100%;">
-                                            </div>
-                                            <div class="referfrend">
-                                                <h5> Claim your reward</h5>
-                                                <p>We will let you know once your reward is ready. To claim your reward sign into your referral account with our partner Aklamio and use bank transfer or Paypal to receive your payment. Easy as that 🎉</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <hr class="border-prfile" >
-
-
-                                    <p>Want to learn more about the referral program? <a href="" class="referral">Check out our referral portal</a> or visit our <a href="" class="referral">Help center</a></p>
-                                </div>
-
-                            </div>
-                        </div>
-
+                      </div>
                     </div>
-                 </div>
-               </div>
+                  </div>
+                  <!-- profile image -->
+                  <div
+                    class="col-md-4"
+                    style="padding-left: 0px; margin-left: 0px"
+                  >
+                    <div
+                      class="profile-image-edit text-center position-relative"
+                    >
+                      <div class="profile-image-box">
+                        <img
+                          [src]="userPersonalInformationRequest.image"
+                          alt="Profile Image"
+                        />
+                        <input
+                          type="file"
+                          accept="image/jpeg, image/jpg, image/png"
+                          #fileInput
+                          style="display: none"
+                          (change)="onFileSelected($event)"
+                        />
+                        <span
+                          class="edit-profile position-absolute bg-white d-flex align-items-center justify-content-center pointer"
+                          tabindex="0"
+                          (click)="fileInput.click()"
+                          ><i class="bi bi-pencil"></i
+                        ></span>
+                      </div>
+                      <div *ngIf="isInvalidFileType">
+                        <p
+                          class="errortxt mt-2 mb-0"
+                          style="color: red"
+                          *ngIf="isInvalidFileType"
+                        >
+                          <i class="bi bi-exclamation-circle"></i> Invalid file
+                          type. Please select a JPG, JPEG, or PNG file.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div class="">
+                  <div class="row">
+                    <div
+                      class="col-md-12 pr-0 mr-0"
+                      style="padding-right: 0px; margin-right: 0px"
+                    >
+                      <div class="account-setting-box">
+                        <div
+                          class="d-flex align-items-center"
+                          style="gap: 20px"
+                        >
+                          <!-- <div class="jXmMvc" style="width: 3%">
+                            <img
+                              src="assets/images/google-docs.svg"
+                              style="width: 100%"
+                            />
+                          </div> -->
+                          <div class="">
+                            <h5>Notifications</h5>
+                          </div>
+                        </div>
+
+                        <div class="mt-3 pb-2">
+                          <small class="text-muted">Attendance</small>
+
+                          <div class="d-flex align-items-center mt-3 gap-2">
+                            <div
+                              class="alert alert-outline-secondary p-2 mb-0"
+                              role="alert"
+                            >
+                              Receive attendance notifications by WhatsApp
+                            </div>
+                            <div>
+                              <div
+                                class="material-switch"
+                                [class.disabled]="isDisabled"
+                              >
+                                <input
+                                  type="checkbox"
+                                  id="whatsappSwitch"
+                                  [(ngModel)]="notifications.whatsapp"
+                                  (click)="toggleNotification('whatsapp')"
+                                  [disabled]="isDisabled"
+                                />
+                                <label
+                                  class="label-success"
+                                  for="whatsappSwitch"
+                                ></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                        <div class="pb-2">
+                          <small class="text-muted">Language Preferred</small>
+
+                          <div class="d-flex align-items-center mt-3 gap-2">
+                            <div
+                              class="alert alert-outline-secondary p-2 mb-0"
+                              role="alert"
+                            >
+                              English
+                            </div>
+                            <div>
+                              <div class="material-switch">
+                                <input
+                                  type="checkbox"
+                                  id="englishSwitch"
+                                  [(ngModel)]="languagePreferredEnglish"
+                                  class="ng-untouched ng-pristine ng-valid"
+                                  (click)="
+                                    updateLanguagePreferredForNotificationMethodCall(
+                                      1
+                                    )
+                                  "
+                                />
+                                <label
+                                  class="label-success"
+                                  for="englishSwitch"
+                                ></label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="d-flex align-items-center mt-3 gap-2">
+                            <div
+                              class="alert alert-outline-secondary p-2 mb-0"
+                              role="alert"
+                            >
+                              Hindi
+                            </div>
+                            <div>
+                              <div class="material-switch">
+                                <input
+                                  type="checkbox"
+                                  id="hindiSwitch"
+                                  [(ngModel)]="languagePreferredHindi"
+                                  class="ng-untouched ng-pristine ng-valid"
+                                  (click)="
+                                    updateLanguagePreferredForNotificationMethodCall(
+                                      2
+                                    )
+                                  "
+                                />
+                                <label
+                                  class="label-success"
+                                  for="hindiSwitch"
+                                ></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                        <div class="">
+                          <small class="text-muted"
+                            >Employee's Attendance</small
+                          >
+
+                          <div class="d-flex align-items-center mt-3 gap-2">
+                            <div
+                              class="alert alert-outline-secondary p-2 mb-0"
+                              role="alert"
+                            >
+                              Would you like to receive notifications for your
+                              employee's attendance?
+                            </div>
+                            <div>
+                              <div class="material-switch">
+                                <input
+                                  type="checkbox"
+                                  id="employeeNotificationSwitch"
+                                  [(ngModel)]="employeeAttendanceFlag"
+                                  (change)="
+                                    updateAttendanceNotificationSettingForManagerMethodCall()
+                                  "
+                                />
+                                <label
+                                  class="label-success"
+                                  for="employeeNotificationSwitch"
+                                ></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-
-        </div>
-    </div>
-</div>
-
-<!-- Update Password Modal -->
-
-  
-  <!-- Password Update Modal -->
-  <div class="modal fade" id="passwordUpdateModal" #passwordUpdateModal tabindex="-1" aria-labelledby="passwordUpdateModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="passwordUpdateModalLabel">Update Password</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-<form #updatePasswordForm="ngForm" (ngSubmit)="onSubmit(updatePasswordForm.value)">
-    <div class="form-group">
-        <label for="currentPassword">Enter Current Password</label>
-        <div class="input-group">
-          <input [type]="showCurrentPassword ? 'text' : 'password'" class="form-control" id="currentPassword" required [(ngModel)]="currentPassword" name="currentPassword">
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-default toggle-password" (click)="toggleCurrentPasswordVisibility()">
-              <i class="bi" [class]="showCurrentPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
-            </button>
-          </span>
-        </div>
-        <div *ngIf="errorMessage">
-          <p class="errortxt mt-2 mb-0" style="color:red">
-            <i class="bi bi-exclamation-circle"></i> {{ errorMessage }}
-          </p>
-        </div>
-      </div>
-      
-    <div class="form-group">
-        <label for="newPassword">New Password</label>
-        <div class="input-group mb-3">
-            <input [type]="showNewPassword ? 'text' : 'password'" class="form-control" id="newPassword" required [(ngModel)]="newPassword" name="newPassword" aria-label="Password" aria-describedby="toggle-password">
-            <button class="btn btn-default toggle-password" type="button" id="toggle-password" (click)="toggleNewPasswordVisibility()">
-              <i class="bi" [class]="showNewPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
-            </button>
           </div>
-          
-      </div>
-      
-      
-    <div class="form-group">
-      <label for="confirmNewPassword">Confirm New Password</label>
-      <input type="text" class="form-control" id="confirmNewPassword" required [(ngModel)]="confirmNewPassword" name="confirmNewPassword" #confirmPass="ngModel">
-      <div *ngIf="newPassword && confirmNewPassword && newPassword !== confirmNewPassword" class="text-danger">
-        Password do not match!
-      </div>
-    </div>
-    <!-- <button type="submit" class="btn btn-primary" [disabled]="!updatePasswordForm.form.valid || newPassword !== confirmNewPassword">Update Password</button>
-    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button> -->
-  </form>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-  <button type="button" class="btn btn-primary" [disabled]="!updatePasswordForm.form.valid || newPassword !== confirmNewPassword" (click)="updatePasswordForm.ngSubmit.emit()" >Update Password</button>
-</div>
-</div>
-</div>
-</div>
-
-
-<!-- Button trigger modal -->
-<button type="button"id="otpModalButton" class="btn btn-primary" data-bs-toggle="modal"  #otpModalButton data-bs-target="#otpModal">
-    Launch OTP Modal
-  </button>
-  
-  <!-- Modal -->
-  <!-- OTP Modal -->
-<div class="modal fade" id="otpModal" tabindex="-1" aria-labelledby="otpModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="otpModalLabel">{{otpSent ? 'Verify OTP' : 'Enter Phone Number'}}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="otpSent = false; phoneNumber = '';"></button>
-        </div>
-        <div class="modal-body">
-          <!-- Send OTP Form -->
-          <form *ngIf="!otpSent" #sendOtpForm="ngForm" (ngSubmit)="sendOtptoSavePhoneNumberMethodCall()">
-            <div class="mb-3">
-              <label for="phoneNumber" class="form-label">Phone Number</label>
-              <input type="tel" mask="0000000000" name="phoneNumber" class="form-control" id="phoneNumber" [(ngModel)]="phoneNumber" placeholder="Enter Phone Number without country code ">
-            </div>
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">
-                  <div *ngIf="toggle; else showText" class="dot-opacity-loader">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                  <ng-template #showText>
-                    <span class="button-text">Send OTP</span>
-                  </ng-template>
-                </button>
-              </div>
-              
-          </form>
-          <!-- Verify OTP Form -->
-          <form *ngIf="otpSent" #verifyOtpForm="ngForm" (ngSubmit)="verifyOtpMethodCall()">
-            <div class="mb-3">
-              <label for="otp" class="form-label">OTP</label>
-              <input type="text" mask="000000" name="otp" class="form-control" id="otp" [(ngModel)]="otp" placeholder="Enter OTP">
-            </div>
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">
-                  <div *ngIf="toggle; else showText" class="dot-opacity-loader">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                  <ng-template #showText>
-                    <span class="button-text">Verify OTP</span>
-                  </ng-template>
-                </button>
-              </div>
-              
-              
-          </form>
         </div>
       </div>
     </div>
   </div>
-  
-  
-  
-  
+</div>
+
+<!-- Update Password Modal -->
+
+<!-- Password Update Modal -->
+<div
+  class="modal fade"
+  id="passwordUpdateModal"
+  #passwordUpdateModal
+  tabindex="-1"
+  aria-labelledby="passwordUpdateModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="passwordUpdateModalLabel">
+          Update Password
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          #updatePasswordForm="ngForm"
+          (ngSubmit)="onSubmit(updatePasswordForm.value)"
+        >
+          <div class="form-group">
+            <label for="currentPassword">Enter Current Password</label>
+            <div class="input-group">
+              <input
+                [type]="showCurrentPassword ? 'text' : 'password'"
+                class="form-control profile-input mt-2"
+                id="currentPassword"
+                required
+                [(ngModel)]="currentPassword"
+                name="currentPassword"
+              />
+              <span class="input-group-btn">
+                <button
+                  type="button"
+                  class="btn btn-default toggle-password"
+                  (click)="toggleCurrentPasswordVisibility()"
+                >
+                  <i
+                    class="bi text-primary"
+                    [class]="showCurrentPassword ? 'bi-eye-slash' : 'bi-eye'"
+                  ></i>
+                </button>
+              </span>
+            </div>
+            <div *ngIf="errorMessage">
+              <p class="errortxt mt-2 mb-0" style="color: red">
+                <i class="bi bi-exclamation-circle"></i> {{ errorMessage }}
+              </p>
+            </div>
+          </div>
+
+          <div class="form-group mt-3">
+            <label for="newPassword">New Password</label>
+            <div class="input-group">
+              <input
+                [type]="showNewPassword ? 'text' : 'password'"
+                class="form-control profile-input mt-2"
+                id="newPassword"
+                required
+                [(ngModel)]="newPassword"
+                name="newPassword"
+                aria-label="Password"
+                aria-describedby="toggle-password"
+              />
+              <button
+                class="btn btn-default toggle-password"
+                type="button"
+                id="toggle-password"
+                (click)="toggleNewPasswordVisibility()"
+              >
+                <i
+                  class="bi text-primary"
+                  [class]="showNewPassword ? 'bi-eye-slash' : 'bi-eye'"
+                ></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group mt-3">
+            <label for="confirmNewPassword">Confirm New Password</label>
+            <input
+              type="text"
+              class="form-control profile-input mt-2"
+              id="confirmNewPassword"
+              required
+              [(ngModel)]="confirmNewPassword"
+              name="confirmNewPassword"
+              #confirmPass="ngModel"
+            />
+            <div
+              *ngIf="
+                newPassword &&
+                confirmNewPassword &&
+                newPassword !== confirmNewPassword
+              "
+              class="text-danger"
+            >
+              Password do not match!
+            </div>
+          </div>
+          <!-- <button type="submit" class="btn btn-primary" [disabled]="!updatePasswordForm.form.valid || newPassword !== confirmNewPassword">Update Password</button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button> -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-round"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-round"
+          [disabled]="
+            !updatePasswordForm.form.valid || newPassword !== confirmNewPassword
+          "
+          (click)="updatePasswordForm.ngSubmit.emit()"
+        >
+          Update Password
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Button trigger modal -->
+<button
+  type="button"
+  id="otpModalButton"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  #otpModalButton
+  data-bs-target="#otpModal"
+>
+  Launch OTP Modal
+</button>
+
+<!-- Modal -->
+<!-- OTP Modal -->
+<div
+  class="modal fade"
+  id="otpModal"
+  tabindex="-1"
+  aria-labelledby="otpModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="otpModalLabel">
+          {{ otpSent ? "Verify OTP" : "Enter Phone Number" }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="otpSent = false; phoneNumber = ''"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Send OTP Form -->
+        <form
+          *ngIf="!otpSent"
+          #sendOtpForm="ngForm"
+          (ngSubmit)="sendOtptoSavePhoneNumberMethodCall()"
+        >
+          <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number</label>
+            <input
+              type="tel"
+              mask="0000000000"
+              name="phoneNumber"
+              class="form-control"
+              id="phoneNumber"
+              [(ngModel)]="phoneNumber"
+              placeholder="Enter Phone Number without country code "
+            />
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">
+              <div *ngIf="toggle; else showText" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <ng-template #showText>
+                <span class="button-text">Send OTP</span>
+              </ng-template>
+            </button>
+          </div>
+        </form>
+        <!-- Verify OTP Form -->
+        <form
+          *ngIf="otpSent"
+          #verifyOtpForm="ngForm"
+          (ngSubmit)="verifyOtpMethodCall()"
+        >
+          <div class="mb-3">
+            <label for="otp" class="form-label">OTP</label>
+            <input
+              type="text"
+              mask="000000"
+              name="otp"
+              class="form-control"
+              id="otp"
+              [(ngModel)]="otp"
+              placeholder="Enter OTP"
+            />
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">
+              <div *ngIf="toggle; else showText" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <ng-template #showText>
+                <span class="button-text">Verify OTP</span>
+              </ng-template>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
