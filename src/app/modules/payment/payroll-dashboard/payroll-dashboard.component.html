@@ -167,7 +167,8 @@
                           </div>
                         </div>
                         <div class="col-md-6">
-                          <div class="card-body bg-soft-success mt-3">
+                          <div class="card-body bg-soft-success mt-3" data-bs-toggle="modal"
+                          data-bs-target="#leaves">
                             <div class="row">
                               <div class="col-auto">
                                 <img src="assets/images/schedule.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0">
@@ -306,65 +307,230 @@
         <!--end col-->
       </div>
       <!--end row-->
-
+    
+    <!-- Employee Management -->
     <div class="modal fade" id="createteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
   <div class="modal-dialog modal-fullscreen" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #fff">
         <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
           <div class="back-btns-box" data-bs-dismiss="modal" aria-label="Close">
-            <i class="bi bi-chevron-left"></i>
+            <i class="bi bi-chevron-left"></i>  <span class="font-16 pt-2 pl-2">Employee Changes </span>
           </div>
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeCreateTeam></button>
+        <div class="button-items"> 
+          <button type="button" class="btn btn-light btn-round">BACK</button>
+          <button type="button" class="btn btn-primary btn-round">SAVE & CONTINUE</button>
+          <button type="button" class="btn btn-primary btn-round">MARK AS COMPLETE</button>
+      </div>
       </div>
       <!--end modal-header-->
       <div class="modal-body p-0">
-        <div class="containerhh">
-          <div class="card-body">    
+        
+        <div class="card-body">
+          <form action="#" method="post" id="custom-step">
+              <nav>
+                  <div class="nav nav-tabs" id="nav-tab">
+                      <a class="nav-link active" id="step1-tab" data-bs-toggle="tab" href="#step1">NEW JOINEE</a>
+                      <a class="nav-link" id="step2-tab" data-bs-toggle="tab" href="#step2">EMPLOYEES IN EXIT PROCESS</a>
+                      <a class="nav-link" id="step3-tab" data-bs-toggle="tab" href="#step3">FULL AND FINAL SETTLEMENT</a>
+                  </div>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane active" id="step1">
+                    <div class="table-responsive">
+                      <table class="table border-dashed mb-0">
+                          <thead>
+                          <tr>
+                              <th>EMPLOYEE</th>
+                              <th class="text-end">DATE OF JOINING</th>
+                              <th class="text-end">NO OF WORKING DAYS</th>
+                              <th class="text-end">SALARY</th>
+                              <th class="text-end">PAY ACTION</th>
+                              <th class="text-end">COMMENT</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                          </tr>
+                          <tr>
+                            <td>Pushpendra Singh</td>
+                            <td class="text-end">25/04/2017</td>
+                            <td class="text-end">22</td>
+                            <td class="text-end">100000</td>
+                            <td class="text-end">Process as salary</td>
+                            <td class="text-end">Note</td>
+                          </tr>
+                          <tr>
+                            <td>Pushpendra Singh</td>
+                            <td class="text-end">25/04/2017</td>
+                            <td class="text-end">22</td>
+                            <td class="text-end">100000</td>
+                            <td class="text-end">Process as salary</td>
+                            <td class="text-end">Note</td>
+                          </tr>
+                          <tr>
+                            <td>Pushpendra Singh</td>
+                            <td class="text-end">25/04/2017</td>
+                            <td class="text-end">22</td>
+                            <td class="text-end">100000</td>
+                            <td class="text-end">Process as salary</td>
+                            <td class="text-end">Note</td>
+                          </tr>
+                          <tr>
+                            <td>Pushpendra Singh</td>
+                            <td class="text-end">25/04/2017</td>
+                            <td class="text-end">22</td>
+                            <td class="text-end">100000</td>
+                            <td class="text-end">Process as salary</td>
+                            <td class="text-end">Note</td>
+                          </tr>
+                          <tr>
+                            <td>Pushpendra Singh</td>
+                            <td class="text-end">25/04/2017</td>
+                            <td class="text-end">22</td>
+                            <td class="text-end">100000</td>
+                            <td class="text-end">Process as salary</td>
+                            <td class="text-end">Note</td>
+                          </tr>
 
-            <!-- Nav tabs -->
-            <div class="nav-tabs-custom text-center">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link text-center" data-bs-toggle="tab" href="#cu_home" role="tab" aria-selected="false"><i class="la la-home d-block"></i>Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-center active" data-bs-toggle="tab" href="#cu_profile" role="tab" aria-selected="true"><i class="la la-calendar d-block"></i>Events</a>
-                    </li>                                                
-                    <li class="nav-item">
-                        <a class="nav-link text-center" data-bs-toggle="tab" href="#cu_settings" role="tab" aria-selected="false"><i class="la la-cog d-block"></i>Setings</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link text-center active" data-bs-toggle="tab" href="#cu_profile" role="tab" aria-selected="true"><i class="la la-calendar d-block"></i>Events</a>
-                  </li>                                                
-                  <li class="nav-item">
-                      <a class="nav-link text-center" data-bs-toggle="tab" href="#cu_settings" role="tab" aria-selected="false"><i class="la la-cog d-block"></i>Setings</a>
-                  </li>
-                </ul>
-            </div>
-            
+                          
+                          </tbody>
+                      </table><!--end /table-->
+                    </div>
+                  </div>
+                  <div class="tab-pane" id="step2">
+                    <div class="table-responsive">
+                      <table class="table border-dashed mb-0">
+                          <thead>
+                          <tr>
+                              <th>EMPLOYEE</th>
+                              <th class="text-end">DATE OF RESIGNATION</th>
+                              <th class="text-end">EXIT ACTION & REASON</th>
+                              <th class="text-end">LAST WORKING DAY</th>
+                              <th class="text-end">EXIT REQUEST STATUS</th>
+                              <th class="text-end">WAITING ON</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                              <td>Rohit Chaturvedi</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">EXIT</td>
+                              <td class="text-end">Note</td>
+                          </tr>
+                          <tr>
+                            <td>Rohit Chaturvedi</td>
+                            <td class="text-end">25/04/2017</td>
+                            <td class="text-end">SALARY HIKE</td>
+                            <td class="text-end">25/04/2017</td>
+                            <td class="text-end">EXIT</td>
+                            <td class="text-end">Note</td>
+                        </tr>
+                        <tr>
+                          <td>Rohit Chaturvedi</td>
+                          <td class="text-end">25/04/2017</td>
+                          <td class="text-end">SALARY HIKE</td>
+                          <td class="text-end">25/04/2017</td>
+                          <td class="text-end">EXIT</td>
+                          <td class="text-end">Note</td>
+                        </tr>
+                        <tr>
+                          <td>Rohit Chaturvedi</td>
+                          <td class="text-end">25/04/2017</td>
+                          <td class="text-end">SALARY HIKE</td>
+                          <td class="text-end">25/04/2017</td>
+                          <td class="text-end">EXIT</td>
+                          <td class="text-end">Note</td>
+                        </tr>
+                        <tr>
+                          <td>Rohit Chaturvedi</td>
+                          <td class="text-end">25/04/2017</td>
+                          <td class="text-end">SALARY HIKE</td>
+                          <td class="text-end">25/04/2017</td>
+                          <td class="text-end">EXIT</td>
+                          <td class="text-end">Note</td>
+                        </tr>
+                          </tbody>
+                      </table><!--end /table-->
+                    </div>
+                  </div>
+                  <div class="tab-pane" id="step3">
+                    <div class="table-responsive">
+                      <table class="table border-dashed mb-0">
+                          <thead>
+                          <tr>
+                              <th>EMPLOYEE</th>
+                              <th class="text-end">EXIT ACTION & REASON</th>
+                              <th class="text-end">LAST WORKING DAY</th>
+                              <th class="text-end">STATUS</th>
+                              <th class="text-end">SETTLED AMOUNT</th>
+                              <th class="text-end">ACTION</th>
+                              <th class="text-end">COMMENTS</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                              <td>Abhishek</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">HOLD</td>
+                              <td class="text-end">20445/-</td>
+                              <td class="text-end">DONE</td>
+                              <td class="text-end">Note</td>
+                          </tr>
+                          <tr>
+                            <td>Abhishek</td>
+                            <td class="text-end">SALARY HIKE</td>
+                            <td class="text-end">25/04/2017</td>
+                            <td class="text-end">HOLD</td>
+                            <td class="text-end">20445/-</td>
+                            <td class="text-end">DONE</td>
+                            <td class="text-end">Note</td>
+                        </tr>
+                        <tr>
+                          <td>Abhishek</td>
+                          <td class="text-end">SALARY HIKE</td>
+                          <td class="text-end">25/04/2017</td>
+                          <td class="text-end">HOLD</td>
+                          <td class="text-end">20445/-</td>
+                          <td class="text-end">DONE</td>
+                          <td class="text-end">Note</td>
+                      </tr>
+                      <tr>
+                        <td>Abhishek</td>
+                        <td class="text-end">SALARY HIKE</td>
+                        <td class="text-end">25/04/2017</td>
+                        <td class="text-end">HOLD</td>
+                        <td class="text-end">20445/-</td>
+                        <td class="text-end">DONE</td>
+                        <td class="text-end">Note</td>
+                    </tr>
+                    <tr>
+                      <td>Abhishek</td>
+                      <td class="text-end">SALARY HIKE</td>
+                      <td class="text-end">25/04/2017</td>
+                      <td class="text-end">HOLD</td>
+                      <td class="text-end">20445/-</td>
+                      <td class="text-end">DONE</td>
+                      <td class="text-end">Note</td>
+                  </tr>
+                          </tbody>
+                      </table><!--end /table-->
+                    </div> 
+                  </div>
+              </div>
+          </form><!--end form-->
+      </div><!--end card-body-->
 
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div class="tab-pane p-3" id="cu_home" role="tabpanel">
-                    <p class="mb-0 text-muted">
-                        Raw denim you probably haven't heard of them jean shorts Austin.
-                    </p>
-                </div>
-                <div class="tab-pane p-3 active" id="cu_profile" role="tabpanel">
-                    <p class="mb-0 text-muted">
-                        Food truck fixie locavore, accusamus mcsweeney's marfa nulla.
-                    </p>
-                </div>                                                
-                <div class="tab-pane p-3" id="cu_settings" role="tabpanel">
-                    <p class="text-muted mb-0">
-                        Trust fund seitan letterpress, keytar raw denim keffiyeh etsy.
-                    </p>
-                </div>
-            </div> <!--end tab-content-->   
-        </div>
-      </div>
       <!-- <div class="modal-footer"><button type="button" class="btn btn-primary btn-sm">Submit</button></div> -->
       <!--end modal-footer-->
     </div>
@@ -374,6 +540,241 @@
 </div>
 <!--end modal-->
     </div>
+
+    <!-- Leave, Attendance & Daily Wages -->
+
+    <div class="modal fade" id="leaves" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+      <div class="modal-dialog modal-fullscreen" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: #fff">
+            <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
+              <div class="back-btns-box" data-bs-dismiss="modal" aria-label="Close">
+                <i class="bi bi-chevron-left"></i>  <span class="font-16 pt-2 pl-2">Employee Changes </span>
+              </div>
+            </h5>
+            <div class="button-items"> 
+              <button type="button" class="btn btn-light btn-round">BACK</button>
+              <button type="button" class="btn btn-primary btn-round">SAVE & CONTINUE</button>
+              <button type="button" class="btn btn-primary btn-round">MARK AS COMPLETE</button>
+          </div>
+          </div>
+          <!--end modal-header-->
+          <div class="modal-body p-0">
+            
+            <div class="card-body">
+              <form action="#" method="post" id="custom-step">
+                  <nav>
+                      <div class="nav nav-tabs" id="nav-tab">
+                          <a class="nav-link active" id="step1-tab" data-bs-toggle="tab" href="#step1">NEW JOINEE</a>
+                          <a class="nav-link" id="step2-tab" data-bs-toggle="tab" href="#step2">EMPLOYEES IN EXIT PROCESS</a>
+                          <a class="nav-link" id="step3-tab" data-bs-toggle="tab" href="#step3">FULL AND FINAL SETTLEMENT</a>
+                      </div>
+                  </nav>
+                  <div class="tab-content" id="nav-tabContent">
+                      <div class="tab-pane active" id="step1">
+                        <div class="table-responsive">
+                          <table class="table border-dashed mb-0">
+                              <thead>
+                              <tr>
+                                  <th>EMPLOYEE</th>
+                                  <th class="text-end">DATE OF JOINING</th>
+                                  <th class="text-end">NO OF WORKING DAYS</th>
+                                  <th class="text-end">SALARY</th>
+                                  <th class="text-end">PAY ACTION</th>
+                                  <th class="text-end">COMMENT</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr>
+                                  <td>Pushpendra Singh</td>
+                                  <td class="text-end">25/04/2017</td>
+                                  <td class="text-end">22</td>
+                                  <td class="text-end">100000</td>
+                                  <td class="text-end">Process as salary</td>
+                                  <td class="text-end">Note</td>
+                              </tr>
+                              <tr>
+                                <td>Pushpendra Singh</td>
+                                <td class="text-end">25/04/2017</td>
+                                <td class="text-end">22</td>
+                                <td class="text-end">100000</td>
+                                <td class="text-end">Process as salary</td>
+                                <td class="text-end">Note</td>
+                              </tr>
+                              <tr>
+                                <td>Pushpendra Singh</td>
+                                <td class="text-end">25/04/2017</td>
+                                <td class="text-end">22</td>
+                                <td class="text-end">100000</td>
+                                <td class="text-end">Process as salary</td>
+                                <td class="text-end">Note</td>
+                              </tr>
+                              <tr>
+                                <td>Pushpendra Singh</td>
+                                <td class="text-end">25/04/2017</td>
+                                <td class="text-end">22</td>
+                                <td class="text-end">100000</td>
+                                <td class="text-end">Process as salary</td>
+                                <td class="text-end">Note</td>
+                              </tr>
+                              <tr>
+                                <td>Pushpendra Singh</td>
+                                <td class="text-end">25/04/2017</td>
+                                <td class="text-end">22</td>
+                                <td class="text-end">100000</td>
+                                <td class="text-end">Process as salary</td>
+                                <td class="text-end">Note</td>
+                              </tr>
+                              <tr>
+                                <td>Pushpendra Singh</td>
+                                <td class="text-end">25/04/2017</td>
+                                <td class="text-end">22</td>
+                                <td class="text-end">100000</td>
+                                <td class="text-end">Process as salary</td>
+                                <td class="text-end">Note</td>
+                              </tr>
+    
+                              
+                              </tbody>
+                          </table><!--end /table-->
+                        </div>
+                      </div>
+                      <div class="tab-pane" id="step2">
+                        <div class="table-responsive">
+                          <table class="table border-dashed mb-0">
+                              <thead>
+                              <tr>
+                                  <th>EMPLOYEE</th>
+                                  <th class="text-end">DATE OF RESIGNATION</th>
+                                  <th class="text-end">EXIT ACTION & REASON</th>
+                                  <th class="text-end">LAST WORKING DAY</th>
+                                  <th class="text-end">EXIT REQUEST STATUS</th>
+                                  <th class="text-end">WAITING ON</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr>
+                                  <td>Rohit Chaturvedi</td>
+                                  <td class="text-end">25/04/2017</td>
+                                  <td class="text-end">SALARY HIKE</td>
+                                  <td class="text-end">25/04/2017</td>
+                                  <td class="text-end">EXIT</td>
+                                  <td class="text-end">Note</td>
+                              </tr>
+                              <tr>
+                                <td>Rohit Chaturvedi</td>
+                                <td class="text-end">25/04/2017</td>
+                                <td class="text-end">SALARY HIKE</td>
+                                <td class="text-end">25/04/2017</td>
+                                <td class="text-end">EXIT</td>
+                                <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Rohit Chaturvedi</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">EXIT</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Rohit Chaturvedi</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">EXIT</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Rohit Chaturvedi</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">EXIT</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                              </tbody>
+                          </table><!--end /table-->
+                        </div>
+                      </div>
+                      <div class="tab-pane" id="step3">
+                        <div class="table-responsive">
+                          <table class="table border-dashed mb-0">
+                              <thead>
+                              <tr>
+                                  <th>EMPLOYEE</th>
+                                  <th class="text-end">EXIT ACTION & REASON</th>
+                                  <th class="text-end">LAST WORKING DAY</th>
+                                  <th class="text-end">STATUS</th>
+                                  <th class="text-end">SETTLED AMOUNT</th>
+                                  <th class="text-end">ACTION</th>
+                                  <th class="text-end">COMMENTS</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr>
+                                  <td>Abhishek</td>
+                                  <td class="text-end">SALARY HIKE</td>
+                                  <td class="text-end">25/04/2017</td>
+                                  <td class="text-end">HOLD</td>
+                                  <td class="text-end">20445/-</td>
+                                  <td class="text-end">DONE</td>
+                                  <td class="text-end">Note</td>
+                              </tr>
+                              <tr>
+                                <td>Abhishek</td>
+                                <td class="text-end">SALARY HIKE</td>
+                                <td class="text-end">25/04/2017</td>
+                                <td class="text-end">HOLD</td>
+                                <td class="text-end">20445/-</td>
+                                <td class="text-end">DONE</td>
+                                <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Abhishek</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">HOLD</td>
+                              <td class="text-end">20445/-</td>
+                              <td class="text-end">DONE</td>
+                              <td class="text-end">Note</td>
+                          </tr>
+                          <tr>
+                            <td>Abhishek</td>
+                            <td class="text-end">SALARY HIKE</td>
+                            <td class="text-end">25/04/2017</td>
+                            <td class="text-end">HOLD</td>
+                            <td class="text-end">20445/-</td>
+                            <td class="text-end">DONE</td>
+                            <td class="text-end">Note</td>
+                        </tr>
+                        <tr>
+                          <td>Abhishek</td>
+                          <td class="text-end">SALARY HIKE</td>
+                          <td class="text-end">25/04/2017</td>
+                          <td class="text-end">HOLD</td>
+                          <td class="text-end">20445/-</td>
+                          <td class="text-end">DONE</td>
+                          <td class="text-end">Note</td>
+                      </tr>
+                              </tbody>
+                          </table><!--end /table-->
+                        </div> 
+                      </div>
+                  </div>
+              </form><!--end form-->
+          </div><!--end card-body-->
+    
+          <!-- <div class="modal-footer"><button type="button" class="btn btn-primary btn-sm">Submit</button></div> -->
+          <!--end modal-footer-->
+        </div>
+        <!--end modal-content-->
+      </div>
+      <!--end modal-dialog-->
+    </div>
+    <!--end modal-->
+    </div>
+
     <!-- container -->
   </div>
   <!-- end page content -->
