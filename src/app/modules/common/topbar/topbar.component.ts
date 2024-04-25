@@ -105,7 +105,7 @@ export class TopbarComponent implements OnInit {
     }
 
     if(routeValue.includes("payment-history")){
-      routeValue = "Payment History";
+      routeValue = "Generate Salary Slip";
     }
 
     if(routeValue.includes("bonus-and-deduction")){
