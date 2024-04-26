@@ -32,11 +32,23 @@ export class PayrollDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.currentMonthResponse = new MonthResponse(
+      new Date().getMonth() + 1, // Months are 0-indexed in JavaScript, +1 to match your structure
+      new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+      new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
+      new Date().toLocaleString('default', { month: 'short' }),
+      new Date().getFullYear(),
+      'Current', // Assuming you want the current status for the current month
+      false
+    );
+  
+    this.selectedMonth = this.currentMonthResponse.month;
+    this.selectedYear = this.currentMonthResponse.year;
+
+    
     this.getOrganizationRegistrationDateMethodCall();
     this.getMonthResponseList(this.selectedDate);
-    this.getOrganizationIndividualMonthSalaryDataMethodCall(
-      this.currentMonthResponse,
-    );
+    this.getOrganizationIndividualMonthSalaryDataMethodCall(this.currentMonthResponse);
   }
 
   // Year calendar
@@ -66,12 +78,8 @@ export class PayrollDashboardComponent implements OnInit {
     const currentMonth = new Date().getMonth();
     const dateYear = date.getFullYear();
     const dateMonth = date.getMonth();
-    const organizationRegistrationYear = new Date(
-      this.organizationRegistrationDate,
-    ).getFullYear();
-    const organizationRegistrationMonth = new Date(
-      this.organizationRegistrationDate,
-    ).getMonth();
+    const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
+    const organizationRegistrationMonth = new Date(this.organizationRegistrationDate).getMonth();
 
     // Disable if the year is before the organization registration year or if the year is after the organization registration year
     if (dateYear < organizationRegistrationYear || dateYear > currentYear) {
@@ -79,6 +87,10 @@ export class PayrollDashboardComponent implements OnInit {
     }
 
     return false;
+  };
+
+  disableMonths = (): boolean => {
+    return true;
   };
 
   // Fetching organization registration date
@@ -102,36 +114,45 @@ export class PayrollDashboardComponent implements OnInit {
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
 
+    const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
+    const organizationRegistrationMonth = new Date(this.organizationRegistrationDate).getMonth();
+
     for (let i = 0; i < 12; i++) {
-      date.setMonth(i);
-      const monthName = date.toLocaleString('default', { month: 'short' });
-      const status =
-        i < currentMonth || date.getFullYear() < currentYear
-          ? 'Completed'
-          : i === currentMonth
-            ? 'Current'
-            : 'Upcoming';
+        // Create a new Date object for each month
+        const monthDate = new Date(date.getFullYear(), i);
 
-      // Format the first day of the month as "DD MMM"
-      const firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
+        const monthName = monthDate.toLocaleString('default', { month: 'short' });
+        const status =
+            monthDate.getFullYear() < currentYear || (monthDate.getFullYear() === currentYear && i < currentMonth) ? 'Completed' :
+            (monthDate.getFullYear() === currentYear && i === currentMonth) ? 'Current' : 'Upcoming';
 
-      // Format the last day of the month as "DD MMM"
-      const lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        // Disabling the future months and the months before organization registration
+        const disable = 
+            (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) ||
+            (monthDate.getFullYear() > currentYear || (monthDate.getFullYear() === currentYear && i > currentMonth));
 
-      this.helperService.formatDateToYYYYMMDD;
+        // Format the first day of the month as "DD MMM"
+        const firstDate = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
 
-      this.monthResponseList.push(
-        new MonthResponse(
-          i + 1,
-          firstDate,
-          lastDate,
-          monthName,
-          currentYear,
-          status,
-        ),
-      );
+        // Format the last day of the month as "DD MMM"
+        const lastDate = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
+
+        this.monthResponseList.push(
+            new MonthResponse(
+                i + 1,
+                firstDate,
+                lastDate,
+                monthName,
+                monthDate.getFullYear(),
+                status,
+                disable
+            ),
+        );
     }
-  }
+
+    console.log(this.monthResponseList);
+}
+
 
   // This is current month response, default value to fetch the data
   currentMonthResponse: MonthResponse = new MonthResponse(
@@ -141,14 +162,16 @@ export class PayrollDashboardComponent implements OnInit {
     '',
     0,
     '',
+    false,
   );
 
+  selectedMonth : string = this.currentMonthResponse.month;
+  selectedYear : number = this.currentMonthResponse.year;
   // Fetching organization individual month salary data
-  organizationMonthWiseSalaryData: OrganizationMonthWiseSalaryData =
-    new OrganizationMonthWiseSalaryData();
-  getOrganizationIndividualMonthSalaryDataMethodCall(
-    monthResponse: MonthResponse,
-  ) {
+  organizationMonthWiseSalaryData: OrganizationMonthWiseSalaryData = new OrganizationMonthWiseSalaryData();
+  getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse: MonthResponse) {
+    this.selectedMonth = monthResponse.month;
+    this.selectedYear = monthResponse.year;
     this.dataService
       .getOrganizationIndividualMonthSalaryData(
         this.helperService.formatDateToYYYYMMDD(monthResponse.firstDate),

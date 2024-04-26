@@ -6,5 +6,6 @@ export class MonthResponse {
     public month: string,
     public year: number,
     public status: string,
+    public disable : boolean
   ) {}
 }
