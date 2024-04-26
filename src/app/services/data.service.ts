@@ -2337,7 +2337,6 @@ export class DataService {
     );
   }
 
-
   getOrganizationIndividualMonthSalaryData(
     startDate: string,
     endDate: string,
@@ -2386,7 +2385,7 @@ export class DataService {
     return this.httpClient.get<any>(
       `${this.baseUrl}/salary/organization-month-wise-data`,
     );
-  } 
+  }
   getTotalExperiences(userUuid: string): Observable<any> {
     const params = new HttpParams().set('uuid', userUuid);
     return this.httpClient.get<any>(
