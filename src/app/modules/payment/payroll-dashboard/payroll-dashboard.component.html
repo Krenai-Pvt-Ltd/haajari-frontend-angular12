@@ -3,14 +3,32 @@
   <div class="page-content-tab">
     <div class="container-fluid">
       <div class="row">
+        <div class="col-md-9"></div>
+        <div class="dropdown col-md-3">
+          <nz-date-picker
+            nzMode="year"
+            [nzSize]="size"
+            [(ngModel)]="selectedDate"
+            (ngModelChange)="onYearChange($event)"
+            [nzDisabledDate]="disableYears"
+          ></nz-date-picker>
+        </div>
         <div class="col-md-12 mt-3">
           <div class="file-box-content">
-            <div class="file-box" *ngFor="let monthResponse of monthResponseList">
+            <div class="file-box" *ngFor="let monthResponse of monthResponseList" [class.disabled]="monthResponse.disable" [ngClass]="{'selected-month-color' : (monthResponse.month == selectedMonth && monthResponse.year == selectedYear)}">
               <div class="text-center" (click)="getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse)">
                 <h6 class="text-truncate">{{monthResponse.month}} - {{monthResponse.year}}</h6>
                 <small class="text-muted">{{monthResponse.firstDate | dateFormatter}} {{monthResponse.month}} - {{monthResponse.lastDate | dateFormatter}} {{monthResponse.month}}</small>
-                <hr class="hr" />
-                <small>{{monthResponse.status}}</small>
+                
+                <!-- Condition for hr tag -->
+                <!-- [ngClass]="{'text-blue' : (monthResponse.month == selectedMonth && monthResponse.year == selectedYear)}" -->
+                <hr class="hr"/>
+                <small [ngClass]="{
+                  'text-blue': (monthResponse.month == selectedMonth && monthResponse.year == selectedYear),
+                  'text-success': monthResponse.status == 'Completed' && !(monthResponse.month == selectedMonth && monthResponse.year == selectedYear),
+                  'text-warning': monthResponse.status == 'Current' && !(monthResponse.month == selectedMonth && monthResponse.year == selectedYear)}">
+                  {{monthResponse.status}}
+                </small>
               </div>
             </div>
           </div>
@@ -138,7 +156,7 @@
                                     <i class="ti ti-checks text-success"></i>
                                   </span>
                                 </p>
-                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushopendra </small>
+                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra </small>
                               </div>
                               <!--end col-->
                             </div>
