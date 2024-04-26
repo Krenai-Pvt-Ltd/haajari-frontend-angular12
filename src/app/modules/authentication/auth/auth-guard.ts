@@ -36,11 +36,11 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
-    if (this.isOrganizationOnboarded(this.ONBOARDING_STEP)) {
-      this.router.navigate(['/dashboard']);
-    } else {
-      this.router.navigate(['/organization-onboarding/personal-information']);
-    }
+    // if (this.isOrganizationOnboarded(this.ONBOARDING_STEP)) {
+    //   this.router.navigate(['/dashboard']);
+    // } else {
+    //   this.router.navigate(['/organization-onboarding/personal-information']);
+    // }
 
     await this.rbacService.isUserInfoInitialized();
 

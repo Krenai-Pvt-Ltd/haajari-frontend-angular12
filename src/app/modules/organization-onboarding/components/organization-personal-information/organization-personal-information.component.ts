@@ -4,9 +4,11 @@ import { NgForm } from '@angular/forms';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { Key } from 'src/app/constant/key';
 
 import { OrganizationPersonalInformation } from 'src/app/models/organization-personal-information';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { PlacesService } from 'src/app/services/places.service';
 
@@ -23,6 +25,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     private afStorage: AngularFireStorage,
     private _onboardingService: OrganizationOnboardingService,
     private placesService: PlacesService,
+    private helperService: HelperService,
   ) {}
 
   ngOnInit(): void {
@@ -365,4 +368,25 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   }
 
   /************ CHECK EXISTANCE **********/
+
+  // ##### image upload func
+
+  onDeleteImage(): void {
+    this.organizationPersonalInformation.logo = '';
+    this._onboardingService.deleteOrganizationImage().subscribe({
+      next: (response) => {
+        this.helperService.showToast(
+          response.message,
+          Key.TOAST_STATUS_SUCCESS,
+        );
+        this.getOrganizationDetails();
+      },
+      error: (error) => {
+        this.helperService.showToast(
+          'Error! Not Able To Remove Image',
+          Key.TOAST_STATUS_ERROR,
+        );
+      },
+    });
+  }
 }

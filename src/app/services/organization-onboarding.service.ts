@@ -174,4 +174,13 @@ export class OrganizationOnboardingService {
       this._key.base_url + this._key.get_organization_onboarding_step,
     );
   }
+
+  deleteOrganizationImage(): Observable<any> {
+    return this._httpClient.delete(
+      `${this._key.base_url}/organization-personal-information/delete/image`,
+      {
+        responseType: 'text',
+      },
+    );
+  }
 }
