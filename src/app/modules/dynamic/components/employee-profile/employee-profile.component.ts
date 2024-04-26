@@ -1188,6 +1188,11 @@ export class EmployeeProfileComponent implements OnInit {
     }
   }
 
+  transform(value: string): string {
+    if (!value) return value;
+    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+  }
+
   previewString: SafeResourceUrl = '';
   downloadString!: string;
   nextOpenDocString!: string;
@@ -1196,6 +1201,7 @@ export class EmployeeProfileComponent implements OnInit {
   @ViewChild('openViewModal') openViewModal!: ElementRef;
   openPdfModel(viewString: string, docsName: string) {
     debugger;
+    this.nextOpenDocName = docsName;
     this.downloadString = viewString;
     this.previewString =
       this.sanitize.bypassSecurityTrustResourceUrl(viewString);
