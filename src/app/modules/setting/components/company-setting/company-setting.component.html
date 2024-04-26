@@ -1,227 +1,573 @@
 <div class="page-wrapper">
-    <div class="page-content-tab">
-        <div class="container-fluid">
+  <div class="page-content-tab">
+    <div class="container-fluid">
+      <form
+        #documentsInformationForm="ngForm"
+        ngNativeValidate
+        (ngSubmit)="updateOrganizationPersonalInformationMethodCall()"
+      >
+        <div class="company-settinh">
+          <div class="row mt-3">
+            <div class="col-md-4">
+              <div class="company-details-box">
+                <h4 class="card-title">Company Details</h4>
+                <span class="text-muted font-12 fw-normal"
+                  >Essential Overview of Company's Core Information</span
+                >
 
-            <form #documentsInformationForm="ngForm" ngNativeValidate (ngSubmit)="updateOrganizationPersonalInformationMethodCall()">
-            <div class="company-settinh">
-
-               <!-- <div class="mb-3 border-buttom-setting d-flex align-items-center justify-content-between" >
-                <h5 class="mt-0" style="margin-top: 10px !important; margin-bottom: 20px !important;">Company Profile</h5>
-                  
-               </div> -->
-
-
-            <div class="row mt-3">
-
-              
-
-       
-                <div class="col-md-5 ">
-                    <div class="form-roe-data">
-                        <h5>Company Name </h5>
-                        <p>This will be displayed on your profile.</p>
-                    </div>
+                <div
+                  role="alert"
+                  class="alert alert-light mb-0 mt-4 bg-soft-warning"
+                >
+                  <h4 class="alert-heading font-18">Attention!</h4>
+                  <p>
+                    All provided information is confidential and for intended
+                    recipients only.
+                  </p>
+                  <p class="mb-0">
+                    <i class="la la-arrow-right text-secondary me-2"></i> The
+                    company name will be utilized on all payroll slips and
+                    throughout official company documentation
+                  </p>
                 </div>
-
-                <div class="col-md-6">
-                   
-
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <!-- Shimmer Loading -->
-                            <div *ngIf="isLoading">
-                                <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 4px;"></ngx-shimmer-loading>
-                            </div>
-                    
-                            <!-- Input Field -->
-                            <div class="form-field" *ngIf="!isLoading">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Company name" #companyName="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.name" required minlength="2" maxlength="100">
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="companyName.errors?.required && (companyName.dirty || companyName.touched)">
-                                    <i class="bi bi-exclamation-circle"></i> Company name is required.
-                                </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="companyName.errors?.minlength && (companyName.dirty || companyName.touched)">
-                                    <i class="bi bi-exclamation-circle"></i> Company name must be at least 2 characters long.
-                                </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="companyName.errors?.maxlength && (companyName.dirty || companyName.touched)">
-                                    <i class="bi bi-exclamation-circle"></i> Company name must not exceed 100 characters.
-                                </p>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-6 mt-3">
-
-                            <div *ngIf="isLoading">
-                                <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 50%" ></ngx-shimmer-loading>
-                            </div>
-
-                            <div class="form-fild" *ngIf="!isLoading">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Email Id" #emailId="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.email" required email>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="emailId.errors?.required && (emailId.dirty || emailId.touched)">
-                                    <i class="bi bi-exclamation-circle"></i> Email is required.
-                                </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="emailId.errors?.email && (emailId.dirty || emailId.touched)">
-                                    <i class="bi bi-exclamation-circle"></i> Enter a valid email.
-                                </p>
-                            </div>
-                        </div>
-                        
-                        
-                        <div class="col-md-6 mt-3">
-                 
-
-                            <div *ngIf="isLoading">
-                                <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 50%" ></ngx-shimmer-loading>
-                            </div>
-
-                            <div class="form-fild"*ngIf="!isLoading">
-                                <input type="text" class="form-control" mask="0000000000" id="phoneNumber" name="phoneNumber" placeholder="Phone number" #phoneNumber="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.phoneNumber" minlength="10" maxlength="10" pattern="[0-9]*">
-    
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.dirty && (phoneNumber.errors?.minlength || phoneNumber.errors?.maxlength)">
-                                    <i class="bi bi-exclamation-circle"></i> Phone number should be of 10 digits.
-                                </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phoneNumber.errors?.pattern">
-                                    <i class="bi bi-exclamation-circle"></i> Phone number should in digits.
-                                </p>
-                            </div>
-                        </div>
-                        
-                        
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="border-box">
-
-                    </div>
-                </div>
-
-                    <div class="col-md-5 mt-3 mb-3">
-                        <div class="form-roe-data">
-                            <h5>Tagline </h5>
-                            <p>A quick snapshot of your company.</p>
-                        </div>
-                    </div>
-    
-                    <div class="col-md-6 mt-3 mb-3">
-                        <div class="row">
-                            <div class="col-md-12">
-
-                                <div *ngIf="isLoading">
-                                    <ngx-shimmer-loading [width]="'100%'" [height]="'40px'" style="border-radius: 50%" ></ngx-shimmer-loading>
-                                </div>
-                                <div class="form-fild" *ngIf="!isLoading">
-                                    
-
-                                    <textarea class="form-control" id="tagline" name="tagline" rows="3" placeholder="Tag line" style="height: 100px !important;" #tagline="ngModel" [disabled]="!isEditMode" [(ngModel)]="organizationPersonalInformationRequest.tagline"></textarea>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-
-                    
-
-                    <div class="col-md-12">
-                        <div class="border-box">
-    
-                        </div>
-                    </div>
-                
-                    <div class="col-md-5 mt-3">
-                        <div class="form-roe-data">
-                            <h5>Company Logo </h5>
-                            <p>Update your company logo and then choose<br> where you want it to display.</p>
-                        </div>
-                    </div>
-    
-                    <div class="col-md-6 mt-3">
-                        <div class="row align-items-center">
-                            <div class="col-md-4">
-                                <div class="">
-                                    <img [src]="dbImageUrl ? dbImageUrl : 'assets/images/hajiri_logo.png'" id="imagePreview" style="width: 100%;">
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-8">
-                                <div class="form-fild">
-                                    <div  class="importfilebox">
-                                        <input  id="fileSelect" name="fileSelect" type="file" name="img[]" accept=".png, .jpeg, .jpg, .svg, .gif, .webp, .ico" class="input" [disabled]="!isEditMode" (change)="onFileSelected($event)" [(ngModel)]="organizationPersonalInformationRequest.logo">
-                                        <label  for="fileSelect">
-                                            <i class="bi bi-cloud-arrow-up"></i>
-                                            <span *ngIf="!selectedFile && !companyLogoFileName">
-                                            <span >Click to upload <br> SVG, PNG, JPG, JPEG, WEBP, ICO or GIF (max. 800px*400px)</span>
-                                        </span>
-                                        <span *ngIf="selectedFile && !companyLogoFileName">
-                                            {{ selectedFile }}
-                                          </span>
-                                          <span *ngIf="!selectedFile && companyLogoFileName">
-                                            {{ companyLogoFileName }}
-                                          </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                    <div class="col-md-12 mt-3">
-                        <div class="border-box">
-    
-                        </div>
-                    </div>
-    
-
-                    <!-- <div class="col-md-11 mt-4 ">
-                        <div class="d-flex align-items-center justify-content-end" style="gap:10px;">
-                            <button type="button" class="btn btn-primary btn-xs company-save-btn" (click)="updateOrganizationPersonalInformationMethodCall()" [disabled]="isUpdating">
-                                <div *ngIf="isUpdating" class="dot-opacity-loader">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                                <span *ngIf="!isUpdating">
-                                    Save
-                                </span>
-                            </button>
-                        </div>
-                    </div> -->
-
-                    <div class="row mt-4">
-                        <div class="col-md-11">
-                          <div class="d-flex justify-content-end" style="gap: 10px;">
-                      
-                            
-                            <button type="button" class="btn edit-btn" (click)="enableEditMode()"><i class="bi bi-pencil" style=" font-size: 12px; padding-right: 5px; position: relative; top: -2px;"></i> Edit </button>
-                      
-                            
-                            <button type="submit" class="btn btn-primary company-save-btn" [disabled]="isUpdating">
-                              <div *ngIf="isUpdating" class="dot-opacity-loader">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                              </div>
-                              <span *ngIf="!isUpdating">
-                                Save
-                              </span>
-                            </button>
-                      
-                          </div>
-                        </div>
-                      </div>
-                      
-               
-
-                   
-
-                   
-                  
-               </div><!--end row--> 
-
+              </div>
             </div>
-            </form>
+            <div class="col-md-7">
+              <div
+                class="origination-logo-box d-flex align-items-center justify-content-center position-relative"
+              >
+                <img
+                  [src]="
+                    dbImageUrl ? dbImageUrl : 'assets/images/hajiri_logo.png'
+                  "
+                  id="imagePreview"
+                />
+                <span class="origination-logo-edit-btn">
+                  <input
+                    id="fileSelect"
+                    type="file"
+                    name="img[]"
+                    accept=".xlsx"
+                    class="input"
+                  />
+                  <i class="bi bi-pencil position-relative"></i> Edit it</span
+                >
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 mt-3">
+                  <div class="">
+                    <input
+                      type="text"
+                      placeholder="Company name"
+                      name="adminName"
+                      class="form-control whatapp-login-input"
+                      id="name"
+                      name="name"
+                      placeholder="Company name"
+                      #companyName="ngModel"
+                      [disabled]="!isEditMode"
+                      [(ngModel)]="organizationPersonalInformationRequest.name"
+                      required
+                      minlength="2"
+                      maxlength="100"
+                    />
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="
+                        companyName.errors?.required &&
+                        (companyName.dirty || companyName.touched)
+                      "
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Company name is
+                      required.
+                    </p>
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="
+                        companyName.errors?.minlength &&
+                        (companyName.dirty || companyName.touched)
+                      "
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Company name must
+                      be at least 2 characters long.
+                    </p>
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="
+                        companyName.errors?.maxlength &&
+                        (companyName.dirty || companyName.touched)
+                      "
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Company name must
+                      not exceed 100 characters.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                  <div class="">
+                    <input
+                      type="text"
+                      placeholder="Enter your email"
+                      class="form-control whatapp-login-input"
+                      id="email"
+                      name="email"
+                      placeholder="Email Id"
+                      #emailId="ngModel"
+                      [disabled]="!isEditMode"
+                      [(ngModel)]="organizationPersonalInformationRequest.email"
+                      required
+                      email
+                    />
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="
+                        emailId.errors?.required &&
+                        (emailId.dirty || emailId.touched)
+                      "
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Email is
+                      required.
+                    </p>
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="
+                        emailId.errors?.email &&
+                        (emailId.dirty || emailId.touched)
+                      "
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Enter a valid
+                      email.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                  <div class="">
+                    <input
+                      type="text"
+                      placeholder="Enter your number"
+                      class="form-control whatapp-login-input"
+                      mask="0000000000"
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      placeholder="Phone number"
+                      #phoneNumber="ngModel"
+                      [disabled]="!isEditMode"
+                      [(ngModel)]="
+                        organizationPersonalInformationRequest.phoneNumber
+                      "
+                      minlength="10"
+                      maxlength="10"
+                      pattern="[0-9]*"
+                    />
+
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="
+                        phoneNumber.dirty &&
+                        (phoneNumber.errors?.minlength ||
+                          phoneNumber.errors?.maxlength)
+                      "
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Phone number
+                      should be of 10 digits.
+                    </p>
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="phoneNumber.errors?.pattern"
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Phone number
+                      should in digits.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+          <div class="col-md-11">
+            <hr class="mt-5 mb-5" />
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-4">
+              <div class="company-details-box">
+                <h4 class="card-title">Tagline</h4>
+                <span class="text-muted font-12 fw-normal"
+                  >A quick snapshot of your company.
+                </span>
+              </div>
+            </div>
+            <div class="col-md-7">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="">
+                    <input
+                      type="text"
+                      placeholder="Enter your tagline"
+                      class="form-control whatapp-login-input"
+                      id="tagline"
+                      name="tagline"
+                      rows="3"
+                      placeholder="Tag line"
+                      #tagline="ngModel"
+                      [disabled]="!isEditMode"
+                      [(ngModel)]="
+                        organizationPersonalInformationRequest.tagline
+                      "
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+
+          <div class="col-md-11 mt-4">
+            <div
+              class="edit-submit-btn d-flex align-items-center justify-content-end gap-3"
+            >
+              <button
+                type="button"
+                class="btn btn-soft-primary btn-round edit-btn"
+                (click)="enableEditMode()"
+              >
+                <i class="bi bi-pencil position-relative me-1"></i> Edit
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary btn-round"
+                *ngIf="!isUpdating"
+              >
+                Save <i class="mdi mdi-check-all" style="padding-left: 8px"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- <div class="row mt-3">
+            <div class="col-md-5">
+              <div class="form-roe-data">
+                <h5>Company Name</h5>
+                <p>This will be displayed on your profile.</p>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <div *ngIf="isLoading">
+                    <ngx-shimmer-loading
+                      [width]="'100%'"
+                      [height]="'40px'"
+                      style="border-radius: 4px"
+                    ></ngx-shimmer-loading>
+                  </div>
+
+                  <div class="form-field" *ngIf="!isLoading">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      placeholder="Company name"
+                      #companyName="ngModel"
+                      [disabled]="!isEditMode"
+                      [(ngModel)]="organizationPersonalInformationRequest.name"
+                      required
+                      minlength="2"
+                      maxlength="100"
+                    />
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="
+                        companyName.errors?.required &&
+                        (companyName.dirty || companyName.touched)
+                      "
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Company name is
+                      required.
+                    </p>
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="
+                        companyName.errors?.minlength &&
+                        (companyName.dirty || companyName.touched)
+                      "
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Company name must
+                      be at least 2 characters long.
+                    </p>
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="
+                        companyName.errors?.maxlength &&
+                        (companyName.dirty || companyName.touched)
+                      "
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Company name must
+                      not exceed 100 characters.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mt-3">
+                  <div *ngIf="isLoading">
+                    <ngx-shimmer-loading
+                      [width]="'100%'"
+                      [height]="'40px'"
+                      style="border-radius: 50%"
+                    ></ngx-shimmer-loading>
+                  </div>
+
+                  <div class="form-fild" *ngIf="!isLoading">
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      placeholder="Email Id"
+                      #emailId="ngModel"
+                      [disabled]="!isEditMode"
+                      [(ngModel)]="organizationPersonalInformationRequest.email"
+                      required
+                      email
+                    />
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="
+                        emailId.errors?.required &&
+                        (emailId.dirty || emailId.touched)
+                      "
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Email is
+                      required.
+                    </p>
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="
+                        emailId.errors?.email &&
+                        (emailId.dirty || emailId.touched)
+                      "
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Enter a valid
+                      email.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mt-3">
+                  <div *ngIf="isLoading">
+                    <ngx-shimmer-loading
+                      [width]="'100%'"
+                      [height]="'40px'"
+                      style="border-radius: 50%"
+                    ></ngx-shimmer-loading>
+                  </div>
+
+                  <div class="form-fild" *ngIf="!isLoading">
+                    <input
+                      type="text"
+                      class="form-control"
+                      mask="0000000000"
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      placeholder="Phone number"
+                      #phoneNumber="ngModel"
+                      [disabled]="!isEditMode"
+                      [(ngModel)]="
+                        organizationPersonalInformationRequest.phoneNumber
+                      "
+                      minlength="10"
+                      maxlength="10"
+                      pattern="[0-9]*"
+                    />
+
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="
+                        phoneNumber.dirty &&
+                        (phoneNumber.errors?.minlength ||
+                          phoneNumber.errors?.maxlength)
+                      "
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Phone number
+                      should be of 10 digits.
+                    </p>
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="phoneNumber.errors?.pattern"
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Phone number
+                      should in digits.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="border-box"></div>
+            </div>
+
+            <div class="col-md-5 mt-3 mb-3">
+              <div class="form-roe-data">
+                <h5>Tagline</h5>
+                <p>A quick snapshot of your company.</p>
+              </div>
+            </div>
+
+            <div class="col-md-6 mt-3 mb-3">
+              <div class="row">
+                <div class="col-md-12">
+                  <div *ngIf="isLoading">
+                    <ngx-shimmer-loading
+                      [width]="'100%'"
+                      [height]="'40px'"
+                      style="border-radius: 50%"
+                    ></ngx-shimmer-loading>
+                  </div>
+                  <div class="form-fild" *ngIf="!isLoading">
+                    <textarea
+                      class="form-control"
+                      id="tagline"
+                      name="tagline"
+                      rows="3"
+                      placeholder="Tag line"
+                      style="height: 100px !important"
+                      #tagline="ngModel"
+                      [disabled]="!isEditMode"
+                      [(ngModel)]="
+                        organizationPersonalInformationRequest.tagline
+                      "
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="border-box"></div>
+            </div>
+
+            <div class="col-md-5 mt-3">
+              <div class="form-roe-data">
+                <h5>Company Logo</h5>
+                <p>
+                  Update your company logo and then choose<br />
+                  where you want it to display.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-md-6 mt-3">
+              <div class="row align-items-center">
+                <div class="col-md-4">
+                  <div class="">
+                    <img
+                      [src]="
+                        dbImageUrl
+                          ? dbImageUrl
+                          : 'assets/images/hajiri_logo.png'
+                      "
+                      id="imagePreview"
+                      style="width: 100%"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-8">
+                  <div class="form-fild">
+                    <div class="importfilebox">
+                      <input
+                        id="fileSelect"
+                        name="fileSelect"
+                        type="file"
+                        name="img[]"
+                        accept=".png, .jpeg, .jpg, .svg, .gif, .webp, .ico"
+                        class="input"
+                        [disabled]="!isEditMode"
+                        (change)="onFileSelected($event)"
+                        [(ngModel)]="
+                          organizationPersonalInformationRequest.logo
+                        "
+                      />
+                      <label for="fileSelect">
+                        <i class="bi bi-cloud-arrow-up"></i>
+                        <span *ngIf="!selectedFile && !companyLogoFileName">
+                          <span
+                            >Click to upload <br />
+                            SVG, PNG, JPG, JPEG, WEBP, ICO or GIF (max.
+                            800px*400px)</span
+                          >
+                        </span>
+                        <span *ngIf="selectedFile && !companyLogoFileName">
+                          {{ selectedFile }}
+                        </span>
+                        <span *ngIf="!selectedFile && companyLogoFileName">
+                          {{ companyLogoFileName }}
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt-3">
+              <div class="border-box"></div>
+            </div>
+
+            <div class="row mt-4">
+              <div class="col-md-11">
+                <div class="d-flex justify-content-end" style="gap: 10px">
+                  <button
+                    type="button"
+                    class="btn edit-btn"
+                    (click)="enableEditMode()"
+                  >
+                    <i
+                      class="bi bi-pencil"
+                      style="
+                        font-size: 12px;
+                        padding-right: 5px;
+                        position: relative;
+                        top: -2px;
+                      "
+                    ></i>
+                    Edit
+                  </button>
+
+                  <button
+                    type="submit"
+                    class="btn btn-primary company-save-btn"
+                    [disabled]="isUpdating"
+                  >
+                    <div *ngIf="isUpdating" class="dot-opacity-loader">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <span *ngIf="!isUpdating"> Save </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div> -->
         </div>
+      </form>
     </div>
+  </div>
 </div>
