@@ -1,6 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { error } from 'console';
 import { Key } from 'src/app/constant/key';
@@ -15,29 +21,28 @@ import { OrganizationOnboardingService } from 'src/app/services/organization-onb
 @Component({
   selector: 'app-upload-team',
   templateUrl: './upload-team.component.html',
-  styleUrls: ['./upload-team.component.css']
+  styleUrls: ['./upload-team.component.css'],
 })
 export class UploadTeamComponent implements OnInit {
-
   form!: FormGroup;
-  userList:UserReq[]= new Array();
+  userList: UserReq[] = new Array();
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   sampleFileUrl: string = ''; //put sample file url
 
+  @ViewChild('importModalOpen') importModalOpen!: ElementRef;
 
-  @ViewChild('importModalOpen')importModalOpen!:ElementRef
-
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private _onboardingService: OrganizationOnboardingService,
     private dataService: DataService,
-    private _location:Location,
-    private _router:Router,
-    private helperService : HelperService) {
-   }
+    private _location: Location,
+    private _router: Router,
+    private helperService: HelperService,
+  ) {}
 
   ngOnInit(): void {
-    
-    this.sampleFileUrl = 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2Femployee_details_sample.xlsx?alt=media';
+    this.sampleFileUrl =
+      'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2Femployee_details_sample.xlsx?alt=media';
     this.getUser();
     this.selectMethod('mannual');
     this.checkShiftTimingExistsMethodCall();
@@ -47,57 +52,56 @@ export class UploadTeamComponent implements OnInit {
   dataNotFoundPlaceholder = false;
   networkConnectionErrorPlaceholder = false;
 
-  preRuleForShimmersAndErrorPlaceholdersMethodCall(){
+  preRuleForShimmersAndErrorPlaceholdersMethodCall() {
     this.isShimmer = true;
     this.dataNotFoundPlaceholder = false;
     this.networkConnectionErrorPlaceholder = false;
   }
 
-  back(){
+  back() {
     this.selectedMethod = '';
   }
 
-  backPage(){
+  backPage() {
     this.dataService.markStepAsCompleted(1);
-    this._onboardingService.saveOrgOnboardingStep(1).subscribe();
-    this._router.navigate(['/organization-onboarding/personal-information']);
+    // this._onboardingService.saveOrgOnboardingStep(1).subscribe();
+    this._onboardingService.saveOrgOnboardingStep(1).subscribe((resp) => {
+      this._onboardingService.refreshOnboarding();
+    });
+    // this._router.navigate(['/organization-onboarding/personal-information']);
+    // this._onboardingService.refreshOnboarding();
   }
   selectedMethod: string = 'mannual';
-  selectMethod(method:string){
-    if(method == "excel"){
+  selectMethod(method: string) {
+    if (method == 'excel') {
       this.selectedMethod = '';
       this.getReport();
       this.importModalOpen.nativeElement.click();
-    }
-    else
-    {
+    } else {
       this.selectedMethod = method;
       this.userList = [];
       this.user = new UserReq();
-      this.userList.push(this.user)
+      this.userList.push(this.user);
     }
-    
   }
 
   // user:{name:string; phone:string; email:string}={name:'',phone:'', email:''};
-  user:UserReq = new UserReq();
-  
-  addUser(){
+  user: UserReq = new UserReq();
+
+  addUser() {
     // this.user = { name: '', phone: '', email: ''};
     this.user = new UserReq();
     this.userList.push(this.user);
-    
   }
 
   removeUser(index: number) {
     this.userList.splice(index, 1);
   }
 
-
   fileName: any;
   currentFileUpload: any;
   // selectFile(event: any) {
-    
+
   //   let fileList!: FileList;
   //   if (event != null) {
   //     fileList = event.target.files;
@@ -111,9 +115,9 @@ export class UploadTeamComponent implements OnInit {
 
   //     const formdata: FormData = new FormData();
   //     this.fileName = this.currentFileUpload.name;
-      
+
   //     this.uploadUserFile(this.currentFileUpload,this.fileName);
-      
+
   //   }
 
   // }
@@ -127,67 +131,76 @@ export class UploadTeamComponent implements OnInit {
     }
   }
 
-  
   importToggle: boolean = false;
   isProgressToggle: boolean = false;
   isErrorToggle: boolean = false;
   errorMessage: string = '';
-  uploadUserFile(file: any,fileName:string) {
-    debugger
+
+  alreadyUsedPhoneNumberArray: any = [];
+  alreadyUsedEmailArray: any = [];
+  uploadUserFile(file: any, fileName: string) {
+    debugger;
     this.importToggle = true;
     this.isProgressToggle = true;
     this.isErrorToggle = false;
     this.errorMessage = '';
-    this._onboardingService.userImport(file, fileName).subscribe((response: any) => {
-      if (response.status) {
-        this.importToggle = false;
-        this.isProgressToggle = false;
-        this.getReport();
-        this.getUser();
-        console.log(this.onboardUserList.length);
-      }else {
+    this._onboardingService.userImport(file, fileName).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.importToggle = false;
+          this.isProgressToggle = false;
+          this.getReport();
+          this.getUser();
+          console.log(this.onboardUserList.length);
+          this.alreadyUsedPhoneNumberArray = response.arrayOfString;
+          this.alreadyUsedEmailArray = response.arrayOfString2;
+        } else {
+          this.importToggle = true;
+          this.isErrorToggle = true;
+          this.isProgressToggle = false;
+          this.errorMessage = response.message;
+        }
+
+        // this.importToggle = false;
+      },
+      (error) => {
         this.importToggle = true;
         this.isErrorToggle = true;
         this.isProgressToggle = false;
-        this.errorMessage = response.message; 
-      }
-        // this.importToggle = false;
-    }, (error) => {
-      this.importToggle = true;
-      this.isErrorToggle = true;
-      this.isProgressToggle = false;
-      this.errorMessage = error.error.message; 
-    })
+        this.errorMessage = error.error.message;
+      },
+    );
   }
 
-  closeImportModal(){
+  closeImportModal() {
     this.getUser();
-
   }
-
 
   importLoading: boolean = false;
   importReport: any[] = new Array();
-  totalItems:number = 0;
+  totalItems: number = 0;
 
-  uploadDate: Date= new Date();
+  uploadDate: Date = new Date();
 
   getReport() {
-    debugger
+    debugger;
     this.importReport = [];
     this.importLoading = true;
     this.databaseHelper.itemPerPage = 5;
-    this.databaseHelper.sortBy = "createdDate";
-    this.databaseHelper.sortOrder = "Desc";
-    this._onboardingService.getReport(this.databaseHelper).subscribe((response: any) => {
-      if (response.status) {
-        this.importReport = response.object;
-        this.totalItems = response.totalItems;
-      }
-      this.importLoading = false;
-    }, (error) => {
-      this.importLoading = false;
-    })
+    this.databaseHelper.sortBy = 'createdDate';
+    this.databaseHelper.sortOrder = 'Desc';
+    this._onboardingService.getReport(this.databaseHelper).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.importReport = response.object;
+          this.totalItems = response.totalItems;
+        }
+        this.importLoading = false;
+      },
+      (error) => {
+        this.importLoading = false;
+      },
+    );
   }
 
   pageChangedImport(page: any) {
@@ -198,191 +211,217 @@ export class UploadTeamComponent implements OnInit {
   }
 
   isFormInvalid: boolean = false;
-  @ViewChild('userForm') userForm !: NgForm
+  @ViewChild('userForm') userForm!: NgForm;
   checkFormValidation() {
     if (this.userForm.invalid) {
       this.isFormInvalid = true;
-      return
+      return;
     } else {
       this.isFormInvalid = false;
     }
   }
 
-  submit(){
-    if(this.allUsersValid()){
+  submit() {
+    if (this.allUsersValid()) {
       this.create();
-    } else{
+    } else {
       return;
     }
   }
 
   isValidUser(u: any): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    return !!u.name && 
-           u.phone && 
-           u.phone.length === 10 && 
-           (!u.email || emailRegex.test(u.email));
+    return (
+      !!u.name &&
+      u.phone &&
+      u.phone.length === 10 &&
+      (!u.email || emailRegex.test(u.email))
+    );
   }
-  
+
   // Use this method to determine if all users are valid
   allUsersValid(): boolean {
-    return !this.isNumberExist && !this.isEmailExist && this.userList.every(u => this.isValidUser(u));
+    return (
+      !this.isNumberExist &&
+      !this.isEmailExist &&
+      this.userList.every((u) => this.isValidUser(u))
+    );
   }
 
-  resetManualUploadModal(){
+  resetManualUploadModal() {
     this.closeManualUploadModal();
 
-    this.userList.forEach(user => {
+    this.userList.forEach((user) => {
       user.name = '';
       user.phone = '';
       user.email = '';
     });
   }
 
-  @ViewChild('munal-upload') closeManualUploadButton !: ElementRef;
+  @ViewChild('munal-upload') closeManualUploadButton!: ElementRef;
+  @ViewChild('closeButton') closeButton!: ElementRef;
 
-  closeManualUploadModal(){
-    this.closeManualUploadButton.nativeElement.click();
+  closeManualUploadModal() {
+    this.closeButton.nativeElement.click();
   }
 
+  // @ViewChild("closeManualUploadButton") closeManualUploadButton!: ElementRef;
   userListReq: UserListReq = new UserListReq();
   createLoading: boolean = false;
-  create(){
-    this.userListReq.userList= this.userList;
+  create() {
+    debugger;
+    this.userListReq.userList = this.userList;
     this.createLoading = true;
-    this._onboardingService.createOnboardUser(this.userListReq).subscribe((response: any) => {
-      if (response.status) {
-        this.selectedMethod = '';
+    this._onboardingService.createOnboardUser(this.userListReq).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.selectedMethod = '';
+          this.createLoading = false;
+          // this.closeUserEditModal.nativeElement.click();
+          this.getUser();
+          // this.closeManualUploadButton.nativeElement.click();
+          this.resetManualUploadModal();
+        }
+      },
+      (error) => {
         this.createLoading = false;
-        this.closeUserEditModal.nativeElement.click();
-        this.getUser();
         this.resetManualUploadModal();
-      } 
-    }, (error) => {
-      this.createLoading = false;
-      this.resetManualUploadModal();
-
-    })
-
+      },
+    );
   }
 
-  onboardUserList:any[]= new Array();
+  onboardUserList: any[] = new Array();
   loading: boolean = false;
-  getUser(){
+  getUser() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.loading = true;
-    this._onboardingService.getOnboardUser().subscribe((response: any) => {
-      if (response.status) {
-        this.onboardUserList = response.object;
-      }
-      else{
-        this.onboardUserList = [];
-        this.dataNotFoundPlaceholder = true;
-      }
-      this.loading = false;
-      this.isShimmer = false;
-    }, (error) => {
-      this.loading = false;
-      this.networkConnectionErrorPlaceholder = true;
-      this.isShimmer = false;
-    })
+    this._onboardingService.getOnboardUser().subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.onboardUserList = response.object;
+        } else {
+          this.onboardUserList = [];
+          this.dataNotFoundPlaceholder = true;
+        }
+        this.loading = false;
+        this.isShimmer = false;
+      },
+      (error) => {
+        this.loading = false;
+        this.networkConnectionErrorPlaceholder = true;
+        this.isShimmer = false;
+      },
+    );
   }
 
-
-  @ViewChild('userEditModal')userEditModal!:ElementRef;
-  openUserEditModal(user:any){
+  @ViewChild('userEditModal') userEditModal!: ElementRef;
+  openUserEditModal(user: any) {
     this.isEmailExist = false;
     this.isNumberExist = false;
     this.user = JSON.parse(JSON.stringify(user));
     this.userEditModal.nativeElement.click();
-    
   }
 
-  @ViewChild('closeUserEditModal')closeUserEditModal!:ElementRef;
-  editLoader: boolean = false
-  editUser(){
-    this._onboardingService.editOnboardUser(this.user).subscribe((response: any) => {
-      this.editLoader = true
-      if (response.status) {
-        this.getUser();
-        this.closeUserEditModal.nativeElement.click();
+  @ViewChild('closeUserEditModal') closeUserEditModal!: ElementRef;
+  editLoader: boolean = false;
+  editUser() {
+    this._onboardingService.editOnboardUser(this.user).subscribe(
+      (response: any) => {
+        this.editLoader = true;
+        if (response.status) {
+          this.getUser();
+          this.closeUserEditModal.nativeElement.click();
+          this.editLoader = false;
+          this.helperService.showToast(
+            'user update sucessfully',
+            Key.TOAST_STATUS_SUCCESS,
+          );
+        }
+      },
+      (error) => {
         this.editLoader = false;
-        this.helperService.showToast("user update sucessfully", Key.TOAST_STATUS_SUCCESS);
-      }
-    }, (error) => {
-      this.editLoader = false
-    })
+      },
+    );
   }
 
-
-  deleteUser(id:number){
-    this._onboardingService.deleteOnboardUser(id).subscribe((response: any) => {
-      if (response.status) {
-        this.getUser();
-      }
-    }, (error) => {
-    })
+  deleteUser(id: number) {
+    this._onboardingService.deleteOnboardUser(id).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.getUser();
+        }
+      },
+      (error) => {},
+    );
   }
 
   isNumberExist: boolean = false;
-  checkNumberExistance(index:number, number:string, uuid:string){
+  checkNumberExistance(index: number, number: string, uuid: string) {
     if (number.trim() === '') {
       if (index >= 0) {
-          this.userList[index].isPhoneExist = false;
+        this.userList[index].isPhoneExist = false;
       }
       this.isNumberExist = false;
       console.log('Phone number is empty, skipping API call.');
-  } else {
-      this._onboardingService.checkEmployeeNumberExist(number, uuid).subscribe((response: any) => {
+    } else {
+      this._onboardingService
+        .checkEmployeeNumberExist(number, uuid)
+        .subscribe((response: any) => {
           if (index >= 0) {
-              this.userList[index].isPhoneExist = response;
+            this.userList[index].isPhoneExist = response;
           }
           this.isNumberExist = response;
           console.log(response);
-      });
-  }
+        });
+    }
   }
 
   isEmailExist: boolean = false;
-  checkEmailExistance(index:number, email:string, uuid:string){
-    debugger
+  checkEmailExistance(index: number, email: string, uuid: string) {
+    debugger;
     // this.userList[index].isEmailExist = false;
-    if(email != null && email.length>5){
-      this._onboardingService.checkEmployeeEmailExist(email, uuid).subscribe((response: any) => {
-        if(index>=0){
-          this.userList[index].isEmailExist = response;
-        }
+    if (email != null && email.length > 5) {
+      this._onboardingService
+        .checkEmployeeEmailExist(email, uuid)
+        .subscribe((response: any) => {
+          if (index >= 0) {
+            this.userList[index].isEmailExist = response;
+          }
           this.isEmailExist = response;
-      })
+        });
     }
   }
 
-  next(){
+  next() {
     this.dataService.markStepAsCompleted(3);
-    this._onboardingService.saveOrgOnboardingStep(3).subscribe();
+    // this._onboardingService.saveOrgOnboardingStep(3).subscribe();
 
-    if(this.shiftTimingExists){
-      this._router.navigate(['/organization-onboarding/shift-time-list'])
-    } else{
-      this._router.navigate(['/organization-onboarding/add-shift-time'])
+    this._onboardingService.saveOrgOnboardingStep(3).subscribe((resp) => {
+      this._onboardingService.refreshOnboarding();
+    });
+
+    if (this.shiftTimingExists) {
+      this._router.navigate(['/organization-onboarding/shift-time-list']);
+    } else {
+      this._router.navigate(['/organization-onboarding/add-shift-time']);
     }
+    // this._onboardingService.refreshOnboarding();
   }
 
   shiftTimingExists = false;
-  checkShiftTimingExistsMethodCall(){
-    this.dataService.shiftTimingExists().subscribe((response : any) => {
-      this.shiftTimingExists = response.object;
-    }, (error) => {
-
-    })
+  checkShiftTimingExistsMethodCall() {
+    this.dataService.shiftTimingExists().subscribe(
+      (response: any) => {
+        this.shiftTimingExists = response.object;
+      },
+      (error) => {},
+    );
   }
 
-  @ViewChild("closeUserUpload") closeUserUpload!: ElementRef;
-  closeUserUploadModal(){
+  @ViewChild('closeUserUpload') closeUserUpload!: ElementRef;
+  closeUserUploadModal() {
     this.importToggle = false;
     this.closeImportModal();
     this.closeUserUpload.nativeElement.click();
   }
 }
-
-
