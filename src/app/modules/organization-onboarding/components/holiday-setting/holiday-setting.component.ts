@@ -18,6 +18,8 @@ import { OrganizationOnboardingService } from 'src/app/services/organization-onb
 })
 export class HolidaySettingComponent implements OnInit {
 
+  holidayType: string = '';
+  patternType: string = 'Odd'; 
   toggle = false;
   organizationAddressDetail : OrganizationAddressDetail = new OrganizationAddressDetail();
 
@@ -183,6 +185,10 @@ export class HolidaySettingComponent implements OnInit {
     });
   }
 
+  anyDaySelected(): boolean {
+    return this.weekDay.some(day => day.selected);
+  }
+  
   getWeekDays() {
     this.dataService.getWeekDays().subscribe(holidays => {
       this.weekDay = holidays.map(day => ({

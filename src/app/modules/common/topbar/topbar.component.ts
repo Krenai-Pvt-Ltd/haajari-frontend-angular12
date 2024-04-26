@@ -27,8 +27,12 @@ export class TopbarComponent implements OnInit {
   topbarValue: string | undefined;
 
 
-  ngOnInit() {
+  ROLE:any;
+  // UUUI!:String;
+  async ngOnInit() {
 
+    // this.UUID = await this.rbacService.getUUID();
+    this.ROLE = await this.rbacService.getRole();
     this.updateTopbarValue();
 
     this.router.events.subscribe(event => {

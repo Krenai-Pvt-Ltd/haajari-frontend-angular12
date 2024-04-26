@@ -33,6 +33,7 @@
                                               <span *ngIf="selectedAadhaarCardFileName && aadhaarCardFileName">
                                                 {{ selectedAadhaarCardFileName }}
                                               </span>
+                                              
                                             </label>
                                           </div>
                                           <div *ngIf=" aadhaar.dirty || isFormInvalid">
@@ -118,23 +119,23 @@
                                           <div class="importfilebox">
                                             <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')"  #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate">
                                             <label for="secondarySchoolCertificateFile">
-                                                <!-- No file is selected or uploaded -->
-                                                <span *ngIf="!selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
-                                                  <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
-                                                </span>
-                                                <!-- File has been previously uploaded and no new file selected -->
-                                                <span *ngIf="secondarySchoolCertificateFileName && !selectedSecondarySchoolFileName">
-                                                  {{ secondarySchoolCertificateFileName }}
-                                                </span>
-                                                <!-- New file is selected and no previous file is uploaded -->
-                                                <span *ngIf="selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
-                                                  {{ selectedSecondarySchoolFileName }}
-                                                </span>
-                                                <!-- New file is selected and there is also a previously uploaded file -->
-                                                <span *ngIf="selectedSecondarySchoolFileName && secondarySchoolCertificateFileName">
-                                                  {{ selectedSecondarySchoolFileName }}
-                                                </span>
-                                              </label>
+                                              <span *ngIf="!selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
+                                                <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
+                                              </span>
+                                              <span *ngIf="secondarySchoolCertificateFileName && !selectedSecondarySchoolFileName">
+                                                {{ secondarySchoolCertificateFileName }}
+                                                <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'secondarySchoolCertificate')"></i>
+                                              </span>
+                                              <span *ngIf="selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
+                                                {{ selectedSecondarySchoolFileName }}
+                                                <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'secondarySchoolCertificate')"></i>
+                                              </span>
+                                              <span *ngIf="selectedSecondarySchoolFileName && secondarySchoolCertificateFileName">
+                                                {{ selectedSecondarySchoolFileName }}
+                                                <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'secondarySchoolCertificate')"></i>
+                                              </span>
+                                            </label>
+                                            
                                               
                                           </div>
                                           <!-- Error Message for File Upload -->
@@ -162,14 +163,17 @@
                                                 <!-- File has been previously uploaded and no new file selected -->
                                                 <span *ngIf="highSchoolCertificateFileName1 && !selectedHighSchoolFileName">
                                                   {{ highSchoolCertificateFileName1 }}
+                                                  <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'highSchoolCertificate')"></i>
                                                 </span>
                                                 <!-- New file is selected and no previous file is uploaded -->
                                                 <span *ngIf="selectedHighSchoolFileName && !highSchoolCertificateFileName1">
                                                   {{ selectedHighSchoolFileName }}
+                                                  <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'highSchoolCertificate')"></i>
                                                 </span>
                                                 <!-- New file is selected and there is also a previously uploaded file -->
                                                 <span *ngIf="selectedHighSchoolFileName && highSchoolCertificateFileName1">
                                                   {{ selectedHighSchoolFileName }}
+                                                  <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'highSchoolCertificate')"></i>
                                                 </span>
                                               </label>
                                               
