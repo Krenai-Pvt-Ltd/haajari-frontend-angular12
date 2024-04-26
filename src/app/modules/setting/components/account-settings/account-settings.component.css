@@ -104,12 +104,13 @@ span.edit-profile {
   background-color: #ccc; /* Change the label's background to grey (or any color indicating 'disabled') */
 }
 .alert.alert-outline-secondary {
-  border: 1px solid #8d93a1;
+  border: 1px solid #eceff5;
   background-color: transparent;
   color: #363636 !important;
-  width: 50%;
-  font-size: 13px;
-  border-radius: 2px;
+  width: 90%;
+  font-size: 15px;
+  border-radius: 3px;
+  font-weight: 500;
 }
 .profile-image-box {
   width: 110px;
@@ -121,4 +122,18 @@ span.edit-profile {
   width: 100px;
   height: 100px;
   border-radius: 50%;
+}
+
+.enable-disanle-btn label {
+  padding: 9.2px;
+}
+.enable-disanle-box i {
+  padding-right: 10px;
+}
+
+.account-setting-box p {
+  font-size: 13px;
+  margin-bottom: 0px;
+  color: #515358 !important;
+  font-weight: 400;
 }
