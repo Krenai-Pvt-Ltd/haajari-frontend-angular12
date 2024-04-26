@@ -26,3 +26,19 @@
   background-color: #f1f1f1 !important;
     color: #000 !important;
 }
+
+/* CSS written by shivendra */
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+  background-color: #f1f1f1;
+}
+
+.selected-month-color{
+  border: 1px dashed #6666F3;
+  background-color: #F1F1FD;
+}
+
+.text-blue{
+  color : #6666F3;
+}

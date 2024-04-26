@@ -179,7 +179,7 @@
           <div class="col-md-4" *ngFor="let subscription of subscriptionList">
             <div
               class="bill-detail"
-              [ngClass]="{ 'active-plan': subscription.isPurchased == 1 }"
+              [ngClass]="{ 'active-plan bg-soft-success': subscription.isPurchased == 1 }"
             >
               <div class="d-flex justify-content-between align-items-center">
                 <div class="">

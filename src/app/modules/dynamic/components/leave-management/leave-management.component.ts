@@ -1,24 +1,31 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import * as moment from 'moment';
 import { Key } from 'src/app/constant/key';
-import { FullLeaveLogsResponse, PendingLeaveResponse, PendingLeavesResponse } from 'src/app/models/leave-responses.model';
+import {
+  FullLeaveLogsResponse,
+  PendingLeaveResponse,
+  PendingLeavesResponse,
+} from 'src/app/models/leave-responses.model';
 import { UserDto } from 'src/app/models/user-dto.model';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
-
 @Component({
   selector: 'app-leave-management',
   templateUrl: './leave-management.component.html',
-  styleUrls: ['./leave-management.component.css']
+  styleUrls: ['./leave-management.component.css'],
 })
 export class LeaveManagementComponent implements OnInit {
-
   // fullLeaveLogs!: FullLeaveLogsResponse[];
   fullLeaveLogs: any[] = [];
   pendingLeaves: any[] = [];
@@ -32,7 +39,7 @@ export class LeaveManagementComponent implements OnInit {
   size = 10;
   userLeaveForm!: FormGroup;
   // hasMoreData = true;
-  initialLoadDone = false; 
+  initialLoadDone = false;
   @ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
 
   constructor(
@@ -41,39 +48,36 @@ export class LeaveManagementComponent implements OnInit {
     private datePipe: DatePipe,
     private fb: FormBuilder,
     private rbacService: RoleBasedAccessControlService,
-  ) { 
-
+  ) {
     {
       this.userLeaveForm = this.fb.group({
-        startDate: ["", Validators.required],
-        endDate: [""],
-        leaveType: ["", Validators.required],
-        managerId: ["", Validators.required],
-        optNotes: ["", Validators.required],
+        startDate: ['', Validators.required],
+        endDate: [''],
+        leaveType: ['', Validators.required],
+        managerId: ['', Validators.required],
+        optNotes: ['', Validators.required],
         halfDayLeave: [false],
         dayShift: [false],
         eveningShift: [false],
       });
     }
-
   }
 
   get StartDate() {
-    return this.userLeaveForm.get("startDate")
+    return this.userLeaveForm.get('startDate');
   }
   get EndDate() {
-    return this.userLeaveForm.get("endDate")
+    return this.userLeaveForm.get('endDate');
   }
   get LeaveType() {
-    return this.userLeaveForm.get("leaveType")
+    return this.userLeaveForm.get('leaveType');
   }
   get ManagerId() {
-    return this.userLeaveForm.get("managerId")
+    return this.userLeaveForm.get('managerId');
   }
   get OptNotes() {
-    return this.userLeaveForm.get("optNotes")
+    return this.userLeaveForm.get('optNotes');
   }
-
 
   logInUserUuid: string = '';
   ROLE: string | null = '';
@@ -90,8 +94,8 @@ export class LeaveManagementComponent implements OnInit {
     this.getWeeklyChartData();
     this.getMonthlyChartData();
     this.getTotalConsumedLeaves();
-    if(this.ROLE !== 'USER'){
-       this.getTeamNames();
+    if (this.ROLE !== 'USER') {
+      this.getTeamNames();
     }
 
     this.fetchManagerNames();
@@ -104,43 +108,58 @@ export class LeaveManagementComponent implements OnInit {
   isFullLeaveLoader: boolean = false;
   getFullLeaveLogs(debounceTime: number = 300) {
     return new Promise((resolve, reject) => {
-      this.isFullLeaveLoader=true;
+      this.isFullLeaveLoader = true;
       if (this.debounceTimer) {
         clearTimeout(this.debounceTimer);
       }
       this.debounceTimer = setTimeout(() => {
-        this.dataService.getFullLeaveLogsRoleWise(this.searchString, this.selectedTeamName, this.page, this.size).subscribe({
-          next: (response) => {
-            if (Array.isArray(response.object)) { // Check if response.object is an array
-              this.fullLeaveLogs = [...this.fullLeaveLogs, ...response.object];
-              // this.hasMoreData = response.object.length === this.size;
-              this.fullLeaveLogSize = this.fullLeaveLogs.length;
+        this.dataService
+          .getFullLeaveLogsRoleWise(
+            this.searchString,
+            this.selectedTeamName,
+            this.page,
+            this.size,
+          )
+          .subscribe({
+            next: (response) => {
+              if (Array.isArray(response.object)) {
+                // Check if response.object is an array
+                this.fullLeaveLogs = [
+                  ...this.fullLeaveLogs,
+                  ...response.object,
+                ];
+                // this.hasMoreData = response.object.length === this.size;
+                this.fullLeaveLogSize = this.fullLeaveLogs.length;
+                this.isFullLeaveLoader = false;
+              } else {
+                console.error('Expected an array but got:', response.object);
+              }
+            },
+            error: (error) => {
               this.isFullLeaveLoader = false;
-            } else {
-              console.error('Expected an array but got:', response.object);
-            }
-          },
-          error: (error) => {
-            this.isFullLeaveLoader = false;
-            console.error('Failed to fetch full leave logs:', error);
-            this.helperService.showToast("Failed to load full leave logs.", Key.TOAST_STATUS_ERROR);
-          }
-          // next: (response) => { this.fullLeaveLogs = response.object
-          //   this.fullLeaveLogSize = this.fullLeaveLogs.length;
-          // },
-          // error: (error) => {
-          //   console.error('Failed to fetch full leave logs:', error);
-          //   this.helperService.showToast("Failed to load full leave logs.", Key.TOAST_STATUS_ERROR);
-          // }
-        });
+              console.error('Failed to fetch full leave logs:', error);
+              this.helperService.showToast(
+                'Failed to load full leave logs.',
+                Key.TOAST_STATUS_ERROR,
+              );
+            },
+            // next: (response) => { this.fullLeaveLogs = response.object
+            //   this.fullLeaveLogSize = this.fullLeaveLogs.length;
+            // },
+            // error: (error) => {
+            //   console.error('Failed to fetch full leave logs:', error);
+            //   this.helperService.showToast("Failed to load full leave logs.", Key.TOAST_STATUS_ERROR);
+            // }
+          });
       }, debounceTime);
     });
   }
 
   scrollDownRecentActivity(event: any) {
-    if (!this.initialLoadDone) return;  
+    if (!this.initialLoadDone) return;
     const target = event.target as HTMLElement;
-    const atBottom = target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+    const atBottom =
+      target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
 
     if (atBottom) {
       this.page++;
@@ -149,18 +168,19 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   loadMoreLogs() {
-    this.initialLoadDone = true; 
+    this.initialLoadDone = true;
     this.page++;
     // this.size += 10;
     this.getFullLeaveLogs();
     setTimeout(() => {
       this.scrollToBottom();
-    }, 500); 
+    }, 500);
   }
 
   scrollToBottom() {
     if (this.logContainer) {
-      this.logContainer.nativeElement.scrollTop = this.logContainer.nativeElement.scrollHeight;
+      this.logContainer.nativeElement.scrollTop =
+        this.logContainer.nativeElement.scrollHeight;
     }
   }
 
@@ -177,16 +197,15 @@ export class LeaveManagementComponent implements OnInit {
     this.fullLeaveLogs = [];
     this.selectedTeamName = teamName;
     this.getFullLeaveLogs();
-}
-  clearSearchUsers(){
+  }
+  clearSearchUsers() {
     this.page = 0;
     this.size = 10;
     this.fullLeaveLogs = [];
-    this.searchString='';
+    this.searchString = '';
     this.getFullLeaveLogs();
-  
-   }
-  
+  }
+
   //  loadMoreLogs() {
   //   this.size= this.size+10;
   //   this.getFullLeaveLogs();
@@ -194,30 +213,38 @@ export class LeaveManagementComponent implements OnInit {
   pagePendingLeaves = 0;
   sizePendingLeaves = 5;
   pendingLeavesSize!: number;
-  initialLoadDoneOfPendingLeaves:boolean = false;
-  @ViewChild('logContainerOfPendingLeaves') logContainerOfPendingLeaves!: ElementRef<HTMLDivElement>;
-  isPendingLoader:boolean = false;
+  initialLoadDoneOfPendingLeaves: boolean = false;
+  @ViewChild('logContainerOfPendingLeaves')
+  logContainerOfPendingLeaves!: ElementRef<HTMLDivElement>;
+  isPendingLoader: boolean = false;
 
   getPendingLeaves() {
     this.isPendingLoader = true;
-    this.dataService.getPendingLeaves(this.pagePendingLeaves, this.sizePendingLeaves).subscribe({
-      next: (response) => {
-        this.pendingLeaves = [...this.pendingLeaves, ...response.object];
-        this.isPendingLoader = false;
-        // this.pendingLeaves = response.object
-      this.pendingLeavesSize = this.pendingLeaves.length},
-      error: (error) => {
-        this.isPendingLoader = false;
-        console.error('Failed to fetch pending leaves:', error);
-        this.helperService.showToast("Failed to load pending leaves.", Key.TOAST_STATUS_ERROR);
-      }
-    });
+    this.dataService
+      .getPendingLeaves(this.pagePendingLeaves, this.sizePendingLeaves)
+      .subscribe({
+        next: (response) => {
+          this.pendingLeaves = [...this.pendingLeaves, ...response.object];
+          this.isPendingLoader = false;
+          // this.pendingLeaves = response.object
+          this.pendingLeavesSize = this.pendingLeaves.length;
+        },
+        error: (error) => {
+          this.isPendingLoader = false;
+          console.error('Failed to fetch pending leaves:', error);
+          this.helperService.showToast(
+            'Failed to load pending leaves.',
+            Key.TOAST_STATUS_ERROR,
+          );
+        },
+      });
   }
 
   scrollDownRecentActivityOfPendingLeaves(event: any) {
-    if (!this.initialLoadDoneOfPendingLeaves) return;  
+    if (!this.initialLoadDoneOfPendingLeaves) return;
     const target = event.target as HTMLElement;
-    const atBottom = target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+    const atBottom =
+      target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
 
     if (atBottom) {
       this.pagePendingLeaves++;
@@ -225,50 +252,66 @@ export class LeaveManagementComponent implements OnInit {
     }
   }
 
-  loadMorePendingLeaves(){
+  loadMorePendingLeaves() {
     this.initialLoadDoneOfPendingLeaves = true;
     this.pagePendingLeaves++;
     // this.sizePendingLeaves= this.sizePendingLeaves+5;
     this.getPendingLeaves();
     setTimeout(() => {
       this.scrollToBottomOfPendingLeaves();
-    }, 500); 
+    }, 500);
   }
 
   scrollToBottomOfPendingLeaves() {
     if (this.logContainerOfPendingLeaves) {
-      this.logContainerOfPendingLeaves.nativeElement.scrollTop = this.logContainerOfPendingLeaves.nativeElement.scrollHeight;
+      this.logContainerOfPendingLeaves.nativeElement.scrollTop =
+        this.logContainerOfPendingLeaves.nativeElement.scrollHeight;
     }
   }
 
   pageApprovedRejected = 0;
   sizeApprovedRejected = 5;
-  approvedRejectedLeavesSize!:number;
-  initialLoadDoneOfApprovedRejected:boolean = false;
-  @ViewChild('logContainerOfApprovedRejected') logContainerOfApprovedRejected!: ElementRef<HTMLDivElement>;
+  approvedRejectedLeavesSize!: number;
+  initialLoadDoneOfApprovedRejected: boolean = false;
+  @ViewChild('logContainerOfApprovedRejected')
+  logContainerOfApprovedRejected!: ElementRef<HTMLDivElement>;
   isApprovedRejectedLoader: boolean = false;
-
 
   getApprovedRejectedLeaveLogs() {
     this.isApprovedRejectedLoader = true;
-    this.dataService.getApprovedRejectedLeaveLogs(this.pageApprovedRejected, this.sizeApprovedRejected).subscribe({
-      next: (response) => {
-        this.isApprovedRejectedLoader = false;
-        this.approvedRejectedLeaves = [...this.approvedRejectedLeaves, ...response.object];
-        // this.approvedRejectedLeaves = response.object
-        this.approvedRejectedLeavesSize = this.approvedRejectedLeaves.length},
-      error: (error) => {
-        this.isApprovedRejectedLoader = false;
-        console.error('Failed to fetch approved-rejected leave logs:', error);
-        this.helperService.showToast("Failed to load approved/rejected leaves.", Key.TOAST_STATUS_ERROR);
-      }
-    });
+    this.dataService
+      .getApprovedRejectedLeaveLogs(
+        this.pageApprovedRejected,
+        this.sizeApprovedRejected,
+      )
+      .subscribe({
+        next: (response) => {
+          this.isApprovedRejectedLoader = false;
+          this.approvedRejectedLeaves = [
+            ...this.approvedRejectedLeaves,
+            ...response.object,
+          ];
+          // this.approvedRejectedLeaves = response.object
+          this.approvedRejectedLeavesSize = this.approvedRejectedLeaves.length;
+          this.approvedRejectedLeavesSize = 0;
+        },
+
+        error: (error) => {
+          this.isApprovedRejectedLoader = false;
+          console.error('Failed to fetch approved-rejected leave logs:', error);
+          this.helperService.showToast(
+            'Failed to load approved/rejected leaves.',
+            Key.TOAST_STATUS_ERROR,
+          );
+        },
+      });
   }
 
   scrollDownRecentActivityOfApprovedRejected(event: any) {
-    if (!this.initialLoadDoneOfApprovedRejected) return;  
+    if (!this.initialLoadDoneOfApprovedRejected) return;
     const target = event.target as HTMLElement;
-    const atBottom = target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+    const atBottom =
+      target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
 
     if (atBottom) {
       this.pageApprovedRejected++;
@@ -276,27 +319,26 @@ export class LeaveManagementComponent implements OnInit {
     }
   }
 
-  loadMoreApprovedRejectedLogs(){
+  loadMoreApprovedRejectedLogs() {
     this.initialLoadDoneOfApprovedRejected = true;
     // this.sizeApprovedRejected= this.sizeApprovedRejected+5;
     this.pageApprovedRejected++;
-    this.getApprovedRejectedLeaveLogs(); 
+    this.getApprovedRejectedLeaveLogs();
     setTimeout(() => {
       this.scrollToBottomOfApprovedRejected();
-    }, 500); 
+    }, 500);
   }
 
   scrollToBottomOfApprovedRejected() {
     if (this.logContainerOfApprovedRejected) {
-      this.logContainerOfApprovedRejected.nativeElement.scrollTop = this.logContainerOfApprovedRejected.nativeElement.scrollHeight;
+      this.logContainerOfApprovedRejected.nativeElement.scrollTop =
+        this.logContainerOfApprovedRejected.nativeElement.scrollHeight;
     }
   }
 
-
-  @ViewChild("closeModal") closeModal!: ElementRef;
+  @ViewChild('closeModal') closeModal!: ElementRef;
   approvedLoader: boolean = false;
   rejecetdLoader: boolean = false;
-
 
   approveOrDeny(requestId: number, requestedString: string) {
     if (requestedString === 'approved') {
@@ -318,31 +360,37 @@ export class LeaveManagementComponent implements OnInit {
     // this.monthlyChartData = [];
     // this.weeklyChartData = [];
 
+    this.dataService
+      .approveOrRejectLeaveOfUser(requestId, requestedString)
+      .subscribe({
+        next: (logs) => {
+          // Turn off loaders
+          this.approvedLoader = false;
+          this.rejecetdLoader = false;
 
-    this.dataService.approveOrRejectLeaveOfUser(requestId, requestedString).subscribe({
-      next: (logs) => {
-        
-        // Turn off loaders
-        this.approvedLoader = false;
-        this.rejecetdLoader = false;
+          // Fetch all necessary updated data
+          this.fetchAllData();
 
-        // Fetch all necessary updated data
-        this.fetchAllData();
+          // Close modal
+          this.closeModal.nativeElement.click();
 
-        // Close modal
-        this.closeModal.nativeElement.click();
-        
-        // Show toast message
-        let message = requestedString === 'approved' ? "Leave approved successfully!" : "Leave rejected successfully!";
-        this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
-      },
-      error: (error) => {
-        console.error('There was an error!', error);
-        this.approvedLoader = false;
-        this.rejecetdLoader = false;
-        this.helperService.showToast("Error processing leave request!", Key.TOAST_STATUS_ERROR);
-      }
-    });
+          // Show toast message
+          let message =
+            requestedString === 'approved'
+              ? 'Leave approved successfully!'
+              : 'Leave rejected successfully!';
+          this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
+        },
+        error: (error) => {
+          console.error('There was an error!', error);
+          this.approvedLoader = false;
+          this.rejecetdLoader = false;
+          this.helperService.showToast(
+            'Error processing leave request!',
+            Key.TOAST_STATUS_ERROR,
+          );
+        },
+      });
   }
 
   fetchAllData() {
@@ -353,7 +401,6 @@ export class LeaveManagementComponent implements OnInit {
     this.getMonthlyChartData();
     this.getWeeklyChartData();
   }
-
 
   // approveOrDeny(requestId: number, requestedString: string) {
   //   debugger;
@@ -395,16 +442,21 @@ export class LeaveManagementComponent implements OnInit {
   // }
 
   getPendingLeave(leaveId: number, leaveType: string) {
-    this.dataService.getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType).subscribe({
-      next: (response) => this.specificLeaveRequest = response.object[0],
-      error: (error) => {
-        console.error('Failed to fetch pending leave:', error);
-        this.helperService.showToast("Failed to load this pending leave.", Key.TOAST_STATUS_ERROR);
-      }
-    });
+    this.dataService
+      .getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType)
+      .subscribe({
+        next: (response) => (this.specificLeaveRequest = response.object[0]),
+        error: (error) => {
+          console.error('Failed to fetch pending leave:', error);
+          this.helperService.showToast(
+            'Failed to load this pending leave.',
+            Key.TOAST_STATUS_ERROR,
+          );
+        },
+      });
   }
 
-  formatDateIn(newdate:any) {
+  formatDateIn(newdate: any) {
     const date = new Date(newdate);
     const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
     return formattedDate;
@@ -422,7 +474,7 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   transform(value: string): string {
-    if (!value) return value; 
+    if (!value) return value;
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
@@ -430,15 +482,14 @@ export class LeaveManagementComponent implements OnInit {
   getTeamNames() {
     this.dataService.getAllTeamNames().subscribe({
       next: (response: any) => {
-        this.teamNameList = response.object; 
+        this.teamNameList = response.object;
       },
       error: (error) => {
         console.error('Failed to fetch team names:', error);
-        
-      }
+      },
     });
   }
-  
+
   sliceWord(word: string): string {
     return word.slice(0, 3);
   }
@@ -448,39 +499,49 @@ export class LeaveManagementComponent implements OnInit {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal, // Correct type for the group property
-    domain: ['#FFE082', '#80CBC4', '#FFCCBC'] // Gold, Green, Red
+    domain: ['#FFE082', '#80CBC4', '#FFCCBC'], // Gold, Green, Red
   };
   gradient: boolean = false;
   // view: [number, number] = [300, 150];
   view: [number, number] = [300, 250];
-  getWeeklyChartData(){
-    this.dataService.getWeeklyLeaveSummary().subscribe(data => {
-      this.weeklyChartData = data.map(item => ({
-        "name": this.sliceWord(item.weekDay),
-        "series": [
-          { "name": "Pending", "value": item.pending || 0},
-          { "name": "Approved", "value": item.approved || 0},
-          { "name": "Rejected", "value": item.rejected || 0}
-        ]
+  weeklyPlaceholderFlag: boolean = true;
+  getWeeklyChartData() {
+    this.dataService.getWeeklyLeaveSummary().subscribe((data) => {
+      // if (data.length > 0) {
+      //   this.weeklyPlaceholderFlag = true;
+      // } else {
+      //   this.weeklyPlaceholderFlag = false;
+      // }
+      this.weeklyChartData = data.map((item) => ({
+        name: this.sliceWord(item.weekDay),
+        series: [
+          { name: 'Pending', value: item.pending || 0 },
+          { name: 'Approved', value: item.approved || 0 },
+          { name: 'Rejected', value: item.rejected || 0 },
+        ],
       }));
     });
   }
 
   monthlyChartData: any[] = [];
-  count:number =0;
-
-  getMonthlyChartData(){
-    this.dataService.getMonthlyLeaveSummary().subscribe(data => {
-      console.log("length" + data.length);
-      this.monthlyChartData = data.map(item => ({
-        "name": this.sliceWord(item.monthName),
-        "series": [
-          { "name": "Pending", "value": item.pending || 0},
-          { "name": "Approved", "value": item.approved || 0},
-          { "name": "Rejected", "value": item.rejected || 0}
-        ]
+  count: number = 0;
+  monthlyPlaceholderFlag: boolean = true;
+  getMonthlyChartData() {
+    this.dataService.getMonthlyLeaveSummary().subscribe((data) => {
+      // if (data.length > 0) {
+      //   this.monthlyPlaceholderFlag = true;
+      // } else {
+      //   this.monthlyPlaceholderFlag = false;
+      // }
+      console.log('length' + data.length);
+      this.monthlyChartData = data.map((item) => ({
+        name: this.sliceWord(item.monthName),
+        series: [
+          { name: 'Pending', value: item.pending || 0 },
+          { name: 'Approved', value: item.approved || 0 },
+          { name: 'Rejected', value: item.rejected || 0 },
+        ],
         // this.count++;
-       
       }));
     });
   }
@@ -500,22 +561,28 @@ export class LeaveManagementComponent implements OnInit {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#B3E5FC', '#E8F5E9']
+    domain: ['#B3E5FC', '#E8F5E9'],
   };
 
-  consumedLeaveArray : any[] = [];
+  consumedLeaveArray: any[] = [];
   dataReady: boolean = false;
+  consumedLeavesPlaceholderFlag: boolean = true;
   getTotalConsumedLeaves() {
-    this.dataService.getConsumedLeaves().subscribe(data => {
+    this.dataService.getConsumedLeaves().subscribe((data) => {
+      // if (data.length > 0) {
+      //   this.consumedLeavesPlaceholderFlag = true;
+      // } else {
+      //   this.consumedLeavesPlaceholderFlag = false;
+      // }
       this.consumedLeaveArray = data;
-      this.consumedLeaveData = data.map(item => ({
+      this.consumedLeaveData = data.map((item) => ({
         name: this.getLeaveInitials(item.leaveType),
         series: [
-          { name: "Used", value: item.consumedCount || 0 },
-          { name: "Remaining", value: item.remainingCount || 0 }
-        ]
+          { name: 'Used', value: item.consumedCount || 0 },
+          { name: 'Remaining', value: item.remainingCount || 0 },
+        ],
       }));
-      this.dataReady = true; 
+      this.dataReady = true;
       console.log(this.consumedLeaveData);
     });
   }
@@ -528,7 +595,7 @@ export class LeaveManagementComponent implements OnInit {
     return leaveType;
   }
 
-  // ####   new modal code 
+  // ####   new modal code
 
   managers: UserDto[] = [];
   selectedManagerId!: number;
@@ -538,8 +605,7 @@ export class LeaveManagementComponent implements OnInit {
       (data: UserDto[]) => {
         this.managers = data;
       },
-      (error) => {
-      }
+      (error) => {},
     );
   }
 
@@ -550,27 +616,27 @@ export class LeaveManagementComponent implements OnInit {
     this.leaveCountPlaceholderFlag = false;
     this.dataService.getUserLeaveRequestsForLeaveManagement().subscribe(
       (data) => {
-        if (data.body != undefined || data.body != null || data.body.length != 0) {
+        if (
+          data.body != undefined ||
+          data.body != null ||
+          data.body.length != 0
+        ) {
           this.userLeave = data.body;
         } else {
           this.leaveCountPlaceholderFlag = true;
           return;
         }
       },
-      (error) => {
-      }
+      (error) => {},
     );
   }
 
-
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 
-
-  @ViewChild("requestLeaveCloseModel")
+  @ViewChild('requestLeaveCloseModel')
   requestLeaveCloseModel!: ElementRef;
 
   // @ViewChild('userLeaveForm') userLeaveForm: NgForm;
-
 
   resetUserLeave() {
     this.userLeaveRequest.startDate = new Date();
@@ -578,22 +644,21 @@ export class LeaveManagementComponent implements OnInit {
     this.userLeaveRequest.halfDayLeave = false;
     this.userLeaveRequest.dayShift = false;
     this.userLeaveRequest.eveningShift = false;
-    this.userLeaveRequest.leaveType = "";
+    this.userLeaveRequest.leaveType = '';
     this.userLeaveRequest.managerId = 0;
-    this.userLeaveRequest.optNotes = "";
+    this.userLeaveRequest.optNotes = '';
     this.selectedManagerId = 0;
-
   }
   @ViewChild(FormGroupDirective)
   formGroupDirective!: FormGroupDirective;
-  submitLeaveLoader:boolean=false;
+  submitLeaveLoader: boolean = false;
 
   saveLeaveRequestUser() {
-    debugger
+    debugger;
     this.userLeaveRequest.managerId = this.selectedManagerId;
     this.userLeaveRequest.dayShift = this.dayShiftToggle;
     this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
-    this.submitLeaveLoader=true;
+    this.submitLeaveLoader = true;
 
     this.page = 0;
     this.pagePendingLeaves = 0;
@@ -604,40 +669,40 @@ export class LeaveManagementComponent implements OnInit {
     this.approvedRejectedLeaves = [];
     this.pendingLeaves = [];
 
-    this.dataService.saveLeaveRequestForLeaveManagement(this.userLeaveRequest)
-      .subscribe(data => {
-        this.submitLeaveLoader=false;
-        this.resetUserLeave();
-        this.fetchAllData();
-        this.formGroupDirective.resetForm();
-        this.requestLeaveCloseModel.nativeElement.click();
-      }, (error) => {
-        this.submitLeaveLoader=false;
-      })
+    this.dataService
+      .saveLeaveRequestForLeaveManagement(this.userLeaveRequest)
+      .subscribe(
+        (data) => {
+          this.submitLeaveLoader = false;
+          this.resetUserLeave();
+          this.fetchAllData();
+          this.formGroupDirective.resetForm();
+          this.requestLeaveCloseModel.nativeElement.click();
+        },
+        (error) => {
+          this.submitLeaveLoader = false;
+        },
+      );
   }
 
   dayShiftToggle: boolean = false;
   eveningShiftToggle: boolean = false;
 
   dayShiftToggleFun(shift: string) {
-
     if (shift == 'day') {
       this.dayShiftToggle = true;
       this.eveningShiftToggle = false;
-
     } else if (shift == 'evening') {
       this.eveningShiftToggle = true;
-      this.dayShiftToggle == false
+      this.dayShiftToggle == false;
     }
     // console.log("day" + this.dayShiftToggle + "evening" + this.eveningShiftToggle);
   }
 
-
   halfDayLeaveShiftToggle: boolean = false;
 
   halfLeaveShiftToggle() {
-    this.halfDayLeaveShiftToggle = this.halfDayLeaveShiftToggle == true ? false : true;
+    this.halfDayLeaveShiftToggle =
+      this.halfDayLeaveShiftToggle == true ? false : true;
   }
-  
 }
-

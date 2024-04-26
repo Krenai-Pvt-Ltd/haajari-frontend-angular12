@@ -156,3 +156,8 @@ span.unpaid {
 .plan-box-height {
   height: 100px;
 }
+/* Author Pushpendra  */
+.bg-soft-success:hover{
+  background-color: white !important;
+  color: #222 !important;
+}
