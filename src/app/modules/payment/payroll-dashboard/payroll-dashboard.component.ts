@@ -38,14 +38,14 @@ export class PayrollDashboardComponent implements OnInit {
       new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
       new Date().toLocaleString('default', { month: 'short' }),
       new Date().getFullYear(),
-      'Current', // Assuming you want the current status for the current month
+      'Current',
       false
     );
   
     this.selectedMonth = this.currentMonthResponse.month;
     this.selectedYear = this.currentMonthResponse.year;
 
-    
+
     this.getOrganizationRegistrationDateMethodCall();
     this.getMonthResponseList(this.selectedDate);
     this.getOrganizationIndividualMonthSalaryDataMethodCall(this.currentMonthResponse);
@@ -81,7 +81,7 @@ export class PayrollDashboardComponent implements OnInit {
     const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
     const organizationRegistrationMonth = new Date(this.organizationRegistrationDate).getMonth();
 
-    // Disable if the year is before the organization registration year or if the year is after the organization registration year
+    // Disable if the year is before the organization registration year or if the year is after the organization registration year.
     if (dateYear < organizationRegistrationYear || dateYear > currentYear) {
       return true;
     }
@@ -93,7 +93,7 @@ export class PayrollDashboardComponent implements OnInit {
     return true;
   };
 
-  // Fetching organization registration date
+  // Fetching organization registration date.
   organizationRegistrationDate: string = '';
   getOrganizationRegistrationDateMethodCall() {
     debugger;
@@ -118,23 +118,22 @@ export class PayrollDashboardComponent implements OnInit {
     const organizationRegistrationMonth = new Date(this.organizationRegistrationDate).getMonth();
 
     for (let i = 0; i < 12; i++) {
-        // Create a new Date object for each month
+        // Create a new Date object for each month.
         const monthDate = new Date(date.getFullYear(), i);
 
         const monthName = monthDate.toLocaleString('default', { month: 'short' });
         const status =
-            monthDate.getFullYear() < currentYear || (monthDate.getFullYear() === currentYear && i < currentMonth) ? 'Completed' :
-            (monthDate.getFullYear() === currentYear && i === currentMonth) ? 'Current' : 'Upcoming';
+        (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) ? '-' : monthDate.getFullYear() < currentYear || (monthDate.getFullYear() === currentYear && i < currentMonth) ? 'Completed' : (monthDate.getFullYear() === currentYear && i === currentMonth) ? 'Current' : 'Upcoming';
 
-        // Disabling the future months and the months before organization registration
+        // Disabling the future months and the months before organization registration.
         const disable = 
             (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) ||
             (monthDate.getFullYear() > currentYear || (monthDate.getFullYear() === currentYear && i > currentMonth));
 
-        // Format the first day of the month as "DD MMM"
+        // Format the first day of the month as "DD MMM".
         const firstDate = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
 
-        // Format the last day of the month as "DD MMM"
+        // Format the last day of the month as "DD MMM".
         const lastDate = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
 
         this.monthResponseList.push(
@@ -154,7 +153,7 @@ export class PayrollDashboardComponent implements OnInit {
 }
 
 
-  // This is current month response, default value to fetch the data
+  // This is current month response, default value to fetch the data.
   currentMonthResponse: MonthResponse = new MonthResponse(
     0,
     new Date(new Date().getFullYear(), new Date().getMonth(), 1),
@@ -167,7 +166,7 @@ export class PayrollDashboardComponent implements OnInit {
 
   selectedMonth : string = this.currentMonthResponse.month;
   selectedYear : number = this.currentMonthResponse.year;
-  // Fetching organization individual month salary data
+  // Fetching organization individual month salary data.
   organizationMonthWiseSalaryData: OrganizationMonthWiseSalaryData = new OrganizationMonthWiseSalaryData();
   getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse: MonthResponse) {
     this.selectedMonth = monthResponse.month;
