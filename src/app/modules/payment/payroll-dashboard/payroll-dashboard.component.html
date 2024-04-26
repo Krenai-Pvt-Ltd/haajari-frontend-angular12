@@ -565,7 +565,7 @@
           <div class="modal-header" style="background-color: #fff">
             <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
               <div class="back-btns-box" data-bs-dismiss="modal" aria-label="Close">
-                <i class="bi bi-chevron-left"></i>  <span class="font-16 pt-2 pl-2">Employee Changes </span>
+                <i class="bi bi-chevron-left"></i>  <span class="font-16 pt-2 pl-2">Attendance, Leave & Present Days </span>
               </div>
             </h5>
             <div class="button-items"> 
@@ -578,12 +578,13 @@
           <div class="modal-body p-0">
             
             <div class="card-body">
-              <form action="#" method="post" id="custom-step">
+              <form action="#" method="post" id="leaves-custom-step">
                   <nav>
                       <div class="nav nav-tabs" id="nav-tab">
-                          <a class="nav-link active" id="step1-tab" data-bs-toggle="tab" href="#step1">NEW JOINEE</a>
-                          <a class="nav-link" id="step2-tab" data-bs-toggle="tab" href="#step2">EMPLOYEES IN EXIT PROCESS</a>
-                          <a class="nav-link" id="step3-tab" data-bs-toggle="tab" href="#step3">FULL AND FINAL SETTLEMENT</a>
+                          <a class="nav-link active" id="leaves-step1-tab" data-bs-toggle="tab" href="#step1">LEAVE APPLIED</a>
+                          <a class="nav-link" id="leaves-step2-tab" data-bs-toggle="tab" href="#step2">NO ATTENDANCE</a>
+                          <a class="nav-link" id="leaves-step3-tab" data-bs-toggle="tab" href="#step3">LOP SUMMARY</a>
+                          <a class="nav-link" id="leaves-step3-tab" data-bs-toggle="tab" href="#step4">LOP REVERSAL</a>
                       </div>
                   </nav>
                   <div class="tab-content" id="nav-tabContent">
@@ -593,63 +594,49 @@
                               <thead>
                               <tr>
                                   <th>EMPLOYEE</th>
-                                  <th class="text-end">DATE OF JOINING</th>
-                                  <th class="text-end">NO OF WORKING DAYS</th>
-                                  <th class="text-end">SALARY</th>
-                                  <th class="text-end">PAY ACTION</th>
+                                  <th class="text-end">ACTUAL LOP</th>
+                                  <th class="text-end">LOP ADJUSTMENT</th>
+                                  <th class="text-end">FINAL LOP</th>
                                   <th class="text-end">COMMENT</th>
                               </tr>
                               </thead>
                               <tbody>
                               <tr>
                                   <td>Pushpendra Singh</td>
-                                  <td class="text-end">25/04/2017</td>
-                                  <td class="text-end">22</td>
-                                  <td class="text-end">100000</td>
-                                  <td class="text-end">Process as salary</td>
-                                  <td class="text-end">Note</td>
+                                  <td class="text-end">22 Days</td>
+                                  <td class="text-end">
+                                    <input class="form-control w-25 float-right" type="number" value="2" id="example-number-input1">
+                                  </td>
+                                  <td class="text-end">21 Days</td>
+                                  <td class="text-end">
+                                    <input class="form-control w-50 float-right" type="text" placeholder="Enter Comment" id="example-number-input1">
+                                  </td>
                               </tr>
+                              
                               <tr>
                                 <td>Pushpendra Singh</td>
-                                <td class="text-end">25/04/2017</td>
-                                <td class="text-end">22</td>
-                                <td class="text-end">100000</td>
-                                <td class="text-end">Process as salary</td>
-                                <td class="text-end">Note</td>
-                              </tr>
-                              <tr>
-                                <td>Pushpendra Singh</td>
-                                <td class="text-end">25/04/2017</td>
-                                <td class="text-end">22</td>
-                                <td class="text-end">100000</td>
-                                <td class="text-end">Process as salary</td>
-                                <td class="text-end">Note</td>
-                              </tr>
-                              <tr>
-                                <td>Pushpendra Singh</td>
-                                <td class="text-end">25/04/2017</td>
-                                <td class="text-end">22</td>
-                                <td class="text-end">100000</td>
-                                <td class="text-end">Process as salary</td>
-                                <td class="text-end">Note</td>
-                              </tr>
-                              <tr>
-                                <td>Pushpendra Singh</td>
-                                <td class="text-end">25/04/2017</td>
-                                <td class="text-end">22</td>
-                                <td class="text-end">100000</td>
-                                <td class="text-end">Process as salary</td>
-                                <td class="text-end">Note</td>
-                              </tr>
-                              <tr>
-                                <td>Pushpendra Singh</td>
-                                <td class="text-end">25/04/2017</td>
-                                <td class="text-end">22</td>
-                                <td class="text-end">100000</td>
-                                <td class="text-end">Process as salary</td>
-                                <td class="text-end">Note</td>
-                              </tr>
-    
+                                <td class="text-end">22 Days</td>
+                                <td class="text-end">
+                                  <input class="form-control w-25 float-right" type="number" value="2" id="example-number-input1">
+                                </td>
+                                <td class="text-end">21 Days</td>
+                                <td class="text-end">
+                                  <input class="form-control w-50 float-right" type="text" placeholder="Enter Comment" id="example-number-input1">
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">22 Days</td>
+                              <td class="text-end">
+                                <input class="form-control w-25 float-right" type="number" value="2" id="example-number-input1">
+                              </td>
+                              <td class="text-end">21 Days</td>
+                              <td class="text-end">
+                                <input class="form-control w-50 float-right" type="text" placeholder="Enter Comment" id="example-number-input1">
+                              </td>
+                          </tr>
+                          
                               
                               </tbody>
                           </table><!--end /table-->
@@ -661,57 +648,54 @@
                               <thead>
                               <tr>
                                   <th>EMPLOYEE</th>
-                                  <th class="text-end">DATE OF RESIGNATION</th>
-                                  <th class="text-end">EXIT ACTION & REASON</th>
-                                  <th class="text-end">LAST WORKING DAY</th>
-                                  <th class="text-end">EXIT REQUEST STATUS</th>
-                                  <th class="text-end">WAITING ON</th>
+                                  <th class="text-end">ACTUAL LOP</th>
+                                  <th class="text-end">LOP ADJUSTMENT</th>
+                                  <th class="text-end">FINAL LOP</th>
+                                  <th class="text-end">COMMENT</th>
                               </tr>
                               </thead>
                               <tbody>
                               <tr>
-                                  <td>Rohit Chaturvedi</td>
-                                  <td class="text-end">25/04/2017</td>
-                                  <td class="text-end">SALARY HIKE</td>
-                                  <td class="text-end">25/04/2017</td>
-                                  <td class="text-end">EXIT</td>
-                                  <td class="text-end">Note</td>
+                                  <td>Pushpendra Singh</td>
+                                  <td class="text-end">22 Days</td>
+                                  <td class="text-end">
+                                    <input class="form-control w-25 float-right" type="number" value="2" id="example-number-input1">
+                                  </td>
+                                  <td class="text-end">21 Days</td>
+                                  <td class="text-end">
+                                    <input class="form-control w-50 float-right" type="text" placeholder="Enter Comment" id="example-number-input1">
+                                  </td>
                               </tr>
+                              
                               <tr>
-                                <td>Rohit Chaturvedi</td>
-                                <td class="text-end">25/04/2017</td>
-                                <td class="text-end">SALARY HIKE</td>
-                                <td class="text-end">25/04/2017</td>
-                                <td class="text-end">EXIT</td>
-                                <td class="text-end">Note</td>
+                                <td>Pushpendra Singh</td>
+                                <td class="text-end">22 Days</td>
+                                <td class="text-end">
+                                  <input class="form-control w-25 float-right" type="number" value="2" id="example-number-input1">
+                                </td>
+                                <td class="text-end">21 Days</td>
+                                <td class="text-end">
+                                  <input class="form-control w-50 float-right" type="text" placeholder="Enter Comment" id="example-number-input1">
+                                </td>
                             </tr>
+                            
                             <tr>
-                              <td>Rohit Chaturvedi</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">SALARY HIKE</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">EXIT</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Rohit Chaturvedi</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">SALARY HIKE</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">EXIT</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Rohit Chaturvedi</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">SALARY HIKE</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">EXIT</td>
-                              <td class="text-end">Note</td>
-                            </tr>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">22 Days</td>
+                              <td class="text-end">
+                                <input class="form-control w-25 float-right" type="number" value="2" id="example-number-input1">
+                              </td>
+                              <td class="text-end">21 Days</td>
+                              <td class="text-end">
+                                <input class="form-control w-50 float-right" type="text" placeholder="Enter Comment" id="example-number-input1">
+                              </td>
+                          </tr>
+                          
+                              
                               </tbody>
                           </table><!--end /table-->
                         </div>
+
                       </div>
                       <div class="tab-pane" id="step3">
                         <div class="table-responsive">
