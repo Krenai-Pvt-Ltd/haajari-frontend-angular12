@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
       } else {
         const helper = new JwtHelperService();
         const onboardingStep = helper.decodeToken(response.tokenResponse.access_token).statusResponse;
-          if (onboardingStep == "7") {
+          if (onboardingStep == "5") {
             this.router.navigate(['/dashboard']);
           } else {
             this.router.navigate(['/organization-onboarding/personal-information']);
