@@ -3,16 +3,83 @@
   <div class="page-content-tab">
     <div class="container-fluid">
       <div class="row">
+        <div class="col-md-9"></div>
+        <div class="dropdown col-md-3 mt-3">
+          <nz-date-picker
+            nzMode="year"
+            [nzSize]="size"
+            [(ngModel)]="selectedDate"
+            (ngModelChange)="onYearChange($event)"
+            [nzDisabledDate]="disableYears"
+          ></nz-date-picker>
+        </div>
         <div class="col-md-12 mt-3">
-          <div class="file-box-content">
-            <div class="file-box" *ngFor="let monthResponse of monthResponseList">
-              <div class="text-center" (click)="getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse)">
-                <h6 class="text-truncate">{{monthResponse.month}} - {{monthResponse.year}}</h6>
-                <small class="text-muted">{{monthResponse.firstDate | dateFormatter}} {{monthResponse.month}} - {{monthResponse.lastDate | dateFormatter}} {{monthResponse.month}}</small>
+          <div class="file-box-content d-flex">
+            <div
+              class="file-box"
+              *ngFor="let monthResponse of monthResponseList"
+              [class.disabled]="monthResponse.disable"
+              [ngClass]="{
+                'selected-month-color':
+                  monthResponse.month == selectedMonth &&
+                  monthResponse.year == selectedYear
+              }"
+            >
+              <div
+                class="text-center"
+                (click)="
+                  getOrganizationIndividualMonthSalaryDataMethodCall(
+                    monthResponse
+                  )
+                "
+              >
+                <h6 class="text-truncate">
+                  {{ monthResponse.month }} - {{ monthResponse.year }}
+                </h6>
+                <small class="text-muted"
+                  >{{ monthResponse.firstDate | dateFormatter }}
+                  {{ monthResponse.month }} -
+                  {{ monthResponse.lastDate | dateFormatter }}
+                  {{ monthResponse.month }}</small
+                >
+
+                <!-- Condition for hr tag -->
+                <!-- [ngClass]="{'text-blue' : (monthResponse.month == selectedMonth && monthResponse.year == selectedYear)}" -->
                 <hr class="hr" />
-                <small>{{monthResponse.status}}</small>
+                <small
+                  [ngClass]="{
+                    'text-blue':
+                      monthResponse.month == selectedMonth &&
+                      monthResponse.year == selectedYear,
+                    'text-success':
+                      monthResponse.status == 'Completed' &&
+                      !(
+                        monthResponse.month == selectedMonth &&
+                        monthResponse.year == selectedYear
+                      ),
+                    'text-warning':
+                      monthResponse.status == 'Current' &&
+                      !(
+                        monthResponse.month == selectedMonth &&
+                        monthResponse.year == selectedYear
+                      )
+                  }"
+                >
+                  {{ monthResponse.status }}
+                </small>
               </div>
             </div>
+          </div>
+          <div class="payroll-next-prev-btn">
+            <span
+              class="payroll-next position-absolute d-flex align-items-center justify-content-center"
+            >
+              <i class="bi bi-chevron-left position-relative"></i>
+            </span>
+            <span
+              class="payroll-prev position-absolute d-flex align-items-center justify-content-center"
+              ><i class="bi bi-chevron-right position-relative"></i
+            ></span>
           </div>
         </div>
       </div>
@@ -24,7 +91,11 @@
                 <div class="row">
                   <div class="col-auto">
                     <p class="mb-0">Total Employees</p>
-                    <h4 class="mt-3 fw-bold"> 13 <span class="text-muted font-12 fw-normal">Followers</span>
+                    <h4 class="mt-3 fw-bold">
+                      13
+                      <span class="text-muted font-12 fw-normal"
+                        >Followers</span
+                      >
                     </h4>
                   </div>
                   <!--end col-->
@@ -35,7 +106,11 @@
                   <!--end col-->
                   <div class="col-auto">
                     <p class="mb-0">Payroll Processed</p>
-                    <h4 class="mt-3 fw-bold"> 0/0 <span class="text-muted font-12 fw-normal">EMPLOYEES</span>
+                    <h4 class="mt-3 fw-bold">
+                      0/0
+                      <span class="text-muted font-12 fw-normal"
+                        >EMPLOYEES</span
+                      >
                     </h4>
                   </div>
                   <!--end col-->
@@ -48,35 +123,45 @@
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">TOTAL PATROLL COST</p>
-                    <h5 class="mb-0">₹ {{organizationMonthWiseSalaryData.totalAmount}}</h5>
+                    <h5 class="mb-0">
+                      ₹ {{ organizationMonthWiseSalaryData.totalAmount }}
+                    </h5>
                     <small class="text-success">DEC ₹ 34,34,343</small>
                   </div>
                 </li>
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">TDS</p>
-                    <h5 class="mb-0">₹ {{organizationMonthWiseSalaryData.tdsAmount}}</h5>
+                    <h5 class="mb-0">
+                      ₹ {{ organizationMonthWiseSalaryData.tdsAmount }}
+                    </h5>
                     <small class="text-success">DEC ₹ 34,343</small>
                   </div>
                 </li>
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">EPF</p>
-                    <h5 class="mb-0">₹ {{organizationMonthWiseSalaryData.epfAmount}}</h5>
+                    <h5 class="mb-0">
+                      ₹ {{ organizationMonthWiseSalaryData.epfAmount }}
+                    </h5>
                     <small class="text-success">DEC ₹ 3343</small>
                   </div>
                 </li>
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">ESI</p>
-                    <h5 class="mb-0">₹ {{organizationMonthWiseSalaryData.esiAmount}}</h5>
+                    <h5 class="mb-0">
+                      ₹ {{ organizationMonthWiseSalaryData.esiAmount }}
+                    </h5>
                     <small class="text-success">DEC ₹ 4,343</small>
                   </div>
                 </li>
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">Net Pay</p>
-                    <h5 class="mb-0">₹ {{organizationMonthWiseSalaryData.netPay}}</h5>
+                    <h5 class="mb-0">
+                      ₹ {{ organizationMonthWiseSalaryData.netPay }}
+                    </h5>
                     <small class="text-success">DEC ₹ 4,343</small>
                   </div>
                 </li>
@@ -96,29 +181,59 @@
                 <div class="col align-self-center mt-4 mt-lg-0">
                   <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                      <a class="nav-link active fw-semibold pt-0" data-bs-toggle="tab" href="#wallet_BTC" role="tab"> RUN PAYROLL </a>
+                      <a
+                        class="nav-link active fw-semibold pt-0"
+                        data-bs-toggle="tab"
+                        href="#wallet_BTC"
+                        role="tab"
+                      >
+                        RUN PAYROLL
+                      </a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link fw-semibold pt-0" data-bs-toggle="tab" href="#wallet_ETH" role="tab"> PAYROLL OUTCOME </a>
+                      <a
+                        class="nav-link fw-semibold pt-0"
+                        data-bs-toggle="tab"
+                        href="#wallet_ETH"
+                        role="tab"
+                      >
+                        PAYROLL OUTCOME
+                      </a>
                     </li>
                   </ul>
                   <div class="tab-content my-3">
-                    <div class="tab-pane active" id="wallet_BTC" role="tabpanel">
+                    <div
+                      class="tab-pane active"
+                      id="wallet_BTC"
+                      role="tabpanel"
+                    >
                       <div class="row">
                         <div class="col-md-6">
-                          <div class="card-body bg-soft-success mt-3 "  data-bs-toggle="modal"
-                          data-bs-target="#createteam">
+                          <div
+                            class="card-body bg-soft-success mt-3"
+                            data-bs-toggle="modal"
+                            data-bs-target="#createteam"
+                          >
                             <div class="row">
                               <div class="col-auto">
-                                <img src="assets/images/creative-idea.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0">
+                                <img
+                                  src="assets/images/creative-idea.svg"
+                                  alt="user"
+                                  height="50"
+                                  class="align-self-center mb-3 mb-lg-0"
+                                />
                               </div>
                               <!--end col-->
                               <div class="col align-self-center">
-                                <p class="font-14 mb-2"> Employee Changes <span class="task-priority-icon float-end">
+                                <p class="font-14 mb-2">
+                                  Employee Changes
+                                  <span class="task-priority-icon float-end">
                                     <i class="ti ti-checks text-success"></i>
                                   </span>
                                 </p>
-                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushopendra </small>
+                                <small class="text-muted"
+                                  >Nov 19.2023, 05:39 PM -Pushopendra
+                                </small>
                               </div>
                               <!--end col-->
                             </div>
@@ -126,19 +241,31 @@
                           </div>
                         </div>
                         <div class="col-md-6">
-                          <div class="card-body bg-soft-success mt-3" data-bs-toggle="modal"
-                          data-bs-target="#leaves">
+                          <div
+                            class="card-body bg-soft-success mt-3"
+                            data-bs-toggle="modal"
+                            data-bs-target="#leaves"
+                          >
                             <div class="row">
                               <div class="col-auto">
-                                <img src="assets/images/schedule.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0">
+                                <img
+                                  src="assets/images/schedule.svg"
+                                  alt="user"
+                                  height="50"
+                                  class="align-self-center mb-3 mb-lg-0"
+                                />
                               </div>
                               <!--end col-->
                               <div class="col align-self-center">
-                                <p class="font-14 mb-2">Attendance, Leave & Present Days <span class="task-priority-icon float-end">
+                                <p class="font-14 mb-2">
+                                  Attendance, Leave & Present Days
+                                  <span class="task-priority-icon float-end">
                                     <i class="ti ti-checks text-success"></i>
                                   </span>
                                 </p>
-                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushopendra </small>
+                                <small class="text-muted"
+                                  >Nov 19.2023, 05:39 PM -Pushpendra
+                                </small>
                               </div>
                               <!--end col-->
                             </div>
@@ -149,15 +276,24 @@
                           <div class="card-body bg-soft-success mt-3">
                             <div class="row">
                               <div class="col-auto">
-                                <img src="assets/images/business-report.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0">
+                                <img
+                                  src="assets/images/business-report.svg"
+                                  alt="user"
+                                  height="50"
+                                  class="align-self-center mb-3 mb-lg-0"
+                                />
                               </div>
                               <!--end col-->
                               <div class="col align-self-center">
-                                <p class="font-14 mb-2">Salary Revision, Overtime & Deduction <span class="task-priority-icon float-end">
+                                <p class="font-14 mb-2">
+                                  Salary Revision, Overtime & Deduction
+                                  <span class="task-priority-icon float-end">
                                     <i class="ti ti-checks text-success"></i>
                                   </span>
                                 </p>
-                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushopendra </small>
+                                <small class="text-muted"
+                                  >Nov 19.2023, 05:39 PM -Pushopendra
+                                </small>
                               </div>
                               <!--end col-->
                             </div>
@@ -168,15 +304,24 @@
                           <div class="card-body bg-soft-success mt-3">
                             <div class="row">
                               <div class="col-auto">
-                                <img src="assets/images/card-reader.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0">
+                                <img
+                                  src="assets/images/card-reader.svg"
+                                  alt="user"
+                                  height="50"
+                                  class="align-self-center mb-3 mb-lg-0"
+                                />
                               </div>
                               <!--end col-->
                               <div class="col align-self-center">
-                                <p class="font-14 mb-2">PT, TDS & Net Payable Amount <span class="task-priority-icon float-end">
+                                <p class="font-14 mb-2">
+                                  PT, TDS & Net Payable Amount
+                                  <span class="task-priority-icon float-end">
                                     <i class="ti ti-checks text-success"></i>
                                   </span>
                                 </p>
-                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushopendra </small>
+                                <small class="text-muted"
+                                  >Nov 19.2023, 05:39 PM -Pushopendra
+                                </small>
                               </div>
                               <!--end col-->
                             </div>
@@ -188,9 +333,19 @@
                         <div class="col">
                           <div class="media">
                             <div class="media-body align-self-center">
-                              <h3 class="m-0 font-24 fw-bold"> ₹ {{organizationMonthWiseSalaryData.totalAmount}} </h3>
-                              <p class="text-muted font-12 mb-0"> DEC ₹ 34,34,343</p>
-                              <p class="text-muted font-12 mb-0 mt-2">Last Preview Run On 10 JUL at 11:30 PM By Pushpendra</p>
+                              <h3 class="m-0 font-24 fw-bold">
+                                ₹
+                                {{
+                                  organizationMonthWiseSalaryData.totalAmount
+                                }}
+                              </h3>
+                              <p class="text-muted font-12 mb-0">
+                                DEC ₹ 34,34,343
+                              </p>
+                              <p class="text-muted font-12 mb-0 mt-2">
+                                Last Preview Run On 10 JUL at 11:30 PM By
+                                Pushpendra
+                              </p>
                             </div>
                             <!--end media body-->
                           </div>
@@ -199,8 +354,18 @@
                         <!--end col-->
                         <div class="col-auto align-self-center">
                           <div class="button-items">
-                            <button type="button" class="btn btn-outline-primary btn-round">Run Payroll</button>
-                            <button type="button" class="btn btn-outline-secondary btn-round">Review Employee</button>
+                            <button
+                              type="button"
+                              class="btn btn-outline-primary btn-round"
+                            >
+                              Run Payroll
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-outline-secondary btn-round"
+                            >
+                              Review Employee
+                            </button>
                           </div>
                         </div>
                         <!--end col-->
@@ -210,77 +375,189 @@
                     <!--end tab-pane-->
                     <div class="tab-pane" id="wallet_ETH" role="tabpanel">
                       <h6 class="bg-light-alt py-3 px-2 mb-0">
-                      <svg height="22" viewBox="0 0 60 60" width="22" xmlns="http://www.w3.org/2000/svg"><g id="Page-1" fill="none" fill-rule="evenodd"><g id="058---Money-Bag" fill="rgb(0,0,0)" fill-rule="nonzero" transform="translate(0 -1)"><path id="Shape" d="m54.135 47.653c1.1851892-1.6296647 1.8275238-3.5909544 1.836-5.606.0127714-.2649617-.080257-.5241413-.2586124-.720501-.1783555-.1963598-.427422-.3138084-.6923876-.326499-.5483919-.0173237-1.0116669.4034734-1.047.951.0075252 1.5970082-.4844214 3.1564125-1.407 4.46-1.951 2.464-5.653 2.589-6.376 2.589-.5522847 0-1 .4477153-1 1s.4477153 1 1 1c.884 0 5.421-.161 7.945-3.347z"/><path id="Shape" d="m36 40h2c2.7600532-.0033061 4.9966939-2.2399468 5-5 0-.5522847-.4477153-1-1-1s-1 .4477153-1 1c0 1.6568542-1.3431458 3-3 3h-2c-1.6568542 0-3-1.3431458-3-3h3c.5522847 0 1-.4477153 1-1s-.4477153-1-1-1h-3v-2h3c.5522847 0 1-.4477153 1-1s-.4477153-1-1-1h-3c0-1.6568542 1.3431458-3 3-3h2c1.6568542 0 3 1.3431458 3 3 0 .5522847.4477153 1 1 1s1-.4477153 1-1c-.0033061-2.7600532-2.2399468-4.9966939-5-5h-2c-2.7600532.0033061-4.9966939 2.2399468-5 5h-1c-.5522847 0-1 .4477153-1 1s.4477153 1 1 1h1v2h-1c-.5522847 0-1 .4477153-1 1s.4477153 1 1 1h1c.0033061 2.7600532 2.2399468 4.9966939 5 5z"/><path id="Shape" d="m59.164 34.771c-2.464-10.471-7.942-16.538-11.898-19.707 4.961.374 6.558 2.438 6.605 2.5.3132922.4472337.9274202.5604625 1.3796069.2543627.4521868-.3060999.5752224-.9183386.2763931-1.3753627-.072-.108-1.461-2.092-5.5-3 1.0327774-.8490128 1.6437413-2.106364 1.673-3.443-.1337149-2.21605597-1.6764268-4.09522747-3.824-4.658.0880504-.72234421.132797-1.44931011.134-2.177-.0010742-.6704002-.3379636-1.29567216-.8972517-1.6653131-.5592881-.36964095-1.2665755-.43447937-1.8837483-.1726869-.5048568.22857548-.9737688.52939332-1.392.893-.490755.50432069-1.1663364.78611399-1.87.78-.7025562.00494474-1.3767675-.27672898-1.867-.78-1.7623456-1.62766106-4.4796544-1.62766106-6.242 0-.4908328.50541883-1.1675068.78736633-1.872.78-.7024391.00583749-1.376677-.27599831-1.866-.78-.4171447-.36282613-.8846704-.66328215-1.388-.892-.616755-.26003778-1.3227042-.1943139-1.8808565.17510774s-.8945053.99356152-.8961435 1.66289226c0 2.488.492 6.926 3.607 9.906-1.63707.9954475-3.165988 2.1587255-4.562 3.471v-7.543c0-2.28-3.225-4-7.5-4s-7.5 1.72-7.5 4v10.075c-3.507.35-6 1.925-6 3.925v25.435c-2.416.649-4 1.965-4 3.565v5c0 2.28 3.225 4 7.5 4 3.823 0 6.8-1.377 7.387-3.3 1.7261589.9139563 3.6607978 1.3620288 5.613 1.3 4.275 0 7.5-1.72 7.5-4v-13c0-2.28-3.225-4-7.5-4-.5009454-.0003351-1.0015865.024697-1.5.075v-15.075c0-2.19-2.977-3.858-7-3.987v-7.244c1.7012299.8646888 3.5924826 1.2879855 5.5 1.231 1.9075174.0569855 3.7987701-.3663112 5.5-1.231v6.82c-.659.737-1.321 1.54-1.974 2.43-.2990252.445283-.193493 1.0471811.2391837 1.3641731.4326766.316992 1.0383882.2361727 1.3728163-.1831731.642267-.8695025 1.3305836-1.704028 2.062-2.5.008-.009.015-.018.023-.026 1.908941-2.1215143 4.1506085-3.9180232 6.637-5.319.4902069.2364593 1.0087963.4088743 1.543.513l-2.578 2.406c-.4037201.3772105-.4252105 1.0102798-.048 1.414.3772105.4037201 1.0102798.4252105 1.414.048l4-3.731h.319v3c0 .5522847.4477153 1 1 1s1-.4477153 1-1v-3.005h.319l4 3.731c.2611611.2440124.6326631.3301613.9745646.2259954.3419015-.104166.6022596-.3828217.683-.731.0807403-.3481784-.0304035-.712983-.2915646-.9569954l-2.595-2.416c.5310027-.1050953 1.0462467-.2781877 1.533-.515 2.643 1.43 11.331 7.08 14.585 20.891 1.415 6.012.905 10.611-1.515 13.666-3.096 3.905-8.468 4.105-9.513 4.105h-14.19c-.5522847 0-1 .4477153-1 1s.4477153 1 1 1h14.19c1.7 0 7.505-.351 11.08-4.863 2.818-3.559 3.456-8.729 1.894-15.366zm-51.664 15.229c3.307 0 5.5 1.2 5.5 2s-2.193 2-5.5 2-5.5-1.2-5.5-2 2.193-2 5.5-2zm0 9c-3.307 0-5.5-1.2-5.5-2v-2.231c1.70122995.8646888 3.5924826 1.2879855 5.5 1.231 1.9075174.0569855 3.7987701-.3663112 5.5-1.231v2.231c0 .8-2.193 2-5.5 2zm13-2c-3.307 0-5.5-1.2-5.5-2v-10.231c1.7012299.8646888 3.5924826 1.2879855 5.5 1.231 1.9075174.0569855 3.7987701-.3663112 5.5-1.231v10.231c0 .8-2.193 2-5.5 2zm5.5-15c0 .8-2.193 2-5.5 2s-5.5-1.2-5.5-2 2.193-2 5.5-2 5.5 1.2 5.5 2zm-13 0v7.231c-1.7012299-.8646888-3.5924826-1.2879855-5.5-1.231-.50094542-.0003351-1.00158648.024697-1.5.075v-22.306c1.70122995.8646888 3.5924826 1.2879855 5.5 1.231 1.9075174.0569855 3.7987701-.3663112 5.5-1.231v12.666c-2.416.649-4 1.965-4 3.565zm4-19c0 .8-2.193 2-5.5 2s-5.5-1.2-5.5-2 2.193-2 5.5-2 5.5 1.2 5.5 2zm.5-12c-3.307 0-5.5-1.2-5.5-2s2.193-2 5.5-2 5.5 1.2 5.5 2-2.193 2-5.5 2zm32.2-1c0 1.639-1.775 2.984-4 3-.372166-.0023545-.742987-.0449352-1.106-.127 1.4513822-1.5484467 2.4601961-3.45832018 2.921-5.53 1.2037057.35466779 2.0694756 1.40745976 2.185 2.657zm-20.832-6.22c.8445081.79133617 1.9607007 1.22807609 3.118 1.22 1.1580078.00869278 2.2750454-.42809756 3.12-1.22.4943009-.49906005 1.1675796-.77983262 1.87-.77983262s1.3756991.28077257 1.87.77983262c.8449823.79249552 1.9625715 1.22936153 3.121 1.22 1.1583526.00894999 2.2757944-.42785839 3.121-1.22.277126-.24492313.5854745-.45205799.917-.616 0 1.857-.345 6.448-3.567 8.965-.7248626.5443964-1.6035782.8451202-2.51.859.8656839-1.486887 1.5508604-3.07175631 2.041-4.721.0957472-.34440403.0004839-.71372699-.2499052-.96884849-.250389-.2551215-.6178638-.35728253-.964-.268s-.6183476.35644446-.7140948.70084849c-.5538471 1.879763-1.4053057 3.6586431-2.522 5.269h-1.028c-1.1144846-1.6117791-1.9660791-3.3902379-2.523-5.269-.1482885-.53212635-.6998736-.84328843-1.232-.69499998-.5321263.14828845-.8432884.69987363-.695 1.23199998.4906109 1.65066414 1.1764605 3.2368802 2.043 4.725-.9245715-.0047456-1.8229903-.3073745-2.562-.863-3.222-2.516-3.567-7.107-3.567-8.958.3313843.15877018.6387399.3634495.913.608z"/><path id="Shape" d="m54.135 47.653c1.1851892-1.6296647 1.8275238-3.5909544 1.836-5.606.0127714-.2649617-.080257-.5241413-.2586124-.720501-.1783555-.1963598-.427422-.3138084-.6923876-.326499-.5491739-.019453-1.0137115.4024909-1.047.951.0075252 1.5970082-.4844214 3.1564125-1.407 4.46-1.951 2.464-5.653 2.589-6.376 2.589-.5522847 0-1 .4477153-1 1s.4477153 1 1 1c.884 0 5.421-.161 7.945-3.347z"/></g></g></svg>
+                        <svg
+                          height="22"
+                          viewBox="0 0 60 60"
+                          width="22"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g id="Page-1" fill="none" fill-rule="evenodd">
+                            <g
+                              id="058---Money-Bag"
+                              fill="rgb(0,0,0)"
+                              fill-rule="nonzero"
+                              transform="translate(0 -1)"
+                            >
+                              <path
+                                id="Shape"
+                                d="m54.135 47.653c1.1851892-1.6296647 1.8275238-3.5909544 1.836-5.606.0127714-.2649617-.080257-.5241413-.2586124-.720501-.1783555-.1963598-.427422-.3138084-.6923876-.326499-.5483919-.0173237-1.0116669.4034734-1.047.951.0075252 1.5970082-.4844214 3.1564125-1.407 4.46-1.951 2.464-5.653 2.589-6.376 2.589-.5522847 0-1 .4477153-1 1s.4477153 1 1 1c.884 0 5.421-.161 7.945-3.347z"
+                              />
+                              <path
+                                id="Shape"
+                                d="m36 40h2c2.7600532-.0033061 4.9966939-2.2399468 5-5 0-.5522847-.4477153-1-1-1s-1 .4477153-1 1c0 1.6568542-1.3431458 3-3 3h-2c-1.6568542 0-3-1.3431458-3-3h3c.5522847 0 1-.4477153 1-1s-.4477153-1-1-1h-3v-2h3c.5522847 0 1-.4477153 1-1s-.4477153-1-1-1h-3c0-1.6568542 1.3431458-3 3-3h2c1.6568542 0 3 1.3431458 3 3 0 .5522847.4477153 1 1 1s1-.4477153 1-1c-.0033061-2.7600532-2.2399468-4.9966939-5-5h-2c-2.7600532.0033061-4.9966939 2.2399468-5 5h-1c-.5522847 0-1 .4477153-1 1s.4477153 1 1 1h1v2h-1c-.5522847 0-1 .4477153-1 1s.4477153 1 1 1h1c.0033061 2.7600532 2.2399468 4.9966939 5 5z"
+                              />
+                              <path
+                                id="Shape"
+                                d="m59.164 34.771c-2.464-10.471-7.942-16.538-11.898-19.707 4.961.374 6.558 2.438 6.605 2.5.3132922.4472337.9274202.5604625 1.3796069.2543627.4521868-.3060999.5752224-.9183386.2763931-1.3753627-.072-.108-1.461-2.092-5.5-3 1.0327774-.8490128 1.6437413-2.106364 1.673-3.443-.1337149-2.21605597-1.6764268-4.09522747-3.824-4.658.0880504-.72234421.132797-1.44931011.134-2.177-.0010742-.6704002-.3379636-1.29567216-.8972517-1.6653131-.5592881-.36964095-1.2665755-.43447937-1.8837483-.1726869-.5048568.22857548-.9737688.52939332-1.392.893-.490755.50432069-1.1663364.78611399-1.87.78-.7025562.00494474-1.3767675-.27672898-1.867-.78-1.7623456-1.62766106-4.4796544-1.62766106-6.242 0-.4908328.50541883-1.1675068.78736633-1.872.78-.7024391.00583749-1.376677-.27599831-1.866-.78-.4171447-.36282613-.8846704-.66328215-1.388-.892-.616755-.26003778-1.3227042-.1943139-1.8808565.17510774s-.8945053.99356152-.8961435 1.66289226c0 2.488.492 6.926 3.607 9.906-1.63707.9954475-3.165988 2.1587255-4.562 3.471v-7.543c0-2.28-3.225-4-7.5-4s-7.5 1.72-7.5 4v10.075c-3.507.35-6 1.925-6 3.925v25.435c-2.416.649-4 1.965-4 3.565v5c0 2.28 3.225 4 7.5 4 3.823 0 6.8-1.377 7.387-3.3 1.7261589.9139563 3.6607978 1.3620288 5.613 1.3 4.275 0 7.5-1.72 7.5-4v-13c0-2.28-3.225-4-7.5-4-.5009454-.0003351-1.0015865.024697-1.5.075v-15.075c0-2.19-2.977-3.858-7-3.987v-7.244c1.7012299.8646888 3.5924826 1.2879855 5.5 1.231 1.9075174.0569855 3.7987701-.3663112 5.5-1.231v6.82c-.659.737-1.321 1.54-1.974 2.43-.2990252.445283-.193493 1.0471811.2391837 1.3641731.4326766.316992 1.0383882.2361727 1.3728163-.1831731.642267-.8695025 1.3305836-1.704028 2.062-2.5.008-.009.015-.018.023-.026 1.908941-2.1215143 4.1506085-3.9180232 6.637-5.319.4902069.2364593 1.0087963.4088743 1.543.513l-2.578 2.406c-.4037201.3772105-.4252105 1.0102798-.048 1.414.3772105.4037201 1.0102798.4252105 1.414.048l4-3.731h.319v3c0 .5522847.4477153 1 1 1s1-.4477153 1-1v-3.005h.319l4 3.731c.2611611.2440124.6326631.3301613.9745646.2259954.3419015-.104166.6022596-.3828217.683-.731.0807403-.3481784-.0304035-.712983-.2915646-.9569954l-2.595-2.416c.5310027-.1050953 1.0462467-.2781877 1.533-.515 2.643 1.43 11.331 7.08 14.585 20.891 1.415 6.012.905 10.611-1.515 13.666-3.096 3.905-8.468 4.105-9.513 4.105h-14.19c-.5522847 0-1 .4477153-1 1s.4477153 1 1 1h14.19c1.7 0 7.505-.351 11.08-4.863 2.818-3.559 3.456-8.729 1.894-15.366zm-51.664 15.229c3.307 0 5.5 1.2 5.5 2s-2.193 2-5.5 2-5.5-1.2-5.5-2 2.193-2 5.5-2zm0 9c-3.307 0-5.5-1.2-5.5-2v-2.231c1.70122995.8646888 3.5924826 1.2879855 5.5 1.231 1.9075174.0569855 3.7987701-.3663112 5.5-1.231v2.231c0 .8-2.193 2-5.5 2zm13-2c-3.307 0-5.5-1.2-5.5-2v-10.231c1.7012299.8646888 3.5924826 1.2879855 5.5 1.231 1.9075174.0569855 3.7987701-.3663112 5.5-1.231v10.231c0 .8-2.193 2-5.5 2zm5.5-15c0 .8-2.193 2-5.5 2s-5.5-1.2-5.5-2 2.193-2 5.5-2 5.5 1.2 5.5 2zm-13 0v7.231c-1.7012299-.8646888-3.5924826-1.2879855-5.5-1.231-.50094542-.0003351-1.00158648.024697-1.5.075v-22.306c1.70122995.8646888 3.5924826 1.2879855 5.5 1.231 1.9075174.0569855 3.7987701-.3663112 5.5-1.231v12.666c-2.416.649-4 1.965-4 3.565zm4-19c0 .8-2.193 2-5.5 2s-5.5-1.2-5.5-2 2.193-2 5.5-2 5.5 1.2 5.5 2zm.5-12c-3.307 0-5.5-1.2-5.5-2s2.193-2 5.5-2 5.5 1.2 5.5 2-2.193 2-5.5 2zm32.2-1c0 1.639-1.775 2.984-4 3-.372166-.0023545-.742987-.0449352-1.106-.127 1.4513822-1.5484467 2.4601961-3.45832018 2.921-5.53 1.2037057.35466779 2.0694756 1.40745976 2.185 2.657zm-20.832-6.22c.8445081.79133617 1.9607007 1.22807609 3.118 1.22 1.1580078.00869278 2.2750454-.42809756 3.12-1.22.4943009-.49906005 1.1675796-.77983262 1.87-.77983262s1.3756991.28077257 1.87.77983262c.8449823.79249552 1.9625715 1.22936153 3.121 1.22 1.1583526.00894999 2.2757944-.42785839 3.121-1.22.277126-.24492313.5854745-.45205799.917-.616 0 1.857-.345 6.448-3.567 8.965-.7248626.5443964-1.6035782.8451202-2.51.859.8656839-1.486887 1.5508604-3.07175631 2.041-4.721.0957472-.34440403.0004839-.71372699-.2499052-.96884849-.250389-.2551215-.6178638-.35728253-.964-.268s-.6183476.35644446-.7140948.70084849c-.5538471 1.879763-1.4053057 3.6586431-2.522 5.269h-1.028c-1.1144846-1.6117791-1.9660791-3.3902379-2.523-5.269-.1482885-.53212635-.6998736-.84328843-1.232-.69499998-.5321263.14828845-.8432884.69987363-.695 1.23199998.4906109 1.65066414 1.1764605 3.2368802 2.043 4.725-.9245715-.0047456-1.8229903-.3073745-2.562-.863-3.222-2.516-3.567-7.107-3.567-8.958.3313843.15877018.6387399.3634495.913.608z"
+                              />
+                              <path
+                                id="Shape"
+                                d="m54.135 47.653c1.1851892-1.6296647 1.8275238-3.5909544 1.836-5.606.0127714-.2649617-.080257-.5241413-.2586124-.720501-.1783555-.1963598-.427422-.3138084-.6923876-.326499-.5491739-.019453-1.0137115.4024909-1.047.951.0075252 1.5970082-.4844214 3.1564125-1.407 4.46-1.951 2.464-5.653 2.589-6.376 2.589-.5522847 0-1 .4477153-1 1s.4477153 1 1 1c.884 0 5.421-.161 7.945-3.347z"
+                              />
+                            </g>
+                          </g>
+                        </svg>
 
                         Employee Payables
-                    </h6>
+                      </h6>
                       <div class="table-responsive">
                         <table class="table border-dashed mb-0">
-                            <thead>
+                          <thead>
                             <tr>
-                                <th>Bank Transfer</th>
-                                <th>Cheques</th>
-                                <th>Cash</th>
-                                <th>Total</th>
+                              <th>Bank Transfer</th>
+                              <th>Cheques</th>
+                              <th>Cash</th>
+                              <th>Total</th>
                             </tr>
-                            </thead>
-                            <tbody>
+                          </thead>
+                          <tbody>
                             <tr>
-                                <td>₹ 12,324/-</td>
-                                <td>₹ 2,324/-</td>
-                                <td>₹ 324/-</td>
-                                <td>₹ 1,34/-</td>
+                              <td>₹ 12,324/-</td>
+                              <td>₹ 2,324/-</td>
+                              <td>₹ 324/-</td>
+                              <td>₹ 1,34/-</td>
                             </tr>
-                            </tbody>
-                        </table><!--end /table-->
+                          </tbody>
+                        </table>
+                        <!--end /table-->
                       </div>
-                      
+
                       <div class="row mt-3">
-                       
                         <div class="col-md-6">
                           <h6 class="bg-light-alt py-3 px-2 mb-0">
-                            <svg height="22" viewBox="0 0 60 60" width="22" xmlns="http://www.w3.org/2000/svg"><g id="Page-1" fill="none" fill-rule="evenodd"><g id="026---Tax-Approved" fill="rgb(0,0,0)" fill-rule="nonzero"><path id="Shape" d="m4 60h28.36c.5522847 0 1-.4477153 1-1s-.4477153-1-1-1h-28.36c-1.1045695 0-2-.8954305-2-2v-52c0-1.1045695.8954305-2 2-2h25v7c0 2.209139 1.790861 4 4 4h7v12.24c0 .5522847.4477153 1 1 1s1-.4477153 1-1v-12.83c.0028408-.5292086-.2072539-1.0373277-.583-1.41l-10.417-10.418c-.3734101-.37452418-.8811341-.58409537-1.41-.582h-25.59c-2.209139 0-4 1.790861-4 4v52c0 2.209139 1.790861 4 4 4zm27-51v-5.586l7.589 7.586h-5.589c-1.1045695 0-2-.8954305-2-2z"/><path id="Shape" d="m19 5h-13c-.55228475 0-1 .44771525-1 1s.44771525 1 1 1h13c.5522847 0 1-.44771525 1-1s-.4477153-1-1-1z"/><path id="Shape" d="m6 12h6c.5522847 0 1-.4477153 1-1s-.4477153-1-1-1h-6c-.55228475 0-1 .4477153-1 1s.44771525 1 1 1z"/><path id="Shape" d="m31 31c0-.5522847-.4477153-1-1-1h-24c-.55228475 0-1 .4477153-1 1s.44771525 1 1 1h24c.5522847 0 1-.4477153 1-1z"/><path id="Shape" d="m27 36c0-.5522847-.4477153-1-1-1h-20c-.55228475 0-1 .4477153-1 1s.44771525 1 1 1h20c.5522847 0 1-.4477153 1-1z"/><path id="Shape" d="m24 41c0-.5522847-.4477153-1-1-1h-17c-.55228475 0-1 .4477153-1 1s.44771525 1 1 1h17c.5522847 0 1-.4477153 1-1z"/><path id="Shape" d="m6 45c-.55228475 0-1 .4477153-1 1s.44771525 1 1 1h7c.5522847 0 1-.4477153 1-1s-.4477153-1-1-1z"/><path id="Shape" d="m6 18h3v8c0 .5522847.44771525 1 1 1 .5522847 0 1-.4477153 1-1v-8h3c.5522847 0 1-.4477153 1-1s-.4477153-1-1-1h-8c-.55228475 0-1 .4477153-1 1s.44771525 1 1 1z"/><path id="Shape" d="m35.555 16.168c-.2206502-.1472282-.4907558-.2007572-.7508787-.1488077-.2601229.0519496-.488948.2051208-.6361213.4258077l-2.168 3.255-2.168-3.252c-.306518-.4595009-.9274991-.583518-1.387-.277s-.583518.9274991-.277 1.387l2.632 3.942-2.63 3.945c-.306518.4595009-.1825009 1.080482.277 1.387s1.080482.1825009 1.387-.277l2.166-3.255 2.168 3.252c.1982824.297245.5400812.4661283.8966441.4430332s.6737195-.2346599.832-.555.1336383-.7007882-.0646441-.9980332l-2.632-3.942 2.63-3.945c.3069815-.4589663.1838733-1.0798794-.275-1.387z"/><path id="Shape" d="m17.406 22.623-1.32 2.971c-.1450498.3265407-.104874.70566.1053937.9945472s.5586825.4436536.914.406c.3553175-.0376535.6635565-.2620065.8086063-.5885472l1.069-2.406h4.034l1.069 2.406c.1604876.3612446.5187103.5940502.914.594.1378766-.0004134.274137-.0297094.4-.086.242429-.1076536.4321539-.3072157.5274258-.5547725s.088284-.5228235-.0194258-.7652275l-1.32-2.97-.012-.027-2.668-6c-.160402-.3613564-.5186429-.5942858-.914-.5942858s-.753598.2329294-.914.5942858l-2.668 6zm3.594-3.161 1.128 2.538h-2.256z"/><path id="Shape" d="m44 28c-8.836556 0-16 7.163444-16 16s7.163444 16 16 16 16-7.163444 16-16c-.0104696-8.8322157-7.1677843-15.9895304-16-16zm0 30c-5.6624714 0-10.7673795-3.4109905-12.9343135-8.6424319-2.166934-5.2314415-.9691534-11.2530911 3.0348186-15.257063 4.0039719-4.003972 10.0256215-5.2017526 15.257063-3.0348186 5.2314414 2.166934 8.6424319 7.2718421 8.6424319 12.9343135-.0082673 7.7285595-6.2714405 13.9917327-14 14z"/><path id="Shape" d="m52.354 39.237-12.3 10.405-3.35-3.349c-.3923789-.3789722-1.0160848-.3735524-1.4018186.0121814s-.3911536 1.0094397-.0121814 1.4018186l4 4c.3678263.3676454.9560505.3919917 1.353.056l13-11c.2820405-.2280077.418523-.5908495.3566689-.9482127s-.3123481-.6532253-.6546147-.773175-.7226501-.0451829-.9940542.1953877z"/></g></g></svg>
+                            <svg
+                              height="22"
+                              viewBox="0 0 60 60"
+                              width="22"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g id="Page-1" fill="none" fill-rule="evenodd">
+                                <g
+                                  id="026---Tax-Approved"
+                                  fill="rgb(0,0,0)"
+                                  fill-rule="nonzero"
+                                >
+                                  <path
+                                    id="Shape"
+                                    d="m4 60h28.36c.5522847 0 1-.4477153 1-1s-.4477153-1-1-1h-28.36c-1.1045695 0-2-.8954305-2-2v-52c0-1.1045695.8954305-2 2-2h25v7c0 2.209139 1.790861 4 4 4h7v12.24c0 .5522847.4477153 1 1 1s1-.4477153 1-1v-12.83c.0028408-.5292086-.2072539-1.0373277-.583-1.41l-10.417-10.418c-.3734101-.37452418-.8811341-.58409537-1.41-.582h-25.59c-2.209139 0-4 1.790861-4 4v52c0 2.209139 1.790861 4 4 4zm27-51v-5.586l7.589 7.586h-5.589c-1.1045695 0-2-.8954305-2-2z"
+                                  />
+                                  <path
+                                    id="Shape"
+                                    d="m19 5h-13c-.55228475 0-1 .44771525-1 1s.44771525 1 1 1h13c.5522847 0 1-.44771525 1-1s-.4477153-1-1-1z"
+                                  />
+                                  <path
+                                    id="Shape"
+                                    d="m6 12h6c.5522847 0 1-.4477153 1-1s-.4477153-1-1-1h-6c-.55228475 0-1 .4477153-1 1s.44771525 1 1 1z"
+                                  />
+                                  <path
+                                    id="Shape"
+                                    d="m31 31c0-.5522847-.4477153-1-1-1h-24c-.55228475 0-1 .4477153-1 1s.44771525 1 1 1h24c.5522847 0 1-.4477153 1-1z"
+                                  />
+                                  <path
+                                    id="Shape"
+                                    d="m27 36c0-.5522847-.4477153-1-1-1h-20c-.55228475 0-1 .4477153-1 1s.44771525 1 1 1h20c.5522847 0 1-.4477153 1-1z"
+                                  />
+                                  <path
+                                    id="Shape"
+                                    d="m24 41c0-.5522847-.4477153-1-1-1h-17c-.55228475 0-1 .4477153-1 1s.44771525 1 1 1h17c.5522847 0 1-.4477153 1-1z"
+                                  />
+                                  <path
+                                    id="Shape"
+                                    d="m6 45c-.55228475 0-1 .4477153-1 1s.44771525 1 1 1h7c.5522847 0 1-.4477153 1-1s-.4477153-1-1-1z"
+                                  />
+                                  <path
+                                    id="Shape"
+                                    d="m6 18h3v8c0 .5522847.44771525 1 1 1 .5522847 0 1-.4477153 1-1v-8h3c.5522847 0 1-.4477153 1-1s-.4477153-1-1-1h-8c-.55228475 0-1 .4477153-1 1s.44771525 1 1 1z"
+                                  />
+                                  <path
+                                    id="Shape"
+                                    d="m35.555 16.168c-.2206502-.1472282-.4907558-.2007572-.7508787-.1488077-.2601229.0519496-.488948.2051208-.6361213.4258077l-2.168 3.255-2.168-3.252c-.306518-.4595009-.9274991-.583518-1.387-.277s-.583518.9274991-.277 1.387l2.632 3.942-2.63 3.945c-.306518.4595009-.1825009 1.080482.277 1.387s1.080482.1825009 1.387-.277l2.166-3.255 2.168 3.252c.1982824.297245.5400812.4661283.8966441.4430332s.6737195-.2346599.832-.555.1336383-.7007882-.0646441-.9980332l-2.632-3.942 2.63-3.945c.3069815-.4589663.1838733-1.0798794-.275-1.387z"
+                                  />
+                                  <path
+                                    id="Shape"
+                                    d="m17.406 22.623-1.32 2.971c-.1450498.3265407-.104874.70566.1053937.9945472s.5586825.4436536.914.406c.3553175-.0376535.6635565-.2620065.8086063-.5885472l1.069-2.406h4.034l1.069 2.406c.1604876.3612446.5187103.5940502.914.594.1378766-.0004134.274137-.0297094.4-.086.242429-.1076536.4321539-.3072157.5274258-.5547725s.088284-.5228235-.0194258-.7652275l-1.32-2.97-.012-.027-2.668-6c-.160402-.3613564-.5186429-.5942858-.914-.5942858s-.753598.2329294-.914.5942858l-2.668 6zm3.594-3.161 1.128 2.538h-2.256z"
+                                  />
+                                  <path
+                                    id="Shape"
+                                    d="m44 28c-8.836556 0-16 7.163444-16 16s7.163444 16 16 16 16-7.163444 16-16c-.0104696-8.8322157-7.1677843-15.9895304-16-16zm0 30c-5.6624714 0-10.7673795-3.4109905-12.9343135-8.6424319-2.166934-5.2314415-.9691534-11.2530911 3.0348186-15.257063 4.0039719-4.003972 10.0256215-5.2017526 15.257063-3.0348186 5.2314414 2.166934 8.6424319 7.2718421 8.6424319 12.9343135-.0082673 7.7285595-6.2714405 13.9917327-14 14z"
+                                  />
+                                  <path
+                                    id="Shape"
+                                    d="m52.354 39.237-12.3 10.405-3.35-3.349c-.3923789-.3789722-1.0160848-.3735524-1.4018186.0121814s-.3911536 1.0094397-.0121814 1.4018186l4 4c.3678263.3676454.9560505.3919917 1.353.056l13-11c.2820405-.2280077.418523-.5908495.3566689-.9482127s-.3123481-.6532253-.6546147-.773175-.7226501-.0451829-.9940542.1953877z"
+                                  />
+                                </g>
+                              </g>
+                            </svg>
                             Income Tax TDS
-                        </h6>
+                          </h6>
                           <div class="table-responsive">
                             <table class="table border-dashed mb-0">
-                                <thead>
+                              <thead>
                                 <tr>
-                                    <th>TDS Payable</th>
-                                    <th>Total Employee</th>
+                                  <th>TDS Payable</th>
+                                  <th>Total Employee</th>
                                 </tr>
-                                </thead>
-                                <tbody>
+                              </thead>
+                              <tbody>
                                 <tr>
-                                    <td>₹ 12,324/-</td>
-                                    <td>₹ 2,324/-</td>
+                                  <td>₹ 12,324/-</td>
+                                  <td>₹ 2,324/-</td>
                                 </tr>
-                                </tbody>
-                            </table><!--end /table-->
+                              </tbody>
+                            </table>
+                            <!--end /table-->
                           </div>
                           <!--end media-->
                         </div>
                         <!--end col-->
                         <div class="col-md-6">
                           <h6 class="bg-light-alt py-3 px-2 mb-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="22" height="22"><g id="Icons"><path d="M12.692,22.69A15.865,15.865,0,0,0,8,34a1,1,0,0,0,2,0,13.882,13.882,0,0,1,4.1-9.894,1,1,0,1,0-1.412-1.416Z"/><path d="M47,26a3,3,0,1,0,3,3A3,3,0,0,0,47,26Zm0,4a1,1,0,1,1,1-1A1,1,0,0,1,47,30Z"/><path d="M57,31h-.4a1,1,0,0,1-.975-.815A20.077,20.077,0,0,0,44.142,15.9a4.68,4.68,0,0,1,.05-.521,2,2,0,0,0-3.279-1.88,10.944,10.944,0,0,0-.987.987,19.982,19.982,0,0,0-2.385-.372A10.862,10.862,0,0,0,38,11a11,11,0,0,0-22,0,10.81,10.81,0,0,0,.9,4.325,19.926,19.926,0,0,0-7.034,4.537,20.145,20.145,0,0,0-1.921,2.255,11.77,11.77,0,0,1-1.542-1.4A6.108,6.108,0,0,0,10,15c0-5.221-2.506-6-4-6s-4,.779-4,6a9.659,9.659,0,0,0,1.224,4.724A11.86,11.86,0,0,1,1,20a1,1,0,0,0,0,2,13.791,13.791,0,0,0,3.421-.515,13.676,13.676,0,0,0,2.406,2.3A19.83,19.83,0,0,0,4,34c0,9.746,3.3,17.486,10.693,25.107A3.032,3.032,0,0,0,16.85,60H19a2.974,2.974,0,0,0,1.916-.711A3.015,3.015,0,0,0,22.85,60H25a3,3,0,0,0,3-3V54h4.374a45.436,45.436,0,0,0,4.313,5.092A3.019,3.019,0,0,0,38.846,60H41a2.969,2.969,0,0,0,1.915-.711A3.014,3.014,0,0,0,44.85,60H47a3,3,0,0,0,3-3V48.261c.042-.042.091-.078.133-.12a19.349,19.349,0,0,0,2.244-2.666A1.059,1.059,0,0,1,53.229,45H57a3,3,0,0,0,3-3V34A3,3,0,0,0,57,31ZM5.172,19.094A7.749,7.749,0,0,1,4,15c0-2.654.673-4,2-4s2,1.346,2,4A4.231,4.231,0,0,1,5.172,19.094ZM18,11a9,9,0,0,1,18,0,8.805,8.805,0,0,1-.535,3.02l-11.933-.009a19.968,19.968,0,0,0-4.716.7A8.817,8.817,0,0,1,18,11Zm8,46a1,1,0,0,1-1,1H22.85a1.033,1.033,0,0,1-.726-.29l-.177-.186A3.022,3.022,0,0,0,22,57V54h4Zm22,0a1,1,0,0,1-1,1H44.85a1.033,1.033,0,0,1-.726-.29l-.177-.186A3.022,3.022,0,0,0,44,57V52.3a19.961,19.961,0,0,0,4-2.338ZM58,42a1,1,0,0,1-1,1H53.229a3.059,3.059,0,0,0-2.492,1.33,17.2,17.2,0,0,1-2.016,2.4A17.927,17.927,0,0,1,44,50.105V50a1,1,0,0,0-2,0v7a1,1,0,0,1-.078.387l-.009.014A1,1,0,0,1,41,58H38.846a1.009,1.009,0,0,1-.724-.3,42.683,42.683,0,0,1-4.413-5.273A1,1,0,0,0,32.89,52H22V50a1,1,0,0,0-2,0v7a1,1,0,0,1-.078.387l-.009.014A1,1,0,0,1,19,58H16.85a1.033,1.033,0,0,1-.732-.3C9.12,50.5,6,43.186,6,34a17.837,17.837,0,0,1,2.965-9.893c.013-.018.03-.031.042-.049s.011-.036.021-.052a18.17,18.17,0,0,1,9.458-7.142,1.04,1.04,0,0,0,.109-.031,17.874,17.874,0,0,1,4.96-.823l12.567.01h.009a18.5,18.5,0,0,1,2.413.246A22.872,22.872,0,0,0,37.1,18.674a1,1,0,0,0,1.79.895,20.813,20.813,0,0,1,2.186-3.361l.022-.026a9.85,9.85,0,0,1,1.125-1.177,6.483,6.483,0,0,0-.1,1.5c0,.025,0,.049,0,.074a6.151,6.151,0,0,0,1.039,3.1,1,1,0,1,0,1.664-1.11c-.026-.038-.04-.079-.064-.118a17.99,17.99,0,0,1,8.895,12.126A3.009,3.009,0,0,0,56.6,33H57a1,1,0,0,1,1,1Z"/></g></svg>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 60 60"
+                              width="22"
+                              height="22"
+                            >
+                              <g id="Icons">
+                                <path
+                                  d="M12.692,22.69A15.865,15.865,0,0,0,8,34a1,1,0,0,0,2,0,13.882,13.882,0,0,1,4.1-9.894,1,1,0,1,0-1.412-1.416Z"
+                                />
+                                <path
+                                  d="M47,26a3,3,0,1,0,3,3A3,3,0,0,0,47,26Zm0,4a1,1,0,1,1,1-1A1,1,0,0,1,47,30Z"
+                                />
+                                <path
+                                  d="M57,31h-.4a1,1,0,0,1-.975-.815A20.077,20.077,0,0,0,44.142,15.9a4.68,4.68,0,0,1,.05-.521,2,2,0,0,0-3.279-1.88,10.944,10.944,0,0,0-.987.987,19.982,19.982,0,0,0-2.385-.372A10.862,10.862,0,0,0,38,11a11,11,0,0,0-22,0,10.81,10.81,0,0,0,.9,4.325,19.926,19.926,0,0,0-7.034,4.537,20.145,20.145,0,0,0-1.921,2.255,11.77,11.77,0,0,1-1.542-1.4A6.108,6.108,0,0,0,10,15c0-5.221-2.506-6-4-6s-4,.779-4,6a9.659,9.659,0,0,0,1.224,4.724A11.86,11.86,0,0,1,1,20a1,1,0,0,0,0,2,13.791,13.791,0,0,0,3.421-.515,13.676,13.676,0,0,0,2.406,2.3A19.83,19.83,0,0,0,4,34c0,9.746,3.3,17.486,10.693,25.107A3.032,3.032,0,0,0,16.85,60H19a2.974,2.974,0,0,0,1.916-.711A3.015,3.015,0,0,0,22.85,60H25a3,3,0,0,0,3-3V54h4.374a45.436,45.436,0,0,0,4.313,5.092A3.019,3.019,0,0,0,38.846,60H41a2.969,2.969,0,0,0,1.915-.711A3.014,3.014,0,0,0,44.85,60H47a3,3,0,0,0,3-3V48.261c.042-.042.091-.078.133-.12a19.349,19.349,0,0,0,2.244-2.666A1.059,1.059,0,0,1,53.229,45H57a3,3,0,0,0,3-3V34A3,3,0,0,0,57,31ZM5.172,19.094A7.749,7.749,0,0,1,4,15c0-2.654.673-4,2-4s2,1.346,2,4A4.231,4.231,0,0,1,5.172,19.094ZM18,11a9,9,0,0,1,18,0,8.805,8.805,0,0,1-.535,3.02l-11.933-.009a19.968,19.968,0,0,0-4.716.7A8.817,8.817,0,0,1,18,11Zm8,46a1,1,0,0,1-1,1H22.85a1.033,1.033,0,0,1-.726-.29l-.177-.186A3.022,3.022,0,0,0,22,57V54h4Zm22,0a1,1,0,0,1-1,1H44.85a1.033,1.033,0,0,1-.726-.29l-.177-.186A3.022,3.022,0,0,0,44,57V52.3a19.961,19.961,0,0,0,4-2.338ZM58,42a1,1,0,0,1-1,1H53.229a3.059,3.059,0,0,0-2.492,1.33,17.2,17.2,0,0,1-2.016,2.4A17.927,17.927,0,0,1,44,50.105V50a1,1,0,0,0-2,0v7a1,1,0,0,1-.078.387l-.009.014A1,1,0,0,1,41,58H38.846a1.009,1.009,0,0,1-.724-.3,42.683,42.683,0,0,1-4.413-5.273A1,1,0,0,0,32.89,52H22V50a1,1,0,0,0-2,0v7a1,1,0,0,1-.078.387l-.009.014A1,1,0,0,1,19,58H16.85a1.033,1.033,0,0,1-.732-.3C9.12,50.5,6,43.186,6,34a17.837,17.837,0,0,1,2.965-9.893c.013-.018.03-.031.042-.049s.011-.036.021-.052a18.17,18.17,0,0,1,9.458-7.142,1.04,1.04,0,0,0,.109-.031,17.874,17.874,0,0,1,4.96-.823l12.567.01h.009a18.5,18.5,0,0,1,2.413.246A22.872,22.872,0,0,0,37.1,18.674a1,1,0,0,0,1.79.895,20.813,20.813,0,0,1,2.186-3.361l.022-.026a9.85,9.85,0,0,1,1.125-1.177,6.483,6.483,0,0,0-.1,1.5c0,.025,0,.049,0,.074a6.151,6.151,0,0,0,1.039,3.1,1,1,0,1,0,1.664-1.11c-.026-.038-.04-.079-.064-.118a17.99,17.99,0,0,1,8.895,12.126A3.009,3.009,0,0,0,56.6,33H57a1,1,0,0,1,1,1Z"
+                                />
+                              </g>
+                            </svg>
                             PT
-                        </h6>
+                          </h6>
                           <div class="table-responsive">
                             <table class="table border-dashed mb-0">
-                                <thead>
+                              <thead>
                                 <tr>
-                                    <th>PT Payable</th>
-                                    <th>Total Employee</th>
+                                  <th>PT Payable</th>
+                                  <th>Total Employee</th>
                                 </tr>
-                                </thead>
-                                <tbody>
+                              </thead>
+                              <tbody>
                                 <tr>
-                                    <td>₹ 12,324/-</td>
-                                    <td>₹ 1,34/-</td>
+                                  <td>₹ 12,324/-</td>
+                                  <td>₹ 1,34/-</td>
                                 </tr>
-                                </tbody>
-                            </table><!--end /table-->
+                              </tbody>
+                            </table>
+                            <!--end /table-->
                           </div>
                         </div>
                         <!--end col-->
@@ -323,167 +600,205 @@
         <!--end col-->
       </div>
       <!--end row-->
-    
-    <!-- Employee Management -->
-    <div class="modal fade" id="createteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
-  <div class="modal-dialog modal-fullscreen" role="document">
-    <div class="modal-content">
-      <div class="modal-header" style="background-color: #fff">
-        <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
-          <div class="back-btns-box" data-bs-dismiss="modal" aria-label="Close">
-            <i class="bi bi-chevron-left"></i>  <span class="font-16 pt-2 pl-2">Employee Changes </span>
-          </div>
-        </h5>
-        <div class="button-items"> 
-          <button type="button" class="btn btn-light btn-round">BACK</button>
-          <button type="button" class="btn btn-primary btn-round">SAVE & CONTINUE</button>
-          <button type="button" class="btn btn-primary btn-round">MARK AS COMPLETE</button>
-      </div>
-      </div>
-      <!--end modal-header-->
-      <div class="modal-body p-0">
-        
-        <div class="card-body">
-          <form action="#" method="post" id="custom-step">
-              <nav>
-                  <div class="nav nav-tabs" id="nav-tab">
-                      <a class="nav-link active" id="step1-tab" data-bs-toggle="tab" href="#step1">NEW JOINEE</a>
-                      <a class="nav-link" id="step2-tab" data-bs-toggle="tab" href="#step2">EMPLOYEES IN EXIT PROCESS</a>
-                      <a class="nav-link" id="step3-tab" data-bs-toggle="tab" href="#step3">FULL AND FINAL SETTLEMENT</a>
-                  </div>
-              </nav>
-              <div class="tab-content" id="nav-tabContent">
-                  <div class="tab-pane active" id="step1">
-                    <div class="table-responsive">
-                      <table class="table border-dashed mb-0">
+
+      <!-- Employee Management -->
+      <div
+        class="modal fade"
+        id="createteam"
+        tabindex="-1"
+        aria-labelledby="exampleModalFullscreenLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-fullscreen" role="document">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #fff">
+              <h5
+                class="modal-title m-0"
+                style="color: #111; font-size: 18px"
+                id="exampleModalDefaultLabel"
+              >
+                <div
+                  class="back-btns-box"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <i class="bi bi-chevron-left"></i>
+                  <span class="font-16 pt-2 pl-2">Employee Changes </span>
+                </div>
+              </h5>
+              <div class="button-items">
+                <button type="button" class="btn btn-light btn-round">
+                  BACK
+                </button>
+                <button type="button" class="btn btn-primary btn-round">
+                  SAVE & CONTINUE
+                </button>
+                <button type="button" class="btn btn-primary btn-round">
+                  MARK AS COMPLETE
+                </button>
+              </div>
+            </div>
+            <!--end modal-header-->
+            <div class="modal-body p-0">
+              <div class="card-body">
+                <form action="#" method="post" id="custom-step">
+                  <nav>
+                    <div class="nav nav-tabs" id="nav-tab">
+                      <a
+                        class="nav-link active"
+                        id="step1-tab"
+                        data-bs-toggle="tab"
+                        href="#step1"
+                        >NEW JOINEE</a
+                      >
+                      <a
+                        class="nav-link"
+                        id="step2-tab"
+                        data-bs-toggle="tab"
+                        href="#step2"
+                        >EMPLOYEES IN EXIT PROCESS</a
+                      >
+                      <a
+                        class="nav-link"
+                        id="step3-tab"
+                        data-bs-toggle="tab"
+                        href="#step3"
+                        >FULL AND FINAL SETTLEMENT</a
+                      >
+                    </div>
+                  </nav>
+                  <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane active" id="step1">
+                      <div class="table-responsive">
+                        <table class="table border-dashed mb-0">
                           <thead>
-                          <tr>
+                            <tr>
                               <th>EMPLOYEE</th>
                               <th class="text-end">DATE OF JOINING</th>
                               <th class="text-end">NO OF WORKING DAYS</th>
                               <th class="text-end">SALARY</th>
                               <th class="text-end">PAY ACTION</th>
                               <th class="text-end">COMMENT</th>
-                          </tr>
+                            </tr>
                           </thead>
                           <tbody>
-                          <tr>
+                            <tr>
                               <td>Pushpendra Singh</td>
                               <td class="text-end">25/04/2017</td>
                               <td class="text-end">22</td>
                               <td class="text-end">100000</td>
                               <td class="text-end">Process as salary</td>
                               <td class="text-end">Note</td>
-                          </tr>
-                          <tr>
-                            <td>Pushpendra Singh</td>
-                            <td class="text-end">25/04/2017</td>
-                            <td class="text-end">22</td>
-                            <td class="text-end">100000</td>
-                            <td class="text-end">Process as salary</td>
-                            <td class="text-end">Note</td>
-                          </tr>
-                          <tr>
-                            <td>Pushpendra Singh</td>
-                            <td class="text-end">25/04/2017</td>
-                            <td class="text-end">22</td>
-                            <td class="text-end">100000</td>
-                            <td class="text-end">Process as salary</td>
-                            <td class="text-end">Note</td>
-                          </tr>
-                          <tr>
-                            <td>Pushpendra Singh</td>
-                            <td class="text-end">25/04/2017</td>
-                            <td class="text-end">22</td>
-                            <td class="text-end">100000</td>
-                            <td class="text-end">Process as salary</td>
-                            <td class="text-end">Note</td>
-                          </tr>
-                          <tr>
-                            <td>Pushpendra Singh</td>
-                            <td class="text-end">25/04/2017</td>
-                            <td class="text-end">22</td>
-                            <td class="text-end">100000</td>
-                            <td class="text-end">Process as salary</td>
-                            <td class="text-end">Note</td>
-                          </tr>
-                          <tr>
-                            <td>Pushpendra Singh</td>
-                            <td class="text-end">25/04/2017</td>
-                            <td class="text-end">22</td>
-                            <td class="text-end">100000</td>
-                            <td class="text-end">Process as salary</td>
-                            <td class="text-end">Note</td>
-                          </tr>
-
-                          
+                            </tr>
+                            <tr>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                            </tr>
                           </tbody>
-                      </table><!--end /table-->
+                        </table>
+                        <!--end /table-->
+                      </div>
                     </div>
-                  </div>
-                  <div class="tab-pane" id="step2">
-                    <div class="table-responsive">
-                      <table class="table border-dashed mb-0">
+                    <div class="tab-pane" id="step2">
+                      <div class="table-responsive">
+                        <table class="table border-dashed mb-0">
                           <thead>
-                          <tr>
+                            <tr>
                               <th>EMPLOYEE</th>
                               <th class="text-end">DATE OF RESIGNATION</th>
                               <th class="text-end">EXIT ACTION & REASON</th>
                               <th class="text-end">LAST WORKING DAY</th>
                               <th class="text-end">EXIT REQUEST STATUS</th>
                               <th class="text-end">WAITING ON</th>
-                          </tr>
+                            </tr>
                           </thead>
                           <tbody>
-                          <tr>
+                            <tr>
                               <td>Rohit Chaturvedi</td>
                               <td class="text-end">25/04/2017</td>
                               <td class="text-end">SALARY HIKE</td>
                               <td class="text-end">25/04/2017</td>
                               <td class="text-end">EXIT</td>
                               <td class="text-end">Note</td>
-                          </tr>
-                          <tr>
-                            <td>Rohit Chaturvedi</td>
-                            <td class="text-end">25/04/2017</td>
-                            <td class="text-end">SALARY HIKE</td>
-                            <td class="text-end">25/04/2017</td>
-                            <td class="text-end">EXIT</td>
-                            <td class="text-end">Note</td>
-                        </tr>
-                        <tr>
-                          <td>Rohit Chaturvedi</td>
-                          <td class="text-end">25/04/2017</td>
-                          <td class="text-end">SALARY HIKE</td>
-                          <td class="text-end">25/04/2017</td>
-                          <td class="text-end">EXIT</td>
-                          <td class="text-end">Note</td>
-                        </tr>
-                        <tr>
-                          <td>Rohit Chaturvedi</td>
-                          <td class="text-end">25/04/2017</td>
-                          <td class="text-end">SALARY HIKE</td>
-                          <td class="text-end">25/04/2017</td>
-                          <td class="text-end">EXIT</td>
-                          <td class="text-end">Note</td>
-                        </tr>
-                        <tr>
-                          <td>Rohit Chaturvedi</td>
-                          <td class="text-end">25/04/2017</td>
-                          <td class="text-end">SALARY HIKE</td>
-                          <td class="text-end">25/04/2017</td>
-                          <td class="text-end">EXIT</td>
-                          <td class="text-end">Note</td>
-                        </tr>
+                            </tr>
+                            <tr>
+                              <td>Rohit Chaturvedi</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">EXIT</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Rohit Chaturvedi</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">EXIT</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Rohit Chaturvedi</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">EXIT</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Rohit Chaturvedi</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">EXIT</td>
+                              <td class="text-end">Note</td>
+                            </tr>
                           </tbody>
-                      </table><!--end /table-->
+                        </table>
+                        <!--end /table-->
+                      </div>
                     </div>
-                  </div>
-                  <div class="tab-pane" id="step3">
-                    <div class="table-responsive">
-                      <table class="table border-dashed mb-0">
+                    <div class="tab-pane" id="step3">
+                      <div class="table-responsive">
+                        <table class="table border-dashed mb-0">
                           <thead>
-                          <tr>
+                            <tr>
                               <th>EMPLOYEE</th>
                               <th class="text-end">EXIT ACTION & REASON</th>
                               <th class="text-end">LAST WORKING DAY</th>
@@ -491,10 +806,10 @@
                               <th class="text-end">SETTLED AMOUNT</th>
                               <th class="text-end">ACTION</th>
                               <th class="text-end">COMMENTS</th>
-                          </tr>
+                            </tr>
                           </thead>
                           <tbody>
-                          <tr>
+                            <tr>
                               <td>Abhishek</td>
                               <td class="text-end">SALARY HIKE</td>
                               <td class="text-end">25/04/2017</td>
@@ -502,184 +817,224 @@
                               <td class="text-end">20445/-</td>
                               <td class="text-end">DONE</td>
                               <td class="text-end">Note</td>
-                          </tr>
-                          <tr>
-                            <td>Abhishek</td>
-                            <td class="text-end">SALARY HIKE</td>
-                            <td class="text-end">25/04/2017</td>
-                            <td class="text-end">HOLD</td>
-                            <td class="text-end">20445/-</td>
-                            <td class="text-end">DONE</td>
-                            <td class="text-end">Note</td>
-                        </tr>
-                        <tr>
-                          <td>Abhishek</td>
-                          <td class="text-end">SALARY HIKE</td>
-                          <td class="text-end">25/04/2017</td>
-                          <td class="text-end">HOLD</td>
-                          <td class="text-end">20445/-</td>
-                          <td class="text-end">DONE</td>
-                          <td class="text-end">Note</td>
-                      </tr>
-                      <tr>
-                        <td>Abhishek</td>
-                        <td class="text-end">SALARY HIKE</td>
-                        <td class="text-end">25/04/2017</td>
-                        <td class="text-end">HOLD</td>
-                        <td class="text-end">20445/-</td>
-                        <td class="text-end">DONE</td>
-                        <td class="text-end">Note</td>
-                    </tr>
-                    <tr>
-                      <td>Abhishek</td>
-                      <td class="text-end">SALARY HIKE</td>
-                      <td class="text-end">25/04/2017</td>
-                      <td class="text-end">HOLD</td>
-                      <td class="text-end">20445/-</td>
-                      <td class="text-end">DONE</td>
-                      <td class="text-end">Note</td>
-                  </tr>
+                            </tr>
+                            <tr>
+                              <td>Abhishek</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">HOLD</td>
+                              <td class="text-end">20445/-</td>
+                              <td class="text-end">DONE</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Abhishek</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">HOLD</td>
+                              <td class="text-end">20445/-</td>
+                              <td class="text-end">DONE</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Abhishek</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">HOLD</td>
+                              <td class="text-end">20445/-</td>
+                              <td class="text-end">DONE</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Abhishek</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">HOLD</td>
+                              <td class="text-end">20445/-</td>
+                              <td class="text-end">DONE</td>
+                              <td class="text-end">Note</td>
+                            </tr>
                           </tbody>
-                      </table><!--end /table-->
-                    </div> 
-                  </div>
-              </div>
-          </form><!--end form-->
-      </div><!--end card-body-->
-
-      <!-- <div class="modal-footer"><button type="button" class="btn btn-primary btn-sm">Submit</button></div> -->
-      <!--end modal-footer-->
-    </div>
-    <!--end modal-content-->
-  </div>
-  <!--end modal-dialog-->
-</div>
-<!--end modal-->
-    </div>
-
-    <!-- Leave, Attendance & Daily Wages -->
-
-    <div class="modal fade" id="leaves" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
-      <div class="modal-dialog modal-fullscreen" role="document">
-        <div class="modal-content">
-          <div class="modal-header" style="background-color: #fff">
-            <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
-              <div class="back-btns-box" data-bs-dismiss="modal" aria-label="Close">
-                <i class="bi bi-chevron-left"></i>  <span class="font-16 pt-2 pl-2">Attendance, Leave & Present Days </span>
-              </div>
-            </h5>
-            <div class="button-items"> 
-              <button type="button" class="btn btn-light btn-round">BACK</button>
-              <button type="button" class="btn btn-primary btn-round">SAVE & CONTINUE</button>
-              <button type="button" class="btn btn-primary btn-round">MARK AS COMPLETE</button>
-          </div>
-          </div>
-          <!--end modal-header-->
-          <div class="modal-body p-0">
-            
-            <div class="card-body">
-              <form action="#" method="post" id="leaves-custom-step">
-                  <nav>
-                      <div class="nav nav-tabs" id="nav-tab">
-                          <a class="nav-link active" id="leaves-step1-tab" data-bs-toggle="tab" href="#step1">LEAVE APPLIED</a>
-                          <a class="nav-link" id="leaves-step2-tab" data-bs-toggle="tab" href="#step2">NO ATTENDANCE</a>
-                          <a class="nav-link" id="leaves-step3-tab" data-bs-toggle="tab" href="#step3">LOP SUMMARY</a>
-                          <a class="nav-link" id="leaves-step3-tab" data-bs-toggle="tab" href="#step4">LOP REVERSAL</a>
+                        </table>
+                        <!--end /table-->
                       </div>
+                    </div>
+                  </div>
+                </form>
+                <!--end form-->
+              </div>
+              <!--end card-body-->
+
+              <!-- <div class="modal-footer"><button type="button" class="btn btn-primary btn-sm">Submit</button></div> -->
+              <!--end modal-footer-->
+            </div>
+            <!--end modal-content-->
+          </div>
+          <!--end modal-dialog-->
+        </div>
+        <!--end modal-->
+      </div>
+
+      <!-- Leave, Attendance & Daily Wages -->
+
+      <div
+        class="modal fade"
+        id="leaves"
+        tabindex="-1"
+        aria-labelledby="exampleModalFullscreenLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-fullscreen" role="document">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #fff">
+              <h5
+                class="modal-title m-0"
+                style="color: #111; font-size: 18px"
+                id="exampleModalDefaultLabel"
+              >
+                <div
+                  class="back-btns-box"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <i class="bi bi-chevron-left"></i>
+                  <span class="font-16 pt-2 pl-2">Employee Changes </span>
+                </div>
+              </h5>
+              <div class="button-items">
+                <button type="button" class="btn btn-light btn-round">
+                  BACK
+                </button>
+                <button type="button" class="btn btn-primary btn-round">
+                  SAVE & CONTINUE
+                </button>
+                <button type="button" class="btn btn-primary btn-round">
+                  MARK AS COMPLETE
+                </button>
+              </div>
+            </div>
+            <!--end modal-header-->
+            <div class="modal-body p-0">
+              <div class="card-body">
+                <form action="#" method="post" id="custom-step">
+                  <nav>
+                    <div class="nav nav-tabs" id="nav-tab">
+                      <a
+                        class="nav-link active"
+                        id="step1-tab"
+                        data-bs-toggle="tab"
+                        href="#step1"
+                        >NEW JOINEE</a
+                      >
+                      <a
+                        class="nav-link"
+                        id="step2-tab"
+                        data-bs-toggle="tab"
+                        href="#step2"
+                        >EMPLOYEES IN EXIT PROCESS</a
+                      >
+                      <a
+                        class="nav-link"
+                        id="step3-tab"
+                        data-bs-toggle="tab"
+                        href="#step3"
+                        >FULL AND FINAL SETTLEMENT</a
+                      >
+                    </div>
                   </nav>
                   <div class="tab-content" id="nav-tabContent">
-                      <div class="tab-pane active" id="step1">
-                        <div class="table-responsive">
-                          <table class="table border-dashed mb-0">
-                              <thead>
-                              <tr>
-                                  <th>EMPLOYEE</th>
-                                  <th class="text-end">ACTUAL LOP</th>
-                                  <th class="text-end">LOP ADJUSTMENT</th>
-                                  <th class="text-end">FINAL LOP</th>
-                                  <th class="text-end">COMMENT</th>
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr>
-                                  <td>Pushpendra Singh</td>
-                                  <td class="text-end">22 Days</td>
-                                  <td class="text-end">
-                                    <input class="form-control w-25 float-right" type="number" value="2" id="example-number-input1">
-                                  </td>
-                                  <td class="text-end">21 Days</td>
-                                  <td class="text-end">
-                                    <input class="form-control w-50 float-right" type="text" placeholder="Enter Comment" id="example-number-input1">
-                                  </td>
-                              </tr>
-                              
-                              <tr>
-                                <td>Pushpendra Singh</td>
-                                <td class="text-end">22 Days</td>
-                                <td class="text-end">
-                                  <input class="form-control w-25 float-right" type="number" value="2" id="example-number-input1">
-                                </td>
-                                <td class="text-end">21 Days</td>
-                                <td class="text-end">
-                                  <input class="form-control w-50 float-right" type="text" placeholder="Enter Comment" id="example-number-input1">
-                                </td>
+                    <div class="tab-pane active" id="step1">
+                      <div class="table-responsive">
+                        <table class="table border-dashed mb-0">
+                          <thead>
+                            <tr>
+                              <th>EMPLOYEE</th>
+                              <th class="text-end">DATE OF JOINING</th>
+                              <th class="text-end">NO OF WORKING DAYS</th>
+                              <th class="text-end">SALARY</th>
+                              <th class="text-end">PAY ACTION</th>
+                              <th class="text-end">COMMENT</th>
                             </tr>
-                            
+                          </thead>
+                          <tbody>
                             <tr>
                               <td>Pushpendra Singh</td>
-                              <td class="text-end">22 Days</td>
-                              <td class="text-end">
-                                <input class="form-control w-25 float-right" type="number" value="2" id="example-number-input1">
-                              </td>
-                              <td class="text-end">21 Days</td>
-                              <td class="text-end">
-                                <input class="form-control w-50 float-right" type="text" placeholder="Enter Comment" id="example-number-input1">
-                              </td>
-                          </tr>
-                          
-                              
-                              </tbody>
-                          </table><!--end /table-->
-                        </div>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <!--end /table-->
                       </div>
-                      <div class="tab-pane" id="step2">
-                        <div class="table-responsive">
-                          <table class="table border-dashed mb-0">
-                              <thead>
-                              <tr>
-                                  <th>EMPLOYEE</th>
-                                  <th class="text-end">ACTUAL LOP</th>
-                                  <th class="text-end">LOP ADJUSTMENT</th>
-                                  <th class="text-end">FINAL LOP</th>
-                                  <th class="text-end">COMMENT</th>
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr>
-                                  <td>Pushpendra Singh</td>
-                                  <td class="text-end">22 Days</td>
-                                  <td class="text-end">
-                                    <input class="form-control w-25 float-right" type="number" value="2" id="example-number-input1">
-                                  </td>
-                                  <td class="text-end">21 Days</td>
-                                  <td class="text-end">
-                                    <input class="form-control w-50 float-right" type="text" placeholder="Enter Comment" id="example-number-input1">
-                                  </td>
-                              </tr>
-                              
-                              <tr>
-                                <td>Pushpendra Singh</td>
-                                <td class="text-end">22 Days</td>
-                                <td class="text-end">
-                                  <input class="form-control w-25 float-right" type="number" value="2" id="example-number-input1">
-                                </td>
-                                <td class="text-end">21 Days</td>
-                                <td class="text-end">
-                                  <input class="form-control w-50 float-right" type="text" placeholder="Enter Comment" id="example-number-input1">
-                                </td>
+                    </div>
+                    <div class="tab-pane" id="step2">
+                      <div class="table-responsive">
+                        <table class="table border-dashed mb-0">
+                          <thead>
+                            <tr>
+                              <th>EMPLOYEE</th>
+                              <th class="text-end">DATE OF RESIGNATION</th>
+                              <th class="text-end">EXIT ACTION & REASON</th>
+                              <th class="text-end">LAST WORKING DAY</th>
+                              <th class="text-end">EXIT REQUEST STATUS</th>
+                              <th class="text-end">WAITING ON</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>Rohit Chaturvedi</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">EXIT</td>
+                              <td class="text-end">Note</td>
                             </tr>
                             
                             <tr>
+<<<<<<< HEAD
                               <td>Pushpendra Singh</td>
                               <td class="text-end">22 Days</td>
                               <td class="text-end">
@@ -696,39 +1051,67 @@
                           </table><!--end /table-->
                         </div>
 
+=======
+                              <td>Rohit Chaturvedi</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">EXIT</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Rohit Chaturvedi</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">EXIT</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Rohit Chaturvedi</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">EXIT</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Rohit Chaturvedi</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">EXIT</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <!--end /table-->
+>>>>>>> b5f41cf08ba8afd29f563b2279540ac5044466ad
                       </div>
-                      <div class="tab-pane" id="step3">
-                        <div class="table-responsive">
-                          <table class="table border-dashed mb-0">
-                              <thead>
-                              <tr>
-                                  <th>EMPLOYEE</th>
-                                  <th class="text-end">EXIT ACTION & REASON</th>
-                                  <th class="text-end">LAST WORKING DAY</th>
-                                  <th class="text-end">STATUS</th>
-                                  <th class="text-end">SETTLED AMOUNT</th>
-                                  <th class="text-end">ACTION</th>
-                                  <th class="text-end">COMMENTS</th>
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr>
-                                  <td>Abhishek</td>
-                                  <td class="text-end">SALARY HIKE</td>
-                                  <td class="text-end">25/04/2017</td>
-                                  <td class="text-end">HOLD</td>
-                                  <td class="text-end">20445/-</td>
-                                  <td class="text-end">DONE</td>
-                                  <td class="text-end">Note</td>
-                              </tr>
-                              <tr>
-                                <td>Abhishek</td>
-                                <td class="text-end">SALARY HIKE</td>
-                                <td class="text-end">25/04/2017</td>
-                                <td class="text-end">HOLD</td>
-                                <td class="text-end">20445/-</td>
-                                <td class="text-end">DONE</td>
-                                <td class="text-end">Note</td>
+                    </div>
+                    <div class="tab-pane" id="step3">
+                      <div class="table-responsive">
+                        <table class="table border-dashed mb-0">
+                          <thead>
+                            <tr>
+                              <th>EMPLOYEE</th>
+                              <th class="text-end">EXIT ACTION & REASON</th>
+                              <th class="text-end">LAST WORKING DAY</th>
+                              <th class="text-end">STATUS</th>
+                              <th class="text-end">SETTLED AMOUNT</th>
+                              <th class="text-end">ACTION</th>
+                              <th class="text-end">COMMENTS</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>Abhishek</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">HOLD</td>
+                              <td class="text-end">20445/-</td>
+                              <td class="text-end">DONE</td>
+                              <td class="text-end">Note</td>
                             </tr>
                             <tr>
                               <td>Abhishek</td>
@@ -738,44 +1121,57 @@
                               <td class="text-end">20445/-</td>
                               <td class="text-end">DONE</td>
                               <td class="text-end">Note</td>
-                          </tr>
-                          <tr>
-                            <td>Abhishek</td>
-                            <td class="text-end">SALARY HIKE</td>
-                            <td class="text-end">25/04/2017</td>
-                            <td class="text-end">HOLD</td>
-                            <td class="text-end">20445/-</td>
-                            <td class="text-end">DONE</td>
-                            <td class="text-end">Note</td>
-                        </tr>
-                        <tr>
-                          <td>Abhishek</td>
-                          <td class="text-end">SALARY HIKE</td>
-                          <td class="text-end">25/04/2017</td>
-                          <td class="text-end">HOLD</td>
-                          <td class="text-end">20445/-</td>
-                          <td class="text-end">DONE</td>
-                          <td class="text-end">Note</td>
-                      </tr>
-                              </tbody>
-                          </table><!--end /table-->
-                        </div> 
+                            </tr>
+                            <tr>
+                              <td>Abhishek</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">HOLD</td>
+                              <td class="text-end">20445/-</td>
+                              <td class="text-end">DONE</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Abhishek</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">HOLD</td>
+                              <td class="text-end">20445/-</td>
+                              <td class="text-end">DONE</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Abhishek</td>
+                              <td class="text-end">SALARY HIKE</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">HOLD</td>
+                              <td class="text-end">20445/-</td>
+                              <td class="text-end">DONE</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <!--end /table-->
                       </div>
+                    </div>
                   </div>
-              </form><!--end form-->
-          </div><!--end card-body-->
-    
-          <!-- <div class="modal-footer"><button type="button" class="btn btn-primary btn-sm">Submit</button></div> -->
-          <!--end modal-footer-->
-        </div>
-        <!--end modal-content-->
-      </div>
-      <!--end modal-dialog-->
-    </div>
-    <!--end modal-->
-    </div>
+                </form>
+                <!--end form-->
+              </div>
+              <!--end card-body-->
 
-    <!-- container -->
+              <!-- <div class="modal-footer"><button type="button" class="btn btn-primary btn-sm">Submit</button></div> -->
+              <!--end modal-footer-->
+            </div>
+            <!--end modal-content-->
+          </div>
+          <!--end modal-dialog-->
+        </div>
+        <!--end modal-->
+      </div>
+
+      <!-- container -->
+    </div>
+    <!-- end page content -->
   </div>
-  <!-- end page content -->
 </div>

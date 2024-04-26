@@ -204,14 +204,20 @@ export class Key {
   // Krenai UUID
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
 
+<<<<<<< HEAD
   // base_url = 'http://localhost:8080/api/v2';
 
   /* ------------------  Staging urls ----------------*/
   // base_url = 'https://staging.hajiri.work/api/v2';
+=======
+  //   base_url = 'http://localhost:8080/api/v2';
+
+  /* ------------------  Staging urls ----------------*/
+  base_url = 'https://staging.hajiri.work/api/v2';
+>>>>>>> b5f41cf08ba8afd29f563b2279540ac5044466ad
 
   /* ------------------  Production urls ----------------*/
   base_url = 'https://production.hajiri.work/api/v2';
-
 
   //subscription plan
   get_subscription = '/subcription-plan';
