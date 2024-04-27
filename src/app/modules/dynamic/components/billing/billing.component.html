@@ -35,9 +35,12 @@
                         ></small
                       >
 
+                      <!-- Put Three Condition - if use less then 60% 'bg-success'
+                         if between 60% to 90% then 'bg-warning' and above 
+                         that it should be 'bg-danger' -->
                       <div class="progress plan-progress">
                         <div
-                          class="progress-bar bg-primary progress-bar-striped"
+                          class="progress-bar bg-success"
                           [style.width.%]="
                             (OrgSubsPlanMonthDetail.subscribers /
                               OrgSubsPlanMonthDetail.totalEmployee) *
