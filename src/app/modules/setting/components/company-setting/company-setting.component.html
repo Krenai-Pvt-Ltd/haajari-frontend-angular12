@@ -3,8 +3,8 @@
     <div class="container-fluid">
       <form
         #documentsInformationForm="ngForm"
-        ngNativeValidate
-        (ngSubmit)="updateOrganizationPersonalInformationMethodCall()"
+        
+        (ngSubmit)="checkFormValidation()"
       >
         <div class="company-settinh">
           <div class="row mt-3">
@@ -42,7 +42,7 @@
                   "
                   id="imagePreview"
                 />
-                <span class="origination-logo-edit-btn">
+                <span class="origination-logo-edit-btn" *ngIf="isEditMode">
                   <input
                         id="fileSelect"
                         name="fileSelect"
@@ -56,7 +56,7 @@
                           organizationPersonalInformationRequest.logo
                         "
                       />
-                  <i class="bi bi-pencil position-relative"></i> Edit it</span
+                  <i class="bi bi-pencil position-relative"></i> Change</span
                 >
               </div>
 
@@ -83,7 +83,7 @@
                       style="color: red"
                       *ngIf="
                         companyName.errors?.required &&
-                        (companyName.dirty || companyName.touched)
+                        (companyName.dirty || companyName.touched || isFormInvalid)
                       "
                     >
                       <i class="bi bi-exclamation-circle"></i> Company name is
@@ -133,7 +133,7 @@
                       style="color: red"
                       *ngIf="
                         emailId.errors?.required &&
-                        (emailId.dirty || emailId.touched)
+                        (emailId.dirty || emailId.touched || isFormInvalid)
                       "
                     >
                       <i class="bi bi-exclamation-circle"></i> Email is
@@ -156,6 +156,7 @@
                   <div class="">
                     <input
                       type="text"
+                      required
                       placeholder="Enter your number"
                       class="form-control whatapp-login-input"
                       mask="0000000000"
@@ -192,6 +193,16 @@
                       <i class="bi bi-exclamation-circle"></i> Phone number
                       should in digits.
                     </p>
+
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="phoneNumber.errors?.required || isFormInvalid"
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Phone number
+                      is required.
+                    </p>
+                    
                   </div>
                 </div>
               </div>
@@ -239,26 +250,30 @@
             <div
               class="edit-submit-btn d-flex align-items-center justify-content-end gap-3"
             >
-              <button
-                type="button"
-                class="btn btn-soft-primary btn-round edit-btn"
-                (click)="enableEditMode()"
-              >
-                <i class="bi bi-pencil position-relative me-1"></i> Edit
-              </button>
-              <button
-                type="submit"
-                class="btn btn-primary btn-round"
-                [disabled]="isUpdating"
-              >
-              <div *ngIf="isUpdating" class="dot-opacity-loader">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <span *ngIf="!isUpdating"> Save </span>
-              <i class="mdi mdi-check-all" style="padding-left: 8px"></i>
-              </button>
+            <button
+            type="button"
+            class="btn btn-soft-primary btn-round edit-btn"
+            *ngIf="!isEditMode"
+            (click)="enableEditMode()"
+          >
+            <i class="bi bi-pencil position-relative me-1"></i> Edit
+          </button>
+          
+          <!-- Save button, shown only when isEditMode is true -->
+          <button
+            type="submit"
+            class="btn btn-primary btn-round"
+            *ngIf="isEditMode"
+            [disabled]="isUpdating"
+          >
+            <div *ngIf="isUpdating" class="dot-opacity-loader">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <span *ngIf="!isUpdating"> Save </span>
+            <i class="mdi mdi-check-all" style="padding-left: 8px"></i>
+          </button>
             </div>
           </div>
 

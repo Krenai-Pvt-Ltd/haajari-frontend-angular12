@@ -2,8 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Subscription, timer } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Subscription, of, timer } from 'rxjs';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -57,43 +57,84 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  ROLE: string | null = '';
-  UUID: string = '';
+  ROLE: any;
+  UUID: any;
+
+  // signIn() {
+    
+  //   this.loginButtonLoader = true;
+  //   this.dataService.loginUser(this.email, this.password).subscribe(async response => {
+      
+  //     console.log(response);
+  //     this.helperService.subModuleResponseList = response.subModuleResponseList;
+
+  //     localStorage.setItem('token', response.tokenResponse.access_token);
+  //     localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
+
+  //     this.ROLE = await this.rbacService.getRole();
+  //     this.UUID = await this.rbacService.getUuid();
+
+      
+  //     if (this.ROLE === 'USER') {
+  //       this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
+  //     } else {
+  //       const helper = new JwtHelperService();
+  //       const onboardingStep = helper.decodeToken(response.tokenResponse.access_token).statusResponse;
+  //         if (onboardingStep == "5") {
+  //           this.router.navigate(['/dashboard']);
+  //         } else {
+  //           this.router.navigate(['/organization-onboarding/personal-information']);
+  //         }
+  //     }
+
+  //   }, (error) => {
+  //     console.log(error.error.message);
+  //     this.errorMessage = error.error.message;
+  //     this.loginButtonLoader = false;
+  //   })
+  // }
+
 
   signIn() {
-    debugger
     this.loginButtonLoader = true;
-    this.dataService.loginUser(this.email, this.password).subscribe(async response => {
-      
-      console.log(response);
-      this.helperService.subModuleResponseList = response.subModuleResponseList;
-
-      localStorage.setItem('token', response.tokenResponse.access_token);
-      localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
-
-      this.ROLE = await this.rbacService.getRole();
-      this.UUID = await this.rbacService.getUuid();
-
-      
-      if (this.ROLE === 'USER') {
-        this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
-      } else {
-        const helper = new JwtHelperService();
-        const onboardingStep = helper.decodeToken(response.tokenResponse.access_token).statusResponse;
-          if (onboardingStep == "5") {
-            this.router.navigate(['/dashboard']);
-          } else {
-            this.router.navigate(['/organization-onboarding/personal-information']);
+    this.dataService.loginUser(this.email, this.password).pipe(
+      tap(response => {
+        console.log(response);
+        this.helperService.subModuleResponseList = response.subModuleResponseList;
+        localStorage.setItem('token', response.tokenResponse.access_token);
+        localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
+      }),
+      switchMap(() => this.rbacService.getRole()),
+      tap(ROLE => {
+        this.ROLE = ROLE;
+      }),
+      switchMap(() => this.rbacService.getUUID()),
+      tap(UUID => {
+        this.UUID = UUID;
+  
+        if (this.ROLE === 'USER') {
+          this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
+        } else {
+          const helper = new JwtHelperService();
+          const token = localStorage.getItem('token');
+          if(token != null){
+            const onboardingStep = helper.decodeToken(token).statusResponse;
+            if (onboardingStep == "5") {
+              this.router.navigate(['/dashboard']);
+            } else {
+              this.router.navigate(['/organization-onboarding/personal-information']);
+            }
           }
-      }
-
-    }, (error) => {
-      console.log(error.error.message);
-      this.errorMessage = error.error.message;
-      this.loginButtonLoader = false;
-    })
+        }
+      }),
+      catchError(error => {
+        console.log(error.error.message);
+        this.errorMessage = error.error.message;
+        this.loginButtonLoader = false;
+        return of(null); // handle error appropriately
+      })
+    ).subscribe();
   }
-
 
   enableBack: boolean = false;
   signInWithEmail() {
