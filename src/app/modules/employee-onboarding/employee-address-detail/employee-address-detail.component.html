@@ -48,7 +48,7 @@
                           <label for="addressLine2" class="pb-2">Address Line 2</label>
                           <input type="text" class="form-control" id="addressLine2" name="addressLine2"
                             placeholder="Apartment, suite, unit, building, floor, etc."
-                            [(ngModel)]="userAddressRequest[0].addressLine2" required
+                            [(ngModel)]="userAddressRequest[0].addressLine2" 
                             minlength="5" maxlength="100" #addressLine2="ngModel" (keydown)="preventWhitespace($event)">
   
                           <!-- Error Message for Required Field -->
@@ -190,7 +190,7 @@
                           <label for="permanentAddressLine2" class="pb-2">Address Line 2</label>
                           <input type="text" class="form-control" id="permanentAddressLine2" name="permanentAddressLine2"
                             placeholder="Apartment, suite, unit, building, floor, etc."
-                            [(ngModel)]="userAddressRequest[1].addressLine2" required
+                            [(ngModel)]="userAddressRequest[1].addressLine2" 
                             minlength="5" maxlength="100" #address="ngModel" (keydown)="preventWhitespace($event)">
                         </div>
                         </div>
