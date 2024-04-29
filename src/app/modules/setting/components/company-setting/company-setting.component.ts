@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { NgForm } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
+import { Key } from 'src/app/constant/key';
 import { OrganizationPersonalInformationRequest } from 'src/app/models/organization-personal-information-request';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-company-setting',
@@ -13,7 +16,7 @@ export class CompanySettingComponent implements OnInit {
 
   organizationPersonalInformationRequest: OrganizationPersonalInformationRequest = new OrganizationPersonalInformationRequest();
 
-  constructor(private dataService: DataService,private afStorage: AngularFireStorage) { }
+  constructor(private dataService: DataService,private afStorage: AngularFireStorage, private helperService: HelperService) { }
 
   ngOnInit(): void {
     this.getOrganizationDetailsMethodCall();
@@ -72,15 +75,19 @@ isEditMode: boolean = false;
    selectedFile: File | null = null;
    toggle = false;
   updateOrganizationPersonalInformationMethodCall(){
+    debugger
     this.isUpdating = true;
     this.isEditMode = false;
     this.dataService.updateOrganizationPersonalInformation(this.organizationPersonalInformationRequest)
     .subscribe(
       (response: OrganizationPersonalInformationRequest) => {
         console.log(response);  
-        this.isUpdating = false;     
+        this.isUpdating = false;  
+        this.isEditMode = false;   
+        this.helperService.showToast("Updated Successfully", Key.TOAST_STATUS_SUCCESS);
       },
       (error) => {
+        this.helperService.showToast("Error", Key.TOAST_STATUS_ERROR);
         console.error(error);
         
       })
@@ -123,5 +130,19 @@ getFilenameFromUrl(url: string): string {
  
   const cleanFilename = filename.replace(/^\d+_/,'');
   return cleanFilename;
+}
+
+isFormInvalid: boolean = false;
+
+@ViewChild ('documentsInformationForm') documentsInformationForm !: NgForm
+checkFormValidation(){
+  debugger
+  if(this.documentsInformationForm.invalid){
+  this.isFormInvalid = true;
+  return
+  } else {
+    this.isFormInvalid = false;
+    this.updateOrganizationPersonalInformationMethodCall();
+  }
 }
 }

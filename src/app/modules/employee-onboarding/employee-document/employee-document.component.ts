@@ -499,6 +499,21 @@ preventLeadingWhitespace(event: KeyboardEvent): void {
 
 }
 
+clearFile(event: MouseEvent, documentType: string): void {
+  event.preventDefault();
+  if (documentType == 'secondarySchoolCertificate') {
+    this.userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate = "";
+    this.selectedSecondarySchoolFileName = "";
+    this.secondarySchoolCertificateFileName = "";
+    
+  } else if (documentType == 'highSchoolCertificate'){
+    this.userDocumentsDetailsRequest.userDocuments.highSchoolCertificate = "";
+    this.selectedHighSchoolCertificateFileName = "";
+    this.highSchoolCertificateFileName1 = "";
+    this.selectedHighSchoolFileName = "";
+  }
+}
+
 
 
 

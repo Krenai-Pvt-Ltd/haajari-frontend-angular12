@@ -247,7 +247,7 @@ export class DataService {
     userPersonalInformationRequest: any,
   ): Observable<any> {
     return this.httpClient.put<any>(
-      `${this.baseUrl}/organization-personal-information/register`,
+      `${this.baseUrl}/organization-personal-information/update`,
       userPersonalInformationRequest,
     );
   }
