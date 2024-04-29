@@ -376,7 +376,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     this._onboardingService.deleteOrganizationImage().subscribe({
       next: (response) => {
         this.helperService.showToast(
-          response.message,
+          'Image Removed Successfully',
           Key.TOAST_STATUS_SUCCESS,
         );
         this.getOrganizationDetails();

@@ -1396,4 +1396,7 @@ tbody tr {
   float: right;
 }
 
+.iframeClose {
+  background-color: transparent;
+}
 /* Author Pushpendra */

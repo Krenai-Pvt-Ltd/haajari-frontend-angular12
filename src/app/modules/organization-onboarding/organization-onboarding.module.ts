@@ -34,7 +34,7 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { AttendanceModeComponent } from './components/attendance-mode/attendance-mode.component';
 import { ShiftTimeListComponent } from './components/shift-time-list/shift-time-list.component';
-
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -52,7 +52,7 @@ import { ShiftTimeListComponent } from './components/shift-time-list/shift-time-
     HolidaySettingComponent,
     UploadTeamComponent,
     AttendanceModeComponent,
-    ShiftTimeListComponent
+    ShiftTimeListComponent,
   ],
   imports: [
     CommonModule,
@@ -61,7 +61,7 @@ import { ShiftTimeListComponent } from './components/shift-time-list/shift-time-
     FormsModule,
     DynamicRoutingModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebase, "cloud"),
+    AngularFireModule.initializeApp(environment.firebase, 'cloud'),
     AngularFireStorageModule,
     AngularFireAuthModule,
     AngularFireDatabaseModule,
@@ -72,8 +72,8 @@ import { ShiftTimeListComponent } from './components/shift-time-list/shift-time-
     NgxPaginationModule,
     NgxShimmerLoadingModule,
     NzTimePickerModule,
-    NzDatePickerModule
-
-  ]
+    NzDatePickerModule,
+    ImageCropperModule,
+  ],
 })
-export class OrganizationOnboardingModule { }
+export class OrganizationOnboardingModule {}
