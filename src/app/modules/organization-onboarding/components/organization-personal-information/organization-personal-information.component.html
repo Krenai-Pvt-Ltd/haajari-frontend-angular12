@@ -521,15 +521,15 @@
                     class="btn btn-outline-primary btn-round"
                     (click)="submit()"
                   >
-                    <span
+                    <span *ngIf="!isInfoLoading"
                       >Next
                       <i class="bi bi-arrow-right" style="padding-left: 8px"></i
                     ></span>
-                    <!-- <div class="dot-opacity-loader" *ngIf="loading">
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                           </div> -->
+                    <div class="dot-opacity-loader" *ngIf="isInfoLoading">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
                   </button>
                 </div>
               </div>
