@@ -44,7 +44,7 @@ import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-pr
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
 import { UserExperience } from 'src/app/models/user-experience';
 import { TotalExperiences } from 'src/app/models/total-experiences';
-
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-employee-profile',
   templateUrl: './employee-profile.component.html',
@@ -76,6 +76,7 @@ export class EmployeeProfileComponent implements OnInit {
     private router: Router,
     private roleService: RoleBasedAccessControlService,
     public location: Location,
+    public sanitize: DomSanitizer,
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -1119,6 +1120,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.getEmployeeDocumentAsList(this.userId).subscribe(
       (data) => {
         this.documentsEmployee = data;
+        this.mapDocumentUrls();
         // if (data.userDocuments != null) {
         //   this.highSchoolCertificate = data.userDocuments.secondarySchoolCertificate;
         //   this.degreeCert = data.userDocuments.highestQualificationDegree;
@@ -1142,6 +1144,31 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
+  private mapDocumentUrls() {
+    for (let doc of this.documentsEmployee) {
+      switch (doc.documentName) {
+        case 'highSchool':
+          this.highSchoolCertificate = doc.documentUrl;
+          break;
+        case 'highestQualification':
+          this.degreeCert = doc.documentUrl;
+          break;
+        case 'secondarySchool':
+          this.intermediateCertificate = doc.documentUrl;
+          break;
+        case 'testimonial':
+          this.testimonialsString = doc.documentUrl;
+          break;
+        case 'aadhaarCard':
+          this.aadhaarCardString = doc.documentUrl;
+          break;
+        case 'pancard':
+          this.pancardString = doc.documentUrl;
+          break;
+      }
+    }
+  }
+
   // #################################################################333333
   capitalizeFirstLetter(name: string): string {
     if (name) {
@@ -1161,11 +1188,23 @@ export class EmployeeProfileComponent implements OnInit {
     }
   }
 
-  previewString: string = '';
+  transform(value: string): string {
+    if (!value) return value;
+    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+  }
+
+  previewString: SafeResourceUrl = '';
+  downloadString!: string;
+  nextOpenDocString!: string;
+  nextOpenDocName!: string;
+  hideNextButton: boolean = false;
   @ViewChild('openViewModal') openViewModal!: ElementRef;
-  openPdfModel(viewString: string) {
+  openPdfModel(viewString: string, docsName: string) {
     debugger;
-    this.previewString = viewString;
+    this.nextOpenDocName = docsName;
+    this.downloadString = viewString;
+    this.previewString =
+      this.sanitize.bypassSecurityTrustResourceUrl(viewString);
     // if (viewString == "highSchool") {
     //   this.previewString = this.highSchoolCertificate;
     // } else if (viewString == "highestQualification") {
@@ -1179,8 +1218,105 @@ export class EmployeeProfileComponent implements OnInit {
     // } else if (viewString == "pancard") {
     //   this.previewString = this.pancardString;
     // }
+    this.updateFileType(viewString);
+
+    switch (docsName) {
+      case 'highSchool':
+        // if (this.documentsEmployee.length == 4) {
+        //   this.hideNextButton = true;
+        // } else {
+        //   this.hideNextButton = false;
+        // }
+        if (this.intermediateCertificate != '') {
+          this.hideNextButton = false;
+          this.nextOpenDocString = this.intermediateCertificate;
+          this.nextOpenDocName = 'secondarySchool';
+        } else {
+          this.hideNextButton = true;
+        }
+        break;
+      case 'highestQualification':
+        // if (this.documentsEmployee.length == 3) {
+        //   this.hideNextButton = true;
+        // } else {
+        //   this.hideNextButton = false;
+        // }
+        if (this.highSchoolCertificate != '') {
+          this.hideNextButton = false;
+          this.nextOpenDocString = this.highSchoolCertificate;
+          this.nextOpenDocName = 'highSchool';
+        } else {
+          this.hideNextButton = true;
+        }
+        break;
+      case 'secondarySchool':
+        // if (this.documentsEmployee.length == 5) {
+        //   this.hideNextButton = true;
+        // } else {
+        //   this.hideNextButton = false;
+        // }
+        if (this.testimonialsString != '') {
+          this.hideNextButton = false;
+          this.nextOpenDocString = this.testimonialsString;
+          this.nextOpenDocName = 'testimonial';
+        } else {
+          this.hideNextButton = true;
+        }
+        break;
+      case 'testimonial':
+        // if (this.documentsEmployee.length == 6) {
+        //   this.hideNextButton = true;
+        // } else {
+        //   this.hideNextButton = false;
+        // }
+        if (this.pancardString != '') {
+          this.hideNextButton = false;
+          this.nextOpenDocString = this.pancardString;
+          this.nextOpenDocName = 'pancard';
+        } else {
+          this.hideNextButton = true;
+        }
+        break;
+      case 'aadhaarCard':
+        // if (this.documentsEmployee.length == 2) {
+        //   this.hideNextButton = true;
+        // } else {
+        //   this.hideNextButton = false;
+        // }
+        if (this.degreeCert != '') {
+          this.hideNextButton = false;
+          this.nextOpenDocString = this.degreeCert;
+          this.nextOpenDocName = 'highestQualification';
+        } else {
+          this.hideNextButton = true;
+        }
+        break;
+      case 'pancard':
+        // if (this.documentsEmployee.length == 1) {
+        //   this.hideNextButton = true;
+        // } else {
+        //   this.hideNextButton = false;
+        // }
+        if (this.aadhaarCardString != '') {
+          this.hideNextButton = false;
+          this.nextOpenDocString = this.aadhaarCardString;
+          this.nextOpenDocName = 'aadhaarCard';
+        } else {
+          this.hideNextButton = true;
+        }
+        break;
+    }
 
     this.openViewModal.nativeElement.click();
+  }
+
+  isImage2: boolean = false;
+  isPDF: boolean = false;
+
+  private updateFileType(url: string) {
+    const extension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    this.isImage2 = ['png', 'jpg', 'jpeg', 'gif'].includes(extension!);
+    this.isPDF = extension === 'pdf';
   }
 
   // downloadSingleImage(imageUrl: any){

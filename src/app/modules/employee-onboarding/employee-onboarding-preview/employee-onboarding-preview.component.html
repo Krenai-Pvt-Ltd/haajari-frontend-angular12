@@ -442,17 +442,17 @@
                          
                             <tbody class="table-design" *ngIf="onboardingPreviewData.userAddress!=undefined">
                               <tr>
-                                <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[0].addressLine1 }}</td>
+                                <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[0].addressLine1 || 'N/A' }}</td>
                               </tr>
                               <tr>
-                                <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[0].addressLine2 }}</td>
+                                <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[0].addressLine2 || 'N/A' }}</td>
                               </tr>
                             
                               <tr>
-                                <td colspan="3">Pincode : {{ onboardingPreviewData.userAddress[0].pincode }}</td>
-                                <td colspan="3">City : {{ onboardingPreviewData.userAddress[0].city }}</td>
-                                <td colspan="3">State : {{ onboardingPreviewData.userAddress[0].state }}</td>
-                                <td colspan="3">Country : {{ onboardingPreviewData.userAddress[0].country }}</td>
+                                <td colspan="3">Pincode : {{ onboardingPreviewData.userAddress[0].pincode || 'N/A' }}</td>
+                                <td colspan="3">City : {{ onboardingPreviewData.userAddress[0].city || 'N/A' }}</td>
+                                <td colspan="3">State : {{ onboardingPreviewData.userAddress[0].state || 'N/A' }}</td>
+                                <td colspan="3">Country : {{ onboardingPreviewData.userAddress[0].country || 'N/A' }}</td>
                               </tr>
                               
                             </tbody>
@@ -469,16 +469,16 @@
                                 <td colspan="4">Complete Address: {{ address.address }}</td>
                               </tr> -->
                               <tr>
-                                <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[1].addressLine1 }}</td>
+                                <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[1].addressLine1 || 'N/A' }}</td>
                               </tr>
                               <tr>
-                                <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[1].addressLine2 }}</td>
+                                <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[1].addressLine2 || 'N/A' }}</td>
                               </tr>
                               <tr>
-                                <td colspan="3">Pincode: {{ onboardingPreviewData.userAddress[1].pincode }}</td>
-                                <td colspan="3">City: {{ onboardingPreviewData.userAddress[1].city }}</td>
-                                <td colspan="3">State: {{ onboardingPreviewData.userAddress[1].state }}</td>
-                                <td colspan="3">Country: {{ onboardingPreviewData.userAddress[1].country }}</td>
+                                <td colspan="3">Pincode: {{ onboardingPreviewData.userAddress[1].pincode || 'N/A' }}</td>
+                                <td colspan="3">City: {{ onboardingPreviewData.userAddress[1].city || 'N/A' }}</td>
+                                <td colspan="3">State: {{ onboardingPreviewData.userAddress[1].state || 'N/A' }}</td>
+                                <td colspan="3">Country: {{ onboardingPreviewData.userAddress[1].country || 'N/A' }}</td>
                               </tr>
                             </tbody>
                           </table>
@@ -500,21 +500,21 @@
                             <tbody class="table-design">
                                 <tr>
                                     <td colspan="3" > 
-                                        Aadhaar Card :  {{ aadhaarCardFileName }}</td>
+                                        Aadhaar Card :  {{ aadhaarCardFileName || 'N/A' }}</td>
                                   
                                     <td colspan="3" > 
-                                        Pancard : {{ pancardFileName }}</td>
+                                        Pancard : {{ pancardFileName || 'N/A' }}</td>
                                   </tr>
                               <tr>
                                 <td colspan="3" *ngIf="!isSchoolDocument"> 
-                                    10th Marksheet :  {{ secondarySchoolCertificateFileName }}</td>
+                                    10th Marksheet :  {{ secondarySchoolCertificateFileName || 'N/A' }}</td>
                               
                                 <td colspan="3" *ngIf="!isHighSchoolDocument"> 
-                                    12th Marksheet : {{ highSchoolCertificateFileName1 }}</td>
+                                    12th Marksheet : {{ highSchoolCertificateFileName1 || 'N/A' }}</td>
                               </tr>
                               <tr>
                                 <td colspan="3"> 
-                                    Highest Qualification :  {{ highestQualificationDegreeFileName1 }}</td>
+                                    Highest Qualification :  {{ highestQualificationDegreeFileName1 || 'N/A' }}</td>
                               
                                     <td colspan="3" *ngFor="let document of employeeAdditionalDocument; let i = index">
                                         {{ document.name }}: {{ document.fileName }}
@@ -584,14 +584,14 @@
                             
                             
                               <tr>
-                                <td>Highest Qualification : {{ onboardingPreviewData.userAcademics.highestEducationalLevel }}</td>
-                                <td>Degree/Diploma : {{ onboardingPreviewData.userAcademics.degreeObtained }}</td>
-                                <td>Field of Study : {{ onboardingPreviewData.userAcademics.fieldOfStudy }}</td>
+                                <td>Highest Qualification : {{ onboardingPreviewData.userAcademics.highestEducationalLevel || 'N/A' }}</td>
+                                <td>Degree/Diploma : {{ onboardingPreviewData.userAcademics.degreeObtained || 'N/A' }}</td>
+                                <td>Field of Study : {{ onboardingPreviewData.userAcademics.fieldOfStudy || 'N/A' }}</td>
                               </tr>
                               <tr>
-                              <td>Institution Name : {{ onboardingPreviewData.userAcademics.institutionName }}</td>
-                              <td>{{ onboardingPreviewData.userAcademics.gradeType }} : {{ onboardingPreviewData.userAcademics.grade }}</td>
-                              <td>Graduating Year :  {{ onboardingPreviewData.userAcademics.graduationYear }}</td>
+                              <td>Institution Name : {{ onboardingPreviewData.userAcademics.institutionName || 'N/A' }}</td>
+                              <td>{{ onboardingPreviewData.userAcademics.gradeType || 'N/A' }} : {{ onboardingPreviewData.userAcademics.grade || 'N/A' }}</td>
+                              <td>Graduating Year :  {{ onboardingPreviewData.userAcademics.graduationYear || 'N/A' }}</td>
                             </tr>
                               
                             </tbody>
@@ -613,23 +613,23 @@
                             <tbody class="table-design" *ngIf="onboardingPreviewData.userExperience!=undefined && onboardingPreviewData.userExperience.length>0">
                               <tr>
                                 <td colspan="3"> 
-                                    Company Name :  {{userExperience.companyName}}</td>
+                                    Company Name :  {{userExperience.companyName || 'N/A'}}</td>
                              
                                 <td colspan="3"> 
                                     Duration : {{userExperience.startDate | date : 'dd/MM/yyyy'}} - {{userExperience.endDate | date : 'dd/MM/yyyy'}} </td>
                               
                                 <td colspan="3"> 
-                                    Department :  {{userExperience.lastJobDepartment}}</td>
+                                    Department :  {{userExperience.lastJobDepartment || 'N/A'}}</td>
                               </tr>
                               <tr>
                                 <td colspan="3"> 
                                     Last Salary :  {{userExperience.lastSalary | numberToWord }}</td>
                              
                                 <td colspan="3"> 
-                                    Position :  {{userExperience.lastJobPosition}}</td>
+                                    Position :  {{userExperience.lastJobPosition || 'N/A'}}</td>
                              
                                 <td colspan="3"> 
-                                    Responsibilities :  {{userExperience.jobResponisibilities}}</td>
+                                    Responsibilities :  {{userExperience.jobResponisibilities || 'N/A'}}</td>
                               </tr>
                             
                               
@@ -665,10 +665,10 @@
                             
                             
                               <tr>
-                                <td> Account Holder Name : {{ onboardingPreviewData.userBankDetails.accountHolderName }}</td>
-                                <td>Bank Name : {{ onboardingPreviewData.userBankDetails.bankName }}</td>
-                                <td> Account Number : {{ onboardingPreviewData.userBankDetails.accountNumber }}</td>
-                                <td> IFSC Number :  {{ onboardingPreviewData.userBankDetails.ifsc }}</td>
+                                <td> Account Holder Name : {{ onboardingPreviewData.userBankDetails.accountHolderName || 'N/A' }}</td>
+                                <td>Bank Name : {{ onboardingPreviewData.userBankDetails.bankName || 'N/A' }}</td>
+                                <td> Account Number : {{ onboardingPreviewData.userBankDetails.accountNumber || 'N/A' }}</td>
+                                <td> IFSC Number :  {{ onboardingPreviewData.userBankDetails.ifsc || 'N/A' }}</td>
                               </tr>
                              
                               
@@ -691,9 +691,9 @@
                             
                             
                               <tr>
-                                <td> Relation with Employee : {{userEmergencyContact.relationWithEmployee}}</td>
-                                <td>Name :  {{userEmergencyContact.contactName}}</td>
-                                <td>Phone Number  : {{userEmergencyContact.contactNumber}}</td>
+                                <td> Relation with Employee : {{userEmergencyContact.relationWithEmployee || 'N/A'}}</td>
+                                <td>Name :  {{userEmergencyContact.contactName || 'N/A'}}</td>
+                                <td>Phone Number  : {{userEmergencyContact.contactNumber || 'N/A'}}</td>
                               </tr>
                               
                               

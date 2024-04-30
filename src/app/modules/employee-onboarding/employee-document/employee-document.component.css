@@ -394,3 +394,9 @@ button.add-more-save {
     padding: 15px;
     background-color: #f9faff;
 }
+.bi-x-circle-fill {
+    position: absolute;
+    margin-left: 4px; /* Space between text and icon */
+    vertical-align: middle; /* Align icon with text */
+  }
+  

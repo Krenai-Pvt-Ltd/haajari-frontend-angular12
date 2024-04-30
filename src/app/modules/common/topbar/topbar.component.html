@@ -76,79 +76,86 @@
                 
             </li>
 
-            <li class="dropdown notification-list">
-                <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button"
-                    aria-haspopup="false" aria-expanded="false" (click)="fetchNotification('notify')">
-                    <i class="ti ti-bell"></i>
-                    <span class="alert-badge" *ngIf="newNotiication"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-lg pt-0">
-        
-                    <h6 class="dropdown-item-text font-15 m-0 py-3 border-bottom d-flex justify-content-between align-items-center">
-                        Notifications <span class="badge bg-soft-primary badge-pill" *ngIf="totalNewNotification>0">{{totalNewNotification}}</span>
-                    </h6>
-                    <!-- <div class="notification-menu" data-simplebar *ngIf="loading">
-                        <div class="text-center" style="height: 80px; padding-top: 30px;">
-                            <div class="spinner-border text-center" role="status" style="margin-left: 40px;">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    </div> -->
-                    <div class="notification-menu" data-simplebar *ngIf="!loading && notificationList.length==0">
-                        <div class="text-center" style="height: 80px; padding-top: 30px;">
-                        <h6>No Pending Notifications</h6>
-                        </div>
-                    </div>
-                    <div class="scroll" (scroll)="onNotificationScroll($event)" *ngIf="notificationList.length > 0">
-                        <a class="dropdown-item py-3" *ngFor="let notification of notificationList"
-                        [ngClass]="{'notification': notification.isRead==0}">
-                            <small class="float-end text-muted ps-2">{{timeAgo(notification.createdDate)}}</small>
-
-                            <div class="media">
-                                <div class="avatar-md bg-soft-primary">
-                                    <i class="bi bi-bell"*ngIf="notification.isRead==1"></i>
-                                    <i class="bi bi-bell-fill"*ngIf="notification.isRead==0"></i>
-                                </div>
-                                <div class="media-body align-self-center ms-2 text-truncate">
-                                    <h6 class="my-0 fw-normal text-dark">{{notification.title}}</h6>
-                                    <small class="text-muted mb-0">{{notification.message}}</small>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="notification-menu" data-simplebar *ngIf="loading">
+                <li class="dropdown notification-list">
+                    <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button"
+                        aria-haspopup="false" aria-expanded="false" (click)="fetchNotification('notify')">
+                        <i class="ti ti-bell"></i>
+                        <span class="alert-badge" *ngIf="newNotiication"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end dropdown-lg pt-0">
+            
+                        <h6 class="dropdown-item-text font-15 m-0 py-3 border-bottom d-flex justify-content-between align-items-center">
+                            Notifications <span class="badge bg-soft-primary badge-pill" *ngIf="totalNewNotification>0">{{totalNewNotification}}</span>
+                        </h6>
+                        <!-- <div class="notification-menu" data-simplebar *ngIf="loading">
                             <div class="text-center" style="height: 80px; padding-top: 30px;">
                                 <div class="spinner-border text-center" role="status" style="margin-left: 40px;">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
                             </div>
+                        </div> -->
+                        <div class="notification-menu" data-simplebar *ngIf="!loading && notificationList.length==0">
+                            <div class="text-center" style="height: 80px; padding-top: 30px;">
+                            <h6>No Pending Notifications</h6>
+                            </div>
                         </div>
-                    </div>
-                    <!-- <div class="notification-menu" data-simplebar *ngIf="!loading && notificationList.length > 0">
-                        <a class="dropdown-item py-3" *ngFor="let notification of notificationList"
-                        [ngClass]="{'notification': notification.isRead==0}">
-                            <small class="float-end text-muted ps-2">{{timeAgo(notification.createdDate)}}</small>
+                        <div class="scroll" (scroll)="onNotificationScroll($event)" *ngIf="notificationList.length > 0">
+                            <a class="dropdown-item py-3" *ngFor="let notification of notificationList"
+                            [ngClass]="{'notification': notification.isRead==0}">
+                                <small class="float-end text-muted ps-2">{{timeAgo(notification.createdDate)}}</small>
 
-                            <div class="media">
-                                <div class="avatar-md bg-soft-primary">
-                                    <i class="bi bi-bell"*ngIf="notification.isRead==1"></i>
-                                    <i class="bi bi-bell-fill"*ngIf="notification.isRead==0"></i>
+                                <div class="media">
+                                    <div class="avatar-md bg-soft-primary">
+                                        <i class="bi bi-bell"*ngIf="notification.isRead==1"></i>
+                                        <i class="bi bi-bell-fill"*ngIf="notification.isRead==0"></i>
+                                    </div>
+                                    <div class="media-body align-self-center ms-2 text-truncate">
+                                        <h6 class="my-0 fw-normal text-dark">{{notification.title}}</h6>
+                                        <small class="text-muted mb-0">{{notification.message}}</small>
+                                    </div>
                                 </div>
-                                <div class="media-body align-self-center ms-2 text-truncate">
-                                    <h6 class="my-0 fw-normal text-dark">{{notification.title}}</h6>
-                                    <small class="text-muted mb-0">{{notification.message}}</small>
+                            </a>
+                            <div class="notification-menu" data-simplebar *ngIf="loading">
+                                <div class="text-center" style="height: 80px; padding-top: 30px;">
+                                    <div class="spinner-border text-center" role="status" style="margin-left: 40px;">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                    </div> -->
-                    
-                    <div class="border-top text-center text-primary pt-1" style="cursor: pointer;" *ngIf="totalNewNotification > 0" (click)="markAsReadAll('notify')">
-                    <span>Mark as read all</span>
-                    </div>
-                </div>
-                
-            </li>
+                        </div>
+                        <!-- <div class="notification-menu" data-simplebar *ngIf="!loading && notificationList.length > 0">
+                            <a class="dropdown-item py-3" *ngFor="let notification of notificationList"
+                            [ngClass]="{'notification': notification.isRead==0}">
+                                <small class="float-end text-muted ps-2">{{timeAgo(notification.createdDate)}}</small>
 
-           
+                                <div class="media">
+                                    <div class="avatar-md bg-soft-primary">
+                                        <i class="bi bi-bell"*ngIf="notification.isRead==1"></i>
+                                        <i class="bi bi-bell-fill"*ngIf="notification.isRead==0"></i>
+                                    </div>
+                                    <div class="media-body align-self-center ms-2 text-truncate">
+                                        <h6 class="my-0 fw-normal text-dark">{{notification.title}}</h6>
+                                        <small class="text-muted mb-0">{{notification.message}}</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div> -->
+                        
+                        <div class="border-top text-center text-primary pt-1" style="cursor: pointer;" *ngIf="totalNewNotification > 0" (click)="markAsReadAll('notify')">
+                        <span>Mark as read all</span>
+                        </div>
+                    </div>
+                    
+                </li>
+
+                <li class="nav-item" *ngIf="(ROLE=='ADMIN' || ROLE=='MANAGER')">
+                    <a class="nav-link nav-icon" href="employee-profile?userId={{UUID}}" role="button" aria-expanded="false"
+                       data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Profile">
+                        <i class="ti ti-user"></i>
+                    </a>
+                </li>
+                
+                
         </ul><!--end topbar-nav-->
 
         <ul class="list-unstyled topbar-nav mb-0 krenai-deshboard" >                        
