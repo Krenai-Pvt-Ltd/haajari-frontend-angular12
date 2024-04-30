@@ -124,6 +124,34 @@
                     </div>
                   </div>
                 </div>
+                <div
+                  class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
+                  role="alert"
+                  *ngIf="
+                    alreadyUsedPhoneNumberArray.length > 0 ||
+                    alreadyUsedEmailArray.length > 0 ||
+                    isErrorToggle
+                  "
+                >
+                  <h4 class="alert-heading font-18">Attention!</h4>
+                  <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+                    Phone Numbers:
+                    {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
+                  </p>
+                  <p *ngIf="alreadyUsedEmailArray.length > 0">
+                    Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+                  </p>
+                  <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+                  <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
+                    {{ pn }}
+                  </div>
+                  <div *ngFor="let ea of alreadyUsedEmailArray">
+                    {{ ea }}
+                  </div> -->
+                  <p *ngIf="!isErrorToggle">
+                    These credentials are already registered with us!
+                  </p>
+                </div>
               </ng-container>
 
               <ng-container
@@ -266,17 +294,31 @@
                       role="alert"
                       *ngIf="
                         alreadyUsedPhoneNumberArray.length > 0 ||
-                        alreadyUsedEmailArray.length > 0
+                        alreadyUsedEmailArray.length > 0 ||
+                        isErrorToggle
                       "
                     >
                       <h4 class="alert-heading font-18">Attention!</h4>
-                      <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
+                      <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
                         {{ pn }}
                       </div>
                       <div *ngFor="let ea of alreadyUsedEmailArray">
                         {{ ea }}
-                      </div>
-                      <p>These credentials are already registered with us!</p>
+                      </div> -->
+                      <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+                      <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+                        Phone Numbers:
+                        {{
+                          formatAsCommaSeparated(alreadyUsedPhoneNumberArray)
+                        }}
+                      </p>
+                      <p *ngIf="alreadyUsedEmailArray.length > 0">
+                        Emails:
+                        {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+                      </p>
+                      <p *ngIf="!isErrorToggle">
+                        These credentials are already registered with us!
+                      </p>
                     </div>
                     <table class="table">
                       <thead class="thead-light table-design">
@@ -380,18 +422,26 @@
                     type="button"
                     (click)="backPage()"
                   >
-                    <i class="bi bi-arrow-left"></i> Previous
+                    <span *ngIf="!isPreviousLoading"
+                      ><i class="bi bi-arrow-left"></i> Previous</span
+                    >
+
+                    <div class="dot-opacity-loader" *ngIf="isPreviousLoading">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
                   </button>
                   <button
                     type="submit"
                     class="btn btn-outline-primary btn-round"
                     (click)="next()"
                   >
-                    <span *ngIf="!loading"
+                    <span *ngIf="!isNextloading"
                       >Next
                       <i class="bi bi-arrow-right" style="padding-left: 8px"></i
                     ></span>
-                    <div class="dot-opacity-loader" *ngIf="loading">
+                    <div class="dot-opacity-loader" *ngIf="isNextloading">
                       <span></span>
                       <span></span>
                       <span></span>
@@ -664,7 +714,15 @@
               (click)="submit()"
               [disabled]="!allUsersValid()"
             >
-              <span>Submit</span>
+              <span *ngIf="!isManualUploadSubmitLoader">Submit</span>
+              <div
+                class="dot-opacity-loader"
+                *ngIf="isManualUploadSubmitLoader"
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
             </button>
           </div>
         </div>

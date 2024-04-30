@@ -4,7 +4,11 @@ import { NgForm } from '@angular/forms';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
+import {
+  Dimensions,
+  ImageCroppedEvent,
+  ImageTransform,
+} from 'ngx-image-cropper';
 import { Key } from 'src/app/constant/key';
 
 import { OrganizationPersonalInformation } from 'src/app/models/organization-personal-information';
@@ -24,6 +28,7 @@ import { NgbDate, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-organization-personal-information',
@@ -44,6 +49,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     private _onboardingService: OrganizationOnboardingService,
     private placesService: PlacesService,
     private helperService: HelperService,
+    private sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit(): void {
@@ -84,7 +90,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   loading: boolean = false;
   registerOrganizationPersonalInformation(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.loading = true;
+      // this.loading = true;
       this.dataService
         .registerOrganizationPersonalInformation(
           this.organizationPersonalInformation,
@@ -92,6 +98,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
         .subscribe(
           async (response) => {
             this.loading = false;
+            this.isInfoLoading = false;
             console.log('Organization personal info registered successfully.');
             // this.router.navigate(['/organization-onboarding/upload-team']);
             await this.dataService.markStepAsCompleted(2);
@@ -105,6 +112,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
           },
           (error) => {
             this.loading = false;
+            this.isInfoLoading = false;
             console.log(error.error.message);
             reject(error);
           },
@@ -118,6 +126,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       (data) => {
         this.organizationPersonalInformation = data;
         this.imageUrl = this.organizationPersonalInformation.logo;
+        console.log('imageUrl' + this.imageUrl);
         // console.log(this.organizationPersonalInformation);
         //   if (data.logo) {
         //     this.setImageUrlFromDatabase(data.logo);
@@ -169,8 +178,9 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       this.isFormInvalid = false;
     }
   }
-
+  isInfoLoading: boolean = false;
   submit() {
+    this.isInfoLoading = true;
     debugger;
     this.checkFormValidation();
 
@@ -476,6 +486,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   @ViewChildren('checkboxes') checkboxes!: QueryList<ElementRef>;
 
   imageUrl: string = '';
+
   // Required
   public open(caller: any, imageUrl: string) {
     this.imageUrl = imageUrl;
@@ -666,16 +677,16 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   file: any;
   previewWidth!: number;
   previewHeight!: number;
-  async imageCropped(event: any) {
-    debugger;
-    this.croppedImage = event.base64;
-    console.log(
-      '🚀 ~ file: media-manager-crop.component.ts:294 ~ MediaManagerCropComponent ~ imageCropped ~ event.base64',
-      event.base64,
-    );
-    let blob = this.base64ToFile(this.croppedImage);
-    this.file = new File([blob], this.imageNmae, { type: this.type });
-  }
+  // async imageCropped(event: any) {
+  //   debugger;
+  //   this.croppedImage = event.base64;
+  //   console.log(
+  //     '🚀 ~ file: media-manager-crop.component.ts:294 ~ MediaManagerCropComponent ~ imageCropped ~ event.base64',
+  //     event.base64,
+  //   );
+  //   let blob = this.base64ToFile(this.croppedImage);
+  //   this.file = new File([blob], this.imageNmae, { type: this.type });
+  // }
 
   async imageCroppedBase64(event: any) {
     debugger;
@@ -699,7 +710,9 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   }
 
   // Required
-  transform: any = {};
+  transform: ImageTransform = {
+    translateUnit: 'px',
+  };
   zoomOut() {
     this.scale -= 0.1;
     this.transform = {
@@ -732,23 +745,23 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   }
 
   // Required
-  imageLoaded(event: any) {
-    debugger;
-    this.showCropper = true;
+  // imageLoaded(event: any) {
+  //   debugger;
+  //   this.showCropper = true;
 
-    this.previewHeight = event.original.size.height;
-    this.previewWidth = event.original.size.width;
-    console.log(
-      '🚀 ~ file: media-manager-crop.component.ts:374 ~ MediaManagerCropComponent ~ imageLoaded ~  this.previewWidth',
-      this.previewWidth,
-    );
-    this.isLoading = false;
-    this.calculateRatio(this.previewWidth, this.previewHeight);
-  }
+  //   this.previewHeight = event.original.size.height;
+  //   this.previewWidth = event.original.size.width;
+  //   console.log(
+  //     '🚀 ~ file: media-manager-crop.component.ts:374 ~ MediaManagerCropComponent ~ imageLoaded ~  this.previewWidth',
+  //     this.previewWidth,
+  //   );
+  //   this.isLoading = false;
+  //   this.calculateRatio(this.previewWidth, this.previewHeight);
+  // }
 
-  cropperReady() {
-    console.log('Cropper ready');
-  }
+  // cropperReady() {
+  //   console.log('Cropper ready');
+  // }
 
   loadImageFailed() {
     console.log('Load failed');
@@ -756,43 +769,89 @@ export class OrganizationPersonalInformationComponent implements OnInit {
 
   // Required
   mediaUrl: string = '';
+  // async uploadSingle() {
+  //   debugger;
+  //   if (this.isImageDeleted) {
+  //     this.tempList = new Array();
+  //     this.imageModel.nativeElement.click();
+  //     this.sendBulkDataToComponent();
+  //     return;
+  //   }
+  //   this.cropedFiles = this.file;
+  //   console.log(this.cropedFiles);
+  //   // console.log(this.cropedFiles[0].);
+  //   var mediaUploaded = await this.uploadSingleMediaToFireBaseAndGetUrl(
+  //     this.cropedFiles,
+  //     this.imageNmae,
+  //   );
+
+  //   if (mediaUploaded) {
+  //     this.imageModel.nativeElement.click();
+  //     this.currentUpload.progress = this.progress;
+  //     this.checkUploaded();
+  //     this.resetAllImages();
+  //   }
+  // }
+
+  // async uploadBase64Single() {
+  //   var file = new File([this.imageBase64String], this.imageNmae, {
+  //     type: this.type,
+  //   });
+  //   var mediaUploaded = await this.uploadSingleMediaToFireBaseAndGetUrl(
+  //     file,
+  //     this.imageNmae,
+  //   );
+
+  //   if (mediaUploaded) {
+  //     this.imageModel.nativeElement.click();
+  //     this.currentUpload.progress = this.progress;
+  //     this.checkUploaded();
+  //     this.resetAllImages();
+  //   }
+  // }
+
   async uploadSingle() {
     if (this.isImageDeleted) {
-      this.tempList = new Array();
+      this.tempList = [];
       this.imageModel.nativeElement.click();
       this.sendBulkDataToComponent();
       return;
     }
-    this.cropedFiles = this.file;
-    console.log(this.cropedFiles);
-    // console.log(this.cropedFiles[0].);
-    var mediaUploaded = await this.uploadSingleMediaToFireBaseAndGetUrl(
-      this.cropedFiles,
-      this.imageNmae,
-    );
 
-    if (mediaUploaded) {
-      this.imageModel.nativeElement.click();
-      this.currentUpload.progress = this.progress;
-      this.checkUploaded();
-      this.resetAllImages();
+    if (!this.croppedImage) {
+      console.error('No image cropped.');
+      return;
     }
-  }
 
-  async uploadBase64Single() {
-    var file = new File([this.imageBase64String], this.imageNmae, {
-      type: this.type,
-    });
-    var mediaUploaded = await this.uploadSingleMediaToFireBaseAndGetUrl(
-      file,
-      this.imageNmae,
-    );
+    this.loading = true;
 
-    if (mediaUploaded) {
-      this.imageModel.nativeElement.click();
-      this.currentUpload.progress = this.progress;
-      this.checkUploaded();
-      this.resetAllImages();
+    try {
+      // Extract the actual blob URL from the SafeUrl object
+      const unsafeUrl =
+        this.croppedImage.changingThisBreaksApplicationSecurity ||
+        this.croppedImage;
+
+      const response = await fetch(unsafeUrl);
+      const blob = await response.blob();
+
+      const fileName = `uploaded_${new Date().getTime()}.png`;
+      const mediaUploaded = await this.uploadSingleMediaToFireBaseAndGetUrl(
+        blob,
+        fileName,
+      );
+
+      if (mediaUploaded) {
+        this.imageModel.nativeElement.click();
+        this.currentUpload.progress = this.progress;
+        this.checkUploaded();
+        this.resetAllImages();
+      } else {
+        console.error('Failed to upload image');
+      }
+    } catch (error) {
+      console.error('Error fetching the blob:', error);
+    } finally {
+      this.loading = false;
     }
   }
 
@@ -826,6 +885,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
 
   // Required
   resetAllImages() {
+    this.isLoading = false;
     this.imageChangedEvent = '';
     this.imageBase64String = '';
     this.base64Event = false;
@@ -842,6 +902,8 @@ export class OrganizationPersonalInformationComponent implements OnInit {
         this.onEdit();
       } else {
         this.onSelectFile(this.resetImageChangedEvent);
+        this.isLoading = false;
+        // this.isLoading = false;
       }
     }
   }
@@ -949,5 +1011,153 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   showHelpInstructions: boolean = true; // Controls the visibility of the help instructions
   closeHelpInstructions() {
     this.showHelpInstructions = false; // Hides the help instructions
+  }
+
+  //Image cropper Events function------>
+  translateH = 0;
+  translateV = 0;
+  imageURL?: string;
+  // loading = false;
+  allowMoveImage = false;
+  hidden = false;
+
+  fileChangeEvent(event: any): void {
+    this.loading = true;
+    this.imageChangedEvent = event;
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    debugger;
+    this.isLoading = false;
+    this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(
+      event.objectUrl || event.base64 || '',
+    );
+    console.log(event);
+  }
+
+  imageLoaded() {
+    this.showCropper = true;
+    this.isLoading = false;
+    console.log('Image loaded');
+  }
+
+  cropperReady(sourceImageDimensions: Dimensions) {
+    console.log('imageLoadedCropper ready', sourceImageDimensions);
+    this.loading = false;
+  }
+
+  // loadImageFailed() {
+  //   console.error('Load image failed');
+  // }
+
+  // rotateLeft() {
+  //   this.loading = true;
+  //   setTimeout(() => {
+  //     // Use timeout because rotating image is a heavy operation and will block the ui thread
+  //     this.canvasRotation--;
+  //     this.flipAfterRotate();
+  //   });
+  // }
+
+  // rotateRight() {
+  //   this.loading = true;
+  //   setTimeout(() => {
+  //     this.canvasRotation++;
+  //     this.flipAfterRotate();
+  //   });
+  // }
+
+  moveLeft() {
+    this.transform = {
+      ...this.transform,
+      translateH: ++this.translateH,
+    };
+  }
+
+  moveRight() {
+    this.transform = {
+      ...this.transform,
+      translateH: --this.translateH,
+    };
+  }
+
+  moveTop() {
+    this.transform = {
+      ...this.transform,
+      translateV: ++this.translateV,
+    };
+  }
+
+  moveBottom() {
+    this.transform = {
+      ...this.transform,
+      translateV: --this.translateV,
+    };
+  }
+
+  private flipAfterRotate() {
+    const flippedH = this.transform.flipH;
+    const flippedV = this.transform.flipV;
+    this.transform = {
+      ...this.transform,
+      flipH: flippedV,
+      flipV: flippedH,
+    };
+    this.translateH = 0;
+    this.translateV = 0;
+  }
+
+  flipHorizontal() {
+    this.transform = {
+      ...this.transform,
+      flipH: !this.transform.flipH,
+    };
+  }
+
+  flipVertical() {
+    this.transform = {
+      ...this.transform,
+      flipV: !this.transform.flipV,
+    };
+  }
+
+  resetImage() {
+    this.scale = 1;
+    this.rotation = 0;
+    this.canvasRotation = 0;
+    this.transform = {
+      translateUnit: 'px',
+    };
+  }
+
+  // zoomOut() {
+  //   this.scale -= 0.1;
+  //   this.transform = {
+  //     ...this.transform,
+  //     scale: this.scale,
+  //   };
+  // }
+
+  // zoomIn() {
+  //   this.scale += 0.1;
+  //   this.transform = {
+  //     ...this.transform,
+  //     scale: this.scale,
+  //   };
+  // }
+
+  toggleContainWithinAspectRatio() {
+    this.containWithinAspectRatio = !this.containWithinAspectRatio;
+  }
+
+  updateRotation() {
+    this.transform = {
+      ...this.transform,
+      rotate: this.rotation,
+    };
+  }
+
+  toggleAspectRatio() {
+    this.aspectRatio = this.aspectRatio === 4 / 3 ? 16 / 5 : 4 / 3;
   }
 }

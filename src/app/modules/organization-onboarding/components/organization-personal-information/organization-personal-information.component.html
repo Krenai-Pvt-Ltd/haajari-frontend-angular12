@@ -521,15 +521,15 @@
                     class="btn btn-outline-primary btn-round"
                     (click)="submit()"
                   >
-                    <span
+                    <span *ngIf="!isInfoLoading"
                       >Next
                       <i class="bi bi-arrow-right" style="padding-left: 8px"></i
                     ></span>
-                    <!-- <div class="dot-opacity-loader" *ngIf="loading">
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                           </div> -->
+                    <div class="dot-opacity-loader" *ngIf="isInfoLoading">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
                   </button>
                 </div>
               </div>
@@ -610,7 +610,7 @@
                   class="imagecroppermain"
                   *ngIf="!base64Event && files.length != 0"
                 >
-                  <image-cropper
+                  <!-- <image-cropper
                     #imageCropper
                     [imageChangedEvent]="imageChangedEvent"
                     [transform]="transform"
@@ -621,7 +621,37 @@
                     (cropperReady)="cropperReady()"
                     (loadImageFailed)="loadImageFailed()"
                   >
-                  </image-cropper>
+                  </image-cropper> -->
+                  <image-cropper
+                    #imageCropper
+                    [imageChangedEvent]="imageChangedEvent"
+                    [imageURL]="imageURL"
+                    [maintainAspectRatio]="true"
+                    [containWithinAspectRatio]="containWithinAspectRatio"
+                    [aspectRatio]="aspectRatio"
+                    [cropperMinWidth]="128"
+                    [onlyScaleDown]="true"
+                    [roundCropper]="false"
+                    [canvasRotation]="canvasRotation"
+                    [(transform)]="transform"
+                    [alignImage]="'center'"
+                    [style.display]="showCropper ? null : 'none'"
+                    [allowMoveImage]="allowMoveImage"
+                    [hidden]="hidden"
+                    imageAltText="Alternative image text"
+                    output="blob"
+                    format="png"
+                    (imageCropped)="imageCropped($event)"
+                    (imageLoaded)="imageLoaded()"
+                    (cropperReady)="cropperReady($event)"
+                    (loadImageFailed)="loadImageFailed()"
+                  ></image-cropper>
+                  <img
+                    *ngIf="!isLoading"
+                    style="width: 20%; height: 20%"
+                    [src]="croppedImage"
+                    [style.border]="croppedImage ? '1px solid black' : 'none'"
+                  />
                   <!-- {{croppedImage|json}} -->
                 </div>
                 <div
@@ -637,12 +667,18 @@
                     [maintainAspectRatio]="true"
                     [aspectRatio]="aspectRatio"
                     [canvasRotation]="canvasRotation"
-                    (imageCropped)="imageCroppedBase64($event)"
-                    (imageLoaded)="imageLoadedBase64()"
-                    (cropperReady)="cropperReady()"
+                    (imageCropped)="imageCropped($event)"
+                    (imageLoaded)="imageLoaded()"
+                    (cropperReady)="cropperReady($event)"
                     (loadImageFailed)="loadImageFailed()"
                   >
                   </image-cropper>
+                  <img
+                    *ngIf="!isLoading"
+                    style="width: 20%; height: 20%"
+                    [src]="croppedImage"
+                    [style.border]="croppedImage ? '1px solid black' : 'none'"
+                  />
                 </div>
               </div>
               <!-- <span class="helpbtn" #closeinfo (click)="addClass()">

@@ -51,6 +51,7 @@ import { WeeklyHoliday } from '../models/WeeklyHoliday';
 import { WeekDay } from '../models/WeekDay';
 import { Key } from '../constant/key';
 import { ResponseEntityObject } from '../models/response-entity-object.model';
+import { OrganizationWeekoffInformation } from '../models/organization-weekoff-information';
 
 @Injectable({
   providedIn: 'root',
@@ -2394,6 +2395,15 @@ export class DataService {
     );
   }
 
+  updateOrganizationWeekOff(
+    organizationWeekoffInformation: OrganizationWeekoffInformation[],
+  ): Observable<any> {
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/holiday/update-weekoffs`,
+      organizationWeekoffInformation,
+      {},
+    );
+  }
   
   countPayrollDashboardEmployeeByOrganizationId(startDate : string, endDate : string):Observable<any>{
 
