@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Key } from 'src/app/constant/key';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
+import { LogoutConfirmationModalComponent } from 'src/app/modules/shared/logout-confirmation-modal/logout-confirmation-modal.component';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
@@ -20,6 +22,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
     private router: Router,
     private helperService: HelperService,
     private rbacService: RoleBasedAccessControlService,
+    private modalService: NgbModal,
   ) {}
 
   onboardingViaString: string = '';
@@ -195,6 +198,23 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
     // this.activeTab = 'dashboard';
     this.router.navigate(['/employee-profile'], {
       queryParams: { userId: this.UUID, dashboardActive: 'true' },
+    });
+  }
+
+  logoutFunction() {
+    localStorage.clear();
+    this.rbacService.clearRbacService();
+    this.helperService.clearHelperService();
+    this.router.navigate(['/login']);
+  }
+
+  openLogoutModal() {
+    const modalRef = this.modalService.open(LogoutConfirmationModalComponent);
+    modalRef.result.then((result) => {
+      if (result === 'logoutConfirmed') {
+        // Handle the logout logic if confirmed
+        this.logoutFunction();
+      }
     });
   }
 }

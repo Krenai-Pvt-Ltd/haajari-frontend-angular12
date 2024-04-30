@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MonthResponse } from 'src/app/models/month-response';
+import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
+import { PayrollDashboardEmployeeCountResponse } from 'src/app/models/payroll-dashboard-employee-count-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 
@@ -33,7 +35,7 @@ export class PayrollDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentMonthResponse = new MonthResponse(
-      new Date().getMonth() + 1, // Months are 0-indexed in JavaScript, +1 to match your structure
+      new Date().getMonth() + 1,
       new Date(new Date().getFullYear(), new Date().getMonth(), 1),
       new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
       new Date().toLocaleString('default', { month: 'short' }),
@@ -45,6 +47,9 @@ export class PayrollDashboardComponent implements OnInit {
     this.selectedMonth = this.currentMonthResponse.month;
     this.selectedYear = this.currentMonthResponse.year;
 
+
+    this.getFirstAndLastDateOfMonth(new Date());
+    this.countPayrollDashboardEmployeeByOrganizationIdMethodCall();
 
     this.getOrganizationRegistrationDateMethodCall();
     this.getMonthResponseList(this.selectedDate);
@@ -61,8 +66,37 @@ export class PayrollDashboardComponent implements OnInit {
     console.log('Month is getting selected!');
     this.selectedDate = year;
     this.getMonthResponseList(this.selectedDate);
+
+    // Find the first monthResponse with disable as false
+    const enabledMonthResponse = this.monthResponseList.find((monthResponse: { disable: any; }) => !monthResponse.disable);
+    if (enabledMonthResponse) {
+        // Call the method with the found monthResponse
+        this.getOrganizationIndividualMonthSalaryDataMethodCall(enabledMonthResponse);
+    }
+
+    console.log(this.getMonthResponseList(this.selectedDate));
+    // this.getOrganizationIndividualMonthSalaryDataMethodCall();
     // this.getFirstAndLastDateOfMonth(this.selectedDate);
   }
+
+
+  // async onYearChange(year: Date): Promise<void> {
+  //   console.log('Month is getting selected!');
+  //   this.selectedDate = year;
+    
+  //   // Fetching the month responses
+  //   const monthResponses = await this.getMonthResponseList(this.selectedDate);
+  //   console.log(monthResponses);
+
+  //   // Find the first monthResponse with disable as false
+  //   const enabledMonthResponse = monthResponses.find(monthResponse => !monthResponse.disable);
+
+  //   if (enabledMonthResponse) {
+  //       // Call the method with the found monthResponse
+  //       this.getOrganizationIndividualMonthSalaryDataMethodCall(enabledMonthResponse);
+  //   }
+  // }
+
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
     this.startDate = this.helperService.formatDateToYYYYMMDD(
@@ -109,7 +143,7 @@ export class PayrollDashboardComponent implements OnInit {
 
   // Getting month list
   monthResponseList: MonthResponse[] = [];
-  getMonthResponseList(date: Date) {
+  async getMonthResponseList(date: Date) {
     this.monthResponseList = [];
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
@@ -148,9 +182,30 @@ export class PayrollDashboardComponent implements OnInit {
             ),
         );
     }
+  }
 
-    console.log(this.monthResponseList);
-}
+
+//   async getMonthResponseList(date: Date): Promise<MonthResponse[]> {
+//     let monthResponseList: MonthResponse[] = [];
+//     const currentMonth = new Date().getMonth();
+//     const currentYear = new Date().getFullYear();
+//     const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
+//     const organizationRegistrationMonth = new Date(this.organizationRegistrationDate).getMonth();
+
+//     for (let i = 0; i < 12; i++) {
+//         // Create a new Date object for each month.
+//         const monthDate = new Date(date.getFullYear(), i);
+//         const monthName = monthDate.toLocaleString('default', { month: 'short' });
+//         const status = (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) ? '-' : monthDate.getFullYear() < currentYear || (monthDate.getFullYear() === currentYear && i < currentMonth) ? 'Completed' : (monthDate.getFullYear() === currentYear && i === currentMonth) ? 'Current' : 'Upcoming';
+//         const disable = (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) || (monthDate.getFullYear() > currentYear || (monthDate.getFullYear() === currentYear && i > currentMonth));
+//         const firstDate = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
+//         const lastDate = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
+
+//         monthResponseList.push(new MonthResponse(i + 1, firstDate, lastDate, monthName, monthDate.getFullYear(), status, disable));
+//     }
+
+//     return monthResponseList;
+// }
 
 
   // This is current month response, default value to fetch the data.
@@ -164,8 +219,8 @@ export class PayrollDashboardComponent implements OnInit {
     false,
   );
 
-  selectedMonth : string = this.currentMonthResponse.month;
-  selectedYear : number = this.currentMonthResponse.year;
+  selectedMonth : string = '';
+  selectedYear : number = 0;
   // Fetching organization individual month salary data.
   organizationMonthWiseSalaryData: OrganizationMonthWiseSalaryData = new OrganizationMonthWiseSalaryData();
   getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse: MonthResponse) {
@@ -199,5 +254,28 @@ export class PayrollDashboardComponent implements OnInit {
       );
   }
 
-  //
+
+  //Fetching the employees count with new joinee count and user exit count
+  payrollDashboardEmployeeCountResponse : PayrollDashboardEmployeeCountResponse = new PayrollDashboardEmployeeCountResponse();
+  countPayrollDashboardEmployeeByOrganizationIdMethodCall(){
+    this.dataService.countPayrollDashboardEmployeeByOrganizationId(this.startDate, this.endDate).subscribe((response) => {
+      this.payrollDashboardEmployeeCountResponse = response.object;
+    }, (error) => {
+
+    })
+  }
+
+  //Fetching the new joinee data
+  newJoineeResponseList : NewJoineeResponse[] = [];
+  getNewJoineeByOrganizationId(){
+    this.dataService.getNewJoineeByOrganizationId(this.itemPerPage, this.pageNumber, this.sort, this.sortBy, this.search, this.searchBy, this.startDate, this.endDate).subscribe((response) => {
+      if(response == undefined || response == null || response == undefined || response == null || response.length == 0){
+
+      } else{
+        this.newJoineeResponseList = response.listOfObject;
+      }
+    }, (error) => {
+
+    })
+  }
 }

@@ -68,18 +68,23 @@
                 <div class="row">
                   <div class="col-auto">
                     <p class="mb-0">Employees</p>
-                    <h4 class="mt-3 fw-bold"> 13 <span class="text-muted font-12 fw-normal">EMPLOYEES</span>
+                    <h4 class="mt-3 fw-bold">{{payrollDashboardEmployeeCountResponse.totalUser}}
+                      <span class="text-muted font-12 fw-normal">
+                        <span class="text-success">+{{payrollDashboardEmployeeCountResponse.newJoinee}}</span>
+                        &nbsp;
+                        <span class="text-danger">-{{payrollDashboardEmployeeCountResponse.userExit}}</span>
+                      </span>
                     </h4>
                   </div>
                   <!--end col-->
                   <div class="col-auto">
                     <p class="mb-0">Calender Days</p>
-                    <h4 class="mt-3 fw-bold">29</h4>
+                    <h4 class="mt-3 fw-bold">{{payrollDashboardEmployeeCountResponse.daysInMonth}}</h4>
                   </div>
                   <!--end col-->
                   <div class="col-auto">
                     <p class="mb-0">Payroll</p>
-                    <h4 class="mt-3 fw-bold"> 0/0 <span class="text-muted font-12 fw-normal">EMPLOYEES</span>
+                    <h4 class="mt-3 fw-bold"> 0/{{payrollDashboardEmployeeCountResponse.totalUser}} <span class="text-muted font-12 fw-normal">EMPLOYEES</span>
                     </h4>
                   </div>
                   <!--end col-->
@@ -161,7 +166,7 @@
                                 <img src="assets/images/creative-idea.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0" />
                               </div>
                               <!--end col-->
-                              <div class="col align-self-center">
+                              <div class="col align-self-center"  (click)="getNewJoineeByOrganizationId()">
                                 <p class="font-14 mb-2"> Employee Changes <span class="task-priority-icon float-end">
                                     <i class="ti ti-checks text-success"></i>
                                   </span>
@@ -235,10 +240,6 @@
                         <div class="col">
                           <div class="media">
                             <div class="media-body align-self-center">
-                              <h3 class="m-0 font-24 fw-bold"> ₹ {{ organizationMonthWiseSalaryData.totalAmount
-                                }}
-                              </h3>
-                              <p class="text-muted font-12 mb-0"> DEC ₹ 34,34,343 </p>
                               <p class="text-muted font-12 mb-0 mt-2"> Last Preview Run On 10 JUL at 11:30 PM By Pushpendra </p>
                             </div>
                             <!--end media body-->
@@ -431,71 +432,89 @@
                   </nav>
                   <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane active" id="step1">
-                      <div class="table-responsive">
-                        <table class="table border-dashed mb-0">
-                          <thead>
-                            <tr>
-                              <th>EMPLOYEE</th>
-                              <th class="text-end">DATE OF JOINING</th>
-                              <th class="text-end">NO OF WORKING DAYS</th>
-                              <th class="text-end">SALARY</th>
-                              <th class="text-end">PAY ACTION</th>
-                              <th class="text-end">COMMENT</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Pushpendra Singh</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">22</td>
-                              <td class="text-end">100000</td>
-                              <td class="text-end">Process as salary</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Pushpendra Singh</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">22</td>
-                              <td class="text-end">100000</td>
-                              <td class="text-end">Process as salary</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Pushpendra Singh</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">22</td>
-                              <td class="text-end">100000</td>
-                              <td class="text-end">Process as salary</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Pushpendra Singh</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">22</td>
-                              <td class="text-end">100000</td>
-                              <td class="text-end">Process as salary</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Pushpendra Singh</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">22</td>
-                              <td class="text-end">100000</td>
-                              <td class="text-end">Process as salary</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Pushpendra Singh</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">22</td>
-                              <td class="text-end">100000</td>
-                              <td class="text-end">Process as salary</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <!--end /table-->
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="table-responsive">
+                            <table class="table border-dashed mb-0">
+                              <thead>
+                                <tr>
+                                  <th>EMPLOYEE</th>
+                                  <th>EMAIL</th>
+                                  <th class="text-end">DATE OF JOINING</th>
+                                  <th class="text-end">NO OF WORKING DAYS</th>
+                                  <th class="text-end">SALARY</th>
+                                </tr>
+                              </thead>
+                              <tbody *ngFor="let newJoineeResponse of newJoineeResponseList">
+                                <tr>
+                                  <td>{{newJoineeResponse.name}}</td>
+                                  <td>{{newJoineeResponse.email}}</td>
+                                  <td class="text-end">{{newJoineeResponse.joiningDate}}</td>
+                                  <td class="text-end">22</td>
+                                  <td class="text-end">{{newJoineeResponse.salary}}</td>
+                                </tr>
+                                <!-- <tr>
+                                  <td>Pushpendra Singh</td>
+                                  <td>pushpendra@gmail.com</td>
+                                  <td class="text-end">25/04/2017</td>
+                                  <td class="text-end">22</td>
+                                  <td class="text-end">100000</td>
+                                </tr>
+                                <tr>
+                                  <td>Pushpendra Singh</td>
+                                  <td>pushpendra@gmail.com</td>
+                                  <td class="text-end">25/04/2017</td>
+                                  <td class="text-end">22</td>
+                                  <td class="text-end">100000</td>
+
+                                </tr> -->
+                              </tbody>
+                            </table>
+                            <!--end /table-->
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="table-responsive">
+                            <table class="table border-dashed mb-0">
+                              <thead>
+                                <tr>
+                                  <th class="text-start">PAY ACTION</th>
+                                  <th class="text-start">COMMENT</th>
+                                  <th class="text-start">ACTION</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td class="text-start">Process as salary</td>
+                                  <td class="text-start"><input type="text"></td>
+                                  <td class="text-start">
+                                    <i class="bi bi-pencil-square"></i>
+                                    <i class="bi bi-trash text-danger"></i>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="text-start">Process as salary</td>
+                                  <td class="text-start"><input type="text"></td>
+                                  <td class="text-start">
+                                    <i class="bi bi-pencil-square"></i>
+                                    <i class="bi bi-trash text-danger"></i>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="text-start">Process as salary</td>
+                                  <td class="text-start"><input type="text"></td>
+                                  <td class="text-start">
+                                    <i class="bi bi-pencil-square"></i>
+                                    <i class="bi bi-trash text-danger"></i>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <!--end /table-->
+                          </div>
+                        </div>
                       </div>
+
                     </div>
                     <div class="tab-pane" id="step2">
                       <div class="table-responsive">
@@ -670,6 +689,7 @@
                           <thead>
                             <tr>
                               <th>EMPLOYEE</th>
+                              <th>EMAIL</th>
                               <th class="text-end">DATE OF JOINING</th>
                               <th class="text-end">NO OF WORKING DAYS</th>
                               <th class="text-end">SALARY</th>
@@ -680,13 +700,6 @@
                           <tbody>
                             <tr>
                               <td>Pushpendra Singh</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">22</td>
-                              <td class="text-end">100000</td>
-                              <td class="text-end">Process as salary</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
                               <td>Pushpendra Singh</td>
                               <td class="text-end">25/04/2017</td>
                               <td class="text-end">22</td>
@@ -696,13 +709,6 @@
                             </tr>
                             <tr>
                               <td>Pushpendra Singh</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">22</td>
-                              <td class="text-end">100000</td>
-                              <td class="text-end">Process as salary</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
                               <td>Pushpendra Singh</td>
                               <td class="text-end">25/04/2017</td>
                               <td class="text-end">22</td>
@@ -712,6 +718,7 @@
                             </tr>
                             <tr>
                               <td>Pushpendra Singh</td>
+                              <td>Pushpendra Singh</td>
                               <td class="text-end">25/04/2017</td>
                               <td class="text-end">22</td>
                               <td class="text-end">100000</td>
@@ -719,6 +726,25 @@
                               <td class="text-end">Note</td>
                             </tr>
                             <tr>
+                              <td>Pushpendra Singh</td>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Pushpendra Singh</td>
+                              <td>Pushpendra Singh</td>
+                              <td class="text-end">25/04/2017</td>
+                              <td class="text-end">22</td>
+                              <td class="text-end">100000</td>
+                              <td class="text-end">Process as salary</td>
+                              <td class="text-end">Note</td>
+                            </tr>
+                            <tr>
+                              <td>Pushpendra Singh</td>
                               <td>Pushpendra Singh</td>
                               <td class="text-end">25/04/2017</td>
                               <td class="text-end">22</td>
