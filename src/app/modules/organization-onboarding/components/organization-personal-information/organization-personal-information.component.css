@@ -485,3 +485,31 @@ span.rectanglebox {
   width: 100px;
   height: 100px;
 }
+
+div img.ngx-ic-source-image {
+  max-width: 100%;
+  max-height: 10%;
+  transform-origin: center;
+}
+* {
+  box-sizing: border-box;
+}
+
+.cropper-wrapper {
+  min-height: 300px;
+  position: relative;
+}
+
+.loader {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: white;
+}
