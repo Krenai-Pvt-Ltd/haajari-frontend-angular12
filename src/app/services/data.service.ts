@@ -247,7 +247,7 @@ export class DataService {
     userPersonalInformationRequest: any,
   ): Observable<any> {
     return this.httpClient.put<any>(
-      `${this.baseUrl}/organization-personal-information/register`,
+      `${this.baseUrl}/organization-personal-information/update`,
       userPersonalInformationRequest,
     );
   }
@@ -2393,4 +2393,35 @@ export class DataService {
       { params },
     );
   }
+
+  
+  countPayrollDashboardEmployeeByOrganizationId(startDate : string, endDate : string):Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll/dashboard/employee/count`, {params});
+  }
+
+  getNewJoineeByOrganizationId(
+    itemPerPage: number,
+    pageNumber: number,
+    sort: string,
+    sortBy: string,
+    search: string,
+    searchBy: string,
+    startDate: string,
+    endDate: string): Observable<any>{
+      const params = new HttpParams()
+      .set('item_per_page', itemPerPage)
+      .set('page_numner', pageNumber)
+      .set('sort', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('start_date', startDate)
+      .set('end_date', endDate);
+      return this.httpClient.get<any>(`${this.baseUrl}/salary/user/change/new-joinee`, {params});
+    }
 }

@@ -1125,3 +1125,14 @@ a.select-file {
 .dot-opacity-loader span:nth-child(2) {
     animation-delay: -0.16s;
 }
+
+.btn-custom-selected {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+}
+
+.btn-outline-primary {
+    background-color: transparent;
+    color: #007bff;
+    border: 1px solid #007bff;
+}

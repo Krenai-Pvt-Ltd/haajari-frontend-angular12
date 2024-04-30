@@ -37,8 +37,10 @@ export class AuthGuard implements CanActivate {
     }
 
     // if (this.isOrganizationOnboarded(this.ONBOARDING_STEP)) {
+    //   console.log(this.ONBOARDING_STEP);
     //   this.router.navigate(['/dashboard']);
     // } else {
+    //   console.log(this.ONBOARDING_STEP);
     //   this.router.navigate(['/organization-onboarding/personal-information']);
     // }
 
