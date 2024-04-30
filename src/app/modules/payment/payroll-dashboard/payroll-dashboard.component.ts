@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { clear } from 'console';
 import { MonthResponse } from 'src/app/models/month-response';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
+import { PayActionType } from 'src/app/models/pay-action-type';
 import { PayrollDashboardEmployeeCountResponse } from 'src/app/models/payroll-dashboard-employee-count-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -12,12 +14,14 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./payroll-dashboard.component.css'],
 })
 export class PayrollDashboardComponent implements OnInit {
-  itemPerPage: number = 8;
-  pageNumber: number = 0;
+  itemPerPage: number = 2;
+  pageNumber: number = 1;
+  lastPageNumber: number = 0;
   sort: string = 'asc';
   sortBy: string = 'id';
   search: string = '';
   searchBy: string = 'name';
+  total: number = 0;
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
@@ -26,6 +30,16 @@ export class PayrollDashboardComponent implements OnInit {
     this.isShimmer = true;
     this.dataNotFoundPlaceholder = false;
     this.networkConnectionErrorPlaceHolder = false;
+  }
+
+
+  isShimmerForNewJoinee = false;
+  dataNotFoundPlaceholderForNewJoinee = false;
+  networkConnectionErrorPlaceHolderForNewJoinee = false;
+  preRuleForShimmersAndErrorPlaceholdersForNewJoinee() {
+    this.isShimmerForNewJoinee = true;
+    this.dataNotFoundPlaceholderForNewJoinee = false;
+    this.networkConnectionErrorPlaceHolderForNewJoinee = false;
   }
 
   constructor(
@@ -50,6 +64,7 @@ export class PayrollDashboardComponent implements OnInit {
 
     this.getFirstAndLastDateOfMonth(new Date());
     this.countPayrollDashboardEmployeeByOrganizationIdMethodCall();
+    this.getPayActionTypeListMethodCall();
 
     this.getOrganizationRegistrationDateMethodCall();
     this.getMonthResponseList(this.selectedDate);
@@ -267,15 +282,225 @@ export class PayrollDashboardComponent implements OnInit {
 
   //Fetching the new joinee data
   newJoineeResponseList : NewJoineeResponse[] = [];
-  getNewJoineeByOrganizationId(){
-    this.dataService.getNewJoineeByOrganizationId(this.itemPerPage, this.pageNumber, this.sort, this.sortBy, this.search, this.searchBy, this.startDate, this.endDate).subscribe((response) => {
-      if(response == undefined || response == null || response == undefined || response == null || response.length == 0){
+  debounceTimer : any;
+  getNewJoineeByOrganizationIdMethodCall(debounceTime : number = 300){
+
+    if(this.debounceTimer){
+      clearTimeout(this.debounceTimer);
+    }
+
+    this.debounceTimer = setTimeout(() => {
+      this.newJoineeResponseList = [];
+      this.preRuleForShimmersAndErrorPlaceholdersForNewJoinee();
+      this.dataService.getNewJoineeByOrganizationId(this.itemPerPage, this.pageNumber, this.sort, this.sortBy, this.search, this.searchBy, this.startDate, this.endDate).subscribe((response) => {
+        if(this.helperService.isListOfObjectNullOrUndefined(response)){
+
+          this.dataNotFoundPlaceholderForNewJoinee = true;
+        } else{
+          this.newJoineeResponseList = response.listOfObject;
+          this.total = response.totalItems;
+          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+          // console.log(this.total);
+        }
+        this.isShimmerForNewJoinee = false;
+      }, (error) => {
+
+        this.networkConnectionErrorPlaceHolderForNewJoinee = true;
+        this.isShimmerForNewJoinee = false;
+      })
+    }, debounceTime)
+  }
+
+  //Fetching the pay action type list
+  payActionTypeList : PayActionType[] = [];
+  getPayActionTypeListMethodCall(){
+    this.dataService.getPayActionTypeList().subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
 
       } else{
-        this.newJoineeResponseList = response.listOfObject;
+        this.payActionTypeList = response.listOfObject;
+        this.selectedPayActionType = response.listOfObject[0];
       }
     }, (error) => {
 
     })
   }
+
+  //Selecting pay action type
+  isDropdownOpen = false;
+  toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  selectedPayActionType : PayActionType = new PayActionType();
+  selectPayActionType(payActionType : PayActionType){
+    this.selectedPayActionType = payActionType;
+    this.isDropdownOpen = false;
+  }
+
+
+  // User selection to generate the payout
+  // isAllUsersSelected : boolean = false;
+  // isAllSelected : boolean = false;
+  // selectedStaffsUuids: string[] = [];
+
+  // checkIndividualSelection() {
+  //   this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
+  //   this.isAllSelected = this.isAllUsersSelected;
+  //   this.updateSelectedStaffs();
+  // }
+
+  // updateSelectedStaffs() {
+  //   this.staffs.forEach((staff) => {
+  //     if (staff.selected && !this.selectedStaffsUuids.includes(staff.uuid)) {
+  //       this.selectedStaffsUuids.push(staff.uuid);
+  //     } else if (
+  //       !staff.selected &&
+  //       this.selectedStaffsUuids.includes(staff.uuid)
+  //     ) {
+  //       this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
+  //         (uuid) => uuid !== staff.uuid,
+  //       );
+  //     }
+  //   });
+
+  //   this.checkAndUpdateAllSelected();
+
+  //   if (this.selectedStaffsUuids.length === 0) {
+  //   }
+  // }
+
+  // checkAndUpdateAllSelected() {
+  //   this.isAllSelected =
+  //     this.staffs.length > 0 && this.staffs.every((staff) => staff.selected);
+  //   this.isAllUsersSelected = this.selectedStaffsUuids.length === this.total;
+  // }
+
+  // selectAll(checked: boolean) {
+  //   this.isAllSelected = checked;
+  //   this.staffs.forEach((staff) => (staff.selected = checked));
+
+  //   // Update the selectedStaffsUuids based on the current page selection
+  //   if (checked) {
+  //     this.staffs.forEach((staff) => {
+  //       if (!this.selectedStaffsUuids.includes(staff.uuid)) {
+  //         this.selectedStaffsUuids.push(staff.uuid);
+  //       }
+  //     });
+  //   } else {
+  //     this.staffs.forEach((staff) => {
+  //       if (this.selectedStaffsUuids.includes(staff.uuid)) {
+  //         this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
+  //           (uuid) => uuid !== staff.uuid,
+  //         );
+  //       }
+  //     });
+  //   }
+  // }
+
+  // selectAllUsers(isChecked: boolean) {
+
+  //   this.isAllUsersSelected = isChecked;
+  //   this.isAllSelected = isChecked;
+  //   this.staffs.forEach((staff) => (staff.selected = isChecked));
+
+  //   if (isChecked) {
+  //     this.getAllUserUuidsMethodCall().then((allUuids) => {
+  //       this.selectedStaffsUuids = allUuids;
+  //     });
+  //   } else {
+  //     this.selectedStaffsUuids = [];
+  //   }
+  // }
+
+  // unselectAllUsers() {
+  //   this.isAllUsersSelected = false;
+  //   this.isAllSelected = false;
+  //   this.staffs.forEach((staff) => (staff.selected = false));
+  //   this.selectedStaffsUuids = [];
+  // }
+
+  // searchUsers(){};
+  // clearSearch(){};
+
+
+  //New Joinee Pagination
+  // ##### Pagination ############
+  changePage(page: number | string) {
+    if (typeof page === 'number') {
+      this.pageNumber = page;
+    } else if (page === 'prev' && this.pageNumber > 1) {
+      this.pageNumber--;
+    } else if (page === 'next' && this.pageNumber < this.totalPages) {
+      this.pageNumber++;
+    }
+    this.getNewJoineeByOrganizationIdMethodCall();
+  }
+
+  getPages(): number[] {
+    const totalPages = Math.ceil(this.total / this.itemPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.total / this.itemPerPage);
+  }
+  getStartIndex(): number {
+    return (this.pageNumber - 1) * this.itemPerPage + 1;
+  }
+  getEndIndex(): number {
+    const endIndex = this.pageNumber * this.itemPerPage;
+    return endIndex > this.total ? this.total : endIndex;
+  }
+
+  onTableDataChange(event: any) {
+    this.pageNumber = event;
+  }
+
+
+  //New Joinee Search
+  searchUsers(event : Event){
+    if (event instanceof KeyboardEvent) {
+      const ignoreKeys = [
+        'Shift',
+        'Control',
+        'Alt',
+        'Meta',
+        'ArrowLeft',
+        'ArrowRight',
+        'ArrowUp',
+        'ArrowDown',
+        'Escape',
+      ];
+
+      const isCmdA =
+        (event.key === 'a' || event.key === 'A') &&
+        (event.metaKey || event.ctrlKey);
+      if (ignoreKeys.includes(event.key) || isCmdA) {
+        return;
+      }
+    }
+
+    this.total = 0;
+    this.newJoineeResponseList = [];
+    this.resetCriteriaFilter();
+    this.getNewJoineeByOrganizationIdMethodCall();
+  }
+  clearSearch(){
+    this.search = '';
+    this.getNewJoineeByOrganizationIdMethodCall();
+  }
+  resetCriteriaFilter() {
+    this.itemPerPage = 2;
+    this.pageNumber = 1;
+  }
 }
+
+
+
+
+
+
+
+
+

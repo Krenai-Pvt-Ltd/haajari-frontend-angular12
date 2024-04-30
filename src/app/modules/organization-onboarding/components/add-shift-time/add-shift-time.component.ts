@@ -284,8 +284,7 @@ export class AddShiftTimeComponent implements OnInit {
   }
 
   selectAllUsers(isChecked: boolean) {
-    // const inputElement = event.target as HTMLInputElement;
-    // const isChecked = inputElement ? inputElement.checked : false;
+
     this.isAllUsersSelected = isChecked;
     this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
     this.staffs.forEach((staff) => (staff.selected = isChecked)); // Update each staff's selected property
