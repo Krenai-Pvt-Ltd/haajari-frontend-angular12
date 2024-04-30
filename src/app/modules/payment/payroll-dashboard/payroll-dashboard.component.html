@@ -166,7 +166,7 @@
                                 <img src="assets/images/creative-idea.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0" />
                               </div>
                               <!--end col-->
-                              <div class="col align-self-center"  (click)="getNewJoineeByOrganizationId()">
+                              <div class="col align-self-center"  (click)="getNewJoineeByOrganizationIdMethodCall()">
                                 <p class="font-14 mb-2"> Employee Changes <span class="task-priority-icon float-end">
                                     <i class="ti ti-checks text-success"></i>
                                   </span>
@@ -432,89 +432,187 @@
                   </nav>
                   <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane active" id="step1">
-                      <div class="row">
-                        <div class="col-md-6">
+                      <div class="col-md-12 mt-2">
+                        <form novalidate="" role="search" (submit)="searchUsers($event)" class="searching ng-untouched ng-pristine ng-valid">
+                            <div class="form-group" style="width: 350px; position: relative">
+                                <input type="text" id="search" placeholder="Search by name and email" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;" (keyup)="searchUsers($event)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+                                <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch()">
+                                    <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                                </button>
+                                <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+                            </div>
+                        </form>
+                    </div>
                           <div class="table-responsive">
                             <table class="table border-dashed mb-0">
+                              <!-- <div class="col-md-6">
+                                <div *ngIf="selectedStaffsUuids.length !== 0" class="d-flex align-items-center justify-content-end gap-3">
+                                  <span class="select-user-count">
+                                    <b>{{selectedStaffsUuids.length}}</b> selected of
+                                    <b>{{total}}</b></span>
+                                  <div *ngIf="selectedStaffsUuids.length != total">
+                                    <span (click)="selectAllUsers(true)" class="all-select-user">Select all {{total}} users</span>
+                                  </div>
+                                  <div *ngIf="selectedStaffsUuids.length == total">
+                                    <span (click)="unselectAllUsers()" class="clear-all-user">Clear all users <i class="bi bi-x"></i></span>
+                                  </div>
+                                  <div *ngIf="selectedStaffsUuids.length != total">
+                                    <span class="pointer user-close-btn" (click)="unselectAllUsers()"><i class="bi bi-x"></i></span>
+                                  </div>
+                                </div>
+                              </div> -->
+
                               <thead>
                                 <tr>
+                                  <!-- <th style="width:0%;">
+                                    <input type="checkbox" style="cursor: pointer;" class="form-check-input" [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" [ngModelOptions]="{standalone: true}">
+                                 </th> -->
                                   <th>EMPLOYEE</th>
                                   <th>EMAIL</th>
-                                  <th class="text-end">DATE OF JOINING</th>
-                                  <th class="text-end">NO OF WORKING DAYS</th>
-                                  <th class="text-end">SALARY</th>
+                                  <th>DATE OF JOINING</th>
+                                  <th>NO OF WORKING DAYS</th>
+                                  <th>SALARY</th>
+                                  <th>PAY ACTION</th>
+                                  <th>COMMENT(Optional)</th>
+                                  <th>ACTION</th>
                                 </tr>
                               </thead>
-                              <tbody *ngFor="let newJoineeResponse of newJoineeResponseList">
-                                <tr>
-                                  <td>{{newJoineeResponse.name}}</td>
-                                  <td>{{newJoineeResponse.email}}</td>
-                                  <td class="text-end">{{newJoineeResponse.joiningDate}}</td>
-                                  <td class="text-end">22</td>
-                                  <td class="text-end">{{newJoineeResponse.salary}}</td>
-                                </tr>
-                                <!-- <tr>
-                                  <td>Pushpendra Singh</td>
-                                  <td>pushpendra@gmail.com</td>
-                                  <td class="text-end">25/04/2017</td>
-                                  <td class="text-end">22</td>
-                                  <td class="text-end">100000</td>
-                                </tr>
-                                <tr>
-                                  <td>Pushpendra Singh</td>
-                                  <td>pushpendra@gmail.com</td>
-                                  <td class="text-end">25/04/2017</td>
-                                  <td class="text-end">22</td>
-                                  <td class="text-end">100000</td>
 
-                                </tr> -->
+                              <ng-container *ngIf="isShimmerForNewJoinee && newJoineeResponseList.length == 0; else newJoineeList">
+                                <tbody>
+                                  <tr *ngFor="let item of [].constructor(10)">
+                                      <td class="text-center">
+                                          <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                      </td>
+                                      <td class="text-center">
+                                          <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
+                                      </td>
+                                      <td class="text-center">
+                                          <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                      </td>
+                                      <td class="text-center">
+                                          <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                      </td>
+                                      <td class="text-center">
+                                          <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                      </td>
+                                      <td class="text-center">
+                                          <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                      </td>
+                                      <td class="text-center">
+                                          <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                      </td>
+                                      <td class="text-center">
+                                          <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                      </td>
+                                      <td class="text-center">
+                                          <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                      </td>
+                                  </tr>
                               </tbody>
+                              </ng-container>
+
+                              <ng-template #newJoineeList>
+                                <ng-container *ngIf="!isShimmerForNewJoinee && newJoineeResponseList.length != 0 && !dataNotFoundPlaceholderForNewJoinee && !networkConnectionErrorPlaceHolderForNewJoinee; else errorInFetchingNewJoinee;">
+                                  <tbody *ngFor="let newJoineeResponse of newJoineeResponseList | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}">
+                                    <tr>
+                                      <!-- <td style="width:0%;"> 
+                                        <div class="d-flex form-check justify-content-around">
+                                           [(ngModel)]="staff.selected"
+                                           <input type="checkbox" style="cursor: pointer;" class="form-check-input" (change)="checkIndividualSelection()" [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                     </td>  -->
+                                      <td>{{newJoineeResponse.name}}</td>
+                                      <td>{{newJoineeResponse.email}}</td>
+                                      <td class="text-start">{{newJoineeResponse.joiningDate}}</td>
+                                      <td class="text-start">-</td>
+                                      <td class="text-start">{{newJoineeResponse.salary}}</td>
+                                      <td class="text-"><div class="dudct-type">
+                                            <div class="dropdown pay-action-type">
+                                                <button
+                                                    class="btn btn-secondary dropdown-toggle new-dropdown"
+                                                    type="button" id="dropdownMenuButton1"
+                                                    data-bs-toggle="dropdown" aria-expanded="false"
+                                                    style=" text-align: left; background-color: white; color: black; border-color: #ced4da; width: 100%;">
+                                                    {{ selectedPayActionType?.name || "Select pay action" }}
+                                                    <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu"
+                                                    aria-labelledby="dropdownMenuButton1"
+                                                    style="width: 100%">
+                                                    <li *ngFor="let payActionType of payActionTypeList">
+                                                        <a class="dropdown-item"
+                                                            (click)="selectPayActionType(payActionType)">
+                                                            {{ payActionType.name }}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                      </td>
+                                      <td class="text-start"><input class="comment-input p-2" type="text" placeholder="Write the comment here"></td>
+                                      <td class="text-start">
+                                        <a>Manage Finances <i class="bi bi-pencil-square"></i></a> 
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </ng-container>
+                              </ng-template>
+
+                              <ng-template #errorInFetchingNewJoinee>
+                                  <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForNewJoinee">
+                                    <div class="errorboxinner text-center">
+                                        <div class="errorboxplaceholder mb-2">
+                                            <img src="assets/images/signal.svg" style="width: 100px" />
+                                        </div>
+                                        <div class="">
+                                            <h4>Something went wrong</h4>
+                                            <p>
+                                                An error occurred while processing your request. Please refresh the page and try again.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForNewJoinee">
+                                    <div class="errorboxinner text-center">
+                                        <div class="errorboxplaceholder mb-2">
+                                            <img src="assets/images/empty-folder.svg" style="width: 100px" />
+                                        </div>
+                                
+                                        <h4>No Data Found</h4>
+                                        <p>Sorry, We can't show you the data at this moment!</p>
+                                    </div>
+                                </div>
+                              </ng-template>
+                            
+                              
                             </table>
                             <!--end /table-->
                           </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="table-responsive">
-                            <table class="table border-dashed mb-0">
-                              <thead>
-                                <tr>
-                                  <th class="text-start">PAY ACTION</th>
-                                  <th class="text-start">COMMENT</th>
-                                  <th class="text-start">ACTION</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td class="text-start">Process as salary</td>
-                                  <td class="text-start"><input type="text"></td>
-                                  <td class="text-start">
-                                    <i class="bi bi-pencil-square"></i>
-                                    <i class="bi bi-trash text-danger"></i>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="text-start">Process as salary</td>
-                                  <td class="text-start"><input type="text"></td>
-                                  <td class="text-start">
-                                    <i class="bi bi-pencil-square"></i>
-                                    <i class="bi bi-trash text-danger"></i>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="text-start">Process as salary</td>
-                                  <td class="text-start"><input type="text"></td>
-                                  <td class="text-start">
-                                    <i class="bi bi-pencil-square"></i>
-                                    <i class="bi bi-trash text-danger"></i>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                            <!--end /table-->
+                          <!-- Pagination -->
+                          <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="((total > (itemPerPage-1)) || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && !dataNotFoundPlaceholderForNewJoinee && !networkConnectionErrorPlaceHolderForNewJoinee">
+                            <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} employees </p>
+                            <div>
+                              <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end">
+                                  <li class="page-item" [class.disabled]="pageNumber == 1">
+                                    <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
+                                      <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                  </li>
+                                  <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                                    <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
+                                  </li>
+                                  <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                                    <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
+                                      <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </nav>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-
                     </div>
                     <div class="tab-pane" id="step2">
                       <div class="table-responsive">

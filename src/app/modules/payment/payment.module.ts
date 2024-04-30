@@ -13,6 +13,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DynamicModule } from '../dynamic/dynamic.module';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { DateFormatterPipe } from 'src/app/pipe/date-formatter.pipe';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+
+
 
 @NgModule({
   declarations: [
@@ -31,6 +36,9 @@ import { DateFormatterPipe } from 'src/app/pipe/date-formatter.pipe';
     ReactiveFormsModule,
     PaymentRoutingModule,
     NzDatePickerModule,
+    NzDropDownModule,
+    NgxPaginationModule,
+    NgxShimmerLoadingModule
   ],
 })
 export class PaymentModule {}
