@@ -425,9 +425,9 @@
                 <form action="#" method="post" id="custom-step">
                   <nav>
                     <div class="nav nav-tabs" id="nav-tab">
-                      <a class="nav-link active" id="step1-tab" data-bs-toggle="tab" href="#step1" (click)="getNewJoineeByOrganizationIdMethodCall()">NEW JOINEE</a>
-                      <a class="nav-link" id="step2-tab" data-bs-toggle="tab" href="#step2" (click)="getUserExitByOrganizationIdMethodCall()">EMPLOYEES IN EXIT PROCESS</a>
-                      <a class="nav-link" id="step3-tab" data-bs-toggle="tab" href="#step3">FULL AND FINAL SETTLEMENT</a>
+                      <a class="nav-link active" id="step1-tab" data-bs-toggle="tab" href="#step1" (click)="newJoineeTab()">NEW JOINEE</a>
+                      <a class="nav-link" id="step2-tab" data-bs-toggle="tab" href="#step2" (click)="userExitTab()">EMPLOYEES IN EXIT PROCESS</a>
+                      <a class="nav-link" id="step3-tab" data-bs-toggle="tab" href="#step3" (click)="finalSettlementTab()">FULL AND FINAL SETTLEMENT</a>
                     </div>
                   </nav>
                   <div class="tab-content" id="nav-tabContent">
@@ -609,15 +609,15 @@
                               <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-end">
                                   <li class="page-item" [class.disabled]="pageNumber == 1">
-                                    <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
+                                    <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev', 1)">
                                       <span aria-hidden="true">&laquo;</span>
                                     </a>
                                   </li>
                                   <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-                                    <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
+                                    <a class="page-link" href="javascript:void(0);" (click)="changePage(page, 1)">{{ page }}</a>
                                   </li>
                                   <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                                    <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
+                                    <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next', 1)">
                                       <span aria-hidden="true">&raquo;</span>
                                     </a>
                                   </li>
@@ -777,15 +777,15 @@
                           <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-end">
                               <li class="page-item" [class.disabled]="pageNumber == 1">
-                                <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
+                                <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev', 2)">
                                   <span aria-hidden="true">&laquo;</span>
                                 </a>
                               </li>
                               <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-                                <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
+                                <a class="page-link" href="javascript:void(0);" (click)="changePage(page, 2)">{{ page }}</a>
                               </li>
                               <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                                <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
+                                <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next', 2)">
                                   <span aria-hidden="true">&raquo;</span>
                                 </a>
                               </li>
@@ -796,67 +796,169 @@
                     </div>
                     <div class="tab-pane" id="step3">
                       <div class="table-responsive">
+                        <div class="col-md-12 mt-2">
+                          <form novalidate="" role="search" (submit)="searchUsers($event, 3)" class="searching ng-untouched ng-pristine ng-valid">
+                              <div class="form-group" style="width: 350px; position: relative">
+                                  <input type="text" id="search" placeholder="Search by name and email" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;" (keyup)="searchUsers($event, 3)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+                                  <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch(3)">
+                                      <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                                  </button>
+                                  <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+                              </div>
+                          </form>
+                        </div>
                         <table class="table border-dashed mb-0">
                           <thead>
                             <tr>
                               <th>EMPLOYEE</th>
-                              <th class="text-end">EXIT ACTION & REASON</th>
-                              <th class="text-end">LAST WORKING DAY</th>
-                              <th class="text-end">STATUS</th>
-                              <th class="text-end">SETTLED AMOUNT</th>
-                              <th class="text-end">ACTION</th>
-                              <th class="text-end">COMMENTS</th>
+                              <th>EMAIL</th>
+                              <th>NO OF WORKING DAYS</th>
+                              <th>SALARY</th>
+                              <th>USER TYPE</th>
+                              <th>PAY ACTION</th>
+                              <th>COMMENT(Optional)</th>
+                              <th>ACTION</th>
                             </tr>
                           </thead>
-                          <tbody>
-                            <tr>
-                              <td>Abhishek</td>
-                              <td class="text-end">SALARY HIKE</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">HOLD</td>
-                              <td class="text-end">20445/-</td>
-                              <td class="text-end">DONE</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Abhishek</td>
-                              <td class="text-end">SALARY HIKE</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">HOLD</td>
-                              <td class="text-end">20445/-</td>
-                              <td class="text-end">DONE</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Abhishek</td>
-                              <td class="text-end">SALARY HIKE</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">HOLD</td>
-                              <td class="text-end">20445/-</td>
-                              <td class="text-end">DONE</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Abhishek</td>
-                              <td class="text-end">SALARY HIKE</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">HOLD</td>
-                              <td class="text-end">20445/-</td>
-                              <td class="text-end">DONE</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Abhishek</td>
-                              <td class="text-end">SALARY HIKE</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">HOLD</td>
-                              <td class="text-end">20445/-</td>
-                              <td class="text-end">DONE</td>
-                              <td class="text-end">Note</td>
-                            </tr>
+
+                          <ng-container *ngIf="isShimmerForFinalSettlement && finalSettlementResponseList.length == 0; else finalSettlementList">
+                            <tbody>
+                              <tr *ngFor="let item of [].constructor(10)">
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                              </tr>
+                            </tbody>
+                          </ng-container>
+
+                          <ng-template #finalSettlementList>
+                            <ng-container *ngIf="!isShimmerForFinalSettlement && finalSettlementResponseList.length != 0 && !dataNotFoundPlaceholderForFinalSettlement && !networkConnectionErrorPlaceHolderForFinalSettlement; else errorInFetchingFinalSettlementList">
+                              <tbody *ngFor="let finalSettlementResponse of finalSettlementResponseList | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}">
+                                <tr>
+                                  <td>{{finalSettlementResponse.name}}</td>
+                                  <td>{{finalSettlementResponse.email}}</td>
+                                  <td>-</td>
+                                  <td>{{finalSettlementResponse.salary}}</td>
+                                  <td>{{finalSettlementResponse.userType}}</td>
+                                  <td>{{finalSettlementResponse.payActionType}}</td>
+                                  <td>{{finalSettlementResponse.comment}}</td>
+                                  <!-- <td class="text-"><div class="dudct-type">
+                                    <div class="dropdown pay-action-type">
+                                        <button
+                                            class="btn btn-secondary dropdown-toggle new-dropdown"
+                                            type="button" id="dropdownMenuButton1"
+                                            data-bs-toggle="dropdown" aria-expanded="false"
+                                            style=" text-align: left; background-color: white; color: black; border-color: #ced4da; width: 100%;">
+                                            {{ selectedPayActionType?.name || "Select pay action" }}
+                                            <i class="bi bi-chevron-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu"
+                                            aria-labelledby="dropdownMenuButton1"
+                                            style="width: 100%">
+                                            <li *ngFor="let payActionType of payActionTypeList">
+                                                <a class="dropdown-item"
+                                                    (click)="selectPayActionType(payActionType)">
+                                                    {{ payActionType.name }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                              </td> -->
+                                <td>
+                                  <a><i class="bi bi-pencil-square"></i></a>
+                                </td>
+                              </tr>
+                              </tbody>
+                            </ng-container>
+                          </ng-template>
+
+                          <ng-template #errorInFetchingFinalSettlementList>
+                            <tbody>
+                              <tr>
+                                  <td colspan="8">
+                                      <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForFinalSettlement">
+                                          <div class="errorboxinner text-center">
+                                              <div class="errorboxplaceholder mb-2">
+                                                  <img src="assets/images/signal.svg" style="width: 100px" />
+                                              </div>
+                                              <div class="">
+                                                  <h4>Something went wrong</h4>
+                                                  <p>
+                                                      An error occurred while processing your request. Please refresh the page and try again.
+                                                  </p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                              </tr>
                           </tbody>
+                          <tbody>
+                              <tr>
+                                  <td colspan="8">
+                                      <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForFinalSettlement">
+                                          <div class="errorboxinner text-center">
+                                              <div class="errorboxplaceholder mb-2">
+                                                  <img src="assets/images/empty-folder.svg" style="width: 100px" />
+                                              </div>
+                          
+                                              <h4>No Data Found</h4>
+                                              <p>Sorry, We can't show you the data at this moment!</p>
+                                          </div>
+                                      </div>
+                                  </td>
+                              </tr>
+                          </tbody>
+                          </ng-template>
                         </table>
                         <!--end /table-->
+                      </div>
+                      <!-- Pagination -->
+                      <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="((total > (itemPerPage-1)) || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && !dataNotFoundPlaceholderForFinalSettlement && !networkConnectionErrorPlaceHolderForFinalSettlement">
+                        <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} employees </p>
+                        <div>
+                          <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-end">
+                              <li class="page-item" [class.disabled]="pageNumber == 1">
+                                <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev', 3)">
+                                  <span aria-hidden="true">&laquo;</span>
+                                </a>
+                              </li>
+                              <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                                <a class="page-link" href="javascript:void(0);" (click)="changePage(page, 3)">{{ page }}</a>
+                              </li>
+                              <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                                <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next', 3)">
+                                  <span aria-hidden="true">&raquo;</span>
+                                </a>
+                              </li>
+                            </ul>
+                          </nav>
+                        </div>
                       </div>
                     </div>
                   </div>
