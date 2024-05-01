@@ -689,7 +689,7 @@
                             </tbody>
                           </ng-container>
                           <ng-template #userExitList>
-                            <ng-container *ngIf="!isShimmerForUserExit && userExitResponseList.length != 0 && !dataNotFoundPlaceholderForUserExit && !networkConnectionErrorPlaceHolderForUserExit">
+                            <ng-container *ngIf="!isShimmerForUserExit && userExitResponseList.length != 0 && !dataNotFoundPlaceholderForUserExit && !networkConnectionErrorPlaceHolderForUserExit; else errorInFetchingUserExitList">
                               <tbody *ngFor="let userExitResponse of userExitResponseList | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}">
                                 <tr>
                                   <td>{{userExitResponse.name}}</td>
