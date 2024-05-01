@@ -70,11 +70,26 @@
                               <i class="ti ti-brand-slack"></i> Receive attendance notifications by Slack
                             </div>
                             <div>
-                              <div class="btn-group enable-disanle-btn" role="group " aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" name="btnradio1" id="Enable1" autocomplete="off" checked="" />
-                                <label class="btn  btn-soft-secondary btn-sm" for="Enable1">Enable</label>
-                                <input type="radio" class="btn-check" name="btnradio1" id="Enable2" autocomplete="off" />
-                                <label class="btn btn-soft-success btn-sm" for="Enable2">Disable</label>
+                              <div class="btn-group enable-disable-btn" role="group" aria-label="Basic radio toggle button group">
+                                <input type="radio" 
+                                       class="btn-check" 
+                                       name="btnradio1" 
+                                       id="Enable1" 
+                                       autocomplete="off" 
+                                       [(ngModel)]="notifications.whatsapp" 
+                                       [value]="true" 
+                                        />
+                                <label class="btn btn-soft-success btn-sm" for="Enable1">Enable</label>
+                              
+                                <input type="radio" 
+                                       class="btn-check" 
+                                       name="btnradio1" 
+                                       id="Enable2" 
+                                       autocomplete="off" 
+                                       [(ngModel)]="notifications.whatsapp" 
+                                       [value]="false" 
+                                        />
+                                <label class="btn btn-soft-secondary btn-sm" for="Enable2">Disable</label>
                               </div>
                               <!-- <div
                                 class="material-switch"
