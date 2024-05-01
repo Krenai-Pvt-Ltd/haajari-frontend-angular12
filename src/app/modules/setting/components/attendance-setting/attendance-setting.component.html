@@ -256,231 +256,406 @@
                 </div>
               </div>
 
-              <div class="shift-time p-3 m-3">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div class="d-flex align-items-center gap-3">
-                    <span
-                      class="shift-toogel-btn pointer"
-                      data-bs-toggle="collapse"
-                      href="#multiCollapseExample1"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="multiCollapseExample1"
-                      ><i class="bi bi-chevron-down"></i
-                    ></span>
-                    <h6 class="text-truncate mb-0">Morning Shift 1</h6>
-                  </div>
-                  <div class="d-flex align-items-center gap-4">
-                    <div class="pointer"><i class="bi bi-pencil"></i></div>
-                    <div class="pointer"><i class="bi bi-people"></i></div>
-                    <div class="pointer">
-                      <i class="bi bi-trash text-danger"></i>
+              <div
+                class="shift-setting-box"
+                [ngClass]="{
+                  'shift-setting-list-box': viewAllShiftTiming == true
+                }"
+              >
+                <div class="shift-time p-3 m-3">
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center gap-3">
+                      <span
+                        class="shift-toogel-btn pointer"
+                        data-bs-toggle="collapse"
+                        href="#multiCollapseExample1"
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls="multiCollapseExample1"
+                        ><i class="bi bi-chevron-down"></i
+                      ></span>
+                      <h6 class="text-truncate mb-0">Morning Shift 1</h6>
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <div class="pointer"><i class="bi bi-pencil"></i></div>
+                      <div class="pointer"><i class="bi bi-people"></i></div>
+                      <div class="pointer">
+                        <i class="bi bi-trash text-danger"></i>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div
-                  class="shift-in-out-box bg-white mt-4 mb-3 p-3 row m-0 collapse multi-collapse"
-                  id="multiCollapseExample1"
-                >
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time mb-3">
-                      <p class="mb-0">
-                        In Time | <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                  <div
+                    class="shift-in-out-box bg-white mt-4 mb-3 p-3 row m-0 collapse multi-collapse"
+                    id="multiCollapseExample1"
+                  >
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          In Time | <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time mb-3">
-                      <p class="mb-0">
-                        Out Time | <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          Out Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time mb-3">
-                      <p class="mb-0">
-                        Working Time |
-                        <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          Working Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time">
-                      <p class="mb-0">
-                        Break Time |
-                        <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Break Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time">
-                      <p class="mb-0">
-                        Back Time | <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Back Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time">
-                      <p class="mb-0">
-                        Total Break Hour |
-                        <span style="color: #3f988f">03:50:00</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="shift-time p-3 m-3">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div class="d-flex align-items-center gap-3">
-                    <span
-                      class="shift-toogel-btn pointer"
-                      data-bs-toggle="collapse"
-                      href="#multiCollapseExample2"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="multiCollapseExample2"
-                      ><i class="bi bi-chevron-down"></i
-                    ></span>
-                    <h6 class="text-truncate mb-0">Morning Shift 1</h6>
-                  </div>
-                  <div class="d-flex align-items-center gap-4">
-                    <div class="pointer"><i class="bi bi-pencil"></i></div>
-                    <div class="pointer"><i class="bi bi-people"></i></div>
-                    <div class="pointer">
-                      <i class="bi bi-trash text-danger"></i>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Total Break Hour |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div class="shift-time p-3 m-3">
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center gap-3">
+                      <span
+                        class="shift-toogel-btn pointer"
+                        data-bs-toggle="collapse"
+                        href="#multiCollapseExample2"
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls="multiCollapseExample2"
+                        ><i class="bi bi-chevron-down"></i
+                      ></span>
+                      <h6 class="text-truncate mb-0">Morning Shift 1</h6>
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <div class="pointer"><i class="bi bi-pencil"></i></div>
+                      <div class="pointer"><i class="bi bi-people"></i></div>
+                      <div class="pointer">
+                        <i class="bi bi-trash text-danger"></i>
+                      </div>
+                    </div>
+                  </div>
 
-                <div
-                  class="shift-in-out-box bg-white mt-4 mb-3 p-3 row m-0 collapse multi-collapse"
-                  id="multiCollapseExample2"
-                >
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time mb-3">
-                      <p class="mb-0">
-                        In Time | <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                  <div
+                    class="shift-in-out-box bg-white mt-4 mb-3 p-3 row m-0 collapse multi-collapse"
+                    id="multiCollapseExample2"
+                  >
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          In Time | <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time mb-3">
-                      <p class="mb-0">
-                        Out Time | <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          Out Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time mb-3">
-                      <p class="mb-0">
-                        Working Time |
-                        <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          Working Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time">
-                      <p class="mb-0">
-                        Break Time |
-                        <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Break Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time">
-                      <p class="mb-0">
-                        Back Time | <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Back Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time">
-                      <p class="mb-0">
-                        Total Break Hour |
-                        <span style="color: #3f988f">03:50:00</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="shift-time p-3 m-3">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div class="d-flex align-items-center gap-3">
-                    <span
-                      class="shift-toogel-btn pointer"
-                      data-bs-toggle="collapse"
-                      href="#multiCollapseExample3"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="multiCollapseExample3"
-                      ><i class="bi bi-chevron-down"></i
-                    ></span>
-                    <h6 class="text-truncate mb-0">Morning Shift 1</h6>
-                  </div>
-                  <div class="d-flex align-items-center gap-4">
-                    <div class="pointer"><i class="bi bi-pencil"></i></div>
-                    <div class="pointer"><i class="bi bi-people"></i></div>
-                    <div class="pointer">
-                      <i class="bi bi-trash text-danger"></i>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Total Break Hour |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div class="shift-time p-3 m-3">
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center gap-3">
+                      <span
+                        class="shift-toogel-btn pointer"
+                        data-bs-toggle="collapse"
+                        href="#multiCollapseExample3"
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls="multiCollapseExample3"
+                        ><i class="bi bi-chevron-down"></i
+                      ></span>
+                      <h6 class="text-truncate mb-0">Morning Shift 1</h6>
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <div class="pointer"><i class="bi bi-pencil"></i></div>
+                      <div class="pointer"><i class="bi bi-people"></i></div>
+                      <div class="pointer">
+                        <i class="bi bi-trash text-danger"></i>
+                      </div>
+                    </div>
+                  </div>
 
-                <div
-                  class="shift-in-out-box bg-white mt-4 mb-3 p-3 row m-0 collapse multi-collapse"
-                  id="multiCollapseExample3"
-                >
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time mb-3">
-                      <p class="mb-0">
-                        In Time | <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                  <div
+                    class="shift-in-out-box bg-white mt-4 mb-3 p-3 row m-0 collapse multi-collapse"
+                    id="multiCollapseExample3"
+                  >
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          In Time | <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          Out Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          Working Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Break Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Back Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Total Break Hour |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time mb-3">
-                      <p class="mb-0">
-                        Out Time | <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                </div>
+                <div class="shift-time p-3 m-3">
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center gap-3">
+                      <span
+                        class="shift-toogel-btn pointer"
+                        data-bs-toggle="collapse"
+                        href="#multiCollapseExample3"
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls="multiCollapseExample3"
+                        ><i class="bi bi-chevron-down"></i
+                      ></span>
+                      <h6 class="text-truncate mb-0">Morning Shift 1</h6>
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <div class="pointer"><i class="bi bi-pencil"></i></div>
+                      <div class="pointer"><i class="bi bi-people"></i></div>
+                      <div class="pointer">
+                        <i class="bi bi-trash text-danger"></i>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time mb-3">
-                      <p class="mb-0">
-                        Working Time |
-                        <span style="color: #3f988f">03:50:00</span>
-                      </p>
+
+                  <div
+                    class="shift-in-out-box bg-white mt-4 mb-3 p-3 row m-0 collapse multi-collapse"
+                    id="multiCollapseExample3"
+                  >
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          In Time | <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          Out Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          Working Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Break Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Back Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Total Break Hour |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time">
-                      <p class="mb-0">
-                        Break Time |
-                        <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                </div>
+                <div class="shift-time p-3 m-3">
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center gap-3">
+                      <span
+                        class="shift-toogel-btn pointer"
+                        data-bs-toggle="collapse"
+                        href="#multiCollapseExample3"
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls="multiCollapseExample3"
+                        ><i class="bi bi-chevron-down"></i
+                      ></span>
+                      <h6 class="text-truncate mb-0">Morning Shift 1</h6>
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <div class="pointer"><i class="bi bi-pencil"></i></div>
+                      <div class="pointer"><i class="bi bi-people"></i></div>
+                      <div class="pointer">
+                        <i class="bi bi-trash text-danger"></i>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time">
-                      <p class="mb-0">
-                        Back Time | <span style="color: #3f988f">03:50:00</span>
-                      </p>
+
+                  <div
+                    class="shift-in-out-box bg-white mt-4 mb-3 p-3 row m-0 collapse multi-collapse"
+                    id="multiCollapseExample3"
+                  >
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          In Time | <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="shift-in-out-time">
-                      <p class="mb-0">
-                        Total Break Hour |
-                        <span style="color: #3f988f">03:50:00</span>
-                      </p>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          Out Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time mb-3">
+                        <p class="mb-0">
+                          Working Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Break Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Back Time |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="shift-in-out-time">
+                        <p class="mb-0">
+                          Total Break Hour |
+                          <span style="color: #3f988f">03:50:00</span>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-end m-3">
                 <div class="">
-                  <a href="" class="view-all-btn"
+                  <a (click)="toggleViewAllShiftTiming()" class="view-all-btn"
                     >View All <i class="bi bi-chevron-down"></i
                   ></a>
                 </div>
@@ -867,7 +1042,12 @@
               </div>
 
               <div class="m-3 holiday-list">
-                <div class="row">
+                <div
+                  class="row holiday-list-box-height"
+                  [ngClass]="{
+                    'holiday-list-box': viewAllHolidaySection == true
+                  }"
+                >
                   <div class="col-md-6">
                     <div class="holiday-date mb-3 universal-holiday">
                       <p class="mb-0">
@@ -948,13 +1128,16 @@
                       </p>
                     </div>
                   </div>
-                  <div class="d-flex align-items-center justify-content-end">
-                    <div class="">
-                      <a href="" class="view-all-btn"
-                        >View All <small class="text-muted">(25 more)</small>
-                        <i class="bi bi-chevron-down"></i
-                      ></a>
-                    </div>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-end">
+                  <div class="">
+                    <a
+                      class="view-all-btn"
+                      (click)="toggleViewAllHolidaySection()"
+                      >View All <small class="text-muted">(25 more)</small>
+                      <i class="bi bi-chevron-down"></i
+                    ></a>
                   </div>
                 </div>
               </div>
@@ -1229,125 +1412,147 @@
               </div>
             </ng-container>
 
-            <div class="automation-rules-main-box">
-              <div class="automation-rules mb-3">
-                <div
-                  class="d-flex align-items-center justify-content-between border-bottom p-3"
-                >
-                  <div class="d-flex align-items-center gap-3">
+            <div class="add-shift-main-box">
+              <div
+                class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2"
+              >
+                <div class="">
+                  <h6 class="text-truncate mb-0">Rule’s</h6>
+                </div>
+                <div class="">
+                  <a class="add-shift-time-btn"
+                    ><i class="bi bi-plus"></i> Add Automation Rules
+                  </a>
+                </div>
+              </div>
+
+              <div class="shift-time p-3 m-3">
+                <div class="">
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="">
+                        <span
+                          class="automation-rules-icon d-flex align-items-center justify-content-center"
+                        >
+                          <img src="assets/images/rule-icon.svg" />
+                        </span>
+                      </div>
+                      <div class="">
+                        <h6 class="text-truncate mb-0">Late Entry Rules</h6>
+                        <small class="text-muted"
+                          >Define the late entry rules for the employees</small
+                        >
+                      </div>
+                    </div>
                     <div class="">
                       <span
-                        class="automation-rules-icon d-flex align-items-center justify-content-center"
-                      >
-                        <img src="assets/images/rule-icon.svg" />
-                      </span>
-                    </div>
-                    <div class="">
-                      <h6 class="text-truncate mb-0">Late Entry Rules</h6>
-                      <small class="text-muted"
-                        >Define the late entry rules for the employees</small
-                      >
+                        class="automation-rules-toogel-btn pointer"
+                        data-bs-toggle="collapse"
+                        href="#multiCollapseExample5"
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls="multiCollapseExample5"
+                        ><i class="bi bi-chevron-down"></i
+                      ></span>
                     </div>
                   </div>
-                  <div class="">
-                    <span
-                      class="automation-rules-toogel-btn pointer"
-                      data-bs-toggle="collapse"
-                      href="#multiCollapseExample5"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="multiCollapseExample5"
-                      ><i class="bi bi-chevron-down"></i
-                    ></span>
-                  </div>
-                </div>
 
-                <div class="collapse multi-collapse" id="multiCollapseExample5">
                   <div
-                    class="d-flex align-items-center justify-content-between p-3"
+                    class="collapse multi-collapse"
+                    id="multiCollapseExample5"
                   >
-                    <div class="">
-                      <p class="mb-0">
-                        <i
-                          class="bi bi-arrow-right"
-                          style="padding-right: 10px"
-                        ></i>
-                        Rule 1
-                      </p>
+                    <div
+                      class="d-flex align-items-center justify-content-between mt-3"
+                    >
+                      <div class="">
+                        <p class="mb-0">
+                          <i
+                            class="bi bi-arrow-right"
+                            style="padding-right: 10px"
+                          ></i>
+                          Rule 1
+                        </p>
+                      </div>
+                      <div class="d-flex align-items-center gap-4">
+                        <i class="bi bi-pencil pointer"></i>
+                        <i class="bi bi-trash pointer text-danger"></i>
+                      </div>
                     </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-pencil pointer"></i>
-                      <i class="bi bi-trash pointer text-danger"></i>
-                    </div>
-                  </div>
 
-                  <div class="row m-3 mt-0">
-                    <div class="col-md-4">
-                      <div class="custom-salary">
-                        <div class="custom-salary-hedding p-3">
-                          <h4 class="mb-0">Custom salary Deduction rule</h4>
-                        </div>
-                        <div class="custom-salary-para p-3">
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
-                            <p class="mb-0">Duration</p>
-                            <span style="color: #3f988f">00:30:00 hrs</span>
+                    <div class="row mt-3">
+                      <div class="col-md-4">
+                        <div class="custom-salary">
+                          <div class="custom-salary-hedding p-3">
+                            <h4 class="mb-0">Custom salary Deduction rule</h4>
                           </div>
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
-                            <p class="mb-0">Duration Type</p>
-                            <span style="color: #3f988f">Per Minute</span>
-                          </div>
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
-                            <p class="mb-0">Occasion</p>
-                            <span style="color: #3f988f">5 Times</span>
+                          <div class="custom-salary-para p-3">
+                            <div
+                              class="d-flex align-items-center justify-content-between mb-3"
+                            >
+                              <p class="mb-0">Duration</p>
+                              <span style="color: #3f988f">00:30:00 hrs</span>
+                            </div>
+                            <div
+                              class="d-flex align-items-center justify-content-between mb-3"
+                            >
+                              <p class="mb-0">Deduction</p>
+                              <span style="color: #3f988f">Minute</span>
+                            </div>
+                            <div
+                              class="d-flex align-items-center justify-content-between"
+                            >
+                              <p class="mb-0">Occasion</p>
+                              <span style="color: #3f988f">5 Times</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="custom-salary">
-                        <div class="custom-salary-hedding p-3">
-                          <h4 class="mb-0">Half Day Salary Deduction Rules</h4>
-                        </div>
-                        <div class="custom-salary-para p-3">
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
-                            <p class="mb-0">Duration</p>
-                            <span style="color: #3f988f">00:30:00 hrs</span>
+                      <div class="col-md-4">
+                        <div class="custom-salary">
+                          <div class="custom-salary-hedding p-3">
+                            <h4 class="mb-0">
+                              Half Day Salary Deduction Rules
+                            </h4>
                           </div>
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
-                            <p class="mb-0">Occasion</p>
-                            <span style="color: #3f988f">5 Times</span>
+                          <div class="custom-salary-para p-3">
+                            <div
+                              class="d-flex align-items-center justify-content-between mb-3"
+                            >
+                              <p class="mb-0">Duration</p>
+                              <span style="color: #3f988f">00:30:00 hrs</span>
+                            </div>
+                            <div
+                              class="d-flex align-items-center justify-content-between"
+                            >
+                              <p class="mb-0">Occasion</p>
+                              <span style="color: #3f988f">5 Times</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="custom-salary">
-                        <div class="custom-salary-hedding p-3">
-                          <h4 class="mb-0">Full Day Salary Deduction Rules</h4>
-                        </div>
-                        <div class="custom-salary-para p-3">
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
-                            <p class="mb-0">Duration</p>
-                            <span style="color: #3f988f">00:30:00 hrs</span>
+                      <div class="col-md-4">
+                        <div class="custom-salary">
+                          <div class="custom-salary-hedding p-3">
+                            <h4 class="mb-0">
+                              Full Day Salary Deduction Rules
+                            </h4>
                           </div>
+                          <div class="custom-salary-para p-3">
+                            <div
+                              class="d-flex align-items-center justify-content-between mb-3"
+                            >
+                              <p class="mb-0">Duration</p>
+                              <span style="color: #3f988f">00:30:00 hrs</span>
+                            </div>
 
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
-                            <p class="mb-0">Occasion</p>
-                            <span style="color: #3f988f">5 Times</span>
+                            <div
+                              class="d-flex align-items-center justify-content-between"
+                            >
+                              <p class="mb-0">Occasion</p>
+                              <span style="color: #3f988f">5 Times</span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1355,124 +1560,133 @@
                   </div>
                 </div>
               </div>
-              <div class="automation-rules mb-3">
-                <div
-                  class="d-flex align-items-center justify-content-between border-bottom p-3"
-                >
-                  <div class="d-flex align-items-center gap-3">
+              <div class="shift-time p-3 m-3">
+                <div class="">
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="">
+                        <span
+                          class="automation-rules-icon d-flex align-items-center justify-content-center"
+                        >
+                          <img src="assets/images/rule-icon.svg" />
+                        </span>
+                      </div>
+                      <div class="">
+                        <h6 class="text-truncate mb-0">Late Entry Rules</h6>
+                        <small class="text-muted"
+                          >Define the late entry rules for the employees</small
+                        >
+                      </div>
+                    </div>
                     <div class="">
                       <span
-                        class="automation-rules-icon d-flex align-items-center justify-content-center"
-                      >
-                        <img src="assets/images/rule-icon.svg" />
-                      </span>
-                    </div>
-                    <div class="">
-                      <h6 class="text-truncate mb-0">Break Rules</h6>
-                      <small class="text-muted"
-                        >Define the break rules for the employees</small
-                      >
+                        class="automation-rules-toogel-btn pointer"
+                        data-bs-toggle="collapse"
+                        href="#multiCollapseExample6"
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls="multiCollapseExample6"
+                        ><i class="bi bi-chevron-down"></i
+                      ></span>
                     </div>
                   </div>
-                  <div class="">
-                    <span
-                      class="automation-rules-toogel-btn pointer"
-                      data-bs-toggle="collapse"
-                      href="#multiCollapseExample6"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="multiCollapseExample6"
-                      ><i class="bi bi-chevron-down"></i
-                    ></span>
-                  </div>
-                </div>
 
-                <div class="collapse multi-collapse" id="multiCollapseExample6">
                   <div
-                    class="d-flex align-items-center justify-content-between p-3"
+                    class="collapse multi-collapse"
+                    id="multiCollapseExample6"
                   >
-                    <div class="">
-                      <p class="mb-0">
-                        <i
-                          class="bi bi-arrow-right"
-                          style="padding-right: 10px"
-                        ></i>
-                        Rule 1
-                      </p>
+                    <div
+                      class="d-flex align-items-center justify-content-between mt-3"
+                    >
+                      <div class="">
+                        <p class="mb-0">
+                          <i
+                            class="bi bi-arrow-right"
+                            style="padding-right: 10px"
+                          ></i>
+                          Rule 1
+                        </p>
+                      </div>
+                      <div class="d-flex align-items-center gap-4">
+                        <i class="bi bi-pencil pointer"></i>
+                        <i class="bi bi-trash pointer text-danger"></i>
+                      </div>
                     </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-pencil pointer"></i>
-                      <i class="bi bi-trash pointer text-danger"></i>
-                    </div>
-                  </div>
 
-                  <div class="row m-3 mt-0">
-                    <div class="col-md-4">
-                      <div class="custom-salary">
-                        <div class="custom-salary-hedding p-3">
-                          <h4 class="mb-0">Custom salary Deduction rule</h4>
-                        </div>
-                        <div class="custom-salary-para p-3">
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
-                            <p class="mb-0">Duration</p>
-                            <span style="color: #3f988f">00:30:00 hrs</span>
+                    <div class="row mt-3">
+                      <div class="col-md-4">
+                        <div class="custom-salary">
+                          <div class="custom-salary-hedding p-3">
+                            <h4 class="mb-0">Custom salary Deduction rule</h4>
                           </div>
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
-                            <p class="mb-0">Duration Type</p>
-                            <span style="color: #3f988f">Per Minute</span>
-                          </div>
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
-                            <p class="mb-0">Occasion</p>
-                            <span style="color: #3f988f">5 Times</span>
+                          <div class="custom-salary-para p-3">
+                            <div
+                              class="d-flex align-items-center justify-content-between mb-3"
+                            >
+                              <p class="mb-0">Duration</p>
+                              <span style="color: #3f988f">00:30:00 hrs</span>
+                            </div>
+                            <div
+                              class="d-flex align-items-center justify-content-between mb-3"
+                            >
+                              <p class="mb-0">Deduction</p>
+                              <span style="color: #3f988f">Minute</span>
+                            </div>
+                            <div
+                              class="d-flex align-items-center justify-content-between"
+                            >
+                              <p class="mb-0">Occasion</p>
+                              <span style="color: #3f988f">5 Times</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="custom-salary">
-                        <div class="custom-salary-hedding p-3">
-                          <h4 class="mb-0">Half Day Salary Deduction Rules</h4>
-                        </div>
-                        <div class="custom-salary-para p-3">
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
-                            <p class="mb-0">Duration</p>
-                            <span style="color: #3f988f">00:30:00 hrs</span>
+                      <div class="col-md-4">
+                        <div class="custom-salary">
+                          <div class="custom-salary-hedding p-3">
+                            <h4 class="mb-0">
+                              Half Day Salary Deduction Rules
+                            </h4>
                           </div>
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
-                            <p class="mb-0">Occasion</p>
-                            <span style="color: #3f988f">5 Times</span>
+                          <div class="custom-salary-para p-3">
+                            <div
+                              class="d-flex align-items-center justify-content-between mb-3"
+                            >
+                              <p class="mb-0">Duration</p>
+                              <span style="color: #3f988f">00:30:00 hrs</span>
+                            </div>
+                            <div
+                              class="d-flex align-items-center justify-content-between"
+                            >
+                              <p class="mb-0">Occasion</p>
+                              <span style="color: #3f988f">5 Times</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="custom-salary">
-                        <div class="custom-salary-hedding p-3">
-                          <h4 class="mb-0">Full Day Salary Deduction Rules</h4>
-                        </div>
-                        <div class="custom-salary-para p-3">
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
-                            <p class="mb-0">Duration</p>
-                            <span style="color: #3f988f">00:30:00 hrs</span>
+                      <div class="col-md-4">
+                        <div class="custom-salary">
+                          <div class="custom-salary-hedding p-3">
+                            <h4 class="mb-0">
+                              Full Day Salary Deduction Rules
+                            </h4>
                           </div>
+                          <div class="custom-salary-para p-3">
+                            <div
+                              class="d-flex align-items-center justify-content-between mb-3"
+                            >
+                              <p class="mb-0">Duration</p>
+                              <span style="color: #3f988f">00:30:00 hrs</span>
+                            </div>
 
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
-                            <p class="mb-0">Occasion</p>
-                            <span style="color: #3f988f">5 Times</span>
+                            <div
+                              class="d-flex align-items-center justify-content-between"
+                            >
+                              <p class="mb-0">Occasion</p>
+                              <span style="color: #3f988f">5 Times</span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1480,124 +1694,133 @@
                   </div>
                 </div>
               </div>
-              <div class="automation-rules mb-3">
-                <div
-                  class="d-flex align-items-center justify-content-between border-bottom p-3"
-                >
-                  <div class="d-flex align-items-center gap-3">
+              <div class="shift-time p-3 m-3">
+                <div class="">
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="">
+                        <span
+                          class="automation-rules-icon d-flex align-items-center justify-content-center"
+                        >
+                          <img src="assets/images/rule-icon.svg" />
+                        </span>
+                      </div>
+                      <div class="">
+                        <h6 class="text-truncate mb-0">Late Entry Rules</h6>
+                        <small class="text-muted"
+                          >Define the late entry rules for the employees</small
+                        >
+                      </div>
+                    </div>
                     <div class="">
                       <span
-                        class="automation-rules-icon d-flex align-items-center justify-content-center"
-                      >
-                        <img src="assets/images/rule-icon.svg" />
-                      </span>
-                    </div>
-                    <div class="">
-                      <h6 class="text-truncate mb-0">Early Exit Rules</h6>
-                      <small class="text-muted"
-                        >Define the early exit rules for the employees</small
-                      >
+                        class="automation-rules-toogel-btn pointer"
+                        data-bs-toggle="collapse"
+                        href="#multiCollapseExample7"
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls="multiCollapseExample7"
+                        ><i class="bi bi-chevron-down"></i
+                      ></span>
                     </div>
                   </div>
-                  <div class="">
-                    <span
-                      class="automation-rules-toogel-btn pointer"
-                      data-bs-toggle="collapse"
-                      href="#multiCollapseExample7"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="multiCollapseExample7"
-                      ><i class="bi bi-chevron-down"></i
-                    ></span>
-                  </div>
-                </div>
 
-                <div class="collapse multi-collapse" id="multiCollapseExample7">
                   <div
-                    class="d-flex align-items-center justify-content-between p-3"
+                    class="collapse multi-collapse"
+                    id="multiCollapseExample7"
                   >
-                    <div class="">
-                      <p class="mb-0">
-                        <i
-                          class="bi bi-arrow-right"
-                          style="padding-right: 10px"
-                        ></i>
-                        Rule 1
-                      </p>
+                    <div
+                      class="d-flex align-items-center justify-content-between mt-3"
+                    >
+                      <div class="">
+                        <p class="mb-0">
+                          <i
+                            class="bi bi-arrow-right"
+                            style="padding-right: 10px"
+                          ></i>
+                          Rule 1
+                        </p>
+                      </div>
+                      <div class="d-flex align-items-center gap-4">
+                        <i class="bi bi-pencil pointer"></i>
+                        <i class="bi bi-trash pointer text-danger"></i>
+                      </div>
                     </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-pencil pointer"></i>
-                      <i class="bi bi-trash pointer text-danger"></i>
-                    </div>
-                  </div>
 
-                  <div class="row m-3 mt-0">
-                    <div class="col-md-4">
-                      <div class="custom-salary">
-                        <div class="custom-salary-hedding p-3">
-                          <h4 class="mb-0">Custom salary Deduction rule</h4>
-                        </div>
-                        <div class="custom-salary-para p-3">
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
-                            <p class="mb-0">Duration</p>
-                            <span style="color: #3f988f">00:30:00 hrs</span>
+                    <div class="row mt-3">
+                      <div class="col-md-4">
+                        <div class="custom-salary">
+                          <div class="custom-salary-hedding p-3">
+                            <h4 class="mb-0">Custom salary Deduction rule</h4>
                           </div>
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
-                            <p class="mb-0">Duration Type</p>
-                            <span style="color: #3f988f">Per Minute</span>
-                          </div>
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
-                            <p class="mb-0">Occasion</p>
-                            <span style="color: #3f988f">5 Times</span>
+                          <div class="custom-salary-para p-3">
+                            <div
+                              class="d-flex align-items-center justify-content-between mb-3"
+                            >
+                              <p class="mb-0">Duration</p>
+                              <span style="color: #3f988f">00:30:00 hrs</span>
+                            </div>
+                            <div
+                              class="d-flex align-items-center justify-content-between mb-3"
+                            >
+                              <p class="mb-0">Deduction</p>
+                              <span style="color: #3f988f">Minute</span>
+                            </div>
+                            <div
+                              class="d-flex align-items-center justify-content-between"
+                            >
+                              <p class="mb-0">Occasion</p>
+                              <span style="color: #3f988f">5 Times</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="custom-salary">
-                        <div class="custom-salary-hedding p-3">
-                          <h4 class="mb-0">Half Day Salary Deduction Rules</h4>
-                        </div>
-                        <div class="custom-salary-para p-3">
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
-                            <p class="mb-0">Duration</p>
-                            <span style="color: #3f988f">00:30:00 hrs</span>
+                      <div class="col-md-4">
+                        <div class="custom-salary">
+                          <div class="custom-salary-hedding p-3">
+                            <h4 class="mb-0">
+                              Half Day Salary Deduction Rules
+                            </h4>
                           </div>
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
-                            <p class="mb-0">Occasion</p>
-                            <span style="color: #3f988f">5 Times</span>
+                          <div class="custom-salary-para p-3">
+                            <div
+                              class="d-flex align-items-center justify-content-between mb-3"
+                            >
+                              <p class="mb-0">Duration</p>
+                              <span style="color: #3f988f">00:30:00 hrs</span>
+                            </div>
+                            <div
+                              class="d-flex align-items-center justify-content-between"
+                            >
+                              <p class="mb-0">Occasion</p>
+                              <span style="color: #3f988f">5 Times</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="custom-salary">
-                        <div class="custom-salary-hedding p-3">
-                          <h4 class="mb-0">Full Day Salary Deduction Rules</h4>
-                        </div>
-                        <div class="custom-salary-para p-3">
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
-                            <p class="mb-0">Duration</p>
-                            <span style="color: #3f988f">00:30:00 hrs</span>
+                      <div class="col-md-4">
+                        <div class="custom-salary">
+                          <div class="custom-salary-hedding p-3">
+                            <h4 class="mb-0">
+                              Full Day Salary Deduction Rules
+                            </h4>
                           </div>
+                          <div class="custom-salary-para p-3">
+                            <div
+                              class="d-flex align-items-center justify-content-between mb-3"
+                            >
+                              <p class="mb-0">Duration</p>
+                              <span style="color: #3f988f">00:30:00 hrs</span>
+                            </div>
 
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
-                            <p class="mb-0">Occasion</p>
-                            <span style="color: #3f988f">5 Times</span>
+                            <div
+                              class="d-flex align-items-center justify-content-between"
+                            >
+                              <p class="mb-0">Occasion</p>
+                              <span style="color: #3f988f">5 Times</span>
+                            </div>
                           </div>
                         </div>
                       </div>
