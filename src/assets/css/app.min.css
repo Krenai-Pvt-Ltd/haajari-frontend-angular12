@@ -9603,6 +9603,18 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   cursor: pointer;
 }
 
+.ant-switch-checked {
+  background-color: #6666f3 !important;
+}
+
+.view-all-btn {
+  color: #444 !important;
+}
+
+.view-all-btn:hover {
+  color: #222 !important;
+}
+
 .text-optional {
   color: grey;
 }
