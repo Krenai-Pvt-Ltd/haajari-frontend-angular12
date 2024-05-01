@@ -17,6 +17,7 @@ import {
 import { Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Key } from 'src/app/constant/key';
+import { Holiday } from 'src/app/models/Holiday';
 import { UniversalHoliday } from 'src/app/models/UniversalHoliday';
 import { WeekDay } from 'src/app/models/WeekDay';
 import { WeeklyHoliday } from 'src/app/models/WeeklyHoliday';
@@ -56,10 +57,12 @@ export class AttendanceSettingComponent implements OnInit {
     private helperService: HelperService,
     private fb: FormBuilder,
     private router: Router,
-    private el: ElementRef,
+    private el: ElementRef
   ) {}
 
   ngOnInit(): void {
+    this.loadHolidayCounts();
+    this.loadHolidays();
     this.getOrganizationAddressDetailMethodCall();
     this.getAttendanceModeMethodCall();
     this.getAllShiftTimingsMethodCall();
@@ -216,7 +219,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -229,13 +232,13 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
   attendanceRuleResponse: AttendanceRuleResponse = new AttendanceRuleResponse();
   openAttendanceRuleResponseModal(
-    attendanceRuleResponse: AttendanceRuleResponse,
+    attendanceRuleResponse: AttendanceRuleResponse
   ) {
     this.clearModel();
     this.attendanceRuleResponse = attendanceRuleResponse;
@@ -270,7 +273,7 @@ export class AttendanceSettingComponent implements OnInit {
           this.saveAttendanceRuleDefinitionLoading = false;
           this.helperService.showToast(
             'Attendance rule registered successfully',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
           this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
         },
@@ -278,7 +281,7 @@ export class AttendanceSettingComponent implements OnInit {
           console.log(error);
           this.saveAttendanceRuleDefinitionLoading = false;
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-        },
+        }
       );
   }
 
@@ -324,7 +327,7 @@ export class AttendanceSettingComponent implements OnInit {
       (error) => {
         console.log(error);
         this.networkConnectionErrorPlaceHolderForAttendanceRule = true;
-      },
+      }
     );
   }
 
@@ -346,7 +349,7 @@ export class AttendanceSettingComponent implements OnInit {
             false;
           this.helperService.showToast(
             'Attendance rule settings deleted successfully',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
           this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
         },
@@ -355,7 +358,7 @@ export class AttendanceSettingComponent implements OnInit {
           this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] =
             false;
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-        },
+        }
       );
   }
 
@@ -371,7 +374,7 @@ export class AttendanceSettingComponent implements OnInit {
     new AttendanceRuleDefinitionResponse();
   updateAttendenceRuleDefinition(
     attendanceRuleDefinitionResponse: AttendanceRuleDefinitionResponse,
-    attendanceRuleResponse: AttendanceRuleResponse,
+    attendanceRuleResponse: AttendanceRuleResponse
   ) {
     this.ruleActiveTab.nativeElement.click();
 
@@ -386,21 +389,21 @@ export class AttendanceSettingComponent implements OnInit {
 
     if (attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration) {
       this.customLateDurationValue = this.convertTimeStringToDate(
-        attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration,
+        attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration
       );
       this.customCheckbox = true;
     }
 
     if (attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration) {
       this.halfDayLateDurationValue = this.convertTimeStringToDate(
-        attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration,
+        attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration
       );
       this.halfDayCheckbox = true;
     }
 
     if (attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration) {
       this.fullDayLateDurationValue = this.convertTimeStringToDate(
-        attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration,
+        attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration
       );
       this.fullDayCheckbox = true;
     }
@@ -413,7 +416,7 @@ export class AttendanceSettingComponent implements OnInit {
       this.customOccurrenceCheckbox = true;
       this.customLateOccurrenceDurationValue = this.convertTimeStringToDate(
         attendanceRuleDefinitionResponse.customSalaryDeduction
-          .occurrenceDuration,
+          .occurrenceDuration
       );
     }
 
@@ -425,7 +428,7 @@ export class AttendanceSettingComponent implements OnInit {
       this.halfDayOccurrenceCheckbox = true;
       this.halfDayLateOccurrenceDurationValue = this.convertTimeStringToDate(
         attendanceRuleDefinitionResponse.halfDaySalaryDeduction
-          .occurrenceDuration,
+          .occurrenceDuration
       );
     }
 
@@ -437,7 +440,7 @@ export class AttendanceSettingComponent implements OnInit {
       this.fullDayOccurrenceCheckbox = true;
       this.fullDayLateOccurrenceDurationValue = this.convertTimeStringToDate(
         attendanceRuleDefinitionResponse.fullDaySalaryDeduction
-          .occurrenceDuration,
+          .occurrenceDuration
       );
     }
 
@@ -524,7 +527,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration =
       duration;
     this.time1 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration,
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration
     );
 
     this.invalidCustomlateDuration1 = false;
@@ -557,7 +560,7 @@ export class AttendanceSettingComponent implements OnInit {
       duration;
 
     this.time2 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration,
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration
     );
 
     this.invalidCustomlateDuration1 = false;
@@ -590,7 +593,7 @@ export class AttendanceSettingComponent implements OnInit {
       duration;
 
     this.time3 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration,
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration
     );
 
     this.invalidCustomlateDuration1 = false;
@@ -631,10 +634,10 @@ export class AttendanceSettingComponent implements OnInit {
   }
   compareTimes() {
     const time1 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration,
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration
     );
     const time2 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration,
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration
     );
     // const time3 = this.convertStringToDate(this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration);
 
@@ -693,7 +696,7 @@ export class AttendanceSettingComponent implements OnInit {
         },
         (error) => {
           console.log(error);
-        },
+        }
       );
   }
 
@@ -720,7 +723,7 @@ export class AttendanceSettingComponent implements OnInit {
       (error) => {
         console.log(error);
         this.networkConnectionErrorPlaceHolderForAttendanceRule = true;
-      },
+      }
     );
   }
 
@@ -762,7 +765,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -774,7 +777,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -838,7 +841,7 @@ export class AttendanceSettingComponent implements OnInit {
         'asc',
         'id',
         this.searchText,
-        '',
+        ''
       )
       .subscribe(
         (response) => {
@@ -853,7 +856,7 @@ export class AttendanceSettingComponent implements OnInit {
         },
         (error) => {
           console.error(error);
-        },
+        }
       );
   }
 
@@ -878,7 +881,7 @@ export class AttendanceSettingComponent implements OnInit {
         this.selectedStaffsUuids.includes(staff.uuid)
       ) {
         this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-          (uuid) => uuid !== staff.uuid,
+          (uuid) => uuid !== staff.uuid
         );
       }
     });
@@ -931,7 +934,7 @@ export class AttendanceSettingComponent implements OnInit {
       this.staffs.forEach((staff) => {
         if (this.selectedStaffsUuids.includes(staff.uuid)) {
           this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-            (uuid) => uuid !== staff.uuid,
+            (uuid) => uuid !== staff.uuid
           );
         }
       });
@@ -1062,16 +1065,16 @@ export class AttendanceSettingComponent implements OnInit {
           this.getAllShiftTimingsMethodCall();
           this.helperService.showToast(
             'Shift Timing registered successfully',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
         },
         (error) => {
           console.log(error);
           this.helperService.showToast(
             'Shift Timing registered successfully',
-            Key.TOAST_STATUS_ERROR,
+            Key.TOAST_STATUS_ERROR
           );
-        },
+        }
       );
   }
 
@@ -1243,7 +1246,7 @@ export class AttendanceSettingComponent implements OnInit {
         console.log(error);
         // this.isShimmer = false;
         this.networkConnectionErrorPlaceHolder = true;
-      },
+      }
     );
   }
 
@@ -1256,7 +1259,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -1276,7 +1279,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   updateOrganizationShiftTiming(
     organizationShiftTimingResponse: OrganizationShiftTimingResponse,
-    tab: string,
+    tab: string
   ) {
     // this.shiftTimingActiveTab.nativeElement.click();
 
@@ -1305,13 +1308,13 @@ export class AttendanceSettingComponent implements OnInit {
           this.getAllShiftTimingsMethodCall();
           this.helperService.showToast(
             'Shift timing deleted successfully',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
         },
         (error) => {
           console.log(error);
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-        },
+        }
       );
   }
 
@@ -1325,7 +1328,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -1345,7 +1348,7 @@ export class AttendanceSettingComponent implements OnInit {
           if (attendanceModeId == 1) {
             this.helperService.showToast(
               'Attedance Mode updated successfully.',
-              Key.TOAST_STATUS_SUCCESS,
+              Key.TOAST_STATUS_SUCCESS
             );
           }
           // console.log("Second line executed after 3 seconds");
@@ -1354,7 +1357,7 @@ export class AttendanceSettingComponent implements OnInit {
       (error) => {
         console.log(error);
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-      },
+      }
     );
   }
 
@@ -1370,7 +1373,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
   toggle = false;
@@ -1386,12 +1389,12 @@ export class AttendanceSettingComponent implements OnInit {
           this.closeAddressModal.nativeElement.click();
           this.helperService.showToast(
             'Attedance Mode updated successfully',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
         },
         (error) => {
           console.error(error);
-        },
+        }
       );
   }
   @ViewChild('placesRef') placesRef!: GooglePlaceDirective;
@@ -1444,7 +1447,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error: any) => {
         console.error('Error fetching address details:', error);
-      },
+      }
     );
   }
 
@@ -1491,7 +1494,7 @@ export class AttendanceSettingComponent implements OnInit {
       (error) => {
         this.isWeeklyHolidayErrorPlaceholder = true;
         console.error('Error fetching custom holidays:', error);
-      },
+      }
     );
   }
 
@@ -1605,7 +1608,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.error('Error deleting weekly holiday:', error);
-      },
+      }
     );
   }
 
@@ -1613,11 +1616,11 @@ export class AttendanceSettingComponent implements OnInit {
     this.dataService.deleteCustomHolidays(id).subscribe(
       (response) => {
         // console.log(response);
-        this.getCustomHolidays();
+        this.loadHolidays();
       },
       (error) => {
         console.error('Error deleting weekly holiday:', error);
-      },
+      }
     );
   }
 
@@ -1649,7 +1652,10 @@ export class AttendanceSettingComponent implements OnInit {
     this.dataService.registerCustomHolidays(this.holidayList).subscribe({
       next: (response) => {
         // console.log('Custom Holidays Registered Successfully', response)
-        this.getCustomHolidays();
+        this.holidays = [];
+        this.page = 0;
+        this.loadHolidays();
+        this.loadHolidayCounts();
         this.isCustomHolidayLoader = false;
         this.holidayList = [{ name: '', date: '' }];
         this.customHolidayModal.nativeElement.click();
@@ -1661,19 +1667,30 @@ export class AttendanceSettingComponent implements OnInit {
     });
   }
 
-  isDateGreaterThanToday(date: string): boolean {
-    let today = new Date();
-    today.setHours(0, 0, 0, 0);
-    let compareDate = new Date(date);
+  // isDateGreaterThanToday(date: string): boolean {
+  //   let today = new Date();
+  //   today.setHours(0, 0, 0, 0);
+  //   let compareDate = new Date(date);
 
-    return compareDate > today;
+  //   return compareDate > today;
+  // }
+
+  isDateGreaterThanToday(date: Date): boolean {
+    const today = new Date();
+    const todayStr = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+    const compareDate = new Date(date);
+
+    return compareDate > todayStr;
   }
 
   //#######################################################################
 
   submitAttendanceRuleForm() {}
 
-  // Conditions to manage view all button in shift timing and holiday section
   viewAllHolidaySection: boolean = false;
 
   toggleViewAllHolidaySection() {
@@ -1684,5 +1701,91 @@ export class AttendanceSettingComponent implements OnInit {
 
   toggleViewAllShiftTiming() {
     this.viewAllShiftTiming = !this.viewAllShiftTiming;
+  }
+
+  //  get holidays
+
+  holidays: Holiday[] = [];
+  totalMoreHolidays = 0;
+  page = 0;
+  itemsPerPage = 6;
+  isLoading = false;
+  totalCount: number = 0;
+  isInitialLoading: boolean = false;
+  isMoreHolidayLoader: boolean = false;
+
+  @ViewChild('holidayListContainer') holidayListContainer!: ElementRef;
+  loadHolidays() {
+    this.isMoreHolidayLoader = true;
+
+    this.dataService.getHolidays(this.page, this.itemsPerPage).subscribe({
+      next: (data: Holiday[]) => {
+        this.holidays = this.holidays.concat(data);
+        this.totalMoreHolidays =
+          this.totalHolidaysNumber - this.holidays.length;
+        // console.log('count + ' + this.totalMoreHolidays);
+        this.isMoreHolidayLoader = false;
+      },
+      error: (error) => {
+        console.error('Failed to fetch holidays', error);
+        this.isMoreHolidayLoader = false;
+      },
+    });
+  }
+
+  onScroll(event: any) {
+    debugger;
+    if (!this.isInitialLoading) return;
+    const target = event.target as HTMLElement;
+    const atBottom =
+      target.scrollHeight - (target.scrollTop + target.clientHeight) <= 10;
+
+    if (atBottom && this.totalMoreHolidays > 0) {
+      this.page++;
+      this.loadHolidays();
+    }
+  }
+
+  loadMoreHolidays() {
+    this.isInitialLoading = true;
+    this.page++;
+    this.loadHolidays();
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 500);
+  }
+
+  scrollToBottom() {
+    if (this.holidayListContainer) {
+      this.holidayListContainer.nativeElement.scrollTop =
+        this.holidayListContainer.nativeElement.scrollHeight;
+    }
+  }
+
+  totalHolidaysNumber: number = 0;
+  universalHolidaysNumber: number = 0;
+  customHolidaysNumber: number = 0;
+
+  // holidayCounts: { [key: string]: number } | null = null;
+  loadHolidayCounts() {
+    debugger;
+    this.dataService.getHolidayCounts().subscribe({
+      next: (response) => {
+        if (response.status) {
+          this.totalHolidaysNumber = response.object.total || 0;
+          this.universalHolidaysNumber = response.object.Universal || 0;
+          this.customHolidaysNumber = response.object.Custom || 0;
+        } else {
+          console.error('Failed to load holiday counts:', response.message);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching holiday counts:', error);
+      },
+    });
+  }
+
+  objectKeys(obj: any): string[] {
+    return Object.keys(obj);
   }
 }

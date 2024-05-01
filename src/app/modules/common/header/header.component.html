@@ -123,17 +123,20 @@
               </a>
             </li>
             <li class="pointer">
-              <a class="sidebar-menu-link">
+              <a class="sidebar-menu-link" data-bs-toggle="collapse"
+              href="#collapseExample"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapseExample">
                 <div class=""></div>
                 <div class="d-flex align-items-center justify-content-between">
                   <span class=" "
-                    ><i
+                    ><i data-bs-toggle="collapse"
+                    href="#collapseExample"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseExample"
                       class="bi bi-caret-right menu-icon projectIcon collapsed"
-                      data-bs-toggle="collapse"
-                      href="#collapseExample"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="collapseExample"
                     ></i>
                     Payroll</span
                   >
@@ -164,7 +167,7 @@
                   </li>
                   <li>
                     <a class="project-link" routerLink="/payment/payment-history">
-                      <i class="ti ti-file-check"></i>
+                      <i class="bi bi-receipt-cutoff"></i>
                       <p class="mb-0">Generate Salary Slip</p>
                     </a>
                   </li>

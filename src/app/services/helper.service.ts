@@ -157,4 +157,28 @@ export class HelperService {
       return false;
     }
   }
+
+    //Ignore keys during search
+    ignoreKeysDuringSearch(event : Event){
+      if (event instanceof KeyboardEvent) {
+        const ignoreKeys = [
+          'Shift',
+          'Control',
+          'Alt',
+          'Meta',
+          'ArrowLeft',
+          'ArrowRight',
+          'ArrowUp',
+          'ArrowDown',
+          'Escape',
+        ];
+  
+        const isCmdA =
+          (event.key === 'a' || event.key === 'A') &&
+          (event.metaKey || event.ctrlKey);
+        if (ignoreKeys.includes(event.key) || isCmdA) {
+          return;
+        }
+      }
+    }
 }
