@@ -1400,3 +1400,9 @@ tbody tr {
   background-color: transparent;
 }
 /* Author Pushpendra */
+.hr-dashed{
+  border-top: 1px dashed #fff;
+}
+.alert{
+  border-radius: .125rem;
+}
