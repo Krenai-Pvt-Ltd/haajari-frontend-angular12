@@ -1179,7 +1179,9 @@ export class AttendanceSettingComponent implements OnInit {
   formatMinutesToTime(minutes: any) {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+    return `${hours.toString().padStart(2, '0')}:${mins
+      .toString()
+      .padStart(2, '0')}`;
   }
 
   private formatDuration(duration: number): string {
@@ -1216,6 +1218,7 @@ export class AttendanceSettingComponent implements OnInit {
   organizationShiftTimingWithShiftTypeResponseList: OrganizationShiftTimingWithShiftTypeResponse[] =
     [];
   getAllShiftTimingsMethodCall() {
+    debugger;
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
 
     // this.isShimmer = true;
