@@ -18,6 +18,7 @@ import { OrganizationAddressDetail } from 'src/app/models/organization-address-d
 import { OrganizationShiftTimingRequest } from 'src/app/models/organization-shift-timing-request';
 import { OrganizationShiftTimingResponse } from 'src/app/models/organization-shift-timing-response';
 import { OrganizationShiftTimingWithShiftTypeResponse } from 'src/app/models/organization-shift-timing-with-shift-type-response';
+import { OrganizationWeekoffInformation } from 'src/app/models/organization-weekoff-information';
 import { OvertimeType } from 'src/app/models/overtime-type';
 import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
@@ -1354,26 +1355,75 @@ unselectAllUsers() {
   //   });
   // }
 
+  
+  // submitWeeklyHolidays() {
+  //   const selectedWeekDays = this.weekDay
+  //                             .filter(day => day.selected)
+  //                             .map(day => day.name);
+
+                            
+  //    this.submitWeeklyHolidaysLoader=true;
+  //   this.dataService.registerWeeklyHolidays(selectedWeekDays).subscribe({
+  //     next: (response) => {
+  //       // console.log('Weekly holidays registered successfully', response);
+  //       this.getWeeklyHolidays(); 
+  //       this.submitWeeklyHolidaysLoader=false;
+  //       this.closeWeeklyHolidayModal.nativeElement.click();
+  //     },
+  //     error: (error) => {
+  //       this.submitWeeklyHolidaysLoader=false;
+  //       console.error('Failed to register weekly holidays', error);
+  //     }
+  //   });
+  // }
+
+  toggleSelection(i: number): void {
+    this.weekDay[i].selected = !this.weekDay[i].selected;
+    // Automatically set isAlternate to false when a day is selected
+    this.weekDay[i].isAlternate = false;
+  }
+
+  toggleAlternate(i: number, isAlternate: boolean): void {
+    this.weekDay[i].isAlternate = isAlternate;
+    this.weekDay[i].weekOffType = 1;
+    // Reset weekOffType to 0 when "All" is selected
+    if (!isAlternate) {
+      this.weekDay[i].weekOffType = 0;
+    }
+  }
+
+  organizationWeekoffInformation: OrganizationWeekoffInformation[] = [];
   submitWeeklyHolidaysLoader:boolean=false;
   @ViewChild("closeWeeklyHolidayModal") closeWeeklyHolidayModal!:ElementRef;
   submitWeeklyHolidays() {
-    const selectedWeekDays = this.weekDay
-                              .filter(day => day.selected)
-                              .map(day => day.name);
-     this.submitWeeklyHolidaysLoader=true;
-    this.dataService.registerWeeklyHolidays(selectedWeekDays).subscribe({
+    debugger
+    this.submitWeeklyHolidaysLoader = true;
+    
+    // Prepare data for submission
+    this.organizationWeekoffInformation = this.weekDay
+      .filter(day => day.selected)
+      .map(day => ({
+        weeklyOffDay: day.name,
+        isAlternateWeekoff: day.isAlternate,
+        weekOffType: day.weekOffType 
+      }));
+  
+    // Submit the data
+    this.dataService.updateOrganizationWeekOff(this.organizationWeekoffInformation).subscribe({
       next: (response) => {
-        // console.log('Weekly holidays registered successfully', response);
+        // Handle success, fetch new data if needed, hide loader, and close modal
         this.getWeeklyHolidays(); 
-        this.submitWeeklyHolidaysLoader=false;
+        this.submitWeeklyHolidaysLoader = false;
         this.closeWeeklyHolidayModal.nativeElement.click();
       },
       error: (error) => {
-        this.submitWeeklyHolidaysLoader=false;
+        // Handle error, hide loader
+        this.submitWeeklyHolidaysLoader = false;
         console.error('Failed to register weekly holidays', error);
       }
     });
   }
+  
 
   deleteWeeklyHolidays(id: number) {
       this.dataService.deleteWeeklyHolidays(id).subscribe(
@@ -1447,6 +1497,8 @@ unselectAllUsers() {
 
     return compareDate > today;
   }
+
+ 
 
   //#######################################################################
 

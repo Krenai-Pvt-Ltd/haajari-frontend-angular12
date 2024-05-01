@@ -51,6 +51,7 @@ import { WeeklyHoliday } from '../models/WeeklyHoliday';
 import { WeekDay } from '../models/WeekDay';
 import { Key } from '../constant/key';
 import { ResponseEntityObject } from '../models/response-entity-object.model';
+import { OrganizationWeekoffInformation } from '../models/organization-weekoff-information';
 
 @Injectable({
   providedIn: 'root',
@@ -2394,6 +2395,15 @@ export class DataService {
     );
   }
 
+  updateOrganizationWeekOff(
+    organizationWeekoffInformation: OrganizationWeekoffInformation[],
+  ): Observable<any> {
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/holiday/update-weekoffs`,
+      organizationWeekoffInformation,
+      {},
+    );
+  }
   
   countPayrollDashboardEmployeeByOrganizationId(startDate : string, endDate : string):Observable<any>{
 
@@ -2415,7 +2425,7 @@ export class DataService {
     endDate: string): Observable<any>{
       const params = new HttpParams()
       .set('item_per_page', itemPerPage)
-      .set('page_numner', pageNumber)
+      .set('page_number', pageNumber)
       .set('sort', sort)
       .set('sort_by', sortBy)
       .set('search', search)
@@ -2424,4 +2434,9 @@ export class DataService {
       .set('end_date', endDate);
       return this.httpClient.get<any>(`${this.baseUrl}/salary/user/change/new-joinee`, {params});
     }
+
+    getPayActionTypeList() : Observable<any>{
+      return this.httpClient.get<any>(`${this.baseUrl}/salary/user/change/pay-action-type-get-all`, {});
+    }
 }
+

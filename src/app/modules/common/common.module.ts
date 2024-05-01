@@ -7,12 +7,9 @@ import { CommonComponent } from './common.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { HajiriPageLoaderComponent } from './hajiri-page-loader/hajiri-page-loader.component';
 import { HeaderComponent } from './header/header.component';
-import { MediaManagerCropComponent } from './media-manager-crop/media-manager-crop.component';
-
 
 @NgModule({
   declarations: [
-  
     ErrorPageComponent,
     HajiriPageLoaderComponent,
     TopbarComponent,
@@ -20,13 +17,8 @@ import { MediaManagerCropComponent } from './media-manager-crop/media-manager-cr
     DurationPickerComponent,
     CommonComponent,
     HeaderComponent,
-    MediaManagerCropComponent
   ],
-  imports: [
-    CommonModule,
-    CommonRoutingModule
-  ],
-  exports: [
-  ]
+  imports: [CommonModule, CommonRoutingModule],
+  exports: [],
 })
-export class CommonModule { }
+export class CommonModule {}

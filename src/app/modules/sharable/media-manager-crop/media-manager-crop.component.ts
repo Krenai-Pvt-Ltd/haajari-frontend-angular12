@@ -21,6 +21,7 @@ import { finalize } from 'rxjs/operators';
 // import { ImageTransform } from 'ngx-image-cropper';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 
+import { constant } from 'src/app/constant/constant';
 import { OrganizationPersonalInformationComponent } from '../../organization-onboarding/components/organization-personal-information/organization-personal-information.component';
 // import { Constant } from 'src/app/constants/Constants';
 // import { SharedService } from 'src/app/services/data-sharing/shared.service';

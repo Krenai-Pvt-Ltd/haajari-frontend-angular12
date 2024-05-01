@@ -39,7 +39,9 @@ export class AddShiftTimeComponent implements OnInit {
     this.checkShiftTimingExistsMethodCall();
   }
 
+  isAddShiftBackLoading: boolean = false;
   checkShiftTimingExistsMethodCall() {
+    this.isAddShiftBackLoading = true;
     this.dataService.shiftTimingExists().subscribe(
       (response: any) => {
         console.log(response);
@@ -58,6 +60,11 @@ export class AddShiftTimeComponent implements OnInit {
           });
           // this.router.navigate(['/organization-onboarding/upload-team']);
         }
+
+        setTimeout(() => {
+          this.isAddShiftBackLoading = false;
+        }, 5000);
+        // this.isBackLoading = false;
         // this.onboardingService.refreshOnboarding();
       },
       (error) => {},
@@ -277,8 +284,7 @@ export class AddShiftTimeComponent implements OnInit {
   }
 
   selectAllUsers(isChecked: boolean) {
-    // const inputElement = event.target as HTMLInputElement;
-    // const isChecked = inputElement ? inputElement.checked : false;
+
     this.isAllUsersSelected = isChecked;
     this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
     this.staffs.forEach((staff) => (staff.selected = isChecked)); // Update each staff's selected property
@@ -322,8 +328,11 @@ export class AddShiftTimeComponent implements OnInit {
   STAFF_SELECTION_ID = Key.STAFF_SELECTION;
 
   SHIFT_TIME_STEP_ID = Key.SHIFT_TIME;
+  isAddShiftLastLoading: boolean = false;
   staffActiveTabInShiftTimingMethod() {
+    this.isAddShiftLastLoading = true;
     if (this.isValidForm()) {
+      this.isAddShiftLastLoading = false;
       this.SHIFT_TIME_STEP_ID = Key.STAFF_SELECTION;
     }
     // this.onboardingService.saveOrgOnboardingStep(4).subscribe((resp) => {

@@ -4,4 +4,5 @@ export class NewJoineeResponse {
     email : string = '';
     joiningDate : string = '';
     salary : number = 0;
+    selected : boolean = false;
 }

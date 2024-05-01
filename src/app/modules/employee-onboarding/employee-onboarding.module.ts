@@ -35,28 +35,21 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
-import { MediaManagerCropComponent } from '../common/media-manager-crop/media-manager-crop.component';
-
 
 // import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 @NgModule({
   declarations: [
-    
-         BankDetailsComponent,
-         EmployeeOnboardingFormComponent,
-         EmployeeAddressDetailComponent,
-         EmployeeDocumentComponent,
-         AcadmicComponent,
-         EmployeeExperienceComponent,
-         EmergencyContactComponent,
-         EmployeeOnboardingPreviewComponent,
-         EmployeeOnboardingComponent,
-         EmployeeOnboardingSidebarComponent,
-         NumberToWordsPipe,
-         MediaManagerCropComponent
-         
-         
-         
+    BankDetailsComponent,
+    EmployeeOnboardingFormComponent,
+    EmployeeAddressDetailComponent,
+    EmployeeDocumentComponent,
+    AcadmicComponent,
+    EmployeeExperienceComponent,
+    EmergencyContactComponent,
+    EmployeeOnboardingPreviewComponent,
+    EmployeeOnboardingComponent,
+    EmployeeOnboardingSidebarComponent,
+    NumberToWordsPipe,
   ],
   imports: [
     RouterModule,
@@ -66,7 +59,7 @@ import { MediaManagerCropComponent } from '../common/media-manager-crop/media-ma
     EmployeeOnboardingRoutingModule,
     GooglePlaceModule,
     SharedModule,
-    AngularFireModule.initializeApp(environment.firebase, "cloud"),
+    AngularFireModule.initializeApp(environment.firebase, 'cloud'),
     AngularFireStorageModule,
     AngularFireAuthModule,
     AngularFireDatabaseModule,
@@ -82,14 +75,9 @@ import { MediaManagerCropComponent } from '../common/media-manager-crop/media-ma
     NzSelectModule,
     ImageCropperModule,
     NzInputNumberModule,
-    
-    
-  
-    
-    
+
     // NgxMaskDirective,
     // NgxMaskPipe,
-    
-  ]
+  ],
 })
-export class EmployeeOnboardingModule { }
+export class EmployeeOnboardingModule {}
