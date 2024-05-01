@@ -289,18 +289,15 @@ isDisabled: boolean = false;
     };
     toggleNotification(type: 'whatsapp' | 'slack') {
       if (type === 'whatsapp') {
-        this.updateNotificationSettingMethodCall(type);
-        // If WhatsApp is already true and clicked again, it will disable itself and enable Slack
         this.notifications.whatsapp = !this.notifications.whatsapp;
-        this.notifications.slack = !this.notifications.whatsapp;
+        this.notifications.slack = !this.notifications.whatsapp;  // Assuming opposite state for Slack
       } else {
-        // If Slack is already true and clicked again, it will disable itself and enable WhatsApp
         this.notifications.slack = !this.notifications.slack;
-        this.notifications.whatsapp = !this.notifications.slack;
-        this.updateNotificationSettingMethodCall(type);
-        
+        this.notifications.whatsapp = !this.notifications.slack;  // Assuming opposite state for WhatsApp
       }
+      this.updateNotificationSettingMethodCall(type);
     }
+    
 
 
     @ViewChild('otpModalButton') otpModalButton!: ElementRef

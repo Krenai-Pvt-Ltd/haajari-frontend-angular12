@@ -1428,3 +1428,41 @@ i.bi.bi-plus {
 .shift-in-out-time p {
   font-size: 10px;
 }
+
+.staff-leave-setting {
+  border-radius: 2px;
+  padding: 6px 12px;
+  line-height: 19px;
+  font-size: 12px;
+}
+
+.automation-rules-icon {
+  border-radius: 50%;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.automation-rules-toogel-btn {
+  background-color: #fff;
+  border-radius: 2px;
+  padding: 4px 8px;
+  color: #444;
+}
+
+.custom-salary-hedding {
+  background-color: #eeeefd;
+}
+
+.custom-salary-hedding h4 {
+  font-size: 12px;
+  font-weight: 400;
+  color: #444;
+}
+
+.custom-salary-para {
+  background-color: #fff;
+  min-height: 130px;
+}
+.custom-salary-para p {
+  font-size: 12px;
+}

@@ -260,8 +260,6 @@ export class Key {
 
   // Organization Onboarding Steps:
 
-
-
   //Employee Change Step
   public static NEW_JOINEE_STEP = 1;
   public static USER_EXIT_STEP = 2;
