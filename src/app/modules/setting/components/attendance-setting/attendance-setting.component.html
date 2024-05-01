@@ -923,7 +923,7 @@
           </div>
 
           <div class="col-md-7 mt-3 mb-3">
-            <div class="empty-file" *ngIf="isHolidayErrorPlaceholder">
+            <!-- <div class="empty-file" *ngIf="isHolidayErrorPlaceholder">
               <div class="errorboxmain">
                 <div class="errorboxinner text-center">
                   <div class="errorboxplaceholder mb-2">
@@ -1025,7 +1025,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div class="add-shift-main-box">
               <div
@@ -1035,13 +1035,95 @@
                   <h6 class="text-truncate mb-0">Holiday's List</h6>
                 </div>
                 <div class="">
-                  <a class="add-shift-time-btn"
-                    ><i class="bi bi-plus"></i> Add more customem holidays
+                  <a
+                    class="add-shift-time-btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addholiday"
+                    ><i class="bi bi-plus"></i> Add more holidays
                   </a>
                 </div>
               </div>
 
               <div class="m-3 holiday-list">
+                <div
+                  class="row holiday-list-box-height"
+                  #holidayListContainer
+                  (scroll)="onScroll($event)"
+                >
+                  <div
+                    class="errorboxmain text-center"
+                    *ngIf="holidays.length == 0"
+                  >
+                    <div class="errorboxinner">
+                      <div class="errorboxplaceholder mb-2">
+                        <img
+                          src="assets/images/empty-box.svg"
+                          style="width: 80px"
+                        />
+                      </div>
+                      <div class="">
+                        <h4>No Data Found</h4>
+                        <p class="mb-0">
+                          We're unable to locate a record associated with the
+                          information you entered.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6" *ngFor="let holiday of holidays">
+                    <div
+                      class="holiday-date mb-3 d-flex align-items-center justify-content-between"
+                      [ngClass]="{
+                        'universal-holiday':
+                          holiday.holidayType === 'Universal',
+                        'custom-holiday': holiday.holidayType === 'Custom'
+                      }"
+                    >
+                      <p class="mb-0">
+                        {{ holiday.name }} |
+                        <span style="color: #3f988f">{{
+                          holiday.date | date : "dd MMMM, yyyy"
+                        }}</span>
+                      </p>
+                      <div
+                        *ngIf="
+                          holiday.holidayType === 'Custom' &&
+                          isDateGreaterThanToday(holiday.date)
+                        "
+                        (click)="deleteCustomHolidays(holiday.id)"
+                      >
+                        <i class="bi bi-trash text-danger pointer"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-end">
+                  <div class="">
+                    <a
+                      class="view-all-btn"
+                      *ngIf="totalMoreHolidays > 0"
+                      (click)="loadMoreHolidays()"
+                      >View More
+                      <small class="text-muted"
+                        >({{ totalMoreHolidays }} more)</small
+                      >
+                      <i class="bi bi-chevron-down"></i
+                    ></a>
+                  </div>
+                  <div
+                    class="text-center load-more-btn"
+                    *ngIf="isMoreHolidayLoader && totalMoreHolidays > 0"
+                  >
+                    <div
+                      class="spinner-border spinner-border-custom-1 text-primary"
+                      role="status"
+                    ></div>
+                    <div><small>Loading...</small></div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="m-3 holiday-list">
                 <div
                   class="row holiday-list-box-height"
                   [ngClass]="{
@@ -1135,12 +1217,12 @@
                     <a
                       class="view-all-btn"
                       (click)="toggleViewAllHolidaySection()"
-                      >View All <small class="text-muted">(25 more)</small>
+                      >View More <small class="text-muted">(25 more)</small>
                       <i class="bi bi-chevron-down"></i
                     ></a>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
 
