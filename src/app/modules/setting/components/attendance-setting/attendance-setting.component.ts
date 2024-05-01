@@ -56,7 +56,7 @@ export class AttendanceSettingComponent implements OnInit {
     private helperService: HelperService,
     private fb: FormBuilder,
     private router: Router,
-    private el: ElementRef
+    private el: ElementRef,
   ) {}
 
   ngOnInit(): void {
@@ -216,7 +216,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      }
+      },
     );
   }
 
@@ -229,13 +229,13 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      }
+      },
     );
   }
 
   attendanceRuleResponse: AttendanceRuleResponse = new AttendanceRuleResponse();
   openAttendanceRuleResponseModal(
-    attendanceRuleResponse: AttendanceRuleResponse
+    attendanceRuleResponse: AttendanceRuleResponse,
   ) {
     this.clearModel();
     this.attendanceRuleResponse = attendanceRuleResponse;
@@ -270,7 +270,7 @@ export class AttendanceSettingComponent implements OnInit {
           this.saveAttendanceRuleDefinitionLoading = false;
           this.helperService.showToast(
             'Attendance rule registered successfully',
-            Key.TOAST_STATUS_SUCCESS
+            Key.TOAST_STATUS_SUCCESS,
           );
           this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
         },
@@ -278,7 +278,7 @@ export class AttendanceSettingComponent implements OnInit {
           console.log(error);
           this.saveAttendanceRuleDefinitionLoading = false;
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-        }
+        },
       );
   }
 
@@ -324,7 +324,7 @@ export class AttendanceSettingComponent implements OnInit {
       (error) => {
         console.log(error);
         this.networkConnectionErrorPlaceHolderForAttendanceRule = true;
-      }
+      },
     );
   }
 
@@ -346,7 +346,7 @@ export class AttendanceSettingComponent implements OnInit {
             false;
           this.helperService.showToast(
             'Attendance rule settings deleted successfully',
-            Key.TOAST_STATUS_SUCCESS
+            Key.TOAST_STATUS_SUCCESS,
           );
           this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
         },
@@ -355,7 +355,7 @@ export class AttendanceSettingComponent implements OnInit {
           this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] =
             false;
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-        }
+        },
       );
   }
 
@@ -371,7 +371,7 @@ export class AttendanceSettingComponent implements OnInit {
     new AttendanceRuleDefinitionResponse();
   updateAttendenceRuleDefinition(
     attendanceRuleDefinitionResponse: AttendanceRuleDefinitionResponse,
-    attendanceRuleResponse: AttendanceRuleResponse
+    attendanceRuleResponse: AttendanceRuleResponse,
   ) {
     this.ruleActiveTab.nativeElement.click();
 
@@ -386,21 +386,21 @@ export class AttendanceSettingComponent implements OnInit {
 
     if (attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration) {
       this.customLateDurationValue = this.convertTimeStringToDate(
-        attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration
+        attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration,
       );
       this.customCheckbox = true;
     }
 
     if (attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration) {
       this.halfDayLateDurationValue = this.convertTimeStringToDate(
-        attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration
+        attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration,
       );
       this.halfDayCheckbox = true;
     }
 
     if (attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration) {
       this.fullDayLateDurationValue = this.convertTimeStringToDate(
-        attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration
+        attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration,
       );
       this.fullDayCheckbox = true;
     }
@@ -413,7 +413,7 @@ export class AttendanceSettingComponent implements OnInit {
       this.customOccurrenceCheckbox = true;
       this.customLateOccurrenceDurationValue = this.convertTimeStringToDate(
         attendanceRuleDefinitionResponse.customSalaryDeduction
-          .occurrenceDuration
+          .occurrenceDuration,
       );
     }
 
@@ -425,7 +425,7 @@ export class AttendanceSettingComponent implements OnInit {
       this.halfDayOccurrenceCheckbox = true;
       this.halfDayLateOccurrenceDurationValue = this.convertTimeStringToDate(
         attendanceRuleDefinitionResponse.halfDaySalaryDeduction
-          .occurrenceDuration
+          .occurrenceDuration,
       );
     }
 
@@ -437,7 +437,7 @@ export class AttendanceSettingComponent implements OnInit {
       this.fullDayOccurrenceCheckbox = true;
       this.fullDayLateOccurrenceDurationValue = this.convertTimeStringToDate(
         attendanceRuleDefinitionResponse.fullDaySalaryDeduction
-          .occurrenceDuration
+          .occurrenceDuration,
       );
     }
 
@@ -524,7 +524,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration =
       duration;
     this.time1 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration,
     );
 
     this.invalidCustomlateDuration1 = false;
@@ -557,7 +557,7 @@ export class AttendanceSettingComponent implements OnInit {
       duration;
 
     this.time2 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration,
     );
 
     this.invalidCustomlateDuration1 = false;
@@ -590,7 +590,7 @@ export class AttendanceSettingComponent implements OnInit {
       duration;
 
     this.time3 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration
+      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration,
     );
 
     this.invalidCustomlateDuration1 = false;
@@ -631,10 +631,10 @@ export class AttendanceSettingComponent implements OnInit {
   }
   compareTimes() {
     const time1 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration
+      this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration,
     );
     const time2 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration
+      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration,
     );
     // const time3 = this.convertStringToDate(this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration);
 
@@ -693,7 +693,7 @@ export class AttendanceSettingComponent implements OnInit {
         },
         (error) => {
           console.log(error);
-        }
+        },
       );
   }
 
@@ -720,7 +720,7 @@ export class AttendanceSettingComponent implements OnInit {
       (error) => {
         console.log(error);
         this.networkConnectionErrorPlaceHolderForAttendanceRule = true;
-      }
+      },
     );
   }
 
@@ -762,7 +762,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      }
+      },
     );
   }
 
@@ -774,7 +774,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      }
+      },
     );
   }
 
@@ -838,7 +838,7 @@ export class AttendanceSettingComponent implements OnInit {
         'asc',
         'id',
         this.searchText,
-        ''
+        '',
       )
       .subscribe(
         (response) => {
@@ -853,7 +853,7 @@ export class AttendanceSettingComponent implements OnInit {
         },
         (error) => {
           console.error(error);
-        }
+        },
       );
   }
 
@@ -878,7 +878,7 @@ export class AttendanceSettingComponent implements OnInit {
         this.selectedStaffsUuids.includes(staff.uuid)
       ) {
         this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-          (uuid) => uuid !== staff.uuid
+          (uuid) => uuid !== staff.uuid,
         );
       }
     });
@@ -931,7 +931,7 @@ export class AttendanceSettingComponent implements OnInit {
       this.staffs.forEach((staff) => {
         if (this.selectedStaffsUuids.includes(staff.uuid)) {
           this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-            (uuid) => uuid !== staff.uuid
+            (uuid) => uuid !== staff.uuid,
           );
         }
       });
@@ -1062,16 +1062,16 @@ export class AttendanceSettingComponent implements OnInit {
           this.getAllShiftTimingsMethodCall();
           this.helperService.showToast(
             'Shift Timing registered successfully',
-            Key.TOAST_STATUS_SUCCESS
+            Key.TOAST_STATUS_SUCCESS,
           );
         },
         (error) => {
           console.log(error);
           this.helperService.showToast(
             'Shift Timing registered successfully',
-            Key.TOAST_STATUS_ERROR
+            Key.TOAST_STATUS_ERROR,
           );
-        }
+        },
       );
   }
 
@@ -1243,7 +1243,7 @@ export class AttendanceSettingComponent implements OnInit {
         console.log(error);
         // this.isShimmer = false;
         this.networkConnectionErrorPlaceHolder = true;
-      }
+      },
     );
   }
 
@@ -1256,7 +1256,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      }
+      },
     );
   }
 
@@ -1276,7 +1276,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   updateOrganizationShiftTiming(
     organizationShiftTimingResponse: OrganizationShiftTimingResponse,
-    tab: string
+    tab: string,
   ) {
     // this.shiftTimingActiveTab.nativeElement.click();
 
@@ -1305,13 +1305,13 @@ export class AttendanceSettingComponent implements OnInit {
           this.getAllShiftTimingsMethodCall();
           this.helperService.showToast(
             'Shift timing deleted successfully',
-            Key.TOAST_STATUS_SUCCESS
+            Key.TOAST_STATUS_SUCCESS,
           );
         },
         (error) => {
           console.log(error);
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-        }
+        },
       );
   }
 
@@ -1325,7 +1325,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      }
+      },
     );
   }
 
@@ -1345,7 +1345,7 @@ export class AttendanceSettingComponent implements OnInit {
           if (attendanceModeId == 1) {
             this.helperService.showToast(
               'Attedance Mode updated successfully.',
-              Key.TOAST_STATUS_SUCCESS
+              Key.TOAST_STATUS_SUCCESS,
             );
           }
           // console.log("Second line executed after 3 seconds");
@@ -1354,7 +1354,7 @@ export class AttendanceSettingComponent implements OnInit {
       (error) => {
         console.log(error);
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-      }
+      },
     );
   }
 
@@ -1370,7 +1370,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      }
+      },
     );
   }
   toggle = false;
@@ -1386,12 +1386,12 @@ export class AttendanceSettingComponent implements OnInit {
           this.closeAddressModal.nativeElement.click();
           this.helperService.showToast(
             'Attedance Mode updated successfully',
-            Key.TOAST_STATUS_SUCCESS
+            Key.TOAST_STATUS_SUCCESS,
           );
         },
         (error) => {
           console.error(error);
-        }
+        },
       );
   }
   @ViewChild('placesRef') placesRef!: GooglePlaceDirective;
@@ -1444,7 +1444,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error: any) => {
         console.error('Error fetching address details:', error);
-      }
+      },
     );
   }
 
@@ -1491,7 +1491,7 @@ export class AttendanceSettingComponent implements OnInit {
       (error) => {
         this.isWeeklyHolidayErrorPlaceholder = true;
         console.error('Error fetching custom holidays:', error);
-      }
+      },
     );
   }
 
@@ -1605,7 +1605,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.error('Error deleting weekly holiday:', error);
-      }
+      },
     );
   }
 
@@ -1617,7 +1617,7 @@ export class AttendanceSettingComponent implements OnInit {
       },
       (error) => {
         console.error('Error deleting weekly holiday:', error);
-      }
+      },
     );
   }
 
@@ -1672,4 +1672,17 @@ export class AttendanceSettingComponent implements OnInit {
   //#######################################################################
 
   submitAttendanceRuleForm() {}
+
+  // Conditions to manage view all button in shift timing and holiday section
+  viewAllHolidaySection: boolean = false;
+
+  toggleViewAllHolidaySection() {
+    this.viewAllHolidaySection = !this.viewAllHolidaySection;
+  }
+
+  viewAllShiftTiming: boolean = false;
+
+  toggleViewAllShiftTiming() {
+    this.viewAllShiftTiming = !this.viewAllShiftTiming;
+  }
 }
