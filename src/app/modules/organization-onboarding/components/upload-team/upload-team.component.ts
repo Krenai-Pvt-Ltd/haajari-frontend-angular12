@@ -62,11 +62,19 @@ export class UploadTeamComponent implements OnInit {
     this.selectedMethod = '';
   }
 
+  isPreviousLoading: boolean = false;
   backPage() {
+    // setTimeout(() => {
+    this.isPreviousLoading = true;
+    // }, 1000);
     this.dataService.markStepAsCompleted(1);
     // this._onboardingService.saveOrgOnboardingStep(1).subscribe();
     this._onboardingService.saveOrgOnboardingStep(1).subscribe((resp) => {
       this._onboardingService.refreshOnboarding();
+      setTimeout(() => {
+        this.isPreviousLoading = false;
+      }, 5000);
+      // this.isPreviousLoading = false;
     });
     // this._router.navigate(['/organization-onboarding/personal-information']);
     // this._onboardingService.refreshOnboarding();
@@ -220,8 +228,9 @@ export class UploadTeamComponent implements OnInit {
       this.isFormInvalid = false;
     }
   }
-
+  isManualUploadSubmitLoader: boolean = false;
   submit() {
+    this.isManualUploadSubmitLoader = true;
     if (this.allUsersValid()) {
       this.create();
     } else {
@@ -279,12 +288,14 @@ export class UploadTeamComponent implements OnInit {
           this.createLoading = false;
           // this.closeUserEditModal.nativeElement.click();
           this.getUser();
+          this.isManualUploadSubmitLoader = false;
           // this.closeManualUploadButton.nativeElement.click();
           this.resetManualUploadModal();
         }
       },
       (error) => {
         this.createLoading = false;
+        this.isManualUploadSubmitLoader = false;
         this.resetManualUploadModal();
       },
     );
@@ -325,9 +336,9 @@ export class UploadTeamComponent implements OnInit {
   @ViewChild('closeUserEditModal') closeUserEditModal!: ElementRef;
   editLoader: boolean = false;
   editUser() {
+    this.editLoader = true;
     this._onboardingService.editOnboardUser(this.user).subscribe(
       (response: any) => {
-        this.editLoader = true;
         if (response.status) {
           this.getUser();
           this.closeUserEditModal.nativeElement.click();
@@ -391,13 +402,18 @@ export class UploadTeamComponent implements OnInit {
         });
     }
   }
-
+  isNextloading: boolean = false;
   next() {
+    // setTimeout(() => {
+    this.isNextloading = true;
+    // }, 1000);
+
     this.dataService.markStepAsCompleted(3);
     // this._onboardingService.saveOrgOnboardingStep(3).subscribe();
 
     this._onboardingService.saveOrgOnboardingStep(3).subscribe((resp) => {
       this._onboardingService.refreshOnboarding();
+      this.isNextloading = false;
     });
 
     if (this.shiftTimingExists) {
@@ -405,6 +421,7 @@ export class UploadTeamComponent implements OnInit {
     } else {
       this._router.navigate(['/organization-onboarding/add-shift-time']);
     }
+
     // this._onboardingService.refreshOnboarding();
   }
 
@@ -423,5 +440,9 @@ export class UploadTeamComponent implements OnInit {
     this.importToggle = false;
     this.closeImportModal();
     this.closeUserUpload.nativeElement.click();
+  }
+
+  formatAsCommaSeparated(items: string[]): string {
+    return items.join(', ');
   }
 }

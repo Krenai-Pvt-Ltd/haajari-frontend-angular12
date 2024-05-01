@@ -141,4 +141,20 @@ export class HelperService {
   getRoleSectionTab() {
     return this.roleSectionTab;
   }
+
+  isObjectNullOrUndefined(response : any){
+    if(response == undefined || response == null || response.object == undefined || response.object == null || response.object.length == 0){
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  isListOfObjectNullOrUndefined(response : any){
+    if(response == undefined || response == null || response.listOfObject == undefined || response.listOfObject == null || response.listOfObject.length == 0){
+      return true;
+    } else{
+      return false;
+    }
+  }
 }

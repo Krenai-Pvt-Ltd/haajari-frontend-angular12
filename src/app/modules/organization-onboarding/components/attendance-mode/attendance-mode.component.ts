@@ -90,7 +90,9 @@ export class AttendanceModeComponent implements OnInit {
     );
   }
 
+  isAttendanceModeLoader: boolean = false;
   goToDashboardSection() {
+    this.isAttendanceModeLoader = true;
     this.dataService.markStepAsCompleted(5);
     // this.onboardingService.saveOrgOnboardingStep(5).subscribe();
     this.onboardingService.saveOrgOnboardingStep(5).subscribe((resp) => {
@@ -103,9 +105,11 @@ export class AttendanceModeComponent implements OnInit {
         // this.onboardingService.refreshOnboarding();
       },
       (error) => {
+        this.isAttendanceModeLoader = false;
         console.log(error);
       },
     );
+    this.isAttendanceModeLoader = false;
   }
 
   organizationAddressDetail: OrganizationAddressDetail =
@@ -141,14 +145,19 @@ export class AttendanceModeComponent implements OnInit {
   resetAddressDetailsModal() {
     this.organizationAddressDetail = new OrganizationAddressDetail();
   }
-
+  isAttendanceModeBackLoading: boolean = false;
   backPage() {
+    this.isAttendanceModeBackLoading = true;
     this.dataService.markStepAsCompleted(3);
     // this.onboardingService.saveOrgOnboardingStep(3).subscribe();
     this.onboardingService.saveOrgOnboardingStep(3).subscribe((resp) => {
       this.onboardingService.refreshOnboarding();
     });
     this.router.navigate(['/organization-onboarding/shift-time-list']);
+    // this.isAttendanceModeBackLoading = false;
+    setTimeout(() => {
+      this.isAttendanceModeBackLoading = false;
+    }, 5000);
     // this.onboardingService.refreshOnboarding();
   }
 

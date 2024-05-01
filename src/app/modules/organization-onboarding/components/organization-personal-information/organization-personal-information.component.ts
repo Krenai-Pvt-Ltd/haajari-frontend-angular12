@@ -90,7 +90,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   loading: boolean = false;
   registerOrganizationPersonalInformation(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.loading = true;
+      // this.loading = true;
       this.dataService
         .registerOrganizationPersonalInformation(
           this.organizationPersonalInformation,
@@ -98,6 +98,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
         .subscribe(
           async (response) => {
             this.loading = false;
+            this.isInfoLoading = false;
             console.log('Organization personal info registered successfully.');
             // this.router.navigate(['/organization-onboarding/upload-team']);
             await this.dataService.markStepAsCompleted(2);
@@ -111,6 +112,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
           },
           (error) => {
             this.loading = false;
+            this.isInfoLoading = false;
             console.log(error.error.message);
             reject(error);
           },
@@ -176,8 +178,9 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       this.isFormInvalid = false;
     }
   }
-
+  isInfoLoading: boolean = false;
   submit() {
+    this.isInfoLoading = true;
     debugger;
     this.checkFormValidation();
 

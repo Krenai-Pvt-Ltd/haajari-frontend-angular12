@@ -2425,7 +2425,7 @@ export class DataService {
     endDate: string): Observable<any>{
       const params = new HttpParams()
       .set('item_per_page', itemPerPage)
-      .set('page_numner', pageNumber)
+      .set('page_number', pageNumber)
       .set('sort', sort)
       .set('sort_by', sortBy)
       .set('search', search)
@@ -2434,4 +2434,9 @@ export class DataService {
       .set('end_date', endDate);
       return this.httpClient.get<any>(`${this.baseUrl}/salary/user/change/new-joinee`, {params});
     }
+
+    getPayActionTypeList() : Observable<any>{
+      return this.httpClient.get<any>(`${this.baseUrl}/salary/user/change/pay-action-type-get-all`, {});
+    }
 }
+

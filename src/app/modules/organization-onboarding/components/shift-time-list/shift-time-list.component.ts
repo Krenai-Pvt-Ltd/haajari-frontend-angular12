@@ -479,20 +479,29 @@ export class ShiftTimeListComponent implements OnInit {
   }
 
   skipShiftSetting() {}
-
+  isShiftListNextLoading: boolean = false;
   nextPage() {
+    this.isShiftListNextLoading = true;
     this.dataService.markStepAsCompleted(4);
     // this.onboardingService.saveOrgOnboardingStep(4).subscribe();
     this.onboardingService.saveOrgOnboardingStep(4).subscribe((resp) => {
+      this.isShiftListNextLoading = false;
       this.onboardingService.refreshOnboarding();
     });
     // this.router.navigate(['/organization-onboarding/attendance-mode']);
   }
+
+  isShiftTimeBackLoading: boolean = false;
   backPage() {
+    this.isShiftTimeBackLoading = true;
     this.dataService.markStepAsCompleted(2);
     // this.onboardingService.saveOrgOnboardingStep(2).subscribe();
     this.onboardingService.saveOrgOnboardingStep(2).subscribe((resp) => {
       this.onboardingService.refreshOnboarding();
+      setTimeout(() => {
+        this.isShiftTimeBackLoading = false;
+      }, 5000);
+      // this.isBackLoading = false;
     });
     // this.router.navigate(['/organization-onboarding/upload-team']);
   }
