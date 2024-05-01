@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     
-                    <!-- <div class="notification-menu" data-simplebar *ngIf="!mailLoading && mailList.length > 0">
+                    <div class="notification-menu" data-simplebar *ngIf="!mailLoading && mailList.length > 0">
                         <a class="dropdown-item py-3" *ngFor="let mail of mailList"
                         [ngClass]="{'notification': mail.isRead==0}" (click)="routeToPage(mail.id)">
                             <small class="float-end text-muted ps-2">{{timeAgo(mail.createdDate)}}</small>
@@ -68,7 +68,7 @@
                                 </div>
                             </div>
                         </a>
-                    </div> -->
+                    </div>
                     <div class="border-top text-center text-primary pt-1" style="cursor: pointer;" *ngIf="totalNewMailNotification > 0" (click)="markMailAsReadAll('mail')">
                         <span>Mark as read all</span>
                         </div>

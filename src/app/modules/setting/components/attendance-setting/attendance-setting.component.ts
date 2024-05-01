@@ -61,8 +61,8 @@ export class AttendanceSettingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadHolidays();
     this.loadHolidayCounts();
+    this.loadHolidays();
     this.getOrganizationAddressDetailMethodCall();
     this.getAttendanceModeMethodCall();
     this.getAllShiftTimingsMethodCall();
@@ -1721,7 +1721,9 @@ export class AttendanceSettingComponent implements OnInit {
     this.dataService.getHolidays(this.page, this.itemsPerPage).subscribe({
       next: (data: Holiday[]) => {
         this.holidays = this.holidays.concat(data);
-        this.totalMoreHolidays = this.totalCount - this.holidays.length;
+        this.totalMoreHolidays =
+          this.totalHolidaysNumber - this.holidays.length;
+        // console.log('count + ' + this.totalMoreHolidays);
         this.isMoreHolidayLoader = false;
       },
       error: (error) => {
