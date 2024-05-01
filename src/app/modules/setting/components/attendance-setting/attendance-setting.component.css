@@ -1107,7 +1107,7 @@ i.bi.bi-plus {
 }
 
 .add-shift-time-btn {
-  font-size: 16px;
+  font-size: 14px;
   color: #6666f3 !important;
   font-weight: 500;
 }
@@ -1132,7 +1132,7 @@ i.bi.bi-plus {
 }
 
 .shift-in-out-time p {
-  font-size: 12px;
+  font-size: 10px;
 }
 .holiday-date {
   padding: 15px;
@@ -1168,9 +1168,9 @@ i.bi.bi-plus {
 }
 
 .view-all-btn {
-  font-size: 14px;
-  color: #444;
-  font-weight: 600;
+  font-size: 12px;
+  color: #444 !important;
+  font-weight: 500;
 }
 
 .weekly-holidays {
@@ -1180,7 +1180,7 @@ i.bi.bi-plus {
 }
 
 .automation-rules-toogel-btn {
-  background-color: #f1f1fd;
+  background-color: #fff;
   border-radius: 5px;
   padding: 8px 8px;
   color: #444;
@@ -1202,13 +1202,13 @@ i.bi.bi-plus {
   background-color: #eeeefd;
 }
 .custom-salary-hedding h4 {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
   color: #444;
 }
 
 .custom-salary-para {
-  background-color: #f5f8fa;
+  background-color: #fff;
   min-height: 130px;
 }
 
@@ -1224,6 +1224,7 @@ i.bi.bi-plus {
   background-color: #f1f1fd;
   width: 300px;
   border-radius: 2px;
+  overflow: hidden;
 }
 
 .total-shifts h6 {
@@ -1235,11 +1236,12 @@ i.bi.bi-plus {
 
 .total-user-icon {
   background-color: #e6e6ff;
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
-  top: 0px;
-  right: 0px;
+  position: relative;
+  top: -2rem;
+  right: -2rem;
   overflow: hidden;
 }
 
@@ -1255,11 +1257,55 @@ i.bi.bi-plus {
 } */
 
 .total-shifts small {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .view-all-btn i {
   top: -1px;
   position: relative;
   padding-left: 10px;
+}
+.text-truncate.mb-0 {
+  font-size: 14px;
+}
+
+.holiday-date p {
+  font-size: 12px;
+}
+
+.weekly-holidays p {
+  font-size: 12px;
+}
+
+.holiday-list-box-height {
+  height: 300px;
+}
+
+.holiday-list-box-height {
+  height: 193px;
+  overflow-y: hidden;
+  transition: 0.5s linear;
+}
+
+.holiday-list-box-height::-webkit-scrollbar {
+  display: none;
+}
+.holiday-list-box {
+  height: 400px;
+  overflow: scroll;
+}
+
+.shift-setting-box {
+  height: 270px;
+  overflow-y: hidden;
+  transition: 0.5s linear;
+}
+
+.shift-setting-box::-webkit-scrollbar {
+  display: none;
+}
+
+.shift-setting-list-box {
+  height: 400px;
+  overflow: scroll;
 }
