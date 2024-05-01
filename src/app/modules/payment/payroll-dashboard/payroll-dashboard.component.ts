@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { clear } from 'console';
+import { Key } from 'src/app/constant/key';
 import { MonthResponse } from 'src/app/models/month-response';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { PayrollDashboardEmployeeCountResponse } from 'src/app/models/payroll-dashboard-employee-count-response';
+import { UserExitResponse } from 'src/app/models/user-exit-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 
@@ -23,6 +25,10 @@ export class PayrollDashboardComponent implements OnInit {
   searchBy: string = 'name';
   total: number = 0;
 
+  NEW_JOINEE = Key.NEW_JOINEE_STEP;
+  USER_EXIT = Key.USER_EXIT_STEP;
+  FINAL_SETTLEMENT = Key.FINAL_SETTLEMENT_STEP;
+
   isShimmer = false;
   dataNotFoundPlaceholder = false;
   networkConnectionErrorPlaceHolder = false;
@@ -40,6 +46,16 @@ export class PayrollDashboardComponent implements OnInit {
     this.isShimmerForNewJoinee = true;
     this.dataNotFoundPlaceholderForNewJoinee = false;
     this.networkConnectionErrorPlaceHolderForNewJoinee = false;
+  }
+
+
+  isShimmerForUserExit = false;
+  dataNotFoundPlaceholderForUserExit = false;
+  networkConnectionErrorPlaceHolderForUserExit = false;
+  preRuleForShimmersAndErrorPlaceholdersForUserExit() {
+    this.isShimmerForUserExit = true;
+    this.dataNotFoundPlaceholderForUserExit = false;
+    this.networkConnectionErrorPlaceHolderForUserExit = false;
   }
 
   constructor(
@@ -285,12 +301,14 @@ export class PayrollDashboardComponent implements OnInit {
   debounceTimer : any;
   getNewJoineeByOrganizationIdMethodCall(debounceTime : number = 300){
 
+    this.newJoineeResponseList = [];
+    this.resetCriteriaFilter();
+
     if(this.debounceTimer){
       clearTimeout(this.debounceTimer);
     }
 
     this.debounceTimer = setTimeout(() => {
-      this.newJoineeResponseList = [];
       this.preRuleForShimmersAndErrorPlaceholdersForNewJoinee();
       this.dataService.getNewJoineeByOrganizationId(this.itemPerPage, this.pageNumber, this.sort, this.sortBy, this.search, this.searchBy, this.startDate, this.endDate).subscribe((response) => {
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
@@ -459,7 +477,7 @@ export class PayrollDashboardComponent implements OnInit {
 
 
   //New Joinee Search
-  searchUsers(event : Event){
+  searchUsers(event : Event, step : number){
     if (event instanceof KeyboardEvent) {
       const ignoreKeys = [
         'Shift',
@@ -481,18 +499,64 @@ export class PayrollDashboardComponent implements OnInit {
       }
     }
 
-    this.total = 0;
     this.newJoineeResponseList = [];
+    this.userExitResponseList = [];
     this.resetCriteriaFilter();
-    this.getNewJoineeByOrganizationIdMethodCall();
+
+    if(step == Key.NEW_JOINEE_STEP){
+      this.getNewJoineeByOrganizationIdMethodCall();
+    }
+
+    if(step == Key.USER_EXIT_STEP){
+      this.getUserExitByOrganizationIdMethodCall();
+    }
+
+    if(step == Key.FINAL_SETTLEMENT_STEP){
+
+    }
   }
-  clearSearch(){
+  clearSearch(step : number){
     this.search = '';
-    this.getNewJoineeByOrganizationIdMethodCall();
+    if(step == Key.NEW_JOINEE_STEP){
+      this.getNewJoineeByOrganizationIdMethodCall();
+    }
+
+    if(step == Key.USER_EXIT_STEP){
+      this.getUserExitByOrganizationIdMethodCall();
+    }
+
+    if(step == Key.FINAL_SETTLEMENT_STEP){
+
+    }
   }
   resetCriteriaFilter() {
     this.itemPerPage = 2;
     this.pageNumber = 1;
+    this.lastPageNumber = 0;
+    this.total = 0;
+    this.sort = 'asc';
+    this.sortBy = 'id';
+    this.search = '';
+    this.searchBy = 'name';
+  }
+
+  //Fetching the user exit data
+  userExitResponseList : UserExitResponse[] = [];
+  getUserExitByOrganizationIdMethodCall(){
+    this.userExitResponseList = [];
+    this.resetCriteriaFilter();
+    this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
+    this.dataService.getUserExitByOrganizationId(this.itemPerPage, this.pageNumber, this.sort, this.sortBy, this.search, this.searchBy, this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForUserExit = true;
+      } else{
+        this.userExitResponseList = response.listOfObject;
+      }
+      this.isShimmerForUserExit = false;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForUserExit = true;
+      this.isShimmerForUserExit = false;
+    })
   }
 }
 

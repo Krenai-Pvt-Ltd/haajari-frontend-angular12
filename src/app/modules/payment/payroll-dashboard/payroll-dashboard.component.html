@@ -425,25 +425,25 @@
                 <form action="#" method="post" id="custom-step">
                   <nav>
                     <div class="nav nav-tabs" id="nav-tab">
-                      <a class="nav-link active" id="step1-tab" data-bs-toggle="tab" href="#step1">NEW JOINEE</a>
-                      <a class="nav-link" id="step2-tab" data-bs-toggle="tab" href="#step2">EMPLOYEES IN EXIT PROCESS</a>
+                      <a class="nav-link active" id="step1-tab" data-bs-toggle="tab" href="#step1" (click)="getNewJoineeByOrganizationIdMethodCall()">NEW JOINEE</a>
+                      <a class="nav-link" id="step2-tab" data-bs-toggle="tab" href="#step2" (click)="getUserExitByOrganizationIdMethodCall()">EMPLOYEES IN EXIT PROCESS</a>
                       <a class="nav-link" id="step3-tab" data-bs-toggle="tab" href="#step3">FULL AND FINAL SETTLEMENT</a>
                     </div>
                   </nav>
                   <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane active" id="step1">
-                      <div class="col-md-12 mt-2">
-                        <form novalidate="" role="search" (submit)="searchUsers($event)" class="searching ng-untouched ng-pristine ng-valid">
-                            <div class="form-group" style="width: 350px; position: relative">
-                                <input type="text" id="search" placeholder="Search by name and email" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;" (keyup)="searchUsers($event)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
-                                <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch()">
-                                    <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                                </button>
-                                <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
-                            </div>
-                        </form>
-                    </div>
                           <div class="table-responsive">
+                            <div class="col-md-12 mt-2">
+                              <form novalidate="" role="search" (submit)="searchUsers($event, 1)" class="searching ng-untouched ng-pristine ng-valid">
+                                  <div class="form-group" style="width: 350px; position: relative">
+                                      <input type="text" id="search" placeholder="Search by name and email" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;" (keyup)="searchUsers($event, 1)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+                                      <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch(1)">
+                                          <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                                      </button>
+                                      <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+                                  </div>
+                              </form>
+                          </div>
                             <table class="table border-dashed mb-0">
                               <!-- <div class="col-md-6">
                                 <div *ngIf="selectedStaffsUuids.length !== 0" class="d-flex align-items-center justify-content-end gap-3">
@@ -509,7 +509,7 @@
                                           <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                                       </td>
                                   </tr>
-                              </tbody>
+                                </tbody>
                               </ng-container>
 
                               <ng-template #newJoineeList>
@@ -552,7 +552,7 @@
                                       </td>
                                       <td class="text-start"><input class="comment-input p-2" type="text" placeholder="Write the comment here"></td>
                                       <td class="text-start">
-                                        <a>Manage Finances <i class="bi bi-pencil-square"></i></a> 
+                                        <a><i class="bi bi-pencil-square"></i></a> 
                                       </td>
                                     </tr>
                                   </tbody>
@@ -560,6 +560,9 @@
                               </ng-template>
 
                               <ng-template #errorInFetchingNewJoinee>
+                                <tbody>
+                                  <tr>
+                                    <td colspan="8">
                                   <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForNewJoinee">
                                     <div class="errorboxinner text-center">
                                         <div class="errorboxplaceholder mb-2">
@@ -573,6 +576,12 @@
                                         </div>
                                     </div>
                                 </div>
+                              </td>
+                            </tr>
+                              </tbody>
+                              <tbody>
+                                <tr>
+                                  <td colspan="8">
                                 
                                 <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForNewJoinee">
                                     <div class="errorboxinner text-center">
@@ -584,6 +593,9 @@
                                         <p>Sorry, We can't show you the data at this moment!</p>
                                     </div>
                                 </div>
+                              </td>
+                            </tr>
+                              </tbody>
                               </ng-template>
                             
                               
@@ -616,61 +628,170 @@
                     </div>
                     <div class="tab-pane" id="step2">
                       <div class="table-responsive">
+                        <div class="col-md-12 mt-2">
+                          <form novalidate="" role="search" (submit)="searchUsers($event, 2)" class="searching ng-untouched ng-pristine ng-valid">
+                              <div class="form-group" style="width: 350px; position: relative">
+                                  <input type="text" id="search" placeholder="Search by name and email" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px;" (keyup)="searchUsers($event, 2)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+                                  <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch(2)">
+                                      <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                                  </button>
+                                  <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
+                              </div>
+                          </form>
+                      </div>
                         <table class="table border-dashed mb-0">
                           <thead>
                             <tr>
                               <th>EMPLOYEE</th>
-                              <th class="text-end">DATE OF RESIGNATION</th>
-                              <th class="text-end">EXIT ACTION & REASON</th>
-                              <th class="text-end">LAST WORKING DAY</th>
-                              <th class="text-end">EXIT REQUEST STATUS</th>
-                              <th class="text-end">WAITING ON</th>
+                              <th>EMAIL</th>
+                              <th>DATE OF RESIGNATION</th>
+                              <th>LAST WORKING DATE</th>
+                              <th>NO OF WORKING DAYS</th>
+                              <th>SALARY</th>
+                              <th>PAY ACTION</th>
+                              <th>COMMENT(Optional)</th>
+                              <th>STATUS</th>
+                              <th>ACTION</th>
                             </tr>
                           </thead>
-                          <tbody>
-                            <tr>
-                              <td>Rohit Chaturvedi</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">SALARY HIKE</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">EXIT</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Rohit Chaturvedi</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">SALARY HIKE</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">EXIT</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Rohit Chaturvedi</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">SALARY HIKE</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">EXIT</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Rohit Chaturvedi</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">SALARY HIKE</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">EXIT</td>
-                              <td class="text-end">Note</td>
-                            </tr>
-                            <tr>
-                              <td>Rohit Chaturvedi</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">SALARY HIKE</td>
-                              <td class="text-end">25/04/2017</td>
-                              <td class="text-end">EXIT</td>
-                              <td class="text-end">Note</td>
-                            </tr>
+
+                          <ng-container *ngIf="isShimmerForUserExit && userExitResponseList.length == 0; else userExitList">
+                            <tbody>
+                              <tr *ngFor="let item of [].constructor(10)">
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                              </tr>
+                            </tbody>
+                          </ng-container>
+                          <ng-template #userExitList>
+                            <ng-container *ngIf="!isShimmerForUserExit && userExitResponseList.length != 0 && !dataNotFoundPlaceholderForUserExit && !networkConnectionErrorPlaceHolderForUserExit">
+                              <tbody *ngFor="let userExitResponse of userExitResponseList | paginate: {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}">
+                                <tr>
+                                  <td>{{userExitResponse.name}}</td>
+                                  <td>{{userExitResponse.email}}</td>
+                                  <td>{{userExitResponse.resignationDate}}</td>
+                                  <td>{{userExitResponse.lastWorkingDate}}</td>
+                                  <td>-</td>
+                                  <td>{{userExitResponse.salary}}</td>
+                                  <td class="text-"><div class="dudct-type">
+                                    <div class="dropdown pay-action-type">
+                                        <button
+                                            class="btn btn-secondary dropdown-toggle new-dropdown"
+                                            type="button" id="dropdownMenuButton1"
+                                            data-bs-toggle="dropdown" aria-expanded="false"
+                                            style=" text-align: left; background-color: white; color: black; border-color: #ced4da; width: 100%;">
+                                            {{ selectedPayActionType?.name || "Select pay action" }}
+                                            <i class="bi bi-chevron-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu"
+                                            aria-labelledby="dropdownMenuButton1"
+                                            style="width: 100%">
+                                            <li *ngFor="let payActionType of payActionTypeList">
+                                                <a class="dropdown-item"
+                                                    (click)="selectPayActionType(payActionType)">
+                                                    {{ payActionType.name }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                              </td>
+                              <td class="text-start"><input class="comment-input p-2" type="text" placeholder="Write the comment here"></td>
+                                <td class="text-start">{{userExitResponse.requestStatus}}</td>
+                                <td>
+                                  <a><i class="bi bi-pencil-square"></i></a>
+                                </td>
+                              </tr>
+                              </tbody>
+                            </ng-container>
+                          </ng-template>
+                          <ng-template #errorInFetchingUserExitList>
+                            <tbody>
+                              <tr>
+                                  <td colspan="8">
+                                      <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForUserExit">
+                                          <div class="errorboxinner text-center">
+                                              <div class="errorboxplaceholder mb-2">
+                                                  <img src="assets/images/signal.svg" style="width: 100px" />
+                                              </div>
+                                              <div class="">
+                                                  <h4>Something went wrong</h4>
+                                                  <p>
+                                                      An error occurred while processing your request. Please refresh the page and try again.
+                                                  </p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                              </tr>
                           </tbody>
+                          <tbody>
+                              <tr>
+                                  <td colspan="8">
+                                      <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForUserExit">
+                                          <div class="errorboxinner text-center">
+                                              <div class="errorboxplaceholder mb-2">
+                                                  <img src="assets/images/empty-folder.svg" style="width: 100px" />
+                                              </div>
+                          
+                                              <h4>No Data Found</h4>
+                                              <p>Sorry, We can't show you the data at this moment!</p>
+                                          </div>
+                                      </div>
+                                  </td>
+                              </tr>
+                          </tbody>
+                          </ng-template>
                         </table>
                         <!--end /table-->
+                      </div>
+                      <!-- Pagination -->
+                      <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="((total > (itemPerPage-1)) || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && !dataNotFoundPlaceholderForUserExit && !networkConnectionErrorPlaceHolderForUserExit">
+                        <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} employees </p>
+                        <div>
+                          <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-end">
+                              <li class="page-item" [class.disabled]="pageNumber == 1">
+                                <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
+                                  <span aria-hidden="true">&laquo;</span>
+                                </a>
+                              </li>
+                              <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                                <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
+                              </li>
+                              <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                                <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
+                                  <span aria-hidden="true">&raquo;</span>
+                                </a>
+                              </li>
+                            </ul>
+                          </nav>
+                        </div>
                       </div>
                     </div>
                     <div class="tab-pane" id="step3">

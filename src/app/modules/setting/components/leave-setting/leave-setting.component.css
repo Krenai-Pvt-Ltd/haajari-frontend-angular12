@@ -1428,3 +1428,10 @@ i.bi.bi-plus {
 .shift-in-out-time p {
   font-size: 10px;
 }
+
+.staff-leave-setting {
+  border-radius: 2px;
+  padding: 6px 12px;
+  line-height: 19px;
+  font-size: 12px;
+}

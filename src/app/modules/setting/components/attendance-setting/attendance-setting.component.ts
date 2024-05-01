@@ -62,6 +62,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadHolidays();
+    this.loadHolidayCounts();
     this.getOrganizationAddressDetailMethodCall();
     this.getAttendanceModeMethodCall();
     this.getAllShiftTimingsMethodCall();
@@ -1652,7 +1653,9 @@ export class AttendanceSettingComponent implements OnInit {
       next: (response) => {
         // console.log('Custom Holidays Registered Successfully', response)
         this.holidays = [];
+        this.page = 0;
         this.loadHolidays();
+        this.loadHolidayCounts();
         this.isCustomHolidayLoader = false;
         this.holidayList = [{ name: '', date: '' }];
         this.customHolidayModal.nativeElement.click();
@@ -1707,7 +1710,7 @@ export class AttendanceSettingComponent implements OnInit {
   page = 0;
   itemsPerPage = 6;
   isLoading = false;
-  totalCount: number = 13;
+  totalCount: number = 0;
   isInitialLoading: boolean = false;
   isMoreHolidayLoader: boolean = false;
 
@@ -1755,5 +1758,32 @@ export class AttendanceSettingComponent implements OnInit {
       this.holidayListContainer.nativeElement.scrollTop =
         this.holidayListContainer.nativeElement.scrollHeight;
     }
+  }
+
+  totalHolidaysNumber: number = 0;
+  universalHolidaysNumber: number = 0;
+  customHolidaysNumber: number = 0;
+
+  // holidayCounts: { [key: string]: number } | null = null;
+  loadHolidayCounts() {
+    debugger;
+    this.dataService.getHolidayCounts().subscribe({
+      next: (response) => {
+        if (response.status) {
+          this.totalHolidaysNumber = response.object.total || 0;
+          this.universalHolidaysNumber = response.object.Universal || 0;
+          this.customHolidaysNumber = response.object.Custom || 0;
+        } else {
+          console.error('Failed to load holiday counts:', response.message);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching holiday counts:', error);
+      },
+    });
+  }
+
+  objectKeys(obj: any): string[] {
+    return Object.keys(obj);
   }
 }

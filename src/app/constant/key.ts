@@ -207,7 +207,7 @@ export class Key {
   base_url = 'http://localhost:8080/api/v2';
 
   /* ------------------  Staging urls ----------------*/
-  // base_url = 'https://staging.hajiri.work/api/v2';
+  //   base_url = 'https://staging.hajiri.work/api/v2';
 
   /* ------------------  Production urls ----------------*/
   // base_url = 'https://production.hajiri.work/api/v2';
@@ -259,4 +259,9 @@ export class Key {
   get_organization_onboarding_step = '/organization/onboarding-step';
 
   // Organization Onboarding Steps:
+
+  //Employee Change Step
+  public static NEW_JOINEE_STEP = 1;
+  public static USER_EXIT_STEP = 2;
+  public static FINAL_SETTLEMENT_STEP = 3;
 }
