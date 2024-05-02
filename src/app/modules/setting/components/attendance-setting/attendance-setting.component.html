@@ -341,11 +341,9 @@
                             </span>
                           </div>
                         </div>
-                        {{ i }}
                         <div
                           *ngFor="
-                            let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList;
-                            let j = index
+                            let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList
                           "
                           class="collapse multi-collapse"
                           [id]="'multiCollapseExample' + i"
@@ -1354,7 +1352,8 @@
                   <div
                     class="shift-time p-3 m-3"
                     *ngFor="
-                      let attendanceRuleWithAttendanceRuleDefinitionResponse of attendanceRuleWithAttendanceRuleDefinitionResponseList
+                      let attendanceRuleWithAttendanceRuleDefinitionResponse of attendanceRuleWithAttendanceRuleDefinitionResponseList;
+                      let automationIndex = index
                     "
                   >
                     <div class="">
@@ -1383,7 +1382,7 @@
                           </div>
                         </div>
                         <div class="">
-                          <span
+                          <!-- <span
                             class="automation-rules-toogel-btn pointer"
                             data-bs-toggle="collapse"
                             href="#multiCollapseExample5"
@@ -1391,13 +1390,32 @@
                             aria-expanded="false"
                             aria-controls="multiCollapseExample5"
                             ><i class="bi bi-chevron-down"></i
-                          ></span>
+                          ></span> -->
+                          <span
+                            class="automation-rules-toogel-btn pointer"
+                            data-bs-toggle="collapse"
+                            [attr.data-bs-target]="
+                              '#multiCollapseExample5' + automationIndex
+                            "
+                            role="button"
+                            [attr.aria-controls]="
+                              'multiCollapseExample5' + automationIndex
+                            "
+                            [attr.aria-expanded]="
+                              automationIndex === activeIndex5
+                                ? 'true'
+                                : 'false'
+                            "
+                            (click)="toggleCollapse5(automationIndex)"
+                          >
+                            <i class="bi bi-chevron-down"></i>
+                          </span>
                         </div>
                       </div>
 
                       <div
                         class="collapse multi-collapse"
-                        id="multiCollapseExample5"
+                        [id]="'multiCollapseExample5' + automationIndex"
                         *ngFor="
                           let attendanceRuleDefinitionResponse of attendanceRuleWithAttendanceRuleDefinitionResponse.attendanceRuleDefinitionResponseList;
                           let i = index

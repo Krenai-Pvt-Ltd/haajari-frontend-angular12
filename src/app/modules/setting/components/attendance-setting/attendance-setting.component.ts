@@ -1814,4 +1814,10 @@ export class AttendanceSettingComponent implements OnInit {
       this.activeIndex = index;
     }
   }
+
+  activeIndex5: number = -1;
+
+  toggleCollapse5(index: number): void {
+    this.activeIndex5 = this.activeIndex5 === index ? -1 : index;
+  }
 }
