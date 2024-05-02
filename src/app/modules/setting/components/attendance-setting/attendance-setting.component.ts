@@ -376,7 +376,8 @@ export class AttendanceSettingComponent implements OnInit {
     new AttendanceRuleDefinitionResponse();
   updateAttendenceRuleDefinition(
     attendanceRuleDefinitionResponse: AttendanceRuleDefinitionResponse,
-    attendanceRuleResponse: AttendanceRuleResponse
+    attendanceRuleResponse: AttendanceRuleResponse,
+    automationIndex: number
   ) {
     this.ruleActiveTab.nativeElement.click();
 
@@ -511,6 +512,8 @@ export class AttendanceSettingComponent implements OnInit {
       attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceType;
     this.selectedOccurenceDropdownForFullDaySalrayDeduction =
       attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceType;
+
+    this.activeIndex5 = automationIndex;
     // this.selectCountDurationDropdown(attendanceRuleDefinitionResponse)
   }
 
@@ -1233,6 +1236,10 @@ export class AttendanceSettingComponent implements OnInit {
     this.dataService.getAllShiftTimings().subscribe(
       (response) => {
         this.organizationShiftTimingWithShiftTypeResponseList = response;
+
+        if (this.organizationShiftTimingWithShiftTypeResponseList.length == 1) {
+          this.activeIndex = 0;
+        }
         // console.log(this.organizationShiftTimingWithShiftTypeResponseList);
         // this.isShimmer = false;
         // this.dataNotFoundPlaceholder = true;
@@ -1750,8 +1757,9 @@ export class AttendanceSettingComponent implements OnInit {
 
   loadMoreHolidaysBoolean: boolean = false;
   loadMoreHolidays() {
-    this.loadMoreHolidaysBoolean = !this.loadMoreHolidaysBoolean;
+    this.loadMoreHolidaysBoolean = true;
     this.isInitialLoading = true;
+    this.openLoadMoreHoliday = false;
     this.page++;
     this.loadHolidays();
     setTimeout(() => {
@@ -1759,6 +1767,14 @@ export class AttendanceSettingComponent implements OnInit {
     }, 500);
   }
 
+  openLoadMoreHoliday: boolean = false;
+  hideHolidays() {
+    this.loadMoreHolidaysBoolean = false;
+    this.openLoadMoreHoliday = true;
+    this.page = 0;
+    this.holidays = [];
+    this.loadHolidays();
+  }
   scrollToBottom() {
     if (this.holidayListContainer) {
       this.holidayListContainer.nativeElement.scrollTop =
