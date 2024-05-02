@@ -3,6 +3,7 @@ import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { MonthResponse } from 'src/app/models/month-response';
+import { NewJoineeAndUserExitRequest } from 'src/app/models/new-joinee-and-user-exit-request';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
 import { PayActionType } from 'src/app/models/pay-action-type';
@@ -25,6 +26,9 @@ export class PayrollDashboardComponent implements OnInit {
   search: string = '';
   searchBy: string = 'name';
   total: number = 0;
+
+  // Tab estate
+  CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.NEW_JOINEE_STEP;
 
   NEW_JOINEE = Key.NEW_JOINEE;
   USER_EXIT = Key.USER_EXIT;
@@ -109,17 +113,29 @@ export class PayrollDashboardComponent implements OnInit {
     this.selectedDate = year;
     this.getMonthResponseList(this.selectedDate);
 
-    // Find the first monthResponse with disable as false
-    const enabledMonthResponse = this.monthResponseList.find((monthResponse: { disable: any; }) => !monthResponse.disable);
-    if (enabledMonthResponse) {
-        // Call the method with the found monthResponse
-        this.getOrganizationIndividualMonthSalaryDataMethodCall(enabledMonthResponse);
+    let enabledMonthResponse;
+
+    // Check if the selected year is the current year
+    const currentYear = new Date().getFullYear();
+    const selectedYear = year.getFullYear();
+
+    if (selectedYear === currentYear) {
+        // It's the current year, find the last monthResponse with disable as false
+        for (let i = this.monthResponseList.length - 1; i >= 0; i--) {
+            if (!this.monthResponseList[i].disable) {
+                enabledMonthResponse = this.monthResponseList[i];
+                break;
+            }
+        }
+    } else {
+        enabledMonthResponse = this.monthResponseList.find((monthResponse) => !monthResponse.disable);
     }
 
-    console.log(this.getMonthResponseList(this.selectedDate));
-    // this.getOrganizationIndividualMonthSalaryDataMethodCall();
-    // this.getFirstAndLastDateOfMonth(this.selectedDate);
-  }
+    if (enabledMonthResponse) {
+        this.getOrganizationIndividualMonthSalaryDataMethodCall(enabledMonthResponse);
+    }
+}
+
 
 
   // async onYearChange(year: Date): Promise<void> {
@@ -198,8 +214,7 @@ export class PayrollDashboardComponent implements OnInit {
         const monthDate = new Date(date.getFullYear(), i);
 
         const monthName = monthDate.toLocaleString('default', { month: 'short' });
-        const status =
-        (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) ? '-' : monthDate.getFullYear() < currentYear || (monthDate.getFullYear() === currentYear && i < currentMonth) ? 'Completed' : (monthDate.getFullYear() === currentYear && i === currentMonth) ? 'Current' : 'Upcoming';
+        const status = (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) ? '-' : monthDate.getFullYear() < currentYear || (monthDate.getFullYear() === currentYear && i < currentMonth) ? 'Completed' : (monthDate.getFullYear() === currentYear && i === currentMonth) ? 'Current' : 'Upcoming';
 
         // Disabling the future months and the months before organization registration.
         const disable = 
@@ -266,8 +281,13 @@ export class PayrollDashboardComponent implements OnInit {
   // Fetching organization individual month salary data.
   organizationMonthWiseSalaryData: OrganizationMonthWiseSalaryData = new OrganizationMonthWiseSalaryData();
   getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse: MonthResponse) {
+
     this.selectedMonth = monthResponse.month;
     this.selectedYear = monthResponse.year;
+
+    this.startDate = this.helperService.formatDateToYYYYMMDD(monthResponse.firstDate);
+    this.endDate = this.helperService.formatDateToYYYYMMDD(monthResponse.lastDate);
+
     this.dataService
       .getOrganizationIndividualMonthSalaryData(
         this.helperService.formatDateToYYYYMMDD(monthResponse.firstDate),
@@ -285,8 +305,9 @@ export class PayrollDashboardComponent implements OnInit {
             this.dataNotFoundPlaceholder = true;
           } else {
             this.organizationMonthWiseSalaryData = response.object;
+            this.countPayrollDashboardEmployeeByOrganizationIdMethodCall();
           }
-          this.isShimmer = true;
+          this.isShimmer = false;
         },
         (error) => {
           console.log(error);
@@ -309,16 +330,19 @@ export class PayrollDashboardComponent implements OnInit {
 
   //Exmployee changes tab selection
   newJoineeTab(){
+    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.NEW_JOINEE_STEP;
     this.resetCriteriaFilter();
     this.getNewJoineeByOrganizationIdMethodCall();
   }
 
   userExitTab(){
+    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.USER_EXIT_STEP;
     this.resetCriteriaFilter();
     this.getUserExitByOrganizationIdMethodCall();
   }
 
   finalSettlementTab(){
+    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.FINAL_SETTLEMENT_STEP;
     this.resetCriteriaFilter();
     this.getFinalSettlementByOrganizationIdMethodCall();
   }
@@ -344,7 +368,7 @@ export class PayrollDashboardComponent implements OnInit {
           this.newJoineeResponseList = response.listOfObject;
           this.total = response.totalItems;
           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-          // console.log(this.total);
+          console.log(this.newJoineeResponseList);
         }
         this.isShimmerForNewJoinee = false;
       }, (error) => {
@@ -377,9 +401,12 @@ export class PayrollDashboardComponent implements OnInit {
   }
 
   selectedPayActionType : PayActionType = new PayActionType();
-  selectPayActionType(payActionType : PayActionType){
+  selectPayActionType(payActionType : PayActionType, response : any){
     this.selectedPayActionType = payActionType;
-    this.isDropdownOpen = false;
+
+    if(response != undefined && response != null){
+      response.payActionTypeId = payActionType.id;
+    }
   }
 
 
@@ -556,9 +583,10 @@ export class PayrollDashboardComponent implements OnInit {
     }
 
     if(step == Key.FINAL_SETTLEMENT_STEP){
-
+      this.getFinalSettlementByOrganizationIdMethodCall();
     }
   }
+
   resetCriteriaFilter() {
     this.itemPerPage = 2;
     this.pageNumber = 1;
@@ -614,6 +642,40 @@ export class PayrollDashboardComponent implements OnInit {
       }, (error) => {
         this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
         this.isShimmerForFinalSettlement = false;
+      })
+    }
+
+
+    //Registering new joinee and user exit data to employee month wise salary data
+    newJoineeAndUserExitRequestList : NewJoineeAndUserExitRequest[] = [];
+    registerNewJoineeAndUserExitMethodCall(){
+      
+      if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.NEW_JOINEE_STEP){
+        this.newJoineeAndUserExitRequestList = [];
+
+        this.newJoineeResponseList.forEach((item) => {
+          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionTypeId, item.comment);
+
+          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        });
+      } 
+
+      if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP){
+        this.newJoineeAndUserExitRequestList = [];
+
+        this.userExitResponseList.forEach((item) => {
+          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionTypeId, item.comment);
+
+          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        })
+      }
+      
+      this.dataService.registerNewJoineeAndUserExit(this.newJoineeAndUserExitRequestList, this.startDate, this.endDate).subscribe((response) => {
+
+        this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+
+      }, (error) => {
+        this.helperService.showToast(error.error.message, Key.TOAST_STATUS_ERROR);
       })
     }
 }

@@ -1,8 +1,10 @@
 export class NewJoineeResponse {
-    id : number = 0;
+    uuid : string = '';
     name : string = '';
     email : string = '';
     joiningDate : string = '';
     salary : number = 0;
+    payActionTypeId : number = 1;
+    comment : string = '';
     selected : boolean = false;
 }
