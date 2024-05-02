@@ -20,7 +20,7 @@
   border-left: 1px dashed #f1f1f1;
 }
 .ps-3 {
-  padding-left: 4rem !important;
+  padding-left: 3rem !important;
 }
 .bg-soft-success:hover {
   background-color: #f1f1f1 !important;
@@ -94,7 +94,7 @@
 }
 
 /* CSS written by Shivendra */
-.comment-input{
+.comment-input {
   background-color: #fff !important;
   border: 1px solid #e8ebf3 !important;
   border-radius: 5px !important;
@@ -130,4 +130,14 @@
   top: 0px;
   color: #6666f3;
   cursor: pointer;
+}
+
+.report-footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background-color: #fff;
+  width: 100%;
+  border: none;
+  z-index: 99999;
 }

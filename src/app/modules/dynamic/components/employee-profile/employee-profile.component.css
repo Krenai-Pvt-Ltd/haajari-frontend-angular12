@@ -423,7 +423,7 @@ td.text-right {
 }
 .Approved {
   border-right: 1px solid #f1f1f1;
-  width: 100px;
+  width: 90px;
 }
 
 .rejected-css p {
@@ -565,13 +565,13 @@ span.optional {
 .approved-left {
   position: absolute;
   left: 0px;
-  top: 26px;
+  top: 6px;
 }
 
 .approved-right {
   position: absolute;
   left: 150px;
-  top: 26px;
+  top: 6px;
 }
 
 .profile-image-name-span {
@@ -969,8 +969,7 @@ div#eventsModal .modal-content {
   background-color: #fff;
   border: 1px solid #f2f2f2;
   /* box-shadow: none; */
-  box-shadow:
-    rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 
@@ -1400,3 +1399,31 @@ tbody tr {
   background-color: transparent;
 }
 /* Author Pushpendra */
+.hr-dashed {
+  border-top: 1px dashed #fff;
+}
+.alert {
+  border-radius: 0.125rem;
+}
+
+.project-task-card h5 {
+  line-height: 24px;
+}
+
+.add-document-btn {
+  border: 1px dashed #6666f3 !important;
+  background-color: #6666f30d;
+}
+
+.download-icon-link {
+  right: 10px;
+  top: 10px;
+  z-index: 2;
+}
+
+.met-profile-main-pic img {
+  max-width: 128px;
+  max-height: 128px;
+  margin-right: 24px;
+  object-fit: cover;
+}

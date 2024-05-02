@@ -2445,47 +2445,55 @@ export class DataService {
     );
   }
 
-    getUserExitByOrganizationId(
-      itemPerPage: number,
-      pageNumber: number,
-      sort: string,
-      sortBy: string,
-      search: string,
-      searchBy: string,
-      startDate: string,
-      endDate: string): Observable<any>{
-        const params = new HttpParams()
-        .set('item_per_page', itemPerPage)
-        .set('page_number', pageNumber)
-        .set('sort', sort)
-        .set('sort_by', sortBy)
-        .set('search', search)
-        .set('search_by', searchBy)
-        .set('start_date', startDate)
-        .set('end_date', endDate);
-        return this.httpClient.get<any>(`${this.baseUrl}/salary/user/change/user-exit`, {params});
-    }
+  getUserExitByOrganizationId(
+    itemPerPage: number,
+    pageNumber: number,
+    sort: string,
+    sortBy: string,
+    search: string,
+    searchBy: string,
+    startDate: string,
+    endDate: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('item_per_page', itemPerPage)
+      .set('page_number', pageNumber)
+      .set('sort', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('start_date', startDate)
+      .set('end_date', endDate);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/user/change/user-exit`,
+      { params }
+    );
+  }
 
-    getFinalSettlementByOrganizationId(
-      itemPerPage: number,
-      pageNumber: number,
-      sort: string,
-      sortBy: string,
-      search: string,
-      searchBy: string,
-      startDate: string,
-      endDate: string): Observable<any>{
-        const params = new HttpParams()
-        .set('item_per_page', itemPerPage)
-        .set('page_number', pageNumber)
-        .set('sort', sort)
-        .set('sort_by', sortBy)
-        .set('search', search)
-        .set('search_by', searchBy)
-        .set('start_date', startDate)
-        .set('end_date', endDate);
-        return this.httpClient.get<any>(`${this.baseUrl}/salary/user/change/final-settlement`, {params});
-    }
+  getFinalSettlementByOrganizationId(
+    itemPerPage: number,
+    pageNumber: number,
+    sort: string,
+    sortBy: string,
+    search: string,
+    searchBy: string,
+    startDate: string,
+    endDate: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('item_per_page', itemPerPage)
+      .set('page_number', pageNumber)
+      .set('sort', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('start_date', startDate)
+      .set('end_date', endDate);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/user/change/final-settlement`,
+      { params }
+    );
+  }
 
   // getPayActionTypeList(): Observable<any> {
   //   return this.httpClient.get<any>(
@@ -2520,6 +2528,7 @@ export class DataService {
     );
   }
 
+
   registerNewJoineeAndUserExit(newJoineeAndUserExitRequestList : NewJoineeAndUserExitRequest[], startDate : string, endDate : string): Observable<any>{
 
     const params = new HttpParams()
@@ -2527,5 +2536,11 @@ export class DataService {
     .set('end_date', endDate);
 
     return this.httpClient.post<any>(`${this.baseUrl}/salary/user/change/register-new-joinee-and-user-exit`, newJoineeAndUserExitRequestList, {params});
+  } 
+
+  getOrganizationAllShiftCounts(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization-shift-timing/get-organization-all-shift-counts`
+    );
   }
 }

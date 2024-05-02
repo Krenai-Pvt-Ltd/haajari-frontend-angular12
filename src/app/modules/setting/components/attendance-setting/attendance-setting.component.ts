@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Key } from 'src/app/constant/key';
 import { Holiday } from 'src/app/models/Holiday';
+import { ShiftCounts } from 'src/app/models/ShiftCounts';
 import { UniversalHoliday } from 'src/app/models/UniversalHoliday';
 import { WeekDay } from 'src/app/models/WeekDay';
 import { WeeklyHoliday } from 'src/app/models/WeeklyHoliday';
@@ -68,6 +69,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.getAllShiftTimingsMethodCall();
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
+    this.loadAllShiftCounts();
 
     if (localStorage.getItem('staffSelectionActive') == 'true') {
       this.activeModel = true;
@@ -1746,7 +1748,9 @@ export class AttendanceSettingComponent implements OnInit {
     }
   }
 
+  loadMoreHolidaysBoolean: boolean = false;
   loadMoreHolidays() {
+    this.loadMoreHolidaysBoolean = !this.loadMoreHolidaysBoolean;
     this.isInitialLoading = true;
     this.page++;
     this.loadHolidays();
@@ -1787,5 +1791,29 @@ export class AttendanceSettingComponent implements OnInit {
 
   objectKeys(obj: any): string[] {
     return Object.keys(obj);
+  }
+
+  shiftCounts!: ShiftCounts;
+  loadAllShiftCounts() {
+    this.dataService.getOrganizationAllShiftCounts().subscribe({
+      next: (response) => {
+        if (response.status) {
+          this.shiftCounts = response.object;
+        }
+      },
+      error: (err) => {
+        console.error('API error:', err);
+      },
+    });
+  }
+
+  activeIndex: number | null = null;
+
+  toggleCollapse(index: number): void {
+    if (this.activeIndex === index) {
+      this.activeIndex = null;
+    } else {
+      this.activeIndex = index;
+    }
   }
 }

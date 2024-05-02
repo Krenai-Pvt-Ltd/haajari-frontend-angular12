@@ -408,9 +408,7 @@ body.dark-topbar .app-search form .form-control:focus {
   -webkit-transition: -webkit-transform 0.2s;
   transition: -webkit-transform 0.2s;
   transition: transform 0.2s;
-  transition:
-    transform 0.2s,
-    -webkit-transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
 }
 
 .left-sidebar
@@ -1169,9 +1167,7 @@ body.dark-sidebar.enlarge-menu .left-sidebar:hover .sidebar-user-pro {
   -webkit-transition: -webkit-transform 0.5s ease;
   transition: -webkit-transform 0.5s ease;
   transition: transform 0.5s ease;
-  transition:
-    transform 0.5s ease,
-    -webkit-transform 0.5s ease;
+  transition: transform 0.5s ease, -webkit-transform 0.5s ease;
 }
 
 .navbar-toggle.open span {
@@ -1772,17 +1768,10 @@ mark {
   -webkit-transition: all 0.5s ease-out;
   transition: all 0.5s ease-out;
   -webkit-transition-property: -webkit-transform, opacity;
-  -webkit-transition-property:
-    opacity,
-    -webkit-transform;
-  transition-property:
-    opacity,
-    -webkit-transform;
+  -webkit-transition-property: opacity, -webkit-transform;
+  transition-property: opacity, -webkit-transform;
   transition-property: transform, opacity;
-  transition-property:
-    transform,
-    opacity,
-    -webkit-transform;
+  transition-property: transform, opacity, -webkit-transform;
   -webkit-transform: scale(0) translate(0, 0);
   transform: scale(0) translate(0, 0);
   pointer-events: none;
@@ -3252,12 +3241,8 @@ a.badge:hover {
 
 .modal.modal-rightbar.show .modal-dialog {
   right: 0;
-  -webkit-transition:
-    left 0.3s ease,
-    right 0.3s ease;
-  transition:
-    left 0.3s ease,
-    right 0.3s ease;
+  -webkit-transition: left 0.3s ease, right 0.3s ease;
+  transition: left 0.3s ease, right 0.3s ease;
 }
 
 .form-switch-primary .form-check-input:checked {
@@ -4004,11 +3989,9 @@ a.badge:hover {
   border-radius: 3px;
   border-color: #fff !important;
   display: inline-block !important;
-  -webkit-box-shadow:
-    0 -3px 31px 0 rgba(0, 0, 0, 0.05),
+  -webkit-box-shadow: 0 -3px 31px 0 rgba(0, 0, 0, 0.05),
     0 6px 20px 0 rgba(0, 0, 0, 0.02);
-  box-shadow:
-    0 -3px 31px 0 rgba(0, 0, 0, 0.05),
+  box-shadow: 0 -3px 31px 0 rgba(0, 0, 0, 0.05),
     0 6px 20px 0 rgba(0, 0, 0, 0.02);
 }
 
@@ -4436,12 +4419,8 @@ a.badge:hover {
   background: #eaf0f9;
   border-radius: 4px;
   border: 1px solid #e8ebf3;
-  -webkit-box-shadow:
-    inset 0 1px 1px #f9fafb,
-    0 3px 6px -5px #eaf0f9;
-  box-shadow:
-    inset 0 1px 1px #f9fafb,
-    0 3px 6px -5px #eaf0f9;
+  -webkit-box-shadow: inset 0 1px 1px #f9fafb, 0 3px 6px -5px #eaf0f9;
+  box-shadow: inset 0 1px 1px #f9fafb, 0 3px 6px -5px #eaf0f9;
 }
 
 .noUi-horizontal .noUi-handle {
@@ -6596,14 +6575,27 @@ html[dir="rtl"]
 }
 
 .file-box-content .file-box {
-  border: 1px solid #eceff5;
+  border: 1px solid #f1f1f1;
   border-radius: 5px;
   padding: 20px;
-  width: 160px;
+  width: 170px;
   display: inline-block;
-  margin-right: 5px;
+  margin-right: 15px;
   margin-bottom: 16px;
   background-color: #fff;
+}
+
+@media (max-width: 1280px) {
+  .file-box-content .file-box {
+    border: 1px solid #f1f1f1;
+    border-radius: 5px;
+    padding: 20px;
+    width: 180px !important;
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 16px;
+    background-color: #fff;
+  }
 }
 
 .file-box-content .file-box .download-icon-link {
@@ -6612,9 +6604,6 @@ html[dir="rtl"]
 
 .file-box-content .file-box .download-icon-link .file-download-icon {
   font-size: 13px;
-  position: relative;
-  top: -10px;
-  left: 110px;
 }
 
 .file-box-content .file-box .download-icon-link:hover {
@@ -7295,112 +7284,68 @@ input.add-file-input {
 }
 
 .ribbon4 .ribbon4-band.ribbon4-band-primary {
-  -webkit-box-shadow:
-    0 0 0 3px #6666f3,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
-  box-shadow:
-    0 0 0 3px #6666f3,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  -webkit-box-shadow: 0 0 0 3px #6666f3, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  box-shadow: 0 0 0 3px #6666f3, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
   background: #6666f3;
 }
 
 .ribbon4 .ribbon4-band.ribbon4-band-secondary {
-  -webkit-box-shadow:
-    0 0 0 3px #8d93a1,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
-  box-shadow:
-    0 0 0 3px #8d93a1,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  -webkit-box-shadow: 0 0 0 3px #8d93a1, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  box-shadow: 0 0 0 3px #8d93a1, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
   background: #8d93a1;
 }
 
 .ribbon4 .ribbon4-band.ribbon4-band-success {
-  -webkit-box-shadow:
-    0 0 0 3px #22b783,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
-  box-shadow:
-    0 0 0 3px #22b783,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  -webkit-box-shadow: 0 0 0 3px #22b783, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  box-shadow: 0 0 0 3px #22b783, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
   background: #22b783;
 }
 
 .ribbon4 .ribbon4-band.ribbon4-band-info {
-  -webkit-box-shadow:
-    0 0 0 3px #41cbd8,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
-  box-shadow:
-    0 0 0 3px #41cbd8,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  -webkit-box-shadow: 0 0 0 3px #41cbd8, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  box-shadow: 0 0 0 3px #41cbd8, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
   background: #41cbd8;
 }
 
 .ribbon4 .ribbon4-band.ribbon4-band-warning {
-  -webkit-box-shadow:
-    0 0 0 3px #ff9f43,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
-  box-shadow:
-    0 0 0 3px #ff9f43,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  -webkit-box-shadow: 0 0 0 3px #ff9f43, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  box-shadow: 0 0 0 3px #ff9f43, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
   background: #ff9f43;
 }
 
 .ribbon4 .ribbon4-band.ribbon4-band-danger {
-  -webkit-box-shadow:
-    0 0 0 3px #ef4d56,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
-  box-shadow:
-    0 0 0 3px #ef4d56,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  -webkit-box-shadow: 0 0 0 3px #ef4d56, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  box-shadow: 0 0 0 3px #ef4d56, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
   background: #ef4d56;
 }
 
 .ribbon4 .ribbon4-band.ribbon4-band-light {
-  -webkit-box-shadow:
-    0 0 0 3px #f9fafb,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
-  box-shadow:
-    0 0 0 3px #f9fafb,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  -webkit-box-shadow: 0 0 0 3px #f9fafb, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  box-shadow: 0 0 0 3px #f9fafb, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
   background: #f9fafb;
 }
 
 .ribbon4 .ribbon4-band.ribbon4-band-dark {
-  -webkit-box-shadow:
-    0 0 0 3px #000444,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
-  box-shadow:
-    0 0 0 3px #000444,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  -webkit-box-shadow: 0 0 0 3px #000444, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  box-shadow: 0 0 0 3px #000444, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
   background: #000444;
 }
 
 .ribbon4 .ribbon4-band.ribbon4-band-pink {
-  -webkit-box-shadow:
-    0 0 0 3px #fd3c97,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
-  box-shadow:
-    0 0 0 3px #fd3c97,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  -webkit-box-shadow: 0 0 0 3px #fd3c97, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  box-shadow: 0 0 0 3px #fd3c97, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
   background: #fd3c97;
 }
 
 .ribbon4 .ribbon4-band.ribbon4-band-purple {
-  -webkit-box-shadow:
-    0 0 0 3px #6d81f5,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
-  box-shadow:
-    0 0 0 3px #6d81f5,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  -webkit-box-shadow: 0 0 0 3px #6d81f5, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  box-shadow: 0 0 0 3px #6d81f5, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
   background: #6d81f5;
 }
 
 .ribbon4 .ribbon4-band.ribbon4-band-blue {
-  -webkit-box-shadow:
-    0 0 0 3px #0b51b7,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
-  box-shadow:
-    0 0 0 3px #0b51b7,
-    0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  -webkit-box-shadow: 0 0 0 3px #0b51b7, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
+  box-shadow: 0 0 0 3px #0b51b7, 0 21px 5px -18px rgba(48, 62, 103, 0.6);
   background: #0b51b7;
 }
 
@@ -7878,7 +7823,7 @@ input.add-file-input {
 }
 
 .met-profile .met-profile-main .met-profile_user-detail .met-user-name {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   margin-bottom: 6px;
 }
@@ -9078,10 +9023,8 @@ input.add-file-input {
 .ex-page-content h1 {
   font-size: 98px;
   font-weight: 700;
-  text-shadow:
-    rgba(137, 151, 189, 0.2) 1px 1px,
-    rgba(137, 151, 189, 0.2) 2px 2px,
-    rgba(137, 151, 189, 0.2) 3px 3px;
+  text-shadow: rgba(137, 151, 189, 0.2) 1px 1px,
+    rgba(137, 151, 189, 0.2) 2px 2px, rgba(137, 151, 189, 0.2) 3px 3px;
 }
 
 /*# sourceMappingURL=app.min.css.map */
@@ -9220,8 +9163,7 @@ display:block
 }
 
 .auth-bg {
-  background:
-    -o-radial-gradient(
+  background: -o-radial-gradient(
       39% 47%,
       circle,
       rgba(107, 107, 107, 0.08) 0,
@@ -9282,10 +9224,8 @@ display:block
 .ex-page-content h1 {
   font-size: 98px;
   font-weight: 700;
-  text-shadow:
-    rgba(137, 151, 189, 0.2) 1px 1px,
-    rgba(137, 151, 189, 0.2) 2px 2px,
-    rgba(137, 151, 189, 0.2) 3px 3px;
+  text-shadow: rgba(137, 151, 189, 0.2) 1px 1px,
+    rgba(137, 151, 189, 0.2) 2px 2px, rgba(137, 151, 189, 0.2) 3px 3px;
 }
 
 .new-deopdown {
@@ -9682,7 +9622,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 
 .table .table-design tr {
-  border-bottom: 1px solid #f9fafb;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .table .table-design tr:last-child {
@@ -9690,11 +9630,11 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 
 .table-design tr th {
-  border: 1px solid #e0e0e0 !important;
+  border: 1px solid #f1f1f1 !important;
 }
 
 .table-design tr td {
-  border: 1px solid #e0e0e0;
+  border: 1px solid #f1f1f1;
   padding: 10px 15px !important;
 }
 
