@@ -565,13 +565,13 @@ span.optional {
 .approved-left {
   position: absolute;
   left: 0px;
-  top: 26px;
+  top: 6px;
 }
 
 .approved-right {
   position: absolute;
   left: 150px;
-  top: 26px;
+  top: 6px;
 }
 
 .profile-image-name-span {
@@ -1400,3 +1400,9 @@ tbody tr {
   background-color: transparent;
 }
 /* Author Pushpendra */
+.hr-dashed{
+  border-top: 1px dashed #fff;
+}
+.alert{
+  border-radius: .125rem;
+}
