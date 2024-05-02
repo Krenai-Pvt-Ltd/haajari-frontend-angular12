@@ -1263,7 +1263,7 @@ i.bi.bi-plus {
 .view-all-btn i {
   top: -1px;
   position: relative;
-  padding-left: 10px;
+  padding-left: 5px;
 }
 .text-truncate.mb-0 {
   font-size: 14px;
@@ -1280,7 +1280,7 @@ i.bi.bi-plus {
 .holiday-list-box-height {
   height: 193px;
   overflow: hidden;
-  transition: 0.5s linear;
+  transition: 0.3s linear;
 }
 
 .holiday-list-box-height::-webkit-scrollbar {
