@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
@@ -109,7 +109,6 @@ export class PayrollDashboardComponent implements OnInit {
   endDate: string = '';
 
   onYearChange(year: Date): void {
-    console.log('Month is getting selected!');
     this.selectedDate = year;
     this.getMonthResponseList(this.selectedDate);
 
@@ -194,7 +193,6 @@ export class PayrollDashboardComponent implements OnInit {
         this.organizationRegistrationDate = response;
       },
       (error) => {
-        console.log(error);
       },
     );
   }
@@ -310,7 +308,6 @@ export class PayrollDashboardComponent implements OnInit {
           this.isShimmer = false;
         },
         (error) => {
-          console.log(error);
           this.isShimmer = false;
           this.networkConnectionErrorPlaceHolder = true;
         },
@@ -326,6 +323,23 @@ export class PayrollDashboardComponent implements OnInit {
     }, (error) => {
 
     })
+  }
+
+
+  //View child properties to click
+  @ViewChild('step1') newJoineeTabClick !: ElementRef;
+  @ViewChild('step2') userExitTabClick !: ElementRef;
+  @ViewChild('step3') finalSettlementTabClick !: ElementRef;
+
+  clickOnNewJoineeTab(){
+    this.newJoineeTabClick.nativeElement.click();
+  }
+
+  clickOnUserExitTab(){
+    if (this.userExitTabClick && this.userExitTabClick.nativeElement) {
+      this.userExitTabClick.nativeElement.click();
+    }
+    
   }
 
   //Exmployee changes tab selection
@@ -368,7 +382,6 @@ export class PayrollDashboardComponent implements OnInit {
           this.newJoineeResponseList = response.listOfObject;
           this.total = response.totalItems;
           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-          console.log(this.newJoineeResponseList);
         }
         this.isShimmerForNewJoinee = false;
       }, (error) => {
@@ -673,6 +686,13 @@ export class PayrollDashboardComponent implements OnInit {
       this.dataService.registerNewJoineeAndUserExit(this.newJoineeAndUserExitRequestList, this.startDate, this.endDate).subscribe((response) => {
 
         this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+        
+        if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.NEW_JOINEE_STEP){
+          this.clickOnUserExitTab();
+          console.log(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE);
+        } else if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP){
+
+        }
 
       }, (error) => {
         this.helperService.showToast(error.error.message, Key.TOAST_STATUS_ERROR);
