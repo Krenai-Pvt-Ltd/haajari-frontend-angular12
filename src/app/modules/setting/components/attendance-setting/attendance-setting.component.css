@@ -1305,3 +1305,8 @@ i.bi.bi-plus {
   height: 400px;
   overflow: scroll;
 }
+
+.radio-btn {
+  padding-left: 10px;
+  
+}
