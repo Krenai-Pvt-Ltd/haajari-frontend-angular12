@@ -15,19 +15,8 @@
         </div>
         <div class="col-md-12 mt-3">
           <div class="file-box-content d-flex">
-            <div
-              class="file-box"
-              *ngFor="let monthResponse of monthResponseList"
-              [class.disabled]="monthResponse.disable"
-              [ngClass]="{
-                'selected-month-color':
-                  monthResponse.month == selectedMonth &&
-                  monthResponse.year == selectedYear
-              }"
-            >
-              <div
-                class="text-center"
-                (click)="
+            <div class="file-box" *ngFor="let monthResponse of monthResponseList" [class.disabled]="monthResponse.disable" [ngClass]="{ 'selected-month-color': monthResponse.month == selectedMonth && monthResponse.year == selectedYear }">
+              <div class="text-center" (click)="
                   getOrganizationIndividualMonthSalaryDataMethodCall(
                     monthResponse
                   )
@@ -132,6 +121,7 @@
             <!--end col-->
             <div class="col-md-8">
               <ul class="list-inline mb-0 contact-detail float-end mt-3">
+                <h3>Estimated Cost:</h3>
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">TOTAL PAYROLL COST</p>
@@ -632,15 +622,9 @@
                 </div>
               </h5>
               <div class="button-items">
-                <button type="button" class="btn btn-light btn-round">
-                  BACK
-                </button>
-                <button type="button" class="btn btn-primary btn-round">
-                  SAVE & CONTINUE
-                </button>
-                <button type="button" class="btn btn-primary btn-round">
-                  MARK AS COMPLETE
-                </button>
+                <button type="button" class="btn btn-light btn-round"> BACK </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerNewJoineeAndUserExitMethodCall()"> SAVE & CONTINUE </button>
+                <button type="button" class="btn btn-primary btn-round"> MARK AS COMPLETE </button>
               </div>
             </div>
             <!--end modal-header-->
@@ -843,77 +827,42 @@
                                            <input type="checkbox" style="cursor: pointer;" class="form-check-input" (change)="checkIndividualSelection()" [ngModelOptions]="{standalone: true}">
                                         </div>
                                      </td>  -->
-                                  <td>{{ newJoineeResponse.name }}</td>
-                                  <td>{{ newJoineeResponse.email }}</td>
-                                  <td class="text-start">
-                                    {{ newJoineeResponse.joiningDate }}
-                                  </td>
-                                  <td class="text-start">-</td>
-                                  <td class="text-start">
-                                    {{ newJoineeResponse.salary }}
-                                  </td>
-                                  <td class="text-">
-                                    <div class="dudct-type">
-                                      <div class="dropdown pay-action-type">
-                                        <button
-                                          class="btn btn-secondary dropdown-toggle new-dropdown"
-                                          type="button"
-                                          id="dropdownMenuButton1"
-                                          data-bs-toggle="dropdown"
-                                          aria-expanded="false"
-                                          style="
-                                            text-align: left;
-                                            background-color: white;
-                                            color: black;
-                                            border-color: #ced4da;
-                                            width: 100%;
-                                          "
-                                        >
-                                          {{
-                                            selectedPayActionType?.name ||
-                                              "Select pay action"
-                                          }}
-                                          <i class="bi bi-chevron-down"></i>
-                                        </button>
-                                        <ul
-                                          class="dropdown-menu"
-                                          aria-labelledby="dropdownMenuButton1"
-                                          style="width: 100%"
-                                        >
-                                          <li
-                                            *ngFor="
-                                              let payActionType of payActionTypeList
-                                            "
-                                          >
-                                            <a
-                                              class="dropdown-item"
-                                              (click)="
-                                                selectPayActionType(
-                                                  payActionType
-                                                )
-                                              "
-                                            >
-                                              {{ payActionType.name }}
-                                            </a>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </div>
-                                  </td>
-                                  <td class="text-start">
-                                    <input
-                                      class="comment-input p-2"
-                                      type="text"
-                                      placeholder="Write the comment here"
-                                    />
-                                  </td>
-                                  <td class="text-start">
-                                    <a><i class="bi bi-pencil-square"></i></a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </ng-container>
-                          </ng-template>
+                                      <td>{{newJoineeResponse.name}}</td>
+                                      <td>{{newJoineeResponse.email}}</td>
+                                      <td class="text-start">{{newJoineeResponse.joiningDate}}</td>
+                                      <td class="text-start">-</td>
+                                      <td class="text-start">{{newJoineeResponse.salary}}</td>
+                                      <td class="text-"><div class="dudct-type">
+                                            <div class="dropdown pay-action-type">
+                                                <button
+                                                    class="btn btn-secondary dropdown-toggle new-dropdown"
+                                                    type="button" id="dropdownMenuButton1"
+                                                    data-bs-toggle="dropdown" aria-expanded="false"
+                                                    style=" text-align: left; background-color: white; color: black; border-color: #ced4da; width: 100%;">
+                                                    {{ selectedPayActionType?.name || "Select pay action" }}
+                                                    <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu"
+                                                    aria-labelledby="dropdownMenuButton1"
+                                                    style="width: 100%">
+                                                    <li *ngFor="let payActionType of payActionTypeList">
+                                                        <a class="dropdown-item"
+                                                            (click)="selectPayActionType(payActionType, newJoineeResponse)">
+                                                            {{ payActionType.name }}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                      </td>
+                                      <td class="text-start"><input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="newJoineeResponse.comment" [ngModelOptions]="{standalone: true}"></td>
+                                      <td class="text-start">
+                                        <a><i class="bi bi-pencil-square"></i></a> 
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </ng-container>
+                              </ng-template>
 
                           <ng-template #errorInFetchingNewJoinee>
                             <tbody>
@@ -1210,45 +1159,25 @@
                                           }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
-                                        <ul
-                                          class="dropdown-menu"
-                                          aria-labelledby="dropdownMenuButton1"
-                                          style="width: 100%"
-                                        >
-                                          <li
-                                            *ngFor="
-                                              let payActionType of payActionTypeList
-                                            "
-                                          >
-                                            <a
-                                              class="dropdown-item"
-                                              (click)="
-                                                selectPayActionType(
-                                                  payActionType
-                                                )
-                                              "
-                                            >
-                                              {{ payActionType.name }}
-                                            </a>
-                                          </li>
+                                        <ul class="dropdown-menu"
+                                            aria-labelledby="dropdownMenuButton1"
+                                            style="width: 100%">
+                                            <li *ngFor="let payActionType of payActionTypeList">
+                                                <a class="dropdown-item"
+                                                    (click)="selectPayActionType(payActionType, userExitResponse)">
+                                                    {{ payActionType.name }}
+                                                </a>
+                                            </li>
                                         </ul>
                                       </div>
                                     </div>
-                                  </td>
-                                  <td class="text-start">
-                                    <input
-                                      class="comment-input p-2"
-                                      type="text"
-                                      placeholder="Write the comment here"
-                                    />
-                                  </td>
-                                  <td class="text-start">
-                                    {{ userExitResponse.requestStatus }}
-                                  </td>
-                                  <td>
-                                    <a><i class="bi bi-pencil-square"></i></a>
-                                  </td>
-                                </tr>
+                              </td>
+                              <td class="text-start"><input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="userExitResponse.comment" [ngModelOptions]="{standalone: true}"></td>
+                                <td class="text-start">{{userExitResponse.requestStatus}}</td>
+                                <td>
+                                  <a><i class="bi bi-pencil-square"></i></a>
+                                </td>
+                              </tr>
                               </tbody>
                             </ng-container>
                           </ng-template>

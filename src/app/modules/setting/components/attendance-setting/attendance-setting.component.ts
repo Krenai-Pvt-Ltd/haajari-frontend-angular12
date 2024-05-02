@@ -1748,7 +1748,9 @@ export class AttendanceSettingComponent implements OnInit {
     }
   }
 
+  loadMoreHolidaysBoolean: boolean = false;
   loadMoreHolidays() {
+    this.loadMoreHolidaysBoolean = !this.loadMoreHolidaysBoolean;
     this.isInitialLoading = true;
     this.page++;
     this.loadHolidays();
@@ -1813,5 +1815,11 @@ export class AttendanceSettingComponent implements OnInit {
     } else {
       this.activeIndex = index;
     }
+  }
+
+  activeIndex5: number = -1;
+
+  toggleCollapse5(index: number): void {
+    this.activeIndex5 = this.activeIndex5 === index ? -1 : index;
   }
 }
