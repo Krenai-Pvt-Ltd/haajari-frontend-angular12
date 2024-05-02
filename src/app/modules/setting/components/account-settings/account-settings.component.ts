@@ -159,9 +159,10 @@ isDisabled: boolean = false;
           this.phoneNumber = response.phoneNumber;
         }
         if(response.languagePreferred == 2){
-
+          this.englishEnable = false;
           this.languagePreferredHindi = 2;
         } else {
+          this.englishEnable = true;
           this.languagePreferredEnglish = 1;
         }
         if(response.notificationVia==2){
@@ -287,16 +288,31 @@ isDisabled: boolean = false;
       whatsapp: false,
       slack: true // Default to enabled if isPlanActive is true
     };
-    toggleNotification(type: 'whatsapp' | 'slack') {
-      if (type === 'whatsapp') {
-        this.notifications.whatsapp = !this.notifications.whatsapp;
-        this.notifications.slack = !this.notifications.whatsapp;  // Assuming opposite state for Slack
-      } else {
-        this.notifications.slack = !this.notifications.slack;
-        this.notifications.whatsapp = !this.notifications.slack;  // Assuming opposite state for WhatsApp
+    toggleNotification(type: 'whatsapp' | 'slack' | 'whatsappDisable' | 'slackDisable') {
+      switch (type) {
+        case 'whatsapp':
+          this.notifications.whatsapp = true;
+          this.notifications.slack = false; // Assuming opposite state for Slack
+          this.updateNotificationSettingMethodCall('whatsapp');
+          break;
+        case 'whatsappDisable':
+          this.notifications.whatsapp = false;
+          this.notifications.slack = true; // Assuming opposite state for Slack
+          this.updateNotificationSettingMethodCall('slack');
+          break;
+        case 'slack':
+          this.notifications.slack = true;
+          this.notifications.whatsapp = false; // Assuming opposite state for WhatsApp
+          this.updateNotificationSettingMethodCall('slack');
+          break;
+        case 'slackDisable':
+          this.notifications.slack = false;
+          this.notifications.whatsapp = true; // Assuming opposite state for WhatsApp
+          this.updateNotificationSettingMethodCall('whatsapp');
+          break;
       }
-      this.updateNotificationSettingMethodCall(type);
     }
+    
     
 
 
@@ -396,7 +412,8 @@ isDisabled: boolean = false;
   }
 
   languagePreferred: number = 0;
-  
+  englishEnable: boolean = false;
+  // hindiEnable: boolean = false;
   languagePreferredEnglish: number = 0;
   languagePreferredHindi: number = 0;
   updateLanguagePreferredForNotificationMethodCall(value: number): void {
@@ -412,9 +429,11 @@ isDisabled: boolean = false;
     if (this.languagePreferred === 1) {
         this.languagePreferredEnglish = 1;
         this.languagePreferredHindi = 0;
+        this.englishEnable = true;
     } else if (this.languagePreferred === 2) {
         this.languagePreferredEnglish = 0;
         this.languagePreferredHindi = 1;
+        this.englishEnable = false;
     } else {
         // Both toggles are off
         this.languagePreferredEnglish = 0;
