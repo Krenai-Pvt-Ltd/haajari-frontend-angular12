@@ -141,4 +141,44 @@ export class HelperService {
   getRoleSectionTab() {
     return this.roleSectionTab;
   }
+
+  isObjectNullOrUndefined(response : any){
+    if(response == undefined || response == null || response.object == undefined || response.object == null || response.object.length == 0){
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  isListOfObjectNullOrUndefined(response : any){
+    if(response == undefined || response == null || response.listOfObject == undefined || response.listOfObject == null || response.listOfObject.length == 0){
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+    //Ignore keys during search
+    ignoreKeysDuringSearch(event : Event){
+      if (event instanceof KeyboardEvent) {
+        const ignoreKeys = [
+          'Shift',
+          'Control',
+          'Alt',
+          'Meta',
+          'ArrowLeft',
+          'ArrowRight',
+          'ArrowUp',
+          'ArrowDown',
+          'Escape',
+        ];
+  
+        const isCmdA =
+          (event.key === 'a' || event.key === 'A') &&
+          (event.metaKey || event.ctrlKey);
+        if (ignoreKeys.includes(event.key) || isCmdA) {
+          return;
+        }
+      }
+    }
 }

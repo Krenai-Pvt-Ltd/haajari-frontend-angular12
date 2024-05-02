@@ -17,6 +17,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .md-drppicker {
     width: auto;
 }
+.text-primary{
+    color: #6060f6 !important;
+}
 
 .md-drppicker {
     position: absolute !important;
@@ -46,9 +49,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border-color: #6666f3;
 }
 
-.fc-toolbar-chunk {
+/* .fc-toolbar-chunk {
     padding-left: 25px;
-}
+} */
 .disabled-lnk{
     pointer-events: none;
 }
@@ -313,3 +316,9 @@ nz-date-picker {
 }
 
     
+
+.fc-toolbar-chunk{
+    position: absolute;
+    top: 0px;
+    left: 33px;
+}

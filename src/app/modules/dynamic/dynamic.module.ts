@@ -1,11 +1,11 @@
 import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { AngularFireModule } from "@angular/fire/compat";
-import { AngularFireAuthModule } from "@angular/fire/compat/auth";
-import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
-import { AngularFireMessagingModule } from "@angular/fire/compat/messaging";
-import { AngularFireStorageModule } from "@angular/fire/compat/storage";
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -68,9 +68,7 @@ import { LinkExpiredPageComponent } from './components/link-expired-page/link-ex
 import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { CentralLeaveManagementComponent } from './components/central-leave-management/central-leave-management.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-
 
 @NgModule({
   declarations: [
@@ -113,11 +111,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     EmployeeLocationValidatorComponent,
     EmployeeAttendancePhotoComponent,
     LinkExpiredPageComponent,
-    
+
     LeaveManagementComponent,
-    CentralLeaveManagementComponent
-
-
   ],
   imports: [
     CommonModule,
@@ -132,7 +127,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     NgbModule,
     FullCalendarModule,
     NzCalendarModule,
-    AngularFireModule.initializeApp(environment.firebase, "cloud"),
+    AngularFireModule.initializeApp(environment.firebase, 'cloud'),
     AngularFireStorageModule,
     AngularFireAuthModule,
     AngularFireDatabaseModule,
@@ -144,15 +139,19 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     NzSwitchModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
-      libraries: ["places"]
+      libraries: ['places'],
     }),
     GooglePlaceModule,
     DragDropModule,
-    NgxChartsModule    
+    NgxChartsModule,
   ],
-  exports:[HeaderComponent],
-  providers: [{ provide: NZ_I18N, useValue: en_US },DataService,{ provide: LOCALE_ID, useValue: 'en-US' }],
+  exports: [HeaderComponent],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    DataService,
+    { provide: LOCALE_ID, useValue: 'en-US' },
+  ],
   bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class DynamicModule { }
+export class DynamicModule {}

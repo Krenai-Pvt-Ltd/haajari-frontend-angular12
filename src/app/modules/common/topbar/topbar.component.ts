@@ -27,8 +27,12 @@ export class TopbarComponent implements OnInit {
   topbarValue: string | undefined;
 
 
-  ngOnInit() {
+  ROLE:any;
+  // UUUI!:String;
+  async ngOnInit() {
 
+    // this.UUID = await this.rbacService.getUUID();
+    this.ROLE = await this.rbacService.getRole();
     this.updateTopbarValue();
 
     this.router.events.subscribe(event => {
@@ -105,7 +109,7 @@ export class TopbarComponent implements OnInit {
     }
 
     if(routeValue.includes("payment-history")){
-      routeValue = "Payment History";
+      routeValue = "Generate Salary Slip";
     }
 
     if(routeValue.includes("bonus-and-deduction")){
@@ -148,6 +152,7 @@ export class TopbarComponent implements OnInit {
   loading: boolean = false;
   totalNewNotification: number = 0;
   getNotification(orgUuid:any, uuid:any,notificationType:string){
+    debugger
     this.loading = true;
     this._notificationService.getNotification(orgUuid,uuid, this.databaseHelper,notificationType).subscribe(response=>{
       if(response.status){
@@ -165,6 +170,7 @@ export class TopbarComponent implements OnInit {
   mailLoading: boolean = false;
   totalNewMailNotification: number = 0;
   getMailNotification(uuid:any,notificationType:string){
+    debugger
     this.mailLoading = true;
     this._notificationService.getMailNotification(uuid, this.databaseHelper,notificationType).subscribe(response=>{
       if(response.status){
@@ -178,6 +184,7 @@ export class TopbarComponent implements OnInit {
   }
 
   fetchNotification(notificationType:string){
+    debugger
     this.mailList = [];
     this.notificationList = [];
     this.databaseHelper.currentPage = 1; 
@@ -192,6 +199,7 @@ export class TopbarComponent implements OnInit {
   }
 
   markAsReadAll(notificationType: string){
+    debugger
     this._notificationService.readAllNotification(this.UUID,notificationType).subscribe(response=>{
       if(response.status){
         this.getNotification(this.orgUuid,this.UUID,notificationType);
@@ -201,6 +209,7 @@ export class TopbarComponent implements OnInit {
   }
 
   markMailAsReadAll(notificationType: string){
+    debugger
     this._notificationService.readAllNotification(this.UUID, notificationType).subscribe(response=>{
       if(response.status){
         this.getMailNotification(this.UUID,notificationType);

@@ -6,10 +6,9 @@ import { resolve } from 'dns';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoleBasedAccessControlService {
-
   clearRbacService() {
     this.userInfo = null;
   }
@@ -17,12 +16,9 @@ export class RoleBasedAccessControlService {
   userInfo: any;
   private userInfoInitialized: Promise<void>;
 
-
   constructor(private helperService: HelperService) {
     this.userInfoInitialized = this.initializeUserInfo();
-
   }
-
 
   private async initializeUserInfo(): Promise<void> {
     try {
@@ -36,14 +32,15 @@ export class RoleBasedAccessControlService {
     return this.userInfoInitialized;
   }
 
-
   async getRole() {
     let role = null;
     this.userInfo = await this.helperService.getDecodedValueFromToken();
-    await this.helperService.getDecodedValueFromToken().then((response:any)=>{
-      this.userInfo=response;
-      role = this.userInfo.role;
-    });
+    await this.helperService
+      .getDecodedValueFromToken()
+      .then((response: any) => {
+        this.userInfo = response;
+        role = this.userInfo.role;
+      });
     return role;
   }
 
@@ -56,10 +53,13 @@ export class RoleBasedAccessControlService {
     return Promise.resolve(this.userInfo!.uuid);
   }
 
+  async getOnboardingStep(): Promise<number> {
+    return Promise.resolve(this.userInfo!.onboardingStep);
+  }
+
   // getUUID(){
   //   return this.userInfo.uuid;
   // }
-
 
   // getUUIDTemp(): Promise<string>{
   //   return Promise.resolve(this.userInfo.uuid);
@@ -69,22 +69,27 @@ export class RoleBasedAccessControlService {
     return this.userInfo!.orgRefId;
   }
 
-  getUuid(){
+  getUuid() {
     return this.userInfo!.uuid;
   }
 
-
   async hasAccessToSubmodule(subModuleRouteValue: string): Promise<boolean> {
-    
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         let subModules = this.helperService.subModuleResponseList;
-        if (subModules == undefined || subModules == null || subModules.length == 0) {
-          subModules = await this.helperService.getAccessibleSubModuleResponseMethodCall();
+        if (
+          subModules == undefined ||
+          subModules == null ||
+          subModules.length == 0
+        ) {
+          subModules =
+            await this.helperService.getAccessibleSubModuleResponseMethodCall();
         }
         for (const subModule of subModules) {
-
-          if (subModule.description === subModuleRouteValue && subModule.isAccessible) {
+          if (
+            subModule.description === subModuleRouteValue &&
+            subModule.isAccessible
+          ) {
             resolve(true);
             return;
           }
@@ -96,5 +101,4 @@ export class RoleBasedAccessControlService {
       }
     });
   }
-
 }

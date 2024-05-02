@@ -1,0 +1,143 @@
+.file-box {
+  cursor: pointer;
+  min-width: 150px;
+  border-radius: 2px;
+}
+.hr {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+.text-truncate {
+  padding: 0px !important;
+}
+.file-box-content .file-box {
+  padding: 6px;
+}
+.invoice-head {
+  border-bottom: none;
+}
+.invoice-head .contact-detail li {
+  border-left: 1px dashed #f1f1f1;
+}
+.ps-3 {
+  padding-left: 3rem !important;
+}
+.bg-soft-success:hover {
+  background-color: #f1f1f1 !important;
+  color: #000 !important;
+}
+
+/* CSS written by shivendra */
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+  background-color: #f1f1f1;
+}
+
+.selected-month-color {
+  border: 1px dashed #6666f3;
+  background-color: #f1f1fd;
+}
+
+.text-blue {
+  color: #6666f3;
+}
+
+.file-box-content {
+  overflow-x: scroll;
+}
+.file-box-content::-webkit-scrollbar {
+  display: none;
+}
+
+.payroll-next {
+  top: 28px;
+  left: -1px;
+  width: 25px;
+  height: 25px;
+  background-color: #6666f3;
+  color: #fff;
+  border-radius: 50%;
+  line-height: 23px;
+}
+
+.payroll-next i {
+  top: -1px;
+}
+.payroll-prev {
+  top: 28px;
+  right: -1px;
+  width: 25px;
+  height: 25px;
+  background-color: #6666f3;
+  color: #fff;
+  border-radius: 50%;
+  line-height: 23px;
+}
+
+.payroll-prev i {
+  top: -1px;
+}
+
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  display: inline-block;
+  font-family: bootstrap-icons !important;
+  font-style: normal;
+  font-weight: 600 !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: text-bottom;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* CSS written by Shivendra */
+.comment-input {
+  background-color: #fff !important;
+  border: 1px solid #e8ebf3 !important;
+  border-radius: 5px !important;
+  width: 300px !important;
+  height: 40px !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  color: #445059 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.search-icon {
+  font-size: 12px !important;
+  position: absolute !important;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: var(--tb-secondary-color) !important;
+}
+
+.close-btn {
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 21px;
+  box-shadow: unset !important;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  color: #6666f3;
+  cursor: pointer;
+}
+
+.report-footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background-color: #fff;
+  width: 100%;
+  border: none;
+  z-index: 99999;
+}
