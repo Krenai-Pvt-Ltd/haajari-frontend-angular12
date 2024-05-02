@@ -1409,3 +1409,8 @@ tbody tr {
 .project-task-card h5 {
   line-height: 24px;
 }
+
+.add-document-btn {
+  border: 1px dashed #6666f3 !important;
+  background-color: #6666f30d;
+}
