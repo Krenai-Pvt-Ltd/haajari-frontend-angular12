@@ -1794,11 +1794,16 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   shiftCounts!: ShiftCounts;
+  totalShiftCount!: number;
   loadAllShiftCounts() {
     this.dataService.getOrganizationAllShiftCounts().subscribe({
       next: (response) => {
         if (response.status) {
           this.shiftCounts = response.object;
+          this.totalShiftCount =
+            this.shiftCounts.dayShiftCount +
+            this.shiftCounts.nightShiftCount +
+            this.shiftCounts.rotationalShiftCount;
         }
       },
       error: (err) => {
