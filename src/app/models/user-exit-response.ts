@@ -7,6 +7,6 @@ export class UserExitResponse {
     resignationDate : string = '';
     lastWorkingDate : string = '';
     requestStatus : string = '';
-    payActionTypeId : number = 0;
+    payActionTypeId : number = 1;
     comment : string = '';
 }

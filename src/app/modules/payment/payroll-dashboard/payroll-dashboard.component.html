@@ -9,11 +9,7 @@
         </div>
         <div class="col-md-12 mt-3">
           <div class="file-box-content d-flex">
-            <div class="file-box" *ngFor="let monthResponse of monthResponseList" [class.disabled]="monthResponse.disable" [ngClass]="{
-                'selected-month-color':
-                  monthResponse.month == selectedMonth &&
-                  monthResponse.year == selectedYear
-              }">
+            <div class="file-box" *ngFor="let monthResponse of monthResponseList" [class.disabled]="monthResponse.disable" [ngClass]="{ 'selected-month-color': monthResponse.month == selectedMonth && monthResponse.year == selectedYear }">
               <div class="text-center" (click)="
                   getOrganizationIndividualMonthSalaryDataMethodCall(
                     monthResponse
@@ -94,6 +90,7 @@
             <!--end col-->
             <div class="col-md-8">
               <ul class="list-inline mb-0 contact-detail float-end mt-3">
+                <h3>Estimated Cost:</h3>
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">TOTAL PAYROLL COST</p>
@@ -415,7 +412,7 @@
               </h5>
               <div class="button-items">
                 <button type="button" class="btn btn-light btn-round"> BACK </button>
-                <button type="button" class="btn btn-primary btn-round"> SAVE & CONTINUE </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerNewJoineeAndUserExitMethodCall()"> SAVE & CONTINUE </button>
                 <button type="button" class="btn btn-primary btn-round"> MARK AS COMPLETE </button>
               </div>
             </div>

@@ -3,5 +3,11 @@ export class NewJoineeAndUserExitRequest {
     comment : string = '';
     startDate : string = '';
     endDate : string = '';
-    payActionTypeId : number = 0;
+    payActionTypeId : number = 1;
+
+    constructor(uuid: string, payActionTypeId: number, comment : string) {
+        this.uuid = uuid;
+        this.payActionTypeId = payActionTypeId;
+        this.comment = comment;
+    }
 }
