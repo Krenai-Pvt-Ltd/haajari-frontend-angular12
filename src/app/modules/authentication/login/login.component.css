@@ -206,3 +206,113 @@
   font-size: 13px;
   font-weight: 300;
 }
+@media (max-width: 1423px) {
+  .login-sidebar-heading {
+    margin-top: 20px !important;
+  }
+  .login-sidebar {
+    padding: 30px !important;
+  }
+
+  .login-sidebar-heading h4 {
+    font-size: 22px !important;
+  }
+  .login-sidebar-heading p {
+    font-size: 13px;
+    padding-top: 0px;
+  }
+  .gmail-login-box {
+    margin-top: 30px !important;
+  }
+  .whatapp-login-form {
+    margin-top: 20px !important;
+  }
+
+  .sidebar-footer-text {
+    padding-bottom: 5px !important;
+  }
+  .back-to-login-btn {
+    font-size: 14px !important;
+    top: -15px !important;
+  }
+  .my-4 {
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .or-option {
+    margin-top: 20px !important;
+  }
+
+  .gmail-login-btn {
+    height: 45px !important;
+  }
+
+  .whatapp-login-input {
+    height: 45px !important;
+  }
+
+  .btn-fix-height {
+    height: 43px;
+    font-size: 16px;
+  }
+
+  .login-with-slack h4 {
+    font-size: 14px;
+  }
+}
+@media (max-width: 1280px) {
+  .login-sidebar-heading {
+    margin-top: 20px !important;
+  }
+  .login-sidebar {
+    padding: 30px !important;
+  }
+
+  .login-sidebar-heading h4 {
+    font-size: 22px !important;
+  }
+  .login-sidebar-heading p {
+    font-size: 13px;
+    padding-top: 0px;
+  }
+  .gmail-login-box {
+    margin-top: 30px !important;
+  }
+  .whatapp-login-form {
+    margin-top: 20px !important;
+  }
+
+  .sidebar-footer-text {
+    padding-bottom: 5px !important;
+  }
+  .back-to-login-btn {
+    font-size: 14px !important;
+    top: -15px !important;
+  }
+  .my-4 {
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .or-option {
+    margin-top: 20px !important;
+  }
+
+  .gmail-login-btn {
+    height: 45px !important;
+  }
+
+  .whatapp-login-input {
+    height: 45px !important;
+  }
+
+  .btn-fix-height {
+    height: 43px;
+    font-size: 16px;
+  }
+
+  .login-with-slack h4 {
+    font-size: 14px;
+  }
+}

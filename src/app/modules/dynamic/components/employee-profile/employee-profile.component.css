@@ -423,7 +423,7 @@ td.text-right {
 }
 .Approved {
   border-right: 1px solid #f1f1f1;
-  width: 100px;
+  width: 90px;
 }
 
 .rejected-css p {
@@ -969,8 +969,7 @@ div#eventsModal .modal-content {
   background-color: #fff;
   border: 1px solid #f2f2f2;
   /* box-shadow: none; */
-  box-shadow:
-    rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 
@@ -1400,9 +1399,13 @@ tbody tr {
   background-color: transparent;
 }
 /* Author Pushpendra */
-.hr-dashed{
+.hr-dashed {
   border-top: 1px dashed #fff;
 }
-.alert{
-  border-radius: .125rem;
+.alert {
+  border-radius: 0.125rem;
+}
+
+.project-task-card h5 {
+  line-height: 24px;
 }
