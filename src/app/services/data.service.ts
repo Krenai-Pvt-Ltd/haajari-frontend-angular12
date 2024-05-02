@@ -52,6 +52,7 @@ import { WeekDay } from '../models/WeekDay';
 import { Key } from '../constant/key';
 import { ResponseEntityObject } from '../models/response-entity-object.model';
 import { OrganizationWeekoffInformation } from '../models/organization-weekoff-information';
+import { NewJoineeAndUserExitRequest } from '../models/new-joinee-and-user-exit-request';
 
 @Injectable({
   providedIn: 'root',
@@ -2517,5 +2518,10 @@ export class DataService {
     return this.httpClient.get(
       `${this.baseUrl}/holiday/get-Counts-of-holidays`
     );
+  }
+
+  registerNewJoineeAndUserExit(newJoineeAndUserExitRequestList : NewJoineeAndUserExitRequest[]): Observable<any>{
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/user/change/register-new-joinee-and-user-exit`, newJoineeAndUserExitRequestList);
   }
 }

@@ -3,6 +3,7 @@ import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { MonthResponse } from 'src/app/models/month-response';
+import { NewJoineeAndUserExitRequest } from 'src/app/models/new-joinee-and-user-exit-request';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
 import { PayActionType } from 'src/app/models/pay-action-type';
@@ -377,9 +378,12 @@ export class PayrollDashboardComponent implements OnInit {
   }
 
   selectedPayActionType : PayActionType = new PayActionType();
-  selectPayActionType(payActionType : PayActionType){
+  selectPayActionType(payActionType : PayActionType, response : any){
     this.selectedPayActionType = payActionType;
-    this.isDropdownOpen = false;
+
+    if(response != undefined && response != null){
+      response.payActionTypeId = payActionType.id;
+    }
   }
 
 
@@ -614,6 +618,19 @@ export class PayrollDashboardComponent implements OnInit {
       }, (error) => {
         this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
         this.isShimmerForFinalSettlement = false;
+      })
+    }
+
+
+    //Registering new joinee and user exit data to employee month wise salary data
+    newJoineeAndUserExitRequestList : NewJoineeAndUserExitRequest[] = [];
+    registerNewJoineeAndUserExitMethodCall(){
+      
+      
+      this.dataService.registerNewJoineeAndUserExit(this.newJoineeAndUserExitRequestList).subscribe((response) => {
+
+      }, (error) => {
+
       })
     }
 }

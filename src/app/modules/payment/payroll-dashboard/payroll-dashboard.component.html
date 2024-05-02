@@ -542,7 +542,7 @@
                                                     style="width: 100%">
                                                     <li *ngFor="let payActionType of payActionTypeList">
                                                         <a class="dropdown-item"
-                                                            (click)="selectPayActionType(payActionType)">
+                                                            (click)="selectPayActionType(payActionType, newJoineeResponse)">
                                                             {{ payActionType.name }}
                                                         </a>
                                                     </li>
@@ -550,7 +550,7 @@
                                             </div>
                                         </div>
                                       </td>
-                                      <td class="text-start"><input class="comment-input p-2" type="text" placeholder="Write the comment here"></td>
+                                      <td class="text-start"><input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="newJoineeResponse.comment" [ngModelOptions]="{standalone: true}"></td>
                                       <td class="text-start">
                                         <a><i class="bi bi-pencil-square"></i></a> 
                                       </td>
@@ -713,7 +713,7 @@
                                             style="width: 100%">
                                             <li *ngFor="let payActionType of payActionTypeList">
                                                 <a class="dropdown-item"
-                                                    (click)="selectPayActionType(payActionType)">
+                                                    (click)="selectPayActionType(payActionType, userExitResponse)">
                                                     {{ payActionType.name }}
                                                 </a>
                                             </li>
@@ -721,7 +721,7 @@
                                     </div>
                                 </div>
                               </td>
-                              <td class="text-start"><input class="comment-input p-2" type="text" placeholder="Write the comment here"></td>
+                              <td class="text-start"><input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="userExitResponse.comment" [ngModelOptions]="{standalone: true}"></td>
                                 <td class="text-start">{{userExitResponse.requestStatus}}</td>
                                 <td>
                                   <a><i class="bi bi-pencil-square"></i></a>
