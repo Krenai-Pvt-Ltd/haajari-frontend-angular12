@@ -1748,7 +1748,9 @@ export class AttendanceSettingComponent implements OnInit {
     }
   }
 
+  loadMoreHolidaysBoolean: boolean = false;
   loadMoreHolidays() {
+    this.loadMoreHolidaysBoolean = !this.loadMoreHolidaysBoolean;
     this.isInitialLoading = true;
     this.page++;
     this.loadHolidays();
