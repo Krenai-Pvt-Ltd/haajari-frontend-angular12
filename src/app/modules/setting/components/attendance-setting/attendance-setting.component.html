@@ -846,11 +846,7 @@
               </div>
 
               <div class="m-3 holiday-list">
-                <div
-                  class="row holiday-list-box-height"
-                  #holidayListContainer
-                  (scroll)="onScroll($event)"
-                >
+                <div class="row holiday-list-box-height">
                   <div
                     class="errorboxmain text-center"
                     *ngIf="holidays.length == 0"
@@ -909,121 +905,10 @@
                       <small class="text-muted"
                         >({{ totalMoreHolidays }} more)</small
                       >
-                      <i class="bi bi-chevron-down"></i
-                    ></a>
-                  </div>
-                  <div
-                    class="text-center load-more-btn"
-                    *ngIf="isMoreHolidayLoader && totalMoreHolidays > 0"
-                  >
-                    <div
-                      class="spinner-border spinner-border-custom-1 text-primary"
-                      role="status"
-                    ></div>
-                    <div><small>Loading...</small></div>
+                    </a>
                   </div>
                 </div>
               </div>
-              <!-- <div class="m-3 holiday-list">
-                <div
-                  class="row holiday-list-box-height"
-                  [ngClass]="{
-                    'holiday-list-box': viewAllHolidaySection == true
-                  }"
-                >
-                  <div class="col-md-6">
-                    <div class="holiday-date mb-3 universal-holiday">
-                      <p class="mb-0">
-                        New Year |
-                        <span style="color: #3f988f">26 January, 2024</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="holiday-date mb-3 universal-holiday">
-                      <p class="mb-0">
-                        Republic Day |
-                        <span style="color: #3f988f">25 March, 2024</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="holiday-date mb-3 universal-holiday">
-                      <p class="mb-0">
-                        Eid-ul-Fitr |
-                        <span style="color: #3f988f">11 April, 2024</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="holiday-date mb-3 universal-holiday">
-                      <p class="mb-0">
-                        Eid-ul-Adha |
-                        <span style="color: #3f988f">17 June, 2024</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="holiday-date mb-3 universal-holiday">
-                      <p class="mb-0">
-                        Independance Day |
-                        <span style="color: #3f988f">15 August, 2024</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="holiday-date mb-3 custom-holiday">
-                      <p class="mb-0">
-                        Janmashtami |
-                        <span style="color: #3f988f">26 August, 2024</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="holiday-date mb-3 universal-holiday">
-                      <p class="mb-0">
-                        Gandhi Jayanti |
-                        <span style="color: #3f988f">02 October, 2024</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="holiday-date mb-3 universal-holiday">
-                      <p class="mb-0">
-                        Diwali |
-                        <span style="color: #3f988f">01 November, 2024</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="holiday-date mb-3 universal-holiday">
-                      <p class="mb-0">
-                        Guru Nanak Gurpurab |
-                        <span style="color: #3f988f">15 November, 2024</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="holiday-date mb-3 universal-holiday">
-                      <p class="mb-0">
-                        Christmas |
-                        <span style="color: #3f988f">25 December, 2024</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-end">
-                  <div class="">
-                    <a
-                      class="view-all-btn"
-                      (click)="toggleViewAllHolidaySection()"
-                      >View More <small class="text-muted">(25 more)</small>
-                      <i class="bi bi-chevron-down"></i
-                    ></a>
-                  </div>
-                </div>
-              </div> -->
             </div>
           </div>
 

@@ -1279,7 +1279,7 @@ i.bi.bi-plus {
 
 .holiday-list-box-height {
   height: 193px;
-  overflow-y: scroll;
+  overflow: hidden;
   transition: 0.5s linear;
 }
 
@@ -1287,13 +1287,12 @@ i.bi.bi-plus {
   display: none;
 }
 .holiday-list-box {
-  height: 400px;
-  overflow: scroll;
+  height: auto;
 }
 
 .shift-setting-box {
   height: 270px;
-  overflow-y: hidden;
+  overflow: scroll;
   transition: 0.5s linear;
 }
 
@@ -1302,11 +1301,9 @@ i.bi.bi-plus {
 }
 
 .shift-setting-list-box {
-  height: 400px;
-  overflow: scroll;
+  height: auto;
 }
 
 .radio-btn {
   padding-left: 10px;
-  
 }
