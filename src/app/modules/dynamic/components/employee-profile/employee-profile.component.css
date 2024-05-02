@@ -1409,3 +1409,21 @@ tbody tr {
 .project-task-card h5 {
   line-height: 24px;
 }
+
+.add-document-btn {
+  border: 1px dashed #6666f3 !important;
+  background-color: #6666f30d;
+}
+
+.download-icon-link {
+  right: 10px;
+  top: 10px;
+  z-index: 2;
+}
+
+.met-profile-main-pic img {
+  max-width: 128px;
+  max-height: 128px;
+  margin-right: 24px;
+  object-fit: cover;
+}

@@ -52,6 +52,7 @@ import { WeekDay } from '../models/WeekDay';
 import { Key } from '../constant/key';
 import { ResponseEntityObject } from '../models/response-entity-object.model';
 import { OrganizationWeekoffInformation } from '../models/organization-weekoff-information';
+import { NewJoineeAndUserExitRequest } from '../models/new-joinee-and-user-exit-request';
 
 @Injectable({
   providedIn: 'root',
@@ -2444,47 +2445,55 @@ export class DataService {
     );
   }
 
-    getUserExitByOrganizationId(
-      itemPerPage: number,
-      pageNumber: number,
-      sort: string,
-      sortBy: string,
-      search: string,
-      searchBy: string,
-      startDate: string,
-      endDate: string): Observable<any>{
-        const params = new HttpParams()
-        .set('item_per_page', itemPerPage)
-        .set('page_number', pageNumber)
-        .set('sort', sort)
-        .set('sort_by', sortBy)
-        .set('search', search)
-        .set('search_by', searchBy)
-        .set('start_date', startDate)
-        .set('end_date', endDate);
-        return this.httpClient.get<any>(`${this.baseUrl}/salary/user/change/user-exit`, {params});
-    }
+  getUserExitByOrganizationId(
+    itemPerPage: number,
+    pageNumber: number,
+    sort: string,
+    sortBy: string,
+    search: string,
+    searchBy: string,
+    startDate: string,
+    endDate: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('item_per_page', itemPerPage)
+      .set('page_number', pageNumber)
+      .set('sort', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('start_date', startDate)
+      .set('end_date', endDate);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/user/change/user-exit`,
+      { params }
+    );
+  }
 
-    getFinalSettlementByOrganizationId(
-      itemPerPage: number,
-      pageNumber: number,
-      sort: string,
-      sortBy: string,
-      search: string,
-      searchBy: string,
-      startDate: string,
-      endDate: string): Observable<any>{
-        const params = new HttpParams()
-        .set('item_per_page', itemPerPage)
-        .set('page_number', pageNumber)
-        .set('sort', sort)
-        .set('sort_by', sortBy)
-        .set('search', search)
-        .set('search_by', searchBy)
-        .set('start_date', startDate)
-        .set('end_date', endDate);
-        return this.httpClient.get<any>(`${this.baseUrl}/salary/user/change/final-settlement`, {params});
-    }
+  getFinalSettlementByOrganizationId(
+    itemPerPage: number,
+    pageNumber: number,
+    sort: string,
+    sortBy: string,
+    search: string,
+    searchBy: string,
+    startDate: string,
+    endDate: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('item_per_page', itemPerPage)
+      .set('page_number', pageNumber)
+      .set('sort', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('start_date', startDate)
+      .set('end_date', endDate);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/user/change/final-settlement`,
+      { params }
+    );
+  }
 
   // getPayActionTypeList(): Observable<any> {
   //   return this.httpClient.get<any>(
@@ -2516,6 +2525,22 @@ export class DataService {
   getHolidayCounts(): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/holiday/get-Counts-of-holidays`
+    );
+  }
+
+
+  registerNewJoineeAndUserExit(newJoineeAndUserExitRequestList : NewJoineeAndUserExitRequest[], startDate : string, endDate : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/user/change/register-new-joinee-and-user-exit`, newJoineeAndUserExitRequestList, {params});
+  } 
+
+  getOrganizationAllShiftCounts(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization-shift-timing/get-organization-all-shift-counts`
     );
   }
 }
