@@ -1349,7 +1349,9 @@ export class AttendanceSettingComponent implements OnInit {
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe(
       (response) => {
         // console.log(response);
-        this.getAttendanceModeMethodCall();
+        if (attendanceModeId == 1) {
+          this.getAttendanceModeMethodCall();
+        }
         if (attendanceModeId == 2 || attendanceModeId == 3) {
           this.attendancewithlocationssButton.nativeElement.click();
         }
@@ -1394,6 +1396,7 @@ export class AttendanceSettingComponent implements OnInit {
       .subscribe(
         (response: OrganizationAddressDetail) => {
           // console.log(response);
+          this.getAttendanceModeMethodCall();
           this.toggle = false;
           this.closeAddressModal.nativeElement.click();
           this.helperService.showToast(
