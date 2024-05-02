@@ -188,7 +188,10 @@
                 phoneNumber == null ||
                 phoneNumber == '' ||
                 phoneNumber.length != 10
-              " *ngIf="isWhatsappLogin && !showOtpInput" (click)="signInByWhatsapp()">
+              "
+              *ngIf="isWhatsappLogin && !showOtpInput"
+              (click)="signInByWhatsapp()"
+            >
               <span *ngIf="!sendOtpLoader">Send OTP</span>
               <div class="dot-opacity-loader" *ngIf="sendOtpLoader">
                 <span></span>
@@ -199,7 +202,10 @@
 
             <div class="register-whatsApp-number-text mt-4">
               <p>
-                <b>Note:</b> Please ensure that the mobile number provided is registered <br /> with WhatsApp to receive OTP and other process-related notifications.
+                <b>Note:</b> Please ensure that the mobile number provided is
+                registered <br />
+                with WhatsApp to receive OTP and other process-related
+                notifications.
               </p>
             </div>
           </div>
@@ -281,7 +287,7 @@
               <img src="assets/images/google.png" class="google-logo" /> Use
               Google Account</a
             >
-            <div class="mt-5">
+            <div class="mt-5 or-option">
               <hr class="hr-dashed mt-4" />
               <div class="text-center mt-n5">
                 <h6 class="card-bg px-3 my-4 d-inline-block">Or</h6>
@@ -319,7 +325,8 @@
                       !emailInput.errors.required && emailInput.errors.pattern
                     "
                   >
-                    <i class="bi bi-exclamation-circle"></i> Please enter a valid email address.
+                    <i class="bi bi-exclamation-circle"></i> Please enter a
+                    valid email address.
                   </p>
                 </div>
               </div>
@@ -343,7 +350,7 @@
               </div>
 
               <div
-                class="d-flex align-items-center justify-content-end mt-3"
+                class="d-flex align-items-center justify-content-end mt-2"
                 *ngIf="enterPasswordFlag && isEmailLogin"
               >
                 <a
@@ -355,7 +362,7 @@
 
               <!-- First page login button -->
               <button
-                class="btn btn-primary w-100 mt-3 btn-fix-height"
+                class="btn btn-primary w-100 mt-2 btn-fix-height"
                 type="submit"
                 *ngIf="
                   !enterPasswordFlag &&
@@ -377,7 +384,15 @@
               </button>
 
               <!-- Second page login button -->
-              <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center mt-3" style="padding: 10px 25px; width: 100%; height: 45px" *ngIf="!verifyOtpButtonFlag && enterPasswordFlag && !isWhatsappLogin" (click)="signIn()">
+              <button
+                type="submit"
+                class="btn btn-primary d-flex align-items-center justify-content-center mt-3"
+                style="padding: 10px 25px; width: 100%; height: 45px"
+                *ngIf="
+                  !verifyOtpButtonFlag && enterPasswordFlag && !isWhatsappLogin
+                "
+                (click)="signIn()"
+              >
                 <ng-container *ngIf="loginButtonLoader; else loginButton">
                   <div class="dot-opacity-loader">
                     <span></span>
@@ -409,14 +424,14 @@
               <div
                 class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
                 role="alert"
-                *ngIf="verifyOtpButtonFlag && showMessageFlag">
+                *ngIf="verifyOtpButtonFlag && showMessageFlag"
+              >
                 <h4 class="alert-heading font-18">Attention!</h4>
                 <p>
                   You haven't created your password yet. Please create your
                   password after successfull verification.
                 </p>
               </div>
-              
             </div>
           </div>
 
