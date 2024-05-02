@@ -65,7 +65,7 @@
                     "
                   >
                     <div
-                      class="categryCustomizecard d-flex pointer attendance-active"
+                      class="categryCustomizecard d-flex pointer"
                       [ngClass]="{
                         'attendance-active':
                           salaryCalculationMode.id ==
@@ -91,7 +91,13 @@
                           </p>
                         </label>
                       </div>
-                      <div class="active-check ng-star-inserted">
+                      <div
+                        class="active-check ng-star-inserted"
+                        *ngIf="
+                          salaryCalculationMode.id ==
+                          selectedSalaryCalculationModeId
+                        "
+                      >
                         <i class="bi bi-check2"></i>
                       </div>
                     </div>
@@ -173,9 +179,9 @@
                   <small
                     class="text-muted d-flex align-items-center gap-3 mb-0"
                   >
-                    <span class="universal"></span> Universal Holiday's</small
+                    <span class="universal"></span> Percentage of salary</small
                   >
-                  <small class="text-muted">23</small>
+                  <!-- <small class="text-muted">23</small> -->
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between mb-3"
@@ -183,9 +189,9 @@
                   <small
                     class="text-muted d-flex align-items-center gap-3 mb-0"
                   >
-                    <span class="custom"></span> Custom Holiday's</small
+                    <span class="custom"></span> Percentage of basic pay</small
                   >
-                  <small class="text-muted">03</small>
+                  <!-- <small class="text-muted">03</small> -->
                 </div>
               </div>
             </div>
