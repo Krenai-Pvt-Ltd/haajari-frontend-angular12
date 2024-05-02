@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
+import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { MonthResponse } from 'src/app/models/month-response';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
@@ -25,9 +26,9 @@ export class PayrollDashboardComponent implements OnInit {
   searchBy: string = 'name';
   total: number = 0;
 
-  NEW_JOINEE = Key.NEW_JOINEE_STEP;
-  USER_EXIT = Key.USER_EXIT_STEP;
-  FINAL_SETTLEMENT = Key.FINAL_SETTLEMENT_STEP;
+  NEW_JOINEE = Key.NEW_JOINEE;
+  USER_EXIT = Key.USER_EXIT;
+  REGULAR = Key.REGULAR;
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
@@ -56,6 +57,16 @@ export class PayrollDashboardComponent implements OnInit {
     this.isShimmerForUserExit = true;
     this.dataNotFoundPlaceholderForUserExit = false;
     this.networkConnectionErrorPlaceHolderForUserExit = false;
+  }
+
+
+  isShimmerForFinalSettlement = false;
+  dataNotFoundPlaceholderForFinalSettlement = false;
+  networkConnectionErrorPlaceHolderForFinalSettlement = false;
+  preRuleForShimmersAndErrorPlaceholdersForFinalSettlement() {
+    this.isShimmerForFinalSettlement = true;
+    this.dataNotFoundPlaceholderForFinalSettlement = false;
+    this.networkConnectionErrorPlaceHolderForFinalSettlement = false;
   }
 
   constructor(
@@ -296,13 +307,28 @@ export class PayrollDashboardComponent implements OnInit {
     })
   }
 
+  //Exmployee changes tab selection
+  newJoineeTab(){
+    this.resetCriteriaFilter();
+    this.getNewJoineeByOrganizationIdMethodCall();
+  }
+
+  userExitTab(){
+    this.resetCriteriaFilter();
+    this.getUserExitByOrganizationIdMethodCall();
+  }
+
+  finalSettlementTab(){
+    this.resetCriteriaFilter();
+    this.getFinalSettlementByOrganizationIdMethodCall();
+  }
+
   //Fetching the new joinee data
   newJoineeResponseList : NewJoineeResponse[] = [];
   debounceTimer : any;
   getNewJoineeByOrganizationIdMethodCall(debounceTime : number = 300){
 
     this.newJoineeResponseList = [];
-    this.resetCriteriaFilter();
 
     if(this.debounceTimer){
       clearTimeout(this.debounceTimer);
@@ -444,7 +470,7 @@ export class PayrollDashboardComponent implements OnInit {
 
   //New Joinee Pagination
   // ##### Pagination ############
-  changePage(page: number | string) {
+  changePage(page: number | string, step : number) {
     if (typeof page === 'number') {
       this.pageNumber = page;
     } else if (page === 'prev' && this.pageNumber > 1) {
@@ -452,7 +478,18 @@ export class PayrollDashboardComponent implements OnInit {
     } else if (page === 'next' && this.pageNumber < this.totalPages) {
       this.pageNumber++;
     }
-    this.getNewJoineeByOrganizationIdMethodCall();
+
+    if(step == Key.NEW_JOINEE_STEP){
+      this.getNewJoineeByOrganizationIdMethodCall();
+    }
+
+    if(step == Key.USER_EXIT_STEP){
+      this.getUserExitByOrganizationIdMethodCall();
+    }
+
+    if(step == Key.FINAL_SETTLEMENT_STEP){
+      this.getFinalSettlementByOrganizationIdMethodCall();
+    }
   }
 
   getPages(): number[] {
@@ -476,32 +513,22 @@ export class PayrollDashboardComponent implements OnInit {
   }
 
 
-  //New Joinee Search
+  //New Joinee & User Exit Search
+  searchNewJoinee(event : Event){
+    this.helperService.ignoreKeysDuringSearch(event);
+    this.resetCriteriaFilterMicro();
+    this.getNewJoineeByOrganizationIdMethodCall();
+  }
+
+  searchUserExit(event : Event){
+    this.helperService.ignoreKeysDuringSearch(event);
+    this.resetCriteriaFilterMicro();
+    this.getUserExitByOrganizationIdMethodCall();
+  }
+
   searchUsers(event : Event, step : number){
-    if (event instanceof KeyboardEvent) {
-      const ignoreKeys = [
-        'Shift',
-        'Control',
-        'Alt',
-        'Meta',
-        'ArrowLeft',
-        'ArrowRight',
-        'ArrowUp',
-        'ArrowDown',
-        'Escape',
-      ];
-
-      const isCmdA =
-        (event.key === 'a' || event.key === 'A') &&
-        (event.metaKey || event.ctrlKey);
-      if (ignoreKeys.includes(event.key) || isCmdA) {
-        return;
-      }
-    }
-
-    this.newJoineeResponseList = [];
-    this.userExitResponseList = [];
-    this.resetCriteriaFilter();
+    this.helperService.ignoreKeysDuringSearch(event);
+    this.resetCriteriaFilterMicro();
 
     if(step == Key.NEW_JOINEE_STEP){
       this.getNewJoineeByOrganizationIdMethodCall();
@@ -512,11 +539,14 @@ export class PayrollDashboardComponent implements OnInit {
     }
 
     if(step == Key.FINAL_SETTLEMENT_STEP){
-
+      this.getFinalSettlementByOrganizationIdMethodCall();
     }
   }
+
+
+  // Clearing search text
   clearSearch(step : number){
-    this.search = '';
+    this.resetCriteriaFilter();
     if(step == Key.NEW_JOINEE_STEP){
       this.getNewJoineeByOrganizationIdMethodCall();
     }
@@ -540,17 +570,25 @@ export class PayrollDashboardComponent implements OnInit {
     this.searchBy = 'name';
   }
 
+  resetCriteriaFilterMicro() {
+    this.itemPerPage = 2;
+    this.pageNumber = 1;
+    this.lastPageNumber = 0;
+    this.total = 0;
+  }
+
   //Fetching the user exit data
   userExitResponseList : UserExitResponse[] = [];
   getUserExitByOrganizationIdMethodCall(){
     this.userExitResponseList = [];
-    this.resetCriteriaFilter();
     this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
     this.dataService.getUserExitByOrganizationId(this.itemPerPage, this.pageNumber, this.sort, this.sortBy, this.search, this.searchBy, this.startDate, this.endDate).subscribe((response) => {
       if(this.helperService.isListOfObjectNullOrUndefined(response)){
         this.dataNotFoundPlaceholderForUserExit = true;
       } else{
         this.userExitResponseList = response.listOfObject;
+        this.total = response.totalItems;
+        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
       }
       this.isShimmerForUserExit = false;
     }, (error) => {
@@ -558,6 +596,26 @@ export class PayrollDashboardComponent implements OnInit {
       this.isShimmerForUserExit = false;
     })
   }
+
+    //Fetching the final settlement data
+    finalSettlementResponseList : FinalSettlementResponse[] = [];
+    getFinalSettlementByOrganizationIdMethodCall(){
+      this.finalSettlementResponseList = [];
+      this.preRuleForShimmersAndErrorPlaceholdersForFinalSettlement();
+      this.dataService.getFinalSettlementByOrganizationId(this.itemPerPage, this.pageNumber, this.sort, this.sortBy, this.search, this.searchBy, this.startDate, this.endDate).subscribe((response) => {
+        if(this.helperService.isListOfObjectNullOrUndefined(response)){
+          this.dataNotFoundPlaceholderForFinalSettlement = true;
+        } else{
+          this.finalSettlementResponseList = response.listOfObject;
+          this.total = response.totalItems;
+          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+        }
+        this.isShimmerForFinalSettlement = false;
+      }, (error) => {
+        this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
+        this.isShimmerForFinalSettlement = false;
+      })
+    }
 }
 
 
