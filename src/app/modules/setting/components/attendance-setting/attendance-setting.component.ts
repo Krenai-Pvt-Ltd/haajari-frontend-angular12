@@ -1804,4 +1804,14 @@ export class AttendanceSettingComponent implements OnInit {
       },
     });
   }
+
+  activeIndex: number | null = null;
+
+  toggleCollapse(index: number): void {
+    if (this.activeIndex === index) {
+      this.activeIndex = null;
+    } else {
+      this.activeIndex = index;
+    }
+  }
 }
