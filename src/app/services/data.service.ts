@@ -2509,6 +2509,13 @@ export class DataService {
     );
   }
 
+  getNoticePeriodList(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/user/change/notice-period-get-all`,
+      {}
+    );
+  }
+
   getHolidays(page: number, itemsPerPage: number): Observable<any> {
     const params = {
       page: `${page}`,
