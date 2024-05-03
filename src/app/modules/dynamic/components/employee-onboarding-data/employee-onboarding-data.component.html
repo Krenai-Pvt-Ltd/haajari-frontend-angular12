@@ -484,10 +484,60 @@
               <!-- || (searchUserPlaceholderFlag) -->
               <div
                 class="col-md-8 d-flex"
-                style="gap: 20px"
+                style="border: 1px solid #f1f1f1"
                 *ngIf="!errorToggleTop"
               >
                 <!-- Your component.html file -->
+
+                <div class="" style="width: 150px; position: relative">
+                  <div class="dropdown" style="width: 100%">
+                    <button
+                      type="button"
+                      id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      class="btn btn-secondary dropdown-toggle new-deopdown"
+                    >
+                      {{ selectedStatus || "Select Search" }}
+                      <i
+                        class="bi bi-chevron-down"
+                        style="color: #444; font-size: 15px"
+                      ></i>
+                    </button>
+                    <ul
+                      aria-labelledby="dropdownMenuButton1"
+                      class="dropdown-menu"
+                      style="width: 100%"
+                    >
+                      <li>
+                        <a class="dropdown-item" (click)="selectStatus('ALL')"
+                          >Reset All</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          (click)="selectStatus('APPROVED')"
+                          >Approved</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          (click)="selectStatus('PENDING')"
+                          >Pending</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          (click)="selectStatus('REJECTED')"
+                          >Rejected</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </div>
                 <div
                   class="onboarding-date d-flex align-items-center"
                   style="gap: 10px"
@@ -524,55 +574,6 @@
                       ></i>
                     </div>
                   </form>
-                  <div class="" style="width: 150px; position: relative">
-                    <div class="dropdown" style="width: 100%">
-                      <button
-                        type="button"
-                        id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        class="btn btn-secondary dropdown-toggle new-deopdown"
-                      >
-                        {{ selectedStatus || "Select Search" }}
-                        <i
-                          class="bi bi-chevron-down"
-                          style="color: #444; font-size: 15px"
-                        ></i>
-                      </button>
-                      <ul
-                        aria-labelledby="dropdownMenuButton1"
-                        class="dropdown-menu"
-                        style="width: 100%"
-                      >
-                        <li>
-                          <a class="dropdown-item" (click)="selectStatus('ALL')"
-                            >Reset All</a
-                          >
-                        </li>
-                        <li>
-                          <a
-                            class="dropdown-item"
-                            (click)="selectStatus('APPROVED')"
-                            >Approved</a
-                          >
-                        </li>
-                        <li>
-                          <a
-                            class="dropdown-item"
-                            (click)="selectStatus('PENDING')"
-                            >Pending</a
-                          >
-                        </li>
-                        <li>
-                          <a
-                            class="dropdown-item"
-                            (click)="selectStatus('REJECTED')"
-                            >Rejected</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
                 </div>
               </div>
               <div class="col-md-4" *ngIf="!errorToggleTop">
