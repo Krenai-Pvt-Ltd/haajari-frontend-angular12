@@ -482,49 +482,11 @@
             <div class="onboard-add row align-items-center">
               <!-- <div *ngIf="users.length!=0"> -->
               <!-- || (searchUserPlaceholderFlag) -->
-              <div
-                class="col-md-8 d-flex"
-                style="gap: 20px"
-                *ngIf="!errorToggleTop"
-              >
-                <!-- Your component.html file -->
-                <div
-                  class="onboarding-date d-flex align-items-center"
-                  style="gap: 10px"
-                >
-                  <form
-                    role="search"
-                    class="searching ng-untouched ng-pristine ng-valid"
-                  >
-                    <div
-                      class="form-group"
-                      style="width: 300px; position: relative"
-                    >
-                      <input
-                        type="text"
-                        id="searchText"
-                        placeholder="Search"
-                        class="form-control me-2 ng-untouched ng-pristine ng-valid"
-                        (keyup)="searchUsers('any')"
-                        [(ngModel)]="search"
-                        [ngModelOptions]="{ standalone: true }"
-                        style="padding: 10px 30px"
-                      />
-                      <button
-                        type="button"
-                        class="btn close-btn"
-                        (click)="reloadPage()"
-                        *ngIf="crossFlag"
-                      >
-                        <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                      </button>
-                      <i
-                        class="bi bi-search search-icon"
-                        style="margin: auto; margin-left: 10px"
-                      ></i>
-                    </div>
-                  </form>
-                  <div class="" style="width: 150px; position: relative">
+              <div class="col-md-12" *ngIf="!errorToggleTop">
+                <div class="d-flex" style="border: 1px solid #f1f1f1">
+                  <!-- Your component.html file -->
+
+                  <div class="" style="width: 200px; position: relative">
                     <div class="dropdown" style="width: 100%">
                       <button
                         type="button"
@@ -573,20 +535,59 @@
                       </ul>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div class="col-md-4" *ngIf="!errorToggleTop">
-                <div class="add-filtter text-end">
-                  <a
-                    data-bs-toggle="modal"
-                    data-bs-target="#add-employee"
-                    type="button"
+                  <div
+                    class="onboarding-date d-flex align-items-center"
+                    style="gap: 10px; width: 70%"
                   >
-                    <i class="bi bi-plus" style="font-size: 23px"></i> Invite
-                    New Members
-                  </a>
+                    <form
+                      role="search"
+                      class="searching ng-untouched ng-pristine ng-valid"
+                      style="width: 100%"
+                    >
+                      <div
+                        class="form-group"
+                        style="width: 100%; position: relative"
+                      >
+                        <input
+                          type="text"
+                          id="searchText"
+                          placeholder="Search"
+                          class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                          (keyup)="searchUsers('any')"
+                          [(ngModel)]="search"
+                          [ngModelOptions]="{ standalone: true }"
+                          style="padding: 10px 40px"
+                        />
+                        <button
+                          type="button"
+                          class="btn close-btn"
+                          (click)="reloadPage()"
+                          *ngIf="crossFlag"
+                        >
+                          <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                        </button>
+                        <i
+                          class="bi bi-search search-icon"
+                          style="margin: auto; margin-left: 15px"
+                        ></i>
+                      </div>
+                    </form>
+                  </div>
+                  <div *ngIf="!errorToggleTop" style="width: 30%">
+                    <div class="add-filtter text-end">
+                      <a
+                        data-bs-toggle="modal"
+                        data-bs-target="#add-employee"
+                        type="button"
+                      >
+                        <i class="bi bi-plus" style="font-size: 18px"></i>
+                        Invite New Members
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
+
               <!-- </div> -->
               <div class="col-md-12 mt-3">
                 <div class="">
@@ -671,13 +672,22 @@
                             </p>
                           </td>
                           <td>
-                            <p class="mb-0 weekly-pro-name">{{ user.name }}</p>
+                            <a
+                              routerLink="/employee-profile"
+                              (click)="routeToUserDetails(user.uuid)"
+                              class="mb-0 btn btn-link weekly-pro-name"
+                              >{{ user.name }}</a
+                            >
                           </td>
                           <!-- <td>Meeting</td> -->
                           <td>
-                            <p class="mb-0 weekly-pro-email">
+                            <a
+                              routerLink="/employee-profile"
+                              (click)="routeToUserDetails(user.uuid)"
+                              class="mb-0 btn btn-link weekly-pro-email"
+                            >
                               {{ user.email ? user.email : "N/A" }}
-                            </p>
+                            </a>
                           </td>
                           <td class="text-center">
                             <div class="material-switch">

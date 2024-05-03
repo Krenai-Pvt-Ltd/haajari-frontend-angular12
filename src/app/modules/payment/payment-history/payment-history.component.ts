@@ -26,7 +26,9 @@ export class PaymentHistoryComponent implements OnInit {
 
   constructor(private dataService: DataService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    window.scroll(0, 0);
+  }
 
   organizationMonthWiseSalaryDataList: OrganizationMonthWiseSalaryData[] = [];
   getOrganizationMonthWiseSalaryDataMethodCall() {
@@ -36,7 +38,7 @@ export class PaymentHistoryComponent implements OnInit {
         this.itemPerPage,
         this.pageNumber,
         this.sort,
-        this.sortBy,
+        this.sortBy
       )
       .subscribe(
         (response) => {
@@ -56,7 +58,7 @@ export class PaymentHistoryComponent implements OnInit {
         (error) => {
           this.isShimmer = false;
           this.networkConnectionErrorPlaceHolder = true;
-        },
+        }
       );
   }
 }

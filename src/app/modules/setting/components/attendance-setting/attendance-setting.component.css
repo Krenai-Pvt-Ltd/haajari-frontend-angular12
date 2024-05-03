@@ -211,7 +211,7 @@
 }
 
 .nav-tabs {
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .nav-tabs .nav-item {
@@ -463,7 +463,7 @@
 }
 
 .attendance-active {
-  background-color: #e9ebfe;
+  background-color: #e9ebfe !important;
   border: 1px solid #6666f3 !important;
 }
 
@@ -500,7 +500,7 @@
   grid-gap: 10px;
   gap: 10px;
   background: #ffffff;
-  border-radius: 5px;
+  border-radius: 2px;
   margin-bottom: 15px;
   padding: 15px;
   border: 1px solid #f1f1f1;
@@ -1306,4 +1306,9 @@ i.bi.bi-plus {
 
 .radio-btn {
   padding-left: 10px;
+}
+
+nz-date-picker.nz-overlay-container.whatapp-login-input {
+  height: 50px !important;
+  border: 1px solid #f1f1f1 !important;
 }

@@ -50,6 +50,7 @@ export class LeaveSettingComponent implements OnInit {
   readonly constants = constant;
 
   ngOnInit(): void {
+    window.scroll(0, 0);
     this.getUserByFiltersMethodCall(0);
     this.getFullLeaveSettingInformation();
     // this.findUsersOfLeaveSetting(30);
@@ -498,6 +499,9 @@ export class LeaveSettingComponent implements OnInit {
     this.dataService.getFullLeaveSettingInformation().subscribe(
       (response) => {
         this.fullLeaveSettingResponseList = response;
+        if (this.fullLeaveSettingResponseList.length == 1) {
+          this.activeIndex = 0;
+        }
         this.isLoading = false;
         if (response == null || response.length == 0) {
           this.leaveSettingPlaceholder = true;

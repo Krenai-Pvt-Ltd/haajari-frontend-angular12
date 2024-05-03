@@ -3,7 +3,7 @@
   padding: 15px;
   border-radius: 2px;
   border: 1px solid #f1f1f1;
-  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
+  /* box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05); */
 }
 
 .orderpcardleft {
@@ -53,7 +53,7 @@
   border-radius: 2px;
   border: 1px solid #f1f1f1;
   padding: 15px;
-  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
+  /* box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05); */
   height: 130px;
 }
 
@@ -120,7 +120,7 @@
   border-radius: 2px;
   border: 1px solid #f1f1f1;
   padding: 15px;
-  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
+  /* box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05); */
 }
 
 .onboarding-date p {
@@ -209,7 +209,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 140px;
+  max-width: 220px;
   font-size: 14px;
   color: #444;
   font-weight: 600;
@@ -219,7 +219,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 140px;
+  max-width: 220px;
   font-size: 12px;
   color: #878a9a;
 }
@@ -280,9 +280,12 @@ tbody tr {
 .add-filtter a {
   margin-bottom: 0px;
   color: #6666f3 !important;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+  height: 50px;
+  line-height: 45px;
+  padding-right: 20px;
 }
 
 .searching {
@@ -354,17 +357,19 @@ button.btn.close-btn {
   padding: 0.4rem 1rem;
   font-size: 0.875rem;
   font-weight: 400;
-  height: 40px !important;
+  height: 50px !important;
   text-align: left;
   background-color: #fff;
-  border: 1px solid #e8ebf3;
+  border-right: 1px solid #e8ebf3 !important;
+  border: none;
+  border-radius: 0px;
   color: #2d2e3e;
 }
 
 .new-deopdown i {
   position: absolute;
   right: 15px;
-  top: 12px;
+  top: 13px;
 }
 .joining-email {
   overflow: hidden;
@@ -421,7 +426,7 @@ span.members-name {
 input,
 textarea {
   background: #fff !important;
-  border: 1px solid #e8ebf3 !important;
+  border: none !important;
   border-radius: 6px;
   height: 45px;
   font-weight: 400 !important;
@@ -469,18 +474,6 @@ textarea {
 
 .material-switch > input[type="checkbox"]:checked + label::before {
   background: #79af79;
-}
-.new-deopdown {
-  display: block;
-  width: 100%;
-  padding: 0.4rem 1rem;
-  font-size: 13px;
-  font-weight: 500;
-  height: 40px !important;
-  text-align: left;
-  background-color: #fff;
-  border: 1px solid #e8ebf3;
-  color: #2d2e3e;
 }
 
 .dot-opacity-loader {
@@ -591,4 +584,9 @@ textarea {
   color: #fff !important;
   background-color: #6666f3;
   border-color: #6666f3;
+}
+
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  font-weight: BOLD !important;
 }

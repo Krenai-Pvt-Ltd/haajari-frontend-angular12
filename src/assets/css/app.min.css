@@ -9644,10 +9644,11 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   padding: 0.4rem 1rem;
   font-size: 0.875rem;
   font-weight: 400;
-  height: 40px !important;
+  height: 50px !important;
   text-align: left;
   background-color: #fff;
-  border: 1px solid #e8ebf3;
+  border: 1px solid #f1f1f1 !important;
+  border-radius: 2px;
   color: #2d2e3e;
   position: relative;
 }

@@ -132,6 +132,87 @@
                         <p class="mb-0 met-user-name-post">
                           {{ user.department || "N/A" }}
                         </p>
+
+                        <!-- <div class="d-flex align-items-center gap-3 mt-2">
+                          <button
+                            type="button"
+                            class="btn btn-soft-success btn-round"
+                          >
+                            Approve
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-soft-danger btn-round"
+                          >
+                            Reject
+                          </button>
+                        </div> -->
+                        <div
+                          [ngClass]="{
+                            'd-none': !adminRoleFlag,
+                            'mt-1': adminRoleFlag
+                          }"
+                        >
+                          <div
+                            class="d-flex align-items-center gap-3 mt-2"
+                            style="gap: 10px"
+                            *ngIf="
+                              user!.employeeOnboardingStatus?.response ==
+                                'PENDING' ||
+                              user!.employeeOnboardingStatus?.response ==
+                                'REQUESTED' ||
+                              user!.employeeOnboardingStatus?.response ==
+                                'NEW_USER'
+                            "
+                          >
+                            <button
+                              class="btn sand-request approved"
+                              type="button"
+                              (click)="updateStatusUserByUuid('APPROVED')"
+                            >
+                              <div *ngIf="!approvedToggle">Approve</div>
+
+                              <div
+                                class="approve-button-loader"
+                                *ngIf="approvedToggle"
+                              >
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                            </button>
+
+                            <button
+                              class="btn sand-request rejected"
+                              type="button"
+                              data-bs-toggle="modal"
+                              data-bs-target="#showRejectModal"
+                            >
+                              Reject
+                            </button>
+                            <!-- <div *ngIf="approvedToggle" class="dot-opacity-loader">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div> -->
+                          </div>
+                          <!-- <div class="d-flex" style="gap:10px" *ngIf="(user!.employeeOnboardingStatus?.response!='PENDING')">
+                                        <button class="btn sand-request approved" type="button" *ngIf="(user!.employeeOnboardingStatus?.response=='APPROVED')">{{user!.employeeOnboardingStatus?.response}}</button>
+                                        <button class="btn sand-request rejected" type="button" *ngIf="(user!.employeeOnboardingStatus?.response=='REJECTED')">{{user!.employeeOnboardingStatus?.response}}</button>
+                                    </div> -->
+                          <div
+                            *ngIf="
+                              user!.employeeOnboardingStatus?.response ==
+                              'APPROVED'
+                            "
+                            class="add-filtter"
+                          >
+                            <a type="button" (click)="requestUserForMoreDocs()">
+                              <i class="bi bi-plus" style="font-size: 23px"></i>
+                              Request user for more Documents
+                            </a>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -238,7 +319,7 @@
             <div class="card-body p-0">
               <!-- Nav tabs -->
               <ul class="nav nav-tabs bg-light border-top" role="tablist">
-                <li class="nav-item">
+                <li class="nav-item" (click)="activeTabs('home')">
                   <a
                     class="nav-link active"
                     data-bs-toggle="tab"
@@ -248,7 +329,7 @@
                     >Home</a
                   >
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" (click)="activeTabs('attendance')">
                   <a
                     class="nav-link"
                     data-bs-toggle="tab"
@@ -258,7 +339,7 @@
                     >Attendance</a
                   >
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" (click)="activeTabs('finances')">
                   <a
                     class="nav-link"
                     data-bs-toggle="tab"
@@ -268,7 +349,7 @@
                     >Finances</a
                   >
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" (click)="activeTabs('documents')">
                   <a
                     class="nav-link"
                     data-bs-toggle="tab"
@@ -278,7 +359,7 @@
                     >Documents</a
                   >
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" (click)="activeTabs('profile')">
                   <a
                     class="nav-link"
                     data-bs-toggle="tab"
@@ -291,7 +372,7 @@
               </ul>
               <!-- Tab panes -->
               <div class="tab-content">
-                <div class="tab-pane p-3 active" id="home" role="tabpanel">
+                <div class="p-3" id="home" role="" *ngIf="activeHomeTabFlag">
                   <div class="row">
                     <div class="col-md-3">
                       <div class="card report-card">
@@ -1067,7 +1148,12 @@
 
                   <!--end row-->
                 </div>
-                <div class="tab-pane p-3" id="attendance" role="tabpanel">
+                <div
+                  class="p-3"
+                  id="attendance"
+                  role=""
+                  *ngIf="activeAttendanceTabFlag"
+                >
                   <div class="row">
                     <div class="col-lg-6">
                       <div
@@ -1144,11 +1230,13 @@
                         </div>
                         <!--end row-->
                       </div>
-                      <full-calendar
-                        [options]="calendarOptions"
-                        id="calendar"
-                        #calendar
-                      ></full-calendar>
+                      <div>
+                        <full-calendar
+                          [options]="calendarOptions"
+                          id="calendar"
+                          #calendar
+                        ></full-calendar>
+                      </div>
                       <div
                         class="legends-section"
                         style="margin-top: 20px; font-size: 13px"
@@ -1642,7 +1730,12 @@
                   </div>
                   <!--end row-->
                 </div>
-                <div class="tab-pane p-3" id="payslip" role="tabpanel">
+                <div
+                  class="p-3"
+                  id="payslip"
+                  role=""
+                  *ngIf="activeFinancesTabFlag"
+                >
                   <div
                     id="configure-salary-setting"
                     class="errorboxmain"
@@ -2026,146 +2119,109 @@
                     </div>
                   </div>
                 </div>
-                <div class="tab-pane p-3" id="document" role="tabpanel">
+                <div
+                  class="p-3"
+                  id="document"
+                  role=""
+                  *ngIf="activeDocumentsTabFlag"
+                >
                   <div class="row">
                     <div class="col-lg-12">
                       <h4 class="card-title mt-0 mb-3">Projects</h4>
                       <div class="file-box-content">
-                        <div class="file-box position-relative">
-                          <a
-                            href="#"
-                            class="download-icon-link position-absolute"
-                          >
+                        <div class="file-box">
+                          <a href="#" class="download-icon-link">
                             <i class="las la-download file-download-icon"></i>
                           </a>
                           <div class="text-center">
-                            <i class="lar la-file-alt text-primary pb-2"></i>
+                            <i class="lar la-file-alt text-primary"></i>
                             <h6 class="text-truncate">Admin_Panel</h6>
                             <small class="text-muted"
                               >06 March 2021 / 5MB</small
                             >
                           </div>
                         </div>
-                        <div class="file-box position-relative">
-                          <a
-                            href="#"
-                            class="download-icon-link position-absolute"
-                          >
+                        <div class="file-box">
+                          <a href="#" class="download-icon-link">
                             <i class="las la-download file-download-icon"></i>
                           </a>
                           <div class="text-center">
-                            <i class="lar la-file-code text-danger pb-2"></i>
+                            <i class="lar la-file-code text-danger"></i>
                             <h6 class="text-truncate">Ecommerce.pdf</h6>
                             <small class="text-muted"
                               >15 March 2021 / 8MB</small
                             >
                           </div>
                         </div>
-                        <div class="file-box position-relative">
-                          <a
-                            href="#"
-                            class="download-icon-link position-absolute"
-                          >
+                        <div class="file-box">
+                          <a href="#" class="download-icon-link">
                             <i class="las la-download file-download-icon"></i>
                           </a>
                           <div class="text-center">
-                            <i class="lar la-file-code text-warning pb-2"></i>
+                            <i class="lar la-file-code text-warning"></i>
                             <h6 class="text-truncate">Payment_app.zip</h6>
                             <small class="text-muted"
                               >15 March 2021 / 8MB</small
                             >
                           </div>
                         </div>
-                        <div class="file-box position-relative">
-                          <a
-                            href="#"
-                            class="download-icon-link position-absolute"
-                          >
+                        <div class="file-box">
+                          <a href="#" class="download-icon-link">
                             <i class="las la-download file-download-icon"></i>
                           </a>
                           <div class="text-center">
-                            <i class="lar la-file text-secondary pb-2"></i>
+                            <i class="lar la-file text-secondary"></i>
                             <h6 class="text-truncate">App_landing_001</h6>
                             <small class="text-muted"
                               >06 March 2021 / 5MB</small
                             >
                           </div>
                         </div>
-                        <div class="file-box position-relative">
-                          <a
-                            href="#"
-                            class="download-icon-link position-absolute"
-                          >
+                        <div class="file-box">
+                          <a href="#" class="download-icon-link">
                             <i class="las la-download file-download-icon"></i>
                           </a>
                           <div class="text-center">
-                            <i class="lar la-file-alt text-primary pb-2"></i>
+                            <i class="lar la-file-alt text-primary"></i>
                             <h6 class="text-truncate">Admin_Panel</h6>
                             <small class="text-muted"
                               >06 March 2021 / 5MB</small
                             >
                           </div>
                         </div>
-                        <div class="file-box position-relative">
-                          <a
-                            href="#"
-                            class="download-icon-link position-absolute"
-                          >
+                        <div class="file-box">
+                          <a href="#" class="download-icon-link">
                             <i class="las la-download file-download-icon"></i>
                           </a>
                           <div class="text-center">
-                            <i class="lar la-file-code text-danger pb-2"></i>
+                            <i class="lar la-file-code text-danger"></i>
                             <h6 class="text-truncate">Ecommerce.pdf</h6>
                             <small class="text-muted"
                               >15 March 2021 / 8MB</small
                             >
                           </div>
                         </div>
-                        <div class="file-box position-relative">
-                          <a
-                            href="#"
-                            class="download-icon-link position-absolute"
-                          >
+                        <div class="file-box">
+                          <a href="#" class="download-icon-link">
                             <i class="las la-download file-download-icon"></i>
                           </a>
                           <div class="text-center">
-                            <i class="lar la-file-code text-warning pb-2"></i>
+                            <i class="lar la-file-code text-warning"></i>
                             <h6 class="text-truncate">Payment_app.zip</h6>
                             <small class="text-muted"
                               >15 March 2021 / 8MB</small
                             >
                           </div>
                         </div>
-                        <div class="file-box position-relative">
-                          <a
-                            href="#"
-                            class="download-icon-link position-absolute"
-                          >
+                        <div class="file-box">
+                          <a href="#" class="download-icon-link">
                             <i class="las la-download file-download-icon"></i>
                           </a>
                           <div class="text-center">
-                            <i class="lar la-file text-secondary pb-2"></i>
+                            <i class="lar la-file text-secondary"></i>
                             <h6 class="text-truncate">App_landing_001</h6>
                             <small class="text-muted"
                               >06 March 2021 / 5MB</small
-                            >
-                          </div>
-                        </div>
-                        <div
-                          class="file-box add-document-btn pointer position-relative"
-                        >
-                          <input
-                            id="fileSelect"
-                            type="file"
-                            name="img[]"
-                            accept=".xlsx"
-                            class="input"
-                          />
-                          <div class="text-center">
-                            <i class="lar la-file-alt text-primary pb-2"></i>
-                            <h6 class="text-truncate">Add Documents</h6>
-                            <small class="text-muted">
-                              (jpg, png, pdf ) 10MB</small
                             >
                           </div>
                         </div>
@@ -2176,52 +2232,27 @@
                         </div>
                       </div>
                       <div class="file-box-content">
-                        <div class="file-box position-relative">
-                          <a
-                            href="#"
-                            class="download-icon-link position-absolute"
-                          >
+                        <div class="file-box">
+                          <a href="#" class="download-icon-link">
                             <i class="las la-download file-download-icon"></i>
                           </a>
                           <div class="text-center">
-                            <i class="lar la-file-alt text-primary pb-2"></i>
+                            <i class="lar la-file-alt text-primary"></i>
                             <h6 class="text-truncate">Admin_Panel</h6>
                             <small class="text-muted"
                               >06 March 2021 / 5MB</small
                             >
                           </div>
                         </div>
-                        <div class="file-box position-relative">
-                          <a
-                            href="#"
-                            class="download-icon-link position-absolute"
-                          >
+                        <div class="file-box">
+                          <a href="#" class="download-icon-link">
                             <i class="las la-download file-download-icon"></i>
                           </a>
                           <div class="text-center">
-                            <i class="lar la-file-code text-info pb-2"></i>
+                            <i class="lar la-file-code text-info"></i>
                             <h6 class="text-truncate">Ecommerce.pdf</h6>
                             <small class="text-muted"
                               >15 March 2021 / 8MB</small
-                            >
-                          </div>
-                        </div>
-
-                        <div
-                          class="file-box add-document-btn pointer position-relative"
-                        >
-                          <input
-                            id="fileSelect"
-                            type="file"
-                            name="img[]"
-                            accept=".xlsx"
-                            class="input"
-                          />
-                          <div class="text-center">
-                            <i class="lar la-file-alt text-primary pb-2"></i>
-                            <h6 class="text-truncate">Add Documents</h6>
-                            <small class="text-muted">
-                              (jpg, png, pdf ) 10MB</small
                             >
                           </div>
                         </div>
@@ -2230,7 +2261,12 @@
                     <!--end col-->
                   </div>
                 </div>
-                <div class="tab-pane p-3" id="profile" role="tabpanel">
+                <div
+                  class="p-3"
+                  id="profile"
+                  role=""
+                  *ngIf="activeProfileTabFlag"
+                >
                   <div class="row mb-3">
                     <div class="col-md-12">
                       <div class="onboarding-deta mb-3">
@@ -2395,9 +2431,7 @@
                         </table>
                         <tr>
                           <td colspan="12">
-                            <p class="mb-0 subheading pt-2 pb-2">
-                              Current Address :
-                            </p>
+                            <p class="mb-0 subheading">Current Address :</p>
                           </td>
                         </tr>
                         <ng-container
@@ -2471,9 +2505,7 @@
                         </ng-template>
                         <tr>
                           <td colspan="12">
-                            <p class="mb-0 subheading pb-2">
-                              Permanent Address :
-                            </p>
+                            <p class="mb-0 subheading">Permanent Address :</p>
                           </td>
                         </tr>
                         <ng-container
