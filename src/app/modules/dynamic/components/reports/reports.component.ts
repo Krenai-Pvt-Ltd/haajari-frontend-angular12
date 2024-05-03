@@ -10,102 +10,128 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.css']
+  styleUrls: ['./reports.component.css'],
 })
 export class ReportsComponent implements OnInit {
-
-
-  userUuid:string='';
+  userUuid: string = '';
   isModalVisible: boolean = false;
   isLoading: boolean = false;
   startDate: Date | null = null;
   endDate: Date | null = null;
-  organizationOnboardingDate:Date=new Date('YYYY-MM-dd');
+  organizationOnboardingDate: Date = new Date('YYYY-MM-dd');
 
-  constructor(private dataService: DataService, private helperService: HelperService,  private datePipe: DatePipe, private rbacService: RoleBasedAccessControlService) { }
+  constructor(
+    private dataService: DataService,
+    private helperService: HelperService,
+    private datePipe: DatePipe,
+    private rbacService: RoleBasedAccessControlService
+  ) {}
 
   async ngOnInit(): Promise<void> {
+    window.scroll(0, 0);
     this.getFullReportLogs();
     this.userUuid = await this.rbacService.getUUID();
     this.getOrganizationOnboardingDateByUuid();
   }
 
+  @ViewChild('dateRangeModalClose') dateRangeModalClose!: ElementRef;
 
-  @ViewChild("dateRangeModalClose") dateRangeModalClose!:ElementRef;
-  
   closeModal(): void {
     // this.isModalVisible = true;
     this.dateRangeModalClose.nativeElement.click();
   }
-  
 
   getOrganizationOnboardingDateByUuid() {
-    debugger
+    debugger;
     this.dataService.getOrganizationOnboardingDate(this.userUuid).subscribe(
       (data) => {
         this.organizationOnboardingDate = new Date(data);
-        console.log("getOrganizationOnboardingDateByUuid", this.getOrganizationOnboardingDateByUuid);
+        console.log(
+          'getOrganizationOnboardingDateByUuid',
+          this.getOrganizationOnboardingDateByUuid
+        );
       },
-      (error) => {
-      }
+      (error) => {}
     );
   }
 
-  selectedMonth:any;
+  selectedMonth: any;
 
-  // organizationOnboardingDate: Date = new Date('2023-11-01'); 
+  // organizationOnboardingDate: Date = new Date('2023-11-01');
 
   disableBeforeOnboarding = (current: Date): boolean => {
-    const onboardingMonth = new Date(this.organizationOnboardingDate.getFullYear(), this.organizationOnboardingDate.getMonth(), 1);
+    const onboardingMonth = new Date(
+      this.organizationOnboardingDate.getFullYear(),
+      this.organizationOnboardingDate.getMonth(),
+      1
+    );
     const currentMonth = new Date(current.getFullYear(), current.getMonth(), 1);
     const now = new Date();
-    const currentEndOfMonth = new Date(current.getFullYear(), current.getMonth() + 1, 0);
-    return currentMonth < onboardingMonth || currentEndOfMonth > new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    const currentEndOfMonth = new Date(
+      current.getFullYear(),
+      current.getMonth() + 1,
+      0
+    );
+    return (
+      currentMonth < onboardingMonth ||
+      currentEndOfMonth > new Date(now.getFullYear(), now.getMonth() + 1, 0)
+    );
   };
 
   disableBeforeOnboardingForSalary = (current: Date): boolean => {
-    
     const onboardingYear = this.organizationOnboardingDate.getFullYear();
     const onboardingMonth = this.organizationOnboardingDate.getMonth();
-  
+
     const currentYear = current.getFullYear();
     const currentMonth = current.getMonth();
-  
+
     const now = new Date();
     const nowYear = now.getFullYear();
     const nowMonth = now.getMonth();
-  
-    return currentYear < onboardingYear || 
-           (currentYear === onboardingYear && currentMonth < onboardingMonth) ||
-           currentYear > nowYear || 
-           (currentYear === nowYear && currentMonth >= nowMonth);
+
+    return (
+      currentYear < onboardingYear ||
+      (currentYear === onboardingYear && currentMonth < onboardingMonth) ||
+      currentYear > nowYear ||
+      (currentYear === nowYear && currentMonth >= nowMonth)
+    );
   };
 
   handleOkOfAttendanceSummary(): void {
     if (this.selectedMonth) {
-      const startOfMonth = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth(), 1);
-      const endOfMonth = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth() + 1, 0); // Sets day as the last day of the month
-  
+      const startOfMonth = new Date(
+        this.selectedMonth.getFullYear(),
+        this.selectedMonth.getMonth(),
+        1
+      );
+      const endOfMonth = new Date(
+        this.selectedMonth.getFullYear(),
+        this.selectedMonth.getMonth() + 1,
+        0
+      ); // Sets day as the last day of the month
+
       this.startDate = startOfMonth;
       this.endDate = endOfMonth;
-  
+
       console.log('Start Date:', this.startDate);
       console.log('End Date:', this.endDate);
 
       this.isModalVisible = false;
-    if (this.startDate && this.endDate) {
-      this.isLoading = true;
-      this.helperService.showToast("Please Wait! We're loading your Attendance Records.", Key.TOAST_STATUS_SUCCESS);
-      let formattedStartDate = this.formatDate(this.startDate);
-      let formattedEndDate = this.formatDate(this.endDate);
-      this.generateAttendanceSummary(formattedStartDate, formattedEndDate);
-     
-      this.closeModal();
-    }
-    this.selectedMonth="";
+      if (this.startDate && this.endDate) {
+        this.isLoading = true;
+        this.helperService.showToast(
+          "Please Wait! We're loading your Attendance Records.",
+          Key.TOAST_STATUS_SUCCESS
+        );
+        let formattedStartDate = this.formatDate(this.startDate);
+        let formattedEndDate = this.formatDate(this.endDate);
+        this.generateAttendanceSummary(formattedStartDate, formattedEndDate);
+
+        this.closeModal();
+      }
+      this.selectedMonth = '';
     }
   }
-  
 
   // handleOk(): void {
   //   this.isModalVisible = false;
@@ -129,13 +155,15 @@ export class ReportsComponent implements OnInit {
         console.log('Report Generation Successful', response);
         this.isLoading = false;
         this.getFullReportLogs();
-        this.helperService.showToast("Attendance Records Fetched Successfully!", Key.TOAST_STATUS_SUCCESS);
-
+        this.helperService.showToast(
+          'Attendance Records Fetched Successfully!',
+          Key.TOAST_STATUS_SUCCESS
+        );
       },
       error: (error) => {
         console.error('Error generating report', error);
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -145,23 +173,21 @@ export class ReportsComponent implements OnInit {
     }
     // Create a new Date object to avoid mutating the original date
     let adjustedDate = new Date(date);
-    
+
     // Adjust the date to the start of the day in the local timezone
     adjustedDate.setHours(0, 0, 0, 0);
-    
+
     // Calculate the timezone offset in minutes and adjust the date accordingly
     const offset = adjustedDate.getTimezoneOffset();
     adjustedDate = new Date(adjustedDate.getTime() - offset * 60 * 1000);
-  
+
     // Format the adjusted date to 'yyyy-MM-dd'
     return this.datePipe.transform(adjustedDate, 'yyyy-MM-dd', 'UTC') || '';
   }
-  
 
   // private formatDate(date: Date): string {
   //   return this.datePipe.transform(date, 'yyyy-MM-dd', 'UTC') ?? '';
   // }
-  
 
   // private formatDate(date: Date): string {
   //   return date.toISOString().split('T')[0];
@@ -194,17 +220,21 @@ export class ReportsComponent implements OnInit {
     this.dataService.getAllReportLogs().subscribe({
       next: (response) => {
         this.groupedLogs = response;
-        this.isAttendanceLogsPlaceholder = Object.keys(this.groupedLogs).length === 0;
+        this.isAttendanceLogsPlaceholder =
+          Object.keys(this.groupedLogs).length === 0;
       },
       error: (error) => {
         console.error('Error generating report', error);
         this.isAttendanceLogsPlaceholder = true;
-      }
+      },
     });
   }
-  sortDatesDescending = (a: { key: string | number | Date; }, b: { key: string | number | Date; }) => {
+  sortDatesDescending = (
+    a: { key: string | number | Date },
+    b: { key: string | number | Date }
+  ) => {
     return +new Date(b.key) - +new Date(a.key);
-  }
+  };
 
   // groupLogsByDate(logs: AttendanceReportLogs[]): void {
   //   logs.forEach(log => {
@@ -219,8 +249,6 @@ export class ReportsComponent implements OnInit {
   // keepOriginalOrder = (a: KeyValue<string, AttendanceReportLogs[]>, b: KeyValue<string, AttendanceReportLogs[]>): number => {
   //   return 0;
   // }
-  
-
 
   formatDate2(date: Date) {
     const dateObject = new Date(date);
@@ -234,36 +262,47 @@ export class ReportsComponent implements OnInit {
     return formattedTime;
   }
 
-  formatDateIn(newdate:any) {
+  formatDateIn(newdate: any) {
     const date = new Date(newdate);
     const formattedDate = this.datePipe.transform(date, 'dd MMMM, yyyy');
     return formattedDate;
   }
 
-  isLoading2:boolean=false;
+  isLoading2: boolean = false;
 
   handleOkOfAttendanceReport(): void {
     if (this.selectedMonth) {
-      const startOfMonth = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth(), 1);
-      const endOfMonth = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth() + 1, 0); // Sets day as the last day of the month
-  
+      const startOfMonth = new Date(
+        this.selectedMonth.getFullYear(),
+        this.selectedMonth.getMonth(),
+        1
+      );
+      const endOfMonth = new Date(
+        this.selectedMonth.getFullYear(),
+        this.selectedMonth.getMonth() + 1,
+        0
+      ); // Sets day as the last day of the month
+
       this.startDate = startOfMonth;
       this.endDate = endOfMonth;
-  
+
       console.log('Start Date:', this.startDate);
       console.log('End Date:', this.endDate);
 
       // this.isModalVisible = false;
-    if (this.startDate && this.endDate) {
-      this.isLoading2 = true;
-      this.helperService.showToast("Please Wait! We're loading your Attendance Records.", Key.TOAST_STATUS_SUCCESS);
-      let formattedStartDate = this.formatDate(this.startDate);
-      let formattedEndDate = this.formatDate(this.endDate);
-      this.generateAttendanceReport(formattedStartDate, formattedEndDate);
-     
-      this.closeModal2();
-    }
-    this.selectedMonth="";
+      if (this.startDate && this.endDate) {
+        this.isLoading2 = true;
+        this.helperService.showToast(
+          "Please Wait! We're loading your Attendance Records.",
+          Key.TOAST_STATUS_SUCCESS
+        );
+        let formattedStartDate = this.formatDate(this.startDate);
+        let formattedEndDate = this.formatDate(this.endDate);
+        this.generateAttendanceReport(formattedStartDate, formattedEndDate);
+
+        this.closeModal2();
+      }
+      this.selectedMonth = '';
     }
   }
 
@@ -273,47 +312,59 @@ export class ReportsComponent implements OnInit {
         console.log('Report Generation Successful', response);
         this.isLoading2 = false;
         this.getFullReportLogs();
-        this.helperService.showToast("Attendance Records Fetched Successfully!", Key.TOAST_STATUS_SUCCESS);
-
+        this.helperService.showToast(
+          'Attendance Records Fetched Successfully!',
+          Key.TOAST_STATUS_SUCCESS
+        );
       },
       error: (error) => {
         console.error('Error generating report', error);
         this.isLoading2 = false;
-      }
+      },
     });
   }
 
-  @ViewChild("closeDateRangeModal2") closeDateRangeModal2!:ElementRef;
-  
+  @ViewChild('closeDateRangeModal2') closeDateRangeModal2!: ElementRef;
+
   closeModal2(): void {
     this.closeDateRangeModal2.nativeElement.click();
   }
 
-
-  isLoading3:boolean=false;
+  isLoading3: boolean = false;
 
   handleOkOfSalaryReport(): void {
     if (this.selectedMonth) {
-      const startOfMonth = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth(), 1);
-      const endOfMonth = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth() + 1, 0); 
-  
+      const startOfMonth = new Date(
+        this.selectedMonth.getFullYear(),
+        this.selectedMonth.getMonth(),
+        1
+      );
+      const endOfMonth = new Date(
+        this.selectedMonth.getFullYear(),
+        this.selectedMonth.getMonth() + 1,
+        0
+      );
+
       this.startDate = startOfMonth;
       this.endDate = endOfMonth;
-  
+
       console.log('Start Date:', this.startDate);
       console.log('End Date:', this.endDate);
 
       // this.isModalVisible = false;
-    if (this.startDate && this.endDate) {
-      this.isLoading3 = true;
-      this.helperService.showToast("Please wait, salary report is getting downloded...", Key.TOAST_STATUS_SUCCESS);
-      let formattedStartDate = this.formatDate(this.startDate);
-      let formattedEndDate = this.formatDate(this.endDate);
-      this.generateSalaryReport(formattedStartDate, formattedEndDate);
-     
-      this.closeModal3();
-    }
-    this.selectedMonth="";
+      if (this.startDate && this.endDate) {
+        this.isLoading3 = true;
+        this.helperService.showToast(
+          'Please wait, salary report is getting downloded...',
+          Key.TOAST_STATUS_SUCCESS
+        );
+        let formattedStartDate = this.formatDate(this.startDate);
+        let formattedEndDate = this.formatDate(this.endDate);
+        this.generateSalaryReport(formattedStartDate, formattedEndDate);
+
+        this.closeModal3();
+      }
+      this.selectedMonth = '';
     }
   }
 
@@ -323,18 +374,20 @@ export class ReportsComponent implements OnInit {
         console.log('Report Generation Successful', response);
         this.isLoading3 = false;
         this.getFullReportLogs();
-        this.helperService.showToast("Salary Records Fetched Successfully!", Key.TOAST_STATUS_SUCCESS);
-
+        this.helperService.showToast(
+          'Salary Records Fetched Successfully!',
+          Key.TOAST_STATUS_SUCCESS
+        );
       },
       error: (error) => {
         console.error('Error generating report', error);
         this.isLoading3 = false;
-      }
+      },
     });
   }
 
-  @ViewChild("closeDateRangeModal3") closeDateRangeModal3!:ElementRef;
-  
+  @ViewChild('closeDateRangeModal3') closeDateRangeModal3!: ElementRef;
+
   closeModal3(): void {
     this.closeDateRangeModal3.nativeElement.click();
   }

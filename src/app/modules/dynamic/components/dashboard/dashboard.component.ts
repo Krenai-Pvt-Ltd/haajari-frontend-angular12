@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private datePipe: DatePipe,
     private helperService: HelperService,
-    private rbacService: RoleBasedAccessControlService,
+    private rbacService: RoleBasedAccessControlService
   ) {
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
@@ -108,10 +108,10 @@ export class DashboardComponent implements OnInit {
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
     this.startDate = this.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
     );
     this.endDate = this.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0)
     );
   }
 
@@ -121,10 +121,10 @@ export class DashboardComponent implements OnInit {
     const dateYear = date.getFullYear();
     const dateMonth = date.getMonth();
     const organizationRegistrationYear = new Date(
-      this.organizationRegistrationDate,
+      this.organizationRegistrationDate
     ).getFullYear();
     const organizationRegistrationMonth = new Date(
-      this.organizationRegistrationDate,
+      this.organizationRegistrationDate
     ).getMonth();
 
     // Disable if the month is before the organization registration month
@@ -157,11 +157,12 @@ export class DashboardComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
   ngOnInit(): void {
+    window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
     // this.checkAccessToken();
 
@@ -259,7 +260,7 @@ export class DashboardComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -284,7 +285,7 @@ export class DashboardComponent implements OnInit {
           this.pageNumber,
           this.itemPerPage,
           this.searchText,
-          this.searchBy,
+          this.searchBy
         )
         .subscribe(
           (response: any) => {
@@ -299,7 +300,7 @@ export class DashboardComponent implements OnInit {
               // Processing the response
               this.myAttendanceData = response.mapOfObject;
               this.myAttendanceDataLength = Object.keys(
-                this.myAttendanceData,
+                this.myAttendanceData
               ).length;
 
               if (this.myAttendanceDataLength === 0) {
@@ -323,7 +324,7 @@ export class DashboardComponent implements OnInit {
             this.networkConnectionErrorPlaceHolderForAttendanceData = true;
             console.error('Error fetching data:', error);
             resolve(true);
-          },
+          }
         );
     });
   }
@@ -423,7 +424,7 @@ export class DashboardComponent implements OnInit {
   }
   dateInMonthList(attendances: AttendenceDto[]): string[] {
     const uniqueDays = Array.from(
-      new Set(attendances.map((a) => a.createdDate)),
+      new Set(attendances.map((a) => a.createdDate))
     );
     return uniqueDays;
   }
@@ -512,7 +513,7 @@ export class DashboardComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
     console.log(this.flag);
 
@@ -527,7 +528,7 @@ export class DashboardComponent implements OnInit {
           .filter((part) => !isNaN(Number(part)));
         const durationInSeconds = durationParts.reduce(
           (acc, part) => acc + Number(part),
-          0,
+          0
         );
         return totalDuration + durationInSeconds;
       }
@@ -577,7 +578,7 @@ export class DashboardComponent implements OnInit {
           // console.error(error);
           this.isShimer = false;
           this.networkConnectionErrorPlaceHolderForBestPerformer = true;
-        },
+        }
       );
   }
 
@@ -600,7 +601,7 @@ export class DashboardComponent implements OnInit {
           this.isLateShimmer = false;
           this.errorToggleLate = true;
           console.error(error);
-        },
+        }
       );
   }
 
@@ -629,7 +630,7 @@ export class DashboardComponent implements OnInit {
         (error) => {
           console.log(error);
           this.networkConnectionErrorPlaceHolderForBestPerformer = true;
-        },
+        }
       );
   }
 
@@ -668,7 +669,7 @@ export class DashboardComponent implements OnInit {
           console.log(error);
           this.networkConnectionErrorPlaceHolder = true;
           this.lateEmployeeDataLoaderButton = false;
-        },
+        }
       );
   }
 
@@ -703,7 +704,7 @@ export class DashboardComponent implements OnInit {
             this.pageNumber,
             this.itemPerPage,
             this.searchText,
-            this.searchBy,
+            this.searchBy
           )
           .toPromise()
           .then((response) => {
@@ -756,7 +757,7 @@ export class DashboardComponent implements OnInit {
         (error) => {
           console.log(error);
           this.downloadingFlag = false;
-        },
+        }
       );
   }
 
@@ -778,7 +779,7 @@ export class DashboardComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 }
