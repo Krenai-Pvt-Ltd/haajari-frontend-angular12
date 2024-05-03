@@ -1,274 +1,634 @@
 <div class="page-wrapper">
-    <!-- Page Content-->
-    <div class="page-content-tab">
-      <div class="container-fluid">
-
-        <div class="row mb-3 mt-3 align-items-center search-area" style="padding-bottom: 15px">
-          <div class="col-md-5">
-            <form role="search" class="searching ng-untouched ng-pristine ng-valid">
-              <div class="form-group" style="width: 300px; position: relative">
-                <input type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search" style="padding: 10px 30px" />
+  <!-- Page Content-->
+  <div class="page-content-tab">
+    <div class="container-fluid">
+      <div
+        class="row mb-1 mt-3 align-items-center"
+        style="padding-bottom: 15px"
+      >
+        <div class="col-md-12">
+          <div
+            class="d-flex align-items-center"
+            style="border: 1px solid #f1f1f1"
+          >
+            <div style="width: 20%; position: relative">
+              <div class="dropdown" style="width: 100%">
+                <button
+                  type="button"
+                  id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  class="btn btn-secondary dropdown-toggle new-deopdown"
+                >
+                  Select Search
+                  <i
+                    class="bi bi-chevron-down"
+                    style="color: #444; font-size: 15px"
+                  ></i>
+                </button>
+                <ul
+                  aria-labelledby="dropdownMenuButton1"
+                  class="dropdown-menu"
+                  style="width: 100%"
+                >
+                  <li><a class="dropdown-item">Reset All</a></li>
+                  <li><a class="dropdown-item">Approved</a></li>
+                  <li><a class="dropdown-item">Pending</a></li>
+                  <li><a class="dropdown-item">Rejected</a></li>
+                </ul>
               </div>
-            </form>
-          </div>
-          <div class="col-md-7">
-            <div class="d-flex justify-content-end align-items-center" style="gap: 10px">
-              <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
-                <a data-bs-toggle="modal" data-bs-target="#createteam" type="button">
-                  <i class="bi bi-plus-circle"></i> Create Team </a>
+            </div>
+            <div style="width: 20%; position: relative">
+              <div class="dropdown" style="width: 100%">
+                <button
+                  type="button"
+                  id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  class="btn btn-secondary dropdown-toggle new-deopdown"
+                >
+                  Select Search
+                  <i
+                    class="bi bi-chevron-down"
+                    style="color: #444; font-size: 15px"
+                  ></i>
+                </button>
+                <ul
+                  aria-labelledby="dropdownMenuButton1"
+                  class="dropdown-menu"
+                  style="width: 100%"
+                >
+                  <li><a class="dropdown-item">Reset All</a></li>
+                  <li><a class="dropdown-item">Approved</a></li>
+                  <li><a class="dropdown-item">Pending</a></li>
+                  <li><a class="dropdown-item">Rejected</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="" style="width: 60%">
+              <form
+                role="search"
+                class="searching ng-untouched ng-pristine ng-valid"
+              >
+                <div class="form-group" style="position: relative">
+                  <input
+                    type="text"
+                    id="searchText"
+                    placeholder="Search"
+                    class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                    style="padding: 10px 30px"
+                  />
+                </div>
+              </form>
+            </div>
+
+            <div class="" style="width: 20%">
+              <div
+                class="d-flex justify-content-end align-items-center"
+                style="gap: 10px"
+              >
+                <div
+                  class="add-filtter d-flex align-items-center justify-content-end"
+                  style="gap: 10px"
+                >
+                  <a
+                    data-bs-toggle="modal"
+                    data-bs-target="#createteam"
+                    type="button"
+                  >
+                    <i class="bi bi-plus" style="font-size: 18px"></i> Create
+                    Team
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="table-responsive">
-            <table class="table border-dashed mb-0">
-                <thead>
-                <tr>
-                    <th>EMPLOYEE</th>
-                    <th class="text-end">AMOUNT</th>
-                    <th class="text-end">MONTH/YEAR</th>
-                    <th class="text-end">TYPE</th>
-                    <th class="text-end">BOUNS/DEDUCTION</th>
-                    <th class="text-end">STATUS</th>
-                    <th class="text-end">ACTION BY</th>
-                    <th class="text-end">ACTIONS</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td><img src="assets/images/users/user-3.jpg" alt="" class="rounded-circle thumb-xs me-1"> Pushpendra</td>
-                    <td class="text-end">₹7,83,7583/-</td>
-                    <td class="text-end">JAN - 2024</td>
-                    <td class="text-end">Performance</td>
-                    <td class="text-end"><span class="badge rounded-pill badge-soft-success">Bonus</span></td>
-                    <td><span class="badge rounded-pill badge-soft-success">Approved</span></td>
-                    <td><small>Pushpendra  - Jan 15, 2022 04:23 PM</small></td>
-                    <td class="text-end">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top">
-                              <i class="ti ti-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top">
-                              <i class="far fa-trash-alt"></i>
-                            </button>
-                          </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="assets/images/users/user-3.jpg" alt="" class="rounded-circle thumb-xs me-1"> Pushpendra</td>
-                    <td class="text-end">₹7,83,7583/-</td>
-                    <td class="text-end">JAN - 2024</td>
-                    <td class="text-end">Performance</td>
-                    <td class="text-end"><span class="badge rounded-pill badge-soft-success">Bonus</span></td>
-                    <td><span class="badge rounded-pill badge-soft-success">Approved</span></td>
-                    <td><small>Pushpendra  - Jan 15, 2022 04:23 PM</small></td>
-                    <td class="text-end">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top">
-                              <i class="ti ti-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top">
-                              <i class="far fa-trash-alt"></i>
-                            </button>
-                          </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="assets/images/users/user-3.jpg" alt="" class="rounded-circle thumb-xs me-1"> Pushpendra</td>
-                    <td class="text-end">₹7,83,7583/-</td>
-                    <td class="text-end">JAN - 2024</td>
-                    <td class="text-end">Performance</td>
-                    <td class="text-end"><span class="badge rounded-pill badge-soft-success">Bonus</span></td>
-                    <td><span class="badge rounded-pill badge-soft-success">Approved</span></td>
-                    <td><small>Pushpendra  - Jan 15, 2022 04:23 PM</small></td>
-                    <td class="text-end">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top">
-                              <i class="ti ti-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top">
-                              <i class="far fa-trash-alt"></i>
-                            </button>
-                          </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="assets/images/users/user-3.jpg" alt="" class="rounded-circle thumb-xs me-1"> Pushpendra</td>
-                    <td class="text-end">₹7,83,7583/-</td>
-                    <td class="text-end">JAN - 2024</td>
-                    <td class="text-end">Performance</td>
-                    <td class="text-end"><span class="badge rounded-pill badge-soft-success">Bonus</span></td>
-                    <td><span class="badge rounded-pill badge-soft-success">Approved</span></td>
-                    <td><small>Pushpendra  - Jan 15, 2022 04:23 PM</small></td>
-                    <td class="text-end">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top">
-                              <i class="ti ti-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top">
-                              <i class="far fa-trash-alt"></i>
-                            </button>
-                          </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="assets/images/users/user-3.jpg" alt="" class="rounded-circle thumb-xs me-1"> Pushpendra</td>
-                    <td class="text-end">₹7,83,7583/-</td>
-                    <td class="text-end">JAN - 2024</td>
-                    <td class="text-end">Performance</td>
-                    <td class="text-end"><span class="badge rounded-pill badge-soft-success">Bonus</span></td>
-                    <td><span class="badge rounded-pill badge-soft-success">Approved</span></td>
-                    <td><small>Pushpendra  - Jan 15, 2022 04:23 PM</small></td>
-                    <td class="text-end">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top">
-                              <i class="ti ti-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top">
-                              <i class="far fa-trash-alt"></i>
-                            </button>
-                          </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="assets/images/users/user-3.jpg" alt="" class="rounded-circle thumb-xs me-1"> Pushpendra</td>
-                    <td class="text-end">₹7,83,7583/-</td>
-                    <td class="text-end">JAN - 2024</td>
-                    <td class="text-end">Performance</td>
-                    <td class="text-end"><span class="badge rounded-pill badge-soft-success">Bonus</span></td>
-                    <td><span class="badge rounded-pill badge-soft-success">Approved</span></td>
-                    <td><small>Pushpendra  - Jan 15, 2022 04:23 PM</small></td>
-                    <td class="text-end">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top">
-                              <i class="ti ti-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top">
-                              <i class="far fa-trash-alt"></i>
-                            </button>
-                          </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="assets/images/users/user-3.jpg" alt="" class="rounded-circle thumb-xs me-1"> Pushpendra</td>
-                    <td class="text-end">₹7,83,7583/-</td>
-                    <td class="text-end">JAN - 2024</td>
-                    <td class="text-end">Performance</td>
-                    <td class="text-end"><span class="badge rounded-pill badge-soft-success">Bonus</span></td>
-                    <td><span class="badge rounded-pill badge-soft-success">Approved</span></td>
-                    <td><small>Pushpendra  - Jan 15, 2022 04:23 PM</small></td>
-                    <td class="text-end">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top">
-                              <i class="ti ti-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top">
-                              <i class="far fa-trash-alt"></i>
-                            </button>
-                          </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="assets/images/users/user-3.jpg" alt="" class="rounded-circle thumb-xs me-1"> Pushpendra</td>
-                    <td class="text-end">₹7,83,7583/-</td>
-                    <td class="text-end">JAN - 2024</td>
-                    <td class="text-end">Performance</td>
-                    <td class="text-end"><span class="badge rounded-pill badge-soft-success">Bonus</span></td>
-                    <td><span class="badge rounded-pill badge-soft-success">Approved</span></td>
-                    <td><small>Pushpendra  - Jan 15, 2022 04:23 PM</small></td>
-                    <td class="text-end">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top">
-                              <i class="ti ti-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top">
-                              <i class="far fa-trash-alt"></i>
-                            </button>
-                          </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="assets/images/users/user-3.jpg" alt="" class="rounded-circle thumb-xs me-1"> Pushpendra</td>
-                    <td class="text-end">₹7,83,7583/-</td>
-                    <td class="text-end">JAN - 2024</td>
-                    <td class="text-end">Performance</td>
-                    <td class="text-end"><span class="badge rounded-pill badge-soft-success">Bonus</span></td>
-                    <td><span class="badge rounded-pill badge-soft-success">Approved</span></td>
-                    <td><small>Pushpendra  - Jan 15, 2022 04:23 PM</small></td>
-                    <td class="text-end">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top">
-                              <i class="ti ti-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top">
-                              <i class="far fa-trash-alt"></i>
-                            </button>
-                          </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="assets/images/users/user-3.jpg" alt="" class="rounded-circle thumb-xs me-1"> Pushpendra</td>
-                    <td class="text-end">₹7,83,7583/-</td>
-                    <td class="text-end">JAN - 2024</td>
-                    <td class="text-end">Performance</td>
-                    <td class="text-end"><span class="badge rounded-pill badge-soft-success">Bonus</span></td>
-                    <td><span class="badge rounded-pill badge-soft-success">Approved</span></td>
-                    <td><small>Pushpendra  - Jan 15, 2022 04:23 PM</small></td>
-                    <td class="text-end">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top">
-                              <i class="ti ti-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top">
-                              <i class="far fa-trash-alt"></i>
-                            </button>
-                          </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="assets/images/users/user-3.jpg" alt="" class="rounded-circle thumb-xs me-1"> Pushpendra</td>
-                    <td class="text-end">₹7,83,7583/-</td>
-                    <td class="text-end">JAN - 2024</td>
-                    <td class="text-end">Performance</td>
-                    <td class="text-end"><span class="badge rounded-pill badge-soft-success">Bonus</span></td>
-                    <td><span class="badge rounded-pill badge-soft-success">Approved</span></td>
-                    <td><small>Pushpendra  - Jan 15, 2022 04:23 PM</small></td>
-                    <td class="text-end">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top">
-                              <i class="ti ti-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top">
-                              <i class="far fa-trash-alt"></i>
-                            </button>
-                          </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="assets/images/users/user-3.jpg" alt="" class="rounded-circle thumb-xs me-1"> Pushpendra</td>
-                    <td class="text-end">₹7,83,7583/-</td>
-                    <td class="text-end">JAN - 2024</td>
-                    <td class="text-end">Performance</td>
-                    <td class="text-end"><span class="badge rounded-pill badge-soft-success">Bonus</span></td>
-                    <td><span class="badge rounded-pill badge-soft-success">Approved</span></td>
-                    <td><small>Pushpendra  - Jan 15, 2022 04:23 PM</small></td>
-                    <td class="text-end">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-light" ngbTooltip="Edit" placement="top">
-                              <i class="ti ti-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-light" ngbTooltip="Delete" placement="top">
-                              <i class="far fa-trash-alt"></i>
-                            </button>
-                          </div>
-                    </td>
-                </tr>
-                
-                </tbody>
-            </table><!--end /table-->
-        </div>
-
+      <div class="table-responsive">
+        <table class="table border-dashed mb-0">
+          <thead>
+            <tr>
+              <th>EMPLOYEE</th>
+              <th class="text-end">AMOUNT</th>
+              <th class="text-end">MONTH/YEAR</th>
+              <th class="text-end">TYPE</th>
+              <th class="text-end">BOUNS/DEDUCTION</th>
+              <th class="text-end">STATUS</th>
+              <th class="text-end">ACTION BY</th>
+              <th class="text-end">ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <img
+                  src="assets/images/users/user-3.jpg"
+                  alt=""
+                  class="rounded-circle thumb-xs me-1"
+                />
+                Pushpendra
+              </td>
+              <td class="text-end">₹7,83,7583/-</td>
+              <td class="text-end">JAN - 2024</td>
+              <td class="text-end">Performance</td>
+              <td class="text-end">
+                <span class="badge rounded-pill badge-soft-success">Bonus</span>
+              </td>
+              <td>
+                <span class="badge rounded-pill badge-soft-success"
+                  >Approved</span
+                >
+              </td>
+              <td><small>Pushpendra - Jan 15, 2022 04:23 PM</small></td>
+              <td class="text-end">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Edit"
+                    placement="top"
+                  >
+                    <i class="ti ti-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Delete"
+                    placement="top"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img
+                  src="assets/images/users/user-3.jpg"
+                  alt=""
+                  class="rounded-circle thumb-xs me-1"
+                />
+                Pushpendra
+              </td>
+              <td class="text-end">₹7,83,7583/-</td>
+              <td class="text-end">JAN - 2024</td>
+              <td class="text-end">Performance</td>
+              <td class="text-end">
+                <span class="badge rounded-pill badge-soft-success">Bonus</span>
+              </td>
+              <td>
+                <span class="badge rounded-pill badge-soft-success"
+                  >Approved</span
+                >
+              </td>
+              <td><small>Pushpendra - Jan 15, 2022 04:23 PM</small></td>
+              <td class="text-end">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Edit"
+                    placement="top"
+                  >
+                    <i class="ti ti-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Delete"
+                    placement="top"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img
+                  src="assets/images/users/user-3.jpg"
+                  alt=""
+                  class="rounded-circle thumb-xs me-1"
+                />
+                Pushpendra
+              </td>
+              <td class="text-end">₹7,83,7583/-</td>
+              <td class="text-end">JAN - 2024</td>
+              <td class="text-end">Performance</td>
+              <td class="text-end">
+                <span class="badge rounded-pill badge-soft-success">Bonus</span>
+              </td>
+              <td>
+                <span class="badge rounded-pill badge-soft-success"
+                  >Approved</span
+                >
+              </td>
+              <td><small>Pushpendra - Jan 15, 2022 04:23 PM</small></td>
+              <td class="text-end">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Edit"
+                    placement="top"
+                  >
+                    <i class="ti ti-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Delete"
+                    placement="top"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img
+                  src="assets/images/users/user-3.jpg"
+                  alt=""
+                  class="rounded-circle thumb-xs me-1"
+                />
+                Pushpendra
+              </td>
+              <td class="text-end">₹7,83,7583/-</td>
+              <td class="text-end">JAN - 2024</td>
+              <td class="text-end">Performance</td>
+              <td class="text-end">
+                <span class="badge rounded-pill badge-soft-success">Bonus</span>
+              </td>
+              <td>
+                <span class="badge rounded-pill badge-soft-success"
+                  >Approved</span
+                >
+              </td>
+              <td><small>Pushpendra - Jan 15, 2022 04:23 PM</small></td>
+              <td class="text-end">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Edit"
+                    placement="top"
+                  >
+                    <i class="ti ti-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Delete"
+                    placement="top"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img
+                  src="assets/images/users/user-3.jpg"
+                  alt=""
+                  class="rounded-circle thumb-xs me-1"
+                />
+                Pushpendra
+              </td>
+              <td class="text-end">₹7,83,7583/-</td>
+              <td class="text-end">JAN - 2024</td>
+              <td class="text-end">Performance</td>
+              <td class="text-end">
+                <span class="badge rounded-pill badge-soft-success">Bonus</span>
+              </td>
+              <td>
+                <span class="badge rounded-pill badge-soft-success"
+                  >Approved</span
+                >
+              </td>
+              <td><small>Pushpendra - Jan 15, 2022 04:23 PM</small></td>
+              <td class="text-end">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Edit"
+                    placement="top"
+                  >
+                    <i class="ti ti-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Delete"
+                    placement="top"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img
+                  src="assets/images/users/user-3.jpg"
+                  alt=""
+                  class="rounded-circle thumb-xs me-1"
+                />
+                Pushpendra
+              </td>
+              <td class="text-end">₹7,83,7583/-</td>
+              <td class="text-end">JAN - 2024</td>
+              <td class="text-end">Performance</td>
+              <td class="text-end">
+                <span class="badge rounded-pill badge-soft-success">Bonus</span>
+              </td>
+              <td>
+                <span class="badge rounded-pill badge-soft-success"
+                  >Approved</span
+                >
+              </td>
+              <td><small>Pushpendra - Jan 15, 2022 04:23 PM</small></td>
+              <td class="text-end">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Edit"
+                    placement="top"
+                  >
+                    <i class="ti ti-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Delete"
+                    placement="top"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img
+                  src="assets/images/users/user-3.jpg"
+                  alt=""
+                  class="rounded-circle thumb-xs me-1"
+                />
+                Pushpendra
+              </td>
+              <td class="text-end">₹7,83,7583/-</td>
+              <td class="text-end">JAN - 2024</td>
+              <td class="text-end">Performance</td>
+              <td class="text-end">
+                <span class="badge rounded-pill badge-soft-success">Bonus</span>
+              </td>
+              <td>
+                <span class="badge rounded-pill badge-soft-success"
+                  >Approved</span
+                >
+              </td>
+              <td><small>Pushpendra - Jan 15, 2022 04:23 PM</small></td>
+              <td class="text-end">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Edit"
+                    placement="top"
+                  >
+                    <i class="ti ti-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Delete"
+                    placement="top"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img
+                  src="assets/images/users/user-3.jpg"
+                  alt=""
+                  class="rounded-circle thumb-xs me-1"
+                />
+                Pushpendra
+              </td>
+              <td class="text-end">₹7,83,7583/-</td>
+              <td class="text-end">JAN - 2024</td>
+              <td class="text-end">Performance</td>
+              <td class="text-end">
+                <span class="badge rounded-pill badge-soft-success">Bonus</span>
+              </td>
+              <td>
+                <span class="badge rounded-pill badge-soft-success"
+                  >Approved</span
+                >
+              </td>
+              <td><small>Pushpendra - Jan 15, 2022 04:23 PM</small></td>
+              <td class="text-end">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Edit"
+                    placement="top"
+                  >
+                    <i class="ti ti-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Delete"
+                    placement="top"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img
+                  src="assets/images/users/user-3.jpg"
+                  alt=""
+                  class="rounded-circle thumb-xs me-1"
+                />
+                Pushpendra
+              </td>
+              <td class="text-end">₹7,83,7583/-</td>
+              <td class="text-end">JAN - 2024</td>
+              <td class="text-end">Performance</td>
+              <td class="text-end">
+                <span class="badge rounded-pill badge-soft-success">Bonus</span>
+              </td>
+              <td>
+                <span class="badge rounded-pill badge-soft-success"
+                  >Approved</span
+                >
+              </td>
+              <td><small>Pushpendra - Jan 15, 2022 04:23 PM</small></td>
+              <td class="text-end">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Edit"
+                    placement="top"
+                  >
+                    <i class="ti ti-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Delete"
+                    placement="top"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img
+                  src="assets/images/users/user-3.jpg"
+                  alt=""
+                  class="rounded-circle thumb-xs me-1"
+                />
+                Pushpendra
+              </td>
+              <td class="text-end">₹7,83,7583/-</td>
+              <td class="text-end">JAN - 2024</td>
+              <td class="text-end">Performance</td>
+              <td class="text-end">
+                <span class="badge rounded-pill badge-soft-success">Bonus</span>
+              </td>
+              <td>
+                <span class="badge rounded-pill badge-soft-success"
+                  >Approved</span
+                >
+              </td>
+              <td><small>Pushpendra - Jan 15, 2022 04:23 PM</small></td>
+              <td class="text-end">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Edit"
+                    placement="top"
+                  >
+                    <i class="ti ti-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Delete"
+                    placement="top"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img
+                  src="assets/images/users/user-3.jpg"
+                  alt=""
+                  class="rounded-circle thumb-xs me-1"
+                />
+                Pushpendra
+              </td>
+              <td class="text-end">₹7,83,7583/-</td>
+              <td class="text-end">JAN - 2024</td>
+              <td class="text-end">Performance</td>
+              <td class="text-end">
+                <span class="badge rounded-pill badge-soft-success">Bonus</span>
+              </td>
+              <td>
+                <span class="badge rounded-pill badge-soft-success"
+                  >Approved</span
+                >
+              </td>
+              <td><small>Pushpendra - Jan 15, 2022 04:23 PM</small></td>
+              <td class="text-end">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Edit"
+                    placement="top"
+                  >
+                    <i class="ti ti-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Delete"
+                    placement="top"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img
+                  src="assets/images/users/user-3.jpg"
+                  alt=""
+                  class="rounded-circle thumb-xs me-1"
+                />
+                Pushpendra
+              </td>
+              <td class="text-end">₹7,83,7583/-</td>
+              <td class="text-end">JAN - 2024</td>
+              <td class="text-end">Performance</td>
+              <td class="text-end">
+                <span class="badge rounded-pill badge-soft-success">Bonus</span>
+              </td>
+              <td>
+                <span class="badge rounded-pill badge-soft-success"
+                  >Approved</span
+                >
+              </td>
+              <td><small>Pushpendra - Jan 15, 2022 04:23 PM</small></td>
+              <td class="text-end">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Edit"
+                    placement="top"
+                  >
+                    <i class="ti ti-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    ngbTooltip="Delete"
+                    placement="top"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!--end /table-->
       </div>
     </div>
   </div>
+</div>
