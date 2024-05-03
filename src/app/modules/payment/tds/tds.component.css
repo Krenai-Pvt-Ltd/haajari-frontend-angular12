@@ -1,35 +1,58 @@
-.searching{
-    display: flex;
-    justify-content: flex-start;
+.searching {
+  display: flex;
+  justify-content: flex-start;
 }
 
 .attendance-details-search {
-    display: block;
-    width: 100%;
-    padding: 0.4rem 1rem;
-    font-size: .875rem;
-    font-weight: 400;
-    height: 40px !important;
-    border: none;
-    background-color: transparent;
+  display: block;
+  width: 100%;
+  padding: 0.4rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  height: 40px !important;
+  border: none;
+  background-color: transparent;
 }
-.cusser{
-    cursor: pointer;
+.cusser {
+  cursor: pointer;
 }
 .search-icon {
-    font-size: 12px;
-    position: absolute;
-    top: 0;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    color: var(--tb-secondary-color);
+  font-size: 12px;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: var(--tb-secondary-color);
 }
 
 .add-filtter a {
-    margin-bottom: 0px;
-    color: #6666f3 !important;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
+  margin-bottom: 0px;
+  color: #6666f3 !important;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  height: 50px;
+  line-height: 50px;
+  padding-right: 20px;
+}
+
+.new-deopdown {
+  display: block;
+  width: 100%;
+  padding: 0.4rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  height: 50px !important;
+  text-align: left;
+  background-color: #fff;
+  border-right: 1px solid #e8ebf3 !important;
+  border: none;
+  border-radius: 0px;
+  color: #2d2e3e;
+}
+
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  font-weight: BOLD !important;
 }

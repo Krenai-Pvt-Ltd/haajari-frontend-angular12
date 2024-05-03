@@ -2746,7 +2746,7 @@
                         <label for="shiftName" class="pb-2">Shift Name</label>
                         <input
                           type="text"
-                          class="form-control"
+                          class="form-control whatapp-login-input"
                           id="shiftName"
                           placeholder="Shift name"
                           required
@@ -2763,7 +2763,7 @@
                         <input
                           id="inTime"
                           type="time"
-                          class="form-control"
+                          class="form-control whatapp-login-input"
                           required
                           [(ngModel)]="organizationShiftTimingRequest.inTime"
                           name="inTime"
@@ -2782,19 +2782,6 @@
                       </div>
                     </div>
 
-                    <!-- Out Time Input -->
-                    <!-- <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="outTime" class="pb-2">Out Time</label>
-                                        <input id="outTime" type="time" class="form-control" required 
-                                               [(ngModel)]="organizationShiftTimingRequest.outTime" name="outTime"
-                                               (change)="calculateTimes()">
-                                        <div *ngIf="organizationShiftTimingRequest.errors['outTime']" class="text-danger">
-                                            {{ organizationShiftTimingRequest.errors['outTime'] }}
-                                        </div>
-                                    </div>
-                                </div> -->
-
                     <div class="col-md-4">
                       <div class="mb-3">
                         <label for="outTime" class="pb-2">Out Time</label>
@@ -2804,7 +2791,7 @@
                           [class.is-invalid]="
                             organizationShiftTimingValidationErrors['outTime']
                           "
-                          class="form-control"
+                          class="form-control whatapp-login-input"
                           required
                           [(ngModel)]="organizationShiftTimingRequest.outTime"
                           name="outTime"
@@ -2833,7 +2820,7 @@
                         <input
                           id="workingHours"
                           type="text"
-                          class="form-control"
+                          class="form-control whatapp-login-input"
                           readonly
                           [(ngModel)]="
                             organizationShiftTimingRequest.workingHour
@@ -2858,7 +2845,7 @@
                               'startLunch'
                             ]
                           "
-                          class="form-control"
+                          class="form-control whatapp-login-input"
                           required
                           [(ngModel)]="
                             organizationShiftTimingRequest.startLunch
@@ -2895,7 +2882,7 @@
                           [class.is-invalid]="
                             organizationShiftTimingValidationErrors['endLunch']
                           "
-                          class="form-control"
+                          class="form-control whatapp-login-input"
                           required
                           [(ngModel)]="organizationShiftTimingRequest.endLunch"
                           name="lunchBreakEndTime"
@@ -2923,7 +2910,7 @@
                         <input
                           id="totalLunchBreakDuration"
                           type="text"
-                          class="form-control"
+                          class="form-control whatapp-login-input"
                           readonly
                           [(ngModel)]="organizationShiftTimingRequest.lunchHour"
                           name="totalLunchBreakDuration"
@@ -2934,14 +2921,14 @@
                   </div>
 
                   <!-- Submit Button -->
-                  <div class="modal-footer">
+                  <div class="modal-footer pb-0">
                     <button
                       type="submit"
-                      class="btn btn-primary"
+                      class="btn btn-outline-primary btn-round"
                       [disabled]="shiftForm.invalid"
                       (click)="staffActiveTabInShiftTimingMethod()"
                     >
-                      Next
+                      <i class="mdi mdi-send me-2"></i> Next
                     </button>
                   </div>
                 </form>
@@ -2951,7 +2938,7 @@
                 <div class="staf-list-box mt-3">
                   <div class="row mb-3">
                     <div class="col-md-6">
-                      <div>
+                      <!-- <div>
                         <h5>
                           Userlist
                           <span
@@ -2964,9 +2951,7 @@
                             ><b>{{ total }}</b></span
                           >
                         </h5>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
+                      </div> -->
                       <form
                         novalidate=""
                         role="search"
@@ -2978,7 +2963,7 @@
                             type="text"
                             id="searchText"
                             placeholder="Search by name and role"
-                            class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                            class="form-control me-2 ng-untouched ng-pristine ng-valid whatapp-login-input"
                             (keyup)="searchUsers()"
                             [(ngModel)]="searchText"
                             [ngModelOptions]="{ standalone: true }"
@@ -3004,6 +2989,7 @@
                         </div>
                       </form>
                     </div>
+                    <div class="col-md-6"></div>
                   </div>
 
                   <div
@@ -3090,6 +3076,7 @@
                           <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
                           <th style="width: 25%; padding: 12px 15px">Name</th>
                           <th style="width: 25%; padding: 12px 15px">Email</th>
+                          <th style="width: 25%; padding: 12px 15px">Phone</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -3121,6 +3108,7 @@
                           <td style="padding: 12px 15px">
                             {{ staff.email ? staff.email : "N/A" }}
                           </td>
+                          <td style="padding: 12px 15px">N/A</td>
                         </tr>
                       </tbody>
                     </table>
@@ -3211,7 +3199,7 @@
                   >
                     <button
                       type="button"
-                      class="btn btn-outline-primary"
+                      class="btn btn-outline-secondary"
                       (click)="shiftTimingActiveTabMethod()"
                     >
                       Back
@@ -3222,7 +3210,7 @@
                   >
                     <button
                       type="button"
-                      class="btn btn-primary"
+                      class="btn btn-outline-primary"
                       (click)="registerOrganizationShiftTimingMethodCall()"
                     >
                       Submit
@@ -3399,7 +3387,7 @@
     role="dialog"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Add Holiday(s)</h5>
@@ -3417,19 +3405,19 @@
               *ngFor="let holiday of holidayList; let i = index"
               class="form-group row mb-3"
             >
-              <div class="col-md-5">
+              <div class="col-md-6">
                 <input
                   type="text"
                   name="holidayName{{ i }}"
                   [(ngModel)]="holiday.name"
-                  class="form-control"
+                  class="form-control whatapp-login-input"
                   placeholder="Enter Holiday Name"
                   required
                 />
               </div>
               <div class="col-md-5">
                 <nz-date-picker
-                  class="nz-overlay-container"
+                  class="nz-overlay-container whatapp-login-input"
                   name="holidayDate{{ i }}"
                   [(ngModel)]="holiday.date"
                   ngModel
@@ -3438,37 +3426,46 @@
                 >
                 </nz-date-picker>
               </div>
-              <div class="col-md-2">
-                <button
+              <div class="col-md-1">
+                <!-- <button
                   type="button"
                   class="btn btn-outline-danger"
                   (click)="removeHoliday(i)"
                   *ngIf="holidayList.length > 1"
                 >
                   Remove
+                </button> -->
+                <button
+                  type="button"
+                  class="btn btn-soft-danger btn-icon-square-sm"
+                  style="padding: 24px"
+                  (click)="removeHoliday(i)"
+                  *ngIf="holidayList.length > 1"
+                >
+                  <i class="bi bi-trash"></i>
                 </button>
               </div>
             </div>
-            <div class="d-flex justify-content-between">
-              <span class="add-more-holiday" (click)="addHoliday()">
-                <i class="bi bi-plus"></i> Add More
-              </span>
-              <button
-                type="submit"
-                class="btn btn-success"
-                (click)="registerCustomHolidays()"
-                [disabled]="holidayForm.invalid"
-                *ngIf="!isCustomHolidayLoader"
-              >
-                Submit
-              </button>
-              <div class="dot-opacity-loader" *ngIf="isCustomHolidayLoader">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
           </form>
+        </div>
+        <div class="d-flex justify-content-between modal-footer">
+          <span class="add-more-holiday" (click)="addHoliday()">
+            <i class="bi bi-plus"></i> Add More
+          </span>
+          <button
+            type="submit"
+            class="btn btn-outline-primary btn-round"
+            (click)="registerCustomHolidays()"
+            [disabled]="holidayForm.invalid"
+            *ngIf="!isCustomHolidayLoader"
+          >
+            Submit
+          </button>
+          <div class="dot-opacity-loader" *ngIf="isCustomHolidayLoader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </div>
       </div>
     </div>
