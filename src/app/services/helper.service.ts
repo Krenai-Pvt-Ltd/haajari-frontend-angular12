@@ -7,13 +7,14 @@ import { ModulesWithSubmodules } from '../models/modules-with-submodules';
 import { ModuleResponse } from '../models/module-response';
 import { RoleBasedAccessControlService } from './role-based-access-control.service';
 import { formatDate } from '@angular/common';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HelperService {
 
-  constructor( private httpClient : HttpClient, private dataService: DataService) {
+  constructor( private httpClient : HttpClient, private dataService: DataService, private router: Router) {
     
    }
 
@@ -181,4 +182,12 @@ export class HelperService {
         }
       }
     }
+
+  // route to user's profile
+  routeToUserProfile(uuid: string) {
+    let navExtra: NavigationExtras = {
+      queryParams: { userId: uuid },
+    };
+    this.router.navigate(['/employee-profile'], navExtra);
+  }
 }
