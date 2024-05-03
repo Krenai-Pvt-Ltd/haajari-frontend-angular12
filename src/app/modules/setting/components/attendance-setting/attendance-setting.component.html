@@ -309,7 +309,7 @@
                                 }}
                               </h6>
                               <small class="text-muted"
-                                >Define the late entry rules for the
+                                >Define the shift timing rules for the
                                 employees</small
                               >
                             </div>
@@ -341,7 +341,7 @@
                             </span>
                           </div>
                         </div>
-                      
+
                         <div
                           class="collapse multi-collapse"
                           [id]="'multiCollapseExample' + i"
@@ -1393,16 +1393,12 @@
                                 "
                               >
                                 <div class="custom-salary-hedding p-3">
-                                  <h4 class="mb-0">
-                                    Custom salary Deduction rule
-                                  </h4>
+                                  <h4 class="mb-0">Custom Salary Deduction</h4>
                                 </div>
                               </ng-container>
                               <ng-template #others>
                                 <div class="custom-salary-hedding p-3">
-                                  <h4 class="mb-0">
-                                    Custom Salary Overtime Pay Rules
-                                  </h4>
+                                  <h4 class="mb-0">Custom Salary Overtime</h4>
                                 </div>
                               </ng-template>
                               <div class="custom-salary-para p-3">
@@ -1489,8 +1485,9 @@
                                     </span>
                                   </ng-container>
                                   <ng-template #overtime>
-                                    <span>Overtime Type</span>
-                                    <span> | </span>
+                                    <p class="mb-0">Overtime Type</p>
+                                    <!-- <span>Overtime Type</span> -->
+                                    <!-- <span> | </span> -->
                                     <span style="color: #009688">
                                       <ng-container
                                         *ngIf="
@@ -1589,13 +1586,11 @@
                                   "
                                 >
                                   <h4 class="mb-0">
-                                    Half Day Salary Deduction Rules
+                                    Half Day Salary Deduction
                                   </h4>
                                 </ng-container>
                                 <ng-template #others2>
-                                  <h4 class="mb-0">
-                                    Half Day Salary Overtime Pay Rules
-                                  </h4>
+                                  <h4 class="mb-0">Half Day Salary Overtime</h4>
                                 </ng-template>
                                 <!-- <h4 class="mb-0">
                                   Half Day Salary Deduction Rules
@@ -1694,13 +1689,11 @@
                                   "
                                 >
                                   <h4 class="mb-0">
-                                    Full Day Salary Deduction Rules
+                                    Full Day Salary Deduction
                                   </h4>
                                 </ng-container>
                                 <ng-template #others3>
-                                  <h4 class="mb-0">
-                                    Full Day Salary Overtime Pay Rules
-                                  </h4>
+                                  <h4 class="mb-0">Full Day Salary Overtime</h4>
                                 </ng-template>
                               </div>
                               <div class="custom-salary-para p-3">
@@ -2631,7 +2624,7 @@
     aria-labelledby="exampleModalDefaultLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
@@ -2645,7 +2638,7 @@
             #closeShiftTimingModal
           ></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body modal-height-fix">
           <div class="">
             <ul id="myTab" role="tablist" class="nav nav-tabs">
               <li role="presentation" class="nav-item">
@@ -2664,15 +2657,13 @@
                 </button>
               </li>
               <li role="presentation" class="nav-item">
+                <!-- [class.disabled]="shiftForm.invalid" -->
+                <!-- (click)="!shiftForm.invalid && staffActiveTabInShiftTimingMethod()" -->
                 <button
                   id="profile-tab"
                   data-bs-toggle="tab"
-                  [class.disabled]="shiftForm.invalid"
                   [attr.aria-selected]="!shiftForm.invalid"
                   [attr.tabindex]="shiftForm.invalid ? -1 : null"
-                  (click)="
-                    !shiftForm.invalid && staffActiveTabInShiftTimingMethod()
-                  "
                   data-bs-target="#staffselection"
                   type="button"
                   role="tab"
@@ -2922,7 +2913,7 @@
                   </div>
 
                   <!-- Submit Button -->
-                  <div class="modal-footer pb-0">
+                  <!-- <div class="modal-footer pb-0">
                     <button
                       type="submit"
                       class="btn btn-outline-primary btn-round"
@@ -2931,13 +2922,13 @@
                     >
                       <i class="mdi mdi-send me-2"></i> Next
                     </button>
-                  </div>
+                  </div> -->
                 </form>
               </div>
 
               <div class="tab-pane fade" id="staffselection" role="tabpanel">
                 <div class="staf-list-box mt-3">
-                  <div class="row mb-3">
+                  <div class="row mb-3 align-items-center">
                     <div class="col-md-6">
                       <!-- <div>
                         <h5>
@@ -2990,10 +2981,45 @@
                         </div>
                       </form>
                     </div>
-                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                      <div
+                        class="d-flex align-items-center justify-content-end"
+                      >
+                        <div
+                          *ngIf="selectedStaffsUuids.length !== 0"
+                          class="d-flex align-items-center justify-content-end gap-3"
+                        >
+                          <span class="select-user-count">
+                            <b>{{ selectedStaffsUuids.length }}</b>
+                            selected of <b>{{ total }}</b></span
+                          >
+                          <div *ngIf="selectedStaffsUuids.length != total">
+                            <span
+                              (click)="selectAllUsers(true)"
+                              class="all-select-user"
+                              >Select all {{ total }} users</span
+                            >
+                          </div>
+                          <div *ngIf="selectedStaffsUuids.length == total">
+                            <span
+                              (click)="unselectAllUsers()"
+                              class="clear-all-user"
+                              >Clear all users <i class="bi bi-x"></i
+                            ></span>
+                          </div>
+                          <div *ngIf="selectedStaffsUuids.length != total">
+                            <span
+                              class="pointer user-close-btn"
+                              (click)="unselectAllUsers()"
+                              ><i class="bi bi-x"></i
+                            ></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  <div
+                  <!-- <div
                     style="
                       display: flex;
                       justify-content: space-between;
@@ -3057,7 +3083,7 @@
                         ></span>
                       </ng-template>
                     </div>
-                  </div>
+                  </div> -->
 
                   <ng-container
                     *ngIf="total > 0; else noDataFoundPlaceholderInShiftTiming"
@@ -3109,7 +3135,9 @@
                           <td style="padding: 12px 15px">
                             {{ staff.email ? staff.email : "N/A" }}
                           </td>
-                          <td style="padding: 12px 15px">N/A</td>
+                          <td style="padding: 12px 15px">
+                            {{ staff.phoneNumber || "N/A" }}
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -3197,29 +3225,40 @@
                 <div id="back-and-submit">
                   <div
                     class="modal-footer d-flex align-items-center justify-content-end"
-                  >
-                    <button
-                      type="button"
-                      class="btn btn-outline-secondary"
-                      (click)="shiftTimingActiveTabMethod()"
-                    >
-                      Back
-                    </button>
-                  </div>
-                  <div
-                    class="modal-footer d-flex align-items-center justify-content-end"
-                  >
-                    <button
-                      type="button"
-                      class="btn btn-outline-primary"
-                      (click)="registerOrganizationShiftTimingMethodCall()"
-                    >
-                      Submit
-                    </button>
-                  </div>
+                  ></div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div
+          class="modal-footer d-flex align-items-center justify-content-between"
+        >
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-round"
+            (click)="shiftTimingActiveTabMethod()"
+          >
+            Back
+          </button>
+
+          <div class="d-flex align-items-center gap-3">
+            <button
+              type="submit"
+              class="btn btn-outline-primary btn-round"
+              [disabled]="shiftForm.invalid"
+              (click)="staffActiveTabInShiftTimingMethod()"
+            >
+              Next
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-round"
+              (click)="registerOrganizationShiftTimingMethodCall()"
+            >
+              Submit
+            </button>
           </div>
         </div>
       </div>
@@ -3517,7 +3556,7 @@
     role="dialog"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h6 class="modal-title">Weekly Holiday</h6>
@@ -3533,10 +3572,10 @@
           <div class="row">
             <div class="col-md-12">
               <div
-                class="week-checkbox"
+                class="week-checkbox d-flex align-items-center gap-3"
                 *ngFor="let day of weekDay; let i = index"
               >
-                <div class="form-check">
+                <div class="form-check d-flex align-items-center gap-2">
                   <input
                     class="form-check-input"
                     type="checkbox"
@@ -3544,9 +3583,11 @@
                     [id]="'weekDay' + i"
                     (click)="toggleSelection(i)"
                   />
-                  <label class="form-check-label" [for]="'weekDay' + i">{{
-                    day.name
-                  }}</label>
+                  <label
+                    class="form-check-label align-label"
+                    [for]="'weekDay' + i"
+                    >{{ day.name }}</label
+                  >
                 </div>
                 <div *ngIf="day.selected">
                   <div

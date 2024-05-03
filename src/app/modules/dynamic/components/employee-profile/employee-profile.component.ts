@@ -392,7 +392,7 @@ export class EmployeeProfileComponent implements OnInit {
       // console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
       var rect = mouseEnterInfo.el.getBoundingClientRect();
       this.clientX = rect.left - 210 + 'px';
-      this.clientY = rect.top - 100 + 'px';
+      this.clientY = rect.top - 70 + 'px';
       console.log(
         'mouse location:',
         mouseEnterInfo.jsEvent.clientX,
