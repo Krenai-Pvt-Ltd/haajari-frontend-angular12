@@ -132,6 +132,87 @@
                         <p class="mb-0 met-user-name-post">
                           {{ user.department || "N/A" }}
                         </p>
+
+                        <!-- <div class="d-flex align-items-center gap-3 mt-2">
+                          <button
+                            type="button"
+                            class="btn btn-soft-success btn-round"
+                          >
+                            Approve
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-soft-danger btn-round"
+                          >
+                            Reject
+                          </button>
+                        </div> -->
+                        <div
+                          [ngClass]="{
+                            'd-none': !adminRoleFlag,
+                            'mt-1': adminRoleFlag
+                          }"
+                        >
+                          <div
+                            class="d-flex align-items-center gap-3 mt-2"
+                            style="gap: 10px"
+                            *ngIf="
+                              user!.employeeOnboardingStatus?.response ==
+                                'PENDING' ||
+                              user!.employeeOnboardingStatus?.response ==
+                                'REQUESTED' ||
+                              user!.employeeOnboardingStatus?.response ==
+                                'NEW_USER'
+                            "
+                          >
+                            <button
+                              class="btn sand-request approved"
+                              type="button"
+                              (click)="updateStatusUserByUuid('APPROVED')"
+                            >
+                              <div *ngIf="!approvedToggle">Approve</div>
+
+                              <div
+                                class="approve-button-loader"
+                                *ngIf="approvedToggle"
+                              >
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                            </button>
+
+                            <button
+                              class="btn sand-request rejected"
+                              type="button"
+                              data-bs-toggle="modal"
+                              data-bs-target="#showRejectModal"
+                            >
+                              Reject
+                            </button>
+                            <!-- <div *ngIf="approvedToggle" class="dot-opacity-loader">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div> -->
+                          </div>
+                          <!-- <div class="d-flex" style="gap:10px" *ngIf="(user!.employeeOnboardingStatus?.response!='PENDING')">
+                                        <button class="btn sand-request approved" type="button" *ngIf="(user!.employeeOnboardingStatus?.response=='APPROVED')">{{user!.employeeOnboardingStatus?.response}}</button>
+                                        <button class="btn sand-request rejected" type="button" *ngIf="(user!.employeeOnboardingStatus?.response=='REJECTED')">{{user!.employeeOnboardingStatus?.response}}</button>
+                                    </div> -->
+                          <div
+                            *ngIf="
+                              user!.employeeOnboardingStatus?.response ==
+                              'APPROVED'
+                            "
+                            class="add-filtter"
+                          >
+                            <a type="button" (click)="requestUserForMoreDocs()">
+                              <i class="bi bi-plus" style="font-size: 23px"></i>
+                              Request user for more Documents
+                            </a>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
