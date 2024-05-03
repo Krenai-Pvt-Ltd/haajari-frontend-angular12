@@ -45,6 +45,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   ROLE : any;
   async ngOnInit(): Promise<void> {
     this.ROLE = await this.rbacService.getRole();
+    
     this.getUserAccountDetailsMethodCall();
    
   }
