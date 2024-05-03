@@ -19,24 +19,6 @@
   box-shadow: none;
 }
 
-.new-deopdown {
-  display: block;
-  width: 100%;
-  padding: 0.4rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 400;
-  height: 40px !important;
-  text-align: left;
-  background-color: #fff;
-  border: 1px solid #e8ebf3;
-  color: #2d2e3e;
-}
-
-.new-deopdown i {
-  position: absolute;
-  right: 15px;
-}
-
 .leave-cat-box {
   border-radius: 2px;
   border: 1px solid #f1f1f1;
@@ -405,10 +387,10 @@
   padding: 0.4rem 1rem;
   font-size: 0.875rem;
   font-weight: 400;
-  height: 40px !important;
+  height: 50px !important;
   text-align: left;
   background-color: #fff;
-  border: 1px solid #e8ebf3;
+  border: 1px solid #f1f1f1;
   color: #2d2e3e;
 }
 .new-deopdown i {
@@ -1167,9 +1149,13 @@ i.bi.bi-plus {
 }
 
 .selected {
-  color: #6666f3;
-  font-weight: bold; /* Optional: Make the selected option bold */
-  border-color: #6666f3 !important;
+  color: #fff !important;
+  font-weight: bold;
+  /* border-color: #6666f3 !important; */
+  background-color: #6666f3 !important;
+}
+.enable-disanle-btn label {
+  padding: 10px 15px;
 }
 
 @keyframes spinner {
@@ -1296,7 +1282,7 @@ i.bi.bi-plus {
 
 .leave-delet-btn {
   position: relative;
-  top: -70px;
+  top: -80px;
   right: -95%;
 }
 
@@ -1387,9 +1373,7 @@ i.bi.bi-plus {
   border: none !important;
   appearance: none;
   border-radius: 0.25rem;
-  transition:
-    border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .add-shift-main-box {
