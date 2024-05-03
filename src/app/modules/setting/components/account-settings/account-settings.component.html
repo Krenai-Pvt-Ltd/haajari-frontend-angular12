@@ -174,7 +174,7 @@
 
                         
                         </div>
-                        <div class="mt-3" *ngIf="ROLE == 'MANAGER || ADMIN'">
+                        <div class="mt-3" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
                           <small class="text-muted">Employee's Attendance</small>
                           <div class="d-flex align-items-center mt-2 gap-2">
                             <div class="alert alert-outline-secondary enable-disanle-box p-3 mb-0" role="alert">
