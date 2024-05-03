@@ -341,7 +341,7 @@
                             </span>
                           </div>
                         </div>
-                      
+
                         <div
                           class="collapse multi-collapse"
                           [id]="'multiCollapseExample' + i"
@@ -2935,22 +2935,8 @@
 
               <div class="tab-pane fade" id="staffselection" role="tabpanel">
                 <div class="staf-list-box mt-3">
-                  <div class="row mb-3 align-items-center">
+                  <!-- <div class="row mb-3 align-items-center">
                     <div class="col-md-6">
-                      <!-- <div>
-                        <h5>
-                          Userlist
-                          <span
-                            style="
-                              color: #4761f6;
-                              background-color: #d1d6f2;
-                              padding: 5px;
-                              border-radius: 5px;
-                            "
-                            ><b>{{ total }}</b></span
-                          >
-                        </h5>
-                      </div> -->
                       <form
                         novalidate=""
                         role="search"
@@ -3020,6 +3006,100 @@
                               (click)="unselectAllUsers()"
                               ><i class="bi bi-x"></i
                             ></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+
+                  <div
+                    class="row mb-1 mt-3 align-items-center"
+                    style="padding-bottom: 15px"
+                  >
+                    <div class="col-md-12">
+                      <div
+                        class="d-flex align-items-center"
+                        style="border: 1px solid #f1f1f1"
+                      >
+                        <div style="width: 30%; position: relative">
+                          <div class="dropdown" style="width: 100%">
+                            <button
+                              type="button"
+                              id="dropdownMenuButton1"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                              class="btn btn-secondary dropdown-toggle new-deopdown"
+                            >
+                              Select User
+                              <i
+                                class="bi bi-chevron-down"
+                                style="color: #444; font-size: 15px"
+                              ></i>
+                            </button>
+                            <ul
+                              aria-labelledby="dropdownMenuButton1"
+                              class="dropdown-menu"
+                              style="width: 100%"
+                            >
+                              <li>
+                                <a class="dropdown-item">Select All </a>
+                              </li>
+                              <li><a class="dropdown-item">Reset All</a></li>
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div class="" style="width: 70%">
+                          <form
+                            novalidate=""
+                            role="search"
+                            (submit)="searchUsers()"
+                            class="searching ng-untouched ng-pristine ng-valid"
+                          >
+                            <div class="form-group" style="position: relative">
+                              <input
+                                type="text"
+                                id="searchText"
+                                placeholder="Search by name and role"
+                                class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                                (keyup)="searchUsers()"
+                                [(ngModel)]="searchText"
+                                [ngModelOptions]="{ standalone: true }"
+                                style="padding: 10px 50px 10px 40px"
+                              />
+                              <button
+                                *ngIf="searchText.length !== 0"
+                                type="button"
+                                class="btn close-btn"
+                                (click)="clearSearchText()"
+                              >
+                                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                              </button>
+                              <i
+                                class="bi bi-search search-icon"
+                                style="
+                                  position: absolute;
+                                  top: 50%;
+                                  transform: translateY(-50%);
+                                  left: 10px;
+                                  padding-left: 5px;
+                                "
+                              ></i>
+                            </div>
+                          </form>
+                        </div>
+
+                        <div class="" style="width: 20%">
+                          <div
+                            class="d-flex justify-content-end align-items-center"
+                            style="gap: 10px; padding-right: 15px"
+                          >
+                            <div
+                              class="add-filtter d-flex align-items-center justify-content-end"
+                              style="gap: 10px"
+                            >
+                              <a type="button"> 8 selected of 24 </a>
+                            </div>
                           </div>
                         </div>
                       </div>
