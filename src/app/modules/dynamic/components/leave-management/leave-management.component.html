@@ -723,11 +723,11 @@
                 <h5>
                   {{
                     specificLeaveRequest.startDate
-                      | date: "dd MMM yyyy" || "N/A"
+                      | date : "dd MMM yyyy" || "N/A"
                   }}
                   -
                   {{
-                    specificLeaveRequest.endDate | date: "dd MMM yyyy" || "N/A"
+                    specificLeaveRequest.endDate | date : "dd MMM yyyy" || "N/A"
                   }}
                 </h5>
                 <!-- <h5>{{ formatDateIn(formatDate(specificLeaveRequest.startDate)) }} - {{ formatDateIn(formatDate(specificLeaveRequest.endDate)) }}</h5> -->
@@ -738,7 +738,7 @@
                 <p>
                   {{
                     specificLeaveRequest.leaveDate
-                      | date: "dd MMM yyyy hh:mm:ss a"
+                      | date : "dd MMM yyyy hh:mm:ss a"
                   }}
                 </p>
               </div>

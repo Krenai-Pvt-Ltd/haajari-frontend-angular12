@@ -18,10 +18,11 @@ export class RoleAddComponent implements OnInit {
     private dataService: DataService,
     private helperService: HelperService,
     private router: Router,
-    private activateRoute: ActivatedRoute,
+    private activateRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    window.scroll(0, 0);
     const roleIdParam = this.activateRoute.snapshot.queryParamMap.get('roleId');
 
     if (roleIdParam !== null) {
@@ -86,7 +87,7 @@ export class RoleAddComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -116,7 +117,7 @@ export class RoleAddComponent implements OnInit {
           const existingIndex = uniqueModuleRequestList.findIndex(
             (item) =>
               item.subModuleId === i.subModuleId &&
-              item.privilegeId === i.privilegeId,
+              item.privilegeId === i.privilegeId
           );
 
           if (existingIndex === -1) {
@@ -143,7 +144,7 @@ export class RoleAddComponent implements OnInit {
           this.helperService.setRoleSectionTab(true);
           this.helperService.showToast(
             'Role details saved successfully.',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
         },
         (error) => {
@@ -152,9 +153,9 @@ export class RoleAddComponent implements OnInit {
           this.buttonLoader = false;
           this.helperService.showToast(
             'Error caused while saving the role!',
-            Key.TOAST_STATUS_ERROR,
+            Key.TOAST_STATUS_ERROR
           );
-        },
+        }
       );
     } else {
       this.buttonLoader = false;
@@ -180,14 +181,14 @@ export class RoleAddComponent implements OnInit {
     const existingIndex = this.moduleRequestList.findIndex(
       (item) =>
         item.subModuleId === moduleRequest.subModuleId &&
-        item.privilegeId === moduleRequest.privilegeId,
+        item.privilegeId === moduleRequest.privilegeId
     );
 
     if (existingIndex !== -1) {
       this.moduleRequestList.splice(existingIndex, 1);
     } else {
       const subModuleIndex = this.moduleRequestList.findIndex(
-        (item) => item.subModuleId === moduleRequest.subModuleId,
+        (item) => item.subModuleId === moduleRequest.subModuleId
       );
 
       if (subModuleIndex !== -1) {
@@ -210,7 +211,7 @@ export class RoleAddComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -229,7 +230,7 @@ export class RoleAddComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
   // setDataToBeUpdated(){

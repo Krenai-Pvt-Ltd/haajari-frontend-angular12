@@ -28,6 +28,7 @@ export class SalarySettingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    window.scroll(0, 0);
     this.getAllSalaryCalculationModeMethodCall();
     this.getSalaryCalculationModeByOrganizationIdMethodCall();
     this.getPFContributionRateMethodCall();

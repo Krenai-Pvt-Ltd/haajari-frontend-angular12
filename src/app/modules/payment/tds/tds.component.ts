@@ -26,7 +26,9 @@ export class TdsComponent implements OnInit {
 
   constructor(private dataService: DataService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    window.scroll(0, 0);
+  }
 
   employeeMonthWiseSalaryDataList: EmployeeMonthWiseSalaryData[] = [];
   getEmployeeMonthWiseSalaryDataMethodCall() {
@@ -38,7 +40,7 @@ export class TdsComponent implements OnInit {
         this.search,
         this.searchBy,
         this.sort,
-        this.sortBy,
+        this.sortBy
       )
       .subscribe(
         (response) => {
@@ -58,7 +60,7 @@ export class TdsComponent implements OnInit {
         (error) => {
           this.isShimmer = false;
           this.networkConnectionErrorPlaceHolder = true;
-        },
+        }
       );
   }
 }
