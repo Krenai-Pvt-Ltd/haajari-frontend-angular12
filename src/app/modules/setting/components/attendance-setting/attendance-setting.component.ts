@@ -62,6 +62,7 @@ export class AttendanceSettingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    window.scroll(0, 0);
     this.loadHolidayCounts();
     this.loadHolidays();
     this.getOrganizationAddressDetailMethodCall();
@@ -705,6 +706,7 @@ export class AttendanceSettingComponent implements OnInit {
       );
   }
 
+  count: number = 0;
   attendanceRuleWithAttendanceRuleDefinitionResponseList: AttendanceRuleWithAttendanceRuleDefinitionResponse[] =
     [];
   attendanceRuleWithAttendanceRuleDefinitionLoading: boolean = false;
@@ -723,6 +725,10 @@ export class AttendanceSettingComponent implements OnInit {
         } else {
           this.attendanceRuleWithAttendanceRuleDefinitionResponseList =
             response.listOfObject;
+        }
+        if (this.count === 0) {
+          this.activeIndex5 = 0;
+          this.count++;
         }
       },
       (error) => {

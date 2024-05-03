@@ -463,7 +463,7 @@
 }
 
 .attendance-active {
-  background-color: #e9ebfe;
+  background-color: #e9ebfe !important;
   border: 1px solid #6666f3 !important;
 }
 
