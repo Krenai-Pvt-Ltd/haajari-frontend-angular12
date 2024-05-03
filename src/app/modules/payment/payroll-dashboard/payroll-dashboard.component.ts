@@ -5,6 +5,7 @@ import { FinalSettlementResponse } from 'src/app/models/final-settlement-respons
 import { MonthResponse } from 'src/app/models/month-response';
 import { NewJoineeAndUserExitRequest } from 'src/app/models/new-joinee-and-user-exit-request';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
+import { NoticePeriod } from 'src/app/models/notice-period';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { PayrollDashboardEmployeeCountResponse } from 'src/app/models/payroll-dashboard-employee-count-response';
@@ -327,19 +328,26 @@ export class PayrollDashboardComponent implements OnInit {
 
 
   //View child properties to click
-  @ViewChild('step1') newJoineeTabClick !: ElementRef;
-  @ViewChild('step2') userExitTabClick !: ElementRef;
-  @ViewChild('step3') finalSettlementTabClick !: ElementRef;
+  @ViewChild('step1') step1 !: ElementRef;
+  @ViewChild('step2') step2 !: ElementRef;
+  @ViewChild('step3') step3 !: ElementRef;
 
   clickOnNewJoineeTab(){
-    this.newJoineeTabClick.nativeElement.click();
+    if(this.step1 && this.step1.nativeElement){
+      this.step1.nativeElement.click();
+    }
   }
 
   clickOnUserExitTab(){
-    if (this.userExitTabClick && this.userExitTabClick.nativeElement) {
-      this.userExitTabClick.nativeElement.click();
+    if (this.step2 && this.step2.nativeElement) {
+      this.step2.nativeElement.click();
     }
-    
+  }
+
+  clickOnFinalSettlementTab(){
+    if(this.step3 && this.step3.nativeElement){
+      this.step3.nativeElement.click();
+    }
   }
 
   //Exmployee changes tab selection
@@ -359,6 +367,19 @@ export class PayrollDashboardComponent implements OnInit {
     this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.FINAL_SETTLEMENT_STEP;
     this.resetCriteriaFilter();
     this.getFinalSettlementByOrganizationIdMethodCall();
+  }
+
+  employeeChangesBackTab(){
+    if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.FINAL_SETTLEMENT_STEP){
+      this.clickOnUserExitTab();
+    } else if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP){
+      this.clickOnNewJoineeTab();
+    }
+  }
+
+  //Routing to the user profile section
+  routeToUserProfile(uuid : string){
+    this.helperService.routeToUserProfile(uuid);
   }
 
   //Fetching the new joinee data
@@ -382,6 +403,7 @@ export class PayrollDashboardComponent implements OnInit {
           this.newJoineeResponseList = response.listOfObject;
           this.total = response.totalItems;
           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+          console.log(this.newJoineeResponseList);
         }
         this.isShimmerForNewJoinee = false;
       }, (error) => {
@@ -400,7 +422,21 @@ export class PayrollDashboardComponent implements OnInit {
 
       } else{
         this.payActionTypeList = response.listOfObject;
-        this.selectedPayActionType = response.listOfObject[0];
+        console.log(this.payActionTypeList);
+      }
+    }, (error) => {
+
+    })
+  }
+
+  //Fetching the notice period list
+  noticePeriodList : NoticePeriod[] = [];
+  getNoticePeriodListMethodCall(){
+    this.dataService.getNoticePeriodList().subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+
+      } else{
+        this.noticePeriodList = response.listOfObject;
       }
     }, (error) => {
 
@@ -415,12 +451,11 @@ export class PayrollDashboardComponent implements OnInit {
 
   selectedPayActionType : PayActionType = new PayActionType();
   selectPayActionType(payActionType : PayActionType, response : any){
-    this.selectedPayActionType = payActionType;
-
     if(response != undefined && response != null){
-      response.payActionTypeId = payActionType.id;
+      response.payActionType = payActionType;
     }
   }
+
 
 
   // User selection to generate the payout
@@ -667,7 +702,7 @@ export class PayrollDashboardComponent implements OnInit {
         this.newJoineeAndUserExitRequestList = [];
 
         this.newJoineeResponseList.forEach((item) => {
-          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionTypeId, item.comment);
+          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
 
           this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
         });
@@ -677,7 +712,17 @@ export class PayrollDashboardComponent implements OnInit {
         this.newJoineeAndUserExitRequestList = [];
 
         this.userExitResponseList.forEach((item) => {
-          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionTypeId, item.comment);
+          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
+
+          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        })
+      }
+
+      if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.FINAL_SETTLEMENT_STEP){
+        this.newJoineeAndUserExitRequestList = [];
+
+        this.finalSettlementResponseList.forEach((item) => {
+          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
 
           this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
         })
@@ -686,13 +731,6 @@ export class PayrollDashboardComponent implements OnInit {
       this.dataService.registerNewJoineeAndUserExit(this.newJoineeAndUserExitRequestList, this.startDate, this.endDate).subscribe((response) => {
 
         this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
-        
-        if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.NEW_JOINEE_STEP){
-          this.clickOnUserExitTab();
-          console.log(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE);
-        } else if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP){
-
-        }
 
       }, (error) => {
         this.helperService.showToast(error.error.message, Key.TOAST_STATUS_ERROR);

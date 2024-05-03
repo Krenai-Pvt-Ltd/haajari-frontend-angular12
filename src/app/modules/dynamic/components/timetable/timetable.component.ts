@@ -139,7 +139,8 @@ export class TimetableComponent implements OnInit {
   myAttendanceData: Record<string, AttendenceDto[]> = {};
 
 
-  ngOnInit(): void {  
+  ngOnInit(): void { 
+    window.scroll(0, 0); 
     this.getOrganizationRegistrationDateMethodCall();
     this.inputDate = this.getCurrentDate();
     this.assignRole();
