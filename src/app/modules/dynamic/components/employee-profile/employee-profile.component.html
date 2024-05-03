@@ -2123,7 +2123,7 @@
                         <div
                           *ngIf="
                             user!.employeeOnboardingStatus?.response ==
-                            'APPROVED'
+                              'APPROVED' && adminRoleFlag
                           "
                           class="add-filtter"
                         >
@@ -2230,6 +2230,24 @@
                             >
                           </div>
                         </div>
+                        <div
+                          class="file-box add-document-btn pointer position-relative"
+                        >
+                          <input
+                            id="fileSelect"
+                            type="file"
+                            name="img[]"
+                            accept=".xlsx"
+                            class="input"
+                          />
+                          <div class="text-center">
+                            <i class="lar la-file-alt text-primary pb-2"></i>
+                            <h6 class="text-truncate">Add Documents</h6>
+                            <small class="text-muted">
+                              (jpg, png, pdf ) 10MB</small
+                            >
+                          </div>
+                        </div>
                       </div>
                       <div class="row">
                         <div class="col-12">
@@ -2258,6 +2276,24 @@
                             <h6 class="text-truncate">Ecommerce.pdf</h6>
                             <small class="text-muted"
                               >15 March 2021 / 8MB</small
+                            >
+                          </div>
+                        </div>
+                        <div
+                          class="file-box add-document-btn pointer position-relative"
+                        >
+                          <input
+                            id="fileSelect"
+                            type="file"
+                            name="img[]"
+                            accept=".xlsx"
+                            class="input"
+                          />
+                          <div class="text-center">
+                            <i class="lar la-file-alt text-primary pb-2"></i>
+                            <h6 class="text-truncate">Add Documents</h6>
+                            <small class="text-muted">
+                              (jpg, png, pdf ) 10MB</small
                             >
                           </div>
                         </div>
