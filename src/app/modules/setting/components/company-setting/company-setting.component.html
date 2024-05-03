@@ -41,7 +41,7 @@
                   "
                   id="imagePreview"
                 />
-                <span class="origination-logo-edit-btn position-absolute">
+                <span class="origination-logo-edit-btn position-absolute"  *ngIf="isEditMode">
                   <input
                     id="fileSelect"
                     name="fileSelect"
@@ -53,7 +53,7 @@
                     (change)="onFileSelected($event)"
                     [(ngModel)]="organizationPersonalInformationRequest.logo"
                   />
-                  <i class="bi bi-pencil position-relative"></i> Change</span
+                  <i class="bi bi-pencil position-relative" ></i> Change</span
                 >
               </div>
 
