@@ -309,7 +309,7 @@
                                 }}
                               </h6>
                               <small class="text-muted"
-                                >Define the late entry rules for the
+                                >Define the shift timing rules for the
                                 employees</small
                               >
                             </div>
@@ -341,7 +341,7 @@
                             </span>
                           </div>
                         </div>
-                      
+
                         <div
                           class="collapse multi-collapse"
                           [id]="'multiCollapseExample' + i"
@@ -1393,16 +1393,12 @@
                                 "
                               >
                                 <div class="custom-salary-hedding p-3">
-                                  <h4 class="mb-0">
-                                    Custom salary Deduction rule
-                                  </h4>
+                                  <h4 class="mb-0">Custom Salary Deduction</h4>
                                 </div>
                               </ng-container>
                               <ng-template #others>
                                 <div class="custom-salary-hedding p-3">
-                                  <h4 class="mb-0">
-                                    Custom Salary Overtime Pay Rules
-                                  </h4>
+                                  <h4 class="mb-0">Custom Salary Overtime</h4>
                                 </div>
                               </ng-template>
                               <div class="custom-salary-para p-3">
@@ -1489,8 +1485,9 @@
                                     </span>
                                   </ng-container>
                                   <ng-template #overtime>
-                                    <span>Overtime Type</span>
-                                    <span> | </span>
+                                    <p class="mb-0">Overtime Type</p>
+                                    <!-- <span>Overtime Type</span> -->
+                                    <!-- <span> | </span> -->
                                     <span style="color: #009688">
                                       <ng-container
                                         *ngIf="
@@ -1589,13 +1586,11 @@
                                   "
                                 >
                                   <h4 class="mb-0">
-                                    Half Day Salary Deduction Rules
+                                    Half Day Salary Deduction
                                   </h4>
                                 </ng-container>
                                 <ng-template #others2>
-                                  <h4 class="mb-0">
-                                    Half Day Salary Overtime Pay Rules
-                                  </h4>
+                                  <h4 class="mb-0">Half Day Salary Overtime</h4>
                                 </ng-template>
                                 <!-- <h4 class="mb-0">
                                   Half Day Salary Deduction Rules
@@ -1694,13 +1689,11 @@
                                   "
                                 >
                                   <h4 class="mb-0">
-                                    Full Day Salary Deduction Rules
+                                    Full Day Salary Deduction
                                   </h4>
                                 </ng-container>
                                 <ng-template #others3>
-                                  <h4 class="mb-0">
-                                    Full Day Salary Overtime Pay Rules
-                                  </h4>
+                                  <h4 class="mb-0">Full Day Salary Overtime</h4>
                                 </ng-template>
                               </div>
                               <div class="custom-salary-para p-3">
