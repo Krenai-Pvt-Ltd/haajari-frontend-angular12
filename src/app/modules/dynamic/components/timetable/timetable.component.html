@@ -280,49 +280,14 @@
         </div>
       </div>
 
-      <div class="search-bar pt-3 pb-3 border-top border-bottom mt-3">
-        <div class="row">
-          <div class="col-md-9">
-            <div class="searchbr-ui" id="attendanceDataTopbar">
-              <form
-                novalidate=""
-                role="search"
-                (submit)="searchUsers($event)"
-                class="searching ng-untouched ng-pristine ng-valid"
-              >
-                <div
-                  class="form-group"
-                  style="width: 350px; position: relative"
-                >
-                  <input
-                    type="text"
-                    id="searchText"
-                    placeholder="Search by name and role"
-                    class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                    (keyup)="searchUsers($event)"
-                    [(ngModel)]="searchText"
-                    [ngModelOptions]="{ standalone: true }"
-                    style="padding: 10px 30px"
-                  />
-                  <button
-                    *ngIf="searchText.length !== 0"
-                    type="button"
-                    class="btn close-btn"
-                    (click)="clearSearchText()"
-                  >
-                    <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                  </button>
-                  <i
-                    class="bi bi-search search-icon"
-                    style="margin: auto; margin-left: 10px"
-                  ></i>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="">
-              <div class="" style="width: 100%; position: relative">
+      <div class="search-bar pt-2 pb-2 mt-3">
+        <div class="row m-0">
+          <div
+            class="col-md-12 d-flex align-items-center"
+            style="border: 1px solid #f1f1f1"
+          >
+            <div class="" style="width: 200px">
+              <div class="" style="position: relative">
                 <div class="dropdown" style="width: 100%">
                   <button
                     type="button"
@@ -356,7 +321,43 @@
                 </div>
               </div>
             </div>
+            <div class="searchbr-ui w-100" id="attendanceDataTopbar">
+              <form
+                novalidate=""
+                role="search"
+                (submit)="searchUsers($event)"
+                class="searching ng-untouched ng-pristine ng-valid"
+              >
+                <div class="form-group" style="position: relative">
+                  <input
+                    type="text"
+                    id="searchText"
+                    placeholder="Search by name and role"
+                    class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                    (keyup)="searchUsers($event)"
+                    [(ngModel)]="searchText"
+                    [ngModelOptions]="{ standalone: true }"
+                    style="padding: 10px 40px"
+                  />
+                  <button
+                    *ngIf="searchText.length !== 0"
+                    type="button"
+                    class="btn close-btn"
+                    (click)="clearSearchText()"
+                  >
+                    <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                  </button>
+                  <i
+                    class="bi bi-search search-icon"
+                    style="margin: auto; margin-left: 15px"
+                  ></i>
+                </div>
+              </form>
+            </div>
           </div>
+          <!-- <div class="col-md-3">
+            
+          </div> -->
         </div>
       </div>
 

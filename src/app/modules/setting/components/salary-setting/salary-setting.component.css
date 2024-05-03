@@ -798,6 +798,7 @@ tbody tr {
 .custom-holiday {
   background-color: #fff8ec;
   border-left: 4px solid #ffe9c4;
+  padding: 15px;
 }
 
 .holiday-date {
@@ -854,4 +855,20 @@ tbody tr {
 
 .ant-switch-checked {
   background-color: #6666f3 !important;
+}
+
+.shift-time {
+  background-color: #f5f8fa;
+  border-radius: 2px;
+}
+
+.automation-rules-toogel-btn {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 8px 8px;
+  color: #444;
+}
+
+.custom-holiday p {
+  font-size: 12px;
 }
