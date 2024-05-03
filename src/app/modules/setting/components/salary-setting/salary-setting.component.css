@@ -798,6 +798,7 @@ tbody tr {
 .custom-holiday {
   background-color: #fff8ec;
   border-left: 4px solid #ffe9c4;
+  padding: 15px;
 }
 
 .holiday-date {
@@ -866,4 +867,8 @@ tbody tr {
   border-radius: 5px;
   padding: 8px 8px;
   color: #444;
+}
+
+.custom-holiday p {
+  font-size: 12px;
 }

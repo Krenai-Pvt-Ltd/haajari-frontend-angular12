@@ -357,7 +357,9 @@ button.btn.close-btn {
   height: 40px !important;
   text-align: left;
   background-color: #fff;
-  border: 1px solid #e8ebf3;
+  border-right: 1px solid #e8ebf3 !important;
+  border: none;
+  border-radius: 0px;
   color: #2d2e3e;
 }
 
@@ -469,18 +471,6 @@ textarea {
 
 .material-switch > input[type="checkbox"]:checked + label::before {
   background: #79af79;
-}
-.new-deopdown {
-  display: block;
-  width: 100%;
-  padding: 0.4rem 1rem;
-  font-size: 13px;
-  font-weight: 500;
-  height: 40px !important;
-  text-align: left;
-  background-color: #fff;
-  border: 1px solid #e8ebf3;
-  color: #2d2e3e;
 }
 
 .dot-opacity-loader {

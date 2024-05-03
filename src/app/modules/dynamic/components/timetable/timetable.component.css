@@ -401,6 +401,7 @@ select.form-control {
   border-right: 1px solid #f1f1f1 !important;
   color: #2d2e3e;
   border: none;
+  border-radius: 0px;
 }
 
 .save-changes {
