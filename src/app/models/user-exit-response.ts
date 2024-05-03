@@ -1,3 +1,5 @@
+import { PayActionType } from "./pay-action-type";
+
 export class UserExitResponse {
 
     uuid : string = '';
@@ -5,8 +7,8 @@ export class UserExitResponse {
     email : string = '';
     salary : number = 0;
     resignationDate : string = '';
-    lastWorkingDate : string = '';
-    requestStatus : string = '';
-    payActionTypeId : number = 1;
+    noticePeriodEndDate : string = '';
+    resignationStatus : string = '';
+    payActionType : PayActionType = new PayActionType();
     comment : string = '';
 }

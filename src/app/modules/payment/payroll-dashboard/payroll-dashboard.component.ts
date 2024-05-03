@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { MonthResponse } from 'src/app/models/month-response';
 import { NewJoineeAndUserExitRequest } from 'src/app/models/new-joinee-and-user-exit-request';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
+import { NoticePeriod } from 'src/app/models/notice-period';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { PayrollDashboardEmployeeCountResponse } from 'src/app/models/payroll-dashboard-employee-count-response';
@@ -108,7 +109,6 @@ export class PayrollDashboardComponent implements OnInit {
   endDate: string = '';
 
   onYearChange(year: Date): void {
-    console.log('Month is getting selected!');
     this.selectedDate = year;
     this.getMonthResponseList(this.selectedDate);
 
@@ -198,7 +198,6 @@ export class PayrollDashboardComponent implements OnInit {
         this.organizationRegistrationDate = response;
       },
       (error) => {
-        console.log(error);
       }
     );
   }
@@ -343,7 +342,6 @@ export class PayrollDashboardComponent implements OnInit {
           this.isShimmer = false;
         },
         (error) => {
-          console.log(error);
           this.isShimmer = false;
           this.networkConnectionErrorPlaceHolder = true;
         }
@@ -367,6 +365,30 @@ export class PayrollDashboardComponent implements OnInit {
       );
   }
 
+
+  //View child properties to click
+  @ViewChild('step1') step1 !: ElementRef;
+  @ViewChild('step2') step2 !: ElementRef;
+  @ViewChild('step3') step3 !: ElementRef;
+
+  clickOnNewJoineeTab(){
+    if(this.step1 && this.step1.nativeElement){
+      this.step1.nativeElement.click();
+    }
+  }
+
+  clickOnUserExitTab(){
+    if (this.step2 && this.step2.nativeElement) {
+      this.step2.nativeElement.click();
+    }
+  }
+
+  clickOnFinalSettlementTab(){
+    if(this.step3 && this.step3.nativeElement){
+      this.step3.nativeElement.click();
+    }
+  }
+
   //Exmployee changes tab selection
   newJoineeTab() {
     this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.NEW_JOINEE_STEP;
@@ -384,6 +406,19 @@ export class PayrollDashboardComponent implements OnInit {
     this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.FINAL_SETTLEMENT_STEP;
     this.resetCriteriaFilter();
     this.getFinalSettlementByOrganizationIdMethodCall();
+  }
+
+  employeeChangesBackTab(){
+    if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.FINAL_SETTLEMENT_STEP){
+      this.clickOnUserExitTab();
+    } else if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP){
+      this.clickOnNewJoineeTab();
+    }
+  }
+
+  //Routing to the user profile section
+  routeToUserProfile(uuid : string){
+    this.helperService.routeToUserProfile(uuid);
   }
 
   //Fetching the new joinee data
@@ -430,18 +465,32 @@ export class PayrollDashboardComponent implements OnInit {
   }
 
   //Fetching the pay action type list
-  payActionTypeList: PayActionType[] = [];
-  getPayActionTypeListMethodCall() {
-    this.dataService.getPayActionTypeList().subscribe(
-      (response) => {
-        if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-        } else {
-          this.payActionTypeList = response.listOfObject;
-          this.selectedPayActionType = response.listOfObject[0];
-        }
-      },
-      (error) => {}
-    );
+  payActionTypeList : PayActionType[] = [];
+  getPayActionTypeListMethodCall(){
+    this.dataService.getPayActionTypeList().subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+
+      } else{
+        this.payActionTypeList = response.listOfObject;
+        console.log(this.payActionTypeList);
+      }
+    }, (error) => {
+
+    })
+  }
+
+  //Fetching the notice period list
+  noticePeriodList : NoticePeriod[] = [];
+  getNoticePeriodListMethodCall(){
+    this.dataService.getNoticePeriodList().subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+
+      } else{
+        this.noticePeriodList = response.listOfObject;
+      }
+    }, (error) => {
+
+    })
   }
 
   //Selecting pay action type
@@ -450,14 +499,14 @@ export class PayrollDashboardComponent implements OnInit {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  selectedPayActionType: PayActionType = new PayActionType();
-  selectPayActionType(payActionType: PayActionType, response: any) {
-    this.selectedPayActionType = payActionType;
-
-    if (response != undefined && response != null) {
-      response.payActionTypeId = payActionType.id;
+  selectedPayActionType : PayActionType = new PayActionType();
+  selectPayActionType(payActionType : PayActionType, response : any){
+    if(response != undefined && response != null){
+      response.payActionType = payActionType;
     }
   }
+
+
 
   // User selection to generate the payout
   // isAllUsersSelected : boolean = false;
@@ -725,50 +774,62 @@ export class PayrollDashboardComponent implements OnInit {
     if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.NEW_JOINEE_STEP) {
       this.newJoineeAndUserExitRequestList = [];
 
-      this.newJoineeResponseList.forEach((item) => {
-        let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(
-          item.uuid,
-          item.payActionTypeId,
-          item.comment
-        );
 
-        this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
-      });
+        this.newJoineeResponseList.forEach((item) => {
+          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
+
+          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        });
+      } 
+
+      if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP){
+        this.newJoineeAndUserExitRequestList = [];
+
+        this.userExitResponseList.forEach((item) => {
+          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
+
+          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        })
+      }
+
+      if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.FINAL_SETTLEMENT_STEP){
+        this.newJoineeAndUserExitRequestList = [];
+
+        this.finalSettlementResponseList.forEach((item) => {
+          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
+
+          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        })
+      }
+      
+      this.dataService.registerNewJoineeAndUserExit(this.newJoineeAndUserExitRequestList, this.startDate, this.endDate).subscribe((response) => {
+
+        this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+
+      }, (error) => {
+        this.helperService.showToast(error.error.message, Key.TOAST_STATUS_ERROR);
+      })
     }
 
-    if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP) {
-      this.newJoineeAndUserExitRequestList = [];
-
-      this.userExitResponseList.forEach((item) => {
-        let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(
-          item.uuid,
-          item.payActionTypeId,
-          item.comment
-        );
-
-        this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
-      });
-    }
-
-    this.dataService
-      .registerNewJoineeAndUserExit(
-        this.newJoineeAndUserExitRequestList,
-        this.startDate,
-        this.endDate
-      )
-      .subscribe(
-        (response) => {
-          this.helperService.showToast(
-            response.message,
-            Key.TOAST_STATUS_SUCCESS
-          );
-        },
-        (error) => {
-          this.helperService.showToast(
-            error.error.message,
-            Key.TOAST_STATUS_ERROR
-          );
-        }
-      );
-  }
+    // this.dataService
+    //   .registerNewJoineeAndUserExit(
+    //     this.newJoineeAndUserExitRequestList,
+    //     this.startDate,
+    //     this.endDate
+    //   )
+    //   .subscribe(
+    //     (response) => {
+    //       this.helperService.showToast(
+    //         response.message,
+    //         Key.TOAST_STATUS_SUCCESS
+    //       );
+    //     },
+    //     (error) => {
+    //       this.helperService.showToast(
+    //         error.error.message,
+    //         Key.TOAST_STATUS_ERROR
+    //       );
+    //     }
+    //   );
+  
 }
