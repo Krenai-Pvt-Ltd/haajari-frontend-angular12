@@ -671,13 +671,15 @@
                             </p>
                           </td>
                           <td>
-                            <p class="mb-0 weekly-pro-name">{{ user.name }}</p>
+                            <a routerLink="/employee-profile"
+                            (click)="routeToUserDetails(user.uuid)" class="mb-0 btn btn-link weekly-pro-name">{{ user.name }}</a>
                           </td>
                           <!-- <td>Meeting</td> -->
                           <td>
-                            <p class="mb-0 weekly-pro-email">
+                            <a routerLink="/employee-profile"
+                            (click)="routeToUserDetails(user.uuid)" class="mb-0 btn btn-link weekly-pro-email">
                               {{ user.email ? user.email : "N/A" }}
-                            </p>
+                          </a>
                           </td>
                           <td class="text-center">
                             <div class="material-switch">
