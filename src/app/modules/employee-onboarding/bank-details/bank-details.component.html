@@ -109,8 +109,9 @@
                                     </button>
                                 </div>
                                 <div class="info-btn d-flex justify-content-end" style="gap:10px;">
-                                    <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
-                                        <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle " aria-label="Save">
+                                    <!-- Conditional: Button shows if status is 'REJECTED' and no update request is pending -->
+                                    <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED' && !this.userBankDetailRequest.updateRequest">
+                                        <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
                                             <div *ngIf="toggleSave" class="dot-opacity-loader">
                                                 <span></span>
                                                 <span></span>
@@ -121,20 +122,42 @@
                                             </span>
                                         </button>
                                     </div>
-                                    <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle " aria-label="Next Step">
+                                    
+                                    <!-- Go Back to Profile Button: Shown only if there is an update request -->
+                                    <div class="info-btn" *ngIf="this.userBankDetailRequest.updateRequest">
+                                        <button (click)="goBackToProfile()" class="btn btn-warning" type="button" aria-label="Go Back to Profile">
+                                            Go Back to Profile
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Conditional Update Button: Replaces 'Next' button if there is an update request -->
+                                    <button *ngIf="this.userBankDetailRequest.updateRequest" (click)="selectButtonType('update')" class="btn btn-info save-button" type="button" aria-label="Update">
                                         <div *ngIf="toggle" class="dot-opacity-loader">
-                                          <span></span>
-                                          <span></span>
-                                          <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                        <span *ngIf="!toggle">
+                                            Update <i class="bi bi-pencil-square" style="padding-left: 8px;"></i>
+                                        </span>
+                                    </button>
+                                    
+                                    <!-- Original 'Next' Button: Shown only when there is no update request -->
+                                    <button *ngIf="!this.userBankDetailRequest.updateRequest" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
+                                        <div *ngIf="toggle" class="dot-opacity-loader">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
                                         </div>
                                         <span *ngIf="!toggle && isNewUser">
                                             Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                                         </span>
                                         <span *ngIf="!toggle && !isNewUser">
-                                          Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
-                                      </span>
-                                      </button>
+                                            Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                        </span>
+                                    </button>
                                 </div>
+                                
                                 <button type="submit" style="display: none;" id="formSubmitButton"  #formSubmitButton></button>
                             </div>
                         </div>

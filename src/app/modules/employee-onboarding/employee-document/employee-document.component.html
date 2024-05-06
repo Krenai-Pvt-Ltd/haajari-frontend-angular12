@@ -469,7 +469,14 @@
                                   </div>
                                   <!-- Conditional Update Button, replaces Next button if updateRequest is true -->
                                   <button *ngIf="this.userDocumentsDetailsRequest.updateRequest" (click)="selectButtonType('update')" class="btn btn-info save-button" type="button" aria-label="Update">
+                                    <div *ngIf="toggle" class="dot-opacity-loader">
+                                      <span></span>
+                                      <span></span>
+                                      <span></span>
+                                    </div>
+                                    <span *ngIf="!toggle">
                                       Update <i class="bi bi-pencil-square" style="padding-left: 8px;"></i>
+                                    </span>
                                   </button>
                                   <!-- Original Next Button, shown only when updateRequest is not true -->
                                   <button *ngIf="!this.userDocumentsDetailsRequest.updateRequest" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">

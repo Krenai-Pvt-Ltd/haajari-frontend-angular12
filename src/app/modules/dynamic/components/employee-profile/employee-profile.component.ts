@@ -1748,6 +1748,7 @@ export class EmployeeProfileComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: {
         userUuid: new URLSearchParams(window.location.search).get('userId'),
+        adminUuid: this.UUID
       },
     };
     this.router.navigate([routePath], navExtra);

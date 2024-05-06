@@ -8,6 +8,7 @@
                 <div class="col-md-12">
                     <div class="persnol-details">
                         <h5>Employee Emergency Contact</h5>
+                        {{this.isAdminPresent}}
                         <p class="mb-0">Fields with * are mandatory</p>
                         <form #emergencyInformationForm="ngForm"  (ngSubmit)="openModal()">
                             <div class="form-group">
@@ -136,21 +137,38 @@
                                   </button>
                                 </div>
                                 <!-- Removed the unnecessary col-md-12 div -->
-                                <div class="info-btn d-flex justify-content-end">
-                                  <!-- Button to trigger confirmation modal -->
-                                  <button type="submit" class="btn btn-primary save-button" [disabled]="toggle"  aria-label="Save">
-                                    <div *ngIf="toggle" class="dot-opacity-loader">
-                                      <span></span>
-                                      <span></span>
-                                      <span></span>
-                                    </div>
-                                    <span *ngIf="!toggle">
-                                      Preview Form <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
-                                    </span>
-                                  </button>
-                                  
-                                    
+                                <div class="info-btn d-flex justify-content-end" style="gap:10px;">
+                                  <div class="info-btn" *ngIf="this.isAdminPresent">
+                                    <button (click)="goBackToProfile()" class="btn btn-warning" type="button" aria-label="Go Back to Profile">
+                                        Go Back to Profile
+                                    </button>
                                 </div>
+                                  <!-- Button for 'Update' shown only if there is an update request -->
+                                  <button *ngIf="this.isAdminPresent" (click)="selectButtonType('update')" class="btn btn-info save-button" type="submit" aria-label="Update">
+                                      <div *ngIf="toggle" class="dot-opacity-loader">
+                                          <span></span>
+                                          <span></span>
+                                          <span></span>
+                                      </div>
+                                      <span *ngIf="!toggle">
+                                          Update <i class="bi bi-pencil-square" style="padding-left: 8px;"></i>
+                                      </span>
+                                  </button>
+                              
+                                
+                              
+                                  <!-- Button to trigger confirmation modal for Preview, shown only when there's no update request -->
+                                  <button *ngIf="!this.isAdminPresent" type="submit" class="btn btn-primary save-button" [disabled]="toggle" aria-label="Save">
+                                      <div *ngIf="toggle" class="dot-opacity-loader">
+                                          <span></span>
+                                          <span></span>
+                                          <span></span>
+                                      </div>
+                                      <span *ngIf="!toggle">
+                                          Preview Form <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                      </span>
+                                  </button>
+                              </div>
                               </div>
                             </div>
                         </div>

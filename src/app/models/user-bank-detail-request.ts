@@ -8,4 +8,5 @@ export class UserBankDetailRequest {
     directSave: boolean = false;
     employeeOnboardingStatus : string = '';
     employeeOnboardingFormStatus : string = '';
+    updateRequest!: boolean;
 }
