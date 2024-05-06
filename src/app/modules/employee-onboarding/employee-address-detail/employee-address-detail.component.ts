@@ -77,9 +77,10 @@ setEmployeeAddressDetailsMethodCall() {
   this.userAddressDetailsRequest.sameAddress = this.isPermanent;
   if(this.buttonType=='next'){
     this.toggle = true;
-    
+    this.userAddressDetailsRequest.updateRequest = false;
   } else if (this.buttonType=='save'){
     this.toggleSave = true;
+    this.userAddressDetailsRequest.updateRequest = false;
   } else if (this.buttonType=='update'){
     this.toggle = true;
   }
@@ -147,8 +148,9 @@ async getNewUserAddressDetailsMethodCall(): Promise<boolean> {
                   this.dataService.markStepAsCompleted(response.statusId);
                   if (response && response.userAddressRequest && response.userAddressRequest.length > 0) {
                       this.userAddressDetailsRequest = response;
-                      await this.getAdminVerifiedForOnboardingUpdateMethodCall(); // This will now work
                       this.userAddressRequest = response.userAddressRequest;
+                      // await this.getAdminVerifiedForOnboardingUpdateMethodCall(); // This will now work
+                     
                       
                       if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED' && !this.userAddressDetailsRequest.updateRequest){
                           this.successMessageModalButton.nativeElement.click();

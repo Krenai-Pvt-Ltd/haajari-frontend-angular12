@@ -348,9 +348,9 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     } else if (type === 'slack' && this.notifications.slack == true) {
       this.notificationVia.id = 1;
     } else if (type === 'slack' && this.notifications.slack == false) {
-      this.notificationVia.id = 2;
-    } else if (type === 'whatsapp' && this.notifications.whatsapp == true) {
       this.notificationVia.id = 1;
+    } else if (type === 'whatsapp' && this.notifications.whatsapp == true) {
+      this.notificationVia.id = 2;
     }
     this._data.updateNotificationSetting(this.notificationVia).subscribe({
       next: (response: UserPersonalInformationRequest) => {
