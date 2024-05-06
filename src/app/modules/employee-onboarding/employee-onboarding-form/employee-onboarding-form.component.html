@@ -10,7 +10,8 @@
             <div class="row" *ngIf="!isLoading">
                 <div class="col-md-12">
                 <div class="persnol-details">
-                    <h5>Personal Information</h5>
+                    <h5>Personal Information</h5> 
+                    
                     <p class="mb-0">Fields with * are mandatory </p>
                     <!-- <form ngNativeValidate (ngSubmit)="setEmployeePersonalDetailsMethodCall()"> -->
                       <form #personalInformationForm="ngForm"  (ngSubmit)="submit()">
@@ -283,7 +284,7 @@
                 <div class="col-md-6">
                   <div class="mb-3">
                       <label for="currentSalaryField" class="pb-2">Current Salary <span class="text-optional"> (optional)</span></label>
-                      <input type="text" mask="0000000000" class="form-control" id="currentSalaryField" name="currentSalary" placeholder="Enter current salary" [(ngModel)]="userPersonalInformationRequest.currentSalary"  pattern="^[0-9]*$" #currentSalary="ngModel">
+                      <input type="text" class="form-control" id="currentSalaryField" name="currentSalary" placeholder="Enter current salary" [(ngModel)]="userPersonalInformationRequest.currentSalary"  pattern="^[0-9]*$" #currentSalary="ngModel">
                       <div *ngIf="currentSalary.touched">
                           <p class="errortxt mt-2 mb-0" *ngIf="currentSalary.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Current salary is required.</p>
                           <p class="errortxt mt-2 mb-0" *ngIf="currentSalary.errors?.pattern" style="color:red"> <i class="bi bi-exclamation-circle"></i> Please enter a valid number.</p>
@@ -425,10 +426,10 @@
         </button> -->
                           
         
-        
+      
         <div class="col-md-12 d-flex justify-content-end mt-3" style="gap:10px;">
             <div class="info-btn d-flex justify-content-end" style="gap:10px;">
-              <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+              <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED' && !this.userPersonalInformationRequest.updateRequest">
                 <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
                   <div *ngIf="toggleSave" class="dot-opacity-loader">
                     <span></span>
@@ -440,22 +441,42 @@
                   </span>
                 </button>
               </div>
-              <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
+              <!-- Go Back to Profile Button -->
+              <div class="info-btn" *ngIf="this.userPersonalInformationRequest.updateRequest">
+                <button (click)="goBackToProfile()" class="btn btn-warning" type="button" aria-label="Go Back to Profile">
+                  Go Back to Profile
+                </button>
+              </div>
+              <!-- Conditional Update Button -->
+              <button *ngIf="this.userPersonalInformationRequest.updateRequest" (click)="selectButtonType('update')" class="btn btn-info" type="button" aria-label="Update">
+                 
+                <div *ngIf="toggle" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <span *ngIf="!toggle && isNewUser && this.userPersonalInformationRequest.updateRequest ">
+                    Update <i class="bi bi-pencil-square" style="padding-left: 8px;"></i>
+                  </span>
+              </button>
+              <!-- Original Next Button shown only when not update request -->
+              <button *ngIf="!this.userPersonalInformationRequest.updateRequest" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
                 <div *ngIf="toggle" class="dot-opacity-loader">
                   <span></span>
                   <span></span>
                   <span></span>
                 </div>
-                <span *ngIf="!toggle && isNewUser">
+                <span *ngIf="!toggle && isNewUser && !this.userPersonalInformationRequest.updateRequest ">
                   Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                 </span>
-                <span *ngIf="!toggle && !isNewUser">
+                <span *ngIf="!toggle && !isNewUser && !this.userPersonalInformationRequest.updateRequest">
                   Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                 </span>
               </button>
             </div>
-            <button type="submit" style="display: none;" id="formSubmitButton"  #formSubmitButton></button>
+            <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button>
           </div>
+          
           
       
       

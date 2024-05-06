@@ -275,7 +275,7 @@
                           </button>
                       </div>
                       <div class="info-btn d-flex justify-content-end" style="gap:10px;">
-                          <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
+                          <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED' && !this.userAddressDetailsRequest.updateRequest">
                               <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
                                   <div *ngIf="toggleSave" class="dot-opacity-loader ">
                                       <span></span>
@@ -287,7 +287,25 @@
                                   </span>
                               </button>
                           </div>
-                          <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle"  aria-label="Next Step">
+                           <!-- Go Back to Profile Button, shown only if updateRequest is true -->
+                           <div class="info-btn" *ngIf="this.userAddressDetailsRequest.updateRequest">
+                            <button (click)="goBackToProfile()" class="btn btn-warning" type="button" aria-label="Go Back to Profile">
+                              Go Back to Profile
+                            </button>
+                          </div>
+                          <!-- Conditional Update Button, replaces Next button if updateRequest is true -->
+                          <button *ngIf="this.userAddressDetailsRequest.updateRequest" (click)="selectButtonType('update')" class="btn btn-info save-button" type="button" aria-label="Update">
+                            <div *ngIf="toggle" class="dot-opacity-loader">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                            </div>
+                            <span *ngIf="!toggle">
+                              Update <i class="bi bi-pencil-square" style="padding-left: 8px;"></i>
+                            </span>
+                          </button>
+
+                          <button *ngIf="!this.userAddressDetailsRequest.updateRequest" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle"  aria-label="Next Step">
                               <div *ngIf="toggle" class="dot-opacity-loader">
                                 <span></span>
                                 <span></span>
