@@ -211,7 +211,7 @@
 }
 
 .nav-tabs {
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .nav-tabs .nav-item {
@@ -500,7 +500,7 @@
   grid-gap: 10px;
   gap: 10px;
   background: #ffffff;
-  border-radius: 5px;
+  border-radius: 2px;
   margin-bottom: 15px;
   padding: 15px;
   border: 1px solid #f1f1f1;
@@ -1306,4 +1306,52 @@ i.bi.bi-plus {
 
 .radio-btn {
   padding-left: 10px;
+}
+
+nz-date-picker.nz-overlay-container.whatapp-login-input {
+  height: 50px !important;
+  border: 1px solid #f1f1f1 !important;
+}
+
+.select-user-count b {
+  color: #6666f3;
+  font-size: 13px;
+}
+
+.all-select-user {
+  background-color: #f0f0ff;
+  color: #6666f3;
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.clear-all-user {
+  cursor: pointer;
+  color: #eb5050;
+  background-color: #fcf1f1;
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-size: 13px;
+}
+.user-close-btn i {
+  font-size: 20px;
+}
+
+.align-label {
+  position: relative;
+  top: 4px;
+}
+
+@media (max-width: 2600px) {
+  .modal-body.modal-height-fix {
+    max-height: 690px;
+    overflow: scroll;
+  }
+}
+@media (max-width: 1300px) {
+  .modal-body.modal-height-fix {
+    max-height: 450px;
+    overflow: scroll;
+  }
 }

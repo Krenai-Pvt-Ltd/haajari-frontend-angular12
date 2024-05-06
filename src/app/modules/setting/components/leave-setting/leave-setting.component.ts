@@ -50,6 +50,7 @@ export class LeaveSettingComponent implements OnInit {
   readonly constants = constant;
 
   ngOnInit(): void {
+    window.scroll(0, 0);
     this.getUserByFiltersMethodCall(0);
     this.getFullLeaveSettingInformation();
     // this.findUsersOfLeaveSetting(30);

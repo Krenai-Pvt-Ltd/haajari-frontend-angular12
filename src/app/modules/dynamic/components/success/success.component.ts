@@ -5,27 +5,25 @@ import { SubscriptionPlanService } from 'src/app/services/subscription-plan.serv
 @Component({
   selector: 'app-success',
   templateUrl: './success.component.html',
-  styleUrls: ['./success.component.css']
+  styleUrls: ['./success.component.css'],
 })
 export class SuccessComponent implements OnInit {
+  invoices: Invoices = new Invoices();
 
-  invoices:Invoices = new Invoices();
-
-  constructor(private _subscriptionPlanService:SubscriptionPlanService) { }
+  constructor(private _subscriptionPlanService: SubscriptionPlanService) {}
 
   ngOnInit(): void {
+    window.scroll(0, 0);
     this.getLastInvoice();
   }
 
-
-  getLastInvoice(){
-    this._subscriptionPlanService.getLastInvoices().subscribe(response=>{
-      if(response.status){
+  getLastInvoice() {
+    this._subscriptionPlanService.getLastInvoices().subscribe((response) => {
+      if (response.status) {
         console.log(response.object);
-        
+
         this.invoices = response.object;
       }
-    })
+    });
   }
-
 }

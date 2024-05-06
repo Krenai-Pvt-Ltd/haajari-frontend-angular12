@@ -942,7 +942,7 @@ div#eventsModal {
   height: fit-content;
   padding: 0;
   min-width: 30rem;
-  background-color: transparent;
+  background-color: transparent !important;
   overflow: visible;
 }
 

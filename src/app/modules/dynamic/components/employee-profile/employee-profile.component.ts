@@ -76,7 +76,7 @@ export class EmployeeProfileComponent implements OnInit {
     private router: Router,
     private roleService: RoleBasedAccessControlService,
     public location: Location,
-    public sanitize: DomSanitizer,
+    public sanitize: DomSanitizer
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -137,6 +137,8 @@ export class EmployeeProfileComponent implements OnInit {
   currentDate: Date = new Date();
   currentNewDate: any;
   async ngOnInit(): Promise<void> {
+    this.activeTabs('home');
+    window.scroll(0, 0);
     this.getOnboardingFormPreviewMethodCall();
     this.getAllTaxRegimeMethodCall();
     this.getStatutoryByOrganizationIdMethodCall();
@@ -221,7 +223,7 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         this.count++;
-      },
+      }
     );
   }
 
@@ -244,7 +246,7 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         this.isImage = false;
         this.count++;
-      },
+      }
     );
   }
 
@@ -252,6 +254,7 @@ export class EmployeeProfileComponent implements OnInit {
   approvedToggle = false;
   @ViewChild('closeRejectModalButton') closeRejectModalButton!: ElementRef;
   updateStatusUserByUuid(type: string) {
+    debugger;
     if (type == 'REJECTED') {
       this.toggle = true;
       this.setReasonOfRejectionMethodCall();
@@ -276,7 +279,7 @@ export class EmployeeProfileComponent implements OnInit {
         // location.reload();
         // location.reload();
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -389,11 +392,11 @@ export class EmployeeProfileComponent implements OnInit {
       // console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
       var rect = mouseEnterInfo.el.getBoundingClientRect();
       this.clientX = rect.left - 210 + 'px';
-      this.clientY = rect.top - 100 + 'px';
+      this.clientY = rect.top - 70 + 'px';
       console.log(
         'mouse location:',
         mouseEnterInfo.jsEvent.clientX,
-        mouseEnterInfo.jsEvent.clientY,
+        mouseEnterInfo.jsEvent.clientY
       );
       this.openEventsModal.nativeElement.click();
     }
@@ -487,7 +490,7 @@ export class EmployeeProfileComponent implements OnInit {
                 this.totalAbsent++;
               }
               const date = moment(this.attendances[i].createdDate).format(
-                'YYYY-MM-DD',
+                'YYYY-MM-DD'
               );
 
               var tempEvent2 = {
@@ -558,7 +561,7 @@ export class EmployeeProfileComponent implements OnInit {
         (error: any) => {
           this.count++;
           // console.error('Error fetching data:', error);
-        },
+        }
       );
   }
 
@@ -668,7 +671,7 @@ export class EmployeeProfileComponent implements OnInit {
     let endDate = new Date(
       startDate.getFullYear(),
       startDate.getMonth() + 1,
-      0,
+      0
     );
 
     this.startDateStr = moment(startDate).format('YYYY-MM-DD');
@@ -721,7 +724,7 @@ export class EmployeeProfileComponent implements OnInit {
     let endDate = new Date(
       startDate.getFullYear(),
       startDate.getMonth() + 1,
-      0,
+      0
     );
 
     if (startDate.getMonth() == new Date(this.newDate).getMonth()) {
@@ -759,7 +762,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   dateInMonthList(attendances: AttendenceDto[]): string[] {
     const uniqueDays = Array.from(
-      new Set(attendances.map((a) => a.createdDate)),
+      new Set(attendances.map((a) => a.createdDate))
     );
     return uniqueDays;
   }
@@ -827,7 +830,7 @@ export class EmployeeProfileComponent implements OnInit {
         (error) => {
           this.submitLeaveLoader = false;
           // console.log(error.body);
-        },
+        }
       );
   }
 
@@ -887,7 +890,7 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         this.count++;
-      },
+      }
     );
   }
 
@@ -913,7 +916,7 @@ export class EmployeeProfileComponent implements OnInit {
           (error) => {
             this.isLeaveShimmer = false;
             this.count++;
-          },
+          }
         );
     } else {
       console.log('selectedStatus :' + this.selectedStatus);
@@ -932,7 +935,7 @@ export class EmployeeProfileComponent implements OnInit {
         (error) => {
           this.isLeaveErrorPlaceholder = true;
           this.isLeaveShimmer = false;
-        },
+        }
       );
     }
   }
@@ -972,7 +975,7 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         this.count++;
-      },
+      }
     );
   }
 
@@ -1020,7 +1023,7 @@ export class EmployeeProfileComponent implements OnInit {
         this.count++;
         this.isAddressPlaceholder = true;
         // this.isAddressShimmer=false;
-      },
+      }
     );
   }
 
@@ -1044,7 +1047,7 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         this.count++;
         this.isCompanyPlaceholder = true;
-      },
+      }
     );
   }
 
@@ -1064,7 +1067,7 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         this.count++;
         this.isAcademicPlaceholder = true;
-      },
+      }
     );
   }
 
@@ -1082,7 +1085,7 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         this.count++;
         this.isContactPlaceholder = true;
-      },
+      }
     );
   }
 
@@ -1101,7 +1104,7 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         this.count++;
         this.isBankShimmer = false;
-      },
+      }
     );
   }
 
@@ -1140,7 +1143,7 @@ export class EmployeeProfileComponent implements OnInit {
         this.count++;
         this.isDocsPlaceholder = true;
         // this.isDocumentsShimmer=false;
-      },
+      }
     );
   }
 
@@ -1351,7 +1354,7 @@ export class EmployeeProfileComponent implements OnInit {
 
     var blob = null;
     var splittedUrl = imageUrl.split(
-      '/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/',
+      '/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/'
     );
 
     if (splittedUrl.length < 2) {
@@ -1403,7 +1406,7 @@ export class EmployeeProfileComponent implements OnInit {
         // if(command==="/inn"){
         // this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
         // }
-      },
+      }
     );
   }
 
@@ -1417,7 +1420,7 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         this.count++;
-      },
+      }
     );
   }
 
@@ -1432,7 +1435,7 @@ export class EmployeeProfileComponent implements OnInit {
         },
         (error) => {
           // console.error('Error occurred:', error);
-        },
+        }
       );
   }
 
@@ -1473,7 +1476,9 @@ export class EmployeeProfileComponent implements OnInit {
         if (yearDiff > 0) {
           result += ' ';
         }
-        result += `${monthDiff === 1 ? monthDiff + ' month' : monthDiff + ' months'}`;
+        result += `${
+          monthDiff === 1 ? monthDiff + ' month' : monthDiff + ' months'
+        }`;
       }
       return result.trim() || 'N/A';
     } else {
@@ -1490,7 +1495,7 @@ export class EmployeeProfileComponent implements OnInit {
 
           this.helperService.showToast(
             'Mail Sent Successfully',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
           this.getUserByUuid();
           //  this.closeRejectModalButton.nativeElement.click();
@@ -1504,7 +1509,7 @@ export class EmployeeProfileComponent implements OnInit {
         },
         (error) => {
           this.helperService.showToast(error.message, Key.TOAST_STATUS_SUCCESS);
-        },
+        }
       );
   }
 
@@ -1547,7 +1552,7 @@ export class EmployeeProfileComponent implements OnInit {
       (response) => {
         this.salaryConfigurationStepId = response.count;
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -1559,7 +1564,7 @@ export class EmployeeProfileComponent implements OnInit {
         this.pFContributionRateList = response.listOfObject;
         console.log(response.listOfObject);
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -1569,7 +1574,7 @@ export class EmployeeProfileComponent implements OnInit {
       (response) => {
         this.eSIContributionRateList = response.listOfObject;
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -1578,16 +1583,16 @@ export class EmployeeProfileComponent implements OnInit {
       (response) => {
         this.helperService.showToast(
           response.message,
-          Key.TOAST_STATUS_SUCCESS,
+          Key.TOAST_STATUS_SUCCESS
         );
         this.getAllTaxRegimeMethodCall();
       },
       (error) => {
         this.helperService.showToast(
           'Error in updating tax regime!',
-          Key.TOAST_STATUS_ERROR,
+          Key.TOAST_STATUS_ERROR
         );
-      },
+      }
     );
   }
 
@@ -1597,7 +1602,7 @@ export class EmployeeProfileComponent implements OnInit {
       (response) => {
         this.taxRegimeList = response.listOfObject;
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -1611,7 +1616,7 @@ export class EmployeeProfileComponent implements OnInit {
         console.log(this.statutoryResponseList);
         this.clearInputValues();
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -1629,7 +1634,7 @@ export class EmployeeProfileComponent implements OnInit {
           },
           (error) => {
             reject(error);
-          },
+          }
         );
     });
   }
@@ -1640,7 +1645,7 @@ export class EmployeeProfileComponent implements OnInit {
     }
 
     await this.getStatutoryAttributeByStatutoryIdMethodCall(
-      statutoryResponse.id,
+      statutoryResponse.id
     );
 
     this.statutoryRequest.id = statutoryResponse.id;
@@ -1673,17 +1678,17 @@ export class EmployeeProfileComponent implements OnInit {
         this.setStatutoryVariablesToFalse();
         this.helperService.showToast(
           response.message,
-          Key.TOAST_STATUS_SUCCESS,
+          Key.TOAST_STATUS_SUCCESS
         );
         this.getStatutoryByOrganizationIdMethodCall();
       },
       (error) => {
         this.helperService.showToast(
           error.error.message,
-          Key.TOAST_STATUS_ERROR,
+          Key.TOAST_STATUS_ERROR
         );
         this.getStatutoryByOrganizationIdMethodCall();
-      },
+      }
     );
   }
 
@@ -1699,17 +1704,17 @@ export class EmployeeProfileComponent implements OnInit {
         },
         (error) => {
           this.BUTTON_LOADER = false;
-        },
+        }
       );
   }
 
   goToManageStatutory() {
     this.salaryConfigurationStepId = this.MANAGE_STATUTORY;
     const configureSalarySettingDiv = document.getElementById(
-      'configure-salary-setting',
+      'configure-salary-setting'
     ) as HTMLInputElement | null;
     const manageStatutoryDiv = document.getElementById(
-      'manage-statutory',
+      'manage-statutory'
     ) as HTMLInputElement | null;
 
     if (configureSalarySettingDiv) {
@@ -1762,7 +1767,7 @@ export class EmployeeProfileComponent implements OnInit {
           }
           this.isLoading = false;
           this.handleOnboardingStatus(
-            preview.user.employeeOnboardingStatus.response,
+            preview.user.employeeOnboardingStatus.response
           );
 
           // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
@@ -1794,22 +1799,22 @@ export class EmployeeProfileComponent implements OnInit {
           }
           if (preview.userDocuments != null) {
             this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(
-              preview.userDocuments.secondarySchoolCertificate,
+              preview.userDocuments.secondarySchoolCertificate
             );
             this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.highSchoolCertificate,
+              preview.userDocuments.highSchoolCertificate
             );
             this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.highestQualificationDegree,
+              preview.userDocuments.highestQualificationDegree
             );
             this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.testimonialReccomendation,
+              preview.userDocuments.testimonialReccomendation
             );
             this.aadhaarCardFileName = this.getFilenameFromUrl(
-              preview.userDocuments.aadhaarCard,
+              preview.userDocuments.aadhaarCard
             );
             this.pancardFileName = this.getFilenameFromUrl(
-              preview.userDocuments.pancard,
+              preview.userDocuments.pancard
             );
           }
           this.isLoading = false;
@@ -1817,7 +1822,7 @@ export class EmployeeProfileComponent implements OnInit {
         (error: any) => {
           console.error('Error fetching user details:', error);
           this.userEmergencyContactArray = [];
-        },
+        }
       );
     } else {
       console.error('User UUID not found');
@@ -1863,7 +1868,7 @@ export class EmployeeProfileComponent implements OnInit {
       (data) => {
         this.isManagerBoolean = data;
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -1875,7 +1880,7 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         console.error('Failed to fetch experiences', error);
-      },
+      }
     );
   }
 
@@ -1889,5 +1894,44 @@ export class EmployeeProfileComponent implements OnInit {
     if (!experienceString) return '0';
     const monthMatch = experienceString.match(/(\d+)\s+months/);
     return monthMatch ? monthMatch[1] : '0';
+  }
+  activeHomeTabFlag: boolean = false;
+  activeAttendanceTabFlag: boolean = false;
+  activeFinancesTabFlag: boolean = false;
+  activeDocumentsTabFlag: boolean = false;
+  activeProfileTabFlag: boolean = false;
+
+  activeTabs(activeTabString: string) {
+    if (activeTabString === 'home') {
+      this.activeHomeTabFlag = true;
+      this.activeAttendanceTabFlag = false;
+      this.activeFinancesTabFlag = false;
+      this.activeDocumentsTabFlag = false;
+      this.activeProfileTabFlag = false;
+    } else if (activeTabString === 'attendance') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = true;
+      this.activeFinancesTabFlag = false;
+      this.activeDocumentsTabFlag = false;
+      this.activeProfileTabFlag = false;
+    } else if (activeTabString === 'finances') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = false;
+      this.activeFinancesTabFlag = true;
+      this.activeDocumentsTabFlag = false;
+      this.activeProfileTabFlag = false;
+    } else if (activeTabString === 'documents') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = false;
+      this.activeFinancesTabFlag = false;
+      this.activeDocumentsTabFlag = true;
+      this.activeProfileTabFlag = false;
+    } else if (activeTabString === 'profile') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = false;
+      this.activeFinancesTabFlag = false;
+      this.activeDocumentsTabFlag = false;
+      this.activeProfileTabFlag = true;
+    }
   }
 }

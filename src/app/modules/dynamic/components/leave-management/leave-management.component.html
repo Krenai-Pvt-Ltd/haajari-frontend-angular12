@@ -180,13 +180,22 @@
       <div class="row p-2 mt-3">
         <div class="col-md-6">
           <div class="my-leave-log">
+            <div class="my-leave-log-hedding">
+              <h4>My Leaves</h4>
+
+              <!-- <a href="" class="view-loges-btn">Apply for leaves <i class="bi bi-chevron-right"></i></a> -->
+              <!-- <div class="dropdown" style="width: 30%;" *ngIf="(ROLE!='USER')"><button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select Team <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button><ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;"><li class="ng-star-inserted" *ngFor="let tn of teamNameList"><a class="dropdown-item"> {{tn}} </a></li></ul></div> -->
+            </div>
+            <hr style="margin-bottom: 10px" />
+            <!-- <div class="mb-3"><div class="form-group pb-1" style="width: 100%; position: relative; border-bottom: 1px solid #e8ebf3"><input  type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important;"><i  class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i></div></div> -->
             <div
-              class="my-leave-log-hedding d-flex align-items-center justify-content-between"
+              class="mb-3 d-flex align-items-center"
+              style="border: 1px solid #f1f1f1; border-radius: 2px"
+              *ngIf="ROLE != 'USER'"
             >
-              <h4 style="width: 70%">My Leaves</h4>
               <div
                 class="dropdown"
-                style="width: 30%"
+                style="width: 35%"
                 *ngIf="ROLE != 'USER' && fullLeaveLogs.length > 0"
               >
                 <button
@@ -223,19 +232,9 @@
                   </li>
                 </ul>
               </div>
-              <!-- <a href="" class="view-loges-btn">Apply for leaves <i class="bi bi-chevron-right"></i></a> -->
-              <!-- <div class="dropdown" style="width: 30%;" *ngIf="(ROLE!='USER')"><button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select Team <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button><ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;"><li class="ng-star-inserted" *ngFor="let tn of teamNameList"><a class="dropdown-item"> {{tn}} </a></li></ul></div> -->
-            </div>
-            <hr style="margin-bottom: 5px" />
-            <!-- <div class="mb-3"><div class="form-group pb-1" style="width: 100%; position: relative; border-bottom: 1px solid #e8ebf3"><input  type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important;"><i  class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i></div></div> -->
-            <div class="mb-3" *ngIf="ROLE != 'USER'">
               <div
                 class="form-group pb-1"
-                style="
-                  width: 100%;
-                  position: relative;
-                  border-bottom: 1px solid #e8ebf3;
-                "
+                style="width: 65%; position: relative"
               >
                 <input
                   type="text"
@@ -421,7 +420,7 @@
                 >Apply for leaves <i class="bi bi-chevron-right"></i>
               </a>
             </div>
-            <hr />
+            <hr style="margin-top: 5px" />
             <div class="panding-leave-box" *ngIf="pendingLeavesSize > 0">
               <p>
                 Pending Leave
@@ -723,11 +722,11 @@
                 <h5>
                   {{
                     specificLeaveRequest.startDate
-                      | date: "dd MMM yyyy" || "N/A"
+                      | date : "dd MMM yyyy" || "N/A"
                   }}
                   -
                   {{
-                    specificLeaveRequest.endDate | date: "dd MMM yyyy" || "N/A"
+                    specificLeaveRequest.endDate | date : "dd MMM yyyy" || "N/A"
                   }}
                 </h5>
                 <!-- <h5>{{ formatDateIn(formatDate(specificLeaveRequest.startDate)) }} - {{ formatDateIn(formatDate(specificLeaveRequest.endDate)) }}</h5> -->
@@ -738,7 +737,7 @@
                 <p>
                   {{
                     specificLeaveRequest.leaveDate
-                      | date: "dd MMM yyyy hh:mm:ss a"
+                      | date : "dd MMM yyyy hh:mm:ss a"
                   }}
                 </p>
               </div>
