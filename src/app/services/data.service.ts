@@ -2550,4 +2550,17 @@ export class DataService {
       `${this.baseUrl}/organization-shift-timing/get-organization-all-shift-counts`
     );
   }
+
+  getAdminVerifiedForOnboardingUpdate(userUuid: string, adminUuid: string): Observable<any> {
+    const params = {
+      userUuid: `${userUuid}`,
+      adminUuid: `${adminUuid}`,
+    };
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/employee-onboarding-status/check-admin`,
+      {
+        params,
+      }
+    );
+  }
 }
