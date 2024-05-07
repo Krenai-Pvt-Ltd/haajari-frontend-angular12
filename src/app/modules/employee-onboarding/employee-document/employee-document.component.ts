@@ -32,10 +32,31 @@ selectedHighSchoolCertificateFileName: any;
     ];
   }
   
-  backRedirectUrl(){
-    let navExtra: NavigationExtras = {
-      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
-    };
+
+  backRedirectUrl() {
+    // Retrieve userUuid from the URL query parameters
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    
+    // Initialize an empty object for queryParams
+    let queryParams: any = {};
+    
+    // Add userUuid to queryParams if it exists
+    if (userUuid) {
+      queryParams['userUuid'] = userUuid;
+    }
+    
+    // Conditionally add adminUuid to queryParams if updateRequest is true
+    if (this.userDocumentsDetailsRequest.updateRequest) {
+      const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+      if (adminUuid) {
+        queryParams['adminUuid'] = adminUuid;
+      }
+    }
+  
+    // Create NavigationExtras object with the queryParams
+    let navExtra: NavigationExtras = { queryParams };
+  
+    // Navigate to the specified route with the query parameters
     this.router.navigate(['/employee-onboarding/employee-address-detail'], navExtra);
   }
 
@@ -181,6 +202,8 @@ isValidFileType(file: File): boolean {
       this.toggle = true;
     } else if (this.buttonType=='save'){
       this.toggleSave = true;
+    } else if (this.buttonType=='update'){
+      this.toggle = true;
     }
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     if(this.selectedFile) {
@@ -259,7 +282,8 @@ getEmployeeDocumentsDetailsMethodCall() {
       (response: UserDocumentsDetailsRequest) => {
         this.userDocumentsDetailsRequest = response;
         this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
-        if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
+        this.getAdminVerifiedForOnboardingUpdateMethodCall();
+        if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED' && !this.userDocumentsDetailsRequest.updateRequest){
           this.successMessageModalButton.nativeElement.click();
         }
         this.handleOnboardingStatus(response.employeeOnboardingStatus);
@@ -353,6 +377,12 @@ switch(this.buttonType){
   case "save" :{
     debugger
     this.userDocumentsDetailsRequest.directSave = true;
+    this.setEmployeeDocumentsDetailsMethodCall();
+    break;
+  }
+  case "update" :{
+    debugger
+    
     this.setEmployeeDocumentsDetailsMethodCall();
     break;
   }
@@ -514,7 +544,38 @@ clearFile(event: MouseEvent, documentType: string): void {
   }
 }
 
+getAdminVerifiedForOnboardingUpdateMethodCall() {
+  debugger;
+  const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+  const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+  if (userUuid && adminUuid) {
+    this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
+      (isAdminPresent: boolean) => {
+        if (isAdminPresent) {
+          this.userDocumentsDetailsRequest.updateRequest = isAdminPresent;
+          console.log('Admin verification successful.');
+        } else {
+          this.userDocumentsDetailsRequest.updateRequest = isAdminPresent;
+          console.error('Admin verification failed.');
+        }
+      },
+      (error: any) => {
+        console.error('Error fetching admin verification status:', error);
+      }
+    );
+  } else {
+    this.userDocumentsDetailsRequest.updateRequest = false;
+    console.error('User UUID or Admin UUID not found in the URL.');
+  }
+  
+}
 
+goBackToProfile() {
+  let navExtra: NavigationExtras = {
+    queryParams: { userId: new URLSearchParams(window.location.search).get('userUuid') },
+  };
+  this.router.navigate(['/employee-profile'], navExtra);
+}
 
 
 }

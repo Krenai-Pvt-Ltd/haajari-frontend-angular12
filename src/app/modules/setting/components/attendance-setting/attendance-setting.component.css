@@ -1,77 +1,7 @@
-/* styles.css */
-.monthly-report {
-  background-color: #fff;
-  padding: 15px;
-  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
-  border-radius: 6px;
-}
-
-.attendance-setting-hedding {
-  width: 40%;
-  cursor: pointer;
-}
-
-.attend-location {
-  width: 40%;
-  cursor: pointer;
-}
-
-.atten-icon {
-  width: 20%;
-  cursor: pointer;
-}
-
-.attend-location p {
-  font-size: 13px;
-  color: #6a7886;
-}
-
-.atten-icon {
-  text-align: right;
-}
-
-.atten-icon i {
-  color: #6c7b88;
-}
-
-.attendance-box {
-  border-bottom: 1px solid #efefef;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-.attendance-box:last-child {
-  border-bottom: none;
-}
-
-.new-featucher-btn {
-  background-color: cornflowerblue;
-  padding: 3px 13px;
-  font-size: 12px;
-  color: #fff;
-  border-radius: 30px;
-}
-
-.categryCustomizecard {
-  padding: 15px;
-}
-
 .categryCustomizecard {
   margin-bottom: 0;
 }
 
-.categryCustomizecard {
-  align-items: center;
-  grid-gap: 10px;
-  grid-gap: 10px;
-  gap: 10px;
-  background: #ffffff;
-  /* border-bottom: 1px solid #eee; */
-}
-
-/* .categryCustomizecard:last-child{
-    border-bottom: none;
-} */
 .categryCustomizeinput {
   width: 6%;
 }
@@ -86,11 +16,6 @@
 
 .rule-box > input[type="radio"]:checked ~ label .slect-radio img {
   opacity: 1;
-}
-
-.categryCustomizeinfo label {
-  display: block;
-  cursor: pointer;
 }
 
 .categryCustomizeinfo label h3 {
@@ -118,7 +43,8 @@
   height: 45px !important;
   text-align: left;
   background-color: #fff;
-  border: 1px solid #e8ebf3;
+  border-right: 1px solid #f1f1f1 !important;
+  border: none;
   color: #2d2e3e;
 }
 
@@ -178,10 +104,6 @@
   font-size: 12px;
 }
 
-/* .rule-section{
-    border: 1px solid #ccc;
-    padding: 15px;
-} */
 .rule-section h5 {
   margin-bottom: 5px;
   margin-top: 0px;
@@ -194,8 +116,6 @@
 }
 
 .rule-main-div {
-  /* background: #f9f9f9;
-    padding: 5px 10px; */
   margin-bottom: 10px;
 }
 
@@ -1341,6 +1261,17 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
 .align-label {
   position: relative;
   top: 4px;
+}
+
+.attendance-details-search {
+  display: block;
+  width: 100%;
+  padding: 0.4rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  height: 40px !important;
+  border: none;
+  background-color: transparent;
 }
 
 @media (max-width: 2600px) {
