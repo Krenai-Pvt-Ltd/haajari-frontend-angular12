@@ -41,6 +41,7 @@ debugger
   }
 
   backRedirectUrl() {
+    debugger
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
     
     // Initialize an empty object for queryParams
@@ -52,7 +53,7 @@ debugger
     }
     
     // Conditionally add adminUuid to queryParams if updateRequest is true
-    if (this.userEmergencyContactDetails[0].updateRequest) {
+    if (this.isAdminPresent) {
       const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
       if (adminUuid) {
         queryParams['adminUuid'] = adminUuid;
@@ -152,15 +153,15 @@ delete(index:number){
     if (userUuid) {
       this.dataService.getEmployeeContactsDetails(userUuid).subscribe(
        async (contacts) => {
-        if(adminUuid){
-          await this.getAdminVerifiedForOnboardingUpdateMethodCall();
-        }
+       
           console.log(contacts);
           this.dataService.markStepAsCompleted(contacts[0].statusId);
           this.isLoading = false;
           if (contacts[0].contactName && contacts.length > 0) {
           this.userEmergencyContactDetails = contacts;
-         
+          if(adminUuid){
+            await this.getAdminVerifiedForOnboardingUpdateMethodCall();
+          }
          
             this.employeeOnboardingFormStatus=this.userEmergencyContactDetails[0].employeeOnboardingStatus;
             if(contacts[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED' && !this.isAdminPresent){
