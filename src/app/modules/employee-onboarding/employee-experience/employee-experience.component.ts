@@ -34,9 +34,26 @@ export class EmployeeExperienceComponent implements OnInit {
   }
 
   backRedirectUrl() {
-    let navExtra: NavigationExtras = {
-      queryParams: { userUuid: this.getUserUuid() },
-    };
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    
+    // Initialize an empty object for queryParams
+    let queryParams: any = {};
+    
+    // Add userUuid to queryParams if it exists
+    if (userUuid) {
+      queryParams['userUuid'] = userUuid;
+    }
+    
+    // Conditionally add adminUuid to queryParams if updateRequest is true
+    if (this.isAdminPresent) {
+      const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+      if (adminUuid) {
+        queryParams['adminUuid'] = adminUuid;
+      }
+    }
+  
+    // Create NavigationExtras object with the queryParams
+    let navExtra: NavigationExtras = { queryParams };
     this.router.navigate(['/employee-onboarding/acadmic'], navExtra);
   }
 
