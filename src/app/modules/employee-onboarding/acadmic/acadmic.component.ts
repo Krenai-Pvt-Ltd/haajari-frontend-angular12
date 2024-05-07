@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
+import { Key } from 'src/app/constant/key';
 import { UserAcademicsDetailRequest } from 'src/app/models/user-academics-detail-request';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-acadmic',
@@ -12,15 +14,33 @@ import { DataService } from 'src/app/services/data.service';
 export class AcadmicComponent implements OnInit {
   userAcademicsDetailRequest: UserAcademicsDetailRequest = new UserAcademicsDetailRequest();
 
-  constructor(private dataService: DataService, private router: Router) { }
+  constructor(private dataService: DataService, private router: Router, private helperService: HelperService) { }
 
   ngOnInit(): void {
     this.getUserAcademicDetailsMethodCall();
   }
   backRedirectUrl(){
-    let navExtra: NavigationExtras = {
-      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
-    };
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    
+    // Initialize an empty object for queryParams
+    let queryParams: any = {};
+    
+    // Add userUuid to queryParams if it exists
+    if (userUuid) {
+      queryParams['userUuid'] = userUuid;
+    }
+    
+    // Conditionally add adminUuid to queryParams if updateRequest is true
+    if (this.userAcademicsDetailRequest.updateRequest) {
+      const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+      if (adminUuid) {
+        queryParams['adminUuid'] = adminUuid;
+      }
+    }
+  
+    // Create NavigationExtras object with the queryParams
+    let navExtra: NavigationExtras = { queryParams };
+  
     this.router.navigate(['/employee-onboarding/employee-document'], navExtra);
   }
 
@@ -40,8 +60,16 @@ export class AcadmicComponent implements OnInit {
     debugger
     if(this.buttonType=='next'){
       this.toggle = true;
+      this.userAcademicsDetailRequest.directSave = false;
+      this.userAcademicsDetailRequest.updateRequest = false;
     } else if (this.buttonType=='save'){
       this.toggleSave = true;
+      this.userAcademicsDetailRequest.directSave = true;
+      this.userAcademicsDetailRequest.updateRequest = false;
+    } else if (this.buttonType=='update'){
+      this.toggle = true;
+      this.userAcademicsDetailRequest.directSave = false;
+      this.userAcademicsDetailRequest.updateRequest = true;
     }
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     
@@ -50,10 +78,11 @@ export class AcadmicComponent implements OnInit {
         (response: UserAcademicsDetailRequest) => {
           console.log(response);  
           this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
-          this.dataService.markStepAsCompleted(response.statusId);
+       
           this.toggle = false
           if(this.buttonType=='next'){
             this.routeToUserDetails();
+            this.dataService.markStepAsCompleted(response.statusId);
           } else if (this.buttonType=='save'){
             this.handleOnboardingStatus(response.employeeOnboardingStatus);
             if(this.employeeOnboardingFormStatus!='REJECTED'){
@@ -63,7 +92,10 @@ export class AcadmicComponent implements OnInit {
             
             this.routeToFormPreview();  
           }, 2000);
-          }
+          } else if (this.buttonType=='update'){
+            this.helperService.showToast("Information Updated Successfully", Key.TOAST_STATUS_SUCCESS);
+  
+           }
           this.userAcademicDetailsStatus = response.statusResponse;
           // localStorage.setItem('statusResponse', JSON.stringify(this.userAcademicDetailsStatus));
           // this.router.navigate(['/employee-experience']);
@@ -78,19 +110,23 @@ export class AcadmicComponent implements OnInit {
   isLoading:boolean = true;
   employeeOnboardingFormStatus:string|null=null;
   @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
-  getUserAcademicDetailsMethodCall() {
+  async getUserAcademicDetailsMethodCall() {
     debugger
-   
+    return new Promise<boolean>(async (resolve, reject) => {
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
     if (userUuid) {
-      this.dataService.getUserAcademicDetails(userUuid).subscribe((response: UserAcademicsDetailRequest) => {
+      this.dataService.getUserAcademicDetails(userUuid).subscribe(async (response: UserAcademicsDetailRequest) => {
         this.dataService.markStepAsCompleted(response.statusId);
         this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
         if(response != null){
           this.userAcademicsDetailRequest = response;
           this.userAcademicsDetailRequest.highestEducationalLevel = response.highestEducationalLevel;
         this.selectedQualification = response.highestEducationalLevel;
-          if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
+        if(adminUuid){
+          await this.getAdminVerifiedForOnboardingUpdateMethodCall();
+        }
+          if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED' && !this.userAcademicsDetailRequest.updateRequest){
             this.successMessageModalButton.nativeElement.click();
           }
           if(response.employeeOnboardingStatus == "PENDING"){
@@ -109,6 +145,7 @@ export class AcadmicComponent implements OnInit {
       console.error('uuidNewUser not found in localStorage');
       
     }
+  })
   } 
 
   @ViewChild("formSubmitButton") formSubmitButton!:ElementRef;
@@ -136,6 +173,12 @@ switch(this.buttonType){
   case "save" :{
     debugger
     this.userAcademicsDetailRequest.directSave = true;
+    this.setEmployeeAcademicsMethodCall();
+    break;
+  }
+  case "update" :{
+    debugger
+    this.userAcademicsDetailRequest.directSave = false;
     this.setEmployeeAcademicsMethodCall();
     break;
   }
@@ -307,5 +350,36 @@ displayModal = false;
   formatterPercent = (value: number): string => `${value} %`;
   parserPercent = (value: string): string => value.replace(' %', '');
 
+  getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
+    debugger;
+    return new Promise<boolean>((resolve, reject) => {
+      const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+      const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+      if (userUuid && adminUuid) {
+        this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
+          (isAdminPresent: boolean) => {
+            this.userAcademicsDetailRequest.updateRequest = isAdminPresent;
+            console.log('Admin verification successful.');
+            resolve(isAdminPresent); // Resolve the promise with the result
+          },
+          (error: any) => {
+            console.error('Error fetching admin verification status:', error);
+            reject(error); // Reject the promise on error
+          }
+        );
+      } else {
+        console.error('User UUID or Admin UUID not found in the URL.');
+        reject(new Error('User UUID or Admin UUID not found in the URL.')); // Reject the promise if parameters are missing
+      }
+    });
+  }
+  
+  
+  goBackToProfile() {
+    let navExtra: NavigationExtras = {
+      queryParams: { userId: new URLSearchParams(window.location.search).get('userUuid') },
+    };
+    this.router.navigate(['/employee-profile'], navExtra);
+  }
 
 }
