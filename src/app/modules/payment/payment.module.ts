@@ -16,6 +16,7 @@ import { DateFormatterPipe } from 'src/app/pipe/date-formatter.pipe';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import { LeaveSummaryComponent } from './leave-summary/leave-summary.component';
 
 
 
@@ -27,6 +28,8 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
     TdsComponent,
     BonusAndDeductionComponent,
     DateFormatterPipe,
+    LeaveSummaryComponent
+    
   ],
   imports: [
     CommonModule,
