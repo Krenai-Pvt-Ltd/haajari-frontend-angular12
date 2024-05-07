@@ -12,5 +12,6 @@ export class UserAcademicsDetailRequest {
     employeeOnboardingStatus!: string;
     gradeType!: string;
     demoValue!: number;
+    updateRequest!: boolean;
 
 }

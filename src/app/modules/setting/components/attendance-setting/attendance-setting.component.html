@@ -309,7 +309,7 @@
                                 }}
                               </h6>
                               <small class="text-muted"
-                                >Define the late entry rules for the
+                                >Define the shift timing rules for the
                                 employees</small
                               >
                             </div>
@@ -1073,16 +1073,12 @@
                                 "
                               >
                                 <div class="custom-salary-hedding p-3">
-                                  <h4 class="mb-0">
-                                    Custom salary Deduction rule
-                                  </h4>
+                                  <h4 class="mb-0">Custom Salary Deduction</h4>
                                 </div>
                               </ng-container>
                               <ng-template #others>
                                 <div class="custom-salary-hedding p-3">
-                                  <h4 class="mb-0">
-                                    Custom Salary Overtime Pay Rules
-                                  </h4>
+                                  <h4 class="mb-0">Custom Salary Overtime</h4>
                                 </div>
                               </ng-template>
                               <div class="custom-salary-para p-3">
@@ -1118,13 +1114,7 @@
                                 >
                                   <!-- <p class="mb-0">Deduction</p>
                                   <span style="color: #3f988f">Minute</span> -->
-                                  <ng-container
-                                    *ngIf="
-                                      attendanceRuleDefinitionResponse.attendanceRuleId !==
-                                        OVERTIME_RULE;
-                                      else overtime
-                                    "
-                                  >
+                                  <ng-container *ngIf=" attendanceRuleDefinitionResponse.attendanceRuleId !== OVERTIME_RULE; else overtime">
                                     <p class="mb-0">Deduction</p>
                                     <!-- <span> | </span> -->
                                     <span style="color: #009688">
@@ -1169,17 +1159,11 @@
                                     </span>
                                   </ng-container>
                                   <ng-template #overtime>
-                                    <span>Overtime Type</span>
-                                    <span> | </span>
+                                    <p class="mb-0">Overtime Type</p>
+                                    <!-- <span>Overtime Type</span> -->
+                                    <!-- <span> | </span> -->
                                     <span style="color: #009688">
-                                      <ng-container
-                                        *ngIf="
-                                          attendanceRuleDefinitionResponse
-                                            ?.overtimeType?.id ===
-                                            OVERTIME_TYPE_FIXED_AMOUNT;
-                                          else overtimeTypeOrNA
-                                        "
-                                      >
+                                      <ng-container *ngIf="attendanceRuleDefinitionResponse?.overtimeType?.id === OVERTIME_TYPE_FIXED_AMOUNT; else overtimeTypeOrNA">
                                         <span>{{
                                           attendanceRuleDefinitionResponse
                                             ?.overtimeType?.type
@@ -1213,9 +1197,7 @@
                                     </span>
                                   </ng-template>
                                 </div>
-                                <div
-                                  class="d-flex align-items-center justify-content-between"
-                                >
+                                <div class="d-flex align-items-center justify-content-between" *ngIf="attendanceRuleDefinitionResponse.attendanceRuleId != OVERTIME_RULE">
                                   <!-- <p class="mb-0">Occasion</p>
                                   <span style="color: #3f988f">5 Times</span> -->
                                   <p class="mb-0">Occurrences</p>
@@ -1269,13 +1251,11 @@
                                   "
                                 >
                                   <h4 class="mb-0">
-                                    Half Day Salary Deduction Rules
+                                    Half Day Salary Deduction
                                   </h4>
                                 </ng-container>
                                 <ng-template #others2>
-                                  <h4 class="mb-0">
-                                    Half Day Salary Overtime Pay Rules
-                                  </h4>
+                                  <h4 class="mb-0">Half Day Salary Overtime</h4>
                                 </ng-template>
                                 <!-- <h4 class="mb-0">
                                   Half Day Salary Deduction Rules
@@ -1314,9 +1294,7 @@
                                     </ng-template>
                                   </span>
                                 </div>
-                                <div
-                                  class="d-flex align-items-center justify-content-between"
-                                >
+                                <div class="d-flex align-items-center justify-content-between" *ngIf="attendanceRuleDefinitionResponse.attendanceRuleId != OVERTIME_RULE">
                                   <!-- <p class="mb-0">Occasion</p>
                                   <span style="color: #3f988f">5 Times</span> -->
                                   <p class="mb-0">Occurrences</p>
@@ -1374,13 +1352,11 @@
                                   "
                                 >
                                   <h4 class="mb-0">
-                                    Full Day Salary Deduction Rules
+                                    Full Day Salary Deduction
                                   </h4>
                                 </ng-container>
                                 <ng-template #others3>
-                                  <h4 class="mb-0">
-                                    Full Day Salary Overtime Pay Rules
-                                  </h4>
+                                  <h4 class="mb-0">Full Day Salary Overtime</h4>
                                 </ng-template>
                               </div>
                               <div class="custom-salary-para p-3">
@@ -1417,9 +1393,7 @@
                                   </span>
                                 </div>
 
-                                <div
-                                  class="d-flex align-items-center justify-content-between"
-                                >
+                                <div class="d-flex align-items-center justify-content-between" *ngIf="attendanceRuleDefinitionResponse.attendanceRuleId != OVERTIME_RULE">
                                   <!-- <p class="mb-0">Occasion</p>
                                   <span style="color: #3f988f">5 Times</span> -->
                                   <p class="mb-0">Occurrences</p>

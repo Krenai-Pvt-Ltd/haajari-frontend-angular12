@@ -10,6 +10,7 @@ export class UserDocumentsDetailsRequest {
     directSave: boolean = false;
     employeeOnboardingFormStatus: string = '';
     employeeOnboardingStatus: string = '';
+    updateRequest !: boolean;
 
    
 }
