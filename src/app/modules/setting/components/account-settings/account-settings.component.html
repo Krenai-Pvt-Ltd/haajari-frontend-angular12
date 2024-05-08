@@ -5,18 +5,35 @@
         <div class="col-md-12">
           <div class="">
             <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show mt-3" [ngClass]="{ active: accountDetailsTab == 'accountDetails' }" style="border: 1px solid #f1f1f1" id="account-setting" role="tabpanel">
+              <div
+                class="tab-pane fade show mt-3"
+                [ngClass]="{ active: accountDetailsTab == 'accountDetails' }"
+                style="border: 1px solid #f1f1f1"
+                id="account-setting"
+                role="tabpanel"
+              >
                 <div class="row">
-                  <div class="col-md-8 pr-0 mr-0" style="padding-right: 0px; margin-right: 0px">
+                  <div
+                    class="col-md-8 pr-0 mr-0"
+                    style="padding-right: 0px; margin-right: 0px"
+                  >
                     <div class="account-setting-box">
                       <div class="d-flex align-items-center" style="gap: 20px">
                         <div class="">
                           <h5>Account details</h5>
-                          <p>Manage your email and password settings to keep your account secure and accessible.</p>
+                          <p>
+                            Manage your email and password settings to keep your
+                            account secure and accessible.
+                          </p>
                         </div>
                       </div>
-                      <div class="d-flex align-items-center justify-content-between mt-3">
-                        <div class="w-50" style="border-right: 1px dashed #f1f1f1">
+                      <div
+                        class="d-flex align-items-center justify-content-between mt-3"
+                      >
+                        <div
+                          class="w-50"
+                          style="border-right: 1px dashed #f1f1f1"
+                        >
                           <small class="text-muted">Email</small>
                           <h6 class="text-truncate mt-2">
                             {{ userEmail ? userEmail : "N/A" }}
@@ -24,25 +41,59 @@
                         </div>
                         <div class="w-50 text-end">
                           <small class="text-muted mb-2">Password</small>
-                          <h6 class="text-truncate mt-3"> ******** <span type="button" aria-label="Edit Email" id="passwordEdit" data-bs-toggle="modal" data-bs-target="#passwordUpdateModal" class="text-primary"> (Edit Password)</span>
+                          <h6 class="text-truncate mt-3">
+                            ********
+                            <span
+                              type="button"
+                              aria-label="Edit Email"
+                              id="passwordEdit"
+                              data-bs-toggle="modal"
+                              data-bs-target="#passwordUpdateModal"
+                              class="text-primary"
+                            >
+                              (Edit Password)</span
+                            >
                           </h6>
                         </div>
                       </div>
                     </div>
                   </div>
                   <!-- profile image -->
-                  <div class="col-md-4" style="padding-left: 0px; margin-left: 0px">
-                    <div class="profile-image-edit text-center position-relative">
+                  <div
+                    class="col-md-4"
+                    style="padding-left: 0px; margin-left: 0px"
+                  >
+                    <div
+                      class="profile-image-edit text-center position-relative"
+                    >
                       <div class="profile-image-box">
-                        <img [src]="userPersonalInformationRequest.image" alt="Profile Image" />
-                        <input type="file" accept="image/jpeg, image/jpg, image/png" #fileInput style="display: none" (change)="onFileSelected($event)" />
-                        <span class="edit-profile position-absolute bg-white d-flex align-items-center justify-content-center pointer" tabindex="0" (click)="fileInput.click()">
+                        <img
+                          [src]="userPersonalInformationRequest.image"
+                          alt="Profile Image"
+                        />
+                        <input
+                          type="file"
+                          accept="image/jpeg, image/jpg, image/png"
+                          #fileInput
+                          style="display: none"
+                          (change)="onFileSelected($event)"
+                        />
+                        <span
+                          class="edit-profile position-absolute bg-white d-flex align-items-center justify-content-center pointer"
+                          tabindex="0"
+                          (click)="fileInput.click()"
+                        >
                           <i class="bi bi-pencil"></i>
                         </span>
                       </div>
                       <div *ngIf="isInvalidFileType">
-                        <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="isInvalidFileType">
-                          <i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a JPG, JPEG, or PNG file.
+                        <p
+                          class="errortxt mt-2 mb-0"
+                          style="color: red"
+                          *ngIf="isInvalidFileType"
+                        >
+                          <i class="bi bi-exclamation-circle"></i> Invalid file
+                          type. Please select a JPG, JPEG, or PNG file.
                         </p>
                       </div>
                     </div>
@@ -51,26 +102,87 @@
                 <hr />
                 <div class="">
                   <div class="row">
-                    <div class="col-md-12 pr-0 mr-0" style="padding-right: 0px; margin-right: 0px">
+                    <div
+                      class="col-md-12 pr-0 mr-0"
+                      style="padding-right: 0px; margin-right: 0px"
+                    >
                       <div class="account-setting-box">
-                        <div class="d-flex align-items-center" style="gap: 20px">
+                        <div
+                          class="d-flex align-items-center"
+                          style="gap: 20px"
+                        >
                           <!-- <div class="jXmMvc" style="width: 3%"><img
                               src="assets/images/google-docs.svg"
                               style="width: 100%"
                             /></div> -->
                           <div class="">
                             <h5>Notifications</h5>
-                            <p>Manage and customize how you receive updates on attendance and language preferences directly through your preferred channels.</p>
-
+                            <p>
+                              Manage and customize how you receive updates on
+                              attendance and language preferences directly
+                              through your preferred channels.
+                            </p>
                           </div>
                         </div>
                         <div class="mt-3 pb-2">
                           <small class="text-muted">Attendance</small>
                           <div class="d-flex align-items-center mt-2 gap-2">
-                            <div class="alert alert-outline-secondary enable-disanle-box p-3 mb-0" role="alert">
-                              <i class="ti ti-brand-slack"></i> Receive attendance notifications by Slack
+                            <div
+                              class="alert alert-outline-secondary enable-disanle-box p-3 mb-0"
+                              role="alert"
+                            >
+                              <i class="ti ti-brand-slack"></i> Receive
+                              attendance notifications by Slack
                             </div>
                             <div>
+<<<<<<< HEAD
+                              <div
+                                class="btn-group enable-disanle-btn"
+                                role="group "
+                                aria-label="Basic radio toggle button group"
+                              >
+                                <input
+                                  type="radio"
+                                  class="btn-check"
+                                  name="btnradio1"
+                                  id="Enable1"
+                                  autocomplete="off"
+                                  [(ngModel)]="notifications.whatsapp"
+                                  (click)="toggleNotification('slack')"
+                                  [value]="true"
+                                  [checked]="notifications.whatsapp"
+                                  [disabled]="isDisabled || isPlan1"
+                                />
+                                <label
+                                  class="btn btn-soft-success btn-sm"
+                                  [ngClass]="{
+                                    'btn-soft-success-lock': notifications.slack
+                                  }"
+                                  for="Enable1"
+                                  >Enable</label
+                                >
+
+                                <input
+                                  type="radio"
+                                  class="btn-check"
+                                  name="btnradio1"
+                                  id="Enable2"
+                                  autocomplete="off"
+                                  [(ngModel)]="notifications.whatsapp"
+                                  (click)="toggleNotification('slackDisable')"
+                                  [value]="false"
+                                  [disabled]="isDisabled || isPlan1"
+                                />
+                                <label
+                                  class="btn btn-soft-secondary btn-sm"
+                                  [ngClass]="{
+                                    'btn-de-secondary-lock':
+                                      !notifications.slack
+                                  }"
+                                  for="Enable2"
+                                  >Disable</label
+                                >
+=======
                               <div class="btn-group enable-disanle-btn" role="group " aria-label="Basic radio toggle button group">
                                 <input type="radio" class="btn-check" name="btnradio1" id="Enable1" autocomplete="off" 
                                 [(ngModel)]="notifications.slack" 
@@ -83,8 +195,9 @@
                                 (click)="toggleNotification('slackDisable')"
                                 [value]="false" [disabled]="isDisabled || isPlan1 "/>
                                 <label class="btn btn-soft-secondary btn-sm" [ngClass]="{'btn-de-secondary-lock': !notifications.slack}" for="Enable2">Disable</label>
+>>>>>>> 4242203abc846371e49a6790546fe6c1aae2f499
                               </div>
-                              
+
                               <!-- <div
                                 class="material-switch"
                                 [class.disabled]="isDisabled"
@@ -97,32 +210,70 @@
                                 /><label
                                   class="label-success"
                                   for="whatsappSwitch"
-                                ></label></div> --> 
+                                ></label></div> -->
                             </div>
                           </div>
 
                           <div class="d-flex align-items-center mt-2 gap-2">
-                            <div class="alert alert-outline-secondary enable-disanle-box p-3 mb-0" role="alert">
-                              <i class="ti ti-brand-whatsapp"></i> Receive attendance notifications by WhatsApp
+                            <div
+                              class="alert alert-outline-secondary enable-disanle-box p-3 mb-0"
+                              role="alert"
+                            >
+                              <i class="ti ti-brand-whatsapp"></i> Receive
+                              attendance notifications by WhatsApp
                             </div>
                             <div>
-                              <div class="btn-group enable-disanle-btn" role="group " aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" name="btnradio1" id="whatsappEnable" autocomplete="off" 
-                                       [(ngModel)]="notifications.whatsapp" 
-                                       (click)="toggleNotification('whatsapp')"
-                                       [value]="true" [disabled]="isDisabled || isPlan1" />
-                          <label class="btn btn-soft-success btn-sm" [ngClass]="{'btn-soft-success-lock': notifications.whatsapp}" for="whatsappEnable">Enable</label>
+                              <div
+                                class="btn-group enable-disanle-btn"
+                                role="group "
+                                aria-label="Basic radio toggle button group"
+                              >
+                                <input
+                                  type="radio"
+                                  class="btn-check"
+                                  name="btnradio1"
+                                  id="whatsappEnable"
+                                  autocomplete="off"
+                                  [(ngModel)]="notifications.whatsapp"
+                                  (click)="toggleNotification('whatsapp')"
+                                  [value]="true"
+                                  [disabled]="isDisabled || isPlan1"
+                                />
+                                <label
+                                  class="btn btn-soft-success btn-sm"
+                                  [ngClass]="{
+                                    'btn-soft-success-lock':
+                                      notifications.whatsapp
+                                  }"
+                                  for="whatsappEnable"
+                                  >Enable</label
+                                >
 
-                          <!-- "Disable" Radio Button -->
-                          <input type="radio" class="btn-check" name="btnradio1" id="whatsappDisable" autocomplete="off" 
-                                       [(ngModel)]="notifications.whatsapp" 
-                                       (click)="toggleNotification('whatsappDisable')"
-                                       [value]="false" [disabled]="isDisabled || isPlan1"/>
-                          <label class="btn btn-soft-secondary btn-sm" [ngClass]="{'btn-de-secondary-lock': !notifications.whatsapp}" for="whatsappDisable">Disable</label>
-
+                                <!-- "Disable" Radio Button -->
+                                <input
+                                  type="radio"
+                                  class="btn-check"
+                                  name="btnradio1"
+                                  id="whatsappDisable"
+                                  autocomplete="off"
+                                  [(ngModel)]="notifications.whatsapp"
+                                  (click)="
+                                    toggleNotification('whatsappDisable')
+                                  "
+                                  [value]="false"
+                                  [disabled]="isDisabled || isPlan1"
+                                />
+                                <label
+                                  class="btn btn-soft-secondary btn-sm"
+                                  [ngClass]="{
+                                    'btn-de-secondary-lock':
+                                      !notifications.whatsapp
+                                  }"
+                                  for="whatsappDisable"
+                                  >Disable</label
+                                >
                               </div>
 
-                             
                               <!-- <div
                                 class="material-switch"
                                 [class.disabled]="isDisabled"
@@ -135,57 +286,198 @@
                                 /><label
                                   class="label-success"
                                   for="whatsappSwitch"
-                                ></label></div> --> 
+                                ></label></div> -->
                             </div>
                           </div>
                         </div>
                         <div class="pb-2 mt-3">
                           <small class="text-muted">Language Preferred</small>
                           <div class="d-flex align-items-center mt-2 gap-2">
-                            <div class="alert alert-outline-secondary enable-disanle-box p-3 mb-0" role="alert">
+                            <div
+                              class="alert alert-outline-secondary enable-disanle-box p-3 mb-0"
+                              role="alert"
+                            >
                               <i class="fas fa-language"></i> English
                             </div>
                             <div>
-                              <div class="btn-group enable-disanle-btn" role="group" aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" name="englishEnable" id="englishEnable" autocomplete="off"
-                                [(ngModel)]="languagePreferredEnglish" [value]="1" (change)="updateLanguagePreferredForNotificationMethodCall(1)" />
-                                <label class="btn btn-soft-success btn-sm" for="englishEnable" [ngClass]="{'btn-soft-success-lock': englishEnable}" >Enable</label>
-                                <input type="radio" class="btn-check" name="englishDisable" id="englishDisable" autocomplete="off"
-                                [(ngModel)]="languagePreferredEnglish" [value]="2" (change)="updateLanguagePreferredForNotificationMethodCall(2)" />
-                                <label class="btn btn-soft-secondary btn-sm" for="englishDisable" [ngClass]="{'btn-de-secondary-lock': !englishEnable} ">Disable</label>
+                              <div
+                                class="btn-group enable-disanle-btn"
+                                role="group"
+                                aria-label="Basic radio toggle button group"
+                              >
+                                <input
+                                  type="radio"
+                                  class="btn-check"
+                                  name="englishEnable"
+                                  id="englishEnable"
+                                  autocomplete="off"
+                                  [(ngModel)]="languagePreferredEnglish"
+                                  [value]="1"
+                                  (change)="
+                                    updateLanguagePreferredForNotificationMethodCall(
+                                      1
+                                    )
+                                  "
+                                />
+                                <label
+                                  class="btn btn-soft-success btn-sm"
+                                  for="englishEnable"
+                                  [ngClass]="{
+                                    'btn-soft-success-lock': englishEnable
+                                  }"
+                                  >Enable</label
+                                >
+                                <input
+                                  type="radio"
+                                  class="btn-check"
+                                  name="englishDisable"
+                                  id="englishDisable"
+                                  autocomplete="off"
+                                  [(ngModel)]="languagePreferredEnglish"
+                                  [value]="2"
+                                  (change)="
+                                    updateLanguagePreferredForNotificationMethodCall(
+                                      2
+                                    )
+                                  "
+                                />
+                                <label
+                                  class="btn btn-soft-secondary btn-sm"
+                                  for="englishDisable"
+                                  [ngClass]="{
+                                    'btn-de-secondary-lock': !englishEnable
+                                  }"
+                                  >Disable</label
+                                >
                               </div>
                             </div>
                           </div>
                           <div class="d-flex align-items-center mt-2 gap-2">
-                            <div class="alert alert-outline-secondary enable-disanle-box p-3 mb-0" role="alert">
+                            <div
+                              class="alert alert-outline-secondary enable-disanle-box p-3 mb-0"
+                              role="alert"
+                            >
                               <i class="fas fa-language"></i> Hindi
                             </div>
                             <div>
-                              <div class="btn-group enable-disanle-btn" role="group" aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" name="hindiEnable" id="hindiEnable" autocomplete="off"
-                                [(ngModel)]="languagePreferredHindi" [value]="2" (change)="updateLanguagePreferredForNotificationMethodCall(2)" />
-                                <label class="btn btn-soft-success btn-sm" for="hindiEnable" [ngClass]="{'btn-soft-success-lock': !englishEnable}">Enable</label>
-                                <input type="radio" class="btn-check" name="hindiDisable" id="hindiDisable" autocomplete="off"
-                                       [(ngModel)]="languagePreferredHindi" [value]="1" (change)="updateLanguagePreferredForNotificationMethodCall(1)" />
-                                <label class="btn btn-soft-secondary btn-sm" for="hindiDisable" [ngClass]="{'btn-de-secondary-lock': englishEnable}">Disable</label>
+                              <div
+                                class="btn-group enable-disanle-btn"
+                                role="group"
+                                aria-label="Basic radio toggle button group"
+                              >
+                                <input
+                                  type="radio"
+                                  class="btn-check"
+                                  name="hindiEnable"
+                                  id="hindiEnable"
+                                  autocomplete="off"
+                                  [(ngModel)]="languagePreferredHindi"
+                                  [value]="2"
+                                  (change)="
+                                    updateLanguagePreferredForNotificationMethodCall(
+                                      2
+                                    )
+                                  "
+                                />
+                                <label
+                                  class="btn btn-soft-success btn-sm"
+                                  for="hindiEnable"
+                                  [ngClass]="{
+                                    'btn-soft-success-lock': !englishEnable
+                                  }"
+                                  >Enable</label
+                                >
+                                <input
+                                  type="radio"
+                                  class="btn-check"
+                                  name="hindiDisable"
+                                  id="hindiDisable"
+                                  autocomplete="off"
+                                  [(ngModel)]="languagePreferredHindi"
+                                  [value]="1"
+                                  (change)="
+                                    updateLanguagePreferredForNotificationMethodCall(
+                                      1
+                                    )
+                                  "
+                                />
+                                <label
+                                  class="btn btn-soft-secondary btn-sm"
+                                  for="hindiDisable"
+                                  [ngClass]="{
+                                    'btn-de-secondary-lock': englishEnable
+                                  }"
+                                  >Disable</label
+                                >
                               </div>
                             </div>
                           </div>
-
-                        
                         </div>
-                        <div class="mt-3" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
-                          <small class="text-muted">Employee's Attendance</small>
+                        <div
+                          class="mt-3"
+                          *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'"
+                        >
+                          <small class="text-muted"
+                            >Employee's Attendance</small
+                          >
                           <div class="d-flex align-items-center mt-2 gap-2">
-                            <div class="alert alert-outline-secondary enable-disanle-box p-3 mb-0" role="alert">
-                              <i class="far fa-bell"></i> Would you like to receive notifications for your employee's attendance?
+                            <div
+                              class="alert alert-outline-secondary enable-disanle-box p-3 mb-0"
+                              role="alert"
+                            >
+                              <i class="far fa-bell"></i> Would you like to
+                              receive notifications for your employee's
+                              attendance?
                             </div>
                             <div>
-                              <div class="btn-group enable-disanle-btn" role="group" aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" name="btnradio4" id="Enable7" autocomplete="off" checked="" [(ngModel)]="employeeAttendanceFlag" [value]="true" (change)="updateAttendanceNotificationSettingForManagerMethodCall()" />
-                                <label class="btn btn-soft-success btn-sm" for="Enable7" [ngClass]="{'btn-soft-success-lock': employeeAttendanceFlag}">Enable</label>
-                                <input type="radio" class="btn-check" name="btnradio4" id="Enable8" autocomplete="off" [(ngModel)]="employeeAttendanceFlag" [value]="false" (change)="updateAttendanceNotificationSettingForManagerMethodCall()" />
-                                <label class="btn btn-soft-secondary btn-sm" for="Enable8" [ngClass]="{'btn-de-secondary-lock': !employeeAttendanceFlag}">Disable</label>
+                              <div
+                                class="btn-group enable-disanle-btn"
+                                role="group"
+                                aria-label="Basic radio toggle button group"
+                              >
+                                <input
+                                  type="radio"
+                                  class="btn-check"
+                                  name="btnradio4"
+                                  id="Enable7"
+                                  autocomplete="off"
+                                  checked=""
+                                  [(ngModel)]="employeeAttendanceFlag"
+                                  [value]="true"
+                                  (change)="
+                                    updateAttendanceNotificationSettingForManagerMethodCall()
+                                  "
+                                />
+                                <label
+                                  class="btn btn-soft-success btn-sm"
+                                  for="Enable7"
+                                  [ngClass]="{
+                                    'btn-soft-success-lock':
+                                      employeeAttendanceFlag
+                                  }"
+                                  >Enable</label
+                                >
+                                <input
+                                  type="radio"
+                                  class="btn-check"
+                                  name="btnradio4"
+                                  id="Enable8"
+                                  autocomplete="off"
+                                  [(ngModel)]="employeeAttendanceFlag"
+                                  [value]="false"
+                                  (change)="
+                                    updateAttendanceNotificationSettingForManagerMethodCall()
+                                  "
+                                />
+                                <label
+                                  class="btn btn-soft-secondary btn-sm"
+                                  for="Enable8"
+                                  [ngClass]="{
+                                    'btn-de-secondary-lock':
+                                      !employeeAttendanceFlag
+                                  }"
+                                  >Disable</label
+                                >
                               </div>
                             </div>
                           </div>
@@ -204,22 +496,53 @@
 </div>
 <!-- Update Password Modal -->
 <!-- Password Update Modal -->
-<div class="modal fade" id="passwordUpdateModal" #passwordUpdateModal tabindex="-1" aria-labelledby="passwordUpdateModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="passwordUpdateModal"
+  #passwordUpdateModal
+  tabindex="-1"
+  aria-labelledby="passwordUpdateModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="passwordUpdateModalLabel"> Update Password </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title" id="passwordUpdateModalLabel">
+          Update Password
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
-        <form #updatePasswordForm="ngForm" (ngSubmit)="onSubmit(updatePasswordForm.value)">
+        <form
+          #updatePasswordForm="ngForm"
+          (ngSubmit)="onSubmit(updatePasswordForm.value)"
+        >
           <div class="form-group">
             <label for="currentPassword">Enter Current Password</label>
             <div class="input-group">
-              <input [type]="showCurrentPassword ? 'text' : 'password'" class="form-control profile-input mt-2" id="currentPassword" required [(ngModel)]="currentPassword" name="currentPassword" />
+              <input
+                [type]="showCurrentPassword ? 'text' : 'password'"
+                class="form-control profile-input mt-2"
+                id="currentPassword"
+                required
+                [(ngModel)]="currentPassword"
+                name="currentPassword"
+              />
               <span class="input-group-btn">
-                <button type="button" class="btn btn-default toggle-password" (click)="toggleCurrentPasswordVisibility()">
-                  <i class="bi text-primary" [class]="showCurrentPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                <button
+                  type="button"
+                  class="btn btn-default toggle-password"
+                  (click)="toggleCurrentPasswordVisibility()"
+                >
+                  <i
+                    class="bi text-primary"
+                    [class]="showCurrentPassword ? 'bi-eye-slash' : 'bi-eye'"
+                  ></i>
                 </button>
               </span>
             </div>
@@ -232,52 +555,128 @@
           <div class="form-group mt-3">
             <label for="newPassword">New Password</label>
             <div class="input-group">
-              <input [type]="showNewPassword ? 'text' : 'password'" class="form-control profile-input mt-2" id="newPassword" required [(ngModel)]="newPassword" name="newPassword" aria-label="Password" aria-describedby="toggle-password" />
-              <button class="btn btn-default toggle-password" type="button" id="toggle-password" (click)="toggleNewPasswordVisibility()">
-                <i class="bi text-primary" [class]="showNewPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+              <input
+                [type]="showNewPassword ? 'text' : 'password'"
+                class="form-control profile-input mt-2"
+                id="newPassword"
+                required
+                [(ngModel)]="newPassword"
+                name="newPassword"
+                aria-label="Password"
+                aria-describedby="toggle-password"
+              />
+              <button
+                class="btn btn-default toggle-password"
+                type="button"
+                id="toggle-password"
+                (click)="toggleNewPasswordVisibility()"
+              >
+                <i
+                  class="bi text-primary"
+                  [class]="showNewPassword ? 'bi-eye-slash' : 'bi-eye'"
+                ></i>
               </button>
             </div>
           </div>
           <div class="form-group mt-3">
             <label for="confirmNewPassword">Confirm New Password</label>
-            <input type="text" class="form-control profile-input mt-2" id="confirmNewPassword" required [(ngModel)]="confirmNewPassword" name="confirmNewPassword" #confirmPass="ngModel" />
-            <div *ngIf="
+            <input
+              type="text"
+              class="form-control profile-input mt-2"
+              id="confirmNewPassword"
+              required
+              [(ngModel)]="confirmNewPassword"
+              name="confirmNewPassword"
+              #confirmPass="ngModel"
+            />
+            <div
+              *ngIf="
                 newPassword &&
                 confirmNewPassword &&
                 newPassword !== confirmNewPassword
-              " class="text-danger"> Password do not match! </div>
+              "
+              class="text-danger"
+            >
+              Password do not match!
+            </div>
           </div>
           <!-- <button type="submit" class="btn btn-primary" [disabled]="!updatePasswordForm.form.valid || newPassword !== confirmNewPassword">Update Password</button><button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button> -->
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary btn-round" data-bs-dismiss="modal"> Close </button>
-        <button type="button" class="btn btn-outline-primary btn-round" [disabled]="
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-round"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-round"
+          [disabled]="
             !updatePasswordForm.form.valid || newPassword !== confirmNewPassword
-          " (click)="updatePasswordForm.ngSubmit.emit()"> Update Password </button>
+          "
+          (click)="updatePasswordForm.ngSubmit.emit()"
+        >
+          Update Password
+        </button>
       </div>
     </div>
   </div>
 </div>
 <!-- Button trigger modal -->
-<button type="button" id="otpModalButton" class="btn btn-primary" data-bs-toggle="modal" #otpModalButton data-bs-target="#otpModal"> Launch OTP Modal </button>
+<button
+  type="button"
+  id="otpModalButton"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  #otpModalButton
+  data-bs-target="#otpModal"
+>
+  Launch OTP Modal
+</button>
 <!-- Modal -->
 <!-- OTP Modal -->
-<div class="modal fade" id="otpModal" tabindex="-1" aria-labelledby="otpModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="otpModal"
+  tabindex="-1"
+  aria-labelledby="otpModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="otpModalLabel">
           {{ otpSent ? "Verify OTP" : "Enter Phone Number" }}
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="otpSent = false; phoneNumber = ''"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="otpSent = false; phoneNumber = ''"
+        ></button>
       </div>
       <div class="modal-body">
         <!-- Send OTP Form -->
-        <form *ngIf="!otpSent" #sendOtpForm="ngForm" (ngSubmit)="sendOtptoSavePhoneNumberMethodCall()">
+        <form
+          *ngIf="!otpSent"
+          #sendOtpForm="ngForm"
+          (ngSubmit)="sendOtptoSavePhoneNumberMethodCall()"
+        >
           <div class="mb-3">
             <label for="phoneNumber" class="form-label">Phone Number</label>
-            <input type="tel" mask="0000000000" name="phoneNumber" class="form-control" id="phoneNumber" [(ngModel)]="phoneNumber" placeholder="Enter Phone Number without country code " />
+            <input
+              type="tel"
+              mask="0000000000"
+              name="phoneNumber"
+              class="form-control"
+              id="phoneNumber"
+              [(ngModel)]="phoneNumber"
+              placeholder="Enter Phone Number without country code "
+            />
           </div>
           <div class="d-grid gap-2">
             <button type="submit" class="btn btn-primary">
@@ -293,10 +692,35 @@
           </div>
         </form>
         <!-- Verify OTP Form -->
-        <form *ngIf="otpSent" #verifyOtpForm="ngForm" (ngSubmit)="verifyOtpMethodCall()">
+        <!-- <form *ngIf="otpSent" #verifyOtpForm="ngForm" (ngSubmit)="verifyOtpMethodCall()">
           <div class="mb-3">
             <label for="otp" class="form-label">OTP</label>
             <input type="text" mask="000000" name="otp" class="form-control" id="otp" [(ngModel)]="otp" placeholder="Enter OTP" />
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">
+              <div *ngIf="toggle; else showText" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <ng-template #showText>
+                <span class="button-text">Verify OTP</span>
+              </ng-template>
+            </button>
+          </div>
+        </form> -->
+        <form
+          *ngIf="otpSent"
+          #verifyOtpForm="ngForm"
+          (ngSubmit)="verifyOtpMethodCall()"
+        >
+          <div class="mb-3">
+            <label for="otp" class="form-label">OTP</label>
+            <ng-otp-input
+              [config]="otpConfig"
+              (onInputChange)="onOtpChange($event)"
+            ></ng-otp-input>
           </div>
           <div class="d-grid gap-2">
             <button type="submit" class="btn btn-primary">

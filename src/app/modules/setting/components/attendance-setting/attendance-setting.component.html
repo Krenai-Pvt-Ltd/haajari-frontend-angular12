@@ -62,7 +62,10 @@
                     (click)="updateAttendanceModeMethodCall(attendanceMode.id)"
                   >
                     <div class="categryCustomizeinfo">
-                      <label for="customizecategory1" class="mb-0 pointer d-block">
+                      <label
+                        for="customizecategory1"
+                        class="mb-0 pointer d-block"
+                      >
                         <h3>{{ attendanceMode.name }}</h3>
                         <p>{{ attendanceMode.description }}</p>
                       </label>
@@ -704,27 +707,7 @@
             </div>
 
             <div class="" *ngIf="!isWeeklyHolidayErrorPlaceholder">
-              <div class="empty-file" *ngIf="weeklyHolidays.length === 0">
-                <div class="errorboxmain">
-                  <div class="errorboxinner text-center">
-                    <div class="errorboxplaceholder mb-2">
-                      <img
-                        src="assets/images/empty-box.svg"
-                        style="width: 80px"
-                      />
-                    </div>
-                    <div class="">
-                      <h4>Not Found</h4>
-                      <p class="mb-0">
-                        We're unable to locate a record associated with the
-                        information you entered.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="add-shift-main-box" *ngIf="weeklyHolidays.length > 0">
+              <div class="add-shift-main-box">
                 <div
                   class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2"
                 >
@@ -740,8 +723,27 @@
                     </a>
                   </div>
                 </div>
+                <div class="empty-file" *ngIf="weeklyHolidays.length === 0">
+                  <div class="errorboxmain">
+                    <div class="errorboxinner text-center">
+                      <div class="errorboxplaceholder mb-2">
+                        <img
+                          src="assets/images/empty-box.svg"
+                          style="width: 80px"
+                        />
+                      </div>
+                      <div class="">
+                        <h4>Not Found</h4>
+                        <p class="mb-0">
+                          We're unable to locate a record associated with the
+                          information you entered.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-                <div class="m-3 holiday-list">
+                <div class="m-3 holiday-list" *ngIf="weeklyHolidays.length > 0">
                   <div class="row">
                     <div
                       class="col-md-6"
@@ -905,8 +907,8 @@
                 *ngIf="
                   attendanceRuleWithAttendanceRuleDefinitionResponseList.length !==
                     0 &&
-                    !dataNotFoundPlaceholder &&
-                    !networkConnectionErrorPlaceHolder;
+                    !dataNotFoundPlaceholderForAttendanceRule &&
+                    !networkConnectionErrorPlaceHolderForAttendanceRule;
                   else errorInFetchingAttendanceRuleWithAttendanceRuleDefinitionData
                 "
               >
@@ -1445,10 +1447,14 @@
               </ng-container>
             </ng-template>
 
+            <!-- {{ dataNotFoundPlaceholderForAttendanceRule }} -->
             <ng-template
               #errorInFetchingAttendanceRuleWithAttendanceRuleDefinitionData
             >
-              <div class="empty-file" *ngIf="dataNotFoundPlaceholder">
+              <div
+                class="empty-file"
+                *ngIf="dataNotFoundPlaceholderForAttendanceRule"
+              >
                 <div class="errorboxmain">
                   <div class="errorboxinner">
                     <div class="errorboxplaceholder mb-2">
@@ -1477,7 +1483,10 @@
                 </div>
               </div>
 
-              <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolder">
+              <div
+                class="empty-file"
+                *ngIf="networkConnectionErrorPlaceHolderForAttendanceRule"
+              >
                 <div class="errorboxmain">
                   <div class="errorboxinner text-center">
                     <div class="errorboxplaceholder mb-2">
@@ -2151,7 +2160,10 @@
                     />
                   </div>
                   <div class="categryCustomizeinfo">
-                    <label for="selfieLocationType" class="mb-0 pointer d-block">
+                    <label
+                      for="selfieLocationType"
+                      class="mb-0 pointer d-block"
+                    >
                       <h3>Staff Attendance With Selfie & Location</h3>
                       <p>
                         Large images are best for products where every detail is
