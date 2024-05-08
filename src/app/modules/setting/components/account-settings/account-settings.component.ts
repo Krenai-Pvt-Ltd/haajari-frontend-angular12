@@ -343,14 +343,19 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   @ViewChild('otpModalButton') otpModalButton!: ElementRef;
   updateNotificationSettingMethodCall(type: 'whatsapp' | 'slack'): void {
     debugger;
-    if (type === 'whatsapp' && this.notifications.slack == true) {
+    // if (type === 'whatsapp' && this.notifications.slack == true) {
+    //   this.notificationVia.id = 2;
+    // } else if (type === 'slack' && this.notifications.slack == true) {
+    //   this.notificationVia.id = 1;
+    // } else if (type === 'slack' && this.notifications.slack == false) {
+    //   this.notificationVia.id = 1;
+    // } else if (type === 'whatsapp' && this.notifications.whatsapp == true) {
+    //   this.notificationVia.id = 2;
+    // }
+    if (type === 'whatsapp') {
       this.notificationVia.id = 2;
-    } else if (type === 'slack' && this.notifications.slack == true) {
+    } else {
       this.notificationVia.id = 1;
-    } else if (type === 'slack' && this.notifications.slack == false) {
-      this.notificationVia.id = 1;
-    } else if (type === 'whatsapp' && this.notifications.whatsapp == true) {
-      this.notificationVia.id = 2;
     }
     this._data.updateNotificationSetting(this.notificationVia).subscribe({
       next: (response: UserPersonalInformationRequest) => {
