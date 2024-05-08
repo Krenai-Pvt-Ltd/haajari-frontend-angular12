@@ -1336,7 +1336,7 @@
                     id="step5-tab"
                     data-bs-toggle="tab"
                     href="#step5"
-                    >LOP SUMMARY</a
+                    (click)="getLeaveSummaryResponseByOrganizationIdAndStartDateAndDateMethodCall()">LOP SUMMARY</a
                   >
                   <a
                     class="nav-link"
@@ -1421,61 +1421,103 @@
               </div>
               <div class="tab-pane" id="step5">
                   <div class="table-responsive">
-                      <table class="table border-dashed mb-0">
-                          <thead>
-                              <tr>
-                                  <th>EMPLOYEE</th>
-                                  <th>EMAIL</th>
-                                  <th>LOP DAYS</th>
-                                  <th>LOP ADJUSTMENT</th>
-                                  <th>FINAL LOP DAYS</th>
-                                  <th>COMMENT(Optional)</th>
-                                  <th>ACTION</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td>Rohit Chaturvedi</td>
-                                  <td>rohit@krenai.com</td>
-                                  <td>3</td>
-                                  <td>-</td>
-                                  <td>-</td>
-                                  <td>
-                                      <input class="comment-input p-2" type="text" placeholder="Write the comment here">
-                                  </td>
-                                  <td class="text-start">
-                                      <a><i class="bi bi-pencil-square"></i></a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>Rohit Chaturvedi</td>
-                                  <td>rohit@krenai.com</td>
-                                  <td>3</td>
-                                  <td>-</td>
-                                  <td>-</td>
-                                  <td>
-                                      <input class="comment-input p-2" type="text" placeholder="Write the comment here">
-                                  </td>
-                                  <td class="text-start">
-                                      <a><i class="bi bi-pencil-square"></i></a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>Rohit Chaturvedi</td>
-                                  <td>rohit@krenai.com</td>
-                                  <td>3</td>
-                                  <td>-</td>
-                                  <td>-</td>
-                                  <td>
-                                      <input class="comment-input p-2" type="text" placeholder="Write the comment here">
-                                  </td>
-                                  <td class="text-start">
-                                      <a><i class="bi bi-pencil-square"></i></a>
-                                  </td>
-                              </tr>
-                          </tbody>
-                      </table>
-                      <!--end /table-->
+                    <table class="table border-dashed mb-0">
+                      <thead>
+                          <tr>
+                              <th>EMPLOYEE</th>
+                              <th>EMAIL</th>
+                              <th>LOP DAYS</th>
+                              <th>LOP ADJUSTMENT</th>
+                              <th>FINAL LOP DAYS</th>
+                              <th>COMMENT(Optional)</th>
+                              <th>ACTION</th>
+                          </tr>
+                      </thead>
+
+                      <ng-container *ngIf="isShimmerForLopSummary && lopSummaryResponseList.length == 0; else lopSummaryResponseListData">
+                        <tbody>
+                          <tr *ngFor="let item of [].constructor(10)">
+                              <td class="text-center">
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                              </td>
+                              <td class="text-center">
+                                  <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
+                              </td>
+                              <td class="text-center">
+                                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                              </td>
+                              <td class="text-center">
+                                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                              </td>
+                              <td class="text-center">
+                                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                              </td>
+                              <td class="text-center">
+                                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                              </td>
+                              <td class="text-center">
+                                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                              </td>
+                              <td class="text-center">
+                                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                              </td>
+                              <td class="text-center">
+                                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                              </td>
+                          </tr>
+                      </tbody>
+                      </ng-container>
+  
+                      <ng-template #lopSummaryResponseListData>
+                        <ng-container *ngIf="!isShimmerForLopSummary && lopSummaryResponseList.length != 0; else errorInFetchingLopSummaryResponseListData">
+                          <tbody *ngFor="let lopSummaryResponse of lopSummaryResponseList | paginate : {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}">
+                            <tr>
+                                <td>{{lopSummaryResponse.name}}</td>
+                                <td>{{lopSummaryResponse.email}}</td>
+                                <td>{{lopSummaryResponse.lopDays}}</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>
+                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here">
+                                </td>
+                                <td class="text-start">
+                                    <a><i class="bi bi-pencil-square"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        </ng-container>
+                      </ng-template>
+                      
+                      <ng-template #errorInFetchingLopSummaryResponseListData>
+
+                        <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForLopSummary">
+                          <div class="errorboxinner text-center">
+                              <div class="errorboxplaceholder mb-2">
+                                  <img src="assets/images/signal.svg" style="width: 100px" />
+                              </div>
+                              <div class="">
+                                  <h4>Something went wrong</h4>
+                                  <p>
+                                      An error occurred while processing your request. Please refresh the page and try again.
+                                  </p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForLopSummary">
+                          <div class="errorboxinner text-center">
+                              <div class="errorboxplaceholder mb-2">
+                                  <img src="assets/images/empty-folder.svg" style="width: 100px" />
+                              </div>
+
+                              <h4>No Data Found</h4>
+                              <p>
+                                  Sorry, We can't show you the data at this moment!
+                              </p>
+                          </div>
+                      </div>
+                      </ng-template>
+                  </table>
+                  <!--end /table-->
                   </div>
               </div>
               <div class="tab-pane" id="step6">
