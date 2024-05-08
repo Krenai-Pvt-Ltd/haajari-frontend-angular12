@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
+import { LopSummaryResponse } from 'src/app/models/lop-summary-response';
 import { MonthResponse } from 'src/app/models/month-response';
 import { NewJoineeAndUserExitRequest } from 'src/app/models/new-joinee-and-user-exit-request';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
@@ -811,25 +812,36 @@ export class PayrollDashboardComponent implements OnInit {
       })
     }
 
-    // this.dataService
-    //   .registerNewJoineeAndUserExit(
-    //     this.newJoineeAndUserExitRequestList,
-    //     this.startDate,
-    //     this.endDate
-    //   )
-    //   .subscribe(
-    //     (response) => {
-    //       this.helperService.showToast(
-    //         response.message,
-    //         Key.TOAST_STATUS_SUCCESS
-    //       );
-    //     },
-    //     (error) => {
-    //       this.helperService.showToast(
-    //         error.error.message,
-    //         Key.TOAST_STATUS_ERROR
-    //       );
-    //     }
-    //   );
+
+
+
+    // #######################################################################
+    // Step 2: Attendance, Leaves & Present days
+    isShimmerForLopSummary = false;
+    dataNotFoundPlaceholderForLopSummary = false;
+    networkConnectionErrorPlaceHolderForLopSummary = false;
+    preRuleForShimmersAndErrorPlaceholdersForLopSummary() {
+      this.isShimmerForLopSummary = true;
+      this.dataNotFoundPlaceholderForLopSummary = false;
+      this.networkConnectionErrorPlaceHolderForLopSummary = false;
+    }
+    lopSummaryResponseList : LopSummaryResponse[] = [];
+    getLeaveSummaryResponseByOrganizationIdAndStartDateAndDateMethodCall(){
+      this.dataService.getLeaveSummaryResponseByOrganizationIdAndStartDateAndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+
+        if(this.helperService.isListOfObjectNullOrUndefined(response)){
+          this.dataNotFoundPlaceholderForLopSummary = true;
+        } else{
+          this.lopSummaryResponseList = response.listOfObject;
+          this.total = response.totalItems;
+          this.lastPageNumber = Math.ceil(this.total/this.itemPerPage);
+        }
+
+        this.isShimmerForLopSummary = false;
+      }, (error) => {
+        this.networkConnectionErrorPlaceHolderForLopSummary = true;
+        this.isShimmerForLopSummary = false;
+      })
+    }
   
 }
