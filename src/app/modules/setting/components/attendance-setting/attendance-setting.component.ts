@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Key } from 'src/app/constant/key';
 import { Holiday } from 'src/app/models/Holiday';
+import { ShiftCounts } from 'src/app/models/ShiftCounts';
 import { UniversalHoliday } from 'src/app/models/UniversalHoliday';
 import { WeekDay } from 'src/app/models/WeekDay';
 import { WeeklyHoliday } from 'src/app/models/WeeklyHoliday';
@@ -61,6 +62,7 @@ export class AttendanceSettingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    window.scroll(0, 0);
     this.loadHolidayCounts();
     this.loadHolidays();
     this.getOrganizationAddressDetailMethodCall();
@@ -68,6 +70,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.getAllShiftTimingsMethodCall();
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
+    this.loadAllShiftCounts();
 
     if (localStorage.getItem('staffSelectionActive') == 'true') {
       this.activeModel = true;
@@ -374,7 +377,8 @@ export class AttendanceSettingComponent implements OnInit {
     new AttendanceRuleDefinitionResponse();
   updateAttendenceRuleDefinition(
     attendanceRuleDefinitionResponse: AttendanceRuleDefinitionResponse,
-    attendanceRuleResponse: AttendanceRuleResponse
+    attendanceRuleResponse: AttendanceRuleResponse,
+    automationIndex: number
   ) {
     this.ruleActiveTab.nativeElement.click();
 
@@ -509,6 +513,8 @@ export class AttendanceSettingComponent implements OnInit {
       attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceType;
     this.selectedOccurenceDropdownForFullDaySalrayDeduction =
       attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceType;
+
+    this.activeIndex5 = automationIndex;
     // this.selectCountDurationDropdown(attendanceRuleDefinitionResponse)
   }
 
@@ -700,6 +706,7 @@ export class AttendanceSettingComponent implements OnInit {
       );
   }
 
+  count: number = 0;
   attendanceRuleWithAttendanceRuleDefinitionResponseList: AttendanceRuleWithAttendanceRuleDefinitionResponse[] =
     [];
   attendanceRuleWithAttendanceRuleDefinitionLoading: boolean = false;
@@ -718,6 +725,10 @@ export class AttendanceSettingComponent implements OnInit {
         } else {
           this.attendanceRuleWithAttendanceRuleDefinitionResponseList =
             response.listOfObject;
+        }
+        if (this.count === 0) {
+          this.activeIndex5 = 0;
+          this.count++;
         }
       },
       (error) => {
@@ -1231,6 +1242,10 @@ export class AttendanceSettingComponent implements OnInit {
     this.dataService.getAllShiftTimings().subscribe(
       (response) => {
         this.organizationShiftTimingWithShiftTypeResponseList = response;
+
+        if (this.organizationShiftTimingWithShiftTypeResponseList.length == 1) {
+          this.activeIndex = 0;
+        }
         // console.log(this.organizationShiftTimingWithShiftTypeResponseList);
         // this.isShimmer = false;
         // this.dataNotFoundPlaceholder = true;
@@ -1340,7 +1355,9 @@ export class AttendanceSettingComponent implements OnInit {
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe(
       (response) => {
         // console.log(response);
-        this.getAttendanceModeMethodCall();
+        if (attendanceModeId == 1) {
+          this.getAttendanceModeMethodCall();
+        }
         if (attendanceModeId == 2 || attendanceModeId == 3) {
           this.attendancewithlocationssButton.nativeElement.click();
         }
@@ -1385,6 +1402,7 @@ export class AttendanceSettingComponent implements OnInit {
       .subscribe(
         (response: OrganizationAddressDetail) => {
           // console.log(response);
+          this.getAttendanceModeMethodCall();
           this.toggle = false;
           this.closeAddressModal.nativeElement.click();
           this.helperService.showToast(
@@ -1746,8 +1764,11 @@ export class AttendanceSettingComponent implements OnInit {
     }
   }
 
+  loadMoreHolidaysBoolean: boolean = false;
   loadMoreHolidays() {
+    this.loadMoreHolidaysBoolean = true;
     this.isInitialLoading = true;
+    this.openLoadMoreHoliday = false;
     this.page++;
     this.loadHolidays();
     setTimeout(() => {
@@ -1755,6 +1776,14 @@ export class AttendanceSettingComponent implements OnInit {
     }, 500);
   }
 
+  openLoadMoreHoliday: boolean = false;
+  hideHolidays() {
+    this.loadMoreHolidaysBoolean = false;
+    this.openLoadMoreHoliday = true;
+    this.page = 0;
+    this.holidays = [];
+    this.loadHolidays();
+  }
   scrollToBottom() {
     if (this.holidayListContainer) {
       this.holidayListContainer.nativeElement.scrollTop =
@@ -1787,5 +1816,40 @@ export class AttendanceSettingComponent implements OnInit {
 
   objectKeys(obj: any): string[] {
     return Object.keys(obj);
+  }
+
+  shiftCounts!: ShiftCounts;
+  totalShiftCount!: number;
+  loadAllShiftCounts() {
+    this.dataService.getOrganizationAllShiftCounts().subscribe({
+      next: (response) => {
+        if (response.status) {
+          this.shiftCounts = response.object;
+          this.totalShiftCount =
+            this.shiftCounts.dayShiftCount +
+            this.shiftCounts.nightShiftCount +
+            this.shiftCounts.rotationalShiftCount;
+        }
+      },
+      error: (err) => {
+        console.error('API error:', err);
+      },
+    });
+  }
+
+  activeIndex: number | null = null;
+
+  toggleCollapse(index: number): void {
+    if (this.activeIndex === index) {
+      this.activeIndex = null;
+    } else {
+      this.activeIndex = index;
+    }
+  }
+
+  activeIndex5: number = -1;
+
+  toggleCollapse5(index: number): void {
+    this.activeIndex5 = this.activeIndex5 === index ? -1 : index;
   }
 }

@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { MonthResponse } from 'src/app/models/month-response';
+import { NewJoineeAndUserExitRequest } from 'src/app/models/new-joinee-and-user-exit-request';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
+import { NoticePeriod } from 'src/app/models/notice-period';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { PayrollDashboardEmployeeCountResponse } from 'src/app/models/payroll-dashboard-employee-count-response';
@@ -26,6 +28,9 @@ export class PayrollDashboardComponent implements OnInit {
   searchBy: string = 'name';
   total: number = 0;
 
+  // Tab estate
+  CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.NEW_JOINEE_STEP;
+
   NEW_JOINEE = Key.NEW_JOINEE;
   USER_EXIT = Key.USER_EXIT;
   REGULAR = Key.REGULAR;
@@ -39,7 +44,6 @@ export class PayrollDashboardComponent implements OnInit {
     this.networkConnectionErrorPlaceHolder = false;
   }
 
-
   isShimmerForNewJoinee = false;
   dataNotFoundPlaceholderForNewJoinee = false;
   networkConnectionErrorPlaceHolderForNewJoinee = false;
@@ -49,7 +53,6 @@ export class PayrollDashboardComponent implements OnInit {
     this.networkConnectionErrorPlaceHolderForNewJoinee = false;
   }
 
-
   isShimmerForUserExit = false;
   dataNotFoundPlaceholderForUserExit = false;
   networkConnectionErrorPlaceHolderForUserExit = false;
@@ -58,7 +61,6 @@ export class PayrollDashboardComponent implements OnInit {
     this.dataNotFoundPlaceholderForUserExit = false;
     this.networkConnectionErrorPlaceHolderForUserExit = false;
   }
-
 
   isShimmerForFinalSettlement = false;
   dataNotFoundPlaceholderForFinalSettlement = false;
@@ -71,10 +73,11 @@ export class PayrollDashboardComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private helperService: HelperService,
+    private helperService: HelperService
   ) {}
 
   ngOnInit(): void {
+    window.scroll(0, 0);
     this.currentMonthResponse = new MonthResponse(
       new Date().getMonth() + 1,
       new Date(new Date().getFullYear(), new Date().getMonth(), 1),
@@ -84,10 +87,9 @@ export class PayrollDashboardComponent implements OnInit {
       'Current',
       false
     );
-  
+
     this.selectedMonth = this.currentMonthResponse.month;
     this.selectedYear = this.currentMonthResponse.year;
-
 
     this.getFirstAndLastDateOfMonth(new Date());
     this.countPayrollDashboardEmployeeByOrganizationIdMethodCall();
@@ -95,7 +97,9 @@ export class PayrollDashboardComponent implements OnInit {
 
     this.getOrganizationRegistrationDateMethodCall();
     this.getMonthResponseList(this.selectedDate);
-    this.getOrganizationIndividualMonthSalaryDataMethodCall(this.currentMonthResponse);
+    this.getOrganizationIndividualMonthSalaryDataMethodCall(
+      this.currentMonthResponse
+    );
   }
 
   // Year calendar
@@ -105,27 +109,40 @@ export class PayrollDashboardComponent implements OnInit {
   endDate: string = '';
 
   onYearChange(year: Date): void {
-    console.log('Month is getting selected!');
     this.selectedDate = year;
     this.getMonthResponseList(this.selectedDate);
 
-    // Find the first monthResponse with disable as false
-    const enabledMonthResponse = this.monthResponseList.find((monthResponse: { disable: any; }) => !monthResponse.disable);
-    if (enabledMonthResponse) {
-        // Call the method with the found monthResponse
-        this.getOrganizationIndividualMonthSalaryDataMethodCall(enabledMonthResponse);
+    let enabledMonthResponse;
+
+    // Check if the selected year is the current year
+    const currentYear = new Date().getFullYear();
+    const selectedYear = year.getFullYear();
+
+    if (selectedYear === currentYear) {
+      // It's the current year, find the last monthResponse with disable as false
+      for (let i = this.monthResponseList.length - 1; i >= 0; i--) {
+        if (!this.monthResponseList[i].disable) {
+          enabledMonthResponse = this.monthResponseList[i];
+          break;
+        }
+      }
+    } else {
+      enabledMonthResponse = this.monthResponseList.find(
+        (monthResponse) => !monthResponse.disable
+      );
     }
 
-    console.log(this.getMonthResponseList(this.selectedDate));
-    // this.getOrganizationIndividualMonthSalaryDataMethodCall();
-    // this.getFirstAndLastDateOfMonth(this.selectedDate);
+    if (enabledMonthResponse) {
+      this.getOrganizationIndividualMonthSalaryDataMethodCall(
+        enabledMonthResponse
+      );
+    }
   }
-
 
   // async onYearChange(year: Date): Promise<void> {
   //   console.log('Month is getting selected!');
   //   this.selectedDate = year;
-    
+
   //   // Fetching the month responses
   //   const monthResponses = await this.getMonthResponseList(this.selectedDate);
   //   console.log(monthResponses);
@@ -139,13 +156,12 @@ export class PayrollDashboardComponent implements OnInit {
   //   }
   // }
 
-
   getFirstAndLastDateOfMonth(selectedDate: Date) {
     this.startDate = this.helperService.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
     );
     this.endDate = this.helperService.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0)
     );
   }
 
@@ -154,8 +170,12 @@ export class PayrollDashboardComponent implements OnInit {
     const currentMonth = new Date().getMonth();
     const dateYear = date.getFullYear();
     const dateMonth = date.getMonth();
-    const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
-    const organizationRegistrationMonth = new Date(this.organizationRegistrationDate).getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
 
     // Disable if the year is before the organization registration year or if the year is after the organization registration year.
     if (dateYear < organizationRegistrationYear || dateYear > currentYear) {
@@ -178,8 +198,7 @@ export class PayrollDashboardComponent implements OnInit {
         this.organizationRegistrationDate = response;
       },
       (error) => {
-        console.log(error);
-      },
+      }
     );
   }
 
@@ -190,65 +209,87 @@ export class PayrollDashboardComponent implements OnInit {
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
 
-    const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
-    const organizationRegistrationMonth = new Date(this.organizationRegistrationDate).getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
 
     for (let i = 0; i < 12; i++) {
-        // Create a new Date object for each month.
-        const monthDate = new Date(date.getFullYear(), i);
+      // Create a new Date object for each month.
+      const monthDate = new Date(date.getFullYear(), i);
 
-        const monthName = monthDate.toLocaleString('default', { month: 'short' });
-        const status =
-        (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) ? '-' : monthDate.getFullYear() < currentYear || (monthDate.getFullYear() === currentYear && i < currentMonth) ? 'Completed' : (monthDate.getFullYear() === currentYear && i === currentMonth) ? 'Current' : 'Upcoming';
+      const monthName = monthDate.toLocaleString('default', { month: 'short' });
+      const status =
+        monthDate.getFullYear() < organizationRegistrationYear ||
+        (monthDate.getFullYear() === organizationRegistrationYear &&
+          i < organizationRegistrationMonth)
+          ? '-'
+          : monthDate.getFullYear() < currentYear ||
+            (monthDate.getFullYear() === currentYear && i < currentMonth)
+          ? 'Completed'
+          : monthDate.getFullYear() === currentYear && i === currentMonth
+          ? 'Current'
+          : 'Upcoming';
 
-        // Disabling the future months and the months before organization registration.
-        const disable = 
-            (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) ||
-            (monthDate.getFullYear() > currentYear || (monthDate.getFullYear() === currentYear && i > currentMonth));
+      // Disabling the future months and the months before organization registration.
+      const disable =
+        monthDate.getFullYear() < organizationRegistrationYear ||
+        (monthDate.getFullYear() === organizationRegistrationYear &&
+          i < organizationRegistrationMonth) ||
+        monthDate.getFullYear() > currentYear ||
+        (monthDate.getFullYear() === currentYear && i > currentMonth);
 
-        // Format the first day of the month as "DD MMM".
-        const firstDate = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
+      // Format the first day of the month as "DD MMM".
+      const firstDate = new Date(
+        monthDate.getFullYear(),
+        monthDate.getMonth(),
+        1
+      );
 
-        // Format the last day of the month as "DD MMM".
-        const lastDate = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
+      // Format the last day of the month as "DD MMM".
+      const lastDate = new Date(
+        monthDate.getFullYear(),
+        monthDate.getMonth() + 1,
+        0
+      );
 
-        this.monthResponseList.push(
-            new MonthResponse(
-                i + 1,
-                firstDate,
-                lastDate,
-                monthName,
-                monthDate.getFullYear(),
-                status,
-                disable
-            ),
-        );
+      this.monthResponseList.push(
+        new MonthResponse(
+          i + 1,
+          firstDate,
+          lastDate,
+          monthName,
+          monthDate.getFullYear(),
+          status,
+          disable
+        )
+      );
     }
   }
 
+  //   async getMonthResponseList(date: Date): Promise<MonthResponse[]> {
+  //     let monthResponseList: MonthResponse[] = [];
+  //     const currentMonth = new Date().getMonth();
+  //     const currentYear = new Date().getFullYear();
+  //     const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
+  //     const organizationRegistrationMonth = new Date(this.organizationRegistrationDate).getMonth();
 
-//   async getMonthResponseList(date: Date): Promise<MonthResponse[]> {
-//     let monthResponseList: MonthResponse[] = [];
-//     const currentMonth = new Date().getMonth();
-//     const currentYear = new Date().getFullYear();
-//     const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
-//     const organizationRegistrationMonth = new Date(this.organizationRegistrationDate).getMonth();
+  //     for (let i = 0; i < 12; i++) {
+  //         // Create a new Date object for each month.
+  //         const monthDate = new Date(date.getFullYear(), i);
+  //         const monthName = monthDate.toLocaleString('default', { month: 'short' });
+  //         const status = (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) ? '-' : monthDate.getFullYear() < currentYear || (monthDate.getFullYear() === currentYear && i < currentMonth) ? 'Completed' : (monthDate.getFullYear() === currentYear && i === currentMonth) ? 'Current' : 'Upcoming';
+  //         const disable = (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) || (monthDate.getFullYear() > currentYear || (monthDate.getFullYear() === currentYear && i > currentMonth));
+  //         const firstDate = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
+  //         const lastDate = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
 
-//     for (let i = 0; i < 12; i++) {
-//         // Create a new Date object for each month.
-//         const monthDate = new Date(date.getFullYear(), i);
-//         const monthName = monthDate.toLocaleString('default', { month: 'short' });
-//         const status = (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) ? '-' : monthDate.getFullYear() < currentYear || (monthDate.getFullYear() === currentYear && i < currentMonth) ? 'Completed' : (monthDate.getFullYear() === currentYear && i === currentMonth) ? 'Current' : 'Upcoming';
-//         const disable = (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) || (monthDate.getFullYear() > currentYear || (monthDate.getFullYear() === currentYear && i > currentMonth));
-//         const firstDate = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
-//         const lastDate = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
+  //         monthResponseList.push(new MonthResponse(i + 1, firstDate, lastDate, monthName, monthDate.getFullYear(), status, disable));
+  //     }
 
-//         monthResponseList.push(new MonthResponse(i + 1, firstDate, lastDate, monthName, monthDate.getFullYear(), status, disable));
-//     }
-
-//     return monthResponseList;
-// }
-
+  //     return monthResponseList;
+  // }
 
   // This is current month response, default value to fetch the data.
   currentMonthResponse: MonthResponse = new MonthResponse(
@@ -258,20 +299,31 @@ export class PayrollDashboardComponent implements OnInit {
     '',
     0,
     '',
-    false,
+    false
   );
 
-  selectedMonth : string = '';
-  selectedYear : number = 0;
+  selectedMonth: string = '';
+  selectedYear: number = 0;
   // Fetching organization individual month salary data.
-  organizationMonthWiseSalaryData: OrganizationMonthWiseSalaryData = new OrganizationMonthWiseSalaryData();
-  getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse: MonthResponse) {
+  organizationMonthWiseSalaryData: OrganizationMonthWiseSalaryData =
+    new OrganizationMonthWiseSalaryData();
+  getOrganizationIndividualMonthSalaryDataMethodCall(
+    monthResponse: MonthResponse
+  ) {
     this.selectedMonth = monthResponse.month;
     this.selectedYear = monthResponse.year;
+
+    this.startDate = this.helperService.formatDateToYYYYMMDD(
+      monthResponse.firstDate
+    );
+    this.endDate = this.helperService.formatDateToYYYYMMDD(
+      monthResponse.lastDate
+    );
+
     this.dataService
       .getOrganizationIndividualMonthSalaryData(
         this.helperService.formatDateToYYYYMMDD(monthResponse.firstDate),
-        this.helperService.formatDateToYYYYMMDD(monthResponse.lastDate),
+        this.helperService.formatDateToYYYYMMDD(monthResponse.lastDate)
       )
       .subscribe(
         (response) => {
@@ -285,74 +337,131 @@ export class PayrollDashboardComponent implements OnInit {
             this.dataNotFoundPlaceholder = true;
           } else {
             this.organizationMonthWiseSalaryData = response.object;
+            this.countPayrollDashboardEmployeeByOrganizationIdMethodCall();
           }
-          this.isShimmer = true;
+          this.isShimmer = false;
         },
         (error) => {
-          console.log(error);
           this.isShimmer = false;
           this.networkConnectionErrorPlaceHolder = true;
+        }
+      );
+  }
+
+  //Fetching the employees count with new joinee count and user exit count
+  payrollDashboardEmployeeCountResponse: PayrollDashboardEmployeeCountResponse =
+    new PayrollDashboardEmployeeCountResponse();
+  countPayrollDashboardEmployeeByOrganizationIdMethodCall() {
+    this.dataService
+      .countPayrollDashboardEmployeeByOrganizationId(
+        this.startDate,
+        this.endDate
+      )
+      .subscribe(
+        (response) => {
+          this.payrollDashboardEmployeeCountResponse = response.object;
         },
+        (error) => {}
       );
   }
 
 
-  //Fetching the employees count with new joinee count and user exit count
-  payrollDashboardEmployeeCountResponse : PayrollDashboardEmployeeCountResponse = new PayrollDashboardEmployeeCountResponse();
-  countPayrollDashboardEmployeeByOrganizationIdMethodCall(){
-    this.dataService.countPayrollDashboardEmployeeByOrganizationId(this.startDate, this.endDate).subscribe((response) => {
-      this.payrollDashboardEmployeeCountResponse = response.object;
-    }, (error) => {
+  //View child properties to click
+  @ViewChild('step1') step1 !: ElementRef;
+  @ViewChild('step2') step2 !: ElementRef;
+  @ViewChild('step3') step3 !: ElementRef;
 
-    })
+  clickOnNewJoineeTab(){
+    if(this.step1 && this.step1.nativeElement){
+      this.step1.nativeElement.click();
+    }
+  }
+
+  clickOnUserExitTab(){
+    if (this.step2 && this.step2.nativeElement) {
+      this.step2.nativeElement.click();
+    }
+  }
+
+  clickOnFinalSettlementTab(){
+    if(this.step3 && this.step3.nativeElement){
+      this.step3.nativeElement.click();
+    }
   }
 
   //Exmployee changes tab selection
-  newJoineeTab(){
+  newJoineeTab() {
+    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.NEW_JOINEE_STEP;
     this.resetCriteriaFilter();
     this.getNewJoineeByOrganizationIdMethodCall();
   }
 
-  userExitTab(){
+  userExitTab() {
+    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.USER_EXIT_STEP;
     this.resetCriteriaFilter();
     this.getUserExitByOrganizationIdMethodCall();
   }
 
-  finalSettlementTab(){
+  finalSettlementTab() {
+    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.FINAL_SETTLEMENT_STEP;
     this.resetCriteriaFilter();
     this.getFinalSettlementByOrganizationIdMethodCall();
   }
 
-  //Fetching the new joinee data
-  newJoineeResponseList : NewJoineeResponse[] = [];
-  debounceTimer : any;
-  getNewJoineeByOrganizationIdMethodCall(debounceTime : number = 300){
+  employeeChangesBackTab(){
+    if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.FINAL_SETTLEMENT_STEP){
+      this.clickOnUserExitTab();
+    } else if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP){
+      this.clickOnNewJoineeTab();
+    }
+  }
 
+  //Routing to the user profile section
+  routeToUserProfile(uuid : string){
+    this.helperService.routeToUserProfile(uuid);
+  }
+
+  //Fetching the new joinee data
+  newJoineeResponseList: NewJoineeResponse[] = [];
+  debounceTimer: any;
+  getNewJoineeByOrganizationIdMethodCall(debounceTime: number = 300) {
     this.newJoineeResponseList = [];
 
-    if(this.debounceTimer){
+    if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
     }
 
     this.debounceTimer = setTimeout(() => {
       this.preRuleForShimmersAndErrorPlaceholdersForNewJoinee();
-      this.dataService.getNewJoineeByOrganizationId(this.itemPerPage, this.pageNumber, this.sort, this.sortBy, this.search, this.searchBy, this.startDate, this.endDate).subscribe((response) => {
-        if(this.helperService.isListOfObjectNullOrUndefined(response)){
-
-          this.dataNotFoundPlaceholderForNewJoinee = true;
-        } else{
-          this.newJoineeResponseList = response.listOfObject;
-          this.total = response.totalItems;
-          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-          // console.log(this.total);
-        }
-        this.isShimmerForNewJoinee = false;
-      }, (error) => {
-
-        this.networkConnectionErrorPlaceHolderForNewJoinee = true;
-        this.isShimmerForNewJoinee = false;
-      })
-    }, debounceTime)
+      this.dataService
+        .getNewJoineeByOrganizationId(
+          this.itemPerPage,
+          this.pageNumber,
+          this.sort,
+          this.sortBy,
+          this.search,
+          this.searchBy,
+          this.startDate,
+          this.endDate
+        )
+        .subscribe(
+          (response) => {
+            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+              this.dataNotFoundPlaceholderForNewJoinee = true;
+            } else {
+              this.newJoineeResponseList = response.listOfObject;
+              this.total = response.totalItems;
+              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+              console.log(this.newJoineeResponseList);
+            }
+            this.isShimmerForNewJoinee = false;
+          },
+          (error) => {
+            this.networkConnectionErrorPlaceHolderForNewJoinee = true;
+            this.isShimmerForNewJoinee = false;
+          }
+        );
+    }, debounceTime);
   }
 
   //Fetching the pay action type list
@@ -363,7 +472,21 @@ export class PayrollDashboardComponent implements OnInit {
 
       } else{
         this.payActionTypeList = response.listOfObject;
-        this.selectedPayActionType = response.listOfObject[0];
+        console.log(this.payActionTypeList);
+      }
+    }, (error) => {
+
+    })
+  }
+
+  //Fetching the notice period list
+  noticePeriodList : NoticePeriod[] = [];
+  getNoticePeriodListMethodCall(){
+    this.dataService.getNoticePeriodList().subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+
+      } else{
+        this.noticePeriodList = response.listOfObject;
       }
     }, (error) => {
 
@@ -373,14 +496,16 @@ export class PayrollDashboardComponent implements OnInit {
   //Selecting pay action type
   isDropdownOpen = false;
   toggleDropdown() {
-      this.isDropdownOpen = !this.isDropdownOpen;
+    this.isDropdownOpen = !this.isDropdownOpen;
   }
 
   selectedPayActionType : PayActionType = new PayActionType();
-  selectPayActionType(payActionType : PayActionType){
-    this.selectedPayActionType = payActionType;
-    this.isDropdownOpen = false;
+  selectPayActionType(payActionType : PayActionType, response : any){
+    if(response != undefined && response != null){
+      response.payActionType = payActionType;
+    }
   }
+
 
 
   // User selection to generate the payout
@@ -467,10 +592,9 @@ export class PayrollDashboardComponent implements OnInit {
   // searchUsers(){};
   // clearSearch(){};
 
-
   //New Joinee Pagination
   // ##### Pagination ############
-  changePage(page: number | string, step : number) {
+  changePage(page: number | string, step: number) {
     if (typeof page === 'number') {
       this.pageNumber = page;
     } else if (page === 'prev' && this.pageNumber > 1) {
@@ -479,15 +603,15 @@ export class PayrollDashboardComponent implements OnInit {
       this.pageNumber++;
     }
 
-    if(step == Key.NEW_JOINEE_STEP){
+    if (step == Key.NEW_JOINEE_STEP) {
       this.getNewJoineeByOrganizationIdMethodCall();
     }
 
-    if(step == Key.USER_EXIT_STEP){
+    if (step == Key.USER_EXIT_STEP) {
       this.getUserExitByOrganizationIdMethodCall();
     }
 
-    if(step == Key.FINAL_SETTLEMENT_STEP){
+    if (step == Key.FINAL_SETTLEMENT_STEP) {
       this.getFinalSettlementByOrganizationIdMethodCall();
     }
   }
@@ -512,53 +636,52 @@ export class PayrollDashboardComponent implements OnInit {
     this.pageNumber = event;
   }
 
-
   //New Joinee & User Exit Search
-  searchNewJoinee(event : Event){
+  searchNewJoinee(event: Event) {
     this.helperService.ignoreKeysDuringSearch(event);
     this.resetCriteriaFilterMicro();
     this.getNewJoineeByOrganizationIdMethodCall();
   }
 
-  searchUserExit(event : Event){
+  searchUserExit(event: Event) {
     this.helperService.ignoreKeysDuringSearch(event);
     this.resetCriteriaFilterMicro();
     this.getUserExitByOrganizationIdMethodCall();
   }
 
-  searchUsers(event : Event, step : number){
+  searchUsers(event: Event, step: number) {
     this.helperService.ignoreKeysDuringSearch(event);
     this.resetCriteriaFilterMicro();
 
-    if(step == Key.NEW_JOINEE_STEP){
+    if (step == Key.NEW_JOINEE_STEP) {
       this.getNewJoineeByOrganizationIdMethodCall();
     }
 
-    if(step == Key.USER_EXIT_STEP){
+    if (step == Key.USER_EXIT_STEP) {
       this.getUserExitByOrganizationIdMethodCall();
     }
 
-    if(step == Key.FINAL_SETTLEMENT_STEP){
+    if (step == Key.FINAL_SETTLEMENT_STEP) {
       this.getFinalSettlementByOrganizationIdMethodCall();
     }
   }
 
-
   // Clearing search text
-  clearSearch(step : number){
+  clearSearch(step: number) {
     this.resetCriteriaFilter();
-    if(step == Key.NEW_JOINEE_STEP){
+    if (step == Key.NEW_JOINEE_STEP) {
       this.getNewJoineeByOrganizationIdMethodCall();
     }
 
-    if(step == Key.USER_EXIT_STEP){
+    if (step == Key.USER_EXIT_STEP) {
       this.getUserExitByOrganizationIdMethodCall();
     }
 
-    if(step == Key.FINAL_SETTLEMENT_STEP){
-
+    if (step == Key.FINAL_SETTLEMENT_STEP) {
+      this.getFinalSettlementByOrganizationIdMethodCall();
     }
   }
+
   resetCriteriaFilter() {
     this.itemPerPage = 2;
     this.pageNumber = 1;
@@ -578,51 +701,135 @@ export class PayrollDashboardComponent implements OnInit {
   }
 
   //Fetching the user exit data
-  userExitResponseList : UserExitResponse[] = [];
-  getUserExitByOrganizationIdMethodCall(){
+  userExitResponseList: UserExitResponse[] = [];
+  getUserExitByOrganizationIdMethodCall() {
     this.userExitResponseList = [];
     this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
-    this.dataService.getUserExitByOrganizationId(this.itemPerPage, this.pageNumber, this.sort, this.sortBy, this.search, this.searchBy, this.startDate, this.endDate).subscribe((response) => {
-      if(this.helperService.isListOfObjectNullOrUndefined(response)){
-        this.dataNotFoundPlaceholderForUserExit = true;
-      } else{
-        this.userExitResponseList = response.listOfObject;
-        this.total = response.totalItems;
-        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-      }
-      this.isShimmerForUserExit = false;
-    }, (error) => {
-      this.networkConnectionErrorPlaceHolderForUserExit = true;
-      this.isShimmerForUserExit = false;
-    })
+    this.dataService
+      .getUserExitByOrganizationId(
+        this.itemPerPage,
+        this.pageNumber,
+        this.sort,
+        this.sortBy,
+        this.search,
+        this.searchBy,
+        this.startDate,
+        this.endDate
+      )
+      .subscribe(
+        (response) => {
+          if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+            this.dataNotFoundPlaceholderForUserExit = true;
+          } else {
+            this.userExitResponseList = response.listOfObject;
+            this.total = response.totalItems;
+            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+          }
+          this.isShimmerForUserExit = false;
+        },
+        (error) => {
+          this.networkConnectionErrorPlaceHolderForUserExit = true;
+          this.isShimmerForUserExit = false;
+        }
+      );
   }
 
-    //Fetching the final settlement data
-    finalSettlementResponseList : FinalSettlementResponse[] = [];
-    getFinalSettlementByOrganizationIdMethodCall(){
-      this.finalSettlementResponseList = [];
-      this.preRuleForShimmersAndErrorPlaceholdersForFinalSettlement();
-      this.dataService.getFinalSettlementByOrganizationId(this.itemPerPage, this.pageNumber, this.sort, this.sortBy, this.search, this.searchBy, this.startDate, this.endDate).subscribe((response) => {
-        if(this.helperService.isListOfObjectNullOrUndefined(response)){
-          this.dataNotFoundPlaceholderForFinalSettlement = true;
-        } else{
-          this.finalSettlementResponseList = response.listOfObject;
-          this.total = response.totalItems;
-          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+  //Fetching the final settlement data
+  finalSettlementResponseList: FinalSettlementResponse[] = [];
+  getFinalSettlementByOrganizationIdMethodCall() {
+    this.finalSettlementResponseList = [];
+    this.preRuleForShimmersAndErrorPlaceholdersForFinalSettlement();
+    this.dataService
+      .getFinalSettlementByOrganizationId(
+        this.itemPerPage,
+        this.pageNumber,
+        this.sort,
+        this.sortBy,
+        this.search,
+        this.searchBy,
+        this.startDate,
+        this.endDate
+      )
+      .subscribe(
+        (response) => {
+          if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+            this.dataNotFoundPlaceholderForFinalSettlement = true;
+          } else {
+            this.finalSettlementResponseList = response.listOfObject;
+            this.total = response.totalItems;
+            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+          }
+          this.isShimmerForFinalSettlement = false;
+        },
+        (error) => {
+          this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
+          this.isShimmerForFinalSettlement = false;
         }
-        this.isShimmerForFinalSettlement = false;
+      );
+  }
+
+  //Registering new joinee and user exit data to employee month wise salary data
+  newJoineeAndUserExitRequestList: NewJoineeAndUserExitRequest[] = [];
+  registerNewJoineeAndUserExitMethodCall() {
+    if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.NEW_JOINEE_STEP) {
+      this.newJoineeAndUserExitRequestList = [];
+
+
+        this.newJoineeResponseList.forEach((item) => {
+          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
+
+          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        });
+      } 
+
+      if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP){
+        this.newJoineeAndUserExitRequestList = [];
+
+        this.userExitResponseList.forEach((item) => {
+          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
+
+          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        })
+      }
+
+      if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.FINAL_SETTLEMENT_STEP){
+        this.newJoineeAndUserExitRequestList = [];
+
+        this.finalSettlementResponseList.forEach((item) => {
+          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
+
+          this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
+        })
+      }
+      
+      this.dataService.registerNewJoineeAndUserExit(this.newJoineeAndUserExitRequestList, this.startDate, this.endDate).subscribe((response) => {
+
+        this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+
       }, (error) => {
-        this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
-        this.isShimmerForFinalSettlement = false;
+        this.helperService.showToast(error.error.message, Key.TOAST_STATUS_ERROR);
       })
     }
+
+    // this.dataService
+    //   .registerNewJoineeAndUserExit(
+    //     this.newJoineeAndUserExitRequestList,
+    //     this.startDate,
+    //     this.endDate
+    //   )
+    //   .subscribe(
+    //     (response) => {
+    //       this.helperService.showToast(
+    //         response.message,
+    //         Key.TOAST_STATUS_SUCCESS
+    //       );
+    //     },
+    //     (error) => {
+    //       this.helperService.showToast(
+    //         error.error.message,
+    //         Key.TOAST_STATUS_ERROR
+    //       );
+    //     }
+    //   );
+  
 }
-
-
-
-
-
-
-
-
-

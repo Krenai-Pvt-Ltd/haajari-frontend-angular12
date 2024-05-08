@@ -52,6 +52,8 @@ import { WeekDay } from '../models/WeekDay';
 import { Key } from '../constant/key';
 import { ResponseEntityObject } from '../models/response-entity-object.model';
 import { OrganizationWeekoffInformation } from '../models/organization-weekoff-information';
+import { NewJoineeAndUserExitRequest } from '../models/new-joinee-and-user-exit-request';
+import { OnboardingFormPreviewResponse } from '../models/onboarding-form-preview-response';
 
 @Injectable({
   providedIn: 'root',
@@ -2444,47 +2446,55 @@ export class DataService {
     );
   }
 
-    getUserExitByOrganizationId(
-      itemPerPage: number,
-      pageNumber: number,
-      sort: string,
-      sortBy: string,
-      search: string,
-      searchBy: string,
-      startDate: string,
-      endDate: string): Observable<any>{
-        const params = new HttpParams()
-        .set('item_per_page', itemPerPage)
-        .set('page_number', pageNumber)
-        .set('sort', sort)
-        .set('sort_by', sortBy)
-        .set('search', search)
-        .set('search_by', searchBy)
-        .set('start_date', startDate)
-        .set('end_date', endDate);
-        return this.httpClient.get<any>(`${this.baseUrl}/salary/user/change/user-exit`, {params});
-    }
+  getUserExitByOrganizationId(
+    itemPerPage: number,
+    pageNumber: number,
+    sort: string,
+    sortBy: string,
+    search: string,
+    searchBy: string,
+    startDate: string,
+    endDate: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('item_per_page', itemPerPage)
+      .set('page_number', pageNumber)
+      .set('sort', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('start_date', startDate)
+      .set('end_date', endDate);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/user/change/user-exit`,
+      { params }
+    );
+  }
 
-    getFinalSettlementByOrganizationId(
-      itemPerPage: number,
-      pageNumber: number,
-      sort: string,
-      sortBy: string,
-      search: string,
-      searchBy: string,
-      startDate: string,
-      endDate: string): Observable<any>{
-        const params = new HttpParams()
-        .set('item_per_page', itemPerPage)
-        .set('page_number', pageNumber)
-        .set('sort', sort)
-        .set('sort_by', sortBy)
-        .set('search', search)
-        .set('search_by', searchBy)
-        .set('start_date', startDate)
-        .set('end_date', endDate);
-        return this.httpClient.get<any>(`${this.baseUrl}/salary/user/change/final-settlement`, {params});
-    }
+  getFinalSettlementByOrganizationId(
+    itemPerPage: number,
+    pageNumber: number,
+    sort: string,
+    sortBy: string,
+    search: string,
+    searchBy: string,
+    startDate: string,
+    endDate: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('item_per_page', itemPerPage)
+      .set('page_number', pageNumber)
+      .set('sort', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('start_date', startDate)
+      .set('end_date', endDate);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/user/change/final-settlement`,
+      { params }
+    );
+  }
 
   // getPayActionTypeList(): Observable<any> {
   //   return this.httpClient.get<any>(
@@ -2496,6 +2506,13 @@ export class DataService {
   getPayActionTypeList(): Observable<any> {
     return this.httpClient.get<any>(
       `${this.baseUrl}/salary/user/change/pay-action-type-get-all`,
+      {}
+    );
+  }
+
+  getNoticePeriodList(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/user/change/notice-period-get-all`,
       {}
     );
   }
@@ -2516,6 +2533,75 @@ export class DataService {
   getHolidayCounts(): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/holiday/get-Counts-of-holidays`
+    );
+  }
+
+
+  registerNewJoineeAndUserExit(newJoineeAndUserExitRequestList : NewJoineeAndUserExitRequest[], startDate : string, endDate : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/user/change/register-new-joinee-and-user-exit`, newJoineeAndUserExitRequestList, {params});
+  } 
+
+  getOrganizationAllShiftCounts(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization-shift-timing/get-organization-all-shift-counts`
+    );
+  }
+
+  getAdminVerifiedForOnboardingUpdate(userUuid: string, adminUuid: string): Observable<any> {
+    const params = {
+      userUuid: `${userUuid}`,
+      adminUuid: `${adminUuid}`,
+    };
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/employee-onboarding-status/check-admin`,
+      {
+        params,
+      }
+    );
+  }
+
+  setEmployeeCompanyDocuments(
+    userUuid: string,
+    onboardingPreviewData: OnboardingFormPreviewResponse
+    
+  ): Observable<any> {
+    debugger;
+    const params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient
+      .put<any>(
+        `${this.baseUrl}/user-documents-details/save/user-company-documents`,
+        onboardingPreviewData,
+        { params }
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeePersonalDetails:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  getEmployeeCompanyDocuments(userUuid: string): Observable<any> {
+    debugger;
+    const params = new HttpParams().set('userUuid', userUuid);
+    const url = `${this.baseUrl}/user-documents-details/get/user-company-documents`;
+    return this.httpClient.get(url, { params });
+  }
+
+  deleteEmployeeCompanyDocById(documentId: number, userUuid: string): Observable<any> {
+    // Create HttpParams and chain the setting of parameters
+    const params = new HttpParams()
+      .set('documentId', documentId.toString())  // Ensure the ID is sent as a string
+      .set('userUuid', userUuid);
+  
+    return this.httpClient.delete<any>(
+      `${this.baseUrl}/user-documents-details/delete/companyDoc`,
+      { params }
     );
   }
 }

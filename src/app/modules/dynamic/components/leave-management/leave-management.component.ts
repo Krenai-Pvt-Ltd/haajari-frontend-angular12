@@ -47,7 +47,7 @@ export class LeaveManagementComponent implements OnInit {
     private helperService: HelperService,
     private datePipe: DatePipe,
     private fb: FormBuilder,
-    private rbacService: RoleBasedAccessControlService,
+    private rbacService: RoleBasedAccessControlService
   ) {
     {
       this.userLeaveForm = this.fb.group({
@@ -85,6 +85,7 @@ export class LeaveManagementComponent implements OnInit {
   currentDate: Date = new Date();
 
   async ngOnInit(): Promise<void> {
+    window.scroll(0, 0);
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
 
@@ -118,7 +119,7 @@ export class LeaveManagementComponent implements OnInit {
             this.searchString,
             this.selectedTeamName,
             this.page,
-            this.size,
+            this.size
           )
           .subscribe({
             next: (response) => {
@@ -140,7 +141,7 @@ export class LeaveManagementComponent implements OnInit {
               console.error('Failed to fetch full leave logs:', error);
               this.helperService.showToast(
                 'Failed to load full leave logs.',
-                Key.TOAST_STATUS_ERROR,
+                Key.TOAST_STATUS_ERROR
               );
             },
             // next: (response) => { this.fullLeaveLogs = response.object
@@ -234,7 +235,7 @@ export class LeaveManagementComponent implements OnInit {
           console.error('Failed to fetch pending leaves:', error);
           this.helperService.showToast(
             'Failed to load pending leaves.',
-            Key.TOAST_STATUS_ERROR,
+            Key.TOAST_STATUS_ERROR
           );
         },
       });
@@ -282,7 +283,7 @@ export class LeaveManagementComponent implements OnInit {
     this.dataService
       .getApprovedRejectedLeaveLogs(
         this.pageApprovedRejected,
-        this.sizeApprovedRejected,
+        this.sizeApprovedRejected
       )
       .subscribe({
         next: (response) => {
@@ -293,7 +294,7 @@ export class LeaveManagementComponent implements OnInit {
           ];
           // this.approvedRejectedLeaves = response.object
           this.approvedRejectedLeavesSize = this.approvedRejectedLeaves.length;
-          this.approvedRejectedLeavesSize = 0;
+          // this.approvedRejectedLeavesSize = 0;
         },
 
         error: (error) => {
@@ -301,7 +302,7 @@ export class LeaveManagementComponent implements OnInit {
           console.error('Failed to fetch approved-rejected leave logs:', error);
           this.helperService.showToast(
             'Failed to load approved/rejected leaves.',
-            Key.TOAST_STATUS_ERROR,
+            Key.TOAST_STATUS_ERROR
           );
         },
       });
@@ -387,7 +388,7 @@ export class LeaveManagementComponent implements OnInit {
           this.rejecetdLoader = false;
           this.helperService.showToast(
             'Error processing leave request!',
-            Key.TOAST_STATUS_ERROR,
+            Key.TOAST_STATUS_ERROR
           );
         },
       });
@@ -450,7 +451,7 @@ export class LeaveManagementComponent implements OnInit {
           console.error('Failed to fetch pending leave:', error);
           this.helperService.showToast(
             'Failed to load this pending leave.',
-            Key.TOAST_STATUS_ERROR,
+            Key.TOAST_STATUS_ERROR
           );
         },
       });
@@ -605,7 +606,7 @@ export class LeaveManagementComponent implements OnInit {
       (data: UserDto[]) => {
         this.managers = data;
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -627,7 +628,7 @@ export class LeaveManagementComponent implements OnInit {
           return;
         }
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -681,7 +682,7 @@ export class LeaveManagementComponent implements OnInit {
         },
         (error) => {
           this.submitLeaveLoader = false;
-        },
+        }
       );
   }
 

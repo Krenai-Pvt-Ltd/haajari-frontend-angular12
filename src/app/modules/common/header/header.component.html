@@ -88,8 +88,7 @@
             >
               <a class="sidebar-menu-link">
                 <span class=" "
-                  ><i class="bi bi-person-plus menu-icon"></i>
-                  Onboarding</span
+                  ><i class="bi bi-person-plus menu-icon"></i> Onboarding</span
                 >
               </a>
             </li>
@@ -106,7 +105,8 @@
             >
               <a class="sidebar-menu-link">
                 <span class=" ">
-                  <i class="bi bi-calendar2-check menu-icon"></i> Attendance</span
+                  <i class="bi bi-calendar2-check menu-icon"></i>
+                  Attendance</span
                 >
               </a>
             </li>
@@ -123,20 +123,48 @@
               </a>
             </li>
             <li class="pointer">
-              <a class="sidebar-menu-link" data-bs-toggle="collapse"
-              href="#collapseExample"
-              role="button"
-              aria-expanded="false"
-              aria-controls="collapseExample">
+              <!-- <a
+                class="sidebar-menu-link"
+                data-bs-toggle="collapse"
+                href="#collapseExample"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
                 <div class=""></div>
                 <div class="d-flex align-items-center justify-content-between">
                   <span class=" "
-                    ><i data-bs-toggle="collapse"
-                    href="#collapseExample"
-                    role="button"
-                    aria-expanded="false"
-                    aria-controls="collapseExample"
+                    ><i
+                      data-bs-toggle="collapse"
+                      href="#collapseExample"
+                      role="button"
+                      aria-expanded="false"
+                      aria-controls="collapseExample"
                       class="bi bi-caret-right menu-icon projectIcon collapsed"
+                    ></i>
+                    Payroll</span
+                  >
+                </div>
+              </a> -->
+
+              <a
+                class="sidebar-menu-link collapsed"
+                data-bs-toggle="collapse"
+                href="#collapseExample"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                <div class=""></div>
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class=" "
+                    ><i
+                      class="bi bi-caret-right menu-icon projectIcon collapsed"
+                      data-bs-toggle="collapse"
+                      href="#collapseExample"
+                      role="button"
+                      aria-expanded="false"
+                      aria-controls="collapseExample"
                     ></i>
                     Payroll</span
                   >
@@ -154,7 +182,10 @@
                     </a>
                   </li>
                   <li>
-                    <a class="project-link" routerLink="/payment/bonus-and-deduction">
+                    <a
+                      class="project-link"
+                      routerLink="/payment/bonus-and-deduction"
+                    >
                       <i class="ti ti-gift"></i>
                       <p class="mb-0">Bouns And Deduction</p>
                     </a>
@@ -166,7 +197,10 @@
                     </a>
                   </li>
                   <li>
-                    <a class="project-link" routerLink="/payment/payment-history">
+                    <a
+                      class="project-link"
+                      routerLink="/payment/payment-history"
+                    >
                       <i class="bi bi-receipt-cutoff"></i>
                       <p class="mb-0">Generate Salary Slip</p>
                     </a>
@@ -294,7 +328,7 @@
               </a>
             </li>
           </ul>
-          <ul class="sidebar-menu">
+          <!-- <ul class="sidebar-menu">
             <li
               class="pointer"
               [ngClass]="{ 'sidebar-menu-active': activeTab === 'security' }"
@@ -325,7 +359,7 @@
                 >
               </a>
             </li>
-          </ul>
+          </ul> -->
           <!-- <ul class="sidebar-menu">
                    <li class="pointer" [ngClass]="{'sidebar-menu-active': activeTab === 'referralProgram'}" routerLinkActive="iUctsy" routerLink="/setting/account-settings?setting=referralProgram" (click)="routeToSeetings('referralProgram')" >
                       
@@ -362,7 +396,8 @@
             >
               <a class="sidebar-menu-link">
                 <span class=" "
-                  ><i class="bi bi-clock-history menu-icon"></i> Attendance Setting</span
+                  ><i class="bi bi-clock-history menu-icon"></i> Attendance
+                  Setting</span
                 >
               </a>
             </li>

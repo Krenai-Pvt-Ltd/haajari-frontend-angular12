@@ -51,6 +51,7 @@ export class TeamComponent implements OnInit {
   showManagerTickForUuid: string = '';
 
   async ngOnInit(): Promise<void> {
+    window.scroll(0, 0);
     // this.getAllUsersByFiltersFunction();
     this.assignRole();
     // this.getAllUser();
@@ -91,7 +92,7 @@ export class TeamComponent implements OnInit {
     private modalService: ModalService,
     private helperService: HelperService,
     private db: AngularFireDatabase,
-    private rbacService: RoleBasedAccessControlService,
+    private rbacService: RoleBasedAccessControlService
   ) {
     this.Settings = {
       singleSelection: false,
@@ -124,7 +125,7 @@ export class TeamComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -161,7 +162,7 @@ export class TeamComponent implements OnInit {
         'asc',
         'id',
         this.searchQuery,
-        'name',
+        'name'
       )
       .subscribe((data: any) => {
         this.userList = data.users;
@@ -203,13 +204,13 @@ export class TeamComponent implements OnInit {
           this.getTeamsByFiltersFunction();
           this.helperService.showToast(
             'Team saved successfully.',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
         },
         (error) => {
           // location.reload();
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-        },
+        }
       );
   }
 
@@ -370,7 +371,7 @@ export class TeamComponent implements OnInit {
         this.getTeamsByFiltersFunction();
         this.helperService.showToast(
           'Manager assigned successfully.',
-          Key.TOAST_STATUS_SUCCESS,
+          Key.TOAST_STATUS_SUCCESS
         );
         // location.reload();
       },
@@ -379,7 +380,7 @@ export class TeamComponent implements OnInit {
         // this.assignManagerModalCloseButton.nativeElement.click();
         // this.getTeamsByFiltersFunction();
         // location.reload();
-      },
+      }
     );
   }
 
@@ -396,7 +397,7 @@ export class TeamComponent implements OnInit {
       },
       (error) => {
         location.reload();
-      },
+      }
     );
   }
 
@@ -412,13 +413,13 @@ export class TeamComponent implements OnInit {
         this.closeUserDeleteModal.nativeElement.click();
         this.helperService.showToast(
           'Exited from team successfully.',
-          Key.TOAST_STATUS_SUCCESS,
+          Key.TOAST_STATUS_SUCCESS
         );
       },
       (error) => {
         this.exitUserFromTeamLoader = false;
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-      },
+      }
     );
   }
 
@@ -447,14 +448,14 @@ export class TeamComponent implements OnInit {
         // location.reload();
         this.helperService.showToast(
           'Team Deleted Successfully.',
-          Key.TOAST_STATUS_SUCCESS,
+          Key.TOAST_STATUS_SUCCESS
         );
       },
       (error) => {
         // console.error(error);
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         // location.reload();
-      },
+      }
     );
   }
 
@@ -514,7 +515,7 @@ export class TeamComponent implements OnInit {
       },
       (error) => {
         // console.error(error);
-      },
+      }
     );
   }
 
@@ -535,7 +536,7 @@ export class TeamComponent implements OnInit {
           'user_' +
           this.logInUserUuid +
           '/' +
-          this.uniqueUuid,
+          this.uniqueUuid
       )
       .valueChanges()
       .subscribe(async (res) => {
@@ -575,7 +576,7 @@ export class TeamComponent implements OnInit {
           'user_' +
           this.logInUserUuid +
           '/' +
-          this.uniqueUuid,
+          this.uniqueUuid
       )
       .valueChanges()
       .subscribe(async (res) => {
@@ -624,7 +625,7 @@ export class TeamComponent implements OnInit {
           this.searchText,
           'name',
           'name',
-          'ASC',
+          'ASC'
         )
         .subscribe(
           (data: any) => {
@@ -636,7 +637,7 @@ export class TeamComponent implements OnInit {
                 team.showTick =
                   team.manager && team.manager.uuid === this.logInUserUuid;
                 team.exitFromTeam = team.userList.some(
-                  (user) => user.uuid === this.logInUserUuid,
+                  (user) => user.uuid === this.logInUserUuid
                 );
               });
 
@@ -656,7 +657,7 @@ export class TeamComponent implements OnInit {
           (error) => {
             this.isShimmer = false;
             this.errorToggleTeam = true;
-          },
+          }
         );
     }, debounceTime);
   }

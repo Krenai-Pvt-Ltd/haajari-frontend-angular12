@@ -3,10 +3,12 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { debug } from 'console';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { Key } from 'src/app/constant/key';
 import { OrganizationAddressDetail } from 'src/app/models/organization-address-detail';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { UserAddressRequest } from 'src/app/models/user-address-request';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-employee-address-detail',
@@ -18,7 +20,7 @@ export class EmployeeAddressDetailComponent implements OnInit {
   userAddressRequest: UserAddressRequest[] = [new UserAddressRequest(), new UserAddressRequest()];
   userAddressDetailsRequest: UserAddressDetailsRequest = new UserAddressDetailsRequest();
 
-  constructor(private dataService: DataService, private router : Router, private activateRoute : ActivatedRoute) { 
+  constructor(private dataService: DataService, private router : Router, private activateRoute : ActivatedRoute, private helperService : HelperService) { 
 
     if (this.activateRoute.snapshot.queryParamMap.has('userUuid')) {
       this.userUuid = this.activateRoute.snapshot.queryParamMap.get('userUuid');
@@ -28,12 +30,34 @@ export class EmployeeAddressDetailComponent implements OnInit {
   ngOnInit(): void {
     this.getNewUserAddressDetailsMethodCall();
   }
-  backRedirectUrl(){
-    let navExtra: NavigationExtras = {
-      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
-    };
+  backRedirectUrl() {
+    // Retrieve userUuid from the URL query parameters
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    
+    // Initialize an empty object for queryParams
+    let queryParams: any = {};
+    
+    // Add userUuid to queryParams if it exists
+    if (userUuid) {
+      queryParams['userUuid'] = userUuid;
+    }
+    
+    // Conditionally add adminUuid to queryParams if updateRequest is true
+    if (this.userAddressDetailsRequest.updateRequest) {
+      const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+      if (adminUuid) {
+        queryParams['adminUuid'] = adminUuid;
+      }
+    }
+  
+    // Create NavigationExtras object with the queryParams
+    let navExtra: NavigationExtras = { queryParams };
+  
+    // Navigate to the specified route with the query parameters
     this.router.navigate(['/employee-onboarding/employee-onboarding-form'], navExtra);
   }
+  
+  
 
   routeToUserDetails() {
     let navExtra: NavigationExtras = {
@@ -53,8 +77,16 @@ setEmployeeAddressDetailsMethodCall() {
   this.userAddressDetailsRequest.sameAddress = this.isPermanent;
   if(this.buttonType=='next'){
     this.toggle = true;
+    this.userAddressDetailsRequest.directSave = false;
+    this.userAddressDetailsRequest.updateRequest = false;
   } else if (this.buttonType=='save'){
     this.toggleSave = true;
+    this.userAddressDetailsRequest.directSave = true;
+    this.userAddressDetailsRequest.updateRequest = false;
+  } else if (this.buttonType=='update'){
+    this.toggle = true;
+    this.userAddressDetailsRequest.directSave = false;
+    this.userAddressDetailsRequest.updateRequest = true;
   }
   // this.toggle = true;
   const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
@@ -89,7 +121,10 @@ setEmployeeAddressDetailsMethodCall() {
           }, 2000);
           
           
-        } // Ensure this method does what's expected
+        } else if (this.buttonType=='update'){
+          this.helperService.showToast("Information Updated Successfully", Key.TOAST_STATUS_SUCCESS);
+
+         } // Ensure this method does what's expected
       },
       (error) => {
         console.error('Error occurred:', error);
@@ -103,52 +138,64 @@ isNewUser: boolean = true;
 isLoading:boolean = true;
 employeeOnboardingFormStatus:string|null=null;
 @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
-  getNewUserAddressDetailsMethodCall() {
-    debugger
-    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-   
-    if (userUuid) {
-      this.dataService.getNewUserAddressDetails(userUuid).subscribe(
-        (response: UserAddressDetailsRequest) => {
-          this.isLoading=false;
-          this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
-          this.dataService.markStepAsCompleted(response.statusId);
-          if (response && response.userAddressRequest && response.userAddressRequest.length > 0) {
-            this.userAddressDetailsRequest = response;
-            this.userAddressRequest = response.userAddressRequest;
-            
-            if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
-              this.successMessageModalButton.nativeElement.click();
-            }
-            if(response.employeeOnboardingStatus == "PENDING"){
-              this.isNewUser = false;
-            }
-            this.handleOnboardingStatus(response.employeeOnboardingStatus);
 
-            if(response.sameAddress==false){
-              this.isPermanent=false;
-            }else{
-              this.isPermanent=true;
-            }
-            
-          } else {
-            // Properly initialize the object with default values
-            this.userAddressDetailsRequest = new UserAddressDetailsRequest();
-            this.userAddressDetailsRequest.directSave=false;
-            this.userAddressDetailsRequest.sameAddress=false;
-            this.userAddressDetailsRequest.statusId=0;
-            this.userAddressDetailsRequest.userAddressRequest=[new UserAddressRequest(),new UserAddressRequest()];
-          }
-          
-        },
-        (error: any) => {
-          console.error('Error fetching user address details:', error);
-        }
-      );
-    } else {
-      console.error('User UUID not found in the URL search parameters');
-    }
-  }
+async getNewUserAddressDetailsMethodCall(): Promise<boolean> {
+  debugger
+  return new Promise<boolean>(async (resolve, reject) => { // Notice the `async` here
+      const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+      const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+      if (userUuid) {
+          this.dataService.getNewUserAddressDetails(userUuid).subscribe(
+              async (response: UserAddressDetailsRequest) => { // And also notice the `async` here
+                  this.isLoading=false;
+                  this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
+                  this.dataService.markStepAsCompleted(response.statusId);
+                  if (response && response.userAddressRequest && response.userAddressRequest.length > 0) {
+                      this.userAddressDetailsRequest = response;
+                      this.userAddressRequest = response.userAddressRequest;
+
+                      if(adminUuid){
+                        await this.getAdminVerifiedForOnboardingUpdateMethodCall(); // This will now work
+                      }
+                      
+                     
+                      
+                      if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED' && !this.userAddressDetailsRequest.updateRequest){
+                          this.successMessageModalButton.nativeElement.click();
+                      }
+                      if(response.employeeOnboardingStatus == "PENDING"){
+                          this.isNewUser = false;
+                      }
+                      this.handleOnboardingStatus(response.employeeOnboardingStatus);
+  
+                      if(response.sameAddress==false){
+                          this.isPermanent=false;
+                      }else{
+                          this.isPermanent=true;
+                      }
+                      
+                  } else {
+                      // Properly initialize the object with default values
+                      this.userAddressDetailsRequest = new UserAddressDetailsRequest();
+                      this.userAddressDetailsRequest.directSave=false;
+                      this.userAddressDetailsRequest.sameAddress=false;
+                      this.userAddressDetailsRequest.statusId=0;
+                      this.userAddressDetailsRequest.userAddressRequest=[new UserAddressRequest(), new UserAddressRequest()];
+                  }
+                  resolve(true);
+              },
+              (error: any) => {
+                  console.error('Error fetching user address details:', error);
+                  // reject(error);
+              }
+          );
+      } else {
+          console.error('User UUID not found in the URL search parameters');
+          // reject(new Error('User UUID not found in the URL search parameters'));
+      }
+  })
+}
+
   
   
 //   isPermanent: boolean = true;
@@ -213,6 +260,11 @@ switch(this.buttonType){
   case "save" :{
     debugger
     this.userAddressDetailsRequest.directSave = true;
+    this.setEmployeeAddressDetailsMethodCall();
+    break;
+  }
+  case "update" :{
+    debugger
     this.setEmployeeAddressDetailsMethodCall();
     break;
   }
@@ -355,6 +407,47 @@ checkFormValidation(){
   } else {
     this.isFormInvalid = false;
   }
+}
+
+async getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
+  debugger
+  return new Promise<boolean>((resolve, reject) => {
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+    if (!userUuid || !adminUuid) {
+      console.error('User UUID or Admin UUID not found in the URL.');
+      this.userAddressDetailsRequest.updateRequest = false; // Set updateRequest to false due to error
+       // Reject the promise if parameters are missing
+      return; // Early return to avoid further execution
+    }
+
+    this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
+      (isAdminPresent: boolean) => {
+        this.userAddressDetailsRequest.updateRequest = isAdminPresent;
+        if (isAdminPresent) {
+          console.log('Admin verification successful.');
+          this.userAddressDetailsRequest.updateRequest = true;
+          resolve(true); // Resolve the promise with true if admin is present
+        } else {
+          console.error('Admin verification failed.');
+          this.userAddressDetailsRequest.updateRequest = false;
+          resolve(false); // Resolve the promise with false if admin verification fails
+        }
+      },
+      (error: any) => {
+        console.error('Error fetching admin verification status:', error);
+        // reject(error); // Reject the promise on error
+      }
+    );
+  });
+}
+
+
+goBackToProfile() {
+  let navExtra: NavigationExtras = {
+    queryParams: { userId: new URLSearchParams(window.location.search).get('userUuid') },
+  };
+  this.router.navigate(['/employee-profile'], navExtra);
 }
 
  

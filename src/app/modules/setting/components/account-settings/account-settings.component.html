@@ -72,14 +72,17 @@
                             </div>
                             <div>
                               <div class="btn-group enable-disanle-btn" role="group " aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" name="btnradio1" id="Enable1" autocomplete="off" [(ngModel)]="notifications.whatsapp"
+                                <input type="radio" class="btn-check" name="btnradio1" id="Enable1" autocomplete="off" 
+                                [(ngModel)]="notifications.slack" 
                                 (click)="toggleNotification('slack')"
-                                [value]="true" checked="" [disabled]="isDisabled" />
-                                <label class="btn  btn-soft-secondary btn-sm" for="Enable1">Enable</label>
-                                <input type="radio" class="btn-check" name="btnradio1" id="Enable2" autocomplete="off" [(ngModel)]="notifications.whatsapp"
-                                (click)="toggleNotification('whatsapp')"
-                                [value]="false" [disabled]="isDisabled"/>
-                                <label class="btn btn-soft-success btn-sm" for="Enable2">Disable</label>
+                                [value]="true" [checked]="notifications.whatsapp" [disabled]="isDisabled || isPlan1" />
+                                <label class="btn btn-soft-success btn-sm" [ngClass]="{'btn-soft-success-lock': notifications.slack}" for="Enable1">Enable</label>
+                         
+                                <input type="radio" class="btn-check" name="btnradio1" id="Enable2" autocomplete="off" 
+                                [(ngModel)]="notifications.slack" 
+                                (click)="toggleNotification('slackDisable')"
+                                [value]="false" [disabled]="isDisabled || isPlan1 "/>
+                                <label class="btn btn-soft-secondary btn-sm" [ngClass]="{'btn-de-secondary-lock': !notifications.slack}" for="Enable2">Disable</label>
                               </div>
                               
                               <!-- <div
@@ -104,15 +107,22 @@
                             </div>
                             <div>
                               <div class="btn-group enable-disanle-btn" role="group " aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" name="btnradio1" id="Enable1" autocomplete="off" [(ngModel)]="notifications.whatsapp"
-                                (click)="toggleNotification('whatsapp')"
-                                [value]="false" [disabled]="isDisabled"/>
-                                <label class="btn btn-soft-success btn-sm" for="Enable1">Enable</label>
-                                <input type="radio" class="btn-check" name="btnradio1" id="Enable2" autocomplete="off" checked="" [(ngModel)]="notifications.whatsapp"
-                                (click)="toggleNotification('slack')"
-                                [value]="false" [disabled]="isDisabled"/>
-                                <label class="btn btn-soft-secondary btn-sm" for="Enable2">Disable</label>
+                                <input type="radio" class="btn-check" name="btnradio1" id="whatsappEnable" autocomplete="off" 
+                                       [(ngModel)]="notifications.whatsapp" 
+                                       (click)="toggleNotification('whatsapp')"
+                                       [value]="true" [disabled]="isDisabled || isPlan1" />
+                          <label class="btn btn-soft-success btn-sm" [ngClass]="{'btn-soft-success-lock': notifications.whatsapp}" for="whatsappEnable">Enable</label>
+
+                          <!-- "Disable" Radio Button -->
+                          <input type="radio" class="btn-check" name="btnradio1" id="whatsappDisable" autocomplete="off" 
+                                       [(ngModel)]="notifications.whatsapp" 
+                                       (click)="toggleNotification('whatsappDisable')"
+                                       [value]="false" [disabled]="isDisabled || isPlan1"/>
+                          <label class="btn btn-soft-secondary btn-sm" [ngClass]="{'btn-de-secondary-lock': !notifications.whatsapp}" for="whatsappDisable">Disable</label>
+
                               </div>
+
+                             
                               <!-- <div
                                 class="material-switch"
                                 [class.disabled]="isDisabled"
@@ -139,10 +149,10 @@
                               <div class="btn-group enable-disanle-btn" role="group" aria-label="Basic radio toggle button group">
                                 <input type="radio" class="btn-check" name="englishEnable" id="englishEnable" autocomplete="off"
                                 [(ngModel)]="languagePreferredEnglish" [value]="1" (change)="updateLanguagePreferredForNotificationMethodCall(1)" />
-                                <label class="btn btn-soft-success btn-sm" for="englishEnable">Enable</label>
+                                <label class="btn btn-soft-success btn-sm" for="englishEnable" [ngClass]="{'btn-soft-success-lock': englishEnable}" >Enable</label>
                                 <input type="radio" class="btn-check" name="englishDisable" id="englishDisable" autocomplete="off"
                                 [(ngModel)]="languagePreferredEnglish" [value]="2" (change)="updateLanguagePreferredForNotificationMethodCall(2)" />
-                                <label class="btn btn-soft-secondary btn-sm" for="englishDisable">Disable</label>
+                                <label class="btn btn-soft-secondary btn-sm" for="englishDisable" [ngClass]="{'btn-de-secondary-lock': !englishEnable} ">Disable</label>
                               </div>
                             </div>
                           </div>
@@ -154,17 +164,17 @@
                               <div class="btn-group enable-disanle-btn" role="group" aria-label="Basic radio toggle button group">
                                 <input type="radio" class="btn-check" name="hindiEnable" id="hindiEnable" autocomplete="off"
                                 [(ngModel)]="languagePreferredHindi" [value]="2" (change)="updateLanguagePreferredForNotificationMethodCall(2)" />
-                                <label class="btn  btn-soft-secondary btn-sm" for="hindiEnable">Enable</label>
+                                <label class="btn btn-soft-success btn-sm" for="hindiEnable" [ngClass]="{'btn-soft-success-lock': !englishEnable}">Enable</label>
                                 <input type="radio" class="btn-check" name="hindiDisable" id="hindiDisable" autocomplete="off"
                                        [(ngModel)]="languagePreferredHindi" [value]="1" (change)="updateLanguagePreferredForNotificationMethodCall(1)" />
-                                <label class="btn btn-soft-success btn-sm" for="hindiDisable">Disable</label>
+                                <label class="btn btn-soft-secondary btn-sm" for="hindiDisable" [ngClass]="{'btn-de-secondary-lock': englishEnable}">Disable</label>
                               </div>
                             </div>
                           </div>
 
                         
                         </div>
-                        <div class="mt-3">
+                        <div class="mt-3" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
                           <small class="text-muted">Employee's Attendance</small>
                           <div class="d-flex align-items-center mt-2 gap-2">
                             <div class="alert alert-outline-secondary enable-disanle-box p-3 mb-0" role="alert">
@@ -173,9 +183,9 @@
                             <div>
                               <div class="btn-group enable-disanle-btn" role="group" aria-label="Basic radio toggle button group">
                                 <input type="radio" class="btn-check" name="btnradio4" id="Enable7" autocomplete="off" checked="" [(ngModel)]="employeeAttendanceFlag" [value]="true" (change)="updateAttendanceNotificationSettingForManagerMethodCall()" />
-                                <label class="btn btn-soft-success btn-sm" for="Enable7">Enable</label>
+                                <label class="btn btn-soft-success btn-sm" for="Enable7" [ngClass]="{'btn-soft-success-lock': employeeAttendanceFlag}">Enable</label>
                                 <input type="radio" class="btn-check" name="btnradio4" id="Enable8" autocomplete="off" [(ngModel)]="employeeAttendanceFlag" [value]="false" (change)="updateAttendanceNotificationSettingForManagerMethodCall()" />
-                                <label class="btn btn-soft-secondary btn-sm" for="Enable8">Disable</label>
+                                <label class="btn btn-soft-secondary btn-sm" for="Enable8" [ngClass]="{'btn-de-secondary-lock': !employeeAttendanceFlag}">Disable</label>
                               </div>
                             </div>
                           </div>

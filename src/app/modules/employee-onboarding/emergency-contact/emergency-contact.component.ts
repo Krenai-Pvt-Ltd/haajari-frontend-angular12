@@ -1,11 +1,13 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
+import { Key } from 'src/app/constant/key';
 import { EmployeeAdditionalDocument } from 'src/app/models/employee-additional-document';
 import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
 import { UserExperience } from 'src/app/models/user-experience';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 declare var bootstrap: any;
 @Component({
   selector: 'app-emergency-contact',
@@ -15,7 +17,7 @@ declare var bootstrap: any;
 export class EmergencyContactComponent implements OnInit {
   userEmergencyContactDetails: UserEmergencyContactDetailsRequest[] = [];
 
-  constructor(private dataService: DataService, private router: Router, private cd: ChangeDetectorRef) { }
+  constructor(private dataService: DataService, private router: Router, private cd: ChangeDetectorRef, private helperService:HelperService) { }
 
   ngOnInit(): void {
     this.getOnboardingFormPreviewMethodCall();
@@ -39,9 +41,27 @@ debugger
   }
 
   backRedirectUrl() {
-    let navExtra: NavigationExtras = {
-      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
-    };
+    debugger
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    
+    // Initialize an empty object for queryParams
+    let queryParams: any = {};
+    
+    // Add userUuid to queryParams if it exists
+    if (userUuid) {
+      queryParams['userUuid'] = userUuid;
+    }
+    
+    // Conditionally add adminUuid to queryParams if updateRequest is true
+    if (this.isAdminPresent) {
+      const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+      if (adminUuid) {
+        queryParams['adminUuid'] = adminUuid;
+      }
+    }
+  
+    // Create NavigationExtras object with the queryParams
+    let navExtra: NavigationExtras = { queryParams };
     this.router.navigate(['/employee-onboarding/bank-details'], navExtra);
   }
 
@@ -68,6 +88,7 @@ debugger
   @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
   setEmployeeEmergencyContactDetailsMethodCall() {
     debugger
+    
     this.allowEdit = false;
     this.toggle = true;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
@@ -83,7 +104,11 @@ debugger
           console.log('Response:', response);
           
           this.dataService.markStepAsCompleted(response.statusId);
-          if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' ){
+          if(this.buttonType=='update'){
+            this.toggle = false;
+            this.helperService.showToast("Information Updated Successfully", Key.TOAST_STATUS_SUCCESS);
+          }
+          if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' && this.buttonType !='update'){
           this.getOnboardingFormPreviewMethodCall();
           }
              response.employeeOnboardingStatus;
@@ -120,20 +145,26 @@ delete(index:number){
 }
   isLoading:boolean = true;
   employeeOnboardingFormStatus:string|null=null;
-  getEmployeeEmergencyContactsDetailsMethodCall() {
+  async getEmployeeEmergencyContactsDetailsMethodCall() {
     debugger
+    return new Promise<boolean>(async (resolve, reject) => {
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
     if (userUuid) {
       this.dataService.getEmployeeContactsDetails(userUuid).subscribe(
-        (contacts) => {
+       async (contacts) => {
+       
           console.log(contacts);
           this.dataService.markStepAsCompleted(contacts[0].statusId);
           this.isLoading = false;
           if (contacts[0].contactName && contacts.length > 0) {
           this.userEmergencyContactDetails = contacts;
+          if(adminUuid){
+            await this.getAdminVerifiedForOnboardingUpdateMethodCall();
+          }
          
             this.employeeOnboardingFormStatus=this.userEmergencyContactDetails[0].employeeOnboardingStatus;
-            if(contacts[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
+            if(contacts[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED' && !this.isAdminPresent){
               this.successMessageModalButton.nativeElement.click();
           }
             
@@ -150,6 +181,7 @@ delete(index:number){
     } else {
       console.error('uuidNewUser not found in localStorage');
     }
+  })
   }
 
   // displayModal = false;
@@ -192,7 +224,14 @@ delete(index:number){
   if(this.isFormInvalid==true){
     return
   } else{
-    this.setEmployeeEmergencyContactDetailsMethodCall();
+    if(this.buttonType == 'update'){
+      this.userEmergencyContactDetails[0].directSave=false;
+      this.userEmergencyContactDetails[0].updateRequest = true;
+      this.setEmployeeEmergencyContactDetailsMethodCall();
+    } else {
+      this.setEmployeeEmergencyContactDetailsMethodCall();
+    }
+    
     
     // this.confirmationModalButton.nativeElement.click();
   }
@@ -353,5 +392,49 @@ saveUserOnboardingFormStatusMethodCall(){
     }
   );
 }
+
+isAdminPresent: boolean = false;
+getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
+  debugger;
+  return new Promise<boolean>((resolve, reject) => {
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+    if (userUuid && adminUuid) {
+      this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
+        (data: boolean) => {
+         
+          this.isAdminPresent = data;
+          console.log('Admin verification successful.');
+          resolve(data); // Resolve the promise with the result
+        },
+        (error: any) => {
+          console.error('Error fetching admin verification status:', error);
+          // reject(error); // Reject the promise on error
+        }
+      );
+    } else {
+      console.error('User UUID or Admin UUID not found in the URL.');
+      // reject(new Error('User UUID or Admin UUID not found in the URL.')); // Reject the promise if parameters are missing
+    }
+  });
+}
+
+buttonType:string="next"
+selectButtonType(type:string){
+  debugger
+  this.buttonType=type;
+  this.userEmergencyContactDetails[0].directSave = false;
+  // this.formSubmitButton.nativeElement.click();
+}
+
+
+goBackToProfile() {
+  let navExtra: NavigationExtras = {
+    queryParams: { userId: new URLSearchParams(window.location.search).get('userUuid') },
+  };
+  this.router.navigate(['/employee-profile'], navExtra);
+}
+
+
 
 }

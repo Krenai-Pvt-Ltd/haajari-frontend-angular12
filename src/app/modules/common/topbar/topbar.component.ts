@@ -104,6 +104,10 @@ export class TopbarComponent implements OnInit {
       routeValue = "Subscription & Plan";
     }
 
+    if(routeValue.includes("payroll-dashboard/leave-summary")){
+      routeValue = "Attendance, Leave & Present Days"
+    }
+
     if(routeValue.includes("payroll-dashboard")){
       routeValue = "Payroll Dashboard";
     }
