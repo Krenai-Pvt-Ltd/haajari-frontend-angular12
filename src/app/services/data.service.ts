@@ -53,6 +53,8 @@ import { Key } from '../constant/key';
 import { ResponseEntityObject } from '../models/response-entity-object.model';
 import { OrganizationWeekoffInformation } from '../models/organization-weekoff-information';
 import { NewJoineeAndUserExitRequest } from '../models/new-joinee-and-user-exit-request';
+import { TeamLocation } from '../models/team-location';
+import { RegisterTeamRequest } from '../modules/dynamic/components/team/team.component';
 
 @Injectable({
   providedIn: 'root',
@@ -397,16 +399,24 @@ export class DataService {
   }
   //Team module
   registerTeam(
-    userIds: any,
     name: string,
-    description: string
+    description: string,
+    registerTeamRequest: RegisterTeamRequest
   ): Observable<any> {
     const params = new HttpParams()
       .set('name', name)
       .set('description', description);
-    return this.httpClient.post(`${this.baseUrl}/team/register`, userIds, {
-      params,
-    });
+
+    const request = {
+      request: registerTeamRequest,
+    };
+    return this.httpClient.post(
+      `${this.baseUrl}/team/register`,
+      registerTeamRequest,
+      {
+        params,
+      }
+    );
   }
   getTeamsByFilter(
     itemPerPage: number,
@@ -2535,15 +2545,21 @@ export class DataService {
     );
   }
 
-
-  registerNewJoineeAndUserExit(newJoineeAndUserExitRequestList : NewJoineeAndUserExitRequest[], startDate : string, endDate : string): Observable<any>{
-
+  registerNewJoineeAndUserExit(
+    newJoineeAndUserExitRequestList: NewJoineeAndUserExitRequest[],
+    startDate: string,
+    endDate: string
+  ): Observable<any> {
     const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
+      .set('start_date', startDate)
+      .set('end_date', endDate);
 
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/user/change/register-new-joinee-and-user-exit`, newJoineeAndUserExitRequestList, {params});
-  } 
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/salary/user/change/register-new-joinee-and-user-exit`,
+      newJoineeAndUserExitRequestList,
+      { params }
+    );
+  }
 
   getOrganizationAllShiftCounts(): Observable<any> {
     return this.httpClient.get<any>(
@@ -2551,7 +2567,10 @@ export class DataService {
     );
   }
 
-  getAdminVerifiedForOnboardingUpdate(userUuid: string, adminUuid: string): Observable<any> {
+  getAdminVerifiedForOnboardingUpdate(
+    userUuid: string,
+    adminUuid: string
+  ): Observable<any> {
     const params = {
       userUuid: `${userUuid}`,
       adminUuid: `${adminUuid}`,

@@ -62,7 +62,7 @@
               >
                 <a
                   data-bs-toggle="modal"
-                  data-bs-target="#createteam"
+                  data-bs-target="#createteam2"
                   type="button"
                   *ngIf="ROLE != 'USER'"
                 >
@@ -366,7 +366,7 @@
                   type="button"
                   class="btn create-team"
                   data-bs-toggle="modal"
-                  data-bs-target="#createteam"
+                  data-bs-target="#createteam2"
                 >
                   Create Team
                 </button>
@@ -555,6 +555,7 @@
                     "
                   >
                     {{ team.description }}
+                    <!-- {{ team.teamLocation.addressLine1 }} -->
                   </p>
                 </div>
               </div>
@@ -884,9 +885,18 @@
   <!-- end page content -->
 </div>
 
+<button
+  type="button"
+  style="display: none"
+  data-bs-toggle="modal"
+  data-bs-target="#createteam2"
+  #createteam
+  id="createteam"
+></button>
 <div
   class="modal fade"
-  id="createteam"
+  id="createteam2"
+  #createteam2
   tabindex="-1"
   aria-labelledby="exampleModalFullscreenLabel"
   aria-hidden="true"
@@ -1022,35 +1032,19 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="form-group">
-                                  <label for="username" class="mb-2" style="font-size: 13px;"> Team status </label>
-                                  <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                      <label class="form-check-label" for="flexCheckDefault">
-                                          Endorsed <span class="endorsed"><a href="">Upgrade to Hajari Enterprise</a></span><br>
-                                          <p class="endorsed-para">Endorsed teams are recommended by admins in your organization.</p>
-                                      </label>
-                                  </div>                                   
-                              </div> -->
+                  <div class="form-group">
+                    <label class="form-check-label" for="enableLocation">
+                      Enable Location
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="enableLocation"
+                      class="form-check-input"
+                      [(ngModel)]="locationEnabled"
+                      (change)="handleLocationToggle()"
+                    />
+                  </div>
 
-                  <!-- <div class="form-group">
-                                  <label for="username" class="mb-2" style="font-size: 13px;"> Team privacy </label>
-                                  <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                      <label class="form-check-label" for="flexCheckDefault">
-                                          <i class="bi bi-envelope"></i> Membership by request<br>
-                                          <p class="endorsed-para">A member has to request to join this team</p>
-                                      </label>
-                                  </div>
-                                  <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                      <label class="form-check-label" for="flexCheckDefault">
-                                          <i class="bi bi-lock"></i>  Private<br>
-                                          <p class="endorsed-para">A member must be invited to join this team</p>
-                                      </label>
-                                  </div>
-                                                                   
-                              </div> -->
                   <div class="">
                     <button
                       style="width: 100%"
@@ -1196,6 +1190,174 @@
   <!--end modal-dialog-->
 </div>
 <!--end modal-->
+
+<button
+  type="button"
+  style="display: none"
+  data-bs-toggle="modal"
+  data-bs-target="#teamLocationss2"
+  #teamLocationss
+  id="teamLocationss"
+></button>
+
+<div
+  class="modal fade"
+  id="teamLocationss2"
+  tabindex="-1"
+  role="dialog"
+  #teamLocationss2
+  aria-labelledby="teamLocationss2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <form
+      #teamLocationForm="ngForm"
+      ngNativeValidate
+      (ngSubmit)="reopenCreateTeamModal()"
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+            Staff Attendance With Location
+          </h6>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            (click)="refreshTeamLocationsForm(true)"
+            #closeTeamLocationModal
+            aria-label="Close"
+          ></button>
+        </div>
+        <!--end modal-header-->
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="addressLine1" class="pb-2">Address </label>
+                  <input
+                    type="text"
+                    id="addressLine1"
+                    placeholder="Address line 1"
+                    ngx-google-places-autocomplete
+                    #placesRef="ngx-places"
+                    (onAddressChange)="handleAddressChange($event)"
+                    required=""
+                    name="addressLine1"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.addressLine1"
+                  />
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="addressLine2" class="pb-2">Street Address</label>
+                  <input
+                    type="text"
+                    id="addressLine2"
+                    placeholder="Address line 2"
+                    required=""
+                    name="addressLine2"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.addressLine2"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="city" class="pb-2"> City </label>
+                  <input
+                    type="text"
+                    id="city"
+                    placeholder="City"
+                    required=""
+                    name="city"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.city"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="state" class="pb-2"> State </label>
+                  <input
+                    type="text"
+                    id="state"
+                    placeholder="State"
+                    required=""
+                    name="state"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.state"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="country" class="pb-2">Country</label>
+                  <input
+                    type="text"
+                    id="country"
+                    placeholder="Country"
+                    required=""
+                    name="country"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.country"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="pincode" class="pb-2">Pincode</label>
+                  <input
+                    type="text"
+                    id="pincode"
+                    placeholder="Pincode"
+                    required=""
+                    name="pincode"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.pincode"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="radius" class="pb-2">
+                    Employee Location Must be in
+                  </label>
+                  <input
+                    type="text"
+                    id="radius"
+                    placeholder="in meters"
+                    required=""
+                    name="radius"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.range"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer d-flex align-items-center justify-content-end">
+          <button class="btn btn-primary" type="submit" aria-label="Next Step">
+            <!-- [disabled]="toggle" -->
+            <!-- *ngIf="!toggle" -->
+            <!-- <div *ngIf="toggle" class="dot-opacity-loader">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div> -->
+            <span>
+              Set Location
+              <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
+            </span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 
 <!--  ########################33  Modal ##################################33333 -->
 

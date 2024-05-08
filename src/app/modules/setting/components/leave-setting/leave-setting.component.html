@@ -864,7 +864,7 @@
                                   leaveSettingResponse.sandwichRules === 'Count'
                                 "
                                 class="btn btn-soft-secondary btn-sm"
-                                >Count</label
+                                >Yes</label
                               >
                               <input
                                 type="radio"
@@ -883,7 +883,7 @@
                                   'Ignore'
                                 "
                                 class="btn btn-soft-primary btn-sm"
-                                >Ignore</label
+                                >No</label
                               >
                             </div>
 
@@ -934,6 +934,25 @@
                               [ngModelOptions]="{ standalone: true }"
                             /> -->
                           </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6 mt-3">
+                        <div class="">
+                          <label for="monthlyLimit" class="pb-2"
+                            >Total Monthly Leave Limit (Optional)</label
+                          >
+                          <input
+                            type="number"
+                            name="assignedMonthlyLimit"
+                            [(ngModel)]="
+                              leaveSettingResponse.assignedMonthlyLimit
+                            "
+                            id="assignedMonthlyLimit"
+                            class="form-control whatapp-login-input"
+                            placeholder="Enter total limit"
+                            min="0"
+                          />
                         </div>
                       </div>
 
