@@ -10,6 +10,8 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { debug } from 'console';
 import { DomSanitizer } from '@angular/platform-browser';
+import { HelperService } from 'src/app/services/helper.service';
+import { Key } from 'src/app/constant/key';
 
 
 @Component({
@@ -23,7 +25,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   userPersonalInformationRequest: UserPersonalInformationRequest = new UserPersonalInformationRequest();
   maxDob: string;
   // minJoiningDate: string;
-  constructor(private dataService: DataService, private router: Router, private activateRoute: ActivatedRoute, private afStorage: AngularFireStorage, private domSanitizer: DomSanitizer) { 
+  constructor(private dataService: DataService, private router: Router, private activateRoute: ActivatedRoute, private afStorage: AngularFireStorage, private domSanitizer: DomSanitizer, private helperService : HelperService) { 
 
     // DOB Date logic
         const today = new Date();
@@ -46,6 +48,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
     this.userPersonalInformationRequest.dob = this.getInitialDate();
     console.log()
     this.getNewUserPersonalInformationMethodCall();
+    
   }
 
 
@@ -178,8 +181,15 @@ debugger
     
 if(this.buttonType=='next'){
   this.toggle = true;
+  this.userPersonalInformationRequest.directSave = false;
+  this.userPersonalInformationRequest.updateRequest = false;
 } else if (this.buttonType=='save'){
   this.toggleSave = true;
+  this.userPersonalInformationRequest.directSave = true;
+  this.userPersonalInformationRequest.updateRequest = false;
+} else if (this.buttonType=='update'){
+  this.toggle = true;
+  this.userPersonalInformationRequest.updateRequest = true;
 }
 if (this.userPersonalInformationRequest.department === 'Other') {
   // Use the value from otherDepartment field
@@ -217,7 +227,10 @@ if (this.userPersonalInformationRequest.department === 'Other') {
             }, 2000);
             
             
-          }
+          } else if (this.buttonType=='update'){
+            this.helperService.showToast("Information Updated Successfully", Key.TOAST_STATUS_SUCCESS);
+  
+           }
           
           
         },
@@ -243,23 +256,28 @@ if (this.userPersonalInformationRequest.department === 'Other') {
   isLoading:boolean = true;
   employeeOnboardingFormStatus:string|null=null;
   @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
-  getNewUserPersonalInformationMethodCall() {
+  getNewUserPersonalInformationMethodCall(): Promise<boolean> {
     debugger
+    return new Promise<boolean>(async (resolve, reject) => { // Notice the `async` here
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
     if (userUuid) {
         this.dataService.getNewUserPersonalInformation(userUuid).subscribe(
-            (response: UserPersonalInformationRequest) => {
+          async (response: UserPersonalInformationRequest) => {
              
-              
+            
                 this.userPersonalInformationRequest = response;
+               
                 this.isLoading = false;
                 this.employeeOnboardingFormStatus=response.employeeOnboardingStatus.response;
                 // if(response.employeeOnboardingFormStatus.id && this.employeeOnboardingFormStatus != 'REJECTED' ){
                 //   this.lastSavedStep = response.employeeOnboardingFormStatus.id;
                 //   this.routeToLastSavedStep(this.lastSavedStep);
                 // }
-                
-                if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL' && (this.employeeOnboardingFormStatus != 'REJECTED' && this.employeeOnboardingFormStatus != 'REQUESTED')){
+                if(adminUuid){
+                  await this.getAdminVerifiedForOnboardingUpdateMethodCall(); // This will now work
+                }                
+                if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL' && (this.employeeOnboardingFormStatus != 'REJECTED' && this.employeeOnboardingFormStatus != 'REQUESTED') && (!this.userPersonalInformationRequest.updateRequest || this.userPersonalInformationRequest.updateRequest == null || !this.userPersonalInformationRequest.updateRequest)){
                   this.successMessageModalButton.nativeElement.click();
                 }
                 
@@ -280,7 +298,7 @@ if (this.userPersonalInformationRequest.department === 'Other') {
                     this.setImageUrlFromDatabase(response.image);
                 }
                 if (response.employeeOnboardingFormStatus.response == 'USER_REGISTRATION_SUCCESSFUL' && 
-                (this.employeeOnboardingFormStatus == 'PENDING' || this.employeeOnboardingFormStatus == 'APPROVED')) {
+                (this.employeeOnboardingFormStatus == 'PENDING' || this.employeeOnboardingFormStatus == 'APPROVED') && !this.userPersonalInformationRequest.updateRequest) {
                   setTimeout(() => {
                     this.routeToFormPreview();  
                   }, 500);
@@ -293,6 +311,7 @@ if (this.userPersonalInformationRequest.department === 'Other') {
     } else {
         console.error('uuidNewUser not found in localStorage');
     }
+  })
 }
 
 displayModal = false;
@@ -593,6 +612,10 @@ switch(this.buttonType){
     this.setEmployeePersonalDetailsMethodCall();
     break;
   }
+  case "update" :{
+    this.setEmployeePersonalDetailsMethodCall();
+    break;
+  }
 }
   }
 }
@@ -693,8 +716,42 @@ checkFormValidation(){
 }
 
 
+getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
+  debugger;
+  return new Promise<boolean>((resolve, reject) => {
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+    if (userUuid && adminUuid) {
+      this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
+        (isAdminPresent: boolean) => {
+          this.userPersonalInformationRequest.updateRequest = isAdminPresent;
+          console.log('Admin verification successful.');
+          resolve(isAdminPresent); // Resolve the promise with the result
+        },
+        (error: any) => {
+          console.error('Error fetching admin verification status:', error);
+          reject(error); // Reject the promise on error
+        }
+      );
+    } else {
+      console.error('User UUID or Admin UUID not found in the URL.');
+      reject(new Error('User UUID or Admin UUID not found in the URL.')); // Reject the promise if parameters are missing
+    }
+  });
+}
+
+
+goBackToProfile() {
+  let navExtra: NavigationExtras = {
+    queryParams: { userId: new URLSearchParams(window.location.search).get('userUuid') },
+  };
+  this.router.navigate(['/employee-profile'], navExtra);
+}
+
 }
 function finalize(arg0: () => void): import("rxjs").OperatorFunction<import("firebase/compat").default.storage.UploadTaskSnapshot | undefined, unknown> {
   throw new Error('Function not implemented.');
 }
+
+
 

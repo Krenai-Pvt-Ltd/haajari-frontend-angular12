@@ -53,6 +53,7 @@ import { Key } from '../constant/key';
 import { ResponseEntityObject } from '../models/response-entity-object.model';
 import { OrganizationWeekoffInformation } from '../models/organization-weekoff-information';
 import { NewJoineeAndUserExitRequest } from '../models/new-joinee-and-user-exit-request';
+import { OnboardingFormPreviewResponse } from '../models/onboarding-form-preview-response';
 
 @Injectable({
   providedIn: 'root',
@@ -2548,6 +2549,59 @@ export class DataService {
   getOrganizationAllShiftCounts(): Observable<any> {
     return this.httpClient.get<any>(
       `${this.baseUrl}/organization-shift-timing/get-organization-all-shift-counts`
+    );
+  }
+
+  getAdminVerifiedForOnboardingUpdate(userUuid: string, adminUuid: string): Observable<any> {
+    const params = {
+      userUuid: `${userUuid}`,
+      adminUuid: `${adminUuid}`,
+    };
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/employee-onboarding-status/check-admin`,
+      {
+        params,
+      }
+    );
+  }
+
+  setEmployeeCompanyDocuments(
+    userUuid: string,
+    onboardingPreviewData: OnboardingFormPreviewResponse
+    
+  ): Observable<any> {
+    debugger;
+    const params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient
+      .put<any>(
+        `${this.baseUrl}/user-documents-details/save/user-company-documents`,
+        onboardingPreviewData,
+        { params }
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeePersonalDetails:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  getEmployeeCompanyDocuments(userUuid: string): Observable<any> {
+    debugger;
+    const params = new HttpParams().set('userUuid', userUuid);
+    const url = `${this.baseUrl}/user-documents-details/get/user-company-documents`;
+    return this.httpClient.get(url, { params });
+  }
+
+  deleteEmployeeCompanyDocById(documentId: number, userUuid: string): Observable<any> {
+    // Create HttpParams and chain the setting of parameters
+    const params = new HttpParams()
+      .set('documentId', documentId.toString())  // Ensure the ID is sent as a string
+      .set('userUuid', userUuid);
+  
+    return this.httpClient.delete<any>(
+      `${this.baseUrl}/user-documents-details/delete/companyDoc`,
+      { params }
     );
   }
 }

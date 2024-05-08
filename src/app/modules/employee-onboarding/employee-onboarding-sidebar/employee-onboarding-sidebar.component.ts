@@ -15,24 +15,44 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
   constructor(private router: Router, private stepService: DataService) { }
 
   ngOnInit(): void {
+    this.getAdminVerifiedForOnboardingUpdateMethodCall();
  this.getEmployeeStatusMethodCall(); 
+ 
   }
   // getEmployeeStatusMethodCall() {
   //   throw new Error('Method not implemented.');
   // }
 
   navigateTo(route: string, stepIndex: number): void {
-    debugger
-    if(this.stepService.stepIndex<(stepIndex-1) && this.onboardingStatus !== "REJECTED"){
+    debugger;
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
 
-    }else{
-      let navExtra: NavigationExtras = {
-        queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
-      };
-      this.router.navigate([route], navExtra);
+    let adminUuid: any;
+    if(new URLSearchParams(window.location.search).get('adminUuid')){
+     adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+    }
+  
+    if (this.stepService.stepIndex < (stepIndex - 1) && this.onboardingStatus !== "REJECTED" ) {
+      // Logic for other conditions if necessary
+    } else {
+  
+      let queryParams: any = {};
+    if (userUuid) {
+      queryParams['userUuid'] = userUuid;
+    }
+    
+    // Conditionally add adminUuid to queryParams if isAdminPresent is true
+    if (this.isAdminPresent && adminUuid) {
+      queryParams['adminUuid'] = adminUuid;
     }
 
+    // Assign the queryParams to navExtra
+    let navExtra: NavigationExtras = { queryParams };
+      this.router.navigate([route], navExtra);
+    }
   }
+  
+  
 
   ind:number=-1;
   isStepCompleted(stepIndex: number): boolean {
@@ -77,8 +97,35 @@ getEmployeeStatusMethodCall() {
     console.error('uuidNewUser not found in localStorage');
     
   }
+}
+  
+  isAdminPresent : Boolean = false;
+  getAdminVerifiedForOnboardingUpdateMethodCall() {
+    debugger;
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+    if (userUuid && adminUuid) {
+      this.stepService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
+        (isAdminPresent: boolean) => {
+          if (isAdminPresent) {
+            this.isAdminPresent = isAdminPresent;
+            console.log('Admin verification successful. ' + this.isAdminPresent);
+          } else {
+            this.isAdminPresent = isAdminPresent;
+            console.error('Admin verification failed.');
+          }
+        },
+        (error: any) => {
+          console.error('Error fetching admin verification status:', error);
+        }
+      );
+    } else {
+      this.isAdminPresent = false;
+      console.error('User UUID or Admin UUID not found in the URL.');
+    }
+  }
   
 
-} 
+
 }
 

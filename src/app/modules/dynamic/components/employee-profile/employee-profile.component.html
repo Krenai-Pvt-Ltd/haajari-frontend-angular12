@@ -2121,7 +2121,7 @@
                       <div
                         class="d-flex align-items-center justify-content-between mb-3"
                       >
-                        <h4 class="card-title mt-0">Projects</h4>
+                        <h4 class="card-title mt-0">Employee Documents</h4>
                         <div
                           *ngIf="
                             user!.employeeOnboardingStatus?.response ==
@@ -2135,7 +2135,7 @@
                           </a>
                         </div>
                       </div>
-                      <div class="file-box-content">
+                      <!-- <div class="file-box-content">
                         <div class="file-box">
                           <a href="#" class="download-icon-link">
                             <i class="las la-download file-download-icon"></i>
@@ -2250,14 +2250,106 @@
                             >
                           </div>
                         </div>
+                      </div> -->
+                      <div class="file-box-content row">
+                        <!-- Loop through each defined document in UserDocumentsRequest -->
+                        <ng-container *ngIf="onboardingPreviewData.userDocuments">
+                          <!-- Secondary School Certificate -->
+                          <div *ngIf="onboardingPreviewData.userDocuments.secondarySchoolCertificate" class="file-box">
+                            <a [href]="onboardingPreviewData.userDocuments.secondarySchoolCertificate" class="download-icon-link" target="_blank" (click)="downloadSingleImage(onboardingPreviewData.userDocuments.secondarySchoolCertificate)">
+                              <i class="las la-download file-download-icon"></i>
+                            </a>
+                            <div class="text-center">
+                              <i [ngClass]="getFileTypeIcon(onboardingPreviewData.userDocuments.secondarySchoolCertificate)"></i>
+                              <h6 class="text-truncate">Secondary School Certificate</h6>
+                              <small class="text-muted">{{secondarySchoolCertificateFileName}}</small>
+                            </div>
+                          </div>
+                      
+                          <!-- High School Certificate -->
+                          <div *ngIf="onboardingPreviewData.userDocuments.highSchoolCertificate" class="file-box">
+                            <a [href]="onboardingPreviewData.userDocuments.highSchoolCertificate" class="download-icon-link" target="_blank" (click)="downloadSingleImage(onboardingPreviewData.userDocuments.highSchoolCertificate)">
+                              <i class="las la-download file-download-icon"></i>
+                            </a>
+                            <div class="text-center">
+                              <i [ngClass]="getFileTypeIcon(onboardingPreviewData.userDocuments.highSchoolCertificate)"></i>
+                              <h6 class="text-truncate">High School Certificate</h6>
+                              <small class="text-muted">{{highSchoolCertificateFileName1}}</small>
+                            </div>
+                          </div>
+                      
+                          <!-- Highest Qualification Degree -->
+                          <div *ngIf="onboardingPreviewData.userDocuments.highestQualificationDegree" class="file-box">
+                            <a [href]="onboardingPreviewData.userDocuments.highestQualificationDegree" class="download-icon-link" target="_blank" (click)="downloadSingleImage(onboardingPreviewData.userDocuments.highestQualificationDegree)">
+                              <i class="las la-download file-download-icon"></i>
+                            </a>
+                            <div class="text-center">
+                              <i [ngClass]="getFileTypeIcon(onboardingPreviewData.userDocuments.highestQualificationDegree)"></i>
+                              <h6 class="text-truncate">Highest Qualification Degree</h6>
+                              <small class="text-muted">{{highestQualificationDegreeFileName1}}</small>
+                            </div>
+                          </div>
+                          
+                      
+                          <!-- Testimonial Recommendation -->
+                          <div *ngIf="onboardingPreviewData.userDocuments.testimonialReccomendation" class="file-box">
+                            <a [href]="onboardingPreviewData.userDocuments.testimonialReccomendation" class="download-icon-link" target="_blank" (click)="downloadSingleImage(onboardingPreviewData.userDocuments.testimonialReccomendation)">
+                              <i class="las la-download file-download-icon"></i>
+                            </a>
+                            <div class="text-center">
+                              <i [ngClass]="getFileTypeIcon(onboardingPreviewData.userDocuments.testimonialReccomendation)"></i>
+                              <h6 class="text-truncate">Testimonial Recommendation</h6>
+                              <small class="text-muted">{{testimonialReccomendationFileName1}}</small>
+                            </div>
+                          </div>
+                      
+                          <!-- Aadhaar Card -->
+                          <div *ngIf="onboardingPreviewData.userDocuments.aadhaarCard" class="file-box">
+                            <a [href]="onboardingPreviewData.userDocuments.aadhaarCard" class="download-icon-link" target="_blank" (click)="downloadSingleImage(onboardingPreviewData.userDocuments.aadhaarCard)">
+                              <i class="las la-download file-download-icon"></i>
+                            </a>
+                            <div class="text-center">
+                              <i [ngClass]="getFileTypeIcon(onboardingPreviewData.userDocuments.aadhaarCard)"></i>
+                              <h6 class="text-truncate">Aadhaar Card</h6>
+                              <small class="text-muted">{{aadhaarCardFileName}}</small>
+                            </div>
+                          </div>
+                      
+                          <!-- PAN Card -->
+                          <div *ngIf="onboardingPreviewData.userDocuments.pancard" class="file-box">
+                            <a [href]="onboardingPreviewData.userDocuments.pancard" class="download-icon-link" target="_blank" (click)="downloadSingleImage(onboardingPreviewData.userDocuments.pancard)">
+                              <i class="las la-download file-download-icon"></i>
+                            </a>
+                            <div class="text-center">
+                              <i [ngClass]="getFileTypeIcon(onboardingPreviewData.userDocuments.pancard)"></i>
+                              <h6 class="text-truncate">PAN Card</h6>
+                              <small class="text-muted">{{pancardFileName}}</small>
+                            </div>
+                          </div>
+                          <div *ngIf="employeeAdditionalDocument.length > 0" >
+                            <div *ngFor="let doc of employeeAdditionalDocument" class="file-box">
+                              <a [href]="doc.url" class="download-icon-link" target="_blank" (click)="downloadSingleImage(doc.url)">
+                                <i class="las la-download file-download-icon"></i>
+                              </a>
+                              <div class="text-center">
+                                <i [ngClass]="getFileTypeIcon(doc.url)"></i>
+                                <h6 class="text-truncate">{{ doc.name }}</h6>
+                                <small class="text-muted">{{ doc.fileName }}</small>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-container>
+                      
+                   
                       </div>
+                      
                       <div class="row">
                         <div class="col-12">
-                          <h4 class="card-title my-3">Freelancing Projects</h4>
+                          <h4 class="card-title my-3">Company Documents</h4>
                         </div>
                       </div>
-                      <div class="file-box-content">
-                        <div class="file-box">
+                      <div class="file-box-content row">
+                        <!-- <div class="file-box">
                           <a href="#" class="download-icon-link">
                             <i class="las la-download file-download-icon"></i>
                           </a>
@@ -2268,36 +2360,82 @@
                               >06 March 2021 / 5MB</small
                             >
                           </div>
-                        </div>
-                        <div class="file-box">
-                          <a href="#" class="download-icon-link">
-                            <i class="las la-download file-download-icon"></i>
-                          </a>
+                        </div> -->
+                        <!-- {{onboardingPreviewData.employeeCompanyDocuments.length}} -->
+
+                        <div *ngFor="let document of onboardingPreviewData.employeeCompanyDocuments let i = index" class="file-box col-md-4">
+                          <!-- <button type="button" class="close new-close" aria-label="Close" (click)="deleteCompanyDocByIdMethodCall(document.id)">
+                            <span aria-hidden="true">&times;</span>
+                          </button> -->
+
+                          <a href="#" class="icon-link">
+                            <i class="bi bi-trash text-danger" (click)="deleteCompanyDocByIdMethodCall(document.id)"></i>
+                        </a>
+                        <a href="#" class="icon-link">
+                            <i class="las la-download file-download-icon" (click)="downloadSingleImage(document.url)"></i>
+                        </a>
+                        
+                        <!-- {{document.fileName}} -->
                           <div class="text-center">
-                            <i class="lar la-file-code text-info"></i>
-                            <h6 class="text-truncate">Ecommerce.pdf</h6>
-                            <small class="text-muted"
-                              >15 March 2021 / 8MB</small
-                            >
+                            <i [ngClass]="getFileTypeIcon(document.url)"></i>
+                            <h6 class="text-truncate">{{document.name || 'Ecommerce.pdf'}}</h6>
+                            <small class="text-muted">{{ document.fileName }}</small>
+                          </div>
+                        
+                          <div class="importfilebox">
+                            <input id="additionalDocumentFile{{i}}" 
+                                   type="file" 
+                                   class="input" 
+                                   accept=".pdf, image/jpeg, image/jpg, image/png"
+                                   (change)="onAdditionalFileSelected($event, i)" 
+                                   [required]="!document.url"
+                                   [(ngModel)]="document.fileName" 
+                                   #fileInput="ngModel" 
+                                   name="fileInput{{i}}"> <!-- Ensure the input has a name attribute -->
+                            <label for="additionalDocumentFile{{i}}">
+                              <span *ngIf="!document.url || !document.fileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG, or PNG</span>
+                              <!-- <span *ngIf="document.url && document.fileName">{{ document.fileName }}</span> -->
+                            </label>
+                        
+                            <!-- Display validation message -->
+                            <div *ngIf="fileInput.dirty">
+                              <!-- Checking for 'required' error -->
+                              <p *ngIf="fileInput.errors?.required" class="errortxt mt-2 mb-0" style="color:red">
+                                <i class="bi bi-exclamation-circle"></i> File is required.
+                              </p>
+                              <!-- Add a condition for invalid file type -->
+                              <p *ngIf="!isInvalidFileType" class="errortxt mt-2 mb-0" style="color:red">
+                                <i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.
+                              </p>
+                            </div>
                           </div>
                         </div>
+                        
+                       
                         <div
                           class="file-box add-document-btn pointer position-relative"
                         >
-                          <input
-                            id="fileSelect"
-                            type="file"
-                            name="img[]"
-                            accept=".xlsx"
-                            class="input"
-                          />
-                          <div class="text-center">
-                            <i class="lar la-file-alt text-primary pb-2"></i>
-                            <h6 class="text-truncate">Add Documents</h6>
-                            <small class="text-muted">
-                              (jpg, png, pdf ) 10MB</small
-                            >
+                          
+                        
+                          <div class="card">
+                            <div class="text-center">
+                              <i class="lar la-file-alt text-primary pb-2"></i>
+                              <h6 class="text-truncate">Add Documents</h6>
+                              <small class="text-muted">
+                                (jpg, png, pdf, jpeg )</small>
+                              
+
+                              <!-- Button to trigger additional document input -->
+                              <button *ngIf="!isAddMore" (click)="addMore()" class="btn btn-primary mt-2"><i class="bi bi-plus"></i> Add More</button>
+                          
+                              <!-- Input for adding new document -->
+                              <div class="d-flex align-items-center justify-content-center mt-2" *ngIf="isAddMore">
+                                <input type="text" name="addMore" id="addMore" class="form-control mr-2" [(ngModel)]="documentName" placeholder="Enter Document Name" style="width: 250px;">
+                                <button id="saveButton" name="saveButton" (click)="addNewDocument()" class="btn btn-success">Save</button>
+                              </div>
+                            </div>
                           </div>
+                          
                         </div>
                       </div>
                     </div>
