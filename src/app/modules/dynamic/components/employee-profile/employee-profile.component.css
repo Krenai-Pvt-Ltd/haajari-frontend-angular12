@@ -1419,6 +1419,7 @@ tbody tr {
   right: 10px;
   top: 10px;
   z-index: 2;
+  position: absolute;
 }
 
 .met-profile-main-pic img {
@@ -1428,3 +1429,20 @@ tbody tr {
   object-fit: cover;
 }
 
+.download-icon-link-ownload {
+  right: 33px;
+  top: 9px;
+  z-index: 2;
+  position: absolute;
+}
+
+.file-download-icon {
+  font-size: 12px !important;
+}
+
+.file-name-line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
