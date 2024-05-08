@@ -181,13 +181,15 @@ debugger
     
 if(this.buttonType=='next'){
   this.toggle = true;
+  this.userPersonalInformationRequest.directSave = false;
   this.userPersonalInformationRequest.updateRequest = false;
 } else if (this.buttonType=='save'){
   this.toggleSave = true;
+  this.userPersonalInformationRequest.directSave = true;
   this.userPersonalInformationRequest.updateRequest = false;
 } else if (this.buttonType=='update'){
   this.toggle = true;
-  
+  this.userPersonalInformationRequest.updateRequest = true;
 }
 if (this.userPersonalInformationRequest.department === 'Other') {
   // Use the value from otherDepartment field
@@ -254,24 +256,28 @@ if (this.userPersonalInformationRequest.department === 'Other') {
   isLoading:boolean = true;
   employeeOnboardingFormStatus:string|null=null;
   @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
-  getNewUserPersonalInformationMethodCall() {
+  getNewUserPersonalInformationMethodCall(): Promise<boolean> {
     debugger
+    return new Promise<boolean>(async (resolve, reject) => { // Notice the `async` here
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
     if (userUuid) {
         this.dataService.getNewUserPersonalInformation(userUuid).subscribe(
-            (response: UserPersonalInformationRequest) => {
+          async (response: UserPersonalInformationRequest) => {
              
             
                 this.userPersonalInformationRequest = response;
-                this.getAdminVerifiedForOnboardingUpdateMethodCall();
+               
                 this.isLoading = false;
                 this.employeeOnboardingFormStatus=response.employeeOnboardingStatus.response;
                 // if(response.employeeOnboardingFormStatus.id && this.employeeOnboardingFormStatus != 'REJECTED' ){
                 //   this.lastSavedStep = response.employeeOnboardingFormStatus.id;
                 //   this.routeToLastSavedStep(this.lastSavedStep);
                 // }
-                
-                if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL' && (this.employeeOnboardingFormStatus != 'REJECTED' && this.employeeOnboardingFormStatus != 'REQUESTED') && (!this.userPersonalInformationRequest.updateRequest || this.userPersonalInformationRequest.updateRequest == null)){
+                if(adminUuid){
+                  await this.getAdminVerifiedForOnboardingUpdateMethodCall(); // This will now work
+                }                
+                if(response.employeeOnboardingFormStatus.response=='USER_REGISTRATION_SUCCESSFUL' && (this.employeeOnboardingFormStatus != 'REJECTED' && this.employeeOnboardingFormStatus != 'REQUESTED') && (!this.userPersonalInformationRequest.updateRequest || this.userPersonalInformationRequest.updateRequest == null || !this.userPersonalInformationRequest.updateRequest)){
                   this.successMessageModalButton.nativeElement.click();
                 }
                 
@@ -292,7 +298,7 @@ if (this.userPersonalInformationRequest.department === 'Other') {
                     this.setImageUrlFromDatabase(response.image);
                 }
                 if (response.employeeOnboardingFormStatus.response == 'USER_REGISTRATION_SUCCESSFUL' && 
-                (this.employeeOnboardingFormStatus == 'PENDING' || this.employeeOnboardingFormStatus == 'APPROVED')) {
+                (this.employeeOnboardingFormStatus == 'PENDING' || this.employeeOnboardingFormStatus == 'APPROVED') && !this.userPersonalInformationRequest.updateRequest) {
                   setTimeout(() => {
                     this.routeToFormPreview();  
                   }, 500);
@@ -305,6 +311,7 @@ if (this.userPersonalInformationRequest.department === 'Other') {
     } else {
         console.error('uuidNewUser not found in localStorage');
     }
+  })
 }
 
 displayModal = false;
@@ -709,31 +716,30 @@ checkFormValidation(){
 }
 
 
-getAdminVerifiedForOnboardingUpdateMethodCall() {
+getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
   debugger;
-  const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-  const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
-  if (userUuid && adminUuid) {
-    this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
-      (isAdminPresent: boolean) => {
-        if (isAdminPresent) {
+  return new Promise<boolean>((resolve, reject) => {
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+    if (userUuid && adminUuid) {
+      this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
+        (isAdminPresent: boolean) => {
           this.userPersonalInformationRequest.updateRequest = isAdminPresent;
           console.log('Admin verification successful.');
-        } else {
-          this.userPersonalInformationRequest.updateRequest = isAdminPresent;
-          console.error('Admin verification failed.');
+          resolve(isAdminPresent); // Resolve the promise with the result
+        },
+        (error: any) => {
+          console.error('Error fetching admin verification status:', error);
+          reject(error); // Reject the promise on error
         }
-      },
-      (error: any) => {
-        console.error('Error fetching admin verification status:', error);
-      }
-    );
-  } else {
-    this.userPersonalInformationRequest.updateRequest = false;
-    console.error('User UUID or Admin UUID not found in the URL.');
-  }
-  
+      );
+    } else {
+      console.error('User UUID or Admin UUID not found in the URL.');
+      reject(new Error('User UUID or Admin UUID not found in the URL.')); // Reject the promise if parameters are missing
+    }
+  });
 }
+
 
 goBackToProfile() {
   let navExtra: NavigationExtras = {

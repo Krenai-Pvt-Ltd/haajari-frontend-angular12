@@ -55,6 +55,7 @@ import { OrganizationWeekoffInformation } from '../models/organization-weekoff-i
 import { NewJoineeAndUserExitRequest } from '../models/new-joinee-and-user-exit-request';
 import { TeamLocation } from '../models/team-location';
 import { RegisterTeamRequest } from '../modules/dynamic/components/team/team.component';
+import { OnboardingFormPreviewResponse } from '../models/onboarding-form-preview-response';
 
 @Injectable({
   providedIn: 'root',
@@ -2580,6 +2581,70 @@ export class DataService {
       {
         params,
       }
+    );
+  }
+
+  setEmployeeCompanyDocuments(
+    userUuid: string,
+    onboardingPreviewData: OnboardingFormPreviewResponse
+  ): Observable<any> {
+    debugger;
+    const params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient
+      .put<any>(
+        `${this.baseUrl}/user-documents-details/save/user-company-documents`,
+        onboardingPreviewData,
+        { params }
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error in setEmployeePersonalDetails:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  getEmployeeCompanyDocuments(userUuid: string): Observable<any> {
+    debugger;
+    const params = new HttpParams().set('userUuid', userUuid);
+    const url = `${this.baseUrl}/user-documents-details/get/user-company-documents`;
+    return this.httpClient.get(url, { params });
+  }
+
+  deleteEmployeeCompanyDocById(
+    documentId: number,
+    userUuid: string
+  ): Observable<any> {
+    // Create HttpParams and chain the setting of parameters
+    const params = new HttpParams()
+      .set('documentId', documentId.toString()) // Ensure the ID is sent as a string
+      .set('userUuid', userUuid);
+
+    return this.httpClient.delete<any>(
+      `${this.baseUrl}/user-documents-details/delete/companyDoc`,
+      { params }
+    );
+  }
+
+  getLeaveSummaryResponseByOrganizationIdAndStartDateAndDate(
+    startDate: string,
+    endDate: string,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('start_date', startDate)
+      .set('end_date', endDate)
+      .set('item_per_page', itemPerPage)
+      .set('page_number', pageNumber)
+      .set('search', search)
+      .set('search_by', searchBy);
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/payroll-dashboard/leave-summary/get`,
+      { params }
     );
   }
 }

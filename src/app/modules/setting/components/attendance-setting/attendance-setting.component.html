@@ -1116,13 +1116,7 @@
                                 >
                                   <!-- <p class="mb-0">Deduction</p>
                                   <span style="color: #3f988f">Minute</span> -->
-                                  <ng-container
-                                    *ngIf="
-                                      attendanceRuleDefinitionResponse.attendanceRuleId !==
-                                        OVERTIME_RULE;
-                                      else overtime
-                                    "
-                                  >
+                                  <ng-container *ngIf=" attendanceRuleDefinitionResponse.attendanceRuleId !== OVERTIME_RULE; else overtime">
                                     <p class="mb-0">Deduction</p>
                                     <!-- <span> | </span> -->
                                     <span style="color: #009688">
@@ -1171,14 +1165,7 @@
                                     <!-- <span>Overtime Type</span> -->
                                     <!-- <span> | </span> -->
                                     <span style="color: #009688">
-                                      <ng-container
-                                        *ngIf="
-                                          attendanceRuleDefinitionResponse
-                                            ?.overtimeType?.id ===
-                                            OVERTIME_TYPE_FIXED_AMOUNT;
-                                          else overtimeTypeOrNA
-                                        "
-                                      >
+                                      <ng-container *ngIf="attendanceRuleDefinitionResponse?.overtimeType?.id === OVERTIME_TYPE_FIXED_AMOUNT; else overtimeTypeOrNA">
                                         <span>{{
                                           attendanceRuleDefinitionResponse
                                             ?.overtimeType?.type
@@ -1212,9 +1199,7 @@
                                     </span>
                                   </ng-template>
                                 </div>
-                                <div
-                                  class="d-flex align-items-center justify-content-between"
-                                >
+                                <div class="d-flex align-items-center justify-content-between" *ngIf="attendanceRuleDefinitionResponse.attendanceRuleId != OVERTIME_RULE">
                                   <!-- <p class="mb-0">Occasion</p>
                                   <span style="color: #3f988f">5 Times</span> -->
                                   <p class="mb-0">Occurrences</p>
@@ -1311,9 +1296,7 @@
                                     </ng-template>
                                   </span>
                                 </div>
-                                <div
-                                  class="d-flex align-items-center justify-content-between"
-                                >
+                                <div class="d-flex align-items-center justify-content-between" *ngIf="attendanceRuleDefinitionResponse.attendanceRuleId != OVERTIME_RULE">
                                   <!-- <p class="mb-0">Occasion</p>
                                   <span style="color: #3f988f">5 Times</span> -->
                                   <p class="mb-0">Occurrences</p>
@@ -1412,9 +1395,7 @@
                                   </span>
                                 </div>
 
-                                <div
-                                  class="d-flex align-items-center justify-content-between"
-                                >
+                                <div class="d-flex align-items-center justify-content-between" *ngIf="attendanceRuleDefinitionResponse.attendanceRuleId != OVERTIME_RULE">
                                   <!-- <p class="mb-0">Occasion</p>
                                   <span style="color: #3f988f">5 Times</span> -->
                                   <p class="mb-0">Occurrences</p>

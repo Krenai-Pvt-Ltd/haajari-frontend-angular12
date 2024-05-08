@@ -3,11 +3,13 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { Key } from 'src/app/constant/key';
 import { EmployeeAdditionalDocument } from 'src/app/models/employee-additional-document';
 import { UserDocumentsDetailsRequest } from 'src/app/models/user-documents-details-request';
 import { UserDocumentsRequest } from 'src/app/models/user-documents-request';
 import { UserGuarantorRequest } from 'src/app/models/user-guarantor-request';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-employee-document',
@@ -19,7 +21,7 @@ export class EmployeeDocumentComponent implements OnInit {
 
   userDocumentsDetailsRequest: UserDocumentsDetailsRequest = new UserDocumentsDetailsRequest();
 selectedHighSchoolCertificateFileName: any;
-  constructor(private router : Router, private dataService : DataService, private afStorage: AngularFireStorage) { }
+  constructor(private router : Router, private dataService : DataService, private afStorage: AngularFireStorage, private helperService: HelperService) { }
 
   ngOnInit(): void {
     this.getEmployeeDocumentsDetailsMethodCall();
@@ -200,10 +202,14 @@ isValidFileType(file: File): boolean {
     }
     if(this.buttonType=='next'){
       this.toggle = true;
+      this.userDocumentsDetailsRequest.directSave = false;
+      this.userDocumentsDetailsRequest.updateRequest = false;
     } else if (this.buttonType=='save'){
       this.toggleSave = true;
+      this.userDocumentsDetailsRequest.updateRequest = false;
     } else if (this.buttonType=='update'){
       this.toggle = true;
+      this.userDocumentsDetailsRequest.updateRequest = true;
     }
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     if(this.selectedFile) {
@@ -220,10 +226,11 @@ isValidFileType(file: File): boolean {
       this.toggle = false
       this.employeeOnboardingFormStatus = response.employeeOnboardingStatus; 
       this.handleOnboardingStatus(response.employeeOnboardingStatus);
-      this.dataService.markStepAsCompleted(response.statusId);
+      
       // Perform further actions like navigation or state updates
       if(this.buttonType=='next'){
         this.routeToUserDetails();
+        this.dataService.markStepAsCompleted(response.statusId);
       } else if (this.buttonType=='save'){
         if(this.employeeOnboardingFormStatus!='REJECTED'){
           this.successMessageModalButton.nativeElement.click();
@@ -232,7 +239,10 @@ isValidFileType(file: File): boolean {
             
             this.routeToFormPreview();  
           }, 2000);
-      }
+      } else if (this.buttonType=='update'){
+        this.helperService.showToast("Information Updated Successfully", Key.TOAST_STATUS_SUCCESS);
+
+       }
     },
     (error) => {
       console.error('Error occurred:', error);
@@ -273,16 +283,19 @@ isNewUser: boolean = true;
 isLoading:boolean = true;
 employeeOnboardingFormStatus:string|null=null;
 @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
-getEmployeeDocumentsDetailsMethodCall() {
+async getEmployeeDocumentsDetailsMethodCall(): Promise<boolean> {
   debugger
-  
+  return new Promise<boolean>(async (resolve, reject) => {
   const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+  const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
   if (userUuid) {
     this.dataService.getEmployeeDocumentDetails(userUuid).subscribe(
-      (response: UserDocumentsDetailsRequest) => {
+      async (response: UserDocumentsDetailsRequest) => {
         this.userDocumentsDetailsRequest = response;
         this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
-        this.getAdminVerifiedForOnboardingUpdateMethodCall();
+        if(adminUuid){
+          await this.getAdminVerifiedForOnboardingUpdateMethodCall(); // This will now work
+        }
         if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED' && !this.userDocumentsDetailsRequest.updateRequest){
           this.successMessageModalButton.nativeElement.click();
         }
@@ -335,6 +348,7 @@ getEmployeeDocumentsDetailsMethodCall() {
   } else {
     console.error('User UUID not found.');
   }
+})
 }
 
   getFilenameFromUrl(url: string): string {
@@ -544,31 +558,30 @@ clearFile(event: MouseEvent, documentType: string): void {
   }
 }
 
-getAdminVerifiedForOnboardingUpdateMethodCall() {
+getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
   debugger;
-  const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-  const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
-  if (userUuid && adminUuid) {
-    this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
-      (isAdminPresent: boolean) => {
-        if (isAdminPresent) {
+  return new Promise<boolean>((resolve, reject) => {
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+    if (userUuid && adminUuid) {
+      this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
+        (isAdminPresent: boolean) => {
           this.userDocumentsDetailsRequest.updateRequest = isAdminPresent;
           console.log('Admin verification successful.');
-        } else {
-          this.userDocumentsDetailsRequest.updateRequest = isAdminPresent;
-          console.error('Admin verification failed.');
+          resolve(isAdminPresent); // Resolve the promise with the result
+        },
+        (error: any) => {
+          console.error('Error fetching admin verification status:', error);
+          // reject(error); // Reject the promise on error
         }
-      },
-      (error: any) => {
-        console.error('Error fetching admin verification status:', error);
-      }
-    );
-  } else {
-    this.userDocumentsDetailsRequest.updateRequest = false;
-    console.error('User UUID or Admin UUID not found in the URL.');
-  }
-  
+      );
+    } else {
+      console.error('User UUID or Admin UUID not found in the URL.');
+      // reject(new Error('User UUID or Admin UUID not found in the URL.')); // Reject the promise if parameters are missing
+    }
+  });
 }
+
 
 goBackToProfile() {
   let navExtra: NavigationExtras = {

@@ -77,12 +77,16 @@ setEmployeeAddressDetailsMethodCall() {
   this.userAddressDetailsRequest.sameAddress = this.isPermanent;
   if(this.buttonType=='next'){
     this.toggle = true;
+    this.userAddressDetailsRequest.directSave = false;
     this.userAddressDetailsRequest.updateRequest = false;
   } else if (this.buttonType=='save'){
     this.toggleSave = true;
+    this.userAddressDetailsRequest.directSave = true;
     this.userAddressDetailsRequest.updateRequest = false;
   } else if (this.buttonType=='update'){
     this.toggle = true;
+    this.userAddressDetailsRequest.directSave = false;
+    this.userAddressDetailsRequest.updateRequest = true;
   }
   // this.toggle = true;
   const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
@@ -139,7 +143,7 @@ async getNewUserAddressDetailsMethodCall(): Promise<boolean> {
   debugger
   return new Promise<boolean>(async (resolve, reject) => { // Notice the `async` here
       const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-  
+      const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
       if (userUuid) {
           this.dataService.getNewUserAddressDetails(userUuid).subscribe(
               async (response: UserAddressDetailsRequest) => { // And also notice the `async` here
@@ -149,7 +153,11 @@ async getNewUserAddressDetailsMethodCall(): Promise<boolean> {
                   if (response && response.userAddressRequest && response.userAddressRequest.length > 0) {
                       this.userAddressDetailsRequest = response;
                       this.userAddressRequest = response.userAddressRequest;
-                      // await this.getAdminVerifiedForOnboardingUpdateMethodCall(); // This will now work
+
+                      if(adminUuid){
+                        await this.getAdminVerifiedForOnboardingUpdateMethodCall(); // This will now work
+                      }
+                      
                      
                       
                       if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED' && !this.userAddressDetailsRequest.updateRequest){
@@ -178,12 +186,12 @@ async getNewUserAddressDetailsMethodCall(): Promise<boolean> {
               },
               (error: any) => {
                   console.error('Error fetching user address details:', error);
-                  reject(error);
+                  // reject(error);
               }
           );
       } else {
           console.error('User UUID not found in the URL search parameters');
-          reject(new Error('User UUID not found in the URL search parameters'));
+          // reject(new Error('User UUID not found in the URL search parameters'));
       }
   })
 }
@@ -401,34 +409,39 @@ checkFormValidation(){
   }
 }
 
-async getAdminVerifiedForOnboardingUpdateMethodCall() : Promise<boolean> {
+async getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
+  debugger
   return new Promise<boolean>((resolve, reject) => {
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
     const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
-    if (userUuid && adminUuid) {
-      this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
-        (isAdminPresent: boolean) => {
-          if (isAdminPresent) {
-            this.userAddressDetailsRequest.updateRequest = isAdminPresent;
-            console.log('Admin verification successful.');
-          } else {
-            this.userAddressDetailsRequest.updateRequest = isAdminPresent;
-            console.error('Admin verification failed.');
-          }
-
-          resolve(true);
-        },
-        (error: any) => {
-          console.error('Error fetching admin verification status:', error);
-          reject(error);
-        }
-      );
-    } else {
-      this.userAddressDetailsRequest.updateRequest = false;
+    if (!userUuid || !adminUuid) {
       console.error('User UUID or Admin UUID not found in the URL.');
+      this.userAddressDetailsRequest.updateRequest = false; // Set updateRequest to false due to error
+       // Reject the promise if parameters are missing
+      return; // Early return to avoid further execution
     }
-  })
+
+    this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
+      (isAdminPresent: boolean) => {
+        this.userAddressDetailsRequest.updateRequest = isAdminPresent;
+        if (isAdminPresent) {
+          console.log('Admin verification successful.');
+          this.userAddressDetailsRequest.updateRequest = true;
+          resolve(true); // Resolve the promise with true if admin is present
+        } else {
+          console.error('Admin verification failed.');
+          this.userAddressDetailsRequest.updateRequest = false;
+          resolve(false); // Resolve the promise with false if admin verification fails
+        }
+      },
+      (error: any) => {
+        console.error('Error fetching admin verification status:', error);
+        // reject(error); // Reject the promise on error
+      }
+    );
+  });
 }
+
 
 goBackToProfile() {
   let navExtra: NavigationExtras = {
