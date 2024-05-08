@@ -59,7 +59,7 @@ export class Key {
     '/payment/tds',
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
-    '/payment/payroll-dashboard/leave-summary'
+    '/payment/payroll-dashboard/leave-summary',
   ];
 
   public static TOPBAR_ROUTES = [
@@ -97,7 +97,7 @@ export class Key {
     '/payment/tds',
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
-    '/payment/payroll-dashboard/leave-summary'
+    '/payment/payroll-dashboard/leave-summary',
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
