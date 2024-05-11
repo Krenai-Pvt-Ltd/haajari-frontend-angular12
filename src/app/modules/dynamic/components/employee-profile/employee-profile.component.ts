@@ -1979,7 +1979,7 @@ documentName: string = '';
 
 addNewDocument() {
   debugger
-
+  this.addMoreDocModalButton.nativeElement.click();
   if (!this.onboardingPreviewData.employeeCompanyDocuments) {
     this.onboardingPreviewData.employeeCompanyDocuments = [];
 }
@@ -1997,15 +1997,21 @@ addNewDocument() {
   };
 
   this.onboardingPreviewData.employeeCompanyDocuments.push(newDocument);
-
-  // Reset the input field for adding more documents
-  // this.documentName = '';
+  
   this.isAddMore = false; // Hide the add more section if needed
+
+  // Delay needed to ensure DOM has finished updating
+  setTimeout(() => {
+    const fileInput = document.getElementById(`additionalDocumentFile${newDocument.id}`);
+    if (fileInput) fileInput.click(); // Open the file dialog automatically
+  }, 100);
 }
 
+@ViewChild('addMoreDocModalButton') addMoreDocModalButton !: ElementRef
 isAddMore: boolean = false;
 addMore(){
   this.isAddMore = true;
+  this.addMoreDocModalButton.nativeElement.click();
 }
 
 isInvalidFileType = false; 
