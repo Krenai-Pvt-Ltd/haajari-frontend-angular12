@@ -160,7 +160,10 @@
               <p>A quick snapshot of your company.</p>
             </div>
 
-            <div class="total-shifts p-3 mt-4">
+            <div
+              class="total-shifts p-3 mt-4"
+              *ngIf="salaryTemplateComponentResponseList.length > 0"
+            >
               <div class="d-flex align-items-center justify-content-between">
                 <div>
                   <h6 class="text-truncate">Template’s</h6>
@@ -758,6 +761,32 @@
                     >
                       <div class="errorboxmain">
                         <div class="errorboxinner">
+                          <div class="errorboxplaceholder mb-2">
+                            <img
+                              src="assets/images/empty-box.svg"
+                              style="width: 80px"
+                            />
+                          </div>
+                          <div class="">
+                            <h5 class="mb-0">Salary Templates Not Found</h5>
+                          </div>
+                          <div
+                            class="add-filtter mt-2 mb-3"
+                            style="text-align: center"
+                          >
+                            <a
+                              class=""
+                              style="font-size: 14px; color: #6666f3"
+                              data-bs-toggle="modal"
+                              data-bs-target="#addsalarytemplate"
+                              ><i class="bi bi-plus"></i> Create salary template
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- <div class="errorboxmain">
+                        <div class="errorboxinner">
                           <div
                             class="add-filtter mt-2 mb-3"
                             style="text-align: center"
@@ -778,7 +807,7 @@
                             </p>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
 
                     <div

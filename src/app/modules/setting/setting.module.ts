@@ -10,7 +10,7 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { DynamicModule } from "../dynamic/dynamic.module";
+import { DynamicModule } from '../dynamic/dynamic.module';
 import { CommonModule } from '@angular/common';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { StaffAttendanceLocationComponent } from './components/staff-attendance-location/staff-attendance-location.component';
@@ -24,39 +24,37 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-
+import { NgOtpInputModule } from 'ng-otp-input';
 
 @NgModule({
-    declarations: [
-        SettingComponent,
-        AttendanceSettingComponent,
-        CompanySettingComponent,
-        SalarySettingComponent,
-        LeaveSettingComponent,
-        AccountSettingsComponent,
-        StaffAttendanceLocationComponent,
-        UploadPhotoComponent,
-        SalarySettingComponent
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        RouterModule,
-        GooglePlaceModule,
-        ReactiveFormsModule,
-        SettingRoutingModule,
-        NgxPaginationModule,
-        NgxShimmerLoadingModule,
-        NzSwitchModule,
-        DynamicModule,
-        NgxMaskModule.forRoot(),
-        NzInputNumberModule,
-        NzDatePickerModule,
-        NzTimePickerModule,
-        NzCalendarModule
-    ]
+  declarations: [
+    SettingComponent,
+    AttendanceSettingComponent,
+    CompanySettingComponent,
+    SalarySettingComponent,
+    LeaveSettingComponent,
+    AccountSettingsComponent,
+    StaffAttendanceLocationComponent,
+    UploadPhotoComponent,
+    SalarySettingComponent,
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    GooglePlaceModule,
+    ReactiveFormsModule,
+    SettingRoutingModule,
+    NgxPaginationModule,
+    NgxShimmerLoadingModule,
+    NzSwitchModule,
+    DynamicModule,
+    NgxMaskModule.forRoot(),
+    NzInputNumberModule,
+    NzDatePickerModule,
+    NzTimePickerModule,
+    NzCalendarModule,
+    NgOtpInputModule,
+  ],
 })
-export class SettingModule { 
-
-}
+export class SettingModule {}

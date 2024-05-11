@@ -149,3 +149,13 @@ span.edit-profile {
   border: 1px solid #8d93a1;
 }
 
+.otp-placeholder .otp-input {
+  width: 15% !important;
+  height: 60px !important;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 440px;
+  }
+}
