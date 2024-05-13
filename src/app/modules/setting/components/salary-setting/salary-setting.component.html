@@ -346,23 +346,14 @@
                               data-bs-toggle="modal"
                               data-bs-target="#addsalarytemplate"
                               class="add-shift-time-btn"
-                              ><i class="bi bi-plus"></i> Create your own salary
-                              template
+                              ><i class="bi bi-plus"></i> Create your own salary template
                             </a>
                           </div>
                         </div>
-                        <div
-                          class="shift-set"
-                          *ngFor="
-                            let salaryTemplateComponentResponse of salaryTemplateComponentResponseList;
-                            let i = index
-                          "
-                        >
+                        <div class="shift-set" *ngFor="let salaryTemplateComponentResponse of salaryTemplateComponentResponseList; let i = index">
                           <div class="shift-time p-3 m-3 ng-star-inserted">
                             <div>
-                              <div
-                                class="d-flex align-items-center justify-content-between"
-                              >
+                              <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-3">
                                   <div>
                                     <span
@@ -2093,9 +2084,7 @@
             </div>
             <div class="mt-3">
               <div class="mb-3">
-                <label for="name" class="pb-2"
-                  >Name <span style="color: red">*</span></label
-                >
+                <label for="name" class="pb-2">Name <span style="color: red">*</span></label>
                 <input
                   type="text"
                   id="name"
@@ -2107,14 +2096,8 @@
                   required
                   minlength="3"
                   maxlength="50"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-                <div
-                  *ngIf="
-                    nameField.invalid && (nameField.dirty || nameField.touched)
-                  "
-                  class="text-danger"
-                >
+                  [ngModelOptions]="{ standalone: true }"/>
+                <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="text-danger">
                   <div *ngIf="nameField.errors?.required">
                     Name is required.
                   </div>
