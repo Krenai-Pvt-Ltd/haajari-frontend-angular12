@@ -2146,6 +2146,10 @@
                                 .secondarySchoolCertificate
                             "
                             class="file-box"
+                            (click)="openPdfModel(
+                                      onboardingPreviewData.userDocuments.secondarySchoolCertificate,
+                                      secondarySchoolCertificateFileName
+                                      )"
                           >
                             <a
                               [href]="
@@ -2155,11 +2159,10 @@
                               class="download-icon-link"
                               target="_blank"
                               (click)="
-                                downloadSingleImage(
-                                  onboardingPreviewData.userDocuments
-                                    .secondarySchoolCertificate
-                                )
-                              "
+                              downloadSingleImage(
+                                onboardingPreviewData.userDocuments.secondarySchoolCertificate
+                              ); $event.stopPropagation()
+                            "
                             >
                               <i class="las la-download file-download-icon"></i>
                             </a>
@@ -2187,7 +2190,11 @@
                               onboardingPreviewData.userDocuments
                                 .highSchoolCertificate
                             "
-                            class="file-box"
+                            class="file-box pointer-card"
+                            (click)="openPdfModel(
+                                    onboardingPreviewData.userDocuments.highSchoolCertificate,
+                                    highSchoolCertificateFileName1
+                                  )"
                           >
                             <a
                               [href]="
@@ -2197,11 +2204,10 @@
                               class="download-icon-link"
                               target="_blank"
                               (click)="
-                                downloadSingleImage(
-                                  onboardingPreviewData.userDocuments
-                                    .highSchoolCertificate
-                                )
-                              "
+                                  downloadSingleImage(
+                                    onboardingPreviewData.userDocuments.highSchoolCertificate
+                                  ); $event.stopPropagation()
+                                "
                             >
                               <i class="las la-download file-download-icon"></i>
                             </a>
@@ -2229,7 +2235,11 @@
                               onboardingPreviewData.userDocuments
                                 .highestQualificationDegree
                             "
-                            class="file-box"
+                            class="file-box pointer-card"
+                            (click)="openPdfModel(
+                                    onboardingPreviewData.userDocuments.highestQualificationDegree,
+                                    highestQualificationDegreeFileName1
+                                  )"
                           >
                             <a
                               [href]="
@@ -2242,7 +2252,7 @@
                                 downloadSingleImage(
                                   onboardingPreviewData.userDocuments
                                     .highestQualificationDegree
-                                )
+                                ); $event.stopPropagation()
                               "
                             >
                               <i class="las la-download file-download-icon"></i>
@@ -2271,7 +2281,11 @@
                               onboardingPreviewData.userDocuments
                                 .testimonialReccomendation
                             "
-                            class="file-box"
+                            class="file-box pointer-card"
+                            (click)="openPdfModel(
+                                    onboardingPreviewData.userDocuments.testimonialReccomendation,
+                                    testimonialReccomendationFileName1
+                                  )"
                           >
                             <a
                               [href]="
@@ -2284,7 +2298,7 @@
                                 downloadSingleImage(
                                   onboardingPreviewData.userDocuments
                                     .testimonialReccomendation
-                                )
+                                ); $event.stopPropagation()
                               "
                             >
                               <i class="las la-download file-download-icon"></i>
@@ -2312,7 +2326,11 @@
                             *ngIf="
                               onboardingPreviewData.userDocuments.aadhaarCard
                             "
-                            class="file-box"
+                            class="file-box pointer-card"
+                            (click)="openPdfModel(
+                                    onboardingPreviewData.userDocuments.aadhaarCard,
+                                    aadhaarCardFileName
+                                  )"
                           >
                             <a
                               [href]="
@@ -2324,7 +2342,7 @@
                                 downloadSingleImage(
                                   onboardingPreviewData.userDocuments
                                     .aadhaarCard
-                                )
+                                ); $event.stopPropagation()
                               "
                             >
                               <i class="las la-download file-download-icon"></i>
@@ -2348,7 +2366,11 @@
                           <!-- PAN Card -->
                           <div
                             *ngIf="onboardingPreviewData.userDocuments.pancard"
-                            class="file-box"
+                            class="file-box pointer-card"
+                            (click)="openPdfModel(
+                                    onboardingPreviewData.userDocuments.pancard,
+                                    pancardFileName
+                                  )"
                           >
                             <a
                               [href]="
@@ -2359,7 +2381,7 @@
                               (click)="
                                 downloadSingleImage(
                                   onboardingPreviewData.userDocuments.pancard
-                                )
+                                ); $event.stopPropagation()
                               "
                             >
                               <i class="las la-download file-download-icon"></i>
@@ -2381,13 +2403,17 @@
                           <div *ngIf="employeeAdditionalDocument.length > 0">
                             <div
                               *ngFor="let doc of employeeAdditionalDocument"
-                              class="file-box"
+                              class="file-box pointer-card"
+                              (click)="openPdfModel(
+                                    doc.url,
+                                    doc.fileName
+                                  )"
                             >
                               <a
                                 [href]="doc.url"
                                 class="download-icon-link"
                                 target="_blank"
-                                (click)="downloadSingleImage(doc.url)"
+                                (click)="downloadSingleImage(doc.url); $event.stopPropagation()"
                               >
                                 <i
                                   class="las la-download file-download-icon"
@@ -2419,37 +2445,36 @@
                             let document of onboardingPreviewData.employeeCompanyDocuments;
                             let i = index
                           "
-                          class="file-box col-md-4"
+                          class="file-box pointer-card col-md-4"
+                        
                         >
-                          <a href="#" class="download-icon-link-ownload">
+                          <a class="download-icon-link-ownload" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
                             <i
                               class="bi bi-trash text-danger file-download-icon"
                               (click)="
-                                deleteCompanyDocByIdMethodCall(document.id)
+                                deleteCompanyDocByIdMethodCall(document.id); $event.stopPropagation()
                               "
                             ></i>
                           </a>
-                          <a href="#" class="download-icon-link">
-                            <i
-                              class="las la-download file-download-icon"
-                              (click)="downloadSingleImage(document.url)"
-                            ></i>
-                          </a>
-
+                          <a [href]="document.url" class="download-icon-link" (click)="downloadSingleImage(document.url); $event.stopPropagation()">
+                            <i class="las la-download file-download-icon"></i>
+                        </a>
+                        
+                          
                           <!-- {{document.fileName}} -->
                           <div class="text-center">
                             <i [ngClass]="getFileTypeIcon(document.url)"></i>
                             <h6 class="text-truncate mt-3">
-                              {{ document.name || "Ecommerce.pdf" }}
+                              {{ document.name || "File Name" }}
                             </h6>
                             <small class="text-muted file-name-line-clamp">{{
                               document.fileName
                             }}</small>
                           </div>
 
-                          <div class="importfilebox">
+                          <div class="importfilebox" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
                             <input
-                              id="additionalDocumentFile{{ i }}"
+                            [id]="'additionalDocumentFile' + document.id"
                               type="file"
                               class="input"
                               accept=".pdf, image/jpeg, image/jpg, image/png"
@@ -2457,12 +2482,12 @@
                               [required]="!document.url"
                               [(ngModel)]="document.fileName"
                               #fileInput="ngModel"
-                              name="fileInput{{ i }}"
+                              [name]="'fileInput' + i"
                             />
                             <!-- Ensure the input has a name attribute -->
                             <label
                               class="text-center font-12"
-                              for="additionalDocumentFile{{ i }}"
+                              [for]="'additionalDocumentFile' + document.id"
                             >
                               <span *ngIf="!document.url || !document.fileName"
                                 ><b
@@ -2499,7 +2524,7 @@
                           </div>
                         </div>
 
-                        <div
+                        <div 
                           class="file-box add-document-btn pointer position-relative"
                         >
                           <div class="">
@@ -2512,7 +2537,7 @@
 
                               <!-- Button to trigger additional document input -->
                               <button
-                                *ngIf="!isAddMore"
+                                
                                 (click)="addMore()"
                                 class="btn btn-primary mt-2"
                               >
@@ -2520,11 +2545,11 @@
                                   class="bi bi-plus"
                                   style="font-size: 18px; line-height: 10px"
                                 ></i>
-                                Add More
+                                Add
                               </button>
 
                               <!-- Input for adding new document -->
-                              <div
+                              <!-- <div
                                 class="d-flex align-items-center justify-content-center mt-2"
                                 *ngIf="isAddMore"
                               >
@@ -2545,7 +2570,7 @@
                                 >
                                   Save
                                 </button>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                         </div>
@@ -2810,10 +2835,7 @@
                           <table class="table table-bordered">
                             <tbody
                               class="table-design"
-                              *ngIf="
-                                ROLE === 'ADMIN' ||
-                                (ROLE == 'MANAGER' && isManagerBoolean)
-                              "
+                              
                             >
                               <!-- <tr *ngFor="let address of onboardingPreviewData.userAddress; let i = index"><td colspan="4">Complete Address: {{ address.address }}</td></tr> -->
                               <tr>
@@ -2873,7 +2895,7 @@
                           </div>
                         </ng-template>
                       </div>
-                      <div class="onboarding-deta">
+                      <!-- <div class="onboarding-deta">
                         <table class="table mb-0">
                           <tr style="background-color: #f1f1f1">
                             <td>
@@ -2893,19 +2915,7 @@
                                     )
                                   "
                                 />
-                                <!-- <i
-                                  class="bi bi-pencil-square right-icon"
-                                  *ngIf="
-                                    onboardingPreviewData.user
-                                      .employeeOnboardingStatus.response ===
-                                    'REJECTED'
-                                  "
-                                  (click)="
-                                    routeToUserDetails(
-                                      '/employee-onboarding/employee-document'
-                                    )
-                                  "
-                                ></i> -->
+                             
                               </p>
                             </td>
                           </tr>
@@ -2938,8 +2948,7 @@
                                       class="d-flex align-items-center justify-content-end"
                                       style="gap: 10px; cursor: pointer"
                                     >
-                                      <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                      <!-- {{ docs.documentUrl }} -->
+                                    
                                       <i
                                         class="bi bi-eye pointer download-color"
                                         (click)="
@@ -2969,7 +2978,7 @@
                             <p>No data available :)</p>
                           </div>
                         </ng-template>
-                      </div>
+                      </div> -->
                       <div class="onboarding-deta">
                         <table class="table mb-0">
                           <tr style="background-color: #f1f1f1">
@@ -3285,9 +3294,13 @@
                           </div>
                         </ng-container>
                         <ng-template #noDataTemplateOfExperience>
-                          <div class="text-left p-3">
-                            <p>No data available :)</p>
-                          </div>
+                          <table class="table table-bordered">
+                            <tbody class="table-design">
+                              <tr>
+                                <td colspan="9">Fresher</td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </ng-template>
                       </div>
                       <div class="onboarding-deta">
@@ -4080,20 +4093,20 @@
 </div>
 
 <!-- Button trigger modal -->
-<!-- <button
+<button
   type="button"
-  class="btn btn-primary"
-  style="margin-left: 250px"
+  style="display: none;"
+  id="addMoreDocModalButton"
+  #addMoreDocModalButton
   data-bs-toggle="modal"
-  data-bs-target="#exampleModal"
+  data-bs-target="#addMoreDoc"
 >
-  Launch demo modal
-</button> -->
+</button>
 
 <!-- Modal -->
 <div
   class="modal fade"
-  id="exampleModal"
+  id="addMoreDoc"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
@@ -4101,7 +4114,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Enter Document Name</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add Company Document</h5>
         <button
           type="button"
           class="btn-close"
@@ -4119,11 +4132,12 @@
             name="filename"
             placeholder="Enter Document Name"
             class="form-control profile-input"
+            [(ngModel)]="documentName"
           />
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round">Submit</button>
+        <button type="button" class="btn btn-primary btn-round" (click)="addNewDocument()"><i class="bi bi-paperclip"></i>Select File</button>
       </div>
     </div>
   </div>

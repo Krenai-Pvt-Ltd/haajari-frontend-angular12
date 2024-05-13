@@ -1336,14 +1336,14 @@
                     id="step5-tab"
                     data-bs-toggle="tab"
                     href="#step5"
-                    (click)="getLeaveSummaryResponseByOrganizationIdAndStartDateAndDateMethodCall()">LOP SUMMARY</a
+                    (click)="getLopSummaryResponseByOrganizationIdAndStartDateAndDateMethodCall()">LOP SUMMARY</a
                   >
                   <a
                     class="nav-link"
                     id="step6-tab"
                     data-bs-toggle="tab"
                     href="#step6"
-                    >LOP REVERSAL</a
+                    (click)="getLopReversalResponseByOrganizationIdAndStartDateAndDateMethodCall()">LOP REVERSAL</a
                   >
                 </div>
               </nav>
@@ -1475,8 +1475,11 @@
                                 <td>{{lopSummaryResponse.name}}</td>
                                 <td>{{lopSummaryResponse.email}}</td>
                                 <td>{{lopSummaryResponse.lopDays}}</td>
-                                <td>-</td>
-                                <td>-</td>
+                                <td>
+                                  <input class="comment-input p-2" type="number" placeholder="Days count" [(ngModel)]="lopSummaryResponse.adjustedLopDays" [ngModelOptions]="{standalone : true}">
+                                  <a href="#adjust-lop">Adjust</a>
+                                </td>
+                                <td>{{lopSummaryResponse.finalLopDays}}</td>
                                 <td>
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here">
                                 </td>
@@ -1489,7 +1492,9 @@
                       </ng-template>
                       
                       <ng-template #errorInFetchingLopSummaryResponseListData>
-
+                        <tbody>
+                          <tr>
+                              <td colspan="8">
                         <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForLopSummary">
                           <div class="errorboxinner text-center">
                               <div class="errorboxplaceholder mb-2">
@@ -1503,7 +1508,13 @@
                               </div>
                           </div>
                       </div>
-                      <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForLopSummary">
+                              </td>
+                          </tr>
+                        </tbody>
+                        <tbody>
+                          <tr>
+                              <td colspan="8">
+                      <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForLopSummary && !networkConnectionErrorPlaceHolderForLopSummary">
                           <div class="errorboxinner text-center">
                               <div class="errorboxplaceholder mb-2">
                                   <img src="assets/images/empty-folder.svg" style="width: 100px" />
@@ -1515,6 +1526,9 @@
                               </p>
                           </div>
                       </div>
+                    </td>
+                  </tr>
+                </tbody>
                       </ng-template>
                   </table>
                   <!--end /table-->
@@ -1534,47 +1548,104 @@
                                   <th>ACTION</th>
                               </tr>
                           </thead>
-                          <tbody>
-                              <tr>
-                                  <td>Abhishek</td>
-                                  <td>abhishek@krenai.com</td>
-                                  <td>July</td>
-                                  <td>2</td>
-                                  <td>-</td>
-                                  <td>
-                                      <input class="comment-input p-2" type="text" placeholder="Write the comment here">
+
+                          <ng-container *ngIf="isShimmerForLopReversal && lopReversalResponseList.length == 0; else lopReversalResponseListData">
+                            <tbody>
+                              <tr *ngFor="let item of [].constructor(10)">
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                   </td>
-                                  <td class="text-start">
-                                      <a><i class="bi bi-pencil-square"></i></a>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
                                   </td>
-                              </tr>
-                              <tr>
-                                  <td>Abhishek</td>
-                                  <td>abhishek@krenai.com</td>
-                                  <td>July</td>
-                                  <td>2</td>
-                                  <td>-</td>
-                                  <td>
-                                      <input class="comment-input p-2" type="text" placeholder="Write the comment here">
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                                   </td>
-                                  <td class="text-start">
-                                      <a><i class="bi bi-pencil-square"></i></a>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                                   </td>
-                              </tr>
-                              <tr>
-                                  <td>Abhishek</td>
-                                  <td>abhishek@krenai.com</td>
-                                  <td>July</td>
-                                  <td>2</td>
-                                  <td>-</td>
-                                  <td>
-                                      <input class="comment-input p-2" type="text" placeholder="Write the comment here">
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                                   </td>
-                                  <td class="text-start">
-                                      <a><i class="bi bi-pencil-square"></i></a>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                  </td>
+                                  <td class="text-center">
+                                      <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                                   </td>
                               </tr>
                           </tbody>
+                          </ng-container>
+      
+                          <ng-template #lopReversalResponseListData>
+                            <ng-container *ngIf="!isShimmerForLopReversal && lopReversalResponseList.length != 0; else errorInFetchingLopReversalResponseListData">
+                              <tbody *ngFor="let lopReversalResponse of lopReversalResponseList | paginate : {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}">
+                                <tr>
+                                    <td>{{lopReversalResponse.name}}</td>
+                                    <td>{{lopReversalResponse.email}}</td>
+                                    <td>{{extractPreviousMonthNameFromDate(startDate)}}</td>
+                                    <td>{{lopReversalResponse.lopDays}}</td>
+                                    <td>
+                                      <input class="comment-input p-2" type="number" placeholder="Days count" [(ngModel)]="lopReversalResponse.adjustedLopDays" [ngModelOptions]="{standalone : true}">
+                                      <a href="#adjust-lop">Adjust</a>
+                                    </td>
+                                    <td>
+                                        <input class="comment-input p-2" type="text" placeholder="Write the comment here">
+                                    </td>
+                                    <td class="text-start">
+                                        <a><i class="bi bi-pencil-square"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            </ng-container>
+                          </ng-template>
+                          
+                          <ng-template #errorInFetchingLopReversalResponseListData>
+                            <tbody>
+                              <tr>
+                                  <td colspan="8">
+                            <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForLopReversal">
+                              <div class="errorboxinner text-center">
+                                  <div class="errorboxplaceholder mb-2">
+                                      <img src="assets/images/signal.svg" style="width: 100px" />
+                                  </div>
+                                  <div class="">
+                                      <h4>Something went wrong</h4>
+                                      <p>
+                                          An error occurred while processing your request. Please refresh the page and try again.
+                                      </p>
+                                  </div>
+                              </div>
+                          </div>
+                                  </td>
+                              </tr>
+                            </tbody>
+                            <tbody>
+                              <tr>
+                                  <td colspan="8">
+                                  <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForLopReversal && !networkConnectionErrorPlaceHolderForLopReversal">
+                                      <div class="errorboxinner text-center">
+                                          <div class="errorboxplaceholder mb-2">
+                                              <img src="assets/images/empty-folder.svg" style="width: 100px" />
+                                          </div>
+            
+                                          <h4>No Data Found</h4>
+                                          <p>
+                                              Sorry, We can't show you the data at this moment!
+                                          </p>
+                                      </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </ng-template>
+
                       </table>
                       <!--end /table-->
                   </div>
@@ -1594,6 +1665,67 @@
 </div>
 <!--end modal-->
 </div>
+
+ <div class="modal fade" id="adjust-lop" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+                    Adjust LOP with remaining Leave quota
+                </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                  <!-- [ngClass]="{'disabled-div': isDivDisabled}" -->
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="pb-2">LOP days count to be adjusted</label>
+                            <input type="number">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="pb-2">Leave Type</label>
+                            <div class="dropdown" style="width: 100%">
+                                <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
+                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
+                    background-color: white;
+                    color: black;
+                    border-color: #ced4da;
+                    width: 100%;
+                    text-align: left;
+                  ">
+                                    {{ selectedRole ? selectedRole.name : "Select a role" }}
+                                    <i class="bi bi-chevron-down" text-align="right"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
+                                    <li *ngFor="let role of roles">
+                                        
+                                        <a class="dropdown-item" (click)="selectLeaveType(role)">{{role.name}}</a>
+                                       
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary">
+                  Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end modal-->
 <!-- container -->
 </div>
 <!-- end page content -->
