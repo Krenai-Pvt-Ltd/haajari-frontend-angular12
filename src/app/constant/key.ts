@@ -254,10 +254,10 @@ export class Key {
   user_import = '/whatsapp-user-onboarding/import';
   get_report = '/user-import';
 
-    // base_url = "http://localhost:8080/api/v2";
+  // base_url = "http://localhost:8080/api/v2";
 
-    /* ------------------  Staging urls ----------------*/
-    // base_url = "https://staging.hajiri.work/api/v2";
+  /* ------------------  Staging urls ----------------*/
+  // base_url = "https://staging.hajiri.work/api/v2";
 
   check_number_existence = '/whatsapp-user-onboarding/check-number-existence';
   check_email_existence = '/whatsapp-user-onboarding/check-email-existence';
