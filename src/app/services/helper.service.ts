@@ -190,4 +190,14 @@ export class HelperService {
     };
     this.router.navigate(['/employee-profile'], navExtra);
   }
+
+  extractMonthNameFromDate(dateString : string){
+    const date = new Date(dateString);
+    const monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'short' });
+    const shortMonthName = monthFormatter.format(date);
+
+    return shortMonthName;
+  }
+
+
 }
