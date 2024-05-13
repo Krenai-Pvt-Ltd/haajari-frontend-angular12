@@ -4,71 +4,80 @@ import { Router } from '@angular/router';
 import { Organization } from 'src/app/models/organization';
 // import { CookieService } from 'ngx-cookie-service';
 import { DataService } from 'src/app/services/data.service';
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
 import { Key } from 'src/app/constant/key';
-
 
 @Component({
   selector: 'app-slack-auth',
   templateUrl: './slack-auth.component.html',
   styleUrls: ['./slack-auth.component.css'],
 })
-export class SlackAuthComponent implements OnInit{
+export class SlackAuthComponent implements OnInit {
+  constructor(
+    private dataService: DataService,
+    private httpClient: HttpClient,
+    private router: Router
+  ) {}
 
-  constructor(private dataService : DataService, private httpClient : HttpClient, private router : Router){}
-  
   ngOnInit(): void {
-    debugger
+    debugger;
     //this.convertAccessTokenFromCode();
     this.registerOrganizationByCodeParam();
   }
-  
-  
-  registerOrganizationByCodeParam(){
-    debugger
+
+  registerOrganizationByCodeParam() {
+    debugger;
     const codeParam = new URLSearchParams(window.location.search).get('code');
-    if(!codeParam){
-      alert('Invalid URL: Missing code parameter');
+    if (!codeParam) {
+      this.router.navigate(['/auth/login']);
+      // alert('Invalid URL: Missing code parameter');
       return;
     }
 
-    this.dataService.registerOrganizationUsingCodeParam(codeParam).subscribe((response: any) => {
-      console.log(response);
+    this.dataService.registerOrganizationUsingCodeParam(codeParam).subscribe(
+      (response: any) => {
+        console.log(response);
 
-      localStorage.setItem('token', response.access_token);
-      localStorage.setItem('refresh_token', response.refresh_token);
+        localStorage.setItem('token', response.access_token);
+        localStorage.setItem('refresh_token', response.refresh_token);
 
-      debugger
-      const decodedValue = this.decodeFirebaseAccessToken(response.access_token);
+        debugger;
+        const decodedValue = this.decodeFirebaseAccessToken(
+          response.access_token
+        );
 
-      Key.LOGGED_IN_USER = decodedValue;
+        Key.LOGGED_IN_USER = decodedValue;
 
-      debugger
-      console.log(decodedValue);
-      
-      if(decodedValue.httpCustomStatus === ("UPDATED") && decodedValue.statusResponse === ("Registration Completed")){
-        this.router.navigate(['/dashboard']);
-      }else{
-        this.router.navigate(['/organization-onboarding/personal-information']);
+        debugger;
+        console.log(decodedValue);
+
+        if (
+          decodedValue.httpCustomStatus === 'UPDATED' &&
+          decodedValue.statusResponse === 'Registration Completed'
+        ) {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.router.navigate([
+            '/organization-onboarding/personal-information',
+          ]);
+        }
+      },
+      (error) => {
+        console.log(error);
       }
-
-    }, (error) => {
-      console.log(error);
-    })
+    );
   }
 
+  decodeFirebaseAccessToken(access_token: string) {
+    const decodedToken: any = jwtDecode(access_token);
 
-  decodeFirebaseAccessToken(access_token: string){
-    const decodedToken : any = jwtDecode(access_token);
-
-    debugger
+    debugger;
     console.log(decodedToken);
     return decodedToken;
   }
 
-
   // organization: Organization = new Organization();
-  
+
   // convertAccessTokenFromCode(){
   //   debugger
   //   const codeParam = new URLSearchParams(window.location.search).get('code');
@@ -82,7 +91,7 @@ export class SlackAuthComponent implements OnInit{
   //     const jsonData = (JSON.parse(response.body))
   //     this.organization.appId = jsonData.app_id;
   //     this.organization.token = jsonData.access_token;
-  //     this.organization.webhook = jsonData.incoming_webhook.url;  
+  //     this.organization.webhook = jsonData.incoming_webhook.url;
   //     this.organization.name = jsonData.team.name;
   //     this.organization.userToken = jsonData.authed_user.access_token;
   //     this.organization.configureUrl = jsonData.incoming_webhook.configuration_url;
@@ -94,7 +103,6 @@ export class SlackAuthComponent implements OnInit{
   //   });
 
   // }
-
 
   // saveToken(organization : Organization) {
   //   debugger
@@ -123,5 +131,3 @@ export class SlackAuthComponent implements OnInit{
   //   );
   // }
 }
-
-
