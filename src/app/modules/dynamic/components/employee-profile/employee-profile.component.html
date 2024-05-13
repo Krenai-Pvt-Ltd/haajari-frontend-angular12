@@ -2133,307 +2133,446 @@
                           </a>
                         </div>
                       </div>
-                      <!-- <div class="file-box-content">
-                        <div class="file-box">
-                          <a href="#" class="download-icon-link">
-                            <i class="las la-download file-download-icon"></i>
-                          </a>
-                          <div class="text-center">
-                            <i class="lar la-file-alt text-primary"></i>
-                            <h6 class="text-truncate">Admin_Panel</h6>
-                            <small class="text-muted"
-                              >06 March 2021 / 5MB</small
-                            >
-                          </div>
-                        </div>
-                        <div class="file-box">
-                          <a href="#" class="download-icon-link">
-                            <i class="las la-download file-download-icon"></i>
-                          </a>
-                          <div class="text-center">
-                            <i class="lar la-file-code text-danger"></i>
-                            <h6 class="text-truncate">Ecommerce.pdf</h6>
-                            <small class="text-muted"
-                              >15 March 2021 / 8MB</small
-                            >
-                          </div>
-                        </div>
-                        <div class="file-box">
-                          <a href="#" class="download-icon-link">
-                            <i class="las la-download file-download-icon"></i>
-                          </a>
-                          <div class="text-center">
-                            <i class="lar la-file-code text-warning"></i>
-                            <h6 class="text-truncate">Payment_app.zip</h6>
-                            <small class="text-muted"
-                              >15 March 2021 / 8MB</small
-                            >
-                          </div>
-                        </div>
-                        <div class="file-box">
-                          <a href="#" class="download-icon-link">
-                            <i class="las la-download file-download-icon"></i>
-                          </a>
-                          <div class="text-center">
-                            <i class="lar la-file text-secondary"></i>
-                            <h6 class="text-truncate">App_landing_001</h6>
-                            <small class="text-muted"
-                              >06 March 2021 / 5MB</small
-                            >
-                          </div>
-                        </div>
-                        <div class="file-box">
-                          <a href="#" class="download-icon-link">
-                            <i class="las la-download file-download-icon"></i>
-                          </a>
-                          <div class="text-center">
-                            <i class="lar la-file-alt text-primary"></i>
-                            <h6 class="text-truncate">Admin_Panel</h6>
-                            <small class="text-muted"
-                              >06 March 2021 / 5MB</small
-                            >
-                          </div>
-                        </div>
-                        <div class="file-box">
-                          <a href="#" class="download-icon-link">
-                            <i class="las la-download file-download-icon"></i>
-                          </a>
-                          <div class="text-center">
-                            <i class="lar la-file-code text-danger"></i>
-                            <h6 class="text-truncate">Ecommerce.pdf</h6>
-                            <small class="text-muted"
-                              >15 March 2021 / 8MB</small
-                            >
-                          </div>
-                        </div>
-                        <div class="file-box">
-                          <a href="#" class="download-icon-link">
-                            <i class="las la-download file-download-icon"></i>
-                          </a>
-                          <div class="text-center">
-                            <i class="lar la-file-code text-warning"></i>
-                            <h6 class="text-truncate">Payment_app.zip</h6>
-                            <small class="text-muted"
-                              >15 March 2021 / 8MB</small
-                            >
-                          </div>
-                        </div>
-                        <div class="file-box">
-                          <a href="#" class="download-icon-link">
-                            <i class="las la-download file-download-icon"></i>
-                          </a>
-                          <div class="text-center">
-                            <i class="lar la-file text-secondary"></i>
-                            <h6 class="text-truncate">App_landing_001</h6>
-                            <small class="text-muted"
-                              >06 March 2021 / 5MB</small
-                            >
-                          </div>
-                        </div>
-                        <div
-                          class="file-box add-document-btn pointer position-relative"
-                        >
-                          <input
-                            id="fileSelect"
-                            type="file"
-                            name="img[]"
-                            accept=".xlsx"
-                            class="input"
-                          />
-                          <div class="text-center">
-                            <i class="lar la-file-alt text-primary pb-2"></i>
-                            <h6 class="text-truncate">Add Documents</h6>
-                            <small class="text-muted">
-                              (jpg, png, pdf ) 10MB</small
-                            >
-                          </div>
-                        </div>
-                      </div> -->
+
                       <div class="file-box-content row">
                         <!-- Loop through each defined document in UserDocumentsRequest -->
-                        <ng-container *ngIf="onboardingPreviewData.userDocuments">
+                        <ng-container
+                          *ngIf="onboardingPreviewData.userDocuments"
+                        >
                           <!-- Secondary School Certificate -->
-                          <div *ngIf="onboardingPreviewData.userDocuments.secondarySchoolCertificate" class="file-box">
-                            <a [href]="onboardingPreviewData.userDocuments.secondarySchoolCertificate" class="download-icon-link" target="_blank" (click)="downloadSingleImage(onboardingPreviewData.userDocuments.secondarySchoolCertificate)">
+                          <div
+                            *ngIf="
+                              onboardingPreviewData.userDocuments
+                                .secondarySchoolCertificate
+                            "
+                            class="file-box"
+                            (click)="openPdfModel(
+                                      onboardingPreviewData.userDocuments.secondarySchoolCertificate,
+                                      secondarySchoolCertificateFileName
+                                      )"
+                          >
+                            <a
+                              [href]="
+                                onboardingPreviewData.userDocuments
+                                  .secondarySchoolCertificate
+                              "
+                              class="download-icon-link"
+                              target="_blank"
+                              (click)="
+                              downloadSingleImage(
+                                onboardingPreviewData.userDocuments.secondarySchoolCertificate
+                              ); $event.stopPropagation()
+                            "
+                            >
                               <i class="las la-download file-download-icon"></i>
                             </a>
                             <div class="text-center">
-                              <i [ngClass]="getFileTypeIcon(onboardingPreviewData.userDocuments.secondarySchoolCertificate)"></i>
-                              <h6 class="text-truncate">Secondary School Certificate</h6>
-                              <small class="text-muted">{{secondarySchoolCertificateFileName}}</small>
+                              <i
+                                [ngClass]="
+                                  getFileTypeIcon(
+                                    onboardingPreviewData.userDocuments
+                                      .secondarySchoolCertificate
+                                  )
+                                "
+                              ></i>
+                              <h6 class="text-truncate mt-3">
+                                Secondary School Certificate
+                              </h6>
+                              <small class="text-muted file-name-line-clamp">{{
+                                secondarySchoolCertificateFileName
+                              }}</small>
                             </div>
                           </div>
-                      
+
                           <!-- High School Certificate -->
-                          <div *ngIf="onboardingPreviewData.userDocuments.highSchoolCertificate" class="file-box">
-                            <a [href]="onboardingPreviewData.userDocuments.highSchoolCertificate" class="download-icon-link" target="_blank" (click)="downloadSingleImage(onboardingPreviewData.userDocuments.highSchoolCertificate)">
+                          <div
+                            *ngIf="
+                              onboardingPreviewData.userDocuments
+                                .highSchoolCertificate
+                            "
+                            class="file-box pointer-card"
+                            (click)="openPdfModel(
+                                    onboardingPreviewData.userDocuments.highSchoolCertificate,
+                                    highSchoolCertificateFileName1
+                                  )"
+                          >
+                            <a
+                              [href]="
+                                onboardingPreviewData.userDocuments
+                                  .highSchoolCertificate
+                              "
+                              class="download-icon-link"
+                              target="_blank"
+                              (click)="
+                                  downloadSingleImage(
+                                    onboardingPreviewData.userDocuments.highSchoolCertificate
+                                  ); $event.stopPropagation()
+                                "
+                            >
                               <i class="las la-download file-download-icon"></i>
                             </a>
                             <div class="text-center">
-                              <i [ngClass]="getFileTypeIcon(onboardingPreviewData.userDocuments.highSchoolCertificate)"></i>
-                              <h6 class="text-truncate">High School Certificate</h6>
-                              <small class="text-muted">{{highSchoolCertificateFileName1}}</small>
+                              <i
+                                [ngClass]="
+                                  getFileTypeIcon(
+                                    onboardingPreviewData.userDocuments
+                                      .highSchoolCertificate
+                                  )
+                                "
+                              ></i>
+                              <h6 class="text-truncate mt-3">
+                                High School Certificate
+                              </h6>
+                              <small class="text-muted file-name-line-clamp">{{
+                                highSchoolCertificateFileName1
+                              }}</small>
                             </div>
                           </div>
-                      
+
                           <!-- Highest Qualification Degree -->
-                          <div *ngIf="onboardingPreviewData.userDocuments.highestQualificationDegree" class="file-box">
-                            <a [href]="onboardingPreviewData.userDocuments.highestQualificationDegree" class="download-icon-link" target="_blank" (click)="downloadSingleImage(onboardingPreviewData.userDocuments.highestQualificationDegree)">
+                          <div
+                            *ngIf="
+                              onboardingPreviewData.userDocuments
+                                .highestQualificationDegree
+                            "
+                            class="file-box pointer-card"
+                            (click)="openPdfModel(
+                                    onboardingPreviewData.userDocuments.highestQualificationDegree,
+                                    highestQualificationDegreeFileName1
+                                  )"
+                          >
+                            <a
+                              [href]="
+                                onboardingPreviewData.userDocuments
+                                  .highestQualificationDegree
+                              "
+                              class="download-icon-link"
+                              target="_blank"
+                              (click)="
+                                downloadSingleImage(
+                                  onboardingPreviewData.userDocuments
+                                    .highestQualificationDegree
+                                ); $event.stopPropagation()
+                              "
+                            >
                               <i class="las la-download file-download-icon"></i>
                             </a>
                             <div class="text-center">
-                              <i [ngClass]="getFileTypeIcon(onboardingPreviewData.userDocuments.highestQualificationDegree)"></i>
-                              <h6 class="text-truncate">Highest Qualification Degree</h6>
-                              <small class="text-muted">{{highestQualificationDegreeFileName1}}</small>
+                              <i
+                                [ngClass]="
+                                  getFileTypeIcon(
+                                    onboardingPreviewData.userDocuments
+                                      .highestQualificationDegree
+                                  )
+                                "
+                              ></i>
+                              <h6 class="text-truncate mt-3">
+                                Highest Qualification Degree
+                              </h6>
+                              <small class="text-muted file-name-line-clamp">{{
+                                highestQualificationDegreeFileName1
+                              }}</small>
                             </div>
                           </div>
-                          
-                      
+
                           <!-- Testimonial Recommendation -->
-                          <div *ngIf="onboardingPreviewData.userDocuments.testimonialReccomendation" class="file-box">
-                            <a [href]="onboardingPreviewData.userDocuments.testimonialReccomendation" class="download-icon-link" target="_blank" (click)="downloadSingleImage(onboardingPreviewData.userDocuments.testimonialReccomendation)">
+                          <div
+                            *ngIf="
+                              onboardingPreviewData.userDocuments
+                                .testimonialReccomendation
+                            "
+                            class="file-box pointer-card"
+                            (click)="openPdfModel(
+                                    onboardingPreviewData.userDocuments.testimonialReccomendation,
+                                    testimonialReccomendationFileName1
+                                  )"
+                          >
+                            <a
+                              [href]="
+                                onboardingPreviewData.userDocuments
+                                  .testimonialReccomendation
+                              "
+                              class="download-icon-link"
+                              target="_blank"
+                              (click)="
+                                downloadSingleImage(
+                                  onboardingPreviewData.userDocuments
+                                    .testimonialReccomendation
+                                ); $event.stopPropagation()
+                              "
+                            >
                               <i class="las la-download file-download-icon"></i>
                             </a>
                             <div class="text-center">
-                              <i [ngClass]="getFileTypeIcon(onboardingPreviewData.userDocuments.testimonialReccomendation)"></i>
-                              <h6 class="text-truncate">Testimonial Recommendation</h6>
-                              <small class="text-muted">{{testimonialReccomendationFileName1}}</small>
+                              <i
+                                [ngClass]="
+                                  getFileTypeIcon(
+                                    onboardingPreviewData.userDocuments
+                                      .testimonialReccomendation
+                                  )
+                                "
+                              ></i>
+                              <h6 class="text-truncate">
+                                Testimonial Recommendation
+                              </h6>
+                              <small class="text-muted">{{
+                                testimonialReccomendationFileName1
+                              }}</small>
                             </div>
                           </div>
-                      
+
                           <!-- Aadhaar Card -->
-                          <div *ngIf="onboardingPreviewData.userDocuments.aadhaarCard" class="file-box">
-                            <a [href]="onboardingPreviewData.userDocuments.aadhaarCard" class="download-icon-link" target="_blank" (click)="downloadSingleImage(onboardingPreviewData.userDocuments.aadhaarCard)">
+                          <div
+                            *ngIf="
+                              onboardingPreviewData.userDocuments.aadhaarCard
+                            "
+                            class="file-box pointer-card"
+                            (click)="openPdfModel(
+                                    onboardingPreviewData.userDocuments.aadhaarCard,
+                                    aadhaarCardFileName
+                                  )"
+                          >
+                            <a
+                              [href]="
+                                onboardingPreviewData.userDocuments.aadhaarCard
+                              "
+                              class="download-icon-link"
+                              target="_blank"
+                              (click)="
+                                downloadSingleImage(
+                                  onboardingPreviewData.userDocuments
+                                    .aadhaarCard
+                                ); $event.stopPropagation()
+                              "
+                            >
                               <i class="las la-download file-download-icon"></i>
                             </a>
                             <div class="text-center">
-                              <i [ngClass]="getFileTypeIcon(onboardingPreviewData.userDocuments.aadhaarCard)"></i>
-                              <h6 class="text-truncate">Aadhaar Card</h6>
-                              <small class="text-muted">{{aadhaarCardFileName}}</small>
+                              <i
+                                [ngClass]="
+                                  getFileTypeIcon(
+                                    onboardingPreviewData.userDocuments
+                                      .aadhaarCard
+                                  )
+                                "
+                              ></i>
+                              <h6 class="text-truncate mt-3">Aadhaar Card</h6>
+                              <small class="text-muted">{{
+                                aadhaarCardFileName
+                              }}</small>
                             </div>
                           </div>
-                      
+
                           <!-- PAN Card -->
-                          <div *ngIf="onboardingPreviewData.userDocuments.pancard" class="file-box">
-                            <a [href]="onboardingPreviewData.userDocuments.pancard" class="download-icon-link" target="_blank" (click)="downloadSingleImage(onboardingPreviewData.userDocuments.pancard)">
+                          <div
+                            *ngIf="onboardingPreviewData.userDocuments.pancard"
+                            class="file-box pointer-card"
+                            (click)="openPdfModel(
+                                    onboardingPreviewData.userDocuments.pancard,
+                                    pancardFileName
+                                  )"
+                          >
+                            <a
+                              [href]="
+                                onboardingPreviewData.userDocuments.pancard
+                              "
+                              class="download-icon-link"
+                              target="_blank"
+                              (click)="
+                                downloadSingleImage(
+                                  onboardingPreviewData.userDocuments.pancard
+                                ); $event.stopPropagation()
+                              "
+                            >
                               <i class="las la-download file-download-icon"></i>
                             </a>
                             <div class="text-center">
-                              <i [ngClass]="getFileTypeIcon(onboardingPreviewData.userDocuments.pancard)"></i>
-                              <h6 class="text-truncate">PAN Card</h6>
-                              <small class="text-muted">{{pancardFileName}}</small>
+                              <i
+                                [ngClass]="
+                                  getFileTypeIcon(
+                                    onboardingPreviewData.userDocuments.pancard
+                                  )
+                                "
+                              ></i>
+                              <h6 class="text-truncate mt-3">PAN Card</h6>
+                              <small class="text-muted">{{
+                                pancardFileName
+                              }}</small>
                             </div>
                           </div>
-                          <div *ngIf="employeeAdditionalDocument.length > 0" >
-                            <div *ngFor="let doc of employeeAdditionalDocument" class="file-box">
-                              <a [href]="doc.url" class="download-icon-link" target="_blank" (click)="downloadSingleImage(doc.url)">
-                                <i class="las la-download file-download-icon"></i>
+                          <div *ngIf="employeeAdditionalDocument.length > 0">
+                            <div
+                              *ngFor="let doc of employeeAdditionalDocument"
+                              class="file-box pointer-card"
+                              (click)="openPdfModel(
+                                    doc.url,
+                                    doc.fileName
+                                  )"
+                            >
+                              <a
+                                [href]="doc.url"
+                                class="download-icon-link"
+                                target="_blank"
+                                (click)="downloadSingleImage(doc.url); $event.stopPropagation()"
+                              >
+                                <i
+                                  class="las la-download file-download-icon"
+                                ></i>
                               </a>
                               <div class="text-center">
                                 <i [ngClass]="getFileTypeIcon(doc.url)"></i>
-                                <h6 class="text-truncate">{{ doc.name }}</h6>
-                                <small class="text-muted">{{ doc.fileName }}</small>
+                                <h6 class="text-truncate mt-3">
+                                  {{ doc.name }}
+                                </h6>
+                                <small
+                                  class="text-muted file-name-line-clamp"
+                                  >{{ doc.fileName }}</small
+                                >
                               </div>
                             </div>
                           </div>
                         </ng-container>
-                      
-                   
                       </div>
-                      
+
                       <div class="row">
                         <div class="col-12">
                           <h4 class="card-title my-3">Company Documents</h4>
                         </div>
                       </div>
                       <div class="file-box-content row">
-                        <!-- <div class="file-box">
-                          <a href="#" class="download-icon-link">
-                            <i class="las la-download file-download-icon"></i>
+                        <div
+                          *ngFor="
+                            let document of onboardingPreviewData.employeeCompanyDocuments;
+                            let i = index
+                          "
+                          class="file-box pointer-card col-md-4"
+                        
+                        >
+                          <a class="download-icon-link-ownload" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
+                            <i
+                              class="bi bi-trash text-danger file-download-icon"
+                              (click)="
+                                deleteCompanyDocByIdMethodCall(document.id); $event.stopPropagation()
+                              "
+                            ></i>
                           </a>
-                          <div class="text-center">
-                            <i class="lar la-file-alt text-primary"></i>
-                            <h6 class="text-truncate">Admin_Panel</h6>
-                            <small class="text-muted"
-                              >06 March 2021 / 5MB</small
-                            >
-                          </div>
-                        </div> -->
-                        <!-- {{onboardingPreviewData.employeeCompanyDocuments.length}} -->
-
-                        <div *ngFor="let document of onboardingPreviewData.employeeCompanyDocuments let i = index" class="file-box col-md-4">
-                          <!-- <button type="button" class="close new-close" aria-label="Close" (click)="deleteCompanyDocByIdMethodCall(document.id)">
-                            <span aria-hidden="true">&times;</span>
-                          </button> -->
-
-                          <a href="#" class="icon-link">
-                            <i class="bi bi-trash text-danger" (click)="deleteCompanyDocByIdMethodCall(document.id)"></i>
-                        </a>
-                        <a href="#" class="icon-link">
-                            <i class="las la-download file-download-icon" (click)="downloadSingleImage(document.url)"></i>
+                          <a [href]="document.url" class="download-icon-link" (click)="downloadSingleImage(document.url); $event.stopPropagation()">
+                            <i class="las la-download file-download-icon"></i>
                         </a>
                         
-                        <!-- {{document.fileName}} -->
+                          
+                          <!-- {{document.fileName}} -->
                           <div class="text-center">
                             <i [ngClass]="getFileTypeIcon(document.url)"></i>
-                            <h6 class="text-truncate">{{document.name || 'Ecommerce.pdf'}}</h6>
-                            <small class="text-muted">{{ document.fileName }}</small>
+                            <h6 class="text-truncate mt-3">
+                              {{ document.name || "File Name" }}
+                            </h6>
+                            <small class="text-muted file-name-line-clamp">{{
+                              document.fileName
+                            }}</small>
                           </div>
-                        
-                          <div class="importfilebox">
-                            <input id="additionalDocumentFile{{i}}" 
-                                   type="file" 
-                                   class="input" 
-                                   accept=".pdf, image/jpeg, image/jpg, image/png"
-                                   (change)="onAdditionalFileSelected($event, i)" 
-                                   [required]="!document.url"
-                                   [(ngModel)]="document.fileName" 
-                                   #fileInput="ngModel" 
-                                   name="fileInput{{i}}"> <!-- Ensure the input has a name attribute -->
-                            <label for="additionalDocumentFile{{i}}">
-                              <span *ngIf="!document.url || !document.fileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG, or PNG</span>
+
+                          <div class="importfilebox" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
+                            <input
+                            [id]="'additionalDocumentFile' + document.id"
+                              type="file"
+                              class="input"
+                              accept=".pdf, image/jpeg, image/jpg, image/png"
+                              (change)="onAdditionalFileSelected($event, i)"
+                              [required]="!document.url"
+                              [(ngModel)]="document.fileName"
+                              #fileInput="ngModel"
+                              [name]="'fileInput' + i"
+                            />
+                            <!-- Ensure the input has a name attribute -->
+                            <label
+                              class="text-center font-12"
+                              [for]="'additionalDocumentFile' + document.id"
+                            >
+                              <span *ngIf="!document.url || !document.fileName"
+                                ><b
+                                  >Drop your file here or
+                                  <a href="#" class="select-file"
+                                    >Select a file</a
+                                  ></b
+                                >
+                                PDF, JPEG, JPG, or PNG</span
+                              >
                               <!-- <span *ngIf="document.url && document.fileName">{{ document.fileName }}</span> -->
                             </label>
-                        
+
                             <!-- Display validation message -->
                             <div *ngIf="fileInput.dirty">
                               <!-- Checking for 'required' error -->
-                              <p *ngIf="fileInput.errors?.required" class="errortxt mt-2 mb-0" style="color:red">
-                                <i class="bi bi-exclamation-circle"></i> File is required.
+                              <p
+                                *ngIf="fileInput.errors?.required"
+                                class="errortxt mt-2 mb-0 text-danger"
+                              >
+                                <i class="bi bi-exclamation-circle"></i> File is
+                                required.
                               </p>
                               <!-- Add a condition for invalid file type -->
-                              <p *ngIf="!isInvalidFileType" class="errortxt mt-2 mb-0" style="color:red">
-                                <i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.
+                              <p
+                                *ngIf="!isInvalidFileType"
+                                class="errortxt mt-2 mb-0 text-danger"
+                              >
+                                <i class="bi bi-exclamation-circle"></i> Invalid
+                                file type. Please select a PDF, JPG, JPEG, or
+                                PNG file.
                               </p>
                             </div>
                           </div>
                         </div>
-                        
-                       
-                        <div
+
+                        <div 
                           class="file-box add-document-btn pointer position-relative"
                         >
-                          
-                        
-                          <div class="card">
+                          <div class="">
                             <div class="text-center">
                               <i class="lar la-file-alt text-primary pb-2"></i>
-                              <h6 class="text-truncate">Add Documents</h6>
-                              <small class="text-muted">
-                                (jpg, png, pdf, jpeg )</small>
-                              
+                              <h6 class="text-truncate mt-2">Add Documents</h6>
+                              <!-- <small class="text-muted mb-2">
+                                (jpg, png, pdf, jpeg )</small
+                              > -->
 
                               <!-- Button to trigger additional document input -->
-                              <button *ngIf="!isAddMore" (click)="addMore()" class="btn btn-primary mt-2"><i class="bi bi-plus"></i> Add More</button>
-                          
+                              <button
+                                
+                                (click)="addMore()"
+                                class="btn btn-primary mt-2"
+                              >
+                                <i
+                                  class="bi bi-plus"
+                                  style="font-size: 18px; line-height: 10px"
+                                ></i>
+                                Add
+                              </button>
+
                               <!-- Input for adding new document -->
-                              <div class="d-flex align-items-center justify-content-center mt-2" *ngIf="isAddMore">
-                                <input type="text" name="addMore" id="addMore" class="form-control mr-2" [(ngModel)]="documentName" placeholder="Enter Document Name" style="width: 250px;">
-                                <button id="saveButton" name="saveButton" (click)="addNewDocument()" class="btn btn-success">Save</button>
-                              </div>
+                              <!-- <div
+                                class="d-flex align-items-center justify-content-center mt-2"
+                                *ngIf="isAddMore"
+                              >
+                                <input
+                                  type="text"
+                                  name="addMore"
+                                  id="addMore"
+                                  class="form-control mr-2"
+                                  [(ngModel)]="documentName"
+                                  placeholder="Enter Document Name"
+                                  style="width: 250px"
+                                />
+                                <button
+                                  id="saveButton"
+                                  name="saveButton"
+                                  (click)="addNewDocument()"
+                                  class="btn btn-success"
+                                >
+                                  Save
+                                </button>
+                              </div> -->
                             </div>
                           </div>
-                          
                         </div>
                       </div>
                     </div>
@@ -2696,10 +2835,7 @@
                           <table class="table table-bordered">
                             <tbody
                               class="table-design"
-                              *ngIf="
-                                ROLE === 'ADMIN' ||
-                                (ROLE == 'MANAGER' && isManagerBoolean)
-                              "
+                              
                             >
                               <!-- <tr *ngFor="let address of onboardingPreviewData.userAddress; let i = index"><td colspan="4">Complete Address: {{ address.address }}</td></tr> -->
                               <tr>
@@ -2759,7 +2895,7 @@
                           </div>
                         </ng-template>
                       </div>
-                      <div class="onboarding-deta">
+                      <!-- <div class="onboarding-deta">
                         <table class="table mb-0">
                           <tr style="background-color: #f1f1f1">
                             <td>
@@ -2779,19 +2915,7 @@
                                     )
                                   "
                                 />
-                                <!-- <i
-                                  class="bi bi-pencil-square right-icon"
-                                  *ngIf="
-                                    onboardingPreviewData.user
-                                      .employeeOnboardingStatus.response ===
-                                    'REJECTED'
-                                  "
-                                  (click)="
-                                    routeToUserDetails(
-                                      '/employee-onboarding/employee-document'
-                                    )
-                                  "
-                                ></i> -->
+                             
                               </p>
                             </td>
                           </tr>
@@ -2824,8 +2948,7 @@
                                       class="d-flex align-items-center justify-content-end"
                                       style="gap: 10px; cursor: pointer"
                                     >
-                                      <!-- <i class="bi bi-trash delete-coloe"></i> -->
-                                      <!-- {{ docs.documentUrl }} -->
+                                    
                                       <i
                                         class="bi bi-eye pointer download-color"
                                         (click)="
@@ -2855,7 +2978,7 @@
                             <p>No data available :)</p>
                           </div>
                         </ng-template>
-                      </div>
+                      </div> -->
                       <div class="onboarding-deta">
                         <table class="table mb-0">
                           <tr style="background-color: #f1f1f1">
@@ -3171,9 +3294,13 @@
                           </div>
                         </ng-container>
                         <ng-template #noDataTemplateOfExperience>
-                          <div class="text-left p-3">
-                            <p>No data available :)</p>
-                          </div>
+                          <table class="table table-bordered">
+                            <tbody class="table-design">
+                              <tr>
+                                <td colspan="9">Fresher</td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </ng-template>
                       </div>
                       <div class="onboarding-deta">
@@ -3960,6 +4087,57 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Button trigger modal -->
+<button
+  type="button"
+  style="display: none;"
+  id="addMoreDocModalButton"
+  #addMoreDocModalButton
+  data-bs-toggle="modal"
+  data-bs-target="#addMoreDoc"
+>
+</button>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="addMoreDoc"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Company Document</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="filename" class="mb-2">Document Name</label>
+          <input
+            type="text"
+            required=""
+            id="filename"
+            name="filename"
+            placeholder="Enter Document Name"
+            class="form-control profile-input"
+            [(ngModel)]="documentName"
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-round" (click)="addNewDocument()"><i class="bi bi-paperclip"></i>Select File</button>
       </div>
     </div>
   </div>

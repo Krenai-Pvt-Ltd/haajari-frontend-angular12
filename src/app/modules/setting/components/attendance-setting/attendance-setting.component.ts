@@ -711,6 +711,7 @@ export class AttendanceSettingComponent implements OnInit {
     [];
   attendanceRuleWithAttendanceRuleDefinitionLoading: boolean = false;
   getAttendanceRuleWithAttendanceRuleDefinitionMethodCall() {
+    debugger;
     this.preRuleForShimmersAndErrorPlaceholdersForAttendanceRuleWithDefinitionMethodCall();
     this.dataService.getAttendanceRuleWithAttendanceRuleDefinition().subscribe(
       (response) => {
