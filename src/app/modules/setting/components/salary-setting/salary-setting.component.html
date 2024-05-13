@@ -2170,16 +2170,12 @@
             </div>
             <div class="" *ngFor="let salaryComponent of salaryComponentList">
               <div
-                class="d-flex align-items-center justify-content-between information-box"
-              >
+                class="d-flex align-items-center justify-content-between information-box">
                 <div class="basic-text">
                   <h5>{{ salaryComponent.name }}</h5>
                 </div>
                 <div class="enter-ammount position-relative">
                   <div class="">
-                    <!-- <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Amount">
-        
-                                        <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i> -->
                     <nz-input-number
                       [(ngModel)]="salaryComponent.value"
                       [ngModelOptions]="{ standalone: true }"
@@ -2196,8 +2192,7 @@
                 </div>
                 <div
                   class="delete-btn d-flex align-items-center justify-content-end"
-                  style="gap: 25px"
-                >
+                  style="gap: 25px">
                   <nz-switch
                     [(ngModel)]="salaryComponent.toggle"
                     [ngModelOptions]="{ standalone: true }"

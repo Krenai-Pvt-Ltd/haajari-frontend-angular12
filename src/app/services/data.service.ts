@@ -2626,14 +2626,7 @@ export class DataService {
     );
   }
 
-  getLeaveSummaryResponseByOrganizationIdAndStartDateAndDate(
-    startDate: string,
-    endDate: string,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string
-  ): Observable<any> {
+  getLopSummaryResponseByOrganizationIdAndStartDateAndDate(startDate : string, endDate : string, itemPerPage : number, pageNumber : number, search : string, searchBy : string): Observable<any>{
     const params = new HttpParams()
       .set('start_date', startDate)
       .set('end_date', endDate)
@@ -2642,9 +2635,19 @@ export class DataService {
       .set('search', search)
       .set('search_by', searchBy);
 
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/payroll-dashboard/leave-summary/get`,
-      { params }
-    );
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/lop-summary`, {params});
+  }
+
+  getLopReversalResponseByOrganizationIdAndStartDateAndDate(startDate : string, endDate : string, itemPerPage : number, pageNumber : number, search : string, searchBy : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    .set('search_by', searchBy);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/lop-reversal`, {params});
   }
 }
