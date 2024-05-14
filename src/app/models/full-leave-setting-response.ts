@@ -19,6 +19,7 @@ export class LeaveSettingResponse {
 }
 
 export class LeaveSettingCategoryResponse {
+  id!: number;
   leaveName!: string;
   leaveCount!: number;
   leaveRules!: string;

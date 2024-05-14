@@ -1450,3 +1450,9 @@ i.bi.bi-plus {
 .custom-salary-para p {
   font-size: 12px;
 }
+
+.dropdown-scroll {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
