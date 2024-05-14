@@ -529,7 +529,7 @@ export class LeaveSettingComponent implements OnInit {
   // leaveSettingForm!:NgForm;
   fullLeaveSettingResponse!: FullLeaveSettingResponse;
 
-  getLeaveSettingInformationById(leaveSettingId: number): void {
+  getLeaveSettingInformationById(leaveSettingId: number, flag: boolean): void {
     this.pageNumber = 1;
     this.pageNumberUser = 1;
     this.dataService.getLeaveSettingInformationById(leaveSettingId).subscribe(
@@ -538,6 +538,7 @@ export class LeaveSettingComponent implements OnInit {
         this.searchText = '';
         this.selectedStaffsUuids = [];
         this.selectedStaffsUuidsUser = [];
+        this.daysCountArray = [];
         this.errorTemplateNameFlag = false;
         this.fullLeaveSettingResponse = response;
         this.idOfLeaveSetting = leaveSettingId;
@@ -548,7 +549,9 @@ export class LeaveSettingComponent implements OnInit {
         // }else{
         //   this.isMappedStaffEmpty=false;
         // }
-        this.templateSettingTab.nativeElement.click();
+        if (flag) {
+          this.templateSettingTab.nativeElement.click();
+        }
         if (this.leaveSettingResponse != null) {
           this.isFormValid = true;
         }
@@ -562,18 +565,43 @@ export class LeaveSettingComponent implements OnInit {
         // Clear the existing form controls
         categoriesArray.clear();
 
-        this.fullLeaveSettingResponse.leaveSettingCategories.forEach(
-          (category) => {
-            const categoryGroup = this.fb.group({
-              leaveName: category.leaveName,
-              leaveCount: category.leaveCount,
-              leaveRules: category.leaveRules,
-              carryForwardDays: category.carryForwardDays,
-            });
+        // this.fullLeaveSettingResponse.leaveSettingCategories.forEach(
+        //   (category) => {
+        //     const categoryGroup = this.fb.group({
+        //       id: category.id,
+        //       leaveName: category.leaveName,
+        //       leaveCount: category.leaveCount,
+        //       leaveRules: category.leaveRules,
+        //       carryForwardDays: category.carryForwardDays,
+        //     });
 
-            categoriesArray.push(categoryGroup);
+        //     categoriesArray.push(categoryGroup);
+        //   }
+        // );
+
+        response.leaveSettingCategories.forEach((category, index) => {
+          const categoryGroup = this.fb.group({
+            id: [category.id], // Make sure to include the id
+            leaveName: [category.leaveName, Validators.required],
+            leaveCount: [
+              category.leaveCount,
+              [Validators.required, Validators.min(0)],
+            ],
+            leaveRules: [category.leaveRules],
+            carryForwardDays: [category.carryForwardDays],
+          });
+
+          categoriesArray.push(categoryGroup);
+
+          if (
+            category.leaveRules !== 'CarryForward' &&
+            category.leaveRules !== 'Encash'
+          ) {
+            this.updateDaysDropdown(index, category.leaveCount);
+          } else {
+            this.daysCountArray[index] = [];
           }
-        );
+        });
 
         this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
         this.findUsersOfLeaveSetting(leaveSettingId);
@@ -660,11 +688,24 @@ export class LeaveSettingComponent implements OnInit {
     } else {
       this.errorTemplateNameFlag = false;
     }
+    // const leaveSettingCategories = this.form.value.categories.map(
+    //   (category: any) => ({
+    //     ...category,
+    //   })
+    // );
+    // this.fullLeaveSettingRuleRequest.leaveSettingCategoryResponse =
+    //   leaveSettingCategories;
+
     const leaveSettingCategories = this.form.value.categories.map(
       (category: any) => ({
-        ...category,
+        id: category.id, // Ensure the ID is being mapped
+        leaveName: category.leaveName,
+        leaveCount: category.leaveCount,
+        leaveRules: category.leaveRules,
+        carryForwardDays: category.carryForwardDays,
       })
     );
+
     this.fullLeaveSettingRuleRequest.leaveSettingCategoryResponse =
       leaveSettingCategories;
     this.fullLeaveSettingRuleRequest.userUuids = [
@@ -1127,5 +1168,94 @@ export class LeaveSettingComponent implements OnInit {
   activeIndex: number | null = null;
   toggleCollapse(index: number): void {
     this.activeIndex = this.activeIndex === index ? null : index;
+  }
+
+  deleteLeaveSettingCategoryById(id: number): void {
+    this.dataService.deleteLeaveSettingCategoryById(id).subscribe({
+      next: () => {
+        console.log('Delete successful');
+        this.getFullLeaveSettingInformation();
+        this.helperService.showToast(
+          'Leave Category deleted',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      },
+      error: (err) => {
+        console.error('Delete failed', err);
+      },
+    });
+  }
+
+  onChange(value: string): void {
+    this.filteredLeaveCategories = this.leaveCategories.filter((bank) =>
+      bank.toLowerCase().includes(value.toLowerCase())
+    );
+  }
+
+  filteredLeaveCategories: string[] = [];
+  leaveCategories: string[] = ['Annual Leave', 'Sick Leave', 'Casual Leave'];
+
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = event.target as HTMLInputElement;
+    // Prevent leading spaces
+    if (event.key === ' ' && input.selectionStart === 0) {
+      event.preventDefault();
+    }
+    // Prevent numeric input entirely
+    if (!isNaN(Number(event.key)) && event.key !== ' ') {
+      event.preventDefault();
+    }
+  }
+
+  // onChangeDayCount(value: string): void {
+  //   this.daysCount = this.daysCountCategories;
+  // }
+
+  // daysCountArray: number[] = [];
+  // daysCountCategories: number[] = [0, 1, 2, 3, 4];
+
+  // generateDaysDropdown(value: any): void {
+  //   const count = parseInt(value, 10);
+  //   value.forEach()
+  //   this.daysCountCategories = Array.from(
+  //     { length: count },
+  //     (_, i) => i + 1
+  //   ).reverse();
+  // }
+  daysCountArray: number[][] = [];
+  dropdownVisible: boolean = false;
+
+  generateDaysDropdown(value: any, index: number): void {
+    const count = parseInt(value, 10);
+    // this.daysCountArray[index] = Array.from(
+    //   { length: count + 1 },
+    //   (_, i) => count - i
+    // );
+    this.updateDaysDropdown(index, count);
+  }
+
+  updateDaysDropdown(index: number, count: number): void {
+    this.daysCountArray[index] = Array.from(
+      { length: count + 1 },
+      (_, i) => count - i
+    );
+  }
+
+  selectCarryForwardDay(day: number, index: number): void {
+    const categories = this.form.get('categories') as FormArray;
+    const control = categories.at(index)?.get('carryForwardDays');
+    if (control) {
+      control.setValue(day);
+    }
+    this.dropdownVisible = false;
+  }
+
+  toggleDropdown(): void {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
+
+  editLeaveCategories(id: number) {
+    this.getLeaveSettingInformationById(id, false);
+    this.leaveCategoryTab.nativeElement.click();
   }
 }
