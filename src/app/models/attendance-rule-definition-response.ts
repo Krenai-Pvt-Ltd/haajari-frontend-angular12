@@ -7,6 +7,7 @@ import { OvertimeType } from "./overtime-type";
 
 export class AttendanceRuleDefinitionResponse {
     id : number = 0;
+    attendanceRuleTypeId : number = 0;
     customSalaryDeduction : CustomSalaryDeductionRequest = new CustomSalaryDeductionRequest();
     halfDaySalaryDeduction : HalfDaySalaryDeductionRequest = new HalfDaySalaryDeductionRequest();
     fullDaySalaryDeduction : FullDaySalaryDeductionRequest = new FullDaySalaryDeductionRequest();
