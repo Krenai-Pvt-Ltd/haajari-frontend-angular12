@@ -2664,6 +2664,8 @@
                                       [(ngModel)]="customLateDurationValue"
                                       [ngModelOptions]="{ standalone: true }"
                                       nzFormat="HH:mm"
+                                      nzPlaceHolder="Select Duration"
+                                      [nzDisabledHours]="disabledHours"
                                       (ngModelChange)="getlateDuration($event)"
                                       name="lateDuration"
                                       required
@@ -2708,9 +2710,7 @@
                                     else deductionType
                                   "
                                 >
-                                  <label for="exampleInputEmail1" class="pb-2"
-                                    >Overtime Type</label
-                                  >
+                                  <label for="exampleInputEmail1" class="pb-2">Overtime Type</label>
                                   <div class="dropdown">
                                     <button
                                       class="btn btn-secondary dropdown-toggle new-dropdown"
@@ -2983,6 +2983,7 @@
                                         "
                                         [ngModelOptions]="{ standalone: true }"
                                         nzFormat="HH:mm"
+                                        nzPlaceHolder="Select Duration"
                                         (ngModelChange)="
                                           getLateOccurrenceDuration($event)
                                         "
@@ -3047,6 +3048,7 @@
                                         [(ngModel)]="halfDayLateDurationValue"
                                         [ngModelOptions]="{ standalone: true }"
                                         nzFormat="HH:mm"
+                                        nzPlaceHolder="Select Duration"
                                         (ngModelChange)="
                                           getHalfDaylateDuration($event)
                                         "
@@ -3224,6 +3226,7 @@
                                             standalone: true
                                           }"
                                           nzFormat="HH:mm"
+                                          nzPlaceHolder="Select Duration"
                                           (ngModelChange)="
                                             getHalfDayOccurrenceDuration($event)
                                           "
@@ -3289,6 +3292,7 @@
                                         [(ngModel)]="fullDayLateDurationValue"
                                         [ngModelOptions]="{ standalone: true }"
                                         nzFormat="HH:mm"
+                                        nzPlaceHolder="Select Duration"
                                         (ngModelChange)="
                                           getFullDaylateDuration($event)
                                         "
@@ -3465,6 +3469,7 @@
                                             standalone: true
                                           }"
                                           nzFormat="HH:mm"
+                                          nzPlaceHolder="Select Duration"
                                           (ngModelChange)="
                                             getFullDayOccurrenceDuration($event)
                                           "
