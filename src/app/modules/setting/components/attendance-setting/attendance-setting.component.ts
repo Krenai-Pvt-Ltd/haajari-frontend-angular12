@@ -110,6 +110,11 @@ export class AttendanceSettingComponent implements OnInit {
   readonly DEDUCTION_TYPE_PER_MINUTE = Key.DEDUCTION_TYPE_PER_MINUTE;
   readonly OVERTIME_TYPE_FIXED_AMOUNT = Key.OVERTIME_TYPE_FIXED_AMOUNT;
 
+  disabledHours(): number[] {
+    return Array.from({ length: 24 }, (_, i) => i).filter(hour => hour > 3);
+  }
+  
+
   selectHours(hour: number) {
     this.selectedHours = hour;
   }

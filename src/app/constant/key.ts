@@ -120,8 +120,7 @@ export class Key {
   public static DEDUCTION_TYPE_FIXED_AMOUNT = 2;
 
   // Overtime Ids
-  public static OVERTIME_TYPE_PER_MINUTE = 1;
-  public static OVERTIME_TYPE_FIXED_AMOUNT = 2;
+  public static OVERTIME_TYPE_FIXED_AMOUNT = 1;
 
   // Attendance Defintion rules Ids
   public static LATE_ENTRY_RULE = 1;
