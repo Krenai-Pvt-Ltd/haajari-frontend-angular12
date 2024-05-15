@@ -171,13 +171,13 @@ export class AttendanceSettingComponent implements OnInit {
 
   tickFullDayOccurrenceCheckbox() {
     this.fullDayOccurrenceCheckbox = !this.fullDayOccurrenceCheckbox;
-    console.log('Form Valid:', this.attendanceRuleForm.valid);
-    console.log('Custom Checkbox:', this.customCheckbox);
-    console.log('Half Day Checkbox:', this.halfDayCheckbox);
-    console.log('Full Day Checkbox:', this.fullDayCheckbox);
-    console.log('Selected Deduction Type:', this.selectedDeductionType?.type);
-    console.log('Selected Overtime Type:', this.selectedOvertimeType?.type);
-    console.log('Compare Times Validation:', this.compareTimesValidation());
+    // console.log('Form Valid:', this.attendanceRuleForm.valid);
+    // console.log('Custom Checkbox:', this.customCheckbox);
+    // console.log('Half Day Checkbox:', this.halfDayCheckbox);
+    // console.log('Full Day Checkbox:', this.fullDayCheckbox);
+    // console.log('Selected Deduction Type:', this.selectedDeductionType?.type);
+    // console.log('Selected Overtime Type:', this.selectedOvertimeType?.type);
+    // console.log('Compare Times Validation:', this.compareTimesValidation());
   }
 
   @ViewChild('attendanceRuleForm') attendanceRuleForm!: NgForm;
@@ -237,14 +237,20 @@ export class AttendanceSettingComponent implements OnInit {
     );
   }
 
+  DEDUCTION_RULE_DEFINITION = Key.DEDUCTION_RULE_DEFINITION;
+  OVERTIME_RULE_DEFINITION = Key.OVERTIME_RULE_DEFINITION;
+  CURRENT_MODAL = Key.DEDUCTION_RULE_DEFINITION;
+
   attendanceRuleResponse: AttendanceRuleResponse = new AttendanceRuleResponse();
   openAttendanceRuleResponseModal(
     attendanceRuleResponse: AttendanceRuleResponse
   ) {
-    this.clearModel();
+    this.clearModal();
+    this.CURRENT_MODAL = attendanceRuleResponse.attendanceRuleTypeId;
+
     this.attendanceRuleResponse = attendanceRuleResponse;
-    this.attendanceRuleDefinitionRequest.attendanceRuleId =
-      attendanceRuleResponse.id;
+    this.attendanceRuleDefinitionRequest.attendanceRuleId = attendanceRuleResponse.id;
+    this.attendanceRuleDefinitionRequest.attendanceRuleTypeId = attendanceRuleResponse.attendanceRuleTypeId;
     this.getUserByFiltersMethodCall();
     this.getDeductionTypeMethodCall();
     this.getOvertimeTypeMethodCall();
@@ -255,9 +261,9 @@ export class AttendanceSettingComponent implements OnInit {
   attendanceRuleDefinitionModalClose!: ElementRef;
   @ViewChild('addAttendanceRuleDefinitionModalClose')
   addAttendanceRuleDefinitionModalClose!: ElementRef;
-  attendanceRuleDefinitionRequest: AttendanceRuleDefinitionRequest =
-    new AttendanceRuleDefinitionRequest();
+  attendanceRuleDefinitionRequest: AttendanceRuleDefinitionRequest = new AttendanceRuleDefinitionRequest();
   saveAttendanceRuleDefinitionLoading: boolean = false;
+
   registerAttendanceRuleDefinitionMethodCall() {
     this.saveAttendanceRuleDefinitionLoading = true;
     this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
@@ -358,57 +364,57 @@ export class AttendanceSettingComponent implements OnInit {
 
     this.selectedStaffsUuids = attendanceRuleDefinitionResponse.userUuids;
 
-    if (attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration) {
-      this.customLateDurationValue = this.convertTimeStringToDate(
-        attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration
-      );
-      this.customCheckbox = true;
-    }
+    // if (attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration) {
+    //   this.customLateDurationValue = this.convertTimeStringToDate(
+    //     attendanceRuleDefinitionResponse.customSalaryDeduction.lateDuration
+    //   );
+    //   this.customCheckbox = true;
+    // }
 
-    if (attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration) {
-      this.halfDayLateDurationValue = this.convertTimeStringToDate(
-        attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration
-      );
-      this.halfDayCheckbox = true;
-    }
+    // if (attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration) {
+    //   this.halfDayLateDurationValue = this.convertTimeStringToDate(
+    //     attendanceRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration
+    //   );
+    //   this.halfDayCheckbox = true;
+    // }
 
-    if (attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration) {
-      this.fullDayLateDurationValue = this.convertTimeStringToDate(
-        attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration
-      );
-      this.fullDayCheckbox = true;
-    }
+    // if (attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration) {
+    //   this.fullDayLateDurationValue = this.convertTimeStringToDate(
+    //     attendanceRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration
+    //   );
+    //   this.fullDayCheckbox = true;
+    // }
 
-    if (
-      attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceCount >
-        0
-    ) {
-      this.customOccurrenceCheckbox = true;
-    }
+    // if (
+    //   attendanceRuleDefinitionResponse.customSalaryDeduction.occurrenceCount >
+    //     0
+    // ) {
+    //   this.customOccurrenceCheckbox = true;
+    // }
 
-    if (
-      attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceCount > 0
-    ) {
-      this.halfDayOccurrenceCheckbox = true;
-    }
+    // if (
+    //   attendanceRuleDefinitionResponse.halfDaySalaryDeduction.occurrenceCount > 0
+    // ) {
+    //   this.halfDayOccurrenceCheckbox = true;
+    // }
 
-    if (
-      attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceCount > 0
-    ) {
-      this.fullDayOccurrenceCheckbox = true;
-    }
+    // if (
+    //   attendanceRuleDefinitionResponse.fullDaySalaryDeduction.occurrenceCount > 0
+    // ) {
+    //   this.fullDayOccurrenceCheckbox = true;
+    // }
 
     
     // console.log(this.attendanceRuleDefinitionRequest);
     this.getUserByFiltersMethodCall();
 
-    if (attendanceRuleDefinitionResponse.deductionType === null) {
-      this.getOvertimeTypeMethodCall();
-      this.selectOvertimeType(attendanceRuleDefinitionResponse.overtimeType);
-    } else {
-      this.getDeductionTypeMethodCall();
-      this.selectDeductionType(attendanceRuleDefinitionResponse.deductionType);
-    }
+    // if (attendanceRuleDefinitionResponse.deductionType === null) {
+    //   this.getOvertimeTypeMethodCall();
+    //   this.selectOvertimeType(attendanceRuleDefinitionResponse.overtimeType);
+    // } else {
+    //   this.getDeductionTypeMethodCall();
+    //   this.selectDeductionType(attendanceRuleDefinitionResponse.deductionType);
+    // }
 
     this.activeIndex5 = automationIndex;
     // this.selectCountDurationDropdown(attendanceRuleDefinitionResponse)
@@ -422,15 +428,20 @@ export class AttendanceSettingComponent implements OnInit {
   time1!: Date;
   invalidCustomlateDuration1: boolean = false;
   invalidCustomlateDuration2: boolean = false;
-  getlateDuration(event: Date) {
-    // console.log(event);
-    // let duration = this.helperService.formatDateToHHmmss(event);
+  getlateDuration(event: Date, attendanceRuleTypeId : number) {
     let duration = this.helperService.formatDateToHHmmss(event);
-    this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration =
-      duration;
-    this.time1 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration
-    );
+
+    if(attendanceRuleTypeId == this.DEDUCTION_RULE_DEFINITION){
+      this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.customSalaryDeduction.lateDuration = duration;
+      this.time1 = this.convertTimeStringToDate(
+        this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.customSalaryDeduction.lateDuration
+      );
+    } else{
+      this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.customDuration = duration;
+      this.time1 = this.convertTimeStringToDate(
+        this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.customDuration
+      );
+    }
 
     this.invalidCustomlateDuration1 = false;
     this.invalidCustomlateDuration2 = false;
@@ -456,14 +467,20 @@ export class AttendanceSettingComponent implements OnInit {
   invalidHalfDaylateDuration1: boolean = false;
   invalidHalfDaylateDuration2: boolean = false;
   time2!: Date;
-  getHalfDaylateDuration(event: Date) {
+  getHalfDaylateDuration(event: Date, attendanceRuleTypeId : number) {
     let duration = this.helperService.formatDateToHHmmss(event);
-    this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration =
-      duration;
 
-    this.time2 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration
-    );
+    if(attendanceRuleTypeId == this.DEDUCTION_RULE_DEFINITION){
+      this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration = duration;
+      this.time2 = this.convertTimeStringToDate(
+        this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration
+      );
+    } else{
+      this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.halfDayDuration = duration;
+      this.time2 = this.convertTimeStringToDate(
+        this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.halfDayDuration
+      );
+    }
 
     this.invalidCustomlateDuration1 = false;
     this.invalidCustomlateDuration2 = false;
@@ -489,14 +506,20 @@ export class AttendanceSettingComponent implements OnInit {
   invalidFullDaylateDuration1: boolean = false;
   invalidFullDaylateDuration2: boolean = false;
   time3!: Date;
-  getFullDaylateDuration(event: Date) {
+  getFullDaylateDuration(event: Date, attendanceRuleTypeId : number) {
     let duration = this.helperService.formatDateToHHmmss(event);
-    this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration =
-      duration;
 
-    this.time3 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration
-    );
+    if(attendanceRuleTypeId == this.DEDUCTION_RULE_DEFINITION){
+      this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration = duration;
+      this.time3 = this.convertTimeStringToDate(
+        this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration
+      );
+    } else{
+      this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.fullDayDuration = duration;
+      this.time3 = this.convertTimeStringToDate(
+        this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.fullDayDuration
+      );
+    }
 
     this.invalidCustomlateDuration1 = false;
     this.invalidCustomlateDuration2 = false;
@@ -534,12 +557,30 @@ export class AttendanceSettingComponent implements OnInit {
     }
     return false;
   }
-  compareTimes() {
+  compareTimesForOvertimeRuleDefinition() {
     const time1 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.customSalaryDeduction.lateDuration
+      this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.customSalaryDeduction.lateDuration
     );
     const time2 = this.convertTimeStringToDate(
-      this.attendanceRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration
+      this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.halfDaySalaryDeduction.lateDuration
+    );
+    // const time3 = this.convertStringToDate(this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration);
+
+    if (time1 < time2) {
+      console.log('Time 1 is earlier than Time 2');
+    } else if (time2 < time1) {
+      console.log('Time 1 is later than Time 2');
+    } else {
+      console.log('Time 1 is equal to Time 2');
+    }
+  }
+
+  compareTimesForDeductionRuleDefinition(){
+    const time1 = this.convertTimeStringToDate(
+      this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.customDuration
+    );
+    const time2 = this.convertTimeStringToDate(
+      this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.halfDayDuration
     );
     // const time3 = this.convertStringToDate(this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration);
 
@@ -585,8 +626,7 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   count: number = 0;
-  attendanceRuleWithAttendanceRuleDefinitionResponseList: AttendanceRuleWithAttendanceRuleDefinitionResponse[] =
-    [];
+  attendanceRuleWithAttendanceRuleDefinitionResponseList: AttendanceRuleWithAttendanceRuleDefinitionResponse[] = [];
   attendanceRuleWithAttendanceRuleDefinitionLoading: boolean = false;
   getAttendanceRuleWithAttendanceRuleDefinitionMethodCall() {
     debugger;
@@ -671,22 +711,47 @@ export class AttendanceSettingComponent implements OnInit {
     );
   }
 
-  selectedDeductionType: DeductionType = new DeductionType();
+  selectedCustomDeductionType: DeductionType = new DeductionType();
+  selectedHalfDayDeductionType: DeductionType = new DeductionType();
+  selectedFullDayDeductionType: DeductionType = new DeductionType();
+  
 
-  selectDeductionType(deductionType: DeductionType) {
-    this.selectedDeductionType = deductionType;
+  selectCustomDeductionType(deductionType: DeductionType) {
+    this.selectedCustomDeductionType = deductionType;
 
     // const res = document.getElementById('amount-in-rupees') as HTMLElement;
     // res.style.display = this.selectedDeductionType?.type === "FIXED AMOUNT" ? 'block' : 'none';
   }
 
-  selectedOvertimeType: OvertimeType = new OvertimeType();
+  selectHalfDayDeductionType(deductionType: DeductionType) {
+    this.selectedHalfDayDeductionType = deductionType;
+  }
 
-  selectOvertimeType(overtimeType: OvertimeType) {
-    this.selectedOvertimeType = overtimeType;
+  selectFullDayDeductionType(deductionType: DeductionType) {
+    this.selectedFullDayDeductionType = deductionType;
+  }
+
+  selectedCustomOvertimeType: OvertimeType = new OvertimeType();
+  selectedHalfDayOvertimeType: OvertimeType = new OvertimeType();
+  selectedFullDayOvertimeType: OvertimeType = new OvertimeType();
+
+  selectCustomOvertimeType(overtimeType: OvertimeType) {
+    this.selectedCustomOvertimeType = overtimeType;
+    this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.customOvertimeTypeId = overtimeType.id;
 
     // const res = document.getElementById('amount-in-rupees') as HTMLElement;
     // res.style.display = this.selectedOvertimeType?.type === "FIXED AMOUNT" ? 'block' : 'none';
+  }
+
+  selectHalfDayOvertimeType(overtimeType: OvertimeType) {
+    this.selectedHalfDayOvertimeType = overtimeType;
+    this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.halfDayOvertimeTypeId = overtimeType.id;
+
+  }
+
+  selectFullDayOvertimeType(overtimeType: OvertimeType) {
+    this.selectedFullDayOvertimeType = overtimeType;
+    this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.fullDayOvertimeTypeId = overtimeType.id;
   }
 
   //Extra
@@ -858,7 +923,7 @@ export class AttendanceSettingComponent implements OnInit {
     localStorage.setItem('staffSelectionActive', this.activeModel.toString());
   }
 
-  clearModel() {
+  clearModal() {
     this.ruleActiveTab.nativeElement.click();
     this.attendanceRuleDefinitionRequest =
       new AttendanceRuleDefinitionRequest();
@@ -867,7 +932,12 @@ export class AttendanceSettingComponent implements OnInit {
     this.activeModel = false;
     this.activeModel2 = false;
 
-    this.selectedDeductionType = new DeductionType();
+    this.selectedCustomDeductionType = new DeductionType();
+    this.selectedHalfDayDeductionType = new DeductionType();
+    this.selectedFullDayDeductionType = new DeductionType();
+    this.selectedCustomOvertimeType = new OvertimeType();
+    this.selectedHalfDayOvertimeType = new OvertimeType();
+    this.selectedFullDayOvertimeType = new OvertimeType();    
     this.selectedStaffsUuids = [];
   }
 

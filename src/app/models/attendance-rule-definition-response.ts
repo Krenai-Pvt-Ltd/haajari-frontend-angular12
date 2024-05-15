@@ -1,19 +1,14 @@
-import { CustomSalaryDeductionRequest } from "./custom-salary-deduction-request";
-import { DeductionType } from "./deduction-type";
-import { FullDaySalaryDeductionRequest } from "./full-day-salary-deduction-request";
-import { HalfDaySalaryDeductionRequest } from "./half-day-salary-deduction-request";
-import { OrganizationAddressDetail } from "./organization-address-detail";
-import { OvertimeType } from "./overtime-type";
+import { DeductionRuleDefinitionResponse } from "./deduction-rule-definition-response";
+import { OvertimeRuleDefinitionResponse } from "./overtime-rule-definition-response";
 
 export class AttendanceRuleDefinitionResponse {
+
     id : number = 0;
-    attendanceRuleTypeId : number = 0;
-    customSalaryDeduction : CustomSalaryDeductionRequest = new CustomSalaryDeductionRequest();
-    halfDaySalaryDeduction : HalfDaySalaryDeductionRequest = new HalfDaySalaryDeductionRequest();
-    fullDaySalaryDeduction : FullDaySalaryDeductionRequest = new FullDaySalaryDeductionRequest();
-    deductionType : DeductionType = new DeductionType();
-    overtimeType : OvertimeType = new OvertimeType();
     attendanceRuleId : number = 0;
+    attendanceRuleTypeId : number = 0;
+    
+    deductionRuleDefinitionResponse : DeductionRuleDefinitionResponse = new DeductionRuleDefinitionResponse();
+    overtimeRuleDefinitionResponse : OvertimeRuleDefinitionResponse = new OvertimeRuleDefinitionResponse();
+
     userUuids : string[] = [];
-    organizationAddressDetail : OrganizationAddressDetail = new OrganizationAddressDetail();
 }

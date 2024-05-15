@@ -1,7 +1,4 @@
-import { CustomSalaryDeductionRequest } from "./custom-salary-deduction-request";
 import { DeductionRuleDefinitionRequest } from "./deduction-rule-definition-request";
-import { FullDaySalaryDeductionRequest } from "./full-day-salary-deduction-request";
-import { HalfDaySalaryDeductionRequest } from "./half-day-salary-deduction-request";
 import { OvertimeRuleDefinitionRequest } from "./overtime-rule-definition-request";
 
 export class AttendanceRuleDefinitionRequest {
@@ -9,12 +6,10 @@ export class AttendanceRuleDefinitionRequest {
     id : number = 0;
     attendanceRuleId : number = 0;
     attendanceRuleTypeId : number = 0;
+    
     deductionRuleDefinitionRequest : DeductionRuleDefinitionRequest = new DeductionRuleDefinitionRequest();
     overtimeRuleDefinitionRequest : OvertimeRuleDefinitionRequest = new OvertimeRuleDefinitionRequest();
 
-    customSalaryDeduction : CustomSalaryDeductionRequest = new CustomSalaryDeductionRequest();
-    halfDaySalaryDeduction : HalfDaySalaryDeductionRequest = new HalfDaySalaryDeductionRequest();
-    fullDaySalaryDeduction : FullDaySalaryDeductionRequest = new FullDaySalaryDeductionRequest();
     userUuids : string[] = [];
     
 }

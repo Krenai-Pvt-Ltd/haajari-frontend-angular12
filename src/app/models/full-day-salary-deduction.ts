@@ -1,4 +1,4 @@
-export class FullDaySalaryDeductionRequest {
+export class FullDaySalaryDeduction {
     lateDuration !: string;
     occurrenceCount !: number;
 }

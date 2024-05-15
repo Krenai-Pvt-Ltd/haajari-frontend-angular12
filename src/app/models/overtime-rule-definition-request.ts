@@ -10,7 +10,4 @@ export class OvertimeRuleDefinitionRequest {
     customAmountInRupees : number = 0;
     halfDayAmountInRupees : number = 0;
     fullDayAmountInRupees : number = 0;
-
-    attendanceRuleId : number = 0;
-    userUuids : string[] = [];
 }

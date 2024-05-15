@@ -1,11 +1,13 @@
 import { CustomSalaryDeduction } from "./custom-salary-deduction";
+import { DeductionType } from "./deduction-type";
 import { FullDaySalaryDeduction } from "./full-day-salary-deduction";
 import { HalfDaySalaryDeduction } from "./half-day-salary-deduction";
 
-export class DeductionRuleDefinitionRequest {
+export class DeductionRuleDefinitionResponse {
     customSalaryDeduction : CustomSalaryDeduction = new CustomSalaryDeduction();
     halfDaySalaryDeduction : HalfDaySalaryDeduction = new HalfDaySalaryDeduction();
     fullDaySalaryDeduction : FullDaySalaryDeduction = new FullDaySalaryDeduction();
-    
-    deductionTypeId : number = 0;
+
+    deductionType : DeductionType = new DeductionType();
+    attendanceRuleDefinitionId : number = 0;
 }
