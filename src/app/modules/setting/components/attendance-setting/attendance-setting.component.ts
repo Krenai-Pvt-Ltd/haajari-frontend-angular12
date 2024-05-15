@@ -317,10 +317,10 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   deleteAttendanceRuleLoaderStatus: { [key: string]: boolean } = {};
-  deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionId: number) {
+  deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionId: number, attendanceRuleTypeId : number) {
     this.deleteAttendanceRuleLoaderStatus[attendanceRuleDefinitionId] = true;
     this.dataService
-      .deleteAttendanceRuleDefinition(attendanceRuleDefinitionId)
+      .deleteAttendanceRuleDefinition(attendanceRuleDefinitionId, attendanceRuleTypeId)
       .subscribe(
         (response) => {
           // console.log(response);

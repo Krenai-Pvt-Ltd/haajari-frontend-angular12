@@ -657,7 +657,8 @@
                             </a>
                             <a class="delete-rule" style="cursor: pointer" (click)="
                               deleteAttendanceRuleDefinitionMethodCall(
-                                attendanceRuleDefinitionResponse.id
+                                attendanceRuleDefinitionResponse.id,
+                                attendanceRuleDefinitionResponse.attendanceRuleTypeId
                               )
                             " *ngIf="
                               !deleteAttendanceRuleTemplateLoader(
