@@ -1016,7 +1016,7 @@
                           let category of categories.controls;
                           let i = index
                         "
-                        class="form-group row mb-3"
+                        class="form-group row mb-4 pb-2 position-relative"
                         [formGroupName]="i"
                       >
                         <div class="col-md-3">
@@ -1028,11 +1028,12 @@
                             placeholder="Enter Leave Name"
                             required
                           /> -->
+                          <!-- (keydown)="preventLeadingWhitespace($event)" -->
                           <input
-                            (keydown)="preventLeadingWhitespace($event)"
                             nz-input
-                            id="bankName"
-                            name="bankName"
+                            (keydown)="preventLeadingWhitespace($event)"
+                            id="leaveName"
+                            name="leaveName"
                             class="form-control whatapp-login-input"
                             formControlName="leaveName"
                             required
@@ -1054,7 +1055,19 @@
                           </p>
                         </div>
 
-                        <div class="col-md-3">
+                        <div
+                          [ngClass]="{
+                            'col-md-2':
+                              leaveSettingResponse.leaveCycle === 'Yearly' &&
+                              leaveSettingResponse.accrualType !==
+                                'Monthly Start',
+                            'col-md-3': !(
+                              leaveSettingResponse.leaveCycle === 'Yearly' &&
+                              leaveSettingResponse.accrualType !==
+                                'Monthly Start'
+                            )
+                          }"
+                        >
                           <label class="mb-2">Leave Count</label>
                           <input
                             type="number"
@@ -1079,6 +1092,44 @@
                             <i class="bi bi-exclamation-circle"></i> Please
                             enter a valid number.
                           </p>
+                          <!-- <span
+                            class="text-secondary"
+                            *ngIf="
+                              leaveSettingResponse.leaveCycle === 'Yearly' &&
+                              leaveSettingResponse.accrualType !==
+                                'Monthly Start'
+                            "
+                          >
+                            Breakup:
+                            {{ calculateMonthlyLeaveCount(i).toFixed(2) }} Leave
+                            per month
+                          </span> -->
+                        </div>
+                        <div
+                          [ngClass]="{
+                            'col-md-2':
+                              leaveSettingResponse.leaveCycle === 'Yearly' &&
+                              leaveSettingResponse.accrualType !==
+                                'Monthly Start',
+                            'col-md-3': !(
+                              leaveSettingResponse.leaveCycle === 'Yearly' &&
+                              leaveSettingResponse.accrualType !==
+                                'Monthly Start'
+                            )
+                          }"
+                          *ngIf="
+                            leaveSettingResponse.leaveCycle === 'Yearly' &&
+                            leaveSettingResponse.accrualType !== 'Monthly Start'
+                          "
+                        >
+                          <label class="mb-2">Monthly Leave Count</label>
+                          <input
+                            #leaveCountBreakupInput
+                            type="number"
+                            class="form-control whatapp-login-input"
+                            [value]="calculateMonthlyLeaveCount(i).toFixed(2)"
+                            readonly
+                          />
                         </div>
                         <div class="col-md-3">
                           <label class="mb-2" for="leaveRules"
@@ -1135,7 +1186,19 @@
                           </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div
+                          [ngClass]="{
+                            'col-md-2':
+                              leaveSettingResponse.leaveCycle === 'Yearly' &&
+                              leaveSettingResponse.accrualType !==
+                                'Monthly Start',
+                            'col-md-3': !(
+                              leaveSettingResponse.leaveCycle === 'Yearly' &&
+                              leaveSettingResponse.accrualType !==
+                                'Monthly Start'
+                            )
+                          }"
+                        >
                           <label class="mb-2">Carry Forward Limit</label>
                           <!-- <input
                             type="number"
@@ -1200,7 +1263,7 @@
                                   *ngIf="
                                     day === category.get('leaveCount')?.value
                                   "
-                                  >All</span
+                                  >All Unused</span
                                 >
                                 <span
                                   *ngIf="

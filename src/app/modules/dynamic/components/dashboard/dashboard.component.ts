@@ -26,6 +26,7 @@ import { BestPerformerAttendanceDetailsResponse } from 'src/app/models/best-perf
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { DayWiseStatus } from 'src/app/models/day-wise-status';
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
+import { Color, ScaleType } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-dashboard',
@@ -196,6 +197,8 @@ export class DashboardComponent implements OnInit {
     // this.getTodaysLiveLeaveCount();
 
     this.inputDate = this.getCurrentDate();
+    this.getWeeklyChartData();
+    this.getMonthlyChartData();
   }
 
   isShimmer = false;
@@ -781,5 +784,62 @@ export class DashboardComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  sliceWord(word: string): string {
+    return word.slice(0, 3);
+  }
+
+  weeklyChartData: any[] = [];
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal, // Correct type for the group property
+    domain: ['#FFE082', '#80CBC4', '#FFCCBC'], // Gold, Green, Red
+  };
+  gradient: boolean = false;
+  // view: [number, number] = [300, 150];
+  view1: [number, number] = [300, 200];
+  weeklyPlaceholderFlag: boolean = true;
+  getWeeklyChartData() {
+    this.dataService.getWeeklyLeaveSummary().subscribe((data) => {
+      // if (data.length > 0) {
+      //   this.weeklyPlaceholderFlag = true;
+      // } else {
+      //   this.weeklyPlaceholderFlag = false;
+      // }
+      this.weeklyChartData = data.map((item) => ({
+        name: this.sliceWord(item.weekDay),
+        series: [
+          { name: 'Pending', value: item.pending || 0 },
+          { name: 'Approved', value: item.approved || 0 },
+          { name: 'Rejected', value: item.rejected || 0 },
+        ],
+      }));
+    });
+  }
+
+  monthlyChartData: any[] = [];
+  view2: [number, number] = [300, 200];
+  count: number = 0;
+  monthlyPlaceholderFlag: boolean = true;
+  getMonthlyChartData() {
+    this.dataService.getMonthlyLeaveSummary().subscribe((data) => {
+      // if (data.length > 0) {
+      //   this.monthlyPlaceholderFlag = true;
+      // } else {
+      //   this.monthlyPlaceholderFlag = false;
+      // }
+      console.log('length' + data.length);
+      this.monthlyChartData = data.map((item) => ({
+        name: this.sliceWord(item.monthName),
+        series: [
+          { name: 'Pending', value: item.pending || 0 },
+          { name: 'Approved', value: item.approved || 0 },
+          { name: 'Rejected', value: item.rejected || 0 },
+        ],
+        // this.count++;
+      }));
+    });
   }
 }

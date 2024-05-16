@@ -1033,6 +1033,79 @@
                     </div>
                   </div>
                   <div class="form-group">
+                    <label for="username" class="mb-2" style="font-size: 13px">
+                      Manager
+                    </label>
+                    <div class="input-group mb-3">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="manager"
+                        id="manager"
+                        placeholder="Add team manager by name or email…"
+                        [(ngModel)]="searchQueryManager"
+                        (input)="searchUsersManager()"
+                      />
+                      <div
+                        class="user-dropdown new-membear-list"
+                        *ngIf="userListManager.length > 0"
+                      >
+                        <div
+                          id="manager-item"
+                          class="user-item"
+                          *ngFor="let user of userListManager"
+                          (click)="toggleUserSelectionManager(user)"
+                        >
+                          <div *ngIf="user.image === null">
+                            <span id="manager-list-details">
+                              <span
+                                class="members-name"
+                                id="manager-first-name-logo"
+                                >{{ user.name[0] }}</span
+                              >&nbsp;&nbsp;
+                              <span class="user-name-email"
+                                ><b>{{ user.name }}</b> &nbsp;
+                                {{ user.email }}</span
+                              >
+                            </span>
+                          </div>
+
+                          <div *ngIf="user.image !== null">
+                            <span id="manager-list-details">
+                              <img [src]="user.image" alt="User Logo" />
+                              &nbsp;&nbsp; <b>{{ user.name }}</b> &nbsp;
+                              {{ user.email }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="selected-users"
+                        *ngIf="selectedManager != null"
+                      >
+                        <div class="d-flex selected-userss align-items-center">
+                          <span class="members-namess">{{
+                            selectedManager!.name[0]
+                          }}</span>
+                          <p class="mb-0">{{ selectedManager!.name }}</p>
+                          <span
+                            class="remove-icon"
+                            style="line-height: 0px"
+                            (click)="
+                              removeSelectedUserOfSelectionManager(
+                                selectedManager
+                              )
+                            "
+                            ><i
+                              class="bi bi-x"
+                              style="color: #fff; font-size: 20px"
+                            ></i
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
                     <label class="form-check-label" for="enableLocation">
                       Enable Location
                     </label>
