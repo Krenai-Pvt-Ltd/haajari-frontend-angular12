@@ -182,7 +182,7 @@ export class TeamDetailComponent implements OnInit {
 
   inviteUsers() {
     debugger;
-    this.dataService.sendInviteToUsers(this.userEmails).subscribe(
+    this.dataService.sendInviteToUsers(this.userEmails, this.teamId).subscribe(
       (data) => {
         this.userEmails = [];
         this.selectedUsers = [];
