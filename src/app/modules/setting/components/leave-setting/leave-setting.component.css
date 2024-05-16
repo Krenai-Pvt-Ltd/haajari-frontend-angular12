@@ -1281,9 +1281,9 @@ i.bi.bi-plus {
 }
 
 .leave-delet-btn {
-  position: relative;
-  top: -80px;
-  right: -95%;
+  position: absolute;
+  top: 0px;
+  right: -97%;
 }
 
 .dot-opacity-loader {
@@ -1455,4 +1455,9 @@ i.bi.bi-plus {
   max-height: 200px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.modal-lg,
+.modal-xl {
+  max-width: 900px;
 }

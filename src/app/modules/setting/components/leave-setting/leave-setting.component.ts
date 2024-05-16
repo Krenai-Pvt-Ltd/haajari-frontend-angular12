@@ -1258,4 +1258,19 @@ export class LeaveSettingComponent implements OnInit {
     this.getLeaveSettingInformationById(id, false);
     this.leaveCategoryTab.nativeElement.click();
   }
+
+  calculateMonthlyLeaveCount(index: number): number {
+    const control = this.categories.controls[index].get('leaveCount');
+    if (control) {
+      const yearlyCount = control.value;
+      return yearlyCount / 12; // Assuming each month has 30 days, adjust as needed
+    }
+    return 0; // Default value if control is null
+  }
+
+  // isYearlyAllAtOnce: boolean = false;
+
+  // yearlyAllAtOnce() {
+  //   if()
+  // }
 }

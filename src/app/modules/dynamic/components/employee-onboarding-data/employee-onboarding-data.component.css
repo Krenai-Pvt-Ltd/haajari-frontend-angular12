@@ -146,6 +146,7 @@
   border-color: #e8ebf3;
   border-bottom: none;
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .full-per {
@@ -222,6 +223,12 @@
   max-width: 220px;
   font-size: 12px;
   color: #878a9a;
+}
+.weekly-pro-team {
+  font-size: 12px;
+  color: #878a9a;
+  display: inline-block;
+  min-width: 150px;
 }
 
 tbody tr {
@@ -589,4 +596,71 @@ textarea {
 [class^="bi-"]::before,
 [class*=" bi-"]::before {
   font-weight: BOLD !important;
+}
+
+.dot-opacity-loader1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 6px;
+}
+
+.dot-opacity-loader1 span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: white !important; /* Change to your preferred color */
+  margin: 0 4px;
+  animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-loader1 span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.dot-opacity-loader1 span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes dotOpacity {
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+.teme-maneger {
+  color: #8d93a1;
+  font-size: 12px;
+}
+
+a.user-avatar {
+  background-color: #ccc;
+  border-radius: 6px;
+  padding: 4px;
+  background-color: rgba(65, 203, 216, 0.08) !important;
+  color: #41cbd8 !important;
+}
+
+nz-select {
+  width: 100%;
+}
+
+.loading-icon {
+  margin-right: 8px;
+}
+
+Remove
+  border
+  from
+  nz-select
+  .ant-select:not(.ant-select-customize-input)
+  .ant-select-selector {
+  border: none;
+  /* border-radius: 2px;  */
 }
