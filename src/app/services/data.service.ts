@@ -1335,12 +1335,12 @@ export class DataService {
   }
 
   deleteAttendanceRuleDefinition(
-    attendanceRuleDefinitionId: number
+    attendanceRuleDefinitionId: number,
+    attendanceRuleTypeId : number
   ): Observable<any> {
-    const params = new HttpParams().set(
-      'attendance_rule_definition_id',
-      attendanceRuleDefinitionId
-    );
+    const params = new HttpParams()
+    .set('attendance_rule_definition_id',attendanceRuleDefinitionId)
+    .set('attendance_rule_type_id', attendanceRuleTypeId);
 
     return this.httpClient.delete<any>(
       `${this.baseUrl}/attendance/rule/definition/delete`,
