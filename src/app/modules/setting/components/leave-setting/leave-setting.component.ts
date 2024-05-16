@@ -530,6 +530,8 @@ export class LeaveSettingComponent implements OnInit {
   fullLeaveSettingResponse!: FullLeaveSettingResponse;
 
   getLeaveSettingInformationById(leaveSettingId: number, flag: boolean): void {
+    debugger;
+
     this.pageNumber = 1;
     this.pageNumberUser = 1;
     this.dataService.getLeaveSettingInformationById(leaveSettingId).subscribe(
@@ -580,8 +582,19 @@ export class LeaveSettingComponent implements OnInit {
         // );
 
         response.leaveSettingCategories.forEach((category, index) => {
+          // console.log(
+          //   'index ..' + index + 'category.leaveCount ...' + category.leaveCount
+          // );
+
+          if (
+            category.leaveRules == 'Carry Forward' ||
+            category.leaveRules == 'Encash'
+          ) {
+            this.updateDaysDropdown(index, category.leaveCount);
+          }
+
           const categoryGroup = this.fb.group({
-            id: [category.id], // Make sure to include the id
+            id: [category.id],
             leaveName: [category.leaveName, Validators.required],
             leaveCount: [
               category.leaveCount,
@@ -593,14 +606,14 @@ export class LeaveSettingComponent implements OnInit {
 
           categoriesArray.push(categoryGroup);
 
-          if (
-            category.leaveRules !== 'CarryForward' &&
-            category.leaveRules !== 'Encash'
-          ) {
-            this.updateDaysDropdown(index, category.leaveCount);
-          } else {
-            this.daysCountArray[index] = [];
-          }
+          // if (
+          //   category.leaveRules == 'CarryForward' ||
+          //   category.leaveRules == 'Encash'
+          // ) {
+          //   this.updateDaysDropdown(index, category.leaveCount);
+          // } else {
+          //   this.daysCountArray[index] = [];
+          // }
         });
 
         this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
@@ -1192,6 +1205,14 @@ export class LeaveSettingComponent implements OnInit {
     );
   }
 
+  // onChange(value: string): void {
+  // // Check if leaveCategories is null or undefined before filtering
+  // if (this.leaveCategories) {
+  //   this.filteredLeaveCategories = this.leaveCategories.filter((bank) =>
+  //     bank.toLowerCase().includes(value.toLowerCase())
+  //   );
+  // }
+
   filteredLeaveCategories: string[] = [];
   leaveCategories: string[] = ['Annual Leave', 'Sick Leave', 'Casual Leave'];
 
@@ -1234,12 +1255,37 @@ export class LeaveSettingComponent implements OnInit {
     this.updateDaysDropdown(index, count);
   }
 
+  // updateDaysDropdown(index: number, count: number): void {
+  //   console.log('countarray ..' + count + index);
+  //   // Ensure that daysCountArray has enough elements for the given index
+  //   while (this.daysCountArray.length <= index) {
+  //     this.daysCountArray.push([]);
+  //   }
+
+  //   // Update the daysCountArray for the specific index
+  //   this.daysCountArray[index] = Array.from(
+  //     { length: count + 1 },
+  //     (_, i) => count - i
+  //   );
+  // }
+
   updateDaysDropdown(index: number, count: number): void {
+    // console.log('countarray ..' + index + ' ' + count);
+    while (this.daysCountArray.length <= index) {
+      this.daysCountArray.push([]);
+    }
     this.daysCountArray[index] = Array.from(
       { length: count + 1 },
       (_, i) => count - i
     );
   }
+
+  // updateDaysDropdown(index: number, count: number): void {
+  //   this.daysCountArray[index] = Array.from(
+  //     { length: count + 1 },
+  //     (_, i) => count - i
+  //   );
+  // }
 
   selectCarryForwardDay(day: number, index: number): void {
     const categories = this.form.get('categories') as FormArray;
@@ -1263,9 +1309,9 @@ export class LeaveSettingComponent implements OnInit {
     const control = this.categories.controls[index].get('leaveCount');
     if (control) {
       const yearlyCount = control.value;
-      return yearlyCount / 12; // Assuming each month has 30 days, adjust as needed
+      return yearlyCount / 12;
     }
-    return 0; // Default value if control is null
+    return 0;
   }
 
   // isYearlyAllAtOnce: boolean = false;
