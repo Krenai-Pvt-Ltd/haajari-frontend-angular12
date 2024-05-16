@@ -80,7 +80,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           'asc',
           'id',
           this.searchText,
-          this.searchCriteria
+          this.searchCriteria,
+          0
         )
         .subscribe(
           (response: any) => {

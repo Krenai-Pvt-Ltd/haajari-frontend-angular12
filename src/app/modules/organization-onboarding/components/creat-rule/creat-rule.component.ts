@@ -274,7 +274,7 @@ export class CreatRuleComponent implements OnInit {
 
 
   getUserByFiltersMethodCall() {
-    this.dataService.getUsersByFilter(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '').subscribe((response) => {
+    this.dataService.getUsersByFilter(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '', 0).subscribe((response) => {
       this.staffs = response.users.map((staff: Staff) => ({
         ...staff,
         selected: this.selectedStaffsUuids.includes(staff.uuid)

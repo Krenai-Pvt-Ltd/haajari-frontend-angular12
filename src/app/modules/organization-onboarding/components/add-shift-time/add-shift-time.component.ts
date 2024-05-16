@@ -103,6 +103,7 @@ export class AddShiftTimeComponent implements OnInit {
         'id',
         this.searchText,
         '',
+        0
       )
       .subscribe(
         (response) => {

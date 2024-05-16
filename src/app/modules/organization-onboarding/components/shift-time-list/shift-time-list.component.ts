@@ -72,6 +72,7 @@ export class ShiftTimeListComponent implements OnInit {
         'id',
         this.searchText,
         '',
+        0
       )
       .subscribe(
         (response) => {

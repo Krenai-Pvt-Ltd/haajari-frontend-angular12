@@ -146,7 +146,8 @@ export class TeamDetailComponent implements OnInit {
         'asc',
         'id',
         this.searchQuery,
-        'name'
+        'name',
+        0
       )
       .subscribe((data: any) => {
         this.userList = data.users;

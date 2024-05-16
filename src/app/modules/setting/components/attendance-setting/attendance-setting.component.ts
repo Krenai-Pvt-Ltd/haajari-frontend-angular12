@@ -38,6 +38,7 @@ import { OvertimeType } from 'src/app/models/overtime-type';
 import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
 import { User } from 'src/app/models/user';
+import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 
@@ -63,6 +64,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   ngOnInit(): void {
     window.scroll(0, 0);
+    this.getTeamNames();
     this.loadHolidayCounts();
     this.loadHolidays();
     this.getOrganizationAddressDetailMethodCall();
@@ -844,8 +846,10 @@ export class AttendanceSettingComponent implements OnInit {
   selectedStaffsUuids: string[] = [];
   selectedStaffs: Staff[] = [];
   isAllSelected: boolean = false;
-
+  totalUserCount: number = 0;
   getUserByFiltersMethodCall() {
+    debugger
+    // this.staffs = [];
     this.dataService
       .getUsersByFilter(
         this.itemPerPage,
@@ -853,17 +857,23 @@ export class AttendanceSettingComponent implements OnInit {
         'asc',
         'id',
         this.searchText,
-        ''
+        '',
+        this.selectedTeamId,
+        
       )
       .subscribe(
         (response) => {
+          
           this.staffs = response.users.map((staff: Staff) => ({
             ...staff,
             selected: this.selectedStaffsUuids.includes(staff.uuid),
           }));
+          if(this.selectedTeamId == 0 && this.searchText == ''){
+            this.totalUserCount = response.count;
+          }
           this.total = response.count;
           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-
+          this.pageNumber = 1;
           this.isAllSelected = this.staffs.every((staff) => staff.selected);
         },
         (error) => {
@@ -910,10 +920,8 @@ export class AttendanceSettingComponent implements OnInit {
   // #####################################################
   isAllUsersSelected: boolean = false;
 
-  // Method to toggle all users' selection
-  selectAllUsers(isChecked: boolean) {
-    // const inputElement = event.target as HTMLInputElement;
-    // const isChecked = inputElement ? inputElement.checked : false;
+  selectAllUsers(event: any) {
+    const isChecked = event.target.checked;
     this.isAllUsersSelected = isChecked;
     this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
     this.staffs.forEach((staff) => (staff.selected = isChecked));
@@ -928,7 +936,8 @@ export class AttendanceSettingComponent implements OnInit {
       this.selectedStaffsUuids = [];
       this.activeModel2 = false;
     }
-  }
+}
+
 
   selectAll(checked: boolean) {
     this.isAllSelected = checked;
@@ -1066,8 +1075,18 @@ export class AttendanceSettingComponent implements OnInit {
   @ViewChild('closeShiftTimingModal') closeShiftTimingModal!: ElementRef;
 
   registerOrganizationShiftTimingMethodCall() {
+    debugger
+    // this.submitWeeklyHolidays();
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
-
+       // Prepare data for submission
+    this.organizationShiftTimingRequest.weekdayInfos = this.weekDay
+      .filter((day) => day.selected)
+      .map((day) => ({
+        weeklyOffDay: day.name,
+        isAlternateWeekoff: day.isAlternate,
+        weekOffType: day.weekOffType,
+        userUuids: this.selectedStaffsUuids,
+      }));
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
@@ -1075,6 +1094,8 @@ export class AttendanceSettingComponent implements OnInit {
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
+          this.selectedTeamName = 'All';
+          this.getUserByFiltersMethodCall();
           this.helperService.showToast(
             'Shift Timing registered successfully',
             Key.TOAST_STATUS_SUCCESS
@@ -1083,7 +1104,7 @@ export class AttendanceSettingComponent implements OnInit {
         (error) => {
           console.log(error);
           this.helperService.showToast(
-            'Shift Timing registered successfully',
+            'Shift Timing not registered successfully',
             Key.TOAST_STATUS_ERROR
           );
         }
@@ -1095,6 +1116,12 @@ export class AttendanceSettingComponent implements OnInit {
     this.organizationShiftTimingRequest = new OrganizationShiftTimingRequest();
     this.selectedShiftType = new ShiftType();
     this.clearSearchText();
+    this.teamId = 0;
+    this.selectedTeamId = 0;
+    this.selectedTeamName = 'All';
+    this.selectedStaffsUuids = [];
+    this.pageNumber = 1;
+    
   }
   organizationShiftTimingRequest: OrganizationShiftTimingRequest =
     new OrganizationShiftTimingRequest();
@@ -1242,8 +1269,8 @@ export class AttendanceSettingComponent implements OnInit {
 
     this.dataService.getAllShiftTimings().subscribe(
       (response) => {
+        console.log(response);
         this.organizationShiftTimingWithShiftTypeResponseList = response;
-
         if (this.organizationShiftTimingWithShiftTypeResponseList.length == 1) {
           this.activeIndex = 0;
         }
@@ -1268,6 +1295,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   shiftTypeList: ShiftType[] = [];
   getShiftTypeMethodCall() {
+    debugger
     this.dataService.getAllShiftType().subscribe(
       (response) => {
         this.shiftTypeList = response;
@@ -1303,11 +1331,17 @@ export class AttendanceSettingComponent implements OnInit {
     this.organizationShiftTimingRequest.shiftTypeId =
       organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
+    this.weekDay = organizationShiftTimingResponse.weekDayResponse;
+   
+    // this.getWeekDays();
 
     this.getShiftTypeMethodCall();
     this.selectedShiftType = organizationShiftTimingResponse.shiftType;
+    this.teamId = 0;
+    this.selectedTeamId = 0;
+    this.selectedTeamName = 'All';
     this.getUserByFiltersMethodCall();
-
+   
     setTimeout(() => {
       if (tab == 'STAFF_SELECTION') {
         this.staffActiveTabInShiftTimingMethod();
@@ -1533,7 +1567,7 @@ export class AttendanceSettingComponent implements OnInit {
         ...day,
         selected: day.selected === 1,
       }));
-      // console.log(this.weekDay);
+      console.log(this.weekDay);
     });
   }
 
@@ -1571,6 +1605,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   toggleSelection(i: number): void {
     this.weekDay[i].selected = !this.weekDay[i].selected;
+    
     // Automatically set isAlternate to false when a day is selected
     this.weekDay[i].isAlternate = false;
   }
@@ -1598,6 +1633,7 @@ export class AttendanceSettingComponent implements OnInit {
         weeklyOffDay: day.name,
         isAlternateWeekoff: day.isAlternate,
         weekOffType: day.weekOffType,
+        userUuids: this.selectedStaffsUuids,
       }));
 
     // Submit the data
@@ -1853,4 +1889,41 @@ export class AttendanceSettingComponent implements OnInit {
   toggleCollapse5(index: number): void {
     this.activeIndex5 = this.activeIndex5 === index ? -1 : index;
   }
+
+  teamNameList: UserTeamDetailsReflection[] = [];
+
+  teamId: number = 0;
+  getTeamNames() {
+    debugger
+    this.dataService.getAllTeamNames().subscribe({
+      next: (response: any) => {
+        this.teamNameList = response.object;
+      },
+      error: (error) => {
+        console.error('Failed to fetch team names:', error);
+      },
+    });
+  }
+
+  selectedTeamName: string = 'All';
+  selectedTeamId: number = 0;
+  selectTeam(teamId: number) {
+    debugger
+    if (teamId === 0) {
+      this.selectedTeamName = 'All';
+    } else {
+      const selectedTeam = this.teamNameList.find(team => team.teamId === teamId);
+      this.selectedTeamName = selectedTeam ? selectedTeam.teamName : 'All';
+    }
+    this.page = 0;
+    this.itemPerPage = 10;
+    // this.fullLeaveLogs = [];
+    // this.selectedTeamName = teamName;
+    this.selectedTeamId = teamId;
+    this.getUserByFiltersMethodCall();
+  
+  }
+
+  isShowAutomationRule:boolean=false;
+
 }

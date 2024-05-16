@@ -108,29 +108,29 @@
               <div class="mt-3">
                 <div
                   class="d-flex align-items-center justify-content-between mb-3"
-                  *ngIf="shiftCounts.dayShiftCount != 0"
+                  *ngIf="shiftCounts?.dayShiftCount != 0"
                 >
                   <small class="text-muted">Day Shifts</small>
                   <small class="text-muted">{{
-                    shiftCounts.dayShiftCount || 0
+                    shiftCounts?.dayShiftCount || 0
                   }}</small>
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between mb-3"
-                  *ngIf="shiftCounts.nightShiftCount != 0"
+                  *ngIf="shiftCounts?.nightShiftCount != 0"
                 >
                   <small class="text-muted">Night Shifts</small>
                   <small class="text-muted">{{
-                    shiftCounts.nightShiftCount || 0
+                    shiftCounts?.nightShiftCount || 0
                   }}</small>
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between"
-                  *ngIf="shiftCounts.rotationalShiftCount != 0"
+                  *ngIf="shiftCounts?.rotationalShiftCount != 0"
                 >
                   <small class="text-muted">Rotational Shifts</small>
                   <small class="text-muted">{{
-                    shiftCounts.rotationalShiftCount || 0
+                    shiftCounts?.rotationalShiftCount || 0
                   }}</small>
                 </div>
               </div>
@@ -559,7 +559,7 @@
                   class="d-flex align-items-center justify-content-between mb-3"
                 >
                   <small class="text-muted d-flex align-items-center gap-3 mb-0"
-                    ><span class="universal"></span> Universal Holiday's</small
+                    ><span class="universal"></span> National Holiday's</small
                   >
                   <small class="text-muted">{{
                     universalHolidaysNumber
@@ -776,14 +776,14 @@
             <div class="border-box"></div>
           </div>
 
-          <div class="col-md-4 mt-3 mb-3">
+          <div class="col-md-4 mt-3 mb-3" *ngIf="isShowAutomationRule">
             <div class="form-roe-data">
               <h5>Automation Rules</h5>
               <p>A quick snapshot of your company.</p>
             </div>
           </div>
 
-          <div class="col-md-7 mt-3 mb-3">
+          <div class="col-md-7 mt-3 mb-3" *ngIf="isShowAutomationRule">
             <ng-container
               *ngIf="
                 isShimmerForAttendanceRule &&
@@ -1556,6 +1556,23 @@
                 </button>
               </li>
               <li role="presentation" class="nav-item">
+                <button
+                    id="holiday-tab"
+                    data-bs-toggle="tab"
+                    [attr.aria-selected]="!shiftForm.invalid"
+                  [attr.tabindex]="shiftForm.invalid ? -1 : null"
+                    data-bs-target="#weeklyOff"
+                    type="button"
+                    role="tab"
+                   
+                    aria-controls="weeklyOff"
+                    class="nav-link"
+                >
+                    WeekOff Settings
+                </button>
+            </li>
+            
+              <li role="presentation" class="nav-item">
                 <!-- [class.disabled]="shiftForm.invalid" -->
                 <!-- (click)="!shiftForm.invalid && staffActiveTabInShiftTimingMethod()" -->
                 <button
@@ -1813,6 +1830,115 @@
                 </form>
               </div>
 
+              <!-- Enter Week OFFs -->
+
+              <div class="tab-pane fade" id="weeklyOff" role="tabpanel">
+                <div class="staf-list-box mt-3">
+                  <div
+                    class="row mb-1 mt-3 align-items-center"
+                    style="padding-bottom: 15px"
+                  >
+                       
+                          <div class="col-md-12">
+                            <div
+                              class="week-checkbox d-flex align-items-center gap-3"
+                              *ngFor="let day of weekDay; let i = index"
+                            >
+                              <div class="form-check d-flex align-items-center gap-2">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  [(ngModel)]="day.selected"
+                                  [id]="'weekDay' + i"
+                                  (click)="toggleSelection(i)"
+                                />
+                                <label
+                                  class="form-check-label align-label"
+                                  [for]="'weekDay' + i"
+                                  >{{ day.name }}</label
+                                >
+                              </div>
+                              <div *ngIf="day.selected">
+                                <div
+                                  class="btn-group"
+                                  role="group"
+                                  aria-label="Basic radio toggle button group"
+                                >
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradio{{ i }}"
+                                    id="btnradio1-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="toggleAlternate(i, false)"
+                                    [checked]="!day.isAlternate"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio1-{{ i }}"
+                                    >All</label
+                                  >
+              
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradio{{ i }}"
+                                    id="btnradio2-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="toggleAlternate(i, true)"
+                                    [checked]="day.isAlternate == true"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio2-{{ i }}"
+                                    >Alternate</label
+                                  >
+                                </div>
+              
+                                <div
+                                  class="btn-group radio-btn"
+                                  role="group"
+                                  aria-label="Basic radio toggle button group"
+                                  *ngIf="day.isAlternate"
+                                >
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradioAlt{{ i }}"
+                                    id="btnradio3-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="day.weekOffType = 1"
+                                    [checked]="day.weekOffType == 1"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio3-{{ i }}"
+                                    >ODD</label
+                                  >
+              
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradioAlt{{ i }}"
+                                    id="btnradio4-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="day.weekOffType = 2"
+                                    [checked]="day.weekOffType === 2"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio4-{{ i }}"
+                                    >EVEN</label
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        
+                    </div>
+                </div>
+            </div>
+
               <div class="tab-pane fade" id="staffselection" role="tabpanel">
                 <div class="staf-list-box mt-3">
                   <div
@@ -1833,22 +1959,32 @@
                               aria-expanded="false"
                               class="btn btn-secondary dropdown-toggle new-deopdown"
                             >
-                              Select User
+                            {{ selectedTeamName }}
                               <i
                                 class="bi bi-chevron-down"
                                 style="color: #444; font-size: 15px"
                               ></i>
                             </button>
                             <ul
-                              aria-labelledby="dropdownMenuButton1"
-                              class="dropdown-menu"
-                              style="width: 100%"
+                            aria-labelledby="dropdownMenuButton1"
+                            class="dropdown-menu team-dropdown"
+                            style="width: 100%"
+                          >
+                            <li
+                              class="ng-star-inserted"
+
+                              (click)="selectTeam(0)"
                             >
-                              <li>
-                                <a class="dropdown-item">Select All </a>
-                              </li>
-                              <li><a class="dropdown-item">Reset All</a></li>
-                            </ul>
+                              <a class="dropdown-item">All</a>
+                            </li>
+                            <li
+                              class="ng-star-inserted"
+                              *ngFor="let tn of teamNameList"
+                              (click)="selectTeam(tn.teamId)"
+                            >
+                              <a class="dropdown-item"> {{ tn.teamName }} </a>
+                            </li>
+                          </ul>
                           </div>
                         </div>
 
@@ -1892,19 +2028,26 @@
                           </form>
                         </div>
 
-                        <div class="" style="width: 20%">
-                          <div
-                            class="d-flex justify-content-end align-items-center"
-                            style="gap: 10px; padding-right: 15px"
-                          >
-                            <div
-                              class="add-filtter d-flex align-items-center justify-content-end"
-                              style="gap: 10px"
-                            >
-                              <a type="button"> 8 selected of 24 </a>
-                            </div>
+                        <div class="container">
+                          <div class="content-wrapper">
+                              <div class="filter-wrapper">
+                                  <!-- Display this only if there are selected staff -->
+                                  <a class="info-button" *ngIf="selectedStaffsUuids.length > 0">
+                                      {{ selectedStaffsUuids.length }} selected of {{ totalUserCount }}
+                                  </a>
+                                  <!-- Clear button shows only if there are selected staff -->
+                                  <span class="clear-button text-danger" *ngIf="selectedStaffsUuids.length > 0" (click)="unselectAllUsers()">
+                                      Clear all users <i class="bi bi-x"></i>
+                                  </span>
+                                  <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="isAllUsersSelected" (change)="selectAllUsers($event)">
+                                    Select all
+                                </label>
+                              </div>
                           </div>
-                        </div>
+                      </div>
+                      
+                        
                       </div>
                     </div>
                   </div>
@@ -2052,6 +2195,7 @@
                   ></div>
                 </div>
               </div>
+              
             </div>
           </div>
         </div>
@@ -2240,14 +2384,7 @@
                 </nz-date-picker>
               </div>
               <div class="col-md-1">
-                <!-- <button
-                  type="button"
-                  class="btn btn-outline-danger"
-                  (click)="removeHoliday(i)"
-                  *ngIf="holidayList.length > 1"
-                >
-                  Remove
-                </button> -->
+               
                 <button
                   type="button"
                   class="btn btn-soft-danger btn-icon-square-sm"
@@ -2284,7 +2421,7 @@
     </div>
   </div>
 
-  <div
+  <!-- <div
     class="modal fade"
     id="addweeklyholiday"
     tabindex="-1"
@@ -2426,7 +2563,436 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
+
+  <div
+    class="modal fade"
+    id="addweeklyholiday"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+  >
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h6 class="modal-title">Weekly Holiday</h6>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              #closeWeeklyHolidayModal
+            ></button>
+        </div>
+        <div class="modal-body">
+            <!-- Tabs navigation -->
+            <ul id="weeklyHolidayTab" role="tablist" class="nav nav-tabs">
+                <li role="presentation" class="nav-item">
+                    <button
+                        id="holiday-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#holidaySettings"
+                        type="button"
+                        role="tab"
+                        aria-controls="holidaySettings"
+                        aria-selected="true"
+                        class="nav-link active"
+                    >
+                        WeekOff Settings
+                    </button>
+                </li>
+                <!-- <li role="presentation" class="nav-item">
+                    <button
+                        id="advanced-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#advancedSettings"
+                        type="button"
+                        role="tab"
+                        aria-controls="advancedSettings"
+                        aria-selected="false"
+                        class="nav-link"
+                    >
+                        Advanced Settings
+                    </button>
+                </li> -->
+            </ul>
+            
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade show active" id="holidaySettings" aria-labelledby="holiday-tab">
+                    <!-- Existing content for Weekly Holiday Settings -->
+                    <div class="row">
+                       
+                          <div class="col-md-12">
+                            <div
+                              class="week-checkbox d-flex align-items-center gap-3"
+                              *ngFor="let day of weekDay; let i = index"
+                            >
+                              <div class="form-check d-flex align-items-center gap-2">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  [(ngModel)]="day.selected"
+                                  [id]="'weekDay' + i"
+                                  (click)="toggleSelection(i)"
+                                />
+                                <label
+                                  class="form-check-label align-label"
+                                  [for]="'weekDay' + i"
+                                  >{{ day.name }}</label
+                                >
+                              </div>
+                              <div *ngIf="day.selected">
+                                <div
+                                  class="btn-group"
+                                  role="group"
+                                  aria-label="Basic radio toggle button group"
+                                >
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradio{{ i }}"
+                                    id="btnradio1-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="toggleAlternate(i, false)"
+                                    [checked]="!day.isAlternate"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio1-{{ i }}"
+                                    >All</label
+                                  >
+              
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradio{{ i }}"
+                                    id="btnradio2-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="toggleAlternate(i, true)"
+                                    [checked]="day.isAlternate"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio2-{{ i }}"
+                                    >Alternate</label
+                                  >
+                                </div>
+              
+                                <div
+                                  class="btn-group radio-btn"
+                                  role="group"
+                                  aria-label="Basic radio toggle button group"
+                                  *ngIf="day.isAlternate"
+                                >
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradioAlt{{ i }}"
+                                    id="btnradio3-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="day.weekOffType = 1"
+                                    [checked]="day.weekOffType === 1"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio3-{{ i }}"
+                                    >ODD</label
+                                  >
+              
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradioAlt{{ i }}"
+                                    id="btnradio4-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="day.weekOffType = 2"
+                                    [checked]="day.weekOffType === 2"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio4-{{ i }}"
+                                    >EVEN</label
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="advancedSettings" aria-labelledby="advanced-tab">
+                    <!-- Additional settings or features you want to add can go here -->
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div
+                          class="d-flex align-items-center"
+                          style="border: 1px solid #f1f1f1"
+                        >
+                          <div style="width: 30%; position: relative">
+                            <div class="dropdown" style="width: 100%">
+                              <button
+                                type="button"
+                                id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                class="btn btn-secondary dropdown-toggle new-deopdown"
+                              >
+                              {{ selectedTeamName }}
+                                <i
+                                  class="bi bi-chevron-down"
+                                  style="color: #444; font-size: 15px"
+                                ></i>
+                              </button>
+                              <ul
+                              aria-labelledby="dropdownMenuButton1"
+                              class="dropdown-menu team-dropdown"
+                              style="width: 100%"
+                            >
+                              <li
+                                class="ng-star-inserted"
+                               
+                                (click)="selectTeam(0)"
+                              >
+                                <a class="dropdown-item">All</a>
+                              </li>
+                              <li
+                                class="ng-star-inserted"
+                                *ngFor="let tn of teamNameList"
+                                (click)="selectTeam(tn.teamId)"
+                              >
+                                <a class="dropdown-item"> {{ tn.teamName }} </a>
+                              </li>
+                            </ul>
+                            </div>
+                          </div>
+  
+                          <div class="" style="width: 70%">
+                            <form
+                              novalidate=""
+                              role="search"
+                              (submit)="searchUsers()"
+                              class="searching ng-untouched ng-pristine ng-valid"
+                            >
+                              <div class="form-group" style="position: relative">
+                                <input
+                                  type="text"
+                                  id="searchText"
+                                  placeholder="Search by name and role"
+                                  class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                                  (keyup)="searchUsers()"
+                                  [(ngModel)]="searchText"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  style="padding: 10px 50px 10px 40px"
+                                />
+                                <button
+                                  *ngIf="searchText.length !== 0"
+                                  type="button"
+                                  class="btn close-btn"
+                                  (click)="clearSearchText()"
+                                >
+                                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                                </button>
+                                <i
+                                  class="bi bi-search search-icon"
+                                  style="
+                                    position: absolute;
+                                    top: 50%;
+                                    transform: translateY(-50%);
+                                    left: 10px;
+                                    padding-left: 5px;
+                                  "
+                                ></i>
+                              </div>
+                            </form>
+                          </div>
+  
+                          <div class="" style="width: 20%">
+                            <div
+                              class="d-flex justify-content-end align-items-center"
+                              style="gap: 10px; padding-right: 15px"
+                            >
+                              <div
+                                class="add-filtter d-flex align-items-center justify-content-end"
+                                style="gap: 10px"
+                              >
+                                <a type="button"> 8 selected of 24 </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <ng-container
+                    *ngIf="total > 0; else noDataFoundPlaceholderInShiftTiming"
+                  >
+                    <table class="table">
+                      <thead class="thead-light">
+                        <tr>
+                          <th style="width: 0%">
+                            <input
+                              type="checkbox"
+                              style="cursor: pointer"
+                              class="form-check-input"
+                              [(ngModel)]="isAllSelected"
+                              (change)="selectAll(isAllSelected)"
+                            />
+                          </th>
+                          <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                          <th style="width: 25%; padding: 12px 15px">Name</th>
+                          <th style="width: 25%; padding: 12px 15px">Email</th>
+                          <th style="width: 25%; padding: 12px 15px">Phone</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let staff of staffs
+                              | paginate
+                                : {
+                                    itemsPerPage: itemPerPage,
+                                    currentPage: pageNumber,
+                                    totalItems: total
+                                  }
+                          "
+                          style="border-bottom: 1px solid #dddddd"
+                        >
+                          <td>
+                            <div class="form-check">
+                              <input
+                                type="checkbox"
+                                style="cursor: pointer"
+                                class="form-check-input"
+                                [(ngModel)]="staff.selected"
+                                (change)="checkIndividualSelection()"
+                              />
+                            </div>
+                          </td>
+                          <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                          <td style="padding: 12px 15px">{{ staff.name }}</td>
+                          <td style="padding: 12px 15px">
+                            {{ staff.email ? staff.email : "N/A" }}
+                          </td>
+                          <td style="padding: 12px 15px">
+                            {{ staff.phoneNumber || "N/A" }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </ng-container>
+
+                  <ng-template #noDataFoundPlaceholderInShiftTiming>
+                    <div class="errorboxmain">
+                      <div class="errorboxinner text-center">
+                        <div class="errorboxplaceholder mb-2">
+                          <img
+                            src="assets/images/addnewproduct.svg"
+                            style="width: 80px"
+                          />
+                        </div>
+
+                        <h4>No Data Found</h4>
+
+                        <p>
+                          We're unable to locate a record associated with the
+                          information you entered.
+                        </p>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <div
+                  class="pagination pl-3"
+                  *ngIf="
+                    total > itemPerPage - 1 ||
+                    (pageNumber === lastPageNumber && lastPageNumber !== 1)
+                  "
+                >
+                  <p class="mb-0" style="padding-left: 15px">
+                    Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                    {{ total }} teams
+                  </p>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-end">
+                          <li
+                            class="page-item"
+                            [class.disabled]="pageNumber == 1"
+                          >
+                            <a
+                              class="page-link"
+                              href="javascript:void(0);"
+                              aria-label="Previous"
+                              (click)="changePage('prev')"
+                            >
+                              <span aria-hidden="true">&laquo;</span>
+                            </a>
+                          </li>
+                          <li
+                            class="page-item"
+                            *ngFor="let page of getPages()"
+                            [class.active]="pageNumber == page"
+                          >
+                            <a
+                              class="page-link"
+                              href="javascript:void(0);"
+                              (click)="changePage(page)"
+                              >{{ page }}</a
+                            >
+                          </li>
+                          <li
+                            class="page-item"
+                            [class.disabled]="pageNumber == totalPages"
+                          >
+                            <a
+                              class="page-link"
+                              href="javascript:void(0);"
+                              aria-label="Next"
+                              (click)="changePage('next')"
+                            >
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+                <div id="back-and-submit">
+                  <div
+                    class="modal-footer d-flex align-items-center justify-content-end"
+                  ></div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary btnmarkcancel"
+              data-bs-dismiss="modal"
+            >
+                Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btnmarkdelete"
+              (click)="submitWeeklyHolidays()"
+              *ngIf="!submitWeeklyHolidaysLoader"
+            >
+                Submit
+            </button>
+            <div class="dot-opacity-loader" *ngIf="submitWeeklyHolidaysLoader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
 
   <div
     class="modal fade"
