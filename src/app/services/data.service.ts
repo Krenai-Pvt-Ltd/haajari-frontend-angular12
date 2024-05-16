@@ -323,6 +323,29 @@ export class DataService {
     });
   }
 
+  getUsersByFilterForEmpOnboarding(
+    itemPerPage: number,
+    pageNumber: number,
+    sort: string,
+    sortBy: string,
+    search: string,
+    searchBy: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('item_per_page', itemPerPage.toString())
+      .set('page_number', pageNumber.toString())
+      .set('sort_order', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/users/get/by-filters-for-employee-onboarding-data`,
+      {
+        params,
+      }
+    );
+  }
+
   getUsersByFilterForLeaveSetting(
     itemPerPage: number,
     pageNumber: number,
@@ -853,15 +876,20 @@ export class DataService {
 
   setEmployeePersonalDetails(
     userPersonalInformationRequest: UserPersonalInformationRequest,
-    userUuid: string
+    userUuid: string,
+    selectedTeamIds: number[]
   ): Observable<any> {
     debugger;
-    const params = new HttpParams().set('userUuid', userUuid);
+    let params = new HttpParams().set('userUuid', userUuid);
+    const requestBody = {
+      userPersonalInformationRequest,
+      selectedTeamIds,
+    };
     console.log('save');
     return this.httpClient
       .put<any>(
         `${this.baseUrl}/users/save/employeePersonalDetails`,
-        userPersonalInformationRequest,
+        requestBody,
         { params }
       )
       .pipe(
@@ -871,6 +899,40 @@ export class DataService {
         })
       );
   }
+  // setEmployeePersonalDetails(
+  //   userPersonalInformationRequest: UserPersonalInformationRequest,
+  //   userUuid: string,
+  //   selectedTeamIds: number[]
+  // ): Observable<any> {
+  //   const params = new HttpParams().set('userUuid', userUuid);
+  //   return this.httpClient
+  //     .put<any>(
+  //       `${this.baseUrl}/save/employeePersonalDetails`,
+  //       {
+  //         userPersonalInformationRequest,
+  //         selectedTeamIds,
+  //       },
+  //       { params }
+  //     )
+  //     .pipe(
+  //       catchError((error: HttpErrorResponse) => {
+  //         console.error('Error in setEmployeePersonalDetails:', error);
+  //         return throwError(error);
+  //       })
+  //     );
+  // }
+
+  // saveUserPersonalDetails(
+  //   userPersonalInformationRequest: any,
+  //   userUuid: string,
+  //   selectedTeamIds: number[]
+  // ): Observable<any> {
+  //   const url = `/save/employeePersonalDetails?userUuid=${userUuid}`;
+  //   return this.http.put<any>(url, {
+  //     userPersonalInformationRequest,
+  //     selectedTeamIds,
+  //   });
+  // }
 
   setEmployeeOnboardingPersonalDetails(
     userPersonalInformationRequest: UserPersonalInformationRequest,
@@ -2681,5 +2743,10 @@ export class DataService {
         },
       }
     );
+  }
+
+  getTeamListUserForEmpOnboarding(): Observable<any> {
+    const url = `${this.baseUrl}/users/fetch-team-list-user`;
+    return this.httpClient.get(url, {});
   }
 }
