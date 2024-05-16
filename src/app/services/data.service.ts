@@ -740,10 +740,12 @@ export class DataService {
       `${this.baseUrl}/team/checking-user-role`
     );
   }
-  sendInviteToUsers(emails: any): Observable<any> {
+  sendInviteToUsers(emails: string[], teamId: string): Observable<any> {
+    const params = new HttpParams().set('teamUuid', teamId);
     return this.httpClient.post(
-      `${this.baseUrl}/email/send-invite-to-users`,
-      emails
+      `${this.baseUrl}/team/send-invite-to-users`,
+      emails,
+      { params }
     );
   }
 
