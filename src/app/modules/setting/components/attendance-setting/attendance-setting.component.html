@@ -1580,7 +1580,7 @@
                                         !attendanceRuleForm.invalid && staffActiveTabInAutomationRuleMethod()" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" #staffActiveTabInAutomationRule> Staff selection </button>
                   </li>
                 </ul>
-                <!-- <ul id="myTab" role="tablist" class="nav nav-tabs" *ngIf="CURRENT_MODAL == OVERTIME_RULE_DEFINITION">
+                <ul id="myTab" role="tablist" class="nav nav-tabs" *ngIf="CURRENT_MODAL == OVERTIME_RULE_DEFINITION">
                   <li role="presentation" class="nav-item">
                     <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" class="nav-link active" #ruleActiveTab> Rules </button>
                   </li>
@@ -1597,7 +1597,7 @@
                                           staffActiveTabInAutomationRuleMethod()
                                       " data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" #staffActiveTabInAutomationRule> Staff selection </button>
                   </li>
-                </ul> -->
+                </ul>
                 <div class="tab-content" id="myTabContent">
                   <div class="tab-pane fade show active" id="home" role="tabpanel">
 
@@ -2059,7 +2059,12 @@
 
                       <div class="modal-footer" *ngIf="CURRENT_MODAL == DEDUCTION_RULE_DEFINITION">
                         <!-- (!customCheckbox && !halfDayCheckbox && !fullDayCheckbox) || (selectedCustomDeductionType?.type == '')  || compareTimesValidation() ||  -->
-                        <button type="submit" class="btn btn-primary" [disabled]="attendanceRuleForm.invalid">Next</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="(!customCheckbox &&
+                        !halfDayCheckbox &&
+                        !fullDayCheckbox) ||
+                        (selectedCustomDeductionType?.type == '') ||
+                      attendanceRuleForm.invalid ||
+                      compareTimesValidation()" (click)="staffActiveTabInAutomationRuleMethod()">Next</button>
                       </div>
 
                       <div class="modal-footer" *ngIf="CURRENT_MODAL == OVERTIME_RULE_DEFINITION">
