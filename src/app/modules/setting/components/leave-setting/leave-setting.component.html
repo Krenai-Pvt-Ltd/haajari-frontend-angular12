@@ -1028,12 +1028,12 @@
                             placeholder="Enter Leave Name"
                             required
                           /> -->
-
+                          <!-- (keydown)="preventLeadingWhitespace($event)" -->
                           <input
-                            (keydown)="preventLeadingWhitespace($event)"
                             nz-input
-                            id="bankName"
-                            name="bankName"
+                            (keydown)="preventLeadingWhitespace($event)"
+                            id="leaveName"
+                            name="leaveName"
                             class="form-control whatapp-login-input"
                             formControlName="leaveName"
                             required
