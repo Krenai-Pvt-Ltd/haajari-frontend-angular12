@@ -209,6 +209,8 @@ export class AttendanceSettingComponent implements OnInit {
     this.halfDayOvertimeDurationValue = null;
     this.fullDayOvertimeDurationValue = null;
 
+    this.activeModel2 = false;
+
     // if (this.lateDurationControl) {
     //   // Set the control as untouched
     //   this.lateDurationControl.control.markAsUntouched();
@@ -911,6 +913,8 @@ export class AttendanceSettingComponent implements OnInit {
           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
 
           this.isAllSelected = this.staffs.every((staff) => staff.selected);
+
+          console.log(this.staffs);
         },
         (error) => {
           console.error(error);
