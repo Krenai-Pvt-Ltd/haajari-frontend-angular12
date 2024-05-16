@@ -1,4 +1,5 @@
 export class OvertimeRuleDefinitionRequest {
+    
     customDuration : string = '';
     halfDayDuration : string = '';
     fullDayDuration : string = '';

@@ -647,7 +647,7 @@
                           </div>
                           <div class="d-flex align-items-center gap-4">
                             <a data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule" style="cursor: pointer" (click)="
-                              updateAttendenceRuleDefinition(
+                              updateAttendanceRuleDefinition(
                                 attendanceRuleDefinitionResponse,
                                 attendanceRuleWithAttendanceRuleDefinitionResponse.attendanceRuleResponse,
                                 automationIndex
@@ -655,23 +655,10 @@
                             ">
                               <i class="bi bi-pencil pointer"></i>
                             </a>
-                            <a class="delete-rule" style="cursor: pointer" (click)="
-                              deleteAttendanceRuleDefinitionMethodCall(
-                                attendanceRuleDefinitionResponse.id,
-                                attendanceRuleDefinitionResponse.attendanceRuleTypeId
-                              )
-                            " *ngIf="
-                              !deleteAttendanceRuleTemplateLoader(
-                                attendanceRuleDefinitionResponse.id
-                              )
-                            ">
+                            <a class="delete-rule" style="cursor: pointer" (click)="deleteAttendanceRuleDefinitionMethodCall(attendanceRuleDefinitionResponse.id, attendanceRuleDefinitionResponse.attendanceRuleTypeId)" *ngIf="!deleteAttendanceRuleTemplateLoader(attendanceRuleDefinitionResponse.id)">
                               <i class="bi bi-trash pointer text-danger"></i>
                             </a>
-                            <div class="dot-opacity-loader" *ngIf="
-                              deleteAttendanceRuleTemplateLoader(
-                                attendanceRuleDefinitionResponse.id
-                              )
-                            ">
+                            <div class="dot-opacity-loader" *ngIf="deleteAttendanceRuleTemplateLoader(attendanceRuleDefinitionResponse.id)">
                               <span style="background-color: #6666f3"></span>
                               <span style="background-color: #6666f3"></span>
                               <span style="background-color: #6666f3"></span>
@@ -679,9 +666,7 @@
                             <!-- <i class="bi bi-pencil pointer"></i><i class="bi bi-trash pointer text-danger"></i> -->
                           </div>
                         </div>
-
                         <div class="row mt-3" *ngIf="attendanceRuleDefinitionResponse.attendanceRuleTypeId == DEDUCTION_RULE_DEFINITION">
-
                           <div class="col-md-4">
                             <div class="custom-salary">
                               <div class="custom-salary-hedding p-3">
@@ -712,24 +697,23 @@
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between mb-3">
-                                    <p class="mb-0">Deduction</p>
-                                    <!-- <span> | </span> -->
-                                    <span style="color: #009688">
-                                      <ng-container *ngIf="attendanceRuleDefinitionResponse?.deductionRuleDefinitionResponse?.deductionType?.id === DEDUCTION_TYPE_PER_MINUTE; else customDeductionFixAmount">
+                                  <p class="mb-0">Deduction</p>
+                                  <!-- <span> | </span> -->
+                                  <span style="color: #009688">
+                                    <ng-container *ngIf="attendanceRuleDefinitionResponse?.deductionRuleDefinitionResponse?.deductionType?.id === DEDUCTION_TYPE_PER_MINUTE; else customDeductionFixAmount">
+                                      <span style="color: 3f988f">{{ attendanceRuleDefinitionResponse?.deductionRuleDefinitionResponse?.deductionType?.type}}</span>
+                                    </ng-container>
+                                    <ng-template #customDeductionFixAmount>
+                                      <ng-container *ngIf="attendanceRuleDefinitionResponse?.deductionRuleDefinitionResponse?.deductionType?.type; else customDeductionNA">
                                         <span style="color: 3f988f">{{ attendanceRuleDefinitionResponse?.deductionRuleDefinitionResponse?.deductionType?.type}}</span>
+                                        <span style="color: 3f988f"> (Rs. {{ attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.customSalaryDeduction.amountInRupees}})</span>
                                       </ng-container>
-                                      <ng-template #customDeductionFixAmount>
-                                        <ng-container *ngIf="attendanceRuleDefinitionResponse?.deductionRuleDefinitionResponse?.deductionType?.type; else customDeductionNA">
-                                          <span style="color: 3f988f">{{ attendanceRuleDefinitionResponse?.deductionRuleDefinitionResponse?.deductionType?.type}}</span>
-                                          <span style="color: 3f988f"> (Rs. {{ attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.customSalaryDeduction.amountInRupees}})</span>
-                                        </ng-container>
-                                      </ng-template>
-                                      <ng-template #customDeductionNA>
-                                        <span>N/A</span>
-                                      </ng-template>
-                                    </span>
+                                    </ng-template>
+                                    <ng-template #customDeductionNA>
+                                      <span>N/A</span>
+                                    </ng-template>
+                                  </span>
                                 </div>
-
                                 <div class="d-flex align-items-center justify-content-between">
                                   <p class="mb-0">Occurrences</p>
                                   <!-- <span> | </span> -->
@@ -744,7 +728,6 @@
                               </div>
                             </div>
                           </div>
-
                           <div class="col-md-4">
                             <div class="custom-salary">
                               <div class="custom-salary-hedding p-3">
@@ -804,7 +787,6 @@
                               </div>
                             </div>
                           </div>
-
                           <div class="col-md-4">
                             <div class="custom-salary">
                               <div class="custom-salary-hedding p-3">
@@ -863,9 +845,7 @@
                             </div>
                           </div>
                         </div>
-
                         <div class="row mt-3" *ngIf="attendanceRuleDefinitionResponse.attendanceRuleTypeId == OVERTIME_RULE_DEFINITION">
-
                           <div class="col-md-4">
                             <div class="custom-salary">
                               <div class="custom-salary-hedding p-3">
@@ -892,29 +872,27 @@
                                     </ng-template>
                                   </span>
                                 </div>
-
                                 <div class="d-flex align-items-center justify-content-between mb-3">
-                                    <p class="mb-0">Pay Type</p>
-                                    <!-- <span> | </span> -->
-                                    <span style="color: #009688">
-                                      <ng-container *ngIf="attendanceRuleDefinitionResponse?.overtimeRuleDefinitionResponse?.customOvertimeType?.id != OVERTIME_TYPE_FIXED_AMOUNT; else customPayFixAmount">
+                                  <p class="mb-0">Pay Type</p>
+                                  <!-- <span> | </span> -->
+                                  <span style="color: #009688">
+                                    <ng-container *ngIf="attendanceRuleDefinitionResponse?.overtimeRuleDefinitionResponse?.customOvertimeType?.id != OVERTIME_TYPE_FIXED_AMOUNT; else customPayFixAmount">
+                                      <span style="color: 3f988f">{{ attendanceRuleDefinitionResponse?.overtimeRuleDefinitionResponse?.customOvertimeType?.type}}</span>
+                                    </ng-container>
+                                    <ng-template #customPayFixAmount>
+                                      <ng-container *ngIf="attendanceRuleDefinitionResponse?.overtimeRuleDefinitionResponse?.customOvertimeType?.type; else customPayNA">
                                         <span style="color: 3f988f">{{ attendanceRuleDefinitionResponse?.overtimeRuleDefinitionResponse?.customOvertimeType?.type}}</span>
+                                        <span style="color: 3f988f"> (Rs. {{ attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse.customAmountInRupees}})</span>
                                       </ng-container>
-                                      <ng-template #customPayFixAmount>
-                                        <ng-container *ngIf="attendanceRuleDefinitionResponse?.overtimeRuleDefinitionResponse?.customOvertimeType?.type; else customPayNA">
-                                          <span style="color: 3f988f">{{ attendanceRuleDefinitionResponse?.overtimeRuleDefinitionResponse?.customOvertimeType?.type}}</span>
-                                          <span style="color: 3f988f"> (Rs. {{ attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse.customAmountInRupees}})</span>
-                                        </ng-container>
-                                      </ng-template>
-                                      <ng-template #customPayNA>
-                                        <span>N/A</span>
-                                      </ng-template>
-                                    </span>
+                                    </ng-template>
+                                    <ng-template #customPayNA>
+                                      <span>N/A</span>
+                                    </ng-template>
+                                  </span>
                                 </div>
                               </div>
                             </div>
                           </div>
-
                           <div class="col-md-4">
                             <div class="custom-salary">
                               <div class="custom-salary-hedding p-3">
@@ -947,7 +925,6 @@
                                     </ng-template>
                                   </span>
                                 </div>
-
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                   <p class="mb-0">Pay Type</p>
                                   <!-- <span> | </span> -->
@@ -965,11 +942,10 @@
                                       <span>N/A</span>
                                     </ng-template>
                                   </span>
-                              </div>
+                                </div>
                               </div>
                             </div>
                           </div>
-
                           <div class="col-md-4">
                             <div class="custom-salary">
                               <div class="custom-salary-hedding p-3">
@@ -1000,7 +976,6 @@
                                     </ng-template>
                                   </span>
                                 </div>
-
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                   <p class="mb-0">Pay Type</p>
                                   <!-- <span> | </span> -->
@@ -1018,13 +993,11 @@
                                       <span>N/A</span>
                                     </ng-template>
                                   </span>
-                              </div>
+                                </div>
                               </div>
                             </div>
                           </div>
-
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -1133,9 +1106,7 @@
                       <div class="mb-3">
                         <label for="inTime" class="pb-2">In Time</label>
                         <input id="inTime" type="time" class="form-control whatapp-login-input" required [(ngModel)]="organizationShiftTimingRequest.inTime" name="inTime" (change)="calculateTimes()" />
-                        <div *ngIf="
-                          organizationShiftTimingValidationErrors['inTime']
-                        " class="text-danger">
+                        <div *ngIf="organizationShiftTimingValidationErrors['inTime']" class="text-danger">
                           {{ organizationShiftTimingValidationErrors["inTime"] }}
                         </div>
                       </div>
@@ -1606,12 +1577,10 @@
                                         attendanceRuleForm.invalid ||
                                         compareTimesValidation()
                                       " [attr.aria-selected]="!attendanceRuleForm.invalid" [attr.tabindex]="attendanceRuleForm.invalid ? -1 : null" (click)="
-                                        !attendanceRuleForm.invalid &&
-                                          staffActiveTabInAutomationRuleMethod()
-                                      " data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" #staffActiveTabInAutomationRule> Staff selection </button>
+                                        !attendanceRuleForm.invalid && staffActiveTabInAutomationRuleMethod()" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" #staffActiveTabInAutomationRule> Staff selection </button>
                   </li>
                 </ul>
-                <ul id="myTab" role="tablist" class="nav nav-tabs" *ngIf="CURRENT_MODAL == OVERTIME_RULE_DEFINITION">
+                <!-- <ul id="myTab" role="tablist" class="nav nav-tabs" *ngIf="CURRENT_MODAL == OVERTIME_RULE_DEFINITION">
                   <li role="presentation" class="nav-item">
                     <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" class="nav-link active" #ruleActiveTab> Rules </button>
                   </li>
@@ -1628,10 +1597,18 @@
                                           staffActiveTabInAutomationRuleMethod()
                                       " data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" #staffActiveTabInAutomationRule> Staff selection </button>
                   </li>
-                </ul>
+                </ul> -->
                 <div class="tab-content" id="myTabContent">
                   <div class="tab-pane fade show active" id="home" role="tabpanel">
-                    <form #attendanceRuleForm="ngForm" ngNativeValidate (ngSubmit)="submitAttendanceRuleForm()">
+
+                    <!-- <form #testForm="ngForm">
+                      <input type="text" required name="test2" ngModel minlength="2">
+                      <input type="text" required name="test21" ngModel minlength="2">
+                      <button type="button" class="btn btn-primary" [disabled]="!testForm.valid" (click)="testFormcheck()">submit</button>
+                    </form> -->
+                    
+                    <!-- <form #attendanceRuleForm="ngForm" (ngSubmit)="submitAttendanceRuleForm()"> -->
+                    <form #attendanceRuleForm="ngForm">
                       <div class="rules-main" *ngIf="CURRENT_MODAL == DEDUCTION_RULE_DEFINITION">
                         <div class="form-check pb-3">
                           <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="flexCheckChecked" [checked]="customCheckbox" (click)="tickCustomCheckbox()" />
@@ -1652,10 +1629,7 @@
                                       <b>hrs.</b>
                                     </span>
                                   </div>
-                                  <div *ngIf="
-                                                      lateDuration?.touched &&
-                                                      lateDuration.errors?.required
-                                                    " class="text-danger" style="font-size: 13px"> Duration is required. </div>
+                                  <div *ngIf="lateDuration?.touched && lateDuration.errors?.required" class="text-danger" style="font-size: 13px"> Duration is required. </div>
                                   <div *ngIf="invalidCustomlateDuration1" class="text-danger" style="font-size: 13px"> Custom Duration should be less than Half Day Duration. </div>
                                   <div *ngIf="invalidCustomlateDuration2" class="text-danger" style="font-size: 13px"> Custom Duration should be less than full Day Duration. </div>
                                 </div>
@@ -1710,7 +1684,7 @@
                           <div class="mt-3">
                             <div class="form-check">
                               <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="Occurrences" [checked]="customOccurrenceCheckbox" (click)="tickCustomOccurrenceCheckbox()" />
-                              <label class="form-check-label" #Occurrences for="Occurrences"> Set Occurrences </label>
+                              <label class="form-check-label" #Occurrences for="Occurrences"> Set Occurrences (Weekly) </label>
                             </div>
                             <div class="d-flex align-items-center mt-2" style="gap: 10px" *ngIf="customOccurrenceCheckbox">
                               <div class="col-md-12">
@@ -1770,7 +1744,7 @@
                             <div class="mt-3">
                               <div class="form-check">
                                 <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="Occurrences2" [checked]="halfDayOccurrenceCheckbox" (click)="tickHalfDayOccurrenceCheckbox()" />
-                                <label class="form-check-label" for="Occurrences2"> Set Occurrences </label>
+                                <label class="form-check-label" for="Occurrences2"> Set Occurrences (Weekly) </label>
                               </div>
                               <div class="d-flex align-items-center mt-2" style="gap: 10px" *ngIf="halfDayOccurrenceCheckbox">
                                 <div class="col-md-12">
@@ -1834,7 +1808,7 @@
                             <div class="mt-3">
                               <div class="form-check">
                                 <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="Occurrences3" [checked]="fullDayOccurrenceCheckbox" (click)="tickFullDayOccurrenceCheckbox()" />
-                                <label class="form-check-label" for="Occurrences3"> Set Occurrences </label>
+                                <label class="form-check-label" for="Occurrences3"> Set Occurrences (Weekly)</label>
                               </div>
                               <div class="d-flex align-items-center mt-2" style="gap: 10px" *ngIf="fullDayOccurrenceCheckbox">
                                 <div class="col-md-12">
@@ -1865,6 +1839,7 @@
                           </div>
                         </div>
                       </div>
+
                       <div class="rules-main" *ngIf="CURRENT_MODAL == OVERTIME_RULE_DEFINITION">
                         <div class="form-check pb-3">
                           <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="flexCheckChecked" [checked]="customCheckbox" (click)="tickCustomCheckbox()" />
@@ -1880,7 +1855,7 @@
                                   <label for="hoursInput" class="pb-2">{{ attendanceRuleResponse.ruleSubHeader }}
                                   </label>
                                   <div class="d-flex justify-content-center align-items-center" style="gap: 5px">
-                                    <nz-time-picker [(ngModel)]="customLateDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" [nzDisabledHours]="disabledHours" (ngModelChange)="getlateDuration($event, attendanceRuleResponse.attendanceRuleTypeId)" name="lateDuration" required #lateDuration="ngModel"></nz-time-picker>
+                                    <nz-time-picker [(ngModel)]="customOvertimeDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" [nzDisabledHours]="disabledHours" (ngModelChange)="getlateDuration($event, attendanceRuleResponse.attendanceRuleTypeId)" name="lateDuration" required #lateDuration="ngModel"></nz-time-picker>
                                     <span>
                                       <b>hrs.</b>
                                     </span>
@@ -1918,11 +1893,12 @@
                                 <div *ngIf="selectedCustomOvertimeType?.type == 'FIXED AMOUNT'">
                                   <label for="exampleInputEmail1" class="pb-2">Amount in rupees:</label>
                                   <div class="justify-content-center" style="gap: 20px">
-                                    <input type="number" class="form-control" aria-describedby="emailHelp" placeholder="Enter the amount here" [(ngModel)]="attendanceRuleDefinitionRequest!.overtimeRuleDefinitionRequest!.customAmountInRupees" [ngModelOptions]="{ standalone: true }" name="amount" #amount="ngModel" required />
-                                    <div *ngIf="
-                                                        amount?.touched &&
-                                                        amount.errors?.required
-                                                      " class="text-danger" style="font-size: 13px"> Amount is required. </div>
+                                    <input type="number" class="form-control" aria-describedby="emailHelp" placeholder="Enter the amount here" [(ngModel)]="attendanceRuleDefinitionRequest!.overtimeRuleDefinitionRequest!.customAmountInRupees" (change)="checkOvertimeFixAmountValidation(CUSTOM_OVERTIME_FIX_AMOUNT_STEP)" [ngModelOptions]="{ standalone: true }" name="customFixAmount" #customFixAmount="ngModel" required />
+                                    
+                                    <div *ngIf="customFixAmount?.touched && customFixAmount.errors?.required" class="text-danger" style="font-size: 13px"> Amount is required. </div>
+                                    <div *ngIf="overtimeFixAmountValidationErrors['CUSTOM_OVERTIME_FIX_AMOUNT_ERROR']" class="text-danger">
+                                      {{overtimeFixAmountValidationErrors['CUSTOM_OVERTIME_FIX_AMOUNT_ERROR']}}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -1945,7 +1921,7 @@
                                     <label for="exampleInputEmail1" class="pb-2">{{ attendanceRuleResponse.ruleSubHeader }}
                                     </label>
                                     <div class="d-flex justify-content-center align-items-center" style="gap: 5px">
-                                      <nz-time-picker [(ngModel)]="halfDayLateDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" (ngModelChange)="
+                                      <nz-time-picker [(ngModel)]="halfDayOvertimeDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" (ngModelChange)="
                                                           getHalfDaylateDuration($event, attendanceRuleResponse.attendanceRuleTypeId)
                                                         " name="halfDayLateDuration" #halfDayLateDuration="ngModel" required></nz-time-picker>
                                       <span>
@@ -1993,11 +1969,11 @@
                                       <input type="number" class="form-control" aria-describedby="emailHelp" placeholder="Enter the amount here" [(ngModel)]="
                                                           attendanceRuleDefinitionRequest!
                                                             .overtimeRuleDefinitionRequest!.halfDayAmountInRupees
-                                                        " [ngModelOptions]="{ standalone: true }" name="amount" #amount="ngModel" required />
-                                      <div *ngIf="
-                                                          amount?.touched &&
-                                                          amount.errors?.required
-                                                        " class="text-danger" style="font-size: 13px"> Amount is required. </div>
+                                                        " (change)="checkOvertimeFixAmountValidation(HALF_DAY_OVERTIME_FIX_AMOUNT_STEP)" [ngModelOptions]="{ standalone: true }" name="halfDayFixAmount" #halfDayFixAmount="ngModel" required />
+                                    <div *ngIf="halfDayFixAmount?.touched && halfDayFixAmount.errors?.required" class="text-danger" style="font-size: 13px"> Amount is required. </div>
+                                    <div *ngIf="overtimeFixAmountValidationErrors['HALF_DAY_OVERTIME_FIX_AMOUNT_ERROR']" class="text-danger">
+                                      {{overtimeFixAmountValidationErrors['HALF_DAY_OVERTIME_FIX_AMOUNT_ERROR']}}
+                                    </div>
                                     </div>
                                   </div>
                                 </div>
@@ -2019,7 +1995,7 @@
                                     <label for="exampleInputEmail1" class="pb-2">{{ attendanceRuleResponse.ruleSubHeader }}
                                     </label>
                                     <div class="d-flex justify-content-center align-items-center" style="gap: 5px">
-                                      <nz-time-picker [(ngModel)]="fullDayLateDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" (ngModelChange)="
+                                      <nz-time-picker [(ngModel)]="fullDayOvertimeDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" (ngModelChange)="
                                                           getFullDaylateDuration($event, attendanceRuleResponse.attendanceRuleTypeId)
                                                         " name="fullDayLateDuration" #fullDayLateDuration="ngModel" required></nz-time-picker>
                                       <span>
@@ -2067,11 +2043,11 @@
                                       <input type="number" class="form-control" aria-describedby="emailHelp" placeholder="Enter the amount here" [(ngModel)]="
                                                           attendanceRuleDefinitionRequest!
                                                           .overtimeRuleDefinitionRequest!.fullDayAmountInRupees
-                                                        " [ngModelOptions]="{ standalone: true }" name="amount" #amount="ngModel" required />
-                                      <div *ngIf="
-                                                          amount?.touched &&
-                                                          amount.errors?.required
-                                                        " class="text-danger" style="font-size: 13px"> Amount is required. </div>
+                                                        " (change)="checkOvertimeFixAmountValidation(FULL_DAY_OVERTIME_FIX_AMOUNT_STEP)" [ngModelOptions]="{ standalone: true }" name="fullDayFixAmount" #fullDayFixAmount="ngModel" required />
+                                        <div *ngIf="fullDayFixAmount?.touched && fullDayFixAmount.errors?.required" class="text-danger" style="font-size: 13px"> Amount is required. </div>
+                                        <div *ngIf="overtimeFixAmountValidationErrors['FULL_DAY_OVERTIME_FIX_AMOUNT_ERROR']" class="text-danger">
+                                          {{overtimeFixAmountValidationErrors['FULL_DAY_OVERTIME_FIX_AMOUNT_ERROR']}}
+                                        </div>
                                     </div>
                                   </div>
                                 </div>
@@ -2080,12 +2056,16 @@
                           </div>
                         </div>
                       </div>
+
                       <div class="modal-footer" *ngIf="CURRENT_MODAL == DEDUCTION_RULE_DEFINITION">
-                        <button type="submit" class="btn btn-primary" [disabled]="(!customCheckbox && !halfDayCheckbox && !fullDayCheckbox) || (selectedCustomDeductionType?.type == '') || attendanceRuleForm.invalid || compareTimesValidation()" (click)="staffActiveTabInAutomationRuleMethod()">Next</button>
+                        <!-- (!customCheckbox && !halfDayCheckbox && !fullDayCheckbox) || (selectedCustomDeductionType?.type == '')  || compareTimesValidation() ||  -->
+                        <button type="submit" class="btn btn-primary" [disabled]="attendanceRuleForm.invalid">Next</button>
                       </div>
+
                       <div class="modal-footer" *ngIf="CURRENT_MODAL == OVERTIME_RULE_DEFINITION">
                         <button type="submit" class="btn btn-primary" [disabled]="(!customCheckbox && !halfDayCheckbox && !fullDayCheckbox) || (selectedCustomOvertimeType?.type == '' || selectedHalfDayOvertimeType?.type == '' || selectedFullDayOvertimeType?.type == '') || attendanceRuleForm.invalid || compareTimesValidation()" (click)="staffActiveTabInAutomationRuleMethod()">Next</button>
                       </div>
+
                     </form>
                   </div>
                   <div class="tab-pane fade" id="profile" role="tabpanel">

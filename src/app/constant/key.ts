@@ -280,4 +280,13 @@ export class Key {
   //Attendance rule type ids
   public static DEDUCTION_RULE_DEFINITION = 1;
   public static OVERTIME_RULE_DEFINITION = 2;
+
+  //Steps declared for fix amount validation in overtime
+  public static CUSTOM_OVERTIME_FIX_AMOUNT_STEP = 1;
+  public static HALF_DAY_OVERTIME_FIX_AMOUNT_STEP = 2;
+  public static FULL_DAY_OVERTIME_FIX_AMOUNT_STEP = 3;
+
+  //Overtime pay types
+  public static FIX_AMOUNT_STEP = 1;
+  
 }

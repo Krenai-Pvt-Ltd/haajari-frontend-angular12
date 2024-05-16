@@ -1,6 +1,7 @@
 import { OvertimeType } from "./overtime-type";
 
 export class OvertimeRuleDefinitionResponse {
+    
     customDuration : string = '';
     halfDayDuration : string = '';
     fullDayDuration : string = '';
