@@ -175,7 +175,8 @@ export class TeamComponent implements OnInit {
         'asc',
         'id',
         this.searchQuery,
-        'name'
+        'name',
+        0
       )
       .subscribe((data: any) => {
         this.userList = data.users;
@@ -196,7 +197,8 @@ export class TeamComponent implements OnInit {
         'asc',
         'id',
         this.searchQueryManager,
-        'name'
+        'name',
+        0
       )
       .subscribe((data: any) => {
         this.userListManager = data.users;

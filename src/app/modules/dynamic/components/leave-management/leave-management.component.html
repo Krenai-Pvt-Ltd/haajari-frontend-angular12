@@ -226,9 +226,9 @@
                   <li
                     class="ng-star-inserted"
                     *ngFor="let tn of teamNameList"
-                    (click)="selectTeam(tn)"
+                    (click)="selectTeam(tn.teamName)"
                   >
-                    <a class="dropdown-item"> {{ tn }} </a>
+                    <a class="dropdown-item"> {{ tn.teamName }} </a>
                   </li>
                 </ul>
               </div>

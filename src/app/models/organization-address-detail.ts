@@ -8,8 +8,8 @@ export class OrganizationAddressDetail {
     city: string = '';
     state: string = '';
     country: string = '';
-    latitude: string = '';
-    longitude: string = '';
+    latitude: any;
+    longitude: any;
     radius: string = '';
     attendanceMode: number = 0;
 

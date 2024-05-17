@@ -309,7 +309,9 @@ export class DataService {
     sort: string,
     sortBy: string,
     search: string,
-    searchBy: string
+    searchBy: string,
+    teamId: number
+    
   ): Observable<any> {
     const params = new HttpParams()
       .set('item_per_page', itemPerPage.toString())
@@ -317,7 +319,9 @@ export class DataService {
       .set('sort_order', sort)
       .set('sort_by', sortBy)
       .set('search', search)
-      .set('search_by', searchBy);
+      .set('search_by', searchBy)
+      .set('team_id', teamId);
+      ;
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {
       params,
     });
@@ -1558,7 +1562,8 @@ export class DataService {
     pageNumber: number,
     itemPerPage: number,
     search: string,
-    searchBy: string
+    searchBy: string,
+    teamId: number
   ): Observable<any> {
     const params = new HttpParams()
       .set('start_date', startDate)
@@ -1566,7 +1571,8 @@ export class DataService {
       .set('page_number', pageNumber.toString())
       .set('item_per_page', itemPerPage.toString())
       .set('search', search)
-      .set('search_by', searchBy);
+      .set('search_by', searchBy)
+      .set('team_id', teamId);
 
     return this.httpClient.get<any>(
       `${this.baseUrl}/attendance/get-attendance-report-by-date-duration`,
