@@ -433,7 +433,7 @@ span.members-name {
 input,
 textarea {
   background: #fff !important;
-  border: none !important;
+  border: none;
   border-radius: 6px;
   height: 45px;
   font-weight: 400 !important;
@@ -443,6 +443,18 @@ textarea {
   box-shadow: none;
 }
 
+.whatapp-login-input {
+  background-color: #fff !important;
+  border: 1px solid #f1f1f1 !important;
+  border-radius: 2px !important;
+  height: 50px !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  color: #445059 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 .material-switch > label {
   cursor: pointer;
   height: 0px;
