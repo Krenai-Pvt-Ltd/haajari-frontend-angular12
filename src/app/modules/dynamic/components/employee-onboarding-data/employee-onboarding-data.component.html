@@ -4,7 +4,7 @@
       <div class="row mt-4">
         <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between style: cursor : pointer" (click)="selectStatus('APPROVED')">
+            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer;" (click)="selectStatus('APPROVED')">
               <div class="orderpcardleft">
                 <h6>Verified</h6>
                 <h5>{{ verificationCount.approvedEmployees || 0 }}</h5>
@@ -19,7 +19,7 @@
         </div>
         <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between style: cursor : pointer" (click)="selectStatus('PENDING')">
+            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer;" (click)="selectStatus('PENDING')">
               <div class="orderpcardleft">
                 <h6>Pending Verification</h6>
                 <h5>{{ verificationCount.pendingEmployees || 0 }}</h5>
@@ -35,7 +35,7 @@
         
         <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between style: cursor : pointer" (click)="selectStatus('REJECTED')">
+            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer;" (click)="selectStatus('REJECTED')">
               <div class="orderpcardleft">
                 <h6>Rejected</h6>
                 <h5>{{ verificationCount.rejectedEmployees || 0 }}</h5>
@@ -50,7 +50,7 @@
         </div>
         <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between style: cursor : pointer" (click)="selectStatus('REQUESTED')">
+            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer; !important" (click)="selectStatus('REQUESTED')">
               <div class="orderpcardleft">
                 <h6>Requested</h6>
                 <h5>{{ verificationCount.requestedCount || 0 }}</h5>

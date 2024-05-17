@@ -72,34 +72,6 @@
                 </span>
               </div>
               <div class="mt-3">
-<<<<<<< HEAD
-                <div
-                  class="d-flex align-items-center justify-content-between mb-3"
-                  *ngIf="shiftCounts?.dayShiftCount != 0"
-                >
-                  <small class="text-muted">Day Shifts</small>
-                  <small class="text-muted">{{
-                    shiftCounts?.dayShiftCount || 0
-                  }}</small>
-                </div>
-                <div
-                  class="d-flex align-items-center justify-content-between mb-3"
-                  *ngIf="shiftCounts?.nightShiftCount != 0"
-                >
-                  <small class="text-muted">Night Shifts</small>
-                  <small class="text-muted">{{
-                    shiftCounts?.nightShiftCount || 0
-                  }}</small>
-                </div>
-                <div
-                  class="d-flex align-items-center justify-content-between"
-                  *ngIf="shiftCounts?.rotationalShiftCount != 0"
-                >
-                  <small class="text-muted">Rotational Shifts</small>
-                  <small class="text-muted">{{
-                    shiftCounts?.rotationalShiftCount || 0
-                  }}</small>
-=======
                 <div class="d-flex align-items-center justify-content-between mb-3" *ngIf="shiftCounts.dayShiftCount != 0">
                   <small class="text-muted">Day Shifts</small>
                   <small class="text-muted">{{ shiftCounts.dayShiftCount || 0
@@ -114,7 +86,6 @@
                   <small class="text-muted">Rotational Shifts</small>
                   <small class="text-muted">{{ shiftCounts.rotationalShiftCount || 0
                 }}</small>
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
                 </div>
               </div>
             </div>
@@ -389,7 +360,6 @@
                 </span>
               </div>
               <div class="mt-3">
-<<<<<<< HEAD
                 <div
                   class="d-flex align-items-center justify-content-between mb-3"
                 >
@@ -399,13 +369,6 @@
                   <small class="text-muted">{{
                     universalHolidaysNumber
                   }}</small>
-=======
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                  <small class="text-muted d-flex align-items-center gap-3 mb-0">
-                    <span class="universal"></span> Universal Holiday's </small>
-                  <small class="text-muted">{{ universalHolidaysNumber
-                }}</small>
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-3">
                   <small class="text-muted d-flex align-items-center gap-3 mb-0">
@@ -542,38 +505,18 @@
           <div class="col-md-12">
             <div class="border-box"></div>
           </div>
-<<<<<<< HEAD
-
-          <div class="col-md-4 mt-3 mb-3" *ngIf="isShowAutomationRule">
-=======
           <div class="col-md-4 mt-3 mb-3">
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
             <div class="form-roe-data">
               <h5>Automation Rules</h5>
               <p>A quick snapshot of your company.</p>
             </div>
           </div>
-<<<<<<< HEAD
-
-          <div class="col-md-7 mt-3 mb-3" *ngIf="isShowAutomationRule">
-            <ng-container
-              *ngIf="
-                isShimmerForAttendanceRule &&
-                  attendanceRuleWithAttendanceRuleDefinitionResponseList.length ==
-                    0 &&
-                  !dataNotFoundPlaceholderForAttendanceRule &&
-                  !networkConnectionErrorPlaceHolderForAttendanceRule;
-                else attendanceRuleWithDefinitionData
-              "
-            >
-=======
           <div class="col-md-7 mt-3 mb-3">
             <ng-container *ngIf="
               isShimmerForAttendanceRule &&
                 attendanceRuleWithAttendanceRuleDefinitionResponseList.length == 0 &&
                 !dataNotFoundPlaceholderForAttendanceRule &&
                 !networkConnectionErrorPlaceHolderForAttendanceRule; else attendanceRuleWithDefinitionData">
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
               <div class="">
                 <div class="text-end">
                   <ngx-shimmer-loading [width]="'40%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
@@ -1183,36 +1126,13 @@
                     <div class="col-md-4">
                       <div class="mb-3">
                         <label for="inTime" class="pb-2">In Time</label>
-<<<<<<< HEAD
-                        <nz-time-picker
-                          id="inTime"
-                          [(ngModel)]="organizationShiftTimingRequest.inTime"
-                          name="inTime"
-                          (ngModelChange)="calculateTimes()"
-                          [nzUse12Hours]="true"
-                          class="form-control whatapp-login-input"
-                          required
-                          nzFormat="h:mm a"
-                        ></nz-time-picker>
-                        <div
-                          *ngIf="organizationShiftTimingValidationErrors['inTime']"
-                          class="text-danger"
-                        >
-                          {{
-                            organizationShiftTimingValidationErrors["inTime"]
-                          }}
-                        </div>
-                      </div>
-                    </div>
-                    
-=======
                         <input id="inTime" type="time" class="form-control whatapp-login-input" required [(ngModel)]="organizationShiftTimingRequest.inTime" name="inTime" (change)="calculateTimes()" />
                         <div *ngIf="organizationShiftTimingValidationErrors['inTime']" class="text-danger">
                           {{ organizationShiftTimingValidationErrors["inTime"] }}
                         </div>
                       </div>
                     </div>
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
+                    
                     <div class="col-md-4">
                       <div class="mb-3">
                         <label for="outTime" class="pb-2">Out Time</label>
@@ -1280,7 +1200,6 @@
                   </div>
                 </form>
               </div>
-<<<<<<< HEAD
 
               <!-- Enter Week OFFs -->
 
@@ -1338,7 +1257,7 @@
                                     id="btnradio2-{{ i }}"
                                     autocomplete="off"
                                     (click)="toggleAlternate(i, true)"
-                                    [checked]="day.isAlternate == true"
+                                    [checked]="day.isAlternate"
                                   />
                                   <label
                                     class="btn btn-outline-primary"
@@ -1391,13 +1310,10 @@
                 </div>
             </div>
 
-=======
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
               <div class="tab-pane fade" id="staffselection" role="tabpanel">
                 <div class="staf-list-box mt-3">
                   <div class="row mb-1 mt-3 align-items-center" style="padding-bottom: 15px">
                     <div class="col-md-12">
-<<<<<<< HEAD
                       <div
                         class="d-flex align-items-center"
                         style="border: 1px solid #f1f1f1"
@@ -1440,23 +1356,6 @@
                       </div>
                       
 
-=======
-                      <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1">
-                        <div style="width: 30%; position: relative">
-                          <div class="dropdown" style="width: 100%">
-                            <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select User <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
-                            </button>
-                            <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%">
-                              <li>
-                                <a class="dropdown-item">Select All </a>
-                              </li>
-                              <li>
-                                <a class="dropdown-item">Reset All</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
                         <div class="" style="width: 70%">
                           <form novalidate="" role="search" (submit)="searchUsers()" class="searching ng-untouched ng-pristine ng-valid">
                             <div class="form-group" style="position: relative">
@@ -1474,7 +1373,6 @@
                             </div>
                           </form>
                         </div>
-<<<<<<< HEAD
 
                         <div class="container">
                           <div class="content-wrapper">
@@ -1492,13 +1390,6 @@
                                     Select all
                                 </label>
                               </div>
-=======
-                        <div class="" style="width: 20%">
-                          <div class="d-flex justify-content-end align-items-center" style="gap: 10px; padding-right: 15px">
-                            <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
-                              <a type="button"> 8 selected of 24 </a>
-                            </div>
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
                           </div>
                       </div>
                       
@@ -1559,7 +1450,6 @@
                   </ng-template>
                 </div>
                 <!-- *ngIf="staffs.length > 8" -->
-<<<<<<< HEAD
                 <div
                   class="pagination pl-3"
                   *ngIf="
@@ -1571,13 +1461,6 @@
                     Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                     {{ total }} members
                   </p>
-=======
-                <div class="pagination pl-3" *ngIf="
-                  total > itemPerPage - 1 ||
-                  (pageNumber === lastPageNumber && lastPageNumber !== 1)
-                ">
-                  <p class="mb-0" style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams </p>
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
                   <div class="row">
                     <div class="col-md-12">
                       <nav aria-label="Page navigation example">
@@ -1696,16 +1579,6 @@
                 <nz-date-picker class="nz-overlay-container whatapp-login-input" name="holidayDate{{ i }}" [(ngModel)]="holiday.date" ngModel required nzPlaceHolder="Select Holiday Date"></nz-date-picker>
               </div>
               <div class="col-md-1">
-<<<<<<< HEAD
-               
-                <button
-                  type="button"
-                  class="btn btn-soft-danger btn-icon-square-sm"
-                  style="padding: 24px"
-                  (click)="removeHoliday(i)"
-                  *ngIf="holidayList.length > 1"
-                >
-=======
                 <!-- <button
                 type="button"
                 class="btn btn-outline-danger"
@@ -1715,7 +1588,6 @@
                 Remove
               </button> -->
                 <button type="button" class="btn btn-soft-danger btn-icon-square-sm" style="padding: 24px" (click)="removeHoliday(i)" *ngIf="holidayList.length > 1">
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
                   <i class="bi bi-trash"></i>
                 </button>
               </div>
@@ -1735,18 +1607,7 @@
       </div>
     </div>
   </div>
-<<<<<<< HEAD
-
-  <!-- <div
-    class="modal fade"
-    id="addweeklyholiday"
-    tabindex="-1"
-    role="dialog"
-    aria-hidden="true"
-  >
-=======
   <div class="modal fade" id="addweeklyholiday" tabindex="-1" role="dialog" aria-hidden="true">
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -1790,7 +1651,6 @@
         </div>
       </div>
     </div>
-<<<<<<< HEAD
   </div> -->
 
   <div
@@ -2231,10 +2091,8 @@
     aria-labelledby="exampleModalDefaultLabel"
     aria-hidden="true"
   >
-=======
   </div>
   <div class="modal fade" id="automation-rules" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -2874,7 +2732,6 @@
                                           align-items: center;
                                         ">
                         <div *ngIf="selectedStaffsUuids.length > 0">
-<<<<<<< HEAD
                           <ng-container
                             *ngIf="
                               selectedStaffsUuids.length === total;
@@ -2892,20 +2749,6 @@
                               "
                               >Clear all <i class="bi bi-x"></i
                             ></span>
-=======
-                          <ng-container *ngIf="
-                                              selectedStaffsUuids.length === total;
-                                              else elseCondition2
-                                            ">
-                            <span (click)="unselectAllUsers()" style="
-                                                cursor: pointer;
-                                                color: #eb5050;
-                                                background-color: #fcf1f1;
-                                                padding: 8px;
-                                                border-radius: 5px;
-                                              ">Clear all users <i class="bi bi-x"></i>
-                            </span>
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
                           </ng-container>
                           <ng-template #elseCondition2>
                             <span (click)="selectAllUsers(true)" style="
@@ -3111,7 +2954,6 @@
   <button type="button" style="display: none" data-bs-toggle="modal" data-bs-target="#attendancewithlocationss" #attendancewithlocationssButton id="attendancewithlocationssButton"></button>
   <div class="modal fade" id="attendancewithlocationss" tabindex="-1" role="dialog" aria-labelledby="attendancewithlocation" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-<<<<<<< HEAD
       <form
         #organizationAddressForm="ngForm"
         ngNativeValidate
@@ -3163,71 +3005,10 @@
                     class="form-control ng-untouched ng-pristine ng-invalid"
                     [(ngModel)]="organizationAddressDetail.radius"
                   />
-=======
-      <form #organizationAddressForm="ngForm" ngNativeValidate (ngSubmit)="setOrganizationAddressDetailMethodCall()">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h6 class="modal-title m-0" id="exampleModalDefaultLabel">Staff Attendance With Location</h6>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" #closeAddressModal aria-label="Close"></button>
-          </div>
-          <!--end modal-header-->
-          <div class="modal-body">
-            <div class="form-group">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label for="addressLine1" class="pb-2">Address </label>
-                    <input type="text" id="addressLine1" placeholder="Address line 1" ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" required="" name="addressLine1" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.addressLine1" />
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label for="addressLine2" class="pb-2">Street Address</label>
-                    <input type="text" id="addressLine2" placeholder="Address line 2" required="" name="addressLine2" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.addressLine2" />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label for="landmark" class="pb-2">Landmark <span class="text-optional">(optional)</span>
-                    </label>
-                    <input type="text" id="landmark" placeholder="Landmark" name="landmark" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.landmark" />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label for="city" class="pb-2"> City </label>
-                    <input type="text" id="city" placeholder="City" required="" name="city" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.city" />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label for="state" class="pb-2"> State </label>
-                    <input type="text" id="state" placeholder="State" required="" name="state" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.state" />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="country" class="pb-2">Country</label>
-                    <input type="text" id="country" placeholder="Country" required="" name="country" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.country" />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="pincode" class="pb-2">Pincode</label>
-                    <input type="text" id="pincode" placeholder="Pincode" required="" name="pincode" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.pincode" />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label for="radius" class="pb-2"> Employee Location Must be in </label>
-                    <input type="text" id="radius" placeholder="in meters" required="" name="radius" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.radius" />
-                  </div>
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
                 </div>
               </div>
             </div>
           </div>
-<<<<<<< HEAD
           <!-- <div class="">
          
             <agm-map 
@@ -3291,18 +3072,6 @@
               </div>
               <!-- </div> -->
             </section>
-=======
-          <div class="modal-footer d-flex align-items-center justify-content-end">
-            <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
-              <div *ngIf="toggle" class="dot-opacity-loader">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <span *ngIf="!toggle"> Save <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
-              </span>
-            </button>
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
           </div>
           
           

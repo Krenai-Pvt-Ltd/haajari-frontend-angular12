@@ -1386,12 +1386,12 @@ export class AttendanceSettingComponent implements OnInit {
     tab: string
   ) {
     // this.shiftTimingActiveTab.nativeElement.click();
+    this.weekDay = organizationShiftTimingResponse.weekDayResponse;
 
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
     this.organizationShiftTimingRequest.shiftTypeId =
       organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
-    this.weekDay = organizationShiftTimingResponse.weekDayResponse;
    
     // this.getWeekDays();
 
@@ -1955,7 +1955,6 @@ export class AttendanceSettingComponent implements OnInit {
     this.activeIndex5 = this.activeIndex5 === index ? -1 : index;
   }
 
-<<<<<<< HEAD
   teamNameList: UserTeamDetailsReflection[] = [];
 
   teamId: number = 0;
@@ -2055,18 +2054,4 @@ export class AttendanceSettingComponent implements OnInit {
     this.organizationAddressDetail.longitude = event.coords.lng;
     this.mapCenter = { lat: this.lat, lng: this.lng };
   }
-=======
-  @ViewChild("testForm") testForm!: any;
-  
-  formGrp!:FormGroup
-
-  testFormcheck() {
-    debugger
-    if (this.testForm.required) {
-      console.log("Yes");
-    } else {
-      console.log("Not");
-    }
-  }
->>>>>>> e152182d176e32feee20f0894833d45f4617ad37
 }
