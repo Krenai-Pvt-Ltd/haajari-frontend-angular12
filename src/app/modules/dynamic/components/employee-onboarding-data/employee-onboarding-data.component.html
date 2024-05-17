@@ -914,59 +914,59 @@
                     </tr>
                   </tbody>
                 </table>
-                <div
-                  class="pagination pl-3"
-                  *ngIf="!isUserShimer && users.length > 0 && total > 12"
-                >
-                  <p class="mb-0" style="padding-left: 15px">
-                    Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-                    {{ total }} users
-                  </p>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-end">
-                          <li
-                            class="page-item"
-                            [class.disabled]="pageNumber == 1"
+              </div>
+              <div
+                class="pagination pl-3"
+                *ngIf="!isUserShimer && users.length > 0 && total > 12"
+              >
+                <p class="mb-0" style="padding-left: 15px">
+                  Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                  {{ total }} users
+                </p>
+                <div class="row">
+                  <div class="col-md-12">
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-end">
+                        <li
+                          class="page-item"
+                          [class.disabled]="pageNumber == 1"
+                        >
+                          <a
+                            class="page-link"
+                            href="javascript:void(0);"
+                            aria-label="Previous"
+                            (click)="changePage('prev')"
                           >
-                            <a
-                              class="page-link"
-                              href="javascript:void(0);"
-                              aria-label="Previous"
-                              (click)="changePage('prev')"
-                            >
-                              <span aria-hidden="true">&laquo;</span>
-                            </a>
-                          </li>
-                          <li
-                            class="page-item"
-                            *ngFor="let page of getPages()"
-                            [class.active]="pageNumber == page"
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                        <li
+                          class="page-item"
+                          *ngFor="let page of getPages()"
+                          [class.active]="pageNumber == page"
+                        >
+                          <a
+                            class="page-link"
+                            href="javascript:void(0);"
+                            (click)="changePage(page)"
+                            >{{ page }}</a
                           >
-                            <a
-                              class="page-link"
-                              href="javascript:void(0);"
-                              (click)="changePage(page)"
-                              >{{ page }}</a
-                            >
-                          </li>
-                          <li
-                            class="page-item"
-                            [class.disabled]="pageNumber == totalPages"
+                        </li>
+                        <li
+                          class="page-item"
+                          [class.disabled]="pageNumber == totalPages"
+                        >
+                          <a
+                            class="page-link"
+                            href="javascript:void(0);"
+                            aria-label="Next"
+                            (click)="changePage('next')"
                           >
-                            <a
-                              class="page-link"
-                              href="javascript:void(0);"
-                              aria-label="Next"
-                              (click)="changePage('next')"
-                            >
-                              <span aria-hidden="true">&raquo;</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </nav>
-                    </div>
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
                 </div>
               </div>
@@ -1018,7 +1018,7 @@
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control whatapp-login-input"
                       id="name"
                       name="name"
                       placeholder="Name"
@@ -1048,7 +1048,7 @@
                     </label>
                     <input
                       type="email"
-                      class="form-control"
+                      class="form-control whatapp-login-input"
                       id="email"
                       name="email"
                       placeholder="Email id"
@@ -1057,11 +1057,7 @@
                       email
                       #emailField="ngModel"
                     />
-                    <!-- Error Message for Email -->
-                    <!-- <div class="text-danger" style="color:red" *ngIf="emailFlag"><i class="bi bi-exclamation-circle"></i>
-                        Employee with this email already registered                      
-                    </div> -->
-                    <!-- Error Message for Existing Email -->
+
                     <div
                       class="text-danger"
                       *ngIf="emailAlreadyExists"
@@ -1081,9 +1077,7 @@
                         <i class="bi bi-exclamation-circle"></i> Email Id is
                         required.
                       </p>
-                      <!-- <p class="terrortxt mt-2 mb-0" style="color:red" *ngIf="emailFlag"><i class="bi bi-exclamation-circle"></i>
-                            Employee with this email already registered
-                        </p> -->
+
                       <p
                         class="errortxt mt-2 mb-0"
                         style="color: red"
@@ -1095,42 +1089,12 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="col-md-12">
-                  <div class="mb-3">
-                    <label for="teamNames" class="pb-2">Select Team</label>
-                    <nz-select
-                      nzMode="multiple"
-                      nzPlaceHolder="Select users"
-                      nzAllowClear
-                      nzShowSearch
-                      nzServerSearch
-                      [(ngModel)]="selectedUser"
-                      (ngModelChange)="onTeamSelectionChange()"
-                      (nzOnSearch)="onSearch($event)"
-                    >
-                      <ng-container *ngFor="let o of optionList">
-                        <nz-option
-                          *ngIf="!isLoading"
-                          [nzValue]="o"
-                          [nzLabel]="o"
-                        ></nz-option>
-                      </ng-container>
-                      <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-                        <span
-                          nz-icon
-                          nzType="loading"
-                          class="loading-icon"
-                        ></span>
-                        Loading Data...
-                      </nz-option>
-                    </nz-select>
-                  </div>
-                </div> -->
 
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label for="teamNames" class="pb-2">Select Team</label>
                     <nz-select
+                      classs="whatapp-login-input "
                       nzMode="multiple"
                       nzPlaceHolder="Select teams"
                       nzAllowClear
@@ -1173,7 +1137,7 @@
                     <input
                       type="text"
                       mask="0000000000"
-                      class="form-control"
+                      class="form-control whatapp-login-input"
                       id="phoneNumber"
                       name="phoneNumber"
                       placeholder="Phone number"
