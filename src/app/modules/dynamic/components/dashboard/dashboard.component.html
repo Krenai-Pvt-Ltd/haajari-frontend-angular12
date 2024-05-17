@@ -9,10 +9,11 @@
             <div class="card-body">
               <div class="row d-flex justify-content-center">
                 <div class="col">
-                  <p class="text-dark mb-1 fw-semibold">Live Employee</p>
+                  <p class="text-dark mb-1 fw-semibold">Present</p>
                   <h4 class="font-22 fw-bold">
-                    {{ currentDayEmployeesData.allPresentUsers }}
+                    <span>{{ attendanceDetailsCountResponse.presentUsers }}/{{ attendanceDetailsCountResponse.totalUsers }}</span>                    
                   </h4>
+                  <!-- <span class="text-muted">(Total Employees)</span> -->
                 </div>
                 <div class="col-auto align-self-center">
                   <div
@@ -56,9 +57,14 @@
                   <!-- <p class="text-dark mb-1 fw-semibold" style="font-size: 11px;">On Leave / Absent / Not Marked</p>
                                     <h4 class="font-22 fw-bold">{{currentDayEmployeesData.allAbsentUsers}}</h4>    -->
                   <div class="d-flex align-items-center" style="gap: 3px">
+                    <div class="Approved late text-center">
+                      <span class="total-holiday pb-2">Late</span>
+                      <p class="mb-0">
+                        {{ lateEmployeeAttendanceDetailsResponseList.length }}
+                      </p>
+                    </div>
                     <div
-                      class="Approved pending-css rejected-css text-center border-right"
-                    >
+                      class="Approved pending-css rejected-css text-center border-right">
                       <span class="total-holiday pb-2">Leave</span>
                       <p class="mb-0">
                         {{ attendanceDetailsCountResponse.usersOnLeave }}
@@ -69,12 +75,6 @@
 
                       <p class="mb-0">
                         {{ attendanceDetailsCountResponse.absentUsers }}
-                      </p>
-                    </div>
-                    <div class="Approved late text-center">
-                      <span class="total-holiday pb-2">Late</span>
-                      <p class="mb-0">
-                        {{ lateEmployeeAttendanceDetailsResponseList.length }}
                       </p>
                     </div>
                     <div class="Approved na text-center">

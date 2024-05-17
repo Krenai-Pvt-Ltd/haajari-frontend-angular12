@@ -7,3 +7,7 @@ export class EmployeeAttendanceLocation {
     status: string = '';
     imageUrl: string = '';
 }
+
+
+
+
