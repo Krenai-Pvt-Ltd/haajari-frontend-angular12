@@ -41,7 +41,7 @@ import { User } from 'src/app/models/user';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
-
+declare var google: any;
 @Component({
   selector: 'app-attendance-setting',
   templateUrl: './attendance-setting.component.html',
@@ -60,6 +60,7 @@ export class AttendanceSettingComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private el: ElementRef
+    
   ) {}
 
   ngOnInit(): void {
@@ -73,7 +74,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
     this.loadAllShiftCounts();
-
+    this.getCurrentLocation();
     if (localStorage.getItem('staffSelectionActive') == 'true') {
       this.activeModel = true;
     }
@@ -111,6 +112,11 @@ export class AttendanceSettingComponent implements OnInit {
   selectedTime: string = '20:00';
   readonly DEDUCTION_TYPE_PER_MINUTE = Key.DEDUCTION_TYPE_PER_MINUTE;
   readonly OVERTIME_TYPE_FIXED_AMOUNT = Key.OVERTIME_TYPE_FIXED_AMOUNT;
+
+  disabledHours(): number[] {
+    return Array.from({ length: 24 }, (_, i) => i).filter(hour => hour > 3);
+  }
+  
 
   selectHours(hour: number) {
     this.selectedHours = hour;
@@ -873,7 +879,7 @@ export class AttendanceSettingComponent implements OnInit {
           }
           this.total = response.count;
           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-          this.pageNumber = 1;
+          this.pageNumber = Math.min(this.pageNumber, this.lastPageNumber);
           this.isAllSelected = this.staffs.every((staff) => staff.selected);
         },
         (error) => {
@@ -1138,6 +1144,7 @@ export class AttendanceSettingComponent implements OnInit {
   organizationShiftTimingValidationErrors: { [key: string]: string } = {};
 
   calculateTimes(): void {
+    debugger
     const { inTime, outTime, startLunch, endLunch } =
       this.organizationShiftTimingRequest;
 
@@ -1456,13 +1463,15 @@ export class AttendanceSettingComponent implements OnInit {
     var id = this.organizationAddressDetail.id;
     this.organizationAddressDetail = new OrganizationAddressDetail();
     this.organizationAddressDetail.id = id;
+    this.lat = e.geometry.location.lat();
+    this.lng = e.geometry.location.lng();
     this.organizationAddressDetail.longitude = e.geometry.location.lng();
     this.organizationAddressDetail.latitude = e.geometry.location.lat();
 
     // console.log(e.geometry.location.lat());
     // console.log(e.geometry.location.lng());
-    this.organizationAddressDetail.addressLine1 = e.name + ', ' + e.vicinity;
-
+    // this.organizationAddressDetail.addressLine1 = e.name + ', ' + e.vicinity;
+    this.organizationAddressDetail.addressLine1 = e.formatted_address.toString()
     e?.address_components?.forEach((entry: any) => {
       // console.log(entry);
 
@@ -1926,4 +1935,67 @@ export class AttendanceSettingComponent implements OnInit {
 
   isShowAutomationRule:boolean=false;
 
+  lat: number = 0;
+  lng: number = 0;
+  zoom: number = 15; // Initial zoom level of the map
+  markerPosition: any;
+
+  address: string = ''; // Add this property to hold the fetched address
+  city: string = '';
+  getCurrentLocation() {
+    debugger;
+    if (this.address != '') {
+      this.address = '';
+    }
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        this.markerPosition = { lat: this.lat, lng: this.lng };
+        console.log(this.lat + '-' + this.lng);
+
+        // Initialize the Geocoder
+        const geocoder = new google.maps.Geocoder();
+        const latlng = { lat: this.lat, lng: this.lng };
+        geocoder.geocode(
+          { location: latlng },
+          (results: { formatted_address: string }[], status: string) => {
+            if (status === google.maps.GeocoderStatus.OK) {
+              if (results[0]) {
+                const address = results[0].formatted_address;
+                //@ts-ignore
+                this.city = results[0].address_components[2].long_name;
+                this.address = address;
+                console.log(address); // Log the address to console or update the UI as needed
+                // this.enableSubmitToggle = true;
+                (
+                  document.getElementById(
+                    'exampleInputText'
+                  ) as HTMLInputElement
+                ).value = address; // Update the input field with address
+              } else {
+                console.log('No results found');
+              }
+            } else {
+              console.log('Geocoder failed due to: ' + status);
+            }
+          }
+        );
+      });
+    }
+  }
+
+  
+  mapCenter: { lat: number, lng: number } = { lat: this.lat, lng: this.lng };
+
+  onMapClick(event: any) {
+    this.organizationAddressDetail.latitude = event.coords.lat;
+    this.organizationAddressDetail.longitude = event.coords.lng;
+  }
+
+  onMarkerDragEnd(event: any) {
+    this.organizationAddressDetail.latitude = event.coords.lat;
+    this.organizationAddressDetail.longitude = event.coords.lng;
+    this.mapCenter = { lat: this.lat, lng: this.lng };
+  }
 }

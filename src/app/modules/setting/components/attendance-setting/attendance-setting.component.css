@@ -1315,3 +1315,10 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
   margin-left: 4px; /* Adds a small space after the text */
 }
 
+.agm-map {
+  height: 400px; /* Adjust the height as needed */
+}
+
+nz-time-picker {
+  margin: 0 8px 12px 0;
+}

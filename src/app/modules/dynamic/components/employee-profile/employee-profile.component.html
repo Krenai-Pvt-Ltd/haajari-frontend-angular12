@@ -35,7 +35,7 @@
         </div>
         <div
           [ngClass]="{
-            'd-none': !userRoleFlag,
+            'd-none': !userRoleFlag || ROLE == 'ADMIN',
             'd-flex align-items-center': userRoleFlag
           }"
           style="gap: 20px"

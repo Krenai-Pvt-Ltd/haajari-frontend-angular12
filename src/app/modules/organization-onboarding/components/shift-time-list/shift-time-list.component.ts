@@ -24,7 +24,7 @@ export class ShiftTimeListComponent implements OnInit {
     private helperService: HelperService,
     private _location: Location,
     private router: Router,
-    private onboardingService: OrganizationOnboardingService,
+    private onboardingService: OrganizationOnboardingService
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +52,7 @@ export class ShiftTimeListComponent implements OnInit {
           this.router.navigate(['/organization-onboarding/add-shift-time']);
         }
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -86,7 +86,7 @@ export class ShiftTimeListComponent implements OnInit {
         },
         (error) => {
           console.error(error);
-        },
+        }
       );
   }
 
@@ -98,7 +98,7 @@ export class ShiftTimeListComponent implements OnInit {
   deleteOrganizationShiftTimingLoader: boolean = false;
 
   async deleteOrganizationShiftTimingMethodCall(
-    organizationShiftTimingId: number,
+    organizationShiftTimingId: number
   ): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       this.deleteOrganizationShiftTimingLoaderStatus[
@@ -122,7 +122,7 @@ export class ShiftTimeListComponent implements OnInit {
 
             this.helperService.showToast(
               'Shift timing deleted successfully.',
-              Key.TOAST_STATUS_SUCCESS,
+              Key.TOAST_STATUS_SUCCESS
             );
             resolve(true);
           },
@@ -133,7 +133,7 @@ export class ShiftTimeListComponent implements OnInit {
               organizationShiftTimingId
             ] = false;
             reject(error);
-          },
+          }
         );
     });
   }
@@ -148,7 +148,15 @@ export class ShiftTimeListComponent implements OnInit {
       this.dataService.getAllShiftTimings().subscribe(
         (response) => {
           this.organizationShiftTimingWithShiftTypeResponseList = response;
+
           this.allShiftTimingsLoader = false;
+
+          if (
+            this.organizationShiftTimingWithShiftTypeResponseList.length != 0
+          ) {
+            this.activeIndex = 0;
+          }
+
           if (response[0] != null) {
             this.skipShift = true;
           }
@@ -168,14 +176,14 @@ export class ShiftTimeListComponent implements OnInit {
           console.log(error);
           // this.networkConnectionErrorPlaceHolder = true;
           reject(error);
-        },
+        }
       );
     });
   }
 
   updateOrganizationShiftTiming(
     organizationShiftTimingResponse: OrganizationShiftTimingResponse,
-    tab: string,
+    tab: string
   ) {
     // this.shiftTimingActiveTab.nativeElement.click();
 
@@ -215,7 +223,7 @@ export class ShiftTimeListComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -236,7 +244,7 @@ export class ShiftTimeListComponent implements OnInit {
           this.getAllShiftTimingsMethodCall();
           this.helperService.showToast(
             'Shift Timing registered successfully',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
           this.dataService.markStepAsCompleted(5);
         },
@@ -244,9 +252,9 @@ export class ShiftTimeListComponent implements OnInit {
           console.log(error);
           this.helperService.showToast(
             'Shift Timing registered successfully',
-            Key.TOAST_STATUS_ERROR,
+            Key.TOAST_STATUS_ERROR
           );
-        },
+        }
       );
   }
 
@@ -298,7 +306,7 @@ export class ShiftTimeListComponent implements OnInit {
         this.selectedStaffsUuids.includes(staff.uuid)
       ) {
         this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-          (uuid) => uuid !== staff.uuid,
+          (uuid) => uuid !== staff.uuid
         );
       }
     });
@@ -330,7 +338,7 @@ export class ShiftTimeListComponent implements OnInit {
       this.staffs.forEach((staff) => {
         if (this.selectedStaffsUuids.includes(staff.uuid)) {
           this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-            (uuid) => uuid !== staff.uuid,
+            (uuid) => uuid !== staff.uuid
           );
         }
       });
@@ -467,7 +475,9 @@ export class ShiftTimeListComponent implements OnInit {
   formatMinutesToTime(minutes: any) {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+    return `${hours.toString().padStart(2, '0')}:${mins
+      .toString()
+      .padStart(2, '0')}`;
   }
 
   submitShiftTimingForm(): void {
@@ -515,7 +525,17 @@ export class ShiftTimeListComponent implements OnInit {
       },
       (error) => {
         console.log('error');
-      },
+      }
     );
+  }
+
+  activeIndex: number | null = null;
+
+  toggleCollapse(index: number): void {
+    if (this.activeIndex === index) {
+      this.activeIndex = null;
+    } else {
+      this.activeIndex = index;
+    }
   }
 }

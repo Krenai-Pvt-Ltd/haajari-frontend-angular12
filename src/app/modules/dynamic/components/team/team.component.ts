@@ -19,6 +19,7 @@ import { NgForm } from '@angular/forms';
 
 export class RegisterTeamRequest {
   userUuids!: string[];
+  managerUuid!: string;
   teamLocationRequest!: TeamLocation;
 }
 
@@ -159,10 +160,14 @@ export class TeamComponent implements OnInit {
 
   searchQuery: string = '';
   userList: User[] = [];
+  userListManager: User[] = [];
   selectedUsers: User[] = [];
   userIds: string[] = [];
 
   searchUsers() {
+    if (this.searchQuery == '') {
+      this.userList = [];
+    }
     this.dataService
       .getUsersByFilter(
         this.itemPerPage,
@@ -177,6 +182,43 @@ export class TeamComponent implements OnInit {
         this.userList = data.users;
         this.total = data.count;
       });
+  }
+
+  searchQueryManager: string = '';
+
+  searchUsersManager() {
+    if (this.searchQueryManager == '') {
+      this.userListManager = [];
+    }
+    this.dataService
+      .getUsersByFilter(
+        this.itemPerPage,
+        this.pageNumber,
+        'asc',
+        'id',
+        this.searchQueryManager,
+        'name',
+        0
+      )
+      .subscribe((data: any) => {
+        this.userListManager = data.users;
+        this.total = data.count;
+      });
+  }
+
+  selectedManager: User | null = null;
+  managerId: string = '';
+  toggleUserSelectionManager(user: User) {
+    // const index =  u.uuid === user.uuid);
+    this.selectedManager = user;
+    this.managerId = user.uuid;
+
+    this.userListManager = [];
+    this.searchQueryManager = '';
+  }
+
+  removeSelectedUserOfSelectionManager(user: User) {
+    this.selectedManager = null;
   }
 
   toggleUserSelection(user: User) {
@@ -205,6 +247,7 @@ export class TeamComponent implements OnInit {
   // registerTeamRequest: RegisterTeamRequest = new RegisterTeamRequest();
   registerTeamRequest: RegisterTeamRequest = {
     userUuids: [],
+    managerUuid: '',
     teamLocationRequest: new TeamLocation(),
   };
 
@@ -225,6 +268,7 @@ export class TeamComponent implements OnInit {
   registerTeamSubmitButton() {
     debugger;
     this.registerTeamRequest.userUuids = this.userIds;
+    this.registerTeamRequest.managerUuid = this.managerId;
 
     if (this.locationEnabled && this.teamLocationRequest) {
       this.registerTeamRequest.teamLocationRequest = this.teamLocationRequest;
@@ -249,7 +293,10 @@ export class TeamComponent implements OnInit {
           this.teamName = '';
           this.teamDescription = '';
           this.userIds = [];
+          this.managerId = '';
           this.userList = [];
+          this.userListManager = [];
+          this.selectedManager = null;
           this.selectedUsers = [];
           this.total = 0;
           this.registerTeamRequest.userUuids = [];

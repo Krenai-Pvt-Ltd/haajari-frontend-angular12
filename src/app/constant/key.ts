@@ -120,8 +120,7 @@ export class Key {
   public static DEDUCTION_TYPE_FIXED_AMOUNT = 2;
 
   // Overtime Ids
-  public static OVERTIME_TYPE_PER_MINUTE = 1;
-  public static OVERTIME_TYPE_FIXED_AMOUNT = 2;
+  public static OVERTIME_TYPE_FIXED_AMOUNT = 1;
 
   // Attendance Defintion rules Ids
   public static LATE_ENTRY_RULE = 1;
@@ -254,10 +253,10 @@ export class Key {
   user_import = '/whatsapp-user-onboarding/import';
   get_report = '/user-import';
 
-    // base_url = "http://localhost:8080/api/v2";
+  // base_url = "http://localhost:8080/api/v2";
 
-    /* ------------------  Staging urls ----------------*/
-    // base_url = "https://staging.hajiri.work/api/v2";
+  /* ------------------  Staging urls ----------------*/
+  // base_url = "https://staging.hajiri.work/api/v2";
 
   check_number_existence = '/whatsapp-user-onboarding/check-number-existence';
   check_email_existence = '/whatsapp-user-onboarding/check-email-existence';

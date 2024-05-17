@@ -454,6 +454,10 @@ export class AddShiftTimeComponent implements OnInit {
     this.getUserByFiltersMethodCall();
   }
 
+  backToShiftTime(){
+    this.SHIFT_TIME_STEP_ID = Key.SHIFT_TIME;
+  }
+
   onboardingViaString: string = 'SLACK';
   getOnboardingVia() {
     this.dataService.getOnboardingVia().subscribe(

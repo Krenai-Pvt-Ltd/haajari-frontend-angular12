@@ -25,6 +25,14 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { AgmCoreModule } from '@agm/core';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -55,6 +63,19 @@ import { NgOtpInputModule } from 'ng-otp-input';
     NzTimePickerModule,
     NzCalendarModule,
     NgOtpInputModule,
+    NzAutocompleteModule,
+    NzDropDownModule,
+    NzIconModule,
+    NzInputModule,
+    NzSelectModule,
+    ImageCropperModule,
+    NzInputNumberModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
+      libraries: ['places'],
+    }),
+    DragDropModule,
+
   ],
 })
 export class SettingModule {}
