@@ -100,12 +100,12 @@
 
         <div class="login-steps mt-5" *ngIf="!enableBack">
           <div class="login-with-slack mb-3 pointer">
+            <!-- <a
+              href="https://slack.com/oauth/v2/authorize?client_id=2411087939271.5829197320647&scope=app_mentions:read,channels:history,channels:read,chat:write,chat:write.customize,chat:write.public,commands,files:write,groups:read,im:history,im:read,team:read,users.profile:read,users:read,users:read.email,im:write&user_scope=users:read&redirect_uri=https://f40d-43-230-65-2.ngrok-free.app/auth/slackauth&state="
+            > -->
             <a
               href="https://slack.com/oauth/v2/authorize?client_id=2411087939271.5829197320647&scope=app_mentions:read,channels:history,channels:read,chat:write,chat:write.customize,chat:write.public,commands,files:write,groups:read,im:history,im:read,team:read,users.profile:read,users:read,users:read.email,im:write&user_scope=users:read&redirect_uri=https://app.hajiri.in/auth/slackauth&state="
             >
-              <!-- <a
-              href="https://slack.com/oauth/v2/authorize?client_id=2411087939271.5829197320647&scope=app_mentions:read,channels:history,channels:read,chat:write,chat:write.customize,chat:write.public,commands,files:write,groups:read,im:history,im:read,team:read,users.profile:read,users:read,users:read.email,im:write&user_scope=users:read&redirect_uri=https://d610-43-230-65-2.ngrok-free.app/auth/slackauth&state="
-            > -->
               <div
                 class="p-2 d-flex align-items-center justify-content-between"
               >
@@ -456,15 +456,34 @@
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                 #passwordInput="ngModel"
               />
-              <div *ngIf="passwordInput.errors && (passwordInput.dirty || passwordInput.touched)" class="text-danger text-start">
+              <div
+                *ngIf="
+                  passwordInput.errors &&
+                  (passwordInput.dirty || passwordInput.touched)
+                "
+                class="text-danger text-start"
+              >
                 <p *ngIf="passwordInput.errors.required">
                   <i class="bi bi-exclamation-circle"></i> Password is required.
                 </p>
-                <p *ngIf="!passwordInput.errors.required && passwordInput.errors.minlength">
-                  <i class="bi bi-exclamation-circle"></i> Password must be at least 8 characters long.
+                <p
+                  *ngIf="
+                    !passwordInput.errors.required &&
+                    passwordInput.errors.minlength
+                  "
+                >
+                  <i class="bi bi-exclamation-circle"></i> Password must be at
+                  least 8 characters long.
                 </p>
-                <p *ngIf="!passwordInput.errors.required && !passwordInput.errors.minlength && passwordInput.errors.pattern">
-                  <i class="bi bi-exclamation-circle"></i> Password must contain at least one uppercase, one lowercase, and one number.
+                <p
+                  *ngIf="
+                    !passwordInput.errors.required &&
+                    !passwordInput.errors.minlength &&
+                    passwordInput.errors.pattern
+                  "
+                >
+                  <i class="bi bi-exclamation-circle"></i> Password must contain
+                  at least one uppercase, one lowercase, and one number.
                 </p>
               </div>
             </div>
