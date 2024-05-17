@@ -538,12 +538,12 @@
                   (click)="editUser()"
                 >
                   <span *ngIf="!editLoader">Submit</span>
+                  <div class="dot-opacity-loader" *ngIf="editLoader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
                 </button>
-                <div class="dot-opacity-loader" *ngIf="editLoader">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
               </div>
             </form>
           </div>

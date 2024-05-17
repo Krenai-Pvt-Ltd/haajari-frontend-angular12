@@ -684,6 +684,12 @@
                       </td>
                       <td>
                         <span
+                          class="mb-0 weekly-pro-email"
+                          *ngIf="user.teamNames.length == 0"
+                        >
+                          {{ "N/A" }}</span
+                        >
+                        <span
                           class="teme-maneger mb-0 weekly-pro-team"
                           *ngIf="user.teamNames.length > 2"
                         >
