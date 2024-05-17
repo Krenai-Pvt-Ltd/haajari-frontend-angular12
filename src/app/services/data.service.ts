@@ -744,10 +744,12 @@ export class DataService {
       `${this.baseUrl}/team/checking-user-role`
     );
   }
-  sendInviteToUsers(emails: any): Observable<any> {
+  sendInviteToUsers(emails: string[], teamId: string): Observable<any> {
+    const params = new HttpParams().set('teamUuid', teamId);
     return this.httpClient.post(
-      `${this.baseUrl}/email/send-invite-to-users`,
-      emails
+      `${this.baseUrl}/team/send-invite-to-users`,
+      emails,
+      { params }
     );
   }
 
@@ -1337,12 +1339,12 @@ export class DataService {
   }
 
   deleteAttendanceRuleDefinition(
-    attendanceRuleDefinitionId: number
+    attendanceRuleDefinitionId: number,
+    attendanceRuleTypeId : number
   ): Observable<any> {
-    const params = new HttpParams().set(
-      'attendance_rule_definition_id',
-      attendanceRuleDefinitionId
-    );
+    const params = new HttpParams()
+    .set('attendance_rule_definition_id',attendanceRuleDefinitionId)
+    .set('attendance_rule_type_id', attendanceRuleTypeId);
 
     return this.httpClient.delete<any>(
       `${this.baseUrl}/attendance/rule/definition/delete`,

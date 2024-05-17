@@ -456,34 +456,15 @@
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                 #passwordInput="ngModel"
               />
-              <div
-                *ngIf="
-                  passwordInput.errors &&
-                  (passwordInput.dirty || passwordInput.touched)
-                "
-                class="text-danger text-start"
-              >
+              <div *ngIf="passwordInput.errors && (passwordInput.dirty || passwordInput.touched)" class="text-danger text-start">
                 <p *ngIf="passwordInput.errors.required">
                   <i class="bi bi-exclamation-circle"></i> Password is required.
                 </p>
-                <p
-                  *ngIf="
-                    !passwordInput.errors.required &&
-                    passwordInput.errors.minlength
-                  "
-                >
-                  <i class="bi bi-exclamation-circle"></i> Password must be at
-                  least 8 characters long.
+                <p *ngIf="!passwordInput.errors.required && passwordInput.errors.minlength">
+                  <i class="bi bi-exclamation-circle"></i> Password must be at least 8 characters long.
                 </p>
-                <p
-                  *ngIf="
-                    !passwordInput.errors.required &&
-                    !passwordInput.errors.minlength &&
-                    passwordInput.errors.pattern
-                  "
-                >
-                  <i class="bi bi-exclamation-circle"></i> Password must contain
-                  at least one uppercase, one lowercase, and one number.
+                <p *ngIf="!passwordInput.errors.required && !passwordInput.errors.minlength && passwordInput.errors.pattern">
+                  <i class="bi bi-exclamation-circle"></i> Password must contain at least one uppercase, one lowercase, and one number.
                 </p>
               </div>
             </div>
