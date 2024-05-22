@@ -226,9 +226,9 @@
                   <li
                     class="ng-star-inserted"
                     *ngFor="let tn of teamNameList"
-                    (click)="selectTeam(tn)"
+                    (click)="selectTeam(tn.teamName)"
                   >
-                    <a class="dropdown-item"> {{ tn }} </a>
+                    <a class="dropdown-item"> {{ tn.teamName }} </a>
                   </li>
                 </ul>
               </div>
@@ -292,6 +292,10 @@
                       *ngIf="fullLogList.status == 'pending'"
                     ></i>
                     <i
+                      class="ti ti-clock bg-soft-warning"
+                      *ngIf="fullLogList.status == 'requested'"
+                    ></i>
+                    <i
                       class="ti ti-checks bg-soft-success"
                       *ngIf="fullLogList.status == 'approved'"
                     ></i>
@@ -339,6 +343,12 @@
                               class="ng-star-inserted"
                               *ngIf="fullLogList.status == 'rejected'"
                               >Rejected <span> By </span>
+                            </span>
+                            <span
+                              style="color: rgb(155, 235, 234)"
+                              class="ng-star-inserted"
+                              *ngIf="fullLogList.status == 'requested'"
+                              >Requested <span> To </span>
                             </span>
                             {{ fullLogList.managerName }}
                           </p>

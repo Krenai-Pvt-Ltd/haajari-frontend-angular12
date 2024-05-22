@@ -139,19 +139,25 @@ export class TeamDetailComponent implements OnInit {
   USER = Key.USER;
 
   searchUsers() {
-    this.dataService
-      .getUsersByFilter(
-        this.itemPerPage,
-        this.pageNumber,
-        'asc',
-        'id',
-        this.searchQuery,
-        'name'
-      )
-      .subscribe((data: any) => {
-        this.userList = data.users;
-        this.total = data.count;
-      });
+    if (this.searchQuery === '') {
+      this.userList = [];
+      this.total = 0;
+    } else {
+      this.dataService
+        .getUsersByFilter(
+          this.itemPerPage,
+          this.pageNumber,
+          'asc',
+          'id',
+          this.searchQuery,
+          'name',
+          0
+        )
+        .subscribe((data: any) => {
+          this.userList = data.users;
+          this.total = data.count;
+        });
+    }
   }
 
   toggleUserSelection(user: User) {
@@ -177,7 +183,7 @@ export class TeamDetailComponent implements OnInit {
 
   inviteUsers() {
     debugger;
-    this.dataService.sendInviteToUsers(this.userEmails).subscribe(
+    this.dataService.sendInviteToUsers(this.userEmails, this.teamId).subscribe(
       (data) => {
         this.userEmails = [];
         this.selectedUsers = [];
@@ -393,4 +399,11 @@ export class TeamDetailComponent implements OnInit {
   closeDeleteModal() {
     this.deleteConfirmationModal.nativeElement.click();
   }
+
+  isProjectTab: boolean = false;
+  isMessagesTab: boolean = false;
+  isCalendarTab: boolean = false;
+  isAboutTab: boolean = false;
+  isGeneralTab: boolean = false;
+  isAdvanceTab: boolean = false;
 }

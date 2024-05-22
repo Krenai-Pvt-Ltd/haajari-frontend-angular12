@@ -364,12 +364,12 @@ displayModal = false;
           },
           (error: any) => {
             console.error('Error fetching admin verification status:', error);
-            reject(error); // Reject the promise on error
+            // reject(error); // Reject the promise on error
           }
         );
       } else {
         console.error('User UUID or Admin UUID not found in the URL.');
-        reject(new Error('User UUID or Admin UUID not found in the URL.')); // Reject the promise if parameters are missing
+        // reject(new Error('User UUID or Admin UUID not found in the URL.')); // Reject the promise if parameters are missing
       }
     });
   }

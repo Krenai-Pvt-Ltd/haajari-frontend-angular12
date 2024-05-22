@@ -1,3 +1,6 @@
+
+import { WeekDay } from "./WeekDay";
+import { OrganizationWeekoffInformation } from "./organization-weekoff-information";
 import { ShiftType } from "./shift-type";
 
 export class OrganizationShiftTimingResponse {
@@ -11,5 +14,7 @@ export class OrganizationShiftTimingResponse {
     lunchHour : string = '';
     shiftType : ShiftType = new ShiftType();
     userUuids : string[] = [];
+    weekDayResponse : WeekDay[] = [];
+    weekdayInfos: OrganizationWeekoffInformation[] = [];
 }
 

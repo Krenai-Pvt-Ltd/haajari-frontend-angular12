@@ -1,12 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
+import { EmployeeOnboardingDataDto } from 'src/app/models/employee-onboarding-data-dto';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+
+export interface Team {
+  label: string;
+  value: string;
+}
 
 @Component({
   selector: 'app-employee-onboarding-data',
@@ -19,14 +28,16 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   @ViewChild('personalInformationForm') personalInformationForm!: NgForm;
   userPersonalInformationRequest: UserPersonalInformationRequest =
     new UserPersonalInformationRequest();
+
   constructor(
     private dataService: DataService,
     private activateRoute: ActivatedRoute,
     private router: Router,
     private helperService: HelperService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private http: HttpClient
   ) {}
-  users: Users[] = [];
+  users: EmployeeOnboardingDataDto[] = [];
   filteredUsers: Users[] = [];
   itemPerPage: number = 12;
   pageNumber: number = 1;
@@ -50,12 +61,40 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.router.navigate(['/employee-profile'], navExtra);
   }
 
+  randomUserUrl = 'http://localhost:8080/api/v2/users/fetch-team-list-user';
+  searchChange$ = new BehaviorSubject('');
+  optionList: string[] = [];
+  selectedUser?: string;
+  isLoading = false;
+
+  // onSearch(value: string): void {
+  //   this.isLoading = true;
+  //   this.searchChange$.next(value);
+  // }
+
   ngOnInit(): void {
     window.scroll(0, 0);
     // this.isUserShimer=true;
     this.getEmployeesOnboardingStatus();
-    this.getEmpLastApprovedAndLastRejecetdStatus();
+    // this.getEmpLastApprovedAndLastRejecetdStatus();
     this.getUsersByFiltersFunction();
+    this.getTeamNames();
+
+    // const getRandomNameList = (): Observable<string[]> =>
+    //   this.http.get<string[]>(`${this.randomUserUrl}`).pipe(
+    //     catchError(() => of([])),
+    //     map((res: string[]) => res.map((team) => team)) // Adjust the mapping here
+    //   );
+
+    // const optionList$: Observable<string[]> = this.searchChange$
+    //   .asObservable()
+    //   .pipe(debounceTime(500))
+    //   .pipe(switchMap(getRandomNameList));
+
+    // optionList$.subscribe((data) => {
+    //   this.optionList = data;
+    //   this.isLoading = false;
+    // });
   }
 
   isUserShimer: boolean = true;
@@ -74,13 +113,14 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.isUserShimer = true;
     this.debounceTimer = setTimeout(() => {
       this.dataService
-        .getUsersByFilter(
+        .getUsersByFilterForEmpOnboarding(
           this.itemPerPage,
           this.pageNumber,
           'asc',
           'id',
           this.searchText,
           this.searchCriteria
+          
         )
         .subscribe(
           (response: any) => {
@@ -330,7 +370,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.toggle = true;
     const userUuid = '';
     this.dataService
-      .setEmployeePersonalDetails(this.userPersonalInformationRequest, userUuid)
+      .setEmployeePersonalDetails(
+        this.userPersonalInformationRequest,
+        userUuid,
+        this.selectedTeamIds
+      )
       .subscribe(
         (response: UserPersonalInformationRequest) => {
           this.toggle = false;
@@ -343,7 +387,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             this.clearForm();
             this.closeModal();
           }
-
+          this.selectedTeamIds = [];
+          this.selectedTeams = [];
+          this.getUsersByFiltersFunction();
           this.helperService.showToast(
             'Email sent successfully.',
             Key.TOAST_STATUS_SUCCESS
@@ -471,4 +517,50 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   // dismissModal() {
   //   this.modalService.dismissAll();
   // }
+
+  isShowPendingVerificationTab: boolean = false;
+
+  selectedTeams: Team[] = [];
+  teamNameList: Team[] = [];
+  isLoadingTeams = false;
+
+  getTeamNames() {
+    this.isLoadingTeams = true;
+    this.dataService.getAllTeamNames().subscribe({
+      next: (response: any) => {
+        this.teamNameList = response.object.map((team: any) => ({
+          label: team.teamName,
+          value: team.teamId.toString(),
+        }));
+        this.isLoadingTeams = false;
+      },
+      error: (error) => {
+        console.error('Failed to fetch team names:', error);
+        this.isLoadingTeams = false;
+      },
+    });
+  }
+
+  selectedTeamIds: number[] = [];
+
+  // onTeamSelectionChange(selectedTeams: string[]): void {
+  //   this.selectedTeamIds = selectedTeams.map((id) => parseInt(id, 10));
+  //   console.log('Selected team IDs:', this.selectedTeams);
+  // }
+
+  onTeamSelectionChange(selectedTeams: string[]): void {
+    this.selectedTeamIds = selectedTeams.map((id) => parseInt(id, 10));
+    // console.log('Selected teams:', this.selectedTeams);
+  }
+
+  onSearch(value: string): void {
+    this.isLoadingTeams = true;
+
+    setTimeout(() => {
+      this.teamNameList = this.teamNameList.filter((team) =>
+        team.label.toLowerCase().includes(value.toLowerCase())
+      );
+      this.isLoadingTeams = false;
+    }, 1000);
+  }
 }

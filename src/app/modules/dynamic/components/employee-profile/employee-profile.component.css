@@ -1446,3 +1446,6 @@ tbody tr {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.pointer-card {
+  cursor: pointer; /* Changes the cursor to a pointer (hand icon) */
+}

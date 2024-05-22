@@ -186,12 +186,12 @@ async getNewUserAddressDetailsMethodCall(): Promise<boolean> {
               },
               (error: any) => {
                   console.error('Error fetching user address details:', error);
-                  reject(error);
+                  // reject(error);
               }
           );
       } else {
           console.error('User UUID not found in the URL search parameters');
-          reject(new Error('User UUID not found in the URL search parameters'));
+          // reject(new Error('User UUID not found in the URL search parameters'));
       }
   })
 }
@@ -417,7 +417,7 @@ async getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
     if (!userUuid || !adminUuid) {
       console.error('User UUID or Admin UUID not found in the URL.');
       this.userAddressDetailsRequest.updateRequest = false; // Set updateRequest to false due to error
-      reject(new Error('User UUID or Admin UUID not found in the URL.')); // Reject the promise if parameters are missing
+       // Reject the promise if parameters are missing
       return; // Early return to avoid further execution
     }
 
@@ -436,7 +436,7 @@ async getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
       },
       (error: any) => {
         console.error('Error fetching admin verification status:', error);
-        reject(error); // Reject the promise on error
+        // reject(error); // Reject the promise on error
       }
     );
   });

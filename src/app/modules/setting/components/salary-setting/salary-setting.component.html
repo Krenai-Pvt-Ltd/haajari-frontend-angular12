@@ -160,7 +160,10 @@
               <p>A quick snapshot of your company.</p>
             </div>
 
-            <div class="total-shifts p-3 mt-4">
+            <div
+              class="total-shifts p-3 mt-4"
+              *ngIf="salaryTemplateComponentResponseList.length > 0"
+            >
               <div class="d-flex align-items-center justify-content-between">
                 <div>
                   <h6 class="text-truncate">Template’s</h6>
@@ -343,23 +346,14 @@
                               data-bs-toggle="modal"
                               data-bs-target="#addsalarytemplate"
                               class="add-shift-time-btn"
-                              ><i class="bi bi-plus"></i> Create your own salary
-                              template
+                              ><i class="bi bi-plus"></i> Create your own salary template
                             </a>
                           </div>
                         </div>
-                        <div
-                          class="shift-set"
-                          *ngFor="
-                            let salaryTemplateComponentResponse of salaryTemplateComponentResponseList;
-                            let i = index
-                          "
-                        >
+                        <div class="shift-set" *ngFor="let salaryTemplateComponentResponse of salaryTemplateComponentResponseList; let i = index">
                           <div class="shift-time p-3 m-3 ng-star-inserted">
                             <div>
-                              <div
-                                class="d-flex align-items-center justify-content-between"
-                              >
+                              <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-3">
                                   <div>
                                     <span
@@ -758,6 +752,32 @@
                     >
                       <div class="errorboxmain">
                         <div class="errorboxinner">
+                          <div class="errorboxplaceholder mb-2">
+                            <img
+                              src="assets/images/empty-box.svg"
+                              style="width: 80px"
+                            />
+                          </div>
+                          <div class="">
+                            <h5 class="mb-0">Salary Templates Not Found</h5>
+                          </div>
+                          <div
+                            class="add-filtter mt-2 mb-3"
+                            style="text-align: center"
+                          >
+                            <a
+                              class=""
+                              style="font-size: 14px; color: #6666f3"
+                              data-bs-toggle="modal"
+                              data-bs-target="#addsalarytemplate"
+                              ><i class="bi bi-plus"></i> Create salary template
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- <div class="errorboxmain">
+                        <div class="errorboxinner">
                           <div
                             class="add-filtter mt-2 mb-3"
                             style="text-align: center"
@@ -778,7 +798,7 @@
                             </p>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
 
                     <div
@@ -2064,9 +2084,7 @@
             </div>
             <div class="mt-3">
               <div class="mb-3">
-                <label for="name" class="pb-2"
-                  >Name <span style="color: red">*</span></label
-                >
+                <label for="name" class="pb-2">Name <span style="color: red">*</span></label>
                 <input
                   type="text"
                   id="name"
@@ -2078,14 +2096,8 @@
                   required
                   minlength="3"
                   maxlength="50"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-                <div
-                  *ngIf="
-                    nameField.invalid && (nameField.dirty || nameField.touched)
-                  "
-                  class="text-danger"
-                >
+                  [ngModelOptions]="{ standalone: true }"/>
+                <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="text-danger">
                   <div *ngIf="nameField.errors?.required">
                     Name is required.
                   </div>
@@ -2141,16 +2153,12 @@
             </div>
             <div class="" *ngFor="let salaryComponent of salaryComponentList">
               <div
-                class="d-flex align-items-center justify-content-between information-box"
-              >
+                class="d-flex align-items-center justify-content-between information-box">
                 <div class="basic-text">
                   <h5>{{ salaryComponent.name }}</h5>
                 </div>
                 <div class="enter-ammount position-relative">
                   <div class="">
-                    <!-- <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Amount">
-        
-                                        <i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i> -->
                     <nz-input-number
                       [(ngModel)]="salaryComponent.value"
                       [ngModelOptions]="{ standalone: true }"
@@ -2167,8 +2175,7 @@
                 </div>
                 <div
                   class="delete-btn d-flex align-items-center justify-content-end"
-                  style="gap: 25px"
-                >
+                  style="gap: 25px">
                   <nz-switch
                     [(ngModel)]="salaryComponent.toggle"
                     [ngModelOptions]="{ standalone: true }"

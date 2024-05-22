@@ -16,6 +16,7 @@ import {
 } from 'src/app/models/leave-responses.model';
 import { UserDto } from 'src/app/models/user-dto.model';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
+import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
@@ -479,8 +480,11 @@ export class LeaveManagementComponent implements OnInit {
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
-  teamNameList: string[] = [];
+  teamNameList: UserTeamDetailsReflection[] = [];
+
+  teamId: number = 0;
   getTeamNames() {
+    debugger
     this.dataService.getAllTeamNames().subscribe({
       next: (response: any) => {
         this.teamNameList = response.object;
@@ -490,6 +494,7 @@ export class LeaveManagementComponent implements OnInit {
       },
     });
   }
+
 
   sliceWord(word: string): string {
     return word.slice(0, 3);

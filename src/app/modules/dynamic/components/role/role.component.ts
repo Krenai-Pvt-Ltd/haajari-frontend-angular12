@@ -389,7 +389,7 @@ export class RoleComponent implements OnInit {
 
   getUsersByFilterMethodCall() {
     this.dataService
-      .getUsersByFilter(0, 1, 'asc', 'id', '', 'name')
+      .getUsersByFilter(0, 1, 'asc', 'id', '', 'name',0)
       .subscribe((data) => {
         this.users = data.users;
         // this.total = data.count;

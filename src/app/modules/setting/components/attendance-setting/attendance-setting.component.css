@@ -1286,3 +1286,39 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
     overflow: scroll;
   }
 }
+
+/* Ensures the outermost container is a flex container */
+.container .content-wrapper {
+  display: flex;
+  justify-content: flex-end; /* Aligns children to the right */
+  width: 100%; /* Ensures the container takes full width */
+}
+
+/* Flexbox for the filter wrapper to align items properly */
+.container .content-wrapper .filter-wrapper {
+  display: flex;
+  align-items: center; /* Centers items vertically */
+  gap: 10px; /* Space between the select count and clear button */
+}
+
+.info-button, .clear-button {
+  white-space: nowrap; /* Prevents text wrapping */
+  display: inline-flex;
+  align-items: center;
+}
+
+.text-danger {
+  color: #dc3545; /* Bootstrap's danger text color for consistency */
+}
+
+.bi-x {
+  margin-left: 4px; /* Adds a small space after the text */
+}
+
+.agm-map {
+  height: 400px; /* Adjust the height as needed */
+}
+
+nz-time-picker {
+  margin: 0 8px 12px 0;
+}

@@ -103,6 +103,7 @@ export class AddShiftTimeComponent implements OnInit {
         'id',
         this.searchText,
         '',
+        0
       )
       .subscribe(
         (response) => {
@@ -451,6 +452,10 @@ export class AddShiftTimeComponent implements OnInit {
   clearSearch() {
     this.searchText = '';
     this.getUserByFiltersMethodCall();
+  }
+
+  backToShiftTime(){
+    this.SHIFT_TIME_STEP_ID = Key.SHIFT_TIME;
   }
 
   onboardingViaString: string = 'SLACK';

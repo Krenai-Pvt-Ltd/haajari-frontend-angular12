@@ -70,18 +70,6 @@
           <ul class="sidebar-menu">
             <li
               class="pointer"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/team"
-              (click)="setActiveTabEmpty()"
-            >
-              <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-people menu-icon"></i> Team</span
-                >
-              </a>
-            </li>
-            <li
-              class="pointer"
               *ngIf="shouldDisplay('onboarding')"
               routerLinkActive="sidebar-menu-active"
               routerLink="/employee-onboarding-data"
@@ -89,6 +77,18 @@
               <a class="sidebar-menu-link">
                 <span class=" "
                   ><i class="bi bi-person-plus menu-icon"></i> Onboarding</span
+                >
+              </a>
+            </li>
+            <li
+              class="pointer"
+              routerLinkActive="sidebar-menu-active"
+              routerLink="/team"
+              (click)="setActiveTabEmpty()"
+            >
+              <a class="sidebar-menu-link">
+                <span class=" "
+                  ><i class="bi bi-people menu-icon"></i> Team</span
                 >
               </a>
             </li>

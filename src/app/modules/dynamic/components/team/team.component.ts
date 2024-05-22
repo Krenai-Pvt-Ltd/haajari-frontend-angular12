@@ -13,6 +13,15 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 import * as uuid from 'uuid';
 import { Key } from 'src/app/constant/key';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { TeamLocation } from 'src/app/models/team-location';
+import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { NgForm } from '@angular/forms';
+
+export class RegisterTeamRequest {
+  userUuids!: string[];
+  managerUuid!: string;
+  teamLocationRequest!: TeamLocation;
+}
 
 @Component({
   selector: 'app-team',
@@ -151,10 +160,14 @@ export class TeamComponent implements OnInit {
 
   searchQuery: string = '';
   userList: User[] = [];
+  userListManager: User[] = [];
   selectedUsers: User[] = [];
   userIds: string[] = [];
 
   searchUsers() {
+    if (this.searchQuery == '') {
+      this.userList = [];
+    }
     this.dataService
       .getUsersByFilter(
         this.itemPerPage,
@@ -162,12 +175,50 @@ export class TeamComponent implements OnInit {
         'asc',
         'id',
         this.searchQuery,
-        'name'
+        'name',
+        0
       )
       .subscribe((data: any) => {
         this.userList = data.users;
         this.total = data.count;
       });
+  }
+
+  searchQueryManager: string = '';
+
+  searchUsersManager() {
+    if (this.searchQueryManager == '') {
+      this.userListManager = [];
+    }
+    this.dataService
+      .getUsersByFilter(
+        this.itemPerPage,
+        this.pageNumber,
+        'asc',
+        'id',
+        this.searchQueryManager,
+        'name',
+        0
+      )
+      .subscribe((data: any) => {
+        this.userListManager = data.users;
+        this.total = data.count;
+      });
+  }
+
+  selectedManager: User | null = null;
+  managerId: string = '';
+  toggleUserSelectionManager(user: User) {
+    // const index =  u.uuid === user.uuid);
+    this.selectedManager = user;
+    this.managerId = user.uuid;
+
+    this.userListManager = [];
+    this.searchQueryManager = '';
+  }
+
+  removeSelectedUserOfSelectionManager(user: User) {
+    this.selectedManager = null;
   }
 
   toggleUserSelection(user: User) {
@@ -191,15 +242,64 @@ export class TeamComponent implements OnInit {
 
   @ViewChild('closeCreateTeam') closeCreateTeam!: ElementRef;
 
+  locationEnabled: boolean = false;
+  teamLocationRequest: TeamLocation = new TeamLocation();
+  // registerTeamRequest: RegisterTeamRequest = new RegisterTeamRequest();
+  registerTeamRequest: RegisterTeamRequest = {
+    userUuids: [],
+    managerUuid: '',
+    teamLocationRequest: new TeamLocation(),
+  };
+
+  getDefaultTeamLocation(): TeamLocation {
+    return {
+      addressLine1: '',
+      addressLine2: '',
+      city: '',
+      state: '',
+      country: '',
+      pincode: '',
+      longitude: '',
+      latitude: '',
+      range: '',
+    };
+  }
+
   registerTeamSubmitButton() {
-    // console.log(+this.getLoginDetailsOrgRefId());
     debugger;
+    this.registerTeamRequest.userUuids = this.userIds;
+    this.registerTeamRequest.managerUuid = this.managerId;
+
+    if (this.locationEnabled && this.teamLocationRequest) {
+      this.registerTeamRequest.teamLocationRequest = this.teamLocationRequest;
+    } else {
+      this.registerTeamRequest.teamLocationRequest = new TeamLocation();
+    }
+
+    console.log('Testing' + this.registerTeamRequest.userUuids);
+    console.log('Testing' + this.registerTeamRequest.teamLocationRequest);
+
     this.dataService
-      .registerTeam(this.userIds, this.teamName, this.teamDescription)
+      .registerTeam(
+        this.teamName,
+        this.teamDescription,
+        this.registerTeamRequest
+      )
       .subscribe(
         (data) => {
-          debugger;
           // location.reload();
+          this.locationEnabled = false;
+          this.teamLocationRequest = new TeamLocation();
+          this.teamName = '';
+          this.teamDescription = '';
+          this.userIds = [];
+          this.managerId = '';
+          this.userList = [];
+          this.userListManager = [];
+          this.selectedManager = null;
+          this.selectedUsers = [];
+          this.total = 0;
+          this.registerTeamRequest.userUuids = [];
           this.closeCreateTeam.nativeElement.click();
           this.getTeamsByFiltersFunction();
           this.helperService.showToast(
@@ -750,5 +850,128 @@ export class TeamComponent implements OnInit {
       queryParams: { userId: uuid },
     };
     this.router.navigate(['/employee-profile'], navExtra);
+  }
+
+  // new code
+
+  @ViewChild('placesRef') placesRef!: GooglePlaceDirective;
+
+  public handleAddressChange(e: any) {
+    debugger;
+    // var id = this.organizationAddressDetail.id;
+    this.teamLocationRequest = new TeamLocation();
+    this.teamLocationRequest.longitude = e.geometry.location.lng();
+    this.teamLocationRequest.latitude = e.geometry.location.lat();
+
+    console.log(e.geometry.location.lat());
+    console.log(e.geometry.location.lng());
+    this.teamLocationRequest.addressLine1 = e.name + ', ' + e.vicinity;
+
+    e?.address_components?.forEach((entry: any) => {
+      // console.log(entry);
+
+      if (entry.types?.[0] === 'route') {
+        this.teamLocationRequest.addressLine2 = entry.long_name + ',';
+      }
+      if (entry.types?.[0] === 'sublocality_level_1') {
+        this.teamLocationRequest.addressLine2 =
+          this.teamLocationRequest.addressLine2 + entry.long_name;
+      }
+      if (entry.types?.[0] === 'locality') {
+        this.teamLocationRequest.city = entry.long_name;
+      }
+      if (entry.types?.[0] === 'administrative_area_level_1') {
+        this.teamLocationRequest.state = entry.long_name;
+      }
+      if (entry.types?.[0] === 'country') {
+        this.teamLocationRequest.country = entry.long_name;
+      }
+      if (entry.types?.[0] === 'postal_code') {
+        this.teamLocationRequest.pincode = entry.long_name;
+      }
+    });
+  }
+
+  @ViewChild('createteam')
+  createteam!: ElementRef;
+  @ViewChild('teamLocationss')
+  teamLocationss!: ElementRef;
+  @ViewChild('closeTeamLocationModal') closeTeamLocationModal!: ElementRef;
+  toggleModals() {
+    // this.closeCreateTeam.nativeElement.click();
+    this.teamLocationss.nativeElement.click();
+  }
+
+  modal2toggle: boolean = false;
+  reopenCreateTeamModal() {
+    console.log('Checking team location request:', this.teamLocationRequest);
+
+    // Check that required properties are not empty
+    if (
+      this.teamLocationRequest &&
+      this.teamLocationRequest.addressLine1 &&
+      this.teamLocationRequest.city &&
+      this.teamLocationRequest.state &&
+      this.teamLocationRequest.country &&
+      this.teamLocationRequest.pincode
+    ) {
+      console.log('Valid team location request found, closing the modal.');
+
+      // Reset location toggle switch
+      this.locationEnabled = true;
+      this.modal2toggle = true;
+      this.createteam.nativeElement.click();
+      this.refreshTeamLocationsForm(false);
+      // Close the current modal
+      // this.closeTeamLocationModal.nativeElement.click();
+    } else {
+      this.locationEnabled = false;
+      // this.modal2toggle = false;
+      // this.teamLocationss.nativeElement.click();
+      console.warn('Incomplete team location request data.');
+    }
+  }
+
+  // locationEnabled: boolean = false;
+
+  handleLocationToggle() {
+    if (this.locationEnabled) {
+      this.teamLocationss.nativeElement.click();
+    } else {
+      this.locationEnabled = false;
+      this.teamLocationRequest = new TeamLocation();
+      // this.createteam.nativeElement.click();
+    }
+  }
+
+  refreshTeamLocationsForm(flag: boolean) {
+    if (flag) {
+      this.locationEnabled = false;
+      this.teamLocationRequest = new TeamLocation();
+      this.createteam.nativeElement.click();
+    } else {
+      this.createteam.nativeElement.click();
+    }
+  }
+
+  submit() {
+    debugger;
+    this.checkFormValidation();
+
+    if (this.isFormInvalid == true) {
+      return;
+    } else {
+      this.reopenCreateTeamModal();
+    }
+  }
+  isFormInvalid: boolean = false;
+  @ViewChild('teamLocationForm') teamLocationForm!: NgForm;
+  checkFormValidation() {
+    if (this.teamLocationForm.invalid) {
+      this.isFormInvalid = true;
+      return;
+    } else {
+      this.isFormInvalid = false;
+    }
   }
 }

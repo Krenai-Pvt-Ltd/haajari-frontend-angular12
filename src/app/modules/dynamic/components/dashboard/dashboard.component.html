@@ -4,15 +4,16 @@
     <div class="container-fluid">
       <!-- end page title end breadcrumb -->
       <div class="row mb-3 mt-4">
-        <div class="col-md-6 col-lg-3 order-lg-1 order-md-1">
+        <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
           <div class="card report-card">
             <div class="card-body">
               <div class="row d-flex justify-content-center">
                 <div class="col">
-                  <p class="text-dark mb-1 fw-semibold">Live Employee</p>
+                  <p class="text-dark mb-1 fw-semibold">Present</p>
                   <h4 class="font-22 fw-bold">
-                    {{ currentDayEmployeesData.allPresentUsers }}
+                    <span>{{ attendanceDetailsCountResponse.presentUsers }}/{{ attendanceDetailsCountResponse.totalUsers }}</span>                    
                   </h4>
+                  <!-- <span class="text-muted">(Total Employees)</span> -->
                 </div>
                 <div class="col-auto align-self-center">
                   <div
@@ -56,9 +57,14 @@
                   <!-- <p class="text-dark mb-1 fw-semibold" style="font-size: 11px;">On Leave / Absent / Not Marked</p>
                                     <h4 class="font-22 fw-bold">{{currentDayEmployeesData.allAbsentUsers}}</h4>    -->
                   <div class="d-flex align-items-center" style="gap: 3px">
+                    <div class="Approved late text-center">
+                      <span class="total-holiday pb-2">Late</span>
+                      <p class="mb-0">
+                        {{ lateEmployeeAttendanceDetailsResponseList.length }}
+                      </p>
+                    </div>
                     <div
-                      class="Approved pending-css rejected-css text-center border-right"
-                    >
+                      class="Approved pending-css rejected-css text-center border-right">
                       <span class="total-holiday pb-2">Leave</span>
                       <p class="mb-0">
                         {{ attendanceDetailsCountResponse.usersOnLeave }}
@@ -71,7 +77,6 @@
                         {{ attendanceDetailsCountResponse.absentUsers }}
                       </p>
                     </div>
-
                     <div class="Approved na text-center">
                       <span class="total-holiday pb-2">Not Marked</span>
                       <p class="mb-0">
@@ -92,14 +97,15 @@
           </div>
           <!--end card-->
         </div>
-        <div class="col-lg-6 order-lg-2 order-md-3">
+
+        <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
           <div class="card fixheigt-section">
             <div class="card-header">
               <div class="row align-items-center">
                 <div class="col">
-                  <h4 class="card-title">Daily Progress Analysis</h4>
+                  <h6 class="mb-2">Weekly Leave Pattern</h6>
                 </div>
-                <div class="col-auto">
+                <!-- <div class="col-auto">
                   <div class="dropdown">
                     <a
                       href="#"
@@ -115,29 +121,35 @@
                       <a class="dropdown-item" href="#">Emails</a>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
-            <!--end card-header-->
+
             <div class="card-body">
               <div class="text-center">
-                <div class="chart-container">
-                  <!-- <canvas id="bar" height="290"></canvas>  -->
-                  <img src="assets/images/chrt-1.jpeg" />
-                </div>
+                <ngx-charts-bar-vertical-stacked
+                  [view]="view1"
+                  [results]="weeklyChartData"
+                  [scheme]="colorScheme"
+                  [gradient]="gradient"
+                  [xAxis]="true"
+                  [yAxis]="true"
+                  [legend]="false"
+                  [animations]="true"
+                >
+                </ngx-charts-bar-vertical-stacked>
               </div>
             </div>
           </div>
-          <!--end card-->
         </div>
-        <div class="col-lg-3 col-md-6 order-lg-3 order-md-2">
+        <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
           <div class="card fixheigt-section">
             <div class="card-header">
               <div class="row align-items-center">
                 <div class="col">
-                  <h4 class="card-title">Best Performance till date</h4>
+                  <h6 class="mb-2">Last 6 Months Pattern</h6>
                 </div>
-                <div class="col-auto">
+                <!-- <div class="col-auto">
                   <div class="dropdown">
                     <a
                       href="#"
@@ -153,25 +165,293 @@
                       <a class="dropdown-item" href="#">Emails</a>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
-            <!--end card-header-->
             <div class="card-body">
               <div class="text-center">
-                <img src="assets/images/chart-2.jpeg" />
-                <!-- <h6 class="text-primary bg-soft-primary p-3 mb-0">
-                                    <i data-feather="calendar" class="align-self-center icon-xs me-1"></i>
-                                    01 January 2021 to 31 June 2021
-                                </h6> -->
+                <ngx-charts-bar-vertical-stacked
+                  [view]="view2"
+                  [results]="monthlyChartData"
+                  [scheme]="colorScheme"
+                  [gradient]="gradient"
+                  [xAxis]="true"
+                  [yAxis]="true"
+                  [legend]="false"
+                  [animations]="true"
+                >
+                </ngx-charts-bar-vertical-stacked>
               </div>
             </div>
           </div>
-          <!--end card-->
         </div>
       </div>
       <!-- ########################################## -->
 
+      <div
+        class="row mb-3"
+        *ngIf="lateEmployeeAttendanceDetailsResponseList.length > 0"
+      >
+        <div class="col-md-12">
+          <div
+            class="col d-flex align-items-center justify-content-between mb-3"
+          >
+            <h4 class="card-title" style="font-size: 18px">Late Employee</h4>
+            <ng-container
+              *ngIf="lateEmployeeDataLoaderButton; else viewAllAndViewLess"
+            >
+              <div class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </ng-container>
+            <ng-template #viewAllAndViewLess>
+              <div
+                class="view-more text-center"
+                *ngIf="
+                  totalLateEmployees > 6 &&
+                  lateEmployeeAttendanceDetailsResponseList.length !==
+                    totalLateEmployees
+                "
+              >
+                <p (click)="viewAllLateEmployeeAttendanceDetails(viewAll)">
+                  View All <i class="bi bi-arrow-right"></i>
+                </p>
+              </div>
+
+              <div
+                class="view-more text-center"
+                *ngIf="lateEmployeeAttendanceDetailsResponseList.length > 6"
+              >
+                <p (click)="viewAllLateEmployeeAttendanceDetails(viewLess)">
+                  View Less <i class="bi bi-arrow-right"></i>
+                </p>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+
+        <ng-container
+          *ngIf="
+            isShimmer &&
+              lateEmployeeAttendanceDetailsResponseList.length === 0 &&
+              !dataNotFoundPlaceholder &&
+              !networkConnectionErrorPlaceHolder;
+            else lateEmployeeAttendanceDetailsDataCondition
+          "
+        >
+          <div class="col-md-4" *ngFor="let item of [].constructor(6)">
+            <div class="card profile-card p-3">
+              <div class="row align-items-center">
+                <div class="col-md-12">
+                  <ngx-shimmer-loading
+                    [width]="'40%'"
+                    [height]="'15px'"
+                  ></ngx-shimmer-loading>
+                  <ngx-shimmer-loading
+                    [width]="'70%'"
+                    [height]="'10px'"
+                  ></ngx-shimmer-loading>
+                </div>
+                <div class="col-md-6 mt-3">
+                  <div class="text-start">
+                    <ngx-shimmer-loading
+                      [width]="'70%'"
+                      [height]="'15px'"
+                    ></ngx-shimmer-loading>
+                  </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                  <div class="text-end">
+                    <ngx-shimmer-loading
+                      [width]="'70%'"
+                      [height]="'15px'"
+                    ></ngx-shimmer-loading>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #lateEmployeeAttendanceDetailsDataCondition>
+          <ng-container
+            *ngIf="
+              lateEmployeeAttendanceDetailsResponseList.length !== 0 &&
+                !dataNotFoundPlaceholder &&
+                !networkConnectionErrorPlaceHolder;
+              else lateEmployeeAttendanceDetailsDataErrorCondition
+            "
+          >
+            <div
+              class="col-lg-4"
+              *ngFor="
+                let lateEmployeeAttendanceDetailsResponse of lateEmployeeAttendanceDetailsResponseList
+              "
+            >
+              <div class="card" style="padding: 1rem; padding-bottom: 10px">
+                <div
+                  class="card-body"
+                  style="
+                    display: flex;
+                    gap: 20px;
+                    align-items: center;
+                    padding: 0px !important;
+                    padding-bottom: 10px !important;
+                  "
+                >
+                  <ng-container
+                    *ngIf="
+                      lateEmployeeAttendanceDetailsResponse.image !== null;
+                      else imageNull
+                    "
+                  >
+                    <div>
+                      <img
+                        src="{{ lateEmployeeAttendanceDetailsResponse.image }}"
+                        alt="image"
+                        style="
+                          width: 60px;
+                          height: 60px;
+                          border-radius: 50%;
+                          object-fit: cover;
+                        "
+                      />
+                    </div>
+                  </ng-container>
+                  <ng-template #imageNull>
+                    <div>
+                      <span class="members-name">{{
+                        lateEmployeeAttendanceDetailsResponse.name[0]
+                      }}</span>
+                    </div>
+                  </ng-template>
+
+                  <div>
+                    <!-- <span class="in-time-box">
+                                        <p class="mb-0" style="font-size: 10px;"><span class="in-time" style="font-size: 10px;"><b>In Time:</b></span><span class="teme-maneger"> {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span></p>
+                                    </span> -->
+
+                    <div class="ribbon1 rib1-primary">
+                      <span class="text-white text-center rib1-primary"
+                        >In Time:
+                        {{
+                          lateEmployeeAttendanceDetailsResponse.checkInTime
+                            | timeFormat
+                        }}</span
+                      >
+                    </div>
+
+                    <h5 class="pro-title">
+                      {{ lateEmployeeAttendanceDetailsResponse.name }}
+                    </h5>
+                    <p class="mb-0 text-muted late-employ-email">
+                      {{ lateEmployeeAttendanceDetailsResponse.email }}
+                    </p>
+                  </div>
+                </div>
+                <hr class="borders-bottom" />
+                <div class="d-flex justify-content-between align-items-center">
+                  <!-- <div class="">
+                                        <p class="mb-0"><span class="in-time"><b>In Time:</b></span><span class="teme-maneger"> {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span></p>
+                                    </div> -->
+                  <div class="" style="width: 65%">
+                    <!-- <p class="mb-0"><span><b>Project:</b> </span> Hajiri</p> -->
+                    <!-- <p class="mb-0"><span class="in-time"><b>Manager:</b></span> 
+                                        <span class="teme-maneger">
+                                                 Pushpendra, An..  <a href="" class="user-avatar"><i class="bi bi-plus" ngbTooltip="Pushpendra, Anchal, Sunny." placement="top" style="font-size: 14px;"></i> 4 </a>
+                                        </span>
+                                    </p> -->
+
+                    <p class="mb-0">
+                      <span class="in-time"><b>Manager: </b></span>
+                      <span
+                        class="teme-maneger"
+                        *ngIf="
+                          lateEmployeeAttendanceDetailsResponse.managers
+                            .length > 2
+                        "
+                      >
+                        {{
+                          lateEmployeeAttendanceDetailsResponse.managers[0]
+                        }}...<a class="user-avatar"
+                          ><i
+                            class="bi bi-plus"
+                            ngbTooltip="{{
+                              lateEmployeeAttendanceDetailsResponse.managers
+                            }}"
+                            placement="top"
+                            style="font-size: 14px"
+                          ></i>
+                          {{
+                            lateEmployeeAttendanceDetailsResponse.managers
+                              .length - 1
+                          }}</a
+                        >
+                      </span>
+                      <span
+                        class="teme-maneger"
+                        *ngIf="
+                          lateEmployeeAttendanceDetailsResponse.managers
+                            .length < 3
+                        "
+                      >
+                        {{ lateEmployeeAttendanceDetailsResponse.managers }}
+                      </span>
+                    </p>
+                  </div>
+                  <div class="" style="width: 35%; text-align: end">
+                    <!-- <p class="mb-0"><span><b>Project:</b> </span> Hajiri</p> -->
+                    <p class="mb-0">
+                      <span class="in-time"><b> Late by: </b></span>
+                      <span class="teme-maneger">{{
+                        lateEmployeeAttendanceDetailsResponse.lateDuration
+                          | durationFormat
+                      }}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="col-md-12" *ngIf="lateEmployeeAttendanceDetailsResponseList.length > 6">
+                        <div class="view-more text-center" >
+                           <p>View More <i class="bi bi-arrow-right"></i></p>
+                        </div>
+                    </div> -->
+          </ng-container>
+        </ng-template>
+
+        <ng-template #lateEmployeeAttendanceDetailsDataErrorCondition>
+          <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolder">
+            <div class="errorboxinner">
+              <div class="errorboxplaceholder mb-2">
+                <img src="assets/images/signal.svg" style="width: 80px" />
+              </div>
+              <div class="">
+                <h4>Something went wrong!</h4>
+                <p class="mb-0">
+                  An error occurred while processing your request. Please
+                  refresh the page and try again.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="errorboxmain" *ngIf="dataNotFoundPlaceholder">
+            <div class="errorboxinner">
+              <div class="errorboxplaceholder mb-2">
+                <img src="assets/images/empty-box.svg" style="width: 80px" />
+              </div>
+              <div class="">
+                <h4>No Late Employees Found</h4>
+                <p class="mb-0">There's no late employees for today!</p>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <!--  ########best performer -->
       <div>
         <div class="row mb-3" *ngIf="ROLE === ADMIN || ROLE === MANAGER">
           <div class="col-md-12">
@@ -321,274 +601,6 @@
               </div>
             </ng-template>
           </div>
-        </div>
-
-        <div
-          class="row mb-3"
-          *ngIf="lateEmployeeAttendanceDetailsResponseList.length > 0"
-        >
-          <div class="col-md-12">
-            <div
-              class="col d-flex align-items-center justify-content-between mb-3"
-            >
-              <h4 class="card-title" style="font-size: 18px">Late Employee</h4>
-              <ng-container
-                *ngIf="lateEmployeeDataLoaderButton; else viewAllAndViewLess"
-              >
-                <div class="dot-opacity-loader">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </ng-container>
-              <ng-template #viewAllAndViewLess>
-                <div
-                  class="view-more text-center"
-                  *ngIf="
-                    totalLateEmployees > 6 &&
-                    lateEmployeeAttendanceDetailsResponseList.length !==
-                      totalLateEmployees
-                  "
-                >
-                  <p (click)="viewAllLateEmployeeAttendanceDetails(viewAll)">
-                    View All <i class="bi bi-arrow-right"></i>
-                  </p>
-                </div>
-
-                <div
-                  class="view-more text-center"
-                  *ngIf="lateEmployeeAttendanceDetailsResponseList.length > 6"
-                >
-                  <p (click)="viewAllLateEmployeeAttendanceDetails(viewLess)">
-                    View Less <i class="bi bi-arrow-right"></i>
-                  </p>
-                </div>
-              </ng-template>
-            </div>
-          </div>
-
-          <ng-container
-            *ngIf="
-              isShimmer &&
-                lateEmployeeAttendanceDetailsResponseList.length === 0 &&
-                !dataNotFoundPlaceholder &&
-                !networkConnectionErrorPlaceHolder;
-              else lateEmployeeAttendanceDetailsDataCondition
-            "
-          >
-            <div class="col-md-4" *ngFor="let item of [].constructor(6)">
-              <div class="card profile-card p-3">
-                <div class="row align-items-center">
-                  <div class="col-md-12">
-                    <ngx-shimmer-loading
-                      [width]="'40%'"
-                      [height]="'15px'"
-                    ></ngx-shimmer-loading>
-                    <ngx-shimmer-loading
-                      [width]="'70%'"
-                      [height]="'10px'"
-                    ></ngx-shimmer-loading>
-                  </div>
-                  <div class="col-md-6 mt-3">
-                    <div class="text-start">
-                      <ngx-shimmer-loading
-                        [width]="'70%'"
-                        [height]="'15px'"
-                      ></ngx-shimmer-loading>
-                    </div>
-                  </div>
-                  <div class="col-md-6 mt-3">
-                    <div class="text-end">
-                      <ngx-shimmer-loading
-                        [width]="'70%'"
-                        [height]="'15px'"
-                      ></ngx-shimmer-loading>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ng-container>
-          <ng-template #lateEmployeeAttendanceDetailsDataCondition>
-            <ng-container
-              *ngIf="
-                lateEmployeeAttendanceDetailsResponseList.length !== 0 &&
-                  !dataNotFoundPlaceholder &&
-                  !networkConnectionErrorPlaceHolder;
-                else lateEmployeeAttendanceDetailsDataErrorCondition
-              "
-            >
-              <div
-                class="col-lg-4"
-                *ngFor="
-                  let lateEmployeeAttendanceDetailsResponse of lateEmployeeAttendanceDetailsResponseList
-                "
-              >
-                <div class="card" style="padding: 1rem; padding-bottom: 10px">
-                  <div
-                    class="card-body"
-                    style="
-                      display: flex;
-                      gap: 20px;
-                      align-items: center;
-                      padding: 0px !important;
-                      padding-bottom: 10px !important;
-                    "
-                  >
-                    <ng-container
-                      *ngIf="
-                        lateEmployeeAttendanceDetailsResponse.image !== null;
-                        else imageNull
-                      "
-                    >
-                      <div>
-                        <img
-                          src="{{
-                            lateEmployeeAttendanceDetailsResponse.image
-                          }}"
-                          alt="image"
-                          style="
-                            width: 60px;
-                            height: 60px;
-                            border-radius: 50%;
-                            object-fit: cover;
-                          "
-                        />
-                      </div>
-                    </ng-container>
-                    <ng-template #imageNull>
-                      <div>
-                        <span class="members-name">{{
-                          lateEmployeeAttendanceDetailsResponse.name[0]
-                        }}</span>
-                      </div>
-                    </ng-template>
-
-                    <div>
-                      <!-- <span class="in-time-box">
-                                        <p class="mb-0" style="font-size: 10px;"><span class="in-time" style="font-size: 10px;"><b>In Time:</b></span><span class="teme-maneger"> {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span></p>
-                                    </span> -->
-
-                      <div class="ribbon1 rib1-primary">
-                        <span class="text-white text-center rib1-primary"
-                          >In Time:
-                          {{
-                            lateEmployeeAttendanceDetailsResponse.checkInTime
-                              | timeFormat
-                          }}</span
-                        >
-                      </div>
-
-                      <h5 class="pro-title">
-                        {{ lateEmployeeAttendanceDetailsResponse.name }}
-                      </h5>
-                      <p class="mb-0 text-muted late-employ-email">
-                        {{ lateEmployeeAttendanceDetailsResponse.email }}
-                      </p>
-                    </div>
-                  </div>
-                  <hr class="borders-bottom" />
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
-                    <!-- <div class="">
-                                        <p class="mb-0"><span class="in-time"><b>In Time:</b></span><span class="teme-maneger"> {{lateEmployeeAttendanceDetailsResponse.checkInTime | timeFormat}}</span></p>
-                                    </div> -->
-                    <div class="" style="width: 65%">
-                      <!-- <p class="mb-0"><span><b>Project:</b> </span> Hajiri</p> -->
-                      <!-- <p class="mb-0"><span class="in-time"><b>Manager:</b></span> 
-                                        <span class="teme-maneger">
-                                                 Pushpendra, An..  <a href="" class="user-avatar"><i class="bi bi-plus" ngbTooltip="Pushpendra, Anchal, Sunny." placement="top" style="font-size: 14px;"></i> 4 </a>
-                                        </span>
-                                    </p> -->
-
-                      <p class="mb-0">
-                        <span class="in-time"><b>Manager: </b></span>
-                        <span
-                          class="teme-maneger"
-                          *ngIf="
-                            lateEmployeeAttendanceDetailsResponse.managers
-                              .length > 2
-                          "
-                        >
-                          {{
-                            lateEmployeeAttendanceDetailsResponse.managers[0]
-                          }}...<a class="user-avatar"
-                            ><i
-                              class="bi bi-plus"
-                              ngbTooltip="{{
-                                lateEmployeeAttendanceDetailsResponse.managers
-                              }}"
-                              placement="top"
-                              style="font-size: 14px"
-                            ></i>
-                            {{
-                              lateEmployeeAttendanceDetailsResponse.managers
-                                .length - 1
-                            }}</a
-                          >
-                        </span>
-                        <span
-                          class="teme-maneger"
-                          *ngIf="
-                            lateEmployeeAttendanceDetailsResponse.managers
-                              .length < 3
-                          "
-                        >
-                          {{ lateEmployeeAttendanceDetailsResponse.managers }}
-                        </span>
-                      </p>
-                    </div>
-                    <div class="" style="width: 35%; text-align: end">
-                      <!-- <p class="mb-0"><span><b>Project:</b> </span> Hajiri</p> -->
-                      <p class="mb-0">
-                        <span class="in-time"><b> Late by: </b></span>
-                        <span class="teme-maneger">{{
-                          lateEmployeeAttendanceDetailsResponse.lateDuration
-                            | durationFormat
-                        }}</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- <div class="col-md-12" *ngIf="lateEmployeeAttendanceDetailsResponseList.length > 6">
-                        <div class="view-more text-center" >
-                           <p>View More <i class="bi bi-arrow-right"></i></p>
-                        </div>
-                    </div> -->
-            </ng-container>
-          </ng-template>
-
-          <ng-template #lateEmployeeAttendanceDetailsDataErrorCondition>
-            <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolder">
-              <div class="errorboxinner">
-                <div class="errorboxplaceholder mb-2">
-                  <img src="assets/images/signal.svg" style="width: 80px" />
-                </div>
-                <div class="">
-                  <h4>Something went wrong!</h4>
-                  <p class="mb-0">
-                    An error occurred while processing your request. Please
-                    refresh the page and try again.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="errorboxmain" *ngIf="dataNotFoundPlaceholder">
-              <div class="errorboxinner">
-                <div class="errorboxplaceholder mb-2">
-                  <img src="assets/images/empty-box.svg" style="width: 80px" />
-                </div>
-                <div class="">
-                  <h4>No Late Employees Found</h4>
-                  <p class="mb-0">There's no late employees for today!</p>
-                </div>
-              </div>
-            </div>
-          </ng-template>
         </div>
       </div>
       <div class="row mb-3" *ngIf="project === true">
@@ -770,7 +782,7 @@
               class="card-title"
               style="font-size: 18px; margin: 30px 0px 15px 0px"
             >
-              Attendance Master Roll Reports
+              Attendance Muster Roll Reports
             </h4>
           </div>
 

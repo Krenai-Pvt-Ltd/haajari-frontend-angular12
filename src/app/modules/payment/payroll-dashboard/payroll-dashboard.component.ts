@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
+import { LopReversalResponse } from 'src/app/models/lop-reversal-response';
+import { LopSummaryResponse } from 'src/app/models/lop-summary-response';
 import { MonthResponse } from 'src/app/models/month-response';
 import { NewJoineeAndUserExitRequest } from 'src/app/models/new-joinee-and-user-exit-request';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
@@ -9,6 +11,7 @@ import { NoticePeriod } from 'src/app/models/notice-period';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { PayrollDashboardEmployeeCountResponse } from 'src/app/models/payroll-dashboard-employee-count-response';
+import { Role } from 'src/app/models/role';
 import { UserExitResponse } from 'src/app/models/user-exit-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -87,6 +90,8 @@ export class PayrollDashboardComponent implements OnInit {
       'Current',
       false
     );
+
+    // this.getUserLeaveReq();
 
     this.selectedMonth = this.currentMonthResponse.month;
     this.selectedYear = this.currentMonthResponse.year;
@@ -452,7 +457,7 @@ export class PayrollDashboardComponent implements OnInit {
               this.newJoineeResponseList = response.listOfObject;
               this.total = response.totalItems;
               this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-              console.log(this.newJoineeResponseList);
+              // console.log(this.newJoineeResponseList);
             }
             this.isShimmerForNewJoinee = false;
           },
@@ -472,7 +477,7 @@ export class PayrollDashboardComponent implements OnInit {
 
       } else{
         this.payActionTypeList = response.listOfObject;
-        console.log(this.payActionTypeList);
+        // console.log(this.payActionTypeList);
       }
     }, (error) => {
 
@@ -811,25 +816,105 @@ export class PayrollDashboardComponent implements OnInit {
       })
     }
 
-    // this.dataService
-    //   .registerNewJoineeAndUserExit(
-    //     this.newJoineeAndUserExitRequestList,
-    //     this.startDate,
-    //     this.endDate
-    //   )
-    //   .subscribe(
-    //     (response) => {
-    //       this.helperService.showToast(
-    //         response.message,
-    //         Key.TOAST_STATUS_SUCCESS
-    //       );
-    //     },
-    //     (error) => {
-    //       this.helperService.showToast(
-    //         error.error.message,
-    //         Key.TOAST_STATUS_ERROR
-    //       );
-    //     }
-    //   );
+
+
+
+    // #######################################################################
+    // Step 2: Attendance, Leaves & Present days
+    isShimmerForLopSummary = false;
+    dataNotFoundPlaceholderForLopSummary = false;
+    networkConnectionErrorPlaceHolderForLopSummary = false;
+    preRuleForShimmersAndErrorPlaceholdersForLopSummary() {
+      this.isShimmerForLopSummary = true;
+      this.dataNotFoundPlaceholderForLopSummary = false;
+      this.networkConnectionErrorPlaceHolderForLopSummary = false;
+    }
+
+    isShimmerForLopReversal = false;
+    dataNotFoundPlaceholderForLopReversal = false;
+    networkConnectionErrorPlaceHolderForLopReversal = false;
+    preRuleForShimmersAndErrorPlaceholdersForLopReversal() {
+      this.isShimmerForLopReversal = true;
+      this.dataNotFoundPlaceholderForLopReversal = false;
+      this.networkConnectionErrorPlaceHolderForLopReversal = false;
+    }
+
+    lopSummaryResponseList : LopSummaryResponse[] = [];
+    getLopSummaryResponseByOrganizationIdAndStartDateAndDateMethodCall(){
+      this.dataService.getLopSummaryResponseByOrganizationIdAndStartDateAndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+
+        if(this.helperService.isListOfObjectNullOrUndefined(response)){
+          this.dataNotFoundPlaceholderForLopSummary = true;
+        } else{
+          this.lopSummaryResponseList = response.listOfObject;
+          this.total = response.totalItems;
+          this.lastPageNumber = Math.ceil(this.total/this.itemPerPage);
+          // console.log(this.lopSummaryResponseList);
+        }
+
+        this.isShimmerForLopSummary = false;
+      }, (error) => {
+        this.networkConnectionErrorPlaceHolderForLopSummary = true;
+        this.isShimmerForLopSummary = false;
+      })
+    }
+
+
+
+    lopReversalResponseList : LopReversalResponse[] = [];
+    getLopReversalResponseByOrganizationIdAndStartDateAndDateMethodCall(){
+      this.dataService.getLopReversalResponseByOrganizationIdAndStartDateAndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+
+        if(this.helperService.isListOfObjectNullOrUndefined(response)){
+          this.dataNotFoundPlaceholderForLopReversal = true;
+        } else{
+          this.lopReversalResponseList = response.listOfObject;
+          this.total = response.totalItems;
+          this.lastPageNumber = Math.ceil(this.total/this.itemPerPage);
+          // console.log(this.lopReversalResponseList);
+        }
+
+        this.isShimmerForLopReversal = false;
+      }, (error) => {
+        this.networkConnectionErrorPlaceHolderForLopReversal = true;
+        this.isShimmerForLopReversal = false;
+      })
+    }
+
+
+    extractPreviousMonthNameFromDate(dateString : string){
+      const date = new Date(dateString);
+      
+      date.setDate(1);
+      date.setMonth(date.getMonth() - 1);
+
+      const monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'short' });
+      const shortMonthName = monthFormatter.format(date);
   
+      return shortMonthName;
+    }
+
+    // getUserLeaveReq() {
+    //   this.dataService.getUserLeaveRequestsForLeaveManagement().subscribe(
+    //     (data) => {
+    //       console.log(data);
+    //       if (
+    //         data.body != undefined ||
+    //         data.body != null ||
+    //         data.body.length != 0
+    //       ) {
+    //         console.log(data.body);
+    //       } else {
+    //         return;
+    //       }
+    //     },
+    //     (error) => {}
+    //   );
+    // }
+
+    selectedRole : Role = new Role();
+    roles : Role[] = [];
+    selectLeaveType(role : any){
+
+    }
 }

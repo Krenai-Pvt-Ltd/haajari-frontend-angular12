@@ -343,14 +343,19 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   @ViewChild('otpModalButton') otpModalButton!: ElementRef;
   updateNotificationSettingMethodCall(type: 'whatsapp' | 'slack'): void {
     debugger;
-    if (type === 'whatsapp' && this.notifications.slack == true) {
+    // if (type === 'whatsapp' && this.notifications.slack == true) {
+    //   this.notificationVia.id = 2;
+    // } else if (type === 'slack' && this.notifications.slack == true) {
+    //   this.notificationVia.id = 1;
+    // } else if (type === 'slack' && this.notifications.slack == false) {
+    //   this.notificationVia.id = 1;
+    // } else if (type === 'whatsapp' && this.notifications.whatsapp == true) {
+    //   this.notificationVia.id = 2;
+    // }
+    if (type === 'whatsapp') {
       this.notificationVia.id = 2;
-    } else if (type === 'slack' && this.notifications.slack == true) {
+    } else {
       this.notificationVia.id = 1;
-    } else if (type === 'slack' && this.notifications.slack == false) {
-      this.notificationVia.id = 1;
-    } else if (type === 'whatsapp' && this.notifications.whatsapp == true) {
-      this.notificationVia.id = 2;
     }
     this._data.updateNotificationSetting(this.notificationVia).subscribe({
       next: (response: UserPersonalInformationRequest) => {
@@ -424,38 +429,38 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  toggle: boolean = false;
-  otp: number = 0;
-  verifyOtpMethodCall(): void {
-    this.toggle = true;
-    this._data
-      .verifyOtpForUpdatingPhoneNumber(this.phoneNumber, this.otp)
-      .subscribe({
-        next: (response: any) => {
-          if (response == true) {
-            this.toggle = false;
-            this.helper.showToast(
-              'OTP verified successfully',
-              Key.TOAST_STATUS_SUCCESS
-            );
-            this.otpModalButton.nativeElement.click();
-            this.notifications.whatsapp = true;
-            this.notifications.slack = false;
-            console.log('OTP sent successfully', response);
-          } else {
-            this.helper.showToast(
-              'Invalid number or Whatsapp Account not found',
-              Key.TOAST_STATUS_ERROR
-            );
-          }
-        },
-        error: (error) => {
-          // Handle any errors here, e.g., showing an error message
-          this.helper.showToast('Invalid OTP', Key.TOAST_STATUS_ERROR);
-          console.error('Error sending OTP', error);
-        },
-      });
-  }
+  // toggle: boolean = false;
+  // otp: number = 0;
+  // verifyOtpMethodCall(): void {
+  //   this.toggle = true;
+  //   this._data
+  //     .verifyOtpForUpdatingPhoneNumber(this.phoneNumber, this.otp)
+  //     .subscribe({
+  //       next: (response: any) => {
+  //         if (response == true) {
+  //           this.toggle = false;
+  //           this.helper.showToast(
+  //             'OTP verified successfully',
+  //             Key.TOAST_STATUS_SUCCESS
+  //           );
+  //           this.otpModalButton.nativeElement.click();
+  //           this.notifications.whatsapp = true;
+  //           this.notifications.slack = false;
+  //           console.log('OTP sent successfully', response);
+  //         } else {
+  //           this.helper.showToast(
+  //             'Invalid number or Whatsapp Account not found',
+  //             Key.TOAST_STATUS_ERROR
+  //           );
+  //         }
+  //       },
+  //       error: (error) => {
+  //         // Handle any errors here, e.g., showing an error message
+  //         this.helper.showToast('Invalid OTP', Key.TOAST_STATUS_ERROR);
+  //         console.error('Error sending OTP', error);
+  //       },
+  //     });
+  // }
 
   languagePreferred: number = 0;
   englishEnable: boolean = false;
@@ -523,5 +528,60 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
           );
         },
       });
+  }
+
+  //  new code
+
+  toggle: boolean = false;
+  otp: number = 0;
+  otpConfig = {
+    length: 6,
+    allowNumbersOnly: true,
+    inputStyles: {
+      width: '50px',
+      height: '50px',
+    },
+  };
+
+  verifyOtpMethodCall(): void {
+    this.toggle = true;
+    this._data
+      .verifyOtpForUpdatingPhoneNumber(this.phoneNumber, this.otp)
+      .subscribe({
+        next: (response: any) => {
+          this.processResponse(response);
+        },
+        error: (error) => {
+          this.handleError(error);
+        },
+      });
+  }
+
+  onOtpChange(otp: string): void {
+    this.otp = +otp;
+  }
+
+  private processResponse(response: any): void {
+    if (response == true) {
+      this.toggle = false;
+      this.helper.showToast(
+        'OTP verified successfully',
+        Key.TOAST_STATUS_SUCCESS
+      );
+      this.otpModalButton.nativeElement.click();
+      this.notifications.whatsapp = true;
+      this.notifications.slack = false;
+      console.log('OTP sent successfully', response);
+    } else {
+      this.helper.showToast(
+        'Invalid number or WhatsApp account not found',
+        Key.TOAST_STATUS_ERROR
+      );
+    }
+  }
+
+  private handleError(error: any): void {
+    this.helper.showToast('Invalid OTP', Key.TOAST_STATUS_ERROR);
+    console.error('Error sending OTP', error);
   }
 }

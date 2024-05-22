@@ -26,6 +26,8 @@ import { BestPerformerAttendanceDetailsResponse } from 'src/app/models/best-perf
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { DayWiseStatus } from 'src/app/models/day-wise-status';
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
+import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 
 @Component({
   selector: 'app-dashboard',
@@ -196,6 +198,8 @@ export class DashboardComponent implements OnInit {
     // this.getTodaysLiveLeaveCount();
 
     this.inputDate = this.getCurrentDate();
+    this.getWeeklyChartData();
+    this.getMonthlyChartData();
   }
 
   isShimmer = false;
@@ -704,7 +708,8 @@ export class DashboardComponent implements OnInit {
             this.pageNumber,
             this.itemPerPage,
             this.searchText,
-            this.searchBy
+            this.searchBy,
+            this.teamId
           )
           .toPromise()
           .then((response) => {
@@ -781,5 +786,96 @@ export class DashboardComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  sliceWord(word: string): string {
+    return word.slice(0, 3);
+  }
+
+  weeklyChartData: any[] = [];
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal, // Correct type for the group property
+    domain: ['#FFE082', '#80CBC4', '#FFCCBC'], // Gold, Green, Red
+  };
+  gradient: boolean = false;
+  // view: [number, number] = [300, 150];
+  view1: [number, number] = [300, 200];
+  weeklyPlaceholderFlag: boolean = true;
+  getWeeklyChartData() {
+    this.dataService.getWeeklyLeaveSummary().subscribe((data) => {
+      // if (data.length > 0) {
+      //   this.weeklyPlaceholderFlag = true;
+      // } else {
+      //   this.weeklyPlaceholderFlag = false;
+      // }
+      this.weeklyChartData = data.map((item) => ({
+        name: this.sliceWord(item.weekDay),
+        series: [
+          { name: 'Pending', value: item.pending || 0 },
+          { name: 'Approved', value: item.approved || 0 },
+          { name: 'Rejected', value: item.rejected || 0 },
+        ],
+      }));
+    });
+  }
+
+  monthlyChartData: any[] = [];
+  view2: [number, number] = [300, 200];
+  count: number = 0;
+  monthlyPlaceholderFlag: boolean = true;
+  getMonthlyChartData() {
+    this.dataService.getMonthlyLeaveSummary().subscribe((data) => {
+      // if (data.length > 0) {
+      //   this.monthlyPlaceholderFlag = true;
+      // } else {
+      //   this.monthlyPlaceholderFlag = false;
+      // }
+      console.log('length' + data.length);
+      this.monthlyChartData = data.map((item) => ({
+        name: this.sliceWord(item.monthName),
+        series: [
+          { name: 'Pending', value: item.pending || 0 },
+          { name: 'Approved', value: item.approved || 0 },
+          { name: 'Rejected', value: item.rejected || 0 },
+        ],
+        // this.count++;
+      }));
+    });
+  }
+
+  teamNameList: UserTeamDetailsReflection[] = [];
+
+  teamId: number = 0;
+  getTeamNames() {
+    debugger
+    this.dataService.getAllTeamNames().subscribe({
+      next: (response: any) => {
+        this.teamNameList = response.object;
+      },
+      error: (error) => {
+        console.error('Failed to fetch team names:', error);
+      },
+    });
+  }
+
+  selectedTeamName: string = 'All';
+  selectedTeamId: number = 0;
+  selectTeam(teamId: number) {
+    debugger
+    if (teamId === 0) {
+      this.selectedTeamName = 'All';
+    } else {
+      const selectedTeam = this.teamNameList.find(team => team.teamId === teamId);
+      this.selectedTeamName = selectedTeam ? selectedTeam.teamName : 'All';
+    }
+    // this.page = 0;
+    this.itemPerPage = 10;
+    // this.fullLeaveLogs = [];
+    // this.selectedTeamName = teamName;
+    this.selectedTeamId = teamId;
+    // this.getUserByFiltersMethodCall();
+  
   }
 }

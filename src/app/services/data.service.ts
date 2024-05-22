@@ -53,6 +53,8 @@ import { Key } from '../constant/key';
 import { ResponseEntityObject } from '../models/response-entity-object.model';
 import { OrganizationWeekoffInformation } from '../models/organization-weekoff-information';
 import { NewJoineeAndUserExitRequest } from '../models/new-joinee-and-user-exit-request';
+import { TeamLocation } from '../models/team-location';
+import { RegisterTeamRequest } from '../modules/dynamic/components/team/team.component';
 import { OnboardingFormPreviewResponse } from '../models/onboarding-form-preview-response';
 
 @Injectable({
@@ -307,6 +309,30 @@ export class DataService {
     sort: string,
     sortBy: string,
     search: string,
+    searchBy: string,
+    teamId: number
+    
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('item_per_page', itemPerPage.toString())
+      .set('page_number', pageNumber.toString())
+      .set('sort_order', sort)
+      .set('sort_by', sortBy)
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('team_id', teamId);
+      ;
+    return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {
+      params,
+    });
+  }
+
+  getUsersByFilterForEmpOnboarding(
+    itemPerPage: number,
+    pageNumber: number,
+    sort: string,
+    sortBy: string,
+    search: string,
     searchBy: string
   ): Observable<any> {
     const params = new HttpParams()
@@ -316,9 +342,12 @@ export class DataService {
       .set('sort_by', sortBy)
       .set('search', search)
       .set('search_by', searchBy);
-    return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {
-      params,
-    });
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/users/get/by-filters-for-employee-onboarding-data`,
+      {
+        params,
+      }
+    );
   }
 
   getUsersByFilterForLeaveSetting(
@@ -398,16 +427,24 @@ export class DataService {
   }
   //Team module
   registerTeam(
-    userIds: any,
     name: string,
-    description: string
+    description: string,
+    registerTeamRequest: RegisterTeamRequest
   ): Observable<any> {
     const params = new HttpParams()
       .set('name', name)
       .set('description', description);
-    return this.httpClient.post(`${this.baseUrl}/team/register`, userIds, {
-      params,
-    });
+
+    const request = {
+      request: registerTeamRequest,
+    };
+    return this.httpClient.post(
+      `${this.baseUrl}/team/register`,
+      registerTeamRequest,
+      {
+        params,
+      }
+    );
   }
   getTeamsByFilter(
     itemPerPage: number,
@@ -707,10 +744,12 @@ export class DataService {
       `${this.baseUrl}/team/checking-user-role`
     );
   }
-  sendInviteToUsers(emails: any): Observable<any> {
+  sendInviteToUsers(emails: string[], teamId: string): Observable<any> {
+    const params = new HttpParams().set('teamUuid', teamId);
     return this.httpClient.post(
-      `${this.baseUrl}/email/send-invite-to-users`,
-      emails
+      `${this.baseUrl}/team/send-invite-to-users`,
+      emails,
+      { params }
     );
   }
 
@@ -843,15 +882,20 @@ export class DataService {
 
   setEmployeePersonalDetails(
     userPersonalInformationRequest: UserPersonalInformationRequest,
-    userUuid: string
+    userUuid: string,
+    selectedTeamIds: number[]
   ): Observable<any> {
     debugger;
-    const params = new HttpParams().set('userUuid', userUuid);
+    let params = new HttpParams().set('userUuid', userUuid);
+    const requestBody = {
+      userPersonalInformationRequest,
+      selectedTeamIds,
+    };
     console.log('save');
     return this.httpClient
       .put<any>(
         `${this.baseUrl}/users/save/employeePersonalDetails`,
-        userPersonalInformationRequest,
+        requestBody,
         { params }
       )
       .pipe(
@@ -861,6 +905,40 @@ export class DataService {
         })
       );
   }
+  // setEmployeePersonalDetails(
+  //   userPersonalInformationRequest: UserPersonalInformationRequest,
+  //   userUuid: string,
+  //   selectedTeamIds: number[]
+  // ): Observable<any> {
+  //   const params = new HttpParams().set('userUuid', userUuid);
+  //   return this.httpClient
+  //     .put<any>(
+  //       `${this.baseUrl}/save/employeePersonalDetails`,
+  //       {
+  //         userPersonalInformationRequest,
+  //         selectedTeamIds,
+  //       },
+  //       { params }
+  //     )
+  //     .pipe(
+  //       catchError((error: HttpErrorResponse) => {
+  //         console.error('Error in setEmployeePersonalDetails:', error);
+  //         return throwError(error);
+  //       })
+  //     );
+  // }
+
+  // saveUserPersonalDetails(
+  //   userPersonalInformationRequest: any,
+  //   userUuid: string,
+  //   selectedTeamIds: number[]
+  // ): Observable<any> {
+  //   const url = `/save/employeePersonalDetails?userUuid=${userUuid}`;
+  //   return this.http.put<any>(url, {
+  //     userPersonalInformationRequest,
+  //     selectedTeamIds,
+  //   });
+  // }
 
   setEmployeeOnboardingPersonalDetails(
     userPersonalInformationRequest: UserPersonalInformationRequest,
@@ -1261,12 +1339,12 @@ export class DataService {
   }
 
   deleteAttendanceRuleDefinition(
-    attendanceRuleDefinitionId: number
+    attendanceRuleDefinitionId: number,
+    attendanceRuleTypeId : number
   ): Observable<any> {
-    const params = new HttpParams().set(
-      'attendance_rule_definition_id',
-      attendanceRuleDefinitionId
-    );
+    const params = new HttpParams()
+    .set('attendance_rule_definition_id',attendanceRuleDefinitionId)
+    .set('attendance_rule_type_id', attendanceRuleTypeId);
 
     return this.httpClient.delete<any>(
       `${this.baseUrl}/attendance/rule/definition/delete`,
@@ -1484,7 +1562,8 @@ export class DataService {
     pageNumber: number,
     itemPerPage: number,
     search: string,
-    searchBy: string
+    searchBy: string,
+    teamId: number
   ): Observable<any> {
     const params = new HttpParams()
       .set('start_date', startDate)
@@ -1492,7 +1571,8 @@ export class DataService {
       .set('page_number', pageNumber.toString())
       .set('item_per_page', itemPerPage.toString())
       .set('search', search)
-      .set('search_by', searchBy);
+      .set('search_by', searchBy)
+      .set('team_id', teamId);
 
     return this.httpClient.get<any>(
       `${this.baseUrl}/attendance/get-attendance-report-by-date-duration`,
@@ -2536,15 +2616,21 @@ export class DataService {
     );
   }
 
-
-  registerNewJoineeAndUserExit(newJoineeAndUserExitRequestList : NewJoineeAndUserExitRequest[], startDate : string, endDate : string): Observable<any>{
-
+  registerNewJoineeAndUserExit(
+    newJoineeAndUserExitRequestList: NewJoineeAndUserExitRequest[],
+    startDate: string,
+    endDate: string
+  ): Observable<any> {
     const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
+      .set('start_date', startDate)
+      .set('end_date', endDate);
 
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/user/change/register-new-joinee-and-user-exit`, newJoineeAndUserExitRequestList, {params});
-  } 
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/salary/user/change/register-new-joinee-and-user-exit`,
+      newJoineeAndUserExitRequestList,
+      { params }
+    );
+  }
 
   getOrganizationAllShiftCounts(): Observable<any> {
     return this.httpClient.get<any>(
@@ -2552,7 +2638,10 @@ export class DataService {
     );
   }
 
-  getAdminVerifiedForOnboardingUpdate(userUuid: string, adminUuid: string): Observable<any> {
+  getAdminVerifiedForOnboardingUpdate(
+    userUuid: string,
+    adminUuid: string
+  ): Observable<any> {
     const params = {
       userUuid: `${userUuid}`,
       adminUuid: `${adminUuid}`,
@@ -2568,7 +2657,6 @@ export class DataService {
   setEmployeeCompanyDocuments(
     userUuid: string,
     onboardingPreviewData: OnboardingFormPreviewResponse
-    
   ): Observable<any> {
     debugger;
     const params = new HttpParams().set('userUuid', userUuid);
@@ -2593,15 +2681,80 @@ export class DataService {
     return this.httpClient.get(url, { params });
   }
 
-  deleteEmployeeCompanyDocById(documentId: number, userUuid: string): Observable<any> {
+  deleteEmployeeCompanyDocById(
+    documentId: number,
+    userUuid: string
+  ): Observable<any> {
     // Create HttpParams and chain the setting of parameters
     const params = new HttpParams()
-      .set('documentId', documentId.toString())  // Ensure the ID is sent as a string
+      .set('documentId', documentId.toString()) // Ensure the ID is sent as a string
       .set('userUuid', userUuid);
-  
+
     return this.httpClient.delete<any>(
       `${this.baseUrl}/user-documents-details/delete/companyDoc`,
       { params }
     );
+  }
+
+  getLopSummaryResponseByOrganizationIdAndStartDateAndDate(
+    startDate: string,
+    endDate: string,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('start_date', startDate)
+      .set('end_date', endDate)
+      .set('item_per_page', itemPerPage)
+      .set('page_number', pageNumber)
+      .set('search', search)
+      .set('search_by', searchBy);
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/payroll-dashboard/leave-summary/lop-summary`,
+      { params }
+    );
+  }
+
+  getLopReversalResponseByOrganizationIdAndStartDateAndDate(
+    startDate: string,
+    endDate: string,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('start_date', startDate)
+      .set('end_date', endDate)
+      .set('item_per_page', itemPerPage)
+      .set('page_number', pageNumber)
+      .set('search', search)
+      .set('search_by', searchBy);
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/payroll-dashboard/leave-summary/lop-reversal`,
+      { params }
+    );
+  }
+
+  deleteLeaveSettingCategoryById(
+    leaveSettingCategoriesId: number
+  ): Observable<void> {
+    return this.httpClient.delete<void>(
+      `${this.baseUrl}/user-leave-rule/delete-leave-setting-category-by-Id`,
+      {
+        params: {
+          leaveSettingCategoriesId: leaveSettingCategoriesId,
+        },
+      }
+    );
+  }
+
+  getTeamListUserForEmpOnboarding(): Observable<any> {
+    const url = `${this.baseUrl}/users/fetch-team-list-user`;
+    return this.httpClient.get(url, {});
   }
 }
