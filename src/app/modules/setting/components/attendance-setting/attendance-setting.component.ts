@@ -2152,3 +2152,18 @@ isKeyOfOrganizationShiftTimingRequest(key: string): key is keyof OrganizationShi
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
