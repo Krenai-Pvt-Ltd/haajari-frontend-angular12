@@ -357,7 +357,8 @@ export class DataService {
     sortBy: string,
     search: string,
     searchBy: string,
-    leaveSettingId: number
+    leaveSettingId: number,
+    teamId: number
   ): Observable<any> {
     const params = new HttpParams()
       .set('item_per_page', itemPerPage.toString())
@@ -366,7 +367,8 @@ export class DataService {
       .set('sort_by', sortBy)
       .set('search', search)
       .set('search_by', searchBy)
-      .set('leave_setting_id', leaveSettingId);
+      .set('leave_setting_id', leaveSettingId)
+      .set('team_id', teamId);
     return this.httpClient.get<any>(
       `${this.baseUrl}/users/get/by-filters-leave-setting`,
       { params }
@@ -1736,6 +1738,7 @@ export class DataService {
       employeeAttendanceLocation
     );
   }
+  
 
   getEmployeeStatus(userUuid: string): Observable<OnboardingSidebarResponse> {
     const url = `${this.baseUrl}/sidebar-component/get-onboarding-status?userUuid=${userUuid}`;
@@ -2026,6 +2029,15 @@ export class DataService {
     let params = new HttpParams().set('userUuid', userUuid);
     return this.httpClient.post<any>(
       `${this.baseUrl}/attendance/regenerate-attendance-link`,
+      {},
+      { params }
+    );
+  }
+
+  generateNewAttendanceLinkGupShup(userUuid: string): Observable<any> {
+    let params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/attendance/gupshup/regenerate-attendance-link`,
       {},
       { params }
     );

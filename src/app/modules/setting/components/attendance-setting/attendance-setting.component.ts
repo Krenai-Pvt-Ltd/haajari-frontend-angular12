@@ -134,9 +134,9 @@ export class AttendanceSettingComponent implements OnInit {
     this.duration = `${formattedHours}:${formattedMinutes}`;
   }
 
-  onTimeChange(salaryDeduction: any) {
-    salaryDeduction.updateDuration();
-  }
+  // onTimeChange(salaryDeduction: any) {
+  //   salaryDeduction.updateDuration();
+  // }
 
 
   customCheckbox: boolean = true;
@@ -1305,16 +1305,31 @@ export class AttendanceSettingComponent implements OnInit {
   @ViewChild('staffActiveTabInShiftTiming')
   staffActiveTabInShiftTiming!: ElementRef;
 
+  isWeekOffFlag:boolean=true;
+
+  @ViewChild('weekOffActiveTab') weekOffActiveTab!:ElementRef;
+  
   staffActiveTabInShiftTimingMethod() {
     if (this.isValidForm()) {
-      this.staffActiveTabInShiftTiming.nativeElement.click();
+    if(this.isWeekOffFlag) {
+      this.weekOffActiveTab.nativeElement.click();
+      this.isStaffSelectionFlag = true;
+      this.isWeekOffFlag = false;
     }
+  } else {
+    if ( this.isStaffSelectionFlag) {
+      this.staffActiveTabInShiftTiming.nativeElement.click();
+     
+    }
+  }
   }
 
   @ViewChild('shiftTimingActiveTab') shiftTimingActiveTab!: ElementRef;
+  isStaffSelectionFlag:boolean=false;
 
   shiftTimingActiveTabMethod() {
     this.shiftTimingActiveTab.nativeElement.click();
+    this.isStaffSelectionFlag = false;
   }
 
   organizationShiftTimingWithShiftTypeResponseList: OrganizationShiftTimingWithShiftTypeResponse[] =
@@ -1334,6 +1349,23 @@ export class AttendanceSettingComponent implements OnInit {
         if (this.organizationShiftTimingWithShiftTypeResponseList.length == 1) {
           this.activeIndex = 0;
         }
+        console.log(response[0].organizationShiftTimingResponseList)
+        // Iterate through each item in the response array
+        this.organizationShiftTimingWithShiftTypeResponseList.forEach(item => {
+          // Check if organizationShiftTimingResponseList is defined and not empty
+          if (item.organizationShiftTimingResponseList && item.organizationShiftTimingResponseList.length > 0) {
+            // Iterate through each shift in the organizationShiftTimingResponseList
+            item.organizationShiftTimingResponseList.forEach(shift => {
+              shift.inTimeDate = this.convertTime(shift.inTime);
+              shift.outTimeDate = this.convertTime(shift.outTime);
+              shift.startLunchDate = this.convertTime(shift.startLunch);
+              shift.endLunchDate = this.convertTime(shift.endLunch);
+              console.log(shift.inTime, shift.outTime)
+            });
+          }
+        });
+        
+         
         // console.log(this.organizationShiftTimingWithShiftTypeResponseList);
         // this.isShimmer = false;
         // this.dataNotFoundPlaceholder = true;
@@ -1376,6 +1408,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   // ##############################################################
   openAddShiftTimeModal() {
+    this.getWeekDays();
     this.getShiftTypeMethodCall();
     this.getUserByFiltersMethodCall();
     this.clearShiftTimingModel();
@@ -1623,15 +1656,27 @@ export class AttendanceSettingComponent implements OnInit {
   //   });
   // }
 
+  // getWeekDays() {
+  //   this.dataService.getWeekDays().subscribe((holidays) => {
+  //     this.weekDay = holidays.map((day) => ({
+  //       ...day,
+  //       selected: day.selected === 1,
+  //     }));
+  //     console.log(this.weekDay);
+  //   });
+  // }
   getWeekDays() {
     this.dataService.getWeekDays().subscribe((holidays) => {
       this.weekDay = holidays.map((day) => ({
         ...day,
-        selected: day.selected === 1,
+        selected: false,  // Explicitly set selected to false
+        isAlternate: false, // Ensure isAlternate is also set to false by default
+        weekOffType: 0 // Set weekOffType to default value, if needed
       }));
       console.log(this.weekDay);
     });
   }
+  
 
   // getWeekDays() {
   //   this.dataService.getWeekDays().subscribe(holidays => {
@@ -1673,14 +1718,24 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   toggleAlternate(i: number, isAlternate: boolean): void {
+    debugger
     this.weekDay[i].isAlternate = isAlternate;
     this.weekDay[i].weekOffType = 1;
+    
     // Reset weekOffType to 0 when "All" is selected
     if (!isAlternate) {
       this.weekDay[i].weekOffType = 0;
     }
   }
 
+  // toggleAlternate(shiftIndex: number, dayIndex: number, isAlternate: boolean): void {
+  //   const shift = this.organizationShiftTimingWithShiftTypeResponseList[shiftIndex];
+  //   const day = shift.organizationShiftTimingResponseList[0].weekDayResponse[dayIndex];
+    
+  //   day.isAlternate = isAlternate;
+  //   day.weekOffType = isAlternate ? 1 : 0;  // Reset weekOffType to 0 when "All" is selected
+  // }
+  
   organizationWeekoffInformation: OrganizationWeekoffInformation[] = [];
   submitWeeklyHolidaysLoader: boolean = false;
   @ViewChild('closeWeeklyHolidayModal') closeWeeklyHolidayModal!: ElementRef;
@@ -2054,4 +2109,46 @@ export class AttendanceSettingComponent implements OnInit {
     this.organizationAddressDetail.longitude = event.coords.lng;
     this.mapCenter = { lat: this.lat, lng: this.lng };
   }
+
+
+  formattedTime: string | null = null;
+  // organizationShiftTimingRequest: any = { inTime: '' };
+  // organizationShiftTimingValidationErrors: any = {};
+
+  
+  onTimeChange(field: keyof OrganizationShiftTimingRequest, value: Date): void {
+    debugger;
+    let formattedTime = ''
+    console.log(value);
+    if(value){
+     formattedTime = this.convertTo24HourFormat(value);
+    }
+    
+
+    if (this.isKeyOfOrganizationShiftTimingRequest(field)) {
+        (this.organizationShiftTimingRequest as any)[field] = formattedTime;
+    }
+
+    this.calculateTimes();
+    console.log(`Time for ${field} changed: `, formattedTime);
+}
+
+isKeyOfOrganizationShiftTimingRequest(key: string): key is keyof OrganizationShiftTimingRequest {
+    return key in this.organizationShiftTimingRequest;
+}
+
+  convertTo24HourFormat(date: Date): string {
+    debugger
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
+  convertTime(timeString: string): Date {
+    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, seconds, 0); // Set milliseconds to 0
+    return date;
+  }
+
 }
