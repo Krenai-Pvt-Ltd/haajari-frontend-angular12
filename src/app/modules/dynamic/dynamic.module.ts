@@ -74,6 +74,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientJsonpModule } from '@angular/common/http';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { BrowserModule } from '@angular/platform-browser';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -116,7 +117,7 @@ import { BrowserModule } from '@angular/platform-browser';
     EmployeeLocationValidatorComponent,
     EmployeeAttendancePhotoComponent,
     LinkExpiredPageComponent,
-
+    EmployeeProfileComponent,
     LeaveManagementComponent,
   ],
   imports: [
@@ -154,6 +155,7 @@ import { BrowserModule } from '@angular/platform-browser';
     NzSelectModule,
     ScrollingModule,
     DragDropModule,
+    MatDialogModule,
   ],
   exports: [HeaderComponent],
   providers: [

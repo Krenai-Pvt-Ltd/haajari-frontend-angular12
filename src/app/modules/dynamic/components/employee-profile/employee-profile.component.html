@@ -1645,6 +1645,18 @@
                                           formatTime(leaves.leaveDate) || "N/A"
                                         }}</span>
                                       </div>
+                                      <!-- {{ leaves.docFileLink }} -->
+                                      <span
+                                        style="cursor: pointer"
+                                        *ngIf="leaves.docFileLink != null"
+                                        (click)="
+                                          downloadSingleImage(
+                                            leaves.docFileLink
+                                          )
+                                        "
+                                      >
+                                        Doc<i class="bi bi-file-arrow-down"></i
+                                      ></span>
                                     </div>
                                   </div>
                                 </div>
@@ -1692,6 +1704,7 @@
                                       }}</u
                                     >
                                   </p>
+
                                   <h6 class="fw-semibold">
                                     <span class="badge badge-outline-primary"
                                       >{{
@@ -2146,10 +2159,13 @@
                                 .secondarySchoolCertificate
                             "
                             class="file-box"
-                            (click)="openPdfModel(
-                                      onboardingPreviewData.userDocuments.secondarySchoolCertificate,
-                                      secondarySchoolCertificateFileName
-                                      )"
+                            (click)="
+                              openPdfModel(
+                                onboardingPreviewData.userDocuments
+                                  .secondarySchoolCertificate,
+                                secondarySchoolCertificateFileName
+                              )
+                            "
                           >
                             <a
                               [href]="
@@ -2159,10 +2175,12 @@
                               class="download-icon-link"
                               target="_blank"
                               (click)="
-                              downloadSingleImage(
-                                onboardingPreviewData.userDocuments.secondarySchoolCertificate
-                              ); $event.stopPropagation()
-                            "
+                                downloadSingleImage(
+                                  onboardingPreviewData.userDocuments
+                                    .secondarySchoolCertificate
+                                );
+                                $event.stopPropagation()
+                              "
                             >
                               <i class="las la-download file-download-icon"></i>
                             </a>
@@ -2191,10 +2209,13 @@
                                 .highSchoolCertificate
                             "
                             class="file-box pointer-card"
-                            (click)="openPdfModel(
-                                    onboardingPreviewData.userDocuments.highSchoolCertificate,
-                                    highSchoolCertificateFileName1
-                                  )"
+                            (click)="
+                              openPdfModel(
+                                onboardingPreviewData.userDocuments
+                                  .highSchoolCertificate,
+                                highSchoolCertificateFileName1
+                              )
+                            "
                           >
                             <a
                               [href]="
@@ -2204,10 +2225,12 @@
                               class="download-icon-link"
                               target="_blank"
                               (click)="
-                                  downloadSingleImage(
-                                    onboardingPreviewData.userDocuments.highSchoolCertificate
-                                  ); $event.stopPropagation()
-                                "
+                                downloadSingleImage(
+                                  onboardingPreviewData.userDocuments
+                                    .highSchoolCertificate
+                                );
+                                $event.stopPropagation()
+                              "
                             >
                               <i class="las la-download file-download-icon"></i>
                             </a>
@@ -2236,10 +2259,13 @@
                                 .highestQualificationDegree
                             "
                             class="file-box pointer-card"
-                            (click)="openPdfModel(
-                                    onboardingPreviewData.userDocuments.highestQualificationDegree,
-                                    highestQualificationDegreeFileName1
-                                  )"
+                            (click)="
+                              openPdfModel(
+                                onboardingPreviewData.userDocuments
+                                  .highestQualificationDegree,
+                                highestQualificationDegreeFileName1
+                              )
+                            "
                           >
                             <a
                               [href]="
@@ -2252,7 +2278,8 @@
                                 downloadSingleImage(
                                   onboardingPreviewData.userDocuments
                                     .highestQualificationDegree
-                                ); $event.stopPropagation()
+                                );
+                                $event.stopPropagation()
                               "
                             >
                               <i class="las la-download file-download-icon"></i>
@@ -2282,10 +2309,13 @@
                                 .testimonialReccomendation
                             "
                             class="file-box pointer-card"
-                            (click)="openPdfModel(
-                                    onboardingPreviewData.userDocuments.testimonialReccomendation,
-                                    testimonialReccomendationFileName1
-                                  )"
+                            (click)="
+                              openPdfModel(
+                                onboardingPreviewData.userDocuments
+                                  .testimonialReccomendation,
+                                testimonialReccomendationFileName1
+                              )
+                            "
                           >
                             <a
                               [href]="
@@ -2298,7 +2328,8 @@
                                 downloadSingleImage(
                                   onboardingPreviewData.userDocuments
                                     .testimonialReccomendation
-                                ); $event.stopPropagation()
+                                );
+                                $event.stopPropagation()
                               "
                             >
                               <i class="las la-download file-download-icon"></i>
@@ -2327,10 +2358,12 @@
                               onboardingPreviewData.userDocuments.aadhaarCard
                             "
                             class="file-box pointer-card"
-                            (click)="openPdfModel(
-                                    onboardingPreviewData.userDocuments.aadhaarCard,
-                                    aadhaarCardFileName
-                                  )"
+                            (click)="
+                              openPdfModel(
+                                onboardingPreviewData.userDocuments.aadhaarCard,
+                                aadhaarCardFileName
+                              )
+                            "
                           >
                             <a
                               [href]="
@@ -2342,7 +2375,8 @@
                                 downloadSingleImage(
                                   onboardingPreviewData.userDocuments
                                     .aadhaarCard
-                                ); $event.stopPropagation()
+                                );
+                                $event.stopPropagation()
                               "
                             >
                               <i class="las la-download file-download-icon"></i>
@@ -2367,10 +2401,12 @@
                           <div
                             *ngIf="onboardingPreviewData.userDocuments.pancard"
                             class="file-box pointer-card"
-                            (click)="openPdfModel(
-                                    onboardingPreviewData.userDocuments.pancard,
-                                    pancardFileName
-                                  )"
+                            (click)="
+                              openPdfModel(
+                                onboardingPreviewData.userDocuments.pancard,
+                                pancardFileName
+                              )
+                            "
                           >
                             <a
                               [href]="
@@ -2381,7 +2417,8 @@
                               (click)="
                                 downloadSingleImage(
                                   onboardingPreviewData.userDocuments.pancard
-                                ); $event.stopPropagation()
+                                );
+                                $event.stopPropagation()
                               "
                             >
                               <i class="las la-download file-download-icon"></i>
@@ -2404,16 +2441,16 @@
                             <div
                               *ngFor="let doc of employeeAdditionalDocument"
                               class="file-box pointer-card"
-                              (click)="openPdfModel(
-                                    doc.url,
-                                    doc.fileName
-                                  )"
+                              (click)="openPdfModel(doc.url, doc.fileName)"
                             >
                               <a
                                 [href]="doc.url"
                                 class="download-icon-link"
                                 target="_blank"
-                                (click)="downloadSingleImage(doc.url); $event.stopPropagation()"
+                                (click)="
+                                  downloadSingleImage(doc.url);
+                                  $event.stopPropagation()
+                                "
                               >
                                 <i
                                   class="las la-download file-download-icon"
@@ -2446,21 +2483,30 @@
                             let i = index
                           "
                           class="file-box pointer-card col-md-4"
-                        
                         >
-                          <a class="download-icon-link-ownload" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
+                          <a
+                            class="download-icon-link-ownload"
+                            *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'"
+                          >
                             <i
                               class="bi bi-trash text-danger file-download-icon"
                               (click)="
-                                deleteCompanyDocByIdMethodCall(document.id); $event.stopPropagation()
+                                deleteCompanyDocByIdMethodCall(document.id);
+                                $event.stopPropagation()
                               "
                             ></i>
                           </a>
-                          <a [href]="document.url" class="download-icon-link" (click)="downloadSingleImage(document.url); $event.stopPropagation()">
+                          <a
+                            [href]="document.url"
+                            class="download-icon-link"
+                            (click)="
+                              downloadSingleImage(document.url);
+                              $event.stopPropagation()
+                            "
+                          >
                             <i class="las la-download file-download-icon"></i>
-                        </a>
-                        
-                          
+                          </a>
+
                           <!-- {{document.fileName}} -->
                           <div class="text-center">
                             <i [ngClass]="getFileTypeIcon(document.url)"></i>
@@ -2472,9 +2518,12 @@
                             }}</small>
                           </div>
 
-                          <div class="importfilebox" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
+                          <div
+                            class="importfilebox"
+                            *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'"
+                          >
                             <input
-                            [id]="'additionalDocumentFile' + document.id"
+                              [id]="'additionalDocumentFile' + document.id"
                               type="file"
                               class="input"
                               accept=".pdf, image/jpeg, image/jpg, image/png"
@@ -2524,8 +2573,9 @@
                           </div>
                         </div>
 
-                        <div 
-                          class="file-box add-document-btn pointer position-relative"  *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'"
+                        <div
+                          class="file-box add-document-btn pointer position-relative"
+                          *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'"
                         >
                           <div class="">
                             <div class="text-center">
@@ -2537,7 +2587,6 @@
 
                               <!-- Button to trigger additional document input -->
                               <button
-                                
                                 (click)="addMore()"
                                 class="btn btn-primary mt-2"
                               >
@@ -2833,10 +2882,7 @@
                           "
                         >
                           <table class="table table-bordered">
-                            <tbody
-                              class="table-design"
-                              
-                            >
+                            <tbody class="table-design">
                               <!-- <tr *ngFor="let address of onboardingPreviewData.userAddress; let i = index"><td colspan="4">Complete Address: {{ address.address }}</td></tr> -->
                               <tr>
                                 <td colspan="12">
@@ -3707,6 +3753,42 @@
                       is 255!</small
                     >
                   </div>
+                  <div class="mb-2">
+                    <!-- {{ imagePreviewUrl }} {{ pdfPreviewUrl }} -->
+                    <label for="selectDocuments">
+                      Select Proof Document (optional) </label
+                    ><br />
+                    <input
+                      type="file"
+                      #fileInput
+                      class="form-control-file"
+                      id="selectDocuments"
+                      (change)="onFileSelected($event)"
+                      accept="image/jpeg, image/png, image/jpg,  application/pdf"
+                    />
+                  </div>
+                  <!-- <div class="mb-2" *ngIf="imagePreviewUrl || pdfPreviewUrl">
+                    <div *ngIf="selectedFile">
+                      
+                      <img
+                        *ngIf="isImageNew(selectedFile)"
+                        [src]="imagePreviewUrl"
+                        class="img-fluid"
+                        height="'50%"
+                        width="50px"
+                        alt="Selected Image"
+                      />
+
+                    
+                      <iframe
+                        *ngIf="isPdf(selectedFile)"
+                        [src]="pdfPreviewUrl"
+                        frameborder="0"
+                        width="100%"
+                        height="400px"
+                      ></iframe>
+                    </div>
+                  </div> -->
                 </form>
               </div>
             </div>
@@ -3721,9 +3803,9 @@
               <button
                 type="button"
                 class="btn btn-primary save-changes"
-                [disabled]="userLeaveForm.invalid"
-                (click)="saveLeaveRequestUser()"
+                [disabled]="userLeaveForm.invalid || isFileUploaded"
                 *ngIf="!submitLeaveLoader"
+                (click)="saveLeaveRequestUser()"
               >
                 Submit
               </button>
@@ -4095,13 +4177,12 @@
 <!-- Button trigger modal -->
 <button
   type="button"
-  style="display: none;"
+  style="display: none"
   id="addMoreDocModalButton"
   #addMoreDocModalButton
   data-bs-toggle="modal"
   data-bs-target="#addMoreDoc"
->
-</button>
+></button>
 
 <!-- Modal -->
 <div
@@ -4137,7 +4218,13 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round" (click)="addNewDocument()"><i class="bi bi-paperclip"></i>Select File</button>
+        <button
+          type="button"
+          class="btn btn-primary btn-round"
+          (click)="addNewDocument()"
+        >
+          <i class="bi bi-paperclip"></i>Select File
+        </button>
       </div>
     </div>
   </div>

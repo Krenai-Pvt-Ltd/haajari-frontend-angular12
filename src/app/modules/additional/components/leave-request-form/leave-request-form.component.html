@@ -1,13 +1,20 @@
 <div class="form-container">
-  <div class="form-header">
-    Apply for a Leave
-  </div>
-  <form [formGroup]="userLeaveForm" (ngSubmit)="saveLeaveRequestForWhatsappUser()">
+  <div class="form-header">Apply for a Leave</div>
+  <form
+    [formGroup]="userLeaveForm"
+    (ngSubmit)="saveLeaveRequestForWhatsappUser()"
+  >
     <!-- Starting Date -->
     <div class="form-field">
       <label>Pick a starting date</label>
-      <input type="date" formControlName="startDate" [min]="currentNewDate">
-      <div *ngIf="userLeaveForm.get('startDate')?.touched && userLeaveForm.get('startDate')?.hasError('required')" class="error-message">
+      <input type="date" formControlName="startDate" [min]="currentNewDate" />
+      <div
+        *ngIf="
+          userLeaveForm.get('startDate')?.touched &&
+          userLeaveForm.get('startDate')?.hasError('required')
+        "
+        class="error-message"
+      >
         Starting date is required.
       </div>
     </div>
@@ -15,7 +22,11 @@
     <!-- Ending Date -->
     <div class="form-field">
       <label>Pick an ending date</label>
-      <input type="date" formControlName="endDate" [min]="userLeaveForm.get('startDate')?.value">
+      <input
+        type="date"
+        formControlName="endDate"
+        [min]="userLeaveForm.get('startDate')?.value"
+      />
     </div>
 
     <!-- Leave Type -->
@@ -23,41 +34,74 @@
       <label>Select the type of leave you want to request</label>
       <select formControlName="leaveType">
         <option value="">Select Leave Type</option>
-        <option *ngFor="let ul of userLeave" [ngValue]="ul.leaveType">{{ ul.leaveType }}</option>
+        <option *ngFor="let ul of userLeave" [ngValue]="ul.leaveType">
+          {{ ul.leaveType }}
+        </option>
       </select>
-      <div *ngIf="userLeaveForm.get('leaveType')?.touched && userLeaveForm.get('leaveType')?.hasError('required')" class="error-message">
+      <div
+        *ngIf="
+          userLeaveForm.get('leaveType')?.touched &&
+          userLeaveForm.get('leaveType')?.hasError('required')
+        "
+        class="error-message"
+      >
         Selecting a leave type is required.
       </div>
     </div>
 
     <!-- Half Day Leave Checkbox -->
     <div class="form-field">
-      <input type="checkbox" id="half-leave" formControlName="halfDayLeave">
+      <input type="checkbox" id="half-leave" formControlName="halfDayLeave" />
       <label for="half-leave">Half Leave (optional)</label>
     </div>
 
     <!-- Shift Selection -->
-    
-<div *ngIf="userLeaveForm.get('halfDayLeave')?.value" class="shift-selection">
-  <label style="padding-bottom: 6px">Select Shift:</label>
-  <div class="form-check">
-    <input type="radio" class="form-check-input" [checked]="userLeaveForm.get('dayShift')!.value" (change)="onShiftChange('day')" name="shift" id="dayShiftType">
-    <label for="dayShiftType">Day Shift</label>
-  </div>
-  <div class="form-check">
-    <input type="radio" class="form-check-input" [checked]="userLeaveForm.get('eveningShift')!.value" (change)="onShiftChange('evening')" name="shift" id="eveningShiftType">
-    <label for="eveningShiftType">Evening Shift</label>
-  </div>
-</div>
+
+    <div
+      *ngIf="userLeaveForm.get('halfDayLeave')?.value"
+      class="shift-selection"
+    >
+      <label style="padding-bottom: 6px">Select Shift:</label>
+      <div class="form-check">
+        <input
+          type="radio"
+          class="form-check-input"
+          [checked]="userLeaveForm.get('dayShift')!.value"
+          (change)="onShiftChange('day')"
+          name="shift"
+          id="dayShiftType"
+        />
+        <label for="dayShiftType">Day Shift</label>
+      </div>
+      <div class="form-check">
+        <input
+          type="radio"
+          class="form-check-input"
+          [checked]="userLeaveForm.get('eveningShift')!.value"
+          (change)="onShiftChange('evening')"
+          name="shift"
+          id="eveningShiftType"
+        />
+        <label for="eveningShiftType">Evening Shift</label>
+      </div>
+    </div>
 
     <!-- Manager Selection -->
     <div class="form-field">
       <label>Select user to request the leave from</label>
       <select formControlName="managerId">
         <option value="">Select Manager</option>
-        <option *ngFor="let manager of managers" [ngValue]="manager.id">{{ manager.name }}</option>
+        <option *ngFor="let manager of managers" [ngValue]="manager.id">
+          {{ manager.name }}
+        </option>
       </select>
-      <div *ngIf="userLeaveForm.get('managerId')?.touched && userLeaveForm.get('managerId')?.hasError('required')" class="error-message">
+      <div
+        *ngIf="
+          userLeaveForm.get('managerId')?.touched &&
+          userLeaveForm.get('managerId')?.hasError('required')
+        "
+        class="error-message"
+      >
         Selecting a manager is required.
       </div>
     </div>
@@ -65,29 +109,65 @@
     <!-- Notes -->
     <div class="form-field">
       <label>Notes</label>
-      <textarea formControlName="optNotes" [maxLength]="255" rows="3" placeholder="Notes" class="notes-textarea"></textarea>
-      <div *ngIf="userLeaveForm.get('optNotes')?.touched && userLeaveForm.get('optNotes')?.hasError('required')" class="error-message">
+      <textarea
+        formControlName="optNotes"
+        [maxLength]="255"
+        rows="3"
+        placeholder="Notes"
+        class="notes-textarea"
+      ></textarea>
+      <div
+        *ngIf="
+          userLeaveForm.get('optNotes')?.touched &&
+          userLeaveForm.get('optNotes')?.hasError('required')
+        "
+        class="error-message"
+      >
         Notes are required.
       </div>
-      <small *ngIf="userLeaveForm.get('optNotes')?.value?.length > 254" class="error-message">
+      <small
+        *ngIf="userLeaveForm.get('optNotes')?.value?.length > 254"
+        class="error-message"
+      >
         The maximum number of characters allowed is 255.
       </small>
     </div>
-    
+
+    <div class="mb-2">
+      <!-- {{ imagePreviewUrl }} {{ pdfPreviewUrl }} -->
+      <label for="selectDocuments"> Select Proof Document (optional) </label>
+      <input
+        type="file"
+        #fileInput
+        class="form-control-file"
+        id="selectDocuments"
+        (change)="onFileSelected($event)"
+        accept="image/jpeg, image/png, image/jpg,  application/pdf"
+      />
+    </div>
+
     <!-- Submit Button -->
     <div class="form-field">
-      <button type="submit" class="submit-button" [disabled]="submitLeaveLoader || userLeaveForm.invalid" >
+      <button
+        type="button"
+        class="btn btn-de-secondary close-button"
+        data-bs-dismiss="modal"
+        (click)="goToWhatsappOnCancel()"
+      >
+        Close
+      </button>
+      <button
+        type="submit"
+        class="submit-button justify-content float-end"
+        [disabled]="submitLeaveLoader || userLeaveForm.invalid"
+      >
         <div class="dot-opacity-loader" *ngIf="submitLeaveLoader">
           <span></span>
           <span></span>
           <span></span>
         </div>
-        <span *ngIf="!submitLeaveLoader">
-          Submit 
-        </span>
+        <span *ngIf="!submitLeaveLoader"> Submit </span>
       </button>
     </div>
-   
   </form>
-  
 </div>

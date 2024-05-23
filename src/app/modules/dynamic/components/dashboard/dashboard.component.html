@@ -790,39 +790,70 @@
             <div class="col-md-6 d-flex align-items-center">
               <div class="col-md-12 mt-2">
                 <form
-                  novalidate=""
-                  role="search"
-                  (submit)="searchUsers($event)"
-                  class="searching ng-untouched ng-pristine ng-valid"
+          novalidate
+          role="search"
+          (submit)="searchUsers($event)"
+          class="searching ng-untouched ng-pristine ng-valid"
+        >
+          <div class="form-group" style="width: 100%; display: flex; align-items: center;">
+            <div style="width: 30%; position: relative; margin-right: 10px;">
+              <div class="dropdown" style="width: 100%">
+                <button
+                  type="button"
+                  id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  class="btn btn-secondary dropdown-toggle new-dropdown"
                 >
-                  <div
-                    class="form-group"
-                    style="width: 350px; position: relative"
+                  {{ selectedTeamName }}
+                  <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
+                </button>
+                <ul
+                  aria-labelledby="dropdownMenuButton1"
+                  class="dropdown-menu team-dropdown"
+                  style="width: 100%; max-height: 200px; overflow-y: auto;"
+                >
+                  <li class="ng-star-inserted" (click)="selectTeam(0)">
+                    <a class="dropdown-item">All</a>
+                  </li>
+                  <li
+                    class="ng-star-inserted"
+                    *ngFor="let tn of teamNameList"
+                    (click)="selectTeam(tn.teamId)"
                   >
-                    <input
-                      type="text"
-                      id="searchText"
-                      placeholder="Search by name and email"
-                      class="form-control me-2 ng-untouched ng-pristine ng-valid"
-                      (keyup)="searchUsers($event)"
-                      [(ngModel)]="searchText"
-                      [ngModelOptions]="{ standalone: true }"
-                      style="padding: 10px 30px"
-                    />
-                    <button
-                      *ngIf="searchText.length !== 0"
-                      type="button"
-                      class="btn close-btn"
-                      (click)="clearSearchText()"
-                    >
-                      <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                    </button>
-                    <i
-                      class="bi bi-search search-icon"
-                      style="margin: auto; margin-left: 10px"
-                    ></i>
-                  </div>
-                </form>
+                    <a class="dropdown-item">{{ tn.teamName }}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+    <div class="form-group" style="width: 350px; position: relative;">
+      <input
+        type="text"
+        id="searchText"
+        placeholder="Search by name and email"
+        class="form-control me-2 ng-untouched ng-pristine ng-valid"
+        (keyup)="searchUsers($event)"
+        [(ngModel)]="searchText"
+        [ngModelOptions]="{ standalone: true }"
+        style="padding: 10px 30px;"
+      />
+      <button
+        *ngIf="searchText.length !== 0"
+        type="button"
+        class="btn close-btn"
+        (click)="clearSearchText()"
+      >
+        <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+      </button>
+      <i
+      class="bi bi-search search-icon"
+      style="margin: auto; margin-left: 10px"
+    ></i>
+    </div>
+  </div>
+</form>
+
               </div>
             </div>
             <div class="col-md-6">
