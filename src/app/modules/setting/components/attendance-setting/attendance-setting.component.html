@@ -438,16 +438,16 @@
               </div>
             </div>
           </div>
-          <div class="col-md-12">
+          <!-- <div class="col-md-12">
             <div class="border-box"></div>
-          </div>
-          <div class="col-md-4 mt-3 mb-3">
+          </div> -->
+          <!-- <div class="col-md-4 mt-3 mb-3">
             <div class="form-roe-data">
               <h5>Staff Weekly Holidays</h5>
               <p> Assign weekly off days of your business to automatically mark attendance for those days </p>
             </div>
-          </div>
-          <div class="col-md-7 mt-3 mb-3">
+          </div> -->
+          <!-- <div class="col-md-7 mt-3 mb-3">
             <div class="empty-file" *ngIf="isWeeklyHolidayErrorPlaceholder">
               <div class="errorboxmain">
                 <div class="errorboxinner text-center">
@@ -501,7 +501,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="col-md-12">
             <div class="border-box"></div>
           </div>
@@ -1060,7 +1060,7 @@
           <div class="">
             <ul id="myTab" role="tablist" class="nav nav-tabs">
               <li role="presentation" class="nav-item">
-                <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button" role="tab" aria-controls="shiftime" aria-selected="true" class="nav-link active" #shiftTimingActiveTab> Shift Time </button>
+                <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button" role="tab" aria-controls="shiftime" aria-selected="true" class="nav-link active" [class.active]="activeTab === 'shiftime'" (click)="shiftTimingActiveTabMethod()" #shiftTimingActiveTab> Shift Time </button>
               </li>
               <li role="presentation" class="nav-item">
                 <button
@@ -1071,9 +1071,10 @@
                     data-bs-target="#weeklyOff"
                     type="button"
                     role="tab"
-                   
+                    [class.active]="activeTab === 'weeklyOff'" (click)="weekOffActiveTabMethod()" [disabled]="shiftForm.invalid"
                     aria-controls="weeklyOff"
                     class="nav-link"
+                    #weekOffActiveTab
                 >
                     WeekOff Settings
                 </button>
@@ -1082,11 +1083,12 @@
               <li role="presentation" class="nav-item">
                 <!-- [class.disabled]="shiftForm.invalid" -->
                 <!-- (click)="!shiftForm.invalid && staffActiveTabInShiftTimingMethod()" -->
-                <button id="profile-tab" data-bs-toggle="tab" [attr.aria-selected]="!shiftForm.invalid" [attr.tabindex]="shiftForm.invalid ? -1 : null" data-bs-target="#staffselection" type="button" role="tab" aria-controls="staffselection" aria-selected="false" class="nav-link" #staffActiveTabInShiftTiming> Staff selection </button>
+                <button id="profile-tab" data-bs-toggle="tab" [attr.aria-selected]="!shiftForm.invalid" [attr.tabindex]="shiftForm.invalid ? -1 : null" data-bs-target="#staffselection" type="button" role="tab" aria-controls="staffselection" aria-selected="false" class="nav-link" #staffActiveTabInShiftTiming
+                [class.active]="activeTab === 'staffselection'" (click)="staffActiveTabInShiftTimingMethod()" [disabled]="shiftForm.invalid"> Staff selection </button>
               </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="shiftime" role="tabpanel">
+              <div class="tab-pane fade show active" id="shiftime" role="tabpanel"  [class.show]="activeTab === 'shiftime'" [class.active]="activeTab === 'shiftime'">
                 <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitShiftTimingForm()">
                   <div class="row p-3">
                     <!-- Dropdown for Shift Type -->
@@ -1126,23 +1128,34 @@
                     <div class="col-md-4">
                       <div class="mb-3">
                         <label for="inTime" class="pb-2">In Time</label>
-                        <input id="inTime" type="time" class="form-control whatapp-login-input" required [(ngModel)]="organizationShiftTimingRequest.inTime" name="inTime" (change)="calculateTimes()" />
+                        <nz-time-picker 
+                          [(ngModel)]="organizationShiftTimingRequest.inTimeDate" 
+                          [nzUse12Hours]="true" 
+                          nzFormat="h:mm a" 
+                          (ngModelChange)="onTimeChange('inTime', $event)"
+                          [ngModelOptions]="{standalone: true}"
+                          >
+                        </nz-time-picker>
                         <div *ngIf="organizationShiftTimingValidationErrors['inTime']" class="text-danger">
                           {{ organizationShiftTimingValidationErrors["inTime"] }}
                         </div>
                       </div>
                     </div>
                     
+                    
+                    
+                    
                     <div class="col-md-4">
                       <div class="mb-3">
                         <label for="outTime" class="pb-2">Out Time</label>
-                        <input id="outTime" type="time" [class.is-invalid]="
-                          organizationShiftTimingValidationErrors['outTime']
-                        " class="form-control whatapp-login-input" required [(ngModel)]="organizationShiftTimingRequest.outTime" name="outTime" (change)="calculateTimes()" />
-                        <!-- Error Message for Out Time -->
-                        <div *ngIf="
-                          organizationShiftTimingValidationErrors['outTime']
-                        " class="text-danger">
+                        <nz-time-picker 
+                          [(ngModel)]="organizationShiftTimingRequest.outTimeDate" 
+                          [nzUse12Hours]="true" 
+                          nzFormat="h:mm a" 
+                          (ngModelChange)="onTimeChange('outTime', $event)"
+                          [ngModelOptions]="{standalone: true}"
+                        ></nz-time-picker>
+                        <div *ngIf="organizationShiftTimingValidationErrors['outTime']" class="text-danger">
                           {{ organizationShiftTimingValidationErrors["outTime"] }}
                         </div>
                       </div>
@@ -1159,36 +1172,34 @@
                     <!-- Lunch Break Start Time Input -->
                     <div class="col-md-4">
                       <div class="mb-3">
-                        <label for="lunchBreakStartTime" class="pb-2">Lunch Break Start Time</label>
-                        <input id="lunchBreakStartTime" type="time" [class.is-invalid]="
-                          organizationShiftTimingValidationErrors[
-                            'startLunch'
-                          ]
-                        " class="form-control whatapp-login-input" required [(ngModel)]="
-                          organizationShiftTimingRequest.startLunch
-                        " name="lunchBreakStartTime" (change)="calculateTimes()" />
-                        <div *ngIf="
-                          organizationShiftTimingValidationErrors[
-                            'startLunch'
-                          ]
-                        " class="text-danger">
-                          {{ organizationShiftTimingValidationErrors[ "startLunch" ] }}
+                        <label for="startLunch" class="pb-2">Lunch Break Start Time</label>
+                        <nz-time-picker 
+                            [(ngModel)]="organizationShiftTimingRequest.startLunchDate" 
+                            [nzUse12Hours]="true" 
+                            nzFormat="h:mm a" 
+                            (ngModelChange)="onTimeChange('startLunch', $event)"
+                            [ngModelOptions]="{standalone: true}"
+                        ></nz-time-picker>
+                        <div *ngIf="organizationShiftTimingValidationErrors['startLunch']" class="text-danger">
+                            {{ organizationShiftTimingValidationErrors['startLunch'] }}
                         </div>
-                      </div>
+                    </div>
                     </div>
                     <!-- Lunch Break End Time Input -->
                     <div class="col-md-4">
                       <div class="mb-3">
-                        <label for="lunchBreakEndTime" class="pb-2">Lunch Break End Time</label>
-                        <input id="lunchBreakEndTime" type="time" [class.is-invalid]="
-                          organizationShiftTimingValidationErrors['endLunch']
-                        " class="form-control whatapp-login-input" required [(ngModel)]="organizationShiftTimingRequest.endLunch" name="lunchBreakEndTime" (change)="calculateTimes()" />
-                        <div *ngIf="
-                          organizationShiftTimingValidationErrors['endLunch']
-                        " class="text-danger">
-                          {{ organizationShiftTimingValidationErrors["endLunch"] }}
+                        <label for="endLunch" class="pb-2">Lunch Break End Time</label>
+                        <nz-time-picker 
+                            [(ngModel)]="organizationShiftTimingRequest.endLunchDate" 
+                            [nzUse12Hours]="true" 
+                            nzFormat="h:mm a" 
+                            (ngModelChange)="onTimeChange('endLunch', $event)"
+                            [ngModelOptions]="{standalone: true}"
+                        ></nz-time-picker>
+                        <div *ngIf="organizationShiftTimingValidationErrors['endLunch']" class="text-danger">
+                            {{ organizationShiftTimingValidationErrors['endLunch'] }}
                         </div>
-                      </div>
+                    </div>
                     </div>
                     <!-- Lunch Break Duration Display -->
                     <div class="col-md-4">
@@ -1199,118 +1210,50 @@
                     </div>
                   </div>
                 </form>
+                <div class="modal-footer d-flex align-items-center justify-content-between">
+                <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="shiftForm.invalid" (click)="weekOffActiveTabMethod()">Next</button>
+              </div>
               </div>
 
               <!-- Enter Week OFFs -->
 
-              <div class="tab-pane fade" id="weeklyOff" role="tabpanel">
+              <div class="tab-pane fade" id="weeklyOff" role="tabpanel" [class.show]="activeTab === 'weeklyOff'" [class.active]="activeTab === 'weeklyOff'">
                 <div class="staf-list-box mt-3">
                   <div
                     class="row mb-1 mt-3 align-items-center"
                     style="padding-bottom: 15px"
                   >
                        
-                          <div class="col-md-12">
-                            <div
-                              class="week-checkbox d-flex align-items-center gap-3"
-                              *ngFor="let day of weekDay; let i = index"
-                            >
-                              <div class="form-check d-flex align-items-center gap-2">
-                                <input
-                                  class="form-check-input"
-                                  type="checkbox"
-                                  [(ngModel)]="day.selected"
-                                  [id]="'weekDay' + i"
-                                  (click)="toggleSelection(i)"
-                                />
-                                <label
-                                  class="form-check-label align-label"
-                                  [for]="'weekDay' + i"
-                                  >{{ day.name }}</label
-                                >
-                              </div>
-                              <div *ngIf="day.selected">
-                                <div
-                                  class="btn-group"
-                                  role="group"
-                                  aria-label="Basic radio toggle button group"
-                                >
-                                  <input
-                                    type="radio"
-                                    class="btn-check"
-                                    name="btnradio{{ i }}"
-                                    id="btnradio1-{{ i }}"
-                                    autocomplete="off"
-                                    (click)="toggleAlternate(i, false)"
-                                    [checked]="!day.isAlternate"
-                                  />
-                                  <label
-                                    class="btn btn-outline-primary"
-                                    for="btnradio1-{{ i }}"
-                                    >All</label
-                                  >
-              
-                                  <input
-                                    type="radio"
-                                    class="btn-check"
-                                    name="btnradio{{ i }}"
-                                    id="btnradio2-{{ i }}"
-                                    autocomplete="off"
-                                    (click)="toggleAlternate(i, true)"
-                                    [checked]="day.isAlternate"
-                                  />
-                                  <label
-                                    class="btn btn-outline-primary"
-                                    for="btnradio2-{{ i }}"
-                                    >Alternate</label
-                                  >
-                                </div>
-              
-                                <div
-                                  class="btn-group radio-btn"
-                                  role="group"
-                                  aria-label="Basic radio toggle button group"
-                                  *ngIf="day.isAlternate"
-                                >
-                                  <input
-                                    type="radio"
-                                    class="btn-check"
-                                    name="btnradioAlt{{ i }}"
-                                    id="btnradio3-{{ i }}"
-                                    autocomplete="off"
-                                    (click)="day.weekOffType = 1"
-                                    [checked]="day.weekOffType == 1"
-                                  />
-                                  <label
-                                    class="btn btn-outline-primary"
-                                    for="btnradio3-{{ i }}"
-                                    >ODD</label
-                                  >
-              
-                                  <input
-                                    type="radio"
-                                    class="btn-check"
-                                    name="btnradioAlt{{ i }}"
-                                    id="btnradio4-{{ i }}"
-                                    autocomplete="off"
-                                    (click)="day.weekOffType = 2"
-                                    [checked]="day.weekOffType === 2"
-                                  />
-                                  <label
-                                    class="btn btn-outline-primary"
-                                    for="btnradio4-{{ i }}"
-                                    >EVEN</label
-                                  >
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                  <div class="col-md-12">
+                    <div class="week-checkbox d-flex align-items-center gap-3" *ngFor="let day of weekDay; let i = index">
+                      <div class="form-check d-flex align-items-center gap-2">
+                        <input class="form-check-input" type="checkbox" [(ngModel)]="day.selected" [id]="'weekDay' + i" (click)="toggleSelection(i)" />
+                        <label class="form-check-label align-label" [for]="'weekDay' + i">{{ day.name }}</label>
+                      </div>
+                      <div *ngIf="day.selected">
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                          <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio1-{{ i }}" autocomplete="off" (click)="toggleAlternate(i, false)" [value]="false" [(ngModel)]="day.isAlternate"/>
+                          <label class="btn btn-outline-primary" for="btnradio1-{{ i }}">All</label>
+                          <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio2-{{ i }}" autocomplete="off" (click)="toggleAlternate(i, true)" [value]="true" [(ngModel)]="day.isAlternate"/>
+                          <label class="btn btn-outline-primary" for="btnradio2-{{ i }}">Alternate</label>
+                        </div>
+                        <div class="btn-group radio-btn" role="group" aria-label="Basic radio toggle button group" *ngIf="day.isAlternate">
+                          <input type="radio" class="btn-check" name="btnradioAlt{{ i }}" id="btnradio3-{{ i }}" autocomplete="off" (click)="day.weekOffType = 1" [value]="1" [(ngModel)]="day.weekOffType"/>
+                          <label class="btn btn-outline-primary" for="btnradio3-{{ i }}">ODD</label>
+                          <input type="radio" class="btn-check" name="btnradioAlt{{ i }}" id="btnradio4-{{ i }}" autocomplete="off" (click)="day.weekOffType = 2" [value]="2" [(ngModel)]="day.weekOffType"/>
+                          <label class="btn btn-outline-primary" for="btnradio4-{{ i }}">EVEN</label>
+                        </div>
+                      </div>                      
+                    </div>
+                  </div>
                         
                     </div>
                 </div>
+                <button type="button" class="btn btn-outline-secondary btn-round" (click)="shiftTimingActiveTabMethod()">Back</button>
+    <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="shiftForm.invalid" (click)="staffActiveTabInShiftTimingMethod()">Next</button>
             </div>
 
-              <div class="tab-pane fade" id="staffselection" role="tabpanel">
+              <div class="tab-pane fade" id="staffselection" role="tabpanel" [class.show]="activeTab === 'staffselection'" [class.active]="activeTab === 'staffselection'">
                 <div class="staf-list-box mt-3">
                   <div class="row mb-1 mt-3 align-items-center" style="padding-bottom: 15px">
                     <div class="col-md-12">
@@ -1486,16 +1429,18 @@
                 <div id="back-and-submit">
                   <div class="modal-footer d-flex align-items-center justify-content-end"></div>
                 </div>
+                <button type="button" class="btn btn-outline-secondary btn-round" (click)="weekOffActiveTabMethod()">Back</button>
+                <button type="button" class="btn btn-outline-primary btn-round" (click)="registerOrganizationShiftTimingMethodCall()">Submit</button>
               </div>
               
             </div>
           </div>
         </div>
         <div class="modal-footer d-flex align-items-center justify-content-between">
-          <button type="button" class="btn btn-outline-secondary btn-round" (click)="shiftTimingActiveTabMethod()"> Back </button>
+          <button type="button" class="btn btn-outline-secondary btn-round" (click)="shiftTimingActiveTabMethod()" *ngIf="isStaffSelectionFlag || !isWeekOffFlag"> Back </button>
           <div class="d-flex align-items-center gap-3">
-            <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="shiftForm.invalid" (click)="staffActiveTabInShiftTimingMethod()"> Next </button>
-            <button type="button" class="btn btn-outline-primary btn-round" (click)="registerOrganizationShiftTimingMethodCall()"> Submit </button>
+            <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="shiftForm.invalid" (click)="staffActiveTabInShiftTimingMethod()" *ngIf="!isStaffSelectionFlag || isWeekOffFlag"> Next </button>
+            <button type="button" class="btn btn-outline-primary btn-round" (click)="registerOrganizationShiftTimingMethodCall()"  *ngIf="isStaffSelectionFlag"> Submit </button>
           </div>
         </div>
       </div>
@@ -1624,9 +1569,9 @@
                 </div>
                 <div *ngIf="day.selected">
                   <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio1-{{ i }}" autocomplete="off" (click)="toggleAlternate(i, false)" [checked]="!day.isAlternate" />
+                    <!-- <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio1-{{ i }}" autocomplete="off" (click)="toggleAlternate(i, false)" [checked]="!day.isAlternate" />
                     <label class="btn btn-outline-primary" for="btnradio1-{{ i }}">All</label>
-                    <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio2-{{ i }}" autocomplete="off" (click)="toggleAlternate(i, true)" [checked]="day.isAlternate" />
+                    <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio2-{{ i }}" autocomplete="off" (click)="toggleAlternate(i, true)" [checked]="day.isAlternate" /> -->
                     <label class="btn btn-outline-primary" for="btnradio2-{{ i }}">Alternate</label>
                   </div>
                   <div class="btn-group radio-btn" role="group" aria-label="Basic radio toggle button group" *ngIf="day.isAlternate">
@@ -1651,7 +1596,7 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div> 
 
   <div
     class="modal fade"
@@ -1717,13 +1662,13 @@
                               *ngFor="let day of weekDay; let i = index"
                             >
                               <div class="form-check d-flex align-items-center gap-2">
-                                <input
+                                <!-- <input
                                   class="form-check-input"
                                   type="checkbox"
                                   [(ngModel)]="day.selected"
                                   [id]="'weekDay' + i"
                                   (click)="toggleSelection(i)"
-                                />
+                                /> -->
                                 <label
                                   class="form-check-label align-label"
                                   [for]="'weekDay' + i"
@@ -1736,7 +1681,7 @@
                                   role="group"
                                   aria-label="Basic radio toggle button group"
                                 >
-                                  <input
+                                  <!-- <input
                                     type="radio"
                                     class="btn-check"
                                     name="btnradio{{ i }}"
@@ -1744,13 +1689,13 @@
                                     autocomplete="off"
                                     (click)="toggleAlternate(i, false)"
                                     [checked]="!day.isAlternate"
-                                  />
+                                  /> -->
                                   <label
                                     class="btn btn-outline-primary"
                                     for="btnradio1-{{ i }}"
                                     >All</label
                                   >
-              
+<!--               
                                   <input
                                     type="radio"
                                     class="btn-check"
@@ -1759,7 +1704,7 @@
                                     autocomplete="off"
                                     (click)="toggleAlternate(i, true)"
                                     [checked]="day.isAlternate"
-                                  />
+                                  /> -->
                                   <label
                                     class="btn btn-outline-primary"
                                     for="btnradio2-{{ i }}"
@@ -3016,7 +2961,8 @@
               ></agm-marker>
             </agm-map>
           </div> -->
-          <div class="mb-10">
+          <div class="mb-10" *ngIf="isShowMap">
+            
             <section>
               <div class="el-card-item">
                 <div class="el-card-avatar el-overlay-1">
@@ -3031,7 +2977,7 @@
                       (mapClick)="onMapClick($event)"
                       [disableDefaultUI]="true"
                       [keyboardShortcuts]="false"
-                      [usePanning]="true"
+                     
                       
                     >
                     <agm-marker 

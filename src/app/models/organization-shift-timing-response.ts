@@ -10,6 +10,10 @@ export class OrganizationShiftTimingResponse {
     outTime : string = '';
     startLunch : string = '';
     endLunch : string = '';
+    inTimeDate?: Date;
+    outTimeDate?: Date;
+    startLunchDate?: Date;
+    endLunchDate?: Date;
     workingHour : string = '';
     lunchHour : string = '';
     shiftType : ShiftType = new ShiftType();

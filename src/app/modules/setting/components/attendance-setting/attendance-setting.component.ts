@@ -42,6 +42,7 @@ import { User } from 'src/app/models/user';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { PlacesService } from 'src/app/services/places.service';
 declare var google: any;
 @Component({
   selector: 'app-attendance-setting',
@@ -60,7 +61,8 @@ export class AttendanceSettingComponent implements OnInit {
     private helperService: HelperService,
     private fb: FormBuilder,
     private router: Router,
-    private el: ElementRef
+    private el: ElementRef,
+    private placesService: PlacesService
     
   ) {}
 
@@ -75,11 +77,11 @@ export class AttendanceSettingComponent implements OnInit {
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
     this.loadAllShiftCounts();
-    this.getCurrentLocation();
+    // this.getCurrentLocation();
     if (localStorage.getItem('staffSelectionActive') == 'true') {
       this.activeModel = true;
     }
-
+    
     this.getUniversalHolidays();
     this.getCustomHolidays();
     this.getWeeklyHolidays();
@@ -134,9 +136,9 @@ export class AttendanceSettingComponent implements OnInit {
     this.duration = `${formattedHours}:${formattedMinutes}`;
   }
 
-  onTimeChange(salaryDeduction: any) {
-    salaryDeduction.updateDuration();
-  }
+  // onTimeChange(salaryDeduction: any) {
+  //   salaryDeduction.updateDuration();
+  // }
 
 
   customCheckbox: boolean = true;
@@ -1305,17 +1307,39 @@ export class AttendanceSettingComponent implements OnInit {
   @ViewChild('staffActiveTabInShiftTiming')
   staffActiveTabInShiftTiming!: ElementRef;
 
+  isWeekOffFlag:boolean=true;
+
+  @ViewChild('weekOffActiveTab') weekOffActiveTab!:ElementRef;
+  
   staffActiveTabInShiftTimingMethod() {
     if (this.isValidForm()) {
-      this.staffActiveTabInShiftTiming.nativeElement.click();
+      this.activeTab = 'staffselection';
+    if(this.isWeekOffFlag) {
+      this.weekOffActiveTab.nativeElement.click();
+      this.isStaffSelectionFlag = true;
+      this.isWeekOffFlag = false;
     }
+  } else {
+    if ( this.isStaffSelectionFlag) {
+      this.staffActiveTabInShiftTiming.nativeElement.click();
+     
+    }
+  }
   }
 
   @ViewChild('shiftTimingActiveTab') shiftTimingActiveTab!: ElementRef;
-
+  isStaffSelectionFlag:boolean=false;
+  activeTab = 'shiftime';
   shiftTimingActiveTabMethod() {
     this.shiftTimingActiveTab.nativeElement.click();
+    this.isStaffSelectionFlag = false;
+    this.activeTab = 'shiftime';
   }
+  weekOffActiveTabMethod() {
+    this.activeTab = 'weeklyOff';
+  }
+
+  
 
   organizationShiftTimingWithShiftTypeResponseList: OrganizationShiftTimingWithShiftTypeResponse[] =
     [];
@@ -1334,6 +1358,23 @@ export class AttendanceSettingComponent implements OnInit {
         if (this.organizationShiftTimingWithShiftTypeResponseList.length == 1) {
           this.activeIndex = 0;
         }
+        console.log(response[0].organizationShiftTimingResponseList)
+        // Iterate through each item in the response array
+        this.organizationShiftTimingWithShiftTypeResponseList.forEach(item => {
+          // Check if organizationShiftTimingResponseList is defined and not empty
+          if (item.organizationShiftTimingResponseList && item.organizationShiftTimingResponseList.length > 0) {
+            // Iterate through each shift in the organizationShiftTimingResponseList
+            item.organizationShiftTimingResponseList.forEach(shift => {
+              shift.inTimeDate = this.convertTime(shift.inTime);
+              shift.outTimeDate = this.convertTime(shift.outTime);
+              shift.startLunchDate = this.convertTime(shift.startLunch);
+              shift.endLunchDate = this.convertTime(shift.endLunch);
+              console.log(shift.inTime, shift.outTime)
+            });
+          }
+        });
+        
+         
         // console.log(this.organizationShiftTimingWithShiftTypeResponseList);
         // this.isShimmer = false;
         // this.dataNotFoundPlaceholder = true;
@@ -1376,6 +1417,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   // ##############################################################
   openAddShiftTimeModal() {
+    this.getWeekDays();
     this.getShiftTypeMethodCall();
     this.getUserByFiltersMethodCall();
     this.clearShiftTimingModel();
@@ -1550,12 +1592,26 @@ export class AttendanceSettingComponent implements OnInit {
     });
   }
 
+  isShowMap: boolean = false;
   getOrganizationAddressDetailMethodCall() {
+    debugger
     this.dataService.getOrganizationAddressDetail().subscribe(
       (response: OrganizationAddressDetail) => {
         if (response) {
           // console.log(response);
           this.organizationAddressDetail = response;
+          console.log(this.organizationAddressDetail.latitude )
+          if(this.organizationAddressDetail.latitude == null){
+            this.currentLocation();
+          } else {
+            this.lat =Number(this.organizationAddressDetail.latitude);
+            this.lng = Number(this.organizationAddressDetail.longitude);
+            this.isShowMap = true;
+          }
+          // if(this.organizationAddressDetail.latitude & this.organizationAddressDetail.longitude){
+          //   this.organizationAddressDetail.latitude = this.lat;
+          //   this.organizationAddressDetail.longitude = this.lat
+          // }
         } else {
           console.log('No address details found');
         }
@@ -1623,15 +1679,27 @@ export class AttendanceSettingComponent implements OnInit {
   //   });
   // }
 
+  // getWeekDays() {
+  //   this.dataService.getWeekDays().subscribe((holidays) => {
+  //     this.weekDay = holidays.map((day) => ({
+  //       ...day,
+  //       selected: day.selected === 1,
+  //     }));
+  //     console.log(this.weekDay);
+  //   });
+  // }
   getWeekDays() {
     this.dataService.getWeekDays().subscribe((holidays) => {
       this.weekDay = holidays.map((day) => ({
         ...day,
-        selected: day.selected === 1,
+        selected: false,  // Explicitly set selected to false
+        isAlternate: false, // Ensure isAlternate is also set to false by default
+        weekOffType: 0 // Set weekOffType to default value, if needed
       }));
       console.log(this.weekDay);
     });
   }
+  
 
   // getWeekDays() {
   //   this.dataService.getWeekDays().subscribe(holidays => {
@@ -1673,14 +1741,24 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   toggleAlternate(i: number, isAlternate: boolean): void {
+    debugger
     this.weekDay[i].isAlternate = isAlternate;
     this.weekDay[i].weekOffType = 1;
+    
     // Reset weekOffType to 0 when "All" is selected
     if (!isAlternate) {
       this.weekDay[i].weekOffType = 0;
     }
   }
 
+  // toggleAlternate(shiftIndex: number, dayIndex: number, isAlternate: boolean): void {
+  //   const shift = this.organizationShiftTimingWithShiftTypeResponseList[shiftIndex];
+  //   const day = shift.organizationShiftTimingResponseList[0].weekDayResponse[dayIndex];
+    
+  //   day.isAlternate = isAlternate;
+  //   day.weekOffType = isAlternate ? 1 : 0;  // Reset weekOffType to 0 when "All" is selected
+  // }
+  
   organizationWeekoffInformation: OrganizationWeekoffInformation[] = [];
   submitWeeklyHolidaysLoader: boolean = false;
   @ViewChild('closeWeeklyHolidayModal') closeWeeklyHolidayModal!: ElementRef;
@@ -1991,54 +2069,75 @@ export class AttendanceSettingComponent implements OnInit {
 
   isShowAutomationRule:boolean=false;
 
-  lat: number = 0;
-  lng: number = 0;
+  lat!: number;
+  lng!: number;
   zoom: number = 15; // Initial zoom level of the map
   markerPosition: any;
 
   address: string = ''; // Add this property to hold the fetched address
   city: string = '';
-  getCurrentLocation() {
-    debugger;
-    if (this.address != '') {
-      this.address = '';
-    }
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        this.markerPosition = { lat: this.lat, lng: this.lng };
-        console.log(this.lat + '-' + this.lng);
-
-        // Initialize the Geocoder
-        const geocoder = new google.maps.Geocoder();
-        const latlng = { lat: this.lat, lng: this.lng };
-        geocoder.geocode(
-          { location: latlng },
-          (results: { formatted_address: string }[], status: string) => {
-            if (status === google.maps.GeocoderStatus.OK) {
-              if (results[0]) {
-                const address = results[0].formatted_address;
-                //@ts-ignore
-                this.city = results[0].address_components[2].long_name;
-                this.address = address;
-                console.log(address); // Log the address to console or update the UI as needed
-                // this.enableSubmitToggle = true;
-                (
-                  document.getElementById(
-                    'exampleInputText'
-                  ) as HTMLInputElement
-                ).value = address; // Update the input field with address
-              } else {
-                console.log('No results found');
-              }
-            } else {
-              console.log('Geocoder failed due to: ' + status);
+  /************ GET CURRENT LOCATION ***********/
+  locationLoader: boolean = false;
+  currentLocation() {
+    debugger
+    // this.locationLoader = true;
+    this.getCurrentLocation()
+      .then((coords) => {
+        this.placesService
+          .getLocationDetails(coords.latitude, coords.longitude)
+          .then((details) => {
+            this.locationLoader = false;
+            console.log('formatted_address:', details);
+            this.organizationAddressDetail.addressLine1 =
+              details.formatted_address;
+            this.organizationAddressDetail.addressLine2 = '';
+            if (details.address_components[1].types[0] === 'locality') {
+              this.organizationAddressDetail.city =
+                details.address_components[2].long_name;
             }
+            if (
+              details.address_components[4].types[0] ===
+              'administrative_area_level_1'
+            ) {
+              this.organizationAddressDetail.state =
+                details.address_components[4].long_name;
+            }
+            if (details.address_components[5].types[0] === 'country') {
+              this.organizationAddressDetail.country =
+                details.address_components[5].long_name;
+            }
+            if (details.address_components[6].types[0] === 'postal_code') {
+              this.organizationAddressDetail.pincode =
+                details.address_components[6].long_name;
+            }
+          })
+          .catch((error) => console.error(error));
+      })
+      .catch((error) => console.error(error));
+  }
+
+  getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            this.lat = position.coords.latitude
+            this.lng = position.coords.longitude
+            this.isShowMap = true;
+            resolve({
+               
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+          },
+          (err) => {
+            reject(err);
           }
         );
-      });
-    }
+      } else {
+        reject('Geolocation is not supported by this browser.');
+      }
+    });
   }
 
   
@@ -2054,6 +2153,48 @@ export class AttendanceSettingComponent implements OnInit {
     this.organizationAddressDetail.longitude = event.coords.lng;
     this.mapCenter = { lat: this.lat, lng: this.lng };
   }
+
+
+  formattedTime: string | null = null;
+  // organizationShiftTimingRequest: any = { inTime: '' };
+  // organizationShiftTimingValidationErrors: any = {};
+
+  
+  onTimeChange(field: keyof OrganizationShiftTimingRequest, value: Date): void {
+    debugger;
+    let formattedTime = ''
+    console.log(value);
+    if(value){
+     formattedTime = this.convertTo24HourFormat(value);
+    }
+    
+
+    if (this.isKeyOfOrganizationShiftTimingRequest(field)) {
+        (this.organizationShiftTimingRequest as any)[field] = formattedTime;
+    }
+
+    this.calculateTimes();
+    console.log(`Time for ${field} changed: `, formattedTime);
+}
+
+isKeyOfOrganizationShiftTimingRequest(key: string): key is keyof OrganizationShiftTimingRequest {
+    return key in this.organizationShiftTimingRequest;
+}
+
+  convertTo24HourFormat(date: Date): string {
+    debugger
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
+  convertTime(timeString: string): Date {
+    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, seconds, 0); // Set milliseconds to 0
+    return date;
+  }
+
 }
 
 
