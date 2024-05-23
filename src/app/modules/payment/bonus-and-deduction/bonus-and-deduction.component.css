@@ -56,3 +56,61 @@
 [class*=" bi-"]::before {
   font-weight: BOLD !important;
 }
+
+.file-box-content .file-box {
+  padding: 6px;
+}
+.file-box {
+  cursor: pointer;
+  min-width: 150px;
+  border-radius: 2px;
+}
+
+.hr {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.text-blue {
+  color: #6666f3 !important;
+}
+
+.payroll-next {
+  top: 28px;
+  left: -1px;
+  width: 25px;
+  height: 25px;
+  background-color: #6666f3;
+  color: #fff;
+  border-radius: 50%;
+  line-height: 23px;
+}
+.payroll-next i {
+  top: -1px;
+}
+.payroll-prev {
+  top: 28px;
+  right: -1px;
+  width: 25px;
+  height: 25px;
+  background-color: #6666f3;
+  color: #fff;
+  border-radius: 50%;
+  line-height: 23px;
+}
+.payroll-prev i {
+  top: -1px;
+}
+
+.file-box-content {
+  overflow-x: scroll;
+}
+.selected-month-color {
+  border: 1px dashed #6666f3;
+  background-color: #f1f1fd;
+}
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+  background-color: #f1f1f1;
+}

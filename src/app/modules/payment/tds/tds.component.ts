@@ -63,4 +63,15 @@ export class TdsComponent implements OnInit {
         }
       );
   }
+  size: 'small' | 'default' | 'large' = 'default';
+  selectedDate: Date | null = null;
+
+  disableYears = (date: Date): boolean => {
+    return date.getFullYear() < 2024;
+  };
+
+  onYearChange(date: Date): void {
+    this.selectedDate = date;
+    console.log('Selected year:', date.getFullYear());
+  }
 }

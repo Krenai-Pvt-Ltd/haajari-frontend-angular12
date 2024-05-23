@@ -9666,3 +9666,10 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   border: none !important;
   height: 50px !important;
 }
+
+.bonus-payroll .ant-picker {
+  border: none !important;
+  height: 50px !important;
+  border-right: 1px solid #f1f1f1 !important;
+  border-radius: 0px;
+}
