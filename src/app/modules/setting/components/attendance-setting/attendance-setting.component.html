@@ -1249,8 +1249,10 @@
                         
                     </div>
                 </div>
+                <div class="modal-footer d-flex align-items-center justify-content-between">
                 <button type="button" class="btn btn-outline-secondary btn-round" (click)="shiftTimingActiveTabMethod()">Back</button>
     <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="shiftForm.invalid" (click)="staffActiveTabInShiftTimingMethod()">Next</button>
+            </div>
             </div>
 
               <div class="tab-pane fade" id="staffselection" role="tabpanel" [class.show]="activeTab === 'staffselection'" [class.active]="activeTab === 'staffselection'">
@@ -1426,23 +1428,25 @@
                     </div>
                   </div>
                 </div>
-                <div id="back-and-submit">
+                <div id="back-and-submit" >
                   <div class="modal-footer d-flex align-items-center justify-content-end"></div>
                 </div>
+                <div class="modal-footer d-flex align-items-center justify-content-between">
                 <button type="button" class="btn btn-outline-secondary btn-round" (click)="weekOffActiveTabMethod()">Back</button>
                 <button type="button" class="btn btn-outline-primary btn-round" (click)="registerOrganizationShiftTimingMethodCall()">Submit</button>
               </div>
+            </div>
               
             </div>
           </div>
         </div>
-        <div class="modal-footer d-flex align-items-center justify-content-between">
+        <!-- <div class="modal-footer d-flex align-items-center justify-content-between">
           <button type="button" class="btn btn-outline-secondary btn-round" (click)="shiftTimingActiveTabMethod()" *ngIf="isStaffSelectionFlag || !isWeekOffFlag"> Back </button>
           <div class="d-flex align-items-center gap-3">
             <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="shiftForm.invalid" (click)="staffActiveTabInShiftTimingMethod()" *ngIf="!isStaffSelectionFlag || isWeekOffFlag"> Next </button>
             <button type="button" class="btn btn-outline-primary btn-round" (click)="registerOrganizationShiftTimingMethodCall()"  *ngIf="isStaffSelectionFlag"> Submit </button>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
