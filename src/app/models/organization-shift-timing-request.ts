@@ -6,6 +6,10 @@ export class OrganizationShiftTimingRequest {
     outTime : string = '';
     startLunch : string = '';
     endLunch : string = '';
+    inTimeDate?: Date;
+    outTimeDate?: Date;
+    startLunchDate?: Date;
+    endLunchDate?: Date;
     workingHour : string = '';
     lunchHour : string = '';
     shiftTypeId ?: number = 0;

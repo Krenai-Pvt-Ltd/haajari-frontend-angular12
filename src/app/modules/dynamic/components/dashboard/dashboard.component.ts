@@ -164,6 +164,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getTeamNames();
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
     // this.checkAccessToken();
@@ -709,7 +710,7 @@ export class DashboardComponent implements OnInit {
             this.itemPerPage,
             this.searchText,
             this.searchBy,
-            this.teamId
+            this.selectedTeamId
           )
           .toPromise()
           .then((response) => {
@@ -866,16 +867,18 @@ export class DashboardComponent implements OnInit {
     debugger
     if (teamId === 0) {
       this.selectedTeamName = 'All';
+      this.selectedTeamId = 0;
     } else {
       const selectedTeam = this.teamNameList.find(team => team.teamId === teamId);
       this.selectedTeamName = selectedTeam ? selectedTeam.teamName : 'All';
+      this.selectedTeamId = teamId;
     }
     // this.page = 0;
-    this.itemPerPage = 10;
+    this.itemPerPage = 12;
     // this.fullLeaveLogs = [];
     // this.selectedTeamName = teamName;
-    this.selectedTeamId = teamId;
-    // this.getUserByFiltersMethodCall();
+    
+    this.getAttendanceReportByDateDurationMethodCall();
   
   }
 }

@@ -50,7 +50,7 @@
         </div>
         <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer; !important" (click)="selectStatus('REQUESTED')">
+            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer;" (click)="selectStatus('REQUESTED')">
               <div class="orderpcardleft">
                 <h6>Requested</h6>
                 <h5>{{ verificationCount.requestedCount || 0 }}</h5>
@@ -1228,7 +1228,7 @@
                   <span></span>
                 </div>
                 <span *ngIf="!toggle">
-                  Finish
+                  Invite
                   <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
                 </span>
               </button>

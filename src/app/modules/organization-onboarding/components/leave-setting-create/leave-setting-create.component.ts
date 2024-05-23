@@ -260,7 +260,7 @@ export class LeaveSettingCreateComponent implements OnInit {
 
   getUserByFiltersMethodCall(leaveSettingId: number) {
     this.selectedStaffsUuids=[];
-    this.dataService.getUsersByFilterForLeaveSetting(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '', leaveSettingId).subscribe((response) => {
+    this.dataService.getUsersByFilterForLeaveSetting(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '', leaveSettingId,0).subscribe((response) => {
       // this.staffSelectionUserList.user = response.users;
       console.log("user rsponse list", response);
       this.staffs = response.users.map((staff: StaffSelectionUserList) => ({
@@ -387,7 +387,7 @@ export class LeaveSettingCreateComponent implements OnInit {
   // Asynchronous function to get all user UUIDs
   async getAllUsersUuids(): Promise<string[]> {
     debugger
-    const response = await this.dataService.getUsersByFilterForLeaveSetting(this.total, 1, 'asc', 'id', this.searchText, '', this.idOfLeaveSetting).toPromise();
+    const response = await this.dataService.getUsersByFilterForLeaveSetting(this.total, 1, 'asc', 'id', this.searchText, '', this.idOfLeaveSetting, 0).toPromise();
     // const response = await this.dataService.getAllUsers('asc', 'id', this.searchText, '').toPromise();
     // this.staffs = response.users.map((staff: StaffSelectionUserList) => ({
     //   ...staff.user,
