@@ -360,11 +360,15 @@
                 </span>
               </div>
               <div class="mt-3">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                  <small class="text-muted d-flex align-items-center gap-3 mb-0">
-                    <span class="universal"></span> Universal Holiday's </small>
-                  <small class="text-muted">{{ universalHolidaysNumber
-                }}</small>
+                <div
+                  class="d-flex align-items-center justify-content-between mb-3"
+                >
+                  <small class="text-muted d-flex align-items-center gap-3 mb-0"
+                    ><span class="universal"></span> National Holiday's</small
+                  >
+                  <small class="text-muted">{{
+                    universalHolidaysNumber
+                  }}</small>
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-3">
                   <small class="text-muted d-flex align-items-center gap-3 mb-0">
@@ -1059,6 +1063,23 @@
                 <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button" role="tab" aria-controls="shiftime" aria-selected="true" class="nav-link active" #shiftTimingActiveTab> Shift Time </button>
               </li>
               <li role="presentation" class="nav-item">
+                <button
+                    id="holiday-tab"
+                    data-bs-toggle="tab"
+                    [attr.aria-selected]="!shiftForm.invalid"
+                  [attr.tabindex]="shiftForm.invalid ? -1 : null"
+                    data-bs-target="#weeklyOff"
+                    type="button"
+                    role="tab"
+                   
+                    aria-controls="weeklyOff"
+                    class="nav-link"
+                >
+                    WeekOff Settings
+                </button>
+            </li>
+            
+              <li role="presentation" class="nav-item">
                 <!-- [class.disabled]="shiftForm.invalid" -->
                 <!-- (click)="!shiftForm.invalid && staffActiveTabInShiftTimingMethod()" -->
                 <button id="profile-tab" data-bs-toggle="tab" [attr.aria-selected]="!shiftForm.invalid" [attr.tabindex]="shiftForm.invalid ? -1 : null" data-bs-target="#staffselection" type="button" role="tab" aria-controls="staffselection" aria-selected="false" class="nav-link" #staffActiveTabInShiftTiming> Staff selection </button>
@@ -1111,6 +1132,7 @@
                         </div>
                       </div>
                     </div>
+                    
                     <div class="col-md-4">
                       <div class="mb-3">
                         <label for="outTime" class="pb-2">Out Time</label>
@@ -1178,25 +1200,162 @@
                   </div>
                 </form>
               </div>
+
+              <!-- Enter Week OFFs -->
+
+              <div class="tab-pane fade" id="weeklyOff" role="tabpanel">
+                <div class="staf-list-box mt-3">
+                  <div
+                    class="row mb-1 mt-3 align-items-center"
+                    style="padding-bottom: 15px"
+                  >
+                       
+                          <div class="col-md-12">
+                            <div
+                              class="week-checkbox d-flex align-items-center gap-3"
+                              *ngFor="let day of weekDay; let i = index"
+                            >
+                              <div class="form-check d-flex align-items-center gap-2">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  [(ngModel)]="day.selected"
+                                  [id]="'weekDay' + i"
+                                  (click)="toggleSelection(i)"
+                                />
+                                <label
+                                  class="form-check-label align-label"
+                                  [for]="'weekDay' + i"
+                                  >{{ day.name }}</label
+                                >
+                              </div>
+                              <div *ngIf="day.selected">
+                                <div
+                                  class="btn-group"
+                                  role="group"
+                                  aria-label="Basic radio toggle button group"
+                                >
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradio{{ i }}"
+                                    id="btnradio1-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="toggleAlternate(i, false)"
+                                    [checked]="!day.isAlternate"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio1-{{ i }}"
+                                    >All</label
+                                  >
+              
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradio{{ i }}"
+                                    id="btnradio2-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="toggleAlternate(i, true)"
+                                    [checked]="day.isAlternate"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio2-{{ i }}"
+                                    >Alternate</label
+                                  >
+                                </div>
+              
+                                <div
+                                  class="btn-group radio-btn"
+                                  role="group"
+                                  aria-label="Basic radio toggle button group"
+                                  *ngIf="day.isAlternate"
+                                >
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradioAlt{{ i }}"
+                                    id="btnradio3-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="day.weekOffType = 1"
+                                    [checked]="day.weekOffType == 1"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio3-{{ i }}"
+                                    >ODD</label
+                                  >
+              
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradioAlt{{ i }}"
+                                    id="btnradio4-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="day.weekOffType = 2"
+                                    [checked]="day.weekOffType === 2"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio4-{{ i }}"
+                                    >EVEN</label
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        
+                    </div>
+                </div>
+            </div>
+
               <div class="tab-pane fade" id="staffselection" role="tabpanel">
                 <div class="staf-list-box mt-3">
                   <div class="row mb-1 mt-3 align-items-center" style="padding-bottom: 15px">
                     <div class="col-md-12">
-                      <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1">
-                        <div style="width: 30%; position: relative">
-                          <div class="dropdown" style="width: 100%">
-                            <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select User <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
-                            </button>
-                            <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%">
-                              <li>
-                                <a class="dropdown-item">Select All </a>
-                              </li>
-                              <li>
-                                <a class="dropdown-item">Reset All</a>
-                              </li>
-                            </ul>
-                          </div>
+                      <div
+                        class="d-flex align-items-center"
+                        style="border: 1px solid #f1f1f1"
+                      >
+                      <div style="width: 30%; position: relative">
+                        <div class="dropdown" style="width: 100%">
+                          <button
+                            type="button"
+                            id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            class="btn btn-secondary dropdown-toggle new-deopdown"
+                          >
+                          {{ selectedTeamName }}
+                            <i
+                              class="bi bi-chevron-down"
+                              style="color: #444; font-size: 15px"
+                            ></i>
+                          </button>
+                          <ul
+                            aria-labelledby="dropdownMenuButton1"
+                            class="dropdown-menu team-dropdown"
+                            style="width: 100%; max-height: 200px; overflow-y: auto;"
+                          >
+                            <li
+                              class="ng-star-inserted"
+                              (click)="selectTeam(0)"
+                            >
+                              <a class="dropdown-item">All</a>
+                            </li>
+                            <li
+                              class="ng-star-inserted"
+                              *ngFor="let tn of teamNameList"
+                              (click)="selectTeam(tn.teamId)"
+                            >
+                              <a class="dropdown-item"> {{ tn.teamName }} </a>
+                            </li>
+                          </ul>
                         </div>
+                      </div>
+                      
+
                         <div class="" style="width: 70%">
                           <form novalidate="" role="search" (submit)="searchUsers()" class="searching ng-untouched ng-pristine ng-valid">
                             <div class="form-group" style="position: relative">
@@ -1214,13 +1373,27 @@
                             </div>
                           </form>
                         </div>
-                        <div class="" style="width: 20%">
-                          <div class="d-flex justify-content-end align-items-center" style="gap: 10px; padding-right: 15px">
-                            <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
-                              <a type="button"> 8 selected of 24 </a>
-                            </div>
+
+                        <div class="container">
+                          <div class="content-wrapper">
+                              <div class="filter-wrapper">
+                                  <!-- Display this only if there are selected staff -->
+                                  <a class="info-button" *ngIf="selectedStaffsUuids.length > 0">
+                                      {{ selectedStaffsUuids.length }} selected of {{ totalUserCount }}
+                                  </a>
+                                  <!-- Clear button shows only if there are selected staff -->
+                                  <span class="clear-button text-danger" *ngIf="selectedStaffsUuids.length > 0" (click)="unselectAllUsers()">
+                                      Clear all users <i class="bi bi-x"></i>
+                                  </span>
+                                  <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="isAllUsersSelected" (change)="selectAllUsers($event)">
+                                    Select all
+                                </label>
+                              </div>
                           </div>
-                        </div>
+                      </div>
+                      
+                        
                       </div>
                     </div>
                   </div>
@@ -1277,11 +1450,17 @@
                   </ng-template>
                 </div>
                 <!-- *ngIf="staffs.length > 8" -->
-                <div class="pagination pl-3" *ngIf="
-                  total > itemPerPage - 1 ||
-                  (pageNumber === lastPageNumber && lastPageNumber !== 1)
-                ">
-                  <p class="mb-0" style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} teams </p>
+                <div
+                  class="pagination pl-3"
+                  *ngIf="
+                    total > itemPerPage - 1 ||
+                    (pageNumber === lastPageNumber && lastPageNumber !== 1)
+                  "
+                >
+                  <p class="mb-0" style="padding-left: 15px">
+                    Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                    {{ total }} members
+                  </p>
                   <div class="row">
                     <div class="col-md-12">
                       <nav aria-label="Page navigation example">
@@ -1308,6 +1487,7 @@
                   <div class="modal-footer d-flex align-items-center justify-content-end"></div>
                 </div>
               </div>
+              
             </div>
           </div>
         </div>
@@ -1471,7 +1651,437 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
+
+  <div
+    class="modal fade"
+    id="addweeklyholiday"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+  >
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h6 class="modal-title">Weekly Holiday</h6>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              #closeWeeklyHolidayModal
+            ></button>
+        </div>
+        <div class="modal-body">
+            <!-- Tabs navigation -->
+            <ul id="weeklyHolidayTab" role="tablist" class="nav nav-tabs">
+                <li role="presentation" class="nav-item">
+                    <button
+                        id="holiday-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#holidaySettings"
+                        type="button"
+                        role="tab"
+                        aria-controls="holidaySettings"
+                        aria-selected="true"
+                        class="nav-link active"
+                    >
+                        WeekOff Settings
+                    </button>
+                </li>
+                <!-- <li role="presentation" class="nav-item">
+                    <button
+                        id="advanced-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#advancedSettings"
+                        type="button"
+                        role="tab"
+                        aria-controls="advancedSettings"
+                        aria-selected="false"
+                        class="nav-link"
+                    >
+                        Advanced Settings
+                    </button>
+                </li> -->
+            </ul>
+            
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade show active" id="holidaySettings" aria-labelledby="holiday-tab">
+                    <!-- Existing content for Weekly Holiday Settings -->
+                    <div class="row">
+                       
+                          <div class="col-md-12">
+                            <div
+                              class="week-checkbox d-flex align-items-center gap-3"
+                              *ngFor="let day of weekDay; let i = index"
+                            >
+                              <div class="form-check d-flex align-items-center gap-2">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  [(ngModel)]="day.selected"
+                                  [id]="'weekDay' + i"
+                                  (click)="toggleSelection(i)"
+                                />
+                                <label
+                                  class="form-check-label align-label"
+                                  [for]="'weekDay' + i"
+                                  >{{ day.name }}</label
+                                >
+                              </div>
+                              <div *ngIf="day.selected">
+                                <div
+                                  class="btn-group"
+                                  role="group"
+                                  aria-label="Basic radio toggle button group"
+                                >
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradio{{ i }}"
+                                    id="btnradio1-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="toggleAlternate(i, false)"
+                                    [checked]="!day.isAlternate"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio1-{{ i }}"
+                                    >All</label
+                                  >
+              
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradio{{ i }}"
+                                    id="btnradio2-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="toggleAlternate(i, true)"
+                                    [checked]="day.isAlternate"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio2-{{ i }}"
+                                    >Alternate</label
+                                  >
+                                </div>
+              
+                                <div
+                                  class="btn-group radio-btn"
+                                  role="group"
+                                  aria-label="Basic radio toggle button group"
+                                  *ngIf="day.isAlternate"
+                                >
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradioAlt{{ i }}"
+                                    id="btnradio3-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="day.weekOffType = 1"
+                                    [checked]="day.weekOffType === 1"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio3-{{ i }}"
+                                    >ODD</label
+                                  >
+              
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="btnradioAlt{{ i }}"
+                                    id="btnradio4-{{ i }}"
+                                    autocomplete="off"
+                                    (click)="day.weekOffType = 2"
+                                    [checked]="day.weekOffType === 2"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary"
+                                    for="btnradio4-{{ i }}"
+                                    >EVEN</label
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="advancedSettings" aria-labelledby="advanced-tab">
+                    <!-- Additional settings or features you want to add can go here -->
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div
+                          class="d-flex align-items-center"
+                          style="border: 1px solid #f1f1f1"
+                        >
+                          <div style="width: 30%; position: relative">
+                            <div class="dropdown" style="width: 100%">
+                              <button
+                                type="button"
+                                id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                class="btn btn-secondary dropdown-toggle new-deopdown"
+                              >
+                              {{ selectedTeamName }}
+                                <i
+                                  class="bi bi-chevron-down"
+                                  style="color: #444; font-size: 15px"
+                                ></i>
+                              </button>
+                              <ul
+                              aria-labelledby="dropdownMenuButton1"
+                              class="dropdown-menu team-dropdown"
+                              style="width: 100%"
+                            >
+                              <li
+                                class="ng-star-inserted"
+                               
+                                (click)="selectTeam(0)"
+                              >
+                                <a class="dropdown-item">All</a>
+                              </li>
+                              <li
+                                class="ng-star-inserted"
+                                *ngFor="let tn of teamNameList"
+                                (click)="selectTeam(tn.teamId)"
+                              >
+                                <a class="dropdown-item"> {{ tn.teamName }} </a>
+                              </li>
+                            </ul>
+                            </div>
+                          </div>
+  
+                          <div class="" style="width: 70%">
+                            <form
+                              novalidate=""
+                              role="search"
+                              (submit)="searchUsers()"
+                              class="searching ng-untouched ng-pristine ng-valid"
+                            >
+                              <div class="form-group" style="position: relative">
+                                <input
+                                  type="text"
+                                  id="searchText"
+                                  placeholder="Search by name and role"
+                                  class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                                  (keyup)="searchUsers()"
+                                  [(ngModel)]="searchText"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  style="padding: 10px 50px 10px 40px"
+                                />
+                                <button
+                                  *ngIf="searchText.length !== 0"
+                                  type="button"
+                                  class="btn close-btn"
+                                  (click)="clearSearchText()"
+                                >
+                                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                                </button>
+                                <i
+                                  class="bi bi-search search-icon"
+                                  style="
+                                    position: absolute;
+                                    top: 50%;
+                                    transform: translateY(-50%);
+                                    left: 10px;
+                                    padding-left: 5px;
+                                  "
+                                ></i>
+                              </div>
+                            </form>
+                          </div>
+  
+                          <div class="" style="width: 20%">
+                            <div
+                              class="d-flex justify-content-end align-items-center"
+                              style="gap: 10px; padding-right: 15px"
+                            >
+                              <div
+                                class="add-filtter d-flex align-items-center justify-content-end"
+                                style="gap: 10px"
+                              >
+                                <a type="button"> 8 selected of 24 </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <ng-container
+                    *ngIf="total > 0; else noDataFoundPlaceholderInShiftTiming"
+                  >
+                    <table class="table">
+                      <thead class="thead-light">
+                        <tr>
+                          <th style="width: 0%">
+                            <input
+                              type="checkbox"
+                              style="cursor: pointer"
+                              class="form-check-input"
+                              [(ngModel)]="isAllSelected"
+                              (change)="selectAll(isAllSelected)"
+                            />
+                          </th>
+                          <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                          <th style="width: 25%; padding: 12px 15px">Name</th>
+                          <th style="width: 25%; padding: 12px 15px">Email</th>
+                          <th style="width: 25%; padding: 12px 15px">Phone</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let staff of staffs
+                              | paginate
+                                : {
+                                    itemsPerPage: itemPerPage,
+                                    currentPage: pageNumber,
+                                    totalItems: total
+                                  }
+                          "
+                          style="border-bottom: 1px solid #dddddd"
+                        >
+                          <td>
+                            <div class="form-check">
+                              <input
+                                type="checkbox"
+                                style="cursor: pointer"
+                                class="form-check-input"
+                                [(ngModel)]="staff.selected"
+                                (change)="checkIndividualSelection()"
+                              />
+                            </div>
+                          </td>
+                          <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                          <td style="padding: 12px 15px">{{ staff.name }}</td>
+                          <td style="padding: 12px 15px">
+                            {{ staff.email ? staff.email : "N/A" }}
+                          </td>
+                          <td style="padding: 12px 15px">
+                            {{ staff.phoneNumber || "N/A" }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </ng-container>
+
+                  <ng-template #noDataFoundPlaceholderInShiftTiming>
+                    <div class="errorboxmain">
+                      <div class="errorboxinner text-center">
+                        <div class="errorboxplaceholder mb-2">
+                          <img
+                            src="assets/images/addnewproduct.svg"
+                            style="width: 80px"
+                          />
+                        </div>
+
+                        <h4>No Data Found</h4>
+
+                        <p>
+                          We're unable to locate a record associated with the
+                          information you entered.
+                        </p>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <div
+                  class="pagination pl-3"
+                  *ngIf="
+                    total > itemPerPage - 1 ||
+                    (pageNumber === lastPageNumber && lastPageNumber !== 1)
+                  "
+                >
+                  <p class="mb-0" style="padding-left: 15px">
+                    Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                    {{ total }} teams
+                  </p>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-end">
+                          <li
+                            class="page-item"
+                            [class.disabled]="pageNumber == 1"
+                          >
+                            <a
+                              class="page-link"
+                              href="javascript:void(0);"
+                              aria-label="Previous"
+                              (click)="changePage('prev')"
+                            >
+                              <span aria-hidden="true">&laquo;</span>
+                            </a>
+                          </li>
+                          <li
+                            class="page-item"
+                            *ngFor="let page of getPages()"
+                            [class.active]="pageNumber == page"
+                          >
+                            <a
+                              class="page-link"
+                              href="javascript:void(0);"
+                              (click)="changePage(page)"
+                              >{{ page }}</a
+                            >
+                          </li>
+                          <li
+                            class="page-item"
+                            [class.disabled]="pageNumber == totalPages"
+                          >
+                            <a
+                              class="page-link"
+                              href="javascript:void(0);"
+                              aria-label="Next"
+                              (click)="changePage('next')"
+                            >
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+                <div id="back-and-submit">
+                  <div
+                    class="modal-footer d-flex align-items-center justify-content-end"
+                  ></div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary btnmarkcancel"
+              data-bs-dismiss="modal"
+            >
+                Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btnmarkdelete"
+              (click)="submitWeeklyHolidays()"
+              *ngIf="!submitWeeklyHolidaysLoader"
+            >
+                Submit
+            </button>
+            <div class="dot-opacity-loader" *ngIf="submitWeeklyHolidaysLoader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
   <div class="modal fade" id="automation-rules" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
@@ -2112,18 +2722,23 @@
                                           align-items: center;
                                         ">
                         <div *ngIf="selectedStaffsUuids.length > 0">
-                          <ng-container *ngIf="
-                                              selectedStaffsUuids.length === total;
-                                              else elseCondition2
-                                            ">
-                            <span (click)="unselectAllUsers()" style="
-                                                cursor: pointer;
-                                                color: #eb5050;
-                                                background-color: #fcf1f1;
-                                                padding: 8px;
-                                                border-radius: 5px;
-                                              ">Clear all users <i class="bi bi-x"></i>
-                            </span>
+                          <ng-container
+                            *ngIf="
+                              selectedStaffsUuids.length === total;
+                              else elseCondition2
+                            "
+                          >
+                            <span
+                              (click)="unselectAllUsers()"
+                              style="
+                                cursor: pointer;
+                                color: #eb5050;
+                                background-color: #fcf1f1;
+                                padding: 8px;
+                                border-radius: 5px;
+                              "
+                              >Clear all <i class="bi bi-x"></i
+                            ></span>
                           </ng-container>
                           <ng-template #elseCondition2>
                             <span (click)="selectAllUsers(true)" style="
@@ -2329,80 +2944,152 @@
   <button type="button" style="display: none" data-bs-toggle="modal" data-bs-target="#attendancewithlocationss" #attendancewithlocationssButton id="attendancewithlocationssButton"></button>
   <div class="modal fade" id="attendancewithlocationss" tabindex="-1" role="dialog" aria-labelledby="attendancewithlocation" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-      <form #organizationAddressForm="ngForm" ngNativeValidate (ngSubmit)="setOrganizationAddressDetailMethodCall()">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h6 class="modal-title m-0" id="exampleModalDefaultLabel">Staff Attendance With Location</h6>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" #closeAddressModal aria-label="Close"></button>
-          </div>
-          <!--end modal-header-->
-          <div class="modal-body">
-            <div class="form-group">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label for="addressLine1" class="pb-2">Address </label>
-                    <input type="text" id="addressLine1" placeholder="Address line 1" ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" required="" name="addressLine1" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.addressLine1" />
-                  </div>
+      <form
+        #organizationAddressForm="ngForm"
+        ngNativeValidate
+        (ngSubmit)="setOrganizationAddressDetailMethodCall()"
+      >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+            Staff Attendance With Location
+          </h6>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            #closeAddressModal
+            aria-label="Close"
+          ></button>
+        </div>
+        <!--end modal-header-->
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="addressLine1" class="pb-2">Address </label>
+                  <input
+                    type="text"
+                    id="addressLine1"
+                    placeholder="Address line 1"
+                    ngx-google-places-autocomplete
+                    #placesRef="ngx-places"
+                    (onAddressChange)="handleAddressChange($event)"
+                    required=""
+                    name="addressLine1"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="organizationAddressDetail.addressLine1"
+                  />
                 </div>
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label for="addressLine2" class="pb-2">Street Address</label>
-                    <input type="text" id="addressLine2" placeholder="Address line 2" required="" name="addressLine2" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.addressLine2" />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label for="landmark" class="pb-2">Landmark <span class="text-optional">(optional)</span>
-                    </label>
-                    <input type="text" id="landmark" placeholder="Landmark" name="landmark" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.landmark" />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label for="city" class="pb-2"> City </label>
-                    <input type="text" id="city" placeholder="City" required="" name="city" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.city" />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label for="state" class="pb-2"> State </label>
-                    <input type="text" id="state" placeholder="State" required="" name="state" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.state" />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="country" class="pb-2">Country</label>
-                    <input type="text" id="country" placeholder="Country" required="" name="country" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.country" />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="pincode" class="pb-2">Pincode</label>
-                    <input type="text" id="pincode" placeholder="Pincode" required="" name="pincode" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.pincode" />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label for="radius" class="pb-2"> Employee Location Must be in </label>
-                    <input type="text" id="radius" placeholder="in meters" required="" name="radius" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.radius" />
-                  </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="radius" class="pb-2">Employee Location Must be in</label>
+                  <input
+                    type="text"
+                    id="radius"
+                    placeholder="in meters"
+                    required=""
+                    name="radius"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="organizationAddressDetail.radius"
+                  />
                 </div>
               </div>
             </div>
           </div>
-          <div class="modal-footer d-flex align-items-center justify-content-end">
-            <button class="btn btn-primary" type="submit" [disabled]="toggle" aria-label="Next Step">
-              <div *ngIf="toggle" class="dot-opacity-loader">
-                <span></span>
-                <span></span>
-                <span></span>
+          <!-- <div class="">
+         
+            <agm-map 
+              [latitude]="organizationAddressDetail.latitude" 
+              [longitude]="organizationAddressDetail.longitude" 
+              [zoom]="mapZoom"
+              (mapClick)="onMapClick($event)"
+            >
+              <agm-marker 
+                *ngIf="organizationAddressDetail.latitude && organizationAddressDetail.longitude"
+                [latitude]="organizationAddressDetail.latitude"
+                [longitude]="organizationAddressDetail.longitude"
+                draggable="true"
+                (dragEnd)="onMarkerDragEnd($event)"
+              ></agm-marker>
+            </agm-map>
+          </div> -->
+          <div class="mb-10">
+            <section>
+              <div class="el-card-item">
+                <div class="el-card-avatar el-overlay-1">
+                  <div class="map">
+                    <agm-map
+                      style="height: 350px"
+                      [latitude]="lat"
+                      [longitude]="lng"
+                      [zoom]="zoom"
+                      [maxZoom]="20"
+                      [zoomControl]="true"
+                      (mapClick)="onMapClick($event)"
+                      [disableDefaultUI]="true"
+                      [keyboardShortcuts]="false"
+                      [usePanning]="true"
+                      
+                    >
+                    <agm-marker 
+                    *ngIf="(organizationAddressDetail.latitude && organizationAddressDetail.longitude) || (lat && lng)"
+                    [latitude]="lat"
+                    [longitude]="lng"
+                    draggable="true"
+                    [agmFitBounds]="true"
+                    (dragEnd)="onMarkerDragEnd($event)"
+                  ></agm-marker>
+                    </agm-map>
+                    <!--  #placesRef="ngx-places" -->
+                    
+                
+                    <div class="map-locate-me">
+                      <button
+                        type="button"
+                        class="locate-btn btn btn-sm text-white"
+                        (click)="getCurrentLocation()"
+                      >
+                        <i class="fa fa-crosshairs"></i>
+          
+                        Locate Me
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <span *ngIf="!toggle"> Save <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
-              </span>
-            </button>
+              <!-- </div> -->
+            </section>
           </div>
+          
+          
+          
+          
+          
+          
+          
         </div>
+        <div class="modal-footer d-flex align-items-center justify-content-end">
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="toggle"
+            aria-label="Next Step"
+          >
+            <div *ngIf="toggle" class="dot-opacity-loader">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <span *ngIf="!toggle">
+              Save <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
+            </span>
+          </button>
+        </div>
+      </div>
+      
       </form>
     </div>
   </div>

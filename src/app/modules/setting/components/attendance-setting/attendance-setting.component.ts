@@ -39,9 +39,10 @@ import { OvertimeType } from 'src/app/models/overtime-type';
 import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
 import { User } from 'src/app/models/user';
+import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
-
+declare var google: any;
 @Component({
   selector: 'app-attendance-setting',
   templateUrl: './attendance-setting.component.html',
@@ -60,10 +61,12 @@ export class AttendanceSettingComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private el: ElementRef
+    
   ) {}
 
   ngOnInit(): void {
     window.scroll(0, 0);
+    this.getTeamNames();
     this.loadHolidayCounts();
     this.loadHolidays();
     this.getOrganizationAddressDetailMethodCall();
@@ -72,7 +75,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
     this.loadAllShiftCounts();
-
+    this.getCurrentLocation();
     if (localStorage.getItem('staffSelectionActive') == 'true') {
       this.activeModel = true;
     }
@@ -892,8 +895,10 @@ export class AttendanceSettingComponent implements OnInit {
   selectedStaffsUuids: string[] = [];
   selectedStaffs: Staff[] = [];
   isAllSelected: boolean = false;
-
+  totalUserCount: number = 0;
   getUserByFiltersMethodCall() {
+    debugger
+    // this.staffs = [];
     this.dataService
       .getUsersByFilter(
         this.itemPerPage,
@@ -901,17 +906,23 @@ export class AttendanceSettingComponent implements OnInit {
         'asc',
         'id',
         this.searchText,
-        ''
+        '',
+        this.selectedTeamId,
+        
       )
       .subscribe(
         (response) => {
+          
           this.staffs = response.users.map((staff: Staff) => ({
             ...staff,
             selected: this.selectedStaffsUuids.includes(staff.uuid),
           }));
+          if(this.selectedTeamId == 0 && this.searchText == ''){
+            this.totalUserCount = response.count;
+          }
           this.total = response.count;
           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-
+          this.pageNumber = Math.min(this.pageNumber, this.lastPageNumber);
           this.isAllSelected = this.staffs.every((staff) => staff.selected);
 
           console.log(this.staffs);
@@ -960,10 +971,8 @@ export class AttendanceSettingComponent implements OnInit {
   // #####################################################
   isAllUsersSelected: boolean = false;
 
-  // Method to toggle all users' selection
-  selectAllUsers(isChecked: boolean) {
-    // const inputElement = event.target as HTMLInputElement;
-    // const isChecked = inputElement ? inputElement.checked : false;
+  selectAllUsers(event: any) {
+    const isChecked = event.target.checked;
     this.isAllUsersSelected = isChecked;
     this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
     this.staffs.forEach((staff) => (staff.selected = isChecked));
@@ -978,7 +987,8 @@ export class AttendanceSettingComponent implements OnInit {
       this.selectedStaffsUuids = [];
       this.activeModel2 = false;
     }
-  }
+}
+
 
   selectAll(checked: boolean) {
     this.isAllSelected = checked;
@@ -1124,8 +1134,18 @@ export class AttendanceSettingComponent implements OnInit {
   @ViewChild('closeShiftTimingModal') closeShiftTimingModal!: ElementRef;
 
   registerOrganizationShiftTimingMethodCall() {
+    debugger
+    // this.submitWeeklyHolidays();
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
-
+       // Prepare data for submission
+    this.organizationShiftTimingRequest.weekdayInfos = this.weekDay
+      .filter((day) => day.selected)
+      .map((day) => ({
+        weeklyOffDay: day.name,
+        isAlternateWeekoff: day.isAlternate,
+        weekOffType: day.weekOffType,
+        userUuids: this.selectedStaffsUuids,
+      }));
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
@@ -1133,6 +1153,8 @@ export class AttendanceSettingComponent implements OnInit {
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
+          this.selectedTeamName = 'All';
+          this.getUserByFiltersMethodCall();
           this.helperService.showToast(
             'Shift Timing registered successfully',
             Key.TOAST_STATUS_SUCCESS
@@ -1141,7 +1163,7 @@ export class AttendanceSettingComponent implements OnInit {
         (error) => {
           console.log(error);
           this.helperService.showToast(
-            'Shift Timing registered successfully',
+            'Shift Timing not registered successfully',
             Key.TOAST_STATUS_ERROR
           );
         }
@@ -1153,6 +1175,12 @@ export class AttendanceSettingComponent implements OnInit {
     this.organizationShiftTimingRequest = new OrganizationShiftTimingRequest();
     this.selectedShiftType = new ShiftType();
     this.clearSearchText();
+    this.teamId = 0;
+    this.selectedTeamId = 0;
+    this.selectedTeamName = 'All';
+    this.selectedStaffsUuids = [];
+    this.pageNumber = 1;
+    
   }
   organizationShiftTimingRequest: OrganizationShiftTimingRequest =
     new OrganizationShiftTimingRequest();
@@ -1169,6 +1197,7 @@ export class AttendanceSettingComponent implements OnInit {
   organizationShiftTimingValidationErrors: { [key: string]: string } = {};
 
   calculateTimes(): void {
+    debugger
     const { inTime, outTime, startLunch, endLunch } =
       this.organizationShiftTimingRequest;
 
@@ -1300,8 +1329,8 @@ export class AttendanceSettingComponent implements OnInit {
 
     this.dataService.getAllShiftTimings().subscribe(
       (response) => {
+        console.log(response);
         this.organizationShiftTimingWithShiftTypeResponseList = response;
-
         if (this.organizationShiftTimingWithShiftTypeResponseList.length == 1) {
           this.activeIndex = 0;
         }
@@ -1326,6 +1355,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   shiftTypeList: ShiftType[] = [];
   getShiftTypeMethodCall() {
+    debugger
     this.dataService.getAllShiftType().subscribe(
       (response) => {
         this.shiftTypeList = response;
@@ -1356,16 +1386,22 @@ export class AttendanceSettingComponent implements OnInit {
     tab: string
   ) {
     // this.shiftTimingActiveTab.nativeElement.click();
+    this.weekDay = organizationShiftTimingResponse.weekDayResponse;
 
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
     this.organizationShiftTimingRequest.shiftTypeId =
       organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
+   
+    // this.getWeekDays();
 
     this.getShiftTypeMethodCall();
     this.selectedShiftType = organizationShiftTimingResponse.shiftType;
+    this.teamId = 0;
+    this.selectedTeamId = 0;
+    this.selectedTeamName = 'All';
     this.getUserByFiltersMethodCall();
-
+   
     setTimeout(() => {
       if (tab == 'STAFF_SELECTION') {
         this.staffActiveTabInShiftTimingMethod();
@@ -1480,13 +1516,15 @@ export class AttendanceSettingComponent implements OnInit {
     var id = this.organizationAddressDetail.id;
     this.organizationAddressDetail = new OrganizationAddressDetail();
     this.organizationAddressDetail.id = id;
+    this.lat = e.geometry.location.lat();
+    this.lng = e.geometry.location.lng();
     this.organizationAddressDetail.longitude = e.geometry.location.lng();
     this.organizationAddressDetail.latitude = e.geometry.location.lat();
 
     // console.log(e.geometry.location.lat());
     // console.log(e.geometry.location.lng());
-    this.organizationAddressDetail.addressLine1 = e.name + ', ' + e.vicinity;
-
+    // this.organizationAddressDetail.addressLine1 = e.name + ', ' + e.vicinity;
+    this.organizationAddressDetail.addressLine1 = e.formatted_address.toString()
     e?.address_components?.forEach((entry: any) => {
       // console.log(entry);
 
@@ -1591,7 +1629,7 @@ export class AttendanceSettingComponent implements OnInit {
         ...day,
         selected: day.selected === 1,
       }));
-      // console.log(this.weekDay);
+      console.log(this.weekDay);
     });
   }
 
@@ -1629,6 +1667,7 @@ export class AttendanceSettingComponent implements OnInit {
 
   toggleSelection(i: number): void {
     this.weekDay[i].selected = !this.weekDay[i].selected;
+    
     // Automatically set isAlternate to false when a day is selected
     this.weekDay[i].isAlternate = false;
   }
@@ -1656,6 +1695,7 @@ export class AttendanceSettingComponent implements OnInit {
         weeklyOffDay: day.name,
         isAlternateWeekoff: day.isAlternate,
         weekOffType: day.weekOffType,
+        userUuids: this.selectedStaffsUuids,
       }));
 
     // Submit the data
@@ -1915,16 +1955,118 @@ export class AttendanceSettingComponent implements OnInit {
     this.activeIndex5 = this.activeIndex5 === index ? -1 : index;
   }
 
-  @ViewChild("testForm") testForm!: any;
-  
-  formGrp!:FormGroup
+  teamNameList: UserTeamDetailsReflection[] = [];
 
-  testFormcheck() {
+  teamId: number = 0;
+  getTeamNames() {
     debugger
-    if (this.testForm.required) {
-      console.log("Yes");
+    this.dataService.getAllTeamNames().subscribe({
+      next: (response: any) => {
+        this.teamNameList = response.object;
+      },
+      error: (error) => {
+        console.error('Failed to fetch team names:', error);
+      },
+    });
+  }
+
+  selectedTeamName: string = 'All';
+  selectedTeamId: number = 0;
+  selectTeam(teamId: number) {
+    debugger
+    if (teamId === 0) {
+      this.selectedTeamName = 'All';
     } else {
-      console.log("Not");
+      const selectedTeam = this.teamNameList.find(team => team.teamId === teamId);
+      this.selectedTeamName = selectedTeam ? selectedTeam.teamName : 'All';
+    }
+    this.page = 0;
+    this.itemPerPage = 10;
+    // this.fullLeaveLogs = [];
+    // this.selectedTeamName = teamName;
+    this.selectedTeamId = teamId;
+    this.getUserByFiltersMethodCall();
+  
+  }
+
+  isShowAutomationRule:boolean=false;
+
+  lat: number = 0;
+  lng: number = 0;
+  zoom: number = 15; // Initial zoom level of the map
+  markerPosition: any;
+
+  address: string = ''; // Add this property to hold the fetched address
+  city: string = '';
+  getCurrentLocation() {
+    debugger;
+    if (this.address != '') {
+      this.address = '';
+    }
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        this.markerPosition = { lat: this.lat, lng: this.lng };
+        console.log(this.lat + '-' + this.lng);
+
+        // Initialize the Geocoder
+        const geocoder = new google.maps.Geocoder();
+        const latlng = { lat: this.lat, lng: this.lng };
+        geocoder.geocode(
+          { location: latlng },
+          (results: { formatted_address: string }[], status: string) => {
+            if (status === google.maps.GeocoderStatus.OK) {
+              if (results[0]) {
+                const address = results[0].formatted_address;
+                //@ts-ignore
+                this.city = results[0].address_components[2].long_name;
+                this.address = address;
+                console.log(address); // Log the address to console or update the UI as needed
+                // this.enableSubmitToggle = true;
+                (
+                  document.getElementById(
+                    'exampleInputText'
+                  ) as HTMLInputElement
+                ).value = address; // Update the input field with address
+              } else {
+                console.log('No results found');
+              }
+            } else {
+              console.log('Geocoder failed due to: ' + status);
+            }
+          }
+        );
+      });
     }
   }
+
+  
+  mapCenter: { lat: number, lng: number } = { lat: this.lat, lng: this.lng };
+
+  onMapClick(event: any) {
+    this.organizationAddressDetail.latitude = event.coords.lat;
+    this.organizationAddressDetail.longitude = event.coords.lng;
+  }
+
+  onMarkerDragEnd(event: any) {
+    this.organizationAddressDetail.latitude = event.coords.lat;
+    this.organizationAddressDetail.longitude = event.coords.lng;
+    this.mapCenter = { lat: this.lat, lng: this.lng };
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

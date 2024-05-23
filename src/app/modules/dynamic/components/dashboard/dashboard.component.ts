@@ -27,6 +27,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import { DayWiseStatus } from 'src/app/models/day-wise-status';
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 
 @Component({
   selector: 'app-dashboard',
@@ -707,7 +708,8 @@ export class DashboardComponent implements OnInit {
             this.pageNumber,
             this.itemPerPage,
             this.searchText,
-            this.searchBy
+            this.searchBy,
+            this.teamId
           )
           .toPromise()
           .then((response) => {
@@ -841,5 +843,39 @@ export class DashboardComponent implements OnInit {
         // this.count++;
       }));
     });
+  }
+
+  teamNameList: UserTeamDetailsReflection[] = [];
+
+  teamId: number = 0;
+  getTeamNames() {
+    debugger
+    this.dataService.getAllTeamNames().subscribe({
+      next: (response: any) => {
+        this.teamNameList = response.object;
+      },
+      error: (error) => {
+        console.error('Failed to fetch team names:', error);
+      },
+    });
+  }
+
+  selectedTeamName: string = 'All';
+  selectedTeamId: number = 0;
+  selectTeam(teamId: number) {
+    debugger
+    if (teamId === 0) {
+      this.selectedTeamName = 'All';
+    } else {
+      const selectedTeam = this.teamNameList.find(team => team.teamId === teamId);
+      this.selectedTeamName = selectedTeam ? selectedTeam.teamName : 'All';
+    }
+    // this.page = 0;
+    this.itemPerPage = 10;
+    // this.fullLeaveLogs = [];
+    // this.selectedTeamName = teamName;
+    this.selectedTeamId = teamId;
+    // this.getUserByFiltersMethodCall();
+  
   }
 }
