@@ -221,6 +221,7 @@ export class LeaveManagementComponent implements OnInit {
   isPendingLoader: boolean = false;
 
   getPendingLeaves() {
+    this.activeTabs('home');
     this.isPendingLoader = true;
     this.dataService
       .getPendingLeaves(this.pagePendingLeaves, this.sizePendingLeaves)
@@ -484,7 +485,7 @@ export class LeaveManagementComponent implements OnInit {
 
   teamId: number = 0;
   getTeamNames() {
-    debugger
+    debugger;
     this.dataService.getAllTeamNames().subscribe({
       next: (response: any) => {
         this.teamNameList = response.object;
@@ -494,7 +495,6 @@ export class LeaveManagementComponent implements OnInit {
       },
     });
   }
-
 
   sliceWord(word: string): string {
     return word.slice(0, 3);
@@ -710,5 +710,17 @@ export class LeaveManagementComponent implements OnInit {
   halfLeaveShiftToggle() {
     this.halfDayLeaveShiftToggle =
       this.halfDayLeaveShiftToggle == true ? false : true;
+  }
+  activeHomeTabFlag: boolean = false;
+  activeAttendanceTabFlag: boolean = false;
+
+  activeTabs(activeTabString: string) {
+    if (activeTabString === 'home') {
+      this.activeHomeTabFlag = true;
+      this.activeAttendanceTabFlag = false;
+    } else if (activeTabString === 'attendance') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = true;
+    }
   }
 }

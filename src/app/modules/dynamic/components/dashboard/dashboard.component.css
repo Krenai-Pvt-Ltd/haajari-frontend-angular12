@@ -367,6 +367,7 @@ button.btn.close-btn {
   top: 0px;
   color: #6666f3;
   cursor: pointer;
+  height: 50px;
 }
 
 .download-button-loader {
@@ -486,4 +487,19 @@ span.total-holiday {
   border-radius: 3px;
   margin-top: 5px;
   min-width: 33px;
+}
+
+.new-deopdown {
+  border: none;
+  border-right: 1px solid #f1f1f1;
+  border-radius: 0px;
+  height: 50px !important;
+}
+
+.deshboard-search-box {
+  padding: 10px 40px;
+  border: none;
+  border-right: 1px solid #f1f1f1;
+  border-radius: 0px;
+  height: 50px !important;
 }
