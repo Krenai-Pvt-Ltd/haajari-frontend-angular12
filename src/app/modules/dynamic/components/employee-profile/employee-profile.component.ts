@@ -61,8 +61,7 @@ export class EmployeeProfileComponent implements OnInit {
     new UserAddressDetailsRequest();
   userExperienceDetailRequest: UserExperienceDetailRequest =
     new UserExperienceDetailRequest();
-    
-   
+
   userLeaveForm!: FormGroup;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
@@ -71,6 +70,7 @@ export class EmployeeProfileComponent implements OnInit {
   hideDetailsFlag: boolean = false;
   adminRoleFlag: boolean = false;
   userRoleFlag: boolean = false;
+
   constructor(
     private dataService: DataService,
     private datePipe: DatePipe,
@@ -82,7 +82,7 @@ export class EmployeeProfileComponent implements OnInit {
     private router: Router,
     private roleService: RoleBasedAccessControlService,
     public location: Location,
-    public sanitize: DomSanitizer,
+    public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
@@ -165,7 +165,10 @@ export class EmployeeProfileComponent implements OnInit {
       this.userRoleFlag = true;
     }
     this.getRoleData();
-    this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
+    // this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
+    this.currentNewDate = moment(this.currentDate)
+      .startOf('month')
+      .format('YYYY-MM-DD');
     this.getUserAttendanceStatus();
     this.getOrganizationOnboardingDateByUuid();
     // let date = new Date();
@@ -812,22 +815,31 @@ export class EmployeeProfileComponent implements OnInit {
   @ViewChild(FormGroupDirective)
   formGroupDirective!: FormGroupDirective;
   submitLeaveLoader: boolean = false;
-
+  @ViewChild('fileInput') fileInput!: ElementRef;
   saveLeaveRequestUser() {
     debugger;
+
+    if (this.userLeaveForm.invalid || this.isFileUploaded) {
+      return;
+    }
+
     this.userLeaveRequest.managerId = this.selectedManagerId;
     this.userLeaveRequest.dayShift = this.dayShiftToggle;
     this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
     this.submitLeaveLoader = true;
     // this.userLeaveRequest.halfDayLeave = false;
     this.dataService
-      .saveLeaveRequest(this.userId, this.userLeaveRequest)
+      .saveLeaveRequest(this.userId, this.userLeaveRequest, this.fileToUpload)
       .subscribe(
         (data) => {
           // console.log(data);
           // console.log(data.body);
           this.submitLeaveLoader = false;
           this.isLeavePlaceholder = false;
+          this.isFileUploaded = false;
+          this.fileToUpload = '';
+          // this.selectedFile = null;
+          this.fileInput.nativeElement.value = '';
           this.getUserLeaveReq();
           this.resetUserLeave();
           this.formGroupDirective.resetForm();
@@ -1215,7 +1227,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.nextOpenDocName = docsName;
     this.downloadString = viewString;
     this.previewString =
-      this.sanitize.bypassSecurityTrustResourceUrl(viewString);
+      this.domSanitizer.bypassSecurityTrustResourceUrl(viewString);
     // if (viewString == "highSchool") {
     //   this.previewString = this.highSchoolCertificate;
     // } else if (viewString == "highestQualification") {
@@ -1757,7 +1769,7 @@ export class EmployeeProfileComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: {
         userUuid: new URLSearchParams(window.location.search).get('userId'),
-        adminUuid: this.UUID
+        adminUuid: this.UUID,
       },
     };
     this.router.navigate([routePath], navExtra);
@@ -1780,10 +1792,12 @@ export class EmployeeProfileComponent implements OnInit {
             preview.user.employeeOnboardingStatus.response
           );
 
-          if(preview.employeeCompanyDocuments){
-            this.onboardingPreviewData.employeeCompanyDocuments = preview.employeeCompanyDocuments;
-            console.log("testtttt" + this.onboardingPreviewData.employeeCompanyDocuments);
-           
+          if (preview.employeeCompanyDocuments) {
+            this.onboardingPreviewData.employeeCompanyDocuments =
+              preview.employeeCompanyDocuments;
+            console.log(
+              'testtttt' + this.onboardingPreviewData.employeeCompanyDocuments
+            );
           }
 
           // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
@@ -1959,152 +1973,171 @@ export class EmployeeProfileComponent implements OnInit {
     '.zip': 'lar la-file-archive text-warning',
   };
 
- getFileTypeIcon(fileUrl: string): string {
-  // Log the file URL to inspect its format
-  console.log("File URL:", fileUrl);
+  getFileTypeIcon(fileUrl: string): string {
+    // Log the file URL to inspect its format
+    console.log('File URL:', fileUrl);
 
-  // Extract the file extension, ensuring you consider URLs with parameters or fragments
-  const url = new URL(fileUrl, window.location.origin); // This normalizes the URL
-  const fileName = url.pathname.split('/').pop(); // Get the last segment in the path
-  const extension = `.${fileName?.split('.').pop()?.toLowerCase()}`;
+    // Extract the file extension, ensuring you consider URLs with parameters or fragments
+    const url = new URL(fileUrl, window.location.origin); // This normalizes the URL
+    const fileName = url.pathname.split('/').pop(); // Get the last segment in the path
+    const extension = `.${fileName?.split('.').pop()?.toLowerCase()}`;
 
-  // Log the detected extension
-  console.log("Detected extension:", extension);
+    // Log the detected extension
+    console.log('Detected extension:', extension);
 
-  // Return the corresponding icon class or a default value
-  return this.fileTypeToIcon[extension] || 'lar la-file text-secondary';
-}
+    // Return the corresponding icon class or a default value
+    return this.fileTypeToIcon[extension] || 'lar la-file text-secondary';
+  }
 
-documentName: string = '';
+  documentName: string = '';
 
-addNewDocument() {
-  debugger
-  this.addMoreDocModalButton.nativeElement.click();
-  if (!this.onboardingPreviewData.employeeCompanyDocuments) {
-    this.onboardingPreviewData.employeeCompanyDocuments = [];
-}
+  addNewDocument() {
+    debugger;
+    this.addMoreDocModalButton.nativeElement.click();
+    if (!this.onboardingPreviewData.employeeCompanyDocuments) {
+      this.onboardingPreviewData.employeeCompanyDocuments = [];
+    }
 
-  // Find the maximum ID in the current document list
-  const maxId = this.onboardingPreviewData.employeeCompanyDocuments.reduce((max, doc) => doc.id > max ? doc.id : max, 0);
+    // Find the maximum ID in the current document list
+    const maxId = this.onboardingPreviewData.employeeCompanyDocuments.reduce(
+      (max, doc) => (doc.id > max ? doc.id : max),
+      0
+    );
 
-  // Create a new document object with a unique ID
-  const newDocument: EmployeeCompanyDocumentsRequest = {
+    // Create a new document object with a unique ID
+    const newDocument: EmployeeCompanyDocumentsRequest = {
       id: maxId + 1, // Increment the maximum ID by 1
       name: this.documentName,
       url: '',
-      fileName: ''
+      fileName: '',
       // Include other required properties of EmployeeAdditionalDocument, if any
-  };
+    };
 
-  this.onboardingPreviewData.employeeCompanyDocuments.push(newDocument);
-  
-  this.isAddMore = false; // Hide the add more section if needed
+    this.onboardingPreviewData.employeeCompanyDocuments.push(newDocument);
 
-  // Delay needed to ensure DOM has finished updating
-  setTimeout(() => {
-    const fileInput = document.getElementById(`additionalDocumentFile${newDocument.id}`);
-    if (fileInput) fileInput.click(); // Open the file dialog automatically
-  }, 100);
-}
+    this.isAddMore = false; // Hide the add more section if needed
 
-@ViewChild('addMoreDocModalButton') addMoreDocModalButton !: ElementRef
-isAddMore: boolean = false;
-addMore(){
-  this.isAddMore = true;
-  this.addMoreDocModalButton.nativeElement.click();
-}
-
-isInvalidFileType = false; 
-isValidFileType(file: File): boolean {
-  const validExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
-  const fileType = file.type.split('/').pop(); // Get the file extension from the MIME type
-
-  if (fileType && validExtensions.includes(fileType.toLowerCase())) {
-    this.isInvalidFileType = true;
-    return true;
+    // Delay needed to ensure DOM has finished updating
+    setTimeout(() => {
+      const fileInput = document.getElementById(
+        `additionalDocumentFile${newDocument.id}`
+      );
+      if (fileInput) fileInput.click(); // Open the file dialog automatically
+    }, 100);
   }
-  console.log(this.isInvalidFileType);
-  this.isInvalidFileType = false;
-  return false;
-}
 
-onAdditionalFileSelected(event: Event, index: number): void {
-  const fileInput = event.target as HTMLInputElement;
-  const file = fileInput.files ? fileInput.files[0] : null;
-
-  if (file && this.isValidFileType(file)) { // Check if the file is valid before proceeding
-    // If the file type is valid, proceed with the upload
-    this.uploadAdditionalFile(file, index);
-  } else {
-    fileInput.value = '';
-    // Optionally handle the case when the file is invalid
-    // For example, you could alert the user or log an error
-    console.error("Invalid file type. Please select a JPG, JPEG, or PNG file.");
+  @ViewChild('addMoreDocModalButton') addMoreDocModalButton!: ElementRef;
+  isAddMore: boolean = false;
+  addMore() {
+    this.isAddMore = true;
+    this.addMoreDocModalButton.nativeElement.click();
   }
-}
 
-uploadAdditionalFile(file: File, index: number): void {
-  const filePath = `employeeCompanyDocs/${new Date().getTime()}_${file.name}`;
-  const fileRef = this.afStorage.ref(filePath);
-  const task = this.afStorage.upload(filePath, file);
+  isInvalidFileType = false;
+  isValidFileType(file: File): boolean {
+    const validExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
+    const fileType = file.type.split('/').pop(); // Get the file extension from the MIME type
 
-  // Handle the file upload task
-  task.snapshotChanges().pipe(
-      finalize(() => {
-          fileRef.getDownloadURL().subscribe(url => {
-              // Update the URL in the corresponding document
-              this.onboardingPreviewData.employeeCompanyDocuments[index].url = url;
-              this.assignAdditionalDocumentUrl(index, url);
-              this.documentName='';
-              // If you have additional steps to perform after setting the URL, do them here
+    if (fileType && validExtensions.includes(fileType.toLowerCase())) {
+      this.isInvalidFileType = true;
+      return true;
+    }
+    console.log(this.isInvalidFileType);
+    this.isInvalidFileType = false;
+    return false;
+  }
+
+  onAdditionalFileSelected(event: Event, index: number): void {
+    const fileInput = event.target as HTMLInputElement;
+    const file = fileInput.files ? fileInput.files[0] : null;
+
+    if (file && this.isValidFileType(file)) {
+      // Check if the file is valid before proceeding
+      // If the file type is valid, proceed with the upload
+      this.uploadAdditionalFile(file, index);
+    } else {
+      fileInput.value = '';
+      // Optionally handle the case when the file is invalid
+      // For example, you could alert the user or log an error
+      console.error(
+        'Invalid file type. Please select a JPG, JPEG, or PNG file.'
+      );
+    }
+  }
+
+  uploadAdditionalFile(file: File, index: number): void {
+    const filePath = `employeeCompanyDocs/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+
+    // Handle the file upload task
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
+            // Update the URL in the corresponding document
+            this.onboardingPreviewData.employeeCompanyDocuments[index].url =
+              url;
+            this.assignAdditionalDocumentUrl(index, url);
+            this.documentName = '';
+            // If you have additional steps to perform after setting the URL, do them here
           });
-      })
-  ).subscribe();
-}
-
-assignAdditionalDocumentUrl(index: number, url: string): void {
-  debugger
-  if (!this.employeeCompanyDocuments) {
-    this.onboardingPreviewData.employeeCompanyDocuments = [];
+        })
+      )
+      .subscribe();
   }
 
-  if (!this.employeeCompanyDocuments[index]) {
-    this.onboardingPreviewData.employeeCompanyDocuments[index] = new EmployeeAdditionalDocument();
-  }
-
-  this.onboardingPreviewData.employeeCompanyDocuments[index].url = url;
-  this.onboardingPreviewData.employeeCompanyDocuments[index].fileName = this.getFilenameFromUrl(url);
-  this.onboardingPreviewData.employeeCompanyDocuments[index].name = this.documentName;
-  this.setEmployeeCompanyDocumentsMethodCall()
-}
-
-// deleteDocument(index: number): void {
-//   if (index > -1) {
-//     this.onboardingPreviewData.employeeCompanyDocuments.splice(index, 1);
-//     this.deleteCompanyDocByIdMethodCall(index);
-//   }
-// }
-
-
-  setEmployeeCompanyDocumentsMethodCall(): void {
-    debugger
-    if(this.onboardingPreviewData.employeeCompanyDocuments==null){
+  assignAdditionalDocumentUrl(index: number, url: string): void {
+    debugger;
+    if (!this.employeeCompanyDocuments) {
       this.onboardingPreviewData.employeeCompanyDocuments = [];
     }
-    const userUuid = new URLSearchParams(window.location.search).get('userId') || '';
 
-  this.dataService.setEmployeeCompanyDocuments(userUuid, this.onboardingPreviewData)
-    
-  .subscribe(
-    (response) => {
-      this.helperService.showToast('Document Uploaded Successfuly', Key.TOAST_STATUS_SUCCESS)
-      this.toggle = false
-    },
-    (error) => {
-      console.error('Error occurred:', error);
-      this.toggle = false
-    } 
-  );
+    if (!this.employeeCompanyDocuments[index]) {
+      this.onboardingPreviewData.employeeCompanyDocuments[index] =
+        new EmployeeAdditionalDocument();
+    }
+
+    this.onboardingPreviewData.employeeCompanyDocuments[index].url = url;
+    this.onboardingPreviewData.employeeCompanyDocuments[index].fileName =
+      this.getFilenameFromUrl(url);
+    this.onboardingPreviewData.employeeCompanyDocuments[index].name =
+      this.documentName;
+    this.setEmployeeCompanyDocumentsMethodCall();
+  }
+
+  // deleteDocument(index: number): void {
+  //   if (index > -1) {
+  //     this.onboardingPreviewData.employeeCompanyDocuments.splice(index, 1);
+  //     this.deleteCompanyDocByIdMethodCall(index);
+  //   }
+  // }
+
+  setEmployeeCompanyDocumentsMethodCall(): void {
+    debugger;
+    if (this.onboardingPreviewData.employeeCompanyDocuments == null) {
+      this.onboardingPreviewData.employeeCompanyDocuments = [];
+    }
+    const userUuid =
+      new URLSearchParams(window.location.search).get('userId') || '';
+
+    this.dataService
+      .setEmployeeCompanyDocuments(userUuid, this.onboardingPreviewData)
+
+      .subscribe(
+        (response) => {
+          this.helperService.showToast(
+            'Document Uploaded Successfuly',
+            Key.TOAST_STATUS_SUCCESS
+          );
+          this.toggle = false;
+        },
+        (error) => {
+          console.error('Error occurred:', error);
+          this.toggle = false;
+        }
+      );
 
     if (!userUuid) {
       console.error('User UUID is missing.');
@@ -2112,17 +2145,16 @@ assignAdditionalDocumentUrl(index: number, url: string): void {
     }
   }
 
-
-  empDocs: any= [];
+  empDocs: any = [];
   // getEmployeeCompanyDocumentsMethodCall() {
   //   debugger
   //   const userUuid = new URLSearchParams(window.location.search).get('userId');
-    
+
   //   if (userUuid) {
   //     this.dataService.getEmployeeCompanyDocuments(userUuid).subscribe(
   //       (response: UserDocumentsDetailsRequest) => {
   //        if(response.employeeCompanyDocuments != null) {
-         
+
   //         this.onboardingPreviewData.employeeCompanyDocuments = response.employeeCompanyDocuments;
   //         this.employeeCompanyDocuments = response.employeeCompanyDocuments
   //         console.log("docs..." +  this.empDocs.length)
@@ -2135,32 +2167,126 @@ assignAdditionalDocumentUrl(index: number, url: string): void {
   //   } else {
   //     console.error('User UUID not found.');
   //   }
-  
+
   // }
 
   deleteCompanyDocByIdMethodCall(id: number) {
-    debugger;  // Correct placement of the semicolon
+    debugger; // Correct placement of the semicolon
     const userUuid = new URLSearchParams(window.location.search).get('userId');
-    if(userUuid) {
-    this.dataService.deleteEmployeeCompanyDocById(id, userUuid).subscribe(
-      (response) => {
-        this.documentName = '';
-        // Find the index of the document to be deleted from the array
-        const index = this.onboardingPreviewData.employeeCompanyDocuments.findIndex(doc => doc.id === id);
-        if (index > -1) {
-          this.onboardingPreviewData.employeeCompanyDocuments.splice(index, 1);
-          this.helperService.showToast('Document Deleted Successfully', Key.TOAST_STATUS_SUCCESS);
-        } else {
-          
-          console.error('Document Not Found.');
+    if (userUuid) {
+      this.dataService.deleteEmployeeCompanyDocById(id, userUuid).subscribe(
+        (response) => {
+          this.documentName = '';
+          // Find the index of the document to be deleted from the array
+          const index =
+            this.onboardingPreviewData.employeeCompanyDocuments.findIndex(
+              (doc) => doc.id === id
+            );
+          if (index > -1) {
+            this.onboardingPreviewData.employeeCompanyDocuments.splice(
+              index,
+              1
+            );
+            this.helperService.showToast(
+              'Document Deleted Successfully',
+              Key.TOAST_STATUS_SUCCESS
+            );
+          } else {
+            console.error('Document Not Found.');
+          }
+        },
+        (error: any) => {
+          this.helperService.showToast(error, Key.TOAST_STATUS_ERROR);
+          console.error('Error deleting document:', error);
         }
-      },
-      (error: any) => {
-        this.helperService.showToast(error, Key.TOAST_STATUS_ERROR);
-        console.error('Error deleting document:', error);
-      }
-    );
+      );
+    }
   }
-}
-  
+  selectedFile: File | null = null;
+  imagePreviewUrl: string | ArrayBuffer | null = null;
+  pdfPreviewUrl: SafeResourceUrl | null = null;
+  fileToUpload: string = '';
+  isSelecetdFileUploadedToFirebase: boolean = false;
+  isFileUploaded = false;
+
+  // Function to check if the selected file is an image
+  isImageNew(file: File): boolean {
+    return file.type.startsWith('image');
+  }
+
+  // Function to check if the selected file is a PDF
+  isPdf(file: File): boolean {
+    return file.type === 'application/pdf';
+  }
+
+  // Function to set the preview URL for images
+  setImgPreviewUrl(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imagePreviewUrl = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Function to set the preview URL for PDFs
+  setPdfPreviewUrl(file: File): void {
+    const objectUrl = URL.createObjectURL(file);
+    this.pdfPreviewUrl =
+      this.domSanitizer.bypassSecurityTrustResourceUrl(objectUrl);
+  }
+
+  // Function to handle file selection
+  onFileSelected(event: Event): void {
+    debugger;
+    const element = event.currentTarget as HTMLInputElement;
+    const fileList: FileList | null = element.files;
+
+    if (fileList && fileList.length > 0) {
+      this.isFileUploaded = true;
+      this.selectedFile = fileList[0];
+
+      if (this.isImageNew(this.selectedFile)) {
+        this.setImgPreviewUrl(this.selectedFile);
+      } else if (this.isPdf(this.selectedFile)) {
+        this.setPdfPreviewUrl(this.selectedFile);
+      }
+
+      this.uploadFile(this.selectedFile); // Upload file to Firebase
+    } else {
+      this.isFileUploaded = false;
+    }
+  }
+
+  // Function to upload file to Firebase
+  uploadFile(file: File): void {
+    const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+
+    task
+      .snapshotChanges()
+      .toPromise()
+      .then(() => {
+        console.log('Upload completed');
+        fileRef
+          .getDownloadURL()
+          .toPromise()
+          .then((url) => {
+            console.log('File URL:', url);
+            this.fileToUpload = url;
+            // console.log('file url : ' + this.fileToUpload);
+            this.isFileUploaded = false;
+          })
+          .catch((error) => {
+            this.isFileUploaded = false;
+            console.error('Failed to get download URL', error);
+          });
+      })
+      .catch((error) => {
+        this.isFileUploaded = false;
+        console.error('Error in upload snapshotChanges:', error);
+      });
+  }
+
+  downloadFile(link: string) {}
 }
