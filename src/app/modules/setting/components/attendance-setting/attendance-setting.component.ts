@@ -42,6 +42,7 @@ import { User } from 'src/app/models/user';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { PlacesService } from 'src/app/services/places.service';
 declare var google: any;
 @Component({
   selector: 'app-attendance-setting',
@@ -60,7 +61,8 @@ export class AttendanceSettingComponent implements OnInit {
     private helperService: HelperService,
     private fb: FormBuilder,
     private router: Router,
-    private el: ElementRef
+    private el: ElementRef,
+    private placesService: PlacesService
     
   ) {}
 
@@ -75,11 +77,11 @@ export class AttendanceSettingComponent implements OnInit {
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
     this.loadAllShiftCounts();
-    this.getCurrentLocation();
+    // this.getCurrentLocation();
     if (localStorage.getItem('staffSelectionActive') == 'true') {
       this.activeModel = true;
     }
-
+    
     this.getUniversalHolidays();
     this.getCustomHolidays();
     this.getWeeklyHolidays();
@@ -1311,6 +1313,7 @@ export class AttendanceSettingComponent implements OnInit {
   
   staffActiveTabInShiftTimingMethod() {
     if (this.isValidForm()) {
+      this.activeTab = 'staffselection';
     if(this.isWeekOffFlag) {
       this.weekOffActiveTab.nativeElement.click();
       this.isStaffSelectionFlag = true;
@@ -1326,11 +1329,17 @@ export class AttendanceSettingComponent implements OnInit {
 
   @ViewChild('shiftTimingActiveTab') shiftTimingActiveTab!: ElementRef;
   isStaffSelectionFlag:boolean=false;
-
+  activeTab = 'shiftime';
   shiftTimingActiveTabMethod() {
     this.shiftTimingActiveTab.nativeElement.click();
     this.isStaffSelectionFlag = false;
+    this.activeTab = 'shiftime';
   }
+  weekOffActiveTabMethod() {
+    this.activeTab = 'weeklyOff';
+  }
+
+  
 
   organizationShiftTimingWithShiftTypeResponseList: OrganizationShiftTimingWithShiftTypeResponse[] =
     [];
@@ -1583,12 +1592,26 @@ export class AttendanceSettingComponent implements OnInit {
     });
   }
 
+  isShowMap: boolean = false;
   getOrganizationAddressDetailMethodCall() {
+    debugger
     this.dataService.getOrganizationAddressDetail().subscribe(
       (response: OrganizationAddressDetail) => {
         if (response) {
           // console.log(response);
           this.organizationAddressDetail = response;
+          console.log(this.organizationAddressDetail.latitude )
+          if(this.organizationAddressDetail.latitude == null){
+            this.currentLocation();
+          } else {
+            this.lat =Number(this.organizationAddressDetail.latitude);
+            this.lng = Number(this.organizationAddressDetail.longitude);
+            this.isShowMap = true;
+          }
+          // if(this.organizationAddressDetail.latitude & this.organizationAddressDetail.longitude){
+          //   this.organizationAddressDetail.latitude = this.lat;
+          //   this.organizationAddressDetail.longitude = this.lat
+          // }
         } else {
           console.log('No address details found');
         }
@@ -2046,54 +2069,75 @@ export class AttendanceSettingComponent implements OnInit {
 
   isShowAutomationRule:boolean=false;
 
-  lat: number = 0;
-  lng: number = 0;
+  lat!: number;
+  lng!: number;
   zoom: number = 15; // Initial zoom level of the map
   markerPosition: any;
 
   address: string = ''; // Add this property to hold the fetched address
   city: string = '';
-  getCurrentLocation() {
-    debugger;
-    if (this.address != '') {
-      this.address = '';
-    }
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        this.markerPosition = { lat: this.lat, lng: this.lng };
-        console.log(this.lat + '-' + this.lng);
-
-        // Initialize the Geocoder
-        const geocoder = new google.maps.Geocoder();
-        const latlng = { lat: this.lat, lng: this.lng };
-        geocoder.geocode(
-          { location: latlng },
-          (results: { formatted_address: string }[], status: string) => {
-            if (status === google.maps.GeocoderStatus.OK) {
-              if (results[0]) {
-                const address = results[0].formatted_address;
-                //@ts-ignore
-                this.city = results[0].address_components[2].long_name;
-                this.address = address;
-                console.log(address); // Log the address to console or update the UI as needed
-                // this.enableSubmitToggle = true;
-                (
-                  document.getElementById(
-                    'exampleInputText'
-                  ) as HTMLInputElement
-                ).value = address; // Update the input field with address
-              } else {
-                console.log('No results found');
-              }
-            } else {
-              console.log('Geocoder failed due to: ' + status);
+  /************ GET CURRENT LOCATION ***********/
+  locationLoader: boolean = false;
+  currentLocation() {
+    debugger
+    // this.locationLoader = true;
+    this.getCurrentLocation()
+      .then((coords) => {
+        this.placesService
+          .getLocationDetails(coords.latitude, coords.longitude)
+          .then((details) => {
+            this.locationLoader = false;
+            console.log('formatted_address:', details);
+            this.organizationAddressDetail.addressLine1 =
+              details.formatted_address;
+            this.organizationAddressDetail.addressLine2 = '';
+            if (details.address_components[1].types[0] === 'locality') {
+              this.organizationAddressDetail.city =
+                details.address_components[2].long_name;
             }
+            if (
+              details.address_components[4].types[0] ===
+              'administrative_area_level_1'
+            ) {
+              this.organizationAddressDetail.state =
+                details.address_components[4].long_name;
+            }
+            if (details.address_components[5].types[0] === 'country') {
+              this.organizationAddressDetail.country =
+                details.address_components[5].long_name;
+            }
+            if (details.address_components[6].types[0] === 'postal_code') {
+              this.organizationAddressDetail.pincode =
+                details.address_components[6].long_name;
+            }
+          })
+          .catch((error) => console.error(error));
+      })
+      .catch((error) => console.error(error));
+  }
+
+  getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            this.lat = position.coords.latitude
+            this.lng = position.coords.longitude
+            this.isShowMap = true;
+            resolve({
+               
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+          },
+          (err) => {
+            reject(err);
           }
         );
-      });
-    }
+      } else {
+        reject('Geolocation is not supported by this browser.');
+      }
+    });
   }
 
   
