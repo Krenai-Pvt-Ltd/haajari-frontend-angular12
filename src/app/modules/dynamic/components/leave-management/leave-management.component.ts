@@ -1,11 +1,13 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {
   FormBuilder,
   FormGroup,
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import * as moment from 'moment';
 import { Key } from 'src/app/constant/key';
@@ -19,6 +21,7 @@ import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-leave-management',
@@ -47,7 +50,10 @@ export class LeaveManagementComponent implements OnInit {
     private helperService: HelperService,
     private datePipe: DatePipe,
     private fb: FormBuilder,
-    private rbacService: RoleBasedAccessControlService
+    private firebaseStorage: AngularFireStorage,
+    private rbacService: RoleBasedAccessControlService,
+    public domSanitizer: DomSanitizer,
+    private afStorage: AngularFireStorage
   ) {
     {
       this.userLeaveForm = this.fb.group({
@@ -101,7 +107,10 @@ export class LeaveManagementComponent implements OnInit {
 
     this.fetchManagerNames();
     this.getUserLeaveReq();
-    this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
+    // this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
+    this.currentNewDate = moment(this.currentDate)
+      .startOf('month')
+      .format('YYYY-MM-DD');
   }
 
   debounceTimer: any;
@@ -653,8 +662,12 @@ export class LeaveManagementComponent implements OnInit {
   @ViewChild(FormGroupDirective)
   formGroupDirective!: FormGroupDirective;
   submitLeaveLoader: boolean = false;
-
+  @ViewChild('fileInput') fileInput!: ElementRef;
   saveLeaveRequestUser() {
+    if (this.userLeaveForm.invalid || this.isFileUploaded) {
+      return;
+    }
+
     debugger;
     this.userLeaveRequest.managerId = this.selectedManagerId;
     this.userLeaveRequest.dayShift = this.dayShiftToggle;
@@ -671,12 +684,18 @@ export class LeaveManagementComponent implements OnInit {
     this.pendingLeaves = [];
 
     this.dataService
-      .saveLeaveRequestForLeaveManagement(this.userLeaveRequest)
+      .saveLeaveRequestForLeaveManagement(
+        this.userLeaveRequest,
+        this.fileToUpload
+      )
       .subscribe(
         (data) => {
           this.submitLeaveLoader = false;
           this.resetUserLeave();
           this.fetchAllData();
+          this.fileToUpload = '';
+          // this.selectedFile = null;
+          this.fileInput.nativeElement.value = '';
           this.formGroupDirective.resetForm();
           this.requestLeaveCloseModel.nativeElement.click();
         },
@@ -705,5 +724,130 @@ export class LeaveManagementComponent implements OnInit {
   halfLeaveShiftToggle() {
     this.halfDayLeaveShiftToggle =
       this.halfDayLeaveShiftToggle == true ? false : true;
+  }
+
+  selectedFile: File | null = null;
+  imagePreviewUrl: string | ArrayBuffer | null = null;
+  pdfPreviewUrl: SafeResourceUrl | null = null;
+  fileToUpload: string = '';
+  isSelecetdFileUploadedToFirebase: boolean = false;
+  isFileUploaded = false;
+
+  // Function to check if the selected file is an image
+  isImageNew(file: File): boolean {
+    return file.type.startsWith('image');
+  }
+
+  // Function to check if the selected file is a PDF
+  isPdf(file: File): boolean {
+    return file.type === 'application/pdf';
+  }
+
+  // Function to set the preview URL for images
+  setImgPreviewUrl(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imagePreviewUrl = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Function to set the preview URL for PDFs
+  setPdfPreviewUrl(file: File): void {
+    const objectUrl = URL.createObjectURL(file);
+    this.pdfPreviewUrl =
+      this.domSanitizer.bypassSecurityTrustResourceUrl(objectUrl);
+  }
+
+  // Function to handle file selection
+  onFileSelected(event: Event): void {
+    debugger;
+    const element = event.currentTarget as HTMLInputElement;
+    const fileList: FileList | null = element.files;
+
+    if (fileList && fileList.length > 0) {
+      this.isFileUploaded = true;
+      this.selectedFile = fileList[0];
+
+      if (this.isImageNew(this.selectedFile)) {
+        this.setImgPreviewUrl(this.selectedFile);
+      } else if (this.isPdf(this.selectedFile)) {
+        this.setPdfPreviewUrl(this.selectedFile);
+      }
+
+      this.uploadFile(this.selectedFile); // Upload file to Firebase
+    } else {
+      this.isFileUploaded = false;
+    }
+  }
+
+  // Function to upload file to Firebase
+  uploadFile(file: File): void {
+    const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+
+    task
+      .snapshotChanges()
+      .toPromise()
+      .then(() => {
+        console.log('Upload completed');
+        fileRef
+          .getDownloadURL()
+          .toPromise()
+          .then((url) => {
+            console.log('File URL:', url);
+            this.fileToUpload = url;
+            // console.log('file url : ' + this.fileToUpload);
+            this.isFileUploaded = false;
+          })
+          .catch((error) => {
+            this.isFileUploaded = false;
+            console.error('Failed to get download URL', error);
+          });
+      })
+      .catch((error) => {
+        this.isFileUploaded = false;
+        console.error('Error in upload snapshotChanges:', error);
+      });
+  }
+
+  downloadSingleImage(imageUrl: any) {
+    if (!imageUrl) {
+      // console.error('Image URL is undefined or null');
+      return;
+    }
+
+    var blob = null;
+    var splittedUrl = imageUrl.split(
+      '/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/'
+    );
+
+    if (splittedUrl.length < 2) {
+      // console.error('Invalid image URL format');
+      return;
+    }
+
+    splittedUrl = splittedUrl[1].split('?alt');
+    splittedUrl = splittedUrl[0].replace('https://', '');
+    splittedUrl = decodeURIComponent(splittedUrl);
+
+    this.firebaseStorage.storage
+      .ref(splittedUrl)
+      .getDownloadURL()
+      .then((url: any) => {
+        // This can be downloaded directly:
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = (event) => {
+          blob = xhr.response;
+          saveAs(blob, 'Docs');
+        };
+        xhr.open('GET', url);
+        xhr.send();
+      })
+      .catch((error: any) => {
+        // Handle any errors
+      });
   }
 }

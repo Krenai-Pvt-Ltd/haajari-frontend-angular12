@@ -628,8 +628,14 @@ export class DataService {
   //   return this.httpClient.get(this.baseUrl + "/get-token", { params });
   // }
 
-  saveLeaveRequest(userUuid: string, request: any): Observable<any> {
-    const params = new HttpParams().set('uuid', userUuid);
+  saveLeaveRequest(
+    userUuid: string,
+    request: any,
+    fileToUpload: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('uuid', userUuid)
+      .set('fileToUpload', fileToUpload);
     return this.httpClient.post(
       this.baseUrl + '/user-leave/save-users-leave',
       request,
@@ -637,19 +643,26 @@ export class DataService {
     );
   }
 
-  saveLeaveRequestForLeaveManagement(request: any): Observable<any> {
-    // const params = new HttpParams().set("uuid", userUuid);
+  saveLeaveRequestForLeaveManagement(
+    request: any,
+    fileToUpload: string
+  ): Observable<any> {
+    const params = new HttpParams().set('fileToUpload', fileToUpload);
     return this.httpClient.post(
       this.baseUrl + '/user-leave/save-users-leave-leave-management',
-      request
+      request,
+      { params }
     );
   }
 
   saveLeaveRequestFromWhatsapp(
     userUuid: string,
-    request: any
+    request: any,
+    fileToUpload: string
   ): Observable<any> {
-    const params = new HttpParams().set('userUuid', userUuid);
+    const params = new HttpParams()
+      .set('userUuid', userUuid)
+      .set('fileToUpload', fileToUpload);
     return this.httpClient.post(
       this.baseUrl + '/user-leave/whatsapp/save-users-leave',
       request,
@@ -1336,11 +1349,11 @@ export class DataService {
 
   deleteAttendanceRuleDefinition(
     attendanceRuleDefinitionId: number,
-    attendanceRuleTypeId : number
+    attendanceRuleTypeId: number
   ): Observable<any> {
     const params = new HttpParams()
-    .set('attendance_rule_definition_id',attendanceRuleDefinitionId)
-    .set('attendance_rule_type_id', attendanceRuleTypeId);
+      .set('attendance_rule_definition_id', attendanceRuleDefinitionId)
+      .set('attendance_rule_type_id', attendanceRuleTypeId);
 
     return this.httpClient.delete<any>(
       `${this.baseUrl}/attendance/rule/definition/delete`,
