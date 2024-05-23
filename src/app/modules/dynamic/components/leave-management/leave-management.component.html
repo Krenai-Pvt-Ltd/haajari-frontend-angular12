@@ -319,15 +319,6 @@
                                 formatTime(fullLogList.leaveDate) || "N/A"
                               }}</span>
                             </div>
-                            <span
-                              style="cursor: pointer"
-                              *ngIf="fullLogList.docFileLink != null"
-                              (click)="
-                                downloadSingleImage(fullLogList.docFileLink)
-                              "
-                            >
-                              Doc<i class="bi bi-file-arrow-down"></i
-                            ></span>
                           </div>
                         </div>
                       </div>
@@ -386,6 +377,14 @@
                       </div>
                       <p class="text-muted mb-0">{{ fullLogList.notes }}</p>
                     </div>
+
+                    <a
+                      class="text-primary"
+                      *ngIf="fullLogList.docFileLink != null"
+                      (click)="downloadSingleImage(fullLogList.docFileLink)"
+                    >
+                      Declaration <i class="bi bi-arrow-down"></i>
+                    </a>
                     <hr class="hr-dashed" />
                   </div>
                 </div>
@@ -426,7 +425,7 @@
         <div class="col-md-6">
           <div class="my-leave-log">
             <div
-              class="my-leave-log-hedding d-flex align-items-center justify-content-between leave-request-padding"
+              class="my-leave-log-hedding d-flex align-items-center justify-content-between leave-request-padding mb-1"
             >
               <h4>Leave Requests</h4>
               <!-- <a href="" class="view-loges-btn">View All <i class="bi bi-chevron-right"></i></a> -->
@@ -439,7 +438,6 @@
                 >Apply for leaves <i class="bi bi-chevron-right"></i>
               </a>
             </div>
-            <hr style="margin-top: 5px" />
 
             <ul class="nav nav-tabs bg-light border-top" role="tablist">
               <li class="nav-item" (click)="activeTabs('home')">
@@ -1005,7 +1003,7 @@
                     [src]="
                       specificLeaveRequest.image || 'assets/images/user.png'
                     "
-                    style="width: 50px"
+                    style="width: 50px; height: 50px; object-fit: cover"
                   />
                 </div>
                 <div>
@@ -1034,7 +1032,7 @@
                     specificLeaveRequest.leaveDate
                       | date : "dd MMM yyyy hh:mm:ss a"
                   }}
-                  <span
+                  <!-- <span
                     style="cursor: pointer"
                     *ngIf="specificLeaveRequest.docFileLink != null"
                     (click)="
@@ -1042,7 +1040,7 @@
                     "
                   >
                     Doc<i class="bi bi-file-arrow-down"></i
-                  ></span>
+                  ></span> -->
                 </p>
                 <p>Applied To : {{ specificLeaveRequest.managerName }}</p>
               </div>
@@ -1077,6 +1075,18 @@
               </div>
               <p class="mt-4 mb-4">{{ specificLeaveRequest.notes }}</p>
               <!-- <div class="d-flex align-items-center justify-content-end" style="gap:10px"><button class="btn approve-btn" type="button">Approve</button><button class="btn reject-btn" type="button">Reject</button></div> -->
+              <div class="mb-3" style="text-align: left">
+                <a
+                  class="text-primary"
+                  *ngIf="specificLeaveRequest.docFileLink != null"
+                  (click)="
+                    downloadSingleImage(specificLeaveRequest.docFileLink)
+                  "
+                >
+                  Declaration <i class="bi bi-arrow-down"></i>
+                </a>
+              </div>
+
               <div
                 class="d-flex align-items-center justify-content-end"
                 style="gap: 10px"
