@@ -17,6 +17,7 @@ import { LeaveSettingCategoryResponse } from 'src/app/models/leave-categories-re
 import { LeaveSettingResponse } from 'src/app/models/leave-setting-response';
 import { Staff } from 'src/app/models/staff';
 import { StaffSelectionUserList } from 'src/app/models/staff-selection-userlist';
+import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 
@@ -51,6 +52,7 @@ export class LeaveSettingComponent implements OnInit {
 
   ngOnInit(): void {
     window.scroll(0, 0);
+    this.getTeamNames();
     this.getUserByFiltersMethodCall(0);
     this.getFullLeaveSettingInformation();
     // this.findUsersOfLeaveSetting(30);
@@ -294,7 +296,8 @@ export class LeaveSettingComponent implements OnInit {
           'id',
           this.searchText,
           '',
-          leaveSettingId
+          leaveSettingId,
+          this.selectedTeamId
         )
         .subscribe(
           (response) => {
@@ -429,7 +432,8 @@ export class LeaveSettingComponent implements OnInit {
         'id',
         this.searchText,
         '',
-        this.idOfLeaveSetting
+        this.idOfLeaveSetting,
+        this.selectedTeamId
       )
       .toPromise();
     // const response = await this.dataService.getAllUsers('asc', 'id', this.searchText, '').toPromise();
@@ -1319,4 +1323,40 @@ export class LeaveSettingComponent implements OnInit {
   // yearlyAllAtOnce() {
   //   if()
   // }
+  teamNameList: UserTeamDetailsReflection[] = [];
+
+  teamId: number = 0;
+  getTeamNames() {
+    debugger
+    this.dataService.getAllTeamNames().subscribe({
+      next: (response: any) => {
+        this.teamNameList = response.object;
+      },
+      error: (error) => {
+        console.error('Failed to fetch team names:', error);
+      },
+    });
+  }
+
+  page = 0;
+  selectedTeamName: string = 'All';
+  selectedTeamId: number = 0;
+  selectTeam(teamId: number) {
+    debugger
+    if (teamId === 0) {
+      this.selectedTeamName = 'All';
+    } else {
+      const selectedTeam = this.teamNameList.find(team => team.teamId === teamId);
+      this.selectedTeamName = selectedTeam ? selectedTeam.teamName : 'All';
+    }
+    this.page = 0;
+    this.itemPerPage = 10;
+    // this.fullLeaveLogs = [];
+    // this.selectedTeamName = teamName;
+    this.selectedTeamId = teamId;
+    // this.getUserByFiltersMethodCall();
+    this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
+  
+  }
+
 }
