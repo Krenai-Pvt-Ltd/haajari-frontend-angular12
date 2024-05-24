@@ -29,6 +29,7 @@ export interface PendingLeavesResponse {
 export interface PendingLeaveResponse {
   id: number;
   name: string;
+  uuid: string;
   image: string;
   email: string;
   leaveDate: Date;
