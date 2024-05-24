@@ -367,6 +367,7 @@ button.btn.close-btn {
   top: 0px;
   color: #6666f3;
   cursor: pointer;
+  height: 50px;
 }
 
 .download-button-loader {
@@ -488,17 +489,17 @@ span.total-holiday {
   min-width: 33px;
 }
 
-.new-dropdown {
-  display: block;
-  width: 100%;
-  padding: 0.4rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 400;
-  height: 40px !important;
-  text-align: left;
-  background-color: #fff !important;
-  border: 1px solid #f1f1f1 !important;
-  border-radius: 2px;
-  color: #2d2e3e;
-  position: relative;
+.new-deopdown {
+  border: none;
+  border-right: 1px solid #f1f1f1;
+  border-radius: 0px;
+  height: 50px !important;
+}
+
+.deshboard-search-box {
+  padding: 10px 40px;
+  border: none;
+  border-right: 1px solid #f1f1f1;
+  border-radius: 0px;
+  height: 50px !important;
 }

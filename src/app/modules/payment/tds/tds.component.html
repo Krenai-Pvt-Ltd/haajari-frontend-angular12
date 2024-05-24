@@ -12,6 +12,17 @@
             style="border: 1px solid #f1f1f1"
           >
             <div style="width: 20%; position: relative">
+              <div class="dropdown bonus-payroll">
+                <nz-date-picker
+                  nzMode="year"
+                  [nzSize]="size"
+                  [(ngModel)]="selectedDate"
+                  (ngModelChange)="onYearChange($event)"
+                  [nzDisabledDate]="disableYears"
+                ></nz-date-picker>
+              </div>
+            </div>
+            <!-- <div style="width: 20%; position: relative">
               <div class="dropdown" style="width: 100%">
                 <button
                   type="button"
@@ -37,47 +48,24 @@
                   <li><a class="dropdown-item">Rejected</a></li>
                 </ul>
               </div>
-            </div>
-            <div style="width: 20%; position: relative">
-              <div class="dropdown" style="width: 100%">
-                <button
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  class="btn btn-secondary dropdown-toggle new-deopdown"
-                >
-                  Select Search
-                  <i
-                    class="bi bi-chevron-down"
-                    style="color: #444; font-size: 15px"
-                  ></i>
-                </button>
-                <ul
-                  aria-labelledby="dropdownMenuButton1"
-                  class="dropdown-menu"
-                  style="width: 100%"
-                >
-                  <li><a class="dropdown-item">Reset All</a></li>
-                  <li><a class="dropdown-item">Approved</a></li>
-                  <li><a class="dropdown-item">Pending</a></li>
-                  <li><a class="dropdown-item">Rejected</a></li>
-                </ul>
-              </div>
-            </div>
+            </div> -->
             <div class="" style="width: 60%">
               <form
                 role="search"
                 class="searching ng-untouched ng-pristine ng-valid"
               >
-                <div class="form-group" style="position: relative">
+                <div class="form-group" style="position: relative; width: 100%">
                   <input
                     type="text"
                     id="searchText"
                     placeholder="Search"
                     class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                    style="padding: 10px 30px"
+                    style="padding: 10px 40px"
                   />
+                  <i
+                    class="bi bi-search search-icon"
+                    style="margin: auto; margin-left: 15px"
+                  ></i>
                 </div>
               </form>
             </div>
