@@ -196,7 +196,7 @@
               <div
                 class="dropdown"
                 style="width: 35%"
-                *ngIf="ROLE != 'USER' && fullLeaveLogs.length > 0"
+                *ngIf="ROLE != 'USER' || fullLeaveLogs.length > 0"
               >
                 <button
                   type="button"
