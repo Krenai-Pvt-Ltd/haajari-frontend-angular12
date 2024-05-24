@@ -620,7 +620,7 @@ export class LeaveSettingComponent implements OnInit {
           // }
         });
 
-        this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
+        this.getUserByFiltersMethodCall(leaveSettingId);
         this.findUsersOfLeaveSetting(leaveSettingId);
       },
       (error) => {
@@ -861,7 +861,8 @@ export class LeaveSettingComponent implements OnInit {
           leaveSettingId,
           this.searchTextUser,
           this.pageNumberUser,
-          this.itemPerPageUser
+          this.itemPerPageUser,
+          this.selectedTeamIdOfAddedUsers
         )
         .subscribe((response) => {
           this.staffsUser = response;
@@ -1011,7 +1012,13 @@ export class LeaveSettingComponent implements OnInit {
 
   async getAllUsersUuidsUser(): Promise<string[]> {
     const response = await this.dataService
-      .findUsersOfLeaveSetting(this.idOfLeaveSetting, '', 1, this.totalUser)
+      .findUsersOfLeaveSetting(
+        this.idOfLeaveSetting,
+        '',
+        1,
+        this.totalUser,
+        this.selectedTeamIdOfAddedUsers
+      )
       .toPromise();
     return response.users.map((user: { uuid: any }) => user.uuid);
     // return this.selectedStaffsUuidsUser;
@@ -1327,7 +1334,7 @@ export class LeaveSettingComponent implements OnInit {
 
   teamId: number = 0;
   getTeamNames() {
-    debugger
+    debugger;
     this.dataService.getAllTeamNames().subscribe({
       next: (response: any) => {
         this.teamNameList = response.object;
@@ -1342,21 +1349,45 @@ export class LeaveSettingComponent implements OnInit {
   selectedTeamName: string = 'All';
   selectedTeamId: number = 0;
   selectTeam(teamId: number) {
-    debugger
+    debugger;
     if (teamId === 0) {
       this.selectedTeamName = 'All';
     } else {
-      const selectedTeam = this.teamNameList.find(team => team.teamId === teamId);
+      const selectedTeam = this.teamNameList.find(
+        (team) => team.teamId === teamId
+      );
       this.selectedTeamName = selectedTeam ? selectedTeam.teamName : 'All';
     }
-    this.page = 0;
-    this.itemPerPage = 10;
+    this.pageNumber = 1;
+    this.itemPerPage = 8;
     // this.fullLeaveLogs = [];
     // this.selectedTeamName = teamName;
     this.selectedTeamId = teamId;
     // this.getUserByFiltersMethodCall();
     this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
-  
   }
 
+  // pageOfAddedUsers = 0;
+  selectedTeamNameOfAddedUsers: string = 'All';
+  selectedTeamIdOfAddedUsers: number = 0;
+  selectTeamSearchForAddedUsers(teamId: number) {
+    debugger;
+    if (teamId === 0) {
+      this.selectedTeamNameOfAddedUsers = 'All';
+    } else {
+      const selectedTeam = this.teamNameList.find(
+        (team) => team.teamId === teamId
+      );
+      this.selectedTeamNameOfAddedUsers = selectedTeam
+        ? selectedTeam.teamName
+        : 'All';
+    }
+    this.pageNumberUser = 1;
+    this.itemPerPageUser = 8;
+    // this.fullLeaveLogs = [];
+    // this.selectedTeamName = teamName;
+    this.selectedTeamIdOfAddedUsers = teamId;
+    // this.getUserByFiltersMethodCall();
+    this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
+  }
 }

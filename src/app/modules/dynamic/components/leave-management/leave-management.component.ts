@@ -881,4 +881,12 @@ export class LeaveManagementComponent implements OnInit {
         // Handle any errors
       });
   }
+
+  routeToUserProfile(uuid: string) {
+    this.helperService.routeToUserProfile(uuid);
+  }
+  routeToUserProfileAfterClosePending(uuid: string) {
+    this.closeModal.nativeElement.click();
+    this.helperService.routeToUserProfile(uuid);
+  }
 }

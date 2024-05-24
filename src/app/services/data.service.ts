@@ -1656,13 +1656,15 @@ export class DataService {
     leaveSettingId: number,
     searchText: string,
     pageNumber: number,
-    itemPerPage: number
+    itemPerPage: number,
+    selectedTeamIdOfAddedUsers: number
   ): Observable<any> {
     const params = new HttpParams()
       .set('search', searchText)
       .set('leaveSettingId', leaveSettingId)
       .set('pageNumber', pageNumber)
-      .set('itemPerPage', itemPerPage);
+      .set('itemPerPage', itemPerPage)
+      .set('teamId', selectedTeamIdOfAddedUsers);
     return this.httpClient.get(
       `${this.baseUrl}/user-leave-rule/leaveSettingId/users-leave-setting`,
       { params }
@@ -1749,7 +1751,6 @@ export class DataService {
       employeeAttendanceLocation
     );
   }
-  
 
   getEmployeeStatus(userUuid: string): Observable<OnboardingSidebarResponse> {
     const url = `${this.baseUrl}/sidebar-component/get-onboarding-status?userUuid=${userUuid}`;
