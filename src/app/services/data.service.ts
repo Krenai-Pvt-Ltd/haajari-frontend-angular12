@@ -311,7 +311,6 @@ export class DataService {
     search: string,
     searchBy: string,
     teamId: number
-    
   ): Observable<any> {
     const params = new HttpParams()
       .set('item_per_page', itemPerPage.toString())
@@ -321,7 +320,6 @@ export class DataService {
       .set('search', search)
       .set('search_by', searchBy)
       .set('team_id', teamId);
-      ;
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {
       params,
     });
@@ -1658,13 +1656,15 @@ export class DataService {
     leaveSettingId: number,
     searchText: string,
     pageNumber: number,
-    itemPerPage: number
+    itemPerPage: number,
+    selectedTeamIdOfAddedUsers: number
   ): Observable<any> {
     const params = new HttpParams()
       .set('search', searchText)
       .set('leaveSettingId', leaveSettingId)
       .set('pageNumber', pageNumber)
-      .set('itemPerPage', itemPerPage);
+      .set('itemPerPage', itemPerPage)
+      .set('teamId', selectedTeamIdOfAddedUsers);
     return this.httpClient.get(
       `${this.baseUrl}/user-leave-rule/leaveSettingId/users-leave-setting`,
       { params }
@@ -1751,7 +1751,6 @@ export class DataService {
       employeeAttendanceLocation
     );
   }
-  
 
   getEmployeeStatus(userUuid: string): Observable<OnboardingSidebarResponse> {
     const url = `${this.baseUrl}/sidebar-component/get-onboarding-status?userUuid=${userUuid}`;
@@ -2391,6 +2390,13 @@ export class DataService {
     return this.httpClient.get<any>(
       `${this.baseUrl}/central-leave-management/get-pending-leaves-role-wise`,
       { params }
+    );
+  }
+
+  getTotalCountsOfPendingLeaves(): Observable<any> {
+    // const params = new HttpParams().set('page', page).set('size', size);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/central-leave-management/get-count-of-pending-leaves-role-wise`
     );
   }
 

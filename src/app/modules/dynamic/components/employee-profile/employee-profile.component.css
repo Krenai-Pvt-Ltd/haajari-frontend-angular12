@@ -1423,8 +1423,8 @@ tbody tr {
 }
 
 .met-profile-main-pic img {
-  max-width: 128px;
-  max-height: 128px;
+  width: 128px;
+  height: 128px;
   margin-right: 24px;
   object-fit: cover;
 }
