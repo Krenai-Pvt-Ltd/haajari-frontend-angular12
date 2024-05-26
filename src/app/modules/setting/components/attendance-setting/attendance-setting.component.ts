@@ -1347,9 +1347,9 @@ export class AttendanceSettingComponent implements OnInit {
     debugger;
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
 
-    // this.isShimmer = true;
-    // this.dataNotFoundPlaceholder = false;
-    // this.networkConnectionErrorPlaceHolder = false;
+    this.isShimmer = true;
+    this.dataNotFoundPlaceholder = false;
+    this.networkConnectionErrorPlaceHolder = false;
 
     this.dataService.getAllShiftTimings().subscribe(
       (response) => {
@@ -1357,7 +1357,8 @@ export class AttendanceSettingComponent implements OnInit {
         this.organizationShiftTimingWithShiftTypeResponseList = response;
         if (this.organizationShiftTimingWithShiftTypeResponseList.length == 1) {
           this.activeIndex = 0;
-        }
+        } 
+        this.isShimmer = false;
         console.log(response[0].organizationShiftTimingResponseList)
         // Iterate through each item in the response array
         this.organizationShiftTimingWithShiftTypeResponseList.forEach(item => {
@@ -1371,13 +1372,15 @@ export class AttendanceSettingComponent implements OnInit {
               shift.endLunchDate = this.convertTime(shift.endLunch);
               console.log(shift.inTime, shift.outTime)
             });
+          } else {
+            this.dataNotFoundPlaceholder =  true;
           }
         });
         
          
         // console.log(this.organizationShiftTimingWithShiftTypeResponseList);
-        // this.isShimmer = false;
-        // this.dataNotFoundPlaceholder = true;
+        this.isShimmer = false;
+       
         if (
           response === undefined ||
           response === null ||
