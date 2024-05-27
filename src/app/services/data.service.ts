@@ -2788,4 +2788,9 @@ export class DataService {
     const url = `${this.baseUrl}/users/fetch-team-list-user`;
     return this.httpClient.get(url, {});
   }
+
+  getTestingGet(){
+    return this.httpClient.get(`${this.baseUrl}/attendance/testing-get`);
+  }
+  
 }

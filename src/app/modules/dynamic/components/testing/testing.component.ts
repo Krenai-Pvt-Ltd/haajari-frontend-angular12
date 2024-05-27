@@ -12,6 +12,7 @@ export class TestingComponent implements OnInit {
 
   ngOnInit(): void {
     window.scroll(0, 0);
+    this.getTestingGetMethodCall();
   }
   time = new Date();
 
@@ -25,5 +26,14 @@ export class TestingComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  temp : string = '';
+  getTestingGetMethodCall(){
+    this.dataService.getTestingGet().subscribe((response) => {
+
+      //@ts-ignore
+      this.temp = response.date;
+    })
   }
 }

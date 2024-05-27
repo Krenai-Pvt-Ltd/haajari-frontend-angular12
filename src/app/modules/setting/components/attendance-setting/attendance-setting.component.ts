@@ -2293,7 +2293,6 @@ export class AttendanceSettingComponent implements OnInit {
   // organizationShiftTimingValidationErrors: any = {};
 
   onTimeChange(field: keyof OrganizationShiftTimingRequest, value: Date): void {
-    debugger;
     let formattedTime = '';
     console.log(value);
     if (value) {
