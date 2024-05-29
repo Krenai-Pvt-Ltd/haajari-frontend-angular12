@@ -1477,9 +1477,9 @@ export class AttendanceSettingComponent implements OnInit {
     debugger;
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
 
-    // this.isShimmer = true;
-    // this.dataNotFoundPlaceholder = false;
-    // this.networkConnectionErrorPlaceHolder = false;
+    this.isShimmer = true;
+    this.dataNotFoundPlaceholder = false;
+    this.networkConnectionErrorPlaceHolder = false;
 
     this.dataService.getAllShiftTimings().subscribe(
       (response) => {
