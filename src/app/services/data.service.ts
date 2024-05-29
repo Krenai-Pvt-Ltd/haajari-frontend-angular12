@@ -56,6 +56,7 @@ import { NewJoineeAndUserExitRequest } from '../models/new-joinee-and-user-exit-
 import { TeamLocation } from '../models/team-location';
 import { RegisterTeamRequest } from '../modules/dynamic/components/team/team.component';
 import { OnboardingFormPreviewResponse } from '../models/onboarding-form-preview-response';
+import { Temp } from '../models/temp';
 
 @Injectable({
   providedIn: 'root',
@@ -2789,8 +2790,13 @@ export class DataService {
     return this.httpClient.get(url, {});
   }
 
-  getTestingGet(){
+  getTesting(){
     return this.httpClient.get(`${this.baseUrl}/attendance/testing-get`);
+  }
+
+  postTesting(temp : Temp){
+
+    return this.httpClient.post<any>(`${this.baseUrl}/attendance/testing-post`, temp);
   }
   
 }

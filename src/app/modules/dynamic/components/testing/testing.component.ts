@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Temp } from 'src/app/models/temp';
 import { Testing } from 'src/app/models/testing';
 import { DataService } from 'src/app/services/data.service';
 
@@ -17,6 +18,7 @@ export class TestingComponent implements OnInit {
   time = new Date();
 
   testing: Testing = new Testing();
+
   refresh() {
     this.dataService.testing(this.testing).subscribe(
       (data) => {
@@ -28,12 +30,25 @@ export class TestingComponent implements OnInit {
     );
   }
 
-  temp : string = '';
+
   getTestingGetMethodCall(){
-    this.dataService.getTestingGet().subscribe((response) => {
+    this.dataService.getTesting().subscribe((response) => {
 
       //@ts-ignore
-      this.temp = response.date;
+      this.tempObject = response;
     })
+  }
+
+
+  tempObject : Temp = new Temp();
+  postTestingMethodCall(){
+    this.dataService.postTesting(this.tempObject).subscribe((response) => {
+      console.log("Post testing method is called successfully.");
+    })
+  }
+
+  changeDate(dateTime : Date){
+    console.log(dateTime);
+    this.tempObject.dateTime = dateTime;
   }
 }
