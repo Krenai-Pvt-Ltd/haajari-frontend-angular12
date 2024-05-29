@@ -620,7 +620,8 @@ export class LeaveRuleSetupComponent implements OnInit {
         leaveSettingId,
         this.searchTextUser,
         this.pageNumberUser,
-        this.itemPerPageUser
+        this.itemPerPageUser,
+        0
       )
       .subscribe((response) => {
         this.staffsUser = response;
@@ -761,7 +762,7 @@ export class LeaveRuleSetupComponent implements OnInit {
 
   async getAllUsersUuidsUser(): Promise<string[]> {
     const response = await this.dataService
-      .findUsersOfLeaveSetting(this.idOfLeaveSetting, '', 1, this.totalUser)
+      .findUsersOfLeaveSetting(this.idOfLeaveSetting, '', 1, this.totalUser, 0)
       .toPromise();
     return response.users.map((user: { uuid: any }) => user.uuid);
   }

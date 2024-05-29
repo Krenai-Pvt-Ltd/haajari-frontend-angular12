@@ -11,7 +11,11 @@
                 <div class="col">
                   <p class="text-dark mb-1 fw-semibold">Present</p>
                   <h4 class="font-22 fw-bold">
-                    <span>{{ attendanceDetailsCountResponse.presentUsers }}/{{ attendanceDetailsCountResponse.totalUsers }}</span>                    
+                    <span
+                      >{{ attendanceDetailsCountResponse.presentUsers }}/{{
+                        attendanceDetailsCountResponse.totalUsers
+                      }}</span
+                    >
                   </h4>
                   <!-- <span class="text-muted">(Total Employees)</span> -->
                 </div>
@@ -64,7 +68,8 @@
                       </p>
                     </div>
                     <div
-                      class="Approved pending-css rejected-css text-center border-right">
+                      class="Approved pending-css rejected-css text-center border-right"
+                    >
                       <span class="total-holiday pb-2">Leave</span>
                       <p class="mb-0">
                         {{ attendanceDetailsCountResponse.usersOnLeave }}
@@ -457,7 +462,7 @@
           <div class="col-md-12">
             <div class="col mb-3">
               <h4 class="card-title" style="font-size: 18px">
-                Best Performance this month
+                Best Performers this month
               </h4>
             </div>
           </div>
@@ -782,11 +787,145 @@
               class="card-title"
               style="font-size: 18px; margin: 30px 0px 15px 0px"
             >
-              Attendance Muster Roll Reports
+              Attendance Muster Roll Report
             </h4>
           </div>
 
-          <div class="row mb-3">
+          <div class="onboard-add row align-items-center">
+            <div class="col-md-12">
+              <div class="d-flex" style="border: 1px solid #f1f1f1">
+                <!-- <div class="" style="width: 15%">
+                  <div class="dropdown">
+                    <button
+                      class="btn btn-secondary dropdown-toggle new-deopdown"
+                      type="button"
+                      id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      [disabled]="attendanceReportResponseList.length === 0"
+                    >
+                      Download <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton1"
+                      style="width: 100%"
+                    >
+                      <li>
+                        <a
+                          id="attendance-data-download-in-excel-format"
+                          class="dropdown-item"
+                          (click)="
+                            downloadAttendanceDataInExcelFormatMethodCall()
+                          "
+                          >Excel</a
+                        >
+                      </li>
+                      <li><a class="dropdown-item">CSV</a></li>
+                    </ul>
+                  </div>
+                </div> -->
+                <div
+                  class="onboarding-date d-flex align-items-center"
+                  style="gap: 10px; width: 70%"
+                >
+                  <form
+                    novalidate=""
+                    role="search"
+                    (submit)="searchUsers($event)"
+                    class="searching ng-untouched ng-pristine ng-valid"
+                    style="width: 100%; position: relative"
+                  >
+                    <div
+                      class="form-group"
+                      style="width: 100%; position: relative"
+                    >
+                      <input
+                        type="text"
+                        id="searchText"
+                        placeholder="Search by name and email"
+                        class="form-control me-2 deshboard-search-box"
+                        (keyup)="searchUsers($event)"
+                        [(ngModel)]="searchText"
+                        [ngModelOptions]="{ standalone: true }"
+                      />
+                      <button
+                        *ngIf="searchText.length !== 0"
+                        type="button"
+                        class="btn close-btn"
+                        (click)="clearSearchText()"
+                      >
+                        <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                      </button>
+                      <i
+                        class="bi bi-search search-icon"
+                        style="margin: auto; margin-left: 10px"
+                      ></i>
+                    </div>
+                  </form>
+                </div>
+                <div *ngIf="!errorToggleTop" style="width: 12%">
+                  <div class="dropdown">
+                    <button
+                      class="btn btn-secondary new-deopdown"
+                      style="text-align: center"
+                      type="button"
+                      (click)="toggleAllCollapse(isAllCollapsed)"
+                      [disabled]="attendanceReportResponseList.length === 0"
+                    >
+                      {{ isAllCollapsed ? "Expand All" : "Collapse All" }}
+                    </button>
+                  </div>
+                </div>
+                <div class="" style="width: 15%">
+                  <div class="dropdown">
+                    <button
+                      class="btn btn-secondary dropdown-toggle new-deopdown"
+                      type="button"
+                      id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      [disabled]="attendanceReportResponseList.length === 0"
+                    >
+                      Download <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton1"
+                      style="width: 100%"
+                    >
+                      <li>
+                        <a
+                          id="attendance-data-download-in-excel-format"
+                          class="dropdown-item"
+                          (click)="
+                            downloadAttendanceDataInExcelFormatMethodCall()
+                          "
+                          >Excel</a
+                        >
+                      </li>
+                      <li><a class="dropdown-item">CSV</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="" style="width: 15%">
+                  <div class="dropdown deshboard-date-filter">
+                    <nz-date-picker
+                      nzMode="month"
+                      [nzSize]="size"
+                      [(ngModel)]="selectedDate"
+                      (ngModelChange)="onMonthChange($event)"
+                      [nzDisabledDate]="disableMonths"
+                    ></nz-date-picker>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- </div> -->
+          </div>
+
+          <!-- <div class="row mb-3">
             <div class="col-md-6 d-flex align-items-center">
               <div class="col-md-12 mt-2">
                 <form
@@ -922,9 +1061,6 @@
                         "
                       >
                         Downloading
-                        <!-- <div class="spinner-border" role="status">
-                                                        <span class="sr-only">Loading...</span>
-                                                      </div> -->
 
                         <div class="download-button-loader">
                           <span></span>
@@ -936,25 +1072,7 @@
                   </ng-template>
                 </div>
 
-                <!-- <div class="dropdown col-md-3" >
-                                        <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                         {{month ? month : 'Select Month'}} <i class="bi bi-chevron-down"></i>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;">
-                                          <li><a class="dropdown-item" (click)="selectMonth('January')">Jan 2024</a></li>
-                                          <li><a class="dropdown-item" (click)="selectMonth('February')">Feb 2024</a></li>
-                                          <li><a class="dropdown-item" (click)="selectMonth('March')">Mar 2024</a></li>
-                                          <li><a class="dropdown-item" (click)="selectMonth('April')">Apr 2024</a></li>
-                                          <li><a class="dropdown-item" (click)="selectMonth('May')">May 2024</a></li>
-                                          <li><a class="dropdown-item" (click)="selectMonth('June')">Jun 2024</a></li>
-                                          <li><a class="dropdown-item" (click)="selectMonth('July')">Jul 2024</a></li>
-                                          <li><a class="dropdown-item" (click)="selectMonth('August')">Aug 2024</a></li>
-                                          <li><a class="dropdown-item" (click)="selectMonth('September')">Sep 2024</a></li>
-                                          <li><a class="dropdown-item" (click)="selectMonth('October')">Oct 2024</a></li>
-                                          <li><a class="dropdown-item" (click)="selectMonth('November')">Nov 2024</a></li>
-                                          <li><a class="dropdown-item" (click)="selectMonth('December')">Dec 2024</a></li>
-                                        </ul>
-                                      </div> -->
+            
 
                 <div class="dropdown col-md-3">
                   <nz-date-picker
@@ -968,20 +1086,8 @@
               </div>
             </div>
 
-            <!-- <div class="col-md-12 mt-2">
-
-                                <form novalidate="" role="search" (submit)="searchUsers($event)" class="searching ng-untouched ng-pristine ng-valid">
-                                    <div class="form-group" style="width: 100%; position: relative">
-                                        <input type="text" id="searchText" placeholder="Search by name and role" class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchUsers($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px" />
-                                        <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn" (click)="clearSearchText()">
-                                            <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                                        </button>
-                                        <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
-                                    </div>
-                                </form>
-
-                            </div> -->
-          </div>
+       
+          </div> -->
 
           <div class="col-md-12">
             <div class="mt-3 dashnodata">
