@@ -66,7 +66,7 @@ export class LeaveRequestFormComponent implements OnInit {
           // this.selectedFile = null;
           this.fileInput.nativeElement.value = '';
           window.location.href =
-            'https://api.whatsapp.com/send/?phone=918799754156&type=phone_number&app_absent=0';
+            'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
         },
         error: (error) => {
           this.submitLeaveLoader = false;
@@ -206,6 +206,6 @@ export class LeaveRequestFormComponent implements OnInit {
 
   goToWhatsappOnCancel() {
     window.location.href =
-      'https://api.whatsapp.com/send/?phone=918799754156&type=phone_number&app_absent=0';
+      'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
   }
 }
