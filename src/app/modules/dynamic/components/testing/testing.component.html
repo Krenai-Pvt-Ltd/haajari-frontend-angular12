@@ -4,4 +4,8 @@
 
 <input type="date" [(ngModel)]="testing.date">
 <input type="time" [(ngModel)]="testing.time">
+<p>{{tempObject.dateTime | date: 'dd/MM/yyyy hh:mm:ss a'}}</p>
+
+<nz-time-picker [(ngModel)]="tempObject.dateTime" [nzUse12Hours]="true" (ngModelChange)="changeDate($event)" nzFormat="h:mm a"></nz-time-picker>
+<button (click)="postTestingMethodCall()">Submit</button>
 <!-- <input type="time" [(ngModel)]="testing.dateTime"> -->

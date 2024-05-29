@@ -4,6 +4,3 @@ interface ApiResponse {
     object?: any;  
   }
 
-
-
-
