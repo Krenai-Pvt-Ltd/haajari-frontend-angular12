@@ -2037,14 +2037,14 @@ export class DataService {
     );
   }
 
-  generateNewAttendanceLink(userUuid: string): Observable<any> {
-    let params = new HttpParams().set('userUuid', userUuid);
-    return this.httpClient.post<any>(
-      `${this.baseUrl}/attendance/regenerate-attendance-link`,
-      {},
-      { params }
-    );
-  }
+  // generateNewAttendanceLink(userUuid: string): Observable<any> {
+  //   let params = new HttpParams().set('userUuid', userUuid);
+  //   return this.httpClient.post<any>(
+  //     `${this.baseUrl}/attendance/regenerate-attendance-link`,
+  //     {},
+  //     { params }
+  //   );
+  // }
 
   generateNewAttendanceLinkGupShup(userUuid: string): Observable<any> {
     let params = new HttpParams().set('userUuid', userUuid);
