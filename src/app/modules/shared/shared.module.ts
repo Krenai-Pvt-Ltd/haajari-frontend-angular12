@@ -7,6 +7,7 @@ import { HelperComponent } from './helper/helper.component';
 import { NotifactionTostComponent } from 'src/app/modules/sharable/notifaction-toast/notifaction-toast.component';
 import { OrganizationPersonalInformationComponent } from '../organization-onboarding/components/organization-personal-information/organization-personal-information.component';
 import { LogoutConfirmationModalComponent } from './logout-confirmation-modal/logout-confirmation-modal.component';
+import { SlackOnboardingSuccessPageComponent } from './slack-onboarding-success-page/slack-onboarding-success-page.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { LogoutConfirmationModalComponent } from './logout-confirmation-modal/lo
     HelperComponent,
     OrganizationPersonalInformationComponent,
     LogoutConfirmationModalComponent,
+    SlackOnboardingSuccessPageComponent,
   ],
   imports: [CommonModule, SharedRoutingModule],
   exports: [],
