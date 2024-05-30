@@ -220,7 +220,7 @@
                 >
               </a>
             </li>
-            <!-- <ng-container
+            <ng-container
               *ngIf="
                 ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID;
                 else projectCondition
@@ -265,7 +265,7 @@
                   </ul>
                 </div>
               </li>
-            </ng-container> -->
+            </ng-container>
             <ng-template #projectCondition>
               <li class="pointer" *ngIf="shouldDisplay('project')">
                 <a class="sidebar-menu-link">

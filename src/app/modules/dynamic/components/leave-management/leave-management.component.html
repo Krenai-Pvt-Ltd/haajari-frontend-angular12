@@ -196,7 +196,7 @@
               <div
                 class="dropdown"
                 style="width: 35%"
-                *ngIf="ROLE != 'USER' && fullLeaveLogs.length > 0"
+                *ngIf="ROLE != 'USER' || fullLeaveLogs.length > 0"
               >
                 <button
                   type="button"
@@ -324,7 +324,13 @@
                       </div>
                       <div class="media align-items-center">
                         <div class="media-body ms-2 align-self-center">
-                          <h5 class="m-0">{{ fullLogList.username }}</h5>
+                          <h5
+                            class="m-0"
+                            style="cursor: pointer"
+                            (click)="routeToUserProfile(fullLogList.uuid)"
+                          >
+                            {{ fullLogList.username }}
+                          </h5>
                           <p class="text-muted font-12 mb-0">
                             <span
                               style="color: orange"
@@ -451,7 +457,7 @@
                   <span
                     class="badge rounded-pill badge-outline-warning"
                     style="margin-left: 10px"
-                    >{{ pendingLeavesSize }}</span
+                    >{{ totalCountOfPendingCounts }}</span
                   ></a
                 >
               </li>
@@ -478,6 +484,26 @@
                   #logContainerOfPendingLeaves
                   (scroll)="scrollDownRecentActivityOfPendingLeaves($event)"
                 >
+                  <div
+                    class="errorboxmain text-center"
+                    *ngIf="pendingLeaves.length == 0"
+                  >
+                    <div class="errorboxinner">
+                      <div class="errorboxplaceholder mb-2">
+                        <img
+                          src="assets/images/empty-box.svg"
+                          style="width: 80px"
+                        />
+                      </div>
+                      <div class="">
+                        <h4>No Data Found</h4>
+                        <p class="mb-0">
+                          We're unable to locate a record associated with the
+                          information you entered.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                   <div class="row mt-2" *ngFor="let pl of pendingLeaves">
                     <div class="col-auto">
                       <img
@@ -522,7 +548,13 @@
                           </div>
                           <div class="media align-items-center">
                             <div class="media-body ms-2 align-self-center">
-                              <h5 class="m-0">{{ pl.username }}</h5>
+                              <h5
+                                class="m-0"
+                                style="cursor: pointer"
+                                (click)="routeToUserProfile(pl.uuid)"
+                              >
+                                {{ pl.username }}
+                              </h5>
                               <p>
                                 Duration:
                                 <u
@@ -662,7 +694,11 @@
                           </div>
                           <div class="media align-items-center">
                             <div class="media-body ms-2 align-self-center">
-                              <h5 class="m-0">
+                              <h5
+                                class="m-0"
+                                style="cursor: pointer"
+                                (click)="routeToUserProfile(arl.uuid)"
+                              >
                                 {{ arl.username }}
                                 <i
                                   class="ti ti-checks bg-soft-success"
@@ -722,7 +758,7 @@
               <p>
                 Pending Leave
                 <span class="badge rounded-pill badge-outline-success">{{
-                  pendingLeavesSize
+                  totalCountOfPendingCounts
                 }}</span>
               </p>
               <div
@@ -1007,7 +1043,16 @@
                   />
                 </div>
                 <div>
-                  <h4>{{ specificLeaveRequest.name }}</h4>
+                  <h4
+                    style="cursor: pointer"
+                    (click)="
+                      routeToUserProfileAfterClosePending(
+                        specificLeaveRequest.uuid
+                      )
+                    "
+                  >
+                    {{ specificLeaveRequest.name }}
+                  </h4>
                   <p>{{ specificLeaveRequest.email }}</p>
                 </div>
               </div>

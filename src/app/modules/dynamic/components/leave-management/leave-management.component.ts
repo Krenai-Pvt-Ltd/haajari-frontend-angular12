@@ -108,6 +108,7 @@ export class LeaveManagementComponent implements OnInit {
 
     this.fetchManagerNames();
     this.getUserLeaveReq();
+    this.getTotalCountOfPendingLeaves();
     // this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
     this.currentNewDate = moment(this.currentDate)
       .startOf('month')
@@ -250,6 +251,18 @@ export class LeaveManagementComponent implements OnInit {
           );
         },
       });
+  }
+
+  totalCountOfPendingCounts: number = 0;
+  getTotalCountOfPendingLeaves() {
+    this.dataService.getTotalCountsOfPendingLeaves().subscribe({
+      next: (response) => {
+        this.totalCountOfPendingCounts = response.object;
+      },
+      error: (error) => {
+        // console.log(error);
+      },
+    });
   }
 
   scrollDownRecentActivityOfPendingLeaves(event: any) {
@@ -867,5 +880,13 @@ export class LeaveManagementComponent implements OnInit {
       .catch((error: any) => {
         // Handle any errors
       });
+  }
+
+  routeToUserProfile(uuid: string) {
+    this.helperService.routeToUserProfile(uuid);
+  }
+  routeToUserProfileAfterClosePending(uuid: string) {
+    this.closeModal.nativeElement.click();
+    this.helperService.routeToUserProfile(uuid);
   }
 }

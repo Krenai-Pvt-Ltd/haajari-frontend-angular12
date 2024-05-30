@@ -56,6 +56,7 @@ import { NewJoineeAndUserExitRequest } from '../models/new-joinee-and-user-exit-
 import { TeamLocation } from '../models/team-location';
 import { RegisterTeamRequest } from '../modules/dynamic/components/team/team.component';
 import { OnboardingFormPreviewResponse } from '../models/onboarding-form-preview-response';
+import { Temp } from '../models/temp';
 
 @Injectable({
   providedIn: 'root',
@@ -311,7 +312,6 @@ export class DataService {
     search: string,
     searchBy: string,
     teamId: number
-    
   ): Observable<any> {
     const params = new HttpParams()
       .set('item_per_page', itemPerPage.toString())
@@ -321,7 +321,6 @@ export class DataService {
       .set('search', search)
       .set('search_by', searchBy)
       .set('team_id', teamId);
-      ;
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {
       params,
     });
@@ -1658,13 +1657,15 @@ export class DataService {
     leaveSettingId: number,
     searchText: string,
     pageNumber: number,
-    itemPerPage: number
+    itemPerPage: number,
+    selectedTeamIdOfAddedUsers: number
   ): Observable<any> {
     const params = new HttpParams()
       .set('search', searchText)
       .set('leaveSettingId', leaveSettingId)
       .set('pageNumber', pageNumber)
-      .set('itemPerPage', itemPerPage);
+      .set('itemPerPage', itemPerPage)
+      .set('teamId', selectedTeamIdOfAddedUsers);
     return this.httpClient.get(
       `${this.baseUrl}/user-leave-rule/leaveSettingId/users-leave-setting`,
       { params }
@@ -1751,7 +1752,6 @@ export class DataService {
       employeeAttendanceLocation
     );
   }
-  
 
   getEmployeeStatus(userUuid: string): Observable<OnboardingSidebarResponse> {
     const url = `${this.baseUrl}/sidebar-component/get-onboarding-status?userUuid=${userUuid}`;
@@ -2038,14 +2038,14 @@ export class DataService {
     );
   }
 
-  generateNewAttendanceLink(userUuid: string): Observable<any> {
-    let params = new HttpParams().set('userUuid', userUuid);
-    return this.httpClient.post<any>(
-      `${this.baseUrl}/attendance/regenerate-attendance-link`,
-      {},
-      { params }
-    );
-  }
+  // generateNewAttendanceLink(userUuid: string): Observable<any> {
+  //   let params = new HttpParams().set('userUuid', userUuid);
+  //   return this.httpClient.post<any>(
+  //     `${this.baseUrl}/attendance/regenerate-attendance-link`,
+  //     {},
+  //     { params }
+  //   );
+  // }
 
   generateNewAttendanceLinkGupShup(userUuid: string): Observable<any> {
     let params = new HttpParams().set('userUuid', userUuid);
@@ -2391,6 +2391,13 @@ export class DataService {
     return this.httpClient.get<any>(
       `${this.baseUrl}/central-leave-management/get-pending-leaves-role-wise`,
       { params }
+    );
+  }
+
+  getTotalCountsOfPendingLeaves(): Observable<any> {
+    // const params = new HttpParams().set('page', page).set('size', size);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/central-leave-management/get-count-of-pending-leaves-role-wise`
     );
   }
 
@@ -2782,4 +2789,14 @@ export class DataService {
     const url = `${this.baseUrl}/users/fetch-team-list-user`;
     return this.httpClient.get(url, {});
   }
+
+  getTesting(){
+    return this.httpClient.get(`${this.baseUrl}/attendance/testing-get`);
+  }
+
+  postTesting(temp : Temp){
+
+    return this.httpClient.post<any>(`${this.baseUrl}/attendance/testing-post`, temp);
+  }
+  
 }
