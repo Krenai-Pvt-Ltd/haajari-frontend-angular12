@@ -15,7 +15,7 @@ import { SharedComponent } from './shared.component';
     // ConstantComponent,
     SharedComponent,
     HelperComponent,
-    LogoutConfirmationModalComponent
+    LogoutConfirmationModalComponent,
   ],
   imports: [CommonModule, FormsModule, RouterModule, SharedRoutingModule],
   exports: [],
