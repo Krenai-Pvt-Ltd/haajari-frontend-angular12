@@ -611,6 +611,7 @@
                   aria-controls="profile"
                   aria-selected="false"
                   class="nav-link"
+                  [disabled]="!isFormValid"
                   #leaveCategoryTab
                 >
                   Leave Categories
@@ -626,6 +627,7 @@
                   aria-controls="staffSelection"
                   aria-selected="false"
                   class="nav-link"
+                  [disabled]="!form.valid"
                   (click)="openStaffSelection()"
                   #staffSelectionTab
                 >
@@ -726,7 +728,7 @@
                                 class="d-none"
                               />
                               <label
-                                class="btn btn-soft-primary btn-sm"
+                                class="btn btn-soft-secondary btn-sm"
                                 for="yearlyRadio"
                                 [class.selected]="
                                   leaveSettingResponse.leaveCycle === 'Yearly'
@@ -911,7 +913,7 @@
                                   leaveSettingResponse.sandwichRules ===
                                   'Ignore'
                                 "
-                                class="btn btn-soft-primary btn-sm"
+                                class="btn btn-soft-secondary btn-sm"
                                 >No</label
                               >
                             </div>
