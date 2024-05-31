@@ -6,7 +6,6 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { HelperComponent } from './helper/helper.component';
 import { NotifactionTostComponent } from 'src/app/modules/sharable/notifaction-toast/notifaction-toast.component';
 import { LogoutConfirmationModalComponent } from './logout-confirmation-modal/logout-confirmation-modal.component';
-import { SlackOnboardingSuccessPageComponent } from './slack-onboarding-success-page/slack-onboarding-success-page.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SharedComponent } from './shared.component';
@@ -16,8 +15,7 @@ import { SharedComponent } from './shared.component';
     // ConstantComponent,
     SharedComponent,
     HelperComponent,
-    LogoutConfirmationModalComponent,
-    SlackOnboardingSuccessPageComponent,
+    LogoutConfirmationModalComponent
   ],
   imports: [CommonModule, FormsModule, RouterModule, SharedRoutingModule],
   exports: [],
