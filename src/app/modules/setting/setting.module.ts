@@ -33,6 +33,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { AgmCoreModule } from '@agm/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
       libraries: ['places'],
     }),
     DragDropModule,
-
+    NgbTooltipModule,
   ],
 })
 export class SettingModule {}
