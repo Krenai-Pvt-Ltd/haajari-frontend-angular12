@@ -242,6 +242,7 @@
                   <div class="row mt-4">
                     <div
                       class="d-flex align-items-center justify-content-end mb-3 p-0"
+                      *ngIf="onboardingViaString != 'SLACK'"
                     >
                       <input
                         #fileInput
@@ -325,7 +326,13 @@
                         <tr>
                           <th style="width: 5%" class="text-center">#</th>
                           <th style="width: 25%" class="text-left">Name</th>
-                          <th style="width: 20%" class="text-left">Phone</th>
+                          <th
+                            style="width: 20%"
+                            class="text-left"
+                            *ngIf="onboardingViaString != 'SLACK'"
+                          >
+                            Phone
+                          </th>
                           <th style="width: 25%" class="text-left">Email</th>
                           <th style="width: 20%" class="text-center">Action</th>
                         </tr>
@@ -347,7 +354,7 @@
                               <b>{{ onboardUser.name }}</b>
                             </p>
                           </td>
-                          <td>
+                          <td *ngIf="onboardingViaString != 'SLACK'">
                             <p class="tableinfo mb-0 text-left">
                               <b>{{ onboardUser.phone }}</b>
                             </p>
@@ -364,6 +371,7 @@
                               <p
                                 class="tableinfo mb-0 pointer text-center"
                                 style="color: darkblue"
+                                *ngIf="onboardingViaString != 'SLACK'"
                                 (click)="openUserEditModal(onboardUser)"
                               >
                                 <i class="bi bi-pencil-square"></i>
