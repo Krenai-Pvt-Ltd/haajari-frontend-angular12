@@ -1477,9 +1477,9 @@ export class AttendanceSettingComponent implements OnInit {
     debugger;
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
 
-    // this.isShimmer = true;
-    // this.dataNotFoundPlaceholder = false;
-    // this.networkConnectionErrorPlaceHolder = false;
+    this.isShimmer = true;
+    this.dataNotFoundPlaceholder = false;
+    this.networkConnectionErrorPlaceHolder = false;
 
     this.dataService.getAllShiftTimings().subscribe(
       (response) => {
@@ -2293,7 +2293,6 @@ export class AttendanceSettingComponent implements OnInit {
   // organizationShiftTimingValidationErrors: any = {};
 
   onTimeChange(field: keyof OrganizationShiftTimingRequest, value: Date): void {
-    debugger;
     let formattedTime = '';
     console.log(value);
     if (value) {

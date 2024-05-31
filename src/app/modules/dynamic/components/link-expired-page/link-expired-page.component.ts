@@ -28,35 +28,6 @@ export class LinkExpiredPageComponent implements OnInit {
     );
 
     if (userUuid) {
-      this.dataservice.generateNewAttendanceLink(userUuid).subscribe(
-        (response) => {
-          // Handle the response here
-          console.log('Attendance link generated:', response);
-          this.helper.showToast(
-            'New Link Sent Successfully',
-            Key.TOAST_STATUS_SUCCESS
-          );
-          window.location.href =
-            'https://api.whatsapp.com/send/?phone=918799754156&type=phone_number&app_absent=0';
-          // You might want to do something with the response, like displaying a message or redirecting the user
-        },
-        (error) => {
-          // Handle any errors here
-          console.error('Error generating new attendance link:', error);
-        }
-      );
-    } else {
-      console.error('User UUID not found in the URL');
-    }
-  }
-
-  sendNewAttendanceLinkGupShup() {
-    debugger;
-    const userUuid = new URLSearchParams(window.location.search).get(
-      'userUuid'
-    );
-
-    if (userUuid) {
       this.dataservice.generateNewAttendanceLinkGupShup(userUuid).subscribe(
         (response) => {
           // Handle the response here
@@ -66,7 +37,7 @@ export class LinkExpiredPageComponent implements OnInit {
             Key.TOAST_STATUS_SUCCESS
           );
           window.location.href =
-            'https://api.whatsapp.com/send/?phone=918799754156&type=phone_number&app_absent=0';
+            'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
           // You might want to do something with the response, like displaying a message or redirecting the user
         },
         (error) => {
@@ -78,4 +49,6 @@ export class LinkExpiredPageComponent implements OnInit {
       console.error('User UUID not found in the URL');
     }
   }
+
+ 
 }
