@@ -159,3 +159,9 @@ span.edit-profile {
     max-width: 440px;
   }
 }
+
+.tolltip-icon {
+  color: #444 !important;
+  font-size: 14px;
+  padding-left: 6px;
+}

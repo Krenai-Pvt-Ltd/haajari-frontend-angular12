@@ -455,8 +455,14 @@
                           *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'"
                         >
                           <small class="text-muted"
-                            >Employee's Attendance</small
-                          >
+                            >Employee's Attendance
+                            <i
+                              class="bi bi-exclamation-circle tolltip-icon"
+                              ngbTooltip="Would you like to receive notifications for your
+                              employee's attendance?"
+                              placement="top"
+                            ></i>
+                          </small>
                           <div
                             class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary"
                           >
