@@ -5,19 +5,21 @@ import { SharedRoutingModule } from './shared-routing.module';
 // import { ConstantComponent } from './constant/constant.component';
 import { HelperComponent } from './helper/helper.component';
 import { NotifactionTostComponent } from 'src/app/modules/sharable/notifaction-toast/notifaction-toast.component';
-import { OrganizationPersonalInformationComponent } from '../organization-onboarding/components/organization-personal-information/organization-personal-information.component';
 import { LogoutConfirmationModalComponent } from './logout-confirmation-modal/logout-confirmation-modal.component';
 import { SlackOnboardingSuccessPageComponent } from './slack-onboarding-success-page/slack-onboarding-success-page.component';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { SharedComponent } from './shared.component';
 
 @NgModule({
   declarations: [
     // ConstantComponent,
+    SharedComponent,
     HelperComponent,
-    OrganizationPersonalInformationComponent,
     LogoutConfirmationModalComponent,
     SlackOnboardingSuccessPageComponent,
   ],
-  imports: [CommonModule, SharedRoutingModule],
+  imports: [CommonModule, FormsModule, RouterModule, SharedRoutingModule],
   exports: [],
 })
 export class SharedModule {}
