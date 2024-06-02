@@ -190,7 +190,6 @@ export class DashboardComponent implements OnInit {
 
     this.getLateEmployeeAttendanceDetailsMethodCall();
 
-    this.getCurrentDayEmployeesData();
     // this.getAttendanceTopPerformerDetails();
     // this.getAttendanceLatePerformerDetails();
     this.getBestPerformerAttendanceDetailsMethodCall();
@@ -255,19 +254,6 @@ export class DashboardComponent implements OnInit {
   //   }
   // }
 
-  currentDayEmployeesData: any = [];
-
-  getCurrentDayEmployeesData() {
-    this.dataService.getTodayEmployeesData().subscribe(
-      (data) => {
-        this.currentDayEmployeesData = data;
-        debugger;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
 
   isAttendanceShimer: boolean = false;
   errorToggleMain: boolean = false;
