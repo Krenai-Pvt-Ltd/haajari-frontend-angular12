@@ -191,13 +191,6 @@ export class DataService {
     );
   }
 
-  getTodayEmployeesData(): Observable<any> {
-    debugger;
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/attendance/get-current-date-employees-data`,
-      {}
-    );
-  }
   getAttendanceTopPerformers(
     startDate: string,
     endDate: string
