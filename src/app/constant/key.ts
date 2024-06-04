@@ -287,6 +287,12 @@ export class Key {
 
   //Overtime pay types
   public static FIX_AMOUNT_STEP = 1;
+
+
+  //Date initial and last hours
+  public static INITIAL_HOUR = '00:00:00';
+  public static END_HOUR = '23:59:59';
+
 }
 
 

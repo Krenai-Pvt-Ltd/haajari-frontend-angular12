@@ -28,6 +28,8 @@ import { DayWiseStatus } from 'src/app/models/day-wise-status';
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
+import { DayStartAndDayEnd } from 'src/app/models/day-start-and-day-end';
+import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
 
 @Component({
   selector: 'app-dashboard',
@@ -87,6 +89,9 @@ export class DashboardComponent implements OnInit {
   LEAVE = Key.LEAVE;
   HALFDAY = Key.HALFDAY;
 
+  readonly INITIAL_HOUR = Key.INITIAL_HOUR;
+  readonly END_HOUR = Key.END_HOUR;
+
   async getRoleDetails() {
     this.ROLE = await this.rbacService.getRole();
   }
@@ -98,19 +103,25 @@ export class DashboardComponent implements OnInit {
 
   size: 'large' | 'small' | 'default' = 'small';
   selectedDate: Date = new Date();
-  startDate!: Date;
-  endDate!: Date;
+  startDate!: any;
+  endDate!: any;
+  startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
   onMonthChange(month: Date): void {
-    console.log('Month is getting selected!');
+    console.log('Month is getting selected');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
+
+    console.log(this.startDate, this.endDate);
     this.getAttendanceReportByDateDurationMethodCall();
   }
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
-    this.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0);
-    this.endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0, 23, 59, 59);
+    debugger;
+    // const endDateWithoutEndHours = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+
+    this.startDateAndEndDate.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0);
+    this.startDateAndEndDate.endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0, 23, 59, 59);
   }
 
   disableMonths = (date: Date): boolean => {
@@ -686,8 +697,7 @@ export class DashboardComponent implements OnInit {
 
         this.dataService
           .getAttendanceReportByDateDuration(
-            this.startDate,
-            this.endDate,
+            this.startDateAndEndDate,
             this.pageNumber,
             this.itemPerPage,
             this.searchText,
@@ -704,7 +714,7 @@ export class DashboardComponent implements OnInit {
               response.object.length === 0
             ) {
               this.dataNotFoundPlaceholderForAttendanceData = true;
-              reject('Data not found');
+              reject('Data not found.');
               return;
             }
 
