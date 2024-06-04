@@ -98,8 +98,8 @@ export class DashboardComponent implements OnInit {
 
   size: 'large' | 'small' | 'default' = 'small';
   selectedDate: Date = new Date();
-  startDate: string = '';
-  endDate: string = '';
+  startDate!: Date;
+  endDate!: Date;
 
   onMonthChange(month: Date): void {
     console.log('Month is getting selected!');
@@ -109,12 +109,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
-    this.startDate = this.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
-    );
-    this.endDate = this.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0)
-    );
+    this.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0);
+    this.endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0, 23, 59, 59);
   }
 
   disableMonths = (date: Date): boolean => {

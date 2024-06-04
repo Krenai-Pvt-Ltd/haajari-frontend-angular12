@@ -98,12 +98,12 @@ export class DataService {
   //Attendance module
 
   downloadAttendanceDataInExcelFormat(
-    startDate: string,
-    endDate: string
+    startDate: Date,
+    endDate: Date
   ): Observable<any> {
     const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate);
+      .set('start_date', startDate.toString())
+      .set('end_date', endDate.toString());
 
     return this.httpClient.get<any>(
       `${this.baseUrl}/attendance/excel/download`,
@@ -1564,8 +1564,8 @@ export class DataService {
   }
 
   getAttendanceReportByDateDuration(
-    startDate: string,
-    endDate: string,
+    startDate: Date,
+    endDate: Date,
     pageNumber: number,
     itemPerPage: number,
     search: string,
@@ -1573,8 +1573,8 @@ export class DataService {
     teamId: number
   ): Observable<any> {
     const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate)
+      .set('start_date', startDate.toString())
+      .set('end_date', endDate.toString())
       .set('page_number', pageNumber.toString())
       .set('item_per_page', itemPerPage.toString())
       .set('search', search)
@@ -1587,21 +1587,21 @@ export class DataService {
     );
   }
 
-  getDayWiseStatus(
-    userUuid: string,
-    startDate: string,
-    endDate: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('user_uuid', userUuid)
-      .set('start_date', startDate)
-      .set('end_date', endDate);
+  // getDayWiseStatus(
+  //   userUuid: string,
+  //   startDate: string,
+  //   endDate: string
+  // ): Observable<any> {
+  //   const params = new HttpParams()
+  //     .set('user_uuid', userUuid)
+  //     .set('start_date', startDate)
+  //     .set('end_date', endDate);
 
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/attendance/get-day-wise-status`,
-      { params }
-    );
-  }
+  //   return this.httpClient.get<any>(
+  //     `${this.baseUrl}/attendance/get-day-wise-status`,
+  //     { params }
+  //   );
+  // }
 
   getAttendanceReportByDateDurationByUser(
     startDate: string,
