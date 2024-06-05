@@ -25,47 +25,88 @@ export class SlackAuthComponent implements OnInit {
     this.registerOrganizationByCodeParam();
   }
 
+  isSuccessComponent: boolean = false;
+  isErrorComponent: boolean = false;
+
+  isRouteOnboarding: boolean = false;
+  isRouteDashboard: boolean = false;
+  errorMessage: string = '';
+  errorFlag: boolean = false;
   registerOrganizationByCodeParam() {
     debugger;
     const codeParam = new URLSearchParams(window.location.search).get('code');
-    if (!codeParam) {
+    const stateParam = new URLSearchParams(window.location.search).get('state');
+
+    console.log('codeParam' + codeParam + 'stateParam' + stateParam);
+    if (!codeParam || !stateParam) {
       this.router.navigate(['/auth/login']);
       // alert('Invalid URL: Missing code parameter');
       return;
     }
+    this.errorFlag = false;
+    this.dataService
+      .registerOrganizationUsingCodeParam(codeParam, stateParam)
+      .subscribe(
+        (response: any) => {
+          console.log(response.object);
+          this.isSuccessComponent = true;
+          this.isErrorComponent = false;
 
-    this.dataService.registerOrganizationUsingCodeParam(codeParam).subscribe(
-      (response: any) => {
-        console.log(response);
+          localStorage.setItem('token', response.object.access_token);
+          localStorage.setItem('refresh_token', response.object.refresh_token);
 
-        localStorage.setItem('token', response.access_token);
-        localStorage.setItem('refresh_token', response.refresh_token);
+          debugger;
+          const decodedValue = this.decodeFirebaseAccessToken(
+            response.object.access_token
+          );
 
-        debugger;
-        const decodedValue = this.decodeFirebaseAccessToken(
-          response.access_token
-        );
+          Key.LOGGED_IN_USER = decodedValue;
 
-        Key.LOGGED_IN_USER = decodedValue;
+          debugger;
+          console.log(decodedValue);
 
-        debugger;
-        console.log(decodedValue);
-
-        if (
-          decodedValue.httpCustomStatus === 'UPDATED' &&
-          decodedValue.statusResponse === 'Registration Completed'
-        ) {
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.router.navigate([
-            '/organization-onboarding/personal-information',
-          ]);
+          if (
+            decodedValue.httpCustomStatus === 'UPDATED' &&
+            decodedValue.statusResponse === 'Registration Completed'
+          ) {
+            this.isRouteDashboard = true;
+            this.isRouteOnboarding = false;
+            // this.router.navigate(['/dashboard']);
+          } else {
+            this.isRouteDashboard = false;
+            this.isRouteOnboarding = true;
+            // this.router.navigate([
+            //   '/organization-onboarding/personal-information',
+            // ]);
+          }
+        },
+        (error) => {
+          console.log(error);
+          if (error.error.message === 'false') {
+            this.errorMessage =
+              'Your email is already registered on Hajiri with another workspace.';
+            this.errorFlag = false;
+          } else {
+            this.errorFlag = true;
+            this.errorMessage = 'false';
+          }
+          this.isSuccessComponent = false;
+          this.isErrorComponent = true;
         }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      );
+  }
+
+  navigateToRoute(): void {
+    debugger;
+    if (this.isRouteOnboarding) {
+      this.router.navigate(['/organization-onboarding/personal-information']);
+    } else if (this.isRouteDashboard) {
+      this.router.navigate(['/dashboard']);
+    }
+  }
+
+  redirectToLogin() {
+    this.router.navigate(['/auth/login']);
   }
 
   decodeFirebaseAccessToken(access_token: string) {
@@ -74,6 +115,12 @@ export class SlackAuthComponent implements OnInit {
     debugger;
     console.log(decodedToken);
     return decodedToken;
+  }
+  workspaceName: any;
+  continueInSlack() {
+    this.workspaceName = localStorage.getItem('WORKSPACENAME');
+    const slackWorkspaceUrl = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
+    window.location.href = slackWorkspaceUrl;
   }
 
   // organization: Organization = new Organization();
