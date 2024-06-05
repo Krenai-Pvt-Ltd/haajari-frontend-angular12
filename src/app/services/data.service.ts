@@ -1543,8 +1543,10 @@ export class DataService {
       { params }
     );
   }
-  getLateEmployeeAttendanceDetails(dataFetchingType: string): Observable<any> {
-    const params = new HttpParams().set('data_fetching_type', dataFetchingType);
+  getLateEmployeeAttendanceDetails(date : string, dataFetchingType: string): Observable<any> {
+    const params = new HttpParams()
+    .set('date', date)
+    .set('data_fetching_type', dataFetchingType);
 
     return this.httpClient.get<any>(
       `${this.baseUrl}/attendance/get-late-employee-attendance-details`,
@@ -1565,7 +1567,8 @@ export class DataService {
   }
 
   getAttendanceReportByDateDuration(
-    startDateAndEndDate : StartDateAndEndDate,
+    startDate : string,
+    endDate : string,
     pageNumber: number,
     itemPerPage: number,
     search: string,
@@ -1573,7 +1576,8 @@ export class DataService {
     teamId: number
   ): Observable<any> {
     const params = new HttpParams()
-      .set('start_end_date', startDateAndEndDate.toString())
+      .set('start_date', startDate)
+      .set('end_date', endDate)
       .set('page_number', pageNumber)
       .set('item_per_page', itemPerPage)
       .set('search', search)

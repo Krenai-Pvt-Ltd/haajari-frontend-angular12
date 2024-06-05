@@ -103,8 +103,8 @@ export class DashboardComponent implements OnInit {
 
   size: 'large' | 'small' | 'default' = 'small';
   selectedDate: Date = new Date();
-  startDate!: any;
-  endDate!: any;
+  startDate: string = '';
+  endDate: string = '';
   startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
   onMonthChange(month: Date): void {
@@ -118,10 +118,13 @@ export class DashboardComponent implements OnInit {
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
     debugger;
-    // const endDateWithoutEndHours = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+    const endDateWithoutEndHours = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
 
-    this.startDateAndEndDate.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0);
-    this.startDateAndEndDate.endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0, 23, 59, 59);
+    this.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0).toDateString();
+    this.endDate = new Date(endDateWithoutEndHours.getFullYear(), endDateWithoutEndHours.getMonth() + 1, 0).toDateString() + " " + this.INITIAL_HOUR;
+
+    // this.startDateAndEndDate.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0);
+    // this.startDateAndEndDate.endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0, 23, 59, 59);
   }
 
   disableMonths = (date: Date): boolean => {
@@ -647,7 +650,7 @@ export class DashboardComponent implements OnInit {
   getLateEmployeeAttendanceDetailsMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.dataService
-      .getLateEmployeeAttendanceDetails(this.dataFetchingType)
+      .getLateEmployeeAttendanceDetails(this.getCurrentDate(), this.dataFetchingType)
       .subscribe(
         (response) => {
           this.lateEmployeeAttendanceDetailsResponseList =
@@ -697,7 +700,8 @@ export class DashboardComponent implements OnInit {
 
         this.dataService
           .getAttendanceReportByDateDuration(
-            this.startDateAndEndDate,
+            this.startDate,
+            this.endDate,
             this.pageNumber,
             this.itemPerPage,
             this.searchText,
