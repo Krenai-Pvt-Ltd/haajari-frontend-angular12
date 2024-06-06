@@ -63,7 +63,7 @@
 </div>
 
 <!--  success component -->
-
+<!-- 
 <div class="" *ngIf="isSuccessComponent">
   <div class="container">
     <div
@@ -111,6 +111,56 @@
           src="https://app.hajiri.in/assets/images/HAjiRi.svg"
           style="width: 130px"
         />
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="is-dark" *ngIf="isSuccessComponent">
+  <div class="nk-mask bg-pattern-dot-white-sm">
+    <div class="">
+      <div class="container">
+        <div
+          class="slack-addes-successfully-main d-flex align-items-center justify-content-center"
+          style="flex-direction: column"
+        >
+          <div class="mb-5">
+            <img
+              src="assets/images/wekreta-white-logo.svg"
+              style="width: 160px"
+            />
+          </div>
+          <h1>Hajiri Added to Slack Successfully!</h1>
+          <p class="mb-0 slack-addes-para">
+            To Get started, take a look at our User Guide.
+            <a
+              target="_blank"
+              href="https://www.hajiri.in/reference-docs.html"
+              style="color: #6666f3 !important"
+              >Reference Docs</a
+            >
+            <br />
+            Login to Hajiri web dashboard.
+            <a
+              style="color: #6666f3 !important"
+              (click)="navigateToRoute()"
+              *ngIf="isRouteDashboard"
+              >Dashboard</a
+            >
+          </p>
+          <p></p>
+
+          <div class="mt-5">
+            <a
+              [href]="slackWorkspaceUrl"
+              class="btn add-to-slack-btn"
+              style="padding: 13px 30px"
+            >
+              Continue in Slack
+              <i class="bi bi-arrow-right" style="padding-left: 10px"></i
+            ></a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
