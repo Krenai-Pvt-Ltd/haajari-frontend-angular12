@@ -117,10 +117,11 @@ export class SlackAuthComponent implements OnInit {
     return decodedToken;
   }
   workspaceName: any;
+  slackWorkspaceUrl: string = '';
   continueInSlack() {
     this.workspaceName = localStorage.getItem('WORKSPACENAME');
-    const slackWorkspaceUrl = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
-    window.location.href = slackWorkspaceUrl;
+    this.slackWorkspaceUrl = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
+    // window.location.href = slackWorkspaceUrl;
   }
 
   // organization: Organization = new Organization();
