@@ -11,47 +11,44 @@
   </div>
 </div>
 
-<div class="" *ngIf="isError">
-  <div class="container">
-    <div
-      class="slack-addes-successfully-main d-flex align-items-center justify-content-center"
-      style="flex-direction: column"
-    >
-      <div class="mb-4">
-        <img src="assets/images/completed-task.svg" style="width: 100px" />
-      </div>
-      <h4>Add Hajiri to your Slack First!</h4>
-      <p class="">
-        To Get started, take a look at our User Guide.
-        <a
-          target="_blank"
-          href="https://www.hajiri.in/reference-docs.html"
-          style="color: blue"
-          >Reference Docs</a
+<div class="is-dark" *ngIf="isError">
+  <div class="nk-mask bg-pattern-dot-white-sm">
+    <div class="">
+      <div class="container">
+        <div
+          class="slack-addes-successfully-main d-flex align-items-center justify-content-center"
+          style="flex-direction: column"
         >
-      </p>
+          <div class="mb-5">
+            <img
+              src="assets/images/wekreta-white-logo.svg"
+              style="width: 160px"
+            />
+          </div>
+          <h1>Add Hajiri to your Slack First!</h1>
+          <p class="mb-0 slack-addes-para">
+            To Get started, take a look at our User Guide.
+            <a
+              target="_blank"
+              href="https://www.hajiri.in/reference-docs.html"
+              style="color: #6666f3 !important"
+              >Reference Docs</a
+            >
+            <br />
+            You have't registered yourself in the hajiri yet, so please add<br />
+            hajiri to your slack first by clicking on below button.
+          </p>
 
-      <p>
-        You have't registered yourself in the hajiri yet, so please add hajiri
-        to your slack first by clicking on below button.
-      </p>
-
-      <div class="mt-4">
-        <button
-          class="btn btn-successfull"
-          type="button"
-          (click)="continueInSlack()"
-        >
-          Add To Slack
-          <i class="bi bi-arrow-right" style="padding-left: 10px"></i>
-        </button>
-      </div>
-
-      <div class="mt-4">
-        <img
-          src="https://app.hajiri.in/assets/images/HAjiRi.svg"
-          style="width: 130px"
-        />
+          <div class="mt-5">
+            <a [href]="authUrl" class="btn add-to-slack-btn"
+              ><img
+                src="https://app.hajiri.in/assets/images/slack-1.svg"
+                class="slack-icon"
+              />
+              Add to Slack</a
+            >
+          </div>
+        </div>
       </div>
     </div>
   </div>

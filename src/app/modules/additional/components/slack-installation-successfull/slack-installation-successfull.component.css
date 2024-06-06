@@ -47,3 +47,55 @@
   background-color: #6666f3;
   color: #fff;
 }
+
+/*  new css  */
+
+.add-to-slack-btn {
+  background-color: #4a154b;
+  color: #fff !important;
+  padding: 0px 30px;
+  font-size: 14px !important;
+  border-radius: 70px;
+}
+
+.add-to-slack-btn:hover {
+  background-color: #4a154b;
+  color: #fff !important;
+}
+
+.slack-icon {
+  height: 30px !important;
+  padding-right: 10px;
+  margin-top: 13px;
+  margin-bottom: 13px;
+}
+
+.bg-pattern-dot-white-sm {
+  background-image: url("/assets/images/dot-a-white.png");
+  background-repeat: repeat;
+  background-size: 20px 20px;
+  background-position: center;
+  height: 100vh;
+}
+
+.is-dark {
+  background-color: #071321;
+}
+
+.slack-addes-successfully-main h1 {
+  color: #fff;
+  font-weight: 700;
+  font-size: 40px;
+}
+
+.slack-addes-para {
+  color: #fff !important ;
+  text-align: center;
+  font-size: 14px !important;
+  font-weight: 400;
+  line-height: 28px !important;
+}
+
+.slack-addes-para a {
+  color: #6666f3 !important;
+}
