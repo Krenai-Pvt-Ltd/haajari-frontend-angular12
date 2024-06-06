@@ -49,14 +49,15 @@ export class SignInWithSlackComponent implements OnInit {
 
         if (
           decodedValue.httpCustomStatus === 'UPDATED' &&
-          decodedValue.statusResponse === 'Registration Completed'
+          decodedValue.statusResponse === 'Attendance Rule Setting'
         ) {
           this.router.navigate(['/dashboard']);
-        } else {
-          this.router.navigate([
-            '/organization-onboarding/personal-information',
-          ]);
         }
+        // } else {
+        //   this.router.navigate([
+        //     '/organization-onboarding/personal-information',
+        //   ]);
+        // }
       },
       (error) => {
         this.isError = true;

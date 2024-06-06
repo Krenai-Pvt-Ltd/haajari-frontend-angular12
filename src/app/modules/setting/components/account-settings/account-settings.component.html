@@ -546,6 +546,68 @@
                             </div>
                           </div>
                         </div>
+                        <div
+                          class="mt-3"
+                          *ngIf="ROLE === 'ADMIN' && onboardingVia === 'SLACK'"
+                        >
+                          <small class="text-muted" *ngIf="isInstalled"
+                            >Remove Hajiri From Slack
+                            <i
+                              class="bi bi-exclamation-circle tolltip-icon"
+                              ngbTooltip="Removing Hajiri from your Slack account will disable all Hajiri operations and uninstall it for all users in the workspace. To reinstall Hajiri, please visit the Hajiri website and use the 'Add to Slack' feature."
+                              placement="top"
+                            ></i>
+                          </small>
+                          <small class="text-muted" *ngIf="!isInstalled"
+                            >Reinstall Hajiri in Slack workspace
+                          </small>
+                          <div
+                            class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary"
+                          >
+                            <div
+                              class="alert-outline-secondary enable-disanle-box mb-0"
+                              role="alert"
+                              *ngIf="!isInstalled"
+                            >
+                              <img
+                                src="assets/images/refresh-data.svg"
+                                style="width: 35px; padding-right: 10px"
+                              />
+                              To reinstall Hajiri in your workspace, click the
+                              "Reinstall Hajiri" button.
+                            </div>
+                            <div
+                              class="alert-outline-secondary enable-disanle-box mb-0"
+                              role="alert"
+                              *ngIf="isInstalled"
+                            >
+                              <img
+                                src="assets/images/trash.svg"
+                                style="width: 35px; padding-right: 10px"
+                              />
+                              To remove Hajiri from your workspace, click the
+                              "Remove Hajiri" button.
+                            </div>
+                            <!-- (click)="removeHajiri()" -->
+                            <div class="mt-3">
+                              <button
+                                class="btn btn-danger"
+                                (click)="removeHajiriFromSlack()"
+                                *ngIf="isInstalled"
+                              >
+                                Remove Hajiri
+                              </button>
+                              <!-- {{ authUrl }} -->
+                              <button
+                                class="btn btn-success"
+                                (click)="reinstallHajiri()"
+                                *ngIf="!isInstalled"
+                              >
+                                Reinstall Hajiri
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
