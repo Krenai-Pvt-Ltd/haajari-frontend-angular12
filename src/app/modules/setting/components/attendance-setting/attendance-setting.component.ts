@@ -1282,6 +1282,7 @@ export class AttendanceSettingComponent implements OnInit {
         weekOffType: day.weekOffType,
         userUuids: this.selectedStaffsUuids,
       }));
+      console.log("InTime: " + this.organizationShiftTimingRequest.inTime);
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
@@ -1332,94 +1333,80 @@ export class AttendanceSettingComponent implements OnInit {
   organizationShiftTimingValidationErrors: { [key: string]: string } = {};
 
   calculateTimes(): void {
-    debugger;
-    const { inTime, outTime, startLunch, endLunch } =
-      this.organizationShiftTimingRequest;
+    const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
 
     // Reset errors and calculated times
     this.organizationShiftTimingValidationErrors = {};
     this.organizationShiftTimingRequest.lunchHour = '';
     this.organizationShiftTimingRequest.workingHour = '';
 
-    // Helper function to convert time string to minutes
-    const timeToMinutes = (time: any) => {
-      if (!time) return 0;
-      const [hours, minutes] = time.split(':').map(Number);
-      return hours * 60 + minutes;
+    // Helper function to convert Date object to minutes from start of the day in local time
+    const dateToLocalMinutes = (date: Date | undefined) => {
+        if (!date) return 0;
+        const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+        const hours = localDate.getHours();
+        const minutes = localDate.getMinutes();
+        return hours * 60 + minutes;
     };
 
-    // Convert times to minutes
-    const inTimeMinutes = timeToMinutes(inTime);
-    const outTimeMinutes = timeToMinutes(outTime);
-    const startLunchMinutes = timeToMinutes(startLunch);
-    const endLunchMinutes = timeToMinutes(endLunch);
+    // Convert times to local minutes
+    const inTimeMinutes = dateToLocalMinutes(inTime);
+    const outTimeMinutes = dateToLocalMinutes(outTime);
+    const startLunchMinutes = dateToLocalMinutes(startLunch);
+    const endLunchMinutes = dateToLocalMinutes(endLunch);
 
     // Check for valid in and out times
     if (inTime && outTime) {
-      if (outTimeMinutes < inTimeMinutes) {
-        this.organizationShiftTimingValidationErrors['outTime'] =
-          'Out time must be after in time.';
-      } else {
-        const totalWorkedMinutes = outTimeMinutes - inTimeMinutes;
-        this.organizationShiftTimingRequest.workingHour =
-          this.formatMinutesToTime(totalWorkedMinutes);
-      }
+        if (outTimeMinutes <= inTimeMinutes) {
+            this.organizationShiftTimingValidationErrors['outTime'] = 'Out time must be after in time.';
+        } else {
+            const totalWorkedMinutes = outTimeMinutes - inTimeMinutes;
+            this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(totalWorkedMinutes);
+        }
     }
 
     // Check for valid lunch start time
-    if (
-      startLunch &&
-      (startLunchMinutes < inTimeMinutes || startLunchMinutes > outTimeMinutes)
-    ) {
-      this.organizationShiftTimingValidationErrors['startLunch'] =
-        'Lunch time should be within in and out times.';
+    if (startLunch && (startLunchMinutes <= inTimeMinutes || startLunchMinutes >= outTimeMinutes)) {
+        this.organizationShiftTimingValidationErrors['startLunch'] = 'Lunch time should be within in and out times.';
     }
 
     // Check for valid lunch end time
-    if (
-      endLunch &&
-      (endLunchMinutes < inTimeMinutes || endLunchMinutes > outTimeMinutes)
-    ) {
-      this.organizationShiftTimingValidationErrors['endLunch'] =
-        'Lunch time should be within in and out times.';
+    if (endLunch && (endLunchMinutes <= inTimeMinutes || endLunchMinutes >= outTimeMinutes)) {
+        this.organizationShiftTimingValidationErrors['endLunch'] = 'Lunch time should be within in and out times.';
     }
 
     // Calculate lunch hour and adjust working hours if lunch times are valid
     if (startLunch && endLunch && startLunchMinutes < endLunchMinutes) {
-      const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
-      this.organizationShiftTimingRequest.lunchHour =
-        this.formatMinutesToTime(lunchBreakMinutes);
+        const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
+        this.organizationShiftTimingRequest.lunchHour = this.formatMinutesToTime(lunchBreakMinutes);
 
-      if (this.organizationShiftTimingRequest.workingHour) {
-        const adjustedWorkedMinutes =
-          timeToMinutes(this.organizationShiftTimingRequest.workingHour) -
-          lunchBreakMinutes;
-        this.organizationShiftTimingRequest.workingHour =
-          this.formatMinutesToTime(adjustedWorkedMinutes);
-      }
+        if (this.organizationShiftTimingRequest.workingHour) {
+            const workingHourMinutes = this.organizationShiftTimingRequest.workingHour.split(':').map(Number);
+            const totalWorkingMinutes = workingHourMinutes[0] * 60 + workingHourMinutes[1];
+            const adjustedWorkedMinutes = totalWorkingMinutes - lunchBreakMinutes;
+            this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(adjustedWorkedMinutes);
+        }
     }
 
     // Additional validation for lunch times
     if (startLunch && endLunch) {
-      if (endLunchMinutes <= startLunchMinutes) {
-        this.organizationShiftTimingValidationErrors['endLunch'] =
-          'Please enter a valid back time from lunch.';
-      }
-      if (startLunchMinutes >= endLunchMinutes) {
-        this.organizationShiftTimingValidationErrors['startLunch'] =
-          'Please enter a valid lunch start time.';
-      }
+        if (endLunchMinutes <= startLunchMinutes) {
+            this.organizationShiftTimingValidationErrors['endLunch'] = 'Please enter a valid back time from lunch.';
+        }
+        if (startLunchMinutes >= endLunchMinutes) {
+            this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
+        }
     }
-  }
+}
 
-  // Helper function to format minutes back to HH:mm format
-  formatMinutesToTime(minutes: any) {
+// Helper method to format minutes into HH:mm format
+formatMinutesToTime(minutes: number): string {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    return `${hours.toString().padStart(2, '0')}:${mins
-      .toString()
-      .padStart(2, '0')}`;
-  }
+    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+}
+
+
 
   private formatDuration(duration: number): string {
     const hours = Math.floor(duration / 1000 / 60 / 60);
@@ -1505,10 +1492,10 @@ export class AttendanceSettingComponent implements OnInit {
             ) {
               // Iterate through each shift in the organizationShiftTimingResponseList
               item.organizationShiftTimingResponseList.forEach((shift) => {
-                shift.inTimeDate = this.convertTime(shift.inTime);
-                shift.outTimeDate = this.convertTime(shift.outTime);
-                shift.startLunchDate = this.convertTime(shift.startLunch);
-                shift.endLunchDate = this.convertTime(shift.endLunch);
+                shift.inTimeDate = shift.inTime;
+                shift.outTimeDate = shift.outTime;
+                shift.startLunchDate = shift.startLunch;
+                shift.endLunchDate = shift.endLunch;
                 console.log(shift.inTime, shift.outTime);
               });
             }
@@ -2293,23 +2280,34 @@ export class AttendanceSettingComponent implements OnInit {
   // organizationShiftTimingValidationErrors: any = {};
 
   onTimeChange(field: keyof OrganizationShiftTimingRequest, value: Date): void {
-    let formattedTime = '';
-    console.log(value);
-    if (value) {
-      formattedTime = this.convertTo24HourFormat(value);
-    }
 
-    if (this.isKeyOfOrganizationShiftTimingRequest(field)) {
-      (this.organizationShiftTimingRequest as any)[field] = formattedTime;
+    
+    // Set the field value directly
+    switch (field) {
+        case 'inTime':
+            this.organizationShiftTimingRequest.inTime = value;
+            break;
+        case 'outTime':
+            this.organizationShiftTimingRequest.outTime = value;
+            break;
+        case 'startLunch':
+            this.organizationShiftTimingRequest.startLunch = value;
+            break;
+        case 'endLunch':
+            this.organizationShiftTimingRequest.endLunch = value;
+            break;
+        default:
+            break;
+
     }
 
     this.calculateTimes();
-    console.log(`Time for ${field} changed: `, formattedTime);
-  }
 
-  isKeyOfOrganizationShiftTimingRequest(
-    key: string
-  ): key is keyof OrganizationShiftTimingRequest {
+}
+
+
+
+  isKeyOfOrganizationShiftTimingRequest(key: string): key is keyof OrganizationShiftTimingRequest {
     return key in this.organizationShiftTimingRequest;
   }
 
