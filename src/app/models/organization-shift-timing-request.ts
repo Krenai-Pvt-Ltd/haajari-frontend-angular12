@@ -2,15 +2,15 @@ import { OrganizationWeekoffInformation } from "./organization-weekoff-informati
 
 export class OrganizationShiftTimingRequest {
     name : string = '';
-    inTime : string = '';
-    outTime : string = '';
-    startLunch : string = '';
-    endLunch : string = '';
+    inTime !: Date ;
+    outTime !: Date ;
+    startLunch !: Date ;
+    endLunch !: Date ;
     inTimeDate?: Date;
     outTimeDate?: Date;
     startLunchDate?: Date;
     endLunchDate?: Date;
-    workingHour : string = '';
+    workingHour ?: string ;
     lunchHour : string = '';
     shiftTypeId ?: number = 0;
     userUuids : string[] = [];

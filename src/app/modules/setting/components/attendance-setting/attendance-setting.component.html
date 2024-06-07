@@ -405,7 +405,7 @@
                                 <p class="mb-0">
                                   In Time |
                                   <span style="color: #009688">{{
-                                    organizationShiftTimingResponse.inTime
+                                    organizationShiftTimingResponse.inTime | date: 'hh:mm a'
                                   }}</span>
                                 </p>
                               </div>
@@ -415,7 +415,7 @@
                                 <p class="mb-0">
                                   Out Time |
                                   <span style="color: #009688">{{
-                                    organizationShiftTimingResponse.outTime
+                                    organizationShiftTimingResponse.outTime | date: 'hh:mm a'
                                   }}</span>
                                 </p>
                               </div>
@@ -435,7 +435,7 @@
                                 <p class="mb-0">
                                   Break Time |
                                   <span style="color: #009688">{{
-                                    organizationShiftTimingResponse.startLunch
+                                    organizationShiftTimingResponse.startLunch | date: 'hh:mm a'
                                   }}</span>
                                 </p>
                               </div>
@@ -445,7 +445,7 @@
                                 <p class="mb-0">
                                   Back Time |
                                   <span style="color: #009688">{{
-                                    organizationShiftTimingResponse.endLunch
+                                    organizationShiftTimingResponse.endLunch | date: 'hh:mm a'
                                   }}</span>
                                 </p>
                               </div>
