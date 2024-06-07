@@ -10,16 +10,14 @@ import { HajiriPageLoaderComponent } from './hajiri-page-loader/hajiri-page-load
 const routes: Routes = [
   { path: 'header', component: HeaderComponent },
   { path: 'topbar', component: TopbarComponent },
-  {path: 'error-page', component: ErrorPageComponent},
-  {path: 'slack-data-loader', component: SlackDataLoaderComponent},
-  {path: 'duration-picker', component: DurationPickerComponent},
-  {path: 'hajiri-page-loader', component: HajiriPageLoaderComponent},
- 
-
+  { path: 'error-page', component: ErrorPageComponent },
+  { path: 'slack-data-loader', component: SlackDataLoaderComponent },
+  { path: 'duration-picker', component: DurationPickerComponent },
+  { path: 'hajiri-page-loader', component: HajiriPageLoaderComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CommonRoutingModule { }
+export class CommonRoutingModule {}

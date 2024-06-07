@@ -10,10 +10,9 @@ import { SlackAuthComponent } from './slack-auth/slack-auth.component';
 import { AddToSlackComponent } from './add-to-slack/add-to-slack.component';
 import { LoginComponent } from './login/login.component';
 import { OtpVerificationComponent } from './otp-verification/otp-verification.component';
-import { NgOtpInputModule } from  'ng-otp-input';
+import { NgOtpInputModule } from 'ng-otp-input';
 import { NgxMaskModule } from 'ngx-mask';
-
-
+import { SignInWithSlackComponent } from './sign-in-with-slack-auth/sign-in-with-slack.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +21,8 @@ import { NgxMaskModule } from 'ngx-mask';
     NewLoginComponent,
     SlackAuthComponent,
     AddToSlackComponent,
-    OtpVerificationComponent
+    OtpVerificationComponent,
+    SignInWithSlackComponent,
   ],
   imports: [
     CommonModule,
@@ -33,6 +33,6 @@ import { NgxMaskModule } from 'ngx-mask';
     NgOtpInputModule,
     NgxMaskModule.forRoot(),
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AuthenticationModule { }
+export class AuthenticationModule {}

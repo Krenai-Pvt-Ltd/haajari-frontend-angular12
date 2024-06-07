@@ -56,6 +56,7 @@ import { NewJoineeAndUserExitRequest } from '../models/new-joinee-and-user-exit-
 import { TeamLocation } from '../models/team-location';
 import { RegisterTeamRequest } from '../modules/dynamic/components/team/team.component';
 import { OnboardingFormPreviewResponse } from '../models/onboarding-form-preview-response';
+import { Temp } from '../models/temp';
 
 @Injectable({
   providedIn: 'root',
@@ -85,10 +86,30 @@ export class DataService {
   private baseUrl = this._key.base_url;
 
   openSidebar: boolean = true;
-  registerOrganizationUsingCodeParam(codeParam: string): Observable<any> {
-    const params = new HttpParams().set('code_param', codeParam);
+  // registerOrganizationUsingCodeParam(codeParam: string): Observable<any> {
+  //   const params = new HttpParams().set('code_param', codeParam);
+  //   return this.httpClient.put<any>(
+  //     `${this.baseUrl}/organization/register-organization-using-code-param`,
+  //     {},
+  //     { params }
+  //   );
+  // }
+  registerOrganizationUsingCodeParam(
+    code: string,
+    state: string
+  ): Observable<any> {
+    const params = new HttpParams().set('code', code).set('state', state);
     return this.httpClient.put<any>(
-      `${this.baseUrl}/organization/register-organization-using-code-param`,
+      `${this.baseUrl}/organization/auth/slackauth`,
+      {},
+      { params }
+    );
+  }
+
+  userSignInWithSlack(code: string, state: string): Observable<any> {
+    const params = new HttpParams().set('code', code).set('state', state);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/organization/user/sign/in/with/slack`,
       {},
       { params }
     );
@@ -190,13 +211,6 @@ export class DataService {
     );
   }
 
-  getTodayEmployeesData(): Observable<any> {
-    debugger;
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/attendance/get-current-date-employees-data`,
-      {}
-    );
-  }
   getAttendanceTopPerformers(
     startDate: string,
     endDate: string
@@ -2787,5 +2801,39 @@ export class DataService {
   getTeamListUserForEmpOnboarding(): Observable<any> {
     const url = `${this.baseUrl}/users/fetch-team-list-user`;
     return this.httpClient.get(url, {});
+  }
+
+  getTesting() {
+    return this.httpClient.get(`${this.baseUrl}/attendance/testing-get`);
+  }
+
+  postTesting(temp: Temp) {
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/attendance/testing-post`,
+      temp
+    );
+  }
+
+  getSlackAuthUrl() {
+    return this.httpClient.get(`${this.baseUrl}/organization/slack/auth/url`);
+  }
+
+  getSlackAuthUrlForSignInWithSlack() {
+    return this.httpClient.get(
+      `${this.baseUrl}/organization/slack/auth/url/sign/in/with/slack`
+    );
+  }
+
+  disconnectOrganization(): Observable<any> {
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/organization/disconnect/hajiri/form/slack/workspace`,
+      null
+    );
+  }
+
+  getOrgIsInstalledFlag(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/is/installed/flag`
+    );
   }
 }

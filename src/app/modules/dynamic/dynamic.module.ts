@@ -75,6 +75,7 @@ import { HttpClientJsonpModule } from '@angular/common/http';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 
 @NgModule({
   declarations: [
@@ -156,6 +157,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ScrollingModule,
     DragDropModule,
     MatDialogModule,
+    NzTimePickerModule
   ],
   exports: [HeaderComponent],
   providers: [

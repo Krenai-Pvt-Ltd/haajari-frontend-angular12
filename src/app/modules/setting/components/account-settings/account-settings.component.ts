@@ -59,6 +59,9 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     this.ROLE = await this.rbacService.getRole();
 
     this.getUserAccountDetailsMethodCall();
+    this.getOnboardingVia();
+    this.getOrganizationIsInstalledFlag();
+    this.getSlackAuthUrl();
   }
 
   @ViewChild('account') account!: ElementRef;
@@ -583,5 +586,65 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   private handleError(error: any): void {
     this.helper.showToast('Invalid OTP', Key.TOAST_STATUS_ERROR);
     console.error('Error sending OTP', error);
+  }
+
+  onboardingVia: string = '';
+  getOnboardingVia() {
+    debugger;
+    this._data.getOrganizationDetails().subscribe(
+      (data) => {
+        this.onboardingVia = data.organization.onboardingVia;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  teamId: string = '';
+  isInstalled: boolean = true;
+  removeHajiriFromSlack(): void {
+    this._data.disconnectOrganization().subscribe(
+      (response) => {
+        console.log('deactived successfully');
+        this.isInstalled = response.message;
+      },
+      (error) => {
+        console.log('error ');
+      }
+    );
+  }
+
+  getOrganizationIsInstalledFlag(): void {
+    this._data.getOrgIsInstalledFlag().subscribe(
+      (response) => {
+        this.isInstalled = response.object;
+      },
+      (error) => {
+        console.log('error ');
+      }
+    );
+  }
+
+  authUrl: string = '';
+
+  getSlackAuthUrl(): void {
+    debugger;
+    this._data.getSlackAuthUrl().subscribe(
+      (response: any) => {
+        this.authUrl = response.message;
+        console.log('authUrl' + this.authUrl);
+      },
+      (error) => {
+        console.error('Error fetching Slack auth URL', error);
+      }
+    );
+  }
+
+  reinstallHajiri(): void {
+    if (this.authUrl) {
+      window.location.href = this.authUrl;
+    } else {
+      console.error('Auth URL is not set');
+    }
   }
 }

@@ -2280,6 +2280,7 @@ formatMinutesToTime(minutes: number): string {
   // organizationShiftTimingValidationErrors: any = {};
 
   onTimeChange(field: keyof OrganizationShiftTimingRequest, value: Date): void {
+
     
     // Set the field value directly
     switch (field) {
@@ -2297,6 +2298,7 @@ formatMinutesToTime(minutes: number): string {
             break;
         default:
             break;
+
     }
 
     this.calculateTimes();
