@@ -2823,4 +2823,17 @@ export class DataService {
       `${this.baseUrl}/organization/slack/auth/url/sign/in/with/slack`
     );
   }
+
+  disconnectOrganization(): Observable<any> {
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/organization/disconnect/hajiri/form/slack/workspace`,
+      null
+    );
+  }
+
+  getOrgIsInstalledFlag(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/is/installed/flag`
+    );
+  }
 }

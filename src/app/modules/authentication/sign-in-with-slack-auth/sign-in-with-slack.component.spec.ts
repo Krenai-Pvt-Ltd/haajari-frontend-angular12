@@ -8,9 +8,8 @@ describe('SignInWithSlackComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SignInWithSlackComponent ]
-    })
-    .compileComponents();
+      declarations: [SignInWithSlackComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

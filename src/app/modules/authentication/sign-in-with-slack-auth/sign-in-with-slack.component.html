@@ -1,0 +1,55 @@
+<div
+  style="height: 100vh"
+  class="d-flex justify-content-center align-items-center"
+  *ngIf="!isLoadingCompleted"
+>
+  <div>
+    <img style="max-width: 35vh" src="assets/images/HAjiRi.svg" />
+    <div class="d-flex justify-content-center">
+      <div class="loader-line"></div>
+    </div>
+  </div>
+</div>
+
+<div class="is-dark" *ngIf="isError">
+  <div class="nk-mask bg-pattern-dot-white-sm">
+    <div class="">
+      <div class="container">
+        <div
+          class="slack-addes-successfully-main d-flex align-items-center justify-content-center"
+          style="flex-direction: column"
+        >
+          <div class="mb-5">
+            <img
+              src="assets/images/wekreta-white-logo.svg"
+              style="width: 160px"
+            />
+          </div>
+          <h1>Reinstall Hajiri to your Slack workspace!</h1>
+          <p class="mb-0 slack-addes-para">
+            To get started, take a look at our user guide.
+            <a
+              target="_blank"
+              href="https://www.hajiri.in/reference-docs.html"
+              style="color: #6666f3 !important"
+              >Reference Docs</a
+            >
+            <br />
+            <!-- You are not yet registered with Hajiri.<br /> -->
+            Add Hajiri to your Slack workspace by clicking the below button.
+          </p>
+
+          <div class="mt-5">
+            <a [href]="authUrl" class="btn add-to-slack-btn"
+              ><img
+                src="https://app.hajiri.in/assets/images/slack-1.svg"
+                class="slack-icon"
+              />
+              Add to Slack</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
