@@ -121,7 +121,7 @@ export class DashboardComponent implements OnInit {
     const endDateWithoutEndHours = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
 
     this.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0).toDateString();
-    this.endDate = new Date(endDateWithoutEndHours.getFullYear(), endDateWithoutEndHours.getMonth() + 1, 0).toDateString() + " " + this.INITIAL_HOUR;
+    this.endDate = new Date(endDateWithoutEndHours.getFullYear(), endDateWithoutEndHours.getMonth() + 1, 0).toDateString() + " " + this.END_HOUR;
 
     // this.startDateAndEndDate.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0);
     // this.startDateAndEndDate.endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0, 23, 59, 59);
