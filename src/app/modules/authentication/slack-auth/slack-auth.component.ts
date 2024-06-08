@@ -6,6 +6,7 @@ import { Organization } from 'src/app/models/organization';
 import { DataService } from 'src/app/services/data.service';
 import { jwtDecode } from 'jwt-decode';
 import { Key } from 'src/app/constant/key';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-slack-auth',
@@ -16,7 +17,8 @@ export class SlackAuthComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private httpClient: HttpClient,
-    private router: Router
+    private router: Router,
+    private helperService: HelperService
   ) {}
 
   ngOnInit(): void {
@@ -101,11 +103,11 @@ export class SlackAuthComponent implements OnInit {
 
   navigateToRoute(): void {
     debugger;
-    if (this.isRouteOnboarding) {
-      this.router.navigate(['/organization-onboarding/personal-information']);
-    } else if (this.isRouteDashboard) {
-      this.router.navigate(['/dashboard']);
-    }
+    this.router.navigate(['/dashboard']);
+    this.helperService.showToast(
+      'Please add shift settings in the Attendance Settings section and leave settings in the Leave Settings section to establish shift rules for your organization’s users and assign their leave quotas, if not already configured.',
+      Key.TOAST_STATUS_SUCCESS
+    );
   }
 
   redirectToLogin() {

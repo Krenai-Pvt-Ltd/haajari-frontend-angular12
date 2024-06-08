@@ -602,13 +602,22 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   }
   teamId: string = '';
   isInstalled: boolean = true;
+  disableLoader: boolean = false;
   removeHajiriFromSlack(): void {
+    this.disableLoader = true;
     this._data.disconnectOrganization().subscribe(
       (response) => {
         console.log('deactived successfully');
         this.isInstalled = response.message;
+        this.disableLoader = false;
+        this.closeDeleteModal();
+        this.helper.showToast(
+          'Removed Successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
       },
       (error) => {
+        this.disableLoader = false;
         console.log('error ');
       }
     );
@@ -646,5 +655,11 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     } else {
       console.error('Auth URL is not set');
     }
+  }
+
+  @ViewChild('closeUserDeleteModal') closeUserDeleteModal: any;
+
+  closeDeleteModal() {
+    this.closeUserDeleteModal.nativeElement.click();
   }
 }
