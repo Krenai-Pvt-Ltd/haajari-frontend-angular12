@@ -1462,7 +1462,7 @@ export class DataService {
     leaveSettingId: number
   ): Observable<LeaveSettingCategoryResponse[]> {
     return this.httpClient.put<LeaveSettingCategoryResponse[]>(
-      `${this.baseUrl}/leave-categories-controller/register-leave-categories?leaveSettingId=${leaveSettingId}`,
+      `${this.baseUrl}/leave-setting-category/register-leave-categories?leaveSettingId=${leaveSettingId}`,
       leaveSettingCategoryResponse
     );
   }
@@ -2835,5 +2835,12 @@ export class DataService {
     return this.httpClient.get<any>(
       `${this.baseUrl}/organization/is/installed/flag`
     );
+  }
+
+  getLeaveTypeResponseByUserUuid(uuid : string): Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', uuid);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/leave-setting-category/list-by-user-uuid`, {params});
   }
 }

@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
+import { LeaveTypeResponse } from 'src/app/models/leave-type-response';
 import { LopReversalResponse } from 'src/app/models/lop-reversal-response';
 import { LopSummaryResponse } from 'src/app/models/lop-summary-response';
 import { MonthResponse } from 'src/app/models/month-response';
@@ -12,6 +13,7 @@ import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-mon
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { PayrollDashboardEmployeeCountResponse } from 'src/app/models/payroll-dashboard-employee-count-response';
 import { Role } from 'src/app/models/role';
+import { ShiftTypeResponse } from 'src/app/models/shift-type-response';
 import { UserExitResponse } from 'src/app/models/user-exit-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -892,6 +894,25 @@ export class PayrollDashboardComponent implements OnInit {
       const shortMonthName = monthFormatter.format(date);
   
       return shortMonthName;
+    }
+
+
+    //-------------------------------------
+    // API to fetch shift type list by user
+
+    selectedLeaveTypeResponse :  LeaveTypeResponse = new LeaveTypeResponse();
+
+    leaveTypeResponseList : LeaveTypeResponse[] = [];
+    getLeaveTypeResponseListByUserUuidMethodCall(uuid : string){
+      this.dataService.getLeaveTypeResponseByUserUuid(uuid).subscribe((response) => {
+        if(this.helperService.isListOfObjectNullOrUndefined(response.listOfObject)){
+          return;
+        } else{
+          this.leaveTypeResponseList = response.listOfObject;
+        }
+      }, (error) => {
+        console.log(error);
+      })
     }
 
     // getUserLeaveReq() {
