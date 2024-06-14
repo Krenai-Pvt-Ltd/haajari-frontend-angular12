@@ -166,6 +166,7 @@ export class HelperService {
   }
 
   isListOfObjectNullOrUndefined(response : any){
+    debugger;
     if(response == undefined || response == null || response.listOfObject == undefined || response.listOfObject == null || response.listOfObject.length == 0){
       return true;
     } else{

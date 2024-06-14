@@ -3,6 +3,7 @@ import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { LeaveTypeResponse } from 'src/app/models/leave-type-response';
+import { LopAdjustmentRequest } from 'src/app/models/lop-adjustment-request';
 import { LopReversalResponse } from 'src/app/models/lop-reversal-response';
 import { LopSummaryResponse } from 'src/app/models/lop-summary-response';
 import { MonthResponse } from 'src/app/models/month-response';
@@ -899,20 +900,66 @@ export class PayrollDashboardComponent implements OnInit {
 
     //-------------------------------------
     // API to fetch shift type list by user
-
     selectedLeaveTypeResponse :  LeaveTypeResponse = new LeaveTypeResponse();
 
     leaveTypeResponseList : LeaveTypeResponse[] = [];
     getLeaveTypeResponseListByUserUuidMethodCall(uuid : string){
       this.dataService.getLeaveTypeResponseByUserUuid(uuid).subscribe((response) => {
-        if(this.helperService.isListOfObjectNullOrUndefined(response.listOfObject)){
+        if(this.helperService.isListOfObjectNullOrUndefined(response)){
           return;
         } else{
+          this.selectedLeaveTypeResponse = response.listOfObject[0]; //Setting the first object as selected
+          this.lopAdjustmentRequest.leaveType = response.listOfObject[0].name;
           this.leaveTypeResponseList = response.listOfObject;
         }
+        console.log(this.leaveTypeResponseList);
       }, (error) => {
         console.log(error);
       })
+    }
+
+    // API to register leave adjustment request
+    lopAdjustmentRequest : LopAdjustmentRequest = new LopAdjustmentRequest();
+    registerLopAdjustmentRequestMethodCall(){
+      debugger;
+      this.dataService.registerLopAdjustmentRequest(this.lopAdjustmentRequest).subscribe((response) => {
+        this.closeLopAdjustmentRequestModal.nativeElement.click();
+        this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      }, (error) => {
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      })
+    }
+
+
+    // Logic to set the values
+    selectLeaveType(leaveTypeResponse : LeaveTypeResponse){
+      this.lopAdjustmentRequest.leaveType = leaveTypeResponse.name;
+    }
+
+    dateRange : Date[] = [];
+    selectDateForLopAdjustmentRequest(dates: Date[]): void {
+      if (dates && dates.length === 2) {
+        this.dateRange[0] = dates[0];
+        this.dateRange[1] = dates[1];
+      }
+
+      this.lopAdjustmentRequest.startDate = this.helperService.formatDateToYYYYMMDD(dates[0]);
+      this.lopAdjustmentRequest.endDate = this.helperService.formatDateToYYYYMMDD(dates[1]);
+    }
+
+
+    // Logic to open lop adjustment modal
+    openLopAdjustmentRequestModal(uuid : string){
+      this.getLeaveTypeResponseListByUserUuidMethodCall(uuid);
+      this.lopAdjustmentRequest.userUuid = uuid;
+    }
+
+    // Logic to close lop adjustment modal
+    @ViewChild("closeLopAdjustmentRequestModal") closeLopAdjustmentRequestModal !: ElementRef;
+
+    selectLopAdjustmentCount(count : number){
+      console.log(count);
+      this.lopAdjustmentRequest.lopAdjustmentCount = count;
     }
 
     // getUserLeaveReq() {
@@ -935,7 +982,5 @@ export class PayrollDashboardComponent implements OnInit {
 
     selectedRole : Role = new Role();
     roles : Role[] = [];
-    selectLeaveType(role : any){
 
-    }
 }

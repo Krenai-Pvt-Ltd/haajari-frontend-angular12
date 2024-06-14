@@ -1361,10 +1361,8 @@
                                   <td>{{ lopSummaryResponse.email }}</td>
                                   <td>{{ lopSummaryResponse.lopDays }}</td>
                                   <td>
-                                    <input class="comment-input p-2" type="number" placeholder="Days count" [(ngModel)]="
-                                        lopSummaryResponse.adjustedLopDays
-                                      " [ngModelOptions]="{ standalone: true }" />
-                                    <a data-bs-toggle="modal" data-bs-target="#adjustLop" (click)="getLeaveTypeResponseListByUserUuidMethodCall(lopSummaryResponse.uuid)">Adjust</a>
+                                    <input class="comment-input p-2" type="number" placeholder="Days count" [(ngModel)]="lopSummaryResponse.adjustedLopDays" [ngModelOptions]="{standalone: true}"/>
+                                    <a data-bs-toggle="modal" data-bs-target="#adjustLop" (click)="openLopAdjustmentRequestModal(lopSummaryResponse.uuid)">Adjust</a>
                                   </td>
                                   <td>{{ lopSummaryResponse.finalLopDays }}</td>
                                   <td>
@@ -1437,11 +1435,7 @@
                               <th>ACTION</th>
                             </tr>
                           </thead>
-                          <ng-container *ngIf="
-                              isShimmerForLopReversal &&
-                                lopReversalResponseList.length == 0;
-                              else lopReversalResponseListData
-                            ">
+                          <ng-container *ngIf="isShimmerForLopReversal && lopReversalResponseList.length == 0; else lopReversalResponseListData">
                             <tbody>
                               <tr *ngFor="let item of [].constructor(10)">
                                 <td class="text-center">
@@ -1480,8 +1474,7 @@
                                   lopReversalResponseList.length != 0;
                                 else errorInFetchingLopReversalResponseListData
                               ">
-                              <tbody *ngFor="
-                                  let lopReversalResponse of lopReversalResponseList
+                              <tbody *ngFor="let lopReversalResponse of lopReversalResponseList
                                     | paginate
                                       : {
                                           itemsPerPage: itemPerPage,
@@ -1502,7 +1495,7 @@
                                   <td>
                                     <input class="comment-input p-2" type="number" placeholder="Days count" [(ngModel)]="
                                         lopReversalResponse.adjustedLopDays
-                                      " [ngModelOptions]="{ standalone: true }" />
+                                      " [ngModelOptions]="{ standalone: true }" (ngModelChange)="selectLopAdjustmentCount($event)"/>
                                     <a data-bs-toggle="modal" data-bs-target="adjustLop">Adjust</a>
                                   </td>
                                   <td>
@@ -1530,8 +1523,7 @@
                                       </div>
                                       <div class="">
                                         <h4>Something went wrong</h4>
-                                        <p> An error occurred while processing your request. Please refresh the page and
-                                          try again. </p>
+                                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                                       </div>
                                     </div>
                                   </div>
@@ -1577,12 +1569,12 @@
         <!--end modal-->
       </div>
 
-      <div class="modal fade" id="adjustLop" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+      <div class="modal fade" id="adjustLop" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Adjust LOP with remaining Leave quota </h6>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#leaves"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#leaves" #closeLopAdjustmentRequestModal></button>
             </div>
             <div class="modal-body">
               <div class="row">
@@ -1590,7 +1582,7 @@
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="pb-2">LOP days count to be adjusted</label>
-                    <input class="comment-input p-2" type="number" placeholder="Days count"/>
+                    <input id="count-input" class="comment-input p-2" type="number" placeholder="Days count" [(ngModel)]="lopAdjustmentRequest.lopAdjustmentCount" readonly/>
                   </div>
                 </div>
                 <div class="col-md-12">
@@ -1616,11 +1608,17 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="pb-2">Select a date where it should be reflected as leave</label>
+                    <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="selectDateForLopAdjustmentRequest($event)" [nzSize]="size"></nz-range-picker>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="modal-footer d-flex align-items-center justify-content-end">
               <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#leaves"> Cancel </button>
-              <button type="button" class="btn btn-primary">Save</button>
+              <button type="button" class="btn btn-primary" (click)="registerLopAdjustmentRequestMethodCall()">Save</button>
             </div>
           </div>
         </div>

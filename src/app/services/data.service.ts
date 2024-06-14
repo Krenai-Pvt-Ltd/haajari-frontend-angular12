@@ -58,6 +58,7 @@ import { RegisterTeamRequest } from '../modules/dynamic/components/team/team.com
 import { OnboardingFormPreviewResponse } from '../models/onboarding-form-preview-response';
 import { Temp } from '../models/temp';
 import { StartDateAndEndDate } from '../models/start-date-and-end-date';
+import { LopAdjustmentRequest } from '../models/lop-adjustment-request';
 
 @Injectable({
   providedIn: 'root',
@@ -2842,5 +2843,9 @@ export class DataService {
     .set('user_uuid', uuid);
 
     return this.httpClient.get<any>(`${this.baseUrl}/leave-setting-category/list-by-user-uuid`, {params});
+  }
+
+  registerLopAdjustmentRequest(lopAdjustmentRequest : LopAdjustmentRequest){
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-adjustment-request`, lopAdjustmentRequest);
   }
 }
