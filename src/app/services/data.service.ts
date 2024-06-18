@@ -2848,4 +2848,15 @@ export class DataService {
   registerLopAdjustmentRequest(lopAdjustmentRequest : LopAdjustmentRequest){
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-adjustment-request`, lopAdjustmentRequest);
   }
+
+  getPayrollLeaveResponse(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leaves`, {});
+  }
+
+  getPayrollLeaveLogResponse(userUuid : string): Observable<any> {
+    const params = new HttpParams()
+    .set('user_uuid', userUuid);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leave-logs`, {params});
+  }
 }

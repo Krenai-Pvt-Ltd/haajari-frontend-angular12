@@ -13,6 +13,7 @@ import { NoticePeriod } from 'src/app/models/notice-period';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { PayrollDashboardEmployeeCountResponse } from 'src/app/models/payroll-dashboard-employee-count-response';
+import { PayrollLeaveResponse } from 'src/app/models/payroll-leave-response';
 import { Role } from 'src/app/models/role';
 import { ShiftTypeResponse } from 'src/app/models/shift-type-response';
 import { UserExitResponse } from 'src/app/models/user-exit-response';
@@ -75,6 +76,15 @@ export class PayrollDashboardComponent implements OnInit {
     this.isShimmerForFinalSettlement = true;
     this.dataNotFoundPlaceholderForFinalSettlement = false;
     this.networkConnectionErrorPlaceHolderForFinalSettlement = false;
+  }
+
+  isShimmerForPayrollLeaveResponse = false;
+  dataNotFoundPlaceholderForPayrollLeaveResponse = false;
+  networkConnectionErrorPlaceHolderForPayrollLeaveResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse() {
+    this.isShimmerForPayrollLeaveResponse = true;
+    this.dataNotFoundPlaceholderForPayrollLeaveResponse = false;
+    this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = false;
   }
 
   constructor(
@@ -622,6 +632,18 @@ export class PayrollDashboardComponent implements OnInit {
     if (step == Key.FINAL_SETTLEMENT_STEP) {
       this.getFinalSettlementByOrganizationIdMethodCall();
     }
+
+    if (step == Key.LEAVES){
+
+    }
+
+    if (step == Key.LOP_SUMMARY){
+      this.getLopSummaryResponseByOrganizationIdAndStartDateAndDateMethodCall();
+    }
+
+    if(step == Key.LOP_REVERSAL){
+      this.getLopReversalResponseByOrganizationIdAndStartDateAndDateMethodCall();
+    }
   }
 
   getPages(): number[] {
@@ -962,23 +984,35 @@ export class PayrollDashboardComponent implements OnInit {
       this.lopAdjustmentRequest.lopAdjustmentCount = count;
     }
 
-    // getUserLeaveReq() {
-    //   this.dataService.getUserLeaveRequestsForLeaveManagement().subscribe(
-    //     (data) => {
-    //       console.log(data);
-    //       if (
-    //         data.body != undefined ||
-    //         data.body != null ||
-    //         data.body.length != 0
-    //       ) {
-    //         console.log(data.body);
-    //       } else {
-    //         return;
-    //       }
-    //     },
-    //     (error) => {}
-    //   );
-    // }
+
+    // Fetching user's leave for payroll
+
+    payrollLeaveResponseList : PayrollLeaveResponse[] = [];
+    getPayrollLeaveResponseMethodCall(){
+      debugger;
+      this.dataService.getPayrollLeaveResponse().subscribe((response) => {
+        if(this.helperService.isListOfObjectNullOrUndefined(response)){
+          this.dataNotFoundPlaceholderForPayrollLeaveResponse = true;
+        } else{
+          this.payrollLeaveResponseList = response.listOfObject;
+          this.total = response.totalItems;
+          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+        }
+
+        this.isShimmerForPayrollLeaveResponse = false;
+      }, (error) => {
+        this.networkConnectionErrorPlaceHolder = true;
+        this.isShimmerForPayrollLeaveResponse = false;
+      })
+    }
+
+    getPayrollLeaveLogResponseMethodCall(){
+      this.dataService.getPayrollLeaveResponse().subscribe((response) => {
+
+      }, (error) => {
+        
+      })
+    }
 
     selectedRole : Role = new Role();
     roles : Role[] = [];

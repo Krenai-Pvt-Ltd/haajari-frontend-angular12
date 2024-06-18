@@ -117,14 +117,18 @@ export class DashboardComponent implements OnInit {
   }
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
-    debugger;
-    const endDateWithoutEndHours = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
 
-    this.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0).toDateString();
-    this.endDate = new Date(endDateWithoutEndHours.getFullYear(), endDateWithoutEndHours.getMonth() + 1, 0).toDateString() + " " + this.END_HOUR;
+    this.startDate = this.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
+    );
+    this.endDate = this.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
+    );
+    
+    // const endDateWithoutEndHours = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
 
-    // this.startDateAndEndDate.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0);
-    // this.startDateAndEndDate.endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0, 23, 59, 59);
+    // this.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0).toDateString();
+    // this.endDate = new Date(endDateWithoutEndHours.getFullYear(), endDateWithoutEndHours.getMonth() + 1, 0).toDateString() + " " + this.END_HOUR;
   }
 
   disableMonths = (date: Date): boolean => {
