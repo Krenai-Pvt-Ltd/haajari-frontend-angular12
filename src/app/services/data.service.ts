@@ -59,6 +59,8 @@ import { OnboardingFormPreviewResponse } from '../models/onboarding-form-preview
 import { Temp } from '../models/temp';
 import { StartDateAndEndDate } from '../models/start-date-and-end-date';
 import { LopAdjustmentRequest } from '../models/lop-adjustment-request';
+import { LopSummaryRequest } from '../models/lop-summary-request';
+import { LopReversalRequest } from '../models/lop-reversal-request';
 
 @Injectable({
   providedIn: 'root',
@@ -2742,7 +2744,7 @@ export class DataService {
     );
   }
 
-  getLopSummaryResponseByOrganizationIdAndStartDateAndDate(
+  getLopSummaryResponseByOrganizationIdAndStartDateAndEndDate(
     startDate: string,
     endDate: string,
     itemPerPage: number,
@@ -2764,7 +2766,7 @@ export class DataService {
     );
   }
 
-  getLopReversalResponseByOrganizationIdAndStartDateAndDate(
+  getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(
     startDate: string,
     endDate: string,
     itemPerPage: number,
@@ -2845,8 +2847,12 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/leave-setting-category/list-by-user-uuid`, {params});
   }
 
-  registerLopAdjustmentRequest(lopAdjustmentRequest : LopAdjustmentRequest){
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-adjustment-request`, lopAdjustmentRequest);
+  registerLopAdjustmentRequest(lopAdjustmentRequest : LopAdjustmentRequest, startDate : string, endDate : string){
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-adjustment-request`, lopAdjustmentRequest, {params});
   }
 
   getPayrollLeaveResponse(): Observable<any> {
@@ -2858,5 +2864,21 @@ export class DataService {
     .set('user_uuid', userUuid);
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leave-logs`, {params});
+  }
+
+  registerLopSummaryRequestByOrganizationIdAndStartDateAndEndDate(lopSummaryRequestList : LopSummaryRequest[], startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-summary`, lopSummaryRequestList, {params});
+  }
+
+  registerLopReversalRequestByOrganizationIdAndStartDateAndEndDate(lopReversalRequestList : LopReversalRequest[], startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-summary`, lopReversalRequestList, {params});
   }
 }

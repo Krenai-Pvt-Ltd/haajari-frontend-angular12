@@ -465,15 +465,15 @@
                   <nav>
                     <div class="nav nav-tabs" id="nav-tab">
                       <a class="nav-link active" id="step1-tab" data-bs-toggle="tab" href="#step1"
-                        (click)="newJoineeTab()">NEW JOINEE</a>
+                        (click)="newJoineeTab()" #step1Tab>NEW JOINEE</a>
                       <a class="nav-link" id="step2-tab" data-bs-toggle="tab" href="#step2"
-                        (click)="userExitTab()">EMPLOYEES IN EXIT PROCESS</a>
+                        (click)="userExitTab()" #step2Tab>EMPLOYEES IN EXIT PROCESS</a>
                       <a class="nav-link" id="step3-tab" data-bs-toggle="tab" href="#step3"
-                        (click)="finalSettlementTab()">FULL AND FINAL SETTLEMENT</a>
+                        (click)="finalSettlementTab()" #step3Tab>FULL AND FINAL SETTLEMENT</a>
                     </div>
                   </nav>
                   <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane active" id="step1" #step1>
+                    <div class="tab-pane active" id="step1">
                       <div class="table-responsive">
                         <div class="col-md-12 mt-2">
                           <form novalidate="" role="search" (submit)="searchUsers($event, 1)"
@@ -700,7 +700,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="tab-pane" id="step2" #step2>
+                    <div class="tab-pane" id="step2">
                       <div class="table-responsive">
                         <div class="col-md-12 mt-2">
                           <form novalidate="" role="search" (submit)="searchUsers($event, 2)"
@@ -927,7 +927,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="tab-pane" id="step3" #step3>
+                    <div class="tab-pane" id="step3">
                       <div class="table-responsive">
                         <div class="col-md-12 mt-2">
                           <form novalidate="" role="search" (submit)="searchUsers($event, 3)"
@@ -1190,8 +1190,8 @@
                 </div>
               </h5>
               <div class="button-items">
-                <button type="button" class="btn btn-light btn-round"> BACK </button>
-                <button type="button" class="btn btn-primary btn-round"> SAVE & CONTINUE </button>
+                <button type="button" class="btn btn-light btn-round" (click)="attendanceAndLeaveBackTab()"> BACK </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerAttendanceAndLeavesMethodCall()"> SAVE & CONTINUE </button>
                 <button type="button" class="btn btn-primary btn-round"> MARK AS COMPLETE </button>
               </div>
             </div>
@@ -1202,14 +1202,14 @@
                   <nav>
                     <div class="nav nav-tabs" id="nav-tab">
                       <a class="nav-link active" id="step4-tab" data-bs-toggle="tab" href="#step4" (click)="
-                        getPayrollLeaveResponseMethodCall()
-                        ">LEAVES</a>
+                        leavesTab()
+                        " #step4Tab>LEAVES</a>
                       <a class="nav-link" id="step5-tab" data-bs-toggle="tab" href="#step5" (click)="
-                          getLopSummaryResponseByOrganizationIdAndStartDateAndDateMethodCall()
-                        ">LOP SUMMARY</a>
+                          lopSummaryTab()
+                        " #step5Tab>LOP SUMMARY</a>
                       <a class="nav-link" id="step6-tab" data-bs-toggle="tab" href="#step6" (click)="
-                          getLopReversalResponseByOrganizationIdAndStartDateAndDateMethodCall()
-                        ">LOP REVERSAL</a>
+                          lopReversalTab()
+                        " #step6Tab>LOP REVERSAL</a>
                     </div>
                   </nav>
                   <div class="tab-content" id="nav-tabContent">
@@ -1227,8 +1227,6 @@
                               <th>ACTION</th>
                             </tr>
                           </thead>
-
-
                           <ng-container
                             *ngIf="isShimmerForPayrollLeaveResponse && payrollLeaveResponseList.length == 0; else payrollLeaveResponseListData">
                             <tbody>
@@ -1411,12 +1409,13 @@
                                       [(ngModel)]="lopSummaryResponse.adjustedLopDays"
                                       [ngModelOptions]="{standalone: true}" />
                                     <a data-bs-toggle="modal" data-bs-target="#adjustLop"
-                                      (click)="openLopAdjustmentRequestModal(lopSummaryResponse.uuid)">Adjust</a>
+                                      (click)="openLopAdjustmentRequestModal(lopSummaryResponse.uuid, lopSummaryResponse.adjustedLopDays)">Adjust</a>
                                   </td>
                                   <!-- <td>{{ lopSummaryResponse.adjustedLopDays }}</td> -->
                                   <td>{{ lopSummaryResponse.finalLopDays }}</td>
                                   <td>
-                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here" />
+                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="lopSummaryResponse.lopSummaryComment"
+                                    [ngModelOptions]="{standalone: true}"/>
                                   </td>
                                   <td class="text-start">
                                     <a>
@@ -1577,10 +1576,7 @@
                                   </td>
                                   <td>{{ lopReversalResponse.lopDays }}</td>
                                   <td>
-                                    <input class="comment-input p-2" type="number" placeholder="Days count"
-                                      [(ngModel)]="lopReversalResponse.adjustedLopDays"
-                                      [ngModelOptions]="{ standalone: true }"
-                                      (ngModelChange)="selectLopAdjustmentCount($event)" />
+                                    <input class="comment-input p-2" type="number" placeholder="Days count" [(ngModel)]="lopReversalResponse.reversedLopDays" [ngModelOptions]="{ standalone: true }"/>
                                   </td>
                                   <td>
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here" />
@@ -1703,7 +1699,7 @@
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="pb-2">LOP days count to be adjusted</label>
                     <input id="count-input" class="comment-input p-2" type="number" placeholder="Days count"
-                      [(ngModel)]="lopAdjustmentRequest.lopAdjustmentCount" readonly />
+                      [(ngModel)]="lopAdjustmentRequest.lopDaysToBeAdjusted" readonly />
                   </div>
                 </div>
                 <div class="col-md-12">

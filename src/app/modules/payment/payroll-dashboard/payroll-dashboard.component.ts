@@ -4,7 +4,9 @@ import { Key } from 'src/app/constant/key';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { LeaveTypeResponse } from 'src/app/models/leave-type-response';
 import { LopAdjustmentRequest } from 'src/app/models/lop-adjustment-request';
+import { LopReversalRequest } from 'src/app/models/lop-reversal-request';
 import { LopReversalResponse } from 'src/app/models/lop-reversal-response';
+import { LopSummaryRequest } from 'src/app/models/lop-summary-request';
 import { LopSummaryResponse } from 'src/app/models/lop-summary-response';
 import { MonthResponse } from 'src/app/models/month-response';
 import { NewJoineeAndUserExitRequest } from 'src/app/models/new-joinee-and-user-exit-request';
@@ -41,6 +43,48 @@ export class PayrollDashboardComponent implements OnInit {
   NEW_JOINEE = Key.NEW_JOINEE;
   USER_EXIT = Key.USER_EXIT;
   REGULAR = Key.REGULAR;
+
+
+
+  CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LEAVES;
+
+  LEAVES = Key.LEAVES;
+  LOP_SUMMARY = Key.LOP_SUMMARY;
+  LOP_REVERSAL = Key.LOP_REVERSAL;
+
+
+  @ViewChild('step1Tab', { static: false }) step1Tab!: ElementRef;
+  @ViewChild('step2Tab', { static: false }) step2Tab!: ElementRef;
+  @ViewChild('step3Tab', { static: false }) step3Tab!: ElementRef;
+  @ViewChild('step4Tab', { static: false }) step4Tab!: ElementRef;
+  @ViewChild('step5Tab', { static: false }) step5Tab!: ElementRef;
+  @ViewChild('step6Tab', { static: false }) step6Tab!: ElementRef;
+
+  navigateToTab(tabId: string): void {
+    switch (tabId) {
+      case 'step1-tab':
+        this.step1Tab.nativeElement.click();
+        break;
+      case 'step2-tab':
+        this.step2Tab.nativeElement.click();
+        break;
+      case 'step3-tab':
+        this.step3Tab.nativeElement.click();
+        break;
+      case 'step4-tab':
+        this.step4Tab.nativeElement.click();
+        break;
+      case 'step5-tab':
+        this.step5Tab.nativeElement.click();
+        break;
+      case 'step6-tab':
+        this.step6Tab.nativeElement.click();
+        break;
+      default:
+        console.error(`Tab with id ${tabId} not found`);
+        return;
+    }
+  }
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
@@ -426,11 +470,38 @@ export class PayrollDashboardComponent implements OnInit {
     this.getFinalSettlementByOrganizationIdMethodCall();
   }
 
+  // Attendance, Leaves and Present Days tab selection
+  leavesTab(){
+    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LEAVES;
+    this.resetCriteriaFilter();
+    this.getPayrollLeaveLogResponseMethodCall();
+  }
+
+  lopSummaryTab(){
+    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LOP_SUMMARY;
+    this.resetCriteriaFilter();
+    this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
+  }
+
+  lopReversalTab(){
+    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LOP_REVERSAL;
+    this.resetCriteriaFilter();
+    this.getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
+  }
+
   employeeChangesBackTab(){
     if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.FINAL_SETTLEMENT_STEP){
-      this.clickOnUserExitTab();
+      this.navigateToTab('step2-tab'); // Navigating to the user exit tab
     } else if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP){
-      this.clickOnNewJoineeTab();
+      this.navigateToTab('step1-tab'); // Navigating to the new joinee tab
+    }
+  }
+
+  attendanceAndLeaveBackTab(){
+    if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == Key.LOP_REVERSAL){
+      this.navigateToTab('step5-tab');
+    } else if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == Key.LOP_SUMMARY){
+      this.navigateToTab('step4-tab');
     }
   }
 
@@ -638,11 +709,11 @@ export class PayrollDashboardComponent implements OnInit {
     }
 
     if (step == Key.LOP_SUMMARY){
-      this.getLopSummaryResponseByOrganizationIdAndStartDateAndDateMethodCall();
+      this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
     }
 
     if(step == Key.LOP_REVERSAL){
-      this.getLopReversalResponseByOrganizationIdAndStartDateAndDateMethodCall();
+      this.getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
     }
   }
 
@@ -833,8 +904,13 @@ export class PayrollDashboardComponent implements OnInit {
       }
       
       this.dataService.registerNewJoineeAndUserExit(this.newJoineeAndUserExitRequestList, this.startDate, this.endDate).subscribe((response) => {
-
+        console.log(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE);
         this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+        if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.NEW_JOINEE_STEP) {
+          this.navigateToTab('step2-tab'); //Navigating to the user exit tab
+        } else if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP) {
+          this.navigateToTab('step3-tab'); //Navigating to the full and final settlement tab
+        }
 
       }, (error) => {
         this.helperService.showToast(error.error.message, Key.TOAST_STATUS_ERROR);
@@ -864,9 +940,43 @@ export class PayrollDashboardComponent implements OnInit {
       this.networkConnectionErrorPlaceHolderForLopReversal = false;
     }
 
+    registerAttendanceAndLeavesMethodCall(){
+      if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LEAVES){
+
+      }
+
+      if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LOP_SUMMARY){
+        this.registerLopSummaryRequestByOrganizationIdAndStartDateMethodCall();
+      }
+
+      if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LOP_REVERSAL){
+        this.registerLopReversalRequestByOrganizationIdAndStartDateMethodCall();
+      }
+    }
+
+    lopSummaryRequestList : LopSummaryRequest[] = [];
+    registerLopSummaryRequestByOrganizationIdAndStartDateMethodCall(){
+
+      this.lopSummaryRequestList = [];
+
+      this.lopSummaryResponseList.forEach((item) => {
+        let lopSummaryRequest = new LopSummaryRequest(item.uuid, item.lopDays, item.finalLopDays, item.adjustedLopDays, item.lopSummaryComment);
+        
+        this.lopSummaryRequestList.push(lopSummaryRequest);
+      })
+
+      this.dataService.registerLopSummaryRequestByOrganizationIdAndStartDateAndEndDate(this.lopSummaryRequestList, this.startDate, this.endDate).subscribe((response) => {
+        this.helperService.showToast("LOP summary has been successfully saved.", Key.TOAST_STATUS_SUCCESS);
+        this.navigateToTab('step6-tab'); //Navigating to the Lop reversal tab
+      }, (error) => {
+        this.helperService.showToast("Error while saving the LOP summary!", Key.TOAST_STATUS_ERROR);
+        console.log(error);
+      })
+    }
+
     lopSummaryResponseList : LopSummaryResponse[] = [];
-    getLopSummaryResponseByOrganizationIdAndStartDateAndDateMethodCall(){
-      this.dataService.getLopSummaryResponseByOrganizationIdAndStartDateAndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+    getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall(){
+      this.dataService.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
 
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
           this.dataNotFoundPlaceholderForLopSummary = true;
@@ -886,9 +996,28 @@ export class PayrollDashboardComponent implements OnInit {
 
 
 
+    lopReversalRequestList : LopReversalRequest[] = [];
+    registerLopReversalRequestByOrganizationIdAndStartDateMethodCall(){
+
+      this.lopReversalRequestList = [];
+
+      this.lopReversalResponseList.forEach((item) => {
+        let lopReversalRequest = new LopReversalRequest(item.uuid, item.lopDays, item.reversedLopDays, item.lopReversalComment);
+        
+        this.lopReversalRequestList.push(lopReversalRequest);
+      })
+
+      this.dataService.registerLopReversalRequestByOrganizationIdAndStartDateAndEndDate(this.lopReversalRequestList, this.startDate, this.endDate).subscribe((response) => {
+        this.helperService.showToast("LOP reversed successfully.", Key.TOAST_STATUS_SUCCESS);
+      }, (error) => {
+        this.helperService.showToast("Error while saving the LOP Reversal!", Key.TOAST_STATUS_ERROR);
+        console.log(error);
+      })
+    }
+
     lopReversalResponseList : LopReversalResponse[] = [];
-    getLopReversalResponseByOrganizationIdAndStartDateAndDateMethodCall(){
-      this.dataService.getLopReversalResponseByOrganizationIdAndStartDateAndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+    getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall(){
+      this.dataService.getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
 
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
           this.dataNotFoundPlaceholderForLopReversal = true;
@@ -944,9 +1073,10 @@ export class PayrollDashboardComponent implements OnInit {
     lopAdjustmentRequest : LopAdjustmentRequest = new LopAdjustmentRequest();
     registerLopAdjustmentRequestMethodCall(){
       debugger;
-      this.dataService.registerLopAdjustmentRequest(this.lopAdjustmentRequest).subscribe((response) => {
+      this.dataService.registerLopAdjustmentRequest(this.lopAdjustmentRequest, this.startDate, this.endDate).subscribe((response) => {
         this.closeLopAdjustmentRequestModal.nativeElement.click();
         this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+        this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
       }, (error) => {
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       })
@@ -971,9 +1101,10 @@ export class PayrollDashboardComponent implements OnInit {
 
 
     // Logic to open lop adjustment modal
-    openLopAdjustmentRequestModal(uuid : string){
+    openLopAdjustmentRequestModal(uuid : string, lopDaysToBeAdjusted : number){
       this.getLeaveTypeResponseListByUserUuidMethodCall(uuid);
       this.lopAdjustmentRequest.userUuid = uuid;
+      this.lopAdjustmentRequest.lopDaysToBeAdjusted = lopDaysToBeAdjusted;
     }
 
     // Logic to close lop adjustment modal
@@ -981,7 +1112,7 @@ export class PayrollDashboardComponent implements OnInit {
 
     selectLopAdjustmentCount(count : number){
       console.log(count);
-      this.lopAdjustmentRequest.lopAdjustmentCount = count;
+      this.lopAdjustmentRequest.lopDaysToBeAdjusted = count;
     }
 
 

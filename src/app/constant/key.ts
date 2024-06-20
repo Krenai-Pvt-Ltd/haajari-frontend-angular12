@@ -281,6 +281,7 @@ export class Key {
   public static USER_EXIT = 'User Exit';
   public static REGULAR = 'Regular';
 
+
   //Attendance rule type ids
   public static DEDUCTION_RULE_DEFINITION = 1;
   public static OVERTIME_RULE_DEFINITION = 2;
