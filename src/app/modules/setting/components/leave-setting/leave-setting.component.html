@@ -644,8 +644,13 @@
                       <div class="col-md-12">
                         <div class="">
                           <label for="templateName" class="pb-2"
-                            >Template Name</label
-                          >
+                            >Template Name
+                            <i
+                              class="bi bi-exclamation-circle tolltip-icon"
+                              ngbTooltip="Provide a unique name for your organization's leave template. This name will be used to assign leave quotas to users who belong to this leave template."
+                              placement="top"
+                            ></i
+                          ></label>
                           <input
                             [(ngModel)]="leaveSettingResponse.templateName"
                             [ngModelOptions]="{ standalone: true }"
@@ -689,8 +694,13 @@
                       <div class="col-md-6 mt-3">
                         <div class="">
                           <label for="leaveCycle" class="pb-2"
-                            >Leave Credit</label
-                          >
+                            >Leave Credit
+                            <i
+                              class="bi bi-exclamation-circle tolltip-icon"
+                              ngbTooltip="There are two main types: Monthly and Yearly. Monthly credits leave on a monthly basis. Yearly has two subtypes: 'All at Once', where leave is credited once at the start of the year, and 'Monthly Start', where the yearly leave quota is credited at the start of each month (you can choose a cycle from Jan to Dec or Apr to Mar of the next financial year)."
+                              placement="top"
+                            ></i
+                          ></label>
 
                           <div class="d-flex" style="gap: 5px">
                             <div
@@ -871,8 +881,13 @@
                       <div class="col-md-6 mt-3">
                         <div class="">
                           <label for="sandwichLeaves" class="pb-2"
-                            >Sandwich Leaves</label
-                          >
+                            >Sandwich Leaves
+                            <i
+                              class="bi bi-exclamation-circle tolltip-icon"
+                              ngbTooltip="This option enables you to decide whether to implement sandwich rules for your organization or not. Sandwich rules mean that if an employee takes a leave on Friday and the weekend (Saturday and Sunday) are non-working days for your organization, then the weekend days will also be counted as leave days."
+                              placement="top"
+                            ></i
+                          ></label>
                           <div class="d-flex" style="gap: 5px">
                             <div
                               role="group "
@@ -1061,13 +1076,13 @@
                           [ngClass]="{
                             'col-md-2':
                               leaveSettingResponse.leaveCycle === 'Yearly' &&
-                              leaveSettingResponse.accrualType !==
-                                'Monthly Start',
-                            'col-md-3': !(
-                              leaveSettingResponse.leaveCycle === 'Yearly' &&
-                              leaveSettingResponse.accrualType !==
-                                'Monthly Start'
-                            )
+                              leaveSettingResponse.accrualType ===
+                                'Month Start',
+                            'col-md-3':
+                              (leaveSettingResponse.leaveCycle === 'Yearly' &&
+                                leaveSettingResponse.accrualType !==
+                                  'Month Start') ||
+                              leaveSettingResponse.leaveCycle === 'Monthly'
                           }"
                         >
                           <label class="mb-2">Leave Count</label>
@@ -1107,21 +1122,20 @@
                             per month
                           </span> -->
                         </div>
+                        <!-- {{ leaveSettingResponse.accrualType }} -->
                         <div
                           [ngClass]="{
                             'col-md-2':
                               leaveSettingResponse.leaveCycle === 'Yearly' &&
-                              leaveSettingResponse.accrualType !==
-                                'Monthly Start',
-                            'col-md-3': !(
+                              leaveSettingResponse.accrualType ===
+                                'Month Start',
+                            'col-md-3':
                               leaveSettingResponse.leaveCycle === 'Yearly' &&
-                              leaveSettingResponse.accrualType !==
-                                'Monthly Start'
-                            )
+                              leaveSettingResponse.accrualType !== 'Month Start'
                           }"
                           *ngIf="
                             leaveSettingResponse.leaveCycle === 'Yearly' &&
-                            leaveSettingResponse.accrualType !== 'Monthly Start'
+                            leaveSettingResponse.accrualType === 'Month Start'
                           "
                         >
                           <label class="mb-2">Monthly Leave Count</label>
@@ -1192,13 +1206,13 @@
                           [ngClass]="{
                             'col-md-2':
                               leaveSettingResponse.leaveCycle === 'Yearly' &&
-                              leaveSettingResponse.accrualType !==
-                                'Monthly Start',
-                            'col-md-3': !(
-                              leaveSettingResponse.leaveCycle === 'Yearly' &&
-                              leaveSettingResponse.accrualType !==
-                                'Monthly Start'
-                            )
+                              leaveSettingResponse.accrualType ===
+                                'Month Start',
+                            'col-md-3':
+                              (leaveSettingResponse.leaveCycle === 'Yearly' &&
+                                leaveSettingResponse.accrualType !==
+                                  'Month Start') ||
+                              leaveSettingResponse.leaveCycle === 'Monthly'
                           }"
                         >
                           <label class="mb-2">Carry Forward Limit</label>

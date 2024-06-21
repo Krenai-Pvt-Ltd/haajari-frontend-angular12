@@ -46,13 +46,13 @@ export class SignInWithSlackComponent implements OnInit {
 
         debugger;
         console.log(decodedValue);
-
-        if (
-          decodedValue.httpCustomStatus === 'UPDATED' &&
-          decodedValue.statusResponse === 'Attendance Rule Setting'
-        ) {
-          this.router.navigate(['/dashboard']);
-        }
+        this.router.navigate(['/dashboard']);
+        // if (
+        //   decodedValue.httpCustomStatus === 'UPDATED' &&
+        //   decodedValue.statusResponse === 'Attendance Rule Setting'
+        // ) {
+        //   this.router.navigate(['/dashboard']);
+        // }
         // } else {
         //   this.router.navigate([
         //     '/organization-onboarding/personal-information',

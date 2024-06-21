@@ -68,14 +68,15 @@ export class SlackAuthComponent implements OnInit {
           debugger;
           console.log(decodedValue);
 
-          if (
-            decodedValue.httpCustomStatus === 'UPDATED' &&
-            decodedValue.statusResponse === 'Attendance Rule Setting'
-          ) {
-            this.isRouteDashboard = true;
+          this.isRouteDashboard = true;
             this.isRouteOnboarding = false;
-            // this.router.navigate(['/dashboard']);
-          }
+          // if (
+          //   decodedValue.httpCustomStatus === 'UPDATED' &&
+          //   decodedValue.statusResponse === 'Attendance Rule Setting'
+          // ) {
+            
+          //   this.router.navigate(['/dashboard']);
+          // }
           // } else {
           //   this.isRouteDashboard = false;
           //   this.isRouteOnboarding = true;

@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { NotificationVia } from 'src/app/models/notification-via';
 
@@ -36,7 +36,8 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private rbacService: RoleBasedAccessControlService,
     private afStorage: AngularFireStorage,
-    private helper: HelperService
+    private helper: HelperService,
+    private router: Router
   ) {
     debugger;
     if (this._routeParam.snapshot.queryParamMap.has('setting')) {
@@ -170,11 +171,9 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
           this.phoneNumber = response.phoneNumber;
         }
         if (response.languagePreferred == 2) {
-          this.englishEnable = false;
-          this.languagePreferredHindi = 2;
+          this.languagePreferredHindi = true;
         } else {
-          this.englishEnable = true;
-          this.languagePreferredEnglish = 1;
+          this.languagePreferredEnglish = true;
         }
         if (response.notificationVia == 2) {
           this.notifications.slack = false;
@@ -316,50 +315,35 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     whatsapp: false,
     slack: true, // Default to enabled if isPlanActive is true
   };
-  toggleNotification(
-    type: 'whatsapp' | 'slack' | 'whatsappDisable' | 'slackDisable'
-  ) {
-    switch (type) {
-      case 'whatsapp':
-        this.notifications.whatsapp = true;
-        this.notifications.slack = false; // Assuming opposite state for Slack
-        this.updateNotificationSettingMethodCall('whatsapp');
-        break;
-      case 'whatsappDisable':
+
+  onToggleChange(type: string) {
+    if (type === 'slack') {
+      if (this.notifications.slack) {
+        // Slack is being enabled, disable WhatsApp
         this.notifications.whatsapp = false;
-        this.notifications.slack = true; // Assuming opposite state for Slack
-        this.updateNotificationSettingMethodCall('slack');
-        break;
-      case 'slack':
-        this.notifications.slack = true;
-        this.notifications.whatsapp = false; // Assuming opposite state for WhatsApp
-        this.updateNotificationSettingMethodCall('slack');
-        break;
-      case 'slackDisable':
+        this.notificationVia.id = 1;
+      } else {
+        // Slack is being disabled, ensure WhatsApp is enabled
+        this.notifications.whatsapp = true;
+        this.notificationVia.id = 2;
+      }
+    } else if (type === 'whatsapp') {
+      if (this.notifications.whatsapp) {
+        // WhatsApp is being enabled, disable Slack
         this.notifications.slack = false;
-        this.notifications.whatsapp = true; // Assuming opposite state for WhatsApp
-        this.updateNotificationSettingMethodCall('whatsapp');
-        break;
+        this.notificationVia.id = 2;
+      } else {
+        // WhatsApp is being disabled, ensure Slack is enabled
+        this.notifications.slack = true;
+        this.notificationVia.id = 1;
+      }
     }
+    this.updateNotificationSettingMethodCall();
   }
 
   @ViewChild('otpModalButton') otpModalButton!: ElementRef;
-  updateNotificationSettingMethodCall(type: 'whatsapp' | 'slack'): void {
+  updateNotificationSettingMethodCall(): void {
     debugger;
-    // if (type === 'whatsapp' && this.notifications.slack == true) {
-    //   this.notificationVia.id = 2;
-    // } else if (type === 'slack' && this.notifications.slack == true) {
-    //   this.notificationVia.id = 1;
-    // } else if (type === 'slack' && this.notifications.slack == false) {
-    //   this.notificationVia.id = 1;
-    // } else if (type === 'whatsapp' && this.notifications.whatsapp == true) {
-    //   this.notificationVia.id = 2;
-    // }
-    if (type === 'whatsapp') {
-      this.notificationVia.id = 2;
-    } else {
-      this.notificationVia.id = 1;
-    }
     this._data.updateNotificationSetting(this.notificationVia).subscribe({
       next: (response: UserPersonalInformationRequest) => {
         // Handle successful update
@@ -368,7 +352,6 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
             'Notification Setting Updated Successfully',
             Key.TOAST_STATUS_SUCCESS
           );
-          console.log('Notification settings updated successfully', response);
         } else if (
           response.phoneNumber == null &&
           this.notifications.whatsapp == true
@@ -468,32 +451,9 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   languagePreferred: number = 0;
   englishEnable: boolean = false;
   // hindiEnable: boolean = false;
-  languagePreferredEnglish: number = 0;
-  languagePreferredHindi: number = 0;
-  updateLanguagePreferredForNotificationMethodCall(value: number): void {
-    if (this.languagePreferred === value) {
-      // Toggle off the currently selected option
-      this.languagePreferred = 0;
-    } else {
-      // Set the selected option
-      this.languagePreferred = value;
-    }
-
-    // Set languagePreferredEnglish and languagePreferredHindi based on the selected option
-    if (this.languagePreferred === 1) {
-      this.languagePreferredEnglish = 1;
-      this.languagePreferredHindi = 0;
-      this.englishEnable = true;
-    } else if (this.languagePreferred === 2) {
-      this.languagePreferredEnglish = 0;
-      this.languagePreferredHindi = 1;
-      this.englishEnable = false;
-    } else {
-      // Both toggles are off
-      this.languagePreferredEnglish = 0;
-      this.languagePreferredHindi = 0;
-    }
-
+  languagePreferredEnglish: boolean = false;
+  languagePreferredHindi: boolean = false;
+  updateLanguagePreferredForNotificationMethodCall(): void {
     // Call the API to update language preference
     this._data
       .updateLanguagePreferredForNotification(this.languagePreferred)
@@ -505,6 +465,27 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
           );
         },
       });
+  }
+
+  onLanguageToggleChange(type: string) {
+    if (type === 'english') {
+      if (this.languagePreferredEnglish) {
+        this.languagePreferredHindi = false;
+        this.languagePreferred = 1;
+      } else {
+        this.languagePreferredHindi = true;
+        this.languagePreferred = 2;
+      }
+    } else if (type === 'hindi') {
+      if (this.languagePreferredHindi) {
+        this.languagePreferredEnglish = false;
+        this.languagePreferred = 2;
+      } else {
+        this.languagePreferredEnglish = true;
+        this.languagePreferred = 1;
+      }
+    }
+    this.updateLanguagePreferredForNotificationMethodCall();
   }
 
   employeeAttendanceFlag: boolean = false;
@@ -650,11 +631,12 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   }
 
   reinstallHajiri(): void {
-    if (this.authUrl) {
-      window.location.href = this.authUrl;
-    } else {
-      console.error('Auth URL is not set');
-    }
+    this.router.navigate(['/auth/login']);
+    // if (this.authUrl) {
+    //   window.location.href = this.authUrl;
+    // } else {
+    //   console.error('Auth URL is not set');
+    // }
   }
 
   @ViewChild('closeUserDeleteModal') closeUserDeleteModal: any;

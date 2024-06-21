@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Key } from 'src/app/constant/key';
@@ -8,6 +9,7 @@ import { OrganizationAddressDetail } from 'src/app/models/organization-address-d
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
+import { PlacesService } from 'src/app/services/places.service';
 
 @Component({
   selector: 'app-attendance-mode',
@@ -21,11 +23,13 @@ export class AttendanceModeComponent implements OnInit {
     private router: Router,
     private onboardingService: OrganizationOnboardingService,
     private _location: Location,
+    private placesService: PlacesService
   ) {}
 
   ngOnInit(): void {
     this.getAttendanceModeAllMethodCall();
     this.getAttendanceModeMethodCall();
+    this.getOrganizationAddressDetailMethodCall();
   }
 
   isUpdate: boolean = false;
@@ -50,13 +54,13 @@ export class AttendanceModeComponent implements OnInit {
         setTimeout(() => {
           this.helperService.showToast(
             'Attedance Mode updated successfully.',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
         }, 1000);
       },
       (error) => {
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-      },
+      }
     );
   }
 
@@ -73,7 +77,7 @@ export class AttendanceModeComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -86,7 +90,7 @@ export class AttendanceModeComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -107,7 +111,7 @@ export class AttendanceModeComponent implements OnInit {
       (error) => {
         this.isAttendanceModeLoader = false;
         console.log(error);
-      },
+      }
     );
     this.isAttendanceModeLoader = false;
   }
@@ -127,23 +131,25 @@ export class AttendanceModeComponent implements OnInit {
           this.isUpdate = true;
           this.updateAttendanceModeMethodCall(this.currentAttendanceModeId);
           this.closeAddressModal.nativeElement.click();
-          this.resetAddressDetailsModal();
+          // this.resetAddressDetailsModal();
           setTimeout(() => {
             this.helperService.showToast(
               'Attedance Mode updated successfully',
-              Key.TOAST_STATUS_SUCCESS,
+              Key.TOAST_STATUS_SUCCESS
             );
           }, 1000);
           // this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
           console.error(error);
-        },
+        }
       );
   }
 
   resetAddressDetailsModal() {
+    this.organizationAddressForm.resetForm();
     this.organizationAddressDetail = new OrganizationAddressDetail();
+    this.isFormInvalid = false;
   }
   isAttendanceModeBackLoading: boolean = false;
   backPage() {
@@ -198,5 +204,145 @@ export class AttendanceModeComponent implements OnInit {
         this.organizationAddressDetail.pincode = entry.long_name;
       }
     });
+  }
+  fetchCurrentLocationLoader: boolean = false;
+  locationLoader: boolean = false;
+  currentLocation() {
+    debugger;
+    this.locationLoader = true;
+    this.fetchCurrentLocationLoader = true;
+    this.getCurrentLocation()
+      .then((coords) => {
+        this.placesService
+          .getLocationDetails(coords.latitude, coords.longitude)
+          .then((details) => {
+            this.locationLoader = false;
+            this.organizationAddressDetail = new OrganizationAddressDetail();
+            // this.organizationAddressDetail.id = id;
+            this.organizationAddressDetail.longitude = coords.longitude;
+            this.organizationAddressDetail.latitude = coords.latitude;
+
+            console.log('formatted_address:', details);
+            this.organizationAddressDetail.addressLine1 =
+              details.formatted_address;
+            this.organizationAddressDetail.addressLine2 = '';
+            if (details.address_components[1].types[0] === 'locality') {
+              this.organizationAddressDetail.city =
+                details.address_components[2].long_name;
+            }
+            if (
+              details.address_components[4].types[0] ===
+              'administrative_area_level_1'
+            ) {
+              this.organizationAddressDetail.state =
+                details.address_components[4].long_name;
+            }
+            if (details.address_components[5].types[0] === 'country') {
+              this.organizationAddressDetail.country =
+                details.address_components[5].long_name;
+            }
+            if (details.address_components[6].types[0] === 'postal_code') {
+              this.organizationAddressDetail.pincode =
+                details.address_components[6].long_name;
+            }
+            this.fetchCurrentLocationLoader = false;
+          })
+          .catch((error) => {
+            console.error(error);
+            this.fetchCurrentLocationLoader = false;
+          });
+        // this.fetchCurrentLocationLoader = false;
+      })
+      .catch((error) => {
+        console.error(error);
+        this.fetchCurrentLocationLoader = false;
+      });
+    // this.fetchCurrentLocationLoader = false;
+  }
+
+  getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            resolve({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+          },
+          (err) => {
+            reject(err);
+          }
+        );
+      } else {
+        reject('Geolocation is not supported by this browser.');
+      }
+    });
+  }
+
+  isFormInvalid: boolean = false;
+  @ViewChild('organizationAddressForm') organizationAddressForm!: NgForm;
+  checkFormValidation() {
+    if (
+      this.organizationAddressForm.invalid ||
+      !this.organizationAddressDetail.longitude ||
+      !this.organizationAddressDetail.latitude
+    ) {
+      this.isFormInvalid = true;
+      return;
+    } else {
+      if (!this.organizationAddressDetail.country) {
+        this.isFormInvalid = true;
+      } else {
+        this.isFormInvalid = false;
+      }
+    }
+  }
+
+  submit() {
+    debugger;
+    this.checkFormValidation();
+
+    if (this.isFormInvalid == true) {
+      return;
+    } else {
+      this.setOrganizationAddressDetailMethodCall();
+    }
+  }
+
+  // public resetAddressDetailsModal() {
+  //   this.organizationAddressForm.resetForm(); // This resets the form
+  //   this.organizationAddressDetail = new OrganizationAddressDetail(); // Optionally, reset the model
+  //   this.isFormInvalid = false;
+  // }
+
+  isShowMap: boolean = false;
+  getOrganizationAddressDetailMethodCall() {
+    debugger;
+    this.dataService.getOrganizationAddressDetail().subscribe(
+      (response: OrganizationAddressDetail) => {
+        if (response) {
+          // console.log(response);
+          this.organizationAddressDetail = response;
+          console.log(this.organizationAddressDetail.latitude);
+          if (this.organizationAddressDetail.latitude == null) {
+            this.currentLocation();
+          } else {
+            // this.lat = Number(this.organizationAddressDetail.latitude);
+            // this.lng = Number(this.organizationAddressDetail.longitude);
+            this.isShowMap = true;
+          }
+          // if(this.organizationAddressDetail.latitude & this.organizationAddressDetail.longitude){
+          //   this.organizationAddressDetail.latitude = this.lat;
+          //   this.organizationAddressDetail.longitude = this.lat
+          // }
+        } else {
+          console.log('No address details found');
+        }
+      },
+      (error: any) => {
+        console.error('Error fetching address details:', error);
+      }
+    );
   }
 }

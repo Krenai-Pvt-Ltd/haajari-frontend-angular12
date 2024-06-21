@@ -25,7 +25,7 @@ export class AddShiftTimeComponent implements OnInit {
     private router: Router,
     private _location: Location,
     private helperService: HelperService,
-    private onboardingService: OrganizationOnboardingService,
+    private onboardingService: OrganizationOnboardingService
   ) {}
 
   ngOnInit(): void {
@@ -67,7 +67,7 @@ export class AddShiftTimeComponent implements OnInit {
         // this.isBackLoading = false;
         // this.onboardingService.refreshOnboarding();
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -80,7 +80,7 @@ export class AddShiftTimeComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -117,7 +117,7 @@ export class AddShiftTimeComponent implements OnInit {
         },
         (error) => {
           console.error(error);
-        },
+        }
       );
   }
 
@@ -134,17 +134,17 @@ export class AddShiftTimeComponent implements OnInit {
           this.loading = false;
           this.helperService.showToast(
             'Shift Timing registered successfully',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
           this.router.navigate(['/organization-onboarding/shift-time-list']);
         },
         (error) => {
           this.helperService.showToast(
             'Shift creation failed!',
-            Key.TOAST_STATUS_ERROR,
+            Key.TOAST_STATUS_ERROR
           );
           this.loading = false;
-        },
+        }
       );
   }
 
@@ -173,7 +173,7 @@ export class AddShiftTimeComponent implements OnInit {
       (error) => {
         console.log(error);
         // this.networkConnectionErrorPlaceHolder = true;
-      },
+      }
     );
   }
 
@@ -236,7 +236,7 @@ export class AddShiftTimeComponent implements OnInit {
         this.selectedStaffsUuids.includes(staff.uuid)
       ) {
         this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-          (uuid) => uuid !== staff.uuid,
+          (uuid) => uuid !== staff.uuid
         );
       }
     });
@@ -269,7 +269,7 @@ export class AddShiftTimeComponent implements OnInit {
       this.staffs.forEach((staff) => {
         if (this.selectedStaffsUuids.includes(staff.uuid)) {
           this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-            (uuid) => uuid !== staff.uuid,
+            (uuid) => uuid !== staff.uuid
           );
         }
       });
@@ -285,7 +285,6 @@ export class AddShiftTimeComponent implements OnInit {
   }
 
   selectAllUsers(isChecked: boolean) {
-
     this.isAllUsersSelected = isChecked;
     this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
     this.staffs.forEach((staff) => (staff.selected = isChecked)); // Update each staff's selected property
@@ -432,7 +431,9 @@ export class AddShiftTimeComponent implements OnInit {
   formatMinutesToTime(minutes: any) {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+    return `${hours.toString().padStart(2, '0')}:${mins
+      .toString()
+      .padStart(2, '0')}`;
   }
 
   submitShiftTimingForm(): void {
@@ -454,7 +455,7 @@ export class AddShiftTimeComponent implements OnInit {
     this.getUserByFiltersMethodCall();
   }
 
-  backToShiftTime(){
+  backToShiftTime() {
     this.SHIFT_TIME_STEP_ID = Key.SHIFT_TIME;
   }
 
@@ -466,7 +467,7 @@ export class AddShiftTimeComponent implements OnInit {
       },
       (error) => {
         console.log('error');
-      },
+      }
     );
   }
 }

@@ -128,6 +128,7 @@
                           <small class="text-muted">Attendance</small>
                           <div
                             class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary"
+                            *ngIf="!isDisabled"
                           >
                             <div class="enable-disanle-box mb-0" role="alert">
                               <img
@@ -143,13 +144,13 @@
                             >
                               <input
                                 type="checkbox"
-                                id="whatsappSwitch"
-                                [(ngModel)]="notifications.whatsapp"
-                                (click)="toggleNotification('whatsapp')"
+                                id="slackSwitch"
+                                [(ngModel)]="notifications.slack"
+                                (change)="onToggleChange('slack')"
                                 [disabled]="isDisabled"
                               /><label
                                 class="label-success"
-                                for="whatsappSwitch"
+                                for="slackSwitch"
                               ></label>
                             </div>
                             <!-- <div>
@@ -273,7 +274,7 @@
                                   type="checkbox"
                                   id="whatsappSwitch"
                                   [(ngModel)]="notifications.whatsapp"
-                                  (click)="toggleNotification('whatsapp')"
+                                  (change)="onToggleChange('whatsapp')"
                                   [disabled]="isDisabled"
                                 /><label
                                   class="label-success"
@@ -283,7 +284,10 @@
                             </div>
                           </div>
                         </div>
-                        <div class="pb-2 mt-3">
+                        <div
+                          class="pb-2 mt-3"
+                          *ngIf="onboardingVia === 'WHATSAPP'"
+                        >
                           <small class="text-muted">Language Preferred</small>
                           <div
                             class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary"
@@ -299,70 +303,16 @@
                               English
                             </div>
                             <div>
-                              <!-- <div
-                                class="btn-group enable-disanle-btn"
-                                role="group"
-                                aria-label="Basic radio toggle button group"
-                              >
-                                <input
-                                  type="radio"
-                                  class="btn-check"
-                                  name="englishEnable"
-                                  id="englishEnable"
-                                  autocomplete="off"
-                                  [(ngModel)]="languagePreferredEnglish"
-                                  [value]="1"
-                                  (change)="
-                                    updateLanguagePreferredForNotificationMethodCall(
-                                      1
-                                    )
-                                  "
-                                />
-                                <label
-                                  class="btn btn-soft-success btn-sm"
-                                  for="englishEnable"
-                                  [ngClass]="{
-                                    'btn-soft-success-lock': englishEnable
-                                  }"
-                                  >Enable</label
-                                >
-                                <input
-                                  type="radio"
-                                  class="btn-check"
-                                  name="englishDisable"
-                                  id="englishDisable"
-                                  autocomplete="off"
-                                  [(ngModel)]="languagePreferredEnglish"
-                                  [value]="2"
-                                  (change)="
-                                    updateLanguagePreferredForNotificationMethodCall(
-                                      2
-                                    )
-                                  "
-                                />
-                                <label
-                                  class="btn btn-soft-secondary btn-sm"
-                                  for="englishDisable"
-                                  [ngClass]="{
-                                    'btn-de-secondary-lock': !englishEnable
-                                  }"
-                                  >Disable</label
-                                >
-                              </div> -->
-
-                              <div
-                                class="material-switch"
-                                [class.disabled]="isDisabled"
-                              >
+                              <div class="material-switch">
                                 <input
                                   type="checkbox"
-                                  id="whatsappSwitch"
-                                  [(ngModel)]="notifications.whatsapp"
-                                  (click)="toggleNotification('whatsapp')"
+                                  id="englishSwitch"
+                                  [(ngModel)]="languagePreferredEnglish"
+                                  (change)="onLanguageToggleChange('english')"
                                   [disabled]="isDisabled"
                                 /><label
                                   class="label-success"
-                                  for="whatsappSwitch"
+                                  for="englishSwitch"
                                 ></label>
                               </div>
                             </div>
@@ -381,70 +331,16 @@
                               Hindi
                             </div>
                             <div>
-                              <!-- <div
-                                class="btn-group enable-disanle-btn"
-                                role="group"
-                                aria-label="Basic radio toggle button group"
-                              >
-                                <input
-                                  type="radio"
-                                  class="btn-check"
-                                  name="hindiEnable"
-                                  id="hindiEnable"
-                                  autocomplete="off"
-                                  [(ngModel)]="languagePreferredHindi"
-                                  [value]="2"
-                                  (change)="
-                                    updateLanguagePreferredForNotificationMethodCall(
-                                      2
-                                    )
-                                  "
-                                />
-                                <label
-                                  class="btn btn-soft-success btn-sm"
-                                  for="hindiEnable"
-                                  [ngClass]="{
-                                    'btn-soft-success-lock': !englishEnable
-                                  }"
-                                  >Enable</label
-                                >
-                                <input
-                                  type="radio"
-                                  class="btn-check"
-                                  name="hindiDisable"
-                                  id="hindiDisable"
-                                  autocomplete="off"
-                                  [(ngModel)]="languagePreferredHindi"
-                                  [value]="1"
-                                  (change)="
-                                    updateLanguagePreferredForNotificationMethodCall(
-                                      1
-                                    )
-                                  "
-                                />
-                                <label
-                                  class="btn btn-soft-secondary btn-sm"
-                                  for="hindiDisable"
-                                  [ngClass]="{
-                                    'btn-de-secondary-lock': englishEnable
-                                  }"
-                                  >Disable</label
-                                >
-                              </div> -->
-
-                              <div
-                                class="material-switch"
-                                [class.disabled]="isDisabled"
-                              >
+                              <div class="material-switch">
                                 <input
                                   type="checkbox"
-                                  id="whatsappSwitch"
-                                  [(ngModel)]="notifications.whatsapp"
-                                  (click)="toggleNotification('whatsapp')"
+                                  id="hindiSwitch"
+                                  [(ngModel)]="languagePreferredHindi"
+                                  (change)="onLanguageToggleChange('hindi')"
                                   [disabled]="isDisabled"
                                 /><label
                                   class="label-success"
-                                  for="whatsappSwitch"
+                                  for="hindiSwitch"
                                 ></label>
                               </div>
                             </div>
@@ -452,7 +348,10 @@
                         </div>
                         <div
                           class="mt-3"
-                          *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'"
+                          *ngIf="
+                            (ROLE === 'ADMIN' || ROLE === 'MANAGER') &&
+                            onboardingVia === 'WHATSAPP'
+                          "
                         >
                           <small class="text-muted"
                             >Employee's Attendance
@@ -477,71 +376,19 @@
                               Would you like to receive notifications for your
                               employee's attendance?
                             </div>
-                            <!-- <div>
-                              <div
-                                class="btn-group enable-disanle-btn"
-                                role="group"
-                                aria-label="Basic radio toggle button group"
-                              >
-                                <input
-                                  type="radio"
-                                  class="btn-check"
-                                  name="btnradio4"
-                                  id="Enable7"
-                                  autocomplete="off"
-                                  checked=""
-                                  [(ngModel)]="employeeAttendanceFlag"
-                                  [value]="true"
-                                  (change)="
-                                    updateAttendanceNotificationSettingForManagerMethodCall()
-                                  "
-                                />
-                                <label
-                                  class="btn btn-soft-success btn-sm"
-                                  for="Enable7"
-                                  [ngClass]="{
-                                    'btn-soft-success-lock':
-                                      employeeAttendanceFlag
-                                  }"
-                                  >Enable</label
-                                >
-                                <input
-                                  type="radio"
-                                  class="btn-check"
-                                  name="btnradio4"
-                                  id="Enable8"
-                                  autocomplete="off"
-                                  [(ngModel)]="employeeAttendanceFlag"
-                                  [value]="false"
-                                  (change)="
-                                    updateAttendanceNotificationSettingForManagerMethodCall()
-                                  "
-                                />
-                                <label
-                                  class="btn btn-soft-secondary btn-sm"
-                                  for="Enable8"
-                                  [ngClass]="{
-                                    'btn-de-secondary-lock':
-                                      !employeeAttendanceFlag
-                                  }"
-                                  >Disable</label
-                                >
-                              </div>
-                            </div> -->
 
-                            <div
-                              class="material-switch"
-                              [class.disabled]="isDisabled"
-                            >
+                            <div class="material-switch">
                               <input
                                 type="checkbox"
-                                id="whatsappSwitch"
-                                [(ngModel)]="notifications.whatsapp"
-                                (click)="toggleNotification('whatsapp')"
-                                [disabled]="isDisabled"
-                              /><label
+                                id="employeeNotificationSwitch"
+                                [(ngModel)]="employeeAttendanceFlag"
+                                (change)="
+                                  updateAttendanceNotificationSettingForManagerMethodCall()
+                                "
+                              />
+                              <label
                                 class="label-success"
-                                for="whatsappSwitch"
+                                for="employeeNotificationSwitch"
                               ></label>
                             </div>
                           </div>
@@ -554,7 +401,7 @@
                             >Remove Hajiri From Slack
                             <i
                               class="bi bi-exclamation-circle tolltip-icon"
-                              ngbTooltip="Removing Hajiri from your Slack account will disable all Hajiri operations and uninstall it for all users in the workspace. To reinstall Hajiri, please visit the Hajiri website and use the 'Add to Slack' feature."
+                              ngbTooltip="Removing Hajiri from your Slack account will disable all Hajiri operations and uninstall it for all users in the workspace."
                               placement="top"
                             ></i>
                           </small>
@@ -793,8 +640,31 @@
           #sendOtpForm="ngForm"
           (ngSubmit)="sendOtptoSavePhoneNumberMethodCall()"
         >
-          <div class="mb-3">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <img
+                  src="assets/images/flag.png"
+                  alt="country flag"
+                  class="img-fluid"
+                  style="height: 20px; width: auto; margin-right: 5px"
+                />
+                +91
+              </span>
+            </div>
+            <input
+              type="tel"
+              mask="0000000000"
+              name="phoneNumber"
+              class="form-control"
+              id="phoneNumber"
+              [(ngModel)]="phoneNumber"
+              placeholder="Enter Phone Number without country code"
+            />
+          </div>
+          <!-- <div class="mb-3">
             <label for="phoneNumber" class="form-label">Phone Number</label>
+            <span class="input-group-text">+91</span>
             <input
               type="tel"
               mask="0000000000"
@@ -804,8 +674,8 @@
               [(ngModel)]="phoneNumber"
               placeholder="Enter Phone Number without country code "
             />
-          </div>
-          <div class="d-grid gap-2">
+          </div> -->
+          <div class="d-grid gap-2" style="padding-top: 20px">
             <button type="submit" class="btn btn-primary">
               <div *ngIf="toggle; else showText" class="dot-opacity-loader">
                 <span></span>

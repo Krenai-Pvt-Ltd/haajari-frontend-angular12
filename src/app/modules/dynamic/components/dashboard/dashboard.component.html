@@ -11,11 +11,21 @@
                 <div class="col">
                   <p class="text-dark mb-1 fw-semibold">Present</p>
                   <h4 class="font-22 fw-bold">
-                    <span
-                      >{{ attendanceDetailsCountResponse.presentUsers }}/{{
+                    <span>
+                      <!-- {{ attendanceDetailsCountResponse.presentUsers }}/{{
                         attendanceDetailsCountResponse.totalUsers
-                      }}</span
-                    >
+                      }} -->
+                      <a
+                        href="#"
+                        data-bs-toggle="modal"
+                        data-bs-target="#presentModal"
+                        (click)="getAttendanceDetailsReportByDateMethodCall('PRESENT')"
+                      >
+                        {{ attendanceDetailsCountResponse.presentUsers }}/{{
+                          attendanceDetailsCountResponse.totalUsers
+                        }}
+                      </a>
+                    </span>
                   </h4>
                   <!-- <span class="text-muted">(Total Employees)</span> -->
                 </div>
@@ -40,7 +50,15 @@
                 <div class="col">
                   <p class="text-dark mb-1 fw-semibold">On Break</p>
                   <h4 class="font-22 fw-bold">
-                    {{ attendanceDetailsCountResponse.usersOnBreak }}
+                    <a
+                        href="#"
+                        data-bs-toggle="modal"
+                        data-bs-target="#breakUsersModal"
+                        (click)="getBreakUsers()"
+                      >
+                         {{ attendanceDetailsCountResponse.usersOnBreak }}
+                      </a>
+                    <!-- {{ attendanceDetailsCountResponse.usersOnBreak }} -->
                   </h4>
                 </div>
                 <div class="col-auto align-self-center">
@@ -61,31 +79,80 @@
                   <!-- <p class="text-dark mb-1 fw-semibold" style="font-size: 11px;">On Leave / Absent / Not Marked</p>
                                     <h4 class="font-22 fw-bold">{{currentDayEmployeesData.allAbsentUsers}}</h4>    -->
                   <div class="d-flex align-items-center" style="gap: 3px">
-                    <div class="Approved late text-center">
+                    <div
+                      class="Approved late text-center"
+                      style="cursor: pointer"
+                      
+                      
+                    >
+                    
                       <span class="total-holiday pb-2">Late</span>
                       <p class="mb-0">
-                        {{ lateEmployeeAttendanceDetailsResponseList.length }}
+                        <!-- {{ lateEmployeeAttendanceDetailsResponseList.length }} -->
+                         <a
+                        href="#"
+                        data-bs-toggle="modal"
+                        data-bs-target="#lateUsersModal"
+                        (click)="getLateUsers()"
+                      >
+                        {{ totalCountLate }}
+                      </a>
                       </p>
                     </div>
                     <div
                       class="Approved pending-css rejected-css text-center border-right"
+                      style="cursor: pointer"
+                      
                     >
                       <span class="total-holiday pb-2">Leave</span>
+                      
                       <p class="mb-0">
+                         <a
+                        href="#"
+                        data-bs-toggle="modal"
+                        data-bs-target="#leaveUsersModal"
+                        (click)="getLeaveUsers()"
+                      >
                         {{ attendanceDetailsCountResponse.usersOnLeave }}
+                      </a>
+                        <!-- {{ attendanceDetailsCountResponse.usersOnLeave }} -->
                       </p>
                     </div>
-                    <div class="Approved absents text-center border-right">
+                    <div
+                      class="Approved absents text-center border-right"
+                      style="cursor: pointer"
+                      
+                    >
                       <span class="total-holiday pb-2">Absent</span>
 
                       <p class="mb-0">
+                        <a
+                        href="#"
+                        data-bs-toggle="modal"
+                        data-bs-target="#presentModal"
+                        (click)="getAttendanceDetailsReportByDateMethodCall('ABSENT')"
+                      >
                         {{ attendanceDetailsCountResponse.absentUsers }}
+                      </a>
+                        <!-- {{ attendanceDetailsCountResponse.absentUsers }} -->
                       </p>
                     </div>
-                    <div class="Approved na text-center">
+                    <div
+                      class="Approved na text-center"
+                      style="cursor: pointer"
+                     
+                    >
                       <span class="total-holiday pb-2">Not Marked</span>
                       <p class="mb-0">
-                        {{ attendanceDetailsCountResponse.unmarkedUsers }}
+                        <a
+                        href="#"
+                        data-bs-toggle="modal"
+                        data-bs-target="#presentModal"
+                        (click)="getAttendanceDetailsReportByDateMethodCall('ABSENT')"
+                      >
+                         {{ attendanceDetailsCountResponse.unmarkedUsers }}
+                      </a>
+                       
                       </p>
                     </div>
                   </div>
@@ -1694,3 +1761,841 @@
   <!-- end page content -->
 </div>
 <!-- end page-wrapper -->
+
+<!-- Button to trigger the modal -->
+<button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#presentModal"
+>
+  Total Users
+</button>
+
+<!-- Modal Structure -->
+<!-- <div
+  class="modal fade"
+  id="presentModal"
+  tabindex="-1"
+  aria-labelledby="transactionModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="transactionModalLabel">
+          Total Present Users
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+          <ul
+            class="list-unsyled m-0 ps-0 transaction-history"
+            *ngFor="let attendList of attendanceDetailsResponseList"
+          >
+            <li class="align-items-center d-flex justify-content-between">
+              <div class="media">
+                <div
+                  class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="{{ attendList.image }}"
+                    alt=""
+                    class="rounded-circle thumb-sm me-1"
+                    *ngIf="attendList.image"
+                  />
+                </div>
+                <div class="media-body align-self-center ms-3">
+                  <div class="transaction-data">
+                    <h5 class="m-0 font-14">{{ attendList.name }}</h5>
+                    <p class="text-muted mb-0">{{ attendList.email }}</p>
+                  </div>
+                </div>
+                
+              </div>
+              <span class="text-success">{{
+                attendList.checkInTime | date : "medium"
+              }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+ <!-- Modal Structure -->
+<div
+  class="modal fade"
+  id="presentModal"
+  tabindex="-1"
+  aria-labelledby="transactionModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <h5 class="modal-title" id="transactionModalLabel">
+          Total Users
+        </h5> -->
+        <div
+            class="onboarding-date d-flex align-items-center"
+            style="gap: 10px; width: 70%"
+          >
+            <form
+              role="search"
+              class="searching ng-untouched ng-pristine ng-valid"
+              style="width: 100%"
+            >
+              <div
+                class="form-group"
+                style="width: 100%; position: relative"
+              >
+                <input
+                  type="text"
+                  id="searchText"
+                  placeholder="Search by {{ searchByNew }} ..."
+                  class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                  (keyup)="searchUsersNew('any')"
+                  [(ngModel)]="search"
+                  [ngModelOptions]="{ standalone: true }"
+                  style="padding: 10px 40px"
+                />
+                <!-- <button
+                  type="button"
+                  class="btn close-btn"
+                  (click)="reloadPage()"
+                  *ngIf="crossFlag"
+                >
+                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                </button> -->
+                <i
+                  class="bi bi-search search-icon"
+                  style="margin: auto; margin-left: 15px"
+                  *ngIf="!crossFlag"
+                ></i>
+                <i
+                  class="bi bi-x search-icon"
+                  style="margin: auto; margin-left: 15px"
+                  (click)="reloadPage()"
+                  *ngIf="crossFlag"
+                ></i>
+              </div>
+            </form>
+          </div>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+       <div
+          class="errorboxmain text-center"
+            *ngIf="attendanceDetailsResponseList.length == 0"
+              >
+                <div class="errorboxinner">
+                  <div class="errorboxplaceholder mb-2">
+                    <img
+                      src="assets/images/empty-box.svg"
+                      style="width: 80px"
+                    />
+                  </div>
+                  <div class="">
+                    <h4>No Data Found</h4>
+                    <p class="mb-0">
+                      We're unable to locate a record associated with the
+                      information you entered.
+                    </p>
+                  </div>
+                </div>
+              </div>
+      <div class="modal-body" *ngIf="attendanceDetailsResponseList.length > 0">
+        <!-- <div class="card-body"> -->
+          <ul
+            class="list-unstyled m-0 ps-0 transaction-history"
+            *ngFor="let attendList of attendanceDetailsResponseList"
+          >
+            <li class="align-items-center d-flex justify-content-between">
+              <div class="media">
+                <div
+                  class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="{{ attendList.image }}"
+                    alt=""
+                    class="rounded-circle thumb-sm me-1"
+                    *ngIf="attendList.image"
+                  />
+                  <span
+                            class="members-name"
+                            id="user-first-name-logo"
+                            *ngIf="!attendList.image"
+                            >{{ attendList.name[0] }}</span
+                          >
+                  <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!attendList.image">{{ attendList.name[0] }}</span> -->
+                </div>
+                <div class="media-body align-self-center ms-3">
+                  <div class="transaction-data">
+                    <h5 class="m-0 font-14">{{ attendList.name }}</h5>
+                    <p class="text-muted mb-0">{{ attendList.email }}</p>
+                  </div>
+                </div>
+                <!--end media body-->
+              </div>
+              <span class="text-success" *ngIf="attendList.currentStatus!=='Late'">{{
+                attendList.checkInTime | date : "medium"
+              }}</span>
+              <span class="text-danger" *ngIf="attendList.currentStatus=='Late'">{{
+                attendList.checkInTime | date : "medium"
+              }}</span>
+            </li>
+          </ul>
+
+          <!-- Pagination -->
+          <div
+            class="pagination pl-3"
+            *ngIf="
+              (totalItems > 7 && attendanceDetailsResponseList.length > 7) ||
+              (pageNumberNew === lastPageNumberNew && lastPageNumberNew !== 1)
+            "
+          >
+            <p class="mb-0" style="padding-left: 15px">
+              Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of
+              {{ totalItems }} items
+            </p>
+            <div class="row">
+              <div class="col-md-12">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-end">
+                    <li class="page-item" [class.disabled]="pageNumberNew == 1">
+                      <a
+                        class="page-link"
+                        href="javascript:void(0);"
+                        aria-label="Previous"
+                        (click)="changePageNew('prev')"
+                      >
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li
+                      class="page-item"
+                      *ngFor="let page of getPagesNew()"
+                      [class.active]="pageNumberNew == page"
+                    >
+                      <a
+                        class="page-link"
+                        href="javascript:void(0);"
+                        (click)="changePageNew(page)"
+                        >{{ page }}</a
+                      >
+                    </li>
+                    <li
+                      class="page-item"
+                      [class.disabled]="pageNumberNew == lastPageNumberNew"
+                    >
+                      <a
+                        class="page-link"
+                        href="javascript:void(0);"
+                        aria-label="Next"
+                        (click)="changePageNew('next')"
+                      >
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+
+        <!-- </div> -->
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div> -->
+    </div>
+  </div>
+</div>
+<!--  break modal  -->
+
+<div
+  class="modal fade"
+  id="breakUsersModal"
+  tabindex="-1"
+  aria-labelledby="breakUsersModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+         <div
+            class="onboarding-date d-flex align-items-center"
+            style="gap: 10px; width: 70%"
+          >
+            <form
+              role="search"
+              class="searching ng-untouched ng-pristine ng-valid"
+              style="width: 100%"
+            >
+              <div
+                class="form-group"
+                style="width: 100%; position: relative"
+              >
+                <input
+                  type="text"
+                  id="searchText"
+                  placeholder="Search by name or email..."
+                  class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                  (keyup)="searchBreak()"
+                  [(ngModel)]="searchTermBreak"
+                  [ngModelOptions]="{ standalone: true }"
+                  style="padding: 10px 40px"
+                />
+                <!-- <button
+                  type="button"
+                  class="btn close-btn"
+                  (click)="reloadPageBreak()"
+                  *ngIf="crossFlagBreak"
+                >
+                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                </button> -->
+                <i
+                  class="bi bi-search search-icon"
+                  style="margin: auto; margin-left: 15px"
+                  *ngIf="!crossFlagBreak"
+                ></i>
+                <i
+                  class="bi bi-x search-icon"
+                  style="margin: auto; margin-left: 15px"
+                  (click)="reloadPageBreak()"
+                  *ngIf="crossFlagBreak"
+                ></i>
+              </div>
+            </form>
+          </div>
+        <!-- <h5 class="modal-title" id="breakUsersModalLabel">
+          Break Users List
+        </h5> -->
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+       <div
+          class="errorboxmain text-center"
+            *ngIf="breakUsers.length == 0"
+              >
+                <div class="errorboxinner">
+                  <div class="errorboxplaceholder mb-2">
+                    <img
+                      src="assets/images/empty-box.svg"
+                      style="width: 80px"
+                    />
+                  </div>
+                  <div class="">
+                    <h4>No Data Found</h4>
+                    <p class="mb-0">
+                      We're unable to locate a record associated with the
+                      information you entered.
+                    </p>
+                  </div>
+                </div>
+              </div>
+      <div class="modal-body" *ngIf="breakUsers.length > 0">
+        <!-- <div class="card-body"> -->
+          <!-- Search Controls -->
+          <!-- <div class="row mb-3">
+            <div class="col-md-8">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search by Name or Email..."
+                [(ngModel)]="searchTermBreak"
+                (keyup)="searchBreak()"
+              />
+            </div>
+            <div class="col-md-4 text-end">
+              <button class="btn btn-secondary" (click)="reloadPageBreak()">
+                Clear Search
+              </button>
+            </div>
+          </div> -->
+           <!-- <div class="row mb-3"> -->
+           
+         
+          <!-- </div> -->
+
+          <!-- Attendance List -->
+           <ul
+            class="list-unstyled m-0 ps-0 transaction-history"
+            *ngFor="let user of breakUsers"
+          >
+            <li class="align-items-center d-flex justify-content-between">
+              <div class="media">
+                <div
+                  class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="{{ user.image }}"
+                    alt=""
+                    class="rounded-circle thumb-sm me-1"
+                    *ngIf="user.image"
+                  />
+                  <span
+                            class="members-name"
+                            id="user-first-name-logo"
+                            *ngIf="!user?.image"
+                            >{{ user.userName[0] }}</span
+                          >
+                  <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!user.image">{{ user.name[0] }}</span> -->
+                </div>
+                <div class="media-body align-self-center ms-3">
+                  <div class="transaction-data">
+                    <h5 class="m-0 font-14">{{ user.userName }}</h5>
+                    <p class="text-muted mb-0">{{ user.userEmail }}</p>
+                  </div>
+                </div>
+                <!--end media body-->
+              </div>
+              <span class="text-success" >{{
+                user.checkTime | date : "medium"
+              }}</span>
+            </li>
+          </ul>
+
+          <!-- Pagination -->
+          <div class="pagination pl-3" *ngIf="totalCountBreak > 8">
+            <p class="mb-0">
+              Showing {{ startIndexBreak }} - {{ endIndexBreak }} of {{ totalCountBreak }} items
+            </p>
+            <div class="row">
+              <div class="col-md-12">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-end">
+                    <li class="page-item" [class.disabled]="currentPageBreak === 1">
+                      <a class="page-link"  (click)="changePageBreak('prev')">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li
+                      class="page-item"
+                      *ngFor="let page of pagesBreak"
+                      [class.active]="currentPageBreak === page"
+                    >
+                      <a class="page-link"  (click)="changePageBreak(page)">
+                        {{ page }}
+                      </a>
+                    </li>
+                    <li
+                      class="page-item"
+                      [class.disabled]="currentPageBreak === totalPagesBreak"
+                    >
+                      <a class="page-link"  (click)="changePageBreak('next')">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        <!-- </div> -->
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!--  Late employee -->
+<div
+  class="modal fade"
+  id="lateUsersModal"
+  tabindex="-1"
+  aria-labelledby="lateUsersModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div
+              class="onboarding-date d-flex align-items-center"
+              style="gap: 10px; width: 70%"
+            >
+              <form
+                role="search"
+                class="searching ng-untouched ng-pristine ng-valid"
+                style="width: 100%"
+              >
+                <div
+                  class="form-group"
+                  style="width: 100%; position: relative"
+                >
+                  <input
+                    type="text"
+                    id="searchText"
+                    placeholder="Search by name or email..."
+                    class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                    (keyup)="searchLate()"
+                    [(ngModel)]="searchTermLate"
+                    [ngModelOptions]="{ standalone: true }"
+                    style="padding: 10px 40px"
+                  />
+                  <!-- <button
+                    type="button"
+                    class="btn close-btn"
+                    (click)="reloadPageLate()"
+                    *ngIf="searchTermLate"
+                  >
+                    <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                  </button> -->
+                  <i
+                    class="bi bi-search search-icon"
+                    style="margin: auto; margin-left: 15px"
+                    *ngIf="!searchTermLate"
+                  ></i>
+                  <i
+                    class="bi bi-x search-icon"
+                    style="margin: auto; margin-left: 15px"
+                    (click)="reloadPageLate()"
+                    *ngIf="searchTermLate"
+                  ></i>
+                </div>
+              </form>
+            </div>
+        <!-- <h5 class="modal-title" id="lateUsersModalLabel">
+          Late Users List
+        </h5> -->
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+       <div
+          class="errorboxmain text-center"
+            *ngIf="lateUsers.length == 0"
+              >
+                <div class="errorboxinner">
+                  <div class="errorboxplaceholder mb-2">
+                    <img
+                      src="assets/images/empty-box.svg"
+                      style="width: 80px"
+                    />
+                  </div>
+                  <div class="">
+                    <h4>No Data Found</h4>
+                    <p class="mb-0">
+                      We're unable to locate a record associated with the
+                      information you entered.
+                    </p>
+                  </div>
+                </div>
+              </div>
+      <div class="modal-body" *ngIf="lateUsers.length > 0">
+        <!-- <div class="card-body"> -->
+          <!-- <div class="row mb-3"> -->
+            
+          <!-- </div> -->
+
+          <!-- Attendance List -->
+          <ul
+            class="list-unstyled m-0 ps-0 transaction-history"
+            *ngFor="let user of lateUsers"
+          >
+            <li class="align-items-center d-flex justify-content-between">
+              <div class="media">
+                <div
+                  class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="{{ user.image }}"
+                    alt=""
+                    class="rounded-circle thumb-sm me-1"
+                    *ngIf="user.image"
+                  />
+                  <span
+                            class="members-name"
+                            id="user-first-name-logo"
+                            *ngIf="!user?.image"
+                            >{{ user.name[0] }}</span
+                          >
+                  <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!user.image">{{ user.name[0] }}</span> -->
+                </div>
+                <div class="media-body align-self-center ms-3">
+                  <div class="transaction-data">
+                    <h5 class="m-0 font-14">{{ user.name }}</h5>
+                    <p class="text-muted mb-0">{{ user.email }}</p>
+                  </div>
+                </div>
+                <!--end media body-->
+              </div>
+              <span class="text-success">{{ user.checkInTime | date : "medium" }}</span>
+            </li>
+          </ul>
+
+          <!-- Pagination -->
+          <div class="pagination pl-3" *ngIf="totalCountLate > itemsPerPageLate">
+            <p class="mb-0">
+              Showing {{ startIndexLate }} - {{ endIndexLate }} of {{ totalCountLate }} items
+            </p>
+            <div class="row">
+              <div class="col-md-12">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-end">
+                    <li class="page-item" [class.disabled]="currentPageLate === 1">
+                      <a class="page-link" (click)="changePageLate('prev')">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li
+                      class="page-item"
+                      *ngFor="let page of pagesLate"
+                      [class.active]="currentPageLate === page"
+                    >
+                      <a class="page-link"  (click)="changePageLate(page)">
+                        {{ page }}
+                      </a>
+                    </li>
+                    <li
+                      class="page-item"
+                      [class.disabled]="currentPageLate === totalPagesLate"
+                    >
+                      <a class="page-link"  (click)="changePageLate('next')">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        <!-- </div> -->
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!--  leave users  -->
+
+<div
+  class="modal fade"
+  id="leaveUsersModal"
+  tabindex="-1"
+  aria-labelledby="leaveUsersModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+         <div
+            class="onboarding-date d-flex align-items-center"
+            style="gap: 10px; width: 70%"
+          >
+            <form
+              role="search"
+              class="searching ng-untouched ng-pristine ng-valid"
+              style="width: 100%"
+            >
+              <div
+                class="form-group"
+                style="width: 100%; position: relative"
+              >
+                <input
+                  type="text"
+                  id="searchText"
+                  placeholder="Search by name or email..."
+                  class="form-control me-2 ng-untouched ng-pristine ng-valid"
+                  (keyup)="searchLeave()"
+                  [(ngModel)]="searchTermLeave"
+                  [ngModelOptions]="{ standalone: true }"
+                  style="padding: 10px 40px"
+                />
+                <!-- <button
+                  type="button"
+                  class="btn close-btn"
+                  (click)="reloadPageLeave()"
+                  *ngIf="crossFlagLeave"
+                >
+                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                </button> -->
+                <i
+                  class="bi bi-search search-icon"
+                  style="margin: auto; margin-left: 15px"
+                  *ngIf="!crossFlagLeave"
+                ></i>
+                <i
+                  class="bi bi-x search-icon"
+                  style="margin: auto; margin-left: 15px"
+                  *ngIf="crossFlagLeave"
+                  (click)="reloadPageLeave()"
+                ></i>
+              </div>
+            </form>
+          </div>
+         
+        <!-- <h5 class="modal-title" id="leaveUsersModalLabel">
+          Leave Users List
+        </h5> -->
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+           <div
+                class="errorboxmain text-center"
+                *ngIf="leaveUsers.length == 0"
+              >
+                <div class="errorboxinner">
+                  <div class="errorboxplaceholder mb-2">
+                    <img
+                      src="assets/images/empty-box.svg"
+                      style="width: 80px"
+                    />
+                  </div>
+                  <div class="">
+                    <h4>No Data Found</h4>
+                    <p class="mb-0">
+                      We're unable to locate a record associated with the
+                      information you entered.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+      <div class="modal-body" *ngIf="leaveUsers.length > 0">
+        <!-- <div class="card-body"> -->
+          <!-- Search Controls -->
+          <!-- <div class="row mb-3">
+            <div class="col-md-8">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search by Name or Email..."
+                [(ngModel)]="searchTermBreak"
+                (keyup)="searchBreak()"
+              />
+            </div>
+            <div class="col-md-4 text-end">
+              <button class="btn btn-secondary" (click)="reloadPageBreak()">
+                Clear Search
+              </button>
+            </div>
+          </div> -->
+           <!-- <div class="row mb-3"> -->
+           
+          <!-- </div> -->
+
+          <!-- Attendance List -->
+           <ul
+            class="list-unstyled m-0 ps-0 transaction-history"
+            *ngFor="let user of leaveUsers"
+          >
+            <li class="align-items-center d-flex justify-content-between">
+              <div class="media">
+                <div
+                  class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="{{ user?.image }}"
+                    alt=""
+                    class="rounded-circle thumb-sm me-1"
+                    *ngIf="user?.image"
+                  />
+                  <span
+                            class="members-name"
+                            id="user-first-name-logo"
+                            *ngIf="!user?.image"
+                            >{{ user.userName[0] }}</span
+                          >
+                  <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!user?.image">{{ user?.userName[0] }}</span> -->
+                </div>
+                <div class="media-body align-self-center ms-3">
+                  <div class="transaction-data">
+                    <h5 class="m-0 font-14">{{ user?.userName }}</h5>
+                    <p class="text-muted mb-0">{{ user?.email }}</p>
+                  </div>
+                </div>
+                <!--end media body-->
+              </div>
+              <span class="text-success" > Leave-count : {{
+                user?.count
+              }}</span>
+            </li>
+          </ul>
+
+          <!-- Pagination -->
+          <div class="pagination pl-3" *ngIf="totalCountLeave > 8">
+            <p class="mb-0">
+              Showing {{ startIndexLeave }} - {{ endIndexLeave }} of {{ totalCountLeave }} items
+            </p>
+            <div class="row">
+              <div class="col-md-12">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-end">
+                    <li class="page-item" [class.disabled]="currentPageLeave === 1">
+                      <a class="page-link" (click)="changePageLeave('prev')">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li
+                      class="page-item"
+                      *ngFor="let page of pagesLeave"
+                      [class.active]="currentPageLeave === page"
+                    >
+                      <a class="page-link"  (click)="changePageLeave(page)">
+                        {{ page }}
+                      </a>
+                    </li>
+                    <li
+                      class="page-item"
+                      [class.disabled]="currentPageLeave === totalPagesLeave"
+                    >
+                      <a class="page-link"  (click)="changePageLeave('next')">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        <!-- </div> -->
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div> -->
+    </div>
+  </div>
+</div>
