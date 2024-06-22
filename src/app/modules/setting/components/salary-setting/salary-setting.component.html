@@ -2155,7 +2155,11 @@
               <div
                 class="d-flex align-items-center justify-content-between information-box">
                 <div class="basic-text">
-                  <h5>{{ salaryComponent.name }}</h5>
+                  <h5>{{salaryComponent.name}} </h5>
+                  <!-- <i class="bi bi-exclamation-circle tolltip-icon"
+                    ngbTooltip="Removing Hajiri from your Slack account will disable all Hajiri operations and uninstall it for all users in the workspace. To reinstall Hajiri, please visit the Hajiri website and use the 'Add to Slack' feature."
+                    placement="top">
+                  </i> -->
                 </div>
                 <div class="enter-ammount position-relative">
                   <div class="">
@@ -2179,7 +2183,7 @@
                   <nz-switch
                     [(ngModel)]="salaryComponent.toggle"
                     [ngModelOptions]="{ standalone: true }"
-                    [nzDisabled]="salaryComponent.id === BASIC_PAY_ID"
+                    [nzDisabled]="salaryComponent.id == BASIC_PAY_ID"
                   ></nz-switch>
                 </div>
               </div>

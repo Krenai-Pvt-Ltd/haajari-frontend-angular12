@@ -205,13 +205,13 @@ export class Key {
   // Krenai UUID
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
 
-  // base_url = 'http://localhost:8080/api/v2';
+  base_url = 'http://localhost:8080/api/v2';
 
   /* ------------------  Staging urls ----------------*/
   // base_url = 'https://staging.hajiri.work/api/v2';
 
   /* ------------------  Production urls ----------------*/
-  base_url = 'https://production.hajiri.work/api/v2';
+  // base_url = 'https://production.hajiri.work/api/v2';
 
   //subscription plan
   get_subscription = '/subcription-plan';
@@ -271,10 +271,16 @@ export class Key {
   public static USER_EXIT_STEP = 2;
   public static FINAL_SETTLEMENT_STEP = 3;
 
+  //Attendance, Leave & Present Days
+  public static LEAVES = 4;
+  public static LOP_SUMMARY = 5;
+  public static LOP_REVERSAL = 6;
+
   //User type in Employee change
   public static NEW_JOINEE = 'New Joinee';
   public static USER_EXIT = 'User Exit';
   public static REGULAR = 'Regular';
+
 
   //Attendance rule type ids
   public static DEDUCTION_RULE_DEFINITION = 1;

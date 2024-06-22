@@ -4,6 +4,6 @@ export class LopSummaryResponse {
     email : string = '';
     lopDays : number = 0;
     finalLopDays : number = 0;
-    lopSummmaryComment : string = '';
+    lopSummaryComment : string = '';
     adjustedLopDays : number = 0
 ;}
