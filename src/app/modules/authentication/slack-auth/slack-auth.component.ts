@@ -6,6 +6,7 @@ import { Organization } from 'src/app/models/organization';
 import { DataService } from 'src/app/services/data.service';
 import { jwtDecode } from 'jwt-decode';
 import { Key } from 'src/app/constant/key';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-slack-auth',
@@ -16,7 +17,8 @@ export class SlackAuthComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private httpClient: HttpClient,
-    private router: Router
+    private router: Router,
+    private helperService: HelperService
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +48,7 @@ export class SlackAuthComponent implements OnInit {
     }
     this.errorFlag = false;
     this.dataService
-      .registerOrganizationUsingCodeParam(codeParam, stateParam)
+      .registerOrganizationUsingCodeParam(codeParam, stateParam, this.helperService.getTimeZone())
       .subscribe(
         (response: any) => {
           console.log(response.object);

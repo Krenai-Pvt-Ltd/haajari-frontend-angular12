@@ -214,5 +214,8 @@ export class HelperService {
     return shortMonthName;
   }
 
+  getTimeZone(): string {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+  }
 
 }
